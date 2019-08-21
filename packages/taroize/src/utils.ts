@@ -149,6 +149,17 @@ export function codeFrameError (node, msg: string) {
   ${errMsg}`)
 }
 
+export function getUniqImports( imports: any[] = []): any[] {
+  let hash = {}
+  return imports.reduce((item, next) => {
+    if (!hash[next.name]) {
+      item.push(next)
+      hash[next.name] = true
+    }
+    return item
+  }, [])
+}
+
 // tslint:disable-next-line
 export const DEFAULT_Component_SET = new Set<string>([
   'View',
