@@ -278,7 +278,7 @@ export default class Convertor {
                 if (fs.existsSync(sourceImagePath)) {
                   self.copyFileToTaro(sourceImagePath, outputImagePath)
                   printLog(processTypeEnum.COPY, '图片', self.generateShowPath(outputImagePath))
-                } else {
+                } else if (!t.isBinaryExpression(astPath.parent) || astPath.parent.operator !== '+'){
                   printLog(processTypeEnum.ERROR, '图片不存在', self.generateShowPath(sourceImagePath))
                 }
                 if (astPath.parentPath.isVariableDeclarator()) {
