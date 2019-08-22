@@ -100,7 +100,7 @@ const siteConfig = {
       async: true
     },
     {
-      src: 'http://storage.jd.com/taro-docs/taro-doc-hotjar.js',
+      src: 'https://storage.jd.com/taro-docs/taro-doc-hotjar.js',
       async: true
     }
   ],
