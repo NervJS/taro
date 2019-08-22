@@ -60,7 +60,7 @@
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
-    "eslint": "^4.15.0",
+    "eslint": "5.16.0",
     "eslint-plugin-react": "7.10.0",
     "eslint-plugin-taro": "1.3.14",
     "html": "^1.0.0",

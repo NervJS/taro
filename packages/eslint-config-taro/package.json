@@ -19,11 +19,11 @@
     "jsx"
   ],
   "peerDependencies": {
-    "babel-eslint": "^8.2.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-react": "^7.4.0",
-    "eslint-plugin-react-hooks": "^1.6.1"
+    "babel-eslint": "*",
+    "eslint": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-react": "*",
+    "eslint-plugin-react-hooks": "*"
   },
   "author": "O2Team",
   "license": "MIT",
