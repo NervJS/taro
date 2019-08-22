@@ -33,7 +33,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}
@@ -65,7 +65,7 @@
         default:
           this.imageStyle['object-fit'] = 'fill';
       }
-      this.imageStyle = Object.assign({}, this.style)
+      this.imageStyle = Object.assign({}, this.customstyle)
     },
 
     handleClick () {

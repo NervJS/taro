@@ -5,7 +5,7 @@
     class="{{ class }}"
     id="{{ id }}"
     onchange="change"
-    style="{{style}}" />
+    style="{{customstyle}}" />
 </template>
 
 <script>
@@ -24,7 +24,7 @@
         type: String,
         required: false
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

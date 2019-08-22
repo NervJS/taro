@@ -37,7 +37,7 @@
         required: false,
         default: false
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {flex: 1}
@@ -79,7 +79,7 @@
     }),
 
     onInit() {
-      this.progressStyle = this.style
+      this.progressStyle = this.customstyle
     },
 
     // handleClick(e) {

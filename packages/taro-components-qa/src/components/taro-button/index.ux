@@ -2,7 +2,7 @@
   <div
     class="{{btnClass}}"
     disabled="{{disabled}}"
-    style="{{style}}"
+    style="{{customstyle}}"
   >
     <slot></slot>
   </div>
@@ -23,7 +23,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

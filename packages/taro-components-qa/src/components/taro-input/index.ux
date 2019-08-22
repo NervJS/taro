@@ -35,7 +35,7 @@
         required: false,
         default: 'taro_input'
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}
@@ -84,7 +84,7 @@
 
     onInit () {
       this.inputValue = this.value
-      this.inputStyle = Object.assign({}, this.style, { 'placeholder-color': this.placeholderStyle})
+      this.inputStyle = Object.assign({}, this.customstyle, { 'placeholder-color': this.placeholderStyle})
     },
 
     onInput ({ value }) {

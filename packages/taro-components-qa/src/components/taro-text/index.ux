@@ -2,7 +2,7 @@
   <text
     class="{{class}}"
     id="{{id}}"
-    style="{{style}}"
+    style="{{customstyle}}"
     onclick="handleClick"
   >
     <slot></slot>
@@ -22,7 +22,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

@@ -1,7 +1,7 @@
 <template>
     <web
       class="{{class}}"
-      style="{{style}}"
+      style="{{customstyle}}"
       src="{{src}}"
       onclick="handleClick"
       trustedurl="{{trustedurl}}"
@@ -22,7 +22,7 @@
           required: false,
           default: ''
         },
-        style: {
+        customstyle: {
           type: Object,
           required: false,
           default: {}

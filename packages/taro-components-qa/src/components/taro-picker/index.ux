@@ -3,7 +3,7 @@
     <text class="label">当前选择</text>
     <picker
       class="picker {{class}}"
-      style="{{style}}"
+      style="{{customstyle}}"
       id="{{id}}"
       type="{{type}}"
       value="{{selectValue}}"
@@ -28,7 +28,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

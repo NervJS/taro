@@ -71,7 +71,7 @@
         required: false,
         default: false
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}
@@ -89,7 +89,7 @@
       this.swiperStyle = Object.assign({
         'indicator-color': this.indicatorcolor,
         'indicator-selected-color': '#' + this.indicatoractivecolor
-      }, this.style)
+      }, this.customstyle)
     },
     handleChange (e) {
       // this.$emit('change', e)

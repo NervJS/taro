@@ -1,7 +1,7 @@
 <template>
     <div
       class="{{class}}"
-      style="{{style}}"
+      style="{{customstyle}}"
       itemId="{{itemid}}"
       onclick="handleClick">
       <slot></slot>
@@ -16,7 +16,7 @@
           required: false,
           default: ''
         },
-        style: {
+        customstyle: {
           type: String,
           required: false,
           default: ''

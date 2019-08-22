@@ -1,7 +1,7 @@
 <template>
   <div
     class="{{class}}"
-    style="{{style}}"
+    style="{{customstyle}}"
     id="{{id}}"
     onclick="handleClick"
   >
@@ -19,7 +19,7 @@
         required: false,
         default: 'taro_navigator'
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

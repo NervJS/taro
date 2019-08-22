@@ -1,7 +1,7 @@
 <template>
   <div class="taro_video">
     <video
-      style="{{style}}"
+      style="{{customstyle}}"
       class="{{class}}"
       id="{{id}}"
       src="{{src}}"
@@ -65,7 +65,7 @@
         required: false,
         default: 0
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

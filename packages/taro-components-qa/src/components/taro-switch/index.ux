@@ -4,7 +4,7 @@
       if="{{type === 'checkbox'}}"
       class="{{class}}"
       id="{{id}}"
-      style="{{style}}"
+      style="{{customstyle}}"
       value="{{value}}"
       type="checkbox"
       checked="{{checked}}"
@@ -14,7 +14,7 @@
     <switch
       else
       class="{{class}}"
-      style="{{style}}"
+      style="{{customstyle}}"
       id="{{id}}"
       disabled="{{disabled}}"
       checked="{{checked}}"
@@ -36,7 +36,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}
