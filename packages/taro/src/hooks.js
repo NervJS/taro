@@ -46,7 +46,7 @@ function usePageLifecycle (callback, lifecycle) {
   }
   hook.component[lifecycle] = function () {
     originalLifecycle && originalLifecycle.call(component, ...arguments)
-    callback && callback.call(component, ...arguments)
+    return callback && callback.call(component, ...arguments)
   }
 }
 
