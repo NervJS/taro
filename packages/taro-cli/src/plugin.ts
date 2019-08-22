@@ -374,7 +374,7 @@ async function buildWxPlugin (appPath, { watch }) {
   compilePluginJson(pluginJson, path.join(pluginPath, PLUGIN_JSON))
 
   // plugin 文件夹内对 npm 的引用路径修改
-  const names = glob.sync('plugin/{,!(npm)/**/}*.js')
+  const names = glob.sync('plugin/{,!(npm)/**/}?(*.js|*.json)')
   const ioPromises = names.map(name => {
     const content = fs.readFileSync(name).toString()
 
