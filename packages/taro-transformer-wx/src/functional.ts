@@ -5,7 +5,7 @@ import { cloneDeep } from 'lodash'
 import generate from 'babel-generator'
 import { DEFAULT_Component_SET } from './constant'
 import { injectRenderPropsListener } from './render-props'
-import { transformOptions } from './options';
+import { transformOptions } from './options'
 
 function initialIsCapital (word: string) {
   return word[0] !== word[0].toLowerCase()
