@@ -261,7 +261,7 @@ function wxPluginWatchFiles () {
       // 最后删除 output/plugin
       const names = glob.sync(`${outputDir}/${PLUGIN_ROOT}/**/*`)
       if (names.length) {
-        const jsNames = glob.sync(`${outputDir}/${PLUGIN_ROOT}/{,!(npm)/**/}*.js`)
+        const jsNames = glob.sync(`${outputDir}/${PLUGIN_ROOT}/{,!(npm)/**/}?(*.js|*.json)`)
         const ioPromises = jsNames.map(async name => {
           const content = fs.readFileSync(name).toString()
 
@@ -274,6 +274,7 @@ function wxPluginWatchFiles () {
           const REG_PLUGIN_DEPS = RegExp(`['|"](/${PLUGIN_ROOT}.+)['|"]`, 'g')
           replacement = replacement.replace(REG_PLUGIN_DEPS, (str, $1) => {
             if (REG_FONT.test($1) || REG_IMAGE.test($1) || REG_MEDIA.test($1)) {
+              isShouldBeWritten = true
               return str.replace(RegExp(`^['|"]/${PLUGIN_ROOT}`, 'g'), str => str.replace(`${PLUGIN_ROOT}`, ''))
             }
             return str
@@ -387,6 +388,7 @@ async function buildWxPlugin (appPath, { watch }) {
     const REG_PLUGIN_DEPS = RegExp(`['|"](/${PLUGIN_ROOT}.+)['|"]`, 'g')
     replacement = replacement.replace(REG_PLUGIN_DEPS, (str, $1) => {
       if (REG_FONT.test($1) || REG_IMAGE.test($1) || REG_MEDIA.test($1)) {
+        isShouldBeWritten = true
         return str.replace(RegExp(`^['|"]/${PLUGIN_ROOT}`, 'g'), str => str.replace(`${PLUGIN_ROOT}`, ''))
       }
       return str
