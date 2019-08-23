@@ -763,13 +763,14 @@ declare namespace Taro {
     */
     params: {
       [key: string]: string
-    } & {
-      path?: string
-      scene?: number | string
-      query?: {[key: string]: string} | string
-      shareTicket?: string
-      referrerInfo?: {[key: string]: any} | string
     }
+
+    path?: string
+    scene?: number | string
+    query?: {[key: string]: string} | string
+    shareTicket?: string
+    referrerInfo?: {[key: string]: any} | string
+
     /**
     * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
     *
