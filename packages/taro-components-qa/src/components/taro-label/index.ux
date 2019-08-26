@@ -1,5 +1,5 @@
 <template>
-  <div
+  <label
     class="{{class}}"
     style="{{customstyle}}"
     id="{{id}}"
