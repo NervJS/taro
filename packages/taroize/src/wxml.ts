@@ -301,6 +301,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
 } {
   try {
     wxml = prettyPrint(wxml, {
+      max_char: 0,
       indent_char: 0,
       unformatted: ['text', 'wxs']
     })
