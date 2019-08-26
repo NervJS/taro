@@ -2,6 +2,7 @@ import * as path from 'path'
 
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as sass from 'node-sass'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
@@ -101,6 +102,12 @@ export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader')
 export const getFileParseLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/fileParseLoader')))
 export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/wxTransformerLoader')))
 
+const getExtractCssLoader = () => {
+  return {
+    loader: MiniCssExtractPlugin.loader
+  }
+}
+export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
 export const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
 export const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
   return new UglifyJsPlugin({
@@ -182,6 +189,8 @@ export const getModule = (appPath: string, {
     cssLoaderOption
   ]
 
+  const extractCssLoader = getExtractCssLoader()
+
   const cssLoader = getCssLoader(cssOptions)
   const cssLoaders: {
     include?;
@@ -230,11 +239,11 @@ export const getModule = (appPath: string, {
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
-  const fileLoader = getFileLoader([{
-    useRelativePath: true,
-    name: `[path][name]${MINI_APP_FILES[buildAdapter].STYLE}`,
-    context: sourceDir
-  }])
+  // const fileLoader = getFileLoader([{
+  //   useRelativePath: true,
+  //   name: `[path][name]${MINI_APP_FILES[buildAdapter].STYLE}`,
+  //   context: sourceDir
+  // }])
 
   const fileParseLoader = getFileParseLoader([{
     babel,
@@ -264,17 +273,22 @@ export const getModule = (appPath: string, {
       enforce: 'pre',
       use: [stylusLoader]
     },
-    // css: {
-    //   test: REG_STYLE,
-    //   oneOf: cssLoaders
-    // },
-    styleFiles: {
+    css: {
       test: REG_STYLE,
-      use: [fileLoader]
+      oneOf: cssLoaders
     },
+    // styleFiles: {
+    //   test: REG_STYLE,
+    //   use: [fileLoader]
+    // },
     postcss: {
       test: REG_STYLE,
       use: [postcssLoader]
+    },
+    customStyle: {
+      test: REG_STYLE,
+      enforce: 'post',
+      use: [extractCssLoader]
     },
     script: {
       test: REG_SCRIPTS,
