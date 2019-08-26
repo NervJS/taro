@@ -270,6 +270,7 @@ class Compiler {
 
     ast = babel.transformFromAst(ast, '', {
       plugins: [
+        [require('babel-plugin-preval')],
         [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
       ]
     }).ast

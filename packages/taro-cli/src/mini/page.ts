@@ -174,6 +174,16 @@ export async function buildSinglePage (page: string) {
           name: item.name as string
         }
       }))
+      const usingComponents = res.configObj.usingComponents
+      let importUsingComponent: any = new Set([])
+      if (usingComponents) {
+        importUsingComponent = new Set(Object.keys(usingComponents).map(item => {
+          return {
+            name: item,
+            path: usingComponents[item]
+          }
+        }))
+      }
       // 生成页面 ux 文件
       let styleRelativePath
       if (res.styleFiles.length) {
@@ -182,7 +192,7 @@ export async function buildSinglePage (page: string) {
       const uxTxt = generateQuickAppUx({
         script: resCode,
         style: styleRelativePath,
-        imports: new Set([...importTaroSelfComponents, ...importCustomComponents]),
+        imports: new Set([...importTaroSelfComponents, ...importCustomComponents, ...importUsingComponent]),
         template: pageWXMLContent
       })
       fs.writeFileSync(outputPageWXMLPath, uxTxt)

@@ -754,7 +754,15 @@ class Transformer {
               parentPath.parentPath.replaceWith(slot)
             }
           }
-          if (parentPath.isMemberExpression() && parentPath.isReferenced() && parentPath.parentPath.isJSXExpressionContainer()) {
+          if (
+            parentPath.isMemberExpression() &&
+            parentPath.isReferenced() &&
+            (
+              parentPath.parentPath.isJSXExpressionContainer() ||
+              parentPath.parentPath.isLogicalExpression() ||
+              parentPath.parentPath.isConditionalExpression()
+            )
+          ) {
             const object = parentPath.get('object')
             if (object.isIdentifier()) {
               const objectName = object.node.name

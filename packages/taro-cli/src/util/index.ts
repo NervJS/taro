@@ -23,7 +23,8 @@ import {
   MINI_APP_FILES,
   BUILD_TYPES,
   CONFIG_MAP,
-  REG_STYLE
+  REG_STYLE,
+  UX_EXT
 } from './constants'
 import { ICopyArgOptions, ICopyOptions, TogglableOptions } from './types'
 import { callPluginSync } from './npm'
@@ -196,6 +197,59 @@ export function resolveScriptPath (p: string): string {
     }
   }
   return realPath
+}
+
+export function resolveQuickappFilePath (p: string): string {
+  for (let i = 0; i < UX_EXT.length; i++) {
+    const item = UX_EXT[i]
+    if (fs.existsSync(`${p}${item}`)) {
+      return `${p}${item}`
+    }
+    if (fs.existsSync(`${p}${path.sep}index${item}`)) {
+      return `${p}${path.sep}index${item}`
+    }
+  }
+  return p
+}
+
+export function processUxContent (contents, cb) {
+  const reg = /(<script(?:(?=\s)[\s\S]*?["'\s\w\/\-]>|>))([\s\S]*?)(?=<\/script\s*>|$)|(<style(?:(?=\s)[\s\S]*?["'\s\w\/\-]>|>))([\s\S]*?)(?=<\/style\s*>|$)|<(image)\s+[\s\S]*?["'\s\w\/\-](?:>|$)|(<import(?:(?=\s)[\s\S]*?["'\s\w\/\-]>|>))([\s\S]*?)(?=<\/import\s*>|$)/ig;
+  contents = contents.replace(reg, function (m, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10) {
+    if ($1) {
+      $1 = $1.replace(/(\ssrc\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
+        if (typeof cb === 'function') {
+          value = cb(value)
+        }
+        return prefix + value
+      })
+      m = $1 + $2
+    } else if ($3) {
+      $3 = $3.replace(/(\ssrc\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
+        if (typeof cb === 'function') {
+          value = cb(value)
+        }
+        return prefix + value
+      })
+      m = $3 + $4
+    } else if ($5) {
+      m = m.replace(/(src\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
+        if (typeof cb === 'function') {
+          value = cb(value)
+        }
+        return prefix + value
+      })
+    } else if ($6) {
+      $6 = $6.replace(/(\ssrc\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
+        if (typeof cb === 'function') {
+          value = cb(value)
+        }
+        return prefix + value
+      })
+      m = $6 + $7
+    }
+    return m
+  })
+  return contents
 }
 
 export function resolveStylePath (p: string): string {
