@@ -128,6 +128,7 @@ export interface IMiniAppConfig {
   mediaUrlLoaderOption: IOption,
   fontUrlLoaderOption: IOption,
   imageUrlLoaderOption: IOption,
+  miniCssExtractPluginOption: IOption,
 
   customFilesTypes: IMINI_APP_FILE_TYPE
 }
