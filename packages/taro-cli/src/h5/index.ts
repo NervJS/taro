@@ -1,13 +1,13 @@
 import { PageConfig } from '@tarojs/taro'
 import * as wxTransformer from '@tarojs/transformer-wx'
 import * as babel from 'babel-core'
-import traverse, { NodePath } from 'babel-traverse'
+import traverse, { NodePath, TraverseOptions } from 'babel-traverse'
 import * as t from 'babel-types'
 import generate from 'better-babel-generator'
 import * as chokidar from 'chokidar'
 import * as fs from 'fs-extra'
 import * as klaw from 'klaw'
-import { findLastIndex, merge, get } from 'lodash'
+import { findLastIndex, get, merge } from 'lodash'
 import * as path from 'path'
 
 import CONFIG from '../config'
@@ -767,11 +767,14 @@ class Compiler {
     let importNervNode: t.ImportDeclaration
     let importTaroNode: t.ImportDeclaration
     let renderClassMethodNode: t.ClassMethod
+    let exportDefaultDeclarationNode: t.ExportDefaultDeclaration
+    let exportNamedDeclarationPath: NodePath<t.ExportNamedDeclaration>
 
     const renderReturnStatementPaths: NodePath<t.ReturnStatement>[] = []
 
     ast = babel.transformFromAst(ast, '', {
       plugins: [
+        [require('babel-plugin-preval')],
         [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
       ]
     }).ast
@@ -839,7 +842,37 @@ class Compiler {
       )
     }
 
-    const defaultVisitor = {
+    const replaceExportNamedToDefault = (astPath: NodePath<t.ExportNamedDeclaration>) => {
+      if (!astPath) return
+
+      const node = astPath.node
+      if (t.isFunctionDeclaration(node.declaration)) {
+        
+        astPath.replaceWithMultiple([
+          node.declaration,
+          t.exportDefaultDeclaration(node.declaration.id)
+        ])
+      } else if (t.isClassDeclaration(node.declaration)) {
+        astPath.replaceWithMultiple([
+          node.declaration,
+          t.exportDefaultDeclaration(node.declaration.id)
+        ])
+      } else if (t.isVariableDeclaration(node.declaration)) {
+        const declarationId = node.declaration.declarations[0].id
+        if (t.isIdentifier(declarationId)) {
+          astPath.replaceWithMultiple([
+            node.declaration,
+            t.exportDefaultDeclaration(declarationId)
+          ])
+        }
+      } else if (node.specifiers && node.specifiers.length) {
+        astPath.replaceWithMultiple([
+          t.exportDefaultDeclaration(node.specifiers[0].local)
+        ])
+      }
+    }
+
+    const defaultVisitor: TraverseOptions = {
       ClassExpression: ClassDeclarationOrExpression,
       ClassDeclaration: ClassDeclarationOrExpression,
       ImportDeclaration: {
@@ -989,7 +1022,7 @@ class Compiler {
       }
     }
 
-    const pageVisitor = {
+    const pageVisitor: TraverseOptions = {
       ClassProperty: {
         enter (astPath: NodePath<t.ClassProperty>) {
           const node = astPath.node
@@ -1089,6 +1122,16 @@ class Compiler {
           }
         }
       },
+      ExportDefaultDeclaration: {
+        exit (astPath: NodePath<t.ExportDefaultDeclaration>) {
+          exportDefaultDeclarationNode = astPath.node
+        }
+      },
+      ExportNamedDeclaration: {
+        exit (astPath: NodePath<t.ExportNamedDeclaration>) {
+          exportNamedDeclarationPath = astPath
+        }
+      },
       Program: {
         exit (astPath: NodePath<t.Program>) {
           if (hasOnPullDownRefresh) {
@@ -1136,13 +1179,17 @@ class Compiler {
                   ref={ref => {
                     if (ref) this.pullDownRefreshRef = ref
                 }}>{${varName}}</PullDownRefresh>`) as t.ExpressionStatement).expression
-              })
+            })
+          }
+
+          if (!exportDefaultDeclarationNode && exportNamedDeclarationPath) {
+            replaceExportNamedToDefault(exportNamedDeclarationPath)
           }
         }
       }
     }
 
-    const visitor = mergeVisitors({}, defaultVisitor, isPage ? pageVisitor : {})
+    const visitor: TraverseOptions = mergeVisitors({}, defaultVisitor, isPage ? pageVisitor : {})
 
     traverse(ast, visitor)
 
