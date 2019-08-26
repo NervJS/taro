@@ -302,7 +302,7 @@ export const createWxmlVistor = (
 }
 
 export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): Wxml {
-  let parseResult: Wxml = getCacheWxml(dirPath)
+  let parseResult = getCacheWxml(dirPath)
   if (parseResult) {
     return parseResult
   }
