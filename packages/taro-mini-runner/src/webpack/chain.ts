@@ -59,6 +59,8 @@ const defaultCssModuleOption: PostcssOption.cssModules = {
   }
 }
 
+const staticDirectory = 'static'
+
 const getLoader = (loaderName: string, options: IOption) => {
   return {
     loader: require.resolve(loaderName),
@@ -282,7 +284,7 @@ export const getModule = (appPath: string, {
       test: REG_MEDIA,
       use: {
         urlLoader: getUrlLoader([defaultMediaUrlLoaderOption, {
-          name: `[path][name].[ext]`,
+          name: `${staticDirectory}/media/[name].[ext]`,
           ...mediaUrlLoaderOption
         }])
       }
@@ -291,7 +293,7 @@ export const getModule = (appPath: string, {
       test: REG_FONT,
       use: {
         urlLoader: getUrlLoader([defaultFontUrlLoaderOption, {
-          name: `[path][name].[ext]`,
+          name: `${staticDirectory}/fonts/[name].[ext]`,
           ...fontUrlLoaderOption
         }])
       }
@@ -300,7 +302,7 @@ export const getModule = (appPath: string, {
       test: REG_IMAGE,
       use: {
         urlLoader: getUrlLoader([defaultImageUrlLoaderOption, {
-          name: `[path][name].[ext]`,
+          name: `${staticDirectory}/images/[name].[ext]`,
           ...imageUrlLoaderOption
         }])
       }
