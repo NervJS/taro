@@ -556,24 +556,29 @@ function handleConditions (conditions: Condition[]) {
     const lastLength = conditions.length - 1
     const lastCon = conditions[lastLength]
     let lastAlternate: t.Expression = cloneDeep(lastCon.path.node)
-    if (lastCon.condition === WX_ELSE_IF) {
-      lastAlternate = t.logicalExpression(
-        '&&',
-        lastCon.tester.expression,
-        lastAlternate
-      )
-    }
-    const node = conditions
-      .slice(0, lastLength)
-      .reduceRight((acc: t.Expression, condition) => {
-        return t.conditionalExpression(
-          condition.tester.expression,
-          cloneDeep(condition.path.node),
-          acc
+    try {
+      if (lastCon.condition === WX_ELSE_IF) {
+        lastAlternate = t.logicalExpression(
+          '&&',
+          lastCon.tester.expression,
+          lastAlternate
         )
-      }, lastAlternate)
-    conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
-    conditions.slice(1).forEach(c => c.path.remove())
+      }
+      const node = conditions
+        .slice(0, lastLength)
+        .reduceRight((acc: t.Expression, condition) => {
+          return t.conditionalExpression(
+            condition.tester.expression,
+            cloneDeep(condition.path.node),
+            acc
+          )
+        }, lastAlternate)
+      conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
+      conditions.slice(1).forEach(c => c.path.remove())
+    } catch(error) {
+      // tslint:disable-next-line
+      console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
+    }
   }
 }
 
