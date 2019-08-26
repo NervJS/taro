@@ -1,5 +1,4 @@
 import * as fs from 'fs-extra'
-import * as path from 'path'
 
 import { IMiniAppBuildConfig } from '../util/types'
 import { BUILD_TYPES } from '../util/constants'
