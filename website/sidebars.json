@@ -115,8 +115,11 @@
       "components/canvas/canvas"
     ],
     "开放能力": [
+      "components/open/ad",
+      "components/open/official-account",
+      "components/open/open-data",
       "components/open/web-view",
-      "components/open/open-data"
+      "components/open/others"
     ]
   },
   "API": {

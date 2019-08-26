@@ -879,7 +879,19 @@
         "title": "Navigator",
         "sidebar_label": "Navigator"
       },
+      "components/open/ad": {
+        "title": "Ad",
+        "sidebar_label": "Ad"
+      },
+      "components/open/official-account": {
+        "title": "OfficialAccount",
+        "sidebar_label": "OfficialAccount"
+      },
       "components/open/open-data": {
+        "title": "OpenData",
+        "sidebar_label": "OpenData"
+      },
+      "components/open/others": {
         "title": "其他",
         "sidebar_label": "其他"
       },
