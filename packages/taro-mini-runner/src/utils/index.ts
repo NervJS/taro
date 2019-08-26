@@ -5,7 +5,7 @@ import * as resolvePath from 'resolve'
 import * as t from 'babel-types'
 import { mergeWith } from 'lodash'
 
-import { CONFIG_MAP, JS_EXT, TS_EXT, NODE_MODULES_REG } from './constants'
+import { CONFIG_MAP, JS_EXT, TS_EXT, NODE_MODULES_REG, MINI_APP_FILES, BUILD_TYPES, CSS_IMPORT_REG, REG_STYLE } from './constants'
 import { IOption, IComponentObj } from './types'
 
 export const isNodeModule = (filename: string) => NODE_MODULES_REG.test(filename)

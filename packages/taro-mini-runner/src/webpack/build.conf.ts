@@ -12,9 +12,10 @@ import {
   getOutput,
   getModule,
   mergeOption,
-  getMiniPlugin
+  getMiniPlugin,
+  getMiniCssExtractPlugin
 } from './chain'
-import { BUILD_TYPES, PARSE_AST_TYPE } from '../utils/constants'
+import { BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, REG_STYLE } from '../utils/constants'
 import { Targets } from '../plugins/MiniPlugin'
 
 const emptyObj = {}
@@ -43,6 +44,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     mediaUrlLoaderOption = emptyObj,
     fontUrlLoaderOption = emptyObj,
     imageUrlLoaderOption = emptyObj,
+    miniCssExtractPluginOption = emptyObj,
 
     postcss = emptyObj,
 
@@ -61,6 +63,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
   plugin.miniPlugin = getMiniPlugin({ buildAdapter, constantsReplaceList })
+
+  plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
+    filename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`,
+    chunkFilename: `[id]${MINI_APP_FILES[buildAdapter].STYLE}`
+  }, miniCssExtractPluginOption])
 
   const isCssoEnabled = (csso && csso.enable === false)
     ? false
