@@ -15,11 +15,11 @@
       "spec-for-taro",
       "tutorial",
       "project-config",
+      "best-practice",
       "router",
       "size",
       "static-reference",
       "component-style",
-      "best-practice",
       {
         "label": "语法特性",
         "type": "subcategory",
@@ -37,7 +37,6 @@
           "ref"
         ]
       },
-      "debug",
       {
         "label": "多端开发",
         "type": "subcategory",
@@ -49,7 +48,8 @@
           "quick-app",
           "react-native"
         ]
-      }
+      },
+      "debug"
     ],
     "进阶指南": [
       "config",
