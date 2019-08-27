@@ -1,7 +1,7 @@
 import * as webpack from 'webpack'
 
 import { IBuildConfig } from './utils/types'
-import { printBuildError, bindProdLogger } from './utils/logHelper'
+import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import buildConf from './webpack/build.conf'
 
 const customizeChain = (chain, customizeFunc: Function) => {
@@ -19,14 +19,27 @@ export default function build (appPath: string, config: IBuildConfig, mainBuilde
     const webpackConfig = webpackChain.toConfig()
 
     const compiler = webpack(webpackConfig)
-    bindProdLogger(compiler)
-
-    compiler.run((err) => {
-      if (err) {
-        printBuildError(err);
-        return reject(err)
-      }
-      resolve()
-    })
+    if (config.isWatch) {
+      bindDevLogger(compiler, config.buildAdapter)
+      compiler.watch({
+        aggregateTimeout: 300,
+        poll: undefined
+      }, (err, stats) => {
+        if (err) {
+          printBuildError(err)
+          return reject(err)
+        }
+        resolve()
+      })
+    } else {
+      bindProdLogger(compiler, config.buildAdapter)
+      compiler.run((err) => {
+        if (err) {
+          printBuildError(err)
+          return reject(err)
+        }
+        resolve()
+      })
+    }
   })
 }
