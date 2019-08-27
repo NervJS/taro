@@ -1,8 +1,14 @@
 import * as css from 'css'
 import rewriteRule from './style'
 
+interface StyleLog {
+  line: number;
+  column: number;
+  reason: string;
+}
+
 export default function rewriter (code, isProduction) {
-  const logs = []
+  const logs: StyleLog[] = []
   const ast = css.parse(code, {
     silent: true
   })
@@ -19,7 +25,7 @@ export default function rewriter (code, isProduction) {
   //针对快应用样式进行转换
   if (ast && ast.type === 'stylesheet' && ast.stylesheet &&
         ast.stylesheet.rules && ast.stylesheet.rules.length) {
-    const rules = []
+    const rules:any = []
     ast.stylesheet.rules.forEach(function (rule, index) {
       const type = rule.type
       if (type === 'rule') {
