@@ -20,7 +20,7 @@ interface WxOptions {
   methods?: {
     [key: string]: Function;
   }
-  properties?: Record<string, unknown>
+  properties?: Record<string, Record<string, unknown> | Function>
   props?: Record<string, unknown>
   data?: Record<string, unknown>
 }
@@ -73,7 +73,7 @@ export default function withWeapp (weappConf: WxOptions) {
         for (const propKey in props) {
           if (props.hasOwnProperty(propKey)) {
             const propValue = props[propKey]
-            if (isFunction(propValue)) {
+            if (!isFunction(propValue)) {
               if (propValue.observer) {
                 this._observeProps.push({
                   name: propKey,
@@ -93,7 +93,7 @@ export default function withWeapp (weappConf: WxOptions) {
             case 'externalClasses':
               break
             case 'data':
-              this.state = confKey
+              this.state = confValue
               const keys = Object.keys(this.state)
               let i = keys.length
               while (i--) {
@@ -200,16 +200,6 @@ export default function withWeapp (weappConf: WxOptions) {
       }
 
       public componentWillMount () {
-        this.safeExecute(super.componentWillMount)
-        this.executeLifeCycles(this.willMounts, this.$router.params || {})
-      }
-
-      public componentDidMount () {
-        this.safeExecute(super.componentDidMount)
-        this.executeLifeCycles(this.didMounts)
-      }
-
-      public componentWillUnmount () {
         this._observeProps.forEach(({ name: key, observer }) => {
           const prop = this.props[key]
           if (typeof observer === 'string') {
@@ -221,6 +211,16 @@ export default function withWeapp (weappConf: WxOptions) {
             observer.call(this, prop, prop, key)
           }
         })
+        this.safeExecute(super.componentWillMount)
+        this.executeLifeCycles(this.willMounts, this.$router.params || {})
+      }
+
+      public componentDidMount () {
+        this.safeExecute(super.componentDidMount)
+        this.executeLifeCycles(this.didMounts)
+      }
+
+      public componentWillUnmount () {
         this.safeExecute(super.componentWillUnmount)
         this.executeLifeCycles(this.willUnmounts)
       }
@@ -253,6 +253,28 @@ export default function withWeapp (weappConf: WxOptions) {
         })
         this.safeExecute(super.componentWillReceiveProps)
       }
+    }
+
+    const props = weappConf['properties']
+
+    if (props) {
+      for (const propKey in props) {
+        const propValue = props[propKey]
+        if (propValue != null && !isFunction(propValue)) {
+          if (propValue.value !== undefined) { // 如果是 null 也赋值到 defaultProps
+            BaseComponent.defaultProps = {
+              [propKey]: propValue.value,
+              ...BaseComponent.defaultProps
+            }
+          }
+        }
+      }
+    }
+
+    const externalClasses = weappConf['externalClasses']
+
+    if (externalClasses) {
+      BaseComponent.externalClasses = externalClasses
     }
 
     return BaseComponent
