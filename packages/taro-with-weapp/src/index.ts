@@ -148,7 +148,9 @@ export default function withWeapp (componentType: string, weappConf?: Object) {
 
       componentDidShow () {
         this.safeExecute(this.onShow)
-        this.safeExecute(super.componentDidShow)
+        if (super.componentDidShow) {
+          super.componentDidShow.call(this, this.$router.params || {})
+        }
       }
 
       componentDidMount () {

@@ -70,7 +70,7 @@ export function parseScript (
           refId,
           wxses
         )
-        if (componentType !== 'App' && classDecl.decorators!.length === 0) {
+        if (classDecl.decorators!.length === 0) {
           classDecl.decorators = [buildDecorator(componentType)]
         }
         ast.program.body.push(
