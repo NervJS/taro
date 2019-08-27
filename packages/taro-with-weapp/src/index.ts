@@ -75,13 +75,13 @@ export default function withWeapp (componentType: string, weappConf?: Object) {
         }
       }
 
-      setData = (obj: S) => {
+      setData = (obj: S, callback?: () => any) => {
         const state = Object.assign({}, this.state)
         Object.keys(obj).forEach(key => {
           safeSet(state, key, obj[key])
         })
         Object.assign(this.state, state)
-        this.setState(state)
+        this.setState(state, callback)
       }
 
       triggerEvent = (eventName: string, ...args: any[]) => {
