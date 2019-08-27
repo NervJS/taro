@@ -1,8 +1,27 @@
+import * as fs from 'fs-extra'
+import * as path from 'path'
+
 import {
   processDeclarationValue
 } from '../util'
 
 export const declarations = {}
+parse('.')
+
+function parse (dir) {
+  dir = dir || '.'
+  const dirPath = path.join(__dirname, dir)
+  fs.readdirSync(dirPath).forEach(file => {
+    const filePath = path.join(dirPath, file)
+    if (fs.statSync(filePath).isFile()) {
+      if (path.extname(filePath) === '.js') {
+        Object.assign(declarations, require(filePath)['default'])
+      }
+    } else {
+      parse(path.join(dir, file))
+    }
+  })
+}
 
 export default function rewriter (declaration, rule, output) {
   if (!declaration.position) {
