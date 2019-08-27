@@ -54,7 +54,8 @@ import {
   ALIPAY_BUBBLE_EVENTS,
   FN_PREFIX,
   CLASS_COMPONENT_UID,
-  IS_TARO_READY
+  IS_TARO_READY,
+  quickappComponentName
 } from './constant'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { transformOptions, buildBabelTransformOptions } from './options'
@@ -1034,6 +1035,7 @@ export class RenderParser {
     if (
       t.isJSXIdentifier(openingElement.name) &&
       !DEFAULT_Component_SET.has(openingElement.name.name) &&
+      !quickappComponentName.has(openingElement.name.name) &&
       /[A-Z]/.test(openingElement.name.name.charAt(0))
     ) {
       if (this.isEmptyProps(openingElement.attributes)) {

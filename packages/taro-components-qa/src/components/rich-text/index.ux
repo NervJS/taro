@@ -1,6 +1,6 @@
 <template>
   <richtext 
-    class="taro_rich_text {{classname}}" 
+    class="taro_rich_text {{class}}" 
     style="{{customstyle}}" 
     id="{{id}}"
     type="html" 
@@ -18,7 +18,7 @@
         required: false,
         default: 'html'
       },
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''

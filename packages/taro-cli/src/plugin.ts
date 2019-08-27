@@ -261,7 +261,7 @@ function wxPluginWatchFiles () {
       // 最后删除 output/plugin
       const names = glob.sync(`${outputDir}/${PLUGIN_ROOT}/**/*`)
       if (names.length) {
-        const jsNames = glob.sync(`${outputDir}/${PLUGIN_ROOT}/{,!(npm)/**/}*.js`)
+        const jsNames = glob.sync(`${outputDir}/${PLUGIN_ROOT}/{,!(npm)/**/}?(*.js|*.json)`)
         const ioPromises = jsNames.map(async name => {
           const content = fs.readFileSync(name).toString()
 
@@ -274,6 +274,7 @@ function wxPluginWatchFiles () {
           const REG_PLUGIN_DEPS = RegExp(`['|"](/${PLUGIN_ROOT}.+)['|"]`, 'g')
           replacement = replacement.replace(REG_PLUGIN_DEPS, (str, $1) => {
             if (REG_FONT.test($1) || REG_IMAGE.test($1) || REG_MEDIA.test($1)) {
+              isShouldBeWritten = true
               return str.replace(RegExp(`^['|"]/${PLUGIN_ROOT}`, 'g'), str => str.replace(`${PLUGIN_ROOT}`, ''))
             }
             return str
@@ -297,7 +298,7 @@ function wxPluginWatchFiles () {
       // 迁移 npm 到 plugin 目录
       Util.emptyDirectory(path.join(pluginPath, NPM_DIR))
       // fs.rmdirSync(tempPluginPath)
-      fs.copySync(path.join(outputDir, NPM_DIR), path.join(pluginPath, NPM_DIR))
+      await fs.copy(path.join(outputDir, NPM_DIR), path.join(pluginPath, NPM_DIR))
 
       initCompileScripts()
       initCompileStyles()
@@ -365,16 +366,16 @@ async function buildWxPlugin (appPath, { watch }) {
   }
 
   // 把 plugin 目录挪到根目录
-  fs.moveSync(path.join(outputDir, PLUGIN_ROOT), pluginPath)
+  await fs.move(path.join(outputDir, PLUGIN_ROOT), pluginPath)
   // 把 npm 拷贝一份到 plugin 目录
-  fs.copySync(path.join(outputDir, NPM_DIR), path.join(pluginPath, NPM_DIR))
+  await fs.copy(path.join(outputDir, NPM_DIR), path.join(pluginPath, NPM_DIR))
   // 把 doc 目录拷贝到根目录
   fs.existsSync(docDir) && fs.copySync(docDir, docPath)
   // 拷贝 plugin.json
   compilePluginJson(pluginJson, path.join(pluginPath, PLUGIN_JSON))
 
   // plugin 文件夹内对 npm 的引用路径修改
-  const names = glob.sync('plugin/{,!(npm)/**/}*.js')
+  const names = glob.sync('plugin/{,!(npm)/**/}?(*.js|*.json)')
   const ioPromises = names.map(name => {
     const content = fs.readFileSync(name).toString()
 
@@ -387,6 +388,7 @@ async function buildWxPlugin (appPath, { watch }) {
     const REG_PLUGIN_DEPS = RegExp(`['|"](/${PLUGIN_ROOT}.+)['|"]`, 'g')
     replacement = replacement.replace(REG_PLUGIN_DEPS, (str, $1) => {
       if (REG_FONT.test($1) || REG_IMAGE.test($1) || REG_MEDIA.test($1)) {
+        isShouldBeWritten = true
         return str.replace(RegExp(`^['|"]/${PLUGIN_ROOT}`, 'g'), str => str.replace(`${PLUGIN_ROOT}`, ''))
       }
       return str

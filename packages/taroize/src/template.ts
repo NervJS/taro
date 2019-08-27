@@ -190,8 +190,17 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     }
     return imports
   } else {
-    const { wxml } = parseWXML(dirPath, getWXMLsource(dirPath, srcValue, type), true)
+    const wxmlStr = getWXMLsource(dirPath, srcValue, type)
     const block = buildBlockElement()
+    if (wxmlStr === '') {
+      if (jsx.node.children.length) {
+        // tslint:disable-next-line: no-console
+        console.error(`标签: <include src="${srcValue}"> 没有自动关闭。形如：<include src="${srcValue}" /> 才是标准的 wxml 格式。`)
+      }
+      jsx.remove()
+      return
+    }
+    const { wxml } = parseWXML(dirPath, wxmlStr, true)
     try {
       if (wxml) {
         block.children = [wxml as any]

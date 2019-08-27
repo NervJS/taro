@@ -37,15 +37,16 @@ export function useState (initialState) {
 
 function usePageLifecycle (callback, lifecycle) {
   const hook = getHooks(Current.index++)
+  let originalLifecycle
   hook.component = Current.current
+  const component = hook.component
   if (!hook.marked) {
     hook.marked = true
-    const component = hook.component
-    const originalLifecycle = component[lifecycle]
-    hook.component[lifecycle] = function () {
-      originalLifecycle && originalLifecycle.call(component, ...arguments)
-      callback && callback.call(component, ...arguments)
-    }
+    originalLifecycle = component[lifecycle]
+  }
+  hook.component[lifecycle] = function () {
+    originalLifecycle && originalLifecycle.call(component, ...arguments)
+    return callback && callback.call(component, ...arguments)
   }
 }
 
