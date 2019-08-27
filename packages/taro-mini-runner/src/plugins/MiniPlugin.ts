@@ -150,6 +150,21 @@ export default class MiniPlugin {
 			})
     )
 
+    compiler.hooks.watchRun.tapAsync(
+			PLUGIN_NAME,
+			this.tryAsync(async (compiler: webpack.Compiler) => {
+        const changedTimes = compiler.watchFileSystem.watcher.mtimes
+        const changedFiles = Object.keys(changedTimes)
+          .map(file => `\n  ${file}`)
+          .join('')
+        if (changedFiles.length) {
+          console.log(changedFiles)
+        } else {
+          await this.run(compiler)
+        }
+			})
+    )
+
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, { normalModuleFactory }) => {
       compilation.dependencyFactories.set(SingleEntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency, normalModuleFactory)
@@ -243,7 +258,7 @@ export default class MiniPlugin {
       }
     })
 
-     return {
+    return {
       configObj
     }
   }
