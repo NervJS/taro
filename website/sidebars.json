@@ -19,6 +19,7 @@
       "size",
       "static-reference",
       "component-style",
+      "best-practice",
       {
         "label": "语法特性",
         "type": "subcategory",
@@ -36,7 +37,6 @@
           "ref"
         ]
       },
-      "best-practice",
       "debug",
       {
         "label": "多端开发",
