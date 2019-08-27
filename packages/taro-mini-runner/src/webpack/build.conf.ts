@@ -15,7 +15,7 @@ import {
   getMiniPlugin,
   getMiniCssExtractPlugin
 } from './chain'
-import { BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, REG_STYLE } from '../utils/constants'
+import { BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES } from '../utils/constants'
 import { Targets } from '../plugins/MiniPlugin'
 
 const emptyObj = {}
