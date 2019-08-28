@@ -33,7 +33,7 @@ import { generateMinimalEscapeCode } from '../util/astConvert'
 import Creator from '../create/creator'
 import babylonConfig from '../config/babylon'
 import { IPrettierConfig } from '../util/types'
-import { analyzeImportUrl } from './helper'
+import { analyzeImportUrl, incrementId } from './helper'
 
 const template = require('babel-template')
 
@@ -121,6 +121,8 @@ export default class Convertor {
       fs.ensureDirSync(this.convertRoot)
     }
   }
+
+  wxsIncrementId = incrementId()
 
   parseAst ({
     ast,
@@ -299,7 +301,7 @@ export default class Convertor {
                 if (componentClassName === importName) {
                   return
                 }
-                const importPath = path.join(self.importsDir, importName + '.js')
+                const importPath = path.join(self.importsDir, importName + (wxs ? self.wxsIncrementId() : '') + '.js')
                 if (!self.hadBeenBuiltImports.has(importPath)) {
                   self.hadBeenBuiltImports.add(importPath)
                   self.writeFileToTaro(importPath, prettier.format(generateMinimalEscapeCode(ast), prettierJSConfig))

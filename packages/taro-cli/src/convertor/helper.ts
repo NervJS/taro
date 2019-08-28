@@ -64,3 +64,8 @@ export function analyzeImportUrl (
     }
   }
 }
+
+export const incrementId = () => {
+  let n = 0
+  return () => (n++).toString()
+}

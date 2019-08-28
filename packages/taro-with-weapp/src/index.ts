@@ -185,7 +185,16 @@ export default function withWeapp (weappConf: WxOptions) {
         }
       }
 
-      setData = (obj: S, callback?: () => any) => {
+      public getRelationNodes = (...args: unknown[]) => {
+        if (this.$scope && this.$scope.getRelationNodes) {
+          this.$scope.getRelationNodes(...args)
+        } else {
+          // tslint:disable-next-line: no-console
+          console.error(`this.$scope 下没有 getRelationNodes 方法`)
+        }
+      }
+
+      setData = (obj: S, callback?: () => void) => {
         const state = Object.assign({}, this.state)
         Object.keys(obj).forEach(key => {
           safeSet(state, key, obj[key])
