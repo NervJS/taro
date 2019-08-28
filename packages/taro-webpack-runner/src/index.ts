@@ -1,5 +1,3 @@
-
-import chalk from 'chalk'
 import * as opn from 'opn'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
@@ -20,22 +18,11 @@ const customizeChain = (chain, customizeFunc: Function) => {
   }
 }
 
-const warnConfigWebpack = () => {
-  console.log(chalk.yellow(`taro@1.2.18版本开始，h5.webpack配置项已经停止支持。作为代替，请使用配置项h5.webpackChain，文档：https://nervjs.github.io/taro/docs/config-detail.html#h5webpackchain`))
-}
-const warnConfigEnableDll = () => {
-  console.log(chalk.yellow(`taro@1.2.18版本开始，taro在h5端加强了代码体积控制，抽离dll的收益已经微乎其微，同时也容易导致一些问题（#1800等）。所以h5.enableDll配置项暂时移除。`))
-}
-
 const buildProd = (appPath: string, config: BuildConfig): Promise<void> => {
   return new Promise((resolve, reject) => {
     const webpackChain = prodConf(appPath, config)
 
     customizeChain(webpackChain, config.webpackChain)
-
-    if (config.webpack) {
-      warnConfigWebpack()
-    }
 
     const webpackConfig = webpackChain.toConfig()
     const compiler = webpack(webpackConfig)
@@ -55,7 +42,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   return new Promise((resolve, reject) => {
     const conf = buildConf(config)
     const routerConfig = config.router || {}
-    const routerMode = routerConfig.mode === 'browser' ? 'browser' : 'hash'
+    const routerMode = routerConfig.mode || 'hash'
     const routerBasename = routerConfig.basename || '/'
     const publicPath = conf.publicPath ? addLeadingSlash(addTrailingSlash(conf.publicPath)) : '/'
     const outputPath = path.join(appPath, conf.outputRoot as string)
@@ -63,10 +50,6 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
     const webpackChain = devConf(appPath, config)
 
     customizeChain(webpackChain, config.webpackChain)
-
-    if (config.webpack) {
-      warnConfigWebpack()
-    }
 
     const devServerOptions = recursiveMerge(
       {
@@ -115,9 +98,6 @@ export default async (appPath: string, config: BuildConfig): Promise<void> => {
       console.error(e)
     }
   } else {
-    if ('enableDll' in config) {
-      warnConfigEnableDll()
-    }
     try {
       await buildProd(appPath, config)
     } catch (e) {
