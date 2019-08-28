@@ -294,8 +294,8 @@ export default class Convertor {
               lastImport.insertAfter(t.importDeclaration([], t.stringLiteral(promoteRelativePath(path.relative(sourceFilePath, importStylePath)))))
             }
             if (imports && imports.length) {
-              imports.forEach(({ name, ast }) => {
-                const importName = pascalCase(name)
+              imports.forEach(({ name, ast, wxs }) => {
+                const importName = wxs ? name : pascalCase(name)
                 if (componentClassName === importName) {
                   return
                 }
