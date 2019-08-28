@@ -271,10 +271,13 @@ export default function withWeapp (weappConf: WxOptions) {
       }
     }
 
-    const externalClasses = weappConf['externalClasses']
+    const staticOptions = ['externalClasses', 'relations', 'options']
 
-    if (externalClasses) {
-      BaseComponent.externalClasses = externalClasses
+    for (const option of staticOptions) {
+      const value = weappConf[option]
+      if (value != null) {
+        BaseComponent[option] = value
+      }
     }
 
     return BaseComponent
