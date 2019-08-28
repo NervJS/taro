@@ -943,6 +943,9 @@
       "debug": {
         "title": "Debug 指南"
       },
+      "envs-debug": {
+        "title": "多端同步调试"
+      },
       "envs": {
         "title": "跨平台开发"
       },
@@ -2091,11 +2094,10 @@
       "文档": "文档",
       "组件库": "组件库",
       "API": "API",
-      "GitHub": "GitHub",
-      "|": "|",
       "Taro-UI": "Taro-UI",
       "物料市场": "物料市场",
-      "论坛": "论坛"
+      "论坛": "论坛",
+      "GitHub": "GitHub"
     },
     "categories": {
       "关于Taro": "关于Taro",
