@@ -34,8 +34,8 @@ function defineGetter (component: Component, key: string, getter: string) {
         return component.props
       }
       return {
-        ...component.props,
-        ...component.state
+        ...component.state,
+        ...component.props
       }
     }
   })
@@ -170,7 +170,8 @@ export default function withWeapp (weappConf: WxOptions) {
       }
 
       private executeLifeCycles (funcs: Function[], ...args: unknown[]) {
-        for (const func of funcs) {
+        for (let i = 0; i < funcs.length; i++) {
+          const func = funcs[i]
           this.safeExecute(func, ...args)
         }
       }
@@ -273,12 +274,12 @@ export default function withWeapp (weappConf: WxOptions) {
 
     const staticOptions = ['externalClasses', 'relations', 'options']
 
-    for (const option of staticOptions) {
+    staticOptions.forEach(option => {
       const value = weappConf[option]
       if (value != null) {
         BaseComponent[option] = value
       }
-    }
+    })
 
     return BaseComponent
   }

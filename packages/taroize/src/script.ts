@@ -7,7 +7,7 @@ import { usedComponents } from './global'
 const defaultClassName = '_C'
 
 const buildDecorator = (id: t.Identifier | t.ObjectExpression) => t.decorator(
-  t.callExpression(t.identifier('withWqvue'), [id])
+  t.callExpression(t.identifier('withWeapp'), [id])
 )
 
 export function parseScript (
@@ -66,7 +66,6 @@ export function parseScript (
           refId,
           wxses
         )
-
         ast.program.body.push(
           classDecl,
           t.exportDefaultDeclaration(t.identifier(componentType !== 'App' ? defaultClassName : 'App'))
@@ -112,7 +111,6 @@ function parsePage (
   wxses?: WXS[]
 ) {
   const stateKeys: string[] = []
-  let weappConf: string | null = null
   pagePath.traverse({
     CallExpression (path) {
       const callee = path.get('callee')
@@ -169,9 +167,7 @@ function parsePage (
     []
   )
 
-  if (weappConf) {
-    classDecl.decorators = [buildDecorator(arg.node)]
-  }
+  classDecl.decorators = [buildDecorator(arg.node)]
 
   return classDecl
 }
