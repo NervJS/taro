@@ -178,6 +178,6 @@ describe('lifecycle', () => {
 
     render(<B />, scratch)
 
-    expect(spy).toBeCalledWith('a', 'b', 'c')
+    expect(spy).toBeCalledWith(...['a', 'b', 'c'].map(s => ({ detail: s })))
   })
 })

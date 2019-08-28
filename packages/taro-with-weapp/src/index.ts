@@ -196,7 +196,7 @@ export default function withWeapp (weappConf: WxOptions) {
       public triggerEvent = (eventName: string, ...args: unknown[]) => {
         const func = this.props[`on${eventName[0].slice(0, 1).toUpperCase()}${eventName.slice(1)}`]
         if (isFunction(func)) {
-          func.apply(this, args)
+          func.apply(this, args.map(a => ({ detail: a })))
         }
       }
 
