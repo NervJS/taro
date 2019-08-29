@@ -19,7 +19,7 @@
     "release:lerna": "lerna publish --force-publish=* --exact --skip-temp-tag",
     "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
     "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
-    "test": "lerna run --scope eslint-plugin-taro  --scope @tarojs/transformer-wx test"
+    "test": "lerna run --scope eslint-plugin-taro  --scope @tarojs/transformer-wx --scope @tarojs/taro test"
   },
   "repository": {
     "type": "git",
