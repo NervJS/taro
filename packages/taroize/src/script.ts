@@ -10,6 +10,26 @@ const buildDecorator = (id: t.Identifier | t.ObjectExpression) => t.decorator(
   t.callExpression(t.identifier('withWeapp'), [id])
 )
 
+function replaceIdentifier (callee) {
+  if (callee.isIdentifier()) {
+    const name = callee.node.name
+    if (name === 'getApp' || name === 'getCurrentPages') {
+      callee.replaceWith(
+        t.memberExpression(t.identifier('Taro'), callee.node)
+      )
+    }
+  }
+}
+
+function replaceMemberExpression (callee) {
+  if (callee.isMemberExpression()) {
+    const object = callee.get('object')
+    if (object.isIdentifier({ name: 'wx' })) {
+      object.replaceWith(t.identifier('Taro'))
+    }
+  }
+}
+
 export function parseScript (
   script?: string,
   returned?: t.Expression,
@@ -37,20 +57,8 @@ export function parseScript (
     },
     CallExpression (path) {
       const callee = path.get('callee')
-      if (callee.isIdentifier()) {
-        const name = callee.node.name
-        if (name === 'getApp' || name === 'getCurrentPages') {
-          callee.replaceWith(
-            t.memberExpression(t.identifier('Taro'), callee.node)
-          )
-        }
-      }
-      if (callee.isMemberExpression()) {
-        const object = callee.get('object')
-        if (object.isIdentifier({ name: 'wx' })) {
-          object.replaceWith(t.identifier('Taro'))
-        }
-      }
+      replaceIdentifier(callee)
+      replaceMemberExpression(callee)
       if (
         callee.isIdentifier({ name: 'Page' }) ||
         callee.isIdentifier({ name: 'Component' }) ||
@@ -114,23 +122,8 @@ function parsePage (
   pagePath.traverse({
     CallExpression (path) {
       const callee = path.get('callee')
-      if (callee.isIdentifier()) {
-        const name = callee.node.name
-        if (name === 'getApp' || name === 'getCurrentPages') {
-          callee.replaceWith(
-            t.memberExpression(t.identifier('Taro'), callee.node)
-          )
-        }
-      }
-      if (callee.isMemberExpression()) {
-        const object = callee.get('object')
-        if (object.isIdentifier()) {
-          const objectName = object.node.name
-          if (objectName === 'wx') {
-            object.replaceWith(t.identifier('Taro'))
-          }
-        }
-      }
+      replaceIdentifier(callee)
+      replaceMemberExpression(callee)
     }
   })
   if (refId) {
