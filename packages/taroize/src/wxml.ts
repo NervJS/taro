@@ -583,7 +583,7 @@ function handleConditions (conditions: Condition[]) {
         }, lastAlternate)
       conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
       conditions.slice(1).forEach(c => c.path.remove())
-    } catch(error) {
+    } catch (error) {
       // tslint:disable-next-line
       console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
     }
