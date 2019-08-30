@@ -1024,6 +1024,13 @@ export class RenderParser {
 
   private propsDecls = new Map<string, NodePath<t.VariableDeclaration>>()
 
+  private isInternalComponent = (element: t.JSXOpeningElement) => {
+    return t.isJSXIdentifier(element.name) &&
+    !DEFAULT_Component_SET.has(element.name.name) &&
+    !DEFAULT_Component_SET_COPY.has(element.name.name) &&
+    /[A-Z]/.test(element.name.name.charAt(0))
+  }
+
   private addIdToElement (jsxElementPath: NodePath<t.JSXElement>) {
     const openingElement = jsxElementPath.node.openingElement
     if (openingElement.attributes.find(attr => {
@@ -1031,13 +1038,7 @@ export class RenderParser {
     })) {
       return
     }
-
-    if (
-      t.isJSXIdentifier(openingElement.name) &&
-      !DEFAULT_Component_SET.has(openingElement.name.name) &&
-      !DEFAULT_Component_SET_COPY.has(openingElement.name.name) &&
-      /[A-Z]/.test(openingElement.name.name.charAt(0))
-    ) {
+    if (this.isInternalComponent(openingElement)) {
       if (this.isEmptyProps(openingElement.attributes)) {
         return
       }
@@ -1744,6 +1745,9 @@ export class RenderParser {
       if (!callee.isCallExpression()) {
         return
       }
+      if (isNewPropsSystem()) {
+        this.handleComponents(callee)
+      }
       if (this.loopIfStemComponentMap.has(callee)) {
         const block = this.loopIfStemComponentMap.get(callee)!
         const attrs = component.node.openingElement.attributes
@@ -1855,11 +1859,7 @@ export class RenderParser {
           },
           JSXElement: path => {
             const element = path.node.openingElement
-            if (
-              t.isJSXIdentifier(element.name) &&
-              !DEFAULT_Component_SET.has(element.name.name) &&
-              /[A-Z]/.test(element.name.name.charAt(0))
-            ) {
+            if (this.isInternalComponent(element)) {
               if (this.isEmptyProps(element.attributes)) {
                 return
               }
