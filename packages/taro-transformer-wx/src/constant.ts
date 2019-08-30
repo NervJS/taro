@@ -152,6 +152,7 @@ export const setFnPrefix = (s: string) => FN_PREFIX = s
 
 export const quickappComponentName = new Set([
   'Swiper',
+  'Audio',
   'Image',
   'Progress',
   // 'Text',

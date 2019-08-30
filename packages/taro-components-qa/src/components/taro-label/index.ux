@@ -3,9 +3,7 @@
     class="{{class}}"
     style="{{customstyle}}"
     id="{{id}}"
-    onclick="handleClick"
   >
-    <slot></slot>
   </label>
 </template>
 
