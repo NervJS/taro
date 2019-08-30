@@ -9,5 +9,9 @@ export default {
     if (~value.indexOf('%')) {
       return 'I:'
     }
+    //不能同时出现translateX和translateY
+    if(~value.indexOf('translateX') && ~value.indexOf('translateY')) {
+      return 'I:'
+    }
   }
 }

@@ -55,6 +55,9 @@ export default {
     setWidth(value, declaration)
   },
   'border-radius': (value, declaration, addDeclaration) => { // width也不支持百分数，后期在转换
+    if (~value.indexOf(' ')) {
+      return 'I:'
+    }
     if (~value.indexOf('%')) {
       // 其实应当按照当前组件的宽高为基准计算，但这里拿不到，暂时这样处理下。
       value = 750 / 100 * parseInt(value) + 'px'

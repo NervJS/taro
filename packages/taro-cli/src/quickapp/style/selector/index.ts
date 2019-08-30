@@ -30,5 +30,6 @@ export default function rewriter (selector, rule, output) {
     }
     return ''
   }).join('')
-  return selector
+  //替换.a.b.c .e.d为.a .b .c .e .d 
+  return selector.replace(/(\w)\./g, '$1 .')
 }

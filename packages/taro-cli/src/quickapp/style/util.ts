@@ -34,13 +34,15 @@ const processDeclarationValueUnit = v => {
   } else if (~lowerCaseV.indexOf('px')) {
     const numberV = parseFloat(lowerCaseV)
     if (!isNaN(numberV)) {
-      return numberV * 2 + 'px'
+      return v.replace(numberV, numberV * 2)
     }
   } else if (~lowerCaseV.indexOf('em')) {
     const numberV = parseFloat(lowerCaseV)
     if (!isNaN(numberV)) {
-      return numberV * defaultFontSize + 'px'
+      return lowerCaseV.replace(numberV, numberV * defaultFontSize).replace('em', 'px')
     }
+  } else if (~lowerCaseV.indexOf('vh')) {
+    return lowerCaseV.replace('vh', 'px')
   }
   return v
 }
