@@ -64,7 +64,7 @@ const siteConfig = {
 
   /* colors for website */
   colors: {
-    primaryColor: 'rgb(40, 43, 46)',
+    primaryColor: '#0000c2',
     secondaryColor: '#4a72ea'
   },
 
@@ -85,7 +85,8 @@ const siteConfig = {
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
-    theme: 'tomorrow-night'
+    // theme: 'tomorrow-night',
+    theme: 'Vs'
   },
 
   usePrism: true,
