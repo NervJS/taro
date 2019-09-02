@@ -61,7 +61,7 @@ https://doc.quickapp.cn/tutorial/ide/overview.html
 
 ### 快应用配置
 
-在 Taro 编译适配快应用需要进行一些配置，可以通过在项目根目录下添加 `project.quickapp.json` 大体的配置项可以参考快应用官方文档的 [manifest 配置](https://doc.quickapp.cn/framework/manifest.html)，而 Taro 中支持以下配置：
+在 Taro 编译适配快应用需要进行一些配置，适配的具体原因可以参考[Taro和快应用配置差异](./taro-quickapp-manifest.md#Taro和快应用配置差异)，通过在项目根目录下添加 `project.quickapp.json` 大体的配置项可以参考快应用官方文档的 [manifest 配置](https://doc.quickapp.cn/framework/manifest.html)，而 Taro 中支持以下配置：
 
 |属性|类型|默认值|必填|描述|
 | :-----| :---- | :---- | :---- | :---- |

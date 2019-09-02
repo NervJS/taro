@@ -244,6 +244,7 @@ export const CONFIG_MAP = {
     onReachBottomDistance: false,
     backgroundColorBottom: false,
     backgroundColorTop: false,
+    enablePullDownRefresh: false,
     navigationStyle: 'navigationStyle'
   },
   [BUILD_TYPES.QQ]: {
