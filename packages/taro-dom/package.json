@@ -18,6 +18,7 @@
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
     "babel-jest": "^23.6.0",
+    "es6-promise": "^4.2.8",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-config-standard": "^13.0.1",
@@ -26,7 +27,10 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
+    "isomorphic-fetch": "^2.2.1",
     "jest": "^23.6.0",
+    "nervjs": "^1.4.4",
     "ts-jest": "^23.10.5"
-  }
+  },
+  "dependencies": {}
 }
