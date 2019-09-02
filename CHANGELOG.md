@@ -1,5 +1,19 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.16...v) (2019-09-01)
+# [](https://github.com/NervJS/taro/compare/v1.3.17...v) (2019-09-02)
+
+
+
+<a name="1.3.17"></a>
+## [1.3.17](https://github.com/NervJS/taro/compare/v1.3.16...v1.3.17) (2019-09-02)
+
+
+### Bug Fixes
+
+* **cli:** 去掉快应用编译时没必要的尺寸转换 ([2150e7b](https://github.com/NervJS/taro/commit/2150e7b))
+* **cli:** 快应用编译时错误注释掉了支持的样式 ([4a829f6](https://github.com/NervJS/taro/commit/4a829f6))
+* **cli:** 调整 taro-page 插入逻辑，close [#4357](https://github.com/NervJS/taro/issues/4357) ([d03d23c](https://github.com/NervJS/taro/commit/d03d23c))
+* **transformer:**  循环中使用自定义组件失效, close [#4359](https://github.com/NervJS/taro/issues/4359) ([e290a7c](https://github.com/NervJS/taro/commit/e290a7c))
+* **transformer:** 只有 render 开头的函数才是 render props ([e1cf11c](https://github.com/NervJS/taro/commit/e1cf11c)), closes [#4180](https://github.com/NervJS/taro/issues/4180)
 
 
 
