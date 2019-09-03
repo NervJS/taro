@@ -13,7 +13,7 @@ export default {
       declaration.value = 'normal'
     } else if (value > 400) {
       declaration.value = 'bold'
-    } else {
+    } else if (!['lighter', 'bold', 'bolder'].includes(value)) {
       return 'I:'
     }
   },

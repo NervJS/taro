@@ -1,17 +1,7 @@
 export default {
   'box-sizing': 'I:',
   'box-flex': 'I:',
-  'box-align': (value, declaration, addDeclaration) => {
-    const boxAlign = {
-      start: 'flex-start',
-      end: 'flex-end',
-      center: 'center',
-      baseline: 'baseline',
-      stretch: 'stretch'
-    }
-    addDeclaration('align-items', boxAlign[value])
-    return 'I:'
-  },
+  'box-align': 'I:',
   'box-orient': (value, declaration, addDeclaration) => {
     const boxOrient = {
       'horizontal': 'row',
