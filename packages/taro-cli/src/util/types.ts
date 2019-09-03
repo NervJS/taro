@@ -49,7 +49,9 @@ export interface IBuildConfig {
   watch?: boolean,
   platform?: string,
   port?: number,
-  release?: boolean
+  release?: boolean,
+  page?: string,
+  component?: string
 }
 
 export interface IMiniAppBuildConfig {
@@ -57,7 +59,9 @@ export interface IMiniAppBuildConfig {
   watch?: boolean,
   envHasBeenSet?: boolean,
   port?: number,
-  release?: boolean
+  release?: boolean,
+  page?: string,
+  component?: string
 }
 
 export interface IOption {
