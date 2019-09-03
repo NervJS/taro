@@ -9,7 +9,6 @@ import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
 import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
-import * as VirtualModulePlugin from 'virtual-module-webpack-plugin'
 import { merge, defaults, kebabCase } from 'lodash'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
@@ -22,6 +21,7 @@ import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency
 
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
+import VirtualModulePlugin from './VirtualModulePlugin/VirtualModulePlugin'
 
 interface IMiniPluginOptions {
   appEntry?: string,
@@ -153,15 +153,7 @@ export default class MiniPlugin {
     compiler.hooks.watchRun.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
-        const changedTimes = compiler.watchFileSystem.watcher.mtimes
-        const changedFiles = Object.keys(changedTimes)
-          .map(file => `\n  ${file}`)
-          .join('')
-        if (changedFiles.length) {
-          console.log(changedFiles)
-        } else {
-          await this.run(compiler)
-        }
+        this.run(compiler)
 			})
     )
 
