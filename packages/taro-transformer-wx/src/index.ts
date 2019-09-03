@@ -37,12 +37,15 @@ import {
   GEN_LOOP_COMPID,
   CONTEXT_PROVIDER,
   setIsTaroReady,
-  setCompId
+  setCompId,
+  ROUTER_API,
+  PAGE_PATH
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
 import { get as safeGet, cloneDeep, snakeCase } from 'lodash'
 import { isTestEnv } from './env'
+import { extname, sep } from 'path'
 
 const template = require('babel-template')
 
@@ -184,6 +187,38 @@ function findThirdPartyComponent (properties: (t.ObjectMethod | t.ObjectProperty
       }
     }
   }
+}
+
+function getRouterProperties(path: NodePath<t.Node>):   (t.ObjectMethod | t.ObjectProperty | t.SpreadProperty)[] {
+  const routerArgs = (path.get('url').parent as t.CallExpression).arguments
+  if (!routerArgs.length) {
+    return []
+  }
+  return t.isObjectExpression(routerArgs[0]) ? (routerArgs[0] as any).properties : []
+}
+
+function getPagePath(sourcePath: string, sourceDir = ''): string {
+  if (!sourceDir) {
+    return ''
+  }
+  let pagePath = sourcePath.replace(sourceDir, '')
+  pagePath = pagePath.replace(extname(pagePath), '')
+  pagePath = pagePath.split(sep).join('/')
+  if (pagePath.startsWith('/')) {
+    pagePath = pagePath.slice(1)
+  }
+  return pagePath
+}
+
+function addPagePathInRouterConfig(properties: (t.ObjectMethod | t.ObjectProperty | t.SpreadProperty)[], pagePath?: string) {
+  if (!pagePath) {
+    return
+  }
+  properties.forEach((prop, idx) => {
+    if (t.isObjectProperty(prop) && t.isIdentifier(prop.key) && prop.key.name === 'url') {
+      properties.splice(idx + 1, 0, t.objectProperty(t.identifier(PAGE_PATH), t.stringLiteral(pagePath)))
+    }
+  })
 }
 
 export interface Result {
@@ -394,6 +429,11 @@ export default function transform (options: Options): TransformResult {
               )
             )
           }
+        }
+        if (Adapters.quickapp === Adapter.type && t.isIdentifier(id) && id.name === 'Taro' && t.isIdentifier(property) && ROUTER_API.has(property.name)) {
+          const routerProperties = getRouterProperties(path)
+          const pagePath = getPagePath(options.sourcePath, options.sourceDir)
+          addPagePathInRouterConfig(routerProperties, pagePath)
         }
       }
 

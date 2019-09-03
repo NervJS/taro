@@ -150,6 +150,15 @@ export let FN_PREFIX = '__fn_'
 
 export const setFnPrefix = (s: string) => FN_PREFIX = s
 
+export const PAGE_PATH = '$$pagePath'
+
+export const ROUTER_API = new Set([
+  'navigateTo',
+  'reLaunch',
+  'switchTab',
+  'redirectTo'
+])
+
 export const quickappComponentName = new Set([
   'Swiper',
   'Audio',

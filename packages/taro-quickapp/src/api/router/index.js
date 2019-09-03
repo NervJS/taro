@@ -1,9 +1,9 @@
 import router from '@system.router'
+import * as path from 'path'
 
 import appGlobal from '../../global'
 import { addLeadingSlash, getUniqueKey } from '../../util'
 import { cacheDataGet, cacheDataSet } from '../../data-cache'
-
 const preloadPrivateKey = 'quick$PriPreload'
 const preloadInitedComponent = 'quick$PriPreloadComponent'
 
@@ -34,7 +34,7 @@ export function reLaunch (options = {}) {
 }
 
 function qappNavigate (options = {}, method = 'push') {
-  const { url = '', success, fail, complete } = options
+  const { url = '', $$pagePath, success, fail, complete } = options
   const res = { errMsg: 'ok' }
 
   return new Promise((resolve, reject) => {
@@ -47,7 +47,13 @@ function qappNavigate (options = {}, method = 'push') {
     }
     params = getUrlParams(url)
     const markIndex = url.indexOf('?')
-    const parseUrl = addLeadingSlash(url.substr(0, markIndex >= 0 ? markIndex : url.length))
+    let parseUrl = url.substr(0, ~markIndex ? markIndex : url.length).replace(/^(.\/)/g, '')
+    if ($$pagePath && /^(..\/)/g.test(parseUrl)) {
+      $$pagePath = $$pagePath.substr(0, $$pagePath.lastIndexOf('/'))
+      parseUrl = addLeadingSlash(path.join($$pagePath, parseUrl))
+    } else {
+      parseUrl = addLeadingSlash(parseUrl)
+    }
     appGlobal.taroRouterParamsCache = appGlobal.taroRouterParamsCache || {}
     appGlobal.taroRouterParamsCache[parseUrl] = params
 
@@ -65,7 +71,7 @@ function qappNavigate (options = {}, method = 'push') {
     }
     try {
       router[method]({
-        uri: url.substr(0, url.lastIndexOf('/')),
+        uri: parseUrl.substr(0, parseUrl.lastIndexOf('/')),
         params
       })
       success && success(res)
