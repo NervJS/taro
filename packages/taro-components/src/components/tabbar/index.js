@@ -116,7 +116,10 @@ class Tabbar extends Nerv.Component {
   }
 
   switchTabHandler = ({ url, successHandler, errorHandler }) => {
-    const currentUrl = this.getOriginUrl(this.getCurrentUrl() || this.homePage)
+    const routerMode = this.props.conf.mode
+    const currentUrl = routerMode === 'multi'
+      ? this.props.currentPagename
+      : this.getOriginUrl(this.getCurrentUrl() || this.homePage)
     const nextTab = resolvePathname(url, currentUrl)
     const foundIndex = this.getSelectedIndex(nextTab)
 
@@ -307,7 +310,7 @@ class Tabbar extends Nerv.Component {
             return (
               <TabbarItem
                 index={index}
-                onSelect={this.switchTab}
+                onSelect={this.switchTab.bind(this)}
                 isSelected={isSelected}
                 textColor={textColor}
                 iconPath={iconPath}

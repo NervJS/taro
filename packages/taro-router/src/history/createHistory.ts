@@ -78,7 +78,7 @@ const createHistorySerializer = (storeObj: HistoryState) => {
   return serialize
 }
 
-const createHistory = (props: { basename?: string, mode: "hash" | "browser", firstPagePath: string, customRoutes: CustomRoutes }) => {
+const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "multi", firstPagePath: string, customRoutes: CustomRoutes }) => {
   const transitionManager = createTransitionManager()
   const basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : ''
   const customRoutes = props.customRoutes || {}
