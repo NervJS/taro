@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import Nerv from 'nervjs'
-import Taro from '@tarojs/taro-h5'
+import Taro from '@tarojs/taro'
 
 import './style/index.css'
 
