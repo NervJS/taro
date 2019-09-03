@@ -2729,27 +2729,27 @@ declare namespace Taro {
     /**
      * 背景音频进入可以播放状态，但不保证后面可以流畅播放
      */
-    onCanplay(callback?: () => void): void
+    onCanplay(callback?: (e: any) => void): void
     /**
      * 背景音频播放事件
      */
-    onPlay(callback?: () => void): void
+    onPlay(callback?: (e: any) => void): void
     /**
      * 背景音频暂停事件
      */
-    onPause(callback?: () => void): void
+    onPause(callback?: (e: any) => void): void
     /**
      * 背景音频停止事件
      */
-    onStop(callback?: () => void): void
+    onStop(callback?: (e: any) => void): void
     /**
      * 背景音频自然播放结束事件
      */
-    onEnded(callback?: () => void): void
+    onEnded(callback?: (e: any) => void): void
     /**
      * 背景音频播放进度更新事件
      */
-    onTimeUpdate(callback?: () => void): void
+    onTimeUpdate(callback?: (e: any) => void): void
     /**
      * 用户在系统音乐播放面板点击上一曲事件（iOS only）
      */
@@ -2761,11 +2761,11 @@ declare namespace Taro {
     /**
      * 背景音频播放错误事件
      */
-    onError(callback?: () => void): void
+    onError(callback?: (e: any) => void): void
     /**
      * 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发
      */
-    onWaiting(callback?: () => void): void
+    onWaiting(callback?: (e: any) => void): void
   }
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
