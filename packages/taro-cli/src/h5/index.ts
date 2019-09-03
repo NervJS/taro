@@ -7,8 +7,8 @@ import generate from 'better-babel-generator'
 import * as chokidar from 'chokidar'
 import * as fs from 'fs-extra'
 import * as klaw from 'klaw'
-import { compact, findLastIndex, first, fromPairs, get, identity, merge, transform } from 'lodash'
-import { pipe } from 'lodash/fp'
+import _, { compact, findLastIndex, first, fromPairs, get, identity, merge, transform } from 'lodash'
+import { pipe, partial } from 'lodash/fp'
 import * as path from 'path'
 
 import CONFIG from '../config'
@@ -319,38 +319,26 @@ class Compiler {
       }
     }
 
-    const wrapWithTabbar = (funcBody: string) => {
+    const wrapWithTabbar = (currentPagename: string, funcBody: string) => {
       const firstPage = first(pages)
       const homePage = firstPage ? firstPage[0] : ''
-      if (tabbarPos === 'top') {
-        return `
-          <${tabBarContainerComponentName}>
 
-            <${tabBarComponentName}
-              conf={this.state.${tabBarConfigName}}
-              homePage="${homePage}"
-              tabbarPos={'top'} />
+      const panel = `
+        <${tabBarPanelComponentName}>
+          ${funcBody}
+        </${tabBarPanelComponentName}>`
 
-            <${tabBarPanelComponentName}>
-              ${funcBody}
-            </${tabBarPanelComponentName}>
+      const comp = `  
+        <${tabBarComponentName}
+          conf={this.state.${tabBarConfigName}}
+          homePage="${homePage}"
+          ${currentPagename ? `currentPagename={'${currentPagename}'}` : ''}
+          ${tabbarPos === 'top' ? `tabbarPos={'top'}` : ''} />`
 
-          </${tabBarContainerComponentName}>`
-      } else {
-        return `
-          <${tabBarContainerComponentName}>
-
-            <${tabBarPanelComponentName}>
-              ${funcBody}
-            </${tabBarPanelComponentName}>
-
-            <${tabBarComponentName}
-              conf={this.state.${tabBarConfigName}}
-              homePage="${homePage}"
-              router={${taroImportDefaultName}} />
-
-          </${tabBarContainerComponentName}>`
-      }
+      return `
+        <${tabBarContainerComponentName}>
+          ${tabbarPos === 'top' ? `${comp}${panel}` : `${panel}${comp}`}
+        </${tabBarContainerComponentName}>`
     }
 
     const wrapWithProvider = (funcBody: string) => {
@@ -405,7 +393,7 @@ class Compiler {
             const buildFuncBody = pipe(
               ...compact([
                 createFuncBody,
-                tabBar && wrapWithTabbar,
+                tabBar && partial(wrapWithTabbar, ['']),
                 providerComponentName && storeName && wrapWithProvider,
                 wrapWithFuncBody
               ])
@@ -779,7 +767,7 @@ class Compiler {
                 const buildFuncBody = pipe(
                   ...compact([
                     createFuncBody,
-                    tabBar && wrapWithTabbar,
+                    tabBar && partial(wrapWithTabbar, [addLeadingSlash(pageName)]),
                     providerComponentName && storeName && wrapWithProvider,
                     wrapWithFuncBody
                   ])
@@ -807,13 +795,14 @@ class Compiler {
                   && bodyNode.expression.callee.name === 'mountApis') {
                   const mountApisOptNode = bodyNode.expression.arguments[0]
                   if (t.isObjectExpression(mountApisOptNode)) {
+                    const valueNode = t.stringLiteral(addLeadingSlash(pageName))
                     let basenameNode = mountApisOptNode.properties.find((property: t.ObjectProperty) => {
                       return toVar<string>(property.key) === 'currentPagename'
                     }) as t.ObjectProperty | undefined
                     if (basenameNode) {
-                      basenameNode.value = t.stringLiteral(pageName)
+                      basenameNode.value = valueNode
                     } else {
-                      basenameNode = t.objectProperty(t.stringLiteral('currentPagename'), t.stringLiteral(addLeadingSlash(pageName)))
+                      basenameNode = t.objectProperty(t.stringLiteral('currentPagename'), valueNode)
                       mountApisOptNode.properties.push(basenameNode)
                     }
                   }

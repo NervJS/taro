@@ -12,6 +12,12 @@ import './style/index.scss'
 // const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
 const addLeadingSlash = str => str[0] === '/' ? str : `/${str}`
 
+const hasBasename = (path, prefix) =>
+  new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path)
+
+const stripBasename = (path, prefix) =>
+  hasBasename(path, prefix) ? path.substr(prefix.length) : path
+
 const STATUS_SHOW = 0
 const STATUS_HIDE = 1
 const STATUS_SLIDEOUT = 2
@@ -57,8 +63,18 @@ class Tabbar extends Nerv.Component {
   tabbarPos = 'bottom'
 
   getCurrentUrl () {
-    const url = this.props.conf.mode === 'hash' ? location.hash : location.pathname
-    const processedUrl = addLeadingSlash(url.replace(new RegExp(`^#?${this.props.conf.basename}`), ''))
+    const currentPagename = this.props.currentPagename
+    const routerMode = this.props.conf.mode
+    const routerBasename = this.props.conf.basename || '/'
+    let url
+    if (routerMode === 'hash') {
+      url = location.hash
+    } else if (routerMode === 'multi') {
+      url = currentPagename
+    } else {
+      url = location.pathname
+    }
+    const processedUrl = addLeadingSlash(stripBasename(url, routerBasename))
     return processedUrl === '/'
       ? this.homePage
       : processedUrl
