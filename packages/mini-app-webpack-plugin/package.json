@@ -1,0 +1,30 @@
+{
+  "name": "mini-app-webpack-plugin",
+  "version": "0.0.1",
+  "description": "Taro 小程序 Webpack 插件。",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "yuche",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.6.8",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "babel-jest": "^23.6.0",
+    "es6-promise": "^4.2.8",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.14.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "isomorphic-fetch": "^2.2.1",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.5"
+  }
+}
