@@ -1027,6 +1027,9 @@
       "static-reference": {
         "title": "静态资源引用"
       },
+      "taro-quickapp-manifest": {
+        "title": "taro-quickapp-manifest"
+      },
       "taroize": {
         "title": "微信小程序转 Taro"
       },

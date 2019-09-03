@@ -323,11 +323,13 @@ pre {
   }
 
   input#search_input_react {
+    color: black;
     background-color: white;
     width: 200px;
   }
 
   input#search_input_react:focus {
+    color: black;
     background-color: white;
     width: 250px;
   }
