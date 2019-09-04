@@ -688,3 +688,14 @@ export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression)
 
   return expr
 }
+
+export function customizeUniq (arrs: any[] = []): any[] {
+  let hash = {}
+  return arrs.reduce((item, next) => {
+    if (!hash[next.imported.name]) {
+      item.push(next)
+      hash[next.imported.name] = true
+    }
+    return item
+  }, [])
+}

@@ -69,8 +69,12 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
     },
     options
   )
-  const name = options.name
+  let name = options.name
   if (Adapters.quickapp === Adapter.type) {
+    //cover-image使用image替换
+    if (name === 'cover-image') {
+      name = 'image'
+    }
     const nameCapitalized = capitalized(name)
     if (quickappComponentName.has(nameCapitalized)) {
       options.name = `taro-${name}`

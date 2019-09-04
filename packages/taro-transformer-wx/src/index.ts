@@ -11,9 +11,11 @@ import {
   codeFrameError,
   isArrayMapCallExpression,
   replaceJSXTextWithTextComponent,
-  getSuperClassCode
+  getSuperClassCode,
+  customizeUniq
 } from './utils'
 import * as t from 'babel-types'
+import simulateComponent from './simulate-component'
 import {
   DEFAULT_Component_SET,
   INTERNAL_SAFE_GET,
@@ -28,7 +30,6 @@ import {
   GEL_ELEMENT_BY_ID,
   lessThanSignPlacehold,
   COMPONENTS_PACKAGE_NAME,
-  quickappComponentName,
   setFnPrefix,
   setLoopCallee,
   setLoopState,
@@ -538,11 +539,10 @@ export default function transform (options: Options): TransformResult {
         }
       }
       if (Adapter.type === Adapters.quickapp) {
-        if (name === 'View') {
-          path.node.name = t.jSXIdentifier('div')
-        }
-        if (name === 'Block') {
-          path.node.name = t.jSXIdentifier('block')
+        //快应用不支持的组件标签使用快应用原生组件模拟
+        let result = simulateComponent.simu(name)
+        if(result.isQuickappComponent) {
+          path.node.name = t.jSXIdentifier(result.name)
         }
       }
 
@@ -694,16 +694,22 @@ export default function transform (options: Options): TransformResult {
       }
       const names: string[] = []
       if (source === COMPONENTS_PACKAGE_NAME && Adapters.quickapp === Adapter.type) {
+        const importSpecifiers: Array<t.ImportSpecifier> = []
         path.node.specifiers.forEach((s) => {
           if (t.isImportSpecifier(s)) {
             const originalName = s.imported.name
-            if (quickappComponentName.has(originalName)) {
-              const importedName = `Taro${originalName}`
+            //使用Taro兼容库组件对import里的组件模拟
+            const result = simulateComponent.simu(originalName)
+            if (result.isTaroComponent) {
+              const importedName = result.name
               s.imported.name = importedName
               s.local.name = importedName
+              importSpecifiers.push(s)
             }
           }
         })
+        //最终生成的import需要去重，比如CoverImage和Image都是用TaroImage模拟的
+        path.node.specifiers = importSpecifiers.length? customizeUniq(importSpecifiers):importSpecifiers
       }
       if (source === TARO_PACKAGE_NAME) {
         isImportTaro = true
