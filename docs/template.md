@@ -28,6 +28,12 @@ title: 项目模板
 
 * GitHub - github:owner/name
 * GitLab - gitlab:owner/name
+* Direct - direct:url
+
+```sh
+# 初始化项目时可以使用 --clone 选项指定拉取远程模板时使用git clone
+taro init --clone
+```
 
 #### url 模板源
 
