@@ -11,7 +11,7 @@ const appPath = process.cwd()
 const projectConfPath = path.join(appPath, PROJECT_CONFIG)
 
 program
-  .option('--type [typeName]', 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq')
+  .option('--type [typeName]', 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq/jd')
   .option('--watch', 'Watch mode')
   .option('--page [pagePath]', 'Build one page')
   .option('--component [pagePath]', 'Build one component')
