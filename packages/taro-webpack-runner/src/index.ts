@@ -1,3 +1,4 @@
+import detectPort = require('detect-port')
 import * as opn from 'opn'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
@@ -39,43 +40,51 @@ const buildProd = (appPath: string, config: BuildConfig): Promise<void> => {
 }
 
 const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
+  const conf = buildConf(config)
+  const routerConfig = config.router || {}
+  const routerMode = routerConfig.mode || 'hash'
+  const routerBasename = routerConfig.basename || '/'
+  const publicPath = conf.publicPath ? addLeadingSlash(addTrailingSlash(conf.publicPath)) : '/'
+  const outputPath = path.join(appPath, conf.outputRoot as string)
+  const customDevServerOption = config.devServer || {}
+  const webpackChain = devConf(appPath, config)
+
+  customizeChain(webpackChain, config.webpackChain)
+
+  const devServerOptions = recursiveMerge(
+    {
+      publicPath,
+      contentBase: outputPath,
+      historyApiFallback: {
+        index: publicPath
+      }
+    },
+    baseDevServerOption,
+    customDevServerOption
+  )
+
+  const originalPort = devServerOptions.port
+  const availablePort = await detectPort(devServerOptions.port)
+
+  if (availablePort !== originalPort) {
+    console.log(`端口 ${originalPort} 被占用, 自动切换到空闲端口 ${availablePort}`)
+  }
+
+  const devUrl = formatUrl({
+    protocol: devServerOptions.https ? 'https' : 'http',
+    hostname: devServerOptions.host,
+    port: availablePort,
+    pathname: routerMode === 'browser' ? routerBasename : '/'
+  })
+
+  const webpackConfig = webpackChain.toConfig()
+  WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
+  const compiler = webpack(webpackConfig)
+  bindDevLogger(devUrl, compiler)
+  const server = new WebpackDevServer(compiler, devServerOptions)
+
   return new Promise((resolve, reject) => {
-    const conf = buildConf(config)
-    const routerConfig = config.router || {}
-    const routerMode = routerConfig.mode || 'hash'
-    const routerBasename = routerConfig.basename || '/'
-    const publicPath = conf.publicPath ? addLeadingSlash(addTrailingSlash(conf.publicPath)) : '/'
-    const outputPath = path.join(appPath, conf.outputRoot as string)
-    const customDevServerOption = config.devServer || {}
-    const webpackChain = devConf(appPath, config)
-
-    customizeChain(webpackChain, config.webpackChain)
-
-    const devServerOptions = recursiveMerge(
-      {
-        publicPath,
-        contentBase: outputPath,
-        historyApiFallback: {
-          index: publicPath
-        }
-      },
-      baseDevServerOption,
-      customDevServerOption
-    )
-    const devUrl = formatUrl({
-      protocol: devServerOptions.https ? 'https' : 'http',
-      hostname: devServerOptions.host,
-      port: devServerOptions.port,
-      pathname: routerMode === 'browser' ? routerBasename : '/'
-    })
-
-    const webpackConfig = webpackChain.toConfig()
-    WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
-    const compiler = webpack(webpackConfig)
-    bindDevLogger(devUrl, compiler)
-    const server = new WebpackDevServer(compiler, devServerOptions)
-
-    server.listen(devServerOptions.port as number, devServerOptions.disableHostCheck ? '0.0.0.0' : (devServerOptions.host as string), err => {
+    server.listen(availablePort, devServerOptions.disableHostCheck ? '0.0.0.0' : (devServerOptions.host as string), err => {
       if (err) {
         reject()
         return console.log(err)
