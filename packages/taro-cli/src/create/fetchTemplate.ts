@@ -9,7 +9,7 @@ import { getTemplateSourceType, readDirWithFileTypes } from '../util'
 
 const TEMP_DOWNLOAD_FLODER = 'taro-temp'
 
-export default function fetchTemplate (templateSource: string, templateRootPath: string): Promise<any> {
+export default function fetchTemplate (templateSource: string, templateRootPath: string, clone?: boolean): Promise<any> {
   const type = getTemplateSourceType(templateSource)
   const tempPath = path.join(templateRootPath, TEMP_DOWNLOAD_FLODER)
   let name: string
@@ -23,7 +23,7 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
 
     if (type === 'git') {
       name = path.basename(templateSource)
-      download(templateSource, path.join(tempPath, name), async error => {
+      download(templateSource, path.join(tempPath, name), { clone }, async error => {
         if (error) {
           spinner.color = 'red'
           spinner.fail(chalk.red('拉取远程模板仓库失败！'))
