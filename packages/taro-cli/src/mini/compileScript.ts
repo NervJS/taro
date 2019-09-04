@@ -154,8 +154,10 @@ export async function compileScriptFile (
     return fs.readFileSync(outputFilePath).toString()
   }
   const babelConfig = getBabelConfig(projectConfig!.plugins!.babel)
+  console.log('babelConfig = ', babelConfig)
   const compileScriptRes = await callPlugin('babel', content, sourceFilePath, babelConfig, appPath)
   const code = compileScriptRes.code
+  console.log('shouldTransformAgain(): ', shouldTransformAgain())
   if (!shouldTransformAgain()) {
     return code
   }

@@ -115,8 +115,11 @@ export async function buildEntry (): Promise<AppConfig> {
     // app.js的template忽略
     const res = parseAst(PARSE_AST_TYPE.ENTRY, transformResult.ast, [], entryFilePath, outputEntryFilePath)
     let resCode = res.code
+    console.log('res = ', res)
+    console.log('resCode = \n', resCode)
     if (buildAdapter !== BUILD_TYPES.QUICKAPP) {
       resCode = await compileScriptFile(resCode, entryFilePath, outputEntryFilePath, buildAdapter)
+      console.log('compileScriptFile resCode = \n', resCode)
       if (isProduction) {
         resCode = uglifyJS(resCode, entryFilePath, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
       }
@@ -164,12 +167,15 @@ export async function buildEntry (): Promise<AppConfig> {
       }
     }
     const dependencyTree = getDependencyTree()
+    console.log('dependencyTree = ', JSON.stringify([...dependencyTree]))
     const fileDep = dependencyTree.get(entryFilePath) || {
       style: [],
       script: [],
       json: [],
       media: []
     }
+
+    console.log('fileDep =  ', fileDep)
     // 编译依赖的脚本文件
     if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
       await compileDepScripts(res.scriptFiles, buildAdapter !== BUILD_TYPES.QUICKAPP)
