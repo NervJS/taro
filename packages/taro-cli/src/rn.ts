@@ -151,6 +151,9 @@ class Compiler {
     if (REG_STYLE.test(filePath)) {
       // do something
     } else if (REG_SCRIPTS.test(filePath)) {
+      if(/\.jsx(\?.*)?$/.test(filePath)){
+        distPath = distPath.replace(/\.jsx(\?.*)?$/, '.js')
+      }
       if (REG_TYPESCRIPT.test(filePath)) {
         distPath = distPath.replace(/\.(tsx|ts)(\?.*)?$/, '.js')
       }

@@ -182,7 +182,7 @@ export function componentTrigger (component, key, args) {
         if (ref.type === 'component') {
           component.$scope.selectComponent(`#${ref.id}`, target => {
             resolve({
-              target: target.$component || target,
+              target: target ? target.$component || target : null,
               ref
             })
           })
@@ -292,6 +292,7 @@ function createComponent (ComponentClass, isPage) {
       isPage && (hasPageInited = false)
       if (isPage && cacheDataHas(preloadInitedComponent)) {
         this.$component = cacheDataGet(preloadInitedComponent, true)
+        this.$component.$componentType = 'PAGE'
       } else {
         this.$component = new ComponentClass({}, isPage)
       }

@@ -1,6 +1,6 @@
 <template>
   <swiper
-    class="taro_swiper {{classname}}"
+    class="taro_swiper {{class}}"
     style="{{swiperstyle}}"
     id="{{id}}"
     autoplay="{{autoplay}}"
@@ -8,7 +8,6 @@
     interval="{{interval}}"
     indicator="{{indicatordots}}"
     loop="{{circular}}"
-    style="{{customstyle}}"
     @change="handleChange">
     <slot></slot>
   </swiper>
@@ -17,7 +16,7 @@
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''
@@ -87,10 +86,10 @@
       //indicator-color 填充颜色
       //indicator-selected-color indicator选中时的颜色
       //indicator-size indicator组件的直径大小
-      this.swiperStyle = {
+      this.swiperStyle = Object.assign({
         'indicator-color': this.indicatorcolor,
         'indicator-selected-color': '#' + this.indicatoractivecolor
-      }
+      }, this.customstyle)
     },
     handleChange (e) {
       // this.$emit('change', e)

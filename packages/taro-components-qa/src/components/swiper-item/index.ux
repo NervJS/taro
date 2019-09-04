@@ -1,6 +1,6 @@
 <template>
     <div
-      class="{{classname}}"
+      class="{{class}}"
       style="{{customstyle}}"
       itemId="{{itemid}}"
       onclick="handleClick">
@@ -11,7 +11,7 @@
   <script>
     export default {
       props: {
-        classname: {
+        class: {
           type: String,
           required: false,
           default: ''

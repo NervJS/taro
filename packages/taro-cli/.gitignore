@@ -1,1 +1,3 @@
-templates/default/yarn-lockfiles
+templates/*
+!templates/default
+templates/default/.*

@@ -1,7 +1,11 @@
 import router from '@system.router'
 
 import appGlobal from '../../global'
-import { addLeadingSlash } from '../../util'
+import { addLeadingSlash, getUniqueKey } from '../../util'
+import { cacheDataGet, cacheDataSet } from '../../data-cache'
+
+const preloadPrivateKey = 'quick$PriPreload'
+const preloadInitedComponent = 'quick$PriPreloadComponent'
 
 export function navigateTo (options = {}) {
   return qappNavigate(options)
@@ -42,9 +46,23 @@ function qappNavigate (options = {}, method = 'push') {
       return
     }
     params = getUrlParams(url)
-    const parseUrl = addLeadingSlash(url.substr(0, url.indexOf('?')))
+    const markIndex = url.indexOf('?')
+    const parseUrl = addLeadingSlash(url.substr(0, markIndex >= 0 ? markIndex : url.length))
     appGlobal.taroRouterParamsCache = appGlobal.taroRouterParamsCache || {}
     appGlobal.taroRouterParamsCache[parseUrl] = params
+
+    if (method === 'push' || method === 'replace') {
+      const Component = cacheDataGet(parseUrl)
+      if (Component) {
+        const component = new Component()
+        if (component.componentWillPreload) {
+          const cacheKey = getUniqueKey()
+          cacheDataSet(cacheKey, component.componentWillPreload(Object.assign({}, params)))
+          cacheDataSet(preloadInitedComponent, component)
+          params[preloadPrivateKey] = cacheKey
+        }
+      }
+    }
     try {
       router[method]({
         uri: url.substr(0, url.lastIndexOf('/')),
@@ -63,7 +81,7 @@ function qappNavigate (options = {}, method = 'push') {
 }
 
 function getUrlParams (url = '') {
-  const params = {}
+  const params = {}
   url = url.replace(/#.*$/, '')
   const queryArray = url.split(/[?&]/).slice(1)
   queryArray.forEach(item => {

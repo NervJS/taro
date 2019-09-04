@@ -141,13 +141,6 @@ const getCopyWebpackPlugin = ({ copy, appPath }: {
   return partial(getPlugin, CopyWebpackPlugin)(args)
 }
 
-const getEntry = (customEntry = {}) => {
-  return {
-    app: join('.temp', 'app.js'),
-    ...customEntry
-  }
-}
-
 const sassReg = /\.(s[ac]ss)\b/
 const lessReg = /\.less\b/
 const stylReg = /\.styl\b/
@@ -431,4 +424,4 @@ export {
   getEsnextModuleRules
 }
 
-export { getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getModule, getUglifyPlugin, getDevtool, getCssoWebpackPlugin, getCopyWebpackPlugin }
+export { getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getModule, getUglifyPlugin, getDevtool, getCssoWebpackPlugin, getCopyWebpackPlugin }

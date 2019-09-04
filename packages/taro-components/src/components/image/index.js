@@ -9,6 +9,7 @@ class Image extends Nerv.Component {
     this.state = {
       isLoaded: false
     }
+    this.imageOnLoad = this.imageOnLoad.bind(this)
     this._handleScroll = this._handleScroll.bind(this)
     this.handleScroll = this.throttle(this._handleScroll, 100)
   }
@@ -105,13 +106,24 @@ class Image extends Nerv.Component {
     }
   }
 
+  imageOnLoad (e) {
+    const { onLoad } = this.props
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      value: {
+        width: this.imgRef.width,
+        height: this.imgRef.height 
+      }
+    })
+    onLoad && onLoad(e)
+  }
+
   render () {
     const {
       className,
       src,
       style,
       mode,
-      onLoad,
       onError,
       lazyLoad,
       ...reset
@@ -139,16 +151,18 @@ class Image extends Nerv.Component {
       <div className={cls} style={style} {...reset}>
         {lazyLoad ? (
           <img
+            ref={img => this.imgRef = img}
             className={imgCls}
             data-src={currenSrc}
-            onLoad={onLoad}
+            onLoad={this.imageOnLoad}
             onError={onError}
           />
         ) : (
           <img
+            ref={img => this.imgRef = img}
             className={imgCls}
             src={currenSrc}
-            onLoad={onLoad}
+            onLoad={this.imageOnLoad}
             onError={onError}
           />
         )}

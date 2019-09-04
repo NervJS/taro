@@ -194,7 +194,14 @@ function processApis (taro) {
 }
 
 function pxTransform (size) {
-  const { designWidth, deviceRatio } = this.config
+  const {
+    designWidth = 750,
+    deviceRatio = {
+      '640': 2.34 / 2,
+      '750': 1,
+      '828': 1.81 / 2
+    }
+  } = this.config || {}
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }

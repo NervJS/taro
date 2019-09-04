@@ -70,13 +70,15 @@ const tryToParseStore = (state: HistoryState) => {
  */
 const createHistorySerializer = (storeObj: HistoryState) => {
   let serialize = () => {
-    localStorage.setItem(defaultStoreKey, JSON.stringify(storeObj))
+    try {
+      localStorage.setItem(defaultStoreKey, JSON.stringify(storeObj))
+    } catch (e) {}
   }
   serialize()
   return serialize
 }
 
-const createHistory = (props: { basename?: string, mode: "hash" | "browser", firstPagePath: string, customRoutes: CustomRoutes }) => {
+const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "multi", firstPagePath: string, customRoutes: CustomRoutes }) => {
   const transitionManager = createTransitionManager()
   const basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : ''
   const customRoutes = props.customRoutes || {}

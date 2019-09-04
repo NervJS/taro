@@ -1,7 +1,10 @@
+import appGlobal from './global'
+
 function createApp (AppClass) {
   const app = new AppClass()
   const appConf = {
     onCreate (options) {
+      appGlobal.$app = this
       app.$app = this
       app.$app.$router = app.$router = {
         params: options

@@ -223,6 +223,52 @@ declare namespace Taro {
      */
     // allow undefined, but don't make it optional as that is very likely a mistake
     function useMemo<T> (factory: () => T, deps: DependencyList | undefined): T
+
+    /**
+     * 页面展示时的回调
+     */
+    function useDidShow (callback: () => any)
+
+    /**
+     * 页面隐藏时的回调
+     */
+    function useDidHide (callback: () => any)
+
+    /**
+     * 监听用户下拉刷新事件
+     */
+    function usePullDownRefresh (callback: () => any)
+
+    /**
+     * 监听用户上拉触底事件
+     */
+    function useReachBottom (callback: () => any)
+
+    /**
+     * 监听用户滑动页面事件
+     */
+    function usePageScroll (callback: (obj: PageScrollObject) => any)
+
+    /**
+     * 小程序屏幕旋转时触发
+     */
+    function useResize (callback: (obj: any) => any)
+
+    /**
+     * 监听用户点击页面内转发按钮（button 组件 open-type="share"）或右上角菜单“转发”按钮的行为，并自定义转发内容
+     */
+    function useShareAppMessage (callback: (obj: ShareAppMessageObject) => any)
+
+    /**
+     * 点击 tab 时触发
+     */
+    function useTabItemTap (callback: (obj: TabItemTapObject) => any)
+
+    /**
+     * 获取页面传入路由相关参数
+     */
+    function useRouter (): RouterInfo
+
   interface PageNotFoundObject {
     /**
      * 不存在页面的路径
@@ -346,7 +392,7 @@ declare namespace Taro {
     onPageScroll?(obj: PageScrollObject): void
     onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn
     onTabItemTap?(obj: TabItemTapObject): void
-    onResize?(): void
+    onResize?(obj: any): void
   }
 
   interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
@@ -704,6 +750,44 @@ declare namespace Taro {
     addGlobalClass?: boolean
   }
 
+  interface RouterInfo {
+    /**
+     * 在跳转成功的目标页的生命周期方法里通过 `this.$router.params` 获取到传入的参数
+     *
+     * @example
+     * componentWillMount () {
+     *   console.log(this.$router.params)
+     * }
+     *
+     * @see 参考[路由功能：路由传参](https://nervjs.github.io/taro/docs/router.html#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82)一节
+    */
+    params: {
+      [key: string]: string
+    } & {
+      path?: string
+      scene?: number | string
+      query?: {[key: string]: string} | string
+      shareTicket?: string
+      referrerInfo?: {[key: string]: any} | string
+    }
+    /**
+    * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
+    *
+    * **注意** 上一页面没有使用 `this.$preload` 传入任何参数时 `this.$router` 不存在 `preload` 字段
+    * 请开发者在使用时自行判断
+    *
+    * @example
+    * componentWillMount () {
+    *   console.log('preload: ', this.$router.preload)
+    * }
+    *
+    * @see 参考[性能优化实践：在小程序中，可以使用 `this.$preload` 函数进行页面跳转传参](https://nervjs.github.io/taro/docs/optimized-practice.html#%E5%9C%A8%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD-%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-this-preload-%E5%87%BD%E6%95%B0%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BC%A0%E5%8F%82)一节
+    */
+    preload?: {
+      [key: string]: string
+    }
+  }
+
   class Component<P, S> {
     constructor(props?: P, context?: any)
 
@@ -713,43 +797,7 @@ declare namespace Taro {
 
     $componentType: 'PAGE' | 'COMPONENT'
 
-    $router: {
-      /**
-       * 在跳转成功的目标页的生命周期方法里通过 `this.$router.params` 获取到传入的参数
-       *
-       * @example
-       * componentWillMount () {
-       *   console.log(this.$router.params)
-       * }
-       *
-       * @see 参考[路由功能：路由传参](https://nervjs.github.io/taro/docs/router.html#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82)一节
-       */
-      params: {
-        [key: string]: string
-      } & {
-        path?: string
-        scene?: number | string
-        query?: {[key: string]: string} | string
-        shareTicket?: string
-        referrerInfo?: {[key: string]: any} | string
-      }
-      /**
-       * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
-       *
-       * **注意** 上一页面没有使用 `this.$preload` 传入任何参数时 `this.$router` 不存在 `preload` 字段
-       * 请开发者在使用时自行判断
-       *
-       * @example
-       * componentWillMount () {
-       *   console.log('preload: ', this.$router.preload)
-       * }
-       *
-       * @see 参考[性能优化实践：在小程序中，可以使用 `this.$preload` 函数进行页面跳转传参](https://nervjs.github.io/taro/docs/optimized-practice.html#%E5%9C%A8%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD-%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-this-preload-%E5%87%BD%E6%95%B0%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BC%A0%E5%8F%82)一节
-       */
-      preload?: {
-        [key: string]: string
-      }
-    }
+    $router: RouterInfo
 
     $preloadData: any
 
@@ -3224,6 +3272,36 @@ declare namespace Taro {
   function createCameraContext(instance?: any): CameraContext
 
   namespace CameraContext {
+    namespace onCameraFrame {
+      type CallbackParam = {
+        /**
+         * 图像数据矩形的宽度
+         */
+        width: number
+        /**
+         * 图像数据矩形的高度
+         */
+        height: number
+        /**
+         * 图像像素点数据，一维数组，每四项表示一个像素点的 rgba
+         */
+        data: ArrayBuffer
+      }
+      type Callback = (res: CallbackParam) => any
+      /**
+       * CameraContext.onCameraFrame() 返回的监听器。
+       */
+      class CameraFrameListener {
+        /**
+         * 开始监听帧数据
+         */
+        start(): any
+        /**
+         * 停止监听帧数据
+         */
+        stop(): any
+      }
+    }
     namespace takePhoto {
       type Param = {
         /**
@@ -3322,6 +3400,11 @@ declare namespace Taro {
     }
   }
   class CameraContext {
+    /**
+     * @since 2.7.0
+     * 获取 Camera 实时帧数据
+     */
+    onCameraFrame(callback: CameraContext.onCameraFrame.Callback): CameraContext.onCameraFrame.CameraFrameListener
     /**
      * 拍照，可指定质量，成功则返回图片
      */
@@ -10269,6 +10352,12 @@ declare namespace Taro {
    */
   function setEnableDebug(OBJECT: setEnableDebug.Param): Promise<setEnableDebug.Promised>
 
+  /**
+   * @since 10.1.35
+   * 此接口可获取支付宝会员的基础信息
+   */
+  function getOpenUserInfo(): Promise<string>
+
   interface OffscreenCanvas {
     /**
      *
@@ -12316,4 +12405,103 @@ declare namespace Taro {
 
     function database(config?: ICloudConfig): DB.Database
   }
+
+  interface OnDeviceMotionChangeCallbackResult {
+    /** 当 手机坐标 X/Y 和 地球 X/Y 重合时，绕着 Z 轴转动的夹角为 alpha，范围值为 [0, 2*PI)。逆时针转动为正。 */
+    alpha: number
+    /** 当手机坐标 Y/Z 和地球 Y/Z 重合时，绕着 X 轴转动的夹角为 beta。范围值为 [-1*PI, PI) 。顶部朝着地球表面转动为正。也有可能朝着用户为正。 */
+    beta: number
+    /** 当手机 X/Z 和地球 X/Z 重合时，绕着 Y 轴转动的夹角为 gamma。范围值为 [-1*PI/2, PI/2)。右边朝着地球表面转动为正。 */
+    gamma: number
+  }
+
+  /** 设备方向变化事件的回调函数 */
+  type OnDeviceMotionChangeCallback = (
+    result: OnDeviceMotionChangeCallbackResult,
+  ) => void
+
+  /** [wx.onDeviceMotionChange(function callback)](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.onDeviceMotionChange.html)
+   *
+   * 监听设备方向变化事件。频率根据 [wx.startDeviceMotionListening()](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.startDeviceMotionListening.html) 的 interval 参数。可以使用 [wx.stopDeviceMotionListening()](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.stopDeviceMotionListening.html) 停止监听。
+   *
+   * 最低基础库： `2.3.0`
+   */
+  function onDeviceMotionChange(
+    /** 设备方向变化事件的回调函数 */
+    callback: OnDeviceMotionChangeCallback
+  ): void
+
+  interface GeneralCallbackResult {
+    errMsg: string
+}
+
+  type StartDeviceMotionListeningCompleteCallback = (
+    res: GeneralCallbackResult,
+  ) => void
+  /** 接口调用失败的回调函数 */
+  type StartDeviceMotionListeningFailCallback = (
+      res: GeneralCallbackResult,
+  ) => void
+  /** 接口调用成功的回调函数 */
+  type StartDeviceMotionListeningSuccessCallback = (
+      res: GeneralCallbackResult,
+  ) => void
+
+  interface StartDeviceMotionListeningOption {
+    /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+    complete?: StartDeviceMotionListeningCompleteCallback
+    /** 接口调用失败的回调函数 */
+    fail?: StartDeviceMotionListeningFailCallback
+    /** 监听设备方向的变化回调函数的执行频率
+     *
+     * 可选值：
+     * - 'game': 适用于更新游戏的回调频率，在 20ms/次 左右;
+     * - 'ui': 适用于更新 UI 的回调频率，在 60ms/次 左右;
+     * - 'normal': 普通的回调频率，在 200ms/次 左右; */
+    interval?: 'game' | 'ui' | 'normal'
+    /** 接口调用成功的回调函数 */
+    success?: StartDeviceMotionListeningSuccessCallback
+  }
+
+  /** [wx.startDeviceMotionListening(Object object)](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.startDeviceMotionListening.html)
+   *
+   * 开始监听设备方向的变化。
+   *
+   * 最低基础库： `2.3.0`
+   */
+  function startDeviceMotionListening(
+      option: StartDeviceMotionListeningOption,
+  ): void
+
+  /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+  type StopDeviceMotionListeningCompleteCallback = (
+    res: GeneralCallbackResult,
+  ) => void
+  /** 接口调用失败的回调函数 */
+  type StopDeviceMotionListeningFailCallback = (
+      res: GeneralCallbackResult,
+  ) => void
+  /** 接口调用成功的回调函数 */
+  type StopDeviceMotionListeningSuccessCallback = (
+      res: GeneralCallbackResult,
+  ) => void
+
+  interface StopDeviceMotionListeningOption {
+    /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+    complete?: StopDeviceMotionListeningCompleteCallback
+    /** 接口调用失败的回调函数 */
+    fail?: StopDeviceMotionListeningFailCallback
+    /** 接口调用成功的回调函数 */
+    success?: StopDeviceMotionListeningSuccessCallback
+}
+
+  /** [wx.stopDeviceMotionListening(Object object)](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.stopDeviceMotionListening.html)
+   *
+   * 停止监听设备方向的变化。
+   *
+   * 最低基础库： `2.3.0`
+   */
+  function stopDeviceMotionListening(
+    option?: StopDeviceMotionListeningOption,
+  ): void
 }

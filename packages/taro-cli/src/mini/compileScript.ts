@@ -8,7 +8,8 @@ import {
   isDifferentArray,
   copyFileSync,
   getBabelConfig,
-  uglifyJS
+  uglifyJS,
+  extnameExpRegOf
 } from '../util'
 import {
   BUILD_TYPES,
@@ -54,9 +55,9 @@ export function compileDepScripts (scriptFiles: string[], needUseBabel?: boolean
     if (path.isAbsolute(item)) {
       let outputItem
       if (NODE_MODULES_REG.test(item)) {
-        outputItem = item.replace(nodeModulesPath, npmOutputDir).replace(path.extname(item), '.js')
+        outputItem = item.replace(nodeModulesPath, npmOutputDir).replace(extnameExpRegOf(item), '.js')
       } else {
-        outputItem = item.replace(path.join(sourceDir), path.join(outputDir)).replace(path.extname(item), '.js')
+        outputItem = item.replace(path.join(sourceDir), path.join(outputDir)).replace(extnameExpRegOf(item), '.js')
       }
       const weappConf = Object.assign({}, projectConfig.weapp)
       const useCompileConf = Object.assign({}, weappConf.compile)

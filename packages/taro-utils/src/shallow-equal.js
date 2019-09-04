@@ -7,6 +7,10 @@ const objectIs = Object.is || function (x, y) {
 }
 
 export default function shallowEqual (obj1, obj2) {
+  if (typeof obj1 !== 'object' && typeof obj2 !== 'object') {
+    return obj1 === obj2
+  }
+
   if (obj1 === null && obj2 === null) {
     return true
   }

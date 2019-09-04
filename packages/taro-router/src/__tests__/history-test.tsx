@@ -19,7 +19,7 @@ beforeEach(() => {
       '/about': '/pages/about/about'
     }
   })
-  mountApis(history)
+  mountApis({ customRoutes: {}, basename: '', currentPagename: 'pages/index/index' }, history)
   navigateTo = Taro.navigateTo
   navigateBack = Taro.navigateBack
   redirectTo = Taro.redirectTo

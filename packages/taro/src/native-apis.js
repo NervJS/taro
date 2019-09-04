@@ -19,6 +19,7 @@ const onAndSyncApis = {
   onHCEMessage: true,
   onGetWifiList: true,
   onWifiConnected: true,
+  onDeviceMotionChange: true,
   setStorageSync: true,
   getStorageSync: true,
   getStorageInfoSync: true,
@@ -44,7 +45,7 @@ const onAndSyncApis = {
   offAppShow: true,
   offAppHide: true,
   onAudioInterruptionEnd: true,
-  onAudioInterruptionBegin: true,
+  onAudioInterruptionBegin: true
 }
 const noPromiseApis = {
   // 媒体
@@ -198,6 +199,8 @@ const otherApis = {
   getWifiList: true,
   setWifiList: true,
   getConnectedWifi: true,
+  startDeviceMotionListening: true,
+  stopDeviceMotionListening: true,
 
   // 界面
   pageScrollTo: true,
@@ -256,6 +259,8 @@ const otherApis = {
   checkIsSoterEnrolledInDevice: true,
 
   setEnableDebug: true,
+  // 支付宝小程序API
+  getOpenUserInfo: true,
 
   // 百度小程序专有 API
   // 百度小程序 AI 相关

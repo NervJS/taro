@@ -14,7 +14,8 @@ import {
 } from '../util/constants'
 import {
   printLog,
-  checksum
+  checksum,
+  extnameExpRegOf
 } from '../util'
 
 import { initCompileStyles, compileDepStyles } from './compileStyle'
@@ -146,7 +147,7 @@ export function watchFiles () {
         })
         if (includeStyleJSPath.length) {
           includeStyleJSPath.forEach(async item => {
-            let outputWXSSPath = item.filePath.replace(path.extname(item.filePath), outputFilesTypes.STYLE)
+            let outputWXSSPath = item.filePath.replace(extnameExpRegOf(item.filePath), outputFilesTypes.STYLE)
             let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
             modifySource = modifySource.split(path.sep).join('/')
             printLog(processTypeEnum.MODIFY, '样式文件', modifySource)
@@ -170,7 +171,7 @@ export function watchFiles () {
             printLog(processTypeEnum.GENERATE, '样式文件', modifyOutput)
           })
         } else {
-          let outputWXSSPath = filePath.replace(path.extname(filePath), outputFilesTypes.STYLE)
+          let outputWXSSPath = filePath.replace(extnameExpRegOf(filePath), outputFilesTypes.STYLE)
           let modifySource = outputWXSSPath.replace(appPath + path.sep, '')
           modifySource = modifySource.split(path.sep).join('/')
           printLog(processTypeEnum.MODIFY, '样式文件', modifySource)
