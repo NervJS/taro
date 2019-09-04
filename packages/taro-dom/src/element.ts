@@ -13,8 +13,11 @@ interface Attributes {
 export class MpElement extends MpNode {
   private props: Record<string, string> = {}
 
+  public tagName: string
+
   public constructor (nodeType: NodeType, nodeName: string) {
-    super(nodeType || 1, nodeName)
+    super(nodeType || NodeType.ELEMENT_NODE, nodeName)
+    this.tagName = nodeName.toUpperCase()
   }
 
   public get className () {

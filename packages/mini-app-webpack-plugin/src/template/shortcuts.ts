@@ -2,8 +2,9 @@
 export const enum Shortcuts {
   Container = 'container',
   Childnodes = 'childnodes',
-  Text = 'text',
+  Text = 'nodeValue',
   NodeType = 'nodeType',
+  PlainText = '#text',
 
   // Attrtibutes
   Style = 'style',
