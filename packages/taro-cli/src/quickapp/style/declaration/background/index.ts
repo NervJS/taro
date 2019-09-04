@@ -2,8 +2,8 @@ export default {
   'background': (value, declaration, addDeclaration) => {
     if (~value.indexOf('linear-gradient')) { // 线性
       // 按照指定方向渐变时，必须有to在direction前。
-      var DIR_REG = /linear\-gradient\((top|right|bottom|left)/
-      var ret = value.match(DIR_REG)
+      const DIR_REG = /linear\-gradient\((top|right|bottom|left)/
+      const ret = value.match(DIR_REG)
       if (ret) {
         declaration.value = value.replace(DIR_REG, 'linear-gradient(to ' + ret[1])
       }

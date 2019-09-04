@@ -1,7 +1,7 @@
 function valueType (value) {
   const styles = ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset']
   // 需要考虑到0px简写为0的情况，否则会当作color处理。
-  if (/px/ig.test(value) || parseInt(value) === 0 || value === 'none') {
+  if (/px/ig.test(value) || parseInt(value, 10) === 0 || value === 'none') {
     return 'width'
   } else if (~styles.indexOf(value)) {
     return 'style'
@@ -29,15 +29,14 @@ function setStyle (direction, value, addDeclaration) {
 function setWidth (value, declaration) {
   const styles = ['thin', 'medium', 'thick', 'inherit']
   const values = ['1px', '2px', '3px', '1px']
-  var valueList = value.split(' ')
+  const valueList = value.split(' ')
   value = valueList[0]
   if (~styles.indexOf(value)) {
     const index = styles.indexOf(value)
-    console.log(index)
     value = values[index]
   }
   if (~value.indexOf('%')) {
-    value = 750 / 100 * parseInt(value) + 'px'
+    value = 750 / 100 * parseInt(value, 10) + 'px'
   }
   declaration.value = value
 }
@@ -60,7 +59,7 @@ export default {
     }
     if (~value.indexOf('%')) {
       // 其实应当按照当前组件的宽高为基准计算，但这里拿不到，暂时这样处理下。
-      value = 750 / 100 * parseInt(value) + 'px'
+      value = 750 / 100 * parseInt(value, 10) + 'px'
       declaration.value = value
     }
   },

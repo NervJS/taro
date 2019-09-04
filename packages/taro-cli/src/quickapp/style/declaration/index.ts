@@ -1,10 +1,6 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
-import {
-  processDeclarationValue
-} from '../util'
-
 export const declarations = {}
 parse('.')
 
@@ -39,12 +35,11 @@ export default function rewriter (declaration, rule, output) {
   if (declaration.property.indexOf('-webkit-') === 0) {
     declaration.property = declaration.property.replace('-webkit-', '')
   }
-  declaration.value = processDeclarationValue(declaration.value)
 
   if (declarations.hasOwnProperty(declaration.property)) {
     let processDeclaration = declarations[declaration.property]
     if (typeof processDeclaration === 'function') {
-      //将样式名作为函数名处理样式值
+      // 将样式名作为函数名处理样式值
       processDeclaration = processDeclaration(declaration.value, declaration, function (property, value) {
         output.declaration.inserted.push({
           property,

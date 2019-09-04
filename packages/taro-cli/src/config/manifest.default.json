@@ -25,6 +25,7 @@
     { "name": "system.contact" },
     { "name": "system.sms" }
   ],
+  "icon": "logo.png",
   "permissions": [
     { "origin": "*" }
   ],

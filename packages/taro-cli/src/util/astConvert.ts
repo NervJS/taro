@@ -5,7 +5,7 @@ import babylonConfig from '../config/babylon'
 
 const template = require('babel-template')
 
-export function convertObjectToAstExpression (obj: object): t.ObjectProperty[] {
+export function convertObjectToAstExpression (obj: Record<string, any>): t.ObjectProperty[] {
   const objArr = Object.keys(obj).map(key => {
     const value = obj[key]
     if (typeof value === 'string') {

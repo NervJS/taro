@@ -31,11 +31,6 @@ const processDeclarationValueUnit = v => {
   const lowerCaseV = v.toLowerCase()
   if (~lowerCaseV.indexOf('rpx')) {
     return lowerCaseV.replace('rpx', 'px')
-  } else if (~lowerCaseV.indexOf('px')) {
-    const numberV = parseFloat(lowerCaseV)
-    if (!isNaN(numberV)) {
-      return v.replace(numberV, numberV * 2)
-    }
   } else if (~lowerCaseV.indexOf('em')) {
     const numberV = parseFloat(lowerCaseV)
     if (!isNaN(numberV)) {

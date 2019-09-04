@@ -72,7 +72,8 @@ interface ITaroizeOptions {
   json?: string,
   script?: string,
   wxml?: string,
-  path?: string
+  path?: string,
+  rootPath?: string
 }
 
 export default class Convertor {
@@ -220,7 +221,7 @@ export default class Convertor {
               const node = astPath.node
               const source = node.source
               const value = source.value
-              analyzeImportUrl(sourceFilePath, scriptFiles, source, value)
+              analyzeImportUrl(self.root, sourceFilePath, scriptFiles, source, value)
             },
             CallExpression (astPath) {
               const node = astPath.node
@@ -230,7 +231,7 @@ export default class Convertor {
                 if (callee.name === 'require') {
                   const args = node.arguments as Array<t.StringLiteral>
                   const value = args[0].value
-                  analyzeImportUrl(sourceFilePath, scriptFiles, args[0], value)
+                  analyzeImportUrl(self.root, sourceFilePath, scriptFiles, args[0], value)
                 } else if (WX_GLOBAL_FN.has(callee.name)) {
                   calleePath.replaceWith(
                     t.memberExpression(t.identifier('Taro'), callee as t.Identifier)
@@ -444,7 +445,8 @@ export default class Convertor {
       const taroizeResult = taroize({
         json: entryJSON,
         script: entryJS,
-        path: path.dirname(this.entryJSPath)
+        path: this.root,
+        rootPath: this.root
       })
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
@@ -549,6 +551,7 @@ export default class Convertor {
           pageStyle = String(fs.readFileSync(pageStylePath))
         }
         param.path = path.dirname(pageJSPath)
+        param.rootPath = this.root
         const taroizeResult = taroize(param)
         const { ast, scriptFiles } = this.parseAst({
           ast: taroizeResult.ast,
@@ -627,6 +630,7 @@ export default class Convertor {
           componentStyle = String(fs.readFileSync(componentStylePath))
         }
         param.path = path.dirname(componentJSPath)
+        param.rootPath = this.root
         const taroizeResult = taroize(param)
         const { ast, scriptFiles } = this.parseAst({
           ast: taroizeResult.ast,
