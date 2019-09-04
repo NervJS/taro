@@ -86,7 +86,7 @@ export default class Builder {
         })
         break
       default:
-        console.log(chalk.red('输入类型错误，目前只支持 weapp/swan/alipay/tt/h5/quickapp/rn 七端类型'))
+        console.log(chalk.red('输入类型错误，目前只支持 weapp/swan/alipay/tt/qq/h5/quickapp/rn 八端类型'))
     }
   }
 
