@@ -8,7 +8,7 @@ export interface Option {
   [key: string]: any;
 };
 
-type TogglableOptions<T = Option> = {
+export type TogglableOptions<T = Option> = {
   enable?: boolean;
   config?: T;
 }
@@ -108,5 +108,6 @@ export interface TaroBaseConfig {
 
 export interface BuildConfig extends TaroBaseConfig, TaroH5Config {
   isWatch: boolean;
-  port?: number
+  port?: number;
+  homePage?: [string, string]
 };

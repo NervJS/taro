@@ -13,6 +13,18 @@ import { addLeadingSlash, addTrailingSlash, recursiveMerge } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
 
+const stripTrailingSlash = (path: string): string =>
+  path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
+
+const stripLeadingSlash = (path: string): string =>
+  path.charAt(0) === '/' ? path.substr(1) : path
+
+const addHtmlExtname = (str: string) => {
+  return /\.html\b/.test(str)
+    ? str
+    : `${str}.html`
+}
+
 const customizeChain = (chain, customizeFunc: Function) => {
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack)
@@ -48,15 +60,19 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const outputPath = path.join(appPath, conf.outputRoot as string)
   const customDevServerOption = config.devServer || {}
   const webpackChain = devConf(appPath, config)
+  const homePage = config.homePage || []
 
   customizeChain(webpackChain, config.webpackChain)
 
-  const devServerOptions = recursiveMerge(
+  const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
     {
       publicPath,
       contentBase: outputPath,
       historyApiFallback: {
-        index: publicPath
+        rewrites: [{
+          from: /./,
+          to: publicPath
+        }]
       }
     },
     baseDevServerOption,
@@ -64,17 +80,29 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   )
 
   const originalPort = devServerOptions.port
-  const availablePort = await detectPort(devServerOptions.port)
+  const availablePort = await detectPort(originalPort)
 
   if (availablePort !== originalPort) {
-    console.log(`端口 ${originalPort} 被占用, 自动切换到空闲端口 ${availablePort}`)
+    console.log()
+    console.log(`预览端口 ${originalPort} 被占用, 自动切换到空闲端口 ${availablePort}`)
+    devServerOptions.port = availablePort
+  }
+
+  let pathname
+
+  if (routerMode === 'multi') {
+    pathname = `${stripTrailingSlash(routerBasename)}/${addHtmlExtname(stripLeadingSlash(homePage[1] || ''))}`
+  } else if (routerMode === 'browser') {
+    pathname = routerBasename
+  } else {
+    pathname = '/'
   }
 
   const devUrl = formatUrl({
     protocol: devServerOptions.https ? 'https' : 'http',
     hostname: devServerOptions.host,
-    port: availablePort,
-    pathname: routerMode === 'browser' ? routerBasename : '/'
+    port: devServerOptions.port,
+    pathname
   })
 
   const webpackConfig = webpackChain.toConfig()
@@ -84,7 +112,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const server = new WebpackDevServer(compiler, devServerOptions)
 
   return new Promise((resolve, reject) => {
-    server.listen(availablePort, devServerOptions.disableHostCheck ? '0.0.0.0' : (devServerOptions.host as string), err => {
+    server.listen(devServerOptions.port, (devServerOptions.host as string), err => {
       if (err) {
         reject()
         return console.log(err)

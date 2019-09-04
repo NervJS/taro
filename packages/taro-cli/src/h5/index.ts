@@ -205,6 +205,7 @@ class Compiler {
     recursiveMerge(h5Config, {
       alias: pathAlias,
       copy: projectConfig.copy,
+      homePage: first(this.pages),
       defineConstants: projectConfig.defineConstants,
       designWidth: projectConfig.designWidth,
       entry: merge(defaultEntry, h5Config.entry),
