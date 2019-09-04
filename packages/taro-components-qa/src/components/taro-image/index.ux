@@ -38,7 +38,7 @@
         required: false,
         default: {}
       },
-      model: {
+      mode: {
         type: String,
         required: false,
         default: 'scaleToFill'
@@ -52,7 +52,7 @@
 
     onInit () {
       let imageStyle = {}
-      switch (this.model) {
+      switch (this.mode) {
         case 'scaleToFill':
           this.imageStyle['object-fit'] = 'fill';
           break;

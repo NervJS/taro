@@ -938,10 +938,13 @@
         "title": "CONTRIBUTING"
       },
       "css-modules": {
-        "title": "CSS Modules 的使用"
+        "title": "使用 CSS Modules"
       },
       "debug": {
         "title": "Debug 指南"
+      },
+      "envs-debug": {
+        "title": "多端同步调试"
       },
       "envs": {
         "title": "跨平台开发"
@@ -2063,17 +2066,38 @@
       },
       "version-1.3.14/version-1.3.14-wxcloud": {
         "title": "小程序云开发模板"
+      },
+      "version-1.3.15/components/open/version-1.3.15-ad": {
+        "title": "Ad",
+        "sidebar_label": "Ad"
+      },
+      "version-1.3.15/components/open/version-1.3.15-official-account": {
+        "title": "OfficialAccount",
+        "sidebar_label": "OfficialAccount"
+      },
+      "version-1.3.15/components/open/version-1.3.15-open-data": {
+        "title": "OpenData",
+        "sidebar_label": "OpenData"
+      },
+      "version-1.3.15/components/open/version-1.3.15-others": {
+        "title": "其他",
+        "sidebar_label": "其他"
+      },
+      "version-1.3.15/version-1.3.15-GETTING-STARTED": {
+        "title": "安装及使用"
+      },
+      "version-1.3.15/version-1.3.15-size": {
+        "title": "设计稿及尺寸单位"
       }
     },
     "links": {
       "文档": "文档",
       "组件库": "组件库",
       "API": "API",
-      "GitHub": "GitHub",
-      "|": "|",
       "Taro-UI": "Taro-UI",
       "物料市场": "物料市场",
-      "论坛": "论坛"
+      "论坛": "论坛",
+      "GitHub": "GitHub"
     },
     "categories": {
       "关于Taro": "关于Taro",

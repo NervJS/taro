@@ -15,6 +15,7 @@
       "spec-for-taro",
       "tutorial",
       "project-config",
+      "best-practice",
       "router",
       "size",
       "static-reference",
@@ -36,20 +37,20 @@
           "ref"
         ]
       },
-      "best-practice",
-      "debug",
       {
         "label": "多端开发",
         "type": "subcategory",
         "ids": [
           "envs",
+          "envs-debug",
           "relations",
           "wxcloud",
           "miniprogram-plugin",
           "quick-app",
           "react-native"
         ]
-      }
+      },
+      "debug"
     ],
     "进阶指南": [
       "config",

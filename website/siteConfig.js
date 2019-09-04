@@ -42,12 +42,11 @@ const siteConfig = {
     {doc: 'README', label: '文档'},
     {doc: 'components-desc', label: '组件库'},
     {doc: 'apis/about/desc', label: 'API'},
-    {href: 'https://github.com/NervJS/taro', label: 'GitHub'},
-    {doc: '', label: '|'},
+    {search: true},
     {href: 'https://taro-ui.jd.com', label: 'Taro-UI'},
     {href: 'https://taro-ext.jd.com', label: '物料市场'},
     {href: 'https://taro-club.jd.com', label: '论坛'},
-    {search: true}
+    {href: 'https://github.com/NervJS/taro', label: 'GitHub'}
   ],
 
   algolia: {
@@ -65,7 +64,7 @@ const siteConfig = {
 
   /* colors for website */
   colors: {
-    primaryColor: 'rgb(40, 43, 46)',
+    primaryColor: '#0000c2',
     secondaryColor: '#4a72ea'
   },
 
@@ -86,7 +85,8 @@ const siteConfig = {
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
-    theme: 'tomorrow-night'
+    // theme: 'tomorrow-night',
+    theme: 'Vs'
   },
 
   usePrism: true,

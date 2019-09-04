@@ -14,16 +14,53 @@ import {
   REG_TYPESCRIPT
 } from '../util/constants'
 
+function getRelativePath (
+  rootPath: string,
+  sourceFilePath: string,
+  oriPath: string,
+) {
+  //处理以/开头的绝对路径，比如 /a/b
+  if (path.isAbsolute(oriPath)) {
+    if (oriPath.indexOf('/') !== 0) {
+      return ''
+    }
+    const vpath = path.resolve(rootPath, oriPath.substr(1))
+    if (!fs.existsSync(vpath)) {
+      return ''
+    }
+    let relativePath = path.relative(path.dirname(sourceFilePath), vpath)
+    relativePath = promoteRelativePath(relativePath)
+    if (relativePath.indexOf('.') !== 0) {
+      return './' + relativePath
+    }
+    return relativePath
+  }
+  //处理非正常路径，比如 a/b
+  if (oriPath.indexOf('.') !== 0) {
+    const vpath = path.resolve(sourceFilePath, '..', oriPath)
+    if (fs.existsSync(vpath)) {
+      return './' + oriPath
+    }
+  }
+  return oriPath
+}
+
 export function analyzeImportUrl (
+  rootPath: string,
   sourceFilePath: string,
   scriptFiles: Set<string>,
   source: t.StringLiteral,
   value: string
 ) {
   const valueExtname = path.extname(value)
-  if (path.isAbsolute(value)) {
-    printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 是绝对路径！`)
+  const rpath = getRelativePath(rootPath, sourceFilePath, value)
+  if (!rpath) {
+    printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
     return
+  }
+  if (rpath !== value) {
+    value = rpath
+    source.value = rpath
   }
   if (value.indexOf('.') === 0) {
     if (REG_SCRIPT.test(valueExtname) || REG_TYPESCRIPT.test(valueExtname)) {
@@ -63,4 +100,9 @@ export function analyzeImportUrl (
       }
     }
   }
+}
+
+export const incrementId = () => {
+  let n = 0
+  return () => (n++).toString()
 }
