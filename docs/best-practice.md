@@ -242,16 +242,17 @@ if (process.env.NODE_ENV === 'development') {
 
 ```js
 // 小程序组件常规 props 传递
-<Plugin title="{{name}}" desc="{{desc}}" />
+<plugin title="{{name}}" desc="{{desc}}" bindonclick="onClick"></plugin>
 
 // 原生小程序组件调用 Taro 组件时需要改造成以下形式：
 this.setData({
   extraProps: {
     name,
-    desc
+    desc,
+    onClick: this.onClick
   }
 })
-<Plugin extraProps="{{extraProps}}" />
+<plugin extraProps="{{extraProps}}" ></plugin>
 ```
 
 ## 全局变量
