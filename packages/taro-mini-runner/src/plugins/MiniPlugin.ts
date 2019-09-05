@@ -60,6 +60,7 @@ export const Targets = {
   [BUILD_TYPES.SWAN]: createTarget(BUILD_TYPES.SWAN),
   [BUILD_TYPES.TT]: createTarget(BUILD_TYPES.TT),
   [BUILD_TYPES.QQ]: createTarget(BUILD_TYPES.QQ),
+  [BUILD_TYPES.QUICKAPP]: createTarget(BUILD_TYPES.QUICKAPP)
 }
 
 export function isFileToBeTaroComponent (
