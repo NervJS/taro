@@ -28,6 +28,8 @@ const template = require('babel-template')
 
 const cannotRemoves = ['@tarojs/taro', 'react', 'nervjs']
 
+const NON_WEBPACK_REQUIRE = '__non_webpack_require__'
+
 function processAst (
   ast: t.File,
   buildAdapter: BUILD_TYPES,
@@ -173,10 +175,31 @@ function processAst (
       const source = node.source
       let value = source.value
       const specifiers = node.specifiers
+      if (isQuickApp && isQuickAppPkg(value)) {
+        let defaultSpecifier: string = 'LOCAL'
+        specifiers.forEach(item => {
+          if (item.type === 'ImportDefaultSpecifier') {
+            defaultSpecifier = item.local.name
+          }
+        })
+        astPath.replaceWith(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(
+              t.identifier(defaultSpecifier),
+              t.callExpression(
+                t.identifier(NON_WEBPACK_REQUIRE),[
+                  t.stringLiteral(value)
+                ]
+              )
+            )
+          ])
+        )
+        return
+      }
       if (NODE_MODULES_REG.test(sourceFilePath) && sourceFilePath.indexOf(taroMiniAppFramework) >= 0) {
         return
       }
-      if (isNpmPkg(value) && !isQuickAppPkg(value)) {
+      if (isNpmPkg(value)) {
         if (value === taroJsComponents) {
           if (isQuickApp) {
             specifiers.forEach(specifier => {
@@ -227,10 +250,14 @@ function processAst (
         const args = node.arguments as t.StringLiteral[]
         let value = args[0].value
         const parentNode = astPath.parentPath.parentPath.node as t.VariableDeclaration
+        if (isQuickApp && isQuickAppPkg(value)) {
+          callee.name = NON_WEBPACK_REQUIRE
+          return
+        }
         if (NODE_MODULES_REG.test(sourceFilePath) && sourceFilePath.indexOf(taroMiniAppFramework) >= 0) {
           return
         }
-        if (isNpmPkg(value) && !isQuickAppPkg(value)) {
+        if (isNpmPkg(value)) {
           if (value === taroJsComponents) {
             if (isQuickApp) {
               if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
