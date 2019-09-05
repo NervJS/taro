@@ -125,9 +125,9 @@ class Swiper extends Nerv.Component {
       // 判断是否需要停止或开始自动轮播
       if (this.mySwiper.autoplay.running !== nextProps.autoplay) {
         if (nextProps.autoplay) {
-          this.mySwiper.autoplay.start();
+          this.mySwiper.autoplay.start()
         } else {
-          this.mySwiper.autoplay.stop();
+          this.mySwiper.autoplay.stop()
         }
       }
 
