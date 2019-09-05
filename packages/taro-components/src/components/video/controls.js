@@ -53,7 +53,7 @@ class Controls extends Component {
     this.currentTimeRef.innerHTML = formatTime(time)
   }
   setProgressBall (percentage) {
-    this.progressBallRef.style.left = `${percentage * 100}%`
+    if(this.progressBallRef) this.progressBallRef.style.left = `${percentage * 100}%`
   }
 
   toggleVisibility (nextVisible) {
