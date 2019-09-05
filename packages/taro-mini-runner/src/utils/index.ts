@@ -18,7 +18,7 @@ export function isNpmPkg (name: string): boolean {
 }
 
 export function isQuickAppPkg (name: string): boolean {
-  return /@system\./.test(name)
+  return /^@(system|service)\.[a-zA-Z]{1,}/.test(name)
 }
 
 export function isEmptyObject (obj: any): boolean {
