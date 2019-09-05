@@ -247,7 +247,7 @@ export function getRealComponentsPathList (
     }
     if (isNpmPkg(componentPath as string)) {
       try {
-        componentPath = resolveNpmPkgMainPath(componentPath as string, isProduction, npmConfig, buildAdapter, appPath)
+        componentPath = resolveNpmPkgMainPath(componentPath as string, isProduction, npmConfig, buildAdapter, appPath).main
       } catch (err) {
         console.log(err)
       }
