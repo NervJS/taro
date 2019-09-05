@@ -189,7 +189,7 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
         if (!isNpmPkg(pluginName)) { // local plugin
           pluginName = path.join(appPath, pluginName)
         }
-        processors.push(require(resolveNpmPkgMainPath(pluginName, isProduction, npmConfig, buildAdapter, appPath))(pluginConf.config || {}))
+        processors.push(require(resolveNpmPkgMainPath(pluginName, isProduction, npmConfig, buildAdapter, appPath).main)(pluginConf.config || {}))
       }
     }
   })
@@ -297,7 +297,7 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
             resContent = transformStyle
           }
         }
-        
+
         fs.ensureDirSync(path.dirname(outputFilePath))
         fs.writeFileSync(outputFilePath, resContent)
       })

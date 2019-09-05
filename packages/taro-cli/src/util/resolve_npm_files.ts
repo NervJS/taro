@@ -45,7 +45,13 @@ const resolvedCache: IResolvedCache = {}
 const copyedFiles = {}
 const excludeReplaceTaroFrameworkPkgs = new Set([taroJsRedux, taroJsMobx, taroJsMobxCommon])
 
-export function resolveNpmPkgMainPath (
+const nodeLibMaps = { // 替换node库
+  'crypto': 'crypto-browserify',
+  'stream': 'stream-browserify',
+  'vm': 'vm-browserify'
+}
+const nodeFileMaps = {} // 映射的lib文件
+export function resolveNpmPkgMainPath(
   pkgName: string,
   isProduction: boolean,
   npmConfig: INpmConfig,
@@ -53,9 +59,56 @@ export function resolveNpmPkgMainPath (
   root: string
 ) {
   try {
-    return resolvePath.sync(pkgName, { basedir: root })
+    if (nodeLibMaps[pkgName]) {
+      pkgName = nodeLibMaps[pkgName]
+    }
+    let rPkgName = pkgName
+    if (pkgName.indexOf('/') === -1) {
+      rPkgName += '/' // 强制使用node_modules下的库
+    }
+    const res = {
+      main: '',
+      alias: {}
+    }
+    res.main = resolvePath.sync(rPkgName, {
+      basedir: root,
+      packageFilter: (pkg, pkgDir) => { // 支持browser入口
+        if (pkg.browser) {
+          if (typeof pkg.browser === 'string') {
+            pkg.main = pkg.browser;
+            delete pkg.browser;
+          } else {
+            for (const bf in pkg.browser) {
+              const relativeBf = path.relative('.', bf)
+              const realBf = pkg.browser[bf]
+              if (relativeBf === 'index.js') {
+                pkg.main = realBf
+              } else {
+                const k = path.resolve(pkgDir, bf)
+                res.alias[k] = typeof realBf === 'string' ? path.resolve(pkgDir, pkg.browser[bf]) : realBf;
+                // TODO 'util': false 这种情况
+                nodeFileMaps[k] = res.alias[k]
+              }
+            }
+          }
+        }
+        return pkg;
+      }
+    })
+    // 替换main
+    const dirName = path.resolve(root, pkgName)
+    if (nodeFileMaps[dirName] === false) { // 表示忽略,使用taro替换
+      res.main = resolvePath.sync('@tarojs/taro', { basedir: root })
+    } else if (nodeFileMaps[res.main] != null) {
+      res.main = nodeFileMaps[res.main]
+    }
+    return res
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
+      if (resolvePath.isCore(pkgName)) {
+        console.log(`缺少node核心包${pkgName}，请手动修复！`)
+        return { main: '' }
+      }
       console.log(`缺少npm包${pkgName}，开始安装...`)
       const installOptions: IInstallOptions = {
         dev: false
@@ -64,25 +117,25 @@ export function resolveNpmPkgMainPath (
         installOptions.dev = true
       }
       npmProcess.installNpmPkg(pkgName, installOptions)
-      return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
+      return resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root).main
     }
   }
 }
 
-export function resolveNpmFilesPath ({
-  pkgName,
-  isProduction,
-  npmConfig,
-  buildAdapter,
-  root,
-  rootNpm,
-  npmOutputDir,
-  compileConfig = {},
-  env,
-  uglify,
-  babelConfig,
-  quickappManifest
-}: {
+export function resolveNpmFilesPath({
+                                      pkgName,
+                                      isProduction,
+                                      npmConfig,
+                                      buildAdapter,
+                                      root,
+                                      rootNpm,
+                                      npmOutputDir,
+                                      compileConfig = {},
+                                      env,
+                                      uglify,
+                                      babelConfig,
+                                      quickappManifest
+                                    }: {
   pkgName: string,
   isProduction: boolean,
   npmConfig: INpmConfig,
@@ -90,7 +143,7 @@ export function resolveNpmFilesPath ({
   root: string,
   rootNpm: string,
   npmOutputDir: string,
-  compileConfig: {[k: string]: any},
+  compileConfig: { [k: string]: any },
   env: object,
   uglify: TogglableOptions,
   babelConfig: object,
@@ -98,13 +151,12 @@ export function resolveNpmFilesPath ({
 }) {
   if (!resolvedCache[pkgName]) {
     const res = resolveNpmPkgMainPath(pkgName, isProduction, npmConfig, buildAdapter, root)
-    resolvedCache[pkgName] = {
-      main: res,
-      files: []
-    }
-    resolvedCache[pkgName].files.push(res)
+    res.files = []
+    resolvedCache[pkgName] = res
+    resolvedCache[pkgName].files.push(res.main)
+    compileConfig.alias = res.alias
     recursiveRequire({
-      filePath: res,
+      filePath: res.main,
       files: resolvedCache[pkgName].files,
       isProduction,
       npmConfig,
@@ -121,23 +173,23 @@ export function resolveNpmFilesPath ({
   return resolvedCache[pkgName]
 }
 
-function analyzeImportUrl ({
-  requirePath,
-  excludeRequire,
-  source,
-  filePath,
-  files,
-  isProduction,
-  npmConfig,
-  rootNpm,
-  npmOutputDir,
-  buildAdapter,
-  compileConfig = [],
-  env,
-  uglify,
-  babelConfig,
-  quickappManifest
-}: {
+function analyzeImportUrl({
+                            requirePath,
+                            excludeRequire,
+                            source,
+                            filePath,
+                            files,
+                            isProduction,
+                            npmConfig,
+                            rootNpm,
+                            npmOutputDir,
+                            buildAdapter,
+                            compileConfig = [],
+                            env,
+                            uglify,
+                            babelConfig,
+                            quickappManifest
+                          }: {
   requirePath: string,
   excludeRequire: string[],
   source: any,
@@ -148,7 +200,7 @@ function analyzeImportUrl ({
   rootNpm: string,
   npmOutputDir: string,
   buildAdapter: BUILD_TYPES,
-  compileConfig: {[k: string]: any},
+  compileConfig: { [k: string]: any },
   env: object,
   uglify: TogglableOptions,
   babelConfig: object,
@@ -164,7 +216,7 @@ function analyzeImportUrl ({
         const taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
         excludeReplaceTaroFrameworkPkgs.add(taroMiniAppFramework)
         if (requirePath === taroJsFramework
-            && (!NODE_MODULES_REG.test(filePath) || !Array.from(excludeReplaceTaroFrameworkPkgs).some(item => filePath.replace(/\\/g, '/').indexOf(item) >= 0))) {
+          && (!NODE_MODULES_REG.test(filePath) || !Array.from(excludeReplaceTaroFrameworkPkgs).some(item => filePath.replace(/\\/g, '/').indexOf(item) >= 0))) {
           requirePath = taroMiniAppFramework
         }
         const res = resolveNpmFilesPath({
@@ -190,14 +242,30 @@ function analyzeImportUrl ({
       }
     } else {
       let realRequirePath = path.resolve(path.dirname(filePath), requirePath)
+      const checkAlias = () => {
+        if (nodeFileMaps.hasOwnProperty(realRequirePath)) {
+          const toPath = nodeFileMaps[realRequirePath]
+          if (typeof toPath === 'string') {
+            realRequirePath = toPath
+            requirePath = './' + promoteRelativePath(path.relative(path.dirname(filePath), realRequirePath))
+          } else {
+            requirePath = '@tarojs/taro'
+            realRequirePath = path.resolve(rootNpm, '@tarojs/taro')
+          }
+        }
+        return realRequirePath
+      }
+
       const tempPathWithJS = `${realRequirePath}.js`
       const tempPathWithIndexJS = `${realRequirePath}${path.sep}index.js`
       if (fs.existsSync(tempPathWithJS)) {
         realRequirePath = tempPathWithJS
         requirePath += '.js'
+        checkAlias()
       } else if (fs.existsSync(tempPathWithIndexJS)) {
         realRequirePath = tempPathWithIndexJS
         requirePath += '/index.js'
+        checkAlias()
       }
       if (files.indexOf(realRequirePath) < 0) {
         files.push(realRequirePath)
@@ -221,21 +289,21 @@ function analyzeImportUrl ({
   }
 }
 
-function parseAst ({
-  ast,
-  filePath,
-  files,
-  isProduction,
-  npmConfig,
-  rootNpm,
-  npmOutputDir,
-  buildAdapter,
-  compileConfig = [],
-  env,
-  uglify,
-  babelConfig,
-  quickappManifest
-}: {
+function parseAst({
+                    ast,
+                    filePath,
+                    files,
+                    isProduction,
+                    npmConfig,
+                    rootNpm,
+                    npmOutputDir,
+                    buildAdapter,
+                    compileConfig = {},
+                    env,
+                    uglify,
+                    babelConfig,
+                    quickappManifest
+                  }: {
   ast: t.File,
   filePath: string,
   files: string[],
@@ -244,7 +312,7 @@ function parseAst ({
   rootNpm: string,
   npmOutputDir: string,
   buildAdapter: BUILD_TYPES,
-  compileConfig: {[k: string]: any},
+  compileConfig: { [k: string]: any },
   env: object,
   uglify: TogglableOptions,
   babelConfig: object,
@@ -253,9 +321,9 @@ function parseAst ({
   const excludeRequire: string[] = []
 
   traverse(ast, {
-    IfStatement (astPath) {
+    IfStatement(astPath) {
       astPath.traverse({
-        BinaryExpression (astPath) {
+        BinaryExpression(astPath) {
           const node = astPath.node
           const left = node.left
           const right = node.right
@@ -264,7 +332,7 @@ function parseAst ({
               (node.right as t.StringLiteral).value !== buildAdapter) {
               const consequentSibling = astPath.getSibling('consequent')
               consequentSibling.traverse({
-                CallExpression (astPath) {
+                CallExpression(astPath) {
                   if (astPath.get('callee').isIdentifier({ name: 'require' })) {
                     const arg = astPath.get('arguments')[0]
                     if (t.isStringLiteral(arg.node)) {
@@ -279,9 +347,9 @@ function parseAst ({
       })
     },
     Program: {
-      exit (astPath) {
+      exit(astPath) {
         astPath.traverse({
-          ImportDeclaration (astPath) {
+          ImportDeclaration(astPath) {
             const node = astPath.node
             const source = node.source
             const value = source.value
@@ -326,7 +394,7 @@ function parseAst ({
               quickappManifest
             })
           },
-          CallExpression (astPath) {
+          CallExpression(astPath) {
             const node = astPath.node
             const callee = node.callee as t.Identifier
             if (callee.name === 'require') {
@@ -373,20 +441,20 @@ function parseAst ({
   return generate(ast).code
 }
 
-async function recursiveRequire ({
-  filePath,
-  files,
-  isProduction,
-  npmConfig,
-  buildAdapter,
-  npmOutputDir,
-  rootNpm,
-  compileConfig = {},
-  env,
-  uglify,
-  babelConfig,
-  quickappManifest
-}: {
+async function recursiveRequire({
+                                  filePath,
+                                  files,
+                                  isProduction,
+                                  npmConfig,
+                                  buildAdapter,
+                                  npmOutputDir,
+                                  rootNpm,
+                                  compileConfig = {},
+                                  env,
+                                  uglify,
+                                  babelConfig,
+                                  quickappManifest
+                                }: {
   filePath: string,
   files: string[],
   isProduction: boolean,
@@ -394,7 +462,7 @@ async function recursiveRequire ({
   buildAdapter: BUILD_TYPES,
   rootNpm: string,
   npmOutputDir: string,
-  compileConfig: {[k: string]: any},
+  compileConfig: { [k: string]: any },
   env: object,
   uglify: TogglableOptions,
   babelConfig: object,
@@ -430,7 +498,7 @@ async function recursiveRequire ({
     try {
       const constantsReplaceList = Object.assign({
         'process.env.TARO_ENV': buildAdapter
-      }, generateEnvList(env || {}))
+      }, generateEnvList(env || {}), compileConfig.define)
       const transformResult = wxTransformer({
         code: fileContent,
         sourcePath: filePath,
@@ -506,7 +574,7 @@ async function recursiveRequire ({
   }
 }
 
-export function npmCodeHack (filePath: string, content: string, buildAdapter: BUILD_TYPES): string {
+export function npmCodeHack(filePath: string, content: string, buildAdapter: BUILD_TYPES): string {
   const basename = path.basename(filePath)
   switch (basename) {
     case 'lodash.js':
@@ -543,6 +611,6 @@ export function npmCodeHack (filePath: string, content: string, buildAdapter: BU
   return content
 }
 
-export function getResolvedCache (): IResolvedCache {
+export function getResolvedCache(): IResolvedCache {
   return resolvedCache
 }
