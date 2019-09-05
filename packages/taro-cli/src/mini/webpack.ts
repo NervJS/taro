@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra'
 
-import { IMiniAppBuildConfig } from '../util/types'
+import { IBuildOptions } from '../util/types'
 import { BUILD_TYPES } from '../util/constants'
 import * as npmProcess from '../util/npm'
 import { getBabelConfig } from '../util'
@@ -12,9 +12,9 @@ import {
   getBuildData
 } from './helper'
 
-export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig, builder: Builder) {
-  const buildData = setBuildData(appPath, adapter)
-  process.env.TARO_ENV = adapter
+export async function build (appPath: string, { watch, type = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IBuildOptions, builder: Builder) {
+  const buildData = setBuildData(appPath, type)
+  process.env.TARO_ENV = type
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)
   }
