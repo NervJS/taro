@@ -1,13 +1,13 @@
 // 字符串简写
 export const enum Shortcuts {
   Container = 'container',
-  Childnodes = 'childnodes',
+  Childnodes = 'cn',
   Text = 'nodeValue',
   NodeType = 'nodeType',
-  PlainText = '#text',
+  NodeName = 'nodeName',
 
   // Attrtibutes
   Style = 'style',
-  Class = 'class',
+  Class = 'cl',
   Src = 'src'
 }

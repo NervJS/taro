@@ -38,3 +38,5 @@ export function createDocument () {
 
   return doc
 }
+
+export const doc = createDocument()
