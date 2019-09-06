@@ -334,7 +334,7 @@ iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run �
 
 ![image](https://developer.apple.com/library/archive/documentation/ToolsLanguages/Conceptual/Xcode_Overview/Art/XC_O_SchemeMenuWithCallouts_2x.png)
 
-这里需要注意的是 jsBundle 的 moduleName，默认的 moduleName 为 "taro-demo"，需要和 `rn_temp/app.json` 里面的 name 字段保持一致。该配置在 `AppDelegate.m` 文件中。
+这里需要注意的是 jsBundle 的 moduleName，默认的 moduleName 为 "taroDemo"，需要和 `rn_temp/app.json` 里面的 name 字段保持一致。该配置在 `AppDelegate.m` 文件中。
 
 ```objc
 @implementation AppDelegate
@@ -346,7 +346,7 @@ iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run �
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"rn_temp/index" fallbackResource:nil];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"taro-demo"
+                                                      moduleName:@"taroDemo"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
