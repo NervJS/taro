@@ -195,11 +195,7 @@ export default function withWeapp (weappConf: WxOptions) {
       }
 
       setData = (obj: S, callback?: () => void) => {
-        const state = Object.assign({}, this.state)
-        Object.keys(obj).forEach(key => {
-          safeSet(state, key, obj[key])
-        })
-        this.setState(state, callback)
+        this.setState(obj, callback)
       }
 
       public triggerEvent = (eventName: string, ...args: unknown[]) => {
