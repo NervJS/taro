@@ -121,6 +121,7 @@ export default class MiniPlugin {
   components: Set<IComponent>
   sourceDir: string
   context: string
+  appConfig: IConfig
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -200,9 +201,11 @@ export default class MiniPlugin {
     ast: t.File,
     buildAdapter: BUILD_TYPES
   ): {
-    configObj: IConfig
+    configObj: IConfig,
+    hasEnablePageScroll: boolean
   } {
     let configObj = {}
+    let hasEnablePageScroll
     traverse(ast, {
       ClassDeclaration (astPath) {
         const node = astPath.node
@@ -242,6 +245,12 @@ export default class MiniPlugin {
           }
         }
       },
+      ClassMethod (astPath) {
+        const keyName = (astPath.get('key').node as t.Identifier).name
+        if (keyName === 'onPageScroll' || keyName === 'onReachBottom') {
+          hasEnablePageScroll = true
+        }
+      },
       ClassProperty (astPath) {
         const node = astPath.node
         const keyName = node.key.name
@@ -252,7 +261,8 @@ export default class MiniPlugin {
     })
 
     return {
-      configObj
+      configObj,
+      hasEnablePageScroll
     }
   }
 
@@ -412,6 +422,7 @@ export default class MiniPlugin {
     })
     const { configObj } = this.parseAst(transformResult.ast, buildAdapter)
     const appPages = configObj.pages
+    this.appConfig = configObj
     if (!appPages || appPages.length === 0) {
       throw new Error('缺少页面')
     }
@@ -439,6 +450,7 @@ export default class MiniPlugin {
 
   getComponents (fileList: Set<IComponent>, isRoot: boolean) {
     const { buildAdapter } = this.options
+    const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     fileList.forEach(file => {
       const isNative = file.isNative
       const isComponentConfig = isRoot ? {} : { component: true }
@@ -462,11 +474,34 @@ export default class MiniPlugin {
           })) : []
         }
       } else {
+        const rootProps: { [key: string]: any } = {}
+        if (isQuickApp && isRoot) {
+          // 如果是快应用，需要提前解析一次 ast，获取 config
+          const aheadTransformResult = wxTransformer({
+            code,
+            sourcePath: file.path,
+            isRoot,
+            isTyped: REG_TYPESCRIPT.test(file.path),
+            adapter: buildAdapter
+          })
+          const res = this.parseAst(aheadTransformResult.ast, buildAdapter)
+          if (res.configObj.enablePullDownRefresh || (this.appConfig.window && this.appConfig.window.enablePullDownRefresh)) {
+            rootProps.enablePullDownRefresh = true
+          }
+          if (this.appConfig.tabBar) {
+            rootProps.tabBar = this.appConfig.tabBar
+          }
+          rootProps.pagePath = file.path.replace(this.sourceDir, '').replace(path.extname(file.path), '')
+          if (res.hasEnablePageScroll) {
+            rootProps.enablePageScroll = true
+          }
+        }
         const transformResult = wxTransformer({
           code,
           sourcePath: file.path,
           isTyped: REG_TYPESCRIPT.test(file.path),
           isRoot,
+          rootProps: isEmptyObject(rootProps) || rootProps,
           adapter: buildAdapter
         })
         configObj = this.parseAst(transformResult.ast, buildAdapter).configObj
@@ -541,6 +576,7 @@ export default class MiniPlugin {
 
   generateMiniFiles (compilation: webpack.compilation.Compilation) {
     const { buildAdapter } = this.options
+    const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     Object.keys(taroFileTypeMap).forEach(item => {
       let relativePath
       if (NODE_MODULES_REG.test(item)) {
@@ -558,10 +594,12 @@ export default class MiniPlugin {
           source: () => itemInfo.template
         }
       }
-      const jsonStr = JSON.stringify(itemInfo.config)
-      compilation.assets[jsonPath] = {
-        size: () => jsonStr.length,
-        source: () => jsonStr
+      if (!isQuickApp) {
+        const jsonStr = JSON.stringify(itemInfo.config)
+        compilation.assets[jsonPath] = {
+          size: () => jsonStr.length,
+          source: () => jsonStr
+        }
       }
     })
   }
