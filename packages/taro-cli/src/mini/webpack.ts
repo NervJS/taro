@@ -33,8 +33,10 @@ async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
     isProduction,
     alias,
     sourceDirName,
-    outputDirName
+    outputDirName,
+    nodeModulesPath
   } = getBuildData()
+
   const miniRunner = await npmProcess.getNpmPkg('@tarojs/mini-runner', appPath)
   const babelConfig = getBabelConfig(projectConfig.babel)
   const miniRunnerOpts = {
@@ -57,6 +59,7 @@ async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
     defineConstants: projectConfig.defineConstants,
     designWidth: projectConfig.designWidth,
     deviceRatio: projectConfig.deviceRatio,
+    nodeModulesPath,
     ...projectConfig.mini
   }
   miniRunner(appPath, miniRunnerOpts, builder)
