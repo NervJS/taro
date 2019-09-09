@@ -202,3 +202,12 @@ export function recursiveMerge (src, ...args) {
     }
   })
 }
+
+export function getInstalledNpmPkgPath (pkgName: string, basedir: string): string | null {
+  const resolvePath = require('resolve')
+  try {
+    return resolvePath.sync(`${pkgName}/package.json`, { basedir })
+  } catch (err) {
+    return null
+  }
+}
