@@ -1,4 +1,5 @@
 import { NodeType } from './node_types'
+import { requestUpdate } from './render'
 
 export class MpNode {
   public nodeType: NodeType
@@ -37,6 +38,7 @@ export class MpNode {
     } else {
       this.childNodes.push(newChild)
     }
+    requestUpdate(this)
     return newChild
   }
 
@@ -55,6 +57,7 @@ export class MpNode {
   public removeChild<T extends MpNode> (child: T): T {
     const index = this.findIndex(this.childNodes, child)
     this.childNodes.splice(index, 1)
+    requestUpdate(this)
     return child
   }
 
