@@ -13,11 +13,14 @@ import { merge, defaults, kebabCase } from 'lodash'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig } from '@tarojs/taro'
+import * as _ from 'lodash'
 
-import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework } from '../utils/constants'
+import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsComponents, QUICKAPP_SPECIAL_COMPONENTS, taroJsQuickAppComponents } from '../utils/constants'
 import { IComponentObj } from '../utils/types'
-import { traverseObjectNode, resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject } from '../utils'
+import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
+import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents } from '../utils/helper'
+import parseAst from '../utils/parseAst'
 
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
@@ -26,6 +29,9 @@ import VirtualModulePlugin from './VirtualModulePlugin/VirtualModulePlugin'
 interface IMiniPluginOptions {
   appEntry?: string,
   buildAdapter: BUILD_TYPES,
+  nodeModulesPath: string,
+  sourceDir: string,
+  outputDir: string,
   commonChunks: string[]
 }
 
@@ -34,7 +40,11 @@ export interface ITaroFileInfo {
     type: PARSE_AST_TYPE,
     config: IConfig,
     template?: string,
-    code?: string
+    code?: string,
+    taroSelfComponents?: Set<{
+      name: string,
+      path: string
+    }>
   }
 }
 
@@ -120,14 +130,20 @@ export default class MiniPlugin {
   pages: Set<IComponent>
   components: Set<IComponent>
   sourceDir: string
+  outputDir: string
   context: string
   appConfig: IConfig
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
       buildAdapter: BUILD_TYPES.WEAPP,
+      nodeModulesPath: '',
+      sourceDir: '',
+      outputDir: '',
       commonChunks: ['runtime', 'vendors']
     })
+    this.sourceDir = this.options.sourceDir
+    this.outputDir = this.options.outputDir
 
     this.pages = new Set()
     this.components = new Set()
@@ -192,78 +208,8 @@ export default class MiniPlugin {
       return app
     }
     const appEntryPath = getEntryPath(entry)
-    this.sourceDir = path.dirname(appEntryPath)
     compiler.options.entry = {}
     return appEntryPath
-  }
-
-  parseAst (
-    ast: t.File,
-    buildAdapter: BUILD_TYPES
-  ): {
-    configObj: IConfig,
-    hasEnablePageScroll: boolean
-  } {
-    let configObj = {}
-    let hasEnablePageScroll
-    traverse(ast, {
-      ClassDeclaration (astPath) {
-        const node = astPath.node
-        let hasCreateData = false
-        if (node.superClass) {
-          astPath.traverse({
-            ClassMethod (astPath) {
-              if (astPath.get('key').isIdentifier({ name: '_createData' })) {
-                hasCreateData = true
-              }
-            }
-          })
-          if (hasCreateData) {
-            astPath.traverse({
-              ClassMethod (astPath) {
-                const node = astPath.node
-                if (node.kind === 'constructor') {
-                  astPath.traverse({
-                    ExpressionStatement (astPath) {
-                      const node = astPath.node
-                      if (node.expression &&
-                        node.expression.type === 'AssignmentExpression' &&
-                        node.expression.operator === '=') {
-                        const left = node.expression.left
-                        if (left.type === 'MemberExpression' &&
-                          left.object.type === 'ThisExpression' &&
-                          left.property.type === 'Identifier' &&
-                          left.property.name === 'config') {
-                          configObj = traverseObjectNode(node.expression.right, buildAdapter)
-                        }
-                      }
-                    }
-                  })
-                }
-              }
-            })
-          }
-        }
-      },
-      ClassMethod (astPath) {
-        const keyName = (astPath.get('key').node as t.Identifier).name
-        if (keyName === 'onPageScroll' || keyName === 'onReachBottom') {
-          hasEnablePageScroll = true
-        }
-      },
-      ClassProperty (astPath) {
-        const node = astPath.node
-        const keyName = node.key.name
-        if (keyName === 'config') {
-          configObj = traverseObjectNode(node, buildAdapter)
-        }
-      }
-    })
-
-    return {
-      configObj,
-      hasEnablePageScroll
-    }
   }
 
   getNpmComponentRealPath (code: string, component: IComponentObj, adapter: BUILD_TYPES): string | null {
@@ -420,7 +366,7 @@ export default class MiniPlugin {
       isApp: true,
       adapter: buildAdapter
     })
-    const { configObj } = this.parseAst(transformResult.ast, buildAdapter)
+    const { configObj } = parseAst(transformResult.ast, buildAdapter)
     const appPages = configObj.pages
     this.appConfig = configObj
     if (!appPages || appPages.length === 0) {
@@ -448,6 +394,18 @@ export default class MiniPlugin {
     return fs.existsSync(templatePath) && jsContent.indexOf(taroJsFramework) < 0
   }
 
+  getComponentName (componentPath) {
+    let componentName
+    if (NODE_MODULES_REG.test(componentPath)) {
+      componentName = componentPath.replace(this.context, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
+      componentName = componentName.replace(/node_modules/gi, 'npm')
+    } else {
+      componentName = componentPath.replace(this.sourceDir, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
+    }
+
+    return componentName
+  }
+
   getComponents (fileList: Set<IComponent>, isRoot: boolean) {
     const { buildAdapter } = this.options
     const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
@@ -456,6 +414,7 @@ export default class MiniPlugin {
       const isComponentConfig = isRoot ? {} : { component: true }
 
       let configObj
+      let taroSelfComponents
       let depComponents
       let template
       let code = fs.readFileSync(file.path).toString()
@@ -484,7 +443,7 @@ export default class MiniPlugin {
             isTyped: REG_TYPESCRIPT.test(file.path),
             adapter: buildAdapter
           })
-          const res = this.parseAst(aheadTransformResult.ast, buildAdapter)
+          const res = parseAst(aheadTransformResult.ast, buildAdapter)
           if (res.configObj.enablePullDownRefresh || (this.appConfig.window && this.appConfig.window.enablePullDownRefresh)) {
             rootProps.enablePullDownRefresh = true
           }
@@ -504,7 +463,9 @@ export default class MiniPlugin {
           rootProps: isEmptyObject(rootProps) || rootProps,
           adapter: buildAdapter
         })
-        configObj = this.parseAst(transformResult.ast, buildAdapter).configObj
+        let parseAstRes = parseAst(transformResult.ast, buildAdapter)
+        configObj = parseAstRes.configObj
+        taroSelfComponents = parseAstRes.taroSelfComponents
         const usingComponents = configObj.usingComponents
         if (usingComponents) {
           Object.keys(usingComponents).forEach(item => {
@@ -514,30 +475,68 @@ export default class MiniPlugin {
             })
           })
         }
+        if (isRoot) {
+          taroSelfComponents.add('taro-page')
+        }
         depComponents = transformResult.components
         template = transformResult.template
         code = transformResult.code
       }
       depComponents = depComponents.filter(item => !/^plugin:\/\//.test(item.path))
       this.transfromComponentsPath(depComponents)
+      if (isQuickApp) {
+        const scriptPath = file.path
+        const outputScriptPath = scriptPath.replace(this.sourceDir, this.outputDir).replace(path.extname(scriptPath), MINI_APP_FILES[buildAdapter].SCRIPT)
+        const stylePath = outputScriptPath.replace(path.extname(outputScriptPath), MINI_APP_FILES[buildAdapter].STYLE)
+        const templPath = outputScriptPath.replace(path.extname(outputScriptPath), MINI_APP_FILES[buildAdapter].TEMPL)
+        const styleRelativePath = promoteRelativePath(path.relative(outputScriptPath, stylePath))
+        const scriptRelativePath = promoteRelativePath(path.relative(templPath, outputScriptPath))
+        const importTaroSelfComponents = getImportTaroSelfComponents(outputScriptPath, this.options.nodeModulesPath, taroSelfComponents)
+        const usingComponents = configObj.usingComponents
+        let importUsingComponent: any = new Set([])
+        if (usingComponents) {
+          importUsingComponent = new Set(Object.keys(usingComponents).map(item => {
+            return {
+              name: item,
+              path: usingComponents[item]
+            }
+          }))
+        }
+        const importCustomComponents = new Set(depComponents.map(item => {
+          return {
+            path: item.path,
+            name: item.name as string
+          }
+        }))
+        template = generateQuickAppUx({
+          template,
+          script: scriptRelativePath,
+          style: styleRelativePath,
+          imports: new Set([...importTaroSelfComponents, ...importUsingComponent, ...importCustomComponents])
+        })
+      }
       taroFileTypeMap[file.path] = {
         type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
         config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, {}, depComponents), configObj),
         template,
         code
       }
+      if (taroSelfComponents) {
+        taroFileTypeMap[file.path].taroSelfComponents = new Set(Array.from(taroSelfComponents).map(item => {
+          const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath(this.options.nodeModulesPath)
+          const componentPath = path.join(taroJsQuickAppComponentsPath, item as string, `index${MINI_APP_FILES[buildAdapter].TEMPL}`)
+          return {
+            name: item as string,
+            path: componentPath
+          }
+        }))
+      }
 
       if (depComponents && depComponents.length) {
         depComponents.forEach(item => {
           const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
           if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
-            let componentName
-            if (NODE_MODULES_REG.test(componentPath)) {
-              componentName = componentPath.replace(this.context, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
-              componentName = componentName.replace(/node_modules/gi, 'npm')
-            } else {
-              componentName = componentPath.replace(this.sourceDir, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
-            }
+            const componentName = this.getComponentName(componentPath)
             const componentTempPath = this.getTemplatePath(componentPath)
             const isNative = this.isNativePageORComponent(componentTempPath, fs.readFileSync(componentPath).toString())
             const componentObj = { name: componentName, path: componentPath, isNative }
@@ -600,6 +599,23 @@ export default class MiniPlugin {
           size: () => jsonStr.length,
           source: () => jsonStr
         }
+      }
+      if (itemInfo.taroSelfComponents) {
+        itemInfo.taroSelfComponents.forEach(item => {
+          if (fs.existsSync(item.path)) {
+            const content = fs.readFileSync(item.path).toString()
+            let relativePath
+            if (NODE_MODULES_REG.test(item.path)) {
+              relativePath = item.path.replace(this.context, '').replace(/node_modules/gi, 'npm')
+            } else {
+              relativePath = item.path.replace(this.sourceDir, '')
+            }
+            compilation.assets[relativePath] = {
+              size: () => content.length,
+              source: () => content
+            }
+          }
+        })
       }
     })
   }

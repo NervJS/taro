@@ -48,6 +48,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     miniCssExtractPluginOption = emptyObj,
 
     postcss = emptyObj,
+    nodeModulesPath,
 
     babel,
     csso,
@@ -57,6 +58,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const plugin: any = {}
   const minimizer: any[] = []
   const sourceDir = path.join(appPath, sourceRoot)
+  const outputDir = path.join(appPath, outputRoot)
   const isQuickapp = buildAdapter === BUILD_TYPES.QUICKAPP
 
   if (copy) {
@@ -64,7 +66,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   }
   const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
-  plugin.miniPlugin = getMiniPlugin({ buildAdapter, constantsReplaceList })
+  plugin.miniPlugin = getMiniPlugin({ sourceDir, outputDir, buildAdapter, constantsReplaceList, nodeModulesPath })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
     filename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`,
