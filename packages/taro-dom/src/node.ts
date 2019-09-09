@@ -1,18 +1,25 @@
 import { NodeType } from './node_types'
-import { requestUpdate } from './render'
+import { hydrate, MpInstance } from './render'
 
 export class MpNode {
   public nodeType: NodeType
 
   public nodeName: string
 
-  public parentNode: MpNode | null
+  public parentNode: MpNode | null = null
 
   public childNodes: MpNode[] = []
+
+  private isRoot: boolean = false
+
+  public ctx: null | MpInstance = null
+
+  private pendingUpdate: boolean = false
 
   public constructor (nodeType: NodeType, nodeName: string) {
     this.nodeType = nodeType
     this.nodeName = nodeName
+    this.isRoot = nodeName === 'root'
   }
 
   public get nextSibling () {
@@ -38,7 +45,7 @@ export class MpNode {
     } else {
       this.childNodes.push(newChild)
     }
-    requestUpdate(this)
+    this.performUpdate()
     return newChild
   }
 
@@ -57,7 +64,7 @@ export class MpNode {
   public removeChild<T extends MpNode> (child: T): T {
     const index = this.findIndex(this.childNodes, child)
     this.childNodes.splice(index, 1)
-    requestUpdate(this)
+    this.performUpdate()
     return child
   }
 
@@ -87,5 +94,29 @@ export class MpNode {
     }
 
     return index
+  }
+
+  public performUpdate () {
+    if (this.pendingUpdate) {
+      return
+    }
+
+    if (this.isRoot) {
+      if (this.ctx === null) {
+        return
+      }
+
+      this.pendingUpdate = true
+
+      setTimeout(() => {
+        this.ctx.setData({
+          root: hydrate(this as any)
+        }, () => {
+          this.pendingUpdate = false
+        })
+      }, 1)
+    } else if (this.parentNode !== null) {
+      this.parentNode.performUpdate()
+    }
   }
 }

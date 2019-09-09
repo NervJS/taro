@@ -1,6 +1,5 @@
 import { MpNode } from './node'
 import { NodeType } from './node_types'
-import { requestUpdate } from './render'
 
 function isElement (node: MpNode): node is MpElement {
   return node.nodeType === 1
@@ -43,7 +42,7 @@ export class MpElement extends MpNode {
 
   public setAttribute (qualifiedName: string, value: string) {
     this.props[qualifiedName] = value
-    requestUpdate(this)
+    this.performUpdate()
   }
 
   public getAttribute (qualifiedName: string): string | null {

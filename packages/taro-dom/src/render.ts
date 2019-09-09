@@ -1,57 +1,30 @@
 import { MpNode } from './node'
+import { isText } from './utils/is'
+import { MpElement } from './element'
+import { MpText } from './text'
 
-let pending = false
-
-let ctx: null | any = null
-
-export function hydrate (root) {
-  const data = {
-    cn: root.childNodes.map(hydrate),
-    nodeName: root.nodeName,
-    class: root.className,
-    nodeValue: root.nodeValue,
-    style: root.style || ''
-  }
-
-  return data
+export interface MpInstance {
+  dom: MpNode;
+  setData: (data: unknown, cb: () => void) => void;
 }
 
-export function performUpdate (node: MpNode) {
-  if (ctx === null) {
-    return
-  }
-
-  pending = true
-  setTimeout(() => {
-    let root = node
-    while (true) {
-      if (root.nodeName === 'root') {
-        break
-      }
-      if (root.parentNode) {
-        root = root.parentNode
-        if (root.nodeName === 'root') {
-          break
-        }
-      } else {
-        break
-      }
+export function hydrate (node: MpElement | MpText) {
+  if (isText(node)) {
+    return {
+      nodeValue: node.nodeValue,
+      nodeName: node.nodeName
     }
-    ctx.setData({
-      root: hydrate(root)
-    }, () => {
-      pending = false
-    })
-  }, 1)
-}
+  }
 
-export function requestUpdate (node: MpNode) {
-  if (!pending) {
-    performUpdate(node)
+  return {
+    cn: node.childNodes.map(hydrate),
+    nodeName: node.nodeName,
+    class: node.className,
+    style: node.cssText || ''
   }
 }
 
-export function render (inst) {
-  ctx = inst
-  performUpdate(inst.dom)
+export function render (inst: MpInstance) {
+  inst.dom.ctx = inst
+  inst.dom.performUpdate()
 }
