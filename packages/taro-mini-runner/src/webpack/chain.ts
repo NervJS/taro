@@ -15,7 +15,7 @@ import { getPostcssPlugins } from './postcss.conf'
 import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption } from '../utils/types'
 import { recursiveMerge, isNodeModule } from '../utils'
-import { REG_SASS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, BUILD_TYPES, REG_SCRIPTS, MINI_APP_FILES } from '../utils/constants'
+import { REG_SASS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, BUILD_TYPES, REG_SCRIPTS, MINI_APP_FILES, REG_UX } from '../utils/constants'
 
 const globalObjectMap = {
   [BUILD_TYPES.WEAPP]: 'wx',
@@ -257,7 +257,7 @@ export const getModule = (appPath: string, {
     buildAdapter
   }])
 
-  const rule = {
+  const rule: any = {
     sass: {
       test: REG_SASS,
       enforce: 'pre',
