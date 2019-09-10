@@ -1,25 +1,34 @@
 import { NodeType } from './node_types'
 import { hydrate, MpInstance } from './render'
+import { incrementId } from './utils'
+import { eventSource, EventTarget } from './event_target'
 
-export class MpNode {
+const nodeId = incrementId()
+
+export class MpNode extends EventTarget {
   public nodeType: NodeType
 
   public nodeName: string
+
+  public uid: string
 
   public parentNode: MpNode | null = null
 
   public childNodes: MpNode[] = []
 
-  private isRoot: boolean = false
-
   public ctx: null | MpInstance = null
 
   private pendingUpdate: boolean = false
 
+  private isRoot: boolean = false
+
   public constructor (nodeType: NodeType, nodeName: string) {
+    super()
     this.nodeType = nodeType
     this.nodeName = nodeName
     this.isRoot = nodeName === 'root'
+    this.uid = `taro_${nodeId()}`
+    eventSource.set(this.uid, this)
   }
 
   public get nextSibling () {
@@ -65,6 +74,7 @@ export class MpNode {
     const index = this.findIndex(this.childNodes, child)
     this.childNodes.splice(index, 1)
     this.performUpdate()
+    eventSource.delete(this.uid)
     return child
   }
 
