@@ -79,7 +79,7 @@ function setCancelFlag (data) {
  * @param {EventTarget} eventTarget The event target of this dispatching.
  * @param {Event|{type:string}} event The original event to wrap.
  */
-function Event (eventTarget, event) {
+export function Event (eventTarget, event) {
   privateData.set(this, {
     eventTarget,
     event,
@@ -319,13 +319,13 @@ Object.defineProperty(Event.prototype, 'constructor', {
   writable: true
 })
 
-// Ensure `event instanceof window.Event` is `true`.
-if (typeof window !== 'undefined' && typeof window.Event !== 'undefined') {
-  Object.setPrototypeOf(Event.prototype, window.Event.prototype)
+// // Ensure `event instanceof window.Event` is `true`.
+// if (typeof window !== 'undefined' && typeof window.Event !== 'undefined') {
+//   Object.setPrototypeOf(Event.prototype, window.Event.prototype)
 
-  // Make association for wrappers.
-  wrappers.set(window.Event.prototype, Event)
-}
+//   // Make association for wrappers.
+//   wrappers.set(window.Event.prototype, Event)
+// }
 
 /**
  * Get the property descriptor to redirect a given property.

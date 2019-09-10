@@ -19,8 +19,9 @@ export function hydrate (node: MpElement | MpText) {
   return {
     cn: node.childNodes.map(hydrate),
     nodeName: node.nodeName,
-    class: node.className,
-    style: node.cssText || ''
+    cl: node.className,
+    style: node.cssText || '',
+    uid: node.uid
   }
 }
 

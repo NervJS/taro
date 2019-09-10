@@ -1,11 +1,11 @@
 import { NodeType } from './node_types'
 import { hydrate, MpInstance } from './render'
 import { incrementId } from './utils'
-import { eventSource, EventTarget } from './event_target'
+import { MpEventTarget, eventSource } from './e'
 
 const nodeId = incrementId()
 
-export class MpNode extends EventTarget {
+export class MpNode extends MpEventTarget {
   public nodeType: NodeType
 
   public nodeName: string

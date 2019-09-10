@@ -142,26 +142,26 @@ function defineEventAttribute (eventTargetPrototype, eventName) {
 * @returns {EventTarget} The custom EventTarget.
 * @private
 */
-function defineCustomEventTarget (eventNames) {
-  /** CustomEventTarget */
-  function CustomEventTarget () {
-    EventTarget.call(this)
-  }
+// function defineCustomEventTarget (eventNames) {
+//   /** CustomEventTarget */
+//   function CustomEventTarget () {
+//     EventTarget.call(this)
+//   }
 
-  CustomEventTarget.prototype = Object.create(EventTarget.prototype, {
-    constructor: {
-      value: CustomEventTarget,
-      configurable: true,
-      writable: true
-    }
-  })
+//   CustomEventTarget.prototype = Object.create(EventTarget.prototype, {
+//     constructor: {
+//       value: CustomEventTarget,
+//       configurable: true,
+//       writable: true
+//     }
+//   })
 
-  for (let i = 0; i < eventNames.length; ++i) {
-    defineEventAttribute(CustomEventTarget.prototype, eventNames[i])
-  }
+//   for (let i = 0; i < eventNames.length; ++i) {
+//     defineEventAttribute(CustomEventTarget.prototype, eventNames[i])
+//   }
 
-  return CustomEventTarget
-}
+//   return CustomEventTarget
+// }
 
 /**
 * EventTarget.
@@ -355,12 +355,12 @@ class EventTarget {
     return !wrappedEvent.defaultPrevented
   }
 }
-// Ensure `eventTarget instanceof window.EventTarget` is `true`.
-if (
-  typeof window !== 'undefined' &&
-  typeof window.EventTarget !== 'undefined'
-) {
-  Object.setPrototypeOf(EventTarget.prototype, window.EventTarget.prototype)
-}
+// // Ensure `eventTarget instanceof window.EventTarget` is `true`.
+// if (
+//   typeof window !== 'undefined' &&
+//   typeof window.EventTarget !== 'undefined'
+// ) {
+//   Object.setPrototypeOf(EventTarget.prototype, window.EventTarget.prototype)
+// }
 
 export { defineEventAttribute, EventTarget }
