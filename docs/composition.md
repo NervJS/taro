@@ -2,6 +2,8 @@
 title: 更多资源
 ---
 
+最新的更多资源，请参考：[NervJS/awesome-taro](https://github.com/NervJS/awesome-taro)
+
 ## 开源项目
 
 * 💯[首个 Taro 多端统一实例 - 网易严选（小程序 + H5 + React Native）](https://github.com/js-newbee/taro-yanxuan)
