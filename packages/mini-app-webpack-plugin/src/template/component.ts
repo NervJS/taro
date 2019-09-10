@@ -5,8 +5,13 @@ const styles = {
   class: `i.${Shortcuts.Class}`
 }
 
+const events = {
+  bindtap: 'eh'
+}
+
 const view = {
-  ...styles
+  ...styles,
+  ...events
 }
 
 const image = {
@@ -21,8 +26,20 @@ const text = {
   decode: 'i.decode'
 }
 
+const input = {
+  ...styles,
+  bindinput: 'eh'
+}
+
+const button = {
+  ...styles,
+  ...events
+}
+
 export const standComponents = {
   view,
   image,
-  text
+  text,
+  button,
+  input
 }

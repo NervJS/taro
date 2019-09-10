@@ -10,13 +10,13 @@ interface Component {
 type Attributes = Record<string, string>
 
 function buildAttribute (attrs: Attributes): string {
-  return Object.keys(attrs).map(k => `${k}="{{ ${attrs[k]} }}" `).join('')
+  return Object.keys(attrs).map(k => `${k}="${k.startsWith('bind') ? attrs[k] : `{{ ${attrs[k]} }}`}" `).join('')
 }
 
 function buildStandardComponentTemplate (comp: Component, level: number): string {
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
-  <${comp.nodeName} ${buildAttribute(comp.attributes)}>
+  <${comp.nodeName} ${buildAttribute(comp.attributes)} id="{{ i.uid }}">
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="{{id}}">
       <template is="tmpl_${level + 1}_${Shortcuts.Container}" data="{{i: item}}" />
     </block>
