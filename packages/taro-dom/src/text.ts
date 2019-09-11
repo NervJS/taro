@@ -1,7 +1,7 @@
-import { MpNode } from './node'
+import { TaroNode } from './node'
 import { NodeType } from './node_types'
 
-export class MpText extends MpNode {
+export class Taro extends TaroNode {
   public nodeValue: string
 
   public constructor (text: string) {

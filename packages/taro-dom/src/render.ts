@@ -1,14 +1,14 @@
-import { MpNode } from './node'
+import { TaroNode } from './node'
 import { isText } from './utils/is'
-import { MpElement } from './element'
-import { MpText } from './text'
+import { TaroElement } from './element'
+import { Taro } from './text'
 
 export interface MpInstance {
-  dom: MpNode;
+  dom: TaroNode;
   setData: (data: unknown, cb: () => void) => void;
 }
 
-export function hydrate (node: MpElement | MpText) {
+export function hydrate (node: TaroElement | Taro) {
   if (isText(node)) {
     return {
       nodeValue: node.nodeValue,

@@ -1,7 +1,9 @@
-import { MpNode } from './node'
+import { TaroNode } from './node'
 import { NodeType } from './node_types'
+import { TaroEvent } from './e'
+import { isArray } from './utils/is'
 
-function isElement (node: MpNode): node is MpElement {
+function isElement (node: TaroNode): node is TaroElement {
   return node.nodeType === 1
 }
 
@@ -10,7 +12,7 @@ interface Attributes {
   value: string;
 }
 
-export class MpElement extends MpNode {
+export class TaroElement extends TaroNode {
   private props: Record<string, string> = {}
 
   public tagName: string
@@ -56,9 +58,29 @@ export class MpElement extends MpNode {
   }
 
   public get parentElement () {
-    if (this.parentNode instanceof MpElement) {
+    if (this.parentNode instanceof TaroElement) {
       return this.parentNode
     }
     return null
+  }
+
+  public dispatchEvent (event: TaroEvent) {
+    let target = event.nativeTarget = this
+    const cancelable = event.cancelable
+    let listeners: Function[]
+    do {
+      listeners = target.__handlers[event.type]
+      if (!isArray(listeners)) {
+        return
+      }
+
+      for (let i = listeners.length; i--;) {
+        if ((listeners[i].call(target, event) === false || event._end) && cancelable) {
+          event.defaultPrevented = true
+        }
+      }
+    // eslint-disable-next-line no-unmodified-loop-condition
+    } while (event.bubbles && !(cancelable && event._stop) && (target = target.parentNode as this))
+    return listeners != null
   }
 }

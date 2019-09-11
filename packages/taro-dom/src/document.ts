@@ -1,30 +1,30 @@
-import { MpText } from './text'
-import { MpElement } from './element'
+import { Taro } from './text'
+import { TaroElement } from './element'
 import { NodeType } from './node_types'
 
-export class MpDocument extends MpElement {
+export class TaroDocument extends TaroElement {
   public constructor () {
     super(NodeType.DOCUMENT_NODE, '#document')
   }
 
   public createElement (type: string) {
-    return new MpElement(NodeType.ELEMENT_NODE, type)
+    return new TaroElement(NodeType.ELEMENT_NODE, type)
   }
 
   public createTextNode (text: string) {
-    return new MpText(text)
+    return new Taro(text)
   }
 }
 
-interface MpDocumentInstance extends MpDocument {
-  new (): MpDocument;
-  documentElement: MpElement;
-  head: MpElement;
-  body: MpElement;
+interface TaroDocumentInstance extends TaroDocument {
+  new (): TaroDocument;
+  documentElement: TaroElement;
+  head: TaroElement;
+  body: TaroElement;
 }
 
 export function createDocument () {
-  const doc = new MpDocument() as MpDocumentInstance
+  const doc = new TaroDocument() as TaroDocumentInstance
 
   doc.appendChild(doc.documentElement = doc.createElement('html'))
 

@@ -5,7 +5,7 @@ import {
   setPassiveListener,
   wrapEvent
 } from './event'
-import { MpNode } from './node'
+import { TaroNode } from './node'
 
 /**
 * @typedef {object} ListenerNode
@@ -17,7 +17,7 @@ import { MpNode } from './node'
 * @private
 */
 
-export const eventSource = new Map<string, MpNode>()
+export const eventSource = new Map<string, TaroNode>()
 
 /**
 * @type {WeakMap<object, Map<string, ListenerNode>>}

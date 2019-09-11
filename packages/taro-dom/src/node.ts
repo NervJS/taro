@@ -1,20 +1,20 @@
 import { NodeType } from './node_types'
 import { hydrate, MpInstance } from './render'
 import { incrementId } from './utils'
-import { MpEventTarget, eventSource } from './e'
+import { TaroEventTarget, eventSource } from './e'
 
 const nodeId = incrementId()
 
-export class MpNode extends MpEventTarget {
+export class TaroNode extends TaroEventTarget {
   public nodeType: NodeType
 
   public nodeName: string
 
   public uid: string
 
-  public parentNode: MpNode | null = null
+  public parentNode: TaroNode | null = null
 
-  public childNodes: MpNode[] = []
+  public childNodes: TaroNode[] = []
 
   public ctx: null | MpInstance = null
 
@@ -45,7 +45,7 @@ export class MpNode extends MpEventTarget {
     }
   }
 
-  public insertBefore<T extends MpNode> (newChild: T, refChild?: MpNode | null): T {
+  public insertBefore<T extends TaroNode> (newChild: T, refChild?: TaroNode | null): T {
     newChild.remove()
     newChild.parentNode = this
     if (refChild) {
@@ -58,11 +58,11 @@ export class MpNode extends MpEventTarget {
     return newChild
   }
 
-  public appendChild (child: MpNode) {
+  public appendChild (child: TaroNode) {
     this.insertBefore(child)
   }
 
-  public replaceChild (newChild: MpNode, oldChild: MpNode) {
+  public replaceChild (newChild: TaroNode, oldChild: TaroNode) {
     if (oldChild.parentNode === this) {
       this.insertBefore(newChild, oldChild)
       oldChild.remove()
@@ -70,7 +70,7 @@ export class MpNode extends MpEventTarget {
     }
   }
 
-  public removeChild<T extends MpNode> (child: T): T {
+  public removeChild<T extends TaroNode> (child: T): T {
     const index = this.findIndex(this.childNodes, child)
     this.childNodes.splice(index, 1)
     this.performUpdate()
@@ -95,15 +95,6 @@ export class MpNode extends MpEventTarget {
 
   public hasChildNodes () {
     return this.childNodes.length > 0
-  }
-
-  protected findIndex (childeNodes: MpNode[], refChild: MpNode | null) {
-    const index = childeNodes.indexOf(refChild)
-    if (index === -1) {
-      throw new Error('refChild 不属于') // 改进报错
-    }
-
-    return index
   }
 
   public performUpdate () {
