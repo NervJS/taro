@@ -105,6 +105,14 @@ Taro 方案的初心就是为了打造一个多端开发的解决方案。目前
 - 一套组件可以在 `微信小程序`，`支付宝小程序`，`百度小程序`，`H5` 多端适配运行（`ReactNative` 端暂不支持）
 - 提供友好的 API，可灵活的使用组件
 
+## 使用案例
+
+Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
+
+> 社区案例仅收纳了开发者主动提交的案例
+
+![image](https://raw.githubusercontent.com/NervJS/taro-user-cases/master/user-cases.jpg)
+
 ## 学习资源
 
 ### 官方文章精选
