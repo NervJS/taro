@@ -51,6 +51,9 @@ export default function build (appPath, buildConfig: IBuildConfig) {
         platform
       })
       break
+    case BUILD_TYPES.DINGTALK:
+      buildForDingTalk(appPath, { watch, page, component })
+      break
     default:
       console.log(chalk.red('输入类型错误，目前只支持 weapp/swan/alipay/tt/h5/quickapp/rn 七端类型'))
   }
@@ -118,4 +121,10 @@ function buildForPlugin (appPath: string, { watch, platform }) {
   }
   console.log(chalk.green(`开始编译${typeMap[platform]}小程序插件`))
   require('./plugin').build(appPath, { watch, platform })
+}
+
+function buildForDingTalk (appPath: string, buildConfig: IBuildConfig) {
+  require('./mini').build(appPath, Object.assign({
+    adapter: BUILD_TYPES.DINGTALK
+  }, buildConfig))
 }

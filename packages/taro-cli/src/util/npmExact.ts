@@ -75,7 +75,7 @@ export function getExactedNpmFilePath ({
     } else {
       outputNpmPath = npmInfoMainPath.replace(nodeModulesPath, npmOutputDir)
     }
-    if (buildAdapter === BUILD_TYPES.ALIPAY) {
+    if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.DINGTALK) {
       outputNpmPath = outputNpmPath.replace(/@/g, '_')
     }
     const relativePath = path.relative(filePath, outputNpmPath)

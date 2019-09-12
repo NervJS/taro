@@ -102,7 +102,8 @@ export const enum BUILD_TYPES {
   UI ='ui',
   PLUGIN = 'plugin',
   QUICKAPP = 'quickapp',
-  QQ = 'qq'
+  QQ = 'qq',
+  DINGTALK = 'dingtalk'
 }
 
 export const enum TEMPLATE_TYPES {
@@ -111,7 +112,8 @@ export const enum TEMPLATE_TYPES {
   ALIPAY = '.axml',
   TT = '.ttml',
   QUICKAPP = '.ux',
-  QQ = '.qml'
+  QQ = '.qml',
+  DINGTALK = '.axml'
 }
 
 export const enum STYLE_TYPES {
@@ -120,7 +122,8 @@ export const enum STYLE_TYPES {
   ALIPAY = '.acss',
   TT = '.ttss',
   QUICKAPP = '.css',
-  QQ = '.qss'
+  QQ = '.qss',
+  DINGTALK = '.acss'
 }
 
 export const enum SCRIPT_TYPES {
@@ -129,7 +132,8 @@ export const enum SCRIPT_TYPES {
   ALIPAY = '.js',
   TT = '.js',
   QUICKAPP = '.js',
-  QQ = '.js'
+  QQ = '.js',
+  DINGTALK = '.js'
 }
 
 export const enum CONFIG_TYPES {
@@ -138,7 +142,8 @@ export const enum CONFIG_TYPES {
   ALIPAY = '.json',
   TT = '.json',
   QUICKAPP = '.json',
-  QQ = '.json'
+  QQ = '.json',
+  DINGTALK = '.json'
 }
 
 export type IMINI_APP_FILE_TYPE = {
@@ -187,6 +192,12 @@ export const MINI_APP_FILES: IMINI_APP_FILES = {
     STYLE: STYLE_TYPES.QQ,
     SCRIPT: SCRIPT_TYPES.QQ,
     CONFIG: CONFIG_TYPES.QQ
+  },
+  [BUILD_TYPES.DINGTALK]: {
+    TEMPL: TEMPLATE_TYPES.DINGTALK,
+    STYLE: STYLE_TYPES.DINGTALK,
+    SCRIPT: SCRIPT_TYPES.DINGTALK,
+    CONFIG: CONFIG_TYPES.DINGTALK
   }
 }
 
@@ -255,7 +266,17 @@ export const CONFIG_MAP = {
     text: 'text',
     iconPath: 'iconPath',
     selectedIconPath: 'selectedIconPath'
-  }
+  },
+  [BUILD_TYPES.DINGTALK]: {
+    navigationBarTitleText: 'defaultTitle',
+    navigationBarBackgroundColor: 'titleBarColor',
+    enablePullDownRefresh: 'pullRefresh',
+    list: 'items',
+    text: 'name',
+    iconPath: 'icon',
+    selectedIconPath: 'activeIcon',
+    color: 'textColor'
+  },
 }
 
 export const PROJECT_CONFIG = 'config/index.js'
@@ -315,7 +336,8 @@ export const UPDATE_PACKAGE_LIST = [
   'nervjs',
   'nerv-devtools',
   'stylelint-config-taro-rn',
-  'stylelint-taro-rn'
+  'stylelint-taro-rn',
+  '@tarojs/taro-dingtalk'
 ]
 
 export enum PARSE_AST_TYPE {

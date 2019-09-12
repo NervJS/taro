@@ -183,7 +183,7 @@ function analyzeImportUrl ({
         })
         let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
         relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
-        if (buildAdapter === BUILD_TYPES.ALIPAY) {
+        if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.DINGTALK) {
           relativeRequirePath = relativeRequirePath.replace(/@/g, '_')
         }
         source.value = relativeRequirePath
@@ -402,7 +402,7 @@ async function recursiveRequire ({
 }) {
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath = filePath.replace(rootNpm, npmOutputDir).replace(/node_modules/g, npmConfig.name)
-  if (buildAdapter === BUILD_TYPES.ALIPAY) {
+  if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.DINGTALK) {
     outputNpmPath = outputNpmPath.replace(/@/g, '_')
   }
   if (REG_STYLE.test(path.basename(filePath))) {
@@ -512,7 +512,9 @@ export function npmCodeHack (filePath: string, content: string, buildAdapter: BU
     case 'lodash.js':
     case '_global.js':
     case 'lodash.min.js':
-      if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN) {
+      if (buildAdapter === BUILD_TYPES.ALIPAY ||
+          buildAdapter === BUILD_TYPES.SWAN  ||
+          buildAdapter === BUILD_TYPES.DINGTALK) {
         content = content.replace(/Function\(['"]return this['"]\)\(\)/, '{}')
       } else {
         content = content.replace(/Function\(['"]return this['"]\)\(\)/, 'this')
@@ -537,7 +539,7 @@ export function npmCodeHack (filePath: string, content: string, buildAdapter: BU
       content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this || global || {};')
       break
   }
-  if (buildAdapter === BUILD_TYPES.ALIPAY && content.replace(/\s\r\n/g, '').length <= 0) {
+  if ((buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.DINGTALK) && content.replace(/\s\r\n/g, '').length <= 0) {
     content = '// Empty file'
   }
   return content
