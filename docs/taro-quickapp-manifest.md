@@ -7,7 +7,6 @@
 | [window](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#window) | Object   | 否   | 全局的默认窗口表现                                           | display         |
 | [tabBar](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#tabBar) | Object   | 否   | 底部 `tab` 栏的表现                                          | 无              |
 | [networkTimeout](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#networkTimeout) | Object   | 否   | 网络超时时间                                                 | 无              |
-| [debug](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#debug) | boolean  | 否   | 是否开启 debug 模式，默认关闭                                | config.logLevel |
 | [functionalPages](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#functionalPages) | boolean  | 否   | 是否启用插件功能页，默认关闭                                 | 无              |
 | [subpackages](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#subpackages) | Object[] | 否   | 分包结构配置                                                 | subpackages     |
 | [workers](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#workers) | string   | 否   | `Worker` 代码放置的目录                                      | 无              |

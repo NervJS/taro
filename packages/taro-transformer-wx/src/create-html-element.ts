@@ -89,6 +89,9 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
         }
       }
     }
+    if (name === 'view') {
+      options.name = 'div'
+    }
   }
 
   const isVoidTag = voidHtmlTags.has(options.name)

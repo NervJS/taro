@@ -151,9 +151,6 @@ function generateQuickAppManifest (quickappJSON: any) {
     quickappJSON.display.titleBar = false
     delete quickappJSON.display.navigationStyle
   }
-  if (!appConfig.debug) {
-    quickappJSON.config.logLevel = 'off'
-  }
   fs.writeFileSync(path.join(outputDir, 'manifest.json'), JSON.stringify(quickappJSON, null, 2))
 }
 

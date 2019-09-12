@@ -8,18 +8,10 @@ function createStoreInjector (grabStoresFn, injectNames, Component) {
       super(Object.assign(...arguments, mapStoreToProps(grabStoresFn, props)), isPage)
     }
 
-    componentWillMount () {
+    _constructor () {
       Object.assign(this.props, mapStoreToProps(grabStoresFn, this.props))
-      if (typeof super.componentWillMount === 'function') {
-        super.componentWillMount()
-      }
+      super._constructor && super._constructor(this.props)
     }
-  }
-  const target = Injector.prototype
-  const originCreateData = target._createData
-  target._createData = function (...args) {
-    Object.assign(this.props, mapStoreToProps(grabStoresFn, this.props))
-    return originCreateData.call(this, null, null, args[2])
   }
   return Injector
 }

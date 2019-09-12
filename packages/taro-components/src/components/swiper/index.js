@@ -121,6 +121,16 @@ class Swiper extends Nerv.Component {
       } else {
         this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
       }
+
+      // 判断是否需要停止或开始自动轮播
+      if (this.mySwiper.autoplay.running !== nextProps.autoplay) {
+        if (nextProps.autoplay) {
+          this.mySwiper.autoplay.start()
+        } else {
+          this.mySwiper.autoplay.stop()
+        }
+      }
+
       this.mySwiper.update() // 更新子元素
     }
   }
