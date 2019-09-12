@@ -473,7 +473,7 @@ class Transformer {
             throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
         }
-        if (Adapters.alipay === Adapter.type) {
+        if (Adapters.alipay === Adapter.type || Adapters.dingtalk === Adapter.type) {
           attrs.push(t.jSXAttribute(
             t.jSXIdentifier('onTaroCollectChilds'),
             t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier('$collectChilds')))

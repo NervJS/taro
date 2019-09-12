@@ -226,7 +226,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
       let value: string | boolean = true
       let attrValue = attr.value
       if (typeof name === 'string') {
-        const isAlipayOrQuickappEvent = (Adapter.type === Adapters.alipay || Adapter.type === Adapters.quickapp) && /(^on[A-Z_])|(^catch[A-Z_])/.test(name)
+        const isAlipayOrQuickappEvent = (Adapter.type === Adapters.alipay || Adapter.type === Adapters.quickapp || Adapter.type === Adapters.dingtalk) && /(^on[A-Z_])|(^catch[A-Z_])/.test(name)
         if (t.isStringLiteral(attrValue)) {
           value = attrValue.value
         } else if (t.isJSXExpressionContainer(attrValue)) {

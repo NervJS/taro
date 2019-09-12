@@ -378,7 +378,7 @@ export class RenderParser {
     ) as any
     classProp.static = true
     const classPath = this.renderPath.findParent(isClassDcl) as NodePath<t.ClassDeclaration>
-    Adapter.type !== Adapters.alipay && classPath.node.body.body.unshift(classProp)
+    Adapter.type !== Adapters.alipay && Adapter.type !== Adapters.dingtalk && classPath.node.body.body.unshift(classProp)
   }
 
   setLoopRefFlag () {
@@ -1270,7 +1270,7 @@ export class RenderParser {
             }
             if (t.isJSXIdentifier(componentName) && !DEFAULT_Component_SET.has(componentName.name)) {
               const element = path.parent as t.JSXOpeningElement
-              if (process.env.NODE_ENV !== 'test' && Adapter.type !== Adapters.alipay) {
+              if (process.env.NODE_ENV !== 'test' && Adapter.type !== Adapters.alipay && Adapter.type !== Adapters.dingtalk) {
                 const fnName = `${FN_PREFIX}${name.name}`
                 element.attributes = element.attributes.concat([t.jSXAttribute(t.jSXIdentifier(fnName))])
               }
@@ -1280,7 +1280,7 @@ export class RenderParser {
             t.isJSXIdentifier(jsxElementPath.node.openingElement.name)
           ) {
             const componentName = jsxElementPath.node.openingElement.name.name
-            if (Adapter.type === Adapters.alipay) {
+            if (Adapter.type === Adapters.alipay || Adapter.type === Adapters.dingtalk) {
               let transformName = name.name
               if (DEFAULT_Component_SET.has(componentName) && ALIPAY_BUBBLE_EVENTS.has(name.name)) {
                 if (name.name === 'onClick') {

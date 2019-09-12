@@ -384,7 +384,7 @@ export default function transform (options: Options): TransformResult {
           }
         }
         const calleeIds = getIdsFromMemberProps(callee.node)
-        if (t.isIdentifier(id) && id.name.startsWith('on') && Adapters.alipay !== Adapter.type) {
+        if (t.isIdentifier(id) && id.name.startsWith('on') && Adapters.alipay !== Adapter.type && Adapters.dingtalk !== Adapter.type) {
           const fullPath = buildFullPathThisPropsRef(id, calleeIds, path)
           if (fullPath) {
             path.replaceWith(
@@ -715,7 +715,7 @@ export default function transform (options: Options): TransformResult {
           t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
           t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
         )
-        if (Adapter.type !== Adapters.alipay) {
+        if (Adapter.type !== Adapters.alipay && Adapter.type !== Adapters.dingtalk) {
           path.node.specifiers.push(
             t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER))
           )
@@ -766,7 +766,7 @@ export default function transform (options: Options): TransformResult {
       t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
       t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
     ]
-    if (Adapter.type !== Adapters.alipay) {
+    if (Adapter.type !== Adapters.alipay && Adapter.type !== Adapters.dingtalk) {
       specifiers.push(t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)))
     }
     ast.program.body.unshift(
@@ -778,7 +778,8 @@ export default function transform (options: Options): TransformResult {
     throw new Error('未找到 Taro.Component 的类定义')
   }
 
-  if (Adapter.type === Adapters.alipay) {
+  if (Adapter.type === Adapters.alipay || Adapter.type === Adapters.dingtalk) {
+    const nameSpace = Adapter.type === Adapters.alipay ? 'my' : 'dd'
     const body = ast.program.body
     for (const i in body) {
       if (t.isImportDeclaration(body[i]) && !t.isImportDeclaration(body[Number(i) + 1])) {
@@ -787,7 +788,7 @@ export default function transform (options: Options): TransformResult {
           [t.variableDeclarator(
             t.identifier('propsManager'),
             t.memberExpression(
-              t.identifier('my'),
+              t.identifier(nameSpace),
               t.identifier('propsManager')
             )
           )]

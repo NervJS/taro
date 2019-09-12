@@ -144,6 +144,12 @@ TRANSFORM_COMPONENT_PROPS.set(Adapters.alipay, {
   }
 })
 
+TRANSFORM_COMPONENT_PROPS.set(Adapters.dingtalk, {
+  'Canvas': {
+    'canvasId': 'id'
+  }
+})
+
 export const lessThanSignPlacehold = '__LESS_THAN_SIGN_PLACEHOLDER__'
 
 export let FN_PREFIX = '__fn_'
