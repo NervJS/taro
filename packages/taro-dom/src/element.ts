@@ -1,6 +1,6 @@
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
-import { TaroEvent } from './e'
+import { TaroEvent } from './event'
 import { isArray } from './utils/is'
 
 function isElement (node: TaroNode): node is TaroElement {

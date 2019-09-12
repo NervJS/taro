@@ -1,14 +1,13 @@
 import { TaroElement } from '../element'
-import { Taro } from '../text'
+import { TaroText } from '../text'
 import { NodeType } from '../node_types'
+import { TaroNode } from 'src/node'
 
-export type MpHTMLElement = TaroElement | Taro
-
-export function isElement (node: MpHTMLElement): node is TaroElement {
+export function isElement (node: TaroNode): node is TaroElement {
   return node.nodeType === NodeType.ELEMENT_NODE
 }
 
-export function isText (node: MpHTMLElement): node is Taro {
+export function isText (node: TaroNode): node is TaroText {
   return node.nodeType === NodeType.TEXT_NODE
 }
 

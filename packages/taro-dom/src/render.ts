@@ -1,14 +1,13 @@
-import { TaroNode } from './node'
 import { isText } from './utils/is'
 import { TaroElement } from './element'
-import { Taro } from './text'
+import { TaroText } from './text'
 
 export interface MpInstance {
-  dom: TaroNode;
+  dom: TaroElement;
   setData: (data: unknown, cb: () => void) => void;
 }
 
-export function hydrate (node: TaroElement | Taro) {
+export function hydrate (node: TaroElement | TaroText) {
   if (isText(node)) {
     return {
       nodeValue: node.nodeValue,
@@ -20,7 +19,7 @@ export function hydrate (node: TaroElement | Taro) {
     cn: node.childNodes.map(hydrate),
     nodeName: node.nodeName,
     cl: node.className,
-    style: node.cssText || '',
+    style: node.cssText! || '',
     uid: node.uid
   }
 }

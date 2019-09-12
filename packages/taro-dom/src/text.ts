@@ -1,7 +1,7 @@
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 
-export class Taro extends TaroNode {
+export class TaroText extends TaroNode {
   public nodeValue: string
 
   public constructor (text: string) {

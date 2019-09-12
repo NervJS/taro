@@ -1,7 +1,8 @@
 import { NodeType } from './node_types'
 import { hydrate, MpInstance } from './render'
 import { incrementId } from './utils'
-import { TaroEventTarget, eventSource } from './e'
+import { TaroEventTarget } from './event_target'
+import { eventSource } from './event'
 
 const nodeId = incrementId()
 
@@ -111,6 +112,7 @@ export class TaroNode extends TaroEventTarget {
 
       setTimeout(() => {
         this.ctx.setData({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           root: hydrate(this as any)
         }, () => {
           this.pendingUpdate = false

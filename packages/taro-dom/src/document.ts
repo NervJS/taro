@@ -1,4 +1,4 @@
-import { Taro } from './text'
+import { TaroText } from './text'
 import { TaroElement } from './element'
 import { NodeType } from './node_types'
 
@@ -12,7 +12,7 @@ export class TaroDocument extends TaroElement {
   }
 
   public createTextNode (text: string) {
-    return new Taro(text)
+    return new TaroText(text)
   }
 }
 
