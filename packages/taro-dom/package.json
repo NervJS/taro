@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "build": "bili --input ./src/index.ts --format cjs --format esm"
+    "build": "bili --input ./src/index.ts --format cjs --format esm",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",

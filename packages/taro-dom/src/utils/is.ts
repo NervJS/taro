@@ -16,3 +16,7 @@ export const isArray = Array.isArray
 export function isString (o: unknown): o is string {
   return typeof o === 'string'
 }
+
+export function isUndefined (o: unknown): o is undefined {
+  return typeof o === 'undefined'
+}

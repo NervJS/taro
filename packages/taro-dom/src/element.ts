@@ -2,6 +2,7 @@ import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent } from './event'
 import { isArray } from './utils/is'
+import { Style } from './style'
 
 function isElement (node: TaroNode): node is TaroElement {
   return node.nodeType === 1
@@ -17,9 +18,12 @@ export class TaroElement extends TaroNode {
 
   public tagName: string
 
+  public style: Style
+
   public constructor (nodeType: NodeType, nodeName: string) {
     super(nodeType || NodeType.ELEMENT_NODE, nodeName)
     this.tagName = nodeName.toUpperCase()
+    this.style = new Style(this.performUpdate)
   }
 
   public get className () {
