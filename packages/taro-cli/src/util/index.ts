@@ -790,7 +790,7 @@ export function getUserHomeDir (): string {
 export type TemplateSourceType = 'git' | 'url'
 
 export function getTemplateSourceType (url: string): TemplateSourceType {
-  if (/^github:/.test(url) || /^gitlab:/.test(url)) {
+  if (/^github:/.test(url) || /^gitlab:/.test(url) || /^direct:/.test(url)) {
     return 'git'
   } else {
     return 'url'

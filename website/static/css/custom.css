@@ -334,3 +334,7 @@ pre {
     width: 250px;
   }
 }
+
+#back-to-top{
+  opacity: 0.6;
+}
