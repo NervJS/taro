@@ -10,7 +10,7 @@
 
 ## 开发配置
 
-你需要保证你的 Node.js 版本大于 8，把仓库 Clone 到本地。运行以下命令：
+你需要保证你的 Node.js 版本大于 8，把仓库 clone 到本地，并运行以下命令：
 
 ```bash
 $ npm install # or yarn
@@ -30,11 +30,11 @@ $ npm run bootstrap
 ## Pull Request 指南
 
 1. 务必保证 `npm run build` 能够编译成功；
-2. 务必保证提交到代码遵循相关包中的 `.eslintrc`, `.tslintrc`, `.stylelintrc` 所规定的规范；
+2. 务必保证提交的代码遵循相关包中的 `.eslintrc`, `.tslintrc`, `.stylelintrc` 所规定的规范；
 3. 当相关包的 `package.json` 含有 `npm test` 命令时，必须保证所有测试用例都需要通过；
 4. 当相关包有测试用例时，请给你提交的代码也添加相应的测试用例；
 5. 提交代码 commit 时，commit 信息需要遵循 [Angular Style Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)。
-6. 如果提交到代码非常多或功能复杂，可以把 PR 分成几个 commit 一起提交。我们在合并时会会根据情况 squash。
+6. 如果提交的代码非常多或功能复杂，可以把 PR 分成几个 commit 一起提交。我们在合并时会根据情况 squash。
  
  ## Credits
 
