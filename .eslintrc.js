@@ -12,6 +12,7 @@ module.exports = {
     swan: true,
     tt: true,
     qq: true,
+    dd: true,
     getApp: true,
     __wxRoute: true,
     getCurrentPages: true,

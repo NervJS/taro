@@ -26,6 +26,7 @@
     "packages/taro-weapp",
     "packages/taro-swan",
     "packages/taro-alipay",
+    "packages/taro-dingtalk",
     "packages/taro-tt",
     "packages/taro-quickapp",
     "packages/taro-qq",

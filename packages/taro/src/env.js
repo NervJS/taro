@@ -5,7 +5,8 @@ export const ENV_TYPE = {
   SWAN: 'SWAN',
   ALIPAY: 'ALIPAY',
   TT: 'TT',
-  QQ: 'QQ'
+  QQ: 'QQ',
+  DINGTALK: 'DINGTALK'
 }
 
 export function getEnv () {
@@ -29,6 +30,9 @@ export function getEnv () {
   }
   if (typeof window !== 'undefined') {
     return ENV_TYPE.WEB
+  }
+  if (typeof dd !== 'undefined' && dd.getSystemInfo) {
+    return ENV_TYPE.DINGTALK
   }
   return 'Unknown environment'
 }
