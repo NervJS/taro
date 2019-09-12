@@ -259,7 +259,7 @@ export function getElementById (component, id, type) {
     const childs = component.$component.$childs || {}
     res = childs[id.replace('#', '')] || null
   } else {
-    const query = my.createSelectorQuery().in(component)
+    const query = dd.createSelectorQuery().in(component)
     res = query.select(id)
   }
 
