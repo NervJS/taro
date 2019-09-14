@@ -25,8 +25,8 @@ export class TaroEvent {
 
   public constructor (type: string, opts: EventOptions) {
     this.type = type
-    this.bubbles = !!(opts && opts.bubbles)
-    this.cancelable = !!(opts && opts.cancelable)
+    this.bubbles = Boolean(opts && opts.bubbles)
+    this.cancelable = Boolean(opts && opts.cancelable)
   }
 
   public stopPropagation () {

@@ -1,7 +1,7 @@
 import { styleProperties } from './style_properties'
 import { isUndefined } from './utils/is'
 
-function toKedab (s: string) {
+function toDashed (s: string) {
   return s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
 }
 function dashedToCamelCase (s: string) {
@@ -63,7 +63,7 @@ export class Style {
     let text = ''
     this._usedStyleProp.forEach(key => {
       const val = this[key]
-      text += `${toKedab(key)}: ${val};`
+      text += `${toDashed(key)}: ${val};`
     })
     return text
   }
@@ -77,17 +77,19 @@ export class Style {
       this.removeProperty(prop)
     })
 
-    for (let i = 0; i < str.split(';').length; i++) {
-      const s = str[i].trim()
-      if (s === '') {
+    const rules = str.split(';')
+
+    for (let i = 0; i < rules.length; i++) {
+      const rule = rules[i].trim()
+      if (rule === '') {
         continue
       }
 
-      const [key, val] = s.split(':')
+      const [propName, val] = rule.split(':')
       if (isUndefined(val)) {
         continue
       }
-      this.setProperty(dashedToCamelCase(key.trim()), val.trim())
+      this.setProperty(dashedToCamelCase(propName.trim()), val.trim())
     }
   }
 
