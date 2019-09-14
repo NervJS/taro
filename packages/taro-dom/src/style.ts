@@ -4,7 +4,7 @@ import { isUndefined } from './utils/is'
 function toDashed (s: string) {
   return s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
 }
-function dashedToCamelCase (s: string) {
+function toCamelCase (s: string) {
   let camel = ''
   let nextCap = false
   for (let i = 0; i < s.length; i++) {
@@ -69,13 +69,17 @@ export class Style {
   }
 
   public set cssText (str: string) {
-    if (!str) {
-      return
+    if (str == null) {
+      str = ''
     }
 
     this._usedStyleProp.forEach(prop => {
       this.removeProperty(prop)
     })
+
+    if (str === '') {
+      return
+    }
 
     const rules = str.split(';')
 
@@ -89,11 +93,12 @@ export class Style {
       if (isUndefined(val)) {
         continue
       }
-      this.setProperty(dashedToCamelCase(propName.trim()), val.trim())
+      this.setProperty(propName.trim(), val.trim())
     }
   }
 
   public setProperty (propertyName: string, value?: string | null) {
+    propertyName = toCamelCase(propertyName)
     if (isUndefined(value)) {
       return
     }
@@ -106,6 +111,7 @@ export class Style {
   }
 
   public removeProperty (propertyName: string): string {
+    propertyName = toCamelCase(propertyName)
     if (!this._usedStyleProp.has(propertyName)) {
       return ''
     }
@@ -117,6 +123,7 @@ export class Style {
   }
 
   public getPropertyValue (propertyName: string) {
+    propertyName = toCamelCase(propertyName)
     const value = this[propertyName]
     if (!value) {
       return ''
