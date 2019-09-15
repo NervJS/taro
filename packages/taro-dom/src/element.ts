@@ -38,27 +38,29 @@ export class TaroElement extends TaroNode {
     return this.getAttribute('style')
   }
 
-  public set cssText (val: string) {
-    this.setAttribute('style', val)
-  }
-
   public get children () {
     return this.childNodes.filter(isElement)
   }
 
   public setAttribute (qualifiedName: string, value: string) {
-    this.props[qualifiedName] = value
+    if (qualifiedName === 'style') {
+      this.style.cssText = value
+    } else {
+      this.props[qualifiedName] = value
+    }
     this.performUpdate()
   }
 
   public getAttribute (qualifiedName: string): string | null {
-    const attr = this.props[qualifiedName]
+    const attr = qualifiedName === 'style' ? this.style.cssText : this.props[qualifiedName]
     return attr || null
   }
 
   public get attributes (): Attributes[] {
     const propKeys = Object.keys(this.props)
-    return propKeys.map(p => ({ name: p, value: this.props[p] }))
+    const style = this.style.cssText
+    const attrs = propKeys.map(p => ({ name: p, value: this.props[p] }))
+    return attrs.concat(style ? { name: 'style', value: style } : [])
   }
 
   public get parentElement () {
