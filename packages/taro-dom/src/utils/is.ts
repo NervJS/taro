@@ -20,3 +20,11 @@ export function isString (o: unknown): o is string {
 export function isUndefined (o: unknown): o is undefined {
   return typeof o === 'undefined'
 }
+
+export function isObject<T> (o: unknown): o is T {
+  return o !== null && typeof o === 'object'
+}
+
+export function isBoolean (o: unknown): o is boolean {
+  return o === true || o === false
+}
