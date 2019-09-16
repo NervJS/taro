@@ -69,7 +69,8 @@
     "webpack": "4.28.4",
     "webpack-chain": "4.9.0",
     "webpack-dev-server": "3.1.14",
-    "webpack-format-messages": "2.0.3"
+    "webpack-format-messages": "2.0.3",
+    "scss-bundle": "^2.5.1"
   },
   "devDependencies": {
     "@types/autoprefixer": "6.7.3",

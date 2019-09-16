@@ -76,6 +76,7 @@ export interface TaroPlugins {
   babel: Option;
   csso?: TogglableOptions;
   uglify?: TogglableOptions;
+  sass?: Option;
 }
 
 export interface CopyOptions {

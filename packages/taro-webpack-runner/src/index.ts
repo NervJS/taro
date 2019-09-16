@@ -4,7 +4,7 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
-
+import { Bundler } from 'scss-bundle'
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
@@ -127,16 +127,53 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   })
 }
 
-export default async (appPath: string, config: BuildConfig): Promise<void> => {
-  if (config.isWatch) {
+const makeConfig = async (config: BuildConfig) => {
+  const { sassLoaderOption , plugins } = config
+  const { sass = {} } = plugins
+  let bundledContent = ''
+  if (sass.resource && sass.projectDirectory) {
+    const { resource, projectDirectory } = sass
+    const getBundleContent = async (url) => {
+      const bundler = new Bundler(undefined, projectDirectory)
+      const res = await bundler.Bundle(url)
+      bundledContent += res.bundledContent
+    }
     try {
-      await buildDev(appPath, config)
+      if (typeof resource === 'string') {
+        await getBundleContent(resource)
+      } else if (Array.isArray(resource)) {
+        for (const url of resource) {
+          await getBundleContent(url)
+        }
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  if (sass.data) {
+    bundledContent += sass.data
+  }
+  return {
+    ...config,
+    plugins,
+    sassLoaderOption: {
+      ...sassLoaderOption,
+      data: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
+    }
+  }
+}
+
+export default async (appPath: string, config: BuildConfig): Promise<void> => {
+  const newConfig: BuildConfig = await makeConfig(config);
+  if (newConfig.isWatch) {
+    try {
+      await buildDev(appPath, newConfig)
     } catch (e) {
       console.error(e)
     }
   } else {
     try {
-      await buildProd(appPath, config)
+      await buildProd(appPath, newConfig)
     } catch (e) {
       console.error(e)
       process.exit(1);
