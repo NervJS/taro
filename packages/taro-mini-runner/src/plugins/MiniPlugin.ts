@@ -176,7 +176,8 @@ export default class MiniPlugin {
     compiler.hooks.watchRun.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
-        this.run(compiler)
+        const changedFile = this.getChangedFiles(compiler)
+        await this.watchRun(compiler, changedFile)
 			})
     )
 
@@ -198,6 +199,13 @@ export default class MiniPlugin {
     }).apply(compiler)
 
     new TaroNormalModulesPlugin().apply(compiler)
+  }
+
+  getChangedFiles (compiler) {
+    const { watchFileSystem } = compiler;
+    const watcher = watchFileSystem.watcher || watchFileSystem.wfs.watcher;
+
+    return Object.keys(watcher.mtimes)
   }
 
   getAppEntry (compiler) {
@@ -671,6 +679,10 @@ export default class MiniPlugin {
     this.getComponents(this.pages, true)
     this.addEntries(compiler)
     this.transferFileContent(compiler)
+  }
+
+  watchRun (compiler: webpack.Compiler, changedFile: string[]) {
+
   }
 
   getTargetFilePath (filePath, targetExtname) {
