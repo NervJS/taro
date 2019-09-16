@@ -43,7 +43,7 @@ sidebar_label: ScrollView
 ###### 示例：
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
-import { ScrollView } from '@tarojs/components'
+import { ScrollView, View } from '@tarojs/components'
 
 export default class PageView extends Component {
   constructor() {

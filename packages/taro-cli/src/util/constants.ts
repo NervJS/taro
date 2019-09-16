@@ -103,7 +103,8 @@ export const enum BUILD_TYPES {
   PLUGIN = 'plugin',
   QUICKAPP = 'quickapp',
   QQ = 'qq',
-  DINGTALK = 'dingtalk'
+  DINGTALK = 'dingtalk',
+  JD = 'jd',
 }
 
 export const enum TEMPLATE_TYPES {
@@ -113,7 +114,8 @@ export const enum TEMPLATE_TYPES {
   TT = '.ttml',
   QUICKAPP = '.ux',
   QQ = '.qml',
-  DINGTALK = '.axml'
+  DINGTALK = '.axml',
+  JD = '.jxml'
 }
 
 export const enum STYLE_TYPES {
@@ -123,7 +125,8 @@ export const enum STYLE_TYPES {
   TT = '.ttss',
   QUICKAPP = '.css',
   QQ = '.qss',
-  DINGTALK = '.acss'
+  DINGTALK = '.acss',
+  JD = '.jxss'
 }
 
 export const enum SCRIPT_TYPES {
@@ -133,7 +136,8 @@ export const enum SCRIPT_TYPES {
   TT = '.js',
   QUICKAPP = '.js',
   QQ = '.js',
-  DINGTALK = '.js'
+  DINGTALK = '.js',
+  JD = '.js'
 }
 
 export const enum CONFIG_TYPES {
@@ -143,7 +147,8 @@ export const enum CONFIG_TYPES {
   TT = '.json',
   QUICKAPP = '.json',
   QQ = '.json',
-  DINGTALK = '.json'
+  DINGTALK = '.json',
+  JD = '.json'
 }
 
 export type IMINI_APP_FILE_TYPE = {
@@ -198,6 +203,12 @@ export const MINI_APP_FILES: IMINI_APP_FILES = {
     STYLE: STYLE_TYPES.DINGTALK,
     SCRIPT: SCRIPT_TYPES.DINGTALK,
     CONFIG: CONFIG_TYPES.DINGTALK
+  },
+  [BUILD_TYPES.JD]: {
+    TEMPL: TEMPLATE_TYPES.JD,
+    STYLE: STYLE_TYPES.JD,
+    SCRIPT: SCRIPT_TYPES.JD,
+    CONFIG: CONFIG_TYPES.JD
   }
 }
 
@@ -274,9 +285,19 @@ export const CONFIG_MAP = {
     list: 'items',
     text: 'name',
     iconPath: 'icon',
-    selectedIconPath: 'activeIcon',
-    color: 'textColor'
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
   },
+  [BUILD_TYPES.JD]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
+  }
 }
 
 export const PROJECT_CONFIG = 'config/index.js'
@@ -305,6 +326,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/taro-h5',
   '@tarojs/taro-tt',
   '@tarojs/taro-qq',
+  '@tarojs/taro-jd',
   '@tarojs/taro-quickapp',
   '@tarojs/taro-swan',
   '@tarojs/taro-alipay',

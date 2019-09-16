@@ -6,10 +6,14 @@ export const ENV_TYPE = {
   ALIPAY: 'ALIPAY',
   TT: 'TT',
   QQ: 'QQ',
-  DINGTALK: 'DINGTALK'
+  DINGTALK: 'DINGTALK',
+  JD: 'JD'
 }
 
 export function getEnv () {
+  if (typeof jd !== 'undefined' && jd.getSystemInfo) {
+    return ENV_TYPE.JD
+  }
   if (typeof qq !== 'undefined' && qq.getSystemInfo) {
     return ENV_TYPE.QQ
   }
