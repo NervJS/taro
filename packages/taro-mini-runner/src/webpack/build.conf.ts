@@ -17,7 +17,6 @@ import {
 } from './chain'
 import { BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES } from '../utils/constants'
 import { Targets } from '../plugins/MiniPlugin'
-import { getQuickappConfig } from '../utils/helper'
 
 const emptyObj = {}
 
@@ -49,6 +48,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
     postcss = emptyObj,
     nodeModulesPath,
+    quickappJSON,
 
     babel,
     csso,
@@ -59,14 +59,21 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const minimizer: any[] = []
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
-  const isQuickapp = buildAdapter === BUILD_TYPES.QUICKAPP
 
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
   const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
-  plugin.miniPlugin = getMiniPlugin({ sourceDir, outputDir, buildAdapter, constantsReplaceList, nodeModulesPath })
+  plugin.miniPlugin = getMiniPlugin({
+    sourceDir,
+    outputDir,
+    buildAdapter,
+    constantsReplaceList,
+    nodeModulesPath,
+    quickappJSON,
+    designWidth
+  })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
     filename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`,
@@ -101,7 +108,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     output: getOutput(appPath, [{
       outputRoot,
       publicPath: '/',
-      buildAdapter
+      buildAdapter,
     }, output]),
     target: Targets[buildAdapter],
     resolve: {
@@ -161,19 +168,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     }
   }
 
-  // if (isQuickapp) {
-  //   const quickappConfig = getQuickappConfig(appPath)
-  //   const features = quickappConfig['features']
-  //   if (features && features.length) {
-  //     const externals = {}
-  //     features.forEach(item => {
-  //       externals[`@${item.name}`] = {
-  //         root: `@${item.name}`
-  //       }
-  //     })
-  //     mainConfig['externals'] = externals
-  //   }
-  // }
   chain.merge(mainConfig)
   return chain
 }
