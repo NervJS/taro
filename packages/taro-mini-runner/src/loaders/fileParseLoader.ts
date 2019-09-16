@@ -435,7 +435,8 @@ function processAst (
                   template(`import Taro from '${taroMiniAppFramework}'`, babylonConfig as any)() as any
                 )
               }
-              node.body.push(template(`export default require('${taroMiniAppFramework}').default.createApp(${exportVariableName})`, babylonConfig as any)() as any)
+              node.body.push(template(`exportRes = require('${taroMiniAppFramework}').default.createApp(${exportVariableName})`, babylonConfig as any)() as any)
+              node.body.push(template(`export default exportRes`, babylonConfig as any)() as any)
             } else {
               node.body.push(template(`App(require('${taroMiniAppFramework}').default.createApp(${exportVariableName}))`, babylonConfig as any)() as any)
             }
@@ -451,7 +452,8 @@ function processAst (
                   template(`import Taro from '${taroMiniAppFramework}'`, babylonConfig as any)() as any
                 )
               }
-              node.body.push(template(`export default require('${taroMiniAppFramework}').default.createComponent(${exportVariableName}, '${pagePath}')`, babylonConfig as any)() as any)
+              node.body.push(template(`exportRes = require('${taroMiniAppFramework}').default.createComponent(${exportVariableName}, '${pagePath}')`, babylonConfig as any)() as any)
+              node.body.push(template(`export default exportRes`, babylonConfig as any)() as any)
             } else {
               node.body.push(template(`Page(require('${taroMiniAppFramework}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
             }
@@ -463,7 +465,8 @@ function processAst (
                   template(`import Taro from '${taroMiniAppFramework}'`, babylonConfig as any)() as any
                 )
               }
-              node.body.push(template(`export default require('${taroMiniAppFramework}').default.createComponent(${exportVariableName})`, babylonConfig as any)() as any)
+              node.body.push(template(`exportRes = require('${taroMiniAppFramework}').default.createComponent(${exportVariableName})`, babylonConfig as any)() as any)
+              node.body.push(template(`export default exportRes`, babylonConfig as any)() as any)
             } else {
               node.body.push(template(`Component(require('${taroMiniAppFramework}').default.createComponent(${exportVariableName}))`, babylonConfig as any)() as any)
             }
@@ -484,7 +487,8 @@ export default function fileParseLoader (source, ast) {
     constantsReplaceList,
     buildAdapter,
     designWidth,
-    deviceRatio
+    deviceRatio,
+    sourceDir
   } = getOptions(this)
   const filePath = this.resourcePath
   const newAst = transformFromAst(ast, '', {
@@ -494,7 +498,7 @@ export default function fileParseLoader (source, ast) {
     ]
   }).ast as t.File
   const miniType = this._module.miniType || PARSE_AST_TYPE.NORMAL
-  const result = processAst(newAst, buildAdapter, miniType, designWidth, deviceRatio, filePath, this.context)
+  const result = processAst(newAst, buildAdapter, miniType, designWidth, deviceRatio, filePath, sourceDir)
   const code = generate(result).code
   const res = transform(code, babelConfig)
   return res.code

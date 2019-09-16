@@ -1,22 +1,8 @@
 import * as path from 'path'
-import * as fs from 'fs'
-import { isEmptyObject, getInstalledNpmPkgPath, promoteRelativePath } from '.'
+import * as _ from 'lodash'
+
+import { getInstalledNpmPkgPath, promoteRelativePath } from '.'
 import { taroJsQuickAppComponents, REG_STYLE, REG_SCRIPT } from './constants'
-
-let quickappConfig = {}
-
-export function getQuickappConfig (appPath) {
-  if (!isEmptyObject(quickappConfig)) {
-    return quickappConfig
-  }
-  const configPath = path.join(appPath, 'project.quickapp.json')
-  if (!fs.existsSync(configPath)) {
-    quickappConfig = require('../config/manifest.default.json')
-  } else {
-    quickappConfig = JSON.parse(fs.readFileSync(configPath).toString())
-  }
-  return quickappConfig
-}
 
 export function getTaroJsQuickAppComponentsPath (nodeModulesPath: string): string {
   const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, nodeModulesPath)
@@ -27,13 +13,13 @@ export function getTaroJsQuickAppComponentsPath (nodeModulesPath: string): strin
   return path.join(path.dirname(taroJsQuickAppComponentsPkg as string), 'src/components')
 }
 
-export function getImportTaroSelfComponents (filePath, nodeModulesPath, taroSelfComponents) {
+export function getImportTaroSelfComponents (filePath, nodeModulesPath, outputDir, taroSelfComponents) {
   const importTaroSelfComponents = new Set<{ path: string, name: string }>()
   const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath(nodeModulesPath)
   taroSelfComponents.forEach(c => {
     const cPath = path.join(taroJsQuickAppComponentsPath, c)
     const cMainPath = path.join(cPath, 'index')
-    const cRelativePath = promoteRelativePath(path.relative(filePath, cMainPath.replace(nodeModulesPath, 'npm')))
+    const cRelativePath = promoteRelativePath(path.relative(filePath, cMainPath.replace(nodeModulesPath, path.join(outputDir, 'npm'))))
     importTaroSelfComponents.add({
       path: cRelativePath,
       name: c
@@ -80,4 +66,58 @@ export function generateQuickAppUx ({
     }
   }
   return uxTxt
+}
+
+export function generateQuickAppManifest ({
+  appConfig,
+  quickappJSON,
+  pageConfigs,
+  designWidth
+}) {
+  // 生成 router
+  const pages = (appConfig.pages as string[]).concat()
+  const routerPages = {}
+  const customPageConfig = quickappJSON.customPageConfig || {}
+
+  pages.forEach(element => {
+    const customConfig = customPageConfig[element]
+    const pageConf: any = {
+      component: path.basename(element)
+    }
+    if (customConfig) {
+      const filter = customConfig.filter
+      const launchMode = customConfig.launchMode
+      if (filter) {
+        pageConf.filter = filter
+      }
+      if (launchMode) {
+        pageConf.launchMode = launchMode
+      }
+    }
+    routerPages[path.dirname(element)] = pageConf
+  })
+  delete quickappJSON.customPageConfig
+  const routerEntry = pages.shift()
+  const router = {
+    entry: path.dirname(routerEntry as string),
+    pages: routerPages
+  }
+  // 生成 display
+  const display = JSON.parse(JSON.stringify(appConfig.window || {}))
+  display.pages = {}
+  pageConfigs.forEach((item, page) => {
+    if (item) {
+      display.pages[path.dirname(page)] = item
+    }
+  })
+  quickappJSON.router = router
+  quickappJSON.display = display
+  quickappJSON.config = Object.assign({}, quickappJSON.config, {
+    designWidth: designWidth || 750
+  })
+  if (appConfig.window && appConfig.window.navigationStyle === 'custom') {
+    quickappJSON.display.titleBar = false
+    delete quickappJSON.display.navigationStyle
+  }
+  return quickappJSON
 }
