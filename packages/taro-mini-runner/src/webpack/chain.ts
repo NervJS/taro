@@ -22,7 +22,8 @@ const globalObjectMap = {
   [BUILD_TYPES.ALIPAY]: 'my',
   [BUILD_TYPES.SWAN]: 'swan',
   [BUILD_TYPES.QQ]: 'qq',
-  [BUILD_TYPES.TT]: 'tt'
+  [BUILD_TYPES.TT]: 'tt',
+  [BUILD_TYPES.QUICKAPP]: 'global'
 }
 
 const defaultUglifyJsOption = {
@@ -250,7 +251,8 @@ export const getModule = (appPath: string, {
     designWidth,
     deviceRatio,
     buildAdapter,
-    constantsReplaceList
+    constantsReplaceList,
+    sourceDir
   }])
 
   const wxTransformerLoader = getWxTransformerLoader([{

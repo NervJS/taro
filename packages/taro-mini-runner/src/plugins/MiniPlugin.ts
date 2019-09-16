@@ -12,14 +12,14 @@ import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 import { merge, defaults, kebabCase } from 'lodash'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
-import { Config as IConfig } from '@tarojs/taro'
+import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
 
-import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsComponents, QUICKAPP_SPECIAL_COMPONENTS, taroJsQuickAppComponents } from '../utils/constants'
+import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework } from '../utils/constants'
 import { IComponentObj } from '../utils/types'
 import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents } from '../utils/helper'
+import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, generateQuickAppManifest } from '../utils/helper'
 import parseAst from '../utils/parseAst'
 
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
@@ -32,6 +32,8 @@ interface IMiniPluginOptions {
   nodeModulesPath: string,
   sourceDir: string,
   outputDir: string,
+  quickappJSON?: any,
+  designWidth: number,
   commonChunks: string[]
 }
 
@@ -60,7 +62,7 @@ export const createTarget = function createTarget (name) {
     new JsonpTemplatePlugin().apply(compiler)
     new FunctionModulePlugin(options.output).apply(compiler)
     new NodeSourcePlugin(options.node).apply(compiler)
-    new LoaderTargetPlugin('web').apply(compiler)
+    new LoaderTargetPlugin('node').apply(compiler)
   }
 }
 
@@ -133,6 +135,7 @@ export default class MiniPlugin {
   outputDir: string
   context: string
   appConfig: IConfig
+  pageConfigs: Map<string, PageConfig>
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -140,6 +143,7 @@ export default class MiniPlugin {
       nodeModulesPath: '',
       sourceDir: '',
       outputDir: '',
+      designWidth: 750,
       commonChunks: ['runtime', 'vendors']
     })
     this.sourceDir = this.options.sourceDir
@@ -147,6 +151,7 @@ export default class MiniPlugin {
 
     this.pages = new Set()
     this.components = new Set()
+    this.pageConfigs = new Map()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -189,7 +194,7 @@ export default class MiniPlugin {
 
     new TaroLoadChunksPlugin({
       commonChunks: this.options.commonChunks,
-      taroFileTypeMap
+      buildAdapter: this.options.buildAdapter
     }).apply(compiler)
 
     new TaroNormalModulesPlugin().apply(compiler)
@@ -374,10 +379,11 @@ export default class MiniPlugin {
     }
     this.getSubPackages(configObj)
     this.generateTabBarFiles(compiler, configObj)
+    const template = ''
     taroFileTypeMap[this.appEntry] = {
       type: PARSE_AST_TYPE.ENTRY,
       config: configObj,
-      template: transformResult.template,
+      template,
       code: transformResult.code
     }
     this.pages = new Set([
@@ -403,7 +409,7 @@ export default class MiniPlugin {
       componentName = componentPath.replace(this.sourceDir, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
     }
 
-    return componentName
+    return componentName.replace(/^(\/|\\)/, '')
   }
 
   getComponents (fileList: Set<IComponent>, isRoot: boolean) {
@@ -465,6 +471,10 @@ export default class MiniPlugin {
         })
         let parseAstRes = parseAst(transformResult.ast, buildAdapter)
         configObj = parseAstRes.configObj
+        if (isRoot) {
+          const showPath = file.path.replace(this.sourceDir, '').replace(path.extname(file.path), '')
+          this.pageConfigs.set(showPath, configObj)
+        }
         taroSelfComponents = parseAstRes.taroSelfComponents
         const usingComponents = configObj.usingComponents
         if (usingComponents) {
@@ -487,11 +497,7 @@ export default class MiniPlugin {
       if (isQuickApp) {
         const scriptPath = file.path
         const outputScriptPath = scriptPath.replace(this.sourceDir, this.outputDir).replace(path.extname(scriptPath), MINI_APP_FILES[buildAdapter].SCRIPT)
-        const stylePath = outputScriptPath.replace(path.extname(outputScriptPath), MINI_APP_FILES[buildAdapter].STYLE)
-        const templPath = outputScriptPath.replace(path.extname(outputScriptPath), MINI_APP_FILES[buildAdapter].TEMPL)
-        const styleRelativePath = promoteRelativePath(path.relative(outputScriptPath, stylePath))
-        const scriptRelativePath = promoteRelativePath(path.relative(templPath, outputScriptPath))
-        const importTaroSelfComponents = getImportTaroSelfComponents(outputScriptPath, this.options.nodeModulesPath, taroSelfComponents)
+        const importTaroSelfComponents = getImportTaroSelfComponents(outputScriptPath, this.options.nodeModulesPath, this.outputDir, taroSelfComponents)
         const usingComponents = configObj.usingComponents
         let importUsingComponent: any = new Set([])
         if (usingComponents) {
@@ -510,8 +516,6 @@ export default class MiniPlugin {
         }))
         template = generateQuickAppUx({
           template,
-          script: scriptRelativePath,
-          style: styleRelativePath,
           imports: new Set([...importTaroSelfComponents, ...importUsingComponent, ...importCustomComponents])
         })
       }
@@ -586,18 +590,49 @@ export default class MiniPlugin {
       const extname = path.extname(item)
       const templatePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].TEMPL)
       const jsonPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].CONFIG)
+      const scriptPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].SCRIPT)
+      const stylePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].STYLE)
       const itemInfo = taroFileTypeMap[item]
-      if (itemInfo.type !== PARSE_AST_TYPE.ENTRY) {
-        compilation.assets[templatePath] = {
-          size: () => itemInfo.template!.length,
-          source: () => itemInfo.template
-        }
-      }
+      let template = itemInfo.template
       if (!isQuickApp) {
         const jsonStr = JSON.stringify(itemInfo.config)
         compilation.assets[jsonPath] = {
           size: () => jsonStr.length,
           source: () => jsonStr
+        }
+      } else {
+        let hitScriptItem
+        Object.keys(compilation.assets).forEach(item => {
+          if (stylePath.indexOf(item) >= 0) {
+            const relativeStylePath = promoteRelativePath(path.relative(scriptPath, stylePath))
+            template = `<style src='${relativeStylePath}'></style>\n` + template
+          }
+          if (scriptPath.indexOf(item) >= 0) {
+            let scriptContent = compilation.assets[item]._source.source()
+            scriptContent = `let exportRes;\n${scriptContent}\nexport default exportRes;`
+            hitScriptItem = item
+            template += `\n<script>${scriptContent}</script>`
+          }
+        })
+        if (hitScriptItem) {
+          delete compilation.assets[hitScriptItem]
+        }
+        const quickappJSON = generateQuickAppManifest({
+          appConfig: this.appConfig,
+          designWidth: this.options.designWidth,
+          pageConfigs: this.pageConfigs,
+          quickappJSON: this.options.quickappJSON
+        })
+        const quickappJSONStr = JSON.stringify(quickappJSON)
+        compilation.assets['./manifest.json'] = {
+          size: () => quickappJSONStr.length,
+          source: () => quickappJSONStr
+        }
+      }
+      if (template) {
+        compilation.assets[templatePath] = {
+          size: () => template!.length,
+          source: () => template
         }
       }
       if (itemInfo.taroSelfComponents) {
