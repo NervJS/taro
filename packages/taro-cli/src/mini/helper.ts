@@ -1,7 +1,10 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
+import { execSync } from 'child_process'
 
+import chalk from 'chalk'
 import * as _ from 'lodash'
+import * as ora from 'ora'
 import { Config } from '@tarojs/taro'
 import { IProjectConfig, ITaroManifestConfig } from '@tarojs/taro/types/compile'
 import wxTransformer from '@tarojs/transformer-wx'
@@ -32,8 +35,12 @@ import {
   recursiveFindNodeModules,
   getBabelConfig,
   extnameExpRegOf,
-  generateAlipayPath
+  generateAlipayPath,
+  unzip,
+  shouldUseYarn,
+  shouldUseCnpm
 } from '../util'
+import { downloadGithubRepoLatestRelease } from '../util/dowload'
 import { resolveNpmPkgMainPath } from '../util/resolve_npm_files'
 import { resolveNpmSync } from '../util/npm'
 
@@ -391,4 +398,80 @@ export function getImportTaroSelfComponents (filePath, taroSelfComponents) {
     })
   })
   return importTaroSelfComponents
+}
+
+export async function prepareQuickAppEnvironment (buildData: IBuildData) {
+  let isReady = false
+  let needDownload = false
+  let needInstall = false
+  const originalOutputDir = buildData.originalOutputDir
+  console.log()
+  if (fs.existsSync(path.join(buildData.originalOutputDir, 'sign'))) {
+    needDownload = false
+  } else {
+    needDownload = true
+  }
+  if (needDownload) {
+    const getSpinner = ora('开始下载快应用运行容器...').start()
+    await downloadGithubRepoLatestRelease('NervJS/quickapp-container', buildData.appPath, originalOutputDir)
+    await unzip(path.join(originalOutputDir, 'download_temp.zip'))
+    getSpinner.succeed('快应用运行容器下载完成')
+  } else {
+    console.log(`${chalk.green('✔ ')} 快应用容器已经准备好`)
+  }
+  process.chdir(originalOutputDir)
+  console.log()
+  if (fs.existsSync(path.join(originalOutputDir, 'node_modules'))) {
+    needInstall = false
+  } else {
+    needInstall = true
+  }
+  if (needInstall) {
+    let command
+    if (shouldUseYarn()) {
+      command = 'NODE_ENV=development yarn install'
+    } else if (shouldUseCnpm()) {
+      command = 'NODE_ENV=development cnpm install'
+    } else {
+      command = 'NODE_ENV=development npm install'
+    }
+    const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
+    try {
+      const stdout = execSync(command)
+      installSpinner.color = 'green'
+      installSpinner.succeed('安装成功')
+      console.log(`${stdout}`)
+      isReady = true
+    } catch (error) {
+      installSpinner.color = 'red'
+      installSpinner.fail(chalk.red(`快应用依赖环境安装失败，请进入 ${path.basename(originalOutputDir)} 重新安装！`))
+      console.log(`${error}`)
+      isReady = false
+    }
+  } else {
+    console.log(`${chalk.green('✔ ')} 快应用依赖已经安装好`)
+    isReady = true
+  }
+  return isReady
+}
+
+export async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port?: number, release?: boolean) {
+  const originalOutputDir = buildData.originalOutputDir
+  const { compile } = require(require.resolve('hap-toolkit/lib/commands/compile', { paths: [originalOutputDir] }))
+  if (isWatch) {
+    const { launchServer } = require(require.resolve('@hap-toolkit/server', { paths: [originalOutputDir] }))
+    launchServer({
+      port: port || 12306,
+      watch: isWatch,
+      clearRecords: false,
+      disableADB: false
+    })
+    compile('native', 'dev', true)
+  } else {
+    if (!release) {
+      compile('native', 'dev', false)
+    } else {
+      compile('native', 'prod', false)
+    }
+  }
 }
