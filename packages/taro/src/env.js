@@ -14,6 +14,9 @@ export function getEnv () {
   if (typeof jd !== 'undefined' && jd.getSystemInfo) {
     return ENV_TYPE.JD
   }
+  if (typeof dd !== 'undefined' && dd.getSystemInfo) {
+    return ENV_TYPE.DINGTALK
+  }
   if (typeof qq !== 'undefined' && qq.getSystemInfo) {
     return ENV_TYPE.QQ
   }
@@ -34,9 +37,6 @@ export function getEnv () {
   }
   if (typeof window !== 'undefined') {
     return ENV_TYPE.WEB
-  }
-  if (typeof dd !== 'undefined' && dd.getSystemInfo) {
-    return ENV_TYPE.DINGTALK
   }
   return 'Unknown environment'
 }
