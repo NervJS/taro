@@ -1,12 +1,9 @@
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent } from './event'
-import { isArray } from './utils/is'
+import { isArray, isElement } from './utils/is'
 import { Style } from './style'
-
-function isElement (node: TaroNode): node is TaroElement {
-  return node.nodeType === 1
-}
+import { EventHandler } from './event_target'
 
 interface Attributes {
   name: string;
@@ -73,20 +70,50 @@ export class TaroElement extends TaroNode {
   public dispatchEvent (event: TaroEvent) {
     let target = event.nativeTarget = this
     const cancelable = event.cancelable
-    let listeners: Function[]
+    let listeners: EventHandler[]
     do {
       listeners = target.__handlers[event.type]
       if (!isArray(listeners)) {
-        return
+        continue
       }
 
       for (let i = listeners.length; i--;) {
-        if ((listeners[i].call(target, event) === false || event._end) && cancelable) {
+        const listener = listeners[i]
+        let result: unknown
+        if (listener._stop) {
+          listener._stop = false
+        } else {
+          result = listener.call(target, event)
+        }
+        if ((result === false || event._end) && cancelable) {
           event.defaultPrevented = true
         }
+      }
+
+      if (event._stop) {
+        this._stopPropagation(event)
+      } else {
+        event._stop = true
       }
     // eslint-disable-next-line no-unmodified-loop-condition
     } while (event.bubbles && !(cancelable && event._stop) && (target = target.parentNode as this))
     return listeners != null
+  }
+
+  private _stopPropagation (event: TaroEvent) {
+    let target = this
+    // eslint-disable-next-line no-cond-assign
+    while (target = target.parentNode as this) {
+      const listeners = target.__handlers[event.type]
+
+      if (!isArray(listeners)) {
+        continue
+      }
+
+      for (let i = listeners.length; i--;) {
+        const l = listeners[i]
+        l._stop = true
+      }
+    }
   }
 }

@@ -9,10 +9,14 @@ interface AddEventListenerOptions extends EventListenerOptions {
   passive?: boolean;
 }
 
-export class TaroEventTarget {
-  protected __handlers: Record<string, Function[]> = {}
+export interface EventHandler extends Function {
+  _stop?: boolean;
+}
 
-  public addEventListener (type: string, handler: Function, options?: boolean | AddEventListenerOptions) {
+export class TaroEventTarget {
+  protected __handlers: Record<string, EventHandler[]> = {}
+
+  public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
     const handlers = this.__handlers[type]
     let isCapture = Boolean(options)
     let isOnce = false
@@ -46,7 +50,7 @@ export class TaroEventTarget {
     }
   }
 
-  public removeEventListener (type: string, handler: Function) {
+  public removeEventListener (type: string, handler: EventHandler) {
     if (handler == null) {
       return
     }
