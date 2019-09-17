@@ -37,7 +37,8 @@ const schema = Joi.object().keys({
 
   'weapp': Joi.object().keys({
     'compile': Joi.object().keys({
-      'exclude': Joi.array().items(Joi.string())
+      'exclude': Joi.array().items(Joi.string()),
+      'include': Joi.array().items(Joi.string())
     }),
     'module': Joi.object(), // 第三方配置
     'jsxAttributeNameReplace': Joi.object().pattern(
