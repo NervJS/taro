@@ -33,6 +33,12 @@ function createApp (AppClass) {
       }
     },
 
+    onShareAppMessage () {
+      if (app.onShareAppMessage) {
+        return app.onShareAppMessage();
+      }
+    },
+
     onPageNotFound (obj) {
       if (app.componentDidNotFound) {
         app.componentDidNotFound(obj)
