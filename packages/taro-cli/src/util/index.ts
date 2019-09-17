@@ -199,6 +199,21 @@ export function resolveScriptPath (p: string): string {
   return realPath
 }
 
+export function resolvePureScriptPath (p: string): string {
+  const realPath = p
+  const SCRIPT_EXT = JS_EXT.concat(TS_EXT)
+  for (let i = 0; i < SCRIPT_EXT.length; i++) {
+    const item = SCRIPT_EXT[i]
+    if (fs.existsSync(`${p}${item}`)) {
+      return `${p}${item}`
+    }
+    if (fs.existsSync(`${p}${path.sep}index${item}`)) {
+      return `${p}${path.sep}index${item}`
+    }
+  }
+  return realPath
+}
+
 export function resolveQuickappFilePath (p: string): string {
   for (let i = 0; i < UX_EXT.length; i++) {
     const item = UX_EXT[i]
@@ -775,7 +790,7 @@ export function getUserHomeDir (): string {
 export type TemplateSourceType = 'git' | 'url'
 
 export function getTemplateSourceType (url: string): TemplateSourceType {
-  if (/^github:/.test(url) || /^gitlab:/.test(url)) {
+  if (/^github:/.test(url) || /^gitlab:/.test(url) || /^direct:/.test(url)) {
     return 'git'
   } else {
     return 'url'

@@ -277,7 +277,8 @@ pre {
   overflow-x: auto;
 }
 
-.button:hover {
+.edit-page-link:hover, .docs-prevnext .button:hover {
+  opacity: 0.6;
   color: #5c5cff;
   border-color: #5c5cff;
   background-color: white;
@@ -322,12 +323,18 @@ pre {
   }
 
   input#search_input_react {
+    color: black;
     background-color: white;
     width: 200px;
   }
 
   input#search_input_react:focus {
+    color: black;
     background-color: white;
     width: 250px;
   }
+}
+
+#back-to-top{
+  opacity: 0.6;
 }

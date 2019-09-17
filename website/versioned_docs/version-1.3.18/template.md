@@ -1,5 +1,7 @@
 ---
 title: 项目模板
+id: version-1.3.18-template
+original_id: template
 ---
 
 > 自 `1.3.9` 开始支持

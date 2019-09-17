@@ -1,5 +1,7 @@
 ---
 title: 开发前注意
+id: version-1.3.18-before-dev-remind
+original_id: before-dev-remind
 ---
 
 ## 小程序

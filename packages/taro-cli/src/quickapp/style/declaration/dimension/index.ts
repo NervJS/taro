@@ -21,7 +21,7 @@ export default {
       //    addDeclaration('flex-direction', 'row')
       return 'I:'
     }
-    if (parseInt(value) === 0) {
+    if (parseInt(value, 10) === 0) {
       addDeclaration('display', 'none') // 部分应用利用height:0,height:auto来实现隐藏,显示
       return 'I:'
     }

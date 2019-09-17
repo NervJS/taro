@@ -1,5 +1,7 @@
 ---
 title: React Native 端开发流程
+id: version-1.3.18-react-native
+original_id: react-native
 ---
 
 > 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](https://nervjs.github.io/taro/docs/before-dev-remind.html)

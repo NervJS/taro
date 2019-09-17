@@ -28,12 +28,13 @@ import {
   generateEnvList,
   generateConstantsList,
   isEmptyObject,
-  getInstalledNpmPkgPath,
   recursiveFindNodeModules,
   getBabelConfig,
   extnameExpRegOf
 } from '../util'
 import { resolveNpmPkgMainPath } from '../util/resolve_npm_files'
+import { resolveNpmSync } from '../util/npm'
+
 import {
   IProjectConfig,
   IOption,
@@ -343,7 +344,7 @@ export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath:
 }
 
 export function getTaroJsQuickAppComponentsPath () {
-  const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, BuildData.nodeModulesPath)
+  const taroJsQuickAppComponentsPkg = resolveNpmSync(taroJsQuickAppComponents, BuildData.nodeModulesPath)
   if (!taroJsQuickAppComponentsPkg) {
     printLog(processTypeEnum.ERROR, '包安装', `缺少包 ${taroJsQuickAppComponents}，请安装！`)
     process.exit(0)

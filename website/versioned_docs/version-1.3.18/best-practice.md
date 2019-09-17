@@ -1,5 +1,7 @@
 ---
 title: 最佳实践
+id: version-1.3.18-best-practice
+original_id: best-practice
 ---
 
 ## 关于 JSX 支持程度补充说明
