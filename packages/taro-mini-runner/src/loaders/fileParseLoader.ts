@@ -14,8 +14,7 @@ import {
   taroJsRedux,
   QUICKAPP_SPECIAL_COMPONENTS,
   PARSE_AST_TYPE,
-  NODE_MODULES_REG,
-  REG_STYLE
+  NODE_MODULES_REG
 } from '../utils/constants'
 import {
   isNpmPkg,
