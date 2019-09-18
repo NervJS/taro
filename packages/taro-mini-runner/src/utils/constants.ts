@@ -28,13 +28,14 @@ export const NODE_MODULES_REG = /(.*)node_modules/
 
 export const enum BUILD_TYPES {
   WEAPP = 'weapp',
-  SWAN ='swan',
-  ALIPAY ='alipay',
-  TT ='tt',
-  UI ='ui',
+  SWAN = 'swan',
+  ALIPAY = 'alipay',
+  TT = 'tt',
+  UI = 'ui',
   PLUGIN = 'plugin',
   QUICKAPP = 'quickapp',
-  QQ = 'qq'
+  QQ = 'qq',
+  JD = 'jd'
 }
 
 export const enum TEMPLATE_TYPES {
@@ -43,7 +44,8 @@ export const enum TEMPLATE_TYPES {
   ALIPAY = '.axml',
   TT = '.ttml',
   QUICKAPP = '.ux',
-  QQ = '.qml'
+  QQ = '.qml',
+  JD = '.jxml'
 }
 
 export const enum STYLE_TYPES {
@@ -52,7 +54,8 @@ export const enum STYLE_TYPES {
   ALIPAY = '.acss',
   TT = '.ttss',
   QUICKAPP = '.css',
-  QQ = '.qss'
+  QQ = '.qss',
+  JD = '.jxss'
 }
 
 export const enum SCRIPT_TYPES {
@@ -61,7 +64,8 @@ export const enum SCRIPT_TYPES {
   ALIPAY = '.js',
   TT = '.js',
   QUICKAPP = '.js',
-  QQ = '.js'
+  QQ = '.js',
+  JD = '.js'
 }
 
 export const enum CONFIG_TYPES {
@@ -70,7 +74,8 @@ export const enum CONFIG_TYPES {
   ALIPAY = '.json',
   TT = '.json',
   QUICKAPP = '.json',
-  QQ = '.json'
+  QQ = '.json',
+  JD = '.json'
 }
 
 export type IMINI_APP_FILE_TYPE = {
@@ -119,6 +124,12 @@ export const MINI_APP_FILES: IMINI_APP_FILES = {
     STYLE: STYLE_TYPES.QQ,
     SCRIPT: SCRIPT_TYPES.QQ,
     CONFIG: CONFIG_TYPES.QQ
+  },
+  [BUILD_TYPES.JD]: {
+    TEMPL: TEMPLATE_TYPES.JD,
+    STYLE: STYLE_TYPES.JD,
+    SCRIPT: SCRIPT_TYPES.JD,
+    CONFIG: CONFIG_TYPES.JD
   }
 }
 
@@ -168,15 +179,16 @@ export const CONFIG_MAP = {
     navigationBarBackgroundColor: 'titleBarBackgroundColor',
     navigationBarTextStyle: 'titleBarTextColor',
     pageOrientation: 'orientation',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath',
     backgroundTextStyle: false,
-    list: false,
-    text: false,
-    iconPath: false,
-    selectedIconPath: false,
     onReachBottomDistance: false,
     backgroundColorBottom: false,
     backgroundColorTop: false,
-    navigationStyle: false
+    enablePullDownRefresh: false,
+    navigationStyle: 'navigationStyle'
   },
   [BUILD_TYPES.QQ]: {
     navigationBarTitleText: 'navigationBarTitleText',
@@ -185,10 +197,20 @@ export const CONFIG_MAP = {
     list: 'list',
     text: 'text',
     iconPath: 'iconPath',
-    selectedIconPath: 'selectedIconPath'
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
+  },
+  [BUILD_TYPES.JD]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
   }
 }
-
 
 export const taroJsComponents = '@tarojs/components'
 export const taroJsQuickAppComponents = '@tarojs/components-qa'
