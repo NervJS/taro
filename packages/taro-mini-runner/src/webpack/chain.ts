@@ -15,7 +15,17 @@ import { getPostcssPlugins } from './postcss.conf'
 import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption } from '../utils/types'
 import { recursiveMerge, isNodeModule } from '../utils'
-import { REG_SASS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, BUILD_TYPES, REG_SCRIPTS, MINI_APP_FILES, REG_UX } from '../utils/constants'
+import {
+  REG_SASS,
+  REG_LESS,
+  REG_STYLUS,
+  REG_STYLE,
+  REG_MEDIA,
+  REG_FONT,
+  REG_IMAGE,
+  BUILD_TYPES,
+  REG_SCRIPTS
+} from '../utils/constants'
 
 const globalObjectMap = {
   [BUILD_TYPES.WEAPP]: 'wx',
@@ -23,6 +33,7 @@ const globalObjectMap = {
   [BUILD_TYPES.SWAN]: 'swan',
   [BUILD_TYPES.QQ]: 'qq',
   [BUILD_TYPES.TT]: 'tt',
+  [BUILD_TYPES.JD]: 'jd',
   [BUILD_TYPES.QUICKAPP]: 'global'
 }
 
@@ -91,7 +102,7 @@ export const mergeOption = ([...options]: IOption[]): IOption => {
 const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
 const styleGlobalReg = /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/
 
-export const processEnvOption = partial(mapKeys, (key: string) => `process.env.${key}`)
+export const processEnvOption = partial(mapKeys as any, (key: string) => `process.env.${key}`)
 
 export const getCssLoader = pipe(mergeOption, partial(getLoader, 'css-loader'))
 export const getPostcssLoader = pipe(mergeOption, partial(getLoader, 'postcss-loader'))
