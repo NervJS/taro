@@ -15,7 +15,7 @@ import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
 
-import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework } from '../utils/constants'
+import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, REG_SCRIPTS } from '../utils/constants'
 import { IComponentObj } from '../utils/types'
 import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -136,6 +136,7 @@ export default class MiniPlugin {
   context: string
   appConfig: IConfig
   pageConfigs: Map<string, PageConfig>
+  changedFile: string
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -176,8 +177,12 @@ export default class MiniPlugin {
     compiler.hooks.watchRun.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
-        const changedFile = this.getChangedFiles(compiler)
-        await this.watchRun(compiler, changedFile)
+        const changedFiles = this.getChangedFiles(compiler)
+        if (!changedFiles.length) {
+          await this.run(compiler)
+        } else {
+          await this.watchRun(compiler, changedFiles)
+        }
 			})
     )
 
@@ -637,7 +642,7 @@ export default class MiniPlugin {
           source: () => quickappJSONStr
         }
       }
-      if (template) {
+      if (template && (!this.changedFile || this.changedFile === item)) {
         compilation.assets[templatePath] = {
           size: () => template!.length,
           source: () => template
@@ -681,8 +686,12 @@ export default class MiniPlugin {
     this.transferFileContent(compiler)
   }
 
-  watchRun (compiler: webpack.Compiler, changedFile: string[]) {
-
+  watchRun (compiler: webpack.Compiler, changedFiles: string[]) {
+    const changedFile = changedFiles[0]
+    if (REG_SCRIPTS.test(changedFile)) {
+      this.changedFile = changedFile
+      this.run(compiler)
+    }
   }
 
   getTargetFilePath (filePath, targetExtname) {
