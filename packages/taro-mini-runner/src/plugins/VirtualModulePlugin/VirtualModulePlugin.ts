@@ -1,5 +1,6 @@
 import * as path from 'path'
 import VirtualStats from './virtualStats'
+import webpack from 'webpack'
 
 export default class VirtualModulePlugin {
   options: {
@@ -11,7 +12,7 @@ export default class VirtualModulePlugin {
     this.options = options
   }
 
-  apply(compiler) {
+  apply (compiler: webpack.Compiler) {
     const moduleName = this.options.moduleName
     const ctime = VirtualModulePlugin.statsDate()
     let modulePath = this.options.path
@@ -63,7 +64,7 @@ export default class VirtualModulePlugin {
     })
   }
 
-  static populateFilesystem(options) {
+  static populateFilesystem (options) {
     const fs = options.fs
     const modulePath = options.modulePath
     const contents = options.contents
