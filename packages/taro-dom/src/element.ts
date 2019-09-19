@@ -20,7 +20,7 @@ export class TaroElement extends TaroNode {
   public constructor (nodeType: NodeType, nodeName: string) {
     super(nodeType || NodeType.ELEMENT_NODE, nodeName)
     this.tagName = nodeName.toUpperCase()
-    this.style = new Style(this.performUpdate)
+    this.style = new Style(this)
   }
 
   public get className () {

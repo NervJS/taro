@@ -1,5 +1,6 @@
 import { styleProperties } from './style_properties'
 import { isUndefined } from './utils/is'
+import { TaroElement } from './element'
 
 function toDashed (s: string) {
   return s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
@@ -21,12 +22,12 @@ function toCamelCase (s: string) {
 export class Style {
   private _usedStyleProp: Set<string>
 
-  private onUpdate: () => void
-
   public _value: Partial<CSSStyleDeclaration>
 
-  public constructor (onUpdate: () => void) {
-    this.onUpdate = onUpdate
+  public _element: TaroElement
+
+  public constructor (element: TaroElement) {
+    this._element = element
     this._usedStyleProp = new Set()
     this._value = {}
     this.initStyle()
@@ -34,7 +35,6 @@ export class Style {
 
   private initStyle () {
     const properties = {}
-    const update = this.onUpdate
     const usedStyleProp = this._usedStyleProp
 
     for (let i = 0; i < styleProperties.length; i++) {
@@ -50,7 +50,7 @@ export class Style {
           }
           if (old !== newVal) {
             this._value[styleKey] = newVal
-            update()
+            this._element.performUpdate()
           }
         }
       }
