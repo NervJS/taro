@@ -4,7 +4,6 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
-import { Bundler } from 'scss-bundle'
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
@@ -12,6 +11,7 @@ import prodConf from './config/prod.conf'
 import { addLeadingSlash, addTrailingSlash, recursiveMerge } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
+import { makeConfig } from './util/chain';
 
 const stripTrailingSlash = (path: string): string =>
   path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
@@ -125,42 +125,6 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
       }
     })
   })
-}
-
-const makeConfig = async (config: BuildConfig) => {
-  const { sassLoaderOption , plugins } = config
-  const { sass = {} } = plugins
-  let bundledContent = ''
-  if (sass.resource && sass.projectDirectory) {
-    const { resource, projectDirectory } = sass
-    const getBundleContent = async (url) => {
-      const bundler = new Bundler(undefined, projectDirectory)
-      const res = await bundler.Bundle(url)
-      bundledContent += res.bundledContent
-    }
-    try {
-      if (typeof resource === 'string') {
-        await getBundleContent(resource)
-      } else if (Array.isArray(resource)) {
-        for (const url of resource) {
-          await getBundleContent(url)
-        }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  if (sass.data) {
-    bundledContent += sass.data
-  }
-  return {
-    ...config,
-    plugins,
-    sassLoaderOption: {
-      ...sassLoaderOption,
-      data: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
-    }
-  }
 }
 
 export default async (appPath: string, config: BuildConfig): Promise<void> => {
