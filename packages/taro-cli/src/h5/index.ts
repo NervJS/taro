@@ -82,7 +82,7 @@ class Compiler {
   }
   pages: [PageName, FilePath][] = []
 
-  constructor (public appPath: string) {
+  constructor (public appPath: string, entryFile?: string) {
     const projectConfig = recursiveMerge({
       h5: defaultH5Config
     }, require(path.join(appPath, PROJECT_CONFIG))(merge))
@@ -96,7 +96,7 @@ class Compiler {
     this.outputPath = path.join(appPath, outputDir)
     this.tempDir = CONFIG.TEMP_DIR
     this.tempPath = path.join(appPath, this.tempDir)
-    this.entryFilePath = resolveScriptPath(path.join(this.sourcePath, CONFIG.ENTRY))
+    this.entryFilePath = resolveScriptPath(path.join(this.sourcePath, entryFile || CONFIG.ENTRY))
     this.entryFileName = path.basename(this.entryFilePath)
     this.pathAlias = projectConfig.alias || {}
     this.pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
