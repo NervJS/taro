@@ -765,10 +765,10 @@ declare namespace Taro {
       [key: string]: string
     } & {
       path?: string
-      scene?: number | string
-      query?: {[key: string]: string} | string
+      scene?: number
+      query?: {[key: string]: string}
       shareTicket?: string
-      referrerInfo?: {[key: string]: any} | string
+      referrerInfo?: {[key: string]: any}
     }
     /**
     * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
