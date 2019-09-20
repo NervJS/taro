@@ -1,7 +1,5 @@
 import { Reaction } from 'mobx'
-import { isMiniPlatform } from './utils'
-import { errorsReporter } from './reporter'
-import { isUsingStaticRendering } from './staticRendering'
+import { errorsReporter, isUsingStaticRendering } from '@tarojs/mobx-common'
 
 export function observer (component) {
   if (isUsingStaticRendering()) {
@@ -15,15 +13,16 @@ export function observer (component) {
   }
 
   const target = component.prototype
-  const originComponentWillMount = target.componentWillMount
-  const originComponentWillReact = target.componentWillReact
-  target.componentWillMount = function () {
-    const initialName = this.displayName || this.name
-    this._reaction = new Reaction(`${initialName}_${Date.now()}`, () => {
-      this.forceUpdate()
-      originComponentWillReact && originComponentWillReact.call(this)
-    })
-    originComponentWillMount && originComponentWillMount.call(this)
+  const originConstructor = target._constructor
+  target._constructor = function () {
+    if (this.$scope) {
+      const initialName = this.displayName || this.name
+      this._reaction = new Reaction(`${initialName}_${Date.now()}`, () => {
+        this.componentWillReact && this.componentWillReact()
+        this.forceUpdate()
+      })
+    }
+    originConstructor && originConstructor.call(this, this.props)
   }
 
   const originComponentWillUnmount = target.componentWillUnmount
@@ -32,9 +31,8 @@ export function observer (component) {
     originComponentWillUnmount && originComponentWillUnmount.call(this)
   }
 
-  const renderMethod = isMiniPlatform() ? '_createData' : 'render'
-  const originRender = target[renderMethod]
-  target[renderMethod] = function (...args) {
+  const originRender = target._createData
+  target._createData = function (...args) {
     let result
     let exception
     if (this._reaction instanceof Reaction) {

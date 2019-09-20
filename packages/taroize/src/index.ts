@@ -10,10 +10,12 @@ interface Option {
   script?: string,
   wxml?: string,
   path: string
+  rootPath: string
 }
 
 export function parse (option: Option) {
   resetGlobals()
+  setting.rootPath = option.rootPath
   if (option.json) {
     const config = JSON.parse(option.json)
     const usingComponents = config['usingComponents']

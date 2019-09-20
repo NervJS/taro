@@ -4,6 +4,7 @@ import * as path from 'path'
 import * as autoprefixer from 'autoprefixer'
 import * as postcss from 'postcss'
 import * as pxtransform from 'postcss-pxtransform'
+import rewriter from '../quickapp/style-rewriter'
 import getHashName from '../util/hash'
 import browserList from '../config/browser_list'
 import {
@@ -272,7 +273,8 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
   if (isBuildingStyles.get(outputFilePath)) {
     return Promise.resolve({})
   }
-  const { appPath, projectConfig, isProduction } = getBuildData()
+  const { appPath, projectConfig, isProduction, buildAdapter } = getBuildData()
+  const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
   const pluginsConfig = projectConfig.plugins || {}
   isBuildingStyles.set(outputFilePath, true)
   return Promise.all(styleFiles.map(async p => compileStyleWithPlugin(p))).then(async resList => {
@@ -289,6 +291,13 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
           const cssoResult = callPluginSync('csso', resContent, outputFilePath, cssoConfig, appPath)
           resContent = cssoResult.css
         }
+        if (isQuickApp) {
+          const transformStyle = rewriter(resContent, isProduction)
+          if(transformStyle) {
+            resContent = transformStyle
+          }
+        }
+        
         fs.ensureDirSync(path.dirname(outputFilePath))
         fs.writeFileSync(outputFilePath, resContent)
       })

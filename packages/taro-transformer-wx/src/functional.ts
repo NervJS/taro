@@ -137,7 +137,7 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
       JSXAttribute (path) {
         const { name, value } = path.node
         const jsxElementPath = path.parentPath.parentPath
-        if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement() && transformOptions.isNormal === false) {
+        if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement() && transformOptions.isNormal !== true) {
           const componentName = (jsxElementPath.node.openingElement as any).name.name
           if (/^render[A-Z]/.test(name.name) && !DEFAULT_Component_SET.has(componentName)) {
             if (!t.isJSXExpressionContainer(value)) {

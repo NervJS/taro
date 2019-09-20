@@ -5,7 +5,6 @@
     style="{{customstyle}}"
     onclick="handleClick"
   >
-    <slot></slot>
   </canvas>
 </template>
 

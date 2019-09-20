@@ -50,13 +50,18 @@ const tempDir = '.temp'
 
 let buildData: IBuildData
 
-function setBuildData (appPath) {
+function setBuildData (appPath, uiIndex) {
   const configDir = path.join(appPath, PROJECT_CONFIG)
   const projectConfig = require(configDir)(_.merge)
   const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
   const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
   const sourceDir = path.join(appPath, sourceDirName)
-  const entryFilePath = resolveScriptPath(path.join(sourceDir, 'index'))
+  let entryFilePath
+  if (uiIndex) {
+    entryFilePath = resolveScriptPath(path.join(sourceDir, uiIndex))
+  } else {
+    entryFilePath = resolveScriptPath(path.join(sourceDir, 'index'))
+  }
   const entryFileName = path.basename(entryFilePath)
   const tempPath = path.join(appPath, tempDir)
 
@@ -106,11 +111,11 @@ async function buildH5Script () {
   webpackRunner(appPath, h5Config)
 }
 
-async function buildH5Lib () {
+async function buildH5Lib (uiIndex) {
   try {
     const { appPath, outputDirName, tempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, h5OutputName)
-    const tempEntryFilePath = resolveScriptPath(path.join(tempPath, 'index'))
+    const tempEntryFilePath = resolveScriptPath(path.join(tempPath, uiIndex))
     const outputEntryFilePath = path.join(outputDir, path.basename(tempEntryFilePath))
     const code = fs.readFileSync(tempEntryFilePath).toString()
     const transformResult = wxTransformer({
@@ -350,30 +355,34 @@ async function buildForWeapp () {
   }
 }
 
-async function buildForH5 () {
+async function buildForH5 (uiIndex) {
   const { appPath } = buildData
-  const compiler = new Compiler(appPath)
+  const compiler = new Compiler(appPath, uiIndex)
   console.log()
   console.log(chalk.green('开始编译 H5 端组件库！'))
   await compiler.buildTemp()
   if (process.env.TARO_BUILD_TYPE === 'script') {
     await buildH5Script()
   } else {
-    await buildH5Lib()
+    await buildH5Lib(uiIndex)
   }
 }
 
-function buildEntry () {
+function buildEntry (uiIndex) {
   const { appPath, outputDirName } = buildData
+  let indexName = 'index'
+  if (uiIndex) {
+    indexName = path.basename(uiIndex, path.extname(uiIndex))
+  }
   const content = `if (process.env.TARO_ENV === '${BUILD_TYPES.H5}') {
-    module.exports = require('./${h5OutputName}/index')
+    module.exports = require('./${h5OutputName}/${indexName}')
     module.exports.default = module.exports
   } else {
-    module.exports = require('./${weappOutputName}/index')
+    module.exports = require('./${weappOutputName}/${indexName}')
     module.exports.default = module.exports
   }`
   const outputDir = path.join(appPath, outputDirName)
-  fs.writeFileSync(path.join(outputDir, 'index.js'), content)
+  fs.writeFileSync(path.join(outputDir, `index.js`), content)
 }
 
 function watchFiles () {
@@ -473,12 +482,12 @@ function watchFiles () {
     })
 }
 
-export async function build (appPath, { watch }: IBuildConfig) {
-  setBuildData(appPath)
+export async function build (appPath, { watch, uiIndex }: IBuildConfig) {
+  setBuildData(appPath, uiIndex)
   setMiniBuildData(appPath, BUILD_TYPES.WEAPP)
-  buildEntry()
+  buildEntry(uiIndex)
   await buildForWeapp()
-  await buildForH5()
+  await buildForH5(uiIndex)
   if (watch) {
     watchFiles()
   }

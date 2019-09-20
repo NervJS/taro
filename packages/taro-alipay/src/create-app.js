@@ -39,6 +39,11 @@ function createApp (AppClass) {
       }
     }
   }
+
+  if (app.onShareAppMessage) {
+    alipayAppConf.onShareAppMessage = app.onShareAppMessage
+  }
+
   return Object.assign(alipayAppConf, app)
 }
 

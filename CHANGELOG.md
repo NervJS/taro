@@ -1,5 +1,96 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.14...v) (2019-08-19)
+# [](https://github.com/NervJS/taro/compare/v1.3.18...v) (2019-09-07)
+
+
+
+<a name="1.3.18"></a>
+## [1.3.18](https://github.com/NervJS/taro/compare/v1.3.16...v1.3.18) (2019-09-07)
+
+
+### Bug Fixes
+
+* **cli:** 修复快应用编译时样式处理细节问题 ([76d8ff7](https://github.com/NervJS/taro/commit/76d8ff7))
+* **cli:** 去掉快应用编译时没必要的尺寸转换 ([2150e7b](https://github.com/NervJS/taro/commit/2150e7b))
+* **cli:** 增加快应用支持的样式 ([90116c2](https://github.com/NervJS/taro/commit/90116c2))
+* **cli:** 小程序 debug 与快应用 logLevel 不挂钩 ([65af0ee](https://github.com/NervJS/taro/commit/65af0ee))
+* **cli:** 快应用编译时错误注释掉了支持的样式 ([4a829f6](https://github.com/NervJS/taro/commit/4a829f6))
+* **cli:** 调整 taro-page 插入逻辑，close [#4357](https://github.com/NervJS/taro/issues/4357) ([d03d23c](https://github.com/NervJS/taro/commit/d03d23c))
+* **components:** 修复快应用事件重复触发问题 ([742ac61](https://github.com/NervJS/taro/commit/742ac61))
+* **docs:** 修复原生组件传 props 给自定义组件的用法文档 ([5e72332](https://github.com/NervJS/taro/commit/5e72332))
+* **router:** h5 page min-height 失效 [#4092](https://github.com/NervJS/taro/issues/4092) ([cbf2edf](https://github.com/NervJS/taro/commit/cbf2edf))
+* **transformer:**  循环中使用自定义组件失效, close [#4359](https://github.com/NervJS/taro/issues/4359) ([e290a7c](https://github.com/NervJS/taro/commit/e290a7c))
+* **transformer:** 任何情况下快应用 view 都解析为 div ([#4410](https://github.com/NervJS/taro/issues/4410)) ([958a617](https://github.com/NervJS/taro/commit/958a617))
+* **transformer:** 只有 render 开头的函数才是 render props ([e1cf11c](https://github.com/NervJS/taro/commit/e1cf11c)), closes [#4180](https://github.com/NervJS/taro/issues/4180)
+* **weapp/qq:** 修复新 props 系统在微信小程序下循环渲染时的问题。fix [#4350](https://github.com/NervJS/taro/issues/4350) ([ae66b35](https://github.com/NervJS/taro/commit/ae66b35))
+* lint ([6e7a7d1](https://github.com/NervJS/taro/commit/6e7a7d1))
+* 添加QQ小程序分享功能缺失的参数属性showShareItems ([#4421](https://github.com/NervJS/taro/issues/4421)) ([a923335](https://github.com/NervJS/taro/commit/a923335))
+
+
+### Features
+
+* **cli:** taro-init ([6a32f4c](https://github.com/NervJS/taro/commit/6a32f4c))
+* **cli:** taro-init新增clone选项 ([#4400](https://github.com/NervJS/taro/issues/4400)) ([c157b71](https://github.com/NervJS/taro/commit/c157b71))
+* **cli:** 增加了一些功能: ([a910b03](https://github.com/NervJS/taro/commit/a910b03))
+* **cli:** 小程序支持单独编译单个组件和页面 ([c40e0ab](https://github.com/NervJS/taro/commit/c40e0ab))
+* **cli component:** tabbar支持多页面模式 ([26184de](https://github.com/NervJS/taro/commit/26184de))
+* **router:** 支持在多页面模式中使用api跳转 ([6134d28](https://github.com/NervJS/taro/commit/6134d28))
+* **webpack-runner:** h5端支持编译到多个html文件 ([a8cfb54](https://github.com/NervJS/taro/commit/a8cfb54))
+* **webpack-runner:** webpack-runner支持直接打开多页模式的首页 ([0220071](https://github.com/NervJS/taro/commit/0220071))
+* **webpack-runner:** 加入预览端口自动切换的功能 ([6480a21](https://github.com/NervJS/taro/commit/6480a21))
+
+
+
+<a name="1.3.16"></a>
+## [1.3.16](https://github.com/NervJS/taro/compare/v1.3.14...v1.3.16) (2019-09-01)
+
+
+### Bug Fixes
+
+* **cli:** 修复h5的页面文件不支持named export的问题, close [#4290](https://github.com/NervJS/taro/issues/4290) ([7fee56b](https://github.com/NervJS/taro/commit/7fee56b))
+* **cli:** 加入了templates里dot开头的文件 ([159e4d6](https://github.com/NervJS/taro/commit/159e4d6))
+* **cli:** 去除拼接图片的错误提示 ([#4236](https://github.com/NervJS/taro/issues/4236)) ([afde06f](https://github.com/NervJS/taro/commit/afde06f))
+* **cli:** 快应用 manifest 的 versioncode和minPlatformVersion必须是整型 ([#4318](https://github.com/NervJS/taro/issues/4318)) ([0a7bd5e](https://github.com/NervJS/taro/commit/0a7bd5e))
+* **cli:** 插件编译 watch 时，plugin 内的 json 文件也需要修改 npm 路径 ([1c060a0](https://github.com/NervJS/taro/commit/1c060a0))
+* **cli:** 插件编译把 fs.moveSync 改 fs.move 避免一些问题。fix [#4231](https://github.com/NervJS/taro/issues/4231) ([720f0f7](https://github.com/NervJS/taro/commit/720f0f7))
+* **cli:** 插件编译时，plugin 内的 json 文件也需要修改 npm 路径，fix [#3794](https://github.com/NervJS/taro/issues/3794) ([346778c](https://github.com/NervJS/taro/commit/346778c))
+* **cli:** 重命名templates里dot开头的文件 ([e612d11](https://github.com/NervJS/taro/commit/e612d11))
+* **components:** 修复快应用 style 属性问题，修复 H5 image 问题 (close # 4116) ([40c47a0](https://github.com/NervJS/taro/commit/40c47a0))
+* **components:** 修改快应用组件接受属性 ([4e18c5d](https://github.com/NervJS/taro/commit/4e18c5d))
+* **components-qa:** canvas不能有子组件 ([#4339](https://github.com/NervJS/taro/issues/4339)) ([3cb94b0](https://github.com/NervJS/taro/commit/3cb94b0))
+* **components-qa:** labelerror 修复拼写错误 ([#4286](https://github.com/NervJS/taro/issues/4286)) ([8cdb40d](https://github.com/NervJS/taro/commit/8cdb40d))
+* **h5:** 修复measureText返回undefined的问题, close [#4254](https://github.com/NervJS/taro/issues/4254) ([bca1733](https://github.com/NervJS/taro/commit/bca1733))
+* **taro:** 修复小程序下 usePageScoll/useReachBottom 等 hook 中 state/props 不更新的问题 ([10e72fb](https://github.com/NervJS/taro/commit/10e72fb))
+* **taro-h5:** 修复 H5 中 usePageScoll/useReachBottom hooks 不生效问题 ([4829b43](https://github.com/NervJS/taro/commit/4829b43))
+* **taro-hooks:** 组件方法 hooks 如 useShareAppMessage 需要暴露返回值，fix [#4256](https://github.com/NervJS/taro/issues/4256) ([daf5fed](https://github.com/NervJS/taro/commit/daf5fed))
+* **taroize:** include不存在的模板会导致整个模板返回 null ([4e6c97a](https://github.com/NervJS/taro/commit/4e6c97a)), closes [#4265](https://github.com/NervJS/taro/issues/4265)
+* **taroize:** wx:if后面有空格的问题，另外wxs标签不需要进行format操作,否则会报错 ([#4218](https://github.com/NervJS/taro/issues/4218)) ([0c9d3bb](https://github.com/NervJS/taro/commit/0c9d3bb))
+* **taroize:** wxs import 需要保持原有命名 ([98556a3](https://github.com/NervJS/taro/commit/98556a3))
+* **taroize:** 内联 wxs 每次都要生成的文件 ([51a2415](https://github.com/NervJS/taro/commit/51a2415))
+* **taroize:** 给app.js添加withWeapp ([064ec7e](https://github.com/NervJS/taro/commit/064ec7e))
+* **taroize:** 统一格式化为一行，否则会有unterminate line end的错误 ([#4244](https://github.com/NervJS/taro/issues/4244)) ([1af6e3a](https://github.com/NervJS/taro/commit/1af6e3a))
+* **taroize:** 通过 this.triggerEvent 调用的参数需要用对象包裹 ([b661745](https://github.com/NervJS/taro/commit/b661745))
+* **transformer:** children 与组合支持有限的条件表达式 ([80642bc](https://github.com/NervJS/taro/commit/80642bc)), closes [#4293](https://github.com/NervJS/taro/issues/4293)
+* **transformer:** props 更新不会更改 state 的键值 ([181a878](https://github.com/NervJS/taro/commit/181a878))
+* **transformer:** render props 参数判定出错 ([b94ca6f](https://github.com/NervJS/taro/commit/b94ca6f)), closes [#4237](https://github.com/NervJS/taro/issues/4237) [#4180](https://github.com/NervJS/taro/issues/4180)
+* **transformer-wx:** 修复transformer内eslint依赖版本不一致的问题 ([5e42777](https://github.com/NervJS/taro/commit/5e42777))
+* **transformer-wx:** 快应用内置组件不需要走心 props 系统 ([bcde899](https://github.com/NervJS/taro/commit/bcde899))
+* **transformer-wx:** 快应用内置组件的 className 替换为 class ([9ad94f4](https://github.com/NervJS/taro/commit/9ad94f4))
+* **transformer-wx:** 快应用内置组件的属性不需要经过新 props 系统处理 ([7187b9a](https://github.com/NervJS/taro/commit/7187b9a))
+* **typings:** 增加设备方向 apis typings，fix [#4213](https://github.com/NervJS/taro/issues/4213) ([29c4dc6](https://github.com/NervJS/taro/commit/29c4dc6))
+* **with-weapp:** 修复 taroize 转换后 setData 方法无回调的问题 ([58f8038](https://github.com/NervJS/taro/commit/58f8038))
+* **with-weapp:** 有三个选项需要设置为 static ([f1b37e3](https://github.com/NervJS/taro/commit/f1b37e3))
+* **with-weapp:** 给onShow传递options ([9d94380](https://github.com/NervJS/taro/commit/9d94380))
+
+
+### Features
+
+* h5端增加preval支持, close [#4219](https://github.com/NervJS/taro/issues/4219) ([5472900](https://github.com/NervJS/taro/commit/5472900))
+* **cli:** 快应用编译支持引入原生快应用组件 ([ada2290](https://github.com/NervJS/taro/commit/ada2290))
+* **taro:** 增加设备方向 api ([54baf98](https://github.com/NervJS/taro/commit/54baf98))
+* **taro-quickapp:** 快应用支持 Taro.getApp API，close [#4246](https://github.com/NervJS/taro/issues/4246) ([3b8c9a1](https://github.com/NervJS/taro/commit/3b8c9a1))
+* **taroize:** 解析 wxml 加入缓存机制 ([af71480](https://github.com/NervJS/taro/commit/af71480)), closes [#4203](https://github.com/NervJS/taro/issues/4203)
+* **transformer:** 快应用循环中判断内置组件条件遗漏 ([21c70ef](https://github.com/NervJS/taro/commit/21c70ef))
+* **with-weapp:** 加入测试 ([11d964b](https://github.com/NervJS/taro/commit/11d964b))
 
 
 
@@ -137,6 +228,7 @@
 * **cli:** 修正对快应用包名的判断，close [#4005](https://github.com/NervJS/taro/issues/4005) ([49ab3e0](https://github.com/NervJS/taro/commit/49ab3e0))
 * **component-qa:** 调整快应用组件入参 ([a58f2ec](https://github.com/NervJS/taro/commit/a58f2ec))
 * **components-rn:** Swiper index 无法动态更新 fix [#2922](https://github.com/NervJS/taro/issues/2922) ([d46c2d7](https://github.com/NervJS/taro/commit/d46c2d7))
+* **docs:** react native 端的 moduleName ([7150a66](https://github.com/NervJS/taro/commit/7150a66))
 * **eslint:** 修复render props传入单个JSX元素或箭头函数报错的问题 ([#3906](https://github.com/NervJS/taro/issues/3906)) ([2d3bd05](https://github.com/NervJS/taro/commit/2d3bd05))
 * **eslint:** 组件方法按最佳实践推荐的顺序书写，close [#3914](https://github.com/NervJS/taro/issues/3914) ([66000eb](https://github.com/NervJS/taro/commit/66000eb))
 * **h5:** 修复taro-h5 main字段的错误 ([d5db7f4](https://github.com/NervJS/taro/commit/d5db7f4))

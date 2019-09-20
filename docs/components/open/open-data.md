@@ -1,19 +1,33 @@
 ---
-title: 其他
-sidebar_label: 其他
+title: OpenData
+sidebar_label: OpenData
 ---
 
-##### 其他组件
+##### 用于展示小程序开放的数据。
 
-除导航列表的一些组件外，还有一些差异化组件，每个端不同，后续计划将这些统一封装。目前差异化组件请详看各小程序官网。
+> 组件 支持度
 
->其他组件请看各小程序官方文档
+| 微信小程序 | 百度小程序 |
+| :-: | :-: |
+| ✔ | ✔ |
 
-[微信小程序](https://developers.weixin.qq.com/miniprogram/dev/component/)。
 
-[百度小程序](https://smartprogram.baidu.com/docs/develop/component/view/)。
+>具体用法请看小程序官方文档
 
-[支付宝小程序](https://docs.alipay.com/mini/component/overview)。
+[微信小程序 OpenData](https://developers.weixin.qq.com/miniprogram/dev/component/open-data.html)。
 
-[字节跳动小程序](https://developer.toutiao.com/docs/comp/)。
+[百度小程序 OpenData](https://smartprogram.baidu.com/docs/develop/component/open/#open-data/)。
 
+```jsx
+import Taro, { Component } from '@tarojs/taro'
+// 引入 OpenData 组件
+import { OpenData } from '@tarojs/components'
+
+class App extends Component {
+  render () {
+    return (
+      <OpenData type=''/>
+    )
+  }
+}
+```

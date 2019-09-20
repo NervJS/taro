@@ -9285,7 +9285,12 @@ declare namespace Taro {
       /**
        * 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html)
        */
-      withShareTicket?: boolean
+      withShareTicket?: boolean,
+      /**
+      * QQ小程序分享功能，支持分享到QQ、QQ空间、微信好友、微信朋友圈
+      * 支持的值： ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
+      */
+      showShareItems?: string[]
     }
   }
   /**
@@ -10771,6 +10776,28 @@ declare namespace Taro {
    })
    ```
      * ![] */
+    drawImage(
+      /** 所要绘制的图片资源 */
+      imageResource: string,
+      /** 图像的左上角在目标 canvas 上 x 轴的位置 */
+      dx: number,
+      /** 图像的左上角在目标 canvas 上 y 轴的位置 */
+      dy: number
+    ): void
+  
+    drawImage(
+      /** 所要绘制的图片资源 */
+      imageResource: string,
+      /** 图像的左上角在目标 canvas 上 x 轴的位置 */
+      dx: number,
+      /** 图像的左上角在目标 canvas 上 y 轴的位置 */
+      dy: number,
+      /** 在目标画布上绘制图像的宽度，允许对绘制的图像进行缩放 */
+      dWidth: number,
+      /** 在目标画布上绘制图像的高度，允许对绘制的图像进行缩放 */
+      dHeight: number
+    ): void
+    
     drawImage(
       /** 所要绘制的图片资源 */
       imageResource: string,

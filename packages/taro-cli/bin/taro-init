@@ -10,12 +10,13 @@ program
   .option('--typescript', '使用TypeScript')
   .option('--no-typescript', '不使用TypeScript')
   .option('--template-source [templateSource]', '项目模板源')
+  .option('--clone [clone]', '拉取远程模板时使用git clone')
   .option('--template [template]', '项目模板')
   .option('--css [css]', 'CSS预处理器(sass/less/stylus/none)')
   .parse(process.argv)
 
 const args = program.args
-const { template, templateSource, description, name, css } = program
+const { template, templateSource, clone, description, name, css } = program
 let typescript
 
 /**
@@ -34,6 +35,7 @@ const project = new Project({
   projectName,
   projectDir: process.cwd(),
   templateSource,
+  clone,
   template,
   description,
   typescript,

@@ -8,7 +8,7 @@ export interface Option {
   [key: string]: any;
 };
 
-type TogglableOptions<T = Option> = {
+export type TogglableOptions<T = Option> = {
   enable?: boolean;
   config?: T;
 }
@@ -31,6 +31,17 @@ export interface Chain {
   [key: string]: any;
 }
 
+export interface IOption {
+  [key: string]: any
+}
+
+export interface IH5RouterConfig {
+  mode?: 'hash' | 'browser' | 'multi',
+  customRoutes?: IOption,
+  basename?: string,
+  renamePagename?: (pagename: string) => string
+}
+
 export interface TaroH5Config {
 
   webpack: ((webpackConfig: webpack.Configuration, webpack) => webpack.Configuration) | webpack.Configuration
@@ -40,11 +51,7 @@ export interface TaroH5Config {
   alias: Option;
   entry: webpack.Entry;
   output: webpack.Output;
-  router?: {
-    mode?: 'hash' | 'browser';
-    customRoutes?: Option;
-    basename?: string;
-  };
+  router?: IH5RouterConfig;
   devServer: webpackDevServer.Configuration;
   enableSourceMap: boolean;
   enableExtract: boolean;
@@ -101,5 +108,6 @@ export interface TaroBaseConfig {
 
 export interface BuildConfig extends TaroBaseConfig, TaroH5Config {
   isWatch: boolean;
-  port?: number
+  port?: number;
+  homePage?: [string, string]
 };
