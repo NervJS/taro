@@ -388,6 +388,7 @@ export default function createComponent (ComponentClass, isPage) {
         }
       }
     })
+    appGlobal.componentPath = isPage
     addLeadingSlash(isPage) && cacheDataSet(addLeadingSlash(isPage), ComponentClass)
   }
   bindStaticFns(componentConf, ComponentClass)
