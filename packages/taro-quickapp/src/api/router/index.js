@@ -1,5 +1,5 @@
 import router from '@system.router'
-
+import * as path from 'path'
 import appGlobal from '../../global'
 import { addLeadingSlash, getUniqueKey } from '../../util'
 import { cacheDataGet, cacheDataSet } from '../../data-cache'
@@ -47,7 +47,12 @@ function qappNavigate (options = {}, method = 'push') {
     }
     params = getUrlParams(url)
     const markIndex = url.indexOf('?')
-    const parseUrl = addLeadingSlash(url.substr(0, markIndex >= 0 ? markIndex : url.length))
+    const componentPath = appGlobal.componentPath || ''
+    const parseUrl = url.substr(0, markIndex >= 0 ? markIndex : url.length).replace(/^(.\/)/g, '')
+    if (componentPath && /^(..\/)/g.test(parseUrl)) {
+      parseUrl = path.join(componentPath, parseUrl)
+    }
+    parseUrl = addLeadingSlash(parseUrl)
     appGlobal.taroRouterParamsCache = appGlobal.taroRouterParamsCache || {}
     appGlobal.taroRouterParamsCache[parseUrl] = params
 
@@ -65,7 +70,7 @@ function qappNavigate (options = {}, method = 'push') {
     }
     try {
       router[method]({
-        uri: url.substr(0, url.lastIndexOf('/')),
+        uri: parseUrl.substr(0, parseUrl.lastIndexOf('/')),
         params
       })
       success && success(res)
