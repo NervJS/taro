@@ -819,3 +819,7 @@ export function readDirWithFileTypes (floder: string): FileStat[] {
 export function extnameExpRegOf (filePath: string): RegExp {
   return new RegExp(`${path.extname(filePath)}$`)
 }
+
+export function generateAlipayPath (filePath) {
+  return filePath.replace(/@/g, '_')
+}

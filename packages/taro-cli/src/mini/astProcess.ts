@@ -39,7 +39,8 @@ import {
   traverseObjectNode,
   isQuickappPkg,
   getBabelConfig,
-  extnameExpRegOf
+  extnameExpRegOf,
+  generateAlipayPath
 } from '../util'
 import {
   convertObjectToAstExpression,
@@ -103,7 +104,8 @@ function analyzeImportUrl ({
     sourceDir,
     outputDir,
     npmConfig,
-    projectConfig
+    projectConfig,
+    buildAdapter
   } = getBuildData()
   const publicPath = (projectConfig.weapp || ({} as any)).publicPath
   if (value.indexOf('.') === 0) {
@@ -190,6 +192,9 @@ function analyzeImportUrl ({
           outputVpath = vpath.replace(nodeModulesPath, npmOutputDir)
         } else {
           outputVpath = vpath.replace(sourceDir, outputDir)
+        }
+        if (buildAdapter === BUILD_TYPES.ALIPAY) {
+          outputVpath = generateAlipayPath(outputVpath)
         }
         let relativePath = path.relative(filePath, outputVpath)
         if (vpath && vpath !== sourceFilePath) {
