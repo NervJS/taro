@@ -1,5 +1,4 @@
 import router from '@system.router'
-import * as path from 'path'
 import appGlobal from '../../global'
 import { addLeadingSlash, getUniqueKey } from '../../util'
 import { cacheDataGet, cacheDataSet } from '../../data-cache'
@@ -48,9 +47,19 @@ function qappNavigate (options = {}, method = 'push') {
     params = getUrlParams(url)
     const markIndex = url.indexOf('?')
     const componentPath = appGlobal.componentPath || ''
-    const parseUrl = url.substr(0, markIndex >= 0 ? markIndex : url.length).replace(/^(.\/)/g, '')
-    if (componentPath && /^(..\/)/g.test(parseUrl)) {
-      parseUrl = path.join(componentPath, parseUrl)
+    let parseUrl = url.substr(0, markIndex >= 0 ? markIndex : url.length)
+    const RelativeReg = /\.\.\//g
+    if (componentPath && RelativeReg.test(parseUrl)) {
+      //当前页面路径最后一级是文件，在计算路径时去除
+      var componentRootDir = componentPath.substr(0, componentPath.lastIndexOf('/'))
+      var pathArr = parseUrl.split('/')
+      //计算..出现的次数，每出现一次就往上一层
+      for(let path of pathArr) {
+        if (path === '..') {
+          componentRootDir = componentRootDir.substr(0, componentRootDir.lastIndexOf('/'))
+        }
+      }
+      parseUrl = componentRootDir + '/' + parseUrl.replace(RelativeReg, '')
     }
     parseUrl = addLeadingSlash(parseUrl)
     appGlobal.taroRouterParamsCache = appGlobal.taroRouterParamsCache || {}
