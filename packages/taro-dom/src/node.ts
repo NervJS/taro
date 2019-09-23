@@ -1,8 +1,8 @@
 import { NodeType } from './node_types'
-import { hydrate, MpInstance } from './render'
 import { incrementId } from './utils'
 import { TaroEventTarget } from './event_target'
 import { eventSource } from './event'
+import { Current } from './current'
 
 const nodeId = incrementId()
 
@@ -17,17 +17,10 @@ export class TaroNode extends TaroEventTarget {
 
   public childNodes: TaroNode[] = []
 
-  public ctx: null | MpInstance = null
-
-  private pendingUpdate: boolean = false
-
-  private isRoot: boolean = false
-
   public constructor (nodeType: NodeType, nodeName: string) {
     super()
     this.nodeType = nodeType
     this.nodeName = nodeName
-    this.isRoot = nodeName === 'root'
     this.uid = `taro_${nodeId()}`
     eventSource.set(this.uid, this)
   }
@@ -55,7 +48,7 @@ export class TaroNode extends TaroEventTarget {
     } else {
       this.childNodes.push(newChild)
     }
-    this.performUpdate()
+    this.enqueueUpdate()
     return newChild
   }
 
@@ -73,8 +66,9 @@ export class TaroNode extends TaroEventTarget {
 
   public removeChild<T extends TaroNode> (child: T): T {
     const index = this.findIndex(this.childNodes, child)
+    child.parentNode = null
     this.childNodes.splice(index, 1)
-    this.performUpdate()
+    this.enqueueUpdate()
     eventSource.delete(this.uid)
     return child
   }
@@ -98,28 +92,11 @@ export class TaroNode extends TaroEventTarget {
     return this.childNodes.length > 0
   }
 
-  public performUpdate () {
-    if (this.pendingUpdate) {
+  public enqueueUpdate () {
+    if (Current.root === null) {
       return
     }
 
-    if (this.isRoot) {
-      if (this.ctx === null) {
-        return
-      }
-
-      this.pendingUpdate = true
-
-      setTimeout(() => {
-        this.ctx.setData({
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          root: hydrate(this as any)
-        }, () => {
-          this.pendingUpdate = false
-        })
-      }, 1)
-    } else if (this.parentNode !== null) {
-      this.parentNode.performUpdate()
-    }
+    Current.root.performUpdate()
   }
 }

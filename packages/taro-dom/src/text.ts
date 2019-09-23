@@ -11,7 +11,7 @@ export class TaroText extends TaroNode {
 
   public set textContent (text: string) {
     this.nodeValue = text
-    this.performUpdate()
+    this.enqueueUpdate()
   }
 
   public get textContent () {

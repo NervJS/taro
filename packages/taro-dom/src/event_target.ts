@@ -64,7 +64,7 @@ export class TaroEventTarget {
     handlers.splice(index, 1)
   }
 
-  protected findIndex<T> (childeNodes: T[], refChild: T | null) {
+  protected findIndex<T> (childeNodes: T[], refChild: T) {
     const index = childeNodes.indexOf(refChild)
     if (index === -1) {
       throw new Error('refChild 不属于') // 改进报错

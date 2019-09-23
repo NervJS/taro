@@ -40,17 +40,17 @@ export class Style {
     for (let i = 0; i < styleProperties.length; i++) {
       const styleKey = styleProperties[i]
       properties[styleKey] = {
-        get () {
+        get (this: Style) {
           return this._value[styleKey] || ''
         },
-        set (newVal: string) {
+        set (this: Style, newVal: string) {
           const old = this[styleKey]
           if (newVal) {
             usedStyleProp.add(styleKey)
           }
           if (old !== newVal) {
             this._value[styleKey] = newVal
-            this._element.performUpdate()
+            this._element.enqueueUpdate()
           }
         }
       }

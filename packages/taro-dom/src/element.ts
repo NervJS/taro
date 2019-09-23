@@ -45,7 +45,7 @@ export class TaroElement extends TaroNode {
     } else {
       this.props[qualifiedName] = value
     }
-    this.performUpdate()
+    this.enqueueUpdate()
   }
 
   public getAttribute (qualifiedName: string): string | null {

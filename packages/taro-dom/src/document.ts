@@ -1,6 +1,7 @@
 import { TaroText } from './text'
 import { TaroElement } from './element'
 import { NodeType } from './node_types'
+import { TaroRootElement } from './root'
 
 export class TaroDocument extends TaroElement {
   public constructor () {
@@ -8,6 +9,9 @@ export class TaroDocument extends TaroElement {
   }
 
   public createElement (type: string) {
+    if (type === 'root') {
+      return new TaroRootElement()
+    }
     return new TaroElement(NodeType.ELEMENT_NODE, type)
   }
 

@@ -21,6 +21,10 @@ export function isUndefined (o: unknown): o is undefined {
   return typeof o === 'undefined'
 }
 
+export function isNull (o: unknown): o is null {
+  return o === null
+}
+
 export function isObject<T> (o: unknown): o is T {
   return o !== null && typeof o === 'object'
 }

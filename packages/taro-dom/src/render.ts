@@ -1,9 +1,11 @@
 import { isText } from './utils/is'
 import { TaroElement } from './element'
 import { TaroText } from './text'
+import { TaroRootElement } from './root'
+import { Current } from './current'
 
 export interface MpInstance {
-  dom: TaroElement;
+  dom: TaroRootElement;
   setData: (data: unknown, cb: () => void) => void;
 }
 
@@ -25,6 +27,7 @@ export function hydrate (node: TaroElement | TaroText) {
 }
 
 export function render (inst: MpInstance) {
+  Current.root = inst.dom
   inst.dom.ctx = inst
   inst.dom.performUpdate()
 }
