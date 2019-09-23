@@ -538,7 +538,7 @@ export default class MiniPlugin {
         template,
         code
       }
-      if (taroSelfComponents) {
+      if (isQuickApp && taroSelfComponents) {
         taroFileTypeMap[file.path].taroSelfComponents = new Set(Array.from(taroSelfComponents).map(item => {
           const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath(this.options.nodeModulesPath)
           const componentPath = path.join(taroJsQuickAppComponentsPath, item as string, `index${MINI_APP_FILES[buildAdapter].TEMPL}`)
