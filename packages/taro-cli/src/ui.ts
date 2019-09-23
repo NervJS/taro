@@ -50,6 +50,8 @@ const tempDir = '.temp'
 
 let buildData: IBuildData
 
+const processedScriptFiles:Set<string> = new Set()
+
 function setBuildData (appPath, uiIndex) {
   const configDir = path.join(appPath, PROJECT_CONFIG)
   const projectConfig = require(configDir)(_.merge)
@@ -255,6 +257,10 @@ function parseEntryAst (ast: t.File, relativeFile: string) {
 function analyzeFiles (files: string[], sourceDir: string, outputDir: string) {
   files.forEach(file => {
     if (fs.existsSync(file)) {
+      if (processedScriptFiles.has(file)) {
+        return
+      }
+      processedScriptFiles.add(file)
       const code = fs.readFileSync(file).toString()
       const transformResult = wxTransformer({
         code,
@@ -355,7 +361,7 @@ async function buildForWeapp () {
   }
 }
 
-async function buildForH5 (uiIndex) {
+async function buildForH5 (uiIndex = 'index') {
   const { appPath } = buildData
   const compiler = new Compiler(appPath, uiIndex)
   console.log()
