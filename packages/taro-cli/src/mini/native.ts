@@ -4,8 +4,9 @@ import * as path from 'path'
 import { Config as IConfig } from '@tarojs/taro'
 import chalk from 'chalk'
 
-import { REG_WXML_IMPORT, processTypeEnum, taroJsFramework, BUILD_TYPES, REG_SCRIPT, REG_STYLE, REG_UX } from '../util/constants'
+import { REG_WXML_IMPORT, processTypeEnum, taroJsFramework, BUILD_TYPES, REG_SCRIPT, REG_STYLE, REG_UX, NODE_MODULES_REG } from '../util/constants'
 import { isEmptyObject, printLog, resolveScriptPath, copyFileSync, extnameExpRegOf, resolveQuickappFilePath, processUxContent } from '../util'
+import CONFIG from '../config';
 
 import { buildDepComponents } from './component'
 import { compileDepScripts } from './compileScript'
@@ -97,7 +98,12 @@ export function transfromNativeComponents (configFile: string, componentConfig: 
         const componentJSONPath = componentJSPath.replace(extnameExpRegOf(componentJSPath), outputFilesTypes.CONFIG)
         const componentWXMLPath = componentJSPath.replace(extnameExpRegOf(componentJSPath), outputFilesTypes.TEMPL)
         const componentWXSSPath = componentJSPath.replace(extnameExpRegOf(componentJSPath), outputFilesTypes.STYLE)
-        const outputComponentJSPath = componentJSPath.replace(sourceDir, outputDir).replace(extnameExpRegOf(componentJSPath), outputFilesTypes.SCRIPT)
+        let outputComponentJSPath = '';
+        if (NODE_MODULES_REG.test(outputComponentJSPath)) {
+          outputComponentJSPath = componentJSPath.replace(NODE_MODULES_REG, path.resolve(outputDir, CONFIG.NPM_DIR)).replace(extnameExpRegOf(componentJSPath), outputFilesTypes.SCRIPT)
+        } else {
+          outputComponentJSPath = componentJSPath.replace(sourceDir, outputDir).replace(extnameExpRegOf(componentJSPath), outputFilesTypes.SCRIPT)
+        }
         if (fs.existsSync(componentJSPath)) {
           const componentJSContent = fs.readFileSync(componentJSPath).toString()
           if (componentJSContent.indexOf(taroJsFramework) >= 0 && !fs.existsSync(componentWXMLPath)) {
