@@ -11,7 +11,13 @@ class LocationChooser extends Taro.Component {
   constructor (props, context) {
     super(props, context)
     locationChooser = this
+    window.addEventListener('popstate', this.onBack)
   }
+
+  componentWillUnmount () {
+    window.removeEventListener('popstate', this.onBack)
+  }
+
   getWrapRef = ref => {
     if (ref) this.wrapRef = ref
   }
