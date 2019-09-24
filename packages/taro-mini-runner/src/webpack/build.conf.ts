@@ -1,5 +1,4 @@
 import * as path from 'path'
-import * as Chain from 'webpack-chain'
 
 import { IBuildConfig } from '../utils/types'
 import {
@@ -15,13 +14,14 @@ import {
   getMiniPlugin,
   getMiniCssExtractPlugin,
 } from './chain'
+import getBaseConf from './base.conf'
 import { BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES } from '../utils/constants'
 import { Targets } from '../plugins/MiniPlugin'
 
 const emptyObj = {}
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
-  const chain = new Chain()
+  const chain = getBaseConf(appPath)
   const {
     buildAdapter = BUILD_TYPES.WEAPP,
     alias = emptyObj,
@@ -77,7 +77,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
     filename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`,
-    chunkFilename: `[id]${MINI_APP_FILES[buildAdapter].STYLE}`
+    chunkFilename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`
   }, miniCssExtractPluginOption])
 
   const isCssoEnabled = (csso && csso.enable === false)
@@ -98,10 +98,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     }
 
     if (isCssoEnabled) {
-      plugin.cssoWebpackPlugin = getCssoWebpackPlugin([csso ? csso.config : {}])
+      const cssoConfig: any = csso ? csso.config : {}
+      plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
     }
   }
-  const mainConfig = {
+  chain.merge({
     mode,
     devtool: getDevtool(enableSourceMap),
     entry,
@@ -111,21 +112,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       buildAdapter,
     }, output]),
     target: Targets[buildAdapter],
-    resolve: {
-      alias,
-      extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      mainFields: ['main', 'module'],
-      symlinks: true,
-      modules: [
-        path.join(appPath, 'node_modules'),
-        'node_modules'
-      ]
-    },
-    resolveLoader: {
-      modules: [
-        'node_modules'
-      ]
-    },
+    resolve: { alias },
     module: getModule(appPath, {
       sourceDir,
 
@@ -166,8 +153,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         }
       }
     }
-  }
-
-  chain.merge(mainConfig)
+  })
   return chain
 }
