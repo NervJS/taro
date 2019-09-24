@@ -28,9 +28,6 @@ describe('lifecycle', () => {
 
     render(<A />, scratch)
 
-    console.log(scratch)
-    debugger
-
     expect(false).toBeTruthy()
   })
 })

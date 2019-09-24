@@ -1,7 +1,7 @@
 {
-  "name": "@tarojs/dom",
+  "name": "@tarojs/runtime",
   "version": "0.0.1",
-  "description": "virtual dom for mini apps.",
+  "description": "taro runtime for mini apps.",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
