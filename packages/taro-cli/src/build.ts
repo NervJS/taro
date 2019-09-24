@@ -9,7 +9,7 @@ import { BUILD_TYPES, PROJECT_CONFIG } from './util/constants'
 import { IBuildConfig } from './util/types'
 
 export default function build (appPath, buildConfig: IBuildConfig) {
-  const { type, watch, platform, port, release, page, component } = buildConfig
+  const { type, watch, platform, port, release, page, component, uiIndex } = buildConfig
   const configDir = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
   const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
@@ -46,7 +46,7 @@ export default function build (appPath, buildConfig: IBuildConfig) {
       buildForJD(appPath, { watch })
       break
     case BUILD_TYPES.UI:
-      buildForUILibrary(appPath, { watch })
+      buildForUILibrary(appPath, { watch, uiIndex })
       break
     case BUILD_TYPES.PLUGIN:
       buildForPlugin(appPath, {
@@ -116,8 +116,8 @@ function buildForJD (appPath: string, { watch }: IBuildConfig) {
   })
 }
 
-function buildForUILibrary (appPath: string, { watch }: IBuildConfig) {
-  require('./ui').build(appPath, { watch })
+function buildForUILibrary (appPath: string, { watch, uiIndex }: IBuildConfig) {
+  require('./ui').build(appPath, { watch, uiIndex })
 }
 
 function buildForPlugin (appPath: string, { watch, platform }) {

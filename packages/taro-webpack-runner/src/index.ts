@@ -4,7 +4,6 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
-
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
@@ -12,6 +11,7 @@ import prodConf from './config/prod.conf'
 import { addLeadingSlash, addTrailingSlash, recursiveMerge } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
+import { makeConfig } from './util/chain';
 
 const stripTrailingSlash = (path: string): string =>
   path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
@@ -128,15 +128,16 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 }
 
 export default async (appPath: string, config: BuildConfig): Promise<void> => {
-  if (config.isWatch) {
+  const newConfig: BuildConfig = await makeConfig(config);
+  if (newConfig.isWatch) {
     try {
-      await buildDev(appPath, config)
+      await buildDev(appPath, newConfig)
     } catch (e) {
       console.error(e)
     }
   } else {
     try {
-      await buildProd(appPath, config)
+      await buildProd(appPath, newConfig)
     } catch (e) {
       console.error(e)
       process.exit(1);

@@ -8,7 +8,7 @@ import { getOriginal as internal_get_original } from './internal/get-original'
 import { getEnv, ENV_TYPE } from './env'
 import Events from './events'
 import render from './render'
-import { createRef, commitAttachRef, detachAllRef } from './ref'
+import { createRef, commitAttachRef, detachAllRef, RefsArray } from './ref'
 import Link from './interceptor'
 import * as interceptors from './interceptor/interceptors'
 import {
@@ -74,6 +74,7 @@ export {
   detachAllRef,
   Link,
   interceptors,
+  RefsArray,
   Current,
   useEffect,
   useLayoutEffect,
@@ -119,6 +120,7 @@ export default {
   detachAllRef,
   Link,
   interceptors,
+  RefsArray,
   Current,
   useEffect,
   useLayoutEffect,

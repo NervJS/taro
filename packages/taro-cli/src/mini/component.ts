@@ -22,7 +22,8 @@ import {
   isDifferentArray,
   generateQuickAppUx,
   uglifyJS,
-  extnameExpRegOf
+  extnameExpRegOf,
+  generateAlipayPath
 } from '../util'
 
 import { parseComponentExportAst, parseAst } from './astProcess'
@@ -144,6 +145,9 @@ export async function buildSingleComponent (
   }
   let componentShowPath = component.replace(appPath + path.sep, '')
   componentShowPath = componentShowPath.split(path.sep).join('/')
+  if (buildAdapter === BUILD_TYPES.ALIPAY) {
+    componentShowPath = generateAlipayPath(componentShowPath)
+  }
   let isComponentFromNodeModules = false
   let sourceDirPath = sourceDir
   let buildOutputDir = outputDir
@@ -157,7 +161,10 @@ export async function buildSingleComponent (
   outputComponentShowPath = outputComponentShowPath.replace(extnameExpRegOf(outputComponentShowPath), '')
   printLog(processTypeEnum.COMPILE, '组件文件', componentShowPath)
   const componentContent = fs.readFileSync(component).toString()
-  const outputComponentJSPath = component.replace(sourceDirPath, buildConfig.outputDir || buildOutputDir).replace(extnameExpRegOf(component), outputFilesTypes.SCRIPT)
+  let outputComponentJSPath = component.replace(sourceDirPath, buildConfig.outputDir || buildOutputDir).replace(extnameExpRegOf(component), outputFilesTypes.SCRIPT)
+  if (buildAdapter === BUILD_TYPES.ALIPAY) {
+    outputComponentJSPath = generateAlipayPath(outputComponentJSPath)
+  }
   const outputComponentWXMLPath = outputComponentJSPath.replace(extnameExpRegOf(outputComponentJSPath), outputFilesTypes.TEMPL)
   const outputComponentWXSSPath = outputComponentJSPath.replace(extnameExpRegOf(outputComponentJSPath), outputFilesTypes.STYLE)
   const outputComponentJSONPath = outputComponentJSPath.replace(extnameExpRegOf(outputComponentJSPath), outputFilesTypes.CONFIG)

@@ -14,7 +14,8 @@ import {
   printLog,
   recursiveFindNodeModules,
   generateEnvList,
-  isQuickappPkg
+  isQuickappPkg,
+  generateAlipayPath
 } from './index'
 
 import {
@@ -183,8 +184,9 @@ function analyzeImportUrl ({
         })
         let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
         relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
+
         if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.DINGTALK) {
-          relativeRequirePath = relativeRequirePath.replace(/@/g, '_')
+          relativeRequirePath = generateAlipayPath(relativeRequirePath)
         }
         source.value = relativeRequirePath
       }
@@ -402,8 +404,9 @@ async function recursiveRequire ({
 }) {
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath = filePath.replace(rootNpm, npmOutputDir).replace(/node_modules/g, npmConfig.name)
+
   if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.DINGTALK) {
-    outputNpmPath = outputNpmPath.replace(/@/g, '_')
+    outputNpmPath = generateAlipayPath(outputNpmPath)
   }
   if (REG_STYLE.test(path.basename(filePath))) {
     return
