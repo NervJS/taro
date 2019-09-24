@@ -137,7 +137,7 @@ async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
   const babelConfig = getBabelConfig(projectConfig.babel)
   const miniRunnerOpts = {
     entry: {
-      app: entryFilePath
+      app: [entryFilePath]
     },
     alias,
     copy: projectConfig.copy,
@@ -146,7 +146,7 @@ async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
     buildAdapter,
     babel: babelConfig,
     csso: projectConfig.csso,
-    sass: projectConfig.csso,
+    sass: projectConfig.sass,
     uglify: projectConfig.uglify,
     plugins: projectConfig.plugins,
     projectName: projectConfig.projectName,
