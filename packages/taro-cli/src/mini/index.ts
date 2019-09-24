@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
+import * as os from 'os'
 
 import chalk from 'chalk'
 import * as _ from 'lodash'
@@ -13,7 +14,8 @@ import {
   copyFiles,
   unzip,
   shouldUseYarn,
-  shouldUseCnpm
+  shouldUseCnpm,
+  resolvePureScriptPath
 } from '../util'
 import { processTypeEnum, BUILD_TYPES } from '../util/constants'
 import { IMiniAppBuildConfig } from '../util/types'
@@ -28,12 +30,19 @@ import {
   setQuickappManifest
 } from './helper'
 import { buildEntry } from './entry'
-import { buildPages } from './page'
+import { buildPages, buildSinglePage } from './page'
 import { watchFiles } from './watch'
 import { downloadGithubRepoLatestRelease } from '../util/dowload'
+import { buildSingleComponent } from './component'
 
 function buildProjectConfig () {
   const { buildAdapter, sourceDir, outputDir, outputDirName, appPath } = getBuildData()
+
+  if (buildAdapter === BUILD_TYPES.JD) {
+    // 京东小程序暂不支持 project.config.json
+    return
+  }
+
   let projectConfigFileName = `project.${buildAdapter}.json`
   if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
     projectConfigFileName = 'project.config.json'
@@ -179,13 +188,26 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
     needInstall = true
   }
   if (needInstall) {
+    const isWindows = os.platform() === 'win32'
     let command
     if (shouldUseYarn()) {
-      command = 'NODE_ENV=development yarn install'
+      if(!isWindows) {
+        command = 'NODE_ENV=development yarn install'
+      } else {
+        command = 'yarn install'
+      }
     } else if (shouldUseCnpm()) {
-      command = 'NODE_ENV=development cnpm install'
+      if(!isWindows) {
+        command = 'NODE_ENV=development cnpm install'
+      } else {
+        command = 'cnpm install'
+      }
     } else {
-      command = 'NODE_ENV=development npm install'
+      if(!isWindows) {
+        command = 'NODE_ENV=development npm install'
+      } else {
+        command = 'npm install'
+      }
     }
     const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
     try {
@@ -228,7 +250,18 @@ async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port
   }
 }
 
-export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig) {
+export async function build (
+  appPath: string,
+  {
+    watch,
+    adapter = BUILD_TYPES.WEAPP,
+    envHasBeenSet = false,
+    port,
+    release,
+    page,
+    component
+  }: IMiniAppBuildConfig
+) {
   const buildData = envHasBeenSet ? getBuildData() : setBuildData(appPath, adapter)
   const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
   let quickappJSON
@@ -246,6 +279,18 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
   }
   if (!isQuickApp) {
     copyFiles(appPath, buildData.projectConfig.copy)
+  }
+  if (page) {
+    const pagePath = path.resolve(appPath, page).replace(buildData.sourceDir, '')
+    await buildSinglePage(pagePath)
+    return
+  }
+  if (component) {
+    const componentPath = resolvePureScriptPath(path.resolve(appPath, component))
+    await buildSingleComponent({
+      path: componentPath
+    })
+    return
   }
   const appConfig = await buildEntry()
   setAppConfig(appConfig)

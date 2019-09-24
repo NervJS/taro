@@ -11,16 +11,19 @@ const appPath = process.cwd()
 const projectConfPath = path.join(appPath, PROJECT_CONFIG)
 
 program
-  .option('--type [typeName]', 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq')
+  .option('--type [typeName]', 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq/jd')
   .option('--watch', 'Watch mode')
+  .option('--page [pagePath]', 'Build one page')
+  .option('--component [pagePath]', 'Build one component')
   .option('--env [env]', 'Env type')
   .option('--ui', 'Build Taro UI library')
+  .option('--ui-index [uiIndexPath]', 'Index file for build Taro UI library')
   .option('--plugin [typeName]', 'Build Taro plugin project, weapp')
   .option('--port [port]', 'Specified port')
   .option('--release', 'Release quickapp')
   .parse(process.argv)
 
-const { type, watch, ui, port, release } = program
+const { type, watch, ui, port, release, page, component, uiIndex } = program
 let { env, plugin } = program
 
 env = process.env.NODE_ENV || env
@@ -39,7 +42,8 @@ if (ui) {
   console.log(chalk.green(`开始编译 UI 库`))
   build(appPath, {
     type: 'ui',
-    watch
+    watch,
+    uiIndex
   })
   return
 }
@@ -64,11 +68,18 @@ if (!fs.existsSync(projectConfPath)) {
 process.env.TARO_ENV = type
 
 const projectConf = require(projectConfPath)(_.merge)
-console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
+if (typeof page === 'string') {
+  console.log(chalk.green(`开始编译页面 ${chalk.bold(page)}`))
+} else if (typeof component === 'string') {
+  console.log(chalk.green(`开始编译组件 ${chalk.bold(component)}`))
+} else {
+  console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
+}
 
 build(appPath, {
   type,
   watch,
   port: typeof port === 'string' ? port: undefined,
-  release: !!release
+  release: !!release,
+  page, component
 })

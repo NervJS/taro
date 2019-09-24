@@ -25,6 +25,7 @@ class BaseComponent {
   nextProps = {}
   _dirty = true
   _disable = true
+  _isForceUpdate = false
   _pendingStates = []
   _pendingCallbacks = []
   $componentType = ''
@@ -87,6 +88,7 @@ class BaseComponent {
     if (typeof callback === 'function') {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
+    this._isForceUpdate = true
     updateComponent(this)
   }
 

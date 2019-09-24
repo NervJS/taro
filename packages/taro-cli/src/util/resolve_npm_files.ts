@@ -14,7 +14,8 @@ import {
   printLog,
   recursiveFindNodeModules,
   generateEnvList,
-  isQuickappPkg
+  isQuickappPkg,
+  generateAlipayPath
 } from './index'
 
 import {
@@ -184,7 +185,7 @@ function analyzeImportUrl ({
         let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
         relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
         if (buildAdapter === BUILD_TYPES.ALIPAY) {
-          relativeRequirePath = relativeRequirePath.replace(/@/g, '_')
+          relativeRequirePath = generateAlipayPath(relativeRequirePath)
         }
         source.value = relativeRequirePath
       }
@@ -403,7 +404,7 @@ async function recursiveRequire ({
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath = filePath.replace(rootNpm, npmOutputDir).replace(/node_modules/g, npmConfig.name)
   if (buildAdapter === BUILD_TYPES.ALIPAY) {
-    outputNpmPath = outputNpmPath.replace(/@/g, '_')
+    outputNpmPath = generateAlipayPath(outputNpmPath)
   }
   if (REG_STYLE.test(path.basename(filePath))) {
     return
@@ -512,7 +513,7 @@ export function npmCodeHack (filePath: string, content: string, buildAdapter: BU
     case 'lodash.js':
     case '_global.js':
     case 'lodash.min.js':
-      if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN) {
+      if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN || buildAdapter === BUILD_TYPES.JD) {
         content = content.replace(/Function\(['"]return this['"]\)\(\)/, '{}')
       } else {
         content = content.replace(/Function\(['"]return this['"]\)\(\)/, 'this')

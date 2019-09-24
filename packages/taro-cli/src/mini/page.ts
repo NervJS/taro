@@ -42,6 +42,7 @@ import { compileDepStyles } from './compileStyle'
 import { transfromNativeComponents, processNativeWxml } from './native'
 import { buildDepComponents } from './component'
 import { parseAst } from './astProcess'
+import rewriterTemplate from '../quickapp/template-rewriter'
 
 // 小程序页面编译
 export async function buildSinglePage (page: string) {
@@ -193,7 +194,7 @@ export async function buildSinglePage (page: string) {
         script: resCode,
         style: styleRelativePath,
         imports: new Set([...importTaroSelfComponents, ...importCustomComponents, ...importUsingComponent]),
-        template: pageWXMLContent
+        template: rewriterTemplate(pageWXMLContent)
       })
       fs.writeFileSync(outputPageWXMLPath, uxTxt)
       printLog(processTypeEnum.GENERATE, '页面文件', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)

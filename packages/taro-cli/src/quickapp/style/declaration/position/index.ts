@@ -5,10 +5,6 @@ function setValue (value, declaration) {
   if (~valueList.indexOf(value)) {
     return 'I:'
   }
-  if (~value.indexOf('%')) {
-    value = 750 / 100 * parseInt(value) + 'px'
-    declaration.value = value
-  }
   return ''
 }
 
@@ -18,7 +14,7 @@ export default {
   },
   // 'display': '',
   'display': (value, declaration, addDeclaration, rule) => {
-    //暂时忽略掉不支持的情况
+    // 暂时忽略掉不支持的情况
     if (!~['flex', 'none'].indexOf(value)) {
       return 'E:'
     }

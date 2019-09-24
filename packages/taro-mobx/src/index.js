@@ -5,7 +5,6 @@ import {
   onError,
   getStore,
   setStore,
-  observer,
   isUsingStaticRendering,
   useStaticRendering,
   useLocalStore as originUseLocalStore,
@@ -13,6 +12,7 @@ import {
 } from '@tarojs/mobx-common'
 
 import { inject } from './inject'
+import { observer } from './observer'
 
 class Provider {}
 

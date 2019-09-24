@@ -1745,9 +1745,6 @@ export class RenderParser {
       if (!callee.isCallExpression()) {
         return
       }
-      if (isNewPropsSystem()) {
-        this.handleComponents(callee)
-      }
       if (this.loopIfStemComponentMap.has(callee)) {
         const block = this.loopIfStemComponentMap.get(callee)!
         const attrs = component.node.openingElement.attributes

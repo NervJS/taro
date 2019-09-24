@@ -103,6 +103,7 @@ export function updateComponent (component) {
   let skip = false
   if (component.__mounted) {
     if (isFunction(component.shouldComponentUpdate) &&
+      !component._isForceUpdate &&
       component.shouldComponentUpdate(props, state) === false) {
       skip = true
     } else if (!hasNewLifecycle(component) && isFunction(component.componentWillUpdate)) {
@@ -112,6 +113,7 @@ export function updateComponent (component) {
   component.props = props
   component.state = state
   component._dirty = false
+  component._isForceUpdate = false
   if (!skip) {
     doUpdate(component, prevProps, prevState)
   }
