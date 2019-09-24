@@ -6,7 +6,6 @@ export function timeoutInterceptor(chain) {
       timeout = null
       reject(new Error('网络链接超时,请稍后再试！'))
     }, (requestParams && requestParams.timeout) || 60000)
-
     p = chain.proceed(requestParams)
     p.then(res => {
       if (!timeout) return
