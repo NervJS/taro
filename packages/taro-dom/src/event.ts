@@ -24,7 +24,7 @@ export class TaroEvent {
   public nativeTarget: TaroEventTarget
 
   public constructor (type: string, opts: EventOptions) {
-    this.type = type
+    this.type = type.toLowerCase()
     this.bubbles = Boolean(opts && opts.bubbles)
     this.cancelable = Boolean(opts && opts.cancelable)
   }

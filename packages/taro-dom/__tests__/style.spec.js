@@ -1,9 +1,9 @@
 import { Style } from '../src/style'
+import { TaroRootElement } from '../src/root'
 
 describe('style', () => {
   it('works', () => {
-    const spy = jest.fn()
-    const style = new Style(spy)
+    const style = new Style(new TaroRootElement())
     style.color = 'red'
     expect(style._usedStyleProp.size).toBe(1)
     expect(style.getPropertyValue('color')).toBe('red')

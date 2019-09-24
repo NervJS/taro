@@ -17,6 +17,7 @@ export class TaroEventTarget {
   protected __handlers: Record<string, EventHandler[]> = {}
 
   public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
+    type = type.toLowerCase()
     const handlers = this.__handlers[type]
     let isCapture = Boolean(options)
     let isOnce = false
@@ -51,6 +52,7 @@ export class TaroEventTarget {
   }
 
   public removeEventListener (type: string, handler: EventHandler) {
+    type = type.toLowerCase()
     if (handler == null) {
       return
     }
