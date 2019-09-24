@@ -1,3 +1,5 @@
 export { createDocument, document } from './bom/document'
+export { window } from './bom/window'
+export { navigator } from './bom/navigator'
 export { render } from './render'
 export { eventSource, TaroEvent, createEvent } from './dom/event'
