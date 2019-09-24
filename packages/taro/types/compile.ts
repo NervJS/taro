@@ -362,6 +362,5 @@ export interface IProjectConfig extends IProjectBaseConfig {
     extraWatchFiles?: any[]
   },
   mini?: IMiniAppConfig,
-  h5?: IH5Config,
-  quickApp?: ITaroManifestConfig
+  h5?: IH5Config
 }
