@@ -1,13 +1,26 @@
 ---
-title: 开发前注意
+title: 各端开发前注意
 ---
+## H5
 
-## 小程序
+## 微信小程序
 
 * 若使用 **微信小程序预览模式** ，则需下载并使用[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)添加项目进行预览，此时需要注意微信开发者工具的项目设置
   * 需要设置关闭 ES6 转 ES5 功能，开启可能报错
   * 需要设置关闭上传代码时样式自动补全，开启可能报错
   * 需要设置关闭代码压缩上传，开启可能报错
+
+## 百度小程序
+
+## 支付宝小程序
+
+## 字节跳动小程序
+
+## QQ 小程序
+
+## 快应用
+
+> 从 **1.3 beta** 版本开始支持快应用开发<br/>
 
 ## React Native
 
@@ -149,7 +162,7 @@ test.rn.js 文件，这是 Pay 组件的 RN 版本
 - Animation 和 transform React Native 动画不支持
 - React Native 与 H5/小程序 的 Flex 布局相关属性的默认值有差异
 
-## 样式
+### 样式
 React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga)  ，样式基本上是实现了 CSS 的一个子集，但是属性名不完全一致，具体的内容及相关差异可以查看文档 [React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)。Taro React Native 端样式文件的处理，主要可以分为以下几步：
 
 ![image](http://on-img.com/chart_image/5b8b8896e4b0d4d65bf1ddc7.png)

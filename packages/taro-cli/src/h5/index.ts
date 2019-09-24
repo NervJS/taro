@@ -82,7 +82,7 @@ class Compiler {
   }
   pages: [PageName, FilePath][] = []
 
-  constructor (public appPath: string) {
+  constructor (public appPath: string, entryFile?: string) {
     const projectConfig = recursiveMerge({
       h5: defaultH5Config
     }, require(path.join(appPath, PROJECT_CONFIG))(merge))
@@ -96,7 +96,7 @@ class Compiler {
     this.outputPath = path.join(appPath, outputDir)
     this.tempDir = CONFIG.TEMP_DIR
     this.tempPath = path.join(appPath, this.tempDir)
-    this.entryFilePath = resolveScriptPath(path.join(this.sourcePath, CONFIG.ENTRY))
+    this.entryFilePath = resolveScriptPath(path.join(this.sourcePath, entryFile || CONFIG.ENTRY))
     this.entryFileName = path.basename(this.entryFilePath)
     this.pathAlias = projectConfig.alias || {}
     this.pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
@@ -155,20 +155,27 @@ class Compiler {
     const appPath = this.appPath
 
     fs.ensureDirSync(tempPath)
-    return new Promise((resolve, reject) => {
-      klaw(sourcePath)
-        .on('data', file => {
-          const relativePath = path.relative(appPath, file.path)
-          // 处理文件/软连接，排除隐藏文件夹内的内容
-          if (!file.stats.isDirectory() && !/\/\./.test(relativePath)) {
-            printLog(processTypeEnum.CREATE, '发现文件', relativePath)
-            this.processFiles(file.path)
-          }
-        })
-        .on('end', () => {
-          resolve()
-        })
-    })
+    const readPromises: any[] = []
+    function readFiles (sourcePath, originalFilePath) {
+      readPromises.push(new Promise((resolve, reject) => {
+        klaw(sourcePath)
+          .on('data', file => {
+            const relativePath = path.relative(appPath, file.path)
+            if (file.stats.isSymbolicLink()) {
+              const linkFile = fs.readlinkSync(file.path)
+              readFiles.call(this, linkFile, file.path)
+            } else if (!file.stats.isDirectory()) {
+              printLog(processTypeEnum.CREATE, '发现文件', relativePath)
+              this.processFiles(file.path, originalFilePath)
+            }
+          })
+          .on('end', () => {
+            resolve()
+          })
+        }))
+    }
+    readFiles.call(this, sourcePath, sourcePath)
+    return Promise.all(readPromises)
   }
 
   async buildDist ({ watch, port }: IBuildConfig) {
@@ -236,17 +243,17 @@ class Compiler {
       .on('add', filePath => {
         const relativePath = path.relative(appPath, filePath)
         printLog(processTypeEnum.CREATE, '添加文件', relativePath)
-        this.processFiles(filePath)
+        this.processFiles(filePath, filePath)
       })
       .on('change', filePath => {
         const relativePath = path.relative(appPath, filePath)
         printLog(processTypeEnum.MODIFY, '文件变动', relativePath)
-        this.processFiles(filePath)
+        this.processFiles(filePath, filePath)
       })
       .on('unlink', filePath => {
         const relativePath = path.relative(appPath, filePath)
         const extname = path.extname(relativePath)
-        const distDirname = this.getTempDir(filePath)
+        const distDirname = this.getTempDir(filePath, filePath)
         const isScriptFile = REG_SCRIPTS.test(extname)
         const dist = this.getDist(distDirname, filePath, isScriptFile)
         printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
@@ -330,7 +337,7 @@ class Compiler {
           ${funcBody}
         </${tabBarPanelComponentName}>`
 
-      const comp = `  
+      const comp = `
         <${tabBarComponentName}
           conf={this.state.${tabBarConfigName}}
           homePage="${homePage}"
@@ -347,7 +354,7 @@ class Compiler {
       return `
         <${providerImportName} store={${storeName}}>
           ${funcBody}
-        </${providerImportName}>  
+        </${providerImportName}>
       `
     }
 
@@ -758,7 +765,7 @@ class Compiler {
               const node = astPath.node
               const key = node.key
               const keyName = toVar(key)
-    
+
               const isRender = keyName === 'render'
               const isComponentWillMount = keyName === 'componentWillMount'
               const isComponentDidMount = keyName === 'componentDidMount'
@@ -774,7 +781,7 @@ class Compiler {
                     wrapWithFuncBody
                   ])
                 )
-    
+
                 node.body = toAst(buildFuncBody(pages), { preserveComments: true })
 
                 node.body.body = compact([
@@ -910,7 +917,7 @@ class Compiler {
 
       const node = astPath.node
       if (t.isFunctionDeclaration(node.declaration)) {
-        
+
         astPath.replaceWithMultiple([
           node.declaration,
           t.exportDefaultDeclaration(node.declaration.id)
@@ -1264,12 +1271,15 @@ class Compiler {
     return generateCode
   }
 
-  getTempDir (filePath) {
+  getTempDir (filePath, originalFilePath) {
     const appPath = this.appPath
     const sourcePath = this.sourcePath
     const tempDir = this.tempDir
+    let dirname = path.dirname(filePath)
 
-    const dirname = path.dirname(filePath)
+    if (filePath.indexOf(sourcePath) < 0) {
+      dirname = path.extname(originalFilePath) ? path.dirname(originalFilePath) : originalFilePath
+    }
     const relPath = path.relative(sourcePath, dirname)
 
     return path.resolve(appPath, tempDir, relPath)
@@ -1286,10 +1296,10 @@ class Compiler {
       : path.resolve(this.tempPath, relPath)
   }
 
-  processFiles (filePath) {
+  processFiles (filePath, originalFilePath) {
     const original = fs.readFileSync(filePath, { encoding: 'utf8' })
     const extname = path.extname(filePath)
-    const distDirname = this.getTempDir(filePath)
+    const distDirname = this.getTempDir(filePath, originalFilePath)
     const isScriptFile = REG_SCRIPTS.test(extname)
     const distPath = this.getDist(distDirname, filePath, isScriptFile)
     fs.ensureDirSync(distDirname)

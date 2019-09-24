@@ -415,9 +415,18 @@ export function createUUID () {
   }).replace(/-/g, '').slice(0, 8)
 }
 
+let count = 0
 export function createRandomLetters (n: number) {
-  const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-  return Array(n).join().split(',').map(function () { return str.charAt(Math.floor(Math.random() * str.length)) }).join('')
+  const countStr = (count++).toString()
+  let letters = ''
+  for (const s of countStr) {
+    letters += String.fromCharCode(97 + parseInt(s, 10))
+  }
+  const padding = n - letters.length
+  for (let i = 0; i < padding; i++) {
+    letters += 'z'
+  }
+  return letters
 }
 
 export function isBlockIfStatement (ifStatement, blockStatement): ifStatement is NodePath<t.IfStatement> {

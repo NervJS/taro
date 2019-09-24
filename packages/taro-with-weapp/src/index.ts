@@ -199,6 +199,7 @@ export default function withWeapp (weappConf: WxOptions) {
         Object.keys(obj).forEach(key => {
           safeSet(state, key, obj[key])
         })
+        Object.assign(this.state, state)
         this.setState(state, callback)
       }
 

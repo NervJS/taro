@@ -30,7 +30,8 @@ import {
   isEmptyObject,
   recursiveFindNodeModules,
   getBabelConfig,
-  extnameExpRegOf
+  extnameExpRegOf,
+  generateAlipayPath
 } from '../util'
 import { resolveNpmPkgMainPath } from '../util/resolve_npm_files'
 import { resolveNpmSync } from '../util/npm'
@@ -213,6 +214,7 @@ export function buildUsingComponents (
   components: IComponentObj[],
   isComponent?: boolean
 ): IOption {
+  const { buildAdapter } = getBuildData()
   const usingComponents = Object.create(null)
   const pathAlias = BuildData.projectConfig.alias || {}
   for (const component of components) {
@@ -225,6 +227,9 @@ export function buildUsingComponents (
       componentPath = promoteRelativePath(path.relative(filePath, componentPath))
     } else {
       componentPath = component.path
+    }
+    if (buildAdapter === BUILD_TYPES.ALIPAY) {
+      componentPath = generateAlipayPath(componentPath)
     }
     if (component.name) {
       usingComponents[component.name] = (componentPath as string).replace(extnameExpRegOf(componentPath as string), '')

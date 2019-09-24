@@ -1,5 +1,40 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.18...v) (2019-09-07)
+# [](https://github.com/NervJS/taro/compare/v1.3.19...v) (2019-09-23)
+
+
+
+<a name="1.3.19"></a>
+## [1.3.19](https://github.com/NervJS/taro/compare/v1.3.18...v1.3.19) (2019-09-23)
+
+
+### Bug Fixes
+
+* **chore:** dependabot couldn't reach registry.m.jd.com  close [#4432](https://github.com/NervJS/taro/issues/4432) ([385ca6a](https://github.com/NervJS/taro/commit/385ca6a))
+* **cli:** h5 编译时支持读取 symbolic link，close [#4431](https://github.com/NervJS/taro/issues/4431) ([dfbe42c](https://github.com/NervJS/taro/commit/dfbe42c))
+* **cli:** taro doctor 增加 weapp.compile.include 规则 ([b8a3c45](https://github.com/NervJS/taro/commit/b8a3c45))
+* **cli:** taro doctor 检测时优先使用本地的 eslint 配置 ([9e8359e](https://github.com/NervJS/taro/commit/9e8359e))
+* **cli:** ui 库编译支持文件循环引用，close [#4427](https://github.com/NervJS/taro/issues/4427) ([5e7fa88](https://github.com/NervJS/taro/commit/5e7fa88))
+* **cli:** 修复h5环境下plugins-sass配置不生效的问题 ([#4474](https://github.com/NervJS/taro/issues/4474)) ([5237995](https://github.com/NervJS/taro/commit/5237995))
+* **cli:** 支付宝构建时需要处理安装的 UI 库中的文件路径，将 @ 替换为 _，close [#4490](https://github.com/NervJS/taro/issues/4490) ([304c4af](https://github.com/NervJS/taro/commit/304c4af))
+* **components:** swiper 从尾到头指定下标时的表现形式问题 ([c46d71c](https://github.com/NervJS/taro/commit/c46d71c))
+* **components:** 修复 swiper 指示点颜色问题 ([b6818a3](https://github.com/NervJS/taro/commit/b6818a3))
+* **taro:** 修复 Taro.request 每次调用都会 push taroInterceptor, fix [#4441](https://github.com/NervJS/taro/issues/4441) ([f030a4e](https://github.com/NervJS/taro/commit/f030a4e))
+* **taro:** 内置拦截器向上暴露 abort, fix [#4386](https://github.com/NervJS/taro/issues/4386) ([ddbbcef](https://github.com/NervJS/taro/commit/ddbbcef))
+* **taro:** 增加 RefsArray 用于存放 $$refs ([4a59930](https://github.com/NervJS/taro/commit/4a59930))
+* **taro-alipay:** 修复 app 中声明 onShareAppMessage 不生效的问题，fix [#4477](https://github.com/NervJS/taro/issues/4477) ([9a17867](https://github.com/NervJS/taro/commit/9a17867))
+* **taro-alipay:** 修复支付宝小程序 onTabItemTap 事件不触发的问题，close [#4517](https://github.com/NervJS/taro/issues/4517) ([3cd7e7a](https://github.com/NervJS/taro/commit/3cd7e7a))
+* **taro-cli:** 修复插件 prod 模式下编译问题，fix [#4231](https://github.com/NervJS/taro/issues/4231) ([4564acd](https://github.com/NervJS/taro/commit/4564acd))
+* **types:** canvas drawImage方法类型检查错误 ([#4481](https://github.com/NervJS/taro/issues/4481)) ([5e79fde](https://github.com/NervJS/taro/commit/5e79fde))
+* **video:** this.progressBallRef is undefined ([#4407](https://github.com/NervJS/taro/issues/4407)) ([0a7fc45](https://github.com/NervJS/taro/commit/0a7fc45))
+* **with-weapp:** setData 保持数据修改同步 ([68d5801](https://github.com/NervJS/taro/commit/68d5801))
+
+
+### Features
+
+* **apis:** 增加位置 API，close [#4448](https://github.com/NervJS/taro/issues/4448) ([cf283ac](https://github.com/NervJS/taro/commit/cf283ac))
+* **cli:** ui 编译支持指定入口文件，[#4445](https://github.com/NervJS/taro/issues/4445) ([a639390](https://github.com/NervJS/taro/commit/a639390))
+* **cli:** 增加快应用子组件定制规则，减少快应用端的预览错误 ([#4436](https://github.com/NervJS/taro/issues/4436)) ([708ceb9](https://github.com/NervJS/taro/commit/708ceb9))
+* **jd:** 适配京东小程序 ([512d4ce](https://github.com/NervJS/taro/commit/512d4ce))
 
 
 
@@ -14,16 +49,18 @@
 * **cli:** 增加快应用支持的样式 ([90116c2](https://github.com/NervJS/taro/commit/90116c2))
 * **cli:** 小程序 debug 与快应用 logLevel 不挂钩 ([65af0ee](https://github.com/NervJS/taro/commit/65af0ee))
 * **cli:** 快应用编译时错误注释掉了支持的样式 ([4a829f6](https://github.com/NervJS/taro/commit/4a829f6))
+* 添加QQ小程序分享功能缺失的参数属性showShareItems ([#4421](https://github.com/NervJS/taro/issues/4421)) ([a923335](https://github.com/NervJS/taro/commit/a923335))
 * **cli:** 调整 taro-page 插入逻辑，close [#4357](https://github.com/NervJS/taro/issues/4357) ([d03d23c](https://github.com/NervJS/taro/commit/d03d23c))
 * **components:** 修复快应用事件重复触发问题 ([742ac61](https://github.com/NervJS/taro/commit/742ac61))
+* lint ([6e7a7d1](https://github.com/NervJS/taro/commit/6e7a7d1))
 * **docs:** 修复原生组件传 props 给自定义组件的用法文档 ([5e72332](https://github.com/NervJS/taro/commit/5e72332))
+* **mobx:** 生命周期 getDerivedStateFromProps 不被触发问题修复 ([492c1fb](https://github.com/NervJS/taro/commit/492c1fb))
 * **router:** h5 page min-height 失效 [#4092](https://github.com/NervJS/taro/issues/4092) ([cbf2edf](https://github.com/NervJS/taro/commit/cbf2edf))
+* **taro:** 支付宝、百度、快应用、字节跳动中调用 forceUpdate 时，不应执行 shouldComponentUpdate ([bb223a1](https://github.com/NervJS/taro/commit/bb223a1))
 * **transformer:**  循环中使用自定义组件失效, close [#4359](https://github.com/NervJS/taro/issues/4359) ([e290a7c](https://github.com/NervJS/taro/commit/e290a7c))
 * **transformer:** 任何情况下快应用 view 都解析为 div ([#4410](https://github.com/NervJS/taro/issues/4410)) ([958a617](https://github.com/NervJS/taro/commit/958a617))
 * **transformer:** 只有 render 开头的函数才是 render props ([e1cf11c](https://github.com/NervJS/taro/commit/e1cf11c)), closes [#4180](https://github.com/NervJS/taro/issues/4180)
 * **weapp/qq:** 修复新 props 系统在微信小程序下循环渲染时的问题。fix [#4350](https://github.com/NervJS/taro/issues/4350) ([ae66b35](https://github.com/NervJS/taro/commit/ae66b35))
-* lint ([6e7a7d1](https://github.com/NervJS/taro/commit/6e7a7d1))
-* 添加QQ小程序分享功能缺失的参数属性showShareItems ([#4421](https://github.com/NervJS/taro/issues/4421)) ([a923335](https://github.com/NervJS/taro/commit/a923335))
 
 
 ### Features

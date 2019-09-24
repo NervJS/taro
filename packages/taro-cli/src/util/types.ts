@@ -51,7 +51,8 @@ export interface IBuildConfig {
   port?: number,
   release?: boolean,
   page?: string,
-  component?: string
+  component?: string,
+  uiIndex?: string
 }
 
 export interface IMiniAppBuildConfig {
