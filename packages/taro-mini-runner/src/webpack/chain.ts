@@ -102,7 +102,7 @@ export const mergeOption = ([...options]: IOption[]): IOption => {
 const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
 const styleGlobalReg = /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/
 
-export const processEnvOption = partial(mapKeys as any, (key: string) => `process.env.${key}`)
+export const processEnvOption = partial(mapKeys as any, (key: string) => `process.env.${key}`) as any
 
 export const getCssLoader = pipe(mergeOption, partial(getLoader, 'css-loader'))
 export const getPostcssLoader = pipe(mergeOption, partial(getLoader, 'postcss-loader'))
@@ -130,7 +130,7 @@ export const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
   })
 }
 export const getCssoWebpackPlugin = ([cssoOption]) => {
-  return pipe(mergeOption, listify, partial(getPlugin, CssoWebpackPlugin))([defaultCSSCompressOption, cssoOption])
+  return pipe(listify, partial(getPlugin, CssoWebpackPlugin))([mergeOption([defaultCSSCompressOption, cssoOption]), REG_STYLE])
 }
 export const getCopyWebpackPlugin = ({ copy, appPath }: {
   copy: ICopyOptions,
@@ -344,6 +344,7 @@ export function getOutput (appPath: string, [{ outputRoot, publicPath, buildAdap
     path: path.join(appPath, outputRoot),
     publicPath,
     filename: '[name].js',
+    chunkFilename: '[name].js',
     globalObject: globalObjectMap[buildAdapter],
     ...customOutput
   }
