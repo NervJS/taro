@@ -1,6 +1,6 @@
 import { TaroElement } from './element'
 import { NodeType } from './node_types'
-import { MpInstance, hydrate } from './render'
+import { MpInstance, hydrate } from '../render'
 
 export class TaroRootElement extends TaroElement {
   private pendingUpdate = false

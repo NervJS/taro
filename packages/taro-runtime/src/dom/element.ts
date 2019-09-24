@@ -1,7 +1,7 @@
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent } from './event'
-import { isArray, isElement } from './utils/is'
+import { isArray, isElement } from '../utils/is'
 import { Style } from './style'
 import { EventHandler } from './event_target'
 

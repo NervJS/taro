@@ -1,3 +1,3 @@
-export { createDocument, document } from './document'
+export { createDocument, document } from './bom/document'
 export { render } from './render'
-export { eventSource, TaroEvent, createEvent } from './event'
+export { eventSource, TaroEvent, createEvent } from './dom/event'

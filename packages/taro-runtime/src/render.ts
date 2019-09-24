@@ -1,8 +1,8 @@
 import { isText } from './utils/is'
-import { TaroElement } from './element'
-import { TaroText } from './text'
-import { TaroRootElement } from './root'
-import { Current } from './current'
+import { TaroElement } from './dom/element'
+import { TaroText } from './dom/text'
+import { TaroRootElement } from './dom/root'
+import { Current } from './dom/current'
 
 export interface MpInstance {
   dom: TaroRootElement;

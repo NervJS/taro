@@ -1,7 +1,7 @@
-import { TaroText } from './text'
-import { TaroElement } from './element'
-import { NodeType } from './node_types'
-import { TaroRootElement } from './root'
+import { TaroText } from '../dom/text'
+import { TaroElement } from '../dom/element'
+import { NodeType } from '../dom/node_types'
+import { TaroRootElement } from '../dom/root'
 
 export class TaroDocument extends TaroElement {
   public constructor () {

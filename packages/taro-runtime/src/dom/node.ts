@@ -1,5 +1,5 @@
 import { NodeType } from './node_types'
-import { incrementId } from './utils'
+import { incrementId } from '../utils'
 import { TaroEventTarget } from './event_target'
 import { eventSource } from './event'
 import { Current } from './current'

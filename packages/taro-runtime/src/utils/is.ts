@@ -1,7 +1,7 @@
-import { TaroElement } from '../element'
-import { TaroText } from '../text'
-import { NodeType } from '../node_types'
-import { TaroNode } from 'src/node'
+import { TaroElement } from '../dom/element'
+import { TaroText } from '../dom/text'
+import { NodeType } from '../dom/node_types'
+import { TaroNode } from '../dom/node'
 
 export function isElement (node: TaroNode): node is TaroElement {
   return node.nodeType === NodeType.ELEMENT_NODE
