@@ -51,9 +51,9 @@ export default class TaroLoadChunksPlugin {
               })
             })
             const source = new ConcatSource()
-            const id = chunk.id
+            const name = chunk.name
             commonChunks.forEach(chunkItem => {
-              source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)
+              source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(name, chunkItem.name)))});\n`)
             })
             source.add('\n')
             source.add(modules)
