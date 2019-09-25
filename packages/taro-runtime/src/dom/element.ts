@@ -1,7 +1,7 @@
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent } from './event'
-import { isArray, isElement } from '../utils/is'
+import { isArray, isElement, isUndefined } from '../utils/is'
 import { Style } from './style'
 import { EventHandler } from './event_target'
 
@@ -37,6 +37,14 @@ export class TaroElement extends TaroNode {
 
   public get children () {
     return this.childNodes.filter(isElement)
+  }
+
+  public hasAttribute (qualifiedName: string) {
+    return !isUndefined(this.props[qualifiedName])
+  }
+
+  public hasAttributes () {
+    return this.attributes.length > 0
   }
 
   public setAttribute (qualifiedName: string, value: string) {
