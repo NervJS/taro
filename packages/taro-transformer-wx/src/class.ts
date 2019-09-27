@@ -661,7 +661,6 @@ class Transformer {
         const scope = renderMethod! && renderMethod!.scope || path.scope
         const calleeExpr = expression.get('callee')
         const parentPath = path.parentPath
-
         if (
           hasComplexExpression(expression) &&
           !isFunctionProp &&
@@ -671,11 +670,14 @@ class Transformer {
             calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
         ) {
           const calleeName = calleeExpr.isIdentifier() && calleeExpr.node.name
-          if (typeof calleeName === 'string' && isDerivedFromProps(calleeExpr.scope, calleeName)) {
+          if (typeof calleeName === 'string' && calleeName.startsWith('render') && isDerivedFromProps(calleeExpr.scope, calleeName)) {
             return
           }
           if (calleeExpr.isMemberExpression() && isDerivedFromProps(calleeExpr.scope, findFirstIdentifierFromMemberExpression(calleeExpr.node).name)) {
-            return
+            const idName = findFirstIdentifierFromMemberExpression(calleeExpr.node).name
+            if (isDerivedFromProps(calleeExpr.scope, idName) && t.isIdentifier(calleeExpr.node.property) && calleeExpr.node.property.name.startsWith('render')) {
+              return
+            }
           }
           generateAnonymousState(scope, expression, jsxReferencedIdentifiers)
         } else {

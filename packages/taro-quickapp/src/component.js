@@ -84,6 +84,7 @@ export default class BaseComponent {
     if (typeof callback === 'function') {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
+    this._isForceUpdate = true
     updateComponent(this)
   }
 

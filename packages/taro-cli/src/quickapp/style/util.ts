@@ -23,31 +23,3 @@ export const getDeclarationValue = (property, rule) => {
   const declarations = rule.declarations.filter(declaration => declaration.property === property)
   return declarations.length && declarations[0] || false
 }
-
-const defaultFontSize = 32
-
-const processDeclarationValueUnit = v => {
-  v = v.replace('!important', '')
-  const lowerCaseV = v.toLowerCase()
-  if (~lowerCaseV.indexOf('rpx')) {
-    return lowerCaseV.replace('rpx', 'px')
-  } else if (~lowerCaseV.indexOf('px')) {
-    const numberV = parseFloat(lowerCaseV)
-    if (!isNaN(numberV)) {
-      return numberV * 2 + 'px'
-    }
-  } else if (~lowerCaseV.indexOf('em')) {
-    const numberV = parseFloat(lowerCaseV)
-    if (!isNaN(numberV)) {
-      return numberV * defaultFontSize + 'px'
-    }
-  }
-  return v
-}
-
-export const processDeclarationValue = value => {
-  if (typeof value === 'string') {
-    return value.split(/\s+/).map(v => processDeclarationValueUnit(v)).join(' ')
-  }
-  return value
-}

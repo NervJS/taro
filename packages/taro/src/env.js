@@ -5,10 +5,14 @@ export const ENV_TYPE = {
   SWAN: 'SWAN',
   ALIPAY: 'ALIPAY',
   TT: 'TT',
-  QQ: 'QQ'
+  QQ: 'QQ',
+  JD: 'JD'
 }
 
 export function getEnv () {
+  if (typeof jd !== 'undefined' && jd.getSystemInfo) {
+    return ENV_TYPE.JD
+  }
   if (typeof qq !== 'undefined' && qq.getSystemInfo) {
     return ENV_TYPE.QQ
   }

@@ -27,13 +27,24 @@
   flex: 1;
 }
 
+.fixedHeaderContainer {
+  background-image: linear-gradient(180deg, #0000c2, #0000c2);
+  height: 74px;
+  padding: 0;
+}
+
+.headerWrapper, header {
+  height: 74px;
+  align-items: center;
+}
+
 .fixedHeaderContainer header .logo {
   width: 30px;
   height: auto;
 }
 
 .home_container {
-  background: rgb(40, 43, 46);
+  background-image: linear-gradient(180deg, #0000c2, #3058e5);
 }
 
 .projectTitle {
@@ -53,7 +64,8 @@
 }
 
 .home_container .button:hover {
-  background: rgb(40, 43, 46);
+  opacity: 1;
+  color: #fff;
 }
 
 .home_container .buttonWrapper:last-child .button {
@@ -68,11 +80,11 @@ h3 {
 }
 
 .link {
-  color: #78A4FA;
+  color: #5c5cff;
 }
 
 a, a:hover {
-  color: #6190e8;
+  color: #5c5cff;
 }
 
 p {
@@ -256,15 +268,50 @@ p {
   overflow: hidden;
 }
 
+pre {
+  background-color: #f8f8f8 !important;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+}
+
+.edit-page-link:hover, .docs-prevnext .button:hover {
+  opacity: 0.6;
+  color: #5c5cff;
+  border-color: #5c5cff;
+  background-color: white;
+}
+
 @media only screen and (min-width: 1024px) {
   .navigationSlider {
     flex: 1;
     margin-left: 155px;
   }
+
+  .siteNavGroupActive a:after {
+    content: '';
+    position: absolute;
+    bottom: -21px;
+    left: 50%;
+    z-index: 0;
+    width: 75%;
+    height: 2px;
+    transform: translateX(-50%);
+    background: linear-gradient(to right, #00B2BD, #2CEB85);
+  }
+
+  .navigationSlider .slidingNav ul li {
+    position: relative;
+    text-align: center;
+  }
+
   .navigationSlider .slidingNav ul li:nth-child(4) {
     justify-content: flex-start;
     flex-grow: 1;
   }
+
   .navigationSlider .slidingNav ul li:nth-child(-n+3) {
     justify-content: flex-start;
     flex-grow: 0;
@@ -274,12 +321,20 @@ p {
     justify-content: flex-end;
     flex-grow: 0;
   }
+
   input#search_input_react {
-    background-color: grey;
+    color: black;
+    background-color: white;
     width: 200px;
   }
-  input#search_input_react:focus{
-    background-color: darkgrey;
+
+  input#search_input_react:focus {
+    color: black;
+    background-color: white;
     width: 250px;
   }
+}
+
+#back-to-top{
+  opacity: 0.6;
 }

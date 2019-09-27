@@ -45,7 +45,9 @@ const onAndSyncApis = {
   offAppShow: true,
   offAppHide: true,
   onAudioInterruptionEnd: true,
-  onAudioInterruptionBegin: true
+  onAudioInterruptionBegin: true,
+  onLocationChange: true,
+  offLocationChange: true
 }
 const noPromiseApis = {
   // 媒体
@@ -155,6 +157,9 @@ const otherApis = {
   reLaunch: true,
 
   // 位置
+  startLocationUpdate: true,
+  startLocationUpdateBackground: true,
+  stopLocationUpdate: true,
   getLocation: true,
   chooseLocation: true,
   openLocation: true,

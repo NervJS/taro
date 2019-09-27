@@ -69,11 +69,11 @@
     },
 
     handleClick () {
-      this.$emit('click')
+      // this.$emit('click')
     },
 
     handleError () {
-      this.$emit('error')
+      // this.$emit('error')
     }
   }
 </script>

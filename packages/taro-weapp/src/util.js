@@ -132,13 +132,16 @@ function diffArrToPath (to, from, res = {}, keyPrev = '') {
             res[targetKey] = toItem
           } else {
             // 对象
-            let shouldDiffObject = true
+            let shouldDiffObject = isPlainObject(toItem)
+
+            shouldDiffObject &&
             Object.keys(fromItem).some(key => {
               if (typeof toItem[key] === 'undefined' && typeof fromItem[key] !== 'undefined') {
                 shouldDiffObject = false
                 return true
               }
             })
+
             if (shouldDiffObject) {
               diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
             } else {
@@ -162,7 +165,9 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
     const toItem = to[key]
     const fromItem = from[key]
     const targetKey = `${keyPrev}${key}`
-    if (toItem === fromItem) {
+    if (/^\$compid__/.test(key)) {
+      res[targetKey] = toItem
+    } else if (toItem === fromItem) {
       continue
     } else if (!hasProp.call(from, key)) {
       res[targetKey] = toItem
@@ -189,13 +194,16 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
             res[targetKey] = toItem
           } else {
             // 对象
-            let shouldDiffObject = true
+            let shouldDiffObject = isPlainObject(toItem)
+
+            shouldDiffObject &&
             Object.keys(fromItem).some(key => {
               if (typeof toItem[key] === 'undefined' && typeof fromItem[key] !== 'undefined') {
                 shouldDiffObject = false
                 return true
               }
             })
+
             if (shouldDiffObject) {
               diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
             } else {

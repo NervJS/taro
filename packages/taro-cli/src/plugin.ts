@@ -385,7 +385,7 @@ async function buildWxPlugin (appPath, { watch }) {
       return $1 === '../' ? str.replace('../', './') : str.replace('../', '')
     })
 
-    const REG_PLUGIN_DEPS = RegExp(`['|"](/${PLUGIN_ROOT}.+)['|"]`, 'g')
+    const REG_PLUGIN_DEPS = RegExp(`['|"](/${PLUGIN_ROOT}.+?)['|"]`, 'g')
     replacement = replacement.replace(REG_PLUGIN_DEPS, (str, $1) => {
       if (REG_FONT.test($1) || REG_IMAGE.test($1) || REG_MEDIA.test($1)) {
         isShouldBeWritten = true

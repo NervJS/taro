@@ -14,13 +14,24 @@ export const pRimraf = promisify(rimraf)
  */
 export const isUnderSubPackages = (parentPath: NodePath<t.Node>) => (parentPath.isObjectProperty() && /subpackages/i.test(toVar(parentPath.node.key)))
 
-export function createRoute ({ absPagename, relPagename, isIndex, chunkName = '' }) {
-  const chunkNameComment = chunkName ? `/* webpackChunkName: "${chunkName}" */` : ''
-  return `{
-    path: '${absPagename}',
-    componentLoader: () => import(${chunkNameComment}'${relPagename}'),
-    isIndex: ${isIndex}
-  }`
+export function createRoute ({ pageName, isIndex, isMultiRouterMode = false }) {
+  const absPagename = addLeadingSlash(pageName)
+  const relPagename = `.${absPagename}`
+  const chunkName = relPagename.split('/').filter(v => !/^(pages|\.)$/i.test(v)).join('_')
+  if (isMultiRouterMode) {
+    return `{
+      path: '${absPagename}',
+      componentLoader: () => Promise.resolve(require('${relPagename}')),
+      isIndex: ${isIndex}
+    }`
+  } else {
+    const chunkNameComment = chunkName ? `/* webpackChunkName: "${chunkName}" */` : ''
+    return `{
+      path: '${absPagename}',
+      componentLoader: () => import(${chunkNameComment}'${relPagename}'),
+      isIndex: ${isIndex}
+    }`
+  }
 }
 
 /**

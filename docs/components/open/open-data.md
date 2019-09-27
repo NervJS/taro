@@ -20,7 +20,7 @@ sidebar_label: OpenData
 
 ```jsx
 import Taro, { Component } from '@tarojs/taro'
-// 引入 Ad 组件
+// 引入 OpenData 组件
 import { OpenData } from '@tarojs/components'
 
 class App extends Component {

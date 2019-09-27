@@ -1,17 +1,30 @@
 ---
-title: 开发前注意
+title: 各端开发前注意
 ---
+## H5
 
-## 小程序
+## 微信小程序
 
 * 若使用 **微信小程序预览模式** ，则需下载并使用[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)添加项目进行预览，此时需要注意微信开发者工具的项目设置
   * 需要设置关闭 ES6 转 ES5 功能，开启可能报错
   * 需要设置关闭上传代码时样式自动补全，开启可能报错
   * 需要设置关闭代码压缩上传，开启可能报错
 
+## 百度小程序
+
+## 支付宝小程序
+
+## 字节跳动小程序
+
+## QQ 小程序
+
+## 快应用
+
+> 从 **1.3 beta** 版本开始支持快应用开发<br/>
+
 ## React Native
-> Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器，且不
-支持 **组合器** [Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
+
+> Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器，且不支持 **组合器** [Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
 
 以下选择器的写法都是不支持的，在样式转换时会自动忽略。
 
@@ -59,6 +72,7 @@ RN 中 View 标签默认主轴方向是 column，如果不将其他端改成与 
 当在 JS 文件中引用样式文件：`import './index.scss'` 时，RN 平台会找到并引入 `index.rn.scss`，其他平台会引入：`index.scss`，方便大家书写跨端样式，更好地兼容 RN。
 
 #### 样式代码的条件编译
+
 为了方便大家书写样式跨端的样式代码，添加了样式条件编译的特性。
 
 指定平台保留：
@@ -79,9 +93,10 @@ RN 中 View 标签默认主轴方向是 column，如果不将其他端改成与 
 
 多个平台之间可以使用空格隔开。
 
-
 ### 常见问题
+
 #### 样式和 CSS 一致吗？
+
 React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga) ，样式基本上是实现了 CSS 的一个子集，并且属性名不完全一致，所以当你开始在考虑兼容 React Native 端之前，可以先简要了解一下 React Native 的样式：[React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)
 
 我们在 React Native 中使用 Flexbox 规则来指定某个组件的子元素的布局。Flexbox 可以在不同屏幕尺寸上提供一致的布局结构。因此，如果你要考虑 React Native 端，那你的样式布局就得采用 Flex 布局。
@@ -89,37 +104,15 @@ React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github
 Flex 布局入门，可以查看阮一峰的 [Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
 
 #### 是否支持全局样式？
+
 入口文件 app.js 里面引入的样式就是全局样式，本地样式会覆盖全局样式。
 
 #### 是否支持引入 React Native 的第三方库？
+
 v1.2.21 及以上版本已经支持。
 
-#### 某些样式代码仅供 H5 端使用，如样式重置类的代码，怎么处理？
-`/*postcss-pxtransform rn eject enable*/` 与 `/*postcss-pxtransform rn eject disable*/` 中间的代码， 在编译成 RN 端的样式的时候，会被删除。建议将 RN 不支持的但 H5 端又必不可少的样式放到这里面。如：样式重制相关的代码。
-
-```css
-/*postcss-pxtransform rn eject enable*/
-
-.test {
-  color: black;
-}
-
-/*postcss-pxtransform rn eject disable*/
-```
-
-使用 sass：
-
-```scss
-/**
- * 对于不能打包到 RN 的样式，可以用 mixins 引入，相对美观一些
- */
-@mixin eject($attr, $value) {
-  /*postcss-pxtransform rn eject enable*/
-  #{$attr}: $value;
-  /*postcss-pxtransform rn eject disable*/
-}
-```
 #### box-shadow 能实现吗？
+
 很遗憾，React Native 这方面支持得并不好（仅 ios 支持且支持程度有限），建议你不要报太大希望。
 
 #### CSS 属性简写（Shorthands）支持吗？
@@ -169,7 +162,7 @@ test.rn.js 文件，这是 Pay 组件的 RN 版本
 - Animation 和 transform React Native 动画不支持
 - React Native 与 H5/小程序 的 Flex 布局相关属性的默认值有差异
 
-## 样式
+### 样式
 React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga)  ，样式基本上是实现了 CSS 的一个子集，但是属性名不完全一致，具体的内容及相关差异可以查看文档 [React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)。Taro React Native 端样式文件的处理，主要可以分为以下几步：
 
 ![image](http://on-img.com/chart_image/5b8b8896e4b0d4d65bf1ddc7.png)
@@ -192,7 +185,7 @@ React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github
 
 将被转换为
 
-```js
+```json
 {
   myClass: {
     fontSize: 18,

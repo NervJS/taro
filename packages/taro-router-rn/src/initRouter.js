@@ -67,6 +67,7 @@ function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
   const RouteConfigs = getTabRouteConfig({pageList, Taro, tabBar, navigationOptions})
   // TODO tabBar.position
   return createBottomTabNavigator(RouteConfigs, {
+    initialRouteName: pageList[0][0], // app.json里pages的顺序，第一项是默认打开页
     navigationOptions: ({navigation}) => ({ // 这里得到的是 tab 的 navigation
       tabBarIcon: ({focused, tintColor}) => {
         const {routeName} = navigation.state
