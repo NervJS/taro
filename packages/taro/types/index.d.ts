@@ -532,6 +532,17 @@ declare namespace Taro {
      * 详见 [响应显示区域变化](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html)
      */
     pageOrientation?: 'auto' | 'portrait' | 'landscape'
+    /**
+     * 是否允许下拉刷新
+     * default: NO
+     * 备注：下拉刷新生效的前提是 allowsBounceVertical 值为 YES
+     */
+    pullRefresh?: 'YES' | 'NO' | boolean
+    /**
+     * 是否允许向下拉拽
+     * default: YES
+     */
+    allowsBounceVertical?:  'YES' | 'NO'
   }
 
   interface TarbarList {
@@ -10784,7 +10795,7 @@ declare namespace Taro {
       /** 图像的左上角在目标 canvas 上 y 轴的位置 */
       dy: number
     ): void
-  
+
     drawImage(
       /** 所要绘制的图片资源 */
       imageResource: string,
@@ -10797,7 +10808,7 @@ declare namespace Taro {
       /** 在目标画布上绘制图像的高度，允许对绘制的图像进行缩放 */
       dHeight: number
     ): void
-    
+
     drawImage(
       /** 所要绘制的图片资源 */
       imageResource: string,
