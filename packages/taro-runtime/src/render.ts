@@ -2,7 +2,8 @@ import { isText } from './utils/is'
 import { TaroElement } from './dom/element'
 import { TaroText } from './dom/text'
 import { TaroRootElement } from './dom/root'
-import { Current } from './dom/current'
+import { Current } from './current'
+import { document } from './bom/document'
 
 export interface MpInstance {
   dom: TaroRootElement;
@@ -26,8 +27,11 @@ export function hydrate (node: TaroElement | TaroText) {
   }
 }
 
-export function render (inst: MpInstance) {
-  Current.root = inst.dom
-  inst.dom.ctx = inst
-  inst.dom.performUpdate()
+export function render (derivedIDfromCompiler: string, inst: MpInstance) {
+  Current.pages.add(derivedIDfromCompiler)
+  Current.activeId = derivedIDfromCompiler
+  const page = document.getElementById(Current.activeId)! as TaroRootElement
+  Current.root = page
+  page.ctx = inst
+  page.performUpdate()
 }
