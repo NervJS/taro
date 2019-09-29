@@ -1,6 +1,6 @@
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
-import { TaroEvent } from './event'
+import { TaroEvent, eventSource } from './event'
 import { isArray, isElement, isUndefined } from '../utils/is'
 import { Style } from './style'
 
@@ -20,6 +20,17 @@ export class TaroElement extends TaroNode {
     super(nodeType || NodeType.ELEMENT_NODE, nodeName)
     this.tagName = nodeName.toUpperCase()
     this.style = new Style(this)
+  }
+
+  public get id () {
+    return this.getAttribute('id')!
+  }
+
+  public set id (val: string) {
+    this.setAttribute('id', val)
+    eventSource.delete(this.uid)
+    this.uid = val
+    eventSource.set(val, this)
   }
 
   public get className () {

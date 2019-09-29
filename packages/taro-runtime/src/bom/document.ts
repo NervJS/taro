@@ -2,6 +2,7 @@ import { TaroText } from '../dom/text'
 import { TaroElement } from '../dom/element'
 import { NodeType } from '../dom/node_types'
 import { TaroRootElement } from '../dom/root'
+import { eventSource } from 'src/dom/event'
 
 export class TaroDocument extends TaroElement {
   public constructor () {
@@ -17,6 +18,10 @@ export class TaroDocument extends TaroElement {
 
   public createTextNode (text: string) {
     return new TaroText(text)
+  }
+
+  public getElementById (id: string) {
+    return eventSource.get(id) || null
   }
 }
 

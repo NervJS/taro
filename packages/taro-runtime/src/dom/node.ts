@@ -21,7 +21,7 @@ export class TaroNode extends TaroEventTarget {
     super()
     this.nodeType = nodeType
     this.nodeName = nodeName
-    this.uid = `taro_${nodeId()}`
+    this.uid = `taro_node_${nodeId()}`
     eventSource.set(this.uid, this)
   }
 
