@@ -277,10 +277,10 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           name = name.replace(/^bind/, 'bind:')
         }
         if (componentTransfromProps && componentTransfromProps[componentName]) {
-          const transfromProps = componentTransfromProps[componentName]
-          Object.keys(transfromProps).forEach(oriName => {
-            name = transfromProps[oriName]
-          })
+          const transfromProps = componentTransfromProps[componentName];
+          if ((transfromProps as Object).hasOwnProperty(name)) {
+            name = transfromProps[name];
+          }
         }
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
           obj['maxlength'] = value
