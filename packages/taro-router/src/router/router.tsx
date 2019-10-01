@@ -156,7 +156,7 @@ class Router extends Taro.Component<Props, State> {
     return (
       <div
         className="taro_router"
-        style={"height: 100%"}>
+        style={{ height: '100%' }}>
         {this.state.routeStack.map(({ path, componentLoader, isIndex, key, isRedirect }, k) => {
           return (
             <Route
