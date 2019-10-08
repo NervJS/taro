@@ -1,3 +1,4 @@
+import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
@@ -9,12 +10,13 @@ import { mapKeys, pipe } from 'lodash/fp'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
+import chalk from 'chalk'
 
 import { getPostcssPlugins } from './postcss.conf'
 
 import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption } from '../utils/types'
-import { recursiveMerge, isNodeModule } from '../utils'
+import { recursiveMerge, isNodeModule, resolveScriptPath } from '../utils'
 import {
   REG_SASS,
   REG_LESS,
@@ -149,7 +151,7 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
   return partial(getPlugin, CopyWebpackPlugin)(args)
 }
 
-export const getMiniPlugin = (args) => {
+export const getMiniPlugin = args => {
   return partial(getPlugin, MiniPlugin)([args])
 }
 
@@ -339,7 +341,47 @@ export const getModule = (appPath: string, {
   return { rule }
 }
 
-export function getOutput (appPath: string, [{ outputRoot, publicPath, buildAdapter }, customOutput]) {
+export const getEntry = ({
+  sourceDir,
+  entry,
+  isBuildPlugin
+}) => {
+  if (!isBuildPlugin) {
+    return {
+      entry
+    }
+  }
+  const pluginDir = path.join(sourceDir, 'plugin')
+  if (!fs.existsSync(pluginDir)) {
+    console.log(chalk.red('插件目录不存在，请检查！'))
+    return
+  }
+  const pluginConfigPath = path.join(pluginDir, 'plugin.json')
+  if (!fs.existsSync(pluginConfigPath)) {
+    console.log(chalk.red('缺少插件配置文件，请检查！'))
+    return
+  }
+  const pluginConfig = fs.readJSONSync(pluginConfigPath)
+  const entryObj = {}
+  Object.keys(pluginConfig).forEach(key => {
+    if (key === 'main') {
+      const filePath = path.join(pluginDir, pluginConfig[key])
+      const fileName = path.basename(filePath).replace(path.extname(filePath), '')
+      entryObj[`plugin/${fileName}`] = [resolveScriptPath(filePath.replace(path.extname(filePath), ''))]
+    } else if (key === 'publicComponents' || key === 'pages') {
+      Object.keys(pluginConfig[key]).forEach(subKey => {
+        const filePath = path.join(pluginDir, pluginConfig[key][subKey])
+        entryObj[`plugin/${pluginConfig[key][subKey]}`] = [resolveScriptPath(filePath.replace(path.extname(filePath), ''))]
+      })
+    }
+  })
+  return {
+    entry: entryObj,
+    pluginConfig
+  }
+}
+
+export function getOutput (appPath: string, [{ outputRoot, publicPath, buildAdapter, isBuildPlugin }, customOutput]) {
   return {
     path: path.join(appPath, outputRoot),
     publicPath,
