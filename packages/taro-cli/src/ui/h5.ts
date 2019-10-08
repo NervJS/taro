@@ -25,8 +25,8 @@ async function buildForH5 (uiIndex = 'index', buildData: IBuildData) {
 }
 
 async function buildH5Script (buildData: IBuildData) {
-  const {appPath, projectConfig, entryFileName, sourceDirName, tempPath} = buildData
-  let {outputDirName} = buildData
+  const { appPath, projectConfig, entryFileName, sourceDirName, tempPath } = buildData
+  let { outputDirName } = buildData
   const h5Config: IH5BuildConfig = Object.assign({}, projectConfig.h5)
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
   outputDirName = `${outputDirName}/${H5_OUTPUT_NAME}`

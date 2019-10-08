@@ -1,48 +1,26 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import * as os from 'os'
-
 import chalk from 'chalk'
-import * as _ from 'lodash'
-import * as ora from 'ora'
-import { execSync } from 'child_process'
 
-import {
-  printLog,
-  getInstalledNpmPkgVersion,
-  getPkgVersion,
-  copyFiles,
-  unzip,
-  shouldUseYarn,
-  shouldUseCnpm,
-  resolvePureScriptPath
-} from '../util'
-import { processTypeEnum, BUILD_TYPES } from '../util/constants'
-import { IMiniAppBuildConfig } from '../util/types'
+import { IBuildOptions } from '../util/types'
+import { BUILD_TYPES, processTypeEnum } from '../util/constants'
+import * as npmProcess from '../util/npm'
+import { getBabelConfig, getInstalledNpmPkgVersion, getPkgVersion, printLog } from '../util'
+import Builder from '../build'
 import * as defaultManifestJSON from '../config/manifest.default.json'
 
 import {
   setBuildData,
-  getBuildData,
   setIsProduction,
-  setAppConfig,
-  IBuildData,
-  setQuickappManifest
+  getBuildData,
+  setQuickappManifest,
+  prepareQuickAppEnvironment,
+  runQuickApp,
+  IBuildData
 } from './helper'
-import { buildEntry } from './entry'
-import { buildPages, buildSinglePage } from './page'
-import { watchFiles } from './watch'
-import { downloadGithubRepoLatestRelease } from '../util/dowload'
-import { buildSingleComponent } from './component'
 
 function buildProjectConfig () {
   const { buildAdapter, sourceDir, outputDir, outputDirName, appPath } = getBuildData()
-
-  if (buildAdapter === BUILD_TYPES.JD) {
-    // 京东小程序暂不支持 project.config.json
-    return
-  }
-
   let projectConfigFileName = `project.${buildAdapter}.json`
   if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
     projectConfigFileName = 'project.config.json'
@@ -111,165 +89,15 @@ function readQuickAppManifest () {
   return quickappJSON
 }
 
-function generateQuickAppManifest (quickappJSON: any) {
-  const { appConfig, pageConfigs, outputDir, projectConfig } = getBuildData()
-  // 生成 router
-  const pages = (appConfig.pages as string[]).concat()
-  const routerPages = {}
-  const customPageConfig = quickappJSON.customPageConfig || {}
-
-  pages.forEach(element => {
-    const customConfig = customPageConfig[element]
-    const pageConf: any = {
-      component: path.basename(element)
-    }
-    if (customConfig) {
-      const filter = customConfig.filter
-      const launchMode = customConfig.launchMode
-      if (filter) {
-        pageConf.filter = filter
-      }
-      if (launchMode) {
-        pageConf.launchMode = launchMode
-      }
-    }
-    routerPages[path.dirname(element)] = pageConf
-  })
-  delete quickappJSON.customPageConfig
-  const routerEntry = pages.shift()
-  const router = {
-    entry: path.dirname(routerEntry as string),
-    pages: routerPages
-  }
-  // 生成 display
-  const display = JSON.parse(JSON.stringify(appConfig.window || {}))
-  display.pages = {}
-  pageConfigs.forEach((item, page) => {
-    if (item) {
-      display.pages[path.dirname(page)] = item
-    }
-  })
-  quickappJSON.router = router
-  quickappJSON.display = display
-  quickappJSON.config = Object.assign({}, quickappJSON.config, {
-    designWidth: projectConfig.designWidth || 750
-  })
-  if (appConfig.window && appConfig.window.navigationStyle === 'custom') {
-    quickappJSON.display.titleBar = false
-    delete quickappJSON.display.navigationStyle
-  }
-  fs.writeFileSync(path.join(outputDir, 'manifest.json'), JSON.stringify(quickappJSON, null, 2))
-}
-
-async function prepareQuickAppEnvironment (buildData: IBuildData) {
-  let isReady = false
-  let needDownload = false
-  let needInstall = false
-  const originalOutputDir = buildData.originalOutputDir
-  console.log()
-  if (fs.existsSync(path.join(buildData.originalOutputDir, 'sign'))) {
-    needDownload = false
-  } else {
-    needDownload = true
-  }
-  if (needDownload) {
-    const getSpinner = ora('开始下载快应用运行容器...').start()
-    await downloadGithubRepoLatestRelease('NervJS/quickapp-container', buildData.appPath, originalOutputDir)
-    await unzip(path.join(originalOutputDir, 'download_temp.zip'))
-    getSpinner.succeed('快应用运行容器下载完成')
-  } else {
-    console.log(`${chalk.green('✔ ')} 快应用容器已经准备好`)
-  }
-  process.chdir(originalOutputDir)
-  console.log()
-  if (fs.existsSync(path.join(originalOutputDir, 'node_modules'))) {
-    needInstall = false
-  } else {
-    needInstall = true
-  }
-  if (needInstall) {
-    const isWindows = os.platform() === 'win32'
-    let command
-    if (shouldUseYarn()) {
-      if(!isWindows) {
-        command = 'NODE_ENV=development yarn install'
-      } else {
-        command = 'yarn install'
-      }
-    } else if (shouldUseCnpm()) {
-      if(!isWindows) {
-        command = 'NODE_ENV=development cnpm install'
-      } else {
-        command = 'cnpm install'
-      }
-    } else {
-      if(!isWindows) {
-        command = 'NODE_ENV=development npm install'
-      } else {
-        command = 'npm install'
-      }
-    }
-    const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
-    try {
-      const stdout = execSync(command)
-      installSpinner.color = 'green'
-      installSpinner.succeed('安装成功')
-      console.log(`${stdout}`)
-      isReady = true
-    } catch (error) {
-      installSpinner.color = 'red'
-      installSpinner.fail(chalk.red(`快应用依赖环境安装失败，请进入 ${path.basename(originalOutputDir)} 重新安装！`))
-      console.log(`${error}`)
-      isReady = false
-    }
-  } else {
-    console.log(`${chalk.green('✔ ')} 快应用依赖已经安装好`)
-    isReady = true
-  }
-  return isReady
-}
-
-async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port?: number, release?: boolean) {
-  const originalOutputDir = buildData.originalOutputDir
-  const { compile } = require(require.resolve('hap-toolkit/lib/commands/compile', { paths: [originalOutputDir] }))
-  if (isWatch) {
-    const { launchServer } = require(require.resolve('@hap-toolkit/server', { paths: [originalOutputDir] }))
-    launchServer({
-      port: port || 12306,
-      watch: isWatch,
-      clearRecords: false,
-      disableADB: false
-    })
-    compile('native', 'dev', true)
-  } else {
-    if (!release) {
-      compile('native', 'dev', false)
-    } else {
-      compile('native', 'prod', false)
-    }
-  }
-}
-
-export async function build (
-  appPath: string,
-  {
-    watch,
-    adapter = BUILD_TYPES.WEAPP,
-    envHasBeenSet = false,
-    port,
-    release,
-    page,
-    component
-  }: IMiniAppBuildConfig
-) {
-  const buildData = envHasBeenSet ? getBuildData() : setBuildData(appPath, adapter)
-  const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
-  let quickappJSON
-  process.env.TARO_ENV = adapter
+export async function build (appPath: string, { watch, type = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IBuildOptions, customBuildData: Partial<IBuildData> | null | undefined, builder: Builder) {
+  const buildData = setBuildData(appPath, type, customBuildData)
+  const isQuickApp = type === BUILD_TYPES.QUICKAPP
+  process.env.TARO_ENV = type
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)
   }
   fs.ensureDirSync(buildData.outputDir)
+  let quickappJSON
   if (!isQuickApp) {
     buildProjectConfig()
     await buildFrameworkInfo()
@@ -277,29 +105,11 @@ export async function build (
     quickappJSON = readQuickAppManifest()
     setQuickappManifest(quickappJSON)
   }
-  if (!isQuickApp) {
-    copyFiles(appPath, buildData.projectConfig.copy)
-  }
-  if (page) {
-    const pagePath = path.resolve(appPath, page).replace(buildData.sourceDir, '')
-    await buildSinglePage(pagePath)
-    return
-  }
-  if (component) {
-    const componentPath = resolvePureScriptPath(path.resolve(appPath, component))
-    await buildSingleComponent({
-      path: componentPath
-    })
-    return
-  }
-  const appConfig = await buildEntry()
-  setAppConfig(appConfig)
-  await buildPages()
-  if (watch) {
-    watchFiles()
-  }
+
+  await buildWithWebpack({
+    appPath
+  }, builder)
   if (isQuickApp) {
-    generateQuickAppManifest(quickappJSON)
     const isReady = await prepareQuickAppEnvironment(buildData)
     if (!isReady) {
       console.log()
@@ -307,7 +117,47 @@ export async function build (
       process.exit(0)
       return
     }
-    copyFiles(appPath, buildData.projectConfig.copy)
     await runQuickApp(watch, buildData, port, release)
   }
+}
+
+async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
+  const {
+    entryFilePath,
+    buildAdapter,
+    projectConfig,
+    isProduction,
+    alias,
+    sourceDirName,
+    outputDirName,
+    nodeModulesPath,
+    quickappManifest
+  } = getBuildData()
+  const miniRunner = await npmProcess.getNpmPkg('@tarojs/mini-runner', appPath)
+  const babelConfig = getBabelConfig(projectConfig.babel)
+  const miniRunnerOpts = {
+    entry: {
+      app: [entryFilePath]
+    },
+    alias,
+    copy: projectConfig.copy,
+    sourceRoot: sourceDirName,
+    outputRoot: outputDirName,
+    buildAdapter,
+    babel: babelConfig,
+    csso: projectConfig.csso,
+    sass: projectConfig.sass,
+    uglify: projectConfig.uglify,
+    plugins: projectConfig.plugins,
+    projectName: projectConfig.projectName,
+    isWatch: !isProduction,
+    env: projectConfig.env,
+    defineConstants: projectConfig.defineConstants,
+    designWidth: projectConfig.designWidth,
+    deviceRatio: projectConfig.deviceRatio,
+    nodeModulesPath,
+    quickappJSON: quickappManifest,
+    ...projectConfig.mini
+  }
+  await miniRunner(appPath, miniRunnerOpts, builder)
 }
