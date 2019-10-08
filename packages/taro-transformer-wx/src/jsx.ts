@@ -38,8 +38,10 @@ export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   }
 }
 
-export function findJSXAttrByName (attrs: t.JSXAttribute[], name: string) {
+export function findJSXAttrByName (attrs: (t.JSXAttribute | t.JSXSpreadAttribute)[], name: string) {
   for (const attr of attrs) {
+    if (!t.isJSXAttribute(attr)) continue
+
     if (!t.isJSXIdentifier(attr.name)) {
       break
     }
