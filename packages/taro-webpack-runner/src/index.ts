@@ -134,7 +134,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 }
 
 export default async (appPath: string, config: BuildConfig): Promise<void> => {
-  const newConfig: BuildConfig = await makeConfig(config);
+  const newConfig: BuildConfig = await makeConfig(config)
   if (newConfig.isWatch) {
     try {
       await buildDev(appPath, newConfig)

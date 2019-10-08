@@ -24,5 +24,6 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   port?: number,
   buildAdapter: BUILD_TYPES,
   nodeModulesPath: string,
-  quickappJSON: any
+  quickappJSON: any,
+  isBuildPlugin: boolean
 }
