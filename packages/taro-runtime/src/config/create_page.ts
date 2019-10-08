@@ -1,10 +1,9 @@
-import { eventSource, createEvent } from 'src/dom/event'
-import { TaroElement } from 'src/dom/element'
-import { isUndefined } from 'src/utils/is'
+import { createEvent } from 'src/dom/event'
 import { Current } from 'src/current'
 import { document } from 'src/bom/document'
 import { TaroRootElement } from 'src/dom/root'
 import { ComponentClass, Component } from 'react'
+import { MpInstance } from 'src/render'
 
 interface Props {
   children?: unknown;
@@ -31,22 +30,21 @@ export function wrapReactPageComponent (h: Function, derivedIDfromCompiler: stri
 }
 
 export function createPageConfig (derivedIDfromCompiler: string) {
-  // 把 DOM 挂载在小程序实例上可能会有意料之外的错误
+  // 把复杂的 JavaScript 对象挂载在小程序实例上可能会触发意料之外的错误
   let page: TaroRootElement
 
   const config = {
     eh (event) {
-      const node = eventSource.get(event.currentTarget.id) as TaroElement
-      if (isUndefined(node)) {
-        return
+      const node = document.getElementById(event.currentTarget.id)
+      if (node !== null) {
+        node.dispatchEvent(createEvent(event))
       }
-      node.dispatchEvent(createEvent(event))
     },
-    onLoad () {
+    onLoad (this: MpInstance) {
       Current.pages.add(derivedIDfromCompiler)
       const render = () => {
-        page = document.getElementById(derivedIDfromCompiler)! as TaroRootElement
-        if (isUndefined(page)) {
+        page = document.getElementById(derivedIDfromCompiler) as TaroRootElement
+        if (page === null) {
           return
         }
 
@@ -59,7 +57,7 @@ export function createPageConfig (derivedIDfromCompiler: string) {
     },
     onUnload () {
       Current.pages.delete(derivedIDfromCompiler)
-      page.ctx = null
+      Current.app!.forceUpdate(() => (page.ctx = null))
     }
   }
 

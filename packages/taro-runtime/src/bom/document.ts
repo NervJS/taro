@@ -5,6 +5,8 @@ import { TaroRootElement } from '../dom/root'
 import { eventSource } from 'src/dom/event'
 
 export class TaroDocument extends TaroElement {
+  private app = this.createElement('app')
+
   public constructor () {
     super(NodeType.DOCUMENT_NODE, '#document')
   }
@@ -20,8 +22,11 @@ export class TaroDocument extends TaroElement {
     return new TaroText(text)
   }
 
-  public getElementById (id: string) {
-    return eventSource.get(id) || null
+  public getElementById<T extends TaroElement> (id: string) {
+    if (id === 'app') {
+      return this.app
+    }
+    return eventSource.get(id) as T || null
   }
 }
 

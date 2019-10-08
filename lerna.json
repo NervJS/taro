@@ -48,7 +48,8 @@
     "packages/taroize",
     "packages/stylelint-taro-rn",
     "packages/stylelint-config-taro-rn",
-    "packages/css-to-react-native"
+    "packages/css-to-react-native",
+    "packages/runtime"
   ],
   "command": {
     "publish": {
