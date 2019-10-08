@@ -17,7 +17,7 @@ import {
   BUILD_TYPES,
   REG_STYLE
 } from '../util/constants'
-import { IBuildConfig } from '../util/types'
+import { IBuildOptions } from '../util/types'
 import { setBuildData as setMiniBuildData } from '../mini/helper'
 import { IBuildData } from './ui.types'
 import {
@@ -244,7 +244,7 @@ function watchFiles () {
     })
 }
 
-export async function build (appPath, {watch, uiIndex}: IBuildConfig) {
+export async function build (appPath, {watch, uiIndex}: IBuildOptions) {
   setBuildData(appPath, uiIndex)
   setMiniBuildData(appPath, BUILD_TYPES.WEAPP)
   setMiniBuildData(appPath, BUILD_TYPES.QUICKAPP)

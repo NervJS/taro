@@ -34,7 +34,9 @@ interface IMiniPluginOptions {
   outputDir: string,
   quickappJSON?: any,
   designWidth: number,
-  commonChunks: string[]
+  commonChunks: string[],
+  pluginConfig?: object,
+  isBuildPlugin: boolean
 }
 
 export interface ITaroFileInfo {
@@ -145,7 +147,8 @@ export default class MiniPlugin {
       sourceDir: '',
       outputDir: '',
       designWidth: 750,
-      commonChunks: ['runtime', 'vendors']
+      commonChunks: ['runtime', 'vendors'],
+      isBuildPlugin: false
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
@@ -200,7 +203,8 @@ export default class MiniPlugin {
 
     new TaroLoadChunksPlugin({
       commonChunks: this.options.commonChunks,
-      buildAdapter: this.options.buildAdapter
+      buildAdapter: this.options.buildAdapter,
+      isBuildPlugin: this.options.isBuildPlugin
     }).apply(compiler)
 
     new TaroNormalModulesPlugin().apply(compiler)
@@ -214,10 +218,16 @@ export default class MiniPlugin {
   }
 
   getAppEntry (compiler) {
+    const { entry } = compiler.options
+    if (this.options.isBuildPlugin) {
+      const entryCopy = Object.assign({}, entry)
+      compiler.options.entry = {}
+      return entryCopy
+    }
     if (this.options.appEntry) {
+      compiler.options.entry = {}
       return this.options.appEntry
     }
-    const { entry } = compiler.options
     function getEntryPath (entry) {
       const app = entry['app']
       if (Array.isArray(app)) {
@@ -407,6 +417,81 @@ export default class MiniPlugin {
         return { name: item, path: pagePath, isNative }
       })
     ])
+  }
+
+  getPluginFiles (compiler) {
+    const fileList = new Set<IComponent>()
+    const { pluginConfig, buildAdapter } = this.options
+    let normalFiles = new Set<IComponent>()
+    Object.keys(this.appEntry).forEach(key => {
+      const filePath = this.appEntry[key][0]
+      const code = fs.readFileSync(filePath).toString()
+      if (isFileToBeTaroComponent(code, filePath, buildAdapter)) {
+        if (pluginConfig) {
+          fileList.add({
+            name: key,
+            path: filePath,
+            isNative: false
+          })
+          let isPage = false
+          let isComponent = false
+          Object.keys(pluginConfig).forEach(pluginKey => {
+            if (pluginKey === 'pages') {
+              Object.keys(pluginConfig[pluginKey]).forEach(pageKey => {
+                if (`plugin/${pluginConfig[pluginKey][pageKey]}` === key) {
+                  isPage = true
+                }
+              })
+            }
+            if (pluginKey === 'publicComponents') {
+              Object.keys(pluginConfig[pluginKey]).forEach(pageKey => {
+                if (`plugin/${pluginConfig[pluginKey][pageKey]}` === key) {
+                  isComponent = true
+                }
+              })
+            }
+          })
+          if (isPage) {
+            this.pages.add({
+              name: key,
+              path: filePath,
+              isNative: false
+            })
+            this.getComponents(fileList, isPage)
+          } else if (isComponent) {
+            this.components.add({
+              name: key,
+              path: filePath,
+              isNative: false
+            })
+            this.getComponents(fileList, false)
+          } else {
+            normalFiles.add({
+              name: key,
+              path: filePath,
+              isNative: true
+            })
+          }
+        }
+      }
+    })
+    normalFiles.forEach(item => {
+      this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+    })
+    this.pages.forEach(item => {
+      if (item.isNative) {
+        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+      } else {
+        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.PAGE)
+      }
+    })
+    this.components.forEach(item => {
+      if (item.isNative) {
+        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+      } else {
+        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
+      }
+    })
   }
 
   isNativePageORComponent (templatePath, jsContent) {
@@ -680,9 +765,13 @@ export default class MiniPlugin {
   }
 
   run (compiler: webpack.Compiler) {
-    this.getPages(compiler)
-    this.getComponents(this.pages, true)
-    this.addEntries(compiler)
+    if (!this.options.isBuildPlugin) {
+      this.getPages(compiler)
+      this.getComponents(this.pages, true)
+      this.addEntries(compiler)
+    } else {
+      this.getPluginFiles(compiler)
+    }
     this.transferFileContent(compiler)
   }
 
