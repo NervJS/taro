@@ -1,4 +1,4 @@
-import { IH5Config, IProjectConfig } from '../util/types'
+import { IProjectConfig, IH5Config } from '@tarojs/taro/types/compile'
 
 export interface IBuildData {
   appPath: string,
