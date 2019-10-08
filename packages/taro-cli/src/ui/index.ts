@@ -3,6 +3,7 @@ import * as path from 'path'
 import * as chokidar from 'chokidar'
 import chalk from 'chalk'
 import * as _ from 'lodash'
+
 import { Compiler } from '../h5'
 import { buildH5Script, buildForH5 } from './h5'
 import { buildForRN } from './rn'
@@ -15,7 +16,7 @@ import {
   BUILD_TYPES,
   REG_STYLE
 } from '../util/constants'
-import { IBuildConfig } from '../util/types'
+import { IBuildOptions } from '../util/types'
 import { setBuildData as setMiniBuildData } from '../mini/helper'
 import { IBuildData } from './ui.types'
 import {
@@ -196,7 +197,7 @@ function watchFiles () {
     })
 }
 
-export async function build (appPath, {watch, uiIndex}: IBuildConfig) {
+export async function build (appPath, {watch, uiIndex}: IBuildOptions) {
   setBuildData(appPath, uiIndex)
   setMiniBuildData(appPath, BUILD_TYPES.WEAPP)
   buildEntry(uiIndex)

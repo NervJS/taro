@@ -95,7 +95,7 @@ export default class Builder {
   }
 
   buildForMini (appPath: string, buildOptions: IBuildOptions) {
-    require('./mini/webpack').build(appPath, buildOptions, this)
+    require('./mini').build(appPath, buildOptions, null, this)
   }
 
   buildForRN (appPath: string, { watch }) {
@@ -116,6 +116,6 @@ export default class Builder {
       return
     }
     console.log(chalk.green(`开始编译${typeMap[platform]}小程序插件`))
-    require('./plugin').build(appPath, { watch, platform })
+    require('./plugin').build(appPath, { watch, platform }, this)
   }
 }

@@ -1,12 +1,15 @@
+import * as path from 'path'
+import * as fs from 'fs-extra'
+
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
-import { cssImports, printLog, resolveScriptPath, resolveStylePath } from '../util'
-import * as path from 'path'
-import * as wxTransformer from '@tarojs/transformer-wx'
-import { processTypeEnum, REG_STYLE, REG_TYPESCRIPT, REG_SCRIPT, REG_JSON, REG_FONT, REG_IMAGE, REG_MEDIA } from '../util/constants'
 import generate from 'babel-generator'
-import * as fs from 'fs-extra'
+import wxTransformer from '@tarojs/transformer-wx'
+
 import { IBuildData } from './ui.types'
+import { cssImports, printLog, resolveScriptPath, resolveStylePath } from '../util'
+import { processTypeEnum, REG_STYLE, REG_TYPESCRIPT, REG_SCRIPT, REG_JSON, REG_FONT, REG_IMAGE, REG_MEDIA } from '../util/constants'
+
 
 const processedScriptFiles: Set<string> = new Set()
 
