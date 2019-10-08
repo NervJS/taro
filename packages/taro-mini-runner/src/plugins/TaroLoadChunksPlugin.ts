@@ -11,16 +11,19 @@ const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 
 interface IOptions {
   commonChunks: string[],
-  buildAdapter: BUILD_TYPES
+  buildAdapter: BUILD_TYPES,
+  isBuildPlugin: boolean
 }
 
 export default class TaroLoadChunksPlugin {
   commonChunks: string[]
   buildAdapter: BUILD_TYPES
+  isBuildPlugin: boolean
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
     this.buildAdapter = options.buildAdapter
+    this.isBuildPlugin = options.isBuildPlugin
   }
 
   apply (compiler: webpack.Compiler) {
@@ -31,7 +34,10 @@ export default class TaroLoadChunksPlugin {
       })
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
         if (chunk.entryModule) {
-          if (chunk.entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
+          if (this.isBuildPlugin) {
+            const id = chunk.id
+            return addRequireToSource(id, modules, commonChunks)
+          } else if (chunk.entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
             compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
               const files = chunk.files
               files.forEach(item => {
@@ -50,30 +56,27 @@ export default class TaroLoadChunksPlugin {
                 }
               })
             })
-            const source = new ConcatSource()
             const name = chunk.name
-            commonChunks.forEach(chunkItem => {
-              source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(name, chunkItem.name)))});\n`)
-            })
-            source.add('\n')
-            source.add(modules)
-            source.add(';')
-            return source
-          } else if (this.buildAdapter === BUILD_TYPES.QUICKAPP &&
+            return addRequireToSource(name, modules, commonChunks)
+          } else if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&
             (chunk.entryModule.miniType === PARSE_AST_TYPE.PAGE ||
             chunk.entryModule.miniType === PARSE_AST_TYPE.COMPONENT)) {
-            const source = new ConcatSource()
             const id = chunk.id
-            commonChunks.forEach(chunkItem => {
-              source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)
-            })
-            source.add('\n')
-            source.add(modules)
-            source.add(';')
-            return source
+            return addRequireToSource(id, modules, commonChunks)
           }
         }
       })
     })
   }
+}
+
+function addRequireToSource (id, modules, commonChunks) {
+  const source = new ConcatSource()
+  commonChunks.forEach(chunkItem => {
+    source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)
+  })
+  source.add('\n')
+  source.add(modules)
+  source.add(';')
+  return source
 }
