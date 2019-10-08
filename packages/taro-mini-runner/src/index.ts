@@ -1,6 +1,7 @@
 import * as webpack from 'webpack'
 
 import { IBuildConfig } from './utils/types'
+import { BUILD_TYPES } from './utils/constants'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import buildConf from './webpack/build.conf'
 
@@ -13,6 +14,11 @@ const customizeChain = (chain, customizeFunc: Function) => {
 export default function build (appPath: string, config: IBuildConfig, mainBuilder) {
   const mode = config.isWatch ? 'development' : 'production'
   return new Promise((resolve, reject) => {
+    const { buildAdapter } = config
+    if (buildAdapter === BUILD_TYPES.PLUGIN) {
+      config.buildAdapter = BUILD_TYPES.WEAPP
+      config.isBuildPlugin = true
+    }
     const webpackChain = buildConf(appPath, mode, config)
 
     customizeChain(webpackChain, config.webpackChain)
