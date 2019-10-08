@@ -13,6 +13,7 @@ import {
   mergeOption,
   getMiniPlugin,
   getMiniCssExtractPlugin,
+  getEntry,
 } from './chain'
 import getBaseConf from './base.conf'
 import { BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES } from '../utils/constants'
@@ -25,7 +26,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const {
     buildAdapter = BUILD_TYPES.WEAPP,
     alias = emptyObj,
-    copy,
     entry = emptyObj,
     output = emptyObj,
     outputRoot = 'dist',
@@ -55,15 +55,33 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     uglify
   } = config
 
+  let { copy } = config
+
   const plugin: any = {}
   const minimizer: any[] = []
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
-
+  if (config.isBuildPlugin) {
+    const patterns = copy ? copy.patterns : []
+    patterns.push({
+      from: path.join(sourceRoot, 'plugin', 'doc'),
+      to: path.join(outputRoot, 'doc')
+    })
+    patterns.push({
+      from: path.join(sourceRoot, 'plugin', 'plugin.json'),
+      to: path.join(outputRoot, 'plugin', 'plugin.json')
+    })
+    copy = Object.assign({}, copy, { patterns })
+  }
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
   const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
+  const entryRes = getEntry({
+    sourceDir,
+    entry,
+    isBuildPlugin: config.isBuildPlugin
+  })
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
   plugin.miniPlugin = getMiniPlugin({
     sourceDir,
@@ -72,7 +90,10 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     constantsReplaceList,
     nodeModulesPath,
     quickappJSON,
-    designWidth
+    designWidth,
+    pluginConfig: entryRes!.pluginConfig,
+    isBuildPlugin: !!config.isBuildPlugin,
+    commonChunks: !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors']
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
@@ -83,7 +104,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const isCssoEnabled = (csso && csso.enable === false)
     ? false
     : true
-
 
   const isUglifyEnabled = (uglify && uglify.enable === false)
     ? false
@@ -105,11 +125,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   chain.merge({
     mode,
     devtool: getDevtool(enableSourceMap),
-    entry,
+    entry: entryRes!.entry,
     output: getOutput(appPath, [{
       outputRoot,
       publicPath: '/',
       buildAdapter,
+      isBuildPlugin: config.isBuildPlugin
     }, output]),
     target: Targets[buildAdapter],
     resolve: { alias },
@@ -137,13 +158,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     optimization: {
       minimizer,
       runtimeChunk: {
-        name: 'runtime'
+        name: !!config.isBuildPlugin ? 'plugin/runtime' : 'runtime'
       },
       splitChunks: {
         chunks: 'all',
         maxInitialRequests: Infinity,
         minSize: 0,
-        name: 'vendors',
+        name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
         cacheGroups: {
           vendors: {
             test (module) {
