@@ -279,7 +279,9 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         if (componentTransfromProps && componentTransfromProps[componentName]) {
           const transfromProps = componentTransfromProps[componentName]
           Object.keys(transfromProps).forEach(oriName => {
-            name = transfromProps[oriName]
+            if (name === oriName) {
+              name = transfromProps[oriName]
+            }
           })
         }
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
