@@ -1,136 +1,135 @@
-import { tokens } from "../tokenTypes";
+import { tokens } from '../tokenTypes'
 
-const { LENGTH, UNSUPPORTED_LENGTH_UNIT, PERCENT, COLOR, SPACE, NONE } = tokens;
+const { LENGTH, UNSUPPORTED_LENGTH_UNIT, PERCENT, COLOR, SPACE, NONE } = tokens
 
 export const directionFactory = ({
   types = [LENGTH, UNSUPPORTED_LENGTH_UNIT, PERCENT],
-  directions = ["Top", "Right", "Bottom", "Left"],
-  prefix = "",
-  suffix = "",
+  directions = ['Top', 'Right', 'Bottom', 'Left'],
+  prefix = '',
+  suffix = ''
 }) => tokenStream => {
-  const values = [];
+  const values = []
 
   // borderWidth doesn't currently allow a percent value, but may do in the future
-  values.push(tokenStream.expect(...types));
+  values.push(tokenStream.expect(...types))
 
   while (values.length < 4 && tokenStream.hasTokens()) {
-    tokenStream.expect(SPACE);
-    values.push(tokenStream.expect(...types));
+    tokenStream.expect(SPACE)
+    values.push(tokenStream.expect(...types))
   }
 
-  tokenStream.expectEmpty();
+  tokenStream.expectEmpty()
 
-  const [top, right = top, bottom = top, left = right] = values;
+  const [top, right = top, bottom = top, left = right] = values
 
-  const keyFor = n => `${prefix}${directions[n]}${suffix}`;
+  const keyFor = n => `${prefix}${directions[n]}${suffix}`
 
   const output = {
     [keyFor(0)]: top,
     [keyFor(1)]: right,
     [keyFor(2)]: bottom,
-    [keyFor(3)]: left,
-  };
+    [keyFor(3)]: left
+  }
 
-  return { $merge: output };
-};
+  return { $merge: output }
+}
 
 export const anyOrderFactory = (properties, delim = SPACE) => tokenStream => {
-  const propertyNames = Object.keys(properties);
+  const propertyNames = Object.keys(properties)
   const values = propertyNames.reduce((accum, propertyName) => {
     accum[propertyName] === undefined; // eslint-disable-line
-    return accum;
-  }, {});
+    return accum
+  }, {})
 
-  let numParsed = 0;
+  let numParsed = 0
   while (numParsed < propertyNames.length && tokenStream.hasTokens()) {
-    if (numParsed) tokenStream.expect(delim);
+    if (numParsed) tokenStream.expect(delim)
 
     const matchedPropertyName = propertyNames.find(
       propertyName =>
         values[propertyName] === undefined &&
         properties[propertyName].tokens.some(token =>
-          tokenStream.matches(token),
-        ),
-    );
+          tokenStream.matches(token)
+        )
+    )
 
     if (!matchedPropertyName) {
-      tokenStream.throw();
+      tokenStream.throw()
     } else {
-      values[matchedPropertyName] = tokenStream.lastValue;
+      values[matchedPropertyName] = tokenStream.lastValue
     }
 
-    numParsed += 1;
+    numParsed += 1
   }
 
-  tokenStream.expectEmpty();
+  tokenStream.expectEmpty()
 
   propertyNames.forEach(propertyName => {
-    if (values[propertyName] === undefined)
-      values[propertyName] = properties[propertyName].default;
-  });
+    if (values[propertyName] === undefined) { values[propertyName] = properties[propertyName].default }
+  })
 
-  return { $merge: values };
-};
+  return { $merge: values }
+}
 
 export const shadowOffsetFactory = () => tokenStream => {
-  const width = tokenStream.expect(LENGTH);
+  const width = tokenStream.expect(LENGTH)
   const height = tokenStream.matches(SPACE)
     ? tokenStream.expect(LENGTH)
-    : width;
-  tokenStream.expectEmpty();
-  return { width, height };
-};
+    : width
+  tokenStream.expectEmpty()
+  return { width, height }
+}
 
 export const parseShadow = tokenStream => {
-  let offsetX;
-  let offsetY;
-  let radius;
-  let color;
+  let offsetX
+  let offsetY
+  let radius
+  let color
 
   if (tokenStream.matches(NONE)) {
-    tokenStream.expectEmpty();
+    tokenStream.expectEmpty()
     return {
       offset: { width: 0, height: 0 },
       radius: 0,
-      color: "black",
-    };
+      color: 'black'
+    }
   }
 
-  let didParseFirst = false;
+  let didParseFirst = false
   while (tokenStream.hasTokens()) {
-    if (didParseFirst) tokenStream.expect(SPACE);
+    if (didParseFirst) tokenStream.expect(SPACE)
 
     if (
       offsetX === undefined &&
       tokenStream.matches(LENGTH, UNSUPPORTED_LENGTH_UNIT)
     ) {
-      offsetX = tokenStream.lastValue;
-      tokenStream.expect(SPACE);
-      offsetY = tokenStream.expect(LENGTH, UNSUPPORTED_LENGTH_UNIT);
+      offsetX = tokenStream.lastValue
+      tokenStream.expect(SPACE)
+      offsetY = tokenStream.expect(LENGTH, UNSUPPORTED_LENGTH_UNIT)
 
-      tokenStream.saveRewindPoint();
+      tokenStream.saveRewindPoint()
       if (
         tokenStream.matches(SPACE) &&
         tokenStream.matches(LENGTH, UNSUPPORTED_LENGTH_UNIT)
       ) {
-        radius = tokenStream.lastValue;
+        radius = tokenStream.lastValue
       } else {
-        tokenStream.rewind();
+        tokenStream.rewind()
       }
     } else if (color === undefined && tokenStream.matches(COLOR)) {
-      color = tokenStream.lastValue;
+      color = tokenStream.lastValue
     } else {
-      tokenStream.throw();
+      tokenStream.throw()
     }
 
-    didParseFirst = true;
+    didParseFirst = true
   }
 
-  if (offsetX === undefined) tokenStream.throw();
+  if (offsetX === undefined) tokenStream.throw()
 
   return {
     offset: { width: offsetX, height: offsetY },
     radius: radius !== undefined ? radius : 0,
-    color: color !== undefined ? color : "black",
-  };
-};
+    color: color !== undefined ? color : 'black'
+  }
+}

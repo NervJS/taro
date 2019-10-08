@@ -19,7 +19,7 @@ namespace Router {
       [key: string]: string;
     };
     shareTicket: string;
-    referrerInfo: Object;
+    referrerInfo: Record<string, any>;
   }
 }
 

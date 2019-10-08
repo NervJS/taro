@@ -30,7 +30,7 @@ function processApis (taro) {
 function pxTransform (size) {
   const deviceWidthDp = Dimensions.get('window').width
   const uiWidthPx = 375
-  const {designWidth, deviceRatio} = this.config
+  const { designWidth, deviceRatio } = this.config
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }

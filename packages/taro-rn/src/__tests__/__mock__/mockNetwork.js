@@ -49,7 +49,7 @@ export default class NetInfo {
       const res = {}
       res.type = this.connectionType
       res.effectiveType = this.effectiveConnectionType
-      const fn = this.eventMaps['connectionChange']
+      const fn = this.eventMaps.connectionChange
       fn && fn(res)
     }
   }

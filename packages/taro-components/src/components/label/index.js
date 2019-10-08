@@ -7,7 +7,7 @@ class Label extends Nerv.Component {
   }
 
   render () {
-    const {...reset} = this.props
+    const { ...reset } = this.props
     return <label {...reset}>{this.props.children}</label>
   }
 }

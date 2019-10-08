@@ -8,6 +8,7 @@ class StaticRenderer extends Nerv.Component {
   shouldComponentUpdate (nextProps) {
     return nextProps.shouldUpdate
   }
+
   render () {
     return <div>{this.props.render()}</div>
   }
@@ -293,6 +294,7 @@ class PullDownRefresh extends Nerv.Component {
   state = {
     refreshing: false
   }
+
   isBound = false
   listeners = []
   startPullDownRefresh = () => {
@@ -301,14 +303,17 @@ class PullDownRefresh extends Nerv.Component {
       refreshing: true
     })
   }
+
   stopPullDownRefresh = () => {
     this.setState({
       refreshing: false
     })
   }
+
   getPtrRef = ref => {
     this.ptrRef = ref
   }
+
   bindEvent = () => {
     if (this.isBound) return
     this.isBound = true
@@ -318,11 +323,11 @@ class PullDownRefresh extends Nerv.Component {
         try {
           this.startPullDownRefresh()
           successHandler({
-            errMsg: `startPullDownRefresh: ok`
+            errMsg: 'startPullDownRefresh: ok'
           })
         } catch (e) {
           errorHandler({
-            errMsg: `startPullDownRefresh: fail`
+            errMsg: 'startPullDownRefresh: fail'
           })
         }
       }],
@@ -330,11 +335,11 @@ class PullDownRefresh extends Nerv.Component {
         try {
           this.stopPullDownRefresh()
           successHandler({
-            errMsg: `stopPullDownRefresh: ok`
+            errMsg: 'stopPullDownRefresh: ok'
           })
         } catch (e) {
           errorHandler({
-            errMsg: `stopPullDownRefresh: fail`
+            errMsg: 'stopPullDownRefresh: fail'
           })
         }
       }]
@@ -351,12 +356,15 @@ class PullDownRefresh extends Nerv.Component {
       Taro.eventCenter.off(evtName, callback)
     })
   }
+
   componentDidMount () {
     this.bindEvent()
   }
+
   componentWillUnmount () {
     this.unbindEvent()
   }
+
   render () {
     const props = {
       distanceToRefresh: 100,

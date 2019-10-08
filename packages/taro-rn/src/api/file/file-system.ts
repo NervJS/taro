@@ -10,7 +10,7 @@ console.log(FileSystem.cacheDirectory, FileSystem.documentDirectory)
  * @param {string} opts.tempFilePath 需要保存的文件的临时路径
  */
 export async function saveFile (opts = {}) {
-  const res = <any>{errMsg: 'removeSavedFile:ok'}
+  const res = <any>{ errMsg: 'removeSavedFile:ok' }
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `removeSavedFile${isObject.msg}`
@@ -18,12 +18,12 @@ export async function saveFile (opts = {}) {
     return Promise.reject(res)
   }
 
-  let {tempFilePath, success, fail, complete}: any = opts
+  const { tempFilePath, success, fail, complete }: any = opts
 
-  let fileName = tempFilePath.substring(tempFilePath.lastIndexOf('/') + 1)
-  let destPath = FileSystem.documentDirectory + fileName
+  const fileName = tempFilePath.substring(tempFilePath.lastIndexOf('/') + 1)
+  const destPath = FileSystem.documentDirectory + fileName
   try {
-    await FileSystem.moveAsync({from: tempFilePath, to: destPath})
+    await FileSystem.moveAsync({ from: tempFilePath, to: destPath })
     res.savedFilePath = destPath
     success && success(res)
     complete && complete(res)
@@ -42,7 +42,7 @@ export async function saveFile (opts = {}) {
  * @param {string} opts.filePath 需要删除的文件路径
  */
 export function removeSavedFile (opts = {}) {
-  const res = <any>{errMsg: 'removeSavedFile:ok'}
+  const res = <any>{ errMsg: 'removeSavedFile:ok' }
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `removeSavedFile${isObject.msg}`
@@ -50,7 +50,7 @@ export function removeSavedFile (opts = {}) {
     return Promise.reject(res)
   }
 
-  let {filePath, success, fail, complete}: any = opts
+  const { filePath, success, fail, complete }: any = opts
 
   return FileSystem.deleteAsync(filePath)
     .then((obj) => {
@@ -82,7 +82,7 @@ export function openDocument (opts = {}) {
  * @param {string} opts.filePath 文件路径
  */
 export async function getSavedFileList (opts = {}) {
-  const res = <any>{errMsg: 'getSavedFileList:ok'}
+  const res = <any>{ errMsg: 'getSavedFileList:ok' }
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `getFileInfo${isObject.msg}`
@@ -90,8 +90,8 @@ export async function getSavedFileList (opts = {}) {
     return Promise.reject(res)
   }
 
-  let {success, fail, complete}: any = opts
-  let fileList = <any>[]
+  const { success, fail, complete }: any = opts
+  const fileList = <any>[]
   try {
     const fileNameList = await FileSystem.readDirectoryAsync(FileSystem.cacheDirectory as string)
     fileNameList.forEach(async (fileName, index) => {
@@ -121,7 +121,7 @@ export async function getSavedFileList (opts = {}) {
  * @param opts
  */
 export async function getSavedFileInfo (opts = {}) {
-  const res = <any>{errMsg: 'getSavedFileInfo:ok'}
+  const res = <any>{ errMsg: 'getSavedFileInfo:ok' }
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `getSavedFileInfo${isObject.msg}`
@@ -129,10 +129,10 @@ export async function getSavedFileInfo (opts = {}) {
     return Promise.reject(res)
   }
 
-  let {filePath, digestAlgorithm = 'md5', success, fail, complete}: any = opts
+  const { filePath, digestAlgorithm = 'md5', success, fail, complete }: any = opts
 
   try {
-    const obj = await FileSystem.getInfoAsync(filePath, {md5: true})
+    const obj = await FileSystem.getInfoAsync(filePath, { md5: true })
     console.log(obj)
     if (!obj.exists) {
       throw new Error('filePath not exists')
@@ -157,7 +157,7 @@ export async function getSavedFileInfo (opts = {}) {
  * @param {string} [opts.digestAlgorithm] - 计算文件摘要的算法
  */
 export async function getFileInfo (opts = {}) {
-  const res = <any>{errMsg: 'getFileInfo:ok'}
+  const res = <any>{ errMsg: 'getFileInfo:ok' }
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `getFileInfo${isObject.msg}`
@@ -165,10 +165,10 @@ export async function getFileInfo (opts = {}) {
     return Promise.reject(res)
   }
 
-  let {filePath, digestAlgorithm = 'md5', success, fail, complete}: any = opts
+  const { filePath, digestAlgorithm = 'md5', success, fail, complete }: any = opts
 
   try {
-    const obj = await FileSystem.getInfoAsync(filePath, {md5: true})
+    const obj = await FileSystem.getInfoAsync(filePath, { md5: true })
     if (!obj.exists) {
       throw new Error('filePath not exists')
     }
@@ -190,5 +190,5 @@ export async function getFileInfo (opts = {}) {
  * 获取全局唯一的文件管理器
  */
 export function getFileSystemManager () {
-  console.log('not finished')
+  console.warn('not finished')
 }

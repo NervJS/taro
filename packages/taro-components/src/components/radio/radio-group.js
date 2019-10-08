@@ -14,7 +14,7 @@ class RadioGroup extends Nerv.Component {
 
   toggleChange (e, i) {
     let checkValue
-    let _value = this.radioValue.map((item, idx) => {
+    const _value = this.radioValue.map((item, idx) => {
       let curValue = item.value
       if (isNumber(item.value)) curValue = item.value.toString()
       if (e.target.value === curValue) {
@@ -43,7 +43,7 @@ class RadioGroup extends Nerv.Component {
     // 给 children 绑定事件
     const children = Nerv.Children.toArray(this.props.children).map(
       (item, i) => {
-        let _key = item.props.for
+        const _key = item.props.for
         const chd = Nerv.Children.toArray(item.props.children).map(ch => {
           if (ch.name === 'Radio') {
             if (ch.props.checked) {

@@ -48,12 +48,12 @@ function handleChooseVideo (type) {
 
 function handleGetImageInfo () {
   console.log('getImageInfo')
-  getImageInfo({src: 'https://nervjs.github.io/taro/img/logo-taro.png'}).then(res => console.log(res))
+  getImageInfo({ src: 'https://nervjs.github.io/taro/img/logo-taro.png' }).then(res => console.log(res))
 }
 
 function handleSaveImageToPhotosAlbum () {
   console.log('saveImageToPhotosAlbum')
-  saveImageToPhotosAlbum({filePath: 'https://nervjs.github.io/taro/img/logo-taro.png'}).then(res => console.log(res))
+  saveImageToPhotosAlbum({ filePath: 'https://nervjs.github.io/taro/img/logo-taro.png' }).then(res => console.log(res))
 }
 
 function handleRecordStart () {
@@ -109,7 +109,7 @@ export class Media extends React.Component {
 
   componentDidMount () {
     console.log(this.videoRef)
-    global._taroVideoMap['demo'] = this.videoRef.current
+    global._taroVideoMap.demo = this.videoRef.current
   }
 
   handleAudioStart1 () {
@@ -149,45 +149,45 @@ export class Media extends React.Component {
   render () {
     return (
       <View>
-        <View style={{flexDirection: 'row', backgroundColor: '#F7F7F7', justifyContent: 'space-between'}}>
-          <Button onPress={() => this.setState({tab: 'default'})} title='default' color='#19AD1A' />
-          <Button onPress={() => this.setState({tab: 'video'})} title='video' color='#19AD1A' />
-          <Button onPress={() => this.setState({tab: 'map'})} title='map' color='#19AD1A' />
+        <View style={{ flexDirection: 'row', backgroundColor: '#F7F7F7', justifyContent: 'space-between' }}>
+          <Button onPress={() => this.setState({ tab: 'default' })} title='default' color='#19AD1A' />
+          <Button onPress={() => this.setState({ tab: 'video' })} title='video' color='#19AD1A' />
+          <Button onPress={() => this.setState({ tab: 'map' })} title='map' color='#19AD1A' />
         </View>
         {this.state.tab === 'default' &&
         <View>
           <Text style={styles.index}>图片</Text>
           <View>
-            <View style={{alignItems: 'flex-start'}}>
+            <View style={{ alignItems: 'flex-start' }}>
               <Button onPress={handleChooseImage.bind(null, 'album')} title='chooseImage 相册' color='#19AD1A' />
               <Button onPress={chooseImage.bind(null, 'camera')} title='chooseImage 相机' color='#19AD1A' />x
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Button onPress={handleGetImageInfo} title='getImageInfo' color='#19AD1A' />x
               <Button onPress={handleSaveImageToPhotosAlbum} title='saveImage' color='#19AD1A' />x
             </View>
           </View>
           <Text style={styles.index}>视频</Text>
-          <View style={{alignItems: 'flex-start'}}>
+          <View style={{ alignItems: 'flex-start' }}>
             <Button onPress={handleChooseVideo.bind(null, 'album')} title='chooseVideo 相册' color='#19AD1A' />
             <Button onPress={handleChooseVideo.bind(null, 'camera')} title='chooseVideo 相机' color='#19AD1A' />
           </View>
           <Text style={styles.index}>录音</Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Button onPress={handleRecordStart} title='开始' color='#19AD1A' />
             <Button onPress={handleRecordPause} title='暂停' color='#19AD1A' />
             <Button onPress={handleRecordResume} title='继续' color='#19AD1A' />
             <Button onPress={handleRecordStop} title='停止' color='#19AD1A' />
           </View>
           <Text style={styles.index}>音频</Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Text> 长度：{this.state.duration || ''}</Text>
             <Text> 当前：{this.state.currentTime || ''}</Text>
             <Text> 暂停：{this.state.paused + ''} </Text>
             <Text> 缓存：{this.state.buffered || ''}</Text>
           </View>
           <Button onPress={this.handleAudioStart1.bind(this)} title='自动从100播放' color='#19AD1A' />
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Button onPress={this.handleAudioStart.bind(this)} title='播放' color='#19AD1A' />
             <Button onPress={handleAudioPause} title='暂停' color='#19AD1A' />
             <Button onPress={handleAudioStop} title='停止' color='#19AD1A' />
@@ -201,7 +201,7 @@ export class Media extends React.Component {
           <Text style={styles.index}>视频</Text>
           <Video
             ref={this.videoRef}
-            source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
+            source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
             rate={1}
             volume={1.0}
             isMuted={false}
@@ -209,7 +209,7 @@ export class Media extends React.Component {
             useNativeControls
             shouldPlay
             isLooping
-            style={{width: 300, height: 300}}
+            style={{ width: 300, height: 300 }}
           />
         </View>
         }

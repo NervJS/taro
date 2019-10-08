@@ -23,123 +23,123 @@ function testClassPropFunction (name) {
 ruleTester.run('jsx-handler-names', rule, {
   valid: [
     {
-      code: testClassMethod(`handleClick`)
+      code: testClassMethod('handleClick')
     },
     {
-      code: testClassMethod(`onTouchStart`)
+      code: testClassMethod('onTouchStart')
     },
     {
-      code: testClassMethod(`onTouchMove`)
+      code: testClassMethod('onTouchMove')
     },
     {
-      code: testClassMethod(`onTouchCancel`)
+      code: testClassMethod('onTouchCancel')
     },
     {
-      code: testClassMethod(`onTouchEnd`)
+      code: testClassMethod('onTouchEnd')
     },
     {
-      code: testClassMethod(`onAnimationStart`)
+      code: testClassMethod('onAnimationStart')
     },
     {
-      code: testClassMethod(`onLongClick`)
+      code: testClassMethod('onLongClick')
     },
     {
-      code: testClassMethod(`onTransitionEnd`)
+      code: testClassMethod('onTransitionEnd')
     },
     {
-      code: testClassMethod(`onAnimationStart`)
+      code: testClassMethod('onAnimationStart')
     },
     {
-      code: testClassPropFunction(`handleClick`)
+      code: testClassPropFunction('handleClick')
     },
     {
-      code: testClassPropFunction(`onTouchStart`)
+      code: testClassPropFunction('onTouchStart')
     },
     {
-      code: testClassPropFunction(`onTouchMove`)
+      code: testClassPropFunction('onTouchMove')
     },
     {
-      code: testClassPropFunction(`onTouchCancel`)
+      code: testClassPropFunction('onTouchCancel')
     },
     {
-      code: testClassPropFunction(`onTouchEnd`)
+      code: testClassPropFunction('onTouchEnd')
     },
     {
-      code: testClassPropFunction(`onAnimationStart`)
+      code: testClassPropFunction('onAnimationStart')
     },
     {
-      code: testClassPropFunction(`onLongClick`)
+      code: testClassPropFunction('onLongClick')
     },
     {
-      code: testClassPropFunction(`onTransitionEnd`)
+      code: testClassPropFunction('onTransitionEnd')
     },
     {
-      code: testClassPropFunction(`onAnimation_Start`)
+      code: testClassPropFunction('onAnimation_Start')
     }
   ],
   invalid: [
     {
-      code: testClassMethod(`handleClick1`),
+      code: testClassMethod('handleClick1'),
       errors: [{ message: NUMBER_ERROR }]
     },
     {
-      code: testClassMethod(`handle1Click`),
+      code: testClassMethod('handle1Click'),
       errors: [{ message: NUMBER_ERROR }]
     },
     {
-      code: testClassMethod(`handle123Click`),
+      code: testClassMethod('handle123Click'),
       errors: [{ message: NUMBER_ERROR }]
     },
     {
-      code: testClassMethod(`handle1Click666`),
+      code: testClassMethod('handle1Click666'),
       errors: [{ message: NUMBER_ERROR }]
     },
     {
-      code: testClassMethod(`_handleClick`),
+      code: testClassMethod('_handleClick'),
       errors: [{ message: UNDERSCOPE_ERROR }]
     },
     {
-      code: testClassMethod(`handleClick_`),
+      code: testClassMethod('handleClick_'),
       errors: [{ message: UNDERSCOPE_ERROR }]
     },
     {
-      code: testClassMethod(`__handleClick_`),
+      code: testClassMethod('__handleClick_'),
       errors: [{ message: UNDERSCOPE_ERROR }]
     },
     {
-      code: testClassMethod(`handleTestComponentClick`),
+      code: testClassMethod('handleTestComponentClick'),
       errors: [{ message: LENGTH_ERROR }]
     },
     {
-      code: testClassPropFunction(`handleClick1`),
+      code: testClassPropFunction('handleClick1'),
       errors: [{ message: NUMBER_ERROR }]
     },
     {
-      code: testClassPropFunction(`handle1Click`),
+      code: testClassPropFunction('handle1Click'),
       errors: [{ message: NUMBER_ERROR }]
     },
     {
-      code: testClassPropFunction(`handle123Click`),
+      code: testClassPropFunction('handle123Click'),
       errors: [{ message: NUMBER_ERROR }]
     },
     {
-      code: testClassPropFunction(`handle1Click666`),
+      code: testClassPropFunction('handle1Click666'),
       errors: [{ message: NUMBER_ERROR }]
     },
     {
-      code: testClassPropFunction(`_handleClick`),
+      code: testClassPropFunction('_handleClick'),
       errors: [{ message: UNDERSCOPE_ERROR }]
     },
     {
-      code: testClassPropFunction(`handleClick_`),
+      code: testClassPropFunction('handleClick_'),
       errors: [{ message: UNDERSCOPE_ERROR }]
     },
     {
-      code: testClassPropFunction(`__handleClick_`),
+      code: testClassPropFunction('__handleClick_'),
       errors: [{ message: UNDERSCOPE_ERROR }]
     },
     {
-      code: testClassPropFunction(`handleTestComponentClick`),
+      code: testClassPropFunction('handleTestComponentClick'),
       errors: [{ message: LENGTH_ERROR }]
     }
   ]

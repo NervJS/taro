@@ -8,7 +8,7 @@ const Project = require('../dist/create/project').default
 class GenerateLockfile extends Project {
   copy () {
     const cwd = process.cwd()
-    const {projectName, template} = this.conf
+    const { projectName, template } = this.conf
     const lockfileDir = path.join(this.templatePath(), template, 'yarn-lockfiles')
     shelljs.cd(cwd)
     shelljs.rm('-rf', lockfileDir)

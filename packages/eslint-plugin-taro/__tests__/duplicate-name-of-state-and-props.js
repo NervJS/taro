@@ -41,83 +41,83 @@ function buildErrMsg (name) {
 ruleTester.run('duplicate-name-of-state-and-props', rule, {
   valid: [
     {
-      code: testConstructor(`this.props.e`)
+      code: testConstructor('this.props.e')
     },
     {
-      code: testConstructor(`this.props.f`)
+      code: testConstructor('this.props.f')
     },
     {
-      code: testConstructor(`this.props.aa`)
+      code: testConstructor('this.props.aa')
     },
     {
-      code: testConstructor(`this.props.bb`)
+      code: testConstructor('this.props.bb')
     },
     {
-      code: testConstructor(`this.a`)
+      code: testConstructor('this.a')
     },
     {
-      code: testClassProperty(`this.a`)
+      code: testClassProperty('this.a')
     },
     {
-      code: testClassProperty(`this.props.e`)
+      code: testClassProperty('this.props.e')
     },
     {
-      code: testClassProperty(`this.props.f`)
+      code: testClassProperty('this.props.f')
     },
     {
-      code: testClassProperty(`this.props.aa`)
+      code: testClassProperty('this.props.aa')
     },
     {
-      code: testClassProperty(`this.props.bb`)
+      code: testClassProperty('this.props.bb')
     }
   ],
   invalid: [
     {
-      code: testConstructor(`this.props.a`),
+      code: testConstructor('this.props.a'),
       errors: [{ message: buildErrMsg('a') }]
     },
     {
-      code: testConstructor(`this.props.b`),
+      code: testConstructor('this.props.b'),
       errors: [{ message: buildErrMsg('b') }]
     },
     {
-      code: testConstructor(`this.props.c`),
+      code: testConstructor('this.props.c'),
       errors: [{ message: buildErrMsg('c') }]
     },
     {
-      code: testConstructor(`const { c } = this.props`),
+      code: testConstructor('const { c } = this.props'),
       errors: [{ message: buildErrMsg('c') }]
     },
     {
-      code: testConstructor(`const { b } = this.props`),
+      code: testConstructor('const { b } = this.props'),
       errors: [{ message: buildErrMsg('b') }]
     },
     {
-      code: testConstructor(`const { a } = this.props`),
+      code: testConstructor('const { a } = this.props'),
       errors: [{ message: buildErrMsg('a') }]
     },
     {
-      code: testClassProperty(`this.props.a`),
+      code: testClassProperty('this.props.a'),
       errors: [{ message: buildErrMsg('a') }]
     },
     {
-      code: testClassProperty(`this.props.b`),
+      code: testClassProperty('this.props.b'),
       errors: [{ message: buildErrMsg('b') }]
     },
     {
-      code: testClassProperty(`this.props.c`),
+      code: testClassProperty('this.props.c'),
       errors: [{ message: buildErrMsg('c') }]
     },
     {
-      code: testClassProperty(`const { c } = this.props`),
+      code: testClassProperty('const { c } = this.props'),
       errors: [{ message: buildErrMsg('c') }]
     },
     {
-      code: testClassProperty(`const { b } = this.props`),
+      code: testClassProperty('const { b } = this.props'),
       errors: [{ message: buildErrMsg('b') }]
     },
     {
-      code: testClassProperty(`const { a } = this.props`),
+      code: testClassProperty('const { a } = this.props'),
       errors: [{ message: buildErrMsg('a') }]
     }
   ]

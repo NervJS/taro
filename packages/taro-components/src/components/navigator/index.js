@@ -53,6 +53,7 @@ class Navigator extends Taro.Component {
     onComplete: null,
     isHover: false
   }
+
   /** @type {NavigationProps}  */
   props
   onClick = () => {
@@ -86,7 +87,7 @@ class Navigator extends Taro.Component {
         break
       case 'exit':
         promise = Promise.reject({
-          errMsg: `navigator:fail 暂不支持"openType: exit"`
+          errMsg: 'navigator:fail 暂不支持"openType: exit"'
         })
         break
     }
@@ -100,6 +101,7 @@ class Navigator extends Taro.Component {
       })
     }
   }
+
   render () {
     const { isHover, hoverClass, onTouchStart, onTouchEnd, className } = this.props
     return (

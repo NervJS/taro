@@ -10,13 +10,13 @@ import { askAsyncPermissions } from '../utils'
  * @returns {Promise<*>}
  */
 async function saveMedia (opts, type, API) {
-  const {status} = await askAsyncPermissions(Permissions.CAMERA_ROLL)
+  const { status } = await askAsyncPermissions(Permissions.CAMERA_ROLL)
   if (status !== 'granted') {
-    const res = {errMsg: `Permissions denied!`}
+    const res = { errMsg: 'Permissions denied!' }
     return Promise.reject(res)
   }
-  const {filePath, success, fail, complete} = opts
-  const res = {errMsg: `${API}:ok`}
+  const { filePath, success, fail, complete } = opts
+  const res = { errMsg: `${API}:ok` }
 
   return CameraRoll.saveToCameraRoll(filePath, type)
     .then((url) => {
@@ -34,4 +34,4 @@ async function saveMedia (opts, type, API) {
 
 export { saveMedia }
 
-export default {saveMedia}
+export default { saveMedia }

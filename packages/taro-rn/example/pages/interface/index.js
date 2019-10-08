@@ -35,7 +35,7 @@ function handleShowLoading () {
 }
 
 function handleShowActionSheet () {
-  showActionSheet({itemList: ['A', 'B', 'C']})
+  showActionSheet({ itemList: ['A', 'B', 'C'] })
     .then(res => console.log(res))
     .catch(e => console.log(e))
 }
@@ -44,11 +44,11 @@ export function Interface () {
   return (
     <View>
       <Text style={styles.index}>交互</Text>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Button onPress={handleShowToast} title='showToast' color='#19AD1A' />
         <Button onPress={handleShowModal} title='showModal' color='#19AD1A' />
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Button onPress={handleShowLoading} title='showLoading' color='#19AD1A' />
         <Button onPress={handleShowActionSheet} title='showActionSheet' color='#19AD1A' />
       </View>

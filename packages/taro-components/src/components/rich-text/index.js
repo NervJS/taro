@@ -12,7 +12,7 @@ class RichText extends Nerv.Component {
       return Nerv.createElement('span', {}, item.text)
     } else {
       const child = this.renderChildrens(item.children)
-      let obj = {
+      const obj = {
         className: '',
         style: ''
       }
@@ -40,7 +40,7 @@ class RichText extends Nerv.Component {
   }
 
   render () {
-    let { nodes, className, ...other } = this.props
+    const { nodes, className, ...other } = this.props
 
     if (Array.isArray(nodes)) {
       return (

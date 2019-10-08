@@ -46,7 +46,6 @@ function isFunction (o): o is Function {
 }
 
 export default function withWeapp (weappConf: WxOptions) {
-
   return (ConnectComponent: ComponentClass) => {
     class BaseComponent<P = {}, S = {}> extends ConnectComponent {
       private _observeProps: ObserverProperties[] = []
@@ -69,7 +68,7 @@ export default function withWeapp (weappConf: WxOptions) {
         defineGetter(this, 'properties', 'props')
       }
 
-      private initProps (props: Object) {
+      private initProps (props: Record<string, any>) {
         for (const propKey in props) {
           if (props.hasOwnProperty(propKey)) {
             const propValue = props[propKey]
@@ -92,15 +91,16 @@ export default function withWeapp (weappConf: WxOptions) {
           switch (confKey) {
             case 'externalClasses':
               break
-            case 'data':
-              this.state = confValue
+            case 'data': {
               const keys = Object.keys(this.state)
               let i = keys.length
+              this.state = confValue
               while (i--) {
                 const key = keys[i]
-                proxy(this, `state`, key)
+                proxy(this, 'state', key)
               }
               break
+            }
             case 'properties':
               this.initProps(confValue)
               break
@@ -111,7 +111,7 @@ export default function withWeapp (weappConf: WxOptions) {
               }
               break
             case 'behaviors':
-              // this.initMixins(confValue, options);
+            // this.initMixins(confValue, options);
               break
             case 'lifetimes':
               for (const key in confValue) {
@@ -181,7 +181,7 @@ export default function withWeapp (weappConf: WxOptions) {
           this.$scope.selectComponent(...args)
         } else {
           // tslint:disable-next-line: no-console
-          console.error(`this.$scope 下没有 selectComponent 方法`)
+          console.error('this.$scope 下没有 selectComponent 方法')
         }
       }
 
@@ -190,7 +190,7 @@ export default function withWeapp (weappConf: WxOptions) {
           this.$scope.getRelationNodes(...args)
         } else {
           // tslint:disable-next-line: no-console
-          console.error(`this.$scope 下没有 getRelationNodes 方法`)
+          console.error('this.$scope 下没有 getRelationNodes 方法')
         }
       }
 
@@ -266,7 +266,7 @@ export default function withWeapp (weappConf: WxOptions) {
       }
     }
 
-    const props = weappConf['properties']
+    const props = weappConf.properties
 
     if (props) {
       for (const propKey in props) {

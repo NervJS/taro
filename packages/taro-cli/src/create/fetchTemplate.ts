@@ -42,8 +42,9 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
           // unzip
           const zip = new AdmZip(zipPath)
           zip.extractAllTo(tempPath, true)
-          const files = readDirWithFileTypes(tempPath)
-            .filter(file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX')
+          const files = readDirWithFileTypes(tempPath).filter(
+            file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX'
+          )
           if (files.length !== 1) {
             spinner.color = 'red'
             spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${new Error('远程模板源组织格式错误')}`))
@@ -63,32 +64,33 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
         })
         .pipe(fs.createWriteStream(zipPath))
     }
-  })
-    .then(async () => {
-      const templateFloder = name ? path.join(tempPath, name) : ''
+  }).then(async () => {
+    const templateFloder = name ? path.join(tempPath, name) : ''
 
-      // 下载失败，只显示默认模板
-      if (!fs.existsSync(templateFloder)) return Promise.resolve([])
+    // 下载失败，只显示默认模板
+    if (!fs.existsSync(templateFloder)) return Promise.resolve([])
 
-      const isTemplateGroup = !fs.existsSync(path.join(templateFloder, 'package.json'))
+    const isTemplateGroup = !fs.existsSync(path.join(templateFloder, 'package.json'))
 
-      if (isTemplateGroup) {
-        // 模板组
-        const files = readDirWithFileTypes(templateFloder)
-          .filter(file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX')
-          .map(file => file.name)
-        await Promise.all(files.map(file => {
+    if (isTemplateGroup) {
+      // 模板组
+      const files = readDirWithFileTypes(templateFloder)
+        .filter(file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX')
+        .map(file => file.name)
+      await Promise.all(
+        files.map(file => {
           const src = path.join(templateFloder, file)
           const dest = path.join(templateRootPath, file)
           return fs.move(src, dest, { overwrite: true })
-        }))
-        await fs.remove(tempPath)
-        return Promise.resolve(files)
-      } else {
-        // 单模板
-        await fs.move(templateFloder, path.join(templateRootPath, name), { overwrite: true })
-        await fs.remove(tempPath)
-        return Promise.resolve([name])
-      }
-    })
+        })
+      )
+      await fs.remove(tempPath)
+      return Promise.resolve(files)
+    } else {
+      // 单模板
+      await fs.move(templateFloder, path.join(templateRootPath, name), { overwrite: true })
+      await fs.remove(tempPath)
+      return Promise.resolve([name])
+    }
+  })
 }

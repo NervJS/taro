@@ -1,5 +1,1 @@
-export default [
-  'last 3 versions',
-  'Android >= 4.1',
-  'ios >= 8'
-]
+export default ['last 3 versions', 'Android >= 4.1', 'ios >= 8']

@@ -81,11 +81,11 @@ class Swiper extends Nerv.Component {
 
   // 更新容器的宽高
   updateContainerBox (children) {
-    let $container = Nerv.findDOMNode(this.SwiperWp)
+    const $container = Nerv.findDOMNode(this.SwiperWp)
     let childLen = children.length || 1
-    let currentIndex = this.state.currentIndex
+    const currentIndex = this.state.currentIndex
     // 默认偏移量
-    let offsetVal = this.props.vertical
+    const offsetVal = this.props.vertical
       ? -$container.offsetHeight * (currentIndex + 1)
       : -$container.offsetWidth * (currentIndex + 1)
     childLen = childLen + 2
@@ -106,7 +106,7 @@ class Swiper extends Nerv.Component {
 
   // 更新下标
   updateCurrentIndex (currentIndex) {
-    let tr = this.state.translate
+    const tr = this.state.translate
     let slideVal // 纵向还是横向滚动长度
 
     if (currentIndex < 0) currentIndex = this.props.children.length - 1
@@ -164,14 +164,15 @@ class Swiper extends Nerv.Component {
       animating: false
     })
   }
+
   handleTouchMove (e) {
     // 非衔接滑动的时候 判断首尾页的时候禁止拖动
     if (!this.props.circular) {
       // 计算偏移量、 判断左滑右滑动
-      let touchEndX = e.touches[0].pageX
-      let touchEndY = e.touches[0].pageY
-      let offsetMoveX = touchEndX - this.touchStartX
-      let offsetMoveY = touchEndY - this.touchStartY
+      const touchEndX = e.touches[0].pageX
+      const touchEndY = e.touches[0].pageY
+      const offsetMoveX = touchEndX - this.touchStartX
+      const offsetMoveY = touchEndY - this.touchStartY
       if (this.isFirstIndex()) {
         if (
           (this.props.vertical && offsetMoveY > 0) ||
@@ -213,7 +214,7 @@ class Swiper extends Nerv.Component {
   handleTouchEnd (e) {
     if (!this.state.touching || this.props.children.length <= 1) return
     let translate = this.state.translate
-    let max = !this.props.vertical
+    const max = !this.props.vertical
       ? this.state.wrapperWidth - this.state.containerWidth
       : this.state.wrapperHeight - this.state.containerHeight
     let currentIndex = this.state.currentIndex
@@ -224,7 +225,7 @@ class Swiper extends Nerv.Component {
       translate = -max
     } else {
       // default case
-      let changeV = this.isChangeSlide(translate, currentIndex)
+      const changeV = this.isChangeSlide(translate, currentIndex)
       translate = changeV.translate
       currentIndex = changeV.currentIndex
     }
@@ -323,8 +324,8 @@ class Swiper extends Nerv.Component {
         return
       }
     }
-    let cur = this.addCurrentIndex(this.state.currentIndex)
-    let tr = this.state.translate
+    const cur = this.addCurrentIndex(this.state.currentIndex)
+    const tr = this.state.translate
     let slideVal // 纵向还是横向滚动长度
 
     if (!this.props.vertical) {
@@ -345,7 +346,7 @@ class Swiper extends Nerv.Component {
       }
     )
     if (this.props.onChange) {
-      let e = new TouchEvent('touchend')
+      const e = new TouchEvent('touchend')
       Object.defineProperty(e, 'detail', {
         enumerable: true,
         value: {
@@ -362,8 +363,8 @@ class Swiper extends Nerv.Component {
     // let threshold = !this.props.vertical
     //   ? this.state.containerWidth / 2
     //   : this.state.containerHeight / 2
-    let diff = Math.abs(translate - this.state.ogTranslate)
-    let isNext = translate - this.state.ogTranslate < 0
+    const diff = Math.abs(translate - this.state.ogTranslate)
+    const isNext = translate - this.state.ogTranslate < 0
 
     if (diff > 0) {
       if (isNext) {
@@ -396,10 +397,10 @@ class Swiper extends Nerv.Component {
   renderPagination (indicatorColor, indicatorActiveColor) {
     if (Array.isArray(this.props.children)) {
       const childs = this.props.children.map((child, i) => {
-        let clx = classNames('swiper__pagination-bullet', {
+        const clx = classNames('swiper__pagination-bullet', {
           active: i === this.state.currentIndex
         })
-        let indiStyle = {
+        const indiStyle = {
           background:
             i === this.state.currentIndex ? indicatorActiveColor : indicatorColor
         }
@@ -407,7 +408,7 @@ class Swiper extends Nerv.Component {
       })
       return childs
     } else {
-      let indiStyle = {
+      const indiStyle = {
         background: indicatorActiveColor
       }
       return <span className={'swiper__pagination-bullet active'} key='1' style={indiStyle} />
@@ -429,7 +430,7 @@ class Swiper extends Nerv.Component {
       'swiper__container-horizontal': !vertical
     })
 
-    let items = [].concat(children)
+    const items = [].concat(children)
     // 衔接滑动增加首尾
     // if (circular) {
     if (items.length !== 0) {
@@ -439,7 +440,7 @@ class Swiper extends Nerv.Component {
       items.unshift(lastItem)
     }
     // }
-    let wrapperStyle = {
+    const wrapperStyle = {
       width: this.state.wrapperWidth,
       height: this.state.wrapperHeight,
       transition: this.state.animating
@@ -470,14 +471,14 @@ class Swiper extends Nerv.Component {
             // 样式继承追加。 有可能 Object 或者是 String
             let sty
             if (typeof c.props.style === 'string') {
-              let display = !vertical
+              const display = !vertical
                 ? ';display: inline-block;'
                 : ';display: block;'
-              let verticalAlign = !vertical
+              const verticalAlign = !vertical
                 ? ';vertical-align: top;'
                 : ';vertical-align:bottom;'
-              let w = `;width: ${this.state.containerWidth}px;`
-              let h = `;height: ${this.state.containerHeight}px;`
+              const w = `;width: ${this.state.containerWidth}px;`
+              const h = `;height: ${this.state.containerHeight}px;`
               sty = c.props.style + verticalAlign + display + w + h
             } else {
               sty = Object.assign({}, c.props.style, {

@@ -43,7 +43,7 @@ const buildProd = (appPath: string, config: BuildConfig): Promise<void> => {
 
     compiler.run((err) => {
       if (err) {
-        printBuildError(err);
+        printBuildError(err)
         return reject(err)
       }
       resolve()
@@ -146,7 +146,7 @@ export default async (appPath: string, config: BuildConfig): Promise<void> => {
       await buildProd(appPath, newConfig)
     } catch (e) {
       console.error(e)
-      process.exit(1);
+      process.exit(1)
     }
   }
 }

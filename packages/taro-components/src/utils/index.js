@@ -2,10 +2,11 @@ export function throttle (fn, threshhold, scope) {
   threshhold || (threshhold = 250)
   let last, deferTimer
   return function () {
-    let context = scope || this
+    const context = scope || this
 
-    let now = +new Date()
-    let args = arguments
+    const now = +new Date()
+    // eslint-disable-next-line prefer-rest-params
+    const args = arguments
     if (last && now < last + threshhold) {
       clearTimeout(deferTimer)
       deferTimer = setTimeout(() => {
@@ -76,7 +77,7 @@ export const normalizePath = url => {
 export const splitUrl = _url => {
   let url = _url || ''
   let pos
-  let res = {
+  const res = {
     path: null,
     query: null,
     fragment: null

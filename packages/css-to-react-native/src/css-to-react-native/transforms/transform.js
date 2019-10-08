@@ -1,48 +1,48 @@
-import { tokens } from "../tokenTypes";
+import { tokens } from '../tokenTypes'
 
-const { SPACE, COMMA, LENGTH, NUMBER, ANGLE } = tokens;
+const { SPACE, COMMA, LENGTH, NUMBER, ANGLE } = tokens
 
 const oneOfType = tokenType => functionStream => {
-  const value = functionStream.expect(tokenType);
-  functionStream.expectEmpty();
-  return value;
-};
+  const value = functionStream.expect(tokenType)
+  functionStream.expectEmpty()
+  return value
+}
 
-const singleNumber = oneOfType(NUMBER);
-const singleLength = oneOfType(LENGTH);
-const singleAngle = oneOfType(ANGLE);
+const singleNumber = oneOfType(NUMBER)
+const singleLength = oneOfType(LENGTH)
+const singleAngle = oneOfType(ANGLE)
 const xyTransformFactory = tokenType => (
   key,
-  valueIfOmitted,
+  valueIfOmitted
 ) => functionStream => {
-  const x = functionStream.expect(tokenType);
+  const x = functionStream.expect(tokenType)
 
-  let y;
+  let y
   if (functionStream.hasTokens()) {
-    functionStream.expect(COMMA);
-    y = functionStream.expect(tokenType);
+    functionStream.expect(COMMA)
+    y = functionStream.expect(tokenType)
   } else if (valueIfOmitted !== undefined) {
-    y = valueIfOmitted;
+    y = valueIfOmitted
   } else {
     // Assumption, if x === y, then we can omit XY
     // I.e. scale(5) => [{ scale: 5 }] rather than [{ scaleX: 5 }, { scaleY: 5 }]
-    return x;
+    return x
   }
 
-  functionStream.expectEmpty();
+  functionStream.expectEmpty()
 
-  return [{ [`${key}Y`]: y }, { [`${key}X`]: x }];
-};
-const xyNumber = xyTransformFactory(NUMBER);
-const xyLength = xyTransformFactory(LENGTH);
-const xyAngle = xyTransformFactory(ANGLE);
+  return [{ [`${key}Y`]: y }, { [`${key}X`]: x }]
+}
+const xyNumber = xyTransformFactory(NUMBER)
+const xyLength = xyTransformFactory(LENGTH)
+const xyAngle = xyTransformFactory(ANGLE)
 
 const partTransforms = {
   perspective: singleNumber,
-  scale: xyNumber("scale"),
+  scale: xyNumber('scale'),
   scaleX: singleNumber,
   scaleY: singleNumber,
-  translate: xyLength("translate", 0),
+  translate: xyLength('translate', 0),
   translateX: singleLength,
   translateY: singleLength,
   rotate: singleAngle,
@@ -51,26 +51,26 @@ const partTransforms = {
   rotateZ: singleAngle,
   skewX: singleAngle,
   skewY: singleAngle,
-  skew: xyAngle("skew", "0deg"),
-};
+  skew: xyAngle('skew', '0deg')
+}
 
 export default tokenStream => {
-  let transforms = [];
+  let transforms = []
 
-  let didParseFirst = false;
+  let didParseFirst = false
   while (tokenStream.hasTokens()) {
-    if (didParseFirst) tokenStream.expect(SPACE);
+    if (didParseFirst) tokenStream.expect(SPACE)
 
-    const functionStream = tokenStream.expectFunction();
-    const { functionName } = functionStream;
-    let transformedValues = partTransforms[functionName](functionStream);
+    const functionStream = tokenStream.expectFunction()
+    const { functionName } = functionStream
+    let transformedValues = partTransforms[functionName](functionStream)
     if (!Array.isArray(transformedValues)) {
-      transformedValues = [{ [functionName]: transformedValues }];
+      transformedValues = [{ [functionName]: transformedValues }]
     }
-    transforms = transformedValues.concat(transforms);
+    transforms = transformedValues.concat(transforms)
 
-    didParseFirst = true;
+    didParseFirst = true
   }
 
-  return transforms;
-};
+  return transforms
+}

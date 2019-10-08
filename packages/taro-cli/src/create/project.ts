@@ -11,23 +11,23 @@ import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } from '../u
 import { getUserHomeDir } from '../util'
 
 export interface IProjectConf {
-  projectName: string,
-  projectDir: string,
-  templateSource: string,
-  clone?: boolean,
-  template: string,
-  description?: string,
-  typescript?: boolean,
-  css: 'none' | 'sass' | 'stylus' | 'less',
-  date?: string,
-  src?: string,
-  sourceRoot?: string,
-  env?: string,
+  projectName: string;
+  projectDir: string;
+  templateSource: string;
+  clone?: boolean;
+  template: string;
+  description?: string;
+  typescript?: boolean;
+  css: 'none' | 'sass' | 'stylus' | 'less';
+  date?: string;
+  src?: string;
+  sourceRoot?: string;
+  env?: string;
   autoInstall?: boolean
 }
 
 interface AskMethods {
-  (conf: IProjectConf, prompts: object[], choices?: string[]): void
+  (conf: IProjectConf, prompts: object[], choices?: string[]): void;
 }
 
 export default class Project extends Creator {
@@ -42,16 +42,19 @@ export default class Project extends Creator {
     }
     this.rootPath = this._rootPath
 
-    this.conf = Object.assign({
-      projectName: '',
-      projectDir: '',
-      template: '',
-      description: ''
-    }, options)
+    this.conf = Object.assign(
+      {
+        projectName: '',
+        projectDir: '',
+        template: '',
+        description: ''
+      },
+      options
+    )
   }
 
   init () {
-    console.log(chalk.green(`Taro即将创建一个新项目!`))
+    console.log(chalk.green('Taro即将创建一个新项目!'))
     console.log('Need help? Go and open issue: https://github.com/NervJS/taro/issues/new')
     console.log()
   }
@@ -62,7 +65,7 @@ export default class Project extends Creator {
       .then(answers => {
         const date = new Date()
         this.conf = Object.assign(this.conf, answers)
-        this.conf.date = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()}`
+        this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
         this.write()
       })
       .catch(err => console.log(chalk.red('创建项目失败: ', err)))
@@ -114,7 +117,7 @@ export default class Project extends Creator {
   }
 
   askProjectName: AskMethods = function (conf, prompts) {
-    if (typeof conf.projectName as string | undefined !== 'string') {
+    if ((typeof conf.projectName as string | undefined) !== 'string') {
       prompts.push({
         type: 'input',
         name: 'projectName',
@@ -168,21 +171,26 @@ export default class Project extends Creator {
   }
 
   askCSS: AskMethods = function (conf, prompts) {
-    const cssChoices = [{
-      name: 'Sass',
-      value: 'sass'
-    }, {
-      name: 'Less',
-      value: 'less'
-    }, {
-      name: 'Stylus',
-      value: 'stylus'
-    }, {
-      name: '无',
-      value: 'none'
-    }]
+    const cssChoices = [
+      {
+        name: 'Sass',
+        value: 'sass'
+      },
+      {
+        name: 'Less',
+        value: 'less'
+      },
+      {
+        name: 'Stylus',
+        value: 'stylus'
+      },
+      {
+        name: '无',
+        value: 'none'
+      }
+    ]
 
-    if (typeof conf.css as string | undefined !== 'string') {
+    if ((typeof conf.css as string | undefined) !== 'string') {
       prompts.push({
         type: 'list',
         name: 'css',
@@ -193,12 +201,15 @@ export default class Project extends Creator {
   }
 
   askTemplate: AskMethods = function (conf, prompts, list = []) {
-    const choices = [{
-      name: '默认模板',
-      value: 'default'
-    }, ...list.map(item => ({ name: item, value: item }))]
+    const choices = [
+      {
+        name: '默认模板',
+        value: 'default'
+      },
+      ...list.map(item => ({ name: item, value: item }))
+    ]
 
-    if (typeof conf.template as 'string' | undefined !== 'string') {
+    if ((typeof conf.template as 'string' | undefined) !== 'string') {
       prompts.push({
         type: 'list',
         name: 'template',
@@ -210,7 +221,6 @@ export default class Project extends Creator {
 
   write (cb?: () => void) {
     this.conf.src = CONFIG.SOURCE_DIR
-    createApp(this, this.conf, cb)
-      .catch(err => console.log(err))
+    createApp(this, this.conf, cb).catch(err => console.log(err))
   }
 }

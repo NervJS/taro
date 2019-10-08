@@ -38,7 +38,7 @@ class CheckboxGroup extends Nerv.Component {
     // 给 children 绑定事件
     const children = Nerv.Children.toArray(this.props.children).map(
       (item, i) => {
-        let _key = item.props.for
+        const _key = item.props.for
         const chd = Nerv.Children.toArray(item.props.children).map(ch => {
           if (ch.name === 'Checkbox') {
             if (ch.props.checked) {

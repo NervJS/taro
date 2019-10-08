@@ -59,8 +59,8 @@ const recursiveMerge = <T = any>(src: Partial<T>, ...args: Array<Partial<T> | un
 
 const isNpmPackage = (name: string) => !/^(\.|\/)/.test(name)
 
-const addLeadingSlash = (url: string) => url.charAt(0) === '/' ? url : '/' + url
-const addTrailingSlash = (url: string) => url.charAt(url.length - 1) === '/' ? url : url + '/'
+const addLeadingSlash = (url: string) => (url.charAt(0) === '/' ? url : '/' + url)
+const addTrailingSlash = (url: string) => (url.charAt(url.length - 1) === '/' ? url : url + '/')
 
 const formatOpenHost = host => {
   let result = host

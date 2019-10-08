@@ -135,12 +135,12 @@ class _Video extends React.Component<Props, State> {
     )
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT)
     Dimensions.removeEventListener('change', this.orientationChangeHandler)
   }
 
-  orientationChangeHandler(dims) {
+  orientationChangeHandler (dims) {
     const { width, height } = dims.window
     const isLandscape = width > height
     this.setState({ isPortrait: !isLandscape })

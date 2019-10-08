@@ -118,7 +118,7 @@ export const createWxmlVistor = (
   const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
     const name = path.node.name as t.JSXIdentifier
     const jsx = path.findParent(p => p.isJSXElement()) as NodePath<
-      t.JSXElement
+    t.JSXElement
     >
     const valueCopy = cloneDeep(path.get('value').node)
     transformIf(name.name, path, jsx, valueCopy)
@@ -246,7 +246,7 @@ export const createWxmlVistor = (
               // withWeappImport,
               t.exportDefaultDeclaration(classDecl)
             )
-            let usedTemplate = new Set<string>()
+            const usedTemplate = new Set<string>()
 
             traverse(ast, {
               JSXIdentifier (path) {
@@ -320,8 +320,8 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
     usedComponents.clear()
   }
   usedComponents.add('Block')
-  let wxses: WXS[] = []
-  let imports: Imports[] = []
+  const wxses: WXS[] = []
+  const imports: Imports[] = []
   const refIds = new Set<string>()
   const loopIds = new Set<string>()
   if (!wxml) {
@@ -391,7 +391,7 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
   }
 
   if (!src) {
-    const { children: [ script ] } = path.node
+    const { children: [script] } = path.node
     if (!t.isJSXText(script)) {
       throw new Error('wxs 如果没有 src 属性，标签内部必须有 wxs 代码。')
     }
@@ -654,7 +654,7 @@ function parseElement (element: Element): t.JSXElement {
           if (str.includes('...') && str.includes(',')) {
             attr.value = `{{${str.slice(1, str.length - 1)}}}`
           } else {
-            attr.value = `{{${str.slice(str.includes('...') ? 4 : 1 , str.length - 1)}}}`
+            attr.value = `{{${str.slice(str.includes('...') ? 4 : 1, str.length - 1)}}}`
           }
         } else {
           attr.value = content.content
@@ -679,9 +679,9 @@ function parseElement (element: Element): t.JSXElement {
 
 function removEmptyTextAndComment (nodes: AllKindNode[]) {
   return nodes.filter(node => {
-    return node.type === NodeType.Element
-      || (node.type === NodeType.Text && node.content.trim().length !== 0)
-      || node.type === NodeType.Comment
+    return node.type === NodeType.Element ||
+      (node.type === NodeType.Text && node.content.trim().length !== 0) ||
+      node.type === NodeType.Comment
   }).filter((node, index) => !(index === 0 && node.type === NodeType.Comment))
 }
 
@@ -691,7 +691,7 @@ function parseText (node: Text, tagName?: string) {
   }
   const { type, content } = parseContent(node.content)
   if (type === 'raw') {
-    const text = content.replace(/([{}]+)/g,"{'$1'}")
+    const text = content.replace(/([{}]+)/g, "{'$1'}")
     return t.jSXText(text)
   }
   return t.jSXExpressionContainer(buildTemplate(content))
@@ -747,7 +747,7 @@ function parseAttribute (attr: Attribute) {
     const { type, content } = parseContent(value)
 
     if (type === 'raw') {
-      jsxValue = t.stringLiteral(content.replace(/\"/g, `'`))
+      jsxValue = t.stringLiteral(content.replace(/\"/g, '\''))
     } else {
       let expr: t.Expression
       try {

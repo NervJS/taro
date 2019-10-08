@@ -3,11 +3,11 @@ import Taro from '@tarojs/taro-h5'
 import { History } from '../../utils/types'
 
 const initLocation = {
-  hash: "",
+  hash: '',
   params: {},
-  path: "/pages/index/index",
-  search: "",
-  state: {key: "0"}
+  path: '/pages/index/index',
+  search: '',
+  state: { key: '0' }
 }
 
 const noop = () => {}

@@ -109,7 +109,7 @@ export default class Home extends Component {
   componentDidHide () { }
 
   onPressButton (key) {
-    this.setState({tabKey: key})
+    this.setState({ tabKey: key })
   }
 
   render () {

@@ -1,11 +1,11 @@
 'use strict'
 
-var postcss = require('postcss')
-var objectAssign = require('object-assign')
-var pxRegex = require('./lib/pixel-unit-regex')
-var filterPropList = require('./lib/filter-prop-list')
+const postcss = require('postcss')
+const objectAssign = require('object-assign')
+const pxRegex = require('./lib/pixel-unit-regex')
+const filterPropList = require('./lib/filter-prop-list')
 
-var defaults = {
+const defaults = {
   rootValue: 16,
   unitPrecision: 5,
   selectorBlackList: [],
@@ -15,19 +15,19 @@ var defaults = {
   minPixelValue: 0
 }
 
-var legacyOptions = {
-  'root_value': 'rootValue',
-  'unit_precision': 'unitPrecision',
-  'selector_black_list': 'selectorBlackList',
-  'prop_white_list': 'propList',
-  'media_query': 'mediaQuery',
-  'propWhiteList': 'propList'
+const legacyOptions = {
+  root_value: 'rootValue',
+  unit_precision: 'unitPrecision',
+  selector_black_list: 'selectorBlackList',
+  prop_white_list: 'propList',
+  media_query: 'mediaQuery',
+  propWhiteList: 'propList'
 }
 
 const deviceRatio = {
-  '640': 2.34 / 2,
-  '750': 1,
-  '828': 1.81 / 2
+  640: 2.34 / 2,
+  750: 1,
+  828: 1.81 / 2
 }
 
 const baseFontSize = 40
@@ -38,7 +38,7 @@ const DEFAULT_WEAPP_OPTIONS = {
   deviceRatio
 }
 
-var targetUnit
+let targetUnit
 
 module.exports = postcss.plugin('postcss-pxtransform', function (options) {
   options = Object.assign(DEFAULT_WEAPP_OPTIONS, options || {})
@@ -63,15 +63,15 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
 
   convertLegacyOptions(options)
 
-  var opts = objectAssign({}, defaults, options)
-  var onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
-  var pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision,
+  const opts = objectAssign({}, defaults, options)
+  const onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
+  const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision,
     opts.minPixelValue, onePxTransform)
 
-  var satisfyPropList = createPropListMatcher(opts.propList)
+  const satisfyPropList = createPropListMatcher(opts.propList)
 
   return function (css) {
-    for (var i = 0; i < css.nodes.length; i++) {
+    for (let i = 0; i < css.nodes.length; i++) {
       if (css.nodes[i].type === 'comment') {
         if (css.nodes[i].text === 'postcss-pxtransform disable') {
           return
@@ -151,7 +151,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       if (blacklistedSelector(opts.selectorBlackList,
         decl.parent.selector)) return
 
-      var value = decl.value.replace(pxRegex, pxReplace)
+      const value = decl.value.replace(pxRegex, pxReplace)
 
       // if rem unit already exists, do not add or replace
       if (declarationExists(decl.parent, decl.prop, value)) return
@@ -159,7 +159,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       if (opts.replace) {
         decl.value = value
       } else {
-        decl.parent.insertAfter(i, decl.clone({value: value}))
+        decl.parent.insertAfter(i, decl.clone({ value: value }))
       }
     })
 
@@ -176,15 +176,15 @@ function convertLegacyOptions (options) {
   if (typeof options !== 'object') return
   if (
     (
-      (typeof options['prop_white_list'] !== 'undefined' &&
-        options['prop_white_list'].length === 0) ||
+      (typeof options.prop_white_list !== 'undefined' &&
+        options.prop_white_list.length === 0) ||
       (typeof options.propWhiteList !== 'undefined' &&
         options.propWhiteList.length === 0)
     ) &&
     typeof options.propList === 'undefined'
   ) {
     options.propList = ['*']
-    delete options['prop_white_list']
+    delete options.prop_white_list
     delete options.propWhiteList
   }
   Object.keys(legacyOptions).forEach(function (key) {
@@ -201,16 +201,16 @@ function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransfor
     if (!onePxTransform && parseInt($1, 10) === 1) {
       return m
     }
-    var pixels = parseFloat($1)
+    const pixels = parseFloat($1)
     if (pixels < minPixelValue) return m
-    var fixedVal = toFixed((pixels / rootValue), unitPrecision)
+    const fixedVal = toFixed((pixels / rootValue), unitPrecision)
     return (fixedVal === 0) ? '0' : fixedVal + targetUnit
   }
 }
 
 function toFixed (number, precision) {
-  var multiplier = Math.pow(10, precision + 1)
-  var wholeNumber = Math.floor(number * multiplier)
+  const multiplier = Math.pow(10, precision + 1)
+  const wholeNumber = Math.floor(number * multiplier)
   return Math.round(wholeNumber / 10) * 10 / multiplier
 }
 
@@ -229,9 +229,9 @@ function blacklistedSelector (blacklist, selector) {
 }
 
 function createPropListMatcher (propList) {
-  var hasWild = propList.indexOf('*') > -1
-  var matchAll = (hasWild && propList.length === 1)
-  var lists = {
+  const hasWild = propList.indexOf('*') > -1
+  const matchAll = (hasWild && propList.length === 1)
+  const lists = {
     exact: filterPropList.exact(propList),
     contain: filterPropList.contain(propList),
     startWith: filterPropList.startWith(propList),

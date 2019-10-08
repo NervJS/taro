@@ -10,7 +10,9 @@ interface Component {
 type Attributes = Record<string, string>
 
 function buildAttribute (attrs: Attributes): string {
-  return Object.keys(attrs).map(k => `${k}="${k.startsWith('bind') ? attrs[k] : `{{ ${attrs[k]} }}`}" `).join('')
+  return Object.keys(attrs)
+    .map(k => `${k}="${k.startsWith('bind') ? attrs[k] : `{{ ${attrs[k]} }}`}" `)
+    .join('')
 }
 
 function buildStandardComponentTemplate (comp: Component, level: number): string {

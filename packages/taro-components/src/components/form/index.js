@@ -13,14 +13,14 @@ class Form extends Nerv.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    let formDom = Nerv.findDOMNode(this)
-    let elements = []
-    let tagElements = formDom.getElementsByTagName('input')
+    const formDom = Nerv.findDOMNode(this)
+    const elements = []
+    const tagElements = formDom.getElementsByTagName('input')
     for (let j = 0; j < tagElements.length; j++) {
       elements.push(tagElements[j])
     }
-    let formItem = {}
-    let hash = {}
+    const formItem = {}
+    const hash = {}
     elements.forEach(item => {
       if (item.className.indexOf('weui-switch') !== -1) {
         formItem[item.name] = item.checked
@@ -56,8 +56,8 @@ class Form extends Nerv.Component {
       formItem[item.name] = item.value
     })
 
-    let textareaElements = formDom.getElementsByTagName('textarea')
-    let textareaEleArr = []
+    const textareaElements = formDom.getElementsByTagName('textarea')
+    const textareaEleArr = []
 
     for (let i = 0; i < textareaElements.length; i++) {
       textareaEleArr.push(textareaElements[i])

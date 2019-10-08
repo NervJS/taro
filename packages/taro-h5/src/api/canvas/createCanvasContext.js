@@ -52,7 +52,7 @@ const createCanvasContext = (canvasId, componentInstance) => {
       if (!reserve) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
       }
-      actions.forEach(({func, args}) => {
+      actions.forEach(({ func, args }) => {
         func.apply(ctx, args)
       })
       emptyActions()

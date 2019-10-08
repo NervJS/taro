@@ -8,12 +8,12 @@ class Events {
   }
 
   on (events, callback, context) {
-    let calls, event, node, tail, list
+    let event, node, tail, list
     if (!callback) {
       return this
     }
     events = events.split(Events.eventSplitter)
-    calls = this.callbacks
+    const calls = this.callbacks
     while ((event = events.shift())) {
       list = calls[event]
       node = list ? list.tail : {}
@@ -68,12 +68,12 @@ class Events {
   }
 
   trigger (events) {
-    let event, node, calls, tail, rest
+    let event, node, calls, tail
     if (!(calls = this.callbacks)) {
       return this
     }
     events = events.split(Events.eventSplitter)
-    rest = [].slice.call(arguments, 1)
+    const rest = [].slice.call(arguments, 1)
     while ((event = events.shift())) {
       if ((node = calls[event])) {
         tail = node.tail

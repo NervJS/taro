@@ -7,10 +7,7 @@ export const setStoreFuncName = 'setStore'
 export const tabBarConfigName = '__tabs'
 export const deviceRatioConfigName = 'deviceRatio'
 
-export const MAP_FROM_COMPONENTNAME_TO_ID = new Map([
-  ['Video', 'id'],
-  ['Canvas', 'canvasId']
-])
+export const MAP_FROM_COMPONENTNAME_TO_ID = new Map([['Video', 'id'], ['Canvas', 'canvasId']])
 export const APIS_NEED_TO_APPEND_THIS = new Map([
   ['createVideoContext', 1],
   ['createCanvasContext', 1],

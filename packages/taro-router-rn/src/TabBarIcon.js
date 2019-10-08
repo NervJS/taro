@@ -3,12 +3,12 @@ import { View, Text, Image } from 'react-native'
 import { isUrl } from './utils'
 
 export function TabBarIcon (props) {
-  let {focused, selectedIconPath, iconPath, isRedDotShow, isBadgeShow, badgeText = ''} = props
+  let { focused, selectedIconPath, iconPath, isRedDotShow, isBadgeShow, badgeText = '' } = props
   const text = badgeText.length > 4 ? '...' : badgeText
-  selectedIconPath = isUrl(selectedIconPath) ? {uri: selectedIconPath} : selectedIconPath
-  iconPath = isUrl(iconPath) ? {uri: iconPath} : iconPath
+  selectedIconPath = isUrl(selectedIconPath) ? { uri: selectedIconPath } : selectedIconPath
+  iconPath = isUrl(iconPath) ? { uri: iconPath } : iconPath
   return (
-    <View style={{width: 30, height: 30}}>
+    <View style={{ width: 30, height: 30 }}>
       {isBadgeShow &&
       <View style={{
         position: 'absolute',
@@ -25,7 +25,7 @@ export function TabBarIcon (props) {
         alignItems: 'center',
         zIndex: 100
       }}>
-        <Text style={{color: 'white', fontSize: 12}}>{text}</Text>
+        <Text style={{ color: 'white', fontSize: 12 }}>{text}</Text>
       </View>}
       {isRedDotShow && <View style={{
         position: 'absolute',
@@ -42,7 +42,7 @@ export function TabBarIcon (props) {
         zIndex: 100
       }} />}
       <Image
-        style={{width: 30, height: 30}}
+        style={{ width: 30, height: 30 }}
         source={focused ? selectedIconPath : iconPath}
       />
     </View>

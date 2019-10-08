@@ -15,13 +15,13 @@ function testInvalid (message, tests) {
 
 ruleTester.run('no-stateless-component', rule, {
   valid: [{
-    code: testComponent(`<View />`)
+    code: testComponent('<View />')
   }, {
-    code: testComponent(`<View>test</View>`)
+    code: testComponent('<View>test</View>')
   }, {
-    code: testComponent(`<ScrollView>test</ScrollView>`)
+    code: testComponent('<ScrollView>test</ScrollView>')
   }, {
-    code: testComponent(`<View>{'test'}</View>`)
+    code: testComponent('<View>{\'test\'}</View>')
   }, {
     code: testComponent(`<View>
       <CustomComponent />
@@ -66,10 +66,10 @@ ruleTester.run('no-stateless-component', rule, {
     );`)
   }],
   invalid: testInvalid(ERROR_MESSAGE, [
-    `function Test () { return <View /> }`,
-    `function Test (cls) { return <View class={cls} /> }`,
-    `function Test () { return this.state.ary.map(() => <View />) }`,
-    `const Test = () => {  return <View /> }`,
-    `const Test = function () { return <View /> }`
+    'function Test () { return <View /> }',
+    'function Test (cls) { return <View class={cls} /> }',
+    'function Test () { return this.state.ary.map(() => <View />) }',
+    'const Test = () => {  return <View /> }',
+    'const Test = function () { return <View /> }'
   ])
 })

@@ -1,0 +1,4 @@
+
+> @tarojs/taro@ lint /Users/yuche/Developer/taro
+> eslint packages/  --ext .js --ext .ts --fix
+

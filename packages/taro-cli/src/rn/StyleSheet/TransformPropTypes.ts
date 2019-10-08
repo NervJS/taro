@@ -59,18 +59,18 @@ const TransformPropTypes = {
    */
   transform: ReactPropTypes.arrayOf(
     ReactPropTypes.oneOfType([
-      ReactPropTypes.shape({perspective: ReactPropTypes.number}),
-      ReactPropTypes.shape({rotate: ReactPropTypes.string}),
-      ReactPropTypes.shape({rotateX: ReactPropTypes.string}),
-      ReactPropTypes.shape({rotateY: ReactPropTypes.string}),
-      ReactPropTypes.shape({rotateZ: ReactPropTypes.string}),
-      ReactPropTypes.shape({scale: ReactPropTypes.number}),
-      ReactPropTypes.shape({scaleX: ReactPropTypes.number}),
-      ReactPropTypes.shape({scaleY: ReactPropTypes.number}),
-      ReactPropTypes.shape({translateX: ReactPropTypes.number}),
-      ReactPropTypes.shape({translateY: ReactPropTypes.number}),
-      ReactPropTypes.shape({skewX: ReactPropTypes.string}),
-      ReactPropTypes.shape({skewY: ReactPropTypes.string})
+      ReactPropTypes.shape({ perspective: ReactPropTypes.number }),
+      ReactPropTypes.shape({ rotate: ReactPropTypes.string }),
+      ReactPropTypes.shape({ rotateX: ReactPropTypes.string }),
+      ReactPropTypes.shape({ rotateY: ReactPropTypes.string }),
+      ReactPropTypes.shape({ rotateZ: ReactPropTypes.string }),
+      ReactPropTypes.shape({ scale: ReactPropTypes.number }),
+      ReactPropTypes.shape({ scaleX: ReactPropTypes.number }),
+      ReactPropTypes.shape({ scaleY: ReactPropTypes.number }),
+      ReactPropTypes.shape({ translateX: ReactPropTypes.number }),
+      ReactPropTypes.shape({ translateY: ReactPropTypes.number }),
+      ReactPropTypes.shape({ skewX: ReactPropTypes.string }),
+      ReactPropTypes.shape({ skewY: ReactPropTypes.string })
     ])
   ),
 

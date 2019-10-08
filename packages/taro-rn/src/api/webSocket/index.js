@@ -10,7 +10,7 @@ export function connectSocket (opts = {}) {
     const res = { errMsg: 'connectSocket:ok' }
 
     if (typeof url !== 'string') {
-      const error = new Error(`connectSocket:fail parameter error: parameter.url should be String`)
+      const error = new Error('connectSocket:fail parameter error: parameter.url should be String')
       res.errMsg = error.message
       console.error(res.errMsg)
       fail && fail(res)
@@ -24,7 +24,7 @@ export function connectSocket (opts = {}) {
 
     // 最多同时存在两个SocketTask
     if (socketTasks.length >= 2) {
-      const error = new Error(`同时最多发起 2 个 socket 请求，更多请参考文档。`)
+      const error = new Error('同时最多发起 2 个 socket 请求，更多请参考文档。')
       res.errMsg = error.message
       console.error(res.errMsg)
       fail && fail(res)

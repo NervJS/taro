@@ -92,7 +92,7 @@ const Index = ({
   if (autoDectect) _type = Platform.OS
 
   const _renderMenuItems = () =>
-    menus.map(({type: btnType, label, style: btnStyle, textStyle, ...others}, idx) =>
+    menus.map(({ type: btnType, label, style: btnStyle, textStyle, ...others }, idx) =>
       <TouchableHighlight
         key={idx}
         underlayColor={underlayColor}
@@ -116,7 +116,7 @@ const Index = ({
     )
 
   const _renderActions = () =>
-    actions.map(({type: btnType, label, style: btnStyle, textStyle, ...others}, idx) =>
+    actions.map(({ type: btnType, label, style: btnStyle, textStyle, ...others }, idx) =>
       <TouchableHighlight
         key={idx}
         underlayColor={underlayColor}

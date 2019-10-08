@@ -13,6 +13,6 @@ describe('Scroll-view', () => {
   it('render Scroll-view props correct', () => {
     const view = <ScrollView scrollX>ScrollView</ScrollView>
     const component = renderIntoDocument(view)
-    expect(component.props['scrollX']).toBeTruthy()
+    expect(component.props.scrollX).toBeTruthy()
   })
 })

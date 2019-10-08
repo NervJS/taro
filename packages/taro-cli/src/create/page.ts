@@ -7,16 +7,15 @@ import fetchTemplate from './fetchTemplate'
 import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } from '../util/constants'
 import { getUserHomeDir } from '../util'
 
-
 export interface IPageConf {
-  projectDir: string,
-  projectName: string,
-  template: string,
-  description?: string,
-  pageName: string,
-  css: 'none' | 'sass' | 'stylus' | 'less',
-  typescript?: boolean,
-  date?: string
+  projectDir: string;
+  projectName: string;
+  template: string;
+  description?: string;
+  pageName: string;
+  css: 'none' | 'sass' | 'stylus' | 'less';
+  typescript?: boolean;
+  date?: string;
 }
 
 export default class Page extends Creator {
@@ -27,12 +26,15 @@ export default class Page extends Creator {
     super()
     this.rootPath = this._rootPath
 
-    this.conf = Object.assign({
-      projectDir: '',
-      projectName: '',
-      template: '',
-      description: ''
-    }, options)
+    this.conf = Object.assign(
+      {
+        projectDir: '',
+        projectName: '',
+        template: '',
+        description: ''
+      },
+      options
+    )
     this.conf.projectName = path.basename(this.conf.projectDir)
   }
 
@@ -81,7 +83,7 @@ export default class Page extends Creator {
   async create () {
     const date = new Date()
     this.getTemplateInfo()
-    this.conf.date = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()}`
+    this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 
     if (!fs.existsSync(this.templatePath(this.conf.template))) {
       await this.fetchTemplates()
@@ -93,7 +95,6 @@ export default class Page extends Creator {
   write () {
     createPage(this, this.conf, () => {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
-    })
-      .catch(err => console.log(err))
+    }).catch(err => console.log(err))
   }
 }

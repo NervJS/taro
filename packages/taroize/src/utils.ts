@@ -23,7 +23,7 @@ export function isValidVarName (str?: string) {
   }
 
   try {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-new, no-new-func
     new Function(str, 'var ' + str)
   } catch (e) {
     return false
@@ -151,6 +151,7 @@ export function codeFrameError (node, msg: string) {
 }
 
 // tslint:disable-next-line
+// eslint-disable-next-line camelcase
 export const DEFAULT_Component_SET = new Set<string>([
   'View',
   'ScrollView',

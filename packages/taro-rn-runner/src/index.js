@@ -92,15 +92,15 @@ function printUsage () {
   const { dim, bold } = chalk
   const devMode = dev ? 'development' : 'production'
   const iosInfo = process.platform === 'darwin'
-    ? `${dim(`, or`)} i ${dim(`to open iOS emulator.`)}`
+    ? `${dim(', or')} i ${dim('to open iOS emulator.')}`
     : dim('.')
   log(
     `
- ${dim(`\u203A Press`)} a ${dim(`to open Android device or emulator`)}${iosInfo}
- ${dim(`\u203A Press`)} s ${dim(`to send the app URL to your phone number or email address`)}
- ${dim(`\u203A Press`)} q ${dim(`to display QR code.`)}
- ${dim(`\u203A Press`)} r ${dim(`to restart packager, or`)} R ${dim(`to restart packager and clear cache.`)}
- ${dim(`\u203A Press`)} d ${dim(`to toggle development mode. (current mode: ${bold(devMode)}${chalk.reset.dim(')')}`)}
+ ${dim('\u203A Press')} a ${dim('to open Android device or emulator')}${iosInfo}
+ ${dim('\u203A Press')} s ${dim('to send the app URL to your phone number or email address')}
+ ${dim('\u203A Press')} q ${dim('to display QR code.')}
+ ${dim('\u203A Press')} r ${dim('to restart packager, or')} R ${dim('to restart packager and clear cache.')}
+ ${dim('\u203A Press')} d ${dim(`to toggle development mode. (current mode: ${bold(devMode)}${chalk.reset.dim(')')}`)}
 `
   )
 }
@@ -180,7 +180,7 @@ async function handleKeypress (key) {
         let sent = false
         try {
           await Exp.sendAsync(sendTo, lanAddress, true)
-          log.withTimestamp(`Sent link successfully.`)
+          log.withTimestamp('Sent link successfully.')
           sent = true
         } catch (err) {
           log.withTimestamp(`Could not send link. ${err}`)
@@ -212,7 +212,7 @@ async function handleKeypress (key) {
       dev = !dev
       await ProjectSettings.setAsync(projectDir, { dev })
       log(
-        `Packager now running in ${chalk.bold(dev ? 'development' : 'production')}${chalk.reset(` mode.`)}
+        `Packager now running in ${chalk.bold(dev ? 'development' : 'production')}${chalk.reset(' mode.')}
 Please close and reopen the project in the Expo app for the
 change to take effect.`
       )

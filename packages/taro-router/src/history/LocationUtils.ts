@@ -6,9 +6,8 @@ import { parsePath } from './PathUtils'
 import { Location } from '../utils/types'
 
 function createLocation (path: string, key: string, currentLocation?: Location): Location {
-  let location: Partial<Location>
   const tmpLocation = parsePath(path)
-  location = assign({}, tmpLocation, {
+  const location: Partial<Location> = assign({}, tmpLocation, {
     state: { key }
   })
   location.state = { key }
@@ -18,8 +17,8 @@ function createLocation (path: string, key: string, currentLocation?: Location):
   if (searchString.length > 0) {
     const queryString = searchString.substring(1)
     queryString.split('&').forEach(pair => {
-      if (pair.indexOf('=') === -1) return;
-      const [ key, value ] = pair.split('=')
+      if (pair.indexOf('=') === -1) return
+      const [key, value] = pair.split('=')
       params[key] = value
     })
   }
@@ -42,6 +41,7 @@ function createLocation (path: string, key: string, currentLocation?: Location):
   return location as Location
 }
 
-const locationsAreEqual = (a, b) => a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && valueEqual(a.state, b.state)
+const locationsAreEqual = (a, b) =>
+  a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && valueEqual(a.state, b.state)
 
 export { createLocation, locationsAreEqual }

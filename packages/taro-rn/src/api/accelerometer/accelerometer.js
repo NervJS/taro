@@ -17,7 +17,7 @@ function onAccelerometerChange (fnc) {
  * @param {string} [opts.interval='normal'] 监听加速度数据回调函数的执行频率
  */
 function startAccelerometer (opts = {}) {
-  const {interval = 'normal', success, fail, complete} = opts
+  const { interval = 'normal', success, fail, complete } = opts
   accCase.interval = interval
   try {
     accCase.listener = Accelerometer.addListener(accCase.callback)
@@ -26,11 +26,11 @@ function startAccelerometer (opts = {}) {
   } catch (error) {
     fail && fail()
     complete && complete()
-    const res = {errMsg: 'stopAccelerometer failed'}
+    const res = { errMsg: 'stopAccelerometer failed' }
     return Promise.reject(res)
   }
   Accelerometer.setUpdateInterval(intervalMap[interval])
-  return Promise.resolve({errMsg: 'ok'})
+  return Promise.resolve({ errMsg: 'ok' })
 }
 
 /**
@@ -38,17 +38,17 @@ function startAccelerometer (opts = {}) {
  * @param opts
  */
 function stopAccelerometer (opts = {}) {
-  const {success, fail, complete} = opts
+  const { success, fail, complete } = opts
   try {
     accCase.listener.remove()
     accCase.listener = null
     success && success()
     complete && complete()
-    return Promise.resolve({errMsg: 'ok'})
+    return Promise.resolve({ errMsg: 'ok' })
   } catch (error) {
     fail && fail()
     complete && complete()
-    const res = {errMsg: 'stopAccelerometer failed'}
+    const res = { errMsg: 'stopAccelerometer failed' }
     return Promise.reject(res)
   }
 }

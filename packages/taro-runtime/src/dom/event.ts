@@ -15,11 +15,11 @@ export class TaroEvent {
 
   public cancelable: boolean
 
-  public _stop: boolean = false
+  public _stop = false
 
-  public _end: boolean = false
+  public _end = false
 
-  public defaultPrevented: boolean = false
+  public defaultPrevented = false
 
   public nativeTarget: TaroEventTarget
 

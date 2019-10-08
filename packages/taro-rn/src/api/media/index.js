@@ -1,6 +1,6 @@
 import { Image } from 'react-native'
-import {chooseMedia} from './chooseMedia'
-import {saveMedia} from './saveMedia'
+import { chooseMedia } from './chooseMedia'
+import { saveMedia } from './saveMedia'
 
 /**
  * 从本地相册选择图片或使用相机拍照。
@@ -34,7 +34,7 @@ export function chooseVideo (opts) {
  * @returns {Promise}
  */
 export function getImageInfo (opts = {}) {
-  const {src, success, fail, complete} = opts
+  const { src, success, fail, complete } = opts
   const res = {}
 
   return new Promise((resolve, reject) => {
@@ -81,7 +81,7 @@ export function saveVideoToPhotosAlbum (opts = {}) {
   return saveMedia(opts, 'video', 'saveVideoToPhotosAlbum')
 }
 
-export {getRecorderManager} from './record'
-export {createVideoContext} from './video'
-export {createInnerAudioContext} from './audio'
-export {createMapContext} from './map'
+export { getRecorderManager } from './record'
+export { createVideoContext } from './video'
+export { createInnerAudioContext } from './audio'
+export { createMapContext } from './map'

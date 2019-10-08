@@ -11,7 +11,7 @@ function isNumeric (n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
 }
 
-const NumberWords = ['z', 'b','c','d','e', 'f','g','h','i','j','k']
+const NumberWords = ['z', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
 
 function buildTemplateName (name: string) {
   if (/wx/i.test(name)) {
@@ -19,7 +19,7 @@ function buildTemplateName (name: string) {
   }
   const words = pascalName(name + '-tmpl')
   // return words
-  let str: string[] = []
+  const str: string[] = []
   for (const word of words) {
     if (isNumeric(word)) {
       str.push(NumberWords[word])
@@ -42,7 +42,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
   const name = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'name' }))
   const refIds = new Set<string>()
   const loopIds = new Set<string>()
-  let imports: any[] = []
+  const imports: any[] = []
   if (name) {
     const value = name.node.value
     if (value === null || !t.isStringLiteral(value)) {
@@ -96,7 +96,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
     }
     if (t.isStringLiteral(value)) {
       const className = buildTemplateName(value.value)
-      let attributes: t.JSXAttribute[] = []
+      const attributes: t.JSXAttribute[] = []
       if (data) {
         attributes.push(data.node)
       }
@@ -109,7 +109,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
     } else if (t.isJSXExpressionContainer(value)) {
       if (t.isStringLiteral(value.expression)) {
         const className = buildTemplateName(value.expression.value)
-        let attributes: t.JSXAttribute[] = []
+        const attributes: t.JSXAttribute[] = []
         if (data) {
           attributes.push(data.node)
         }
@@ -124,7 +124,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
         if (!t.isStringLiteral(consequent) || !t.isStringLiteral(alternate)) {
           throw new Error('当 template is 标签是三元表达式时，他的两个值都必须为字符串')
         }
-        let attributes: t.JSXAttribute[] = []
+        const attributes: t.JSXAttribute[] = []
         if (data) {
           attributes.push(data.node)
         }
@@ -196,7 +196,7 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     try {
       jsx.remove()
     } catch (error) {
-     //
+      //
     }
     return imports
   } else {

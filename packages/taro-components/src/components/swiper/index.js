@@ -61,7 +61,7 @@ class Swiper extends Nerv.Component {
       observer: true,
       on: {
         slideChange () {
-          let e = createEvent('touchend')
+          const e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
@@ -74,7 +74,7 @@ class Swiper extends Nerv.Component {
           onChange && onChange(e)
         },
         transitionEnd () {
-          let e = createEvent('touchend')
+          const e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
@@ -140,8 +140,8 @@ class Swiper extends Nerv.Component {
 
   render () {
     const { className, style, indicatorColor, indicatorActiveColor } = this.props
-    let defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
-    let defaultIndicatorActiveColor = indicatorActiveColor || '#000'
+    const defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
+    const defaultIndicatorActiveColor = indicatorActiveColor || '#000'
     const cls = classNames(`taro-swiper-${this._id}`, 'swiper-container', className)
     const paginationCls = classNames(
       'swiper-pagination',

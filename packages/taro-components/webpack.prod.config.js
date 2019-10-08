@@ -26,23 +26,23 @@ module.exports = {
         use: [{
           loader: 'babel-loader',
           options: {
-            'presets': [
+            presets: [
               [
                 '@babel/preset-env',
                 {
-                  'spec': true,
-                  'useBuiltIns': false
+                  spec: true,
+                  useBuiltIns: false
                 }
               ]
             ],
-            'plugins': [
+            plugins: [
               [
                 '@babel/plugin-transform-react-jsx',
                 {
-                  'pragma': 'Nerv.createElement'
+                  pragma: 'Nerv.createElement'
                 }
               ],
-              ['@babel/plugin-proposal-decorators', { 'legacy': true }],
+              ['@babel/plugin-proposal-decorators', { legacy: true }],
               ['@babel/plugin-proposal-class-properties'],
               ['@babel/plugin-proposal-object-rest-spread'],
               ['babel-plugin-transform-taroapi', {

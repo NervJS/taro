@@ -1,12 +1,12 @@
 const { jsWithTs: tsjPreset } = require('ts-jest/presets')
 
 module.exports = {
-  'testEnvironment': 'jsdom',
-  'transform': {
+  testEnvironment: 'jsdom',
+  transform: {
     ...tsjPreset.transform
   },
-  'testURL': 'http://localhost/',
-  'moduleFileExtensions': [
+  testURL: 'http://localhost/',
+  moduleFileExtensions: [
     'ts',
     'tsx',
     'js',
@@ -14,17 +14,17 @@ module.exports = {
     'json',
     'node'
   ],
-  'globals': {
+  globals: {
     'ts-jest': {
-      'diagnostics': false,
-      'tsConfig': {
-        'jsx': 'react',
-        'allowJs': true,
-        'target': 'ES6'
+      diagnostics: false,
+      tsConfig: {
+        jsx: 'react',
+        allowJs: true,
+        target: 'ES6'
       }
     }
   },
-  'testPathIgnorePatterns': [
+  testPathIgnorePatterns: [
     'node_modules',
     'utils'
   ]

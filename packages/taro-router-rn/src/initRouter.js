@@ -3,7 +3,7 @@ import getWrappedScreen from './getWrappedScreen'
 import { getNavigationOptions } from './utils'
 import { TabBarIcon } from './TabBarIcon'
 
-const {createStackNavigator, createBottomTabNavigator} = require('react-navigation')
+const { createStackNavigator, createBottomTabNavigator } = require('react-navigation')
 
 function getTaroTabBarIconConfig (index, key) {
   const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
@@ -11,7 +11,7 @@ function getTaroTabBarIconConfig (index, key) {
 }
 
 function getRouteParam (navigation, name) {
-  let routeState = navigation.state.routes[navigation.state.index]
+  const routeState = navigation.state.routes[navigation.state.index]
   return routeState.params && routeState.params[name]
 }
 
@@ -30,17 +30,17 @@ function getTabBarVisibleFlag (navigation) {
  * @param navigationOptions config.navigationOptions
  * @returns {*}
  */
-function getRootStack ({pageList, Taro, navigationOptions}) {
-  let RouteConfigs = {}
+function getRootStack ({ pageList, Taro, navigationOptions }) {
+  const RouteConfigs = {}
   pageList.forEach(v => {
     const pageKey = v[0]
     const Screen = v[1]
     RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro, navigationOptions)
   })
-  return createStackNavigator(RouteConfigs, {headerLayoutPreset: 'center'})
+  return createStackNavigator(RouteConfigs, { headerLayoutPreset: 'center' })
 }
 
-function getRootStackPageList ({pageList, tabBar, currentTabPath}) {
+function getRootStackPageList ({ pageList, tabBar, currentTabPath }) {
   const tabPathList = tabBar.list.map(item => item.pagePath)
   const currentPage = pageList.find(item => item[0] === currentTabPath)
   if (currentPage === undefined) {
@@ -51,25 +51,25 @@ function getRootStackPageList ({pageList, tabBar, currentTabPath}) {
   return newPageList
 }
 
-function getTabRouteConfig ({pageList, Taro, tabBar, navigationOptions}) {
-  let RouteConfigs = {}
+function getTabRouteConfig ({ pageList, Taro, tabBar, navigationOptions }) {
+  const RouteConfigs = {}
   // newPageList 去除了 tabBar 配置里面的页面，但包含当前 tabBar 页面
   // 防止页面跳转时 tabBar 和 stack 相互干扰，保证每个 tabBar 堆栈的独立性
   tabBar.list.forEach((item) => {
     const currentTabPath = item.pagePath
-    const rootStackPageList = getRootStackPageList({pageList, tabBar, currentTabPath})
-    RouteConfigs[currentTabPath] = getRootStack({pageList: rootStackPageList, Taro, navigationOptions})
+    const rootStackPageList = getRootStackPageList({ pageList, tabBar, currentTabPath })
+    RouteConfigs[currentTabPath] = getRootStack({ pageList: rootStackPageList, Taro, navigationOptions })
   })
   return RouteConfigs
 }
 
-function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
-  const RouteConfigs = getTabRouteConfig({pageList, Taro, tabBar, navigationOptions})
+function getTabBarRootStack ({ pageList, Taro, tabBar, navigationOptions }) {
+  const RouteConfigs = getTabRouteConfig({ pageList, Taro, tabBar, navigationOptions })
   // TODO tabBar.position
   return createBottomTabNavigator(RouteConfigs, {
     initialRouteName: pageList[0][0], // app.json里pages的顺序，第一项是默认打开页
-    navigationOptions: ({navigation}) => ({ // 这里得到的是 tab 的 navigation
-      tabBarIcon: ({focused, tintColor}) => {
+    navigationOptions: ({ navigation }) => ({ // 这里得到的是 tab 的 navigation
+      tabBarIcon: ({ focused, tintColor }) => {
         const {routeName} = navigation.state
         const iconConfig = tabBar.list.find(item => item.pagePath === routeName)
         const tabBarIndex = tabBar.list.findIndex(item => item.pagePath === routeName) + 1
@@ -91,7 +91,7 @@ function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
         )
       },
       tabBarLabel: (() => {
-        const {routeName} = navigation.state
+        const { routeName } = navigation.state
         const tabBarIndex = tabBar.list.findIndex(item => item.pagePath === routeName) + 1
         const itemText = getTaroTabBarIconConfig(tabBarIndex, 'itemText')
         return itemText || tabBar.list.find(item => item.pagePath === navigation.state.routeName).text
@@ -127,12 +127,12 @@ function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
  * @param tabBar  tabBar相关配置 App.config.tabBar
  * @returns {*}
  */
-const initRouter = (pageList, Taro, {window = {}, tabBar}) => {
+const initRouter = (pageList, Taro, { window = {}, tabBar }) => {
   const navigationOptions = getNavigationOptions(window)
   if (tabBar && tabBar.list) {
-    return getTabBarRootStack({pageList, Taro, tabBar, navigationOptions})
+    return getTabBarRootStack({ pageList, Taro, tabBar, navigationOptions })
   } else {
-    return getRootStack({pageList, Taro, navigationOptions})
+    return getRootStack({ pageList, Taro, navigationOptions })
   }
 }
 

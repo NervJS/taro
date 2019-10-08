@@ -1,14 +1,14 @@
-import chalk from 'chalk';
-import * as ora from 'ora';
-import { partial, pipe } from 'lodash/fp';
-import * as formatMessages from 'webpack-format-messages';
+import chalk from 'chalk'
+import * as ora from 'ora'
+import { partial, pipe } from 'lodash/fp'
+import * as formatMessages from 'webpack-format-messages'
 
 // const syntaxErrorLabel = 'Syntax error:';
 
 const getServeSpinner = (() => {
   let spinner
   return () => {
-    if (!spinner) spinner = ora(`Starting development server, please wait~`)
+    if (!spinner) spinner = ora('Starting development server, please wait~')
     return spinner
   }
 })()
@@ -30,7 +30,11 @@ const printBuildError = (err: Error): void => {
       const problemPath = matched[2]
       const line = matched[3]
       const column = matched[4]
-      console.log('Failed to minify the code from this file: \n\n', chalk.yellow(`\t${problemPath}:${line}${column !== '0' ? ':' + column : ''}`), '\n')
+      console.log(
+        'Failed to minify the code from this file: \n\n',
+        chalk.yellow(`\t${problemPath}:${line}${column !== '0' ? ':' + column : ''}`),
+        '\n'
+      )
     } catch (ignored) {
       console.log('Failed to minify the bundle.', err)
     }
@@ -96,36 +100,37 @@ const printWhenFirstDone = (devUrl, compiler) => {
   return compiler
 }
 
-const _printWhenDone = ({
-  verbose = false
-}, compiler) => {
+const _printWhenDone = ({ verbose = false }, compiler) => {
   compiler.hooks.done.tap('taroDone', stats => {
     const { errors, warnings } = formatMessages(stats)
 
     if (!stats.hasErrors() && !stats.hasWarnings()) {
       printSuccess()
     }
-  
+
     if (stats.hasErrors()) {
       printFailed()
-      errors.forEach(e => console.log(e + '\n'));
-      verbose && process.exit(1)      
-      return;
-    }
-  
-    if (stats.hasWarnings()) {
-      printWarning()
-      warnings.forEach(w => console.log(w + '\n'));
+      errors.forEach(e => console.log(e + '\n'))
+      verbose && process.exit(1)
+      return
     }
 
-    verbose && console.log(stats.toString({
-      colors: true,
-      modules: false,
-      children: false,
-      chunks: false,
-      chunkModules: false,
-      warnings: verbose
-    }) + '\n')
+    if (stats.hasWarnings()) {
+      printWarning()
+      warnings.forEach(w => console.log(w + '\n'))
+    }
+
+    verbose &&
+      console.log(
+        stats.toString({
+          colors: true,
+          modules: false,
+          children: false,
+          chunks: false,
+          chunkModules: false,
+          warnings: verbose
+        }) + '\n'
+      )
   })
   return compiler
 }
@@ -146,7 +151,7 @@ const bindDevLogger = (devUrl, compiler) => {
   return compiler
 }
 
-const bindProdLogger = (compiler) => {
+const bindProdLogger = compiler => {
   console.log()
   pipe(
     printWhenBeforeCompile,
@@ -156,10 +161,4 @@ const bindProdLogger = (compiler) => {
   return compiler
 }
 
-export {
-  printBuildError,
-  printCompiling,
-  getServeSpinner,
-  bindDevLogger,
-  bindProdLogger
-}
+export { printBuildError, printCompiling, getServeSpinner, bindDevLogger, bindProdLogger }

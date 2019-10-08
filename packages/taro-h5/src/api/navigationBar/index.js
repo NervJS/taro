@@ -47,7 +47,7 @@ export function setNavigationBarTitle (options) {
 
 /**
  * 设置页面导航条颜色
- * @param {NavigationBarColorParam} options 
+ * @param {NavigationBarColorParam} options
  */
 export function setNavigationBarColor (options) {
   const meta = document.createElement('meta')

@@ -1,20 +1,20 @@
-import { tokens } from "../tokenTypes";
+import { tokens } from '../tokenTypes'
 
-const { SPACE, LINE } = tokens;
+const { SPACE, LINE } = tokens
 
 export default tokenStream => {
-  const lines = [];
+  const lines = []
 
-  let didParseFirst = false;
+  let didParseFirst = false
   while (tokenStream.hasTokens()) {
-    if (didParseFirst) tokenStream.expect(SPACE);
+    if (didParseFirst) tokenStream.expect(SPACE)
 
-    lines.push(tokenStream.expect(LINE).toLowerCase());
+    lines.push(tokenStream.expect(LINE).toLowerCase())
 
-    didParseFirst = true;
+    didParseFirst = true
   }
 
-  lines.sort().reverse();
+  lines.sort().reverse()
 
-  return lines.join(" ");
-};
+  return lines.join(' ')
+}

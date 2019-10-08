@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 })
-var app = document.getElementById('m_common_content')
+let app = document.getElementById('m_common_content')
 if (!app) {
   app = document.createElement('div')
   document.body.appendChild(app)

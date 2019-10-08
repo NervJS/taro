@@ -8,7 +8,7 @@ import { createCallbackManager, createScroller } from '../utils'
  */
 
 /**
- * @param {ReachBottomParam} opt 
+ * @param {ReachBottomParam} opt
  */
 export const onReachBottom = (opt) => {
   const callbackManager = createCallbackManager()

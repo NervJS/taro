@@ -105,7 +105,7 @@ function getStorageSync (key) {
     return
   }
 
-  let res = getItem(key)
+  const res = getItem(key)
   if (res.result) return res.data
 
   return ''

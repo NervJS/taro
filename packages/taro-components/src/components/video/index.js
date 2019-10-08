@@ -337,7 +337,7 @@ class Video extends Component {
           return obj
         }
         if (distX === 0 || Math.abs(distY / distX) > 1) {
-          let enableVslideGesture = this.state.isFullScreen ? this.props.vslideGestureInFullscreen : this.props.vslideGesture
+          const enableVslideGesture = this.state.isFullScreen ? this.props.vslideGestureInFullscreen : this.props.vslideGesture
           if (enableVslideGesture) {
             gestureType = 'adjustVolume'
             lastVolume = this.videoRef.volume

@@ -1,11 +1,11 @@
-import warning from 'warning';
-import Taro from '@tarojs/taro-h5';
-import assign from 'lodash/assign';
+import warning from 'warning'
+import Taro from '@tarojs/taro-h5'
+import assign from 'lodash/assign'
 
-import { Action, History, HistoryState, Location, CustomRoutes } from '../utils/types';
-import createTransitionManager from './createTransitionManager';
-import { createLocation } from './LocationUtils';
-import { addLeadingSlash, createPath, hasBasename, stripBasename, stripTrailingSlash } from './PathUtils';
+import { Action, History, HistoryState, Location, CustomRoutes } from '../utils/types'
+import createTransitionManager from './createTransitionManager'
+import { createLocation } from './LocationUtils'
+import { addLeadingSlash, createPath, hasBasename, stripBasename, stripTrailingSlash } from './PathUtils'
 
 const PopStateEvent = 'popstate'
 const defaultStoreKey = 'taroRouterStore'
@@ -69,7 +69,7 @@ const tryToParseStore = (state: HistoryState) => {
  * @param storeObj 需要序列化的对象引用
  */
 const createHistorySerializer = (storeObj: HistoryState) => {
-  let serialize = () => {
+  const serialize = () => {
     try {
       localStorage.setItem(defaultStoreKey, JSON.stringify(storeObj))
     } catch (e) {}
@@ -85,16 +85,22 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
   let listenerCount = 0
   let serialize
 
-  props.mode = props.mode || "hash"
+  props.mode = props.mode || 'hash'
   const getDOMLocation = (historyState: HistoryState): Location => {
     const { key } = historyState
     const { pathname, search, hash } = window.location
-    let path = props.mode === "hash"
-      ? addLeadingSlash(getHashPath())
-      : pathname + search + hash
+    let path = props.mode === 'hash' ? addLeadingSlash(getHashPath()) : pathname + search + hash
 
     if (props.mode === 'browser') {
-      warning(hasBasename(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".')
+      warning(
+        hasBasename(path, basename),
+        'You are attempting to use a basename on a page whose URL path does not begin ' +
+          'with the basename. Expected path "' +
+          path +
+          '" to begin with "' +
+          basename +
+          '".'
+      )
     }
 
     path = stripBasename(path, basename)
@@ -112,23 +118,24 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
   let lastLocation = initialLocation
   Taro._$router = initialLocation
 
-  let store = tryToParseStore(initState)
+  const store = tryToParseStore(initState)
 
   serialize = createHistorySerializer(store)
 
   globalHistory.replaceState(initialLocation.state, '')
 
-  const createHref = props.mode === "hash"
-    ? location => '#' + addLeadingSlash(basename + createPath(location))
-    : location => basename + createPath(location)
+  const createHref =
+    props.mode === 'hash'
+      ? location => '#' + addLeadingSlash(basename + createPath(location))
+      : location => basename + createPath(location)
 
   const setState = (nextState: { action: 'POP' | 'PUSH' | 'REPLACE'; location: Location }): void => {
     assign(history, nextState)
 
-    const fromLocation = {...lastLocation}
+    const fromLocation = { ...lastLocation }
 
     // 记录最后一个location，浏览器前进后退按钮用
-    lastLocation = {...nextState.location}
+    lastLocation = { ...nextState.location }
 
     stateKey = Number(nextState.location.state!.key)
 
@@ -142,8 +149,8 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
     }
 
     Taro._$router = history.location
-    Taro.eventCenter.trigger('__taroRouterChange', {...params})
-    transitionManager.notifyListeners({...params})
+    Taro.eventCenter.trigger('__taroRouterChange', { ...params })
+    transitionManager.notifyListeners({ ...params })
   }
 
   const push = (path: string) => {
@@ -221,11 +228,11 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
     if (listenerCount === 1) {
       const isSafari = /^((?!chrome).)*safari/i.test(navigator.userAgent)
       if (isSafari) {
-        window.addEventListener('load', function() {
-          setTimeout(function() {
+        window.addEventListener('load', function () {
+          setTimeout(function () {
             window.addEventListener(PopStateEvent, handlePopState)
-          }, 0);
-        });
+          }, 0)
+        })
       } else {
         window.addEventListener(PopStateEvent, handlePopState)
       }

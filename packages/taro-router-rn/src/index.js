@@ -1,5 +1,5 @@
-import {initRouter} from './initRouter'
+import { initRouter } from './initRouter'
 
-export default {initRouter}
+export default { initRouter }
 
 export { initRouter }

@@ -11,7 +11,7 @@ describe('Form', () => {
     const handleSubmit = jest.fn()
     const handleReset = jest.fn()
 
-    let component = renderIntoDocument(
+    const component = renderIntoDocument(
       <Form onSubmit={handleSubmit} onReset={handleReset}>
         <input type='text' name='input' class='taro-checkbox_checked' />
         <button class='submit' formType='submit' type='submit' />

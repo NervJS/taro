@@ -12,7 +12,7 @@ const window = {
 describe('getNavigationOptions', () => {
   it('get navigationOptions', () => {
     expect(getNavigationOptions(window))
-      .toEqual({'backgroundColor': 'grey', 'enablePullDownRefresh': true, 'headerTintColor': 'blue', 'navigationStyle': 'custom', 'title': 'WeChat'})
+      .toEqual({ backgroundColor: 'grey', enablePullDownRefresh: true, headerTintColor: 'blue', navigationStyle: 'custom', title: 'WeChat' })
   })
   it('config is not object', () => {
     expect(() => {

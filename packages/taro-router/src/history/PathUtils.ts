@@ -1,10 +1,8 @@
-import { Location } from '../utils/types';
+import { Location } from '../utils/types'
 
-export const addLeadingSlash = (path: string): string =>
-  path.charAt(0) === '/' ? path : '/' + path
+export const addLeadingSlash = (path: string): string => (path.charAt(0) === '/' ? path : '/' + path)
 
-export const stripLeadingSlash = (path: string): string =>
-  path.charAt(0) === '/' ? path.substr(1) : path
+export const stripLeadingSlash = (path: string): string => (path.charAt(0) === '/' ? path.substr(1) : path)
 
 export const hasBasename = (path: string, prefix: string): boolean =>
   new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path)
@@ -15,7 +13,7 @@ export const stripBasename = (path: string, prefix: string): string =>
 export const stripTrailingSlash = (path: string): string =>
   path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
 
-export const parsePath = (path: string): Pick<Location, "path" | "search" | "hash"> => {
+export const parsePath = (path: string): Pick<Location, 'path' | 'search' | 'hash'> => {
   let pathname = path || '/'
   let search = ''
   let hash = ''
@@ -44,7 +42,9 @@ export const createPath = (location: Location): string => {
 
   let pathname = path || '/'
 
-  if (search && search !== '?') { pathname += search.charAt(0) === '?' ? search : `?${search}` }
+  if (search && search !== '?') {
+    pathname += search.charAt(0) === '?' ? search : `?${search}`
+  }
 
   if (hash && hash !== '#') pathname += hash.charAt(0) === '#' ? hash : `#${hash}`
 

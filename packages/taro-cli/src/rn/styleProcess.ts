@@ -15,7 +15,7 @@ import * as stylelintConfig from '../config/rn-stylelint.json'
 const DEVICE_RATIO = 'deviceRatio'
 
 function getWrapedCSS (css) {
-  return (`
+  return `
 import { StyleSheet, Dimensions } from 'react-native'
 
 // 一般app 只有竖屏模式，所以可以只获取一次 width
@@ -27,7 +27,7 @@ function scalePx2dp (uiElementPx) {
 }
 
 export default StyleSheet.create(${css})
-`)
+`
 }
 
 /**
@@ -37,17 +37,19 @@ export default StyleSheet.create(${css})
  * @param {string} appPath
  * @returns {*}
  */
-function loadStyle ({filePath, pluginsConfig}, appPath) {
+function loadStyle ({ filePath, pluginsConfig }, appPath) {
   const fileExt = path.extname(filePath)
   const pluginName = FILE_PROCESSOR_MAP[fileExt]
   if (pluginName) {
-    return npmProcess.callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {}, appPath)
-      .then((item) => {
+    return npmProcess
+      .callPlugin(pluginName, null, filePath, pluginsConfig[pluginName] || {}, appPath)
+      .then(item => {
         return {
           css: item.css.toString(),
           filePath
         }
-      }).catch((e) => {
+      })
+      .catch(e => {
         Util.printLog(processTypeEnum.ERROR, '样式预处理', filePath)
         console.log(e.stack)
       })
@@ -72,7 +74,7 @@ function loadStyle ({filePath, pluginsConfig}, appPath) {
  * @param {object} projectConfig
  * @returns {Function | any}
  */
-function postCSS ({css, filePath, projectConfig}) {
+function postCSS ({ css, filePath, projectConfig }) {
   const pxTransformConfig = {
     designWidth: projectConfig.designWidth || 750
   }
@@ -81,27 +83,26 @@ function postCSS ({css, filePath, projectConfig}) {
   }
   return postcss([
     require('stylelint')(stylelintConfig),
-    require('postcss-reporter')({clearReportedMessages: true}),
-    pxtransform(
-      {
-        platform: 'rn',
-        ...pxTransformConfig
-      }
-    )
+    require('postcss-reporter')({ clearReportedMessages: true }),
+    pxtransform({
+      platform: 'rn',
+      ...pxTransformConfig
+    })
   ])
-    .process(css, {from: filePath})
-    .then((result) => {
+    .process(css, { from: filePath })
+    .then(result => {
       return {
         css: result.css,
         filePath
       }
-    }).catch((e) => {
+    })
+    .catch(e => {
       Util.printLog(processTypeEnum.ERROR, '样式转换', filePath)
       console.log(e.stack)
     })
 }
 
-function getStyleObject ({css, filePath}) {
+function getStyleObject ({ css, filePath }) {
   let styleObject = {}
   try {
     styleObject = transformCSS(css)
@@ -112,7 +113,7 @@ function getStyleObject ({css, filePath}) {
   return styleObject
 }
 
-function validateStyle ({styleObject, filePath}) {
+function validateStyle ({ styleObject, filePath }) {
   for (const name in styleObject) {
     try {
       StyleSheetValidation.validateStyle(name, styleObject)
@@ -125,17 +126,11 @@ function validateStyle ({styleObject, filePath}) {
   }
 }
 
-function writeStyleFile ({css, tempFilePath}) {
+function writeStyleFile ({ css, tempFilePath }) {
   const fileContent = getWrapedCSS(css.replace(/"(scalePx2dp\(.*?\))"/g, '$1'))
   fs.ensureDirSync(path.dirname(tempFilePath))
   fs.writeFileSync(tempFilePath, fileContent)
   Util.printLog(processTypeEnum.GENERATE, '生成样式文件', tempFilePath)
 }
 
-export {
-  loadStyle,
-  postCSS,
-  getStyleObject,
-  validateStyle,
-  writeStyleFile
-}
+export { loadStyle, postCSS, getStyleObject, validateStyle, writeStyleFile }

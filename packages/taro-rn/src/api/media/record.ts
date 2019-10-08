@@ -55,10 +55,9 @@ class RecorderManager {
    * @param {string} [opts.audioSource='auto'] - 指定录音的音频输入源，可通过 wx.getAvailableAudioSources() 获取当前可用的音频源 ❌
    */
   async start (opts = {}) {
-
     const status = await askAsyncPermissions(Permissions.AUDIO_RECORDING)
     if (status !== 'granted') {
-      const res = {errMsg: `Permissions denied!`}
+      const res = { errMsg: 'Permissions denied!' }
       return Promise.reject(res)
     }
 
@@ -71,9 +70,9 @@ class RecorderManager {
       frameSize,
       audioSource = 'auto'
     }: any = opts
-    let options = {
-      android: Object.assign({}, RecorderManager.RecordingOptions.android, {sampleRate, numberOfChannels, bitRate: encodeBitRate}),
-      ios: Object.assign({}, RecorderManager.RecordingOptions.ios, {sampleRate, numberOfChannels, bitRate: encodeBitRate})
+    const options = {
+      android: Object.assign({}, RecorderManager.RecordingOptions.android, { sampleRate, numberOfChannels, bitRate: encodeBitRate }),
+      ios: Object.assign({}, RecorderManager.RecordingOptions.ios, { sampleRate, numberOfChannels, bitRate: encodeBitRate })
     }
     try {
       const res = RecorderManager.recordInstance.getStatusAsync()
@@ -92,7 +91,7 @@ class RecorderManager {
       console.log('res2', res2)
       await RecorderManager.recordInstance.startAsync()
     } catch (error) {
-      this.onErrorCallback && this.onErrorCallback({errMsg: error.message})
+      this.onErrorCallback && this.onErrorCallback({ errMsg: error.message })
     }
   }
 
@@ -104,7 +103,7 @@ class RecorderManager {
       await RecorderManager.recordInstance.pauseAsync()
       this.onPauseCallback && this.onPauseCallback()
     } catch (error) {
-      this.onErrorCallback && this.onErrorCallback({errMsg: error.message})
+      this.onErrorCallback && this.onErrorCallback({ errMsg: error.message })
     }
   }
 
@@ -117,7 +116,7 @@ class RecorderManager {
       await RecorderManager.recordInstance.startAsync()
       this.onResumeCallback && this.onResumeCallback()
     } catch (error) {
-      this.onErrorCallback && this.onErrorCallback({errMsg: error.message})
+      this.onErrorCallback && this.onErrorCallback({ errMsg: error.message })
     }
   }
 
@@ -130,7 +129,7 @@ class RecorderManager {
       await RecorderManager.recordInstance.stopAndUnloadAsync()
       this.onStopCallback && this.onStopCallback()
     } catch (error) {
-      this.onErrorCallback && this.onErrorCallback({errMsg: error.message})
+      this.onErrorCallback && this.onErrorCallback({ errMsg: error.message })
     }
   }
 
@@ -191,7 +190,7 @@ class RecorderManager {
    * @param callback
    */
   onFrameRecorded (callback) {
-    console.log('not achieve')
+    // console.log('not achieve')
   }
 
   /**
@@ -200,7 +199,7 @@ class RecorderManager {
    * @param callback
    */
   onInterruptionBegin (callback) {
-    console.log('not achieve')
+    // console.log('not achieve')
   }
 
   /**
@@ -209,9 +208,8 @@ class RecorderManager {
    * @param callback
    */
   onInterruptionEnd (callback) {
-    console.log('not achieve')
+    // console.log('not achieve')
   }
-
 }
 
 /**

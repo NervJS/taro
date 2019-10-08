@@ -9,18 +9,18 @@ import { errorHandler, shouleBeObject, successHandler } from '../utils'
  * @param {number} opts.value - 屏幕亮度值，范围 0 ~ 1。0 最暗，1 最亮
  */
 export async function setScreenBrightness (opts = {}) {
-  let res = {errMsg: 'setScreenBrightness:ok'}
+  let res = { errMsg: 'setScreenBrightness:ok' }
 
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
-    res = {errMsg: `setScreenBrightness${isObject.msg}`}
+    res = { errMsg: `setScreenBrightness${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
 
-  const {value, success, fail, complete}: any = opts
+  const { value, success, fail, complete }: any = opts
   await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS)
-  const {status} = await Permissions.getAsync(Permissions.SYSTEM_BRIGHTNESS)
+  const { status } = await Permissions.getAsync(Permissions.SYSTEM_BRIGHTNESS)
 
   if (status === 'granted') {
     try {
@@ -38,18 +38,18 @@ export async function setScreenBrightness (opts = {}) {
  * @param opts
  */
 export async function getScreenBrightness (opts = {}) {
-  let res = {errMsg: 'getScreenBrightness:ok'} as any
+  let res = { errMsg: 'getScreenBrightness:ok' } as any
 
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
-    res = {errMsg: `getScreenBrightness${isObject.msg}`}
+    res = { errMsg: `getScreenBrightness${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
 
-  const {success, fail, complete}: any = opts
+  const { success, fail, complete }: any = opts
   await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS)
-  const {status} = await Permissions.getAsync(Permissions.SYSTEM_BRIGHTNESS)
+  const { status } = await Permissions.getAsync(Permissions.SYSTEM_BRIGHTNESS)
 
   if (status === 'granted') {
     try {
@@ -68,18 +68,18 @@ export async function getScreenBrightness (opts = {}) {
  * @param {boolean} opts.keepScreenOn - 是否保持屏幕常亮
  */
 export async function setKeepScreenOn (opts = {}) {
-  let res = {errMsg: 'setKeepScreenOn:ok'} as any
+  let res = { errMsg: 'setKeepScreenOn:ok' } as any
 
   const isObject = shouleBeObject(opts)
   if (!isObject.res) {
-    res = {errMsg: `setKeepScreenOn${isObject.msg}`}
+    res = { errMsg: `setKeepScreenOn${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
 
-  const {keepScreenOn, success, fail, complete}: any = opts
+  const { keepScreenOn, success, fail, complete }: any = opts
   await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS)
-  const {status} = await Permissions.getAsync(Permissions.SYSTEM_BRIGHTNESS)
+  const { status } = await Permissions.getAsync(Permissions.SYSTEM_BRIGHTNESS)
 
   if (status === 'granted') {
     try {

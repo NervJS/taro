@@ -7,7 +7,8 @@
 // }
 
 declare module 'react-dom/server.browser' {
-  import { ReactElement } from 'react';
+  // eslint-disable-next-line no-unused-vars
+  import { ReactElement } from 'react'
 
-  export const renderToStaticMarkup: (element: ReactElement) => string;
+  export const renderToStaticMarkup: (element: ReactElement) => string
 }

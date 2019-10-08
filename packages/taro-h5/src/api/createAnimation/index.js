@@ -6,6 +6,7 @@ class StyleSheet {
   constructor () {
     this.$style = document.createElement('style')
   }
+
   $style = null
   sheet = null
   appendStyleSheet = () => {
@@ -17,6 +18,7 @@ class StyleSheet {
       console.warn('当前浏览器不支持 stylesheet.insertRule 接口')
     }
   }
+
   // 添加样式命令
   add = (cssText, index = 0) => {
     if (this.sheet === null) {
@@ -104,6 +106,7 @@ class Animation {
       }
     })
   }
+
   transformUnit (...args) {
     const ret = []
     args.forEach(each => {
@@ -111,10 +114,12 @@ class Animation {
     })
     return ret
   }
+
   // 设置默认值
   setDefault (duration, delay, timingFunction, transformOrigin) {
     this.DEFAULT = { duration, delay, timingFunction, transformOrigin }
   }
+
   // 属性组合
   rules = []
   // transform 对象
@@ -129,67 +134,83 @@ class Animation {
     this.transform.push(`matrix(${a}, ${b}, ${c}, ${d}, ${e}, ${f})`)
     return this
   }
+
   matrix3d (a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3, a4, b4, c4, d4) {
     this.transform.push(`matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2}, ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`)
     return this
   }
+
   rotate (angle) {
     this.transform.push(`rotate(${angle}deg)`)
     return this
   }
+
   rotate3d (x, y, z, angle) {
     this.transform.push(`rotate3d(${x}, ${y}, ${z}, ${angle}deg)`)
     return this
   }
+
   rotateX (angle) {
     this.transform.push(`rotateX(${angle}deg)`)
     return this
   }
+
   rotateY (angle) {
     this.transform.push(`rotateY(${angle}deg)`)
     return this
   }
+
   rotateZ (angle) {
     this.transform.push(`rotateZ(${angle}deg)`)
     return this
   }
+
   scale (x, y) {
     this.transform.push(`scale(${x}, ${y})`)
     return this
   }
+
   scale3d (x, y, z) {
     this.transform.push(`scale3d(${x}, ${y}, ${z})`)
     return this
   }
+
   scaleX (scale) {
     this.transform.push(`scaleX(${scale})`)
     return this
   }
+
   scaleY (scale) {
     this.transform.push(`scaleY(${scale})`)
     return this
   }
+
   scaleZ (scale) {
     this.transform.push(`scaleZ(${scale})`)
     return this
   }
+
   skew (x, y) {
     this.transform.push(`skew(${x}, ${y})`)
     return this
   }
+
   skewX (angle) {
     this.transform.push(`skewX(${angle})`)
     return this
   }
+
   skewY (angle) {
     this.transform.push(`skewY(${angle})`)
     return this
   }
+
   translate (x, y) {
     [x, y] = this.transformUnit(x, y)
     this.transform.push(`translate(${x}, ${y})`)
     return this
   }
+
   translate3d (x, y, z) {
     [x, y, z] = this.transformUnit(x, y, z)
     this.transform.push(
@@ -197,59 +218,71 @@ class Animation {
     )
     return this
   }
+
   translateX (translate) {
     [translate] = this.transformUnit(translate)
     this.transform.push(`translateX(${translate})`)
     return this
   }
+
   translateY (translate) {
     [translate] = this.transformUnit(translate)
     this.transform.push(`translateY(${translate})`)
     return this
   }
+
   translateZ (translate) {
     [translate] = this.transformUnit(translate)
     this.transform.push(`translateZ(${translate})`)
     return this
   }
+
   opacity (value) {
     this.rules.push(`opacity: ${value}`)
     return this
   }
+
   backgroundColor (value) {
     this.rules.push(`background-color: ${value}`)
     return this
   }
+
   width (value) {
     [value] = this.transformUnit(value)
     this.rules.push(`width: ${value}`)
     return this
   }
+
   height (value) {
     [value] = this.transformUnit(value)
     this.rules.push(`height: ${value}`)
     return this
   }
+
   top (value) {
     [value] = this.transformUnit(value)
     this.rules.push(`top: ${value}`)
     return this
   }
+
   right (value) {
     [value] = this.transformUnit(value)
     this.rules.push(`right: ${value}`)
     return this
   }
+
   bottom (value) {
     [value] = this.transformUnit(value)
     this.rules.push(`bottom: ${value}`)
     return this
   }
+
   left (value) {
     [value] = this.transformUnit(value)
     this.rules.push(`left: ${value}`)
     return this
   }
+
   // 关键帧载入
   step (arg = {}) {
     const { DEFAULT } = this
@@ -275,6 +308,7 @@ class Animation {
     this.transform = [`${TRANSFORM}:`]
     return this
   }
+
   // 创建底层数据
   createAnimationData () {
     const animIndex = `taro-h5-poly-fill/${this.id}/create-animation__${this.animationMapCount++}`
@@ -292,6 +326,7 @@ class Animation {
     this.steps = []
     return animIndex
   }
+
   // 动画数据产出
   export () {
     return this.createAnimationData()

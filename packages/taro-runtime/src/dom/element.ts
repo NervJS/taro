@@ -86,7 +86,7 @@ export class TaroElement extends TaroNode {
   }
 
   public dispatchEvent (event: TaroEvent) {
-    const target = event.nativeTarget = this
+    const target = (event.nativeTarget = this)
     const cancelable = event.cancelable
     const listeners = target.__handlers[event.type]
     if (!isArray(listeners)) {
@@ -118,7 +118,7 @@ export class TaroElement extends TaroNode {
   private _stopPropagation (event: TaroEvent) {
     let target = this
     // eslint-disable-next-line no-cond-assign
-    while (target = target.parentNode as this) {
+    while ((target = target.parentNode as this)) {
       const listeners = target.__handlers[event.type]
 
       if (!isArray(listeners)) {

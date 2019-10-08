@@ -29,7 +29,7 @@ const createFormData = (file, body, name) => {
  * @return UploadTask - 一个可以监听上传进度进度变化的事件和取消上传的对象
  */
 function uploadFile (opts = {}) {
-  const {url, filePath, name, header, formData, success, fail, complete} = opts
+  const { url, filePath, name, header, formData, success, fail, complete } = opts
   return fetch(url, {
     method: 'POST',
     body: createFormData(filePath, formData, name),
@@ -43,14 +43,14 @@ function uploadFile (opts = {}) {
     } else {
       console.log(res)
       const errMsg = `uploadFile fail: ${res.status} ${res.statusText}`
-      fail && fail({errMsg})
-      complete && complete({errMsg})
+      fail && fail({ errMsg })
+      complete && complete({ errMsg })
       return Promise.reject(new Error(errMsg))
     }
   }).catch(e => {
     const errMsg = `uploadFile fail: ${e}`
-    fail && fail({errMsg})
-    complete && complete({errMsg})
+    fail && fail({ errMsg })
+    complete && complete({ errMsg })
     return Promise.reject(new Error(errMsg))
   })
 }
@@ -65,16 +65,16 @@ function uploadFile (opts = {}) {
  */
 function downloadFile (opts = {}) {
   if (typeof opts !== 'object') {
-    const res = {errMsg: `fail parameter error: ${opts} should be Object`}
+    const res = { errMsg: `fail parameter error: ${opts} should be Object` }
     return Promise.reject(res)
   }
-  const {url, header, filePath, success, fail, complete} = opts
+  const { url, header, filePath, success, fail, complete } = opts
   let downloadResumable
-  let p = new Promise((resolve, reject) => {
+  const p = new Promise((resolve, reject) => {
     let fileName = url.split('/')
     fileName = fileName[fileName.length - 1]
     const downloadFileCallback = (res) => {
-      const {totalBytesWritten, totalBytesExpectedToWrite} = res
+      const { totalBytesWritten, totalBytesExpectedToWrite } = res
       let progress = totalBytesWritten / totalBytesExpectedToWrite * 100
       progress = Number(progress.toFixed(2))
       p.onProgressUpdateCb && p.onProgressUpdateCb({
@@ -93,7 +93,7 @@ function downloadFile (opts = {}) {
     )
 
     downloadResumable.downloadAsync().then((resp) => {
-      const {uri, status} = resp
+      const { uri, status } = resp
       const res = {
         tempFilePath: uri,
         statusCode: status
@@ -103,7 +103,7 @@ function downloadFile (opts = {}) {
       resolve(res)
     }).catch((err) => {
       const res = {
-        errMsg: `download file fail`,
+        errMsg: 'download file fail',
         err
       }
       fail && fail(res)

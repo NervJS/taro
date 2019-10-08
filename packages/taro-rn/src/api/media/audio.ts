@@ -8,17 +8,17 @@ import { askAsyncPermissions, isUrl } from '../utils'
 class InnerAudioContext {
   private _src: string // TODO asset path
   private _startTime: number
-  private _autoplay: boolean = false
-  private _loop: boolean = false
-  private _obeyMuteSwitch: boolean = true // TODO
-  private _volume: number = 1
-  /** @member 当前音频的长度（单位 s）。只有在当前有合法的 src 时返回（只读）*/
+  private _autoplay = false
+  private _loop = false
+  private _obeyMuteSwitch = true // TODO
+  private _volume = 1
+  /** @member 当前音频的长度（单位 s）。只有在当前有合法的 src 时返回（只读） */
   public duration: number
   /** @member 当前音频的播放位置（单位 s）。只有在当前有合法的 src 时返回，时间保留小数点后 6 位（只读 */
   public currentTime: number
-  /** @member 当前是是否暂停或停止状态（只读）*/
+  /** @member 当前是是否暂停或停止状态（只读） */
   public paused: boolean
-  /** @member 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲（只读）*/
+  /** @member 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲（只读） */
   public buffered: number //
   // private
   private soundObject: Audio.Sound
@@ -110,8 +110,8 @@ class InnerAudioContext {
   }
 
   private async _firstPlay () {
-    if (!this._src) return {errMsg: `src is undefined`}
-    const source = isUrl(this._src) ? {uri: this._src} : this._src
+    if (!this._src) return { errMsg: 'src is undefined' }
+    const source = isUrl(this._src) ? { uri: this._src } : this._src
     await this.soundObject.loadAsync(source as any, {}, true)
     this.onCanplayCallback && this.onCanplayCallback()
     await this.soundObject.playAsync()
@@ -128,7 +128,7 @@ class InnerAudioContext {
     const status = await askAsyncPermissions(Permissions.AUDIO_RECORDING)
 
     if (status !== 'granted') {
-      const res = {errMsg: `Permissions denied!`}
+      const res = { errMsg: 'Permissions denied!' }
       return Promise.reject(res)
     }
 
@@ -137,7 +137,6 @@ class InnerAudioContext {
       if (soundStatus.isLoaded === false && (soundStatus as any).isPlaying === undefined) {
         // First load
         await this._firstPlay()
-
       } else {
         await this.soundObject.playAsync()
       }

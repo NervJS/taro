@@ -125,12 +125,24 @@ export function installNpmPkg (pkgList: string[] | string, options: IInstallOpti
   return output
 }
 
-export const callPlugin: pluginFunction = async (pluginName: string, content: string | null, file: string, config: object, root: string) => {
+export const callPlugin: pluginFunction = async (
+  pluginName: string,
+  content: string | null,
+  file: string,
+  config: object,
+  root: string
+) => {
   const pluginFn = await getNpmPkg(`${taroPluginPrefix}${pluginName}`, root)
   return pluginFn(content, file, config)
 }
 
-export const callPluginSync: pluginFunction = (pluginName: string, content: string | null, file: string, config: object, root: string) => {
+export const callPluginSync: pluginFunction = (
+  pluginName: string,
+  content: string | null,
+  file: string,
+  config: object,
+  root: string
+) => {
   const pluginFn = getNpmPkgSync(`${taroPluginPrefix}${pluginName}`, root)
   return pluginFn(content, file, config)
 }

@@ -4,44 +4,47 @@ import * as memFs from 'mem-fs'
 import * as editor from 'mem-fs-editor'
 import * as _ from 'lodash'
 
-import {
-  getRootPath
-} from '../util'
+import { getRootPath } from '../util'
 
 interface IFile {
-  contents: Buffer | NodeJS.ReadableStream | null,
-  cwd: string,
-  base: string | null | undefined,
-  history: string[],
-  relative: string,
-  dirname: string,
-  basename: string,
-  stem: string,
-  extname: string,
-  symlink: string,
-  stat: fs.Stats | null
+  contents: Buffer | NodeJS.ReadableStream | null;
+  cwd: string;
+  base: string | null | undefined;
+  history: string[];
+  relative: string;
+  dirname: string;
+  basename: string;
+  stem: string;
+  extname: string;
+  symlink: string;
+  stat: fs.Stats | null;
 }
 
 interface IReadOptions {
-  raw?: boolean
+  raw?: boolean;
 }
 
 interface IAppendOptions {
-  trimEnd?: boolean,
-  separator?: string
+  trimEnd?: boolean;
+  separator?: string;
 }
 
 interface IMemFsEditor {
   store: {
-    [key: string]: IFile
-  },
-  read(filePath: string, options?: IReadOptions): string | Buffer,
-  readJSON(filePath: string, defaults?: JSON): JSON,
-  write(filePath: string, contents: string | Buffer): string,
-  writeJSON(filepath: string, contents: JSON, replacer?: ((key: string, value: any) => any) | undefined, space?: string | number | undefined): string,
-  append(filePath: string, contents: string | Buffer, options?: IAppendOptions): string | Buffer,
-  copyTpl(from: string, to: string, context: object, templateOptions: object),
-  commit(cb: () => void)
+    [key: string]: IFile;
+  };
+  read(filePath: string, options?: IReadOptions): string | Buffer;
+  readJSON(filePath: string, defaults?: JSON): JSON;
+  write(filePath: string, contents: string | Buffer): string;
+  writeJSON(
+    filepath: string,
+    contents: JSON,
+    replacer?: ((key: string, value: any) => any) | undefined,
+    space?: string | number | undefined
+  ): string;
+  append(filePath: string, contents: string | Buffer, options?: IAppendOptions): string | Buffer;
+  copyTpl(from: string, to: string, context: object, templateOptions: object);
+  commit(cb: () => void);
 }
 
 export default class Creator {
@@ -105,12 +108,7 @@ export default class Creator {
     const src = this.templatePath(template, source)
     if (!fs.existsSync(src)) return
 
-    this.fs.copyTpl(
-      src,
-      this.destinationPath(dest),
-      Object.assign({ _ }, this, data),
-      options
-    )
+    this.fs.copyTpl(src, this.destinationPath(dest), Object.assign({ _ }, this, data), options)
     return this
   }
 

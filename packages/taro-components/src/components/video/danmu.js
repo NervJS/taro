@@ -10,7 +10,7 @@ class Danmu extends PureComponent {
   currentTime = 0
 
   ensureProperties (danmu) {
-    const clonedDanmu = {...danmu}
+    const clonedDanmu = { ...danmu }
     if (!('time' in danmu)) {
       clonedDanmu.time = this.currentTime
     }

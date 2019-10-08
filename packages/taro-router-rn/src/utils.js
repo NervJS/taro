@@ -11,7 +11,7 @@ export function getNavigationOptions (config = {}) {
   if (typeof config !== 'object') {
     throw new Error('window 必须是对象')
   }
-  let navigationOptions = {}
+  const navigationOptions = {}
   Object.keys(config).forEach(function (key) {
     if (key in HEADER_CONFIG_MAP) {
       navigationOptions[HEADER_CONFIG_MAP[key]] = config[key]
@@ -23,7 +23,7 @@ export function getNavigationOptions (config = {}) {
 // import { findDOMNode } from 'nervjs'
 
 export function shouleBeObject (target) {
-  if (target && typeof target === 'object') return {res: true}
+  if (target && typeof target === 'object') return { res: true }
   return {
     res: false,
     msg: getParameterError({
@@ -33,7 +33,7 @@ export function shouleBeObject (target) {
   }
 }
 
-export function getParameterError ({name = '', para, correct, wrong}) {
+export function getParameterError ({ name = '', para, correct, wrong }) {
   const parameter = para ? `parameter.${para}` : 'parameter'
   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
   return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
@@ -95,7 +95,7 @@ export const createCallbackManager = () => {
   }
 
   const remove = (opt) => {
-    const pos = callbacks.findIndex(({callback}) => {
+    const pos = callbacks.findIndex(({ callback }) => {
       return callback === opt.callback
     })
     if (pos > -1) {
@@ -105,7 +105,7 @@ export const createCallbackManager = () => {
 
   const count = () => callbacks.length
   const trigger = (...args) => {
-    callbacks.forEach(({callback, ctx}) => {
+    callbacks.forEach(({ callback, ctx }) => {
       callback.call(ctx, ...args)
     })
   }
@@ -134,12 +134,12 @@ export function isUrl (string) {
     return false
   }
 
-  let match = string.match(protocolAndDomainRE)
+  const match = string.match(protocolAndDomainRE)
   if (!match) {
     return false
   }
 
-  let everythingAfterProtocol = match[1]
+  const everythingAfterProtocol = match[1]
   if (!everythingAfterProtocol) {
     return false
   }

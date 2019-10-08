@@ -50,16 +50,16 @@ const Progress = (props) => {
     percent,
     borderRadius
   } = props
-  let pgPercent = percent > 100 ? 100 : percent < 0 ? 0 : percent
+  const pgPercent = percent > 100 ? 100 : percent < 0 ? 0 : percent
   const cls = classNames('weui-progress', className)
-  let pgWdith = {
+  const pgWdith = {
     width: pgPercent + '%',
     backgroundColor: activeColor,
-    WebkitTransition: active ? `width 1s ease-in-out` : 'none',
-    transition: active ? `width 1s ease-in-out` : 'none',
+    WebkitTransition: active ? 'width 1s ease-in-out' : 'none',
+    transition: active ? 'width 1s ease-in-out' : 'none',
     borderRadius: borderRadius ? `${borderRadius}px` : 0
   }
-  let pgHeight = {
+  const pgHeight = {
     height: strokeWidth + 'px',
     backgroundColor
   }

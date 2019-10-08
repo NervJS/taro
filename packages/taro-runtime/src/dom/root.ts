@@ -19,12 +19,15 @@ export class TaroRootElement extends TaroElement {
     this.pendingUpdate = true
 
     setTimeout(() => {
-      this.ctx!.setData({
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        root: hydrate(this as any)
-      }, () => {
-        this.pendingUpdate = false
-      })
+      this.ctx!.setData(
+        {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          root: hydrate(this as any)
+        },
+        () => {
+          this.pendingUpdate = false
+        }
+      )
     }, 1)
   }
 }

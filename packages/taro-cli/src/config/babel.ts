@@ -1,8 +1,6 @@
 const babelOptions: IBabelOptions = {
   sourceMap: true,
-  presets: [
-    'env'
-  ],
+  presets: ['env'],
   plugins: [
     require('babel-plugin-transform-react-jsx'),
     'transform-decorators-legacy',
@@ -14,7 +12,7 @@ const babelOptions: IBabelOptions = {
 export default babelOptions
 
 export interface IBabelOptions {
-  sourceMap: boolean,
-  presets: string[],
-  plugins: any[]
+  sourceMap: boolean;
+  presets: string[];
+  plugins: any[];
 }

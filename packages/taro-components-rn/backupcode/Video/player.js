@@ -172,13 +172,13 @@ export default class VideoPlayer extends React.Component<Props> {
     showControlsOnLoad: false,
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       // Playback state
       playbackState: PLAYBACK_STATES.LOADING,
       lastPlaybackStateUpdate: Date.now(),
-      //Seeking state
+      // Seeking state
       seekState: SEEK_STATES.NOT_SEEKING,
       // State comes from the playbackCallback
       playbackInstancePosition: null,
@@ -194,7 +194,7 @@ export default class VideoPlayer extends React.Component<Props> {
     }
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     this._setupNetInfoListener()
 
     if (this.state.controlsState === CONTROL_STATES.SHOWN) {
@@ -219,20 +219,20 @@ export default class VideoPlayer extends React.Component<Props> {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     NetInfo.removeEventListener(
       'connectionChange',
       this._onConnectionChange.bind(this)
     )
   }
 
-  _onConnectionChange(connectionInfo) {
+  _onConnectionChange (connectionInfo) {
     this.props.debug && console.log('[networkState]', connectionInfo.type)
     this.setState({ networkState: connectionInfo.type })
   }
 
   // Listen for changes in network connectivity
-  _setupNetInfoListener() {
+  _setupNetInfoListener () {
     NetInfo.getConnectionInfo().then(connectionInfo => {
       this.props.debug && console.log('[networkState]', connectionInfo.type)
       this.setState({ networkState: connectionInfo.type })
@@ -244,7 +244,7 @@ export default class VideoPlayer extends React.Component<Props> {
   }
 
   // Handle events during playback
-  _setPlaybackState(playbackState) {
+  _setPlaybackState (playbackState) {
     if (this.state.playbackState != playbackState) {
       this.props.debug &&
         console.log(
@@ -262,7 +262,7 @@ export default class VideoPlayer extends React.Component<Props> {
     }
   }
 
-  _setSeekState(seekState) {
+  _setSeekState (seekState) {
     this.props.debug &&
       console.log(
         '[seek]',
@@ -286,7 +286,7 @@ export default class VideoPlayer extends React.Component<Props> {
     }
   }
 
-  _playbackCallback(playbackStatus) {
+  _playbackCallback (playbackStatus) {
     try {
       this.props.playbackCallback(playbackStatus)
     } catch (e) {
@@ -342,7 +342,7 @@ export default class VideoPlayer extends React.Component<Props> {
   }
 
   // Seeking
-  _getSeekSliderPosition() {
+  _getSeekSliderPosition () {
     if (
       this._playbackInstance != null &&
       this.state.playbackInstancePosition != null &&
@@ -437,7 +437,7 @@ export default class VideoPlayer extends React.Component<Props> {
   }
 
   // Controls view
-  _getMMSSFromMillis(millis) {
+  _getMMSSFromMillis (millis) {
     const totalSeconds = millis / 1000
     const seconds = Math.floor(totalSeconds % 60)
     const minutes = Math.floor(totalSeconds / 60)
@@ -453,7 +453,7 @@ export default class VideoPlayer extends React.Component<Props> {
   }
 
   // Controls Behavior
-  _replay() {
+  _replay () {
     this._playbackInstance
       .setStatusAsync({
         shouldPlay: true,
@@ -465,7 +465,7 @@ export default class VideoPlayer extends React.Component<Props> {
       })
   }
 
-  _togglePlay() {
+  _togglePlay () {
     this.state.playbackState == PLAYBACK_STATES.PLAYING
       ? this._playbackInstance.setStatusAsync({ shouldPlay: false })
       : this._playbackInstance.setStatusAsync({ shouldPlay: true })
@@ -543,7 +543,7 @@ export default class VideoPlayer extends React.Component<Props> {
     )
   }
 
-  render() {
+  render () {
     // const videoWidth = Dimensions.get('window').width * (this.props.isPortrait ? 0.92 : 1)
     // const videoHeight = this.props.isPortrait ? (videoWidth * (9 / 16)) : Dimensions.get('window').height
     const videoWidth = this.props.isPortrait ? 300 : Dimensions.get('window').width
@@ -582,12 +582,12 @@ export default class VideoPlayer extends React.Component<Props> {
           style={
             center
               ? {
-                  backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                  justifyContent: 'center',
-                  width: centeredContentWidth,
-                  height: centeredContentWidth,
-                  borderRadius: centeredContentWidth,
-                }
+                backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                justifyContent: 'center',
+                width: centeredContentWidth,
+                height: centeredContentWidth,
+                borderRadius: centeredContentWidth,
+              }
               : {}
           }>
           {children}
@@ -665,24 +665,24 @@ export default class VideoPlayer extends React.Component<Props> {
             this.state.seekState == SEEK_STATES.SEEKED) &&
             (this.state.playbackState == PLAYBACK_STATES.PLAYING ||
               this.state.playbackState == PLAYBACK_STATES.PAUSED) && (
-              <CenteredView
-                pointerEvents={
-                  this.state.controlsState === CONTROL_STATES.HIDDEN
-                    ? 'none'
-                    : 'auto'
-                }
-                style={{
-                  opacity: this.state.controlsOpacity,
-                }}>
-                <Control center={true} callback={this._togglePlay.bind(this)}>
-                  {this.state.playbackState == PLAYBACK_STATES.PLAYING ? (
-                    <PauseIcon />
-                  ) : (
-                    <PlayIcon />
-                  )}
-                </Control>
-              </CenteredView>
-            )}
+            <CenteredView
+              pointerEvents={
+                this.state.controlsState === CONTROL_STATES.HIDDEN
+                  ? 'none'
+                  : 'auto'
+              }
+              style={{
+                opacity: this.state.controlsOpacity,
+              }}>
+              <Control center={true} callback={this._togglePlay.bind(this)}>
+                {this.state.playbackState == PLAYBACK_STATES.PLAYING ? (
+                  <PauseIcon />
+                ) : (
+                  <PlayIcon />
+                )}
+              </Control>
+            </CenteredView>
+          )}
           {/* Replay button to show at the end of a video */}
           {this.props.showCenterPlayBtn && this.state.playbackState == PLAYBACK_STATES.ENDED && (
             <CenteredView>
@@ -720,24 +720,24 @@ export default class VideoPlayer extends React.Component<Props> {
               this.state.seekState == SEEK_STATES.SEEKING) &&
               (this.state.playbackState == PLAYBACK_STATES.PLAYING ||
                 this.state.playbackState == PLAYBACK_STATES.PAUSED) && (
-                <Control
-                  center={false}
-                  callback={this._togglePlay.bind(this)}
-                  style={{ marginRight: 8, backgroundColor: 'transparent' }}
-                >
-                  {this.state.playbackState == PLAYBACK_STATES.PLAYING ? (
-                    <PauseIcon />
-                  ) : (
-                    <PlayIcon />
-                  )}
-                </Control>
-              )}
+              <Control
+                center={false}
+                callback={this._togglePlay.bind(this)}
+                style={{ marginRight: 8, backgroundColor: 'transparent' }}
+              >
+                {this.state.playbackState == PLAYBACK_STATES.PLAYING ? (
+                  <PauseIcon />
+                ) : (
+                  <PlayIcon />
+                )}
+              </Control>
+            )}
             {/* Replay button to show at the end of a video */}
             {this.props.showPlayBtn && this.state.playbackState == PLAYBACK_STATES.ENDED && (
-              <Control center={false} callback={this._replay.bind(this)} style={{marginRight: 8}}>
+              <Control center={false} callback={this._replay.bind(this)} style={{ marginRight: 8 }}>
                 <PlayIcon />
               </Control>
-              )}
+            )}
 
             {/* Current time display */}
             {this.props.showProgress && <Text

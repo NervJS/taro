@@ -3,10 +3,10 @@ const config = {
   date: '2018-7-13',
   designWidth: 750,
   deviceRatio: {
-    '375': 1 / 2,
-    '640': 2.34 / 2,
-    '750': 1,
-    '828': 1.81 / 2
+    375: 1 / 2,
+    640: 2.34 / 2,
+    750: 1,
+    828: 1.81 / 2
   },
   sourceRoot: 'src',
   outputRoot: 'dist',

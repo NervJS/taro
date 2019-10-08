@@ -60,10 +60,13 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   const isMultiRouterMode = get(router, 'mode') === 'multi'
 
   if (enableExtract) {
-    plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[name].css'
-    }, miniCssExtractPluginOption])
+    plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([
+      {
+        filename: 'css/[name].css',
+        chunkFilename: 'css/[name].css'
+      },
+      miniCssExtractPluginOption
+    ])
   }
 
   if (copy) {

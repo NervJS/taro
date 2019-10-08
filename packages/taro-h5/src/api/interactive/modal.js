@@ -18,50 +18,50 @@ export default class Modal {
 
   style = {
     maskStyle: {
-      'position': 'fixed',
+      position: 'fixed',
       'z-index': '1000',
-      'top': '0',
-      'right': '0',
-      'left': '0',
-      'bottom': '0',
-      'background': 'rgba(0,0,0,0.6)'
+      top: '0',
+      right: '0',
+      left: '0',
+      bottom: '0',
+      background: 'rgba(0,0,0,0.6)'
     },
     modalStyle: {
       'z-index': '4999',
-      'position': 'fixed',
-      'top': '50%',
-      'left': '50%',
-      'transform': 'translate(-50%, -50%)',
-      'width': '80%',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '80%',
       'max-width': '300px',
       'border-radius': '3px',
       'text-align': 'center',
       'line-height': '1.6',
-      'overflow': 'hidden',
-      'background': '#FFFFFF'
+      overflow: 'hidden',
+      background: '#FFFFFF'
     },
     titleStyle: {
-      'padding': '20px 24px 9px',
+      padding: '20px 24px 9px',
       'font-size': '18px'
     },
     textStyle: {
-      'padding': '0 24px 12px',
+      padding: '0 24px 12px',
       'min-height': '40px',
       'font-size': '15px',
       'line-height': '1.3',
-      'color': '#808080'
+      color: '#808080'
     },
     footStyle: {
-      'position': 'relative',
+      position: 'relative',
       'line-height': '48px',
       'font-size': '18px',
-      'display': 'flex'
+      display: 'flex'
     },
     btnStyle: {
-      'position': 'relative',
+      position: 'relative',
       '-webkit-box-flex': '1',
       '-webkit-flex': '1',
-      'flex': '1'
+      flex: '1'
     }
   }
 

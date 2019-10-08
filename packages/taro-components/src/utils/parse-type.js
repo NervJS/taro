@@ -2,8 +2,7 @@
 const objectProto = Object.prototype
 const hasOwnProperty = objectProto.hasOwnProperty
 const toString = objectProto.toString
-const symToStringTag =
-  typeof Symbol !== 'undefined' ? Symbol.toStringTag : undefined
+const symToStringTag = typeof Symbol !== 'undefined' ? Symbol.toStringTag : undefined
 /** `Object#toString` result references. */
 const dataViewTag = '[object DataView]'
 const mapTag = '[object Map]'
@@ -82,28 +81,18 @@ function baseGetTag (value) {
 }
 
 function isBoolean (value) {
-  return (
-    value === true ||
-    value === false ||
-    (isObjectLike(value) && baseGetTag(value) === '[object Boolean]')
-  )
+  return value === true || value === false || (isObjectLike(value) && baseGetTag(value) === '[object Boolean]')
 }
 
 function isNumber (value) {
-  return (
-    typeof value === 'number' ||
-    (isObjectLike(value) && baseGetTag(value) === '[object Number]')
-  )
+  return typeof value === 'number' || (isObjectLike(value) && baseGetTag(value) === '[object Number]')
 }
 
 function isString (value) {
   const type = typeof value
   return (
     type === 'string' ||
-    (type === 'object' &&
-      value != null &&
-      !Array.isArray(value) &&
-      getTag(value) === '[object String]')
+    (type === 'object' && value != null && !Array.isArray(value) && getTag(value) === '[object String]')
   )
 }
 
@@ -129,9 +118,4 @@ function isFunction (value) {
 
 /** lodash  EOF */
 
-export {
-  isBoolean,
-  isNumber,
-  isString,
-  isFunction
-}
+export { isBoolean, isNumber, isString, isFunction }

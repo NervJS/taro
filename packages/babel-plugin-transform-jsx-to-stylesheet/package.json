@@ -17,15 +17,5 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "engines": {
     "npm": ">=3.0.0"
-  },
-  "devDependencies": {
-    "babel-core": "^6.23.1",
-    "babel-jest": "^23.6.0",
-    "babel-plugin-syntax-jsx": "^6.18.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "jest": "^23.6.0"
   }
 }

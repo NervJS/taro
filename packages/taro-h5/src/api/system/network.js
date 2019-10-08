@@ -3,7 +3,7 @@ function getConnection () {
 }
 
 function getNetworkType (options = {}) {
-  let connection = getConnection()
+  const connection = getConnection()
   const { success, complete } = options
   const res = {
     errMsg: 'getNetworkType:ok'
@@ -51,7 +51,7 @@ function getNetworkType (options = {}) {
 }
 
 function onNetworkStatusChange (cb) {
-  let connection = getConnection()
+  const connection = getConnection()
   if (connection) {
     connection.addEventListener('change', function () {
       getNetworkType()

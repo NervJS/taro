@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { get, mapValues, merge } from 'lodash'
 
-import { addTrailingSlash, emptyObj } from '../util';
+import { addTrailingSlash, emptyObj } from '../util'
 import {
   getCopyWebpackPlugin,
   getCssoWebpackPlugin,
@@ -13,9 +13,9 @@ import {
   getOutput,
   getUglifyPlugin,
   processEnvOption
-} from '../util/chain';
-import { BuildConfig } from '../util/types';
-import getBaseChain from './base.conf';
+} from '../util/chain'
+import { BuildConfig } from '../util/types'
+import getBaseChain from './base.conf'
 
 export default function (appPath: string, config: Partial<BuildConfig>): any {
   const chain = getBaseChain(appPath)
@@ -61,10 +61,13 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   const plugin: any = {}
 
   if (enableExtract) {
-    plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[name].css'
-    }, miniCssExtractPluginOption])
+    plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([
+      {
+        filename: 'css/[name].css',
+        chunkFilename: 'css/[name].css'
+      },
+      miniCssExtractPluginOption
+    ])
   }
 
   if (copy) {

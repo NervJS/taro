@@ -21,22 +21,27 @@ class LocationChooser extends Taro.Component {
   getWrapRef = ref => {
     if (ref) this.wrapRef = ref
   }
+
   show = () => {
     setTimeout(() => {
       this.wrapRef.style.top = '0'
     })
   }
+
   hide = () => {
     this.wrapRef.style.top = '100%'
   }
+
   onBack = () => {
     this.props.handler({ errMsg: 'chooseLOcation:fail cancel' })
     this.hide()
   }
+
   onSubmit = () => {
     this.props.handler()
     this.hide()
   }
+
   render () {
     return Nerv.createPortal(
       <div className='taro_chooselocation' ref={this.getWrapRef}>
@@ -93,7 +98,7 @@ const chooseLocation = ({ success, fail, complete } = {}) => {
     }
 
     if (!LOCATION_APIKEY) {
-      const errMsg = `chooseLocation:fail LOCATION_APIKEY needed`
+      const errMsg = 'chooseLocation:fail LOCATION_APIKEY needed'
       console.warn('chooseLocation api 依赖腾讯地图定位api，需要在defineConstants中配置LOCATION_APIKEY')
       return onError({ errMsg })
     }

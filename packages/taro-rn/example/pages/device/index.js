@@ -45,7 +45,7 @@ function handleOnDeviceMotionChange () {
 
 function handleSetScreenBrightness () {
   console.log('setScreenBrightness')
-  setScreenBrightness({value: 1}).then(res => console.log(res)).catch(res => console.log(res))
+  setScreenBrightness({ value: 1 }).then(res => console.log(res)).catch(res => console.log(res))
 }
 
 function handleGetScreenBrightness () {
@@ -55,7 +55,7 @@ function handleGetScreenBrightness () {
 
 function handleSetKeepScreenOn () {
   console.log('setKeepScreenOn')
-  setKeepScreenOn({keepScreenOn: true}).then(res => console.log(res)).catch(res => console.log(res))
+  setKeepScreenOn({ keepScreenOn: true }).then(res => console.log(res)).catch(res => console.log(res))
 }
 
 export function Device () {
@@ -63,34 +63,34 @@ export function Device () {
     <View>
       <Text style={styles.index}>加速度计</Text>
       <View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Button onPress={handleStartAccelerometer} title='startAccelerometer' color='#19AD1A' />
           <Button onPress={handleStopAccelerometer} title='stopAccelerometer' color='#19AD1A' />
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Button onPress={handleOnAccelerometerChange} title='onAccelerometerChange' color='#19AD1A' />
         </View>
       </View>
       <Text style={styles.index}>设备方向</Text>
       <View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Button onPress={handleStartDeviceMotionListening} title='startDeviceMotionListening' color='#19AD1A' />
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Button onPress={handleStopDeviceMotionListening} title='stopDeviceMotionListening' color='#19AD1A' />
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Button onPress={handleOnDeviceMotionChange} title='onDeviceMotionChange' color='#19AD1A' />
         </View>
       </View>
       <Text style={styles.index}>屏幕</Text>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Button onPress={handleSetScreenBrightness} title='setScreenBrightness' color='#19AD1A' />
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Button onPress={handleGetScreenBrightness} title='getScreenBrightness' color='#19AD1A' />
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Button onPress={handleSetKeepScreenOn} title='setKeepScreenOn' color='#19AD1A' />
       </View>
     </View>

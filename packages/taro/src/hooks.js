@@ -7,7 +7,7 @@ export function forceUpdateCallback () {
 
 function getHooks (index) {
   if (Current.current === null) {
-    throw new Error(`invalid hooks call: hooks can only be called in a stateless component.`)
+    throw new Error('invalid hooks call: hooks can only be called in a stateless component.')
   }
   const hooks = Current.current.hooks
   if (index >= hooks.length) {

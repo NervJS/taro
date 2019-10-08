@@ -83,7 +83,7 @@ class Compiler {
   entryFileName: string
   pxTransformConfig
   pathAlias: {
-    [key: string]: string
+    [key: string]: string;
   }
   pages: [PageName, FilePath][] = []
   isUi: boolean
@@ -131,9 +131,7 @@ class Compiler {
     const appPath = this.appPath
     const entryFilePath = this.entryFilePath
 
-    const relPath = path.normalize(
-      path.relative(appPath, filename)
-    )
+    const relPath = path.normalize(path.relative(appPath, filename))
     if (path.relative(filename, entryFilePath) === '') return FILE_TYPE.ENTRY
 
     let relSrcPath = path.relative(this.sourceRoot, relPath)
@@ -444,38 +442,60 @@ class Compiler {
         exit (astPath: NodePath<t.ClassBody>) {
           const node = astPath.node
           if (hasComponentDidShow && !hasComponentDidMount) {
-            node.body.push(t.classMethod(
-              'method', t.identifier('componentDidMount'), [],
-              t.blockStatement([callComponentDidShowNode]), false, false))
+            node.body.push(
+              t.classMethod(
+                'method',
+                t.identifier('componentDidMount'),
+                [],
+                t.blockStatement([callComponentDidShowNode]),
+                false,
+                false
+              )
+            )
           }
           if (hasComponentDidHide && !hasComponentWillUnmount) {
-            node.body.push(t.classMethod(
-              'method', t.identifier('componentWillUnmount'), [],
-              t.blockStatement([callComponentDidHideNode]), false, false))
+            node.body.push(
+              t.classMethod(
+                'method',
+                t.identifier('componentWillUnmount'),
+                [],
+                t.blockStatement([callComponentDidHideNode]),
+                false,
+                false
+              )
+            )
           }
           if (!hasConstructor) {
-            node.body.push(t.classMethod(
-              'method', t.identifier('constructor'), [t.identifier('props'), t.identifier('context')],
-              t.blockStatement([toAst('super(props, context)'), additionalConstructorNode] as t.Statement[]), false, false))
+            node.body.push(
+              t.classMethod(
+                'method',
+                t.identifier('constructor'),
+                [t.identifier('props'), t.identifier('context')],
+                t.blockStatement([toAst('super(props, context)'), additionalConstructorNode] as t.Statement[]),
+                false,
+                false
+              )
+            )
           }
           if (tabBar) {
             if (!hasComponentWillMount) {
-              node.body.push(t.classMethod(
-                'method', t.identifier('componentWillMount'), [],
-                t.blockStatement([initTabbarApiNode]), false, false))
+              node.body.push(
+                t.classMethod(
+                  'method',
+                  t.identifier('componentWillMount'),
+                  [],
+                  t.blockStatement([initTabbarApiNode]),
+                  false,
+                  false
+                )
+              )
             }
             if (!stateNode) {
-              stateNode = t.classProperty(
-                t.identifier('state'),
-                t.objectExpression([])
-              )
+              stateNode = t.classProperty(t.identifier('state'), t.objectExpression([]))
               node.body.unshift(stateNode)
             }
             if (t.isObjectExpression(stateNode.value)) {
-              stateNode.value.properties.push(t.objectProperty(
-                t.identifier(tabBarConfigName),
-                tabBar
-              ))
+              stateNode.value.properties.push(t.objectProperty(t.identifier(tabBarConfigName), tabBar))
             }
           }
         }
@@ -519,47 +539,40 @@ class Compiler {
         } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
           // tabBar相关处理
           tabBar = value
-          value.properties.forEach((node) => {
+          value.properties.forEach(node => {
             if (t.isSpreadProperty(node)) return
             switch (toVar(node.key)) {
               case 'position':
                 tabbarPos = toVar(node.value)
                 break
               case 'list':
-                t.isArrayExpression(node.value) && node.value.elements.forEach(v => {
-                  if (!t.isObjectExpression(v)) return
-                  v.properties.forEach(property => {
-                    if (!t.isObjectProperty(property)) return
-                    switch (toVar(property.key)) {
-                      case 'iconPath':
-                      case 'selectedIconPath':
-                        if (t.isStringLiteral(property.value)) {
-                          property.value = t.callExpression(
-                            t.identifier('require'),
-                            [t.stringLiteral(`./${property.value.value}`)]
-                          )
-                        }
-                        break
-                      case 'pagePath':
-                        property.value = t.stringLiteral(addLeadingSlash(toVar(property.value)))
-                        break
-                    }
+                t.isArrayExpression(node.value) &&
+                  node.value.elements.forEach(v => {
+                    if (!t.isObjectExpression(v)) return
+                    v.properties.forEach(property => {
+                      if (!t.isObjectProperty(property)) return
+                      switch (toVar(property.key)) {
+                        case 'iconPath':
+                        case 'selectedIconPath':
+                          if (t.isStringLiteral(property.value)) {
+                            property.value = t.callExpression(t.identifier('require'), [
+                              t.stringLiteral(`./${property.value.value}`)
+                            ])
+                          }
+                          break
+                        case 'pagePath':
+                          property.value = t.stringLiteral(addLeadingSlash(toVar(property.value)))
+                          break
+                      }
+                    })
                   })
-                })
             }
           })
-          value.properties.push(t.objectProperty(
-            t.identifier('mode'),
-            t.stringLiteral(routerMode)
-          ))
-          value.properties.push(t.objectProperty(
-            t.identifier('basename'),
-            t.stringLiteral(routerBasename)
-          ))
-          value.properties.push(t.objectProperty(
-            t.identifier('customRoutes'),
-            t.objectExpression(objToAst(customRoutes))
-          ))
+          value.properties.push(t.objectProperty(t.identifier('mode'), t.stringLiteral(routerMode)))
+          value.properties.push(t.objectProperty(t.identifier('basename'), t.stringLiteral(routerBasename)))
+          value.properties.push(
+            t.objectProperty(t.identifier('customRoutes'), t.objectExpression(objToAst(customRoutes)))
+          )
         }
       }
     }
@@ -605,7 +618,9 @@ class Compiler {
               providerImportName = specifier.local.name
             } else {
               providerImportName = providerComponentName
-              specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
+              specifiers.push(
+                t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName))
+              )
             }
             source.value = '@tarojs/redux-h5'
           } else if (source.value === '@tarojs/mobx') {
@@ -616,16 +631,16 @@ class Compiler {
               providerImportName = specifier.local.name
             } else {
               providerImportName = providerComponentName
-              specifiers.push(t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName)))
+              specifiers.push(
+                t.importSpecifier(t.identifier(providerComponentName), t.identifier(providerComponentName))
+              )
             }
             source.value = '@tarojs/mobx-h5'
           } else if (source.value === 'nervjs') {
             hasNerv = true
             const defaultSpecifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
             if (!defaultSpecifier) {
-              specifiers.unshift(
-                t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-              )
+              specifiers.unshift(t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName)))
             }
           }
 
@@ -664,7 +679,7 @@ class Compiler {
           if (calleeName === 'require' && t.isStringLiteral(arg0)) {
             const required = arg0.value
             if (required === '@tarojs/taro-h5') {
-              arg0.value = `@tarojs/taro-h5/dist/index.cjs.js`
+              arg0.value = '@tarojs/taro-h5/dist/index.cjs.js'
             }
           } else if (t.isMemberExpression(callee)) {
             const object = callee.object as t.Identifier
@@ -676,9 +691,11 @@ class Compiler {
             }
           } else {
             if (calleeName === setStoreFuncName) {
-              if (parentPath.isAssignmentExpression() ||
+              if (
+                parentPath.isAssignmentExpression() ||
                 parentPath.isExpressionStatement() ||
-                parentPath.isVariableDeclarator()) {
+                parentPath.isVariableDeclarator()
+              ) {
                 parentPath.remove()
               }
             }
@@ -942,12 +959,15 @@ class Compiler {
 
     const getComponentId = (componentName: string, node: t.JSXOpeningElement) => {
       const idAttrName = MAP_FROM_COMPONENTNAME_TO_ID.get(componentName)
-      return node.attributes.reduce((prev, attribute) => {
-        if (prev) return prev
-        const attrName = toVar(attribute.name)
-        if (attrName === idAttrName) return toVar(attribute.value)
-        else return false
-      }, false as string | false)
+      return node.attributes.reduce(
+        (prev, attribute) => {
+          if (prev) return prev
+          const attrName = toVar(attribute.name)
+          if (attrName === idAttrName) return toVar(attribute.value)
+          else return false
+        },
+        false as string | false
+      )
     }
     const getComponentRef = (node: t.JSXOpeningElement) => {
       return node.attributes.find(attribute => {
@@ -957,9 +977,7 @@ class Compiler {
     const createRefFunc = (componentId: string) => {
       return t.arrowFunctionExpression(
         [t.identifier('ref')],
-        t.blockStatement([
-          toAst(`this['__taroref_${componentId}'] = ref`) as t.Statement
-        ])
+        t.blockStatement([toAst(`this['__taroref_${componentId}'] = ref`) as t.Statement])
       )
     }
 
@@ -982,22 +1000,14 @@ class Compiler {
           t.exportDefaultDeclaration(node.declaration.id)
         ])
       } else if (t.isClassDeclaration(node.declaration)) {
-        astPath.replaceWithMultiple([
-          node.declaration,
-          t.exportDefaultDeclaration(node.declaration.id)
-        ])
+        astPath.replaceWithMultiple([node.declaration, t.exportDefaultDeclaration(node.declaration.id)])
       } else if (t.isVariableDeclaration(node.declaration)) {
         const declarationId = node.declaration.declarations[0].id
         if (t.isIdentifier(declarationId)) {
-          astPath.replaceWithMultiple([
-            node.declaration,
-            t.exportDefaultDeclaration(declarationId)
-          ])
+          astPath.replaceWithMultiple([node.declaration, t.exportDefaultDeclaration(declarationId)])
         }
       } else if (node.specifiers && node.specifiers.length) {
-        astPath.replaceWithMultiple([
-          t.exportDefaultDeclaration(node.specifiers[0].local)
-        ])
+        astPath.replaceWithMultiple([t.exportDefaultDeclaration(node.specifiers[0].local)])
       }
     }
 
@@ -1026,7 +1036,7 @@ class Compiler {
             source.value = '@tarojs/mobx-h5'
           } else if (source.value === '@tarojs/components') {
             importTaroComponentNode = node
-            node.specifiers.forEach((specifier) => {
+            node.specifiers.forEach(specifier => {
               if (!t.isImportSpecifier(specifier)) return
               componentnameMap.set(toVar(specifier.local), toVar(specifier.imported))
             })
@@ -1074,20 +1084,13 @@ class Compiler {
           const refFunc = createRefFunc(componentId)
 
           if (componentRef) {
-            const expression = (componentRef.value as t.JSXExpressionContainer).expression;
-            (refFunc.body as t.BlockStatement).body.unshift(
-              t.expressionStatement(
-                t.callExpression(expression, [t.identifier('ref')])
-              )
-            );
-            (componentRef.value as t.JSXExpressionContainer).expression = refFunc
-          } else {
-            node.attributes.push(
-              t.jSXAttribute(
-                t.jSXIdentifier('ref'),
-                t.jSXExpressionContainer(refFunc)
-              )
+            const expression = (componentRef.value as t.JSXExpressionContainer).expression
+            ;(refFunc.body as t.BlockStatement).body.unshift(
+              t.expressionStatement(t.callExpression(expression, [t.identifier('ref')]))
             )
+            ;(componentRef.value as t.JSXExpressionContainer).expression = refFunc
+          } else {
+            node.attributes.push(t.jSXAttribute(t.jSXIdentifier('ref'), t.jSXExpressionContainer(refFunc)))
           }
         }
       },
@@ -1116,7 +1119,7 @@ class Compiler {
           if (calleeName === 'require' && t.isStringLiteral(arg0)) {
             const required = arg0.value
             if (required === '@tarojs/taro-h5') {
-              arg0.value = `@tarojs/taro-h5/dist/index.cjs.js`
+              arg0.value = '@tarojs/taro-h5/dist/index.cjs.js'
             }
           } else if (t.isMemberExpression(callee)) {
             const objName = toVar(callee.object)
@@ -1166,9 +1169,7 @@ class Compiler {
               const specifiers = importNervNode.specifiers
               const defaultSpecifier = specifiers.find(item => t.isImportDefaultSpecifier(item))
               if (!defaultSpecifier) {
-                specifiers.unshift(
-                  t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))
-                )
+                specifiers.unshift(t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName)))
               }
               node.body.unshift(importNervNode)
             }
@@ -1241,24 +1242,36 @@ class Compiler {
         exit (astPath: NodePath<t.ClassBody>) {
           const node = astPath.node
           if (!componentDidMountNode) {
-            componentDidMountNode = t.classMethod('method', t.identifier('componentDidMount'), [],
-              t.blockStatement([
-                toAst('super.componentDidMount && super.componentDidMount()') as t.Statement
-              ]), false, false)
+            componentDidMountNode = t.classMethod(
+              'method',
+              t.identifier('componentDidMount'),
+              [],
+              t.blockStatement([toAst('super.componentDidMount && super.componentDidMount()') as t.Statement]),
+              false,
+              false
+            )
             node.body.push(componentDidMountNode)
           }
           if (!componentDidShowNode) {
-            componentDidShowNode = t.classMethod('method', t.identifier('componentDidShow'), [],
-              t.blockStatement([
-                toAst('super.componentDidShow && super.componentDidShow()') as t.Statement
-              ]), false, false)
+            componentDidShowNode = t.classMethod(
+              'method',
+              t.identifier('componentDidShow'),
+              [],
+              t.blockStatement([toAst('super.componentDidShow && super.componentDidShow()') as t.Statement]),
+              false,
+              false
+            )
             node.body.push(componentDidShowNode)
           }
           if (!componentDidHideNode) {
-            componentDidHideNode = t.classMethod('method', t.identifier('componentDidHide'), [],
-              t.blockStatement([
-                toAst('super.componentDidHide && super.componentDidHide()') as t.Statement
-              ]), false, false)
+            componentDidHideNode = t.classMethod(
+              'method',
+              t.identifier('componentDidHide'),
+              [],
+              t.blockStatement([toAst('super.componentDidHide && super.componentDidHide()') as t.Statement]),
+              false,
+              false
+            )
             node.body.push(componentDidHideNode)
           }
           if (hasOnReachBottom) {
@@ -1271,17 +1284,13 @@ class Compiler {
                 })
               `)
             )
-            componentDidHideNode.body.body.push(
-              toAst('this._offReachBottom && this._offReachBottom()')
-            )
+            componentDidHideNode.body.body.push(toAst('this._offReachBottom && this._offReachBottom()'))
           }
           if (hasOnPageScroll) {
             componentDidShowNode.body.body.push(
               toAst('this._offPageScroll = Taro.onPageScroll({ callback: this.onPageScroll, ctx: this })')
             )
-            componentDidHideNode.body.body.push(
-              toAst('this._offPageScroll && this._offPageScroll()')
-            )
+            componentDidHideNode.body.body.push(toAst('this._offPageScroll && this._offPageScroll()'))
           }
           if (hasOnPullDownRefresh) {
             componentDidShowNode.body.body.push(
@@ -1312,10 +1321,7 @@ class Compiler {
           if (hasOnPullDownRefresh) {
             // 增加PullDownRefresh组件
             if (!importTaroComponentNode) {
-              importTaroComponentNode = t.importDeclaration(
-                [],
-                t.stringLiteral('@tarojs/components')
-              )
+              importTaroComponentNode = t.importDeclaration([], t.stringLiteral('@tarojs/components'))
               astPath.node.body.unshift(importTaroComponentNode)
             }
             const specifiers = importTaroComponentNode.specifiers
@@ -1325,12 +1331,7 @@ class Compiler {
               return importedComponent === 'PullDownRefresh'
             })
             if (pos === -1) {
-              specifiers.push(
-                t.importSpecifier(
-                  t.identifier('PullDownRefresh'),
-                  t.identifier('PullDownRefresh')
-                )
-              )
+              specifiers.push(t.importSpecifier(t.identifier('PullDownRefresh'), t.identifier('PullDownRefresh')))
             }
             const returnStatement = renderReturnStatementPaths.filter(renderReturnStatementPath => {
               const funcParentPath: NodePath = renderReturnStatementPath.getFunctionParent()
@@ -1340,13 +1341,9 @@ class Compiler {
               const statement = returnAstPath.node
               const varName = returnAstPath.scope.generateUid()
               const returnValue = statement.argument
-              const pullDownRefreshNode = t.variableDeclaration(
-                'const',
-                [t.variableDeclarator(
-                  t.identifier(varName),
-                  returnValue
-                )]
-              )
+              const pullDownRefreshNode = t.variableDeclaration('const', [
+                t.variableDeclarator(t.identifier(varName), returnValue)
+              ])
               returnAstPath.insertBefore(pullDownRefreshNode)
               statement.argument = (toAst(`
                 <PullDownRefresh
@@ -1396,9 +1393,7 @@ class Compiler {
     if (!isAbsolute) return filePath
 
     const relPath = path.relative(sourcePath, filePath)
-    return relPath.startsWith('..')
-      ? filePath
-      : path.resolve(this.tempPath, relPath)
+    return relPath.startsWith('..') ? filePath : path.resolve(this.tempPath, relPath)
   }
 
   processFiles (filePath, originalFilePath) {

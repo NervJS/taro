@@ -18,22 +18,18 @@ const styleExtMap = {
   none: 'css'
 }
 
-const doNotCopyFiles = [
-  '.DS_Store',
-  '.npmrc',
-  TEMPLATE_CREATOR
-]
+const doNotCopyFiles = ['.DS_Store', '.npmrc', TEMPLATE_CREATOR]
 
 function createFiles (
   creater: Creator,
   files: string[],
   handler,
   options: (IProjectConf | IPageConf) & {
-    templatePath: string,
-    projectPath: string,
-    pageName: string,
-    period: string,
-    version?: string
+    templatePath: string;
+    projectPath: string;
+    pageName: string;
+    period: string;
+    version?: string;
   }
 ): string[] {
   const {
@@ -72,17 +68,21 @@ function createFiles (
     }
 
     // 合并自定义 config
-    const config = Object.assign({}, {
-      description,
-      projectName,
-      version,
-      css,
-      cssExt: currentStyleExt,
-      date,
-      typescript,
-      template,
-      pageName
-    }, externalConfig)
+    const config = Object.assign(
+      {},
+      {
+        description,
+        projectName,
+        version,
+        css,
+        cssExt: currentStyleExt,
+        date,
+        typescript,
+        template,
+        pageName
+      },
+      externalConfig
+    )
 
     let destRePath = fileRePath
 
@@ -111,16 +111,8 @@ function createFiles (
   return logs
 }
 
-export async function createPage (
-  creater: Creator,
-  params: IPageConf,
-  cb
-) {
-  const {
-    projectDir,
-    template,
-    pageName
-  } = params
+export async function createPage (creater: Creator, params: IPageConf, cb) {
+  const { projectDir, template, pageName } = params
   // path
   const templatePath = creater.templatePath(template)
 
@@ -149,18 +141,8 @@ export async function createPage (
   })
 }
 
-export async function createApp (
-  creater: Creator,
-  params: IProjectConf,
-  cb
-) {
-  const {
-    projectName,
-    projectDir,
-    template,
-    env,
-    autoInstall = true
-  } = params
+export async function createApp (creater: Creator, params: IProjectConf, cb) {
+  const { projectName, projectDir, template, env, autoInstall = true } = params
   const logs: string[] = []
   // path
   const templatePath = creater.templatePath(template)
@@ -169,14 +151,13 @@ export async function createApp (
   // default 模板发布 npm 会滤掉 '.' 开头的文件，因此改为 '_' 开头，这里先改回来。
   if (env !== 'test' && template === 'default') {
     const files = await fs.readdir(templatePath)
-    const renames = files
-      .map(file => {
-        const filePath = path.join(templatePath, file)
-        if (fs.statSync(filePath).isFile() && file.startsWith('_')) {
-          return fs.rename(filePath, path.join(templatePath, file.replace(/^_/, '.')))
-        }
-        return Promise.resolve()
-      })
+    const renames = files.map(file => {
+      const filePath = path.join(templatePath, file)
+      if (fs.statSync(filePath).isFile() && file.startsWith('_')) {
+        return fs.rename(filePath, path.join(templatePath, file.replace(/^_/, '.')))
+      }
+      return Promise.resolve()
+    })
 
     await Promise.all(renames)
   }
@@ -272,7 +253,5 @@ export async function createApp (
     } else {
       callSuccess()
     }
-
-    
   })
 }

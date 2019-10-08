@@ -24,15 +24,7 @@
     "stylelint-plugin"
   ],
   "scripts": {
-    "precommit": "lint-staged",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "prebuild": "rimraf dist",
     "build": "babel src --out-dir dist",
-    "lint": "eslint . --ignore-path .gitignore",
-    "prettify": "prettier --write src/**/*",
-    "prepublish": "npm run build",
-    "pretest": "npm run lint",
-    "release": "npmpub",
     "jest": "jest",
     "test": "jest --coverage"
   },
@@ -78,24 +70,6 @@
       "prettier --write",
       "git add"
     ]
-  },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-plugin-istanbul": "^5.1.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-jest": "23.2.0",
-    "coveralls": "^3.0.2",
-    "eslint": "^5.9.0",
-    "eslint-config-stylelint": "^11.0.0",
-    "husky": "^1.1.4",
-    "jest": "23.4.1",
-    "jest-cli": "23.4.1",
-    "lint-staged": "^8.0.4",
-    "npmpub": "^4.1.0",
-    "prettier": "^1.15.2",
-    "rimraf": "^2.6.3",
-    "stylelint": "9.3.0"
   },
   "prettier": {
     "semi": true,

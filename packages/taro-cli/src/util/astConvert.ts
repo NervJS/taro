@@ -65,7 +65,7 @@ export function convertSourceStringToAstExpression (str: string, opts: object = 
   return template(str, Object.assign({}, babylonConfig, opts))()
 }
 
-export function convertAstExpressionToVariable<T=any> (node): T {
+export function convertAstExpressionToVariable<T = any> (node): T {
   if (t.isObjectExpression(node)) {
     const obj = {}
     const properties = node.properties
@@ -76,24 +76,22 @@ export function convertAstExpressionToVariable<T=any> (node): T {
         obj[key] = value
       }
     })
-    return obj as any as T
+    return (obj as any) as T
   } else if (t.isArrayExpression(node)) {
-    return node.elements.map(convertAstExpressionToVariable) as any as T
+    return (node.elements.map(convertAstExpressionToVariable) as any) as T
   } else if (t.isLiteral(node)) {
-    return node['value']
+    return node.value
   } else if (t.isIdentifier(node) || t.isJSXIdentifier(node)) {
     const name = node.name
-    return name === 'undefined'
-      ? undefined as any as T
-      : name as any as T
+    return name === 'undefined' ? ((undefined as any) as T) : ((name as any) as T)
   } else if (t.isJSXExpressionContainer(node)) {
     return convertAstExpressionToVariable<T>(node.expression)
   } else {
-    return undefined as any as T
+    return (undefined as any) as T
   }
 }
 
-export const getObjKey = (node) => {
+export const getObjKey = node => {
   if (t.isIdentifier(node)) {
     return node.name
   } else {

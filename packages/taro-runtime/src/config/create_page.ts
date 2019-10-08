@@ -1,15 +1,21 @@
-import { createEvent } from 'src/dom/event'
-import { Current } from 'src/current'
-import { document } from 'src/bom/document'
-import { TaroRootElement } from 'src/dom/root'
+import { createEvent } from '../dom/event'
+import { Current } from '../current'
+import { document } from '../bom/document'
+import { TaroRootElement } from '../dom/root'
 import { ComponentClass, Component } from 'react'
-import { MpInstance } from 'src/render'
+import { MpInstance } from '../render'
+import { BaseEvent } from '@tarojs/components'
 
 interface Props {
   children?: unknown;
 }
 
-export function wrapReactPageComponent (h: Function, derivedIDfromCompiler: string, component: Component, PureComponent: ComponentClass) {
+export function wrapReactPageComponent (
+  h: Function,
+  derivedIDfromCompiler: string,
+  component: Component,
+  PureComponent: ComponentClass
+) {
   // 只有传入 props 产生变化才触发 render
   class Comp extends PureComponent {
     public render () {
@@ -20,7 +26,8 @@ export function wrapReactPageComponent (h: Function, derivedIDfromCompiler: stri
   return (props: Props) => {
     return Current.pages.has(derivedIDfromCompiler)
       ? h(
-        'root', {
+        'root',
+        {
           id: derivedIDfromCompiler
         },
         h(Comp, props, props.children)
@@ -34,7 +41,7 @@ export function createPageConfig (derivedIDfromCompiler: string) {
   let page: TaroRootElement
 
   const config = {
-    eh (event) {
+    eh (event: BaseEvent) {
       const node = document.getElementById(event.currentTarget.id)
       if (node !== null) {
         node.dispatchEvent(createEvent(event))

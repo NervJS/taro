@@ -8,7 +8,7 @@ const ERROR_MESSAGE = '不能在包含 JSX 元素的 map 循环中使用 if 表�
 
 ruleTester.run('if-statement-in-map-loop', rule, {
   valid: testValid([
-    `numbers.map((number) => number * 2)`,
+    'numbers.map((number) => number * 2)',
     `numbers.map((number) => {
       return number * 2
     })`,

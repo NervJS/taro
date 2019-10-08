@@ -23,16 +23,16 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       }
     }
 
-    static navigationOptions = ({navigation}) => {
+    static navigationOptions = ({ navigation }) => {
       const navigationOptions = getNavigationOptions(Screen.config)
       const title = navigation.getParam('title') || navigationOptions.title || globalNavigationOptions.title
-      const rest = (navigationOptions.navigationStyle || globalNavigationOptions.navigationStyle) === 'custom' ? {header: null} : {}
+      const rest = (navigationOptions.navigationStyle || globalNavigationOptions.navigationStyle) === 'custom' ? { header: null } : {}
       const headerTintColor = navigation.getParam('headerTintColor') || navigationOptions.headerTintColor || globalNavigationOptions.headerTintColor
       const options = {
         ...rest,
-        headerTitle: <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        headerTitle: <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {navigation.getParam('isNavigationBarLoadingShow') && <LoadingView />}
-          <Text style={{flexDirection: 'row', flex: 1, fontSize: 17, fontWeight: '600', textAlign: 'center', color: headerTintColor}}>{title}</Text>
+          <Text style={{ flexDirection: 'row', flex: 1, fontSize: 17, fontWeight: '600', textAlign: 'center', color: headerTintColor }}>{title}</Text>
         </View>,
         headerTintColor,
         headerStyle: {
@@ -42,7 +42,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
 
       // 如果页面组件也定义了navigationOptions，那么就合并页面那边的返回值
       if (Screen.navigationOptions !== undefined) {
-        const customOptions = Screen.navigationOptions({navigation})
+        const customOptions = Screen.navigationOptions({ navigation })
         Object.assign(options, customOptions)
         return options
       }
@@ -63,26 +63,26 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
     }
 
     showNavigationBarLoading (obj) {
-      const {success, fail, complete} = obj || {}
+      const { success, fail, complete } = obj || {}
       try {
-        this.props.navigation.setParams({isNavigationBarLoadingShow: true})
+        this.props.navigation.setParams({ isNavigationBarLoadingShow: true })
         success && success()
         complete && complete()
       } catch (e) {
-        fail && fail({errMsg: e.message})
-        complete && complete({errMsg: e.message})
+        fail && fail({ errMsg: e.message })
+        complete && complete({ errMsg: e.message })
       }
     }
 
     hideNavigationBarLoading (obj) {
-      const {success, fail, complete} = obj || {}
+      const { success, fail, complete } = obj || {}
       try {
-        this.props.navigation.setParams({isNavigationBarLoadingShow: false})
+        this.props.navigation.setParams({ isNavigationBarLoadingShow: false })
         success && success()
         complete && complete()
       } catch (e) {
-        fail && fail({errMsg: e.message})
-        complete && complete({errMsg: e.message})
+        fail && fail({ errMsg: e.message })
+        complete && complete({ errMsg: e.message })
       }
     }
 
@@ -92,15 +92,15 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
         console.warn('Taro.setNavigationBarColor 参数必须为 object')
         return
       }
-      const {frontColor, backgroundColor, success, fail, complete} = obj
+      const { frontColor, backgroundColor, success, fail, complete } = obj
       if (this.props.navigation) {
         try {
-          this.props.navigation.setParams({headerTintColor: frontColor, backgroundColor})
+          this.props.navigation.setParams({ headerTintColor: frontColor, backgroundColor })
           success && success()
           complete && complete()
         } catch (e) {
-          fail && fail({errMsg: e.message})
-          complete && complete({errMsg: e.message})
+          fail && fail({ errMsg: e.message })
+          complete && complete({ errMsg: e.message })
         }
       } else {
         console.warn('this.props.navigation 不存在')
@@ -112,15 +112,15 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
         console.warn('Taro.setNavigationBarTitle 参数必须为 object')
         return
       }
-      const {title, success, fail, complete} = obj
+      const { title, success, fail, complete } = obj
       if (this.props.navigation) {
         try {
-          this.props.navigation.setParams({title})
+          this.props.navigation.setParams({ title })
           success && success()
           complete && complete()
         } catch (e) {
-          fail && fail({errMsg: e.message})
-          complete && complete({errMsg: e.message})
+          fail && fail({ errMsg: e.message })
+          complete && complete({ errMsg: e.message })
         }
       } else {
         console.warn('this.props.navigation 不存在')
@@ -143,7 +143,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
         // console.log('background!')
         this.getScreenInstance().componentDidHide && this.getScreenInstance().componentDidHide()
       }
-      this.setState({appState: nextAppState})
+      this.setState({ appState: nextAppState })
     }
 
     componentWillMount () {
@@ -188,11 +188,11 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
     }
 
     render () {
-      const {globalEnablePullDownRefresh = false} = globalNavigationOptions
-      const {enablePullDownRefresh, disableScroll} = getNavigationOptions(Screen.config)
+      const { globalEnablePullDownRefresh = false } = globalNavigationOptions
+      const { enablePullDownRefresh, disableScroll } = getNavigationOptions(Screen.config)
 
       // 页面配置优先级 > 全局配置
-      let isScreenEnablePullDownRefresh = enablePullDownRefresh === undefined ? globalEnablePullDownRefresh : enablePullDownRefresh
+      const isScreenEnablePullDownRefresh = enablePullDownRefresh === undefined ? globalEnablePullDownRefresh : enablePullDownRefresh
       const screenInstance = this.getScreenInstance()
       return (
         <TaroProvider

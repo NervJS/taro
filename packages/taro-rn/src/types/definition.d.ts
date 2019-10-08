@@ -1,4 +1,4 @@
-interface WebSocket { }
-interface TextMetrics { }
-interface CanvasGradient { }
-interface CanvasGradient { }
+interface WebSocket {}
+interface TextMetrics {}
+interface CanvasGradient {}
+interface CanvasGradient {}

@@ -1,2 +1,5 @@
 dist
-__tests__
+lib
+node_modules
+*.d.ts
+coverage/

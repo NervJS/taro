@@ -1,7 +1,7 @@
 import { Permissions } from 'react-native-unimodules'
 
 export async function askAsyncPermissions (PermissionsType) {
-  const {status} = await Permissions.askAsync(PermissionsType)
+  const { status } = await Permissions.askAsync(PermissionsType)
   return status
 }
 
@@ -11,14 +11,14 @@ function upperCaseFirstLetter (string) {
   return string
 }
 
-export function getParameterError ({name = '', para, correct, wrong}) {
+export function getParameterError ({ name = '', para, correct, wrong }) {
   const parameter = para ? `parameter.${para}` : 'parameter'
   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
   return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
 }
 
 export function shouleBeObject (target) {
-  if (target && typeof target === 'object') return {res: true}
+  if (target && typeof target === 'object') return { res: true }
   return {
     res: false,
     msg: getParameterError({
@@ -70,12 +70,12 @@ export function isUrl (string) {
     return false
   }
 
-  let match = string.match(protocolAndDomainRE)
+  const match = string.match(protocolAndDomainRE)
   if (!match) {
     return false
   }
 
-  let everythingAfterProtocol = match[1]
+  const everythingAfterProtocol = match[1]
   if (!everythingAfterProtocol) {
     return false
   }

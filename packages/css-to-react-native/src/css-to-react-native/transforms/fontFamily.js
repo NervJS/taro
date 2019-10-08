@@ -1,22 +1,22 @@
-import { tokens } from "../tokenTypes";
+import { tokens } from '../tokenTypes'
 
-const { SPACE, IDENT, STRING } = tokens;
+const { SPACE, IDENT, STRING } = tokens
 
 export default tokenStream => {
-  let fontFamily;
+  let fontFamily
 
   if (tokenStream.matches(STRING)) {
-    fontFamily = tokenStream.lastValue;
+    fontFamily = tokenStream.lastValue
   } else {
-    fontFamily = tokenStream.expect(IDENT);
+    fontFamily = tokenStream.expect(IDENT)
     while (tokenStream.hasTokens()) {
-      tokenStream.expect(SPACE);
-      const nextIdent = tokenStream.expect(IDENT);
-      fontFamily += ` ${nextIdent}`;
+      tokenStream.expect(SPACE)
+      const nextIdent = tokenStream.expect(IDENT)
+      fontFamily += ` ${nextIdent}`
     }
   }
 
-  tokenStream.expectEmpty();
+  tokenStream.expectEmpty()
 
-  return fontFamily;
-};
+  return fontFamily
+}

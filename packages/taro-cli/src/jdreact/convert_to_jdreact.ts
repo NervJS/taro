@@ -28,7 +28,7 @@ async function processFile ({ filePath, tempPath, entryBaseName }) {
   }
   const dirname = path.dirname(filePath)
   const destDirname = dirname.replace(tempPath, jdreactPath)
-  const destFilePath = path.format({dir: destDirname, base: path.basename(filePath)})
+  const destFilePath = path.format({ dir: destDirname, base: path.basename(filePath) })
   const indexFilePath = path.join(tempPath, 'index.js')
   const tempPkgPath = path.join(tempPath, 'package.json')
 
@@ -50,7 +50,7 @@ async function processFile ({ filePath, tempPath, entryBaseName }) {
     const templatePkgObject = fs.readJsonSync(templatePkgPath)
     templatePkgObject.name = `jdreact-jsbundle-${moduleName}`
     templatePkgObject.dependencies = Object.assign({}, tempPkgObject.dependencies, templatePkgObject.dependencies)
-    fs.writeJsonSync(destPkgPath, templatePkgObject, {spaces: 2})
+    fs.writeJsonSync(destPkgPath, templatePkgObject, { spaces: 2 })
     Util.printLog(processTypeEnum.GENERATE, 'package.json', destPkgPath)
     return
   }
@@ -60,26 +60,37 @@ async function processFile ({ filePath, tempPath, entryBaseName }) {
   Util.printLog(processTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
 }
 
-export function convertToJDReact ({tempPath, entryBaseName}) {
+export function convertToJDReact ({ tempPath, entryBaseName }) {
   klaw(tempPath)
     .on('data', file => {
       const nativeBundlePath = path.join(tempPath, NATIVE_BUNDLES_DIR)
-      if (file.stats.isDirectory() ||
+      if (
+        file.stats.isDirectory() ||
         file.path.startsWith(path.join(tempPath, 'node_modules')) ||
         file.path.startsWith(nativeBundlePath) ||
         file.path.endsWith('yarn.lock') ||
         file.path.endsWith('package-lock.json')
-      ) return
+      ) {
+        return
+      }
 
-      processFile({filePath: file.path, tempPath, entryBaseName})
+      processFile({ filePath: file.path, tempPath, entryBaseName })
     })
     .on('end', () => {
       // copy templates under jsbundles/
       const templateSrcDirname = path.join(jdreactTmpDirname, 'template')
       const indexDistDirPath = path.join(jdreactPath, 'jsbundles')
       // not overwrite
-      fs.copySync(path.join(templateSrcDirname, 'JDReact.version'), path.join(indexDistDirPath, `${moduleName}.version`), {overwrite: false})
-      fs.copySync(path.join(templateSrcDirname, 'JDReact.web.js'), path.join(indexDistDirPath, `${moduleName}.web.js`), {overwrite: false})
+      fs.copySync(
+        path.join(templateSrcDirname, 'JDReact.version'),
+        path.join(indexDistDirPath, `${moduleName}.version`),
+        { overwrite: false }
+      )
+      fs.copySync(
+        path.join(templateSrcDirname, 'JDReact.web.js'),
+        path.join(indexDistDirPath, `${moduleName}.web.js`),
+        { overwrite: false }
+      )
       Util.printLog(processTypeEnum.COPY, 'templates', templateSrcDirname)
     })
 }

@@ -1,5 +1,3 @@
-/* eslint camelcase: [1] */
-
 import {
   ENV_TYPE,
   eventCenter,
@@ -92,6 +90,7 @@ class Component extends Nerv.Component {
   get $router () {
     return getRouter()
   }
+
   set $router (args) {
     console.warn('Property "$router" is read-only.')
   }
@@ -117,6 +116,7 @@ class PureComponent extends Nerv.PureComponent {
   get $router () {
     return getRouter()
   }
+
   set $router (args) {
     console.warn('Property "$router" is read-only.')
   }
@@ -172,11 +172,7 @@ const getRouter = function () {
 }
 const pxTransform = function (size) {
   const { designWidth } = taro.config
-  return (
-    Math.ceil((((parseInt(size, 10) / 40) * 640) / designWidth) * 10000) /
-      10000 +
-    'rem'
-  )
+  return Math.ceil((((parseInt(size, 10) / 40) * 640) / designWidth) * 10000) / 10000 + 'rem'
 }
 const canIUseWebp = function () {
   const canvas = document.createElement('canvas')
@@ -204,9 +200,9 @@ function useSpecialPageLifecycle (callback, lifecycle, lifeFn) {
   if (!hook.marked) {
     hook.marked = true
     originalLifecycle = hook.component[lifecycle]
-    const originalDidShow = hook.component['componentDidShow']
-    const originalDidHide = hook.component['componentDidHide']
-    hook.component['componentDidShow'] = function () {
+    const originalDidShow = hook.component.componentDidShow
+    const originalDidHide = hook.component.componentDidHide
+    hook.component.componentDidShow = function () {
       originalDidShow && originalDidShow.call(hook.component, ...arguments)
       hook.component._offFn = lifeFn({
         callback: function () {
@@ -216,7 +212,7 @@ function useSpecialPageLifecycle (callback, lifecycle, lifeFn) {
         ctx: hook.component
       })
     }
-    hook.component['componentDidHide'] = function () {
+    hook.component.componentDidHide = function () {
       originalDidHide && originalDidHide.call(hook.component, ...arguments)
       hook.component._offFn && hook.component._offFn()
     }
@@ -321,7 +317,6 @@ export {
   useReachBottom,
   usePageScroll,
   useRouter,
-
   Component,
   PureComponent,
   initPxTransform,

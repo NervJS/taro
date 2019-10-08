@@ -45,7 +45,7 @@ export function chooseVideo (options) {
     return Promise.reject(res)
   }
 
-  let taroChooseVideo = document.createElement('input')
+  const taroChooseVideo = document.createElement('input')
   taroChooseVideo.setAttribute('type', 'file')
   taroChooseVideo.setAttribute('multiple', 'multiple')
   taroChooseVideo.setAttribute('accept', 'video/*')
@@ -56,16 +56,16 @@ export function chooseVideo (options) {
   const taroChooseVideoPromise = new Promise(resolve => {
     taroChooseVideoCallback = resolve
   })
-  let TaroMouseEvents = document.createEvent('MouseEvents')
+  const TaroMouseEvents = document.createEvent('MouseEvents')
   TaroMouseEvents.initEvent('click', true, true)
   taroChooseVideo.dispatchEvent(TaroMouseEvents)
   taroChooseVideo.onchange = function (e) {
-    let arr = [...e.target.files]
+    const arr = [...e.target.files]
     arr && arr.forEach(item => {
-      let blob = new Blob([item])
-      let url = URL.createObjectURL(blob)
+      const blob = new Blob([item])
+      const url = URL.createObjectURL(blob)
       res.tempFilePaths.push(url)
-      res.tempFiles.push({path: url, size: item.size, type: item.type})
+      res.tempFiles.push({ path: url, size: item.size, type: item.type })
     })
     typeof success === 'function' && success(res)
     typeof complete === 'function' && complete(res)

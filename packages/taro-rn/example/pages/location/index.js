@@ -12,7 +12,7 @@ export function Location () {
   return (
     <View>
       <Text style={styles.index}>位置</Text>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Button onPress={handleGetLocation} title='getLocation' color='#19AD1A' />
       </View>
     </View>

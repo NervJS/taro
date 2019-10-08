@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Current } from 'src/current'
+import { Current } from '../current'
 
 export function createAppConfig (render: () => Component) {
   const config = {

@@ -1,5 +1,5 @@
 import Nerv, { nextTick } from 'nervjs'
-import { 
+import {
   hideTabBar,
   hideTabBarRedDot,
   initTabBarApis,
@@ -20,14 +20,14 @@ const tabbarConfig = {
   backgroundColor: '#fff',
   borderStyle: 'black',
   list: [{
-    pagePath: "/pages/index/index", text: "首页"
+    pagePath: '/pages/index/index', text: '首页'
   }, {
-    pagePath: "/pages/about/about", text: "关于我们"
+    pagePath: '/pages/about/about', text: '关于我们'
   }],
-  mode: "hash",
-  basename: "/test/app",
+  mode: 'hash',
+  basename: '/test/app',
   customRoutes: {
-    "/pages/about/index": "/about"
+    '/pages/about/index': '/about'
   }
 }
 

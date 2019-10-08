@@ -11,7 +11,6 @@ const README = ['readme', 'readme.md', 'readme.markdown']
 const GITIGNORE = ['.gitignore']
 const EDITORCONFIG = ['.editorconfig']
 
-
 export default async function ({ appPath }) {
   const PROJECT_PACKAGE_PATH = path.join(appPath, 'package.json')
   const PROJECT_FOLDER_FILES = fs.readdirSync('./')
@@ -22,11 +21,11 @@ export default async function ({ appPath }) {
   const projectPackage = require(PROJECT_PACKAGE_PATH)
   const devDependencies = _.keysIn(_.get('devDependencies', projectPackage))
 
-  const inDevDependencies = dependencies => (_.intersectionBy(_.toLower, devDependencies, dependencies)).length > 0
+  const inDevDependencies = dependencies => _.intersectionBy(_.toLower, devDependencies, dependencies).length > 0
   const hasRecommandTestFrameworks = inDevDependencies(TEST_FRAMEWORKS)
   const hasRecommandLinters = inDevDependencies(LINTERS)
 
-  const inProjectFolder = filenames => (_.intersectionBy(_.toLower, PROJECT_FOLDER_FILES, filenames)).length > 0
+  const inProjectFolder = filenames => _.intersectionBy(_.toLower, PROJECT_FOLDER_FILES, filenames).length > 0
   const hasReadme = inProjectFolder(README)
   const hasGitignore = inProjectFolder(GITIGNORE)
   const hasEditorconfig = inProjectFolder(EDITORCONFIG)

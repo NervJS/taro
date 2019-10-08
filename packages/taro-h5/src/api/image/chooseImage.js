@@ -42,7 +42,7 @@ const chooseImage = function (options) {
 
   let taroChooseImageId = document.getElementById(imageId)
   if (!taroChooseImageId) {
-    let obj = document.createElement('input')
+    const obj = document.createElement('input')
     obj.setAttribute('type', 'file')
     obj.setAttribute('id', imageId)
     if (count > 1) {
@@ -57,18 +57,18 @@ const chooseImage = function (options) {
   const taroChooseImagePromise = new Promise(resolve => {
     taroChooseImageCallback = resolve
   })
-  let TaroMouseEvents = document.createEvent('MouseEvents')
+  const TaroMouseEvents = document.createEvent('MouseEvents')
   TaroMouseEvents.initEvent('click', true, true)
   taroChooseImageId.dispatchEvent(TaroMouseEvents)
   taroChooseImageId.onchange = function (e) {
-    let arr = [...e.target.files]
+    const arr = [...e.target.files]
     arr && arr.forEach(item => {
-      let blob = new Blob([item], {
+      const blob = new Blob([item], {
         type: item.type
       })
-      let url = URL.createObjectURL(blob)
+      const url = URL.createObjectURL(blob)
       res.tempFilePaths.push(url)
-      res.tempFiles.push({path: url, size: item.size, type: item.type})
+      res.tempFiles.push({ path: url, size: item.size, type: item.type })
     })
     typeof success === 'function' && success(res)
     typeof complete === 'function' && complete(res)

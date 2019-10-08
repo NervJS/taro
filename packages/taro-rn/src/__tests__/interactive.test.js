@@ -18,7 +18,7 @@ describe('interactive', function () {
           return {
             type: 'default',
             label: item,
-            textStyle: {color: '#000000'},
+            textStyle: { color: '#000000' },
             onPress: () => {}
           }
         })}
@@ -26,7 +26,7 @@ describe('interactive', function () {
           {
             type: 'default',
             label: '取消',
-            textStyle: {color: '#000000'},
+            textStyle: { color: '#000000' },
             onPress: () => {}
           }
         ]}
@@ -44,7 +44,7 @@ describe('interactive', function () {
           return {
             type: 'default',
             label: item,
-            textStyle: {color: '#000000'},
+            textStyle: { color: '#000000' },
             onPress: success
           }
         })}
@@ -52,7 +52,7 @@ describe('interactive', function () {
           {
             type: 'default',
             label: '取消',
-            textStyle: {color: '#000000'},
+            textStyle: { color: '#000000' },
             onPress: () => {}
           }
         ]}

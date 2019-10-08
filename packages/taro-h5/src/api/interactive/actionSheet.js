@@ -12,42 +12,42 @@ export default class ActionSheet {
 
   style = {
     maskStyle: {
-        'position': 'fixed',
-        'z-index': '1000',
-        'top': '0',
-        'right': '0',
-        'left': '0',
-        'bottom': '0',
-        'background': 'rgba(0,0,0,0.6)'
+      position: 'fixed',
+      'z-index': '1000',
+      top: '0',
+      right: '0',
+      left: '0',
+      bottom: '0',
+      background: 'rgba(0,0,0,0.6)'
     },
     actionSheetStyle: {
       'z-index': '4999',
-      'position': 'fixed',
-      'left': '0',
-      'bottom': '0',
+      position: 'fixed',
+      left: '0',
+      bottom: '0',
       '-webkit-transform': 'translate(0, 100%)',
-      'transform': 'translate(0, 100%)',
-      'width': '100%',
+      transform: 'translate(0, 100%)',
+      width: '100%',
       'line-height': '1.6',
-      'background': '#EFEFF4',
+      background: '#EFEFF4',
       '-webkit-transition': '-webkit-transform .3s',
-      'transition': 'transform .3s'
+      transition: 'transform .3s'
     },
     menuStyle: {
       'background-color': '#FCFCFD'
     },
     cellStyle: {
-      'position': 'relative',
-      'padding': '10px 0',
+      position: 'relative',
+      padding: '10px 0',
       'text-align': 'center',
       'font-size': '18px'
     },
     cancelStyle: {
       'margin-top': '6px',
-      'padding': '10px 0',
+      padding: '10px 0',
       'text-align': 'center',
       'font-size': '18px',
-      'color': '#000000',
+      color: '#000000',
       'background-color': '#FCFCFD'
     }
   }
@@ -139,7 +139,7 @@ export default class ActionSheet {
       ...this.options,
       ...options
     }
-    
+
     this.lastConfig = config
 
     if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)

@@ -14,7 +14,7 @@ import { Mask } from '../Mask'
 import { create } from '../StyleSheet'
 import V from '../variable'
 
-const {width} = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 const styles = create({
   dialogWrapper: {
     flexDirection: 'row',
@@ -151,7 +151,7 @@ const Index = (
   if (autoDectect) _type = Platform.OS
 
   const _renderButtons = () =>
-    buttons.map(({type: btnType, label, ...others}, idx) =>
+    buttons.map(({ type: btnType, label, ...others }, idx) =>
       <TouchableHighlight
         key={idx}
         style={[
@@ -164,7 +164,7 @@ const Index = (
         {...others}
       >
         <Text
-          style={[styles[`${_type}DialogFooterOprText`], {color: btnType}]}
+          style={[styles[`${_type}DialogFooterOprText`], { color: btnType }]}
         >{label}</Text>
       </TouchableHighlight>
     )

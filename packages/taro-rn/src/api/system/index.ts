@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 
 export function getSystemInfo (opts = {}) {
-  const { success, fail, complete }:any = opts
+  const { success, fail, complete }: any = opts
   try {
     const res = getSystemInfoSync()
     success && success(res)
@@ -47,7 +47,7 @@ const isIPhoneX = (function () {
 })()
 
 export function getSystemInfoSync () {
-  const res:any = {}
+  const res: any = {}
 
   const pixelRatio = PixelRatio.get()
   const fontScale = PixelRatio.getFontScale()

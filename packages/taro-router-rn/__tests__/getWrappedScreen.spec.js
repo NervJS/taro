@@ -13,13 +13,13 @@ const globalNavigationOptions = {
 }
 
 function getShallowWrapper () {
-  let Taro = {}
+  const Taro = {}
   const WrappedScreen = getWrappedScreen(HomeScreen, Taro, globalNavigationOptions)
   return shallow(<WrappedScreen />)
 }
 
 describe('getWrappedScreen ', function () {
-  let Taro = {}
+  const Taro = {}
   describe('render', function () {
     it('should render success without globalNavigationOptions', function () {
       const WrappedScreen = getWrappedScreen(HomeScreen, Taro)
@@ -54,7 +54,7 @@ describe('getWrappedScreen ', function () {
 
   describe('Taro Navigation API', function () {
     it('should API be mount in Taro', function () {
-      let Taro = {}
+      const Taro = {}
       const expected = ['setNavigationBarTitle', 'setNavigationBarColor', 'showNavigationBarLoading', 'hideNavigationBarLoading']
       const WrappedScreen = getWrappedScreen(HomeScreen, Taro, globalNavigationOptions)
       shallow(<WrappedScreen />)
@@ -62,7 +62,7 @@ describe('getWrappedScreen ', function () {
     })
 
     it('setNavigationBarTitle should console warn', function () {
-      let Taro = {}
+      const Taro = {}
       console.warn = jest.fn()
       const WrappedScreen = getWrappedScreen(HomeScreen, Taro, globalNavigationOptions)
       shallow(<WrappedScreen />)
@@ -72,11 +72,11 @@ describe('getWrappedScreen ', function () {
     })
 
     describe('Taro Navigation API can be call success', function () {
-      let Taro = {}
+      const Taro = {}
       const mockCallback = jest.fn()
       const WrappedScreen = getWrappedScreen(HomeScreen, Taro, globalNavigationOptions)
       const wrapper = shallow(<WrappedScreen />)
-      wrapper.setProps({navigation: {setParams: mockCallback}})
+      wrapper.setProps({ navigation: { setParams: mockCallback } })
 
       afterEach(() => {
         mockCallback.mockClear()

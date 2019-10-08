@@ -33,7 +33,7 @@ function installExitHooks (projectDir, isInteractive) {
 async function cleanUpPackager (projectDir) {
   const result = await Promise.race([
     Project.stopAsync(projectDir),
-    new Promise((resolve, reject) => setTimeout(resolve, 1000, 'stopFailed'))
+    new Promise((resolve) => setTimeout(resolve, 1000, 'stopFailed'))
   ])
 
   if (result === 'stopFailed') {
@@ -48,10 +48,12 @@ async function cleanUpPackager (projectDir) {
 }
 
 function shouldIgnoreMsg (msg) {
-  return msg.indexOf('Duplicate module name: bser') >= 0 ||
+  return (
+    msg.indexOf('Duplicate module name: bser') >= 0 ||
     msg.indexOf('Duplicate module name: fb-watchman') >= 0 ||
     msg.indexOf('Warning: React.createClass is no longer supported') >= 0 ||
     msg.indexOf('Warning: PropTypes has been moved to a separate package') >= 0
+  )
 }
 
 function run (projectDir, onReady, options, isInteractive = false) {
@@ -67,7 +69,7 @@ function run (projectDir, onReady, options, isInteractive = false) {
       const watcherDetails = spawn.sync('sysctl', ['kern.maxfiles']).stdout.toString()
       if (parseInt(watcherDetails.split(':')[1].trim()) < 5242880) {
         log.withTimestamp(
-          `${chalk.red(`Unable to start server`)}
+          `${chalk.red('Unable to start server')}
 See https://git.io/v5vcn for more information, either install watchman or run the following snippet:
 ${chalk.cyan(`  sudo sysctl -w kern.maxfiles=5242880
   sudo sysctl -w kern.maxfilesperproc=524288`)}
@@ -77,12 +79,10 @@ ${chalk.cyan(`  sudo sysctl -w kern.maxfiles=5242880
       }
     } else if (!watchmanExists) {
       try {
-        const watcherDetails = spawn
-          .sync('sysctl', ['fs.inotify.max_user_watches'])
-          .stdout.toString()
+        const watcherDetails = spawn.sync('sysctl', ['fs.inotify.max_user_watches']).stdout.toString()
         if (parseInt(watcherDetails.split('=')[1].trim()) < 12288) {
           log.withTimestamp(
-            `${chalk.red(`Unable to start server`)}
+            `${chalk.red('Unable to start server')}
   See https://git.io/v5vcn for more information, either install watchman or run the following snippet:
   ${chalk.cyan(`  sudo sysctl -w fs.inotify.max_user_instances=1024
     sudo sysctl -w fs.inotify.max_user_watches=12288`)}`
@@ -116,10 +116,8 @@ ${chalk.cyan(`  sudo sysctl -w kern.maxfiles=5242880
         // this is set when we previously encountered an error
         // TODO clearConsole()
       }
-      let devEnabled = chunk.msg.includes('__DEV__ === true')
-      log.withTimestamp(
-        `Running app on ${chunk.deviceName} in ${devEnabled ? 'development' : 'production'} mode\n`
-      )
+      const devEnabled = chunk.msg.includes('__DEV__ === true')
+      log.withTimestamp(`Running app on ${chunk.deviceName} in ${devEnabled ? 'development' : 'production'} mode\n`)
       return
     }
 
@@ -150,7 +148,9 @@ ${chalk.cyan(`  sudo sysctl -w kern.maxfiles=5242880
   }
 
   // Subscribe to packager/server logs
-  new PackagerLogsStream({ // eslint-disable-line no-new
+  // eslint-disable-next-line no-new
+  new PackagerLogsStream({
+    // eslint-disable-line no-new
     projectRoot: projectDir,
     onStartBuildBundle: () => {
       progressBar = new ProgressBar('Building JavaScript bundle [:bar] :percent', {
@@ -164,7 +164,7 @@ ${chalk.cyan(`  sudo sysctl -w kern.maxfiles=5242880
     },
     onProgressBuildBundle: percent => {
       if (!progressBar || progressBar.complete) return
-      let ticks = percent - progressBar.curr
+      const ticks = percent - progressBar.curr
       ticks > 0 && progressBar.tick(ticks)
     },
     onFinishBuildBundle: (err, startTime, endTime) => {
@@ -177,15 +177,15 @@ ${chalk.cyan(`  sudo sysctl -w kern.maxfiles=5242880
         progressBar = null
         console.log(err)
         if (err) {
-          log.withTimestamp(chalk.red(`Failed building JavaScript bundle`))
+          log.withTimestamp(chalk.red('Failed building JavaScript bundle'))
         } else {
-          let duration = endTime - startTime
+          const duration = endTime - startTime
           log.withTimestamp(chalk.green(`Finished building JavaScript bundle in ${duration}ms`))
         }
       }
     },
     updateLogs: updater => {
-      let newLogChunks = updater([])
+      const newLogChunks = updater([])
 
       if (progressBar) {
         // Restarting watchman causes `onFinishBuildBundle` to not fire. Until
@@ -236,15 +236,15 @@ const logStackTrace = (chunk, logFn, nestedLogFn, colorFn) => {
     return logFn(colorFn(chunk.msg))
   }
 
-  let { message, stack } = traceInfo
+  const { message, stack } = traceInfo
   logFn(colorFn(chalk.bold(message)))
 
   const isLibraryFrame = line => {
     return line.startsWith('node_modules')
   }
 
-  let stackFrames = _.compact(stack.split('\n'))
-  let lastAppCodeFrameIndex = _.findLastIndex(stackFrames, line => {
+  const stackFrames = _.compact(stack.split('\n'))
+  const lastAppCodeFrameIndex = _.findLastIndex(stackFrames, line => {
     return !isLibraryFrame(line)
   })
   let lastFrameIndexToLog = Math.min(
@@ -260,7 +260,7 @@ const logStackTrace = (chunk, logFn, nestedLogFn, colorFn) => {
   }
 
   for (let i = 0; i <= lastFrameIndexToLog; i++) {
-    let line = stackFrames[i]
+    const line = stackFrames[i]
     if (!line) {
       continue
     } else if (line.match(/react-native\/.*YellowBox.js/)) {
@@ -299,7 +299,7 @@ const logWithLevel = chunk => {
 }
 
 const logLines = (msg, logFn, colorFn) => {
-  for (let line of msg.split('\n')) {
+  for (const line of msg.split('\n')) {
     logFn(colorFn(line))
   }
 }

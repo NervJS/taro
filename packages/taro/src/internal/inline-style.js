@@ -28,5 +28,11 @@ export function inlineStyle (obj) {
     throw new TypeError('style 只能是一个对象或字符串。')
   }
 
-  return Object.keys(obj).map((key) => dashify(key).concat(':').concat(obj[key])).join(';')
+  return Object.keys(obj)
+    .map(key =>
+      dashify(key)
+        .concat(':')
+        .concat(obj[key])
+    )
+    .join(';')
 }

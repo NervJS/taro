@@ -45,17 +45,17 @@ export function isNullOrUndef (o) {
  * @return {Object | Json} 新的json对象
  */
 export function objClone (jsonObj) {
-  var buf
+  let buf
   if (jsonObj instanceof Array) {
     buf = []
-    var i = jsonObj.length
+    let i = jsonObj.length
     while (i--) {
       buf[i] = objClone(jsonObj[i])
     }
     return buf
   } else if (jsonObj instanceof Object) {
     buf = {}
-    for (var k in jsonObj) {
+    for (const k in jsonObj) {
       buf[k] = objClone(jsonObj[k])
     }
     return buf

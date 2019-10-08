@@ -46,13 +46,7 @@ function buildProjectConfig () {
 
 async function buildFrameworkInfo () {
   // 百度小程序编译出 .frameworkinfo 文件
-  const {
-    buildAdapter,
-    outputDir,
-    outputDirName,
-    nodeModulesPath,
-    projectConfig
-  } = getBuildData()
+  const { buildAdapter, outputDir, outputDirName, nodeModulesPath, projectConfig } = getBuildData()
   if (buildAdapter === BUILD_TYPES.SWAN) {
     const frameworkInfoFileName = '.frameworkinfo'
     const frameworkName = `@tarojs/taro-${buildAdapter}`
@@ -64,10 +58,7 @@ async function buildFrameworkInfo () {
         toolFrameworkVersion: frameworkVersion,
         createTime: projectConfig.date ? new Date(projectConfig.date).getTime() : Date.now()
       }
-      fs.writeFileSync(
-        path.join(outputDir, frameworkInfoFileName),
-        JSON.stringify(frameworkinfo, null, 2)
-      )
+      fs.writeFileSync(path.join(outputDir, frameworkInfoFileName), JSON.stringify(frameworkinfo, null, 2))
       printLog(processTypeEnum.GENERATE, '框架信息', `${outputDirName}/${frameworkInfoFileName}`)
     } else {
       printLog(processTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
@@ -83,7 +74,13 @@ function readQuickAppManifest () {
   if (fs.existsSync(quickappJSONPath)) {
     quickappJSON = fs.readJSONSync(quickappJSONPath)
   } else {
-    printLog(processTypeEnum.WARNING, '缺少配置', `检测到项目目录下未添加 ${chalk.bold('project.quickapp.json')} 文件，将使用默认配置，参考文档 https://nervjs.github.io/taro/docs/project-config.html`)
+    printLog(
+      processTypeEnum.WARNING,
+      '缺少配置',
+      `检测到项目目录下未添加 ${chalk.bold(
+        'project.quickapp.json'
+      )} 文件，将使用默认配置，参考文档 https://nervjs.github.io/taro/docs/project-config.html`
+    )
     quickappJSON = defaultManifestJSON
   }
   return quickappJSON

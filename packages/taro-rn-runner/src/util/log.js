@@ -1,6 +1,6 @@
 const chalk = require('chalk')
 
-function log (data) {
+function log () {
   const args = Array.prototype.slice.call(arguments, 0)
 
   respectProgressBars(() => {
@@ -8,7 +8,7 @@ function log (data) {
   })
 }
 
-log.withTimestamp = function (data) {
+log.withTimestamp = function () {
   const prefix = chalk.dim(new Date().toLocaleTimeString()) + ':'
   const args = [prefix].concat(Array.prototype.slice.call(arguments, 0))
 

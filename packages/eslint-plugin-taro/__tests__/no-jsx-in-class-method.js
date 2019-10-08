@@ -16,7 +16,7 @@ const ERROR_MESSAGE = '暂不支持在 render() 之外的方法定义 JSX'
 
 ruleTester.run('no-jsx-in-class-method', rule, {
   valid: testValid([
-    `numbers.map((number) => number * 2)`,
+    'numbers.map((number) => number * 2)',
     `numbers.map((number) => {
       return number * 2
     })`,

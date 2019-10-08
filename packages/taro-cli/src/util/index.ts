@@ -36,7 +36,7 @@ export function isAliasPath (name: string, pathAlias: object = {}): boolean {
   if (prefixs.length === 0) {
     return false
   }
-  return prefixs.includes(name) || (new RegExp(`^(${prefixs.join('|')})/`).test(name))
+  return prefixs.includes(name) || new RegExp(`^(${prefixs.join('|')})/`).test(name)
 }
 
 export function replaceAliasPath (filePath: string, name: string, pathAlias: object = {}) {
@@ -215,7 +215,7 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
 }
 
 export function generateEnvList (env: object): object {
-  const res = { }
+  const res = {}
   if (env && !isEmptyObject(env)) {
     for (const key in env) {
       try {
@@ -229,7 +229,7 @@ export function generateEnvList (env: object): object {
 }
 
 export function generateConstantsList (constants: object): object {
-  const res = { }
+  const res = {}
   if (constants && !isEmptyObject(constants)) {
     for (const key in constants) {
       if (isPlainObject(constants[key])) {
@@ -256,7 +256,11 @@ export function cssImports (content: string): string[] {
   return results
 }
 
-export function processStyleImports (content: string, adapter: BUILD_TYPES, processFn: (a: string, b: string) => string) {
+export function processStyleImports (
+  content: string,
+  adapter: BUILD_TYPES,
+  processFn: (a: string, b: string) => string
+) {
   const style: string[] = []
   const imports: string[] = []
   const styleReg = new RegExp(`\\${MINI_APP_FILES[adapter].STYLE}`)
@@ -321,8 +325,8 @@ export function recursiveFindNodeModules (filePath: string): string {
   return recursiveFindNodeModules(dirname)
 }
 
-export const pascalCase: (str: string) => string
-  = (str: string): string => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
+export const pascalCase: (str: string) => string = (str: string): string =>
+  str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
 export function getInstalledNpmPkgPath (pkgName: string, basedir: string): string | null {
   const resolvePath = require('resolve')
@@ -350,7 +354,11 @@ export function isQuickappPkg (name: string, quickappPkgs: any[] = []): boolean 
     }
   })
   if (isQuickappPkg && !hasSetInManifest) {
-    printLog(processTypeEnum.ERROR, '快应用', `需要在 ${chalk.bold('project.quickapp.json')} 文件的 ${chalk.bold('features')} 配置中添加 ${chalk.bold(name)}`)
+    printLog(
+      processTypeEnum.ERROR,
+      '快应用',
+      `需要在 ${chalk.bold('project.quickapp.json')} 文件的 ${chalk.bold('features')} 配置中添加 ${chalk.bold(name)}`
+    )
   }
   return isQuickappPkg
 }
@@ -419,7 +427,7 @@ export function unzip (zipPath) {
         resolve()
       })
       zipfile.readEntry()
-      zipfile.on('error', (err) => {
+      zipfile.on('error', err => {
         reject(err)
       })
       zipfile.on('entry', entry => {
@@ -445,9 +453,7 @@ export function unzip (zipPath) {
             const fileName = fileNameArr.join('/')
             const writeStream = fs.createWriteStream(path.join(path.dirname(zipPath), fileName))
             writeStream.on('close', () => {})
-            readStream
-              .pipe(filter)
-              .pipe(writeStream)
+            readStream.pipe(filter).pipe(writeStream)
           })
         }
       })
@@ -491,7 +497,7 @@ export const getAllFilesInFloder = async (
 }
 
 export function getUserHomeDir (): string {
-  function homedir(): string {
+  function homedir (): string {
     const env = process.env
     const home = env.HOME
     const user = env.LOGNAME || env.USER || env.LNAME || env.USERNAME
@@ -505,7 +511,7 @@ export function getUserHomeDir (): string {
     }
 
     if (process.platform === 'linux') {
-      return home || (process.getuid() === 0 ? '/root' : (user ? '/home/' + user : ''))
+      return home || (process.getuid() === 0 ? '/root' : user ? '/home/' + user : '')
     }
 
     return home || ''
@@ -524,15 +530,15 @@ export function getTemplateSourceType (url: string): TemplateSourceType {
 }
 
 interface FileStat {
-  name: string
-  isDirectory: boolean
-  isFile: boolean
+  name: string;
+  isDirectory: boolean;
+  isFile: boolean;
 }
 
 export function readDirWithFileTypes (floder: string): FileStat[] {
   const list = fs.readdirSync(floder)
   const res = list.map(name => {
-    const stat =fs.statSync(path.join(floder, name))
+    const stat = fs.statSync(path.join(floder, name))
     return {
       name,
       isDirectory: stat.isDirectory(),

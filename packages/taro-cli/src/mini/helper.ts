@@ -48,9 +48,9 @@ export interface IBuildData {
   outputFilesTypes: IMINI_APP_FILE_TYPE,
   nodeModulesPath: string,
   jsxAttributeNameReplace?: {
-    [key: string]: any
-  },
-  quickappManifest?: ITaroManifestConfig
+    [key: string]: any;
+  };
+  quickappManifest?: ITaroManifestConfig;
 }
 
 let BuildData: IBuildData
@@ -75,10 +75,13 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES, options?: P
 
   const pathAlias = projectConfig.alias || {}
   const weappConf = projectConfig.weapp || {}
-  const npmConfig = Object.assign({
-    name: CONFIG.NPM_DIR,
-    dir: null
-  }, weappConf.npm)
+  const npmConfig = Object.assign(
+    {
+      name: CONFIG.NPM_DIR,
+      dir: null
+    },
+    weappConf.npm
+  )
   const useCompileConf = Object.assign({}, weappConf.compile)
   BuildData = {
     appPath,
@@ -102,7 +105,11 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES, options?: P
   }
   // 可以自定义输出文件类型
   if (weappConf!.customFilesTypes && !isEmptyObject(weappConf!.customFilesTypes)) {
-    BuildData.outputFilesTypes = Object.assign({}, BuildData.outputFilesTypes, weappConf!.customFilesTypes[adapter] || {})
+    BuildData.outputFilesTypes = Object.assign(
+      {},
+      BuildData.outputFilesTypes,
+      weappConf!.customFilesTypes[adapter] || {}
+    )
   }
   if (adapter === BUILD_TYPES.QUICKAPP) {
     BuildData.originalOutputDir = BuildData.outputDir

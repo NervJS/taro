@@ -1,4 +1,4 @@
-let base64js = require('base64-js')
+const base64js = require('base64-js')
 
 export function arrayBufferToBase64 (arrayBuffer) {
   return base64js.fromByteArray(arrayBuffer)

@@ -38,7 +38,7 @@ export function deleteKey (key: string) {
   }
 }
 
-export function list (isJSONFormat: boolean = false) {
+export function list (isJSONFormat = false) {
   if (!homedir) return console.log('找不到用户根目录')
   if (fs.existsSync(configPath)) {
     const config = fs.readJSONSync(configPath)

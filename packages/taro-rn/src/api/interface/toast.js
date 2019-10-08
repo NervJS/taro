@@ -72,13 +72,13 @@ class WXLoading extends React.Component {
   }
 
   render () {
-    const {title = 'loading'} = this.props
+    const { title = 'loading' } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.grayBlock}>
           <ActivityIndicator
             animating={this.state.animating}
-            style={{flex: 1}}
+            style={{ flex: 1 }}
             size='small'
             color='#eee'
           />
@@ -98,12 +98,12 @@ class WXLoading extends React.Component {
 function showToast (options) {
   const isObject = shouleBeObject(options)
   if (!isObject.res) {
-    const res = {errMsg: `showLoading${isObject.msg}`}
+    const res = { errMsg: `showLoading${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
 
-  const res = {errMsg: 'showToast:ok'}
+  const res = { errMsg: 'showToast:ok' }
   let {title = '', icon = 'success', image, duration = 1500, mask, success, fail, complete} = options || {} // eslint-disable-line
 
   let ToastView
@@ -162,12 +162,12 @@ function showToast (options) {
 function showLoading (options) {
   const isObject = shouleBeObject(options)
   if (!isObject.res) {
-    const res = {errMsg: `showLoading${isObject.msg}`}
+    const res = { errMsg: `showLoading${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
 
-  let {title = '', mask, success, fail, complete} = options || {}
+  const { title = '', mask, success, fail, complete } = options || {}
 
   return showToast({
     title,

@@ -23,7 +23,7 @@ function upperCaseFirstLetter (string) {
 
 function inlineStyle (style) {
   let res = ''
-  for (let attr in style) res += `${attr}: ${style[attr]};`
+  for (const attr in style) res += `${attr}: ${style[attr]};`
   if (res.indexOf('display: flex;') >= 0) res += 'display: -webkit-box;display: -webkit-flex;'
   res = res.replace(/transform:(.+?);/g, (s, $1) => `${s}-webkit-transform:${$1};`)
   res = res.replace(/flex-direction:(.+?);/g, (s, $1) => `${s}-webkit-flex-direction:${$1};`)
@@ -61,9 +61,9 @@ function serializeParams (params) {
   }
   return Object.keys(params)
     .map(key => (
-      `${encodeURIComponent(key)}=${typeof (params[key]) ==="object" ?
-        encodeURIComponent(JSON.stringify(params[key])):
-        encodeURIComponent(params[key])}`))
+      `${encodeURIComponent(key)}=${typeof (params[key]) === 'object'
+        ? encodeURIComponent(JSON.stringify(params[key]))
+        : encodeURIComponent(params[key])}`))
     .join('&')
 }
 
@@ -160,7 +160,7 @@ const createCallbackManager = () => {
 }
 
 const createScroller = () => {
-  let el = document.querySelector('.taro-tabbar__panel') || window
+  const el = document.querySelector('.taro-tabbar__panel') || window
 
   const getScrollHeight = el === window
     ? () => document.documentElement.scrollHeight
@@ -196,7 +196,7 @@ function processOpenapi (apiName, defaultOptions, formatResult = res => res, for
   }
   return options => {
     options = options || {}
-    let obj = Object.assign({}, defaultOptions, options)
+    const obj = Object.assign({}, defaultOptions, options)
     const p = new Promise((resolve, reject) => {
       ;['fail', 'success', 'complete'].forEach(k => {
         obj[k] = oriRes => {

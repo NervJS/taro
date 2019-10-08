@@ -10,12 +10,7 @@ import omit from 'omit.js'
  * @param {Number} [Options.hoverStartTime] 按住后多久出现点击态，单位毫秒
  * @param {Number} [Options.hoverStayTime] 手指松开后点击态保留时间，单位毫秒
  */
-const hoverable = ({
-  hoverClass,
-  hoverStopPropergation,
-  hoverStartTime,
-  hoverStayTime
-}) => {
+const hoverable = ({ hoverClass, hoverStopPropergation, hoverStartTime, hoverStayTime }) => {
   return ComponentClass => {
     return class HoverableComponent extends Taro.Component {
       static defaultProps = {
@@ -24,6 +19,7 @@ const hoverable = ({
         hoverStartTime,
         hoverStayTime
       }
+
       constructor (props, ctx) {
         super(props, ctx)
         this.state = this.getInitState(this.props)
@@ -38,13 +34,21 @@ const hoverable = ({
         onTouchEnd: null
       }
 
-      getInitState = ({ hoverClass, hoverStartTime, hoverStayTime, hoverStopPropergation, onTouchStart, onTouchEnd }) => {
+      getInitState = ({
+        hoverClass,
+        hoverStartTime,
+        hoverStayTime,
+        hoverStopPropergation,
+        onTouchStart,
+        onTouchEnd
+      }) => {
         if (hoverClass === 'none') return {}
         return {
           onTouchStart: this.getOnTouchStart({ hoverStartTime, hoverStopPropergation, onTouchStart }),
           onTouchEnd: this.getOnTouchEnd({ hoverStayTime, hoverStopPropergation, onTouchEnd })
         }
       }
+
       getOnTouchStart = ({ hoverStartTime, hoverStopPropergation, onTouchStart }) => {
         return e => {
           onTouchStart && onTouchStart(e)
@@ -58,6 +62,7 @@ const hoverable = ({
           }, hoverStartTime)
         }
       }
+
       getOnTouchEnd = ({ hoverStayTime, hoverStopPropergation, onTouchEnd }) => {
         return e => {
           onTouchEnd && onTouchEnd(e)
@@ -71,15 +76,18 @@ const hoverable = ({
           }, hoverStayTime)
         }
       }
+
       reset = () => {
         this.setState({
           isHover: false
         })
       }
+
       componentWillMount () {
         document.body.addEventListener('touchstart', this.reset)
       }
-      componentWillReceiveProps (nProps, nCtx) {
+
+      componentWillReceiveProps (nProps) {
         if (
           nProps.hoverClass !== this.props.hoverClass ||
           nProps.hoverStopPropergation !== this.props.hoverStopPropergation ||
@@ -90,17 +98,15 @@ const hoverable = ({
           this.setState(stateObj)
         }
       }
+
       componentWillUnmount () {
         document.body.removeEventListener('touchstart', this.reset)
       }
+
       render () {
         const { isHover, onTouchStart, onTouchEnd } = this.state
         const props = {
-          ...omit(this.props, [
-            'hoverStopPropergation',
-            'hoverStartTime',
-            'hoverStayTime'
-          ]),
+          ...omit(this.props, ['hoverStopPropergation', 'hoverStartTime', 'hoverStayTime']),
           isHover,
           onTouchStart,
           onTouchEnd

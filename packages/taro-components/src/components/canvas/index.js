@@ -34,32 +34,38 @@ class Canvas extends Taro.PureComponent {
   getWrapRef = ref => {
     if (ref) this.wrapDom = ref
   }
+
   getCanvasRef = ref => {
     if (ref) this.canvasRef = ref
   }
+
   setSize = (width, height) => {
     this.canvasRef.setAttribute('width', width)
     this.canvasRef.setAttribute('height', height)
     this.width = width
     this.height = height
   }
+
   componentDidMount () {
     if (!this.wrapDom) return
     const { width, height } = this.wrapDom.getBoundingClientRect()
     this.setSize(width, height)
   }
+
   componentDidUpdate () {
     const { width, height } = this.wrapDom.getBoundingClientRect()
     if (this.width !== width || this.height !== height) {
       this.setSize(width, height)
     }
   }
+
   componentDidCatch (e) {
     const onError = this.props.onError
     onError && onError({
       errMsg: e.message
     })
   }
+
   render () {
     const { canvasId, onTouchStart, onTouchMove, onTouchEnd, onTouchCancel, className, ...restProps } = this.props
     const wrapProps = {

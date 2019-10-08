@@ -4,19 +4,19 @@ import omit from 'omit.js'
 import classNames from 'classnames'
 import './style/index.scss'
 
-function easeOutScroll(from, to, callback) {
+function easeOutScroll (from, to, callback) {
   if (from === to || typeof from !== 'number') {
     return
   }
-  let change = to - from
+  const change = to - from
   const dur = 500
   const sTime = +new Date()
-  function linear(t, b, c, d) {
+  function linear (t, b, c, d) {
     return c * t / d + b
   }
   const isLarger = to >= from
 
-  function step() {
+  function step () {
     from = linear(+new Date() - sTime, from, change, dur)
     if ((isLarger && from >= to) || (!isLarger && to >= from)) {
       callback(to)
@@ -27,7 +27,7 @@ function easeOutScroll(from, to, callback) {
   }
   step()
 }
-function throttle(fn, delay) {
+function throttle (fn, delay) {
   let timer = null
   return function () {
     clearTimeout(timer)
@@ -37,15 +37,15 @@ function throttle(fn, delay) {
   }
 }
 class ScrollView extends Nerv.Component {
-  constructor() {
+  constructor () {
     super(...arguments)
   }
 
   onTouchMove = e => {
-    e.stopPropagation();
+    e.stopPropagation()
   }
 
-  componentDidMount() {
+  componentDidMount () {
     setTimeout(() => {
       const props = this.props
       if (props.scrollY && typeof props.scrollTop === 'number') {
@@ -71,7 +71,7 @@ class ScrollView extends Nerv.Component {
     }, 10)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     const props = this.props
     // Y 轴滚动
     if (
@@ -110,15 +110,16 @@ class ScrollView extends Nerv.Component {
       document &&
       document.querySelector &&
       document.querySelector(`#${nextProps.scrollIntoView}`)
-    )
+    ) {
       document.querySelector(`#${nextProps.scrollIntoView}`).scrollIntoView({
         behavior: 'smooth',
         block: 'center',
-        inline: 'start',
-      });
+        inline: 'start'
+      })
+    }
   }
 
-  render() {
+  render () {
     const {
       className,
       onScroll,
@@ -132,8 +133,8 @@ class ScrollView extends Nerv.Component {
     const cls = classNames(
       'taro-scroll',
       {
-        [`taro-scroll-view__scroll-x`]: scrollX,
-        [`taro-scroll-view__scroll-y`]: scrollY
+        'taro-scroll-view__scroll-x': scrollX,
+        'taro-scroll-view__scroll-y': scrollY
       },
       className
     )

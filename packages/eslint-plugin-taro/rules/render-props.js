@@ -63,7 +63,7 @@ module.exports = {
           }
           if (property.name === 'children') {
             context.report({
-              message: `无法操作 this.props.children`,
+              message: '无法操作 this.props.children',
               node
             })
           }

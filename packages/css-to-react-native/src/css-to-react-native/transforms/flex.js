@@ -1,56 +1,56 @@
-import { tokens } from "../tokenTypes";
+import { tokens } from '../tokenTypes'
 
-const { NONE, AUTO, NUMBER, LENGTH, SPACE } = tokens;
+const { NONE, AUTO, NUMBER, LENGTH, SPACE } = tokens
 
-const defaultFlexGrow = 1;
-const defaultFlexShrink = 1;
-const defaultFlexBasis = 0;
+const defaultFlexGrow = 1
+const defaultFlexShrink = 1
+const defaultFlexBasis = 0
 
 export default tokenStream => {
-  let flexGrow;
-  let flexShrink;
-  let flexBasis;
+  let flexGrow
+  let flexShrink
+  let flexBasis
 
   if (tokenStream.matches(NONE)) {
-    tokenStream.expectEmpty();
-    return { $merge: { flexGrow: 0, flexShrink: 0, flexBasis: "auto" } };
+    tokenStream.expectEmpty()
+    return { $merge: { flexGrow: 0, flexShrink: 0, flexBasis: 'auto' } }
   }
 
-  tokenStream.saveRewindPoint();
+  tokenStream.saveRewindPoint()
   if (tokenStream.matches(AUTO) && !tokenStream.hasTokens()) {
-    return { $merge: { flexGrow: 1, flexShrink: 1, flexBasis: "auto" } };
+    return { $merge: { flexGrow: 1, flexShrink: 1, flexBasis: 'auto' } }
   }
-  tokenStream.rewind();
+  tokenStream.rewind()
 
-  let partsParsed = 0;
+  let partsParsed = 0
   while (partsParsed < 2 && tokenStream.hasTokens()) {
-    if (partsParsed !== 0) tokenStream.expect(SPACE);
+    if (partsParsed !== 0) tokenStream.expect(SPACE)
 
     if (flexGrow === undefined && tokenStream.matches(NUMBER)) {
-      flexGrow = tokenStream.lastValue;
+      flexGrow = tokenStream.lastValue
 
-      tokenStream.saveRewindPoint();
+      tokenStream.saveRewindPoint()
       if (tokenStream.matches(SPACE) && tokenStream.matches(NUMBER)) {
-        flexShrink = tokenStream.lastValue;
+        flexShrink = tokenStream.lastValue
       } else {
-        tokenStream.rewind();
+        tokenStream.rewind()
       }
     } else if (flexBasis === undefined && tokenStream.matches(LENGTH)) {
-      flexBasis = tokenStream.lastValue;
+      flexBasis = tokenStream.lastValue
     } else if (flexBasis === undefined && tokenStream.matches(AUTO)) {
-      flexBasis = "auto";
+      flexBasis = 'auto'
     } else {
-      tokenStream.throw();
+      tokenStream.throw()
     }
 
-    partsParsed += 1;
+    partsParsed += 1
   }
 
-  tokenStream.expectEmpty();
+  tokenStream.expectEmpty()
 
-  if (flexGrow === undefined) flexGrow = defaultFlexGrow;
-  if (flexShrink === undefined) flexShrink = defaultFlexShrink;
-  if (flexBasis === undefined) flexBasis = defaultFlexBasis;
+  if (flexGrow === undefined) flexGrow = defaultFlexGrow
+  if (flexShrink === undefined) flexShrink = defaultFlexShrink
+  if (flexBasis === undefined) flexBasis = defaultFlexBasis
 
-  return { $merge: { flexGrow, flexShrink, flexBasis } };
-};
+  return { $merge: { flexGrow, flexShrink, flexBasis } }
+}

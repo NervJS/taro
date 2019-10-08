@@ -15,13 +15,13 @@ function testInvalid (message, tests) {
 
 ruleTester.run('no-stateless-component', rule, {
   valid: [{
-    code: testComponent(`<View />`)
+    code: testComponent('<View />')
   }, {
-    code: testComponent(`<View>test</View>`)
+    code: testComponent('<View>test</View>')
   }, {
-    code: testComponent(`<ScrollView>test</ScrollView>`)
+    code: testComponent('<ScrollView>test</ScrollView>')
   }, {
-    code: testComponent(`<View>{'test'}</View>`)
+    code: testComponent('<View>{\'test\'}</View>')
   }, {
     code: testComponent(`<View>
       <CustomComponent />
@@ -54,7 +54,7 @@ ruleTester.run('no-stateless-component', rule, {
     `
   }],
   invalid: testInvalid(ERROR_MESSAGE, [
-    `class A extends Component { _initData () {} }`,
-    `class A extends Component { $data = []; initData () {} }`
+    'class A extends Component { _initData () {} }',
+    'class A extends Component { $data = []; initData () {} }'
   ])
 })

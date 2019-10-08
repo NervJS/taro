@@ -44,7 +44,7 @@ const Taro = {
   internal_safe_set,
   Component,
   PureComponent,
-  //react
+  // react
   Children,
   createElement,
   cloneElement,
@@ -76,7 +76,7 @@ export {
   internal_safe_set,
   Component,
   PureComponent,
-  //react
+  // react
   Children,
   createElement,
   cloneElement,

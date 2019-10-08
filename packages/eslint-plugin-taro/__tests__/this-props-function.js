@@ -15,26 +15,26 @@ function testInvalid (message, tests) {
 
 ruleTester.run('this-props-function', rule, {
   valid: [{
-    code: testComponent(`this.props.onClick()`)
+    code: testComponent('this.props.onClick()')
   }, {
-    code: testComponent(`this.props.onF()`)
+    code: testComponent('this.props.onF()')
   }, {
-    code: testComponent(`this.dispatch()`)
+    code: testComponent('this.dispatch()')
   }, {
-    code: testComponent(`this.dispatchF()`)
+    code: testComponent('this.dispatchF()')
   }, {
-    code: testComponent(`this.click()`)
+    code: testComponent('this.click()')
   }, {
-    code: testComponent(`click()`)
+    code: testComponent('click()')
   }, {
-    code: testComponent(`this.test.click()`)
+    code: testComponent('this.test.click()')
   }, {
-    code: testComponent(`this.a.onF()`)
+    code: testComponent('this.a.onF()')
   }],
   invalid: testInvalid(ERROR_MESSAGE, [
-    `this.props.click()`,
-    `this.props.f()`,
-    `this.props.onf()`,
-    `this.props.dispatchf()`
+    'this.props.click()',
+    'this.props.f()',
+    'this.props.onf()',
+    'this.props.dispatchf()'
   ])
 })

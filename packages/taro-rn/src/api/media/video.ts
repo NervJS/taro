@@ -1,6 +1,6 @@
 import { Video } from 'expo-av'
 
-const globalAny:any = global;
+const globalAny: any = global
 
 globalAny._taroVideoMap = {}
 
@@ -14,7 +14,6 @@ interface DanmuData {
 }
 
 class VideoContext {
-
   private videoRef: any
 
   constructor (videoRef) {

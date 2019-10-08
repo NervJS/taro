@@ -3,9 +3,9 @@
 
 module.exports = [
   {
-    'element': 'a',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-a-element',
-    'specs': [
+    element: 'a',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-a-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -17,9 +17,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'abbr',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-abbr-element',
-    'specs': [
+    element: 'abbr',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-abbr-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -29,18 +29,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'acronym',
-    'link': 'http://www.w3.org/TR/html401/struct/text.html#edef-ACRONYM',
-    'specs': [
+    element: 'acronym',
+    link: 'http://www.w3.org/TR/html401/struct/text.html#edef-ACRONYM',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1'
     ]
   },
   {
-    'element': 'address',
-    'link': 'https://w3c.github.io/html/sections.html#the-address-element',
-    'specs': [
+    element: 'address',
+    link: 'https://w3c.github.io/html/sections.html#the-address-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -52,18 +52,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'applet',
-    'link': 'http://www.w3.org/TR/html401/struct/objects.html#edef-APPLET',
-    'specs': [
+    element: 'applet',
+    link: 'http://www.w3.org/TR/html401/struct/objects.html#edef-APPLET',
+    specs: [
       '3.2',
       '4.01',
       'X1.0'
     ]
   },
   {
-    'element': 'area',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-area-element',
-    'specs': [
+    element: 'area',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-area-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -74,36 +74,36 @@ module.exports = [
     ]
   },
   {
-    'element': 'article',
-    'link': 'https://w3c.github.io/html/sections.html#the-article-element',
-    'specs': [
+    element: 'article',
+    link: 'https://w3c.github.io/html/sections.html#the-article-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'aside',
-    'link': 'https://w3c.github.io/html/sections.html#the-aside-element',
-    'specs': [
+    element: 'aside',
+    link: 'https://w3c.github.io/html/sections.html#the-aside-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'audio',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-audio-element',
-    'specs': [
+    element: 'audio',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-audio-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'b',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-b-element',
-    'specs': [
+    element: 'b',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-b-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -115,9 +115,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'base',
-    'link': 'https://w3c.github.io/html/document-metadata.html#the-base-element',
-    'specs': [
+    element: 'base',
+    link: 'https://w3c.github.io/html/document-metadata.html#the-base-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -129,27 +129,27 @@ module.exports = [
     ]
   },
   {
-    'element': 'basefont',
-    'link': 'http://www.w3.org/TR/html401/present/graphics.html#edef-BASEFONT',
-    'specs': [
+    element: 'basefont',
+    link: 'http://www.w3.org/TR/html401/present/graphics.html#edef-BASEFONT',
+    specs: [
       '3.2',
       '4.01',
       'X1.0'
     ]
   },
   {
-    'element': 'bdi',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-bdi-element',
-    'specs': [
+    element: 'bdi',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-bdi-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'bdo',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-bdo-element',
-    'specs': [
+    element: 'bdo',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-bdo-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -159,9 +159,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'big',
-    'link': 'http://www.w3.org/TR/html401/present/graphics.html#edef-BIG',
-    'specs': [
+    element: 'big',
+    link: 'http://www.w3.org/TR/html401/present/graphics.html#edef-BIG',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -169,9 +169,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'blockquote',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-blockquote-element',
-    'specs': [
+    element: 'blockquote',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-blockquote-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -183,9 +183,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'body',
-    'link': 'https://w3c.github.io/html/sections.html#the-body-element',
-    'specs': [
+    element: 'body',
+    link: 'https://w3c.github.io/html/sections.html#the-body-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -197,9 +197,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'br',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-br-element',
-    'specs': [
+    element: 'br',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-br-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -211,9 +211,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'button',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-button-element',
-    'specs': [
+    element: 'button',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-button-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -223,9 +223,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'caption',
-    'link': 'https://w3c.github.io/html/tabular-data.html#the-caption-element',
-    'specs': [
+    element: 'caption',
+    link: 'https://w3c.github.io/html/tabular-data.html#the-caption-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -236,18 +236,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'center',
-    'link': 'http://www.w3.org/TR/html401/present/graphics.html#edef-CENTER',
-    'specs': [
+    element: 'center',
+    link: 'http://www.w3.org/TR/html401/present/graphics.html#edef-CENTER',
+    specs: [
       '3.2',
       '4.01',
       'X1.0'
     ]
   },
   {
-    'element': 'cite',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-cite-element',
-    'specs': [
+    element: 'cite',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-cite-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -259,9 +259,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'code',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-code-element',
-    'specs': [
+    element: 'code',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-code-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -273,9 +273,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'col',
-    'link': 'https://w3c.github.io/html/tabular-data.html#the-col-element',
-    'specs': [
+    element: 'col',
+    link: 'https://w3c.github.io/html/tabular-data.html#the-col-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -285,9 +285,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'colgroup',
-    'link': 'https://w3c.github.io/html/tabular-data.html#the-colgroup-element',
-    'specs': [
+    element: 'colgroup',
+    link: 'https://w3c.github.io/html/tabular-data.html#the-colgroup-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -297,27 +297,27 @@ module.exports = [
     ]
   },
   {
-    'element': 'data',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-data-element',
-    'specs': [
+    element: 'data',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-data-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'datalist',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-datalist-element',
-    'specs': [
+    element: 'datalist',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-datalist-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'dd',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-dd-element',
-    'specs': [
+    element: 'dd',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-dd-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -329,9 +329,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'del',
-    'link': 'https://w3c.github.io/html/edits.html#the-del-element',
-    'specs': [
+    element: 'del',
+    link: 'https://w3c.github.io/html/edits.html#the-del-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -341,17 +341,17 @@ module.exports = [
     ]
   },
   {
-    'element': 'details',
-    'link': 'https://w3c.github.io/html/interactive-elements.html#the-details-element',
-    'specs': [
+    element: 'details',
+    link: 'https://w3c.github.io/html/interactive-elements.html#the-details-element',
+    specs: [
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'dfn',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-dfn-element',
-    'specs': [
+    element: 'dfn',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-dfn-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -362,16 +362,16 @@ module.exports = [
     ]
   },
   {
-    'element': 'dialog',
-    'link': 'https://w3c.github.io/html/interactive-elements.html#the-dialog-element',
-    'specs': [
+    element: 'dialog',
+    link: 'https://w3c.github.io/html/interactive-elements.html#the-dialog-element',
+    specs: [
       '5.2'
     ]
   },
   {
-    'element': 'dir',
-    'link': 'http://www.w3.org/TR/html401/struct/lists.html#edef-DIR',
-    'specs': [
+    element: 'dir',
+    link: 'http://www.w3.org/TR/html401/struct/lists.html#edef-DIR',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -379,9 +379,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'div',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-div-element',
-    'specs': [
+    element: 'div',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-div-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -392,9 +392,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'dl',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-dl-element',
-    'specs': [
+    element: 'dl',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-dl-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -406,9 +406,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'dt',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-dt-element',
-    'specs': [
+    element: 'dt',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-dt-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -420,9 +420,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'em',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-em-element',
-    'specs': [
+    element: 'em',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-em-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -434,18 +434,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'embed',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-embed-element',
-    'specs': [
+    element: 'embed',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-embed-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'fieldset',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-fieldset-element',
-    'specs': [
+    element: 'fieldset',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-fieldset-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -455,45 +455,45 @@ module.exports = [
     ]
   },
   {
-    'element': 'figcaption',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-figcaption-element',
-    'specs': [
+    element: 'figcaption',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-figcaption-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'figure',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-figure-element',
-    'specs': [
+    element: 'figure',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-figure-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'font',
-    'link': 'http://www.w3.org/TR/html401/present/graphics.html#edef-FONT',
-    'specs': [
+    element: 'font',
+    link: 'http://www.w3.org/TR/html401/present/graphics.html#edef-FONT',
+    specs: [
       '3.2',
       '4.01',
       'X1.0'
     ]
   },
   {
-    'element': 'footer',
-    'link': 'https://w3c.github.io/html/sections.html#the-footer-element',
-    'specs': [
+    element: 'footer',
+    link: 'https://w3c.github.io/html/sections.html#the-footer-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'form',
-    'link': 'https://w3c.github.io/html/forms.html#the-form-element',
-    'specs': [
+    element: 'form',
+    link: 'https://w3c.github.io/html/forms.html#the-form-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -505,23 +505,23 @@ module.exports = [
     ]
   },
   {
-    'element': 'frame',
-    'link': 'http://www.w3.org/TR/html401/present/frames.html#edef-FRAME',
-    'specs': [
+    element: 'frame',
+    link: 'http://www.w3.org/TR/html401/present/frames.html#edef-FRAME',
+    specs: [
       '4.01'
     ]
   },
   {
-    'element': 'frameset',
-    'link': 'http://www.w3.org/TR/html401/present/frames.html#edef-FRAMESET',
-    'specs': [
+    element: 'frameset',
+    link: 'http://www.w3.org/TR/html401/present/frames.html#edef-FRAMESET',
+    specs: [
       '4.01'
     ]
   },
   {
-    'element': 'h1',
-    'link': 'https://w3c.github.io/html/sections.html#the-h1-element',
-    'specs': [
+    element: 'h1',
+    link: 'https://w3c.github.io/html/sections.html#the-h1-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -533,9 +533,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'h2',
-    'link': 'https://w3c.github.io/html/sections.html#the-h2-element',
-    'specs': [
+    element: 'h2',
+    link: 'https://w3c.github.io/html/sections.html#the-h2-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -547,9 +547,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'h3',
-    'link': 'https://w3c.github.io/html/sections.html#the-h3-element',
-    'specs': [
+    element: 'h3',
+    link: 'https://w3c.github.io/html/sections.html#the-h3-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -561,9 +561,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'h4',
-    'link': 'https://w3c.github.io/html/sections.html#the-h4-element',
-    'specs': [
+    element: 'h4',
+    link: 'https://w3c.github.io/html/sections.html#the-h4-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -575,9 +575,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'h5',
-    'link': 'https://w3c.github.io/html/sections.html#the-h5-element',
-    'specs': [
+    element: 'h5',
+    link: 'https://w3c.github.io/html/sections.html#the-h5-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -589,9 +589,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'h6',
-    'link': 'https://w3c.github.io/html/sections.html#the-h6-element',
-    'specs': [
+    element: 'h6',
+    link: 'https://w3c.github.io/html/sections.html#the-h6-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -603,9 +603,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'head',
-    'link': 'https://w3c.github.io/html/document-metadata.html#the-head-element',
-    'specs': [
+    element: 'head',
+    link: 'https://w3c.github.io/html/document-metadata.html#the-head-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -617,23 +617,23 @@ module.exports = [
     ]
   },
   {
-    'element': 'header',
-    'link': 'https://w3c.github.io/html/sections.html#the-header-element',
-    'specs': [
+    element: 'header',
+    link: 'https://w3c.github.io/html/sections.html#the-header-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'hgroup',
-    'link': 'https://w3c.github.io/html/obsolete.html#hgroup',
-    'specs': []
+    element: 'hgroup',
+    link: 'https://w3c.github.io/html/obsolete.html#hgroup',
+    specs: []
   },
   {
-    'element': 'hr',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-hr-element',
-    'specs': [
+    element: 'hr',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-hr-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -645,9 +645,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'html',
-    'link': 'https://w3c.github.io/html/semantics.html#the-html-element',
-    'specs': [
+    element: 'html',
+    link: 'https://w3c.github.io/html/semantics.html#the-html-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -659,9 +659,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'i',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-i-element',
-    'specs': [
+    element: 'i',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-i-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -673,9 +673,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'iframe',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-iframe-element',
-    'specs': [
+    element: 'iframe',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-iframe-element',
+    specs: [
       '4.01',
       'X1.0',
       '5',
@@ -684,9 +684,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'img',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-img-element',
-    'specs': [
+    element: 'img',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-img-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -698,9 +698,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'input',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-input-element',
-    'specs': [
+    element: 'input',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-input-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -712,9 +712,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'input[type="hidden"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#hidden-state-typehidden',
-    'specs': [
+    element: 'input[type="hidden"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#hidden-state-typehidden',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -726,9 +726,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'input[type="text"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#text-typetext-state-and-search-state-typesearch',
-    'specs': [
+    element: 'input[type="text"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#text-typetext-state-and-search-state-typesearch',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -740,36 +740,36 @@ module.exports = [
     ]
   },
   {
-    'element': 'input[type="search"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#text-typetext-state-and-search-state-typesearch',
-    'specs': [
+    element: 'input[type="search"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#text-typetext-state-and-search-state-typesearch',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="tel"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#telephone-state-typetel',
-    'specs': [
+    element: 'input[type="tel"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#telephone-state-typetel',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="url"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#url-state-typeurl',
-    'specs': [
+    element: 'input[type="url"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#url-state-typeurl',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="password"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#password-state-typepassword',
-    'specs': [
+    element: 'input[type="password"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#password-state-typepassword',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -781,86 +781,86 @@ module.exports = [
     ]
   },
   {
-    'element': 'input[type="date"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#date-state-typedate',
-    'specs': [
+    element: 'input[type="date"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#date-state-typedate',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="datetime"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#date-and-time-state-typedatetime',
-    'specs': [
+    element: 'input[type="datetime"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#date-and-time-state-typedatetime',
+    specs: [
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="datetime-local"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#local-date-and-time-state-typedatetimelocal',
-    'specs': [
+    element: 'input[type="datetime-local"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#local-date-and-time-state-typedatetimelocal',
+    specs: [
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="month"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#month-state-typemonth',
-    'specs': [
+    element: 'input[type="month"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#month-state-typemonth',
+    specs: [
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="week"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#week-state-typeweek',
-    'specs': [
+    element: 'input[type="week"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#week-state-typeweek',
+    specs: [
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="time"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#time-state-typetime',
-    'specs': [
+    element: 'input[type="time"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#time-state-typetime',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="number"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#number-state-typenumber',
-    'specs': [
+    element: 'input[type="number"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#number-state-typenumber',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="range"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#range-state-typerange',
-    'specs': [
+    element: 'input[type="range"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#range-state-typerange',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="color"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#color-state-typecolor',
-    'specs': [
+    element: 'input[type="color"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#color-state-typecolor',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'input[type="checkbox"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#checkbox-state-typecheckbox',
-    'specs': [
+    element: 'input[type="checkbox"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#checkbox-state-typecheckbox',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -872,9 +872,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'input[type="radio"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#radio-button-state-typeradio',
-    'specs': [
+    element: 'input[type="radio"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#radio-button-state-typeradio',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -886,9 +886,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'input[type="file"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#file-upload-state-typefile',
-    'specs': [
+    element: 'input[type="file"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#file-upload-state-typefile',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -899,9 +899,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'input[type="submit"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#submit-button-state-typesubmit',
-    'specs': [
+    element: 'input[type="submit"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#submit-button-state-typesubmit',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -913,9 +913,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'input[type="image"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#image-button-state-typeimage',
-    'specs': [
+    element: 'input[type="image"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#image-button-state-typeimage',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -927,9 +927,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'input[type="reset"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#reset-button-state-typereset',
-    'specs': [
+    element: 'input[type="reset"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#reset-button-state-typereset',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -941,9 +941,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'input[type="button"]',
-    'link': 'https://w3c.github.io/html/sec-forms.html#button-state-typebutton',
-    'specs': [
+    element: 'input[type="button"]',
+    link: 'https://w3c.github.io/html/sec-forms.html#button-state-typebutton',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -953,9 +953,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'ins',
-    'link': 'https://w3c.github.io/html/edits.html#the-ins-element',
-    'specs': [
+    element: 'ins',
+    link: 'https://w3c.github.io/html/edits.html#the-ins-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -965,9 +965,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'isindex',
-    'link': 'http://www.w3.org/TR/html401/interact/forms.html#edef-ISINDEX',
-    'specs': [
+    element: 'isindex',
+    link: 'http://www.w3.org/TR/html401/interact/forms.html#edef-ISINDEX',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -975,9 +975,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'kbd',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-kbd-element',
-    'specs': [
+    element: 'kbd',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-kbd-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -989,18 +989,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'keygen',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-keygen-element',
-    'specs': [
+    element: 'keygen',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-keygen-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'label',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-label-element',
-    'specs': [
+    element: 'label',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-label-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -1010,9 +1010,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'legend',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-legend-element',
-    'specs': [
+    element: 'legend',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-legend-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -1022,9 +1022,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'li',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-li-element',
-    'specs': [
+    element: 'li',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-li-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1036,9 +1036,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'link',
-    'link': 'https://w3c.github.io/html/document-metadata.html#the-link-element',
-    'specs': [
+    element: 'link',
+    link: 'https://w3c.github.io/html/document-metadata.html#the-link-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1050,18 +1050,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'main',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-main-element',
-    'specs': [
+    element: 'main',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-main-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'map',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-map-element',
-    'specs': [
+    element: 'map',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-map-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1072,18 +1072,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'mark',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-mark-element',
-    'specs': [
+    element: 'mark',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-mark-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'menu',
-    'link': 'https://w3c.github.io/html/interactive-elements.html#the-menu-element',
-    'specs': [
+    element: 'menu',
+    link: 'https://w3c.github.io/html/interactive-elements.html#the-menu-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1093,17 +1093,17 @@ module.exports = [
     ]
   },
   {
-    'element': 'menuitem',
-    'link': 'https://w3c.github.io/html/interactive-elements.html#the-menuitem-element',
-    'specs': [
+    element: 'menuitem',
+    link: 'https://w3c.github.io/html/interactive-elements.html#the-menuitem-element',
+    specs: [
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'meta',
-    'link': 'https://w3c.github.io/html/document-metadata.html#the-meta-element',
-    'specs': [
+    element: 'meta',
+    link: 'https://w3c.github.io/html/document-metadata.html#the-meta-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1115,42 +1115,42 @@ module.exports = [
     ]
   },
   {
-    'element': 'meter',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-meter-element',
-    'specs': [
+    element: 'meter',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-meter-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'nav',
-    'link': 'https://w3c.github.io/html/sections.html#the-nav-element',
-    'specs': [
+    element: 'nav',
+    link: 'https://w3c.github.io/html/sections.html#the-nav-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'nextid',
-    'link': 'http://www.w3.org/MarkUp/html-spec/html-spec_5.html#SEC5.2.6',
-    'specs': [
+    element: 'nextid',
+    link: 'http://www.w3.org/MarkUp/html-spec/html-spec_5.html#SEC5.2.6',
+    specs: [
       '2.0'
     ]
   },
   {
-    'element': 'noframes',
-    'link': 'http://www.w3.org/TR/html401/present/frames.html#edef-NOFRAMES',
-    'specs': [
+    element: 'noframes',
+    link: 'http://www.w3.org/TR/html401/present/frames.html#edef-NOFRAMES',
+    specs: [
       '4.01',
       'X1.0'
     ]
   },
   {
-    'element': 'noscript',
-    'link': 'https://w3c.github.io/html/semantics-scripting.html#the-noscript-element',
-    'specs': [
+    element: 'noscript',
+    link: 'https://w3c.github.io/html/semantics-scripting.html#the-noscript-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -1160,9 +1160,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'object',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-object-element',
-    'specs': [
+    element: 'object',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-object-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -1172,9 +1172,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'ol',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-ol-element',
-    'specs': [
+    element: 'ol',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-ol-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1186,9 +1186,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'optgroup',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-optgroup-element',
-    'specs': [
+    element: 'optgroup',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-optgroup-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -1198,9 +1198,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'option',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-option-element',
-    'specs': [
+    element: 'option',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-option-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1212,18 +1212,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'output',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-output-element',
-    'specs': [
+    element: 'output',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-output-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'p',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-p-element',
-    'specs': [
+    element: 'p',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-p-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1235,9 +1235,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'param',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-param-element',
-    'specs': [
+    element: 'param',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-param-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1248,25 +1248,25 @@ module.exports = [
     ]
   },
   {
-    'element': 'picture',
-    'link': 'https://w3c.github.io/html/embedded-content.html#the-picture-element',
-    'specs': [
+    element: 'picture',
+    link: 'https://w3c.github.io/html/embedded-content.html#the-picture-element',
+    specs: [
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'plaintext',
-    'link': 'http://www.w3.org/TR/REC-html32#plaintext',
-    'specs': [
+    element: 'plaintext',
+    link: 'http://www.w3.org/TR/REC-html32#plaintext',
+    specs: [
       '2.0',
       '3.2'
     ]
   },
   {
-    'element': 'pre',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-pre-element',
-    'specs': [
+    element: 'pre',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-pre-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1278,18 +1278,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'progress',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-progress-element',
-    'specs': [
+    element: 'progress',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-progress-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'q',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-q-element',
-    'specs': [
+    element: 'q',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-q-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -1299,23 +1299,23 @@ module.exports = [
     ]
   },
   {
-    'element': 'rb',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-rb-element',
-    'specs': [
+    element: 'rb',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-rb-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'rbc',
-    'link': 'http://www.w3.org/TR/ruby/#rbc',
-    'specs': []
+    element: 'rbc',
+    link: 'http://www.w3.org/TR/ruby/#rbc',
+    specs: []
   },
   {
-    'element': 'rp',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-rp-element',
-    'specs': [
+    element: 'rp',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-rp-element',
+    specs: [
       'X1.1',
       '5',
       '5.1',
@@ -1323,9 +1323,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'rt',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-rt-element',
-    'specs': [
+    element: 'rt',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-rt-element',
+    specs: [
       'X1.1',
       '5',
       '5.1',
@@ -1333,14 +1333,14 @@ module.exports = [
     ]
   },
   {
-    'element': 'rtc',
-    'link': 'http://www.w3.org/TR/ruby/#rtc',
-    'specs': []
+    element: 'rtc',
+    link: 'http://www.w3.org/TR/ruby/#rtc',
+    specs: []
   },
   {
-    'element': 'ruby',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-ruby-element',
-    'specs': [
+    element: 'ruby',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-ruby-element',
+    specs: [
       'X1.1',
       '5',
       '5.1',
@@ -1348,9 +1348,9 @@ module.exports = [
     ]
   },
   {
-    'element': 's',
-    'link': 'http://www.w3.org/TR/html401/present/graphics.html#edef-S',
-    'specs': [
+    element: 's',
+    link: 'http://www.w3.org/TR/html401/present/graphics.html#edef-S',
+    specs: [
       '4.01',
       'X1.0',
       '5',
@@ -1359,9 +1359,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'samp',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-samp-element',
-    'specs': [
+    element: 'samp',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-samp-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1373,9 +1373,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'script',
-    'link': 'https://w3c.github.io/html/semantics-scripting.html#the-script-element',
-    'specs': [
+    element: 'script',
+    link: 'https://w3c.github.io/html/semantics-scripting.html#the-script-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1386,18 +1386,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'section',
-    'link': 'https://w3c.github.io/html/sections.html#the-section-element',
-    'specs': [
+    element: 'section',
+    link: 'https://w3c.github.io/html/sections.html#the-section-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'select',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-select-element',
-    'specs': [
+    element: 'select',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-select-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1409,9 +1409,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'small',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-small-element',
-    'specs': [
+    element: 'small',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-small-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1422,18 +1422,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'source',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-source-element',
-    'specs': [
+    element: 'source',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-source-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'span',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-span-element',
-    'specs': [
+    element: 'span',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-span-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -1443,18 +1443,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'strike',
-    'link': 'http://www.w3.org/TR/html401/present/graphics.html#edef-STRIKE',
-    'specs': [
+    element: 'strike',
+    link: 'http://www.w3.org/TR/html401/present/graphics.html#edef-STRIKE',
+    specs: [
       '3.2',
       '4.01',
       'X1.0'
     ]
   },
   {
-    'element': 'strong',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-strong-element',
-    'specs': [
+    element: 'strong',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-strong-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1466,9 +1466,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'style',
-    'link': 'https://w3c.github.io/html/document-metadata.html#the-style-element',
-    'specs': [
+    element: 'style',
+    link: 'https://w3c.github.io/html/document-metadata.html#the-style-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1479,9 +1479,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'sub',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-sub-element',
-    'specs': [
+    element: 'sub',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-sub-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1492,17 +1492,17 @@ module.exports = [
     ]
   },
   {
-    'element': 'summary',
-    'link': 'https://w3c.github.io/html/interactive-elements.html#the-summary-element',
-    'specs': [
+    element: 'summary',
+    link: 'https://w3c.github.io/html/interactive-elements.html#the-summary-element',
+    specs: [
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'sup',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-sup-element',
-    'specs': [
+    element: 'sup',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-sup-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1513,9 +1513,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'table',
-    'link': 'https://w3c.github.io/html/tabular-data.html#the-table-element',
-    'specs': [
+    element: 'table',
+    link: 'https://w3c.github.io/html/tabular-data.html#the-table-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1526,9 +1526,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'tbody',
-    'link': 'https://w3c.github.io/html/tabular-data.html#the-tbody-element',
-    'specs': [
+    element: 'tbody',
+    link: 'https://w3c.github.io/html/tabular-data.html#the-tbody-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -1538,9 +1538,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'td',
-    'link': 'https://w3c.github.io/html/tabular-data.html#the-td-element',
-    'specs': [
+    element: 'td',
+    link: 'https://w3c.github.io/html/tabular-data.html#the-td-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1551,18 +1551,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'template',
-    'link': 'https://w3c.github.io/html/semantics-scripting.html#the-template-element',
-    'specs': [
+    element: 'template',
+    link: 'https://w3c.github.io/html/semantics-scripting.html#the-template-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'textarea',
-    'link': 'https://w3c.github.io/html/sec-forms.html#the-textarea-element',
-    'specs': [
+    element: 'textarea',
+    link: 'https://w3c.github.io/html/sec-forms.html#the-textarea-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1574,9 +1574,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'tfoot',
-    'link': 'https://w3c.github.io/html/tabular-data.html#the-tfoot-element',
-    'specs': [
+    element: 'tfoot',
+    link: 'https://w3c.github.io/html/tabular-data.html#the-tfoot-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -1586,9 +1586,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'th',
-    'link': 'https://w3c.github.io/html/tabular-data.html#the-th-element',
-    'specs': [
+    element: 'th',
+    link: 'https://w3c.github.io/html/tabular-data.html#the-th-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1599,9 +1599,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'thead',
-    'link': 'https://w3c.github.io/html/tabular-data.html#the-thead-element',
-    'specs': [
+    element: 'thead',
+    link: 'https://w3c.github.io/html/tabular-data.html#the-thead-element',
+    specs: [
       '4.01',
       'X1.0',
       'X1.1',
@@ -1611,18 +1611,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'time',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-time-element',
-    'specs': [
+    element: 'time',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-time-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'title',
-    'link': 'https://w3c.github.io/html/document-metadata.html#the-title-element',
-    'specs': [
+    element: 'title',
+    link: 'https://w3c.github.io/html/document-metadata.html#the-title-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1634,9 +1634,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'tr',
-    'link': 'https://w3c.github.io/html/tabular-data.html#the-tr-element',
-    'specs': [
+    element: 'tr',
+    link: 'https://w3c.github.io/html/tabular-data.html#the-tr-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1647,18 +1647,18 @@ module.exports = [
     ]
   },
   {
-    'element': 'track',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-track-element',
-    'specs': [
+    element: 'track',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-track-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'tt',
-    'link': 'http://www.w3.org/TR/html401/present/graphics.html#edef-TT',
-    'specs': [
+    element: 'tt',
+    link: 'http://www.w3.org/TR/html401/present/graphics.html#edef-TT',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1667,9 +1667,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'u',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-u-element',
-    'specs': [
+    element: 'u',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-u-element',
+    specs: [
       '3.2',
       '4.01',
       'X1.0',
@@ -1679,9 +1679,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'ul',
-    'link': 'https://w3c.github.io/html/grouping-content.html#the-ul-element',
-    'specs': [
+    element: 'ul',
+    link: 'https://w3c.github.io/html/grouping-content.html#the-ul-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1693,9 +1693,9 @@ module.exports = [
     ]
   },
   {
-    'element': 'var',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-var-element',
-    'specs': [
+    element: 'var',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-var-element',
+    specs: [
       '2.0',
       '3.2',
       '4.01',
@@ -1707,27 +1707,27 @@ module.exports = [
     ]
   },
   {
-    'element': 'video',
-    'link': 'https://w3c.github.io/html/semantics-embedded-content.html#the-video-element',
-    'specs': [
+    element: 'video',
+    link: 'https://w3c.github.io/html/semantics-embedded-content.html#the-video-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'wbr',
-    'link': 'https://w3c.github.io/html/textlevel-semantics.html#the-wbr-element',
-    'specs': [
+    element: 'wbr',
+    link: 'https://w3c.github.io/html/textlevel-semantics.html#the-wbr-element',
+    specs: [
       '5',
       '5.1',
       '5.2'
     ]
   },
   {
-    'element': 'xmp',
-    'link': 'http://www.w3.org/TR/REC-html32#xmp',
-    'specs': [
+    element: 'xmp',
+    link: 'http://www.w3.org/TR/REC-html32#xmp',
+    specs: [
       '2.0',
       '3.2'
     ]

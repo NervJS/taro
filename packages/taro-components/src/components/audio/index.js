@@ -6,6 +6,7 @@ class Audio extends Nerv.Component {
   constructor () {
     super(...arguments)
   }
+
   componentDidMount () {
     this.bindevent()
   }
@@ -38,14 +39,14 @@ class Audio extends Nerv.Component {
     this.audio.addEventListener('error', (e) => {
       Object.defineProperty(e, 'detail', {
         enumerable: true,
-        value: {errMsg: e.srcElement.error.code}
+        value: { errMsg: e.srcElement.error.code }
       })
       this.props.onError && this.props.onError(e)
     })
   }
 
   render () {
-    let {
+    const {
       src,
       controls,
       autoplay,

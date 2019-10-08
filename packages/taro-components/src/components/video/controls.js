@@ -40,10 +40,12 @@ class Controls extends Component {
     if (!ref) return
     this.controlsRef = ref
   }
+
   getCurrentTimeRef = ref => {
     if (!ref) return
     this.currentTimeRef = ref
   }
+
   getProgressBallRef = ref => {
     if (!ref) return
     this.progressBallRef = ref
@@ -52,6 +54,7 @@ class Controls extends Component {
   setCurrentTime (time) {
     this.currentTimeRef.innerHTML = formatTime(time)
   }
+
   setProgressBall (percentage) {
     if(this.progressBallRef) this.progressBallRef.style.left = `${percentage * 100}%`
   }
@@ -76,6 +79,7 @@ class Controls extends Component {
     this.isDraggingProgressBall = true
     this.hideControlsTimer && clearTimeout(this.hideControlsTimer)
   }
+
   onClickProgress = e => {
     e.stopPropagation()
     const seekFunc = this.props.seekFunc
@@ -83,6 +87,7 @@ class Controls extends Component {
     seekFunc(percentage * this.props.duration)
     this.toggleVisibility(true)
   }
+
   bindTouchEvents = () => {
     let percentage = 0
     const touchMove = e => {
@@ -112,6 +117,7 @@ class Controls extends Component {
   componentDidMount () {
     this.unbindTouchEvents = this.bindTouchEvents()
   }
+
   componentWillUnmount () {
     this.unbindTouchEvents()
   }

@@ -11,7 +11,7 @@ class TaroProvider extends React.Component {
   }
 
   navigationMethodInit () {
-    let {Taro} = this.props
+    const { Taro } = this.props
     Taro.navigateTo = this.wxNavigateTo.bind(this)
     Taro.redirectTo = this.wxRedirectTo.bind(this)
     Taro.navigateBack = this.wxNavigateBack.bind(this)
@@ -40,7 +40,7 @@ class TaroProvider extends React.Component {
   }
 
   componentDidMount () {
-    let {Taro} = this.props
+    const { Taro } = this.props
     try {
       Taro.startPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.handlePullDownRefresh
       Taro.stopPullDownRefresh = this.refreshProviderRef.current && this.refreshProviderRef.current.stopPullDownRefresh
@@ -56,24 +56,24 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `navigateTo${isObject.msg}`}
+      const res = { errMsg: `navigateTo${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
 
-    const res = {errMsg: 'navigateTo:ok'}
-    let {url, success, fail, complete} = options
+    const res = { errMsg: 'navigateTo:ok' }
+    let { url, success, fail, complete } = options
 
     if (url.startsWith('/')) {
       url = url.substr(1)
     }
 
-    let obj = queryString.parseUrl(url)
+    const obj = queryString.parseUrl(url)
     console.log(obj)
     try {
       this.props.navigation.push(obj.url, obj.query)
     } catch (e) {
-      return errorHandler(fail, complete)({errMsg: e})
+      return errorHandler(fail, complete)({ errMsg: e })
     }
     return successHandler(success, complete)(res)
   }
@@ -82,24 +82,24 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `redirectTo${isObject.msg}`}
+      const res = { errMsg: `redirectTo${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
 
-    const res = {errMsg: 'redirectTo:ok'}
-    let {url, success, fail, complete} = options
+    const res = { errMsg: 'redirectTo:ok' }
+    let { url, success, fail, complete } = options
 
     if (url.startsWith('/')) {
       url = url.substr(1)
     }
 
-    let obj = queryString.parseUrl(url)
+    const obj = queryString.parseUrl(url)
     console.log(obj)
     try {
       this.props.navigation.replace(obj.url, obj.query)
     } catch (e) {
-      return errorHandler(fail, complete)({errMsg: e})
+      return errorHandler(fail, complete)({ errMsg: e })
     }
     return successHandler(success, complete)(res)
   }
@@ -108,24 +108,24 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `switchTab${isObject.msg}`}
+      const res = { errMsg: `switchTab${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
 
-    const res = {errMsg: 'switchTab:ok'}
-    let {url, success, fail, complete} = options
+    const res = { errMsg: 'switchTab:ok' }
+    let { url, success, fail, complete } = options
 
     if (url.startsWith('/')) {
       url = url.substr(1)
     }
 
-    let obj = queryString.parseUrl(url)
+    const obj = queryString.parseUrl(url)
     console.log(obj)
     try {
       this.props.navigation.navigate(obj.url, obj.query)
     } catch (e) {
-      return errorHandler(fail, complete)({errMsg: e})
+      return errorHandler(fail, complete)({ errMsg: e })
     }
     return successHandler(success, complete)(res)
   }
@@ -134,27 +134,27 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `navigateBack${isObject.msg}`}
+      const res = { errMsg: `navigateBack${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
 
-    const res = {errMsg: 'navigateBack:ok'}
+    const res = { errMsg: 'navigateBack:ok' }
 
-    let {delta = 1, success, fail, complete} = options
+    const { delta = 1, success, fail, complete } = options
 
     try {
       this.props.navigation.pop(delta)
     } catch (e) {
-      return errorHandler(fail, complete)({errMsg: e})
+      return errorHandler(fail, complete)({ errMsg: e })
     }
     return successHandler(success, complete)(res)
   }
 
   wxGetCurrentPages () {
-    let parentState = this.props.navigation.dangerouslyGetParent().state
+    const parentState = this.props.navigation.dangerouslyGetParent().state
     if (parentState && parentState.routes) {
-      return parentState.routes.map(item => { return {route: item.routeName} })
+      return parentState.routes.map(item => { return { route: item.routeName } })
     } else {
       return []
     }
@@ -203,7 +203,7 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `setTabBarStyle${isObject.msg}`}
+      const res = { errMsg: `setTabBarStyle${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
@@ -223,7 +223,7 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `setTabBarItem${isObject.msg}`}
+      const res = { errMsg: `setTabBarItem${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
@@ -237,15 +237,15 @@ class TaroProvider extends React.Component {
       complete
     } = options
 
-    const res = {errMsg: 'setTabBarItem:ok'}
+    const res = { errMsg: 'setTabBarItem:ok' }
 
     try {
       const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
       _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index],
-        {itemText: text, itemSelectedIconPath: selectedIconPath, itemIconPath: iconPath})
+        { itemText: text, itemSelectedIconPath: selectedIconPath, itemIconPath: iconPath })
       // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
       global._taroTabBarIconConfig = _taroTabBarIconConfig
-      this.props.navigation.setParams({_taroTabBarIconConfig})
+      this.props.navigation.setParams({ _taroTabBarIconConfig })
     } catch (e) {
       console.log(e)
       return errorHandler(fail, complete)(res)
@@ -264,7 +264,7 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `setTabBarBadge${isObject.msg}`}
+      const res = { errMsg: `setTabBarBadge${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
@@ -276,14 +276,14 @@ class TaroProvider extends React.Component {
       complete
     } = options
 
-    const res = {errMsg: 'setTabBarBadge:ok'}
+    const res = { errMsg: 'setTabBarBadge:ok' }
 
     try {
       const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
-      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], {isBadgeShow: true, badgeText: text})
+      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], { isBadgeShow: true, badgeText: text })
       // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
       global._taroTabBarIconConfig = _taroTabBarIconConfig
-      this.props.navigation.setParams({_taroTabBarIconConfig})
+      this.props.navigation.setParams({ _taroTabBarIconConfig })
     } catch (e) {
       console.log(e)
       return errorHandler(fail, complete)(res)
@@ -300,7 +300,7 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `removeTabBarBadge${isObject.msg}`}
+      const res = { errMsg: `removeTabBarBadge${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
@@ -312,14 +312,14 @@ class TaroProvider extends React.Component {
       complete
     } = options
 
-    const res = {errMsg: 'hideTabBarRedDot:ok'}
+    const res = { errMsg: 'hideTabBarRedDot:ok' }
 
     try {
       const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
-      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], {isBadgeShow: false, badgeText: ''})
+      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], { isBadgeShow: false, badgeText: '' })
       // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
       global._taroTabBarIconConfig = _taroTabBarIconConfig
-      this.props.navigation.setParams({_taroTabBarIconConfig})
+      this.props.navigation.setParams({ _taroTabBarIconConfig })
     } catch (e) {
       console.log(e)
       return errorHandler(fail, complete)(res)
@@ -337,7 +337,7 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `showTabBarRedDot${isObject.msg}`}
+      const res = { errMsg: `showTabBarRedDot${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
@@ -348,13 +348,13 @@ class TaroProvider extends React.Component {
       complete
     } = options
 
-    const res = {errMsg: 'showTabBarRedDot:ok'}
+    const res = { errMsg: 'showTabBarRedDot:ok' }
 
     try {
       const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
-      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], {isRedDotShow: true})
+      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], { isRedDotShow: true })
       global._taroTabBarIconConfig = _taroTabBarIconConfig
-      this.props.navigation.setParams({_taroTabBarIconConfig})
+      this.props.navigation.setParams({ _taroTabBarIconConfig })
     } catch (e) {
       console.log(e)
       return errorHandler(fail, complete)(res)
@@ -372,7 +372,7 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `hideTabBarRedDot${isObject.msg}`}
+      const res = { errMsg: `hideTabBarRedDot${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
@@ -383,14 +383,14 @@ class TaroProvider extends React.Component {
       complete
     } = options
 
-    const res = {errMsg: 'hideTabBarRedDot:ok'}
+    const res = { errMsg: 'hideTabBarRedDot:ok' }
 
     try {
       const _taroTabBarIconConfig = global._taroTabBarIconConfig || {}
-      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], {isRedDotShow: false})
+      _taroTabBarIconConfig[index] = Object.assign({}, _taroTabBarIconConfig[index], { isRedDotShow: false })
       // react-navigation 暂未开放 Dynamic tab setup ，不推荐 @TODO
       global._taroTabBarIconConfig = _taroTabBarIconConfig
-      this.props.navigation.setParams({_taroTabBarIconConfig})
+      this.props.navigation.setParams({ _taroTabBarIconConfig })
     } catch (e) {
       console.log(e)
       return errorHandler(fail, complete)(res)
@@ -408,7 +408,7 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `showTabBar${isObject.msg}`}
+      const res = { errMsg: `showTabBar${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
@@ -420,7 +420,7 @@ class TaroProvider extends React.Component {
       complete
     } = options
 
-    const res = {errMsg: 'showTabBar:ok'}
+    const res = { errMsg: 'showTabBar:ok' }
 
     if (options.hasOwnProperty('animation') && typeof animation !== 'boolean') {
       res.errMsg = getParameterError({
@@ -434,7 +434,7 @@ class TaroProvider extends React.Component {
     }
 
     try {
-      this.props.navigation.setParams({_tabBarVisible: true})
+      this.props.navigation.setParams({ _tabBarVisible: true })
     } catch (e) {
       console.log(e)
       return errorHandler(fail, complete)(res)
@@ -452,7 +452,7 @@ class TaroProvider extends React.Component {
     // options must be an Object
     const isObject = shouleBeObject(options)
     if (!isObject.res) {
-      const res = {errMsg: `showTabBar${isObject.msg}`}
+      const res = { errMsg: `showTabBar${isObject.msg}` }
       console.warn(res.errMsg)
       return Promise.reject(res)
     }
@@ -464,7 +464,7 @@ class TaroProvider extends React.Component {
       complete
     } = options
 
-    const res = {errMsg: 'showTabBar:ok'}
+    const res = { errMsg: 'showTabBar:ok' }
 
     if (options.hasOwnProperty('animation') && typeof animation !== 'boolean') {
       res.errMsg = getParameterError({
@@ -478,10 +478,10 @@ class TaroProvider extends React.Component {
     }
 
     try {
-      this.props.navigation.setParams({_tabBarVisible: false})
+      this.props.navigation.setParams({ _tabBarVisible: false })
     } catch (e) {
       console.log(e)
-      return errorHandler(fail, complete)({errMsg: e})
+      return errorHandler(fail, complete)({ errMsg: e })
     }
 
     return successHandler(success, complete)(res)

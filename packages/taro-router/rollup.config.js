@@ -35,7 +35,7 @@ export default {
         '@babel/plugin-proposal-object-rest-spread',
         '@babel/plugin-syntax-dynamic-import',
         ['@babel/plugin-transform-react-jsx', {
-          'pragma': 'Nerv.createElement'
+          pragma: 'Nerv.createElement'
         }]
       ]
     }),

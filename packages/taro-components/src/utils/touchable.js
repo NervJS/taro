@@ -28,9 +28,11 @@ const transformTouches = (touches, { offsetX, offsetY }) => {
   return wxTouches
 }
 
-const touchable = (opt = {
-  longTapTime: 500
-}) => {
+const touchable = (
+  opt = {
+    longTapTime: 500
+  }
+) => {
   return ComponentClass => {
     return class TouchableComponent extends Taro.Component {
       static defaultProps = {
@@ -40,6 +42,7 @@ const touchable = (opt = {
         onTouchCancel: null,
         onLongTap: null
       }
+
       timer = null
       offset = {
         offsetX: 0,
@@ -54,48 +57,49 @@ const touchable = (opt = {
           onLongTap && onLongTap(e)
         }, opt.longTapTime)
       }
+
       onTouchMove = e => {
         this.timer && clearTimeout(this.timer)
         const { onTouchMove } = this.props
         Object.defineProperty(e, 'touches', { value: transformTouches(e.touches, this.offset) })
         onTouchMove && onTouchMove(e)
       }
+
       onTouchEnd = e => {
         this.timer && clearTimeout(this.timer)
         const { onTouchEnd } = this.props
         Object.defineProperty(e, 'touches', { value: transformTouches(e.touches, this.offset) })
         onTouchEnd && onTouchEnd(e)
       }
+
       onTouchCancel = e => {
         this.timer && clearTimeout(this.timer)
         const { onTouchCancel } = this.props
         Object.defineProperty(e, 'touches', { value: transformTouches(e.touches, this.offset) })
         onTouchCancel && onTouchCancel(e)
       }
+
       updatePos = () => {
         const { offsetX, offsetY } = getOffset(this.vnode.dom)
         this.offset.offsetX = offsetX
         this.offset.offsetY = offsetY
       }
+
       componentDidMount () {
         this.updatePos()
       }
+
       componentDidUpdate () {
         this.updatePos()
       }
+
       render () {
         const props = {
           onTouchStart: this.onTouchStart,
           onTouchMove: this.onTouchMove,
           onTouchEnd: this.onTouchEnd,
           onTouchCancel: this.onTouchCancel,
-          ...omit(this.props, [
-            'onTouchStart',
-            'onTouchMove',
-            'onTouchEnd',
-            'onTouchCancel',
-            'onLongTap'
-          ])
+          ...omit(this.props, ['onTouchStart', 'onTouchMove', 'onTouchEnd', 'onTouchCancel', 'onLongTap'])
         }
         return <ComponentClass {...props} />
       }

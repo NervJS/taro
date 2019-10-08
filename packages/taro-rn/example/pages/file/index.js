@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react'
 import { View, Text, Button } from 'react-native'
 import { styles } from '../styles'
@@ -28,7 +29,7 @@ function handleSaveFile () {
     success: function (res) {
       const tempFilePaths = res.tempFilePaths
       console.log(tempFilePaths)
-      saveFile({tempFilePath: tempFilePaths[0]})
+      saveFile({ tempFilePath: tempFilePaths[0] })
         .then(res => console.log(res))
         .catch(e => console.log('error', e))
     }
@@ -62,7 +63,7 @@ function handleGetSavedFileList () {
 function handleGetSavedFileInfo () {
   console.log('handleGetSavedFileInfo')
   // FileSystem.readDirectoryAsync(FileSystem.documentDirectory).then(res => console.log(res))
-  getSavedFileInfo({filePath: FileSystem.documentDirectory + 'logo-taro.png'})
+  getSavedFileInfo({ filePath: FileSystem.documentDirectory + 'logo-taro.png' })
     .then(res => console.log(res))
     .catch(e => console.log('error', e))
 }
@@ -70,7 +71,7 @@ function handleGetSavedFileInfo () {
 function handleGetFileInfo () {
   console.log('getFileInfo')
   // FileSystem.readDirectoryAsync(FileSystem.documentDirectory).then(res => console.log(res))
-  getFileInfo({filePath: FileSystem.documentDirectory + 'logo-taro.png'})
+  getFileInfo({ filePath: FileSystem.documentDirectory + 'logo-taro.png' })
     .then(res => console.log(res))
     .catch(e => console.log('error', e))
 }
@@ -80,21 +81,21 @@ export function File () {
     <View>
       <Text style={styles.index}>上传下载</Text>
       <View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Button onPress={handleDownloadFile} title='downloadFile' color='#19AD1A' />
           <Button onPress={handleUploadFile} title='uploadFile' color='#19AD1A' />
         </View>
       </View>
       <Text style={styles.index}>文件</Text>
       <View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Button onPress={handleSaveFile} title='saveFile' color='#19AD1A' />
           <Button onPress={handleRemoveSavedFile} title='removeSavedFile' color='#19AD1A' />
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Button onPress={handleGetSavedFileList} title='getSavedFileList' color='#19AD1A' />
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Button onPress={handleGetSavedFileInfo} title='getSavedFileInfo' color='#19AD1A' />
           <Button onPress={handleGetFileInfo} title='getFileInfo' color='#19AD1A' />
         </View>

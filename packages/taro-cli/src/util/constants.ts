@@ -16,10 +16,10 @@ export const enum processTypeEnum {
 }
 
 export interface IProcessTypeMap {
-  [key: string] : {
-    name: string,
-    color: string | Chalk
-  }
+  [key: string]: {
+    name: string;
+    color: string | Chalk;
+  };
 }
 
 export const processTypeMap: IProcessTypeMap = {
@@ -75,31 +75,31 @@ export const JS_EXT: string[] = ['.js', '.jsx']
 export const TS_EXT: string[] = ['.ts', '.tsx']
 export const UX_EXT: string[] = ['.ux']
 
-export const REG_JS: RegExp = /\.js(\?.*)?$/
-export const REG_SCRIPT: RegExp = /\.(js|jsx)(\?.*)?$/
-export const REG_TYPESCRIPT: RegExp = /\.(tsx|ts)(\?.*)?$/
-export const REG_SCRIPTS: RegExp = /\.[tj]sx?$/i
-export const REG_STYLE: RegExp = /\.(css|scss|sass|less|styl|wxss)(\?.*)?$/
-export const REG_MEDIA: RegExp = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
-export const REG_IMAGE: RegExp = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
-export const REG_FONT: RegExp = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
-export const REG_JSON: RegExp = /\.json(\?.*)?$/
-export const REG_UX: RegExp = /\.ux(\?.*)?$/
-export const REG_WXML_IMPORT: RegExp = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi
-export const REG_URL: RegExp = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i
-export const CSS_IMPORT_REG: RegExp = /@import (["'])(.+?)\1;/g
+export const REG_JS = /\.js(\?.*)?$/
+export const REG_SCRIPT = /\.(js|jsx)(\?.*)?$/
+export const REG_TYPESCRIPT = /\.(tsx|ts)(\?.*)?$/
+export const REG_SCRIPTS = /\.[tj]sx?$/i
+export const REG_STYLE = /\.(css|scss|sass|less|styl|wxss)(\?.*)?$/
+export const REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
+export const REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
+export const REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
+export const REG_JSON = /\.json(\?.*)?$/
+export const REG_UX = /\.ux(\?.*)?$/
+export const REG_WXML_IMPORT = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi
+export const REG_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i
+export const CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 
 export const NODE_MODULES = 'node_modules'
 export const NODE_MODULES_REG = /(.*)node_modules/
 
 export const enum BUILD_TYPES {
   WEAPP = 'weapp',
-  H5 ='h5',
-  RN ='rn',
-  SWAN ='swan',
-  ALIPAY ='alipay',
-  TT ='tt',
-  UI ='ui',
+  H5 = 'h5',
+  RN = 'rn',
+  SWAN = 'swan',
+  ALIPAY = 'alipay',
+  TT = 'tt',
+  UI = 'ui',
   PLUGIN = 'plugin',
   QUICKAPP = 'quickapp',
   QQ = 'qq',
@@ -147,14 +147,14 @@ export const enum CONFIG_TYPES {
 }
 
 export type IMINI_APP_FILE_TYPE = {
-  TEMPL: TEMPLATE_TYPES,
-  STYLE: STYLE_TYPES,
-  SCRIPT: SCRIPT_TYPES,
-  CONFIG: CONFIG_TYPES
+  TEMPL: TEMPLATE_TYPES;
+  STYLE: STYLE_TYPES;
+  SCRIPT: SCRIPT_TYPES;
+  CONFIG: CONFIG_TYPES;
 }
 
 export type IMINI_APP_FILES = {
-  [key: string]: IMINI_APP_FILE_TYPE
+  [key: string]: IMINI_APP_FILE_TYPE;
 }
 export const MINI_APP_FILES: IMINI_APP_FILES = {
   [BUILD_TYPES.WEAPP]: {
@@ -283,9 +283,9 @@ export const CONFIG_MAP = {
 export const PROJECT_CONFIG = 'config/index.js'
 
 export const DEVICE_RATIO = {
-  '640': 2.34 / 2,
-  '750': 1,
-  '828': 1.81 / 2
+  640: 2.34 / 2,
+  750: 1,
+  828: 1.81 / 2
 }
 
 export const FILE_PROCESSOR_MAP = {

@@ -126,7 +126,7 @@ export default class App extends Component {
             <EXInput />
           </View>
 
-           <EXMap />
+          <EXMap />
 
           <View style={styles.section}>
             <View style={styles.sectionTit}>

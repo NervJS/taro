@@ -1,4 +1,4 @@
-const {buildProd, buildDev} = require('./src')
+const { buildProd, buildDev } = require('./src')
 
 module.exports = function (config) {
   if (config.isWatch) {

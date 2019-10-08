@@ -3,7 +3,7 @@ import ActionSheet from '../ActionSheet'
 import RootSiblings from 'react-native-root-siblings'
 
 function showActionSheet (obj) {
-  let {
+  const {
     itemList = [],
     itemColor = '#000000',
     success,
@@ -24,7 +24,7 @@ function showActionSheet (obj) {
           return {
             type: 'default',
             label: item,
-            textStyle: {color: itemColor},
+            textStyle: { color: itemColor },
             onPress: onSuccess.bind(this, index)
           }
         })}
@@ -32,7 +32,7 @@ function showActionSheet (obj) {
           {
             type: 'default',
             label: '取消',
-            textStyle: {color: itemColor},
+            textStyle: { color: itemColor },
             onPress: onFail.bind(this)
           }
         ]}
@@ -51,7 +51,7 @@ function showActionSheet (obj) {
             return {
               type: 'default',
               label: item,
-              textStyle: {color: itemColor},
+              textStyle: { color: itemColor },
               onPress: onSuccess.bind(this, index)
             }
           })}
@@ -59,7 +59,7 @@ function showActionSheet (obj) {
             {
               type: 'default',
               label: '取消',
-              textStyle: {color: itemColor},
+              textStyle: { color: itemColor },
               onPress: onFail.bind(this)
             }
           ]}
@@ -70,14 +70,14 @@ function showActionSheet (obj) {
     function onSuccess (tapIndex) {
       sibling && sibling.destroy()
       sibling = undefined
-      const res = {tapIndex, errMsg: 'showActionSheet:ok'}
+      const res = { tapIndex, errMsg: 'showActionSheet:ok' }
       success && success(res)
       complete && complete(res)
       resolve(res)
     }
 
     function onFail () {
-      const res = {errMsg: 'showActionSheet:fail cancel'}
+      const res = { errMsg: 'showActionSheet:fail cancel' }
       sibling && sibling.destroy()
       sibling = undefined
       fail && fail(res)

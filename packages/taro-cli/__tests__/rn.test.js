@@ -1,7 +1,7 @@
 import { projAppJS, simpleAppJS, reduxAppJS } from './mocks/app'
 import { simplePageJS, reduxPageJS } from './mocks/page'
 
-const {transformJSCode} = require('../src/rn/transformJS')
+const { transformJSCode } = require('../src/rn/transformJS')
 const _ = require('lodash')
 
 const filePath = '/Users/chengshuai/Taro/taro-quick-start/src/app.js'

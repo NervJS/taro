@@ -99,7 +99,7 @@ module.exports = {
 
     // Enforce or disallow spaces inside of curly braces in JSX attributes
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-curly-spacing.md
-    'react/jsx-curly-spacing': ['error', {'when': 'never', 'allowMultiline': true}],
+    'react/jsx-curly-spacing': ['error', { when: 'never', allowMultiline: true }],
 
     // Enforce event handler naming conventions in JSX
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md

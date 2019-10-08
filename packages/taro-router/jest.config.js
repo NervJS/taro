@@ -6,6 +6,6 @@ module.exports = {
     window: true
   },
   moduleNameMapper: {
-    'nervjs': '<rootDir>/node_modules/nervjs'
+    nervjs: '<rootDir>/node_modules/nervjs'
   }
 }

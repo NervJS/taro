@@ -1,4 +1,4 @@
-const globalAny:any = global;
+const globalAny: any = global
 
 globalAny._taroMapMap = {}
 
@@ -12,7 +12,7 @@ class MapContext {
   /**
    * 获取当前地图中心的经纬度。返回的是 gcj02 坐标系，可以用于 wx.openLocation()
    */
-  getCenterLocation(){
+  getCenterLocation () {
 
   }
 
@@ -20,38 +20,37 @@ class MapContext {
    * 获取当前地图的视野范围
    * @param opts
    */
-  getRegion(opts){
+  getRegion (opts) {
 
   }
 
   /**
    * 获取当前地图的缩放级别
    */
-  getScale(){
+  getScale () {
 
   }
 
   /**
    * 缩放视野展示所有经纬度
    */
-  includePoints(){
+  includePoints () {
 
   }
 
   /**
    * 将地图中心移动到当前定位点。需要配合map组件的show-location使用
    */
-  moveToLocation(){
+  moveToLocation () {
 
   }
 
   /**
    * 平移marker，带动画
    */
-  translateMarker(){
+  translateMarker () {
 
   }
-
 }
 
 /**

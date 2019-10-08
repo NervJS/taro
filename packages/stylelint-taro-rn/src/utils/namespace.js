@@ -1,5 +1,5 @@
-const prefix = "taro-rn";
+const prefix = 'taro-rn'
 
-export function namespace(ruleName) {
-  return `${prefix}/${ruleName}`;
+export function namespace (ruleName) {
+  return `${prefix}/${ruleName}`
 }

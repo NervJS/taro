@@ -1,10 +1,10 @@
-import { types as Types, PluginObj } from 'babel-core';
+import { types as Types, PluginObj } from 'babel-core'
 
 const plugin = function (babel: {
   types: typeof Types;
 }): PluginObj {
   const t = babel.types
-  
+
   // 这些变量需要在每个programe里重置
   const invokedApis: Map<string, string> = new Map()
   let taroName: string

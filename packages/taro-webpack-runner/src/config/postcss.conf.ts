@@ -10,10 +10,7 @@ import { isNpmPackage, recursiveMerge } from '../util'
 const defaultAutoprefixerOption = {
   enable: true,
   config: {
-    browsers: [
-      'Android >= 4',
-      'iOS >= 6'
-    ],
+    browsers: ['Android >= 4', 'iOS >= 6'],
     flexbox: 'no-2009'
   }
 }
@@ -30,10 +27,12 @@ const defaultPxtransformOption: {
 //   config: {}
 // }
 const defaultConstparseOption = {
-  constants: [{
-    key: 'taro-tabbar-height',
-    val: '50PX'
-  }],
+  constants: [
+    {
+      key: 'taro-tabbar-height',
+      val: '50PX'
+    }
+  ],
   platform: 'h5'
 }
 
@@ -77,7 +76,8 @@ export const getPostcssPlugins = function (appPath: string, {
     if (optionsWithDefaults.indexOf(pluginName) > -1) return
     if (!pluginOption || !pluginOption.enable) return
 
-    if (!isNpmPackage(pluginName)) { // local plugin
+    if (!isNpmPackage(pluginName)) {
+      // local plugin
       pluginName = path.join(appPath, pluginName)
     }
 

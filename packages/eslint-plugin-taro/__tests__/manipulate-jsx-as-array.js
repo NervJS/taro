@@ -8,7 +8,7 @@ const ERROR_MESSAGE = '不能使用 Array#map 之外的方法操作 JSX 数组'
 
 ruleTester.run('manipulate-jsx-as-array', rule, {
   valid: testValid([
-    `numbers.map((number) => number * 2)`,
+    'numbers.map((number) => number * 2)',
     `numbers.map((number) => {
       return number * 2
     })`,
@@ -34,15 +34,15 @@ ruleTester.run('manipulate-jsx-as-array', rule, {
     })`
   ]),
   invalid: testInvalid(ERROR_MESSAGE, [
-    `test.push(<View />)`,
+    'test.push(<View />)',
     `numbers.forEach(numbers => {
       a = <View />
     })`,
-    `test.shift(<View />)`,
+    'test.shift(<View />)',
     `components.find(component => {
       return component === <View />
     })`,
-    `components.fill(<View />)`,
-    `components.some(component => component.constructor === <View />)`
+    'components.fill(<View />)',
+    'components.some(component => component.constructor === <View />)'
   ])
 })

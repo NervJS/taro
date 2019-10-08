@@ -52,7 +52,7 @@ describe('websocket', () => {
       complete,
       fail
     }).catch(err => {
-      const expectErrMsg = `同时最多发起 2 个 socket 请求，更多请参考文档。`
+      const expectErrMsg = '同时最多发起 2 个 socket 请求，更多请参考文档。'
       expect(success.mock.calls.length).toBe(2)
       expect(fail.mock.calls.length).toBe(1)
       expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })

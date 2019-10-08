@@ -2,7 +2,7 @@ import { TaroText } from '../dom/text'
 import { TaroElement } from '../dom/element'
 import { NodeType } from '../dom/node_types'
 import { TaroRootElement } from '../dom/root'
-import { eventSource } from 'src/dom/event'
+import { eventSource } from '../dom/event'
 
 export class TaroDocument extends TaroElement {
   private app = this.createElement('app')
@@ -26,7 +26,7 @@ export class TaroDocument extends TaroElement {
     if (id === 'app') {
       return this.app
     }
-    return eventSource.get(id) as T || null
+    return (eventSource.get(id) as T) || null
   }
 }
 
@@ -40,15 +40,11 @@ interface TaroDocumentInstance extends TaroDocument {
 export function createDocument () {
   const doc = new TaroDocument() as TaroDocumentInstance
 
-  doc.appendChild(doc.documentElement = doc.createElement('html'))
+  doc.appendChild((doc.documentElement = doc.createElement('html')))
 
-  doc.documentElement.appendChild(
-    doc.head = doc.createElement('head')
-  )
+  doc.documentElement.appendChild((doc.head = doc.createElement('head')))
 
-  doc.documentElement.appendChild(
-    doc.head = doc.createElement('body')
-  )
+  doc.documentElement.appendChild((doc.head = doc.createElement('body')))
 
   return doc
 }

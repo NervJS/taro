@@ -14,7 +14,7 @@ class HomeScreen extends React.Component {
 }
 
 describe('RefreshProvider', function () {
-  let Taro = {}
+  const Taro = {}
   it('should render success', function () {
     const wrapper = shallow(<RefreshProvider Taro={Taro}><HomeScreen /></RefreshProvider>)
     expect(toJson(wrapper)).toMatchSnapshot()
@@ -23,15 +23,15 @@ describe('RefreshProvider', function () {
   it('should call onScroll success', function () {
     const mockCallback = jest.fn()
     const wrapper = shallow(<RefreshProvider Taro={Taro}><HomeScreen /></RefreshProvider>)
-    wrapper.setProps({onScroll: mockCallback})
-    wrapper.instance().onScroll({nativeEvent: {contentOffset: {}}})
+    wrapper.setProps({ onScroll: mockCallback })
+    wrapper.instance().onScroll({ nativeEvent: { contentOffset: {} } })
     expect(mockCallback.mock.calls.length).toBe(1)
   })
 
   it('should call handleReachBottom success', function () {
     const mockCallback = jest.fn()
     const wrapper = shallow(<RefreshProvider Taro={Taro}><HomeScreen /></RefreshProvider>)
-    wrapper.setProps({onReachBottom: mockCallback})
+    wrapper.setProps({ onReachBottom: mockCallback })
     wrapper.instance().handleReachBottom()
     expect(mockCallback.mock.calls.length).toBe(1)
   })
@@ -39,7 +39,7 @@ describe('RefreshProvider', function () {
   it('should call handlePullDownRefresh success', function (done) {
     const mockCallback = jest.fn()
     const wrapper = shallow(<RefreshProvider Taro={Taro}><HomeScreen /></RefreshProvider>)
-    wrapper.setProps({onPullDownRefresh: mockCallback})
+    wrapper.setProps({ onPullDownRefresh: mockCallback })
 
     function callback (data) {
       expect(wrapper.state().refreshing).toBe(true)
@@ -58,7 +58,7 @@ describe('RefreshProvider', function () {
       done()
     }
 
-    wrapper.setState({refreshing: true})
+    wrapper.setState({ refreshing: true })
     wrapper.instance().stopPullDownRefresh(callback)
   })
 })

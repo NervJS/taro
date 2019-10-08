@@ -4,7 +4,7 @@ import RootSiblings from 'react-native-root-siblings'
 import Dialog from '../Dialog'
 
 function showModal (obj) {
-  let {
+  const {
     title = '',
     content = '',
     showCancel = true,
@@ -42,7 +42,7 @@ function showModal (obj) {
         ><Text>{content}</Text></Dialog>
       )
     } catch (e) {
-      const res = {errMsg: `showModal fail:${e.message}`}
+      const res = { errMsg: `showModal fail:${e.message}` }
       fail && fail(res)
       complete && complete(res)
       reject(res)
@@ -50,7 +50,7 @@ function showModal (obj) {
 
     function onConfirm () {
       console.log('onConfirm')
-      const res = {errMsg: 'showModal:ok', confirm: true, cancel: false}
+      const res = { errMsg: 'showModal:ok', confirm: true, cancel: false }
       sibling && sibling.destroy()
       sibling = undefined
       success && success(res)
@@ -59,7 +59,7 @@ function showModal (obj) {
     }
 
     function onCancel () {
-      const res = {errMsg: 'showModal:fail cancel', confirm: false, cancel: true}
+      const res = { errMsg: 'showModal:fail cancel', confirm: false, cancel: true }
       sibling && sibling.destroy()
       sibling = undefined
       fail && fail(res)

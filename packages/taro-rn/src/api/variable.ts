@@ -31,9 +31,4 @@ const _global = {
   baseLineHeight: 1.6
 }
 
-export default merge(
-  {},
-  _global,
-  _cell,
-  _dialog
-)
+export default merge({}, _global, _cell, _dialog)

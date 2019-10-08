@@ -17,11 +17,11 @@ function onDeviceMotionChange (fnc) {
  * @param {string} [object.interval='normal'] - 监听设备方向的变化回调函数的执行频率
  */
 function startDeviceMotionListening (object = {}) {
-  const {interval = 'normal', success, fail, complete} = object
+  const { interval = 'normal', success, fail, complete } = object
   devMotionCase.interval = interval
   try {
     devMotionCase.listener = DeviceMotion.addListener((res) => {
-      const {rotation} = res
+      const { rotation } = res
       devMotionCase.callback && devMotionCase.callback(rotation)
     })
     success && success()
@@ -29,11 +29,11 @@ function startDeviceMotionListening (object = {}) {
   } catch (error) {
     fail && fail()
     complete && complete()
-    const res = {errMsg: 'startDeviceMotionListening failed'}
+    const res = { errMsg: 'startDeviceMotionListening failed' }
     return Promise.reject(res)
   }
   DeviceMotion.setUpdateInterval(intervalMap[interval] || intervalMap.normal)
-  return Promise.resolve({errMsg: 'ok'})
+  return Promise.resolve({ errMsg: 'ok' })
 }
 
 /**
@@ -41,17 +41,17 @@ function startDeviceMotionListening (object = {}) {
  * @param object
  */
 function stopDeviceMotionListening (object = {}) {
-  const {success, fail, complete} = object
+  const { success, fail, complete } = object
   try {
     devMotionCase.listener.remove()
     devMotionCase.listener = null
     success && success()
     complete && complete()
-    return Promise.resolve({errMsg: 'ok'})
+    return Promise.resolve({ errMsg: 'ok' })
   } catch (error) {
     fail && fail()
     complete && complete()
-    const res = {errMsg: 'stopDeviceMotionListening failed'}
+    const res = { errMsg: 'stopDeviceMotionListening failed' }
     return Promise.reject(res)
   }
 }

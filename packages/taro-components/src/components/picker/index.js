@@ -180,12 +180,12 @@ export default class Picker extends Nerv.Component {
 
   // 获取年月日下标或者下标对应的数
   getDateArrIndex (value, fields, getIdx = false) {
-    let year = this.getDateRange(
+    const year = this.getDateRange(
       this.pickerDate._start.getFullYear(),
       this.pickerDate._end.getFullYear()
     )
-    let month = this.getMonthRange()
-    let day = this.getDayRange()
+    const month = this.getMonthRange()
+    const day = this.getDayRange()
 
     if (getIdx) {
       if (fields === 0) {
@@ -421,7 +421,7 @@ export default class Picker extends Nerv.Component {
       return (
         <PickerGroup
           range={this.props.range}
-          rangeKey={this.props['rangeKey']}
+          rangeKey={this.props.rangeKey}
           height={this.state.height[0]}
           updateHeight={updateHeight}
           columnId='0'
@@ -435,7 +435,7 @@ export default class Picker extends Nerv.Component {
         return (
           <PickerGroup
             range={range}
-            rangeKey={this.props['rangeKey']}
+            rangeKey={this.props.rangeKey}
             height={this.state.height[index]}
             updateHeight={updateHeight}
             onColumnChange={onColumnChange}
@@ -507,24 +507,24 @@ export default class Picker extends Nerv.Component {
       this.pickerDate._updateValue[fields] = value
       // 滚动年份
       if (fields === 0) {
-        let monthRange = this.getMonthRange()
+        const monthRange = this.getMonthRange()
         updateDay(monthRange[0] * 1, 1)
         updateHeight(TOP, 1)
       } else if (fields === 1) {
-        let dayRange = this.getDayRange()
+        const dayRange = this.getDayRange()
         updateDay(dayRange[0] * 1, 2)
         updateHeight(TOP, 2)
       }
     }
 
     const gitDateSelector = () => {
-      let year = this.getDateRange(
+      const year = this.getDateRange(
         this.pickerDate._start.getFullYear(),
         this.pickerDate._end.getFullYear(),
         '年'
       )
-      let month = this.getMonthRange('月')
-      let day = this.getDayRange('日')
+      const month = this.getMonthRange('月')
+      const day = this.getDayRange('日')
       let renderView = []
       if (this.props.fields === 'year') {
         renderView.push(

@@ -16,7 +16,7 @@ class HomeScreen extends React.Component {
 }
 
 describe('TaroProvider', function () {
-  let Taro = {}
+  const Taro = {}
   it('should render success', function () {
     const wrapper = shallow(<TaroProvider Taro={Taro}><HomeScreen /></TaroProvider>)
     expect(toJson(wrapper)).toMatchSnapshot()
@@ -41,40 +41,40 @@ describe('TaroProvider', function () {
     it('should call navigateTo success', function () {
       const mockCallback = jest.fn()
       const wrapper = shallow(<TaroProvider Taro={Taro}><HomeScreen /></TaroProvider>)
-      wrapper.setProps({navigation: {push: mockCallback}})
-      Taro.navigateTo({url: '/pages/index'})
+      wrapper.setProps({ navigation: { push: mockCallback } })
+      Taro.navigateTo({ url: '/pages/index' })
       expect(mockCallback.mock.calls.length).toBe(1)
     })
 
     it('should call redirectTo success', function () {
       const mockCallback = jest.fn()
       const wrapper = shallow(<TaroProvider Taro={Taro}><HomeScreen /></TaroProvider>)
-      wrapper.setProps({navigation: {replace: mockCallback}})
-      Taro.redirectTo({url: '/pages/index'})
+      wrapper.setProps({ navigation: { replace: mockCallback } })
+      Taro.redirectTo({ url: '/pages/index' })
       expect(mockCallback.mock.calls.length).toBe(1)
     })
 
     it('should call navigateBack success', function () {
       const mockCallback = jest.fn()
       const wrapper = shallow(<TaroProvider Taro={Taro}><HomeScreen /></TaroProvider>)
-      wrapper.setProps({navigation: {goBack: mockCallback}})
-      Taro.navigateBack({url: '/pages/index'})
+      wrapper.setProps({ navigation: { goBack: mockCallback } })
+      Taro.navigateBack({ url: '/pages/index' })
       expect(mockCallback.mock.calls.length).toBe(1)
     })
 
     it('should call switchTab success', function () {
       const mockCallback = jest.fn()
       const wrapper = shallow(<TaroProvider Taro={Taro}><HomeScreen /></TaroProvider>)
-      wrapper.setProps({navigation: {navigate: mockCallback}})
-      Taro.switchTab({url: '/pages/index'})
+      wrapper.setProps({ navigation: { navigate: mockCallback } })
+      Taro.switchTab({ url: '/pages/index' })
       expect(mockCallback.mock.calls.length).toBe(1)
     })
 
     it('should call getCurrentPages success', function () {
-      const mockCallback = jest.fn().mockReturnValue({state: {}})
+      const mockCallback = jest.fn().mockReturnValue({ state: {} })
       const wrapper = shallow(<TaroProvider Taro={Taro}><HomeScreen /></TaroProvider>)
-      wrapper.setProps({navigation: {dangerouslyGetParent: mockCallback}})
-      Taro.getCurrentPages({url: '/pages/index'})
+      wrapper.setProps({ navigation: { dangerouslyGetParent: mockCallback } })
+      Taro.getCurrentPages({ url: '/pages/index' })
       expect(mockCallback.mock.calls.length).toBe(1)
     })
 

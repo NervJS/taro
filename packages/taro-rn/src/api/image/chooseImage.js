@@ -3,7 +3,7 @@ import ImagePicker from 'react-native-image-crop-picker'
 import { shouleBeObject } from '../utils'
 import { showActionSheet } from '../interface'
 
-const res = {errMsg: 'chooseImage:ok'}
+const res = { errMsg: 'chooseImage:ok' }
 const defaultOptions = {
   count: 9,
   sizeType: ['original', 'compressed'],
@@ -21,13 +21,13 @@ export function chooseImage (options) {
   // options must be an Object
   const isObject = shouleBeObject(options)
   if (!isObject.res) {
-    const res = {errMsg: `chooseImage${isObject.msg}`}
+    const res = { errMsg: `chooseImage${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
 
   options = Object.assign({}, defaultOptions, options)
-  const {sourceType} = options
+  const { sourceType } = options
 
   switch (JSON.stringify(sourceType)) {
     case '[\'camera\']':
@@ -40,7 +40,7 @@ export function chooseImage (options) {
 }
 
 function openCamera (options) {
-  const {success, fail, complete} = options
+  const { success, fail, complete } = options
   return ImagePicker.openCamera({}).then(image => {
     const result = {
       tempFilePaths: [image.path],
@@ -59,13 +59,13 @@ function openCamera (options) {
 
 function openPicker (options) {
   console.log(options)
-  const {count: maxFiles, success, complete} = options
+  const { count: maxFiles, success, complete } = options
   return ImagePicker.openPicker({
     multiple: true,
     maxFiles
   }).then(images => {
     console.log(images)
-    let data = Object.assign({}, getRes(images), res)
+    const data = Object.assign({}, getRes(images), res)
     success && success(data)
     complete && complete(data)
     return data
@@ -73,8 +73,8 @@ function openPicker (options) {
 }
 
 function getRes (images) {
-  let tempFilePaths = []
-  let tempFiles = []
+  const tempFilePaths = []
+  const tempFiles = []
   images.forEach(item => {
     tempFilePaths.push(item.path)
     tempFiles.push({
@@ -82,7 +82,7 @@ function getRes (images) {
       size: item.size
     })
   })
-  return {tempFilePaths, tempFiles}
+  return { tempFilePaths, tempFiles }
 }
 
 /**
@@ -91,7 +91,7 @@ function getRes (images) {
  * @returns {Promise}
  */
 function showImagePicker (options) {
-  const {fail, complete} = options
+  const { fail, complete } = options
   return new Promise((resolve, reject) => {
     showActionSheet({
       itemList: ['拍照', '从手机相册选择'],
@@ -103,8 +103,8 @@ function showImagePicker (options) {
             openCamera(options).then(res => {
               resolve(res)
             }).catch(e => {
-              fail && fail({errMsg: `chooseImage:${e.message}`})
-              complete && complete({errMsg: `chooseImage:${e.message}`})
+              fail && fail({ errMsg: `chooseImage:${e.message}` })
+              complete && complete({ errMsg: `chooseImage:${e.message}` })
               reject(new Error(`chooseImage:${e.message}`))
             })
           }, 100)
@@ -114,8 +114,8 @@ function showImagePicker (options) {
             openPicker(options).then(res => {
               resolve(res)
             }).catch(e => {
-              fail && fail({errMsg: `chooseImage:${e.message}`})
-              complete && complete({errMsg: `chooseImage:${e.message}`})
+              fail && fail({ errMsg: `chooseImage:${e.message}` })
+              complete && complete({ errMsg: `chooseImage:${e.message}` })
               reject(new Error(`chooseImage:${e.message}`))
             })
           }, 100)

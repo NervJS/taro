@@ -6,7 +6,7 @@ async function chooseMedia (opts, mediaTypes) {
   if (!opts || typeof opts !== 'object') {
     opts = {}
   }
-  const {sizeType = [], sourceType = [], success, fail, complete} = opts
+  const { sizeType = [], sourceType = [], success, fail, complete } = opts
   const options = {
     mediaTypes,
     quality: sizeType[0] === 'compressed' ? 0.7 : 1
@@ -14,7 +14,7 @@ async function chooseMedia (opts, mediaTypes) {
   const isCamera = sourceType[0] === 'camera'
   const status = isCamera ? await askAsyncPermissions(Permissions.CAMERA) : await askAsyncPermissions(Permissions.CAMERA_ROLL)
   if (status !== 'granted') {
-    const res = {errMsg: `Permissions denied!`}
+    const res = { errMsg: 'Permissions denied!' }
     return Promise.reject(res)
   }
 
@@ -22,7 +22,7 @@ async function chooseMedia (opts, mediaTypes) {
   return new Promise((resolve, reject) => {
     p = isCamera ? ImagePicker.launchCameraAsync(options) : ImagePicker.launchImageLibraryAsync(options)
     p.then((resp) => {
-      const {uri} = resp
+      const { uri } = resp
       resp.path = uri
       const res = {
         tempFilePaths: [uri],
@@ -33,7 +33,7 @@ async function chooseMedia (opts, mediaTypes) {
       resolve(res)
     }).catch((err) => {
       const res = {
-        errMsg: `chooseImage fail`,
+        errMsg: 'chooseImage fail',
         err
       }
       fail && fail(res)
@@ -43,4 +43,4 @@ async function chooseMedia (opts, mediaTypes) {
   })
 }
 
-export {chooseMedia}
+export { chooseMedia }

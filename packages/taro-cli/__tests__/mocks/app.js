@@ -148,4 +148,4 @@ Taro.render(<App />, document.getElementById('app'))
 
 `
 
-export { projAppJS, simpleAppJS ,reduxAppJS}
+export { projAppJS, simpleAppJS, reduxAppJS }

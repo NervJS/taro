@@ -1,7 +1,7 @@
-import rule, { ruleName, messages } from "..";
+import rule, { ruleName, messages } from '..'
 
-const acceptedWeights = ["400", "700", "normal", "bold"];
-const rejectedWeights = ["100", "200", "300", "500", "600", "800", "900"];
+const acceptedWeights = ['400', '700', 'normal', 'bold']
+const rejectedWeights = ['100', '200', '300', '500', '600', '800', '900']
 
 testRule(rule, {
   ruleName,
@@ -15,7 +15,7 @@ testRule(rule, {
       }
       `,
       description: `font-weight: ${w}`
-    };
+    }
   }),
 
   reject: rejectedWeights.map(w => {
@@ -29,6 +29,6 @@ testRule(rule, {
       message: messages.rejected(w),
       line: 3,
       column: 22
-    };
+    }
   })
-});
+})

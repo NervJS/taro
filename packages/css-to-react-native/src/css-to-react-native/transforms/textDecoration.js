@@ -1,48 +1,48 @@
-import { regExpToken, tokens } from "../tokenTypes";
+import { regExpToken, tokens } from '../tokenTypes'
 
-const { SPACE, LINE, COLOR } = tokens;
+const { SPACE, LINE, COLOR } = tokens
 
-const STYLE = regExpToken(/^(solid|double|dotted|dashed)$/);
+const STYLE = regExpToken(/^(solid|double|dotted|dashed)$/)
 
-const defaultTextDecorationLine = "none";
-const defaultTextDecorationStyle = "solid";
-const defaultTextDecorationColor = "black";
+const defaultTextDecorationLine = 'none'
+const defaultTextDecorationStyle = 'solid'
+const defaultTextDecorationColor = 'black'
 
 export default tokenStream => {
-  let line;
-  let style;
-  let color;
+  let line
+  let style
+  let color
 
-  let didParseFirst = false;
+  let didParseFirst = false
   while (tokenStream.hasTokens()) {
-    if (didParseFirst) tokenStream.expect(SPACE);
+    if (didParseFirst) tokenStream.expect(SPACE)
 
     if (line === undefined && tokenStream.matches(LINE)) {
-      const lines = [tokenStream.lastValue.toLowerCase()];
+      const lines = [tokenStream.lastValue.toLowerCase()]
 
-      tokenStream.saveRewindPoint();
+      tokenStream.saveRewindPoint()
       if (
-        lines[0] !== "none" &&
+        lines[0] !== 'none' &&
         tokenStream.matches(SPACE) &&
         tokenStream.matches(LINE)
       ) {
-        lines.push(tokenStream.lastValue.toLowerCase());
+        lines.push(tokenStream.lastValue.toLowerCase())
         // Underline comes before line-through
-        lines.sort().reverse();
+        lines.sort().reverse()
       } else {
-        tokenStream.rewind();
+        tokenStream.rewind()
       }
 
-      line = lines.join(" ");
+      line = lines.join(' ')
     } else if (style === undefined && tokenStream.matches(STYLE)) {
-      style = tokenStream.lastValue;
+      style = tokenStream.lastValue
     } else if (color === undefined && tokenStream.matches(COLOR)) {
-      color = tokenStream.lastValue;
+      color = tokenStream.lastValue
     } else {
-      tokenStream.throw();
+      tokenStream.throw()
     }
 
-    didParseFirst = true;
+    didParseFirst = true
   }
 
   const $merge = {
@@ -50,7 +50,7 @@ export default tokenStream => {
     textDecorationColor:
       color !== undefined ? color : defaultTextDecorationColor,
     textDecorationStyle:
-      style !== undefined ? style : defaultTextDecorationStyle,
-  };
-  return { $merge };
-};
+      style !== undefined ? style : defaultTextDecorationStyle
+  }
+  return { $merge }
+}

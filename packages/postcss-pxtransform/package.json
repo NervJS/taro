@@ -22,11 +22,6 @@
     "postcss": "^6.0.16",
     "postcss-pxtorem": "^4.0.1"
   },
-  "devDependencies": {
-    "eslint": "^4.18.2",
-    "eslint-config-postcss": "^2.0.2",
-    "jest": "^22.4.2"
-  },
   "scripts": {
     "test": "jest"
   },

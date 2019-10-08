@@ -18,18 +18,18 @@ function testClassMethod (name, expr, from) {
 ruleTester.run('class-naming', rule, {
   valid: [
     {
-      code: testClassMethod(`Test`)
+      code: testClassMethod('Test')
     },
     {
-      code: testClassMethod(`Test`, '<Text />')
+      code: testClassMethod('Test', '<Text />')
     },
     {
-      code: testClassMethod(`B`)
+      code: testClassMethod('B')
     }
   ],
   invalid: [
     {
-      code: testClassMethod(`Text`),
+      code: testClassMethod('Text'),
       errors: [{ message: ERROR_MESSAGE }]
     }
   ]

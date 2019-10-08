@@ -111,7 +111,7 @@ const createRedirectTo = ({ customRoutes }: RouterConfig, history?: History) => 
       invariant(url, 'redirectTo must be called with a url')
 
       if (/^(https?:)\/\//.test(url)) {
-        window.location.assign(url);
+        window.location.assign(url)
       } if (history) {
         history.replace(url)
       } else {
@@ -142,7 +142,7 @@ const createReLaunch = ({ customRoutes }: RouterConfig, history?: History) => {
       if (history) {
         history.go(-(history.length - 1))
         if (/^(https?:)\/\//.test(url)) {
-          window.location.assign(url);
+          window.location.assign(url)
         } else {
           history.replace(url)
         }

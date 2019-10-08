@@ -33,15 +33,13 @@ const getHash = (content, options) => {
   try {
     const hashFunc = crypto.createHash(options.method)
 
-    return hashFunc.update(content)
-      .digest('hex')
+    return hashFunc.update(content).digest('hex')
   } catch (e) {
     return null
   }
 }
 
-function hash(content, options) {
-
+function hash (content, options) {
   options = options || defaultHashOptions
 
   let hash = getHash(content, options)
@@ -55,7 +53,7 @@ function hash(content, options) {
   return options.shrink ? hash.substr(0, options.shrink) : hash
 }
 
-export default (file, options? : any) => {
+export default (file, options?: any) => {
   const content = fs.readFileSync(file)
   const ext = path.extname(file)
   return hash(content, options) + ext

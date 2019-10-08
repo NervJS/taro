@@ -37,20 +37,20 @@ if (typeof Object.defineProperties !== 'function') {
 
       if (typeof desc !== 'object' || desc === null) { throw new TypeError('bad desc') }
 
-      var d = {}
+      const d = {}
 
       if (hasProperty(desc, 'enumerable')) d.enumerable = !!desc.enumerable
       if (hasProperty(desc, 'configurable')) { d.configurable = !!desc.configurable }
       if (hasProperty(desc, 'value')) d.value = desc.value
       if (hasProperty(desc, 'writable')) d.writable = !!desc.writable
       if (hasProperty(desc, 'get')) {
-        var g = desc.get
+        const g = desc.get
 
         if (!isCallable(g) && typeof g !== 'undefined') { throw new TypeError('bad get') }
         d.get = g
       }
       if (hasProperty(desc, 'set')) {
-        var s = desc.set
+        const s = desc.set
         if (!isCallable(s) && typeof s !== 'undefined') { throw new TypeError('bad set') }
         d.set = s
       }
@@ -64,14 +64,14 @@ if (typeof Object.defineProperties !== 'function') {
 
     properties = Object(properties)
 
-    var keys = Object.keys(properties)
-    var descs = []
+    const keys = Object.keys(properties)
+    const descs = []
 
-    for (var i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       descs.push([keys[i], convertToDescriptor(properties[keys[i]])])
     }
 
-    for (var i = 0; i < descs.length; i++) {
+    for (let i = 0; i < descs.length; i++) {
       Object.defineProperty(obj, descs[i][0], descs[i][1])
     }
 
