@@ -1,7 +1,7 @@
 const { src, dest, parallel } = require('gulp')
 const ts = require('gulp-typescript')
 
-const tsProject = ts.createProject('tsconfig.json')
+const tsProject = ts.createProject('./tsconfig.json')
 const distPath = 'dist'
 
 function typescripts () {

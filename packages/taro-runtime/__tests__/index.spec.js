@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement, render, Component } from 'nervjs'
-import { MpDocument, createDocument } from '../src/document'
+import { MpDocument, createDocument } from '../src/bom/document'
 
 global.window = {}
 

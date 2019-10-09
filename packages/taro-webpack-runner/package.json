@@ -4,13 +4,8 @@
   "description": "webpack runner for taro",
   "main": "index.js",
   "scripts": {
-    "build": "jest && run-s clean prod",
+    "build": "tsc",
     "dev": "tsc -w",
-    "prod": "tsc",
-    "clean": "rimraf dist",
-    "lint": "tslint src/**/*.ts --fix",
-    "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
-    "prepack": "npm run build",
     "test": "jest",
     "test:dev": "jest --watch"
   },

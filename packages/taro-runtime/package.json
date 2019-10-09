@@ -5,7 +5,6 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "build": "bili --input ./src/index.ts --format cjs --format esm",
     "tsc": "tsc"
   },
   "module": "dist/index.esm.js",

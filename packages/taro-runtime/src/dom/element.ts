@@ -116,6 +116,7 @@ export class TaroElement extends TaroNode {
   }
 
   private _stopPropagation (event: TaroEvent) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     let target = this
     // eslint-disable-next-line no-cond-assign
     while ((target = target.parentNode as this)) {

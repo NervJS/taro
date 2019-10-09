@@ -11,9 +11,8 @@
     "index.js"
   ],
   "scripts": {
-    "build": "npm run test && rollup -c rollup.config.js",
+    "build": "rollup -c rollup.config.js",
     "dev": "rollup -c rollup.config.js --watch",
-    "prepack": "npm run build",
     "test": "jest",
     "test:dev": "jest --watch"
   },

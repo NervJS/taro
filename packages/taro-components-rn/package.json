@@ -9,14 +9,10 @@
     "buildv2": "rm -rf ./dist && npm run build:static && tsc",
     "dev": "npm run build:static && tsc --watch",
     "lint": "eslint .",
-    "prepare": "npm run build",
     "test-update": "jest --updateSnapshot"
   },
   "files": [
     "dist"
-  ],
-  "pre-commit": [
-    "lint"
   ],
   "repository": {
     "type": "git",

@@ -12,7 +12,8 @@
     "postcss-value-parser": "^3.3.0"
   },
   "scripts": {
-    "build": "babel src --ignore *.spec.js --out-dir dist"
+    "build": "babel src --ignore *.spec.js --out-dir ./dist",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,37 @@
     "styles",
     "CSS"
   ],
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "coverageDirectory": "./.coverage/",
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist",
+      "<rootDir>/node_modules"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "all"
+  },
   "files": [
     "dist",
     "src",

@@ -1,5 +1,5 @@
-import { Style } from '../src/style'
-import { TaroRootElement } from '../src/root'
+import { Style } from '../src/dom/style'
+import { TaroRootElement } from '../src/dom/root'
 
 describe('style', () => {
   it('works', () => {

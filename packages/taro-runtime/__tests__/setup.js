@@ -1,11 +1,4 @@
-import { createDocument } from '../src/document'
+import { document, window } from '../src'
 
-const doc = createDocument()
-
-global.window = {}
-
-global.window.document = doc
-global.document = doc
-global.navigator = {
-  userAgent: ''
-}
+global.window = window
+global.document = document

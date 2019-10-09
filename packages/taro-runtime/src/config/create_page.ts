@@ -4,7 +4,7 @@ import { document } from '../bom/document'
 import { TaroRootElement } from '../dom/root'
 import { ComponentClass, Component } from 'react'
 import { MpInstance } from '../render'
-import { BaseEvent } from '@tarojs/components'
+import { CommonEvent } from '@tarojs/components'
 
 interface Props {
   children?: unknown;
@@ -41,7 +41,7 @@ export function createPageConfig (derivedIDfromCompiler: string) {
   let page: TaroRootElement
 
   const config = {
-    eh (event: BaseEvent) {
+    eh (event: CommonEvent) {
       const node = document.getElementById(event.currentTarget.id)
       if (node !== null) {
         node.dispatchEvent(createEvent(event))

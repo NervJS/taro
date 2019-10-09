@@ -153,7 +153,7 @@ const mergeOption = ([...options]: Option[]): Option => {
   return recursiveMerge({}, ...options)
 }
 
-const processEnvOption = partial(mapKeys, key => `process.env.${key}`)
+const processEnvOption = partial(mapKeys as any, key => `process.env.${key}`) as any
 
 const getStyleLoader = pipe(
   mergeOption,
