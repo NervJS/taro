@@ -20,7 +20,7 @@ Taro.redirectTo({
 })
 ```
 
-具体 API 说明，请查看[导航](./native-api.md#导航)部分说明。
+具体 API 说明，请查看[导航](/taro/docs/apis/interface/navigation/navigateTo.html)部分说明。
 
 ## 路由传参
 
