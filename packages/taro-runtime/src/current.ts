@@ -1,11 +1,11 @@
 import { TaroRootElement } from './dom/root'
-import { Component } from 'react'
+import { Instance } from './config/instance'
 
 interface Current {
   root: null | TaroRootElement;
   pages: Set<string>;
   activeId: string | null;
-  app: Component | null;
+  app: Instance | null;
 }
 
 export const Current: Current = {
