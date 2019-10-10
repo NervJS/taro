@@ -1,8 +1,11 @@
 {
   "name": "@tarojs/taro",
-  "private": true,
   "description": "Nerv-multi多端开发解决方案",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "lint": "eslint packages/  --ext .js --ext .ts --fix",
     "docs": "cd website && docusaurus-build",
@@ -71,6 +74,7 @@
     "@types/sinon": "^7.5.0",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
+    "@zerollup/ts-transform-paths": "^1.7.3",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.0-beta.0",

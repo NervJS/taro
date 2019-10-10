@@ -1,4 +1,4 @@
-import { isText } from './utils/is'
+import { isText } from './utils'
 import { TaroElement } from './dom/element'
 import { TaroText } from './dom/text'
 import { TaroRootElement } from './dom/root'

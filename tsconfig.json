@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "module": "commonjs",
+    "module": "ESNext",
     "removeComments": false,
     "preserveConstEnums": true,
     "moduleResolution": "node",
@@ -16,11 +16,17 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "allowJs": true,
     "paths": {
+      "@tarojs/shared": ["packages/shared/src"],
+      "@tarojs/runtime": ["packages/taro-runtime/src"],
+      "@dom": ["packages/taro-runtime/src/dom"],
       "@tarojs/components": ["packages/taro-components/types"]
     }
   },
+  "include": [
+    "packages/global.d.ts",
+    "packages/*/src"
+  ],
   "exclude": [
     "__tests__",
     "node_modules",

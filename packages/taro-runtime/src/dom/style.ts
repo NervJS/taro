@@ -1,5 +1,5 @@
+import { isUndefined } from '@tarojs/shared'
 import { styleProperties } from './style_properties'
-import { isUndefined } from '../utils/is'
 import { TaroElement } from './element'
 
 function toDashed (s: string) {

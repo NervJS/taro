@@ -1,16 +1,3 @@
-import { TaroElement } from '../dom/element'
-import { TaroText } from '../dom/text'
-import { NodeType } from '../dom/node_types'
-import { TaroNode } from '../dom/node'
-
-export function isElement (node: TaroNode): node is TaroElement {
-  return node.nodeType === NodeType.ELEMENT_NODE
-}
-
-export function isText (node: TaroNode): node is TaroText {
-  return node.nodeType === NodeType.TEXT_NODE
-}
-
 export const isArray = Array.isArray
 
 export function isString (o: unknown): o is string {
@@ -32,3 +19,9 @@ export function isObject<T> (o: unknown): o is T {
 export function isBoolean (o: unknown): o is boolean {
   return o === true || o === false
 }
+
+export function isFunction (o: unknown): o is Function {
+  return typeof o === 'function'
+}
+
+export const noop = (..._: unknown[]) => {}

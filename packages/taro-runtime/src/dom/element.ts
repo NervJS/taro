@@ -1,7 +1,8 @@
+import { isArray, isUndefined } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
-import { isArray, isElement, isUndefined } from '../utils/is'
+import { isElement } from '../utils'
 import { Style } from './style'
 
 interface Attributes {

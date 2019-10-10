@@ -1,4 +1,4 @@
-import { isArray, isObject } from '../utils/is'
+import { isArray, isObject } from '@tarojs/shared'
 
 interface EventListenerOptions {
   capture?: boolean;
