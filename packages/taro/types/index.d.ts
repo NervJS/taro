@@ -9342,7 +9342,19 @@ declare namespace Taro {
       /**
        * 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html)
        */
-      withShareTicket?: boolean
+      withShareTicket?: boolean,
+      isUpdatableMessage?: boolean,
+      activityId?: string,
+      templateInfo?: TemplateInfo
+    }
+
+    interface TemplateInfo {
+      parameterList: Array<TemplateInfoParameter>
+    }
+
+    interface TemplateInfoParameter {
+      name: string,
+      value: string
     }
   }
   /**
