@@ -6,7 +6,7 @@ import { ComponentClass, Component } from 'react'
 import { MpInstance } from '../render'
 import { CommonEvent } from '@tarojs/components'
 import { Instance } from './instance'
-import { isFunction } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ } from '@tarojs/shared'
 
 interface Props {
   children?: unknown;
@@ -65,6 +65,8 @@ export function createPageConfig (derivedIDfromCompiler: string) {
     },
     onLoad (this: MpInstance) {
       Current.pages.add(derivedIDfromCompiler)
+      instance = instances.get(derivedIDfromCompiler)! || EMPTY_OBJ
+
       const render = () => {
         page = document.getElementById(derivedIDfromCompiler) as TaroRootElement
         if (page === null) {
@@ -74,7 +76,6 @@ export function createPageConfig (derivedIDfromCompiler: string) {
         Current.root = page
         page.ctx = this
         page.performUpdate()
-        instance = instances.get(derivedIDfromCompiler)! || {}
       }
 
       Current.app!.forceUpdate(render)

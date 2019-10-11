@@ -20,7 +20,7 @@ export function hydrate (node: TaroElement | TaroText) {
     cn: node.childNodes.map(hydrate),
     nodeName: node.nodeName,
     cl: node.className,
-    style: node.cssText! || '',
+    style: node.cssText || '',
     uid: node.uid
   }
 }
