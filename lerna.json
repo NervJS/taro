@@ -29,6 +29,7 @@
     "packages/taro-tt",
     "packages/taro-quickapp",
     "packages/taro-qq",
+    "packages/taro-jd",
     "packages/taro-webpack-runner",
     "packages/postcss-plugin-constparse",
     "packages/eslint-config-taro",
