@@ -21,6 +21,7 @@ export const functionalComponent: () => {
   return {
     visitor: {
       JSXElement (path) {
+        debugger
         const arrowFuncExpr = path.findParent(p => p.isArrowFunctionExpression())
         const funcExpr = path.findParent(p => p.isFunctionExpression())
         if (funcExpr && funcExpr.isFunctionExpression() && funcExpr.parentPath.isVariableDeclarator()) {
@@ -72,7 +73,7 @@ export const functionalComponent: () => {
 
         const functionDecl = path.findParent(p => p.isFunctionDeclaration())
         if (functionDecl && functionDecl.isFunctionDeclaration()) {
-          const hasClassDecl = functionDecl.findParent(p => p.isClassDeclaration())
+          const hasClassDecl = path.findParent(p => p.isClassDeclaration() || p.isClassExpression())
           if (hasClassDecl) {
             // @TODO: 加上链接
             return
@@ -135,6 +136,9 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
         }
       },
       JSXAttribute (path) {
+        if (transformOptions.isNormal) {
+          return
+        }
         const { name, value } = path.node
         const jsxElementPath = path.parentPath.parentPath
         if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement() && transformOptions.isNormal !== true) {
