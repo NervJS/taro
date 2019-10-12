@@ -136,9 +136,6 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
         }
       },
       JSXAttribute (path) {
-        if (transformOptions.isNormal) {
-          return
-        }
         const { name, value } = path.node
         const jsxElementPath = path.parentPath.parentPath
         if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement() && transformOptions.isNormal !== true) {
