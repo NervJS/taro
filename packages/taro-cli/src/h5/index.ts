@@ -162,7 +162,10 @@ class Compiler {
           .on('data', file => {
             const relativePath = path.relative(appPath, file.path)
             if (file.stats.isSymbolicLink()) {
-              const linkFile = fs.readlinkSync(file.path)
+              let linkFile = fs.readlinkSync(file.path)
+              if (!path.isAbsolute(linkFile)) {
+                linkFile = path.resolve(file.path, '..', linkFile)
+              }
               readFiles.call(this, linkFile, file.path)
             } else if (!file.stats.isDirectory()) {
               printLog(processTypeEnum.CREATE, '发现文件', relativePath)
