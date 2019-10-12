@@ -67,6 +67,15 @@ export class TaroElement extends TaroNode {
     this.enqueueUpdate()
   }
 
+  public removeAttribute (qualifiedName: string) {
+    if (qualifiedName === 'style') {
+      this.style.cssText = ''
+    } else {
+      delete this.props[qualifiedName]
+    }
+    this.enqueueUpdate()
+  }
+
   public getAttribute (qualifiedName: string): string | null {
     const attr = qualifiedName === 'style' ? this.style.cssText : this.props[qualifiedName]
     return attr || null
