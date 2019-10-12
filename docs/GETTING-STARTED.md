@@ -346,6 +346,10 @@ Taro Doctor 就像一个医生一样，可以诊断项目的依赖、设置、�
 
 ![Taro Doctor 诊断结果图](https://img10.360buyimg.com/ling/jfs/t1/46613/36/5573/202581/5d357d14E6f0df7e1/fc026be7dc69dcf2.png)
 
+### 快速创建新页面
+
+Taro create name [页面名称] 能够在当前项目的pages目录下快速生成新的页面文件，并填充基础代码，是一个提高开发效率的利器。
+
 
 ## 其他常见问题
 
