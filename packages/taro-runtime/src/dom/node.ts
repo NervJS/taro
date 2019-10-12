@@ -2,7 +2,7 @@ import { NodeType } from './node_types'
 import { incrementId } from '../utils'
 import { TaroEventTarget } from './event_target'
 import { eventSource } from './event'
-import { Current } from '../current'
+import { TaroRootElement } from './root'
 
 const nodeId = incrementId()
 
@@ -16,6 +16,8 @@ export class TaroNode extends TaroEventTarget {
   public parentNode: TaroNode | null = null
 
   public childNodes: TaroNode[] = []
+
+  protected _root: TaroRootElement | null = null
 
   public constructor (nodeType: NodeType, nodeName: string) {
     super()
@@ -42,6 +44,7 @@ export class TaroNode extends TaroEventTarget {
   public insertBefore<T extends TaroNode> (newChild: T, refChild?: TaroNode | null): T {
     newChild.remove()
     newChild.parentNode = this
+    this.setRootElement(newChild)
     if (refChild) {
       const index = this.findIndex(this.childNodes, refChild)
       this.childNodes.splice(index, 0, newChild)
@@ -65,6 +68,7 @@ export class TaroNode extends TaroEventTarget {
   }
 
   public removeChild<T extends TaroNode> (child: T): T {
+    this.removeRootElement(child)
     const index = this.findIndex(this.childNodes, child)
     child.parentNode = null
     this.childNodes.splice(index, 1)
@@ -93,10 +97,33 @@ export class TaroNode extends TaroEventTarget {
   }
 
   public enqueueUpdate () {
-    if (Current.root === null) {
+    if (this._root === null) {
       return
     }
 
-    Current.root.performUpdate()
+    this._root.performUpdate()
+  }
+
+  private setRootElement (child: TaroNode) {
+    if (this._root === null || child._root === this._root) {
+      return
+    } else {
+      child._root = this._root
+    }
+
+    for (let i = 0; i < child.childNodes.length; i++) {
+      this.setRootElement(child.childNodes[i])
+    }
+  }
+
+  private removeRootElement (node: TaroNode) {
+    if (node._root === null) {
+      return
+    }
+
+    node._root = null
+    for (let i = 0; i < node.childNodes.length; i++) {
+      this.removeRootElement(node.childNodes[i])
+    }
   }
 }

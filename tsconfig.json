@@ -13,7 +13,6 @@
     "noUnusedParameters": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
-    "strict": true,
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",

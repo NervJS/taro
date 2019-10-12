@@ -6,11 +6,13 @@ interface Current {
   pages: Set<string>;
   activeId: string | null;
   app: Instance | null;
+  roots: WeakMap<TaroRootElement, boolean>
 }
 
 export const Current: Current = {
   root: null,
   pages: new Set(),
   activeId: null,
-  app: null
+  app: null,
+  roots: new WeakMap()
 }

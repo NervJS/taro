@@ -25,7 +25,7 @@ export function connectReactPage (
 ) {
   return (component: Component) => {
     // 只有传入 props 产生变化才触发 render
-    class Comp extends PureComponent {
+    class PageContainer extends PureComponent {
       public render () {
         return h(component, this.props, this.props.children)
       }
@@ -38,7 +38,7 @@ export function connectReactPage (
           {
             id: derivedIDfromCompiler
           },
-          h(Comp, props, props.children)
+          h(PageContainer, props, props.children)
         )
         : null
     }
@@ -73,7 +73,6 @@ export function createPageConfig (derivedIDfromCompiler: string) {
           return
         }
 
-        Current.root = page
         page.ctx = this
         page.performUpdate()
       }
@@ -99,16 +98,16 @@ export function createPageConfig (derivedIDfromCompiler: string) {
     onReachBottom () {
       safeExecute(instance.onReachBottom)
     },
-    onPageScroll (options) {
+    onPageScroll (options: unknown) {
       safeExecute(instance.onPageScroll, options)
     },
-    onShareAppMessage (options) {
+    onShareAppMessage (options: unknown) {
       safeExecute(instance.onShareAppMessage, options)
     },
-    onResize (options) {
+    onResize (options: unknown) {
       safeExecute(instance.onResize, options)
     },
-    onTabItemTap (options) {
+    onTabItemTap (options: unknown) {
       safeExecute(instance.onTabItemTap, options)
     },
     onTitleClick () {

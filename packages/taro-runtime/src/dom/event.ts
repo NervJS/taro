@@ -1,5 +1,4 @@
 import { TaroNode } from './node'
-import { TaroEventTarget } from './event_target'
 
 interface EventOptions {
   bubbles: boolean;
@@ -20,8 +19,6 @@ export class TaroEvent {
   public _end = false
 
   public defaultPrevented = false
-
-  public nativeTarget: TaroEventTarget
 
   public constructor (type: string, opts: EventOptions) {
     this.type = type.toLowerCase()

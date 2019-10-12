@@ -9,6 +9,7 @@ export class TaroRootElement extends TaroElement {
 
   public constructor () {
     super(NodeType.ELEMENT_NODE, 'root')
+    this._root = this
   }
 
   public performUpdate () {

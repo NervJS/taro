@@ -96,9 +96,8 @@ export class TaroElement extends TaroNode {
   }
 
   public dispatchEvent (event: TaroEvent) {
-    const target = (event.nativeTarget = this)
     const cancelable = event.cancelable
-    const listeners = target.__handlers[event.type]
+    const listeners = this.__handlers[event.type]
     if (!isArray(listeners)) {
       return
     }
@@ -109,7 +108,7 @@ export class TaroElement extends TaroNode {
       if (listener._stop) {
         listener._stop = false
       } else {
-        result = listener.call(target, event)
+        result = listener.call(this, event)
       }
       if ((result === false || event._end) && cancelable) {
         event.defaultPrevented = true
