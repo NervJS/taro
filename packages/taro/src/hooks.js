@@ -91,6 +91,15 @@ export function useRouter () {
   return hook.router
 }
 
+export function useScope () {
+  const hook = getHooks(Current.index++)
+  if (!hook.scope) {
+    hook.component = Current.current
+    hook.scope = hook.component.$scope
+  }
+  return hook.scope
+}
+
 export function useReducer (
   reducer,
   initialState,

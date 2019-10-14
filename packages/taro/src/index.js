@@ -37,6 +37,7 @@ import {
   useShareAppMessage,
   useTabItemTap,
   useRouter,
+  useScope,
   forceUpdateCallback as internal_force_update
 } from './hooks'
 import { Current } from './current'
@@ -89,6 +90,7 @@ export {
   useShareAppMessage,
   useTabItemTap,
   useRouter,
+  useScope,
   useRef,
   useCallback,
   useMemo,
@@ -135,6 +137,7 @@ export default {
   useShareAppMessage,
   useTabItemTap,
   useRouter,
+  useScope,
   useRef,
   useCallback,
   useMemo,
