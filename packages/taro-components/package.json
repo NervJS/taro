@@ -40,7 +40,8 @@
     "omit.js": "^1.0.0",
     "resolve-pathname": "^3.0.0",
     "swiper": "^4.4.2",
-    "weui": "^1.1.2"
+    "weui": "^1.1.2",
+    "intersection-observer": "^0.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.5",
