@@ -91,7 +91,8 @@ class Compiler {
     this.sourceRoot = sourceDir
     const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
     this.outputDir = outputDir
-    this.h5Config = projectConfig.h5
+    this.h5Config = get(projectConfig, 'h5')
+    this.routerConfig = get(projectConfig, 'h5.router', {})
     this.sourcePath = path.join(appPath, sourceDir)
     this.outputPath = path.join(appPath, outputDir)
     this.tempDir = CONFIG.TEMP_DIR
@@ -269,8 +270,11 @@ class Compiler {
 
     const pathAlias = this.pathAlias
     const pxTransformConfig = this.pxTransformConfig
-    const routerMode = get(this.h5Config, 'router.mode')
+    const routerMode = this.routerConfig.mode
     const isMultiRouterMode = routerMode === 'multi'
+    const routerLazyload = 'lazyload' in this.routerConfig
+      ? this.routerConfig.lazyload
+      : !isMultiRouterMode
     const customRoutes: Record<string, string> = isMultiRouterMode
       ? {}
       : get(this.h5Config, 'router.customRoutes', {})
@@ -387,9 +391,12 @@ class Compiler {
           if (isRender) {
             const createFuncBody = (pages: [PageName, FilePath][]) => {
               const routes = pages.map(([pageName, filePath], k) => {
+                const shouldLazyloadPage = typeof routerLazyload === 'function'
+                  ? routerLazyload(pageName)
+                  : routerLazyload
                 return createRoute({
                   pageName,
-                  isMultiRouterMode,
+                  lazyload: shouldLazyloadPage,
                   isIndex: k === 0
                 })
               })
@@ -749,9 +756,12 @@ class Compiler {
     if (isMultiRouterMode) {
       return this.pages.map(([pageName, filePath], k) => {
         const createFuncBody = () => {
+          const shouldLazyloadPage = typeof routerLazyload === 'function'
+            ? routerLazyload(pageName)
+            : routerLazyload
           const route = createRoute({
             pageName,
-            isMultiRouterMode,
+            lazyload: shouldLazyloadPage,
             isIndex: k === 0
           })
           return `
