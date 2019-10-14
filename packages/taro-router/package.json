@@ -48,7 +48,7 @@
     "@types/lodash": "4.14.117",
     "@types/webpack": "4.4.18",
     "jest": "23.6.0",
-    "nervjs": "^1.4.0",
+    "nervjs": "^1.5.0",
     "rollup": "1.1.0",
     "rollup-plugin-babel": "4.0.3",
     "rollup-plugin-commonjs": "9.2.0",

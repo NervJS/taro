@@ -30,7 +30,7 @@
     "prepack": "run-s clear build"
   },
   "peerDependencies": {
-    "nervjs": "^1.4.0",
+    "nervjs": "^1.5.0",
     "redux": "^2.0.0 || ^3.0.0 || ^4.0.0-0"
   },
   "dependencies": {

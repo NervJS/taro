@@ -32,7 +32,7 @@
   "author": "",
   "license": "MIT",
   "peerDependencies": {
-    "nervjs": "^1.4.0"
+    "nervjs": "^1.5.0"
   },
   "dependencies": {
     "better-scroll": "^1.14.1",
