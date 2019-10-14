@@ -68,6 +68,9 @@ function _request (options) {
   if (options.mode) {
     params.mode = options.mode
   }
+  if (options.signal) {
+    params.signal = options.signal
+  }
   params.credentials = options.credentials
   return fetch(url, params)
     .then(response => {
