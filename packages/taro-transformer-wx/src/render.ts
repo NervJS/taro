@@ -1871,6 +1871,15 @@ export class RenderParser {
                   tpmlExprs.push(t.stringLiteral('-'))
                 }
               }
+
+              // 检测 jsx 里是否使用了 key, 使用了key就把 anonIdx 替换为 key
+              let keyAttribute = element.attributes.find((attr) => {
+                return t.isJSXIdentifier(attr.name, { name: 'key' })
+              });
+              if (keyAttribute && t.isJSXExpressionContainer(keyAttribute.value)) {
+                tpmlExprs.splice(tpmlExprs.length - 1, 1, keyAttribute.value.expression)
+              }
+
               const compidTempDecl = buildConstVariableDeclaration(variableName, t.callExpression(
                 t.identifier(GEN_COMP_ID),
                 [t.templateLiteral(
