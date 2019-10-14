@@ -50,7 +50,8 @@ import {
   pRimraf,
   removeLeadingSlash,
   resetTSClassProperty,
-  stripTrailingSlash
+  stripTrailingSlash,
+  isTaroClass
 } from './helper'
 
 const defaultH5Config: Partial<IH5Config> = {
@@ -327,9 +328,7 @@ class Compiler {
       enter (astPath: NodePath<t.ClassDeclaration> | NodePath<t.ClassExpression>) {
         const node = astPath.node
         if (!node.superClass) return
-        if (t.isIdentifier(node.superClass)
-          && (node.superClass.name === 'Component' ||
-          node.superClass.name === 'PureComponent')) {
+        if (isTaroClass(astPath)) {
           resetTSClassProperty(node.body.body)
         }
       }
@@ -869,6 +868,9 @@ class Compiler {
     let renderClassMethodNode: t.ClassMethod
     let exportDefaultDeclarationNode: t.ExportDefaultDeclaration
     let exportNamedDeclarationPath: NodePath<t.ExportNamedDeclaration>
+    let componentClassName
+    let needSetConfigFromHooks
+    let configFromHooks
 
     const renderReturnStatementPaths: NodePath<t.ReturnStatement>[] = []
     ast = babel.transformFromAst(ast, '', {
@@ -886,10 +888,42 @@ class Compiler {
       enter (astPath: NodePath<t.ClassDeclaration> | NodePath<t.ClassExpression>) {
         const node = astPath.node
         if (!node.superClass) return
-        if (t.isIdentifier(node.superClass)
-          && (node.superClass.name === 'Component' ||
-          node.superClass.name === 'PureComponent')) {
+        if (isTaroClass(astPath)) {
           resetTSClassProperty(node.body.body)
+          if (t.isClassDeclaration(astPath)) {
+            if (node.id === null) {
+              componentClassName = '_TaroComponentClass'
+              astPath.replaceWith(
+                t.classDeclaration(
+                  t.identifier(componentClassName),
+                  node.superClass as t.Expression,
+                  node.body as t.ClassBody,
+                  node.decorators as t.Decorator[] || []
+                )
+              )
+            } else {
+              componentClassName = node.id.name
+            }
+          } else {
+            if (node.id === null) {
+              const parentNode = astPath.parentPath.node as any
+              if (t.isVariableDeclarator(astPath.parentPath)) {
+                componentClassName = parentNode.id.name
+              } else {
+                componentClassName = '_TaroComponentClass'
+              }
+              astPath.replaceWith(
+                t.classExpression(
+                  t.identifier(componentClassName),
+                  node.superClass as t.Expression,
+                  node.body as t.ClassBody,
+                  node.decorators as t.Decorator[] || []
+                )
+              )
+            } else {
+              componentClassName = node.id.name
+            }
+          }
         }
       }
     }
@@ -1075,6 +1109,19 @@ class Compiler {
           }
         }
       },
+      AssignmentExpression (astPath) {
+        const node = astPath.node
+        const left = node.left
+        if (t.isMemberExpression(left) && t.isIdentifier(left.object)) {
+          if (left.object.name === componentClassName
+              && t.isIdentifier(left.property)
+              && left.property.name === 'config') {
+            needSetConfigFromHooks = true
+            configFromHooks = node.right
+            pageConfig = toVar(node.right)
+          }
+        }
+      },
       Program: {
         exit (astPath: NodePath<t.Program>) {
           const node = astPath.node
@@ -1100,6 +1147,19 @@ class Compiler {
               )
               node.body.unshift(importTaroNode)
             }
+            astPath.traverse({
+              ClassBody (astPath) {
+                if (needSetConfigFromHooks) {
+                  const classPath = astPath.findParent((p: NodePath<t.Node>) => p.isClassExpression() || p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
+                  classPath.node.body.body.unshift(
+                    t.classProperty(
+                      t.identifier('config'),
+                      configFromHooks as t.ObjectExpression
+                    )
+                  )
+                }
+              }
+            })
           }
         }
       }

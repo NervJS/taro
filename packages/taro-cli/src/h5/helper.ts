@@ -10,7 +10,7 @@ export const pRimraf = promisify(rimraf)
 
 /**
  * 判断是否为子页面
- * @param parentPath 
+ * @param parentPath
  */
 export const isUnderSubPackages = (parentPath: NodePath<t.Node>) => (parentPath.isObjectProperty() && /subpackages/i.test(toVar(parentPath.node.key)))
 
@@ -73,3 +73,24 @@ export const addLeadingSlash = (url: string) => url.charAt(0) === '/' ? url : '/
 export const removeLeadingSlash = (url: string) => url.replace(/^\.?\//, '')
 
 export const stripTrailingSlash = (url: string) => url.charAt(url.length - 1) === '/' ? url.slice(0, -1) : url
+
+export const isTaroClass = (astPath: NodePath<t.ClassDeclaration> | NodePath<t.ClassExpression>) => {
+  let isTaroClass = false
+  astPath.traverse({
+    ClassMethod (astPath: NodePath<t.ClassMethod>) {
+      const key = astPath.get('key')
+      if (t.isIdentifier(key.node) && key.node.name === 'render') {
+        astPath.traverse({
+          ReturnStatement (astPath) {
+            const argument = astPath.get('argument')
+            if (argument) {
+              isTaroClass = true
+            }
+          }
+        })
+      }
+    }
+  })
+  console.log(isTaroClass)
+  return isTaroClass
+}
