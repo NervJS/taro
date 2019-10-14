@@ -666,6 +666,30 @@ export function findParentLoops (
   }
 }
 
+export function findLoopRootJSXElement (
+  path: NodePath,
+  currentJSXElement?: t.JSXElement
+) {
+  if (t.isJSXElement(path.node)) {
+    currentJSXElement = path.node;
+  } else {
+    let parentPath = path.parentPath;
+    if (!parentPath) return currentJSXElement
+    if (parentPath.isCallExpression()) {
+      const callee = parentPath.node.callee
+      if (
+        t.isMemberExpression(callee) &&
+        t.isIdentifier(callee.property) &&
+        callee.property.name === 'map'
+      ) {
+        return currentJSXElement
+      }
+    }
+  }
+
+  return findLoopRootJSXElement(path.parentPath, currentJSXElement)
+}
+
 export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression): t.Expression {
   const ifAttrSet = new Set<string>([
     Adapter.if,

@@ -30,7 +30,8 @@ import {
   setAncestorCondition,
   replaceJSXTextWithTextComponent,
   createRandomLetters,
-  isDerivedFromProps
+  isDerivedFromProps,
+  findLoopRootJSXElement
 } from './utils'
 import { difference, get as safeGet, cloneDeep, uniq, snakeCase } from 'lodash'
 import {
@@ -1872,12 +1873,20 @@ export class RenderParser {
                 }
               }
 
-              // 检测 jsx 里是否使用了 key, 使用了key就把 anonIdx 替换为 key
-              let keyAttribute = element.attributes.find((attr) => {
-                return t.isJSXIdentifier(attr.name, { name: 'key' })
-              });
-              if (keyAttribute && t.isJSXExpressionContainer(keyAttribute.value)) {
-                tpmlExprs.splice(tpmlExprs.length - 1, 1, keyAttribute.value.expression)
+              // 在loop中再次开始检测
+              if (loopIndices.length > 0) {
+                // 查找map输出的根节点
+                let rootJSXElement = findLoopRootJSXElement(path);
+                if (rootJSXElement) {
+                  let element = rootJSXElement.openingElement
+                  let keyAttribute = element.attributes.find((attr) => {
+                    return t.isJSXIdentifier(attr.name, { name: 'key' })
+                  });
+                  // map输出的根节点上如果使用了key， 则用key代替anonIdx
+                  if (keyAttribute && t.isJSXExpressionContainer(keyAttribute.value)) {
+                    tpmlExprs.splice(tpmlExprs.length - 1, 1, keyAttribute.value.expression)
+                  }
+                }
               }
 
               const compidTempDecl = buildConstVariableDeclaration(variableName, t.callExpression(
