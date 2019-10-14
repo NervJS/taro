@@ -1,14 +1,16 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
+import { Transform } from 'stream'
 import * as crypto from 'crypto'
 import * as os from 'os'
 import * as child_process from 'child_process'
+
 import chalk from 'chalk'
 import { mergeWith, isPlainObject, camelCase, flatMap } from 'lodash'
 import * as minimatch from 'minimatch'
 import * as t from 'babel-types'
 import * as yauzl from 'yauzl'
-import { Transform } from 'stream'
+import * as findWorkspaceRoot from 'find-yarn-workspace-root'
 
 import defaultBabelConfig from '../config/babel'
 import defaultUglifyConfig from '../config/uglify'
@@ -447,7 +449,8 @@ export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = 
 
 export function recursiveFindNodeModules (filePath: string): string {
   const dirname = path.dirname(filePath)
-  const nodeModules = path.join(dirname, 'node_modules')
+  const workspaceRoot = findWorkspaceRoot(dirname)
+  const nodeModules = path.join(workspaceRoot || dirname, 'node_modules')
   if (fs.existsSync(nodeModules)) {
     return nodeModules
   }
