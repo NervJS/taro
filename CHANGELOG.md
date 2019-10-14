@@ -1,5 +1,40 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.19...v) (2019-09-23)
+# [](https://github.com/NervJS/taro/compare/v1.3.20...v) (2019-10-14)
+
+
+
+<a name="1.3.20"></a>
+## [1.3.20](https://github.com/NervJS/taro/compare/v1.3.19...v1.3.20) (2019-10-14)
+
+
+### Bug Fixes
+
+* **cli:** h5 编译时读取 symbolic link 需要处理相对路径情况，[#4538](https://github.com/NervJS/taro/issues/4538) ([425d7b6](https://github.com/NervJS/taro/commit/425d7b6))
+* **cli:** h5 页面 hooks 支持设置页面配置，close [#4592](https://github.com/NervJS/taro/issues/4592) ([d67490a](https://github.com/NervJS/taro/commit/d67490a))
+* **cli:** taro convert 支持处理 app.json 中 sitemapLocation 属性，close [#4534](https://github.com/NervJS/taro/issues/4534) ([79e647e](https://github.com/NervJS/taro/commit/79e647e))
+* **cli:** 修正快应用依赖环境安装时，因系统不同造成的命令执行问题 ([#4520](https://github.com/NervJS/taro/issues/4520)) ([f2274ef](https://github.com/NervJS/taro/commit/f2274ef))
+* **cli:** 小程序编译更好地支持 yarn workspaces ([f6da123](https://github.com/NervJS/taro/commit/f6da123))
+* **cli:** 编译报错的组件标记为已编译 ([1dc346c](https://github.com/NervJS/taro/commit/1dc346c))
+* **components:** iOS8需要添加webkit前缀 ([#4519](https://github.com/NervJS/taro/issues/4519)) ([08d0a3c](https://github.com/NervJS/taro/commit/08d0a3c))
+* **components:** 修复 Image lazy 监听问题 ([6ebcbea](https://github.com/NervJS/taro/commit/6ebcbea))
+* **components:** 修复 Input 组件属性覆盖问题, fix [#4553](https://github.com/NervJS/taro/issues/4553) ([38bd6ec](https://github.com/NervJS/taro/commit/38bd6ec))
+* **mobx:** 修复 H5 及 RN 端使用 inject 装饰且具有继承关系中父类 constructor 不被调用的问题([#4507](https://github.com/NervJS/taro/issues/4507)) ([2d06388](https://github.com/NervJS/taro/commit/2d06388))
+* **router:** 修复hash模式下tabbar不展示的问题 ([61dc79a](https://github.com/NervJS/taro/commit/61dc79a))
+* **taro:** 新增支付宝小程序 WindowConfig 属性 ([#4548](https://github.com/NervJS/taro/issues/4548)) ([242e4f7](https://github.com/NervJS/taro/commit/242e4f7))
+* **transformer:** 方法 findJSXAttrByName 需要考虑 JSXSpreadAttribute，fix [#4527](https://github.com/NervJS/taro/issues/4527) ([f9d3f87](https://github.com/NervJS/taro/commit/f9d3f87))
+* **transformer:** 替换属性名前需要先判断，fix [#4511](https://github.com/NervJS/taro/issues/4511) ([642015f](https://github.com/NervJS/taro/commit/642015f))
+* **transformer:** 高阶组件在 h5 被错误处理，close [#4345](https://github.com/NervJS/taro/issues/4345) ([6b4eed7](https://github.com/NervJS/taro/commit/6b4eed7))
+* **types:** upload map components types fix [#4328](https://github.com/NervJS/taro/issues/4328) ([7064a10](https://github.com/NervJS/taro/commit/7064a10))
+* **weapp/qq/alipay/swan/tt/quickapp:** props 系统优化 ([0481893](https://github.com/NervJS/taro/commit/0481893)), closes [#4497](https://github.com/NervJS/taro/issues/4497)
+
+
+### Features
+
+* **cli:** 增加控制h5页面lazyload的参数h5.router.lazyload ([074a841](https://github.com/NervJS/taro/commit/074a841))
+* **h5:**  browser forward / back hide map [#4255](https://github.com/NervJS/taro/issues/4255) ([9c4ad12](https://github.com/NervJS/taro/commit/9c4ad12))
+* **taro:** h5 和小程序端支持 Fragment ([76d278f](https://github.com/NervJS/taro/commit/76d278f))
+* **taro:** 增加 useScope hook 以访问小程序原生作用域，close [#4600](https://github.com/NervJS/taro/issues/4600) ([67dfbf7](https://github.com/NervJS/taro/commit/67dfbf7))
+* **taro:** 按照微信小程序文档的分类方式拆分 index.d.ts 为 87 个文件 ([#4557](https://github.com/NervJS/taro/issues/4557)) ([9882bed](https://github.com/NervJS/taro/commit/9882bed))
 
 
 
