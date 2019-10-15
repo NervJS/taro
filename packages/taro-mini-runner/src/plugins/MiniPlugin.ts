@@ -21,6 +21,7 @@ import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEm
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, generateQuickAppManifest } from '../utils/helper'
 import parseAst from '../utils/parseAst'
+import rewriterTemplate from '../quickapp/template-rewriter'
 
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
@@ -700,6 +701,7 @@ export default class MiniPlugin {
         }
       } else {
         let hitScriptItem
+        template = template ? rewriterTemplate(template) : template
         Object.keys(compilation.assets).forEach(item => {
           if (stylePath.indexOf(item) >= 0) {
             const relativeStylePath = promoteRelativePath(path.relative(scriptPath, stylePath))
@@ -757,7 +759,7 @@ export default class MiniPlugin {
     Object.keys(taroFileTypeMap).forEach(item => {
       const relativePath = item.replace(compiler.context, '')
       const itemInfo = taroFileTypeMap[item]
-      if (typeof itemInfo.code !== 'string') {
+      if (typeof itemInfo.code === 'string') {
         new VirtualModulePlugin({
           moduleName: relativePath,
           contents: itemInfo.code
