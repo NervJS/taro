@@ -21,7 +21,6 @@ export default {
     // 在设置了行数的情况下生效
     if (!value) {
       return 'I:'
-      // addDeclaration('lines', '1')
     }
   },
   'white-space': 'I:',
@@ -33,5 +32,6 @@ export default {
       addDeclaration('lines', value)
     }
     return 'I:'
-  }
+  },
+  'lines': ''
 }
