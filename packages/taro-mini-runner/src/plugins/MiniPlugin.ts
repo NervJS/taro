@@ -757,10 +757,12 @@ export default class MiniPlugin {
     Object.keys(taroFileTypeMap).forEach(item => {
       const relativePath = item.replace(compiler.context, '')
       const itemInfo = taroFileTypeMap[item]
-      new VirtualModulePlugin({
-        moduleName: relativePath,
-        contents: itemInfo.code
-      }).apply(compiler)
+      if (typeof itemInfo.code !== 'string') {
+        new VirtualModulePlugin({
+          moduleName: relativePath,
+          contents: itemInfo.code
+        }).apply(compiler)
+      }
     })
   }
 
