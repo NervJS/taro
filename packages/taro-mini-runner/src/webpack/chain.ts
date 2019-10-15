@@ -115,10 +115,14 @@ export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getFileParseLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/fileParseLoader')))
 export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/wxTransformerLoader')))
-
 const getExtractCssLoader = () => {
   return {
     loader: MiniCssExtractPlugin.loader
+  }
+}
+const getQuickappStyleLoader = () => {
+  return {
+    loader: require.resolve(path.resolve(__dirname, '../loaders/quickappStyleLoader'))
   }
 }
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
@@ -175,6 +179,7 @@ export const getModule = (appPath: string, {
 
   babel
 }) => {
+  const isQuickapp = buildAdapter === BUILD_TYPES.QUICKAPP
   const postcssOption: IPostcssOption = postcss || {}
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
@@ -204,13 +209,14 @@ export const getModule = (appPath: string, {
   ]
 
   const extractCssLoader = getExtractCssLoader()
+  const quickappStyleLoader = getQuickappStyleLoader()
 
   const cssLoader = getCssLoader(cssOptions)
   const cssLoaders: {
     include?;
     use;
   }[] = [{
-    use: [cssLoader]
+    use: isQuickapp ? [cssLoader, quickappStyleLoader] : [cssLoader]
   }]
 
   if (cssModuleOptions.enable) {

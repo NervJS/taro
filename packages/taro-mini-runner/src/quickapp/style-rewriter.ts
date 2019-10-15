@@ -7,7 +7,7 @@ interface StyleLog {
   reason: string;
 }
 
-export default function rewriter (code, isProduction) {
+export default function rewriter (code, isProduction?) {
   const logs: StyleLog[] = []
   const ast = css.parse(code, {
     silent: true
@@ -47,7 +47,7 @@ export default function rewriter (code, isProduction) {
   // 输出转换结果
   try {
     const resContent = css.stringify(ast, {
-      compress: isProduction
+      compress: !!isProduction
     })
     return resContent
   } catch (e) {
