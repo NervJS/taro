@@ -29,9 +29,6 @@ export class TaroElement extends TaroNode {
 
   public set id (val: string) {
     this.setAttribute('id', val)
-    eventSource.delete(this.uid)
-    this.uid = val
-    eventSource.set(val, this)
   }
 
   public get className () {
@@ -61,6 +58,10 @@ export class TaroElement extends TaroNode {
   public setAttribute (qualifiedName: string, value: string) {
     if (qualifiedName === 'style') {
       this.style.cssText = value
+    } else if (qualifiedName === 'id') {
+      eventSource.delete(this.uid)
+      this.uid = value
+      eventSource.set(value, this)
     } else {
       this.props[qualifiedName] = value
     }
