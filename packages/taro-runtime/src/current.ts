@@ -6,7 +6,7 @@ interface Current {
   pages: Set<string>;
   activeId: string | null;
   app: Instance | null;
-  roots: WeakMap<TaroRootElement, boolean>
+  roots: Set<Instance>
 }
 
 export const Current: Current = {
@@ -14,5 +14,5 @@ export const Current: Current = {
   pages: new Set(),
   activeId: null,
   app: null,
-  roots: new WeakMap()
+  roots: new Set()
 }

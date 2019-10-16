@@ -16,4 +16,6 @@ export interface Instance extends Component {
   onOptionMenuClick?(): void
   onPopMenuClick?(): void
   onPullIntercept?(): void
+  $forceUpdate?(): void
+  $nextTick?(cb: () => void): void
 }

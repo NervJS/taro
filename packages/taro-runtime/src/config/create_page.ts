@@ -1,16 +1,12 @@
+import { CommonEvent } from '@tarojs/components'
+import { isFunction, EMPTY_OBJ } from '@tarojs/shared'
 import { createEvent } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
 import { TaroRootElement } from '../dom/root'
-import { ComponentClass, Component } from 'react'
 import { MpInstance } from '../render'
-import { CommonEvent } from '@tarojs/components'
 import { Instance } from './instance'
-import { isFunction, EMPTY_OBJ } from '@tarojs/shared'
-
-interface Props {
-  children?: unknown;
-}
+import { updateVuePages } from '../dsl/vue'
 
 const instances = new Map<string, Instance>()
 
@@ -18,37 +14,12 @@ export function injectPageInstance (derivedIDfromCompiler: string, inst: Instanc
   instances.set(derivedIDfromCompiler, inst)
 }
 
-export function connectReactPage (
-  h: Function,
-  derivedIDfromCompiler: string,
-  PureComponent: ComponentClass
-) {
-  return (component: Component) => {
-    // 只有传入 props 产生变化才触发 render
-    class PageContainer extends PureComponent {
-      public render () {
-        return h(component, this.props, this.props.children)
-      }
-    }
-
-    return (props: Props) => {
-      return Current.pages.has(derivedIDfromCompiler)
-        ? h(
-          'root',
-          {
-            id: derivedIDfromCompiler
-          },
-          h(PageContainer, props, props.children)
-        )
-        : null
-    }
-  }
-}
-
-export function createPageConfig (derivedIDfromCompiler: string) {
+export function createPageConfig (derivedIDfromCompiler: string, framework = 'react') {
   // 把复杂的 JavaScript 对象挂载在小程序实例上可能会触发意料之外的错误
   let page: TaroRootElement
   let instance: Instance
+  const isReact = framework === 'react'
+  const isVue = framework === 'vue'
 
   function safeExecute (func?: Function, ...args: unknown[]) {
     if (instance != null && isFunction(func)) {
@@ -77,20 +48,31 @@ export function createPageConfig (derivedIDfromCompiler: string) {
         page.performUpdate()
       }
 
-      Current.app!.forceUpdate(render)
+      if (isReact) {
+        Current.app!.forceUpdate(render)
+      }
+
+      if (isVue) {
+        updateVuePages(render)
+      }
     },
     onUnload () {
       Current.pages.delete(derivedIDfromCompiler)
       instances.delete(derivedIDfromCompiler)
-      Current.app!.forceUpdate(() => (page.ctx = null))
+
+      if (isReact) {
+        Current.app!.forceUpdate(() => (page.ctx = null))
+      }
+
+      if (isVue) {
+        updateVuePages(() => (page.ctx = null))
+      }
     },
     onShow () {
-      safeExecute(instance.componentDidShow)
-      safeExecute(instance.onShow)
+      safeExecute(isReact ? instance.componentDidShow : instance.onShow)
     },
     onHide () {
-      safeExecute(instance.componentDidShow)
-      safeExecute(instance.onHide)
+      safeExecute(isReact ? instance.componentDidHide : instance.onHide)
     },
     onPullDownRefresh () {
       safeExecute(instance.onPullDownRefresh)
