@@ -142,6 +142,7 @@ export interface IH5RouterConfig {
   mode?: 'hash' | 'browser' | 'multi',
   customRoutes?: IOption,
   basename?: string,
+  lazyload?: boolean | ((pagename: string) => boolean)
   renamePagename?: (pagename: string) => string
 }
 

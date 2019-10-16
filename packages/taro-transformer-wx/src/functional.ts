@@ -21,7 +21,6 @@ export const functionalComponent: () => {
   return {
     visitor: {
       JSXElement (path) {
-        debugger
         const arrowFuncExpr = path.findParent(p => p.isArrowFunctionExpression())
         const funcExpr = path.findParent(p => p.isFunctionExpression())
         if (funcExpr && funcExpr.isFunctionExpression() && funcExpr.parentPath.isVariableDeclarator()) {

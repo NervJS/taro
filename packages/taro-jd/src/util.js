@@ -274,12 +274,19 @@ try {
 } catch (error) {
   compIdsMapper = new SimpleMap()
 }
-export function genCompid (key) {
-  if (!Current || !Current.current || !Current.current.$scope) return
+export function genCompid (key, isNeedCreate) {
+  if (!Current || !Current.current || !Current.current.$scope) return []
+
   const prevId = compIdsMapper.get(key)
-  const id = prevId || genId()
-  !prevId && compIdsMapper.set(key, id)
-  return id
+  if (isNeedCreate) {
+    const id = genId()
+    compIdsMapper.set(key, id)
+    return [prevId, id]
+  } else {
+    const id = prevId || genId()
+    !prevId && compIdsMapper.set(key, id)
+    return [null, id]
+  }
 }
 
 let prefix = 0

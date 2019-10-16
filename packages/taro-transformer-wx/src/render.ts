@@ -45,6 +45,7 @@ import {
   MAP_CALL_ITERATOR,
   LOOP_STATE,
   LOOP_CALLEE,
+  PREV_COMPID,
   COMPID,
   THIRD_PARTY_COMPONENTS,
   LOOP_ORIGINAL,
@@ -978,10 +979,10 @@ export class RenderParser {
 
   isEmptyBlock = ((block: t.JSXElement) => block.children.length === 0 && block.openingElement.attributes.length === 0)
 
-  private genPropsSettingExpression (properties: Array<t.ObjectProperty | t.SpreadProperty> | t.Identifier, id: t.StringLiteral | t.Identifier): t.Expression {
+  private genPropsSettingExpression (properties: Array<t.ObjectProperty | t.SpreadProperty> | t.Identifier, id: t.StringLiteral | t.Identifier, previd: t.Identifier): t.Expression {
     return t.callExpression(
       t.memberExpression(t.identifier(PROPS_MANAGER), t.identifier('set')),
-      [Array.isArray(properties) ? t.objectExpression(properties) : properties, id]
+      [Array.isArray(properties) ? t.objectExpression(properties) : properties, id, previd]
     )
   }
 
@@ -1044,25 +1045,30 @@ export class RenderParser {
         return
       }
       const compId = genCompid()
+      const prevName = `${PREV_COMPID}__${compId}`
       const name = `${COMPID}__${compId}`
       const variableName = t.identifier(name)
       this.referencedIdentifiers.add(variableName)
-      const idExpr = buildConstVariableDeclaration(name,
-        t.callExpression(t.identifier(GEN_COMP_ID), [
-          t.binaryExpression(
-            '+',
-            this.prefixExpr(),
-            t.stringLiteral(name)
-          )
-        ])
-      )
+      const idExpr = t.variableDeclaration('const', [
+        t.variableDeclarator(
+          t.arrayPattern([t.identifier(prevName), variableName]),
+          t.callExpression(t.identifier(GEN_COMP_ID), [
+            t.binaryExpression(
+              '+',
+              this.prefixExpr(),
+              t.stringLiteral(name)
+            )
+          ])
+        )
+      ])
+
       // createData 中设置 props
       const properties = this.getPropsFromAttrs(openingElement)
       const propsId = `$props__${compId}`
       const collectedProps = buildConstVariableDeclaration(propsId, t.objectExpression(properties))
       const result = jsxElementPath.getStatementParent().insertBefore(collectedProps)
       this.propsDecls.set(propsId, result[0])
-      const propsSettingExpr = this.genPropsSettingExpression(t.identifier(propsId), variableName)
+      const propsSettingExpr = this.genPropsSettingExpression(t.identifier(propsId), variableName, t.identifier(prevName))
       this.genCompidExprs.add(idExpr)
       const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
       this.ancestorConditions.add(expr)
@@ -1863,7 +1869,9 @@ export class RenderParser {
               }
 
               // createData 函数里加入 compid 相关逻辑
-              const variableName = `${COMPID}__${genCompid()}`
+              const compid = genCompid()
+              const prevVariableName = `${PREV_COMPID}__${compid}`
+              const variableName = `${COMPID}__${compid}`
               const tpmlExprs: t.Expression[] = []
               for (let index = 0; index < loopIndices.length; index++) {
                 const element = loopIndices[index]
@@ -1889,23 +1897,28 @@ export class RenderParser {
                 }
               }
 
-              const compidTempDecl = buildConstVariableDeclaration(variableName, t.callExpression(
-                t.identifier(GEN_COMP_ID),
-                [t.templateLiteral(
-                  [
-                    t.templateElement({ raw: '' }),
-                    t.templateElement({ raw: createRandomLetters(10) }),
-                    ...tpmlExprs.map(() => t.templateElement({ raw: '' }))
-                  ],
-                  [
-                    this.prefixExpr(),
-                    ...tpmlExprs
-                  ]
-                )]
-              ))
+              const compidTempDecl = t.variableDeclaration('const', [
+                t.variableDeclarator(
+                  t.arrayPattern([t.identifier(prevVariableName), t.identifier(variableName)]),
+                  t.callExpression(
+                    t.identifier(GEN_COMP_ID),
+                    [t.templateLiteral(
+                      [
+                        t.templateElement({ raw: '' }),
+                        t.templateElement({ raw: createRandomLetters(10) }),
+                        ...tpmlExprs.map(() => t.templateElement({ raw: '' }))
+                      ],
+                      [
+                        this.prefixExpr(),
+                        ...tpmlExprs
+                      ]
+                    ), t.booleanLiteral(true)]
+                  )
+                )
+              ])
 
               const properties = this.getPropsFromAttrs(element)
-              const propsSettingExpr = this.genPropsSettingExpression(properties, t.identifier(variableName))
+              const propsSettingExpr = this.genPropsSettingExpression(properties, t.identifier(variableName), t.identifier(prevVariableName))
               const expr = setAncestorCondition(path, propsSettingExpr)
               this.ancestorConditions.add(expr)
 
@@ -1968,6 +1981,20 @@ export class RenderParser {
                     stateToBeAssign.add(name)
                     dcl.id = t.identifier(name)
                   }
+                } else if (t.isArrayPattern(dcl.id)) {
+                  dcl.id.elements.forEach(stm => {
+                    if (t.isIdentifier(stm)) {
+                      const name = stm.name
+                      if (
+                        name.startsWith(LOOP_STATE) ||
+                        name.startsWith(LOOP_CALLEE) ||
+                        name.startsWith(COMPID) ||
+                        name.startsWith('_$indexKey')
+                      ) {
+                        stateToBeAssign.add(name)
+                      }
+                    }
+                  })
                 }
               }
             }
