@@ -50,7 +50,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       break
     }
     case 'h5': {
-      options.rootValue = baseFontSize * options.designWidth / 640
+      options.rootValue = options.designWidth / 10
       targetUnit = 'rem'
       break
     }
