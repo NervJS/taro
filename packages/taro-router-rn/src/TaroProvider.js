@@ -17,6 +17,7 @@ class TaroProvider extends React.Component {
     Taro.navigateBack = this.wxNavigateBack.bind(this)
     Taro.switchTab = this.wxSwitchTab.bind(this)
     Taro.getCurrentPages = this.wxGetCurrentPages.bind(this)
+    Taro.reLaunch = this.wxReLaunch.bind(this)
     Taro.showTabBar = this.showTabBar.bind(this)
     Taro.hideTabBar = this.hideTabBar.bind(this)
     Taro.showTabBarRedDot = this.showTabBarRedDot.bind(this)
@@ -157,6 +158,36 @@ class TaroProvider extends React.Component {
     } else {
       return []
     }
+  }
+
+  /**
+   * @description
+   * @param options
+   * @param {string} options.string 需要跳转的应用内页面路径，路径后可以带参数。
+   */
+  wxReLaunch (options = {}) {
+    const isObject = shouleBeObject(options)
+    if (!isObject.res) {
+      const res = {errMsg: `reLaunch${isObject.msg}`}
+      console.warn(res.errMsg)
+      return Promise.reject(res)
+    }
+
+    const res = {errMsg: 'reLaunch:ok'}
+    let {url, success, fail, complete} = options
+
+    const pages = this.wxGetCurrentPages()
+    const length = pages.length
+
+    try {
+      if (length > 0) {
+        this.wxNavigateBack({delta: length})
+      }
+      this.wxRedirectTo({url})
+    } catch (e) {
+      return errorHandler(fail, complete)({errMsg: e})
+    }
+    return successHandler(success, complete)(res)
   }
 
   /**

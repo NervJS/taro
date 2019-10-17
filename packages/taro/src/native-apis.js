@@ -19,6 +19,7 @@ const onAndSyncApis = {
   onHCEMessage: true,
   onGetWifiList: true,
   onWifiConnected: true,
+  onDeviceMotionChange: true,
   setStorageSync: true,
   getStorageSync: true,
   getStorageInfoSync: true,
@@ -45,6 +46,8 @@ const onAndSyncApis = {
   offAppHide: true,
   onAudioInterruptionEnd: true,
   onAudioInterruptionBegin: true,
+  onLocationChange: true,
+  offLocationChange: true
 }
 const noPromiseApis = {
   // 媒体
@@ -154,6 +157,9 @@ const otherApis = {
   reLaunch: true,
 
   // 位置
+  startLocationUpdate: true,
+  startLocationUpdateBackground: true,
+  stopLocationUpdate: true,
   getLocation: true,
   chooseLocation: true,
   openLocation: true,
@@ -198,6 +204,8 @@ const otherApis = {
   getWifiList: true,
   setWifiList: true,
   getConnectedWifi: true,
+  startDeviceMotionListening: true,
+  stopDeviceMotionListening: true,
 
   // 界面
   pageScrollTo: true,
@@ -256,6 +264,8 @@ const otherApis = {
   checkIsSoterEnrolledInDevice: true,
 
   setEnableDebug: true,
+  // 支付宝小程序API
+  getOpenUserInfo: true,
 
   // 百度小程序专有 API
   // 百度小程序 AI 相关

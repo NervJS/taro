@@ -2,10 +2,10 @@ import { Component } from '@tarojs/taro-h5'
 
 type Path = string
 
-export type PageComponent = new(
-  props: any,
+export type PageComponent<P=any, S=any> = new(
+  props: P,
   context: any
-) => Component<any, any>
+) => Component<P, S>
 
 export type ComponentLoader = () => Promise<{ default: PageComponent }>
 

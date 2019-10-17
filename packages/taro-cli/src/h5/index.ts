@@ -1,13 +1,14 @@
 import { PageConfig } from '@tarojs/taro'
 import * as wxTransformer from '@tarojs/transformer-wx'
 import * as babel from 'babel-core'
-import traverse, { NodePath } from 'babel-traverse'
+import traverse, { NodePath, TraverseOptions } from 'babel-traverse'
 import * as t from 'babel-types'
 import generate from 'better-babel-generator'
 import * as chokidar from 'chokidar'
 import * as fs from 'fs-extra'
 import * as klaw from 'klaw'
-import { findLastIndex, merge, get } from 'lodash'
+import _, { compact, findLastIndex, first, fromPairs, get, identity, merge, transform } from 'lodash'
+import { pipe, partial } from 'lodash/fp'
 import * as path from 'path'
 
 import CONFIG from '../config'
@@ -28,7 +29,7 @@ import {
 } from '../util/astConvert'
 import { BUILD_TYPES, processTypeEnum, PROJECT_CONFIG, REG_SCRIPTS, REG_TYPESCRIPT } from '../util/constants'
 import * as npmProcess from '../util/npm'
-import { IBuildConfig } from '../util/types'
+import { IBuildConfig, IDeviceRatio, IH5Config, IH5RouterConfig, IOption, IProjectConfig } from '../util/types'
 import {
   APIS_NEED_TO_APPEND_THIS,
   deviceRatioConfigName,
@@ -49,13 +50,25 @@ import {
   pRimraf,
   removeLeadingSlash,
   resetTSClassProperty,
-  stripTrailingSlash
+  stripTrailingSlash,
+  isTaroClass
 } from './helper'
 
+const defaultH5Config: Partial<IH5Config> = {
+  router: {
+    mode: 'hash',
+    customRoutes: {},
+    basename: '/'
+  }
+}
+
+type PageName = string
+type FilePath = string
+
 class Compiler {
-  projectConfig
-  h5Config
-  routerConfig
+  projectConfig: IProjectConfig
+  h5Config: IH5Config
+  routerConfig: IH5RouterConfig
   sourceRoot: string
   sourcePath: string
   outputPath: string
@@ -68,28 +81,24 @@ class Compiler {
   pathAlias: {
     [key: string]: string
   }
-  pages: string[] = []
+  pages: [PageName, FilePath][] = []
 
-  constructor (public appPath: string) {
+  constructor (public appPath: string, entryFile?: string) {
     const projectConfig = recursiveMerge({
-      h5: {
-        router: {
-          mode: 'hash',
-          customRoutes: {}
-        }
-      }
+      h5: defaultH5Config
     }, require(path.join(appPath, PROJECT_CONFIG))(merge))
     this.projectConfig = projectConfig
     const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
     this.sourceRoot = sourceDir
     const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
     this.outputDir = outputDir
-    this.h5Config = projectConfig.h5
+    this.h5Config = get(projectConfig, 'h5')
+    this.routerConfig = get(projectConfig, 'h5.router', {})
     this.sourcePath = path.join(appPath, sourceDir)
     this.outputPath = path.join(appPath, outputDir)
     this.tempDir = CONFIG.TEMP_DIR
     this.tempPath = path.join(appPath, this.tempDir)
-    this.entryFilePath = resolveScriptPath(path.join(this.sourcePath, CONFIG.ENTRY))
+    this.entryFilePath = resolveScriptPath(path.join(this.sourcePath, entryFile || CONFIG.ENTRY))
     this.entryFileName = path.basename(this.entryFilePath)
     this.pathAlias = projectConfig.alias || {}
     this.pxTransformConfig = { designWidth: projectConfig.designWidth || 750 }
@@ -127,9 +136,9 @@ class Compiler {
       base: path.basename(relSrcPath, path.extname(relSrcPath))
     })
 
-    const isPage = pages.some(page => {
+    const isPage = pages.some(([pageName, filePath]) => {
       const relPage = path.normalize(
-        path.relative(appPath, page)
+        path.relative(appPath, pageName)
       )
       if (path.relative(relPage, relSrcPath) === '') return true
       return false
@@ -148,31 +157,58 @@ class Compiler {
     const appPath = this.appPath
 
     fs.ensureDirSync(tempPath)
-    return new Promise((resolve, reject) => {
-      klaw(sourcePath)
-        .on('data', file => {
-          const relativePath = path.relative(appPath, file.path)
-          if (!file.stats.isDirectory()) {
-            printLog(processTypeEnum.CREATE, '发现文件', relativePath)
-            this.processFiles(file.path)
-          }
-        })
-        .on('end', () => {
-          resolve()
-        })
-    })
+    const readPromises: any[] = []
+    function readFiles (sourcePath, originalFilePath) {
+      readPromises.push(new Promise((resolve, reject) => {
+        klaw(sourcePath)
+          .on('data', file => {
+            const relativePath = path.relative(appPath, file.path)
+            if (file.stats.isSymbolicLink()) {
+              let linkFile = fs.readlinkSync(file.path)
+              if (!path.isAbsolute(linkFile)) {
+                linkFile = path.resolve(file.path, '..', linkFile)
+              }
+              readFiles.call(this, linkFile, file.path)
+            } else if (!file.stats.isDirectory()) {
+              printLog(processTypeEnum.CREATE, '发现文件', relativePath)
+              this.processFiles(file.path, originalFilePath)
+            }
+          })
+          .on('end', () => {
+            resolve()
+          })
+        }))
+    }
+    readFiles.call(this, sourcePath, sourcePath)
+    return Promise.all(readPromises)
   }
 
   async buildDist ({ watch, port }: IBuildConfig) {
+    const isMultiRouterMode = get(this.h5Config, 'router.mode') === 'multi'
     const entryFileName = this.entryFileName
     const projectConfig = this.projectConfig
-    const h5Config = this.h5Config
+    /** 不是真正意义上的IH5Config对象 */
+    const h5Config: IH5Config & {
+      deviceRatio?: IDeviceRatio
+      env?: IOption
+    } = this.h5Config
     const outputDir = this.outputDir
     const sourceRoot = this.sourceRoot
     const tempPath = this.tempPath
     const pathAlias = this.pathAlias
 
+    const getEntryFile = (filename: string) => {
+      return path.join(tempPath, filename)
+    }
+
     const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
+    const defaultEntry = isMultiRouterMode
+      ? fromPairs(this.pages.map(([pagename, filePath]) => {
+        return [filePath, [getEntryFile(filePath) + '.js']]
+      }))
+      : {
+        app: [getEntryFile(entryFile)]
+      }
     if (projectConfig.deviceRatio) {
       h5Config.deviceRatio = projectConfig.deviceRatio
     }
@@ -182,11 +218,10 @@ class Compiler {
     recursiveMerge(h5Config, {
       alias: pathAlias,
       copy: projectConfig.copy,
+      homePage: first(this.pages),
       defineConstants: projectConfig.defineConstants,
       designWidth: projectConfig.designWidth,
-      entry: {
-        app: [path.join(tempPath, entryFile)]
-      },
+      entry: merge(defaultEntry, h5Config.entry),
       env: {
         TARO_ENV: JSON.stringify(BUILD_TYPES.H5)
       },
@@ -213,17 +248,17 @@ class Compiler {
       .on('add', filePath => {
         const relativePath = path.relative(appPath, filePath)
         printLog(processTypeEnum.CREATE, '添加文件', relativePath)
-        this.processFiles(filePath)
+        this.processFiles(filePath, filePath)
       })
       .on('change', filePath => {
         const relativePath = path.relative(appPath, filePath)
         printLog(processTypeEnum.MODIFY, '文件变动', relativePath)
-        this.processFiles(filePath)
+        this.processFiles(filePath, filePath)
       })
       .on('unlink', filePath => {
         const relativePath = path.relative(appPath, filePath)
         const extname = path.extname(relativePath)
-        const distDirname = this.getTempDir(filePath)
+        const distDirname = this.getTempDir(filePath, filePath)
         const isScriptFile = REG_SCRIPTS.test(extname)
         const dist = this.getDist(distDirname, filePath, isScriptFile)
         printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
@@ -231,13 +266,24 @@ class Compiler {
       })
   }
 
-  processEntry (code, filePath) {
+  processEntry (code, filePath): string | [PageName, string][] {
     const pages = this.pages
-    const routerMode = get(this.h5Config, 'router.mode', 'hash')
-    const customRoutes = get(this.h5Config, 'router.customRoutes', {})
-    const routerBasename = addLeadingSlash(stripTrailingSlash(get(this.h5Config, 'router.basename', '/')))
+
     const pathAlias = this.pathAlias
     const pxTransformConfig = this.pxTransformConfig
+    const routerMode = this.routerConfig.mode
+    const isMultiRouterMode = routerMode === 'multi'
+    const routerLazyload = 'lazyload' in this.routerConfig
+      ? this.routerConfig.lazyload
+      : !isMultiRouterMode
+    const customRoutes: Record<string, string> = isMultiRouterMode
+      ? {}
+      : get(this.h5Config, 'router.customRoutes', {})
+    const routerBasename = isMultiRouterMode
+      ? get(this.h5Config, 'publicPath', '/')
+      : addLeadingSlash(stripTrailingSlash(get(this.h5Config, 'router.basename')))
+
+    const renamePagename = get(this.h5Config, 'router.renamePagename', identity)
 
     let ast = wxTransformer({
       code,
@@ -262,7 +308,6 @@ class Compiler {
     let hasNerv = false
     let stateNode: t.ClassProperty
 
-    const initPxTransformNode = toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`)
     const additionalConstructorNode = toAst(`Taro._$app = this`)
     const callComponentDidShowNode = toAst(`this.componentDidShow()`)
     const callComponentDidHideNode = toAst(`this.componentDidHide()`)
@@ -270,48 +315,57 @@ class Compiler {
 
     ast = babel.transformFromAst(ast, '', {
       plugins: [
-        [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
+        [require('babel-plugin-preval')],
+        [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
+        [require('babel-plugin-transform-taroapi').default, {
+          apis: npmProcess.getNpmPkgSync('@tarojs/taro-h5/dist/taroApis', this.appPath),
+          packageName: '@tarojs/taro-h5'
+        }]
       ]
     }).ast
 
     const ClassDeclarationOrExpression = {
-      enter (astPath) {
+      enter (astPath: NodePath<t.ClassDeclaration> | NodePath<t.ClassExpression>) {
         const node = astPath.node
         if (!node.superClass) return
-        if (
-          node.superClass.type === 'MemberExpression' &&
-          node.superClass.object.name === taroImportDefaultName &&
-          (node.superClass.property.name === 'Component' ||
-          node.superClass.property.name === 'PureComponent')
-        ) {
-          node.superClass.object.name = taroImportDefaultName
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(
-              t.classExpression(
-                t.identifier(renameComponentClassName),
-                node.superClass,
-                node.body,
-                node.decorators || []
-              )
-            )
-          }
-        } else if (node.superClass.name === 'Component' ||
-          node.superClass.name === 'PureComponent') {
+        if (isTaroClass(astPath)) {
           resetTSClassProperty(node.body.body)
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(
-              t.classExpression(
-                t.identifier(renameComponentClassName),
-                node.superClass,
-                node.body,
-                node.decorators || []
-              )
-            )
-          }
         }
       }
+    }
+
+    const wrapWithTabbar = (currentPagename: string, funcBody: string) => {
+      const firstPage = first(pages)
+      const homePage = firstPage ? firstPage[0] : ''
+
+      const panel = `
+        <${tabBarPanelComponentName}>
+          ${funcBody}
+        </${tabBarPanelComponentName}>`
+
+      const comp = `
+        <${tabBarComponentName}
+          conf={this.state.${tabBarConfigName}}
+          homePage="${homePage}"
+          ${currentPagename ? `currentPagename={'${currentPagename}'}` : ''}
+          ${tabbarPos === 'top' ? `tabbarPos={'top'}` : ''} />`
+
+      return `
+        <${tabBarContainerComponentName}>
+          ${tabbarPos === 'top' ? `${comp}${panel}` : `${panel}${comp}`}
+        </${tabBarContainerComponentName}>`
+    }
+
+    const wrapWithProvider = (funcBody: string) => {
+      return `
+        <${providerImportName} store={${storeName}}>
+          ${funcBody}
+        </${providerImportName}>
+      `
+    }
+
+    const wrapWithFuncBody = (funcBody: string) => {
+      return `{return (${funcBody});}`
     }
 
     /**
@@ -321,10 +375,11 @@ class Compiler {
     const programExitVisitor = {
       ClassMethod: {
         exit (astPath: NodePath<t.ClassMethod>) {
+          if (isMultiRouterMode) return
+
           const node = astPath.node
           const key = node.key
           const keyName = toVar(key)
-          let funcBody
 
           const isRender = keyName === 'render'
           const isComponentWillMount = keyName === 'componentWillMount'
@@ -333,86 +388,44 @@ class Compiler {
           const isConstructor = keyName === 'constructor'
 
           if (isRender) {
-            const routes = pages.map((v, k) => {
-              const absPagename = addLeadingSlash(v)
-              const relPagename = `.${absPagename}`
-              const chunkName = relPagename.split('/').filter(v => !/^(pages|\.)$/i.test(v)).join('_')
-              return createRoute({
-                absPagename,
-                relPagename,
-                chunkName,
-                isIndex: k === 0
+            const createFuncBody = (pages: [PageName, FilePath][]) => {
+              const routes = pages.map(([pageName, filePath], k) => {
+                const shouldLazyloadPage = typeof routerLazyload === 'function'
+                  ? routerLazyload(pageName)
+                  : routerLazyload
+                return createRoute({
+                  pageName,
+                  lazyload: shouldLazyloadPage,
+                  isIndex: k === 0
+                })
               })
-            })
-
-            funcBody = `
-              <Router
-                history={_taroHistory}
-                routes={[${routes.join(',')}]}
-                customRoutes={${JSON.stringify(customRoutes)}} />
-              `
-
-            /* 插入Tabbar */
-            if (tabBar) {
-              const homePage = pages[0] || ''
-              if (tabbarPos === 'top') {
-                funcBody = `
-                  <${tabBarContainerComponentName}>
-
-                    <${tabBarComponentName}
-                      conf={this.state.${tabBarConfigName}}
-                      homePage="${homePage}"
-                      tabbarPos={'top'} />
-
-                    <${tabBarPanelComponentName}>
-                      ${funcBody}
-                    </${tabBarPanelComponentName}>
-
-                  </${tabBarContainerComponentName}>`
-              } else {
-                funcBody = `
-                  <${tabBarContainerComponentName}>
-
-                    <${tabBarPanelComponentName}>
-                      ${funcBody}
-                    </${tabBarPanelComponentName}>
-
-                    <${tabBarComponentName}
-                      conf={this.state.${tabBarConfigName}}
-                      homePage="${homePage}"
-                      router={${taroImportDefaultName}} />
-
-                  </${tabBarContainerComponentName}>`
-              }
+              return `
+                <Router
+                  mode={${JSON.stringify(routerMode)}}
+                  history={_taroHistory}
+                  routes={[${routes.join(',')}]}
+                  customRoutes={${JSON.stringify(customRoutes)}} />
+                `
             }
 
-            /* 插入<Provider /> */
-            if (providerComponentName && storeName) {
-              // 使用redux 或 mobx
-              funcBody = `
-                <${providerImportName} store={${storeName}}>
-                  ${funcBody}
-                </${providerImportName}>`
-            }
+            const buildFuncBody = pipe(
+              ...compact([
+                createFuncBody,
+                tabBar && partial(wrapWithTabbar, ['']),
+                providerComponentName && storeName && wrapWithProvider,
+                wrapWithFuncBody
+              ])
+            )
 
-            /* 插入<Router /> */
-            node.body = toAst(`{return (${funcBody});}`, { preserveComments: true })
-          }
+            node.body = toAst(buildFuncBody(pages), { preserveComments: true })
 
-          if (tabBar && isComponentWillMount) {
-            node.body.body.push(initTabbarApiNode)
-          }
-
-          if (hasConstructor && isConstructor) {
-            node.body.body.push(additionalConstructorNode)
-          }
-
-          if (hasComponentDidShow && isComponentDidMount) {
-            node.body.body.push(callComponentDidShowNode)
-          }
-
-          if (hasComponentDidHide && isComponentWillUnmount) {
-            node.body.body.unshift(callComponentDidHideNode)
+            node.body.body = compact([
+              hasComponentDidHide && isComponentWillUnmount && callComponentDidHideNode,
+              ...node.body.body,
+              tabBar && isComponentWillMount && initTabbarApiNode,
+              hasConstructor && isConstructor && additionalConstructorNode,
+              hasComponentDidShow && isComponentDidMount && callComponentDidShowNode
+            ])
           }
         }
       },
@@ -470,7 +483,6 @@ class Compiler {
         const keyName = toVar(key)
         if (keyName === 'pages' && t.isArrayExpression(value)) {
           const subPackageParent = astPath.findParent(isUnderSubPackages)
-          let root = ''
           if (subPackageParent) {
             /* 在subPackages属性下，说明是分包页面，需要处理root属性 */
             const parent = astPath.parent as t.ObjectExpression
@@ -478,13 +490,21 @@ class Compiler {
               if (t.isSpreadProperty(v)) return false
               return toVar(v.key) === 'root'
             }) as t.ObjectProperty
-            root = rootNode ? toVar(rootNode.value) : ''
+            const root = rootNode ? toVar(rootNode.value) : '';
+            value.elements.forEach((v: t.StringLiteral) => {
+              const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
+              const pageName = removeLeadingSlash(pagePath)
+              pages.push([pageName, renamePagename(pageName).replace(/\//g, '')])
+              v.value = addLeadingSlash(v.value)
+            })
+          } else {
+            value.elements.forEach((v: t.StringLiteral) => {
+              const pagePath = v.value.replace(/\/{2,}/g, '/')
+              const pageName = removeLeadingSlash(pagePath)
+              pages.push([pageName, renamePagename(pageName).replace(/\//g, '')])
+              v.value = addLeadingSlash(v.value)
+            })
           }
-          (value.elements as t.StringLiteral[]).forEach(v => {
-            const pagePath = `${root}/${v.value}`.replace(/\/{2,}/g, '/')
-            pages.push(removeLeadingSlash(pagePath))
-            v.value = addLeadingSlash(v.value)
-          })
         } else if (keyName === 'tabBar' && t.isObjectExpression(value)) {
           // tabBar相关处理
           tabBar = value
@@ -533,7 +553,6 @@ class Compiler {
       }
     }
 
-    // require('fs').writeFileSync('./ast.json', JSON.stringify(ast, null, 2))
     traverse(ast, {
       ClassExpression: ClassDeclarationOrExpression,
       ClassDeclaration: ClassDeclarationOrExpression,
@@ -546,8 +565,12 @@ class Compiler {
           if (keyName === 'state') {
             stateNode = node
           } else if (keyName === 'config') {
-            // appConfig = toVar(node.value)
             astPath.traverse(classPropertyVisitor)
+            if (isMultiRouterMode) {
+              merge(customRoutes, transform(pages, (res, [pageName, filePath], key) => {
+                res[addLeadingSlash(pageName)] = addLeadingSlash(filePath)
+              }, {}))
+            }
           }
         }
       },
@@ -687,41 +710,32 @@ class Compiler {
       Program: {
         exit (astPath: NodePath<t.Program>) {
           const node = astPath.node
-          const importRouterNode = toAst(`import { Router, createHistory, mountApis } from '${'@tarojs/router'}'`)
-          const importComponentNode = toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '${'@tarojs/components'}'`)
           const lastImportIndex = findLastIndex(astPath.node.body, t.isImportDeclaration)
-          const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`) as NodePath<babel.types.Node>
-          const createHistoryNode = toAst(`
-            const _taroHistory = createHistory({
-              mode: "${routerMode}",
-              basename: "${routerBasename}",
-              customRoutes: ${JSON.stringify(customRoutes)},
-              firstPagePath: "${addLeadingSlash(pages[0])}"
-            });
-          `)
-          const mountApisNode = toAst(`mountApis(_taroHistory);`)
-          const extraNodes = [
-            importRouterNode,
-            initPxTransformNode,
-            createHistoryNode,
-            mountApisNode
+          const lastImportNode = astPath.get(`body.${lastImportIndex > -1 ? lastImportIndex : 0}`) as NodePath<t.ImportDeclaration>
+          const firstPage = first(pages)
+          const routerConfigs = JSON.stringify({
+            basename: routerBasename,
+            customRoutes
+          })
+
+          const extraNodes: (t.Node | false)[] = [
+            !hasNerv && toAst(`import ${nervJsImportDefaultName} from 'nervjs'`),
+            tabBar && toAst(`import { View, ${tabBarComponentName}, ${tabBarContainerComponentName}, ${tabBarPanelComponentName}} from '@tarojs/components'`),
+            toAst(`import { Router, createHistory, mountApis } from '@tarojs/router'`),
+            toAst(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`),
+            toAst(`
+              const _taroHistory = createHistory({
+                mode: "${routerMode}",
+                basename: "${routerBasename}",
+                customRoutes: ${JSON.stringify(customRoutes)},
+                firstPagePath: "${addLeadingSlash(firstPage ? firstPage[0] : '')}"
+              });
+            `),
+            isMultiRouterMode ? toAst(`mountApis(${routerConfigs});`) : toAst(`mountApis(${routerConfigs}, _taroHistory);`)
           ]
           astPath.traverse(programExitVisitor)
 
-          /* Taro.render(<App />) 会被移除，导致hasJSX判断错误 */
-          if (!hasNerv) {
-            extraNodes.unshift(
-              t.importDeclaration(
-                [t.importDefaultSpecifier(t.identifier(nervJsImportDefaultName))],
-                t.stringLiteral('nervjs')
-              )
-            )
-          }
-          if (tabBar) {
-            extraNodes.unshift(importComponentNode)
-          }
-
-          lastImportNode.insertAfter(extraNodes)
+          lastImportNode.insertAfter(compact(extraNodes))
           if (renderCallCode) {
             const renderCallNode = toAst(renderCallCode)
             node.body.push(renderCallNode)
@@ -729,14 +743,100 @@ class Compiler {
         }
       }
     })
-    const generateCode = generate(ast, {
-      jsescOption: {
-        minimal: true
-      }
-    }).code
-    return {
-      code: generateCode,
-      ast
+
+    const generateCode = (ast) => {
+      return generate(ast, {
+        jsescOption: {
+          minimal: true
+        }
+      }).code
+    }
+
+    if (isMultiRouterMode) {
+      return this.pages.map(([pageName, filePath], k) => {
+        const createFuncBody = () => {
+          const shouldLazyloadPage = typeof routerLazyload === 'function'
+            ? routerLazyload(pageName)
+            : routerLazyload
+          const route = createRoute({
+            pageName,
+            lazyload: shouldLazyloadPage,
+            isIndex: k === 0
+          })
+          return `
+            <Router
+              mode={${JSON.stringify(routerMode)}}
+              history={_taroHistory}
+              routes={[${route}]}
+              customRoutes={${JSON.stringify(customRoutes)}} />
+            `
+        }
+        const replaceMultiRouterVisitor: TraverseOptions<t.Node> = {
+          ClassMethod: {
+            exit (astPath: NodePath<t.ClassMethod>) {
+              const node = astPath.node
+              const key = node.key
+              const keyName = toVar(key)
+
+              const isRender = keyName === 'render'
+              const isComponentWillMount = keyName === 'componentWillMount'
+              const isComponentDidMount = keyName === 'componentDidMount'
+              const isComponentWillUnmount = keyName === 'componentWillUnmount'
+              const isConstructor = keyName === 'constructor'
+
+              if (isRender) {
+                const buildFuncBody = pipe(
+                  ...compact([
+                    createFuncBody,
+                    tabBar && partial(wrapWithTabbar, [addLeadingSlash(pageName)]),
+                    providerComponentName && storeName && wrapWithProvider,
+                    wrapWithFuncBody
+                  ])
+                )
+
+                node.body = toAst(buildFuncBody(pages), { preserveComments: true })
+
+                node.body.body = compact([
+                  hasComponentDidHide && isComponentWillUnmount && callComponentDidHideNode,
+                  ...node.body.body,
+                  tabBar && isComponentWillMount && initTabbarApiNode,
+                  hasConstructor && isConstructor && additionalConstructorNode,
+                  hasComponentDidShow && isComponentDidMount && callComponentDidShowNode
+                ])
+              }
+            }
+          },
+          Program: {
+            exit (astPath: NodePath<t.Program>) {
+              const node = astPath.node
+              node.body.forEach((bodyNode) => {
+                if (t.isExpressionStatement(bodyNode)
+                  && t.isCallExpression(bodyNode.expression)
+                  && t.isIdentifier(bodyNode.expression.callee)
+                  && bodyNode.expression.callee.name === 'mountApis') {
+                  const mountApisOptNode = bodyNode.expression.arguments[0]
+                  if (t.isObjectExpression(mountApisOptNode)) {
+                    const valueNode = t.stringLiteral(addLeadingSlash(pageName))
+                    let basenameNode = mountApisOptNode.properties.find((property: t.ObjectProperty) => {
+                      return toVar<string>(property.key) === 'currentPagename'
+                    }) as t.ObjectProperty | undefined
+                    if (basenameNode) {
+                      basenameNode.value = valueNode
+                    } else {
+                      basenameNode = t.objectProperty(t.stringLiteral('currentPagename'), valueNode)
+                      mountApisOptNode.properties.push(basenameNode)
+                    }
+                  }
+                }
+              })
+            }
+          }
+        }
+        traverse(ast, replaceMultiRouterVisitor)
+        return [filePath, generateCode(ast)]
+      })
+    } else {
+      return generateCode(ast)
     }
   }
 
@@ -766,50 +866,63 @@ class Compiler {
     let importNervNode: t.ImportDeclaration
     let importTaroNode: t.ImportDeclaration
     let renderClassMethodNode: t.ClassMethod
+    let exportDefaultDeclarationNode: t.ExportDefaultDeclaration
+    let exportNamedDeclarationPath: NodePath<t.ExportNamedDeclaration>
+    let componentClassName
+    let needSetConfigFromHooks
+    let configFromHooks
 
     const renderReturnStatementPaths: NodePath<t.ReturnStatement>[] = []
-
     ast = babel.transformFromAst(ast, '', {
       plugins: [
-        [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }]
+        [require('babel-plugin-preval')],
+        [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
+        [require('babel-plugin-transform-taroapi').default, {
+          apis: npmProcess.getNpmPkgSync('@tarojs/taro-h5/dist/taroApis', this.appPath),
+          packageName: '@tarojs/taro'
+        }]
       ]
     }).ast
 
     const ClassDeclarationOrExpression = {
-      enter (astPath) {
+      enter (astPath: NodePath<t.ClassDeclaration> | NodePath<t.ClassExpression>) {
         const node = astPath.node
         if (!node.superClass) return
-        if (
-          node.superClass.type === 'MemberExpression' &&
-          node.superClass.object.name === taroImportDefaultName &&
-          (node.superClass.property.name === 'Component' ||
-          node.superClass.property.name === 'PureComponent')
-        ) {
-          node.superClass.object.name = taroImportDefaultName
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(
-              t.classExpression(
-                t.identifier(renameComponentClassName),
-                node.superClass,
-                node.body,
-                node.decorators || []
-              )
-            )
-          }
-        } else if (node.superClass.name === 'Component' ||
-          node.superClass.name === 'PureComponent') {
+        if (isTaroClass(astPath)) {
           resetTSClassProperty(node.body.body)
-          if (node.id === null) {
-            const renameComponentClassName = '_TaroComponentClass'
-            astPath.replaceWith(
-              t.classExpression(
-                t.identifier(renameComponentClassName),
-                node.superClass,
-                node.body,
-                node.decorators || []
+          if (t.isClassDeclaration(astPath)) {
+            if (node.id === null) {
+              componentClassName = '_TaroComponentClass'
+              astPath.replaceWith(
+                t.classDeclaration(
+                  t.identifier(componentClassName),
+                  node.superClass as t.Expression,
+                  node.body as t.ClassBody,
+                  node.decorators as t.Decorator[] || []
+                )
               )
-            )
+            } else {
+              componentClassName = node.id.name
+            }
+          } else {
+            if (node.id === null) {
+              const parentNode = astPath.parentPath.node as any
+              if (t.isVariableDeclarator(astPath.parentPath)) {
+                componentClassName = parentNode.id.name
+              } else {
+                componentClassName = '_TaroComponentClass'
+              }
+              astPath.replaceWith(
+                t.classExpression(
+                  t.identifier(componentClassName),
+                  node.superClass as t.Expression,
+                  node.body as t.ClassBody,
+                  node.decorators as t.Decorator[] || []
+                )
+              )
+            } else {
+              componentClassName = node.id.name
+            }
           }
         }
       }
@@ -838,7 +951,45 @@ class Compiler {
       )
     }
 
-    const defaultVisitor = {
+    /**
+     * 把namedExport换成defaultExport。应对情况：
+     *
+     *  - export function example () {}
+     *  - export class example {}
+     *  - export const example
+     *  - export { example }
+     */
+    const replaceExportNamedToDefault = (astPath: NodePath<t.ExportNamedDeclaration>) => {
+      if (!astPath) return
+
+      const node = astPath.node
+      if (t.isFunctionDeclaration(node.declaration)) {
+
+        astPath.replaceWithMultiple([
+          node.declaration,
+          t.exportDefaultDeclaration(node.declaration.id)
+        ])
+      } else if (t.isClassDeclaration(node.declaration)) {
+        astPath.replaceWithMultiple([
+          node.declaration,
+          t.exportDefaultDeclaration(node.declaration.id)
+        ])
+      } else if (t.isVariableDeclaration(node.declaration)) {
+        const declarationId = node.declaration.declarations[0].id
+        if (t.isIdentifier(declarationId)) {
+          astPath.replaceWithMultiple([
+            node.declaration,
+            t.exportDefaultDeclaration(declarationId)
+          ])
+        }
+      } else if (node.specifiers && node.specifiers.length) {
+        astPath.replaceWithMultiple([
+          t.exportDefaultDeclaration(node.specifiers[0].local)
+        ])
+      }
+    }
+
+    const defaultVisitor: TraverseOptions = {
       ClassExpression: ClassDeclarationOrExpression,
       ClassDeclaration: ClassDeclarationOrExpression,
       ImportDeclaration: {
@@ -958,6 +1109,19 @@ class Compiler {
           }
         }
       },
+      AssignmentExpression (astPath) {
+        const node = astPath.node
+        const left = node.left
+        if (t.isMemberExpression(left) && t.isIdentifier(left.object)) {
+          if (left.object.name === componentClassName
+              && t.isIdentifier(left.property)
+              && left.property.name === 'config') {
+            needSetConfigFromHooks = true
+            configFromHooks = node.right
+            pageConfig = toVar(node.right)
+          }
+        }
+      },
       Program: {
         exit (astPath: NodePath<t.Program>) {
           const node = astPath.node
@@ -983,12 +1147,25 @@ class Compiler {
               )
               node.body.unshift(importTaroNode)
             }
+            astPath.traverse({
+              ClassBody (astPath) {
+                if (needSetConfigFromHooks) {
+                  const classPath = astPath.findParent((p: NodePath<t.Node>) => p.isClassExpression() || p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
+                  classPath.node.body.body.unshift(
+                    t.classProperty(
+                      t.identifier('config'),
+                      configFromHooks as t.ObjectExpression
+                    )
+                  )
+                }
+              }
+            })
           }
         }
       }
     }
 
-    const pageVisitor = {
+    const pageVisitor: TraverseOptions = {
       ClassProperty: {
         enter (astPath: NodePath<t.ClassProperty>) {
           const node = astPath.node
@@ -1088,6 +1265,16 @@ class Compiler {
           }
         }
       },
+      ExportDefaultDeclaration: {
+        exit (astPath: NodePath<t.ExportDefaultDeclaration>) {
+          exportDefaultDeclarationNode = astPath.node
+        }
+      },
+      ExportNamedDeclaration: {
+        exit (astPath: NodePath<t.ExportNamedDeclaration>) {
+          exportNamedDeclarationPath = astPath
+        }
+      },
       Program: {
         exit (astPath: NodePath<t.Program>) {
           if (hasOnPullDownRefresh) {
@@ -1135,13 +1322,17 @@ class Compiler {
                   ref={ref => {
                     if (ref) this.pullDownRefreshRef = ref
                 }}>{${varName}}</PullDownRefresh>`) as t.ExpressionStatement).expression
-              })
+            })
+          }
+
+          if (!exportDefaultDeclarationNode && exportNamedDeclarationPath) {
+            replaceExportNamedToDefault(exportNamedDeclarationPath)
           }
         }
       }
     }
 
-    const visitor = mergeVisitors({}, defaultVisitor, isPage ? pageVisitor : {})
+    const visitor: TraverseOptions = mergeVisitors({}, defaultVisitor, isPage ? pageVisitor : {})
 
     traverse(ast, visitor)
 
@@ -1150,18 +1341,18 @@ class Compiler {
         minimal: true
       }
     }).code
-    return {
-      code: generateCode,
-      ast
-    }
+    return generateCode
   }
 
-  getTempDir (filePath) {
+  getTempDir (filePath, originalFilePath) {
     const appPath = this.appPath
     const sourcePath = this.sourcePath
     const tempDir = this.tempDir
+    let dirname = path.dirname(filePath)
 
-    const dirname = path.dirname(filePath)
+    if (filePath.indexOf(sourcePath) < 0) {
+      dirname = path.extname(originalFilePath) ? path.dirname(originalFilePath) : originalFilePath
+    }
     const relPath = path.relative(sourcePath, dirname)
 
     return path.resolve(appPath, tempDir, relPath)
@@ -1178,31 +1369,37 @@ class Compiler {
       : path.resolve(this.tempPath, relPath)
   }
 
-  processFiles (filePath) {
-    const file = fs.readFileSync(filePath)
+  processFiles (filePath, originalFilePath) {
+    const original = fs.readFileSync(filePath, { encoding: 'utf8' })
     const extname = path.extname(filePath)
-    const distDirname = this.getTempDir(filePath)
+    const distDirname = this.getTempDir(filePath, originalFilePath)
     const isScriptFile = REG_SCRIPTS.test(extname)
     const distPath = this.getDist(distDirname, filePath, isScriptFile)
+    fs.ensureDirSync(distDirname)
 
     try {
       if (isScriptFile) {
         // 脚本文件 处理一下
         const fileType = this.classifyFiles(filePath)
-        const content = file.toString()
-        let transformResult
         if (fileType === FILE_TYPE.ENTRY) {
           this.pages = []
-          transformResult = this.processEntry(content, filePath)
+          const result = this.processEntry(original, filePath)
+          if (Array.isArray(result)) {
+            result.forEach(([pageName, code]) => {
+              fs.writeFileSync(
+                path.join(distDirname, `${pageName}.js`),
+                code
+              )
+            })
+          } else {
+            fs.writeFileSync(distPath, result)
+          }
         } else {
-          transformResult = this.processOthers(content, filePath, fileType)
+          const code = this.processOthers(original, filePath, fileType)
+          fs.writeFileSync(distPath, code)
         }
-        const jsCode = transformResult.code
-        fs.ensureDirSync(distDirname)
-        fs.writeFileSync(distPath, Buffer.from(jsCode))
       } else {
         // 其他 直接复制
-        fs.ensureDirSync(distDirname)
         fs.copySync(filePath, distPath)
       }
     } catch (e) {
@@ -1231,7 +1428,9 @@ export async function build (appPath: string, buildConfig: IBuildConfig) {
   const compiler = new Compiler(appPath)
   await compiler.clean()
   await compiler.buildTemp()
-  await compiler.buildDist(buildConfig)
+  if (compiler.h5Config.transformOnly !== true) {
+    await compiler.buildDist(buildConfig)
+  }
   if (buildConfig.watch) {
     compiler.watchFiles()
   }

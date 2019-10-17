@@ -36,3 +36,16 @@ export function detachAllRef (component) {
     component.refs = {}
   }
 }
+
+export class RefsArray extends Array {
+  /**
+   * @param {Array} initList
+   */
+  constructor (initList = []) {
+    super(...initList)
+  }
+  pushRef ($$ref) {
+    const isExist = this.find(item => item.id === $$ref.id)
+    !isExist && this.push($$ref)
+  }
+}

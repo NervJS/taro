@@ -1,18 +1,17 @@
 <template>
   <text
-    class="{{className}}"
+    class="{{class}}"
     id="{{id}}"
-    style="{{style}}"
+    style="{{customstyle}}"
     onclick="handleClick"
   >
-    <slot></slot>
   </text>
 </template>
 
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: 'taro_text'
@@ -22,7 +21,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

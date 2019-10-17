@@ -12,6 +12,12 @@ import './style/index.scss'
 // const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
 const addLeadingSlash = str => str[0] === '/' ? str : `/${str}`
 
+const hasBasename = (path, prefix) =>
+  new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path)
+
+const stripBasename = (path, prefix) =>
+  hasBasename(path, prefix) ? path.substr(prefix.length) : path
+
 const STATUS_SHOW = 0
 const STATUS_HIDE = 1
 const STATUS_SLIDEOUT = 2
@@ -57,8 +63,22 @@ class Tabbar extends Nerv.Component {
   tabbarPos = 'bottom'
 
   getCurrentUrl () {
-    const url = this.props.conf.mode === 'hash' ? location.hash : location.pathname
-    const processedUrl = addLeadingSlash(url.replace(new RegExp(`^#?${this.props.conf.basename}`), ''))
+    const currentPagename = this.props.currentPagename
+    const routerMode = this.props.conf.mode
+    const routerBasename = this.props.conf.basename || '/'
+    let url
+    if (routerMode === 'hash') {
+      const href = window.location.href
+      const hashIndex = href.indexOf('#')
+      url = hashIndex === -1
+        ? ''
+        : href.substring(hashIndex + 1)
+    } else if (routerMode === 'multi') {
+      url = currentPagename
+    } else {
+      url = location.pathname
+    }
+    const processedUrl = addLeadingSlash(stripBasename(url, routerBasename))
     return processedUrl === '/'
       ? this.homePage
       : processedUrl
@@ -100,7 +120,10 @@ class Tabbar extends Nerv.Component {
   }
 
   switchTabHandler = ({ url, successHandler, errorHandler }) => {
-    const currentUrl = this.getOriginUrl(this.getCurrentUrl() || this.homePage)
+    const routerMode = this.props.conf.mode
+    const currentUrl = routerMode === 'multi'
+      ? this.props.currentPagename
+      : this.getOriginUrl(this.getCurrentUrl() || this.homePage)
     const nextTab = resolvePathname(url, currentUrl)
     const foundIndex = this.getSelectedIndex(nextTab)
 
@@ -291,7 +314,7 @@ class Tabbar extends Nerv.Component {
             return (
               <TabbarItem
                 index={index}
-                onSelect={this.switchTab}
+                onSelect={this.switchTab.bind(this)}
                 isSelected={isSelected}
                 textColor={textColor}
                 iconPath={iconPath}

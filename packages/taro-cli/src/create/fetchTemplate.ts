@@ -5,14 +5,12 @@ import * as ora from 'ora'
 import * as AdmZip from 'adm-zip'
 import * as download from 'download-git-repo'
 import * as request from 'request'
-import Project from './project'
-import { TemplateSourceType, readDirWithFileTypes } from '../util'
+import { getTemplateSourceType, readDirWithFileTypes } from '../util'
 
 const TEMP_DOWNLOAD_FLODER = 'taro-temp'
 
-export default function fetchTemplate (creater: Project, type: TemplateSourceType): Promise<any> {
-  const { templateSource } = creater.conf
-  const templateRootPath = creater.templatePath('')
+export default function fetchTemplate (templateSource: string, templateRootPath: string, clone?: boolean): Promise<any> {
+  const type = getTemplateSourceType(templateSource)
   const tempPath = path.join(templateRootPath, TEMP_DOWNLOAD_FLODER)
   let name: string
 
@@ -25,7 +23,7 @@ export default function fetchTemplate (creater: Project, type: TemplateSourceTyp
 
     if (type === 'git') {
       name = path.basename(templateSource)
-      download(templateSource, path.join(tempPath, name), async error => {
+      download(templateSource, path.join(tempPath, name), { clone }, async error => {
         if (error) {
           spinner.color = 'red'
           spinner.fail(chalk.red('拉取远程模板仓库失败！'))

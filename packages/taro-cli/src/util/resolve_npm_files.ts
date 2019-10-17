@@ -14,7 +14,8 @@ import {
   printLog,
   recursiveFindNodeModules,
   generateEnvList,
-  isQuickappPkg
+  isQuickappPkg,
+  generateAlipayPath
 } from './index'
 
 import {
@@ -37,6 +38,7 @@ import defaultUglifyConfig from '../config/uglify'
 
 import * as npmProcess from './npm'
 import { IInstallOptions, INpmConfig, IResolvedCache, TogglableOptions, ITaroManifestConfig } from './types'
+import { convertArrayToAstExpression, convertObjectToAstExpression } from './astConvert'
 
 const excludeNpmPkgs = ['ReactPropTypes']
 
@@ -183,7 +185,7 @@ function analyzeImportUrl ({
         let relativeRequirePath = promoteRelativePath(path.relative(filePath, res.main))
         relativeRequirePath = relativeRequirePath.replace(/node_modules/g, npmConfig.name)
         if (buildAdapter === BUILD_TYPES.ALIPAY) {
-          relativeRequirePath = relativeRequirePath.replace(/@/g, '_')
+          relativeRequirePath = generateAlipayPath(relativeRequirePath)
         }
         source.value = relativeRequirePath
       }
@@ -284,6 +286,29 @@ function parseAst ({
             const node = astPath.node
             const source = node.source
             const value = source.value
+            if (REG_JSON.test(value)) {
+              const realRequirePath = path.resolve(path.dirname(filePath), value)
+              if (fs.existsSync(realRequirePath)) {
+                const obj = JSON.parse(fs.readFileSync(realRequirePath).toString())
+                const specifiers = node.specifiers
+                let defaultSpecifier
+                specifiers.forEach(item => {
+                  if (item.type === 'ImportDefaultSpecifier') {
+                    defaultSpecifier = item.local.name
+                  }
+                })
+                if (defaultSpecifier) {
+                  let objArr: t.NullLiteral | t.Expression = t.nullLiteral()
+                  if (Array.isArray(obj)) {
+                    objArr = t.arrayExpression(convertArrayToAstExpression(obj))
+                  } else {
+                    objArr = t.objectExpression(convertObjectToAstExpression(obj))
+                  }
+                  astPath.replaceWith(t.variableDeclaration('const', [t.variableDeclarator(t.identifier(defaultSpecifier), objArr)]))
+                }
+              }
+              return
+            }
             analyzeImportUrl({
               requirePath: value,
               excludeRequire,
@@ -308,6 +333,20 @@ function parseAst ({
             if (callee.name === 'require') {
               const args = node.arguments as Array<t.StringLiteral>
               const requirePath = args[0].value
+              if (REG_JSON.test(requirePath)) {
+                const realRequirePath = path.resolve(path.dirname(filePath), requirePath)
+                if (fs.existsSync(realRequirePath)) {
+                  const obj = JSON.parse(fs.readFileSync(realRequirePath).toString())
+                  let objArr: t.NullLiteral | t.Expression | t.ObjectProperty[] = t.nullLiteral()
+                  if (Array.isArray(obj)) {
+                    objArr = t.arrayExpression(convertArrayToAstExpression(obj))
+                  } else {
+                    objArr = convertObjectToAstExpression(obj)
+                  }
+                  astPath.replaceWith(t.objectExpression(objArr as any))
+                }
+                return
+              }
               analyzeImportUrl({
                 requirePath,
                 excludeRequire,
@@ -365,12 +404,12 @@ async function recursiveRequire ({
   let fileContent = fs.readFileSync(filePath).toString()
   let outputNpmPath = filePath.replace(rootNpm, npmOutputDir).replace(/node_modules/g, npmConfig.name)
   if (buildAdapter === BUILD_TYPES.ALIPAY) {
-    outputNpmPath = outputNpmPath.replace(/@/g, '_')
+    outputNpmPath = generateAlipayPath(outputNpmPath)
   }
   if (REG_STYLE.test(path.basename(filePath))) {
     return
   }
-  if (REG_FONT.test(filePath) || REG_IMAGE.test(filePath) || REG_MEDIA.test(filePath) || REG_JSON.test(filePath)) {
+  if (REG_FONT.test(filePath) || REG_IMAGE.test(filePath) || REG_MEDIA.test(filePath)) {
     fs.ensureDirSync(path.dirname(outputNpmPath))
     fs.writeFileSync(outputNpmPath, fileContent)
     let modifyOutput = outputNpmPath.replace(path.dirname(rootNpm) + path.sep, '')
@@ -474,7 +513,7 @@ export function npmCodeHack (filePath: string, content: string, buildAdapter: BU
     case 'lodash.js':
     case '_global.js':
     case 'lodash.min.js':
-      if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN) {
+      if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN || buildAdapter === BUILD_TYPES.JD) {
         content = content.replace(/Function\(['"]return this['"]\)\(\)/, '{}')
       } else {
         content = content.replace(/Function\(['"]return this['"]\)\(\)/, 'this')

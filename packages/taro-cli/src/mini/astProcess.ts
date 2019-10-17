@@ -38,7 +38,9 @@ import {
   replaceAliasPath,
   traverseObjectNode,
   isQuickappPkg,
-  getBabelConfig
+  getBabelConfig,
+  extnameExpRegOf,
+  generateAlipayPath
 } from '../util'
 import {
   convertObjectToAstExpression,
@@ -102,7 +104,8 @@ function analyzeImportUrl ({
     sourceDir,
     outputDir,
     npmConfig,
-    projectConfig
+    projectConfig,
+    buildAdapter
   } = getBuildData()
   const publicPath = (projectConfig.weapp || ({} as any)).publicPath
   if (value.indexOf('.') === 0) {
@@ -190,6 +193,9 @@ function analyzeImportUrl ({
         } else {
           outputVpath = vpath.replace(sourceDir, outputDir)
         }
+        if (buildAdapter === BUILD_TYPES.ALIPAY) {
+          outputVpath = generateAlipayPath(outputVpath)
+        }
         let relativePath = path.relative(filePath, outputVpath)
         if (vpath && vpath !== sourceFilePath) {
           if (!fs.existsSync(vpath)) {
@@ -208,7 +214,7 @@ function analyzeImportUrl ({
               scriptFiles.push(vpath)
             }
             relativePath = promoteRelativePath(relativePath)
-            relativePath = relativePath.replace(path.extname(relativePath), '.js')
+            relativePath = relativePath.replace(extnameExpRegOf(relativePath), '.js')
             node.source.value = relativePath
           }
         }
@@ -459,9 +465,6 @@ export function parseAst (
                 taroSelfComponents.add(_.kebabCase(name))
               }
             })
-          }
-          if (type === PARSE_AST_TYPE.PAGE) {
-            taroSelfComponents.add('taro-page')
           }
           astPath.remove()
         } else {
@@ -891,7 +894,7 @@ export function parseAst (
                           scriptFiles.push(vpath)
                         }
                         relativePath = promoteRelativePath(relativePath)
-                        relativePath = relativePath.replace(path.extname(relativePath), '.js')
+                        relativePath = relativePath.replace(extnameExpRegOf(relativePath), '.js')
                         args[0].value = relativePath
                       }
                     }
@@ -946,7 +949,7 @@ export function parseAst (
             if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
               node.body.push(template(`Component(require('${taroMiniAppFrameworkPath}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
             } else if (isQuickApp) {
-              const pagePath = sourceFilePath.replace(sourceDir, '').replace(/\\/g, '/').replace(path.extname(sourceFilePath), '')
+              const pagePath = sourceFilePath.replace(sourceDir, '').replace(/\\/g, '/').replace(extnameExpRegOf(sourceFilePath), '')
               if (!taroImportDefaultName) {
                 node.body.unshift(
                   template(`import Taro from '${taroMiniAppFrameworkPath}'`, babylonConfig as any)() as any
@@ -975,6 +978,11 @@ export function parseAst (
       }
     }
   })
+
+  if (isQuickApp && type === PARSE_AST_TYPE.PAGE) {
+    taroSelfComponents.add('taro-page')
+  }
+
   return {
     code: generate(ast).code,
     styleFiles,

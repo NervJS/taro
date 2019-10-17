@@ -42,7 +42,7 @@ const emptyTogglableObj = {
   config: {}
 }
 
-const recursiveMerge = (src, ...args) => {
+const recursiveMerge = <T = any>(src: Partial<T>, ...args: Array<Partial<T> | undefined>) => {
   return mergeWith(src, ...args, (value, srcValue, key, obj, source) => {
     const typeValue = typeof value
     const typeSrcValue = typeof srcValue

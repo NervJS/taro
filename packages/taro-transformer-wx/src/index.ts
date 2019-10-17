@@ -35,7 +35,9 @@ import {
   PROPS_MANAGER,
   GEN_COMP_ID,
   GEN_LOOP_COMPID,
-  CONTEXT_PROVIDER
+  CONTEXT_PROVIDER,
+  setIsTaroReady,
+  setCompId
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
@@ -159,20 +161,24 @@ function buildFullPathThisPropsRef (id: t.Identifier, memberIds: string[], path:
 function handleThirdPartyComponent (expr: t.ClassMethod | t.ClassProperty) {
   if (t.isClassProperty(expr) && expr.key.name === 'config' && t.isObjectExpression(expr.value)) {
     const properties = expr.value.properties
-    for (const prop of properties) {
-      if (
-        t.isObjectProperty(prop) &&
-        (t.isIdentifier(prop.key, { name: 'usingComponents' }) || t.isStringLiteral(prop.key, { value: 'usingComponents' })) &&
-        t.isObjectExpression(prop.value)
-      ) {
-        for (const value of prop.value.properties) {
-          if (t.isObjectProperty(value)) {
-            if (t.isStringLiteral(value.key)) {
-              THIRD_PARTY_COMPONENTS.add(value.key.value)
-            }
-            if (t.isIdentifier(value.key)) {
-              THIRD_PARTY_COMPONENTS.add(value.key.name)
-            }
+    findThirdPartyComponent(properties)
+  }
+}
+
+function findThirdPartyComponent (properties: (t.ObjectMethod | t.ObjectProperty | t.SpreadProperty)[]) {
+  for (const prop of properties) {
+    if (
+      t.isObjectProperty(prop) &&
+      (t.isIdentifier(prop.key, { name: 'usingComponents' }) || t.isStringLiteral(prop.key, { value: 'usingComponents' })) &&
+      t.isObjectExpression(prop.value)
+    ) {
+      for (const value of prop.value.properties) {
+        if (t.isObjectProperty(value)) {
+          if (t.isStringLiteral(value.key)) {
+            THIRD_PARTY_COMPONENTS.add(value.key.value)
+          }
+          if (t.isIdentifier(value.key)) {
+            THIRD_PARTY_COMPONENTS.add(value.key.name)
           }
         }
       }
@@ -209,6 +215,10 @@ export default function transform (options: Options): TransformResult {
     setLoopOriginal('privateOriginal')
     setLoopCallee('anonymousCallee_')
     setLoopState('loopState')
+  }
+  if (Adapter.type === Adapters.quickapp) {
+    setIsTaroReady('priTaroCompReady')
+    setCompId('priCompid')
   }
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped
@@ -264,6 +274,14 @@ export default function transform (options: Options): TransformResult {
             }
           }
         }
+      }
+    },
+    MemberExpression (path) {
+      const { property } = path.node
+      const right = path.getSibling('right')
+      if (t.isIdentifier(property, { name: 'config' }) && path.parentPath.isAssignmentExpression() && right.isObjectExpression()) {
+        const properties = right.node.properties
+        findThirdPartyComponent(properties)
       }
     },
     JSXText (path) {
@@ -510,15 +528,20 @@ export default function transform (options: Options): TransformResult {
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
       const binding = path.scope.getBinding(name)
-      if (process.env.NODE_ENV !== 'test' && DEFAULT_Component_SET.has(name) && binding && binding.kind === 'module') {
+      if (process.env.NODE_ENV !== 'test' && binding && binding.kind === 'module') {
         const bindingPath = binding.path
         if (bindingPath.parentPath.isImportDeclaration()) {
           const source = bindingPath.parentPath.node.source
-          if (source.value !== COMPONENTS_PACKAGE_NAME) {
+          if (DEFAULT_Component_SET.has(name) && source.value !== COMPONENTS_PACKAGE_NAME) {
             throw codeFrameError(bindingPath.parentPath.node, `内置组件名: '${name}' 只能从 ${COMPONENTS_PACKAGE_NAME} 引入。`)
+          }
+
+          if (name === 'Fragment') {
+            path.node.name = t.jSXIdentifier('block')
           }
         }
       }
+
       if (Adapter.type === Adapters.quickapp) {
         if (name === 'View') {
           path.node.name = t.jSXIdentifier('div')

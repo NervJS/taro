@@ -21,7 +21,8 @@ import {
   isDifferentArray,
   copyFileSync,
   generateQuickAppUx,
-  uglifyJS
+  uglifyJS,
+  extnameExpRegOf
 } from '../util'
 import { IWxTransformResult, TogglableOptions } from '../util/types'
 
@@ -41,6 +42,7 @@ import { compileDepStyles } from './compileStyle'
 import { transfromNativeComponents, processNativeWxml } from './native'
 import { buildDepComponents } from './component'
 import { parseAst } from './astProcess'
+import rewriterTemplate from '../quickapp/template-rewriter'
 
 // 小程序页面编译
 export async function buildSinglePage (page: string) {
@@ -74,16 +76,16 @@ export async function buildSinglePage (page: string) {
     return
   }
   const pageJsContent = fs.readFileSync(pageJs).toString()
-  const outputPageJSPath = pageJs.replace(sourceDir, outputDir).replace(path.extname(pageJs), outputFilesTypes.SCRIPT)
+  const outputPageJSPath = pageJs.replace(sourceDir, outputDir).replace(extnameExpRegOf(pageJs), outputFilesTypes.SCRIPT)
   const outputPagePath = path.dirname(outputPageJSPath)
-  const outputPageJSONPath = outputPageJSPath.replace(path.extname(outputPageJSPath), outputFilesTypes.CONFIG)
-  const outputPageWXMLPath = outputPageJSPath.replace(path.extname(outputPageJSPath), outputFilesTypes.TEMPL)
-  const outputPageWXSSPath = outputPageJSPath.replace(path.extname(outputPageJSPath), outputFilesTypes.STYLE)
+  const outputPageJSONPath = outputPageJSPath.replace(extnameExpRegOf(outputPageJSPath), outputFilesTypes.CONFIG)
+  const outputPageWXMLPath = outputPageJSPath.replace(extnameExpRegOf(outputPageJSPath), outputFilesTypes.TEMPL)
+  const outputPageWXSSPath = outputPageJSPath.replace(extnameExpRegOf(outputPageJSPath), outputFilesTypes.STYLE)
   // 判断是不是小程序原生代码页面
-  const pageWXMLPath = pageJs.replace(path.extname(pageJs), outputFilesTypes.TEMPL)
+  const pageWXMLPath = pageJs.replace(extnameExpRegOf(pageJs), outputFilesTypes.TEMPL)
   if (fs.existsSync(pageWXMLPath) && pageJsContent.indexOf(taroJsFramework) < 0) {
-    const pageJSONPath = pageJs.replace(path.extname(pageJs), outputFilesTypes.CONFIG)
-    const pageWXSSPath = pageJs.replace(path.extname(pageJs), outputFilesTypes.STYLE)
+    const pageJSONPath = pageJs.replace(extnameExpRegOf(pageJs), outputFilesTypes.CONFIG)
+    const pageWXSSPath = pageJs.replace(extnameExpRegOf(pageJs), outputFilesTypes.STYLE)
     if (fs.existsSync(pageJSONPath)) {
       const pageJSON = require(pageJSONPath)
       copyFileSync(pageJSONPath, outputPageJSONPath)
@@ -169,10 +171,20 @@ export async function buildSinglePage (page: string) {
       const importTaroSelfComponents = getImportTaroSelfComponents(outputPageJSPath, res.taroSelfComponents)
       const importCustomComponents = new Set(realComponentsPathList.map(item => {
         return {
-          path: path.relative(path.dirname(pageJs), item.path as string).replace(path.extname(item.path as string), ''),
+          path: promoteRelativePath(path.relative(pageJs, item.path as string)).replace(extnameExpRegOf(item.path as string), ''),
           name: item.name as string
         }
       }))
+      const usingComponents = res.configObj.usingComponents
+      let importUsingComponent: any = new Set([])
+      if (usingComponents) {
+        importUsingComponent = new Set(Object.keys(usingComponents).map(item => {
+          return {
+            name: item,
+            path: usingComponents[item]
+          }
+        }))
+      }
       // 生成页面 ux 文件
       let styleRelativePath
       if (res.styleFiles.length) {
@@ -181,8 +193,8 @@ export async function buildSinglePage (page: string) {
       const uxTxt = generateQuickAppUx({
         script: resCode,
         style: styleRelativePath,
-        imports: new Set([...importTaroSelfComponents, ...importCustomComponents]),
-        template: pageWXMLContent
+        imports: new Set([...importTaroSelfComponents, ...importCustomComponents, ...importUsingComponent]),
+        template: rewriterTemplate(pageWXMLContent)
       })
       fs.writeFileSync(outputPageWXMLPath, uxTxt)
       printLog(processTypeEnum.GENERATE, '页面文件', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)
@@ -217,7 +229,7 @@ export async function buildSinglePage (page: string) {
                 } else {
                   realPath = promoteRelativePath(path.relative(pageJs, componentPath as string))
                 }
-                depComponent.path = realPath.replace(path.extname(realPath), '')
+                depComponent.path = realPath.replace(extnameExpRegOf(realPath), '')
               }
             })
           })

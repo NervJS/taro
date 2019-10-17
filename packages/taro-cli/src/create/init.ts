@@ -55,7 +55,7 @@ function createFiles (
 
   files.forEach(file => {
     // fileRePath startsWith '/'
-    const fileRePath = file.replace(templatePath, '').replace(path.sep, '/')
+    const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
     let externalConfig: any = null
 
     // 跑自定义逻辑，确定是否创建此文件
@@ -124,6 +124,8 @@ export async function createPage (
   // path
   const templatePath = creater.templatePath(template)
 
+  if (!fs.existsSync(templatePath)) return console.log(chalk.red(`创建页面错误：找不到模板${templatePath}`))
+
   // 引入模板编写者的自定义逻辑
   const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
   const basePageFiles = fs.existsSync(handlerPath) ? require(handlerPath).basePageFiles : []
@@ -155,12 +157,29 @@ export async function createApp (
   const {
     projectName,
     projectDir,
-    template
+    template,
+    env,
+    autoInstall = true
   } = params
   const logs: string[] = []
   // path
   const templatePath = creater.templatePath(template)
   const projectPath = path.join(projectDir, projectName)
+
+  // default 模板发布 npm 会滤掉 '.' 开头的文件，因此改为 '_' 开头，这里先改回来。
+  if (env !== 'test' && template === 'default') {
+    const files = await fs.readdir(templatePath)
+    const renames = files
+      .map(file => {
+        const filePath = path.join(templatePath, file)
+        if (fs.statSync(filePath).isFile() && file.startsWith('_')) {
+          return fs.rename(filePath, path.join(templatePath, file.replace(/^_/, '.')))
+        }
+        return Promise.resolve()
+      })
+
+    await Promise.all(renames)
+  }
 
   // npm & yarn
   const version = helper.getPkgVersion()
@@ -171,11 +190,11 @@ export async function createApp (
 
   if (useNpmrc) {
     creater.template(template, '.npmrc', path.join(projectPath, '.npmrc'))
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/.npmrc`)}`)
+    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}${path.sep}.npmrc`)}`)
   }
   if (useYarnLock) {
     creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}/yarn.lock`)}`)
+    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}${path.sep}yarn.lock`)}`)
   }
 
   // 遍历出模板中所有文件
@@ -219,31 +238,41 @@ export async function createApp (
       }
     })
 
-    // packages install
-    let command: string
-    if (shouldUseYarn) {
-      command = 'yarn install'
-    } else if (helper.shouldUseCnpm()) {
-      command = 'cnpm install'
-    } else {
-      command = 'npm install'
-    }
-    const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        installSpinner.color = 'red'
-        installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
-        console.log(error)
-      } else {
-        installSpinner.color = 'green'
-        installSpinner.succeed('安装成功')
-        console.log(`${stderr}${stdout}`)
-      }
+    const callSuccess = () => {
       console.log(chalk.green(`创建项目 ${chalk.green.bold(projectName)} 成功！`))
       console.log(chalk.green(`请进入项目目录 ${chalk.green.bold(projectName)} 开始工作吧！😝`))
       if (typeof cb === 'function') {
         cb()
       }
-    })
+    }
+
+    if (autoInstall) {
+      // packages install
+      let command: string
+      if (shouldUseYarn) {
+        command = 'yarn install'
+      } else if (helper.shouldUseCnpm()) {
+        command = 'cnpm install'
+      } else {
+        command = 'npm install'
+      }
+      const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          installSpinner.color = 'red'
+          installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
+          console.log(error)
+        } else {
+          installSpinner.color = 'green'
+          installSpinner.succeed('安装成功')
+          console.log(`${stderr}${stdout}`)
+        }
+        callSuccess()
+      })
+    } else {
+      callSuccess()
+    }
+
+    
   })
 }

@@ -2,6 +2,7 @@
   "docs": {
     "关于Taro": [
       "README",
+      "taroize",
       "team"
     ],
     "快速开始": [
@@ -10,53 +11,70 @@
       "before-dev-remind",
       "specials"
     ],
-    "教程": [
+    "基础教程": [
       "spec-for-taro",
       "tutorial",
       "project-config",
+      "best-practice",
       "router",
       "size",
       "static-reference",
       "component-style",
-      "jsx",
-      "props",
-      "state",
-      "event",
-      "condition",
-      "list",
-      "functional-component",
-      "context",
-      "hooks",
-      "children",
-      "render-props",
-      "ref",
-      "envs",
-      "relations",
-      "wxcloud",
-      "miniprogram-plugin",
-      "quick-app",
-      "react-native",
-      "ui-lib",
-      "taroize",
-      "best-practice",
-      "optimized-practice",
+      {
+        "label": "语法特性",
+        "type": "subcategory",
+        "ids": [
+          "jsx",
+          "props",
+          "state",
+          "event",
+          "condition",
+          "list",
+          "functional-component",
+          "context",
+          "children",
+          "render-props",
+          "ref"
+        ]
+      },
+      {
+        "label": "多端开发",
+        "type": "subcategory",
+        "ids": [
+          "envs",
+          "envs-debug",
+          "relations",
+          "wxcloud",
+          "miniprogram-plugin",
+          "quick-app",
+          "react-native"
+        ]
+      },
       "debug"
     ],
     "进阶指南": [
       "config",
       "config-detail",
+      "hooks",
+      "ui-lib",
       "async-await",
-      "redux",
-      "mobx",
       "mini-third-party",
       "hybrid",
+      "optimized-practice"
+    ],
+    "社区生态": [
+      "redux",
+      "mobx",
       "css-modules",
       "template",
+      "report",
       "CONTRIBUTING"
     ]
   },
   "components": {
-    "关于组件库":  ["components-desc"],
+    "关于组件库": [
+      "components-desc"
+    ],
     "视图容器": [
       "components/viewContainer/view",
       "components/viewContainer/scroll-view",
@@ -83,18 +101,27 @@
       "components/forms/switch",
       "components/forms/textarea"
     ],
-    "导航": ["components/navig/navigator"],
+    "导航": [
+      "components/navig/navigator"
+    ],
     "媒体组件": [
       "components/media/audio",
       "components/media/image",
       "components/media/video",
       "components/media/camera"
     ],
-    "地图": ["components/maps/map"],
-    "画布": ["components/canvas/canvas"],
+    "地图": [
+      "components/maps/map"
+    ],
+    "画布": [
+      "components/canvas/canvas"
+    ],
     "开放能力": [
+      "components/open/ad",
+      "components/open/official-account",
+      "components/open/open-data",
       "components/open/web-view",
-      "components/open/open-data"
+      "components/open/others"
     ]
   },
   "API": {
@@ -113,7 +140,8 @@
           "apis/device/accelerometer/stopAccelerometer",
           "apis/device/accelerometer/onAccelerometerChange"
         ]
-      }, {
+      },
+      {
         "label": "设备方向",
         "type": "subcategory",
         "ids": [
@@ -121,7 +149,8 @@
           "apis/device/deviceMotion/stopDeviceMotionListening",
           "apis/device/deviceMotion/onDeviceMotionChange"
         ]
-      }, {
+      },
+      {
         "label": "蓝牙",
         "type": "subcategory",
         "ids": [
@@ -135,7 +164,8 @@
           "apis/device/bluetooth/startBluetoothDevicesDiscovery",
           "apis/device/bluetooth/stopBluetoothDevicesDiscovery"
         ]
-      }, {
+      },
+      {
         "label": "低功耗蓝牙",
         "type": "subcategory",
         "ids": [
@@ -397,67 +427,75 @@
       "apis/location/openLocation",
       "apis/location/chooseLocation"
     ],
-    "媒体": [{
-      "label": "音频",
-      "type": "subcategory",
-      "ids": [
-        "apis/multimedia/audio/playVoice",
-        "apis/multimedia/audio/pauseVoice",
-        "apis/multimedia/audio/stopVoice",
-        "apis/multimedia/audio/createAudioContext",
-        "apis/multimedia/audio/createInnerAudioContext"
-      ]
-    }, {
-      "label": "背景音频",
-      "type": "subcategory",
-      "ids": [
-        "apis/multimedia/backgroundaudio/getBackgroundAudioManager",
-        "apis/multimedia/backgroundaudio/getBackgroundAudioPlayerState",
-        "apis/multimedia/backgroundaudio/playBackgroundAudio",
-        "apis/multimedia/backgroundaudio/pauseBackgroundAudio",
-        "apis/multimedia/backgroundaudio/seekBackgroundAudio",
-        "apis/multimedia/backgroundaudio/stopBackgroundAudio",
-        "apis/multimedia/backgroundaudio/onBackgroundAudioPlay",
-        "apis/multimedia/backgroundaudio/onBackgroundAudioPause",
-        "apis/multimedia/backgroundaudio/onBackgroundAudioStop"
-      ]
-    }, {
-      "label": "相机",
-      "type": "subcategory",
-      "ids": [
-        "apis/multimedia/camera/createCameraContext"
-      ]
-    }, {
-      "label": "图片",
-      "type": "subcategory",
-      "ids": [
-        "apis/multimedia/images/chooseImage",
-        "apis/multimedia/images/previewImage",
-        "apis/multimedia/images/getImageInfo",
-        "apis/multimedia/images/saveImageToPhotosAlbum"
-      ]
-    }, {
-      "label": "地图",
-      "type": "subcategory",
-      "ids": [
-        "apis/multimedia/map/createMapContext"
-      ]
-    }, {
-      "label": "录音",
-      "type": "subcategory",
-      "ids": [
-        "apis/multimedia/recording/startRecord",
-        "apis/multimedia/recording/stopRecord"
-      ]
-    }, {
-      "label": "视频",
-      "type": "subcategory",
-      "ids": [
-        "apis/multimedia/video/chooseVideo",
-        "apis/multimedia/video/saveVideoToPhotosAlbum",
-        "apis/multimedia/video/createVideoContext"
-      ]
-    }],
+    "媒体": [
+      {
+        "label": "音频",
+        "type": "subcategory",
+        "ids": [
+          "apis/multimedia/audio/playVoice",
+          "apis/multimedia/audio/pauseVoice",
+          "apis/multimedia/audio/stopVoice",
+          "apis/multimedia/audio/createAudioContext",
+          "apis/multimedia/audio/createInnerAudioContext"
+        ]
+      },
+      {
+        "label": "背景音频",
+        "type": "subcategory",
+        "ids": [
+          "apis/multimedia/backgroundaudio/getBackgroundAudioManager",
+          "apis/multimedia/backgroundaudio/getBackgroundAudioPlayerState",
+          "apis/multimedia/backgroundaudio/playBackgroundAudio",
+          "apis/multimedia/backgroundaudio/pauseBackgroundAudio",
+          "apis/multimedia/backgroundaudio/seekBackgroundAudio",
+          "apis/multimedia/backgroundaudio/stopBackgroundAudio",
+          "apis/multimedia/backgroundaudio/onBackgroundAudioPlay",
+          "apis/multimedia/backgroundaudio/onBackgroundAudioPause",
+          "apis/multimedia/backgroundaudio/onBackgroundAudioStop"
+        ]
+      },
+      {
+        "label": "相机",
+        "type": "subcategory",
+        "ids": [
+          "apis/multimedia/camera/createCameraContext"
+        ]
+      },
+      {
+        "label": "图片",
+        "type": "subcategory",
+        "ids": [
+          "apis/multimedia/images/chooseImage",
+          "apis/multimedia/images/previewImage",
+          "apis/multimedia/images/getImageInfo",
+          "apis/multimedia/images/saveImageToPhotosAlbum"
+        ]
+      },
+      {
+        "label": "地图",
+        "type": "subcategory",
+        "ids": [
+          "apis/multimedia/map/createMapContext"
+        ]
+      },
+      {
+        "label": "录音",
+        "type": "subcategory",
+        "ids": [
+          "apis/multimedia/recording/startRecord",
+          "apis/multimedia/recording/stopRecord"
+        ]
+      },
+      {
+        "label": "视频",
+        "type": "subcategory",
+        "ids": [
+          "apis/multimedia/video/chooseVideo",
+          "apis/multimedia/video/saveVideoToPhotosAlbum",
+          "apis/multimedia/video/createVideoContext"
+        ]
+      }
+    ],
     "网络": [
       {
         "label": "文件上传/下载",

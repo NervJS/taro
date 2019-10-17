@@ -1,7 +1,7 @@
 import { objectIs } from './util'
 
 class Emiter {
-  constructor (value) {
+  constructor (value = {}) {
     this.value = value
     this.handlers = []
   }

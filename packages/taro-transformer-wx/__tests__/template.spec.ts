@@ -917,8 +917,8 @@ describe('字符不转义', () => {
     })
   })
 
-  describe("ObjectExpression property key", () => {
-    test("StringLiteral", () => {
+  describe('ObjectExpression property key', () => {
+    test('StringLiteral', () => {
       const { template, ast, code } = transform({
         ...baseOptions,
         isRoot: true,
@@ -934,26 +934,7 @@ describe('字符不转义', () => {
         `)
       })
 
-      const inst = evalClass(ast, "", true);
-      expect(template).toMatch(`'weapp' === 'weapp'`);
-    })
-    test("Identifier", () => {
-      const { template, ast, code } = transform({
-        ...baseOptions,
-        isRoot: true,
-        code: buildComponent(`
-          return {
-              weapp: (
-                  <View>weapp</View>
-              ),
-              h5: (
-                  <View>h5</View>
-              )
-          }[process.env.TARO_ENV]
-        `)
-      })
-
-      const inst = evalClass(ast, "", true);
+      const inst = evalClass(ast, '', true);
       expect(template).toMatch(`'weapp' === 'weapp'`);
     })
   })

@@ -14,7 +14,7 @@ title: 项目模板
 
 ## 模板源
 
-模板源为 CLI 配置项的 **templateSource** 字段，可以使用 [taro config](https://nervjs.github.io/taro/docs/GETTING-STARTED.html#cli-%E9%85%8D%E7%BD%AE) 命令对其进行操作。
+模板源为 CLI 配置项的 **templateSource** 字段，可以使用 [taro config](./GETTING-STARTED.html#cli-%E9%85%8D%E7%BD%AE) 命令对其进行操作。
 
 ### 默认模版源
 
@@ -28,6 +28,12 @@ title: 项目模板
 
 * GitHub - github:owner/name
 * GitLab - gitlab:owner/name
+* Direct - direct:url
+
+```sh
+# 初始化项目时可以使用 --clone 选项指定拉取远程模板时使用git clone
+taro init --clone
+```
 
 #### url 模板源
 

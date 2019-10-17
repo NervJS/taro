@@ -36,8 +36,17 @@ function bindProperties (weappComponentConf, ComponentClass, isPage) {
   weappComponentConf.properties.compid = {
     type: null,
     value: null,
-    observer () {
+    observer (newVal, oldVal) {
       initComponent.apply(this, [ComponentClass, isPage])
+      if (oldVal) {
+        const { extraProps } = this.data
+        const component = this.$component
+        propsManager.observers[newVal] = {
+          component,
+          ComponentClass: component.constructor
+        }
+        component.props = filterProps(component.constructor.defaultProps, propsManager.map[newVal], component.props, extraProps || null)
+      }
     }
   }
 }
@@ -295,6 +304,7 @@ function createComponent (ComponentClass, isPage) {
     created (options = {}) {
       if (isPage && cacheDataHas(preloadInitedComponent)) {
         this.$component = cacheDataGet(preloadInitedComponent, true)
+        this.$component.$componentType = 'PAGE'
       } else {
         this.$component = new ComponentClass({}, isPage)
       }

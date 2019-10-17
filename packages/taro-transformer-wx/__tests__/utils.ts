@@ -49,7 +49,7 @@ function genLoopCompid () {
 }
 
 function genCompid () {
-  return undefined
+  return ''
 }
 
 var propsManager = {

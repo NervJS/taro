@@ -39,8 +39,8 @@
     "@tarojs/taro-swan": "<%= version %>",
     "@tarojs/taro-tt": "<%= version %>",
     "@tarojs/taro-weapp": "<%= version %>",
-    "nervjs": "^1.4.0",
-    "nerv-devtools": "^1.4.0"
+    "nervjs": "^1.5.0",
+    "nerv-devtools": "^1.5.0"
   },
   "devDependencies": {
     "@types/react": "^16.4.6",
@@ -59,6 +59,7 @@
     "eslint": "^5.16.0",
     "eslint-config-taro": "<%= version %>",
     "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-react-hooks": "^1.6.1",
     "eslint-plugin-import": "^2.12.0",
     "stylelint": "9.3.0",
     "stylelint-config-taro-rn": "<%= version %>",

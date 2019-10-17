@@ -56,6 +56,13 @@ import Taro from '@tarojs/taro-h5';
 console.log(Taro);"
 `;
 
+exports[`should support rename of imported names 1`] = `
+"
+// import { inject as mobxInject, observer as mobxObserver } from '@tarojs/mobx'
+import Taro from \\"@tarojs/taro-h5\\";
+export class Connected extends Taro.Component {}"
+`;
+
 exports[`should work! 1`] = `
 "
 import Taro, { setStorage as _setStorage, getStorage as _getStorage } from '@tarojs/taro-h5';

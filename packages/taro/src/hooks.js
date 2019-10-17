@@ -35,6 +35,71 @@ export function useState (initialState) {
   return hook.state
 }
 
+function usePageLifecycle (callback, lifecycle) {
+  const hook = getHooks(Current.index++)
+  let originalLifecycle
+  hook.component = Current.current
+  const component = hook.component
+  if (!hook.marked) {
+    hook.marked = true
+    originalLifecycle = component[lifecycle]
+  }
+  hook.component[lifecycle] = function () {
+    originalLifecycle && originalLifecycle.call(component, ...arguments)
+    return callback && callback.call(component, ...arguments)
+  }
+}
+
+export function useDidShow (callback) {
+  usePageLifecycle(callback, 'componentDidShow')
+}
+
+export function useDidHide (callback) {
+  usePageLifecycle(callback, 'componentDidHide')
+}
+
+export function usePullDownRefresh (callback) {
+  usePageLifecycle(callback, 'onPullDownRefresh')
+}
+
+export function useReachBottom (callback) {
+  usePageLifecycle(callback, 'onReachBottom')
+}
+
+export function usePageScroll (callback) {
+  usePageLifecycle(callback, 'onPageScroll')
+}
+
+export function useResize (callback) {
+  usePageLifecycle(callback, 'onResize')
+}
+
+export function useShareAppMessage (callback) {
+  usePageLifecycle(callback, 'onShareAppMessage')
+}
+
+export function useTabItemTap (callback) {
+  usePageLifecycle(callback, 'onTabItemTap')
+}
+
+export function useRouter () {
+  const hook = getHooks(Current.index++)
+  if (!hook.router) {
+    hook.component = Current.current
+    hook.router = hook.component.$router
+  }
+  return hook.router
+}
+
+export function useScope () {
+  const hook = getHooks(Current.index++)
+  if (!hook.scope) {
+    hook.component = Current.current
+    hook.scope = hook.component.$scope
+  }
+  return hook.scope
+}
+
 export function useReducer (
   reducer,
   initialState,

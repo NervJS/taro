@@ -7,23 +7,23 @@ import { createApp } from './init'
 import fetchTemplate from './fetchTemplate'
 import Creator from './creator'
 import CONFIG from '../config'
-import { getUserHomeDir, getTemplateSourceType } from '../util'
-
-const TARO_CONFIG_FLODER = '.taro'
-const TARO_BASE_CONFIG = 'index.json'
-const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates'
+import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } from '../util/constants'
+import { getUserHomeDir } from '../util'
 
 export interface IProjectConf {
   projectName: string,
   projectDir: string,
   templateSource: string,
+  clone?: boolean,
   template: string,
   description?: string,
   typescript?: boolean,
   css: 'none' | 'sass' | 'stylus' | 'less',
   date?: string,
   src?: string,
-  sourceRoot?: string
+  sourceRoot?: string,
+  env?: string,
+  autoInstall?: boolean
 }
 
 interface AskMethods {
@@ -97,8 +97,7 @@ export default class Project extends Creator {
     }
 
     // 从模板源下载模板
-    const templateSourceType = getTemplateSourceType(conf.templateSource)
-    return fetchTemplate(this, templateSourceType)
+    return fetchTemplate(this.conf.templateSource, this.templatePath(''), this.conf.clone)
   }
 
   ask (templateChoices: string[]) {

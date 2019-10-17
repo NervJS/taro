@@ -28,11 +28,14 @@ import {
   generateEnvList,
   generateConstantsList,
   isEmptyObject,
-  getInstalledNpmPkgPath,
   recursiveFindNodeModules,
-  getBabelConfig
+  getBabelConfig,
+  extnameExpRegOf,
+  generateAlipayPath
 } from '../util'
 import { resolveNpmPkgMainPath } from '../util/resolve_npm_files'
+import { resolveNpmSync } from '../util/npm'
+
 import {
   IProjectConfig,
   IOption,
@@ -211,6 +214,7 @@ export function buildUsingComponents (
   components: IComponentObj[],
   isComponent?: boolean
 ): IOption {
+  const { buildAdapter } = getBuildData()
   const usingComponents = Object.create(null)
   const pathAlias = BuildData.projectConfig.alias || {}
   for (const component of components) {
@@ -224,8 +228,11 @@ export function buildUsingComponents (
     } else {
       componentPath = component.path
     }
+    if (buildAdapter === BUILD_TYPES.ALIPAY) {
+      componentPath = generateAlipayPath(componentPath)
+    }
     if (component.name) {
-      usingComponents[component.name] = (componentPath as string).replace(path.extname(componentPath as string), '')
+      usingComponents[component.name] = (componentPath as string).replace(extnameExpRegOf(componentPath as string), '')
     }
   }
   return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
@@ -342,7 +349,7 @@ export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath:
 }
 
 export function getTaroJsQuickAppComponentsPath () {
-  const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, BuildData.nodeModulesPath)
+  const taroJsQuickAppComponentsPkg = resolveNpmSync(taroJsQuickAppComponents, BuildData.nodeModulesPath)
   if (!taroJsQuickAppComponentsPkg) {
     printLog(processTypeEnum.ERROR, '包安装', `缺少包 ${taroJsQuickAppComponents}，请安装！`)
     process.exit(0)

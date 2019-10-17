@@ -9,7 +9,7 @@ const COLLECT_CHILDS = 'onTaroCollectChilds'
 const preloadPrivateKey = '__preload_'
 const PRELOAD_DATA_KEY = 'preload'
 const preloadInitedComponent = '$preloadComponent'
-const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage']
+const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onTabItemTap']
 
 function bindStaticFns (weappComponentConf, ComponentClass) {
   for (const key in ComponentClass) {
@@ -247,6 +247,7 @@ function createComponent (ComponentClass, isPage) {
         hasPageInited = false
         if (cacheDataHas(preloadInitedComponent)) {
           this.$component = cacheDataGet(preloadInitedComponent, true)
+          this.$component.$componentType = 'PAGE'
         } else {
           this.$component = new ComponentClass({}, isPage)
         }

@@ -23,4 +23,4 @@ title: 项目配置
 | 快应用 | project.quickapp.json | 配置文件中请勿配置 `router` 与 `display`，这两个配置将由 Taro 生成 |
 | QQ小程序 | project.qq.json | |
 
-> 注意：快应用的 `project.quickapp.json` 配置请参考[文件](https://github.com/NervJS/taro/blob/master/packages/taro-cli/src/config/manifest.default.json)
+> 注意：快应用的 `project.quickapp.json` 配置请参考[快应用配置](./quick-app.md#快应用配置)

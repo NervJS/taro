@@ -2,7 +2,7 @@ import * as t from 'babel-types'
 import generate from 'babel-generator'
 import { codeFrameColumns } from '@babel/code-frame'
 import { NodePath, Scope } from 'babel-traverse'
-import { LOOP_STATE, TARO_PACKAGE_NAME } from './constant'
+import { LOOP_STATE, TARO_PACKAGE_NAME, IS_TARO_READY } from './constant'
 import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -415,9 +415,18 @@ export function createUUID () {
   }).replace(/-/g, '').slice(0, 8)
 }
 
+let count = 0
 export function createRandomLetters (n: number) {
-  const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-  return Array(n).join().split(',').map(function () { return str.charAt(Math.floor(Math.random() * str.length)) }).join('')
+  const countStr = (count++).toString()
+  let letters = ''
+  for (const s of countStr) {
+    letters += String.fromCharCode(97 + parseInt(s, 10))
+  }
+  const padding = n - letters.length
+  for (let i = 0; i < padding; i++) {
+    letters += 'z'
+  }
+  return letters
 }
 
 export function isBlockIfStatement (ifStatement, blockStatement): ifStatement is NodePath<t.IfStatement> {
@@ -677,7 +686,7 @@ export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression)
         }
       } else if (t.isJSXExpressionContainer(attr.value)) {
         const condition = cloneDeep(attr.value.expression)
-        if (t.isJSXIdentifier(condition, { name: '$taroCompReady' })) {
+        if (t.isJSXIdentifier(condition, { name: IS_TARO_READY })) {
           return expr
         }
         const ifStem = logicalJSX.findParent(p => p.isIfStatement())

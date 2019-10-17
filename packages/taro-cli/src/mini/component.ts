@@ -21,7 +21,9 @@ import {
   promoteRelativePath,
   isDifferentArray,
   generateQuickAppUx,
-  uglifyJS
+  uglifyJS,
+  extnameExpRegOf,
+  generateAlipayPath
 } from '../util'
 
 import { parseComponentExportAst, parseAst } from './astProcess'
@@ -143,6 +145,9 @@ export async function buildSingleComponent (
   }
   let componentShowPath = component.replace(appPath + path.sep, '')
   componentShowPath = componentShowPath.split(path.sep).join('/')
+  if (buildAdapter === BUILD_TYPES.ALIPAY) {
+    componentShowPath = generateAlipayPath(componentShowPath)
+  }
   let isComponentFromNodeModules = false
   let sourceDirPath = sourceDir
   let buildOutputDir = outputDir
@@ -153,13 +158,16 @@ export async function buildSingleComponent (
     buildOutputDir = npmOutputDir
   }
   let outputComponentShowPath = componentShowPath.replace(isComponentFromNodeModules ? NODE_MODULES : sourceDirName, buildConfig.outputDirName || outputDirName)
-  outputComponentShowPath = outputComponentShowPath.replace(path.extname(outputComponentShowPath), '')
+  outputComponentShowPath = outputComponentShowPath.replace(extnameExpRegOf(outputComponentShowPath), '')
   printLog(processTypeEnum.COMPILE, '组件文件', componentShowPath)
   const componentContent = fs.readFileSync(component).toString()
-  const outputComponentJSPath = component.replace(sourceDirPath, buildConfig.outputDir || buildOutputDir).replace(path.extname(component), outputFilesTypes.SCRIPT)
-  const outputComponentWXMLPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.TEMPL)
-  const outputComponentWXSSPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.STYLE)
-  const outputComponentJSONPath = outputComponentJSPath.replace(path.extname(outputComponentJSPath), outputFilesTypes.CONFIG)
+  let outputComponentJSPath = component.replace(sourceDirPath, buildConfig.outputDir || buildOutputDir).replace(extnameExpRegOf(component), outputFilesTypes.SCRIPT)
+  if (buildAdapter === BUILD_TYPES.ALIPAY) {
+    outputComponentJSPath = generateAlipayPath(outputComponentJSPath)
+  }
+  const outputComponentWXMLPath = outputComponentJSPath.replace(extnameExpRegOf(outputComponentJSPath), outputFilesTypes.TEMPL)
+  const outputComponentWXSSPath = outputComponentJSPath.replace(extnameExpRegOf(outputComponentJSPath), outputFilesTypes.STYLE)
+  const outputComponentJSONPath = outputComponentJSPath.replace(extnameExpRegOf(outputComponentJSPath), outputFilesTypes.CONFIG)
 
   try {
     const isTaroComponentRes = isFileToBeTaroComponent(componentContent, component, outputComponentJSPath)
@@ -247,10 +255,20 @@ export async function buildSingleComponent (
       const importTaroSelfComponents = getImportTaroSelfComponents(outputComponentJSPath, res.taroSelfComponents)
       const importCustomComponents = new Set(realComponentsPathList.map(item => {
         return {
-          path: path.relative(path.dirname(component), item.path as string).replace(path.extname(item.path as string), ''),
+          path: promoteRelativePath(path.relative(component, item.path as string)).replace(extnameExpRegOf(item.path as string), ''),
           name: item.name as string
         }
       }))
+      const usingComponents = res.configObj.usingComponents
+      let importUsingComponent: any = new Set([])
+      if (usingComponents) {
+        importUsingComponent = new Set(Object.keys(usingComponents).map(item => {
+          return {
+            name: item,
+            path: usingComponents[item]
+          }
+        }))
+      }
       let styleRelativePath
       if (res.styleFiles.length) {
         styleRelativePath = promoteRelativePath(path.relative(outputComponentJSPath, outputComponentWXSSPath))
@@ -258,11 +276,11 @@ export async function buildSingleComponent (
       const uxTxt = generateQuickAppUx({
         script: resCode,
         style: styleRelativePath,
-        imports: new Set([...importTaroSelfComponents, ...importCustomComponents]),
+        imports: new Set([...importTaroSelfComponents, ...importCustomComponents, ...importUsingComponent]),
         template: componentWXMLContent
       })
       fs.writeFileSync(outputComponentWXMLPath, uxTxt)
-      printLog(processTypeEnum.GENERATE, '组件文件', `${outputDirName}/${componentObj.name}${outputFilesTypes.TEMPL}`)
+      printLog(processTypeEnum.GENERATE, '组件文件', `${outputComponentShowPath}${outputFilesTypes.TEMPL}`)
     }
 
     const dependencyTree = getDependencyTree()
@@ -302,7 +320,7 @@ export async function buildSingleComponent (
                 } else {
                   realPath = promoteRelativePath(path.relative(component, (componentPath as string)))
                 }
-                depComponent.path = realPath.replace(path.extname(realPath), '')
+                depComponent.path = realPath.replace(extnameExpRegOf(realPath), '')
               }
             })
           })
@@ -345,6 +363,9 @@ export async function buildSingleComponent (
     return buildResult
   } catch (err) {
     printLog(processTypeEnum.ERROR, '组件编译', `组件${componentShowPath}编译失败！`)
+    if (!isComponentHasBeenBuilt(component)) {
+      setHasBeenBuiltComponents(component)
+    }
     console.log(err)
     return {
       js: '',

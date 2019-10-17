@@ -31,23 +31,22 @@ const siteConfig = {
   //   baseUrl: '/test-site/',
 
   // Used for publishing and more
-  projectName: 'TaroDocs',
-  organizationName: 'O2Team',
+  projectName: 'taro',
+  organizationName: 'NervJS',
   // For top-level user or org sites, the organization is still the same.
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    { doc: 'README', label: '文档' },
-    { doc: 'components-desc', label: '组件库' },
-    { doc: 'apis/about/desc', label: 'API' },
-    { href: 'https://github.com/NervJS/taro', label: 'GitHub' },
-    { doc: '', label: '|' },
-    { href: 'https://taro-ui.jd.com', label: 'Taro-UI' },
-    { href: 'https://taro-ext.jd.com', label: '物料市场' },
-    { href: 'https://taro-club.jd.com', label: '论坛' },
-    { search: true }
+    {doc: 'README', label: '文档'},
+    {doc: 'components-desc', label: '组件库'},
+    {doc: 'apis/about/desc', label: 'API'},
+    {search: true},
+    {href: 'https://taro-ui.jd.com', label: 'Taro-UI'},
+    {href: 'https://taro-ext.jd.com', label: '物料市场'},
+    {href: 'https://taro-club.jd.com', label: '论坛'},
+    {href: 'https://github.com/NervJS/taro', label: 'GitHub'}
   ],
 
   algolia: {
@@ -65,7 +64,7 @@ const siteConfig = {
 
   /* colors for website */
   colors: {
-    primaryColor: 'rgb(40, 43, 46)',
+    primaryColor: '#0000c2',
     secondaryColor: '#4a72ea'
   },
 
@@ -82,23 +81,29 @@ const siteConfig = {
   }, */
 
   // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
-  copyright:
-    'Copyright © ' +
-    new Date().getFullYear() +
-    ' ltp11',
+  copyright: 'Copyright © ' + new Date().getFullYear() + ' ltp11',
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
-    theme: 'tomorrow-night'
+    // theme: 'tomorrow-night',
+    theme: 'Vs'
   },
 
   usePrism: true,
 
   // Add custom scripts here that would be placed in <script> tags
-  scripts: ['https://buttons.github.io/buttons.js', 'https://jdc.jd.com/demo/talenttest/js/url.js', {
-    src: 'https://storage.jd.com/taro-resource/tongji.js',
-    async: true
-  }],
+  scripts: [
+    'https://buttons.github.io/buttons.js',
+    'https://jdc.jd.com/demo/talenttest/js/url.js',
+    {
+      src: 'https://storage.jd.com/taro-resource/tongji.js',
+      async: true
+    },
+    {
+      src: 'https://storage.jd.com/taro-docs/taro-doc-hotjar.js',
+      async: true
+    }
+  ],
 
   /* On page navigation for the current documentation page */
   onPageNav: 'separate',

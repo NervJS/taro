@@ -16,6 +16,7 @@ import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { Status } from './functional'
+import { transformOptions } from './options'
 
 export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
@@ -37,8 +38,10 @@ export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   }
 }
 
-export function findJSXAttrByName (attrs: t.JSXAttribute[], name: string) {
+export function findJSXAttrByName (attrs: (t.JSXAttribute | t.JSXSpreadAttribute)[], name: string) {
   for (const attr of attrs) {
+    if (!t.isJSXAttribute(attr)) continue
+
     if (!t.isJSXIdentifier(attr.name)) {
       break
     }
@@ -147,7 +150,10 @@ function parseJSXChildren (
       if (t.isJSXText(child)) {
         const strings: string[] = []
         child.value.split(/(\r?\n\s*)/).forEach((val) => {
-          const value = val.replace(/\u00a0/g, '&nbsp;')
+          const value = val
+            .replace(/\u00a0/g, '&nbsp;')
+            .replace(/\u2002/g, '&ensp;')
+            .replace(/\u2003/g, '&emsp;')
           if (!value) {
             return
           }
@@ -275,7 +281,9 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         if (componentTransfromProps && componentTransfromProps[componentName]) {
           const transfromProps = componentTransfromProps[componentName]
           Object.keys(transfromProps).forEach(oriName => {
-            name = transfromProps[oriName]
+            if (name === oriName) {
+              name = transfromProps[oriName]
+            }
           })
         }
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
@@ -301,11 +309,29 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
     }
   }
 
-  return createHTMLElement({
-    name: kebabCase(componentName),
-    attributes: attributesTrans,
-    value: parseJSXChildren(children)
-  }, isFirstEmit)
+  let elementStr
+
+  if (isFirstEmit && Adapters.quickapp === Adapter.type && !transformOptions.isRoot) {
+    const rootAttributes = Object.assign({}, attributesTrans)
+    delete rootAttributes[Adapter.if]
+    elementStr = createHTMLElement({
+      name: kebabCase(componentName),
+      attributes: rootAttributes,
+      value: createHTMLElement({
+        name: 'block',
+        attributes: { [Adapter.if]: attributesTrans[Adapter.if] },
+        value: parseJSXChildren(children)
+      })
+    }, isFirstEmit)
+  } else {
+    elementStr = createHTMLElement({
+      name: kebabCase(componentName),
+      attributes: attributesTrans,
+      value: parseJSXChildren(children)
+    }, isFirstEmit)
+  }
+
+  return elementStr
 }
 
 export function generateHTMLTemplate (template: t.JSXElement, name: string) {

@@ -8,7 +8,7 @@ import { getOriginal as internal_get_original } from './internal/get-original'
 import { getEnv, ENV_TYPE } from './env'
 import Events from './events'
 import render from './render'
-import { createRef, commitAttachRef, detachAllRef } from './ref'
+import { createRef, commitAttachRef, detachAllRef, RefsArray } from './ref'
 import Link from './interceptor'
 import * as interceptors from './interceptor/interceptors'
 import {
@@ -28,6 +28,16 @@ import {
   useImperativeHandle,
   invokeEffects,
   useContext,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useRouter,
+  useScope,
   forceUpdateCallback as internal_force_update
 } from './hooks'
 import { Current } from './current'
@@ -65,11 +75,22 @@ export {
   detachAllRef,
   Link,
   interceptors,
+  RefsArray,
   Current,
   useEffect,
   useLayoutEffect,
   useReducer,
   useState,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useRouter,
+  useScope,
   useRef,
   useCallback,
   useMemo,
@@ -101,11 +122,22 @@ export default {
   detachAllRef,
   Link,
   interceptors,
+  RefsArray,
   Current,
   useEffect,
   useLayoutEffect,
   useReducer,
   useState,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useRouter,
+  useScope,
   useRef,
   useCallback,
   useMemo,

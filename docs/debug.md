@@ -7,7 +7,7 @@ title: Debug 指南
 当你在 Taro 进行 debug 时，请先确认一下流程均已完成：
 
 1. ESLint 已经开启并且没有报错；
-2. 大致过了一遍包括[最佳实践](https://nervjs.github.io/taro/docs/best-practice.html)在内的文档，文档里没有对应问题的描述；
+2. 大致过了一遍包括[最佳实践](./best-practice.html)在内的文档，文档里没有对应问题的描述；
 3. 搜索过相关的 issue，issue 没有提到相关解决方案；
 4. 按项目使用的 Taro 版本往上查看 [changelog](https://github.com/NervJS/taro/blob/master/CHANGELOG.md)，changelog 中没有意见修复相关问题的提交；
 
@@ -25,7 +25,7 @@ taro-init(1) does not exist, try --help
 
 这时候，你可以选择使用 npm 或者 cnpm 重新安装 CLI，或者将 CLI [添加到环境变量中来解决](https://github.com/NervJS/taro/issues/2034)。
 
-### 项目依赖一致安装不下来
+### 项目依赖一直安装不下来
 
 由于 Taro 的 `@tarojs/webpack-runner` 包默认依赖了 `node-sass`，倒是有些时候依赖一直安装不了，在此，建议直接使用淘宝的 [cnpm](https://npm.taobao.org/) 进行安装依赖，或者尝试一下[这个包](https://github.com/gucong3000/mirror-config-china)
 

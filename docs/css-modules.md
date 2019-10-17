@@ -1,5 +1,5 @@
 ---
-title: CSS Modules 的使用
+title: 使用 CSS Modules
 ---
 
 > 1.2.0 版本开始支持，RN 端已兼容

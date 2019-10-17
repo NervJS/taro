@@ -115,10 +115,20 @@ class Swiper extends Nerv.Component {
       }
       // 是否衔接滚动模式
       if (nextProps.circular) {
-        this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
+        if (nextProps.current !== 0) this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
       } else {
-        this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
+        if (nextProps.current !== 0) this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
       }
+
+      // 判断是否需要停止或开始自动轮播
+      if (this.mySwiper.autoplay.running !== nextProps.autoplay) {
+        if (nextProps.autoplay) {
+          this.mySwiper.autoplay.start()
+        } else {
+          this.mySwiper.autoplay.stop()
+        }
+      }
+
       this.mySwiper.update() // 更新子元素
     }
   }
