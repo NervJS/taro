@@ -1,21 +1,15 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import { Transform } from 'stream'
-import * as crypto from 'crypto'
 import * as os from 'os'
 import * as child_process from 'child_process'
 
 import chalk from 'chalk'
 import { mergeWith, isPlainObject, camelCase, flatMap } from 'lodash'
-import * as minimatch from 'minimatch'
-import * as t from 'babel-types'
 import * as yauzl from 'yauzl'
 import * as findWorkspaceRoot from 'find-yarn-workspace-root'
-import * as chokidar from 'chokidar'
-import { ICopyArgOptions, ICopyOptions, TogglableOptions } from '@tarojs/taro/types/compile'
 
 import defaultBabelConfig from '../config/babel'
-import defaultUglifyConfig from '../config/uglify'
 
 import {
   JS_EXT,
@@ -25,12 +19,8 @@ import {
   processTypeMap,
   processTypeEnum,
   MINI_APP_FILES,
-  BUILD_TYPES,
-  CONFIG_MAP,
-  REG_STYLE,
-  UX_EXT
+  BUILD_TYPES
 } from './constants'
-import { callPluginSync } from './npm'
 
 const execSync = child_process.execSync
 
@@ -162,19 +152,6 @@ export function isEmptyObject (obj: any): boolean {
   return true
 }
 
-export function urlJoin (...agrs: string[]): string {
-  function normalize (str) {
-    return str
-      .replace(/([/]+)/g, '/')
-      .replace(/\/\?(?!\?)/g, '?')
-      .replace(/\/#/g, '#')
-      .replace(/:\//g, '://')
-  }
-
-  const joined = [].slice.call(agrs, 0).join('/')
-  return normalize(joined)
-}
-
 export function resolveScriptPath (p: string): string {
   const realPath = p
   const taroEnv = process.env.TARO_ENV
@@ -202,74 +179,6 @@ export function resolveScriptPath (p: string): string {
   return realPath
 }
 
-export function resolvePureScriptPath (p: string): string {
-  const realPath = p
-  const SCRIPT_EXT = JS_EXT.concat(TS_EXT)
-  for (let i = 0; i < SCRIPT_EXT.length; i++) {
-    const item = SCRIPT_EXT[i]
-    if (fs.existsSync(`${p}${item}`)) {
-      return `${p}${item}`
-    }
-    if (fs.existsSync(`${p}${path.sep}index${item}`)) {
-      return `${p}${path.sep}index${item}`
-    }
-  }
-  return realPath
-}
-
-export function resolveQuickappFilePath (p: string): string {
-  for (let i = 0; i < UX_EXT.length; i++) {
-    const item = UX_EXT[i]
-    if (fs.existsSync(`${p}${item}`)) {
-      return `${p}${item}`
-    }
-    if (fs.existsSync(`${p}${path.sep}index${item}`)) {
-      return `${p}${path.sep}index${item}`
-    }
-  }
-  return p
-}
-
-export function processUxContent (contents, cb) {
-  const reg = /(<script(?:(?=\s)[\s\S]*?["'\s\w\/\-]>|>))([\s\S]*?)(?=<\/script\s*>|$)|(<style(?:(?=\s)[\s\S]*?["'\s\w\/\-]>|>))([\s\S]*?)(?=<\/style\s*>|$)|<(image)\s+[\s\S]*?["'\s\w\/\-](?:>|$)|(<import(?:(?=\s)[\s\S]*?["'\s\w\/\-]>|>))([\s\S]*?)(?=<\/import\s*>|$)/ig;
-  contents = contents.replace(reg, function (m, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10) {
-    if ($1) {
-      $1 = $1.replace(/(\ssrc\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
-        if (typeof cb === 'function') {
-          value = cb(value)
-        }
-        return prefix + value
-      })
-      m = $1 + $2
-    } else if ($3) {
-      $3 = $3.replace(/(\ssrc\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
-        if (typeof cb === 'function') {
-          value = cb(value)
-        }
-        return prefix + value
-      })
-      m = $3 + $4
-    } else if ($5) {
-      m = m.replace(/(src\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
-        if (typeof cb === 'function') {
-          value = cb(value)
-        }
-        return prefix + value
-      })
-    } else if ($6) {
-      $6 = $6.replace(/(\ssrc\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
-        if (typeof cb === 'function') {
-          value = cb(value)
-        }
-        return prefix + value
-      })
-      m = $6 + $7
-    }
-    return m
-  })
-  return contents
-}
-
 export function resolveStylePath (p: string): string {
   const realPath = p
   const removeExtPath = p.replace(path.extname(p), '')
@@ -286,30 +195,6 @@ export function resolveStylePath (p: string): string {
     }
   }
   return realPath
-}
-
-export function isDifferentArray (a: any[], b: any[]): boolean {
-  if (!Array.isArray(a) || !Array.isArray(b)) {
-    return true
-  }
-  if (a.length !== b.length) {
-    return true
-  }
-  a = a.sort()
-  b = b.sort()
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) {
-      return true
-    }
-  }
-  return false
-}
-
-export function checksum (buf: Buffer | string, length?): string {
-  if (!Buffer.isBuffer(buf)) {
-    buf = Buffer.from(buf)
-  }
-  return crypto.createHash('md5').update(buf).digest('hex').slice(0, length || 8)
 }
 
 export function printLog (type: processTypeEnum, tag: string, filePath?: string) {
@@ -329,17 +214,6 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
   }
 }
 
-export function replaceContentEnv (content: string, env: object): string {
-  if (env && !isEmptyObject(env)) {
-    for (const key in env) {
-      const reg = new RegExp(`process.env.${key}`, 'g')
-      content = content.replace(reg, env[key])
-    }
-    return content
-  }
-  return content
-}
-
 export function generateEnvList (env: object): object {
   const res = { }
   if (env && !isEmptyObject(env)) {
@@ -352,17 +226,6 @@ export function generateEnvList (env: object): object {
     }
   }
   return res
-}
-
-export function replaceContentConstants (content: string, constants: object): string {
-  if (constants && !isEmptyObject(constants)) {
-    for (const key in constants) {
-      const reg = new RegExp(key, 'g')
-      content = content.replace(reg, constants[key])
-    }
-    return content
-  }
-  return content
 }
 
 export function generateConstantsList (constants: object): object {
@@ -478,105 +341,6 @@ export function getInstalledNpmPkgVersion (pkgName: string, basedir: string): st
   return fs.readJSONSync(pkgPath).version
 }
 
-export function traverseObjectNode (node, buildAdapter: string, parentKey?: string) {
-  if (node.type === 'ClassProperty' || node.type === 'ObjectProperty') {
-    const properties = node.value.properties
-    const obj = {}
-    properties.forEach(p => {
-      let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
-      if (CONFIG_MAP[buildAdapter][key] === false) {
-        return
-      }
-      if (parentKey !== 'usingComponents' && CONFIG_MAP[buildAdapter][key]) {
-        key = CONFIG_MAP[buildAdapter][key]
-      }
-      obj[key] = traverseObjectNode(p.value, buildAdapter, key)
-    })
-    return obj
-  }
-  if (node.type === 'ObjectExpression') {
-    const properties = node.properties
-    const obj= {}
-    properties.forEach(p => {
-      let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
-      if (CONFIG_MAP[buildAdapter][key] === false) {
-        return
-      }
-      if (parentKey !== 'usingComponents' && CONFIG_MAP[buildAdapter][key]) {
-        key = CONFIG_MAP[buildAdapter][key]
-      }
-      obj[key] = traverseObjectNode(p.value, buildAdapter, key)
-    })
-    return obj
-  }
-  if (node.type === 'ArrayExpression') {
-    return node.elements.map(item => traverseObjectNode(item, buildAdapter))
-  }
-  if (node.type === 'NullLiteral') {
-    return null
-  }
-  return node.value
-}
-
-export function copyFileSync (from: string, to: string, options?: ICopyArgOptions) {
-  const filename = path.basename(from)
-  if (fs.statSync(from).isFile() && !path.extname(to)) {
-    fs.ensureDirSync(to)
-    if (from === path.join(to, filename)) {
-      return
-    }
-    return fs.copySync(from, path.join(to, filename), options)
-  }
-  if (from === to) {
-    return
-  }
-  fs.ensureDirSync(path.dirname(to))
-  return fs.copySync(from, to, options)
-}
-
-export function copyFiles (appPath: string, copyConfig: ICopyOptions | void) {
-  copyConfig = copyConfig || { patterns: [], options: {} }
-  if (copyConfig.patterns && copyConfig.patterns.length) {
-    copyConfig.options = copyConfig.options || {}
-    const globalIgnore = copyConfig.options.ignore
-    const projectDir = appPath
-    copyConfig.patterns.forEach(pattern => {
-      if (pattern.from && pattern.to) {
-        const from = path.join(projectDir, pattern.from)
-        const to = path.join(projectDir, pattern.to)
-        let ignore = pattern.ignore || globalIgnore
-        if (fs.existsSync(from)) {
-          const copyOptions: ICopyArgOptions = {}
-          if (ignore) {
-            ignore = Array.isArray(ignore) ? ignore : [ignore]
-            copyOptions.filter = src => {
-              let isMatch = false
-              ignore && ignore.forEach(iPa => {
-                if (minimatch(path.basename(src), iPa)) {
-                  isMatch = true
-                }
-              })
-              return !isMatch
-            }
-          }
-          copyFileSync(from, to, copyOptions)
-	        if (pattern.watch) {
-		        const watcher = chokidar.watch(from,{
-			        persistent: true,
-			        ignoreInitial: true
-		        })
-		        watcher.on('change',(res) => {
-			        copyFileSync(from, to, copyOptions);
-		        })
-	        }
-        } else {
-          printLog(processTypeEnum.ERROR, '拷贝失败', `${pattern.from} 文件不存在！`)
-        }
-      }
-    })
-  }
-}
-
 export function isQuickappPkg (name: string, quickappPkgs: any[] = []): boolean {
   const isQuickappPkg = /^@(system|service)\.[a-zA-Z]{1,}/.test(name)
   let hasSetInManifest = false
@@ -589,42 +353,6 @@ export function isQuickappPkg (name: string, quickappPkgs: any[] = []): boolean 
     printLog(processTypeEnum.ERROR, '快应用', `需要在 ${chalk.bold('project.quickapp.json')} 文件的 ${chalk.bold('features')} 配置中添加 ${chalk.bold(name)}`)
   }
   return isQuickappPkg
-}
-
-export function generateQuickAppUx ({
-  script,
-  template,
-  style,
-  imports
-}: {
-  script?: string,
-  template?: string,
-  style?: string,
-  imports?: Set<{
-    path: string,
-    name: string
-  }>
-}) {
-  let uxTxt = ''
-  if (imports && imports.size) {
-    imports.forEach(item => {
-      uxTxt += `<import src='${item.path}' name='${item.name}'></import>\n`
-    })
-  }
-  if (style) {
-    if (REG_STYLE.test(style)) {
-      uxTxt += `<style src="${style}"></style>\n`
-    } else {
-      uxTxt += `<style>\n${style}\n</style>\n`
-    }
-  }
-  if (template) {
-    uxTxt += `<template>\n${template}\n</template>\n`
-  }
-  if (script) {
-    uxTxt += `<script>\n${script}\n</script>\n`
-  }
-  return uxTxt
 }
 
 export const recursiveMerge = (src, ...args) => {
@@ -738,21 +466,6 @@ export function getBabelConfig (babel) {
     })
   }
   return babelConfig
-}
-
-export function uglifyJS (resCode: string, filePath: string, root: string, uglify: TogglableOptions): string {
-  const uglifyPluginConfig = uglify || { enable: true }
-  if (uglifyPluginConfig.enable) {
-    const uglifyConfig = Object.assign(defaultUglifyConfig, uglifyPluginConfig.config || {})
-    const uglifyResult = callPluginSync('uglifyjs', resCode, filePath, uglifyConfig, root)
-    if (uglifyResult.error) {
-      printLog(processTypeEnum.ERROR, '压缩错误', `文件${filePath}`)
-      console.log(uglifyResult.error)
-      return resCode
-    }
-    return uglifyResult.code
-  }
-  return resCode
 }
 
 export const getAllFilesInFloder = async (
