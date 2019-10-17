@@ -274,7 +274,7 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
         if (REG_STYLE.test(valueExtname)) {
           const stylePath = path.resolve(path.dirname(filePath), value)
           if (styleFiles.indexOf(stylePath) < 0) {
-            //样式条件文件编译 .rn.scss
+            // 样式条件文件编译 .rn.scss
             const realStylePath = Util.resolveStylePath(stylePath)
             styleFiles.push(realStylePath)
           }
@@ -376,7 +376,7 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
           hasComponentWillUnmount = true
         }
         // 获取 app.js 的 classRenderReturnJSX
-        if (keyName == 'render') {
+        if (keyName === 'render') {
           astPath.traverse({
             BlockStatement (astPath) {
               if (astPath.parent === node) {
@@ -450,7 +450,7 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
               node.body.body.unshift(componentDidHideCallNode)
             }
 
-            if (key.name == 'render') {
+            if (key.name === 'render') {
               let funcBody = `
               <${taroComponentsRNProviderName}>
                 ${classRenderReturnJSX}
