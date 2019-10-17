@@ -29,6 +29,7 @@ const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules', 'url']
 const plugins = [] as any[]
 
 export const getPostcssPlugins = function (appPath: string, {
+  isQuickapp = false,
   designWidth,
   deviceRatio,
   postcssOption = {} as IPostcssOption
@@ -49,7 +50,7 @@ export const getPostcssPlugins = function (appPath: string, {
     plugins.push(autoprefixer(autoprefixerOption.config))
   }
 
-  if (pxtransformOption.enable) {
+  if (pxtransformOption.enable && !isQuickapp) {
     plugins.push(pxtransform(pxtransformOption.config))
   }
 
