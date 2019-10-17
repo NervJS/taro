@@ -10,10 +10,7 @@ const schema = Joi.object().keys({
   'sourceRoot': Joi.string().required(),
   'outputRoot': Joi.string().required(),
 
-  // NOTE: 考虑是否增加第三方模块的配置检查
-  'plugins': Joi.object().pattern(
-    Joi.string(), Joi.object()
-  ),
+  'plugins': Joi.array().items(Joi.object()),
 
   'env': Joi.object().pattern(
     Joi.string(), Joi.string()
@@ -35,12 +32,29 @@ const schema = Joi.object().keys({
     })
   }),
 
-  'weapp': Joi.object().keys({
+  'mini': Joi.object().keys({
     'compile': Joi.object().keys({
       'exclude': Joi.array().items(Joi.string()),
       'include': Joi.array().items(Joi.string())
     }),
-    'module': Joi.object(), // 第三方配置
+    'customFilesTypes': Joi.object().keys({
+      'TEMPL': Joi.string(),
+      'STYLE': Joi.string(),
+      'SCRIPT': Joi.string(),
+      'CONFIG': Joi.string()
+    }),
+    'webpackChain': Joi.func(),
+    'output': Joi.object(),
+    'postcss': Joi.object(), // 第三方配置
+    'cssLoaderOption': Joi.object(), // 第三方配置
+    'styleLoaderOption': Joi.object(), // 第三方配置
+    'sassLoaderOption': Joi.object(), // 第三方配置
+    'lessLoaderOption': Joi.object(), // 第三方配置
+    'stylusLoaderOption': Joi.object(), // 第三方配置
+    'mediaUrlLoaderOption': Joi.object(), // 第三方配置
+    'fontUrlLoaderOption': Joi.object(), // 第三方配置
+    'imageUrlLoaderOption': Joi.object(), // 第三方配置
+    'miniCssExtractPluginOption': Joi.object(), // 第三方配置
     'jsxAttributeNameReplace': Joi.object().pattern(
       Joi.string(), Joi.string()
     )
@@ -50,12 +64,27 @@ const schema = Joi.object().keys({
     Joi.string(), Joi.string()
   ),
 
+  'babel': Joi.object(),
+  'csso': Joi.object().keys({
+    'enable': Joi.bool(),
+    'config': Joi.object()
+  }),
+  'uglify': Joi.object().keys({
+    'enable': Joi.bool(),
+    'config': Joi.object()
+  }),
+  'sass': Joi.object().keys({
+    'enable': Joi.bool(),
+    'config': Joi.object()
+  }),
+
   'h5': Joi.object().keys({
     'devServer': Joi.object(), // 第三方配置
     'publicPath': Joi.string(),
     'staticDirectory': Joi.string(),
     'chunkDirectory': Joi.string(),
     'webpackChain': Joi.func(),
+    'output': Joi.object(),
 
     'esnextModules': Joi.array().items(Joi.string()),
 
@@ -84,6 +113,7 @@ const schema = Joi.object().keys({
     ),
     'enableSourceMap': Joi.bool(),
     'enableExtract': Joi.bool(),
+    'transformOnly': Joi.bool(),
     'cssLoaderOption': Joi.object(), // 第三方配置
     'styleLoaderOption': Joi.object(), // 第三方配置
     'sassLoaderOption': Joi.object(), // 第三方配置
@@ -94,15 +124,13 @@ const schema = Joi.object().keys({
     'imageUrlLoaderOption': Joi.object(), // 第三方配置
     'miniCssExtractPluginOption': Joi.object(), // 第三方配置
 
-    'module': Joi.object().keys({
-      'postcss': Joi.object().pattern(
-        Joi.string(),
-        Joi.object().keys({
-          'enable': Joi.bool(),
-          'config': Joi.object() // 第三方配置
-        })
-      )
-    })
+    'postcss': Joi.object().pattern(
+      Joi.string(),
+      Joi.object().keys({
+        'enable': Joi.bool(),
+        'config': Joi.object() // 第三方配置
+      })
+    )
   })
 })
 
