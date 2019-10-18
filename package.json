@@ -73,6 +73,7 @@
     "@types/react": "^16.9.5",
     "@types/sinon": "^7.5.0",
     "@types/vue": "^2.0.0",
+    "@types/webpack": "^4.39.3",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
     "@zerollup/ts-transform-paths": "^1.7.3",
@@ -147,5 +148,8 @@
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2"
+  },
+  "dependencies": {
+    "@types/babel__traverse": "^7.0.7"
   }
 }

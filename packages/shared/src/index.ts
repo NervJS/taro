@@ -1,6 +1,6 @@
 export const isArray = Array.isArray
 
-export const EMPTY_OBJ = {}
+export const EMPTY_OBJ: any = {}
 
 export const EMPTY_ARR = {}
 
