@@ -27,7 +27,9 @@ export function observer (component) {
 
   const originComponentWillUnmount = target.componentWillUnmount
   target.componentWillUnmount = function () {
-    this._reaction.dispose()
+    if (this._reaction) {
+      this._reaction.dispose()
+    }
     originComponentWillUnmount && originComponentWillUnmount.call(this)
   }
 
