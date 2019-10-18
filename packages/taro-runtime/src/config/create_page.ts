@@ -17,7 +17,7 @@ export function injectPageInstance (derivedIDfromCompiler: string, inst: Instanc
 export function createPageConfig (derivedIDfromCompiler: string, framework = 'react') {
   // 把复杂的 JavaScript 对象挂载在小程序实例上可能会触发意料之外的错误
   let page: TaroRootElement
-  let instance: Instance
+  let instance: Instance = EMPTY_OBJ
   const isReact = framework === 'react'
   const isVue = framework === 'vue'
 
@@ -36,10 +36,10 @@ export function createPageConfig (derivedIDfromCompiler: string, framework = 're
     },
     onLoad (this: MpInstance) {
       Current.pages.add(derivedIDfromCompiler)
-      instance = instances.get(derivedIDfromCompiler)! || EMPTY_OBJ
 
       const render = () => {
         page = document.getElementById(derivedIDfromCompiler) as TaroRootElement
+        instance = instances.get(derivedIDfromCompiler)!
         if (page === null) {
           return
         }
