@@ -363,6 +363,9 @@ export async function buildSingleComponent (
     return buildResult
   } catch (err) {
     printLog(processTypeEnum.ERROR, '组件编译', `组件${componentShowPath}编译失败！`)
+    if (!isComponentHasBeenBuilt(component)) {
+      setHasBeenBuiltComponents(component)
+    }
     console.log(err)
     return {
       js: '',

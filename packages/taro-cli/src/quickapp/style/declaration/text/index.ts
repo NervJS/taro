@@ -19,13 +19,19 @@ export default {
   },
   'text-overflow': (value, declaration, addDeclaration) => {
     // 在设置了行数的情况下生效
-    if (value) {
-      addDeclaration('lines', '1')
+    if (!value) {
+      return 'I:'
     }
   },
   'white-space': 'I:',
   'word-wrap': 'I:',
   'word-break': 'I:',
   'text-align-last': 'I:',
-  'line-clamp': 'I:'
+  'line-clamp':  (value, declaration, addDeclaration) => {
+    if (value > 0) {
+      addDeclaration('lines', value)
+    }
+    return 'I:'
+  },
+  'lines': ''
 }

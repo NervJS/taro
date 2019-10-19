@@ -112,6 +112,7 @@ export default class Convertor {
     this.initConvert()
     this.getApp()
     this.getPages()
+    this.getSitemapLocation()
     this.getSubPackages()
   }
 
@@ -377,6 +378,17 @@ export default class Convertor {
     })
   }
 
+  getSitemapLocation () {
+    const sitemapLocation = this.entryJSON['sitemapLocation']
+    if (sitemapLocation) {
+      const sitemapFilePath = path.join(this.root, sitemapLocation)
+      if (fs.existsSync(sitemapFilePath)) {
+        const outputFilePath = path.join(this.convertRoot, sitemapLocation)
+        this.copyFileToTaro(sitemapFilePath, outputFilePath)
+      }
+    }
+  }
+
   generateScriptFiles (files: Set<string>) {
     if (!files) {
       return
@@ -514,7 +526,7 @@ export default class Convertor {
           const pageUsingComponnets = pageConfig.usingComponents
           if (pageUsingComponnets) {
             // 页面依赖组件
-            let usingComponents = {}
+            const usingComponents = {}
             Object.keys(pageUsingComponnets).forEach(component => {
               let componentPath = path.resolve(pageConfigPath, '..', pageUsingComponnets[component])
               if (!fs.existsSync(resolveScriptPath(componentPath))) {

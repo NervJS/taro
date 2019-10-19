@@ -67,6 +67,7 @@
       "mobx",
       "css-modules",
       "template",
+      "report",
       "CONTRIBUTING"
     ]
   },

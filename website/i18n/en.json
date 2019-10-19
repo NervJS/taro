@@ -441,6 +441,10 @@
         "title": "Taro.onWindowResize(callback)",
         "sidebar_label": "onWindowResize"
       },
+      "apis/interface/wxml/createIntersectionObserver": {
+        "title": "Taro.createIntersectionObserver(Object component, Object options)",
+        "sidebar_label": "createIntersectionObserver"
+      },
       "apis/interface/wxml/createSelectorQuery": {
         "title": "Taro.createSelectorQuery()",
         "sidebar_label": "createSelectorQuery"
@@ -1009,6 +1013,9 @@
       "render-props": {
         "title": "Render Props"
       },
+      "report": {
+        "title": "接入统计平台"
+      },
       "router": {
         "title": "路由功能"
       },
@@ -1483,6 +1490,10 @@
       "version-1.3.14/apis/interface/window/version-1.3.14-onWindowResize": {
         "title": "Taro.onWindowResize(callback)",
         "sidebar_label": "onWindowResize"
+      },
+      "version-1.3.14/apis/interface/wxml/version-1.3.14-createIntersectionObserver": {
+        "title": "Taro.createIntersectionObserver(Object component, Object options)",
+        "sidebar_label": "createIntersectionObserver"
       },
       "version-1.3.14/apis/interface/wxml/version-1.3.14-createSelectorQuery": {
         "title": "Taro.createSelectorQuery()",
@@ -2097,6 +2108,54 @@
       },
       "version-1.3.16/version-1.3.16-README": {
         "title": "Taro 介绍"
+      },
+      "version-1.3.18/version-1.3.18-before-dev-remind": {
+        "title": "开发前注意"
+      },
+      "version-1.3.18/version-1.3.18-best-practice": {
+        "title": "最佳实践"
+      },
+      "version-1.3.18/version-1.3.18-quick-app": {
+        "title": "快应用端开发流程"
+      },
+      "version-1.3.18/version-1.3.18-react-native": {
+        "title": "React Native 端开发流程"
+      },
+      "version-1.3.18/version-1.3.18-README": {
+        "title": "Taro 介绍"
+      },
+      "version-1.3.18/version-1.3.18-template": {
+        "title": "项目模板"
+      },
+      "version-1.3.19/apis/interface/wxml/version-1.3.19-createIntersectionObserver": {
+        "title": "Taro.createIntersectionObserver(Object component, Object options)",
+        "sidebar_label": "createIntersectionObserver"
+      },
+      "version-1.3.19/version-1.3.19-before-dev-remind": {
+        "title": "各端开发前注意"
+      },
+      "version-1.3.19/components/open/version-1.3.19-open-data": {
+        "title": "OpenData",
+        "sidebar_label": "OpenData"
+      },
+      "version-1.3.19/components/viewContainer/version-1.3.19-scroll-view": {
+        "title": "ScrollView",
+        "sidebar_label": "ScrollView"
+      },
+      "version-1.3.19/version-1.3.19-composition": {
+        "title": "更多资源"
+      },
+      "version-1.3.19/version-1.3.19-GETTING-STARTED": {
+        "title": "安装及使用"
+      },
+      "version-1.3.19/version-1.3.19-quick-app": {
+        "title": "快应用端开发流程"
+      },
+      "version-1.3.19/version-1.3.19-README": {
+        "title": "Taro 介绍"
+      },
+      "version-1.3.19/version-1.3.19-render-props": {
+        "title": "Render Props"
       }
     },
     "links": {

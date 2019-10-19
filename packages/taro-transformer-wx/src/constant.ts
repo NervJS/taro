@@ -84,6 +84,8 @@ export let LOOP_STATE = '$loopState'
 
 export const setLoopState = (s: string) => LOOP_STATE = s
 
+export let PREV_COMPID = '$prevCompid'
+
 export let COMPID = '$compid'
 
 export const setCompId = (s: string) => COMPID = s

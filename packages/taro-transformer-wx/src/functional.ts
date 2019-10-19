@@ -72,7 +72,7 @@ export const functionalComponent: () => {
 
         const functionDecl = path.findParent(p => p.isFunctionDeclaration())
         if (functionDecl && functionDecl.isFunctionDeclaration()) {
-          const hasClassDecl = functionDecl.findParent(p => p.isClassDeclaration())
+          const hasClassDecl = path.findParent(p => p.isClassDeclaration() || p.isClassExpression())
           if (hasClassDecl) {
             // @TODO: 加上链接
             return

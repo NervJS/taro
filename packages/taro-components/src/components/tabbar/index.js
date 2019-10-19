@@ -68,7 +68,11 @@ class Tabbar extends Nerv.Component {
     const routerBasename = this.props.conf.basename || '/'
     let url
     if (routerMode === 'hash') {
-      url = location.hash
+      const href = window.location.href
+      const hashIndex = href.indexOf('#')
+      url = hashIndex === -1
+        ? ''
+        : href.substring(hashIndex + 1)
     } else if (routerMode === 'multi') {
       url = currentPagename
     } else {

@@ -222,7 +222,7 @@ $ npx taro build --type h5
 
 ### React Native
 
-React Native 端运行需执行如下命令，React Native 端相关的运行说明请参见 [React Native 教程](https://nervjs.github.io/taro/docs/react-native.html)
+React Native 端运行需执行如下命令，React Native 端相关的运行说明请参见 [React Native 教程](./react-native.html)
 
 ```bash
 # yarn
@@ -346,21 +346,9 @@ Taro Doctor 就像一个医生一样，可以诊断项目的依赖、设置、�
 
 ![Taro Doctor 诊断结果图](https://img10.360buyimg.com/ling/jfs/t1/46613/36/5573/202581/5d357d14E6f0df7e1/fc026be7dc69dcf2.png)
 
+### 快速创建新页面
 
-## 其他常见问题
-
-### 回到某个版本
-
-需要安装某个固定版本，或者回到某个版本，例如我们要安装 `1.3.9` ， 则如下：
-
-```bash
-# 使用 npm 安装 CLI
-$ npm install -g @tarojs/cli@1.3.9
-# OR 使用 yarn 安装 CLI
-$ yarn global add @tarojs/cli@1.3.9
-# OR 安装了 cnpm，使用 cnpm 安装 CLI
-$ cnpm install -g @tarojs/cli@1.3.9
-```
+Taro create --name [页面名称] 能够在当前项目的pages目录下快速生成新的页面文件，并填充基础代码，是一个提高开发效率的利器。
 
 ### CLI 配置
 
@@ -381,4 +369,19 @@ $ taro config get <key>
 $ taro config delete <key>
 # 打印所有配置项
 $ taro config list [--json]
+```
+
+## 其他常见问题
+
+### 回到某个版本
+
+需要安装某个固定版本，或者回到某个版本，例如我们要安装 `1.3.9` ， 则如下：
+
+```bash
+# 使用 npm 安装 CLI
+$ npm install -g @tarojs/cli@1.3.9
+# OR 使用 yarn 安装 CLI
+$ yarn global add @tarojs/cli@1.3.9
+# OR 安装了 cnpm，使用 cnpm 安装 CLI
+$ cnpm install -g @tarojs/cli@1.3.9
 ```

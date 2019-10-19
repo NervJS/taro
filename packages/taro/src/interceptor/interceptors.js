@@ -1,4 +1,4 @@
-export function timeoutInterceptor (chain) {
+export function timeoutInterceptor(chain) {
   const requestParams = chain.requestParams
   let p
   const res = new Promise((resolve, reject) => {
@@ -6,24 +6,21 @@ export function timeoutInterceptor (chain) {
       timeout = null
       reject(new Error('网络链接超时,请稍后再试！'))
     }, (requestParams && requestParams.timeout) || 60000)
-
     p = chain.proceed(requestParams)
-    p
-      .then(res => {
-        if (!timeout) return
-        clearTimeout(timeout)
-        resolve(res)
-      })
-      .catch(err => {
-        timeout && clearTimeout(timeout)
-        reject(err)
-      })
+    p.then(res => {
+      if (!timeout) return
+      clearTimeout(timeout)
+      resolve(res)
+    }).catch(err => {
+      timeout && clearTimeout(timeout)
+      reject(err)
+    })
   })
-  if (p.abort) res.abort = p.abort
+  if (typeof p.abort === 'function') res.abort = p.abort
   return res
 }
 
-export function logInterceptor (chain) {
+export function logInterceptor(chain) {
   const requestParams = chain.requestParams
   const { method, data, url } = requestParams
   console.log(`http ${method || 'GET'} --> ${url} data: `, data)
@@ -32,6 +29,6 @@ export function logInterceptor (chain) {
     console.log(`http <-- ${url} result:`, res)
     return res
   })
-  if (p.abort) res.abort = p.abort
+  if (typeof p.abort === 'function') res.abort = p.abort
   return res
 }
