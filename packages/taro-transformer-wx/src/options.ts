@@ -38,6 +38,7 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
     plugins.push(buildVistor())
   }
   return {
+    filename: transformOptions.sourcePath,
     parserOpts: {
       sourceType: 'module',
       plugins: [
