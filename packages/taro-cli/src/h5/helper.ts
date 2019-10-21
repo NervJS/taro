@@ -91,6 +91,5 @@ export const isTaroClass = (astPath: NodePath<t.ClassDeclaration> | NodePath<t.C
       }
     }
   })
-  console.log(isTaroClass)
   return isTaroClass
 }

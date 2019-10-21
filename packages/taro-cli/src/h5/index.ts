@@ -65,6 +65,8 @@ const defaultH5Config: Partial<IH5Config> = {
 type PageName = string
 type FilePath = string
 
+const BLOCK_TAG_NAME = 'Block'
+
 class Compiler {
   projectConfig: IProjectConfig
   h5Config: IH5Config
@@ -1046,9 +1048,17 @@ class Compiler {
       JSXOpeningElement: {
         exit (astPath: NodePath<t.JSXOpeningElement>) {
           const node = astPath.node
-          const componentName = componentnameMap.get(toVar(node.name))
+          const tagName = toVar(node.name)
+          const componentName = componentnameMap.get(tagName)
           const componentId = getComponentId(componentName, node)
           const componentRef = getComponentRef(node)
+
+          if (tagName === BLOCK_TAG_NAME) {
+            node.name = t.jSXMemberExpression(
+              t.jSXIdentifier('Nerv'),
+              t.jSXIdentifier('Fragment')
+            )
+          }
 
           if (!componentId) return
           const refFunc = createRefFunc(componentId)
@@ -1067,6 +1077,18 @@ class Compiler {
                 t.jSXIdentifier('ref'),
                 t.jSXExpressionContainer(refFunc)
               )
+            )
+          }
+        }
+      },
+      JSXClosingElement: {
+        exit (astPath: NodePath<t.JSXClosingElement>) {
+          const node = astPath.node
+          const tagName = toVar(node.name)
+          if (tagName === BLOCK_TAG_NAME) {
+            node.name = t.jSXMemberExpression(
+              t.jSXIdentifier('Nerv'),
+              t.jSXIdentifier('Fragment')
             )
           }
         }
