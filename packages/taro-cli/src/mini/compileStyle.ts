@@ -297,7 +297,7 @@ export function compileDepStyles (outputFilePath: string, styleFiles: string[]) 
             resContent = transformStyle
           }
         }
-        
+
         fs.ensureDirSync(path.dirname(outputFilePath))
         fs.writeFileSync(outputFilePath, resContent)
       })

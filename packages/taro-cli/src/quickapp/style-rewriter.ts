@@ -22,7 +22,7 @@ export default function rewriter (code, isProduction) {
       })
     })
   }
-  //针对快应用样式进行转换
+  // 针对快应用样式进行转换
   if (ast && ast.type === 'stylesheet' && ast.stylesheet &&
         ast.stylesheet.rules && ast.stylesheet.rules.length) {
     const rules:any = []
@@ -44,7 +44,7 @@ export default function rewriter (code, isProduction) {
   if (!ast) {
     return ''
   }
-  //输出转换结果
+  // 输出转换结果
   try {
     const resContent = css.stringify(ast, {
       compress: isProduction
