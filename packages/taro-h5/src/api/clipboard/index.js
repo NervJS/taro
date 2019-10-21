@@ -54,11 +54,12 @@ export const setClipboardData = ({ data, success, fail, complete }) => {
         input.style.width = '100px'
         input.style.left = '-10000px'
         document.body.appendChild(input)
-        input.focus()
-        if (input.setSelectionRange) {
-          input.setSelectionRange(0, input.value.length)
-          document.execCommand('copy')
-          document.body.removeChild(input)
+        input.select()
+        input.setSelectionRange(0, 999999)
+        const results = document.execCommand('copy')
+        document.body.removeChild(input)
+        if (!results) {
+          throw new Error('复制失败')
         }
       }
       const res = {
