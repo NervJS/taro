@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-
+import * as ignore from 'ignore'
 import * as _ from 'lodash'
 import { Config } from '@tarojs/taro'
 import * as wxTransformer from '@tarojs/transformer-wx'
@@ -310,6 +310,9 @@ export function initCopyFiles () {
 export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath: string, outputFilePath: string) => void) {
   const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath, projectConfig } = BuildData
   const adapterConfig = Object.assign({}, projectConfig.weapp)
+  // 初始化 ignore方法
+  // @ts-ignore
+  const ig:any = ignore().add(getBuildData().projectConfig.copy!.options!.ignore || [])
   files.forEach(file => {
     let outputFilePath
     if (NODE_MODULES_REG.test(file)) {
@@ -331,6 +334,10 @@ export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath:
     modifySrc = modifySrc.split(path.sep).join('/')
     let modifyOutput = outputFilePath.replace(appPath + path.sep, '')
     modifyOutput = modifyOutput.split(path.sep).join('/')
+    // 调用全局排除规则
+    if(ig.ignores(outputFilePath)){
+      return;
+    }
     printLog(processTypeEnum.COPY, '文件', modifyOutput)
     if (!fs.existsSync(file)) {
       printLog(processTypeEnum.ERROR, '文件', `${modifySrc} 不存在`)
