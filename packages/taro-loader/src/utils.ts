@@ -1,5 +1,3 @@
-export interface Options {
-  framework: Framework
+export const capitalize = (s: string) => {
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }
-
-type Framework = 'react' | 'nerv' | 'vue'

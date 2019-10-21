@@ -3,8 +3,8 @@ import { Loader } from './loader'
 import * as t from '@babel/types'
 import template from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
-
 import { TARO_RUNTIME_PACKAGE_NAME, CONNECT_TO_REACT_PAGE, CONNECT_TO_VUE_PAGE, INJECT_PAGE_INSTANCE, TARO_PAGE_ID } from './constants'
+import { capitalize } from './utils'
 
 export function pageLoader (this: webpack.loader.LoaderContext, source: string) {
   const loader = new PageLoader(source, this, 'react')
@@ -31,13 +31,14 @@ const ReactLifeCycle = new Set([
 
 const idTmpl = template(`const ${TARO_PAGE_ID} = PAGE_ID;`)
 
-const connectReactTmpl = template(`${CONNECT_TO_REACT_PAGE}(PRAGMA, ID, PURE_COMPONENT)(EXPR)`)
+const connectReactTmpl = template(`${CONNECT_TO_REACT_PAGE}(PRAGMA, ${TARO_PAGE_ID}, PURE_COMPONENT)(EXPR)`)
 
-const connectVueTmpl = template(`${CONNECT_TO_REACT_PAGE}(PRAGMA, ID, PURE_COMPONENT)(EXPR)`)
+const connectVueTmpl = template(`${CONNECT_TO_REACT_PAGE}(${TARO_PAGE_ID}, Vue)(EXPR)`)
 
 class PageLoader extends Loader {
   public apply () {
-    const specifier = this.framework === 'react' ? t.identifier(CONNECT_TO_REACT_PAGE) : t.identifier(CONNECT_TO_VUE_PAGE)
+    const isReact = this.framework !== 'vue'
+    const specifier = isReact ? t.identifier(CONNECT_TO_REACT_PAGE) : t.identifier(CONNECT_TO_VUE_PAGE)
 
     this.runtimeImportStem = this.insertToTheFront(
       t.importDeclaration(
@@ -61,6 +62,26 @@ class PageLoader extends Loader {
       ClassExpression: this.injectReactComponent.bind(this),
       Program: this.ensureMainModuleImported.bind(this)
     })
+
+    if (this.exportDefaultDecl) {
+      if (isReact) {
+        this.exportDefaultDecl.declaration = connectReactTmpl({
+          PRAGMA: t.memberExpression(
+            t.identifier(capitalize(this.framework)),
+            t.identifier('createElement')
+          ),
+          PURE_COMPONENT: t.memberExpression(
+            t.identifier(capitalize(this.framework)),
+            t.identifier('PureComponent')
+          ),
+          EXPR: this.exportDefaultDecl.declaration
+        })
+      } else {
+        this.exportDefaultDecl.declaration = connectVueTmpl({
+          EXPR: this.exportDefaultDecl.declaration
+        })
+      }
+    }
   }
 
   private looksLikeReactComponent (classBody: t.ClassBody) {
@@ -103,46 +124,22 @@ class PageLoader extends Loader {
   }
 
   private ensureMainModuleImported (program: NodePath<t.Program>) {
-    if (this.framework === 'vue') {
-      const importedName = 'Vue'
-      if (program.scope.getBinding(importedName)) {
-        this.insertToTheFront(
-          t.importDeclaration(
-            [
-              t.importDefaultSpecifier(t.identifier(importedName))
-            ],
-            t.stringLiteral('vue')
-          )
-        )
-      }
-    }
+    const frameworks = ['React', 'Vue', 'Nerv']
+    for (const framework of frameworks) {
+      const packageName = framework === 'Nerv' ? 'nervjs' : framework.toLowerCase()
 
-    if (this.framework === 'react') {
-      const importedName = 'React'
-      if (program.scope.getBinding(importedName)) {
-        this.insertToTheFront(
-          t.importDeclaration(
-            [
-              t.importDefaultSpecifier(t.identifier(importedName))
-            ],
-            t.stringLiteral('react')
-          )
-        )
+      if (!program.scope.getBinding(framework)) {
+        continue
       }
-    }
 
-    if (this.framework === 'nerv') {
-      const importedName = 'Nerv'
-      if (program.scope.getBinding(importedName)) {
-        this.insertToTheFront(
-          t.importDeclaration(
-            [
-              t.importDefaultSpecifier(t.identifier(importedName))
-            ],
-            t.stringLiteral('nervjs')
-          )
+      this.insertToTheFront(
+        t.importDeclaration(
+          [
+            t.importDefaultSpecifier(t.identifier(framework))
+          ],
+          t.stringLiteral(packageName)
         )
-      }
+      )
     }
   }
 }

@@ -1,13 +1,13 @@
 import { Current } from '../current'
 import VueCtor, { ComponentOptions, VueConstructor } from 'vue'
-import { injectPageInstance } from '../config/create_page'
+import { injectPageInstance } from './common'
 
 export function connectVuePage (derivedIDfromCompiler: string, Vue: VueConstructor) {
   return (component: ComponentOptions<VueCtor>) => {
     const injectedComp = Vue.extend({
       mixins: [component, {
         created () {
-          injectPageInstance(derivedIDfromCompiler, this.$options)
+          injectPageInstance(this.$options)
         }
       }]
     })
@@ -39,10 +39,10 @@ export function connectVuePage (derivedIDfromCompiler: string, Vue: VueConstruct
   }
 }
 
-export function updateVuePages (cb: () => void) {
-  Current.roots.forEach(inst => {
-    inst.$forceUpdate!()
-  })
+// export function updateVuePages (cb: () => void) {
+//   Current.roots.forEach(inst => {
+//     inst.$forceUpdate!()
+//   })
 
-  Current.app!.$nextTick!(cb)
-}
+//   // Current.app!.$nextTick!(cb)
+// }

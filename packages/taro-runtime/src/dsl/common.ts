@@ -1,4 +1,5 @@
 import { CommonEvent } from '@tarojs/components'
+import * as React from 'react'
 import { isFunction, EMPTY_OBJ } from '@tarojs/shared'
 import { createEvent } from '../dom/event'
 import { Current } from '../current'
@@ -6,20 +7,26 @@ import { document } from '../bom/document'
 import { TaroRootElement } from '../dom/root'
 import { MpInstance } from '../render'
 import { Instance } from './instance'
-import { updateVuePages } from '../dsl/vue'
+// import { updateVuePages } from '../dsl/vue'
+import { incrementId } from '../utils'
 
 const instances = new Map<string, Instance>()
 
-export function injectPageInstance (derivedIDfromCompiler: string, inst: Instance) {
-  instances.set(derivedIDfromCompiler, inst)
+export function injectPageInstance (inst: Instance<{ tid?: string }>) {
+  const id = inst.props.tid
+  if (id != null) {
+    instances.set(id, inst)
+  }
 }
 
-export function createPageConfig (derivedIDfromCompiler: string, framework = 'react') {
+const pageId = incrementId()
+
+export function createPageConfig (component: React.ComponentClass) {
+  const id = `taro_page_${pageId()}`
   // 把复杂的 JavaScript 对象挂载在小程序实例上可能会触发意料之外的错误
   let page: TaroRootElement
   let instance: Instance = EMPTY_OBJ
-  const isReact = framework === 'react'
-  const isVue = framework === 'vue'
+  const isReact = process.env.framework !== 'vue'
 
   function safeExecute (func?: Function, ...args: unknown[]) {
     if (instance != null && isFunction(func)) {
@@ -35,38 +42,30 @@ export function createPageConfig (derivedIDfromCompiler: string, framework = 're
       }
     },
     onLoad (this: MpInstance) {
-      Current.pages.add(derivedIDfromCompiler)
+      Current.app!.mount(component, id, () => {
+        page = document.getElementById(id) as TaroRootElement
+        instance = instances.get(id) || EMPTY_OBJ
 
-      const render = () => {
-        page = document.getElementById(derivedIDfromCompiler) as TaroRootElement
-        instance = instances.get(derivedIDfromCompiler)!
         if (page === null) {
           return
         }
 
         page.ctx = this
         page.performUpdate()
-      }
+      })
 
-      if (isReact) {
-        Current.app!.forceUpdate(render)
-      }
-
-      if (isVue) {
-        updateVuePages(render)
-      }
+      // if (isVue) {
+      //   updateVuePages(render)
+      // }
     },
     onUnload () {
-      Current.pages.delete(derivedIDfromCompiler)
-      instances.delete(derivedIDfromCompiler)
+      Current.app!.unmount(id, () => {
+        page.ctx = null
+      })
 
-      if (isReact) {
-        Current.app!.forceUpdate(() => (page.ctx = null))
-      }
-
-      if (isVue) {
-        updateVuePages(() => (page.ctx = null))
-      }
+      // if (isVue) {
+      //   updateVuePages(() => (page.ctx = null))
+      // }
     },
     onShow () {
       safeExecute(isReact ? instance.componentDidShow : instance.onShow)

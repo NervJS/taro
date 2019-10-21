@@ -5,7 +5,7 @@ import { TaroNode } from '../dom/node'
 
 export const incrementId = () => {
   let id = 0
-  return () => id++
+  return () => (id++).toString()
 }
 
 export function isElement (node: TaroNode): node is TaroElement {
