@@ -1,7 +1,6 @@
 import prompt from '@system.prompt'
-import {
-  eventCenter
-} from '@tarojs/taro'
+
+import appGlobal from '../../global'
 
 export function showToast (options = {}) {
   const { title = '', duration = 1500, success, complete, fail } = options
@@ -128,7 +127,7 @@ function setNavigationBar (params, fnName) {
   const res = { errMsg: `${fnName}: ok` }
   return new Promise((resolve, reject) => {
     try {
-      eventCenter.trigger('TaroEvent:setNavigationBar', params)
+      appGlobal.eventCenter.trigger('TaroEvent:setNavigationBar', params)
       success && success(res)
       complete && complete(res)
       resolve(res)
@@ -154,7 +153,7 @@ export function startPullDownRefresh (options = {}) {
   const res = { errMsg: `startPullDownRefresh: ok` }
   return new Promise((resolve, reject) => {
     try {
-      eventCenter.trigger('TaroPage:startPullDownRefresh')
+      appGlobal.eventCenter.trigger('TaroPage:startPullDownRefresh')
       success && success(res)
       complete && complete(res)
       resolve(res)
@@ -172,7 +171,7 @@ export function stopPullDownRefresh (options = {}) {
   const res = { errMsg: `stopPullDownRefresh: ok` }
   return new Promise((resolve, reject) => {
     try {
-      eventCenter.trigger('TaroPage:stopPullDownRefresh')
+      appGlobal.eventCenter.trigger('TaroPage:stopPullDownRefresh')
       success && success(res)
       complete && complete(res)
       resolve(res)
