@@ -37,6 +37,8 @@ if (env) {
     process.env.NODE_ENV = 'production'
   }
 }
+process.env.TARO_ENV = type
+
 const builder = new Builder(appPath)
 
 if (ui) {
@@ -65,8 +67,6 @@ if (!fs.existsSync(projectConfPath)) {
   console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
   process.exit(1)
 }
-
-process.env.TARO_ENV = type
 
 const projectConf = require(projectConfPath)(_.merge)
 if (typeof page === 'string') {
