@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as _ from 'lodash'
 
-import { getInstalledNpmPkgPath, promoteRelativePath } from '.'
+import { getInstalledNpmPkgPath, promoteRelativePath, removeHeadSlash } from '.'
 import { taroJsQuickAppComponents, REG_STYLE, REG_SCRIPT } from './constants'
 
 export function getTaroJsQuickAppComponentsPath (nodeModulesPath: string): string {
@@ -94,12 +94,12 @@ export function generateQuickAppManifest ({
         pageConf.launchMode = launchMode
       }
     }
-    routerPages[path.dirname(element)] = pageConf
+    routerPages[removeHeadSlash(path.dirname(element))] = pageConf
   })
   delete quickappJSON.customPageConfig
   const routerEntry = pages.shift()
   const router = {
-    entry: path.dirname(routerEntry as string),
+    entry: removeHeadSlash(path.dirname(routerEntry as string)),
     pages: routerPages
   }
   // 生成 display
@@ -107,7 +107,7 @@ export function generateQuickAppManifest ({
   display.pages = {}
   pageConfigs.forEach((item, page) => {
     if (item) {
-      display.pages[path.dirname(page)] = item
+      display.pages[removeHeadSlash(path.dirname(page))] = item
     }
   })
   quickappJSON.router = router
