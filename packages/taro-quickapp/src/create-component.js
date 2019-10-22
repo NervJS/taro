@@ -102,14 +102,18 @@ function processEvent (eventHandlerName, obj) {
           get () {
             return Object.assign(currentTarget || target || {}, event.detail)
           }
-        },
-        stopPropagation: {
-          value: () => {}
-        },
-        preventDefault: {
-          value: () => {}
         }
       })
+      if (!event.stopPropagation) {
+        Object.defineProperty(event, 'stopPropagation', {
+          value: () => {}
+        })
+      }
+      if (!event.preventDefault) {
+        Object.defineProperty(event, 'preventDefault', {
+          value: () => {}
+        })
+      }
     }
 
     const scope = this.$component
