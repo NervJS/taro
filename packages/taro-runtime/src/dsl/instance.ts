@@ -1,10 +1,18 @@
 import { Component, ComponentClass } from 'react'
+import VueCtor, { ComponentOptions } from 'vue'
+import { CombinedVueInstance } from 'vue/types/vue'
 import { CommonEvent } from '@tarojs/components'
 
 export interface Instance<T = {}> extends Component<T>, Show, PageInstance {
   $forceUpdate?(): void
   $nextTick?(cb: () => void): void
 }
+
+export interface VueAppInstance extends ComponentOptions<VueCtor> {
+  $options: Show
+}
+
+export type VueInstance<M = object, P = object> = CombinedVueInstance<VueCtor, object, M, P, Record<never, any>>
 
 export interface PageProps {
   tid?: string
@@ -44,6 +52,6 @@ interface Show {
 
 export interface AppInstance extends Show {
   onLaunch (options: string): void
-  mount (component: React.ComponentClass, id: string, cb: () => void): void
+  mount (component: React.ComponentClass | ComponentOptions<VueCtor>, id: string, cb: () => void): void
   unmount (id: string, cb: () => void): void
 }

@@ -13,7 +13,7 @@ import { incrementId } from '../utils'
 const instances = new Map<string, Instance>()
 
 export function injectPageInstance (inst: Instance<PageProps>) {
-  const id = inst.props.tid
+  const id = inst.props && inst.props.tid
   if (id != null) {
     instances.set(id, inst)
   }
