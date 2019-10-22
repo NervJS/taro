@@ -15,9 +15,9 @@ import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
 
-import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, REG_SCRIPTS } from '../utils/constants'
+import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, REG_SCRIPTS, processTypeEnum } from '../utils/constants'
 import { IComponentObj } from '../utils/types'
-import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath } from '../utils'
+import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, generateQuickAppManifest } from '../utils/helper'
 import parseAst from '../utils/parseAst'
@@ -401,6 +401,7 @@ export default class MiniPlugin {
     if (!appPages || appPages.length === 0) {
       throw new Error('缺少页面')
     }
+    printLog(processTypeEnum.COMPILE, '发现入口', appEntry)
     this.getSubPackages(configObj)
     this.generateTabBarFiles(compiler, configObj)
     const template = ''
@@ -618,6 +619,7 @@ export default class MiniPlugin {
           imports: new Set([...importTaroSelfComponents, ...importUsingComponent, ...importCustomComponents])
         })
       }
+      printLog(processTypeEnum.COMPILE, isRoot ? '发现页面' : '发现组件', file.path)
       taroFileTypeMap[file.path] = {
         type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
         config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, {}, depComponents), configObj),
