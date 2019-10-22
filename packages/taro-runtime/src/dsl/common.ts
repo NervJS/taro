@@ -6,13 +6,13 @@ import { Current } from '../current'
 import { document } from '../bom/document'
 import { TaroRootElement } from '../dom/root'
 import { MpInstance } from '../render'
-import { Instance } from './instance'
+import { Instance, PageInstance, PageProps } from './instance'
 // import { updateVuePages } from '../dsl/vue'
 import { incrementId } from '../utils'
 
 const instances = new Map<string, Instance>()
 
-export function injectPageInstance (inst: Instance<{ tid?: string }>) {
+export function injectPageInstance (inst: Instance<PageProps>) {
   const id = inst.props.tid
   if (id != null) {
     instances.set(id, inst)
@@ -34,7 +34,7 @@ export function createPageConfig (component: React.ComponentClass) {
     }
   }
 
-  const config = {
+  const config: PageInstance = {
     eh (event: CommonEvent) {
       const node = document.getElementById(event.currentTarget.id)
       if (node != null) {

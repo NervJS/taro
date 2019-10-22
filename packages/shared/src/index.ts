@@ -29,3 +29,30 @@ export function isFunction (o: unknown): o is Function {
 }
 
 export const noop = (..._: unknown[]) => {}
+
+/**
+ * Boxed value.
+ *
+ * @typeparam T Value type.
+ */
+export interface Box<T> {
+  v: T;
+}
+
+/**
+ * box creates a boxed value.
+ *
+ * @typeparam T Value type.
+ * @param v Value.
+ * @returns Boxed value.
+ */
+export const box = <T>(v: T) => ({ v })
+
+/**
+ * box creates a boxed value.
+ *
+ * @typeparam T Value type.
+ * @param b Boxed value.
+ * @returns Value.
+ */
+export const unbox = <T>(b: Box<T>) => b.v

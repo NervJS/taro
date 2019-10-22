@@ -1,15 +1,15 @@
 import * as React from 'react'
-import { isFunction } from '@tarojs/shared'
+import { isFunction, Box, box, unbox } from '@tarojs/shared'
 import { Current } from '../current'
-import { AppInstance, ReactPageInstance } from './instance'
+import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps } from './instance'
 import { document } from '../bom/document'
 
 export function connectReactPage (
   h: typeof React.createElement, // 为了支持 React 和 React-like
   derivedIDfromCompiler: string
 ) {
-  return (component: React.ComponentClass) => {
-    return (props) => {
+  return (component: ReactPageComponent): React.FunctionComponent<PageProps> => {
+    return (props: PageProps) => {
       return h(
         'root',
         {
@@ -21,30 +21,43 @@ export function connectReactPage (
   }
 }
 
-export function createReactApp (R: typeof React, App: React.ComponentClass<any>, render) {
+export function createReactApp (R: typeof React, App: React.ComponentClass, render) {
   const ref = R.createRef<ReactPageInstance>()
 
-  let wrapper: React.Component
+  let wrapper: AppWrapper
 
   class AppWrapper extends R.Component {
-    render () {
-      const children: any[] = []
+    private pages: Array<() => React.FunctionComponentElement<PageProps>> = []
+    private elements: Array<Box<React.FunctionComponentElement<PageProps>>> = []
 
-      Current.instances.forEach((inst: ReactPageInstance, id) => {
-        children.push({
-          inst,
-          id
-        })
-      })
+    public mount (component: React.FunctionComponent<PageProps>, id: string, cb: () => void) {
+      const page = () => R.createElement(component, { key: id, tid: id })
+      this.pages.push(page)
+      this.forceUpdate(cb)
+    }
+
+    public unmount (id: string, cb: () => void) {
+      for (let i = 0; i < this.pages.length; i++) {
+        const element = this.elements[i]
+        if (element.v.key === id) {
+          this.elements.splice(i, 0)
+          break
+        }
+      }
+
+      this.forceUpdate(cb)
+    }
+
+    public render () {
+      while (this.pages.length > 0) {
+        const page = this.pages.pop()!
+        this.elements.push(box(page()))
+      }
 
       return R.createElement(
-        R.Fragment,
-        null,
-        R.createElement(
-          App,
-          { ref },
-          children.map(({ inst, id }) => R.createElement(inst, { key: id, tid: id }))
-        )
+        App,
+        { ref },
+        this.elements.map(unbox)
       )
     }
   }
@@ -72,15 +85,13 @@ export function createReactApp (R: typeof React, App: React.ComponentClass<any>,
       wrapper.forceUpdate(cb)
     }
 
-    mount (component: React.ComponentClass, id: string, cb: () => void) {
+    mount (component: ReactPageComponent, id: string, cb: () => void) {
       const page = connectReactPage(React.createElement, id)(component)
-      Current.instances.set(id, page)
-      this.render(cb)
+      wrapper.mount(page, id, cb)
     }
 
     unmount (id: string, cb: () => void) {
-      Current.instances.delete(id)
-      this.render(cb)
+      wrapper.unmount(id, cb)
     }
   }
 

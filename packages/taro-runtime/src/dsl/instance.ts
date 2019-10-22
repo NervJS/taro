@@ -1,11 +1,20 @@
-import { Component } from 'react'
+import { Component, ComponentClass } from 'react'
+import { CommonEvent } from '@tarojs/components'
 
 export interface Instance<T = {}> extends Component<T>, Show, PageInstance {
   $forceUpdate?(): void
   $nextTick?(cb: () => void): void
 }
 
-export interface ReactPageInstance extends Component, Show, PageInstance {
+export interface PageProps {
+  tid?: string
+}
+
+export interface ReactPageComponent<T = PageProps> extends ComponentClass<T>, Show, PageInstance {
+  //
+}
+
+export interface ReactPageInstance<T = PageProps> extends Component<T>, Show, PageInstance {
   //
 }
 
@@ -14,13 +23,16 @@ export interface PageInstance extends Show {
   onReachBottom?(): void
   onPageScroll?(obj: { scrollTop: number }): void
   onShareAppMessage?(obj: { from: string, target: Record<string, string>, webViewUrl: string }): void
-  onResize?(): void
+  onResize?(options: unknown): void
   onTabItemTap?(obj: { index: string, pagePath: string, text: string }): void
   componentWillPreload?(): void
   onTitleClick?(): void
   onOptionMenuClick?(): void
   onPopMenuClick?(): void
   onPullIntercept?(): void
+  eh?(event: CommonEvent): void
+  onLoad(): void
+  onUnload(): void
 }
 
 interface Show {
