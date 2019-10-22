@@ -64,6 +64,13 @@
 
 <script>
   import Taro from '@tarojs/taro-quickapp'
+
+  const appGlobal = global || {}
+  let globalRef = Object.getPrototypeOf(appGlobal) || appGlobal
+  if (!Object.keys(appGlobal).length) {
+    globalRef = Object.getPrototypeOf(globalRef)
+  }
+  globalRef.eventCenter = Taro.eventCenter
   function addLeadingSlash (str) {
     return str[0] === '/' ? str : `/${str}`
   }
@@ -102,10 +109,10 @@
     },
 
     onInit () {
-      Taro.eventCenter.on('TaroPage:stopPullDownRefresh', () => {
+      globalRef.eventCenter.on('TaroPage:stopPullDownRefresh', () => {
         this.isPageRefreshing = false
       })
-      Taro.eventCenter.on('TaroPage:startPullDownRefresh', () => {
+      globalRef.eventCenter.on('TaroPage:startPullDownRefresh', () => {
         this.isPageRefreshing = true
       })
       this.setTabBarData()
