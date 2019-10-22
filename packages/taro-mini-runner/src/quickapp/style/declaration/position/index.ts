@@ -30,8 +30,9 @@ export default {
   'position': (value, declaration, addDeclaration) => {
     if (value === 'static') {
       declaration.value = 'none'
-    } else if (value === 'absolute') {
-      return 'E:'
+    } else if (value === 'absolute' || value === 'relative') {
+      // https://doc.quickapp.cn/widgets/common-styles.html?h=position
+      return '' // E:
     } else if (value !== 'fixed') {
       return 'I:'
     }
