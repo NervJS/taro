@@ -914,15 +914,15 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@tarojs/taro@1.3.18":
-  version "1.3.18"
-  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-1.3.18.tgz?cache=0&sync_timestamp=1567844469515&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Ftaro%2Fdownload%2F%40tarojs%2Ftaro-1.3.18.tgz#bcec0e502b0cd91708d1e02b7f4a445d8092bda1"
+"@tarojs/taro@1.3.20":
+  version "1.3.20"
+  resolved "http://registry.m.jd.com/@tarojs/taro/download/@tarojs/taro-1.3.20.tgz#7db4e697b7c3b1ef18bdc9a5a9df0f057587dd33"
   dependencies:
-    "@tarojs/utils" "1.3.18"
+    "@tarojs/utils" "1.3.20"
 
-"@tarojs/utils@1.3.18":
-  version "1.3.18"
-  resolved "https://registry.npm.taobao.org/@tarojs/utils/download/@tarojs/utils-1.3.18.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Futils%2Fdownload%2F%40tarojs%2Futils-1.3.18.tgz#094e61bd27839a699e766e546291508ba8dd742d"
+"@tarojs/utils@1.3.20":
+  version "1.3.20"
+  resolved "http://registry.m.jd.com/@tarojs/utils/download/@tarojs/utils-1.3.20.tgz#9c8d245818ef10653b78687e412641c855e6b7f0"
 
 "@types/babel-types@^7.0.7":
   version "7.0.7"
@@ -3119,15 +3119,16 @@ expo-asset@~6.0.0:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
-expo-av@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.npm.taobao.org/expo-av/download/expo-av-5.0.2.tgz#8f308fc14d7be8b3bc79d6f8dc6c270da07f94d4"
+expo-av@^6.0.0:
+  version "6.0.0"
+  resolved "http://registry.m.jd.com/expo-av/download/expo-av-6.0.0.tgz#95a5a095583bec3ac0a35ba1e9b67e72ac4a6485"
   dependencies:
     lodash "^4.17.11"
+    nullthrows "^1.1.0"
 
-expo-brightness@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/expo-brightness/download/expo-brightness-5.0.1.tgz#90e0445a34c7ef92c4511211c888bbc50eae0441"
+expo-brightness@^6.0.0:
+  version "6.0.0"
+  resolved "http://registry.m.jd.com/expo-brightness/download/expo-brightness-6.0.0.tgz#f96f392f15c7d62cd0ae044ffa86ec45fd09f0f9"
 
 expo-constants@~6.0.0:
   version "6.0.0"
@@ -3135,29 +3136,23 @@ expo-constants@~6.0.0:
   dependencies:
     ua-parser-js "^0.7.19"
 
-expo-file-system@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/expo-file-system/download/expo-file-system-5.0.1.tgz#c26054e512c3bb2e256325b48e603957a24e6210"
-  dependencies:
-    uuid-js "^0.7.5"
-
-expo-file-system@~6.0.1:
+expo-file-system@^6.0.0, expo-file-system@~6.0.1:
   version "6.0.2"
-  resolved "https://registry.npm.taobao.org/expo-file-system/download/expo-file-system-6.0.2.tgz#e65f30eb6a7213e07933df9688116eaf4e25bbf8"
+  resolved "http://registry.m.jd.com/expo-file-system/download/expo-file-system-6.0.2.tgz#e65f30eb6a7213e07933df9688116eaf4e25bbf8"
   dependencies:
     uuid-js "^0.7.5"
 
-expo-image-picker@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.npm.taobao.org/expo-image-picker/download/expo-image-picker-5.0.2.tgz#975ef46bc614d471f01e6de0b2db42e55aab4a56"
+expo-image-picker@^6.0.0:
+  version "6.0.0"
+  resolved "http://registry.m.jd.com/expo-image-picker/download/expo-image-picker-6.0.0.tgz#776f4487d986ba9cc82169a47445e8c13ca3108b"
 
-expo-keep-awake@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/expo-keep-awake/download/expo-keep-awake-5.0.1.tgz#15aeffd9de673f7eaf145449883e8d83f7d7a799"
+expo-keep-awake@^6.0.0:
+  version "6.0.0"
+  resolved "http://registry.m.jd.com/expo-keep-awake/download/expo-keep-awake-6.0.0.tgz#e0d6d1263c6a73488272a62aef98312ab25cab1f"
 
-expo-location@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/expo-location/download/expo-location-5.0.1.tgz#697adb49b42018db9e32aa05b7623e0d71250eb9"
+expo-location@^6.0.0:
+  version "6.0.0"
+  resolved "http://registry.m.jd.com/expo-location/download/expo-location-6.0.0.tgz#da4e22ee5aa951d2c65d94f9916323eb4b3f8a01"
   dependencies:
     invariant "^2.2.4"
 
@@ -3165,9 +3160,9 @@ expo-permissions@~6.0.0:
   version "6.0.0"
   resolved "https://registry.npm.taobao.org/expo-permissions/download/expo-permissions-6.0.0.tgz#2943f1aa98de833b88cea73cf03d18d08957cb68"
 
-expo-sensors@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/expo-sensors/download/expo-sensors-5.0.1.tgz#67dd446f1318712c90d714807f195c263e18552b"
+expo-sensors@^6.0.0:
+  version "6.0.0"
+  resolved "http://registry.m.jd.com/expo-sensors/download/expo-sensors-6.0.0.tgz#4c8c40a210878474d3f3d6c083b4a6def90ee3c8"
   dependencies:
     invariant "^2.2.4"
 
@@ -5613,9 +5608,9 @@ nth-check@~1.0.1:
   dependencies:
     boolbase "~1.0.0"
 
-nullthrows@^1.1.1:
+nullthrows@^1.1.0, nullthrows@^1.1.1:
   version "1.1.1"
-  resolved "https://registry.npm.taobao.org/nullthrows/download/nullthrows-1.1.1.tgz#7818258843856ae971eae4208ad7d7eb19a431b1"
+  resolved "http://registry.m.jd.com/nullthrows/download/nullthrows-1.1.1.tgz#7818258843856ae971eae4208ad7d7eb19a431b1"
 
 number-is-nan@^1.0.0:
   version "1.0.1"
