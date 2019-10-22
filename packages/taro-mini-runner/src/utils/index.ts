@@ -4,8 +4,16 @@ import * as fs from 'fs-extra'
 import * as resolvePath from 'resolve'
 import * as t from 'babel-types'
 import { mergeWith } from 'lodash'
+import chalk from 'chalk'
 
-import { CONFIG_MAP, JS_EXT, TS_EXT, NODE_MODULES_REG } from './constants'
+import {
+  CONFIG_MAP,
+  JS_EXT,
+  TS_EXT,
+  NODE_MODULES_REG,
+  processTypeMap,
+  processTypeEnum
+} from './constants'
 import { IOption, IComponentObj } from './types'
 
 export const isNodeModule = (filename: string) => NODE_MODULES_REG.test(filename)
@@ -209,5 +217,22 @@ export function getInstalledNpmPkgPath (pkgName: string, basedir: string): strin
     return resolvePath.sync(`${pkgName}/package.json`, { basedir })
   } catch (err) {
     return null
+  }
+}
+
+export function printLog (type: processTypeEnum, tag: string, filePath?: string) {
+  const typeShow = processTypeMap[type]
+  const tagLen = tag.replace(/[\u0391-\uFFE5]/g, 'aa').length
+  const tagFormatLen = 8
+  if (tagLen < tagFormatLen) {
+    const rightPadding = new Array(tagFormatLen - tagLen + 1).join(' ')
+    tag += rightPadding
+  }
+  const padding = ''
+  filePath = filePath || ''
+  if (typeof typeShow.color === 'string') {
+    console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
+  } else {
+    console.log(typeShow.color(typeShow.name), padding, tag, padding, filePath)
   }
 }
