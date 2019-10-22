@@ -72,7 +72,6 @@
     "@types/node": "^12.7.11",
     "@types/react": "^16.9.5",
     "@types/sinon": "^7.5.0",
-    "@types/vue": "^2.0.0",
     "@types/webpack": "^4.39.3",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
@@ -145,6 +144,7 @@
     "stylelint": "^11.0.0",
     "ts-jest": "23",
     "typescript": "^3.6.3",
+    "vue": "^2.6.10",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2"

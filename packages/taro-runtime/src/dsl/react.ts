@@ -1,20 +1,18 @@
 import * as React from 'react'
-import { isFunction, Box, box, unbox } from '@tarojs/shared'
+import { isFunction } from '@tarojs/shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps } from './instance'
 import { document } from '../bom/document'
 
 export function connectReactPage (
   h: typeof React.createElement, // 为了支持 React 和 React-like
-  derivedIDfromCompiler: string
+  id: string
 ) {
   return (component: ReactPageComponent): React.FunctionComponent<PageProps> => {
     return (props: PageProps) => {
       return h(
         'root',
-        {
-          id: derivedIDfromCompiler
-        },
+        { id },
         h(component, props)
       )
     }
@@ -28,7 +26,7 @@ export function createReactApp (R: typeof React, App: React.ComponentClass, rend
 
   class AppWrapper extends R.Component {
     private pages: Array<() => React.FunctionComponentElement<PageProps>> = []
-    private elements: Array<Box<React.FunctionComponentElement<PageProps>>> = []
+    private elements: Array<React.FunctionComponentElement<PageProps>> = []
 
     public mount (component: React.FunctionComponent<PageProps>, id: string, cb: () => void) {
       const page = () => R.createElement(component, { key: id, tid: id })
@@ -37,10 +35,10 @@ export function createReactApp (R: typeof React, App: React.ComponentClass, rend
     }
 
     public unmount (id: string, cb: () => void) {
-      for (let i = 0; i < this.pages.length; i++) {
+      for (let i = 0; i < this.elements.length; i++) {
         const element = this.elements[i]
-        if (element.v.key === id) {
-          this.elements.splice(i, 0)
+        if (element.key === id) {
+          this.elements.splice(i, 1)
           break
         }
       }
@@ -51,13 +49,13 @@ export function createReactApp (R: typeof React, App: React.ComponentClass, rend
     public render () {
       while (this.pages.length > 0) {
         const page = this.pages.pop()!
-        this.elements.push(box(page()))
+        this.elements.push(page())
       }
 
       return R.createElement(
         App,
         { ref },
-        this.elements.map(unbox)
+        this.elements.slice()
       )
     }
   }
@@ -86,7 +84,7 @@ export function createReactApp (R: typeof React, App: React.ComponentClass, rend
     }
 
     mount (component: ReactPageComponent, id: string, cb: () => void) {
-      const page = connectReactPage(React.createElement, id)(component)
+      const page = connectReactPage(R.createElement, id)(component)
       wrapper.mount(page, id, cb)
     }
 
