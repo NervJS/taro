@@ -236,3 +236,7 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
     console.log(typeShow.color(typeShow.name), padding, tag, padding, filePath)
   }
 }
+
+export function removeHeadSlash (str: string) {
+  return str.replace(/^(\/|\\)/, '')
+}
