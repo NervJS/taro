@@ -16,9 +16,41 @@ title: 编译配置详情
 
 ## plugins
 
-`plugins` 用来设置一些各个端通用的编译过程配置，例如 `babel` 配置，JS/CSS 压缩配置等。
+`plugins` 用来设置编译过程插件，插件机制基于 实现，目前暴露了两个钩子 `beforeBuild` 和 `afterBuild`
 
-### plugins.babel
+其中，`beforeBuild` 将在整体编译前触发，可以获取到编译的相关配置，同时也能进行修改
+
+`afterBuild` 将在 webpack 编译完后执行，可以获取到编译后的结果
+
+具体使用方式如下：
+
+首先定义一个插件
+
+```js
+class BuildPlugin {
+  apply (builder) {
+    builder.hooks.beforeBuild.tap('BuildPlugin', (config) => {
+      console.log(config)
+    })
+
+    builder.hooks.afterBuild.tap('BuildPlugin', (stats) => {
+      console.log(stats)
+    })
+  }
+}
+```
+
+接下来在 `plugins` 字段中进行配置
+
+```js
+{
+  plugins: [
+    new BuildPlugin()
+  ]
+}
+```
+
+## babel
 
 用来配置 `babel`，默认配置如下，可以自行添加自己需要的额外的 `presets` 及 `plugins`。
 
@@ -36,9 +68,9 @@ babel: {
 }
 ```
 
-### plugins.uglify
+## uglify
 
-用来配置 `UgligyJS` 工具，设置打包过程中的 JS 代码压缩。可以通过 `plugins.uglify.enable` 来设置是否开启压缩，若设置开启，则可以通过 `plugins.uglify.config` 来设置 `UgligyJS` 的配置项，具体配置方式如下：
+用来配置 `UgligyJS` 工具，设置打包过程中的 JS 代码压缩。可以通过 `uglify.enable` 来设置是否开启压缩，若设置开启，则可以通过 `uglify.config` 来设置 `UgligyJS` 的配置项，具体配置方式如下：
 
 ```jsx
 uglify: {
@@ -49,9 +81,9 @@ uglify: {
 }
 ```
 
-### plugins.csso
+## csso
 
-用来配置 `csso` 工具，设置打包过程中的 CSS 代码压缩。可以通过 `plugins.csso.enable` 来设置是否开启压缩，若设置开启，则可以通过 `plugins.csso.config` 来设置 `csso` 的配置项，具体配置方式如下：
+用来配置 `csso` 工具，设置打包过程中的 CSS 代码压缩。可以通过 `csso.enable` 来设置是否开启压缩，若设置开启，则可以通过 `csso.config` 来设置 `csso` 的配置项，具体配置方式如下：
 
 ```jsx
 csso: {
@@ -62,7 +94,8 @@ csso: {
 }
 ```
 
-### plugins.sass
+## sass
+
 用来配置 `sass` 工具，设置打包过程中的 SCSS 代码编译。  
 具体配置可以参考[node-sass](https://www.npmjs.com/package/node-sass)  
 当需要全局注入scss文件时，可以添加三个额外参数：`resource` 、 `projectDirectory` (v1.2.25开始支持)、`data`（v1.3.0开始支持），具体配置方式如下：
@@ -237,35 +270,170 @@ copy: {
 }
 ```
 
-## weapp
+## mini
 
 专属于小程序的配置。
 
-### weapp.compile
+### mini.compile
 
 小程序编译过程的相关配置。
 
-#### weapp.compile.compressTemplate
+#### mini.compile.compressTemplate
 
 决定小程序打包时是否需要压缩 wxml
 
-#### weapp.compile.exclude
+#### mini.compile.exclude
 
 配置小程序编译过程中排除不需要经过 Taro 编译的文件，数组类型，写文件路径，文件路径必须以源码所在 `src` 目录开头：
 
 ```jsx
-weapp: {
+mini: {
   compile: {
     exclude: ['src/components/ec-canvas/echarts.js']
   }
 }
 ```
 
-### weapp.module
+### mini.webpackChain
 
-配置一些小程序端用到的插件模块配置，例如 `postcss` 等。
+自定义 Webpack 配置，接受函数形式的配置。
 
-#### weapp.module.postcss
+这个函数会收到两个参数，第一个参数是 webpackChain 对象，可参考 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 的 api 进行修改；第二个参数是 `webpack` 实例。例如：
+
+```jsx
+// 这是一个添加 ts-loader 的例子，但事实上 taro 是默认支持 ts 的，并不需要这样做。
+{
+  webpackChain (chain, webpack) {
+    chain.merge({
+      module: {
+        rule: {
+          myloader: {
+            test: /.tsx?/,
+            use: [{
+              loader: 'ts-loader',
+              options: {}
+            }]
+          }
+        }
+      }
+    })
+  }
+}
+```
+
+```jsx
+// 这是一个添加插件的例子
+{
+  webpackChain (chain, webpack) {
+    chain.merge({
+      plugin: {
+        install: {
+          plugin: require('npm-install-webpack-plugin'),
+          args: [{
+            // Use --save or --save-dev
+            dev: false,
+            // Install missing peerDependencies
+            peerDependencies: true,
+            // Reduce amount of console logging
+            quiet: false,
+            // npm command used inside company, yarn is not supported yet
+            npm: 'cnpm'
+          }]
+        }
+      }
+    })
+  }
+}
+```
+
+### mini.cssLoaderOption
+
+css-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/css-loader)，例如：
+
+```jsx
+{
+  cssLoaderOption: {
+    localIdentName: '[hash:base64]'
+  }
+}
+```
+
+### mini.styleLoaderOption
+
+style-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/style-loader)，例如：
+
+```jsx
+{
+  styleLoaderOption: {
+    insertAt: 'top'
+  }
+}
+```
+
+### mini.sassLoaderOption
+
+sass-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/sass-loader)，例如：
+
+```jsx
+{
+  sassLoaderOption: {
+    implementation: require("dart-sass")
+  }
+}
+```
+
+### mini.lessLoaderOption
+
+less-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
+
+```jsx
+{
+  lessLoaderOption: {
+    strictMath: true,
+    noIeCompat: true
+  }
+}
+```
+
+### mini.stylusLoaderOption
+
+stylus-loader 的附加配置。配置项参考[官方文档](https://github.com/shama/stylus-loader)。
+
+### mini.mediaUrlLoaderOption
+
+针对 `mp4 | webm | ogg | mp3 | wav | flac | aac` 文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)，例如：
+
+```jsx
+{
+  mediaUrlLoaderOption: {
+    limit: 8192
+  }
+}
+```
+
+### mini.fontUrlLoaderOption
+
+针对 `woff | woff2 | eot | ttf | otf` 文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+
+### mini.imageUrlLoaderOption
+
+针对 `png | jpg | jpeg | gif | bpm | svg` 文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+
+### mini.miniCssExtractPluginOption
+
+`mini-css-extract-plugin` 的附加配置，在 `enableExtract` 为 `true` 的情况下生效。
+配置项参考[官方文档](https://github.com/webpack-contrib/mini-css-extract-plugin)，例如：
+
+```jsx
+{
+  miniCssExtractPluginOption: {
+    filename: '[name].css',
+    chunkFilename: '[name].css'
+  }
+}
+```
+
+### mini.postcss
 
 配置 `postcss` 相关插件：
 
@@ -634,11 +802,11 @@ stylus-loader 的附加配置。配置项参考[官方文档](https://github.com
 }
 ```
 
-### h5.module
+### h5.postcss
 
-配置一些 H5 端用到的插件模块配置，暂时只有 `postcss`。
+配置 H5 的 `postcss` 插件。
 
-#### h5.module.postcss.autoprefixer
+#### h5.postcss.autoprefixer
 
 可以进行 `autoprefixer` 的配置。配置项参考[官方文档](https://github.com/postcss/autoprefixer)，例如：
 
@@ -653,7 +821,7 @@ postcss: {
 }
 ```
 
-#### h5.module.postcss.pxtransform
+#### h5.postcss.pxtransform
 
 可以进行 `pxtransform` 的配置。配置项参考[官方文档](https://github.com/Pines-Cheng/postcss-pxtransform/)，例如：
 
@@ -668,7 +836,7 @@ postcss: {
 }
 ```
 
-#### h5.module.postcss.cssModules
+#### h5.postcss.cssModules
 
 可以进行 H5 端 CSS Modules 配置，配置如下：
 
