@@ -5,7 +5,7 @@
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
   "license": "MIT",
-  "main": "lib/taro-loader.js",
+  "main": "lib/app.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -18,7 +18,9 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "//test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "jest",
+    "build": "tsc",
+    "dev": "tsc -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

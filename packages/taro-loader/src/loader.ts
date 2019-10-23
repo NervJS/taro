@@ -39,17 +39,15 @@ export class Loader {
         'classPrivateMethods',
         'classPrivateProperties',
         'classProperties',
-        'decorators',
-        'decorators-legacy',
+        ['decorators', { decoratorsBeforeExport: true }],
         'doExpressions',
         'dynamicImport',
-        'estree',
         'exportDefaultFrom',
         'exportNamespaceFrom',
-        'flow',
         'flowComments',
         'functionBind',
         'functionSent',
+        ['pipelineOperator', { proposal: 'smart' }],
         'importMeta',
         'jsx',
         'logicalAssignment',
@@ -59,7 +57,6 @@ export class Loader {
         'optionalCatchBinding',
         'optionalChaining',
         'partialApplication',
-        'pipelineOperator',
         'placeholders',
         'throwExpressions',
         'typescript'
@@ -78,14 +75,14 @@ export class Loader {
         if (!t.isImportDeclaration(next)) {
           this.maybeSafeToInsertIndex = i
         }
+      }
 
-        if (t.isExportDefaultDeclaration(stem)) {
-          this.exportDefaultDecl = stem
-        }
+      if (t.isExportDefaultDeclaration(stem)) {
+        this.exportDefaultDecl = stem
       }
     }
 
-    if (this.exportDefaultDecl != null) {
+    if (this.exportDefaultDecl == null) {
       this.context.emitError(`文件: ${this.context.resourcePath} 没有找到 export default 语句!`)
     }
 

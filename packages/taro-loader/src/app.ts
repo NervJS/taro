@@ -31,22 +31,20 @@ class AppLoader extends Loader {
       }
     }
 
-    if (this.exportDefaultDecl) {
-      this.insertToTheEnd(t.expressionStatement(
-        t.callExpression(
-          t.identifier('App'),
-          [
-            t.callExpression(
-              createApp,
-              [
-                t.identifier(capitalize(this.framework)),
-                this.exportDefaultDecl.declaration as t.Expression
-              ].concat(render ? [render] : [])
-            )
-          ]
-        )
-      ))
-    }
+    this.insertToTheEnd(t.expressionStatement(
+      t.callExpression(
+        t.identifier('App'),
+        [
+          t.callExpression(
+            createApp,
+            [
+              t.identifier(capitalize(this.framework)),
+              this.exportDefaultDecl.declaration as t.Expression
+            ].concat(render ? [render] : [])
+          )
+        ]
+      )
+    ))
 
     return this.generate()
   }
