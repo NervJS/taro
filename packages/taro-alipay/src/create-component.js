@@ -288,6 +288,13 @@ function createComponent (ComponentClass, isPage) {
         componentTrigger(this.$component, 'componentWillUnmount')
         const component = this.$component
         const events = component.$$renderPropsEvents
+        
+        component.hooks.forEach((hook) => {
+          if (isFunction(hook.cleanup)) {
+            hook.cleanup()
+          }
+        })
+        
         if (isArray(events)) {
           events.forEach(e => eventCenter.off(e))
         }
