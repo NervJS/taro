@@ -1,10 +1,8 @@
 import * as webpack from 'webpack'
 import { Loader } from './loader'
 import * as t from '@babel/types'
-import template from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
-import { TARO_RUNTIME_PACKAGE_NAME, CONNECT_TO_REACT_PAGE, CONNECT_TO_VUE_PAGE, INJECT_PAGE_INSTANCE, TARO_PAGE_ID } from './constants'
-import { capitalize } from './utils'
+import { INJECT_PAGE_INSTANCE, CREATE_PAGE_CONFIG } from './constants'
 
 export function pageLoader (this: webpack.loader.LoaderContext, source: string) {
   const loader = new PageLoader(source, this, 'react')
@@ -29,33 +27,10 @@ const ReactLifeCycle = new Set([
   'render'
 ])
 
-const idTmpl = template(`const ${TARO_PAGE_ID} = PAGE_ID;`)
-
-const connectReactTmpl = template(`${CONNECT_TO_REACT_PAGE}(PRAGMA, ${TARO_PAGE_ID}, PURE_COMPONENT)(EXPR)`)
-
-const connectVueTmpl = template(`${CONNECT_TO_REACT_PAGE}(${TARO_PAGE_ID}, Vue)(EXPR)`)
-
 class PageLoader extends Loader {
   public apply () {
-    const isReact = this.framework !== 'vue'
-    const specifier = isReact ? t.identifier(CONNECT_TO_REACT_PAGE) : t.identifier(CONNECT_TO_VUE_PAGE)
-
-    this.runtimeImportStem = this.insertToTheFront(
-      t.importDeclaration(
-        [
-          t.importSpecifier(specifier, specifier)
-        ],
-        t.stringLiteral(TARO_RUNTIME_PACKAGE_NAME)
-      )
-    )
-
-    this.ast.program.body.splice(
-      this.maybeSafeToInsertIndex,
-      0,
-      idTmpl({
-        PAGE_ID: this.context.resourcePath
-      })
-    )
+    const specifier = t.identifier(CREATE_PAGE_CONFIG)
+    this.ensureTaroRuntimeImported(specifier)
 
     traverse(this.ast, {
       ClassDeclaration: this.injectReactComponent.bind(this),
@@ -64,24 +39,20 @@ class PageLoader extends Loader {
     })
 
     if (this.exportDefaultDecl) {
-      if (isReact) {
-        this.exportDefaultDecl.declaration = connectReactTmpl({
-          PRAGMA: t.memberExpression(
-            t.identifier(capitalize(this.framework)),
-            t.identifier('createElement')
-          ),
-          PURE_COMPONENT: t.memberExpression(
-            t.identifier(capitalize(this.framework)),
-            t.identifier('PureComponent')
-          ),
-          EXPR: this.exportDefaultDecl.declaration
-        })
-      } else {
-        this.exportDefaultDecl.declaration = connectVueTmpl({
-          EXPR: this.exportDefaultDecl.declaration
-        })
-      }
+      this.insertToTheEnd(t.expressionStatement(
+        t.callExpression(
+          t.identifier('Page'),
+          [
+            t.callExpression(
+              t.identifier(CREATE_PAGE_CONFIG),
+              [this.exportDefaultDecl.declaration as t.Expression]
+            )
+          ]
+        )
+      ))
     }
+
+    return this.generate()
   }
 
   private looksLikeReactComponent (classBody: t.ClassBody) {
@@ -117,7 +88,6 @@ class PageLoader extends Loader {
     classBody.body.push(t.classProperty(
       t.identifier('_do_not_use'),
       t.callExpression(t.identifier(INJECT_PAGE_INSTANCE), [
-        t.identifier(TARO_PAGE_ID),
         t.thisExpression()
       ])
     ))
