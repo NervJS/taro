@@ -3,6 +3,10 @@
   "version": "1.3.21",
   "description": "Taro编译sass文件",
   "main": "index.js",
+  "files": [
+    "bundler.js",
+    "index.js"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
