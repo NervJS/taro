@@ -13,7 +13,7 @@ import { incrementId } from '../utils'
 const instances = new Map<string, Instance>()
 
 export function injectPageInstance (inst: Instance<PageProps>) {
-  const id = inst.props && inst.props.tid
+  const id = inst.tid != null ? inst.tid : inst.props.tid
   if (id != null) {
     instances.set(id, inst)
   }
@@ -23,10 +23,10 @@ const pageId = incrementId()
 
 export function createPageConfig (component: React.ComponentClass) {
   const id = `taro_page_${pageId()}`
-  // 把复杂的 JavaScript 对象挂载在小程序实例上可能会触发意料之外的错误
+  // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let page: TaroRootElement
   let instance: Instance = EMPTY_OBJ
-  const isReact = process.env.framework !== 'vue'
+  const isReact = process.env.framework !== 'vue' // isReact means all kind of react-like library
 
   function safeExecute (func?: Function, ...args: unknown[]) {
     if (instance != null && isFunction(func)) {
@@ -68,10 +68,10 @@ export function createPageConfig (component: React.ComponentClass) {
       // }
     },
     onShow () {
-      safeExecute(isReact ? instance.componentDidShow : instance.onShow)
+      safeExecute(isReact ? instance.componentDidShow : instance.$options.onShow)
     },
     onHide () {
-      safeExecute(isReact ? instance.componentDidHide : instance.onHide)
+      safeExecute(isReact ? instance.componentDidHide : instance.$options.onHide)
     },
     onPullDownRefresh () {
       safeExecute(instance.onPullDownRefresh)

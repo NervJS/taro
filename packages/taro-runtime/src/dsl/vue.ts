@@ -1,16 +1,19 @@
 import VueCtor, { ComponentOptions, VueConstructor, VNode } from 'vue'
 import { AppInstance, VueAppInstance, VueInstance } from './instance'
-// import { injectPageInstance } from './common'
+import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
 import { isFunction } from '@tarojs/shared'
 
 export function connectVuePage (Vue: VueConstructor, id: string) {
   return (component: ComponentOptions<VueCtor>) => {
-    const injectedComp = Vue.extend({
+    const injectedPage = Vue.extend({
+      props: {
+        tid: String
+      },
       mixins: [component, {
-        created (this: VueInstance) {
-          // injectPageInstance(this.$options)
+        created () {
+          injectPageInstance(this)
         }
       }]
     })
@@ -25,7 +28,7 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
             }
           },
           [
-            h(injectedComp)
+            h(injectedPage, { props: { tid: id } })
           ]
         )
       }
@@ -50,12 +53,16 @@ export function createVueApp (Vue: VueConstructor, App: VueInstance) {
       return h(App.$options, { ref: 'app' }, elements.slice())
     },
     methods: {
-      mount (this: VueInstance, component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
+      mount (component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
         pages.push((h) => h(component, { key: id }))
-        this.$forceUpdate()
-        this.$nextTick(cb)
+        this.updateSync(cb)
       },
-      unmount (this: VueInstance, id: string, cb: () => void) {
+      updateSync (this: VueInstance, cb: () => void) {
+        this._update(this._render(), false)
+        this.$children.forEach((child: VueInstance) => child._update(child._render(), false))
+        cb()
+      },
+      unmount (id: string, cb: () => void) {
         for (let i = 0; i < elements.length; i++) {
           const element = elements[i]
           if (element.key === id) {
@@ -64,8 +71,7 @@ export function createVueApp (Vue: VueConstructor, App: VueInstance) {
           }
         }
 
-        this.$forceUpdate()
-        this.$nextTick(cb)
+        this.updateSync(cb)
       }
     }
   })
@@ -80,13 +86,13 @@ export function createVueApp (Vue: VueConstructor, App: VueInstance) {
 
     onShow (options: unknown) {
       if (appInstance != null && isFunction(appInstance.$options.onShow)) {
-        appInstance.$options.onShow(options)
+        appInstance.$options.onShow.call(appInstance, options)
       }
     }
 
     onHide (options: unknown) {
       if (appInstance != null && isFunction(appInstance.$options.onHide)) {
-        appInstance.$options.onHide(options)
+        appInstance.$options.onHide.call(appInstance, options)
       }
     }
 
@@ -104,10 +110,3 @@ export function createVueApp (Vue: VueConstructor, App: VueInstance) {
 
   return Current.app
 }
-// export function updateVuePages (cb: () => void) {
-//   Current.roots.forEach(inst => {
-//     inst.$forceUpdate!()
-//   })
-
-//   // Current.app!.$nextTick!(cb)
-// }

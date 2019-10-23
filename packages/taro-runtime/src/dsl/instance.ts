@@ -1,18 +1,25 @@
 import { Component, ComponentClass } from 'react'
-import VueCtor, { ComponentOptions } from 'vue'
+import VueCtor, { ComponentOptions, VNode } from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
 import { CommonEvent } from '@tarojs/components'
 
 export interface Instance<T = {}> extends Component<T>, Show, PageInstance {
+  tid?: string
   $forceUpdate?(): void
   $nextTick?(cb: () => void): void
+  $options: Instance
 }
 
 export interface VueAppInstance extends ComponentOptions<VueCtor> {
   $options: Show
 }
 
-export type VueInstance<M = object, P = object> = CombinedVueInstance<VueCtor, object, M, P, Record<never, any>>
+export type VueInstance<M = object, P = object> = CombinedVueInstance<VueCtor, object, M, P, Record<never, any>> & VueInternal
+
+interface VueInternal {
+  _render(): VNode
+  _update(vnode: VNode, hyrate: boolean): void
+}
 
 export interface PageProps {
   tid?: string

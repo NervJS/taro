@@ -25,6 +25,7 @@ export function createReactApp (R: typeof React, App: React.ComponentClass, rend
   let wrapper: AppWrapper
 
   class AppWrapper extends R.Component {
+    // run createElement() in a render function to make sure that owner is right
     private pages: Array<() => React.FunctionComponentElement<PageProps>> = []
     private elements: Array<React.FunctionComponentElement<PageProps>> = []
 
