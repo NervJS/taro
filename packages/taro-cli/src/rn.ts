@@ -47,6 +47,7 @@ class Compiler {
   pluginsConfig
   rnConfig
   hasJDReactOutput: boolean
+  babelConfig: any
   // pxTransformConfig
   // pathAlias
 
@@ -60,6 +61,7 @@ class Compiler {
     this.entryBaseName = path.basename(this.entryFilePath, path.extname(this.entryFileName))
     this.pluginsConfig = this.projectConfig.plugins || {}
     this.rnConfig = this.projectConfig.rn || {}
+    this.babelConfig = this.projectConfig.plugins.babel // 用来配置 babel
 
     // 直接输出编译后代码到指定目录
     if (this.rnConfig.outPath) {
@@ -151,7 +153,7 @@ class Compiler {
     if (REG_STYLE.test(filePath)) {
       // do something
     } else if (REG_SCRIPTS.test(filePath)) {
-      if(/\.jsx(\?.*)?$/.test(filePath)){
+      if (/\.jsx(\?.*)?$/.test(filePath)) {
         distPath = distPath.replace(/\.jsx(\?.*)?$/, '.js')
       }
       if (REG_TYPESCRIPT.test(filePath)) {
@@ -184,11 +186,11 @@ class Compiler {
    */
   buildTemp () {
     return new Promise((resolve, reject) => {
-      const filePaths: string[] = [];
+      const filePaths: string[] = []
       klaw(this.sourceDir)
         .on('data', file => {
           if (!file.stats.isDirectory()) {
-            filePaths.push(file.path);
+            filePaths.push(file.path)
           }
         })
         .on('error', (err, item) => {
@@ -197,14 +199,14 @@ class Compiler {
         })
         .on('end', () => {
           Promise.all(filePaths.map(filePath => this.processFile(filePath)))
-          .then(() => {
-            if (!this.hasJDReactOutput) {
-              this.initProjectFile()
-              resolve()
-            } else {
-              resolve()
-            }
-          })
+            .then(() => {
+              if (!this.hasJDReactOutput) {
+                this.initProjectFile()
+                resolve()
+              } else {
+                resolve()
+              }
+            })
         })
     })
   }
