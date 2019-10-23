@@ -35,15 +35,17 @@ export default function build (appPath: string, config: IBuildConfig, mainBuilde
           printBuildError(err)
           return reject(err)
         }
+        mainBuilder.hooks.afterBuild.call(stats)
         resolve()
       })
     } else {
       bindProdLogger(compiler, config.buildAdapter)
-      compiler.run((err) => {
+      compiler.run((err, stats) => {
         if (err) {
           printBuildError(err)
           return reject(err)
         }
+        mainBuilder.hooks.afterBuild.call(stats)
         resolve()
       })
     }
