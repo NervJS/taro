@@ -1,11 +1,13 @@
 import * as webpack from 'webpack'
+import { getOptions } from 'loader-utils'
 import { Loader } from './loader'
 import * as t from '@babel/types'
 import { CREATE_REACT_APP, CREATE_VUE_APP } from './constants'
 import { capitalize } from './utils'
 
-export function appLoader (this: webpack.loader.LoaderContext, source: string) {
-  const loader = new AppLoader(source, this, 'react')
+export default function (this: webpack.loader.LoaderContext, source: string) {
+  const options = getOptions(this)
+  const loader = new AppLoader(source, this, options.framework)
   return loader.apply()
 }
 

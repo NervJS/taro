@@ -1,11 +1,13 @@
 import * as webpack from 'webpack'
+import { getOptions } from 'loader-utils'
 import { Loader } from './loader'
 import * as t from '@babel/types'
 import traverse, { NodePath } from '@babel/traverse'
 import { INJECT_PAGE_INSTANCE, CREATE_PAGE_CONFIG } from './constants'
 
-export function pageLoader (this: webpack.loader.LoaderContext, source: string) {
-  const loader = new PageLoader(source, this, 'react')
+export default function (this: webpack.loader.LoaderContext, source: string) {
+  const options = getOptions(this)
+  const loader = new PageLoader(source, this, options.framework)
   return loader.apply()
 }
 
