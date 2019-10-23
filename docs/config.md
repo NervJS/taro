@@ -22,14 +22,14 @@ const config = {
   sourceRoot: 'src',
   // 项目产出目录
   outputRoot: 'dist',
-  // 通用插件配置
-  plugins: {
-    babel: {
-      sourceMap: true,
-      presets: ['env'],
-      plugins: ['transform-class-properties', 'transform-decorators-legacy', 'transform-object-rest-spread']
-    }
+  // babel 编译配置
+  babel: {
+    sourceMap: true,
+    presets: ['env'],
+    plugins: ['transform-class-properties', 'transform-decorators-legacy', 'transform-object-rest-spread']
   },
+  // 编译插件配置
+  plugins: [],
   // 全局变量设置
   defineConstants: {},
   // 文件 copy 配置
@@ -41,17 +41,15 @@ const config = {
   },
   // 小程序端专用配置
   weapp: {
-    module: {
-      postcss: {
-        autoprefixer: {
-          enable: true
-        },
-        // 小程序端样式引用本地资源内联配置
-        url: {
-          enable: true,
-          config: {
-            limit: 10240
-          }
+    postcss: {
+      autoprefixer: {
+        enable: true
+      },
+      // 小程序端样式引用本地资源内联配置
+      url: {
+        enable: true,
+        config: {
+          limit: 10240
         }
       }
     },
@@ -63,11 +61,9 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
-    module: {
-      postcss: {
-        autoprefixer: {
-          enable: true
-        }
+    postcss: {
+      autoprefixer: {
+        enable: true
       }
     },
     // 自定义 Webpack 配置
