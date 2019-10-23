@@ -24,7 +24,9 @@ const ReactLifeCycle = new Set([
   'UNSAFE_componentWillUpdate',
   'getDerivedStateFromProps',
   'getDerivedStateFromError',
-  'render'
+  'render',
+  'componentDidShow',
+  'componentDidHide'
 ])
 
 class PageLoader extends Loader {
