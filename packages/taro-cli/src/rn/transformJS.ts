@@ -46,6 +46,16 @@ const PACKAGES = {
 }
 
 const additionalConstructorNode = toAst(`Taro._$app = this`)
+const superNode = t.expressionStatement(
+  t.callExpression(
+    // @ts-ignore
+    t.super(),
+    [
+      t.identifier('props'),
+      t.identifier('context')
+    ]
+  )
+)
 
 function getInitPxTransformNode (projectConfig) {
   const pxTransformConfig = {designWidth: projectConfig.designWidth || 750}
@@ -484,9 +494,16 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
                   ]), false, false))
               }
               if (!hasConstructor) {
-                node.body.unshift(t.classMethod(
-                  'method', t.identifier('constructor'), [t.identifier('props'), t.identifier('context')],
-                  t.blockStatement([toAst('super(props, context)'), additionalConstructorNode] as t.Statement[]), false, false))
+                node.body.unshift(
+                  t.classMethod(
+                    'constructor',
+                    t.identifier('constructor'),
+                    [t.identifier('props'), t.identifier('context')],
+                    t.blockStatement([superNode, additionalConstructorNode] as t.Statement[]),
+                    false,
+                    false
+                  )
+                )
               }
             }
           },
