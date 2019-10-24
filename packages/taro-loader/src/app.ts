@@ -21,8 +21,13 @@ class AppLoader extends Loader {
 
     this.needToImportMainModule = true
 
+    let reactDOMImported = false
+
     traverse(this.ast, {
       Program: {
+        enter: (path) => {
+          reactDOMImported = !!path.scope.getBinding('ReactDOM')
+        },
         exit: this.ensureMainModuleImported.bind(this)
       }
     })
@@ -31,9 +36,11 @@ class AppLoader extends Loader {
 
     if (isReact) {
       if (this.framework === 'react') {
-        this.insertToTheFront(
-          t.importDeclaration([t.importDefaultSpecifier(t.identifier('ReactDOM'))], t.stringLiteral('react-dom'))
-        )
+        if (!reactDOMImported) {
+          this.insertToTheFront(
+            t.importDeclaration([t.importDefaultSpecifier(t.identifier('ReactDOM'))], t.stringLiteral('react-dom'))
+          )
+        }
 
         render = t.memberExpression(t.identifier('ReactDOM'), t.identifier('render'))
       } else {

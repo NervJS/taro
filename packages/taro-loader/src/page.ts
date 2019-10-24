@@ -71,7 +71,7 @@ class PageLoader extends Loader {
   }
 
   private injectReactComponent (classDecl: NodePath<t.ClassDeclaration | t.ClassExpression>) {
-    if (this.framework !== 'vue') {
+    if (this.framework === 'vue') {
       return
     }
 

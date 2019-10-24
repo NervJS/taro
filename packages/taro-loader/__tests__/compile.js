@@ -32,11 +32,18 @@ export async function compile (fixture, { type, framework }) {
     module: {
       rules: [{
         test: /\.txt$/,
-        use: {
-          loader: path.resolve(__dirname, `../lib/${type}.js`),
-          options: {
-            framework
+        use: [
+          {
+            loader: path.resolve(__dirname, `../lib/${type}.js`),
+            options: {
+              framework
+            }
           }
+        ]
+      }, {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader'
         }
       }]
     }

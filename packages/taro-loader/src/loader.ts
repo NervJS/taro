@@ -85,7 +85,7 @@ export class Loader {
     }
 
     if (this.exportDefaultDecl == null) {
-      this.context.emitError(`文件: ${this.context.resourcePath} 没有找到 export default 语句!`)
+      this.context.emitError(new Error(`文件: ${this.context.resourcePath} 没有找到 export default 语句!`))
     }
 
     return file

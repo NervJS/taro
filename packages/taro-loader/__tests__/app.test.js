@@ -13,6 +13,29 @@ describe('app loader', () => {
         App(createReactApp(React, app, ReactDOM.render));
       `))
     })
+
+    test('没有 export default 应该报错', async () => {
+      const result = await compile('basic_1.txt', { type: 'app', framework: 'react' })
+      // expect(true).toBe(false)
+      expect(result).toBe(pretty(`
+        import ReactDOM from "react-dom";
+        import React from "react";
+        import { createReactApp } from "@tarojs/runtime";
+        import { app } from "./app";
+        App(createReactApp(React, app, ReactDOM.render));
+      `))
+    })
+
+    test('不重复添加依赖', async () => {
+      const result = await compile('react-imported.txt', { type: 'app', framework: 'react' })
+      expect(result).toBe(pretty(`
+          import ReactDOM from "react-dom";
+          import { createReactApp } from "@tarojs/runtime";
+          import React from "react";
+          import { app } from "./app";
+          App(createReactApp(React, app, ReactDOM.render));
+      `))
+    })
   })
 
   describe('vue', () => {
@@ -22,6 +45,16 @@ describe('app loader', () => {
       expect(result).toBe(pretty(`
         import Vue from "vue";
         import { createVueApp } from "@tarojs/runtime";
+        import { app } from "./app";
+        App(createVueApp(Vue, app));
+      `))
+    })
+
+    test('不重复添加依赖', async () => {
+      const result = await compile('vue-imported.txt', { type: 'app', framework: 'vue' })
+      expect(result).toBe(pretty(`
+        import { createVueApp } from "@tarojs/runtime";
+        import Vue from "vue";
         import { app } from "./app";
         App(createVueApp(Vue, app));
       `))
