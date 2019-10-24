@@ -140,6 +140,7 @@ export default class MiniPlugin {
   appConfig: IConfig
   pageConfigs: Map<string, PageConfig>
   changedFile: string
+  tabBarIcons: Set<string>
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -157,6 +158,7 @@ export default class MiniPlugin {
     this.pages = new Set()
     this.components = new Set()
     this.pageConfigs = new Map()
+    this.tabBarIcons = new Set()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -199,6 +201,13 @@ export default class MiniPlugin {
       PLUGIN_NAME,
       this.tryAsync(async compilation => {
         await this.generateMiniFiles(compilation)
+      })
+    )
+
+    compiler.hooks.afterEmit.tapAsync(
+      PLUGIN_NAME,
+      this.tryAsync(async compilation => {
+        await this.addTarBarFilesToDependencies(compilation)
       })
     )
 
@@ -330,7 +339,7 @@ export default class MiniPlugin {
     })
   }
 
-  generateTabBarFiles (compiler, appConfig) {
+  getTabBarFiles (appConfig) {
     const tabBar = appConfig.tabBar
     const { buildAdapter } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
@@ -341,14 +350,9 @@ export default class MiniPlugin {
       } = CONFIG_MAP[buildAdapter]
 
       const list = tabBar[listConfig] || []
-      let tabBarIcons: string[] = []
       list.forEach(item => {
-        item[pathConfig] && tabBarIcons.push(item[pathConfig])
-        item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
-      })
-      tabBarIcons.map(item => {
-        const itemPath = path.resolve(this.sourceDir, item)
-        this.addEntry(compiler, itemPath, item, PARSE_AST_TYPE.STATIC)
+        item[pathConfig] && this.tabBarIcons.add(item[pathConfig])
+        item[selectedPathConfig] && this.tabBarIcons.add(item[selectedPathConfig])
       })
     }
   }
@@ -403,7 +407,7 @@ export default class MiniPlugin {
     }
     printLog(processTypeEnum.COMPILE, '发现入口', appEntry)
     this.getSubPackages(configObj)
-    this.generateTabBarFiles(compiler, configObj)
+    this.getTabBarFiles(configObj)
     const template = ''
     taroFileTypeMap[this.appEntry] = {
       type: PARSE_AST_TYPE.ENTRY,
@@ -755,6 +759,27 @@ export default class MiniPlugin {
         })
       }
     })
+
+    this.tabBarIcons.forEach(icon => {
+      const iconPath = path.resolve(this.sourceDir, icon)
+      if (fs.existsSync(iconPath)) {
+        const iconStat = fs.statSync(iconPath)
+        const iconSource = fs.readFileSync(iconPath)
+        compilation.assets[icon] = {
+					size: () => iconStat.size,
+					source: () => iconSource
+				}
+      }
+    })
+  }
+
+  addTarBarFilesToDependencies (compilation: webpack.compilation.Compilation) {
+    const { fileDependencies } = compilation
+    this.tabBarIcons.forEach(icon => {
+      if (!fileDependencies.has(icon)) {
+        fileDependencies.add(icon)
+      }
+    })
   }
 
   transferFileContent (compiler: webpack.Compiler) {
@@ -785,6 +810,11 @@ export default class MiniPlugin {
     const changedFile = changedFiles[0]
     if (REG_SCRIPTS.test(changedFile)) {
       this.changedFile = changedFile
+      this.components.forEach(component => {
+        if (component.path === changedFile) {
+          this.components.delete(component)
+        }
+      })
       this.run(compiler)
     }
   }
