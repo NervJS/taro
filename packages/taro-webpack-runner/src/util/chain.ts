@@ -1,4 +1,5 @@
 import * as apis from '@tarojs/taro-h5/dist/taroApis'
+import * as Bundler from '@tarojs/plugin-sass/bundler'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as sass from 'dart-sass'
@@ -7,34 +8,51 @@ import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { join, resolve } from 'path'
-import { Bundler } from 'scss-bundle'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
 
 import { recursiveMerge } from '.'
 import { getPostcssPlugins } from '../config/postcss.conf'
-import {BuildConfig, CopyOptions, Option, PostcssOption} from './types'
+import { BuildConfig, CopyOptions, Option, PostcssOption } from './types'
 
 const makeConfig = async (config: BuildConfig) => {
   const plugins = config.plugins || {}
   const sassLoaderOption = config.sassLoaderOption || {}
-  const sass= plugins.sass || {}
+  const sass = plugins.sass || {}
 
   let bundledContent = ''
-  if (sass.resource && sass.projectDirectory) {
-    const { resource, projectDirectory } = sass
-    const getBundleContent = async (url) => {
-      const bundler = new Bundler(undefined, projectDirectory)
-      const res = await bundler.Bundle(url)
-      bundledContent += res.bundledContent
-    }
-
+  // when plugins.sass only configured resource property
+  if (sass.resource && !sass.projectDirectory) {
+    const { resource } = sass
     try {
       if (typeof resource === 'string') {
-        await getBundleContent(resource)
-      } else if (Array.isArray(resource)) {
+        const res = await Bundler(resource)
+        bundledContent += res.bundledContent
+      }
+      if (Array.isArray(resource)) {
         for (const url of resource) {
-          await getBundleContent(url)
+          const res = await Bundler(url)
+          bundledContent += res.bundledContent
+        }
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  // check resource & projectDirectory property
+  // projectDirectory used for resolving tilde imports
+  if (sass.resource && sass.projectDirectory) {
+    const { resource, projectDirectory } = sass
+    try {
+      if (typeof resource === 'string') {
+        const res = await Bundler(resource, projectDirectory)
+        bundledContent += res.bundledContent
+      }
+      if (Array.isArray(resource)) {
+        for (const url of resource) {
+          const res = await Bundler(url, projectDirectory)
+          bundledContent += res.bundledContent
         }
       }
     } catch (e) {
