@@ -25,7 +25,8 @@ import {
   BUILD_TYPES,
   REG_STYLE,
   REG_TYPESCRIPT,
-  PARSE_AST_TYPE
+  PARSE_AST_TYPE,
+  REG_SCRIPTS
 } from './util/constants'
 import { IComponentObj } from './mini/interface'
 import { parseAst } from './mini/astProcess'
@@ -165,6 +166,26 @@ function copyFileToDist (filePath: string, sourceDir: string, outputDir: string)
   }))
 }
 
+function writeFileToDist (code: string, filePath: string, sourceDir: string, outputDir: string) {
+  if (!filePath && !path.isAbsolute(filePath)) {
+    return
+  }
+  const { appPath } = buildData
+  const dirname = path.dirname(filePath)
+  const distDirname = dirname.replace(sourceDir, outputDir)
+  const relativePath = path.relative(appPath, filePath)
+  let basename = path.basename(filePath)
+  if (REG_SCRIPTS.test(basename)) {
+    basename = path.basename(basename, path.extname(basename)) + '.js'
+  }
+  printLog(processTypeEnum.COPY, '发现文件', relativePath)
+  fs.ensureDirSync(distDirname)
+  fs.writeFileSync(path.format({
+    dir: distDirname,
+    base: basename
+  }), code)
+}
+
 function parseEntryAst (ast: t.File, relativeFile: string) {
   const styleFiles: string[] = []
   const components: IComponentObj[] = []
@@ -261,7 +282,7 @@ function analyzeFiles (files: string[], sourceDir: string, outputDir: string) {
         return
       }
       processedScriptFiles.add(file)
-      const code = fs.readFileSync(file).toString()
+      let code = fs.readFileSync(file).toString()
       const transformResult = wxTransformer({
         code,
         sourcePath: file,
@@ -275,7 +296,9 @@ function analyzeFiles (files: string[], sourceDir: string, outputDir: string) {
         jsonFiles,
         mediaFiles
       } = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], file, file, true)
-      const resFiles = styleFiles.concat(scriptFiles, jsonFiles, mediaFiles)
+      const resFiles = styleFiles.concat(jsonFiles, mediaFiles)
+      code = generate(transformResult.ast).code
+      writeFileToDist(code, file, sourceDir, outputDir)
       if (resFiles.length) {
         resFiles.forEach(item => {
           copyFileToDist(item, sourceDir, outputDir)
@@ -351,9 +374,6 @@ async function buildForWeapp () {
       base: path.basename(outputEntryFilePath)
     }))
     if (components.length) {
-      components.forEach(item => {
-        copyFileToDist(item.path as string, sourceDir, outputDir)
-      })
       analyzeFiles(components.map(item => item.path as string), sourceDir, outputDir)
     }
   } catch (err) {
