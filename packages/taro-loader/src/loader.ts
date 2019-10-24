@@ -2,8 +2,10 @@ import * as webpack from 'webpack'
 import * as t from '@babel/types'
 import * as parser from '@babel/parser'
 import generate from '@babel/generator'
+import { NodePath } from '@babel/traverse'
 import { Framework } from './types'
 import { TARO_RUNTIME_PACKAGE_NAME } from './constants'
+import { capitalize } from './utils'
 
 export class Loader {
   protected context: webpack.loader.LoaderContext
@@ -20,7 +22,7 @@ export class Loader {
 
   protected exportDefaultDecl: t.ExportDefaultDeclaration
 
-  protected mainModuleImported = false
+  protected needToImportMainModule = false
 
   public constructor (source: string, context: webpack.loader.LoaderContext, framework: Framework = 'react') {
     this.context = context
@@ -127,5 +129,27 @@ export class Loader {
 
       specs.push(t.importSpecifier(specifier, specifier))
     }
+  }
+
+  protected ensureMainModuleImported (program: NodePath<t.Program>) {
+    if (!this.needToImportMainModule) {
+      return
+    }
+
+    const framework = capitalize(this.framework)
+    const packageName = framework === 'Nerv' ? 'nervjs' : framework.toLowerCase()
+
+    if (program.scope.getBinding(framework)) {
+      return
+    }
+
+    this.insertToTheFront(
+      t.importDeclaration(
+        [
+          t.importDefaultSpecifier(t.identifier(framework))
+        ],
+        t.stringLiteral(packageName)
+      )
+    )
   }
 }

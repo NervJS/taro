@@ -1,5 +1,6 @@
 import * as webpack from 'webpack'
 import { getOptions } from 'loader-utils'
+import traverse from '@babel/traverse'
 import { Loader } from './loader'
 import * as t from '@babel/types'
 import { CREATE_REACT_APP, CREATE_VUE_APP } from './constants'
@@ -15,7 +16,16 @@ class AppLoader extends Loader {
   public apply () {
     const isReact = this.framework !== 'vue'
     const createApp = isReact ? t.identifier(CREATE_REACT_APP) : t.identifier(CREATE_VUE_APP)
+
     this.ensureTaroRuntimeImported(createApp)
+
+    this.needToImportMainModule = true
+
+    traverse(this.ast, {
+      Program: {
+        exit: this.ensureMainModuleImported.bind(this)
+      }
+    })
 
     let render: undefined | t.MemberExpression
 

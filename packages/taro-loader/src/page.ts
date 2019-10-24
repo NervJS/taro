@@ -39,36 +39,35 @@ class PageLoader extends Loader {
     traverse(this.ast, {
       ClassDeclaration: this.injectReactComponent.bind(this),
       ClassExpression: this.injectReactComponent.bind(this),
-      Program: this.ensureMainModuleImported.bind(this)
+      Program: {
+        exit: this.ensureMainModuleImported.bind(this)
+      }
     })
 
-    if (this.exportDefaultDecl) {
-      this.insertToTheEnd(t.expressionStatement(
-        t.callExpression(
-          t.identifier('Page'),
-          [
-            t.callExpression(
-              t.identifier(CREATE_PAGE_CONFIG),
-              [this.exportDefaultDecl.declaration as t.Expression]
-            )
-          ]
-        )
-      ))
-    }
+    this.insertToTheEnd(t.expressionStatement(
+      t.callExpression(
+        t.identifier('Page'),
+        [
+          t.callExpression(
+            t.identifier(CREATE_PAGE_CONFIG),
+            [this.exportDefaultDecl.declaration as t.Expression]
+          )
+        ]
+      )
+    ))
 
     return this.generate()
   }
 
   private looksLikeReactComponent (classBody: t.ClassBody) {
-    let result = false
     for (const m of classBody.body) {
       if (t.isClassMethod(m) && t.isIdentifier(m.key) && ReactLifeCycle.has(m.key.name)) {
-        result = true
+        this.needToImportMainModule = true
         break
       }
     }
 
-    return result
+    return this.needToImportMainModule
   }
 
   private injectReactComponent (classDecl: NodePath<t.ClassDeclaration | t.ClassExpression>) {
@@ -95,25 +94,5 @@ class PageLoader extends Loader {
         t.thisExpression()
       ])
     ))
-  }
-
-  private ensureMainModuleImported (program: NodePath<t.Program>) {
-    const frameworks = ['React', 'Vue', 'Nerv']
-    for (const framework of frameworks) {
-      const packageName = framework === 'Nerv' ? 'nervjs' : framework.toLowerCase()
-
-      if (!program.scope.getBinding(framework)) {
-        continue
-      }
-
-      this.insertToTheFront(
-        t.importDeclaration(
-          [
-            t.importDefaultSpecifier(t.identifier(framework))
-          ],
-          t.stringLiteral(packageName)
-        )
-      )
-    }
   }
 }

@@ -3,11 +3,6 @@ import * as webpack from 'webpack'
 import * as Memoryfs from 'memory-fs'
 import * as prettier from 'prettier'
 
-// const path = require('path')
-// const webpack = require('webpack')
-// const Memoryfs = require('memory-fs')
-// const prettier = require('prettier')
-
 function run (compiler) {
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
@@ -20,7 +15,6 @@ function run (compiler) {
     })
   })
 }
-
 
 export function pretty (s) {
   return prettier.format(s, { parser: 'babel' })
