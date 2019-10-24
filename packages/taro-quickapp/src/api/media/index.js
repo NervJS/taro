@@ -1,4 +1,5 @@
 import audio from '@system.audio'
+import device from '@system.device'
 import record from '@system.record'
 
 export function createInnerAudioContext () {
@@ -66,7 +67,8 @@ export function stopRecord () {
 }
 
 export default {
-  createAudioContext,
+  createInnerAudioContext,
+  createAudioContext: createInnerAudioContext,
   getPlayState,
   startRecord,
   stopRecord
