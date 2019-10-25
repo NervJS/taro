@@ -197,6 +197,12 @@ declare namespace Taro {
        */
       complete?: ParamPropComplete
     }
+    type GeneralCallbackResult = {
+      /**
+       * 错误信息
+       */
+      errMsg: string
+    }
     /**
      * 接口调用成功的回调函数
      */
