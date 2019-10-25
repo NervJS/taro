@@ -231,6 +231,8 @@ const otherApis = {
 
   setBackgroundColor: true,
   setBackgroundTextStyle: true,
+  getSelectedTextRange: true,
+  hideHomeButton: true,
 
   // 第三方平台
   getExtConfig: true,
