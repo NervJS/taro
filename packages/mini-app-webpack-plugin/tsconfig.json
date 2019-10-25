@@ -16,7 +16,10 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "@tarojs/shared": ["../shared/src"]
+    }
   },
   "include": ["src", "src/tmpl/*.json"],
   "exclude": [

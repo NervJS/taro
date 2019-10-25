@@ -1,23 +1,6 @@
-import { isUndefined } from '@tarojs/shared'
+import { isUndefined, toCamelCase, toDashed } from '@tarojs/shared'
 import { styleProperties } from './style_properties'
 import { TaroElement } from './element'
-
-function toDashed (s: string) {
-  return s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
-}
-function toCamelCase (s: string) {
-  let camel = ''
-  let nextCap = false
-  for (let i = 0; i < s.length; i++) {
-    if (s[i] !== '-') {
-      camel += nextCap ? s[i].toUpperCase() : s[i]
-      nextCap = false
-    } else {
-      nextCap = true
-    }
-  }
-  return camel
-}
 
 export class Style {
   private _usedStyleProp: Set<string>

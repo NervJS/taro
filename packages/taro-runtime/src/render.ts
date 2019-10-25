@@ -17,6 +17,7 @@ export function hydrate (node: TaroElement | TaroText) {
   }
 
   return {
+    ...node.props,
     cn: node.childNodes.map(hydrate),
     nodeName: node.nodeName,
     cl: node.className,

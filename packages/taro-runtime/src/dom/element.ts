@@ -11,7 +11,7 @@ interface Attributes {
 }
 
 export class TaroElement extends TaroNode {
-  private props: Record<string, string> = {}
+  public props: Record<string, string> = {}
 
   public tagName: string
 
