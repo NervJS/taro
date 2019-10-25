@@ -263,6 +263,9 @@ const otherApis = {
   startSoterAuthentication: true,
   checkIsSoterEnrolledInDevice: true,
 
+  // 订阅消息
+  requestSubscribeMessage: true,
+
   setEnableDebug: true,
   // 支付宝小程序API
   getOpenUserInfo: true,
