@@ -200,15 +200,15 @@ declare namespace Taro {
     /**
      * 接口调用成功的回调函数
      */
-    type ParamPropSuccess = (res: { tempFilePath: string; duration: number; size: number; height: number; width: number }) => any
+    type ParamPropSuccess = (res: Promised) => void
     /**
      * 接口调用失败的回调函数
      */
-    type ParamPropFail = (err: any) => any
+    type ParamPropFail = (err: GeneralCallbackResult) => void
     /**
      * 接口调用结束的回调函数（调用成功、失败都会执行）
      */
-    type ParamPropComplete = () => any
+    type ParamPropComplete = (res: GeneralCallbackResult) => void
   }
   /**
    * 拍摄视频或从手机相册中选视频，返回视频的临时文件路径。
