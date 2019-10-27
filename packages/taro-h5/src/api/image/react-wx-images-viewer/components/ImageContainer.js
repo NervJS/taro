@@ -319,7 +319,7 @@ class ImageContainer extends PureComponent {
 
   handleTouchEnd = (event) => {
     // console.info('handleTouchEnd', event.touches.length)
-    event.preventDefault()
+    // event.preventDefault()
 
     if (this.isTwoFingerMode) { // 双指操作结束
       const touchLen = event.touches.length
@@ -368,7 +368,7 @@ class ImageContainer extends PureComponent {
       // console.info('handleTouchEnd one diffTime = %s, diffX = %s, diffy = %s', diffTime, diffX, diffY)
       // 判断为点击则关闭图片浏览组件
       if (diffTime < maxTapTimeValue && Math.abs(diffX) < minTapMoveValue && Math.abs(diffY) < minTapMoveValue) {
-        this.context.onClose()
+        // this.context.onClose()
         return
       }
 
@@ -491,6 +491,11 @@ class ImageContainer extends PureComponent {
     }
   }
 
+  onClose = (event) => {
+    event.preventDefault()
+    this.context.onClose()
+  }
+
   render () {
     const {
       screenWidth,
@@ -529,6 +534,7 @@ class ImageContainer extends PureComponent {
         onTouchStart={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
         onTouchEnd={this.handleTouchEnd}
+        onClick={this.onClose}
         style={defaultStyle}
       >
         {
