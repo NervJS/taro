@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
+import * as os from 'os'
 
 import chalk from 'chalk'
 import * as _ from 'lodash'
@@ -187,13 +188,26 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
     needInstall = true
   }
   if (needInstall) {
+    const isWindows = os.platform() === 'win32'
     let command
     if (shouldUseYarn()) {
-      command = 'NODE_ENV=development yarn install'
+      if(!isWindows) {
+        command = 'NODE_ENV=development yarn install'
+      } else {
+        command = 'yarn install'
+      }
     } else if (shouldUseCnpm()) {
-      command = 'NODE_ENV=development cnpm install'
+      if(!isWindows) {
+        command = 'NODE_ENV=development cnpm install'
+      } else {
+        command = 'cnpm install'
+      }
     } else {
-      command = 'NODE_ENV=development npm install'
+      if(!isWindows) {
+        command = 'NODE_ENV=development npm install'
+      } else {
+        command = 'npm install'
+      }
     }
     const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
     try {

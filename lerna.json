@@ -29,6 +29,7 @@
     "packages/taro-tt",
     "packages/taro-quickapp",
     "packages/taro-qq",
+    "packages/taro-jd",
     "packages/taro-webpack-runner",
     "packages/postcss-plugin-constparse",
     "packages/eslint-config-taro",
@@ -53,6 +54,6 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "1.3.19",
+  "version": "1.3.21",
   "npmClient": "npm"
 }

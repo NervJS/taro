@@ -54,7 +54,7 @@ const getTargetUrl = (url: string, customRoutes: CustomRoutes) => {
   const matched = url.match(/([\s\S]*)(\?[\s\S]*)?/) || []
   const pathname = matched[1] || ''
   const search = matched[2] || ''
-  
+
   const targetUrl = rp(pathname, currentPagename)
   const nextPagename = addHtmlExtname(stripLeadingSlash(customRoutes[targetUrl] || targetUrl))
   return `${basename}/${nextPagename}${search}`
@@ -106,7 +106,7 @@ const createNavigateBack = ({ customRoutes }: RouterConfig, history?: History) =
 const createRedirectTo = ({ customRoutes }: RouterConfig, history?: History) => {
   return function ({ url }: RedirectToOption) {
     const res: Result = {}
-    
+
     try {
       invariant(url, 'redirectTo must be called with a url')
 

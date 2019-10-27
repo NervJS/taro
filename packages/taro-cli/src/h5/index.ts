@@ -50,7 +50,8 @@ import {
   pRimraf,
   removeLeadingSlash,
   resetTSClassProperty,
-  stripTrailingSlash
+  stripTrailingSlash,
+  isTaroClass
 } from './helper'
 
 const defaultH5Config: Partial<IH5Config> = {
@@ -63,6 +64,8 @@ const defaultH5Config: Partial<IH5Config> = {
 
 type PageName = string
 type FilePath = string
+
+const BLOCK_TAG_NAME = 'Block'
 
 class Compiler {
   projectConfig: IProjectConfig
@@ -91,7 +94,8 @@ class Compiler {
     this.sourceRoot = sourceDir
     const outputDir = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
     this.outputDir = outputDir
-    this.h5Config = projectConfig.h5
+    this.h5Config = get(projectConfig, 'h5')
+    this.routerConfig = get(projectConfig, 'h5.router', {})
     this.sourcePath = path.join(appPath, sourceDir)
     this.outputPath = path.join(appPath, outputDir)
     this.tempDir = CONFIG.TEMP_DIR
@@ -162,7 +166,10 @@ class Compiler {
           .on('data', file => {
             const relativePath = path.relative(appPath, file.path)
             if (file.stats.isSymbolicLink()) {
-              const linkFile = fs.readlinkSync(file.path)
+              let linkFile = fs.readlinkSync(file.path)
+              if (!path.isAbsolute(linkFile)) {
+                linkFile = path.resolve(file.path, '..', linkFile)
+              }
               readFiles.call(this, linkFile, file.path)
             } else if (!file.stats.isDirectory()) {
               printLog(processTypeEnum.CREATE, '发现文件', relativePath)
@@ -266,8 +273,11 @@ class Compiler {
 
     const pathAlias = this.pathAlias
     const pxTransformConfig = this.pxTransformConfig
-    const routerMode = get(this.h5Config, 'router.mode')
+    const routerMode = this.routerConfig.mode
     const isMultiRouterMode = routerMode === 'multi'
+    const routerLazyload = 'lazyload' in this.routerConfig
+      ? this.routerConfig.lazyload
+      : !isMultiRouterMode
     const customRoutes: Record<string, string> = isMultiRouterMode
       ? {}
       : get(this.h5Config, 'router.customRoutes', {})
@@ -320,9 +330,7 @@ class Compiler {
       enter (astPath: NodePath<t.ClassDeclaration> | NodePath<t.ClassExpression>) {
         const node = astPath.node
         if (!node.superClass) return
-        if (t.isIdentifier(node.superClass)
-          && (node.superClass.name === 'Component' ||
-          node.superClass.name === 'PureComponent')) {
+        if (isTaroClass(astPath)) {
           resetTSClassProperty(node.body.body)
         }
       }
@@ -384,9 +392,12 @@ class Compiler {
           if (isRender) {
             const createFuncBody = (pages: [PageName, FilePath][]) => {
               const routes = pages.map(([pageName, filePath], k) => {
+                const shouldLazyloadPage = typeof routerLazyload === 'function'
+                  ? routerLazyload(pageName)
+                  : routerLazyload
                 return createRoute({
                   pageName,
-                  isMultiRouterMode,
+                  lazyload: shouldLazyloadPage,
                   isIndex: k === 0
                 })
               })
@@ -746,9 +757,12 @@ class Compiler {
     if (isMultiRouterMode) {
       return this.pages.map(([pageName, filePath], k) => {
         const createFuncBody = () => {
+          const shouldLazyloadPage = typeof routerLazyload === 'function'
+            ? routerLazyload(pageName)
+            : routerLazyload
           const route = createRoute({
             pageName,
-            isMultiRouterMode,
+            lazyload: shouldLazyloadPage,
             isIndex: k === 0
           })
           return `
@@ -856,6 +870,9 @@ class Compiler {
     let renderClassMethodNode: t.ClassMethod
     let exportDefaultDeclarationNode: t.ExportDefaultDeclaration
     let exportNamedDeclarationPath: NodePath<t.ExportNamedDeclaration>
+    let componentClassName
+    let needSetConfigFromHooks
+    let configFromHooks
 
     const renderReturnStatementPaths: NodePath<t.ReturnStatement>[] = []
     ast = babel.transformFromAst(ast, '', {
@@ -873,10 +890,42 @@ class Compiler {
       enter (astPath: NodePath<t.ClassDeclaration> | NodePath<t.ClassExpression>) {
         const node = astPath.node
         if (!node.superClass) return
-        if (t.isIdentifier(node.superClass)
-          && (node.superClass.name === 'Component' ||
-          node.superClass.name === 'PureComponent')) {
+        if (isTaroClass(astPath)) {
           resetTSClassProperty(node.body.body)
+          if (t.isClassDeclaration(astPath)) {
+            if (node.id === null) {
+              componentClassName = '_TaroComponentClass'
+              astPath.replaceWith(
+                t.classDeclaration(
+                  t.identifier(componentClassName),
+                  node.superClass as t.Expression,
+                  node.body as t.ClassBody,
+                  node.decorators as t.Decorator[] || []
+                )
+              )
+            } else {
+              componentClassName = node.id.name
+            }
+          } else {
+            if (node.id === null) {
+              const parentNode = astPath.parentPath.node as any
+              if (t.isVariableDeclarator(astPath.parentPath)) {
+                componentClassName = parentNode.id.name
+              } else {
+                componentClassName = '_TaroComponentClass'
+              }
+              astPath.replaceWith(
+                t.classExpression(
+                  t.identifier(componentClassName),
+                  node.superClass as t.Expression,
+                  node.body as t.ClassBody,
+                  node.decorators as t.Decorator[] || []
+                )
+              )
+            } else {
+              componentClassName = node.id.name
+            }
+          }
         }
       }
     }
@@ -999,9 +1048,17 @@ class Compiler {
       JSXOpeningElement: {
         exit (astPath: NodePath<t.JSXOpeningElement>) {
           const node = astPath.node
-          const componentName = componentnameMap.get(toVar(node.name))
+          const tagName = toVar(node.name)
+          const componentName = componentnameMap.get(tagName)
           const componentId = getComponentId(componentName, node)
           const componentRef = getComponentRef(node)
+
+          if (tagName === BLOCK_TAG_NAME) {
+            node.name = t.jSXMemberExpression(
+              t.jSXIdentifier('Nerv'),
+              t.jSXIdentifier('Fragment')
+            )
+          }
 
           if (!componentId) return
           const refFunc = createRefFunc(componentId)
@@ -1020,6 +1077,18 @@ class Compiler {
                 t.jSXIdentifier('ref'),
                 t.jSXExpressionContainer(refFunc)
               )
+            )
+          }
+        }
+      },
+      JSXClosingElement: {
+        exit (astPath: NodePath<t.JSXClosingElement>) {
+          const node = astPath.node
+          const tagName = toVar(node.name)
+          if (tagName === BLOCK_TAG_NAME) {
+            node.name = t.jSXMemberExpression(
+              t.jSXIdentifier('Nerv'),
+              t.jSXIdentifier('Fragment')
             )
           }
         }
@@ -1062,6 +1131,19 @@ class Compiler {
           }
         }
       },
+      AssignmentExpression (astPath) {
+        const node = astPath.node
+        const left = node.left
+        if (t.isMemberExpression(left) && t.isIdentifier(left.object)) {
+          if (left.object.name === componentClassName
+              && t.isIdentifier(left.property)
+              && left.property.name === 'config') {
+            needSetConfigFromHooks = true
+            configFromHooks = node.right
+            pageConfig = toVar(node.right)
+          }
+        }
+      },
       Program: {
         exit (astPath: NodePath<t.Program>) {
           const node = astPath.node
@@ -1087,6 +1169,19 @@ class Compiler {
               )
               node.body.unshift(importTaroNode)
             }
+            astPath.traverse({
+              ClassBody (astPath) {
+                if (needSetConfigFromHooks) {
+                  const classPath = astPath.findParent((p: NodePath<t.Node>) => p.isClassExpression() || p.isClassDeclaration()) as NodePath<t.ClassDeclaration>
+                  classPath.node.body.body.unshift(
+                    t.classProperty(
+                      t.identifier('config'),
+                      configFromHooks as t.ObjectExpression
+                    )
+                  )
+                }
+              }
+            })
           }
         }
       }
