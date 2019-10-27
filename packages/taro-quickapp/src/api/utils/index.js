@@ -32,3 +32,11 @@ export function makeSyncPromise (fnName, process, options = {}) {
     }
   })
 }
+
+export function temporarilyNotSupport (apiName) {
+  return () => {
+    const errMsg = `暂时不支持 API ${apiName}`
+    console.error(errMsg)
+    return Promise.reject(new Error(errMsg))
+  }
+}
