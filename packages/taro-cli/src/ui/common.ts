@@ -4,7 +4,7 @@ import traverse from 'babel-traverse'
 import { cssImports, printLog, resolveScriptPath, resolveStylePath } from '../util'
 import * as path from 'path'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import { PARSE_AST_TYPE, processTypeEnum, REG_STYLE, REG_TYPESCRIPT } from '../util/constants'
+import { PARSE_AST_TYPE, processTypeEnum, REG_STYLE, REG_TYPESCRIPT, REG_SCRIPTS } from '../util/constants'
 import generate from 'babel-generator'
 import * as fs from 'fs-extra'
 import { parseAst } from '../mini/astProcess'
@@ -16,6 +16,27 @@ export const WEAPP_OUTPUT_NAME = 'weapp'
 export const H5_OUTPUT_NAME = 'h5'
 export const RN_OUTPUT_NAME = 'rn'
 export const TEMP_DIR = '.temp'
+export const RN_TEMP_DIR = 'rn_temp'
+
+function writeFileToDist (code: string, filePath: string, sourceDir: string, outputDir: string, buildData: IBuildData) {
+  if (!filePath && !path.isAbsolute(filePath)) {
+    return
+  }
+  const {appPath} = buildData
+  const dirname = path.dirname(filePath)
+  const distDirname = dirname.replace(sourceDir, outputDir)
+  const relativePath = path.relative(appPath, filePath)
+  let basename = path.basename(filePath)
+  if (REG_SCRIPTS.test(basename)) {
+    basename = path.basename(basename, path.extname(basename)) + '.js'
+  }
+  printLog(processTypeEnum.COPY, '发现文件', relativePath)
+  fs.ensureDirSync(distDirname)
+  fs.writeFileSync(path.format({
+    dir: distDirname,
+    base: basename
+  }), code)
+}
 
 export function parseEntryAst (ast: t.File, relativeFile: string) {
   const styleFiles: string[] = []
@@ -129,7 +150,7 @@ export function analyzeFiles (files: string[], sourceDir: string, outputDir: str
         return
       }
       processedScriptFiles.add(file)
-      const code = fs.readFileSync(file).toString()
+      let code = fs.readFileSync(file).toString()
       const transformResult = wxTransformer({
         code,
         sourcePath: file,
@@ -143,7 +164,11 @@ export function analyzeFiles (files: string[], sourceDir: string, outputDir: str
         jsonFiles,
         mediaFiles
       } = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], file, file, true)
-      const resFiles = styleFiles.concat(scriptFiles, jsonFiles, mediaFiles)
+
+      const resFiles = styleFiles.concat(jsonFiles, mediaFiles)
+      code = generate(transformResult.ast).code
+      writeFileToDist(code, file, sourceDir, outputDir, buildData)
+
       if (resFiles.length) {
         resFiles.forEach(item => {
           copyFileToDist(item, sourceDir, outputDir, buildData)

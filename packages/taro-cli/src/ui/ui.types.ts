@@ -8,7 +8,8 @@ export interface IBuildData {
   sourceDir: string,
   entryFilePath: string,
   entryFileName: string,
-  tempPath: string
+  tempPath: string,
+  rnTempPath: string
 }
 
 export interface IH5BuildConfig extends IH5Config {

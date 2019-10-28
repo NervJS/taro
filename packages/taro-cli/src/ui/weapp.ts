@@ -40,9 +40,6 @@ export async function buildForWeapp (buildData: IBuildData) {
       base: path.basename(outputEntryFilePath)
     }))
     if (components.length) {
-      components.forEach(item => {
-        copyFileToDist(item.path as string, sourceDir, outputDir,buildData)
-      })
       analyzeFiles(components.map(item => item.path as string), sourceDir, outputDir,buildData)
     }
   } catch (err) {

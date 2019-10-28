@@ -6,6 +6,7 @@ import * as _ from 'lodash'
 import { Compiler } from '../h5'
 import { Compiler as RNCompiler } from '../rn'
 import { buildH5Script, buildForH5 } from './h5'
+import { buildRNLib } from './rn'
 import { buildForWeapp } from './weapp'
 import CONFIG from '../config'
 import { resolveScriptPath, printLog } from '../util'
@@ -18,7 +19,16 @@ import {
 import { IBuildConfig } from '../util/types'
 import { setBuildData as setMiniBuildData } from '../mini/helper'
 import { IBuildData } from './ui.types'
-import { H5_OUTPUT_NAME, RN_OUTPUT_NAME, TEMP_DIR, WEAPP_OUTPUT_NAME, copyFileToDist, analyzeStyleFilesImport, analyzeFiles } from './common'
+import {
+  H5_OUTPUT_NAME,
+  RN_OUTPUT_NAME,
+  TEMP_DIR,
+  RN_TEMP_DIR,
+  WEAPP_OUTPUT_NAME,
+  copyFileToDist,
+  analyzeStyleFilesImport,
+  analyzeFiles
+} from './common'
 
 let buildData: IBuildData
 
@@ -36,6 +46,7 @@ function setBuildData (appPath, uiIndex) {
   }
   const entryFileName = path.basename(entryFilePath)
   const tempPath = path.join(appPath, TEMP_DIR)
+  const rnTempPath = path.join(appPath, RN_TEMP_DIR)
 
   buildData = {
     appPath,
@@ -45,7 +56,8 @@ function setBuildData (appPath, uiIndex) {
     sourceDir,
     entryFilePath,
     entryFileName,
-    tempPath
+    tempPath,
+    rnTempPath
   }
 }
 
@@ -54,8 +66,8 @@ async function buildForRN (uiIndex = 'index') {
   const compiler = new RNCompiler(appPath)
   console.log()
   console.log(chalk.green('开始编译 RN 端组件库！'))
-  // await compiler.buildTemp()
-  // await buildH5Lib(uiIndex)
+  await compiler.buildTemp() // complie to rn_temp
+  await buildRNLib(uiIndex, buildData)
 }
 
 function buildEntry (uiIndex) {
