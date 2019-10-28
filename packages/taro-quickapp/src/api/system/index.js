@@ -8,7 +8,7 @@ export function getSystemInfo (options = {}) {
   return new Promise((resolve, reject) => {
     device.getInfo({
       success (data) {
-        res.result = data.result
+        res.result = data
         success && success(res)
         resolve(res)
       },
