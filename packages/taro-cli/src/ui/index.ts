@@ -4,9 +4,8 @@ import * as chokidar from 'chokidar'
 import chalk from 'chalk'
 import * as _ from 'lodash'
 import { Compiler } from '../h5'
-import { Compiler as RNCompiler } from '../rn'
 import { buildH5Script, buildForH5 } from './h5'
-import { buildRNLib } from './rn'
+import { buildForRN } from './rn'
 import { buildForWeapp } from './weapp'
 import CONFIG from '../config'
 import { resolveScriptPath, printLog } from '../util'
@@ -29,6 +28,7 @@ import {
   analyzeStyleFilesImport,
   analyzeFiles
 } from './common'
+import { Compiler as RNCompiler } from '../rn'
 
 let buildData: IBuildData
 
@@ -59,15 +59,6 @@ function setBuildData (appPath, uiIndex) {
     tempPath,
     rnTempPath
   }
-}
-
-async function buildForRN (uiIndex = 'index') {
-  const {appPath} = buildData
-  const compiler = new RNCompiler(appPath)
-  console.log()
-  console.log(chalk.green('开始编译 RN 端组件库！'))
-  await compiler.buildTemp() // complie to rn_temp
-  await buildRNLib(uiIndex, buildData)
 }
 
 function buildEntry (uiIndex) {
@@ -143,9 +134,26 @@ function watchFiles () {
     }
   }
 
+  function syncRNFile (filePath, compiler) {
+    const {sourceDir, appPath, outputDirName, rnTempPath} = buildData
+    const outputDir = path.join(appPath, outputDirName, RN_OUTPUT_NAME)
+    const fileTempPath = filePath.replace(sourceDir, rnTempPath)
+    compiler.processFiles(filePath)
+
+    copyFileToDist(fileTempPath, tempPath, outputDir, buildData)
+    // 依赖分析
+    const extname = path.extname(filePath)
+    if (REG_STYLE.test(extname)) {
+      analyzeStyleFilesImport([fileTempPath], tempPath, outputDir, buildData)
+    } else {
+      analyzeFiles([fileTempPath], tempPath, outputDir, buildData)
+    }
+  }
+
   function handleChange (filePath, type, tips) {
     const relativePath = path.relative(appPath, filePath)
     const compiler = new Compiler(appPath)
+    const rnCompiler = new RNCompiler(appPath)
     printLog(type, tips, relativePath)
 
     let processed = false
@@ -161,6 +169,7 @@ function watchFiles () {
     try {
       syncWeappFile(filePath)
       syncH5File(filePath, compiler)
+      syncRNFile(filePath, rnCompiler)
     } catch (err) {
       console.log(err)
     }
@@ -193,7 +202,7 @@ export async function build (appPath, {watch, uiIndex}: IBuildConfig) {
   buildEntry(uiIndex)
   await buildForWeapp(buildData)
   await buildForH5(uiIndex, buildData)
-  await buildForRN(uiIndex)
+  await buildForRN(uiIndex, buildData)
   if (watch) {
     watchFiles()
   }
