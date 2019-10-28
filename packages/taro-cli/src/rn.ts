@@ -17,7 +17,7 @@ import { IBuildConfig } from './util/types'
 // import { Error } from 'tslint/lib/error'
 
 let isBuildingStyles = {}
-let styleDenpendencyTree = {}
+const styleDenpendencyTree = {}
 
 const depTree: {
   [key: string]: string[]
@@ -132,7 +132,7 @@ class Compiler {
     import {AppRegistry} from 'react-native';
     import App from './${this.entryBaseName}';
     import {name as appName} from './app.json';
-  
+
     AppRegistry.registerComponent(appName, () => App);`
 
     fs.writeFileSync(path.join(this.tempPath, 'index.js'), indexJsStr)
