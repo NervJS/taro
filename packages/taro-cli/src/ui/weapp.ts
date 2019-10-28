@@ -5,7 +5,7 @@ import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
 import * as wxTransformer from '@tarojs/transformer-wx'
 import { compileDepStyles } from '../mini/compileStyle'
 import { printLog } from '../util'
-import { copyFileToDist, analyzeFiles, parseEntryAst, WEAPP_OUTPUT_NAME } from './common'
+import { analyzeFiles, parseEntryAst, WEAPP_OUTPUT_NAME } from './common'
 import { IBuildData } from './ui.types'
 
 export async function buildForWeapp (buildData: IBuildData) {
