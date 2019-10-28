@@ -714,7 +714,8 @@ export default class MiniPlugin {
             template = `<style src='${relativeStylePath}'></style>\n` + template
           }
           if (scriptPath.indexOf(item) >= 0) {
-            let scriptContent = compilation.assets[item]._source.source()
+            const assetItem = compilation.assets[item]
+            let scriptContent = assetItem._source ? assetItem._source.source() : assetItem._value
             scriptContent = `let exportRes;\n${scriptContent}\nexport default exportRes;`
             hitScriptItem = item
             template += `\n<script>${scriptContent}</script>`
