@@ -35,9 +35,9 @@ export default class TaroLoadChunksPlugin {
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
         if (chunk.entryModule) {
           if (this.isBuildPlugin) {
-            const id = chunk.id
-            return addRequireToSource(id, modules, commonChunks)
-          } else if (chunk.entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
+            return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
+          }
+          if (chunk.entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
             compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
               const files = chunk.files
               files.forEach(item => {
@@ -56,19 +56,25 @@ export default class TaroLoadChunksPlugin {
                 }
               })
             })
-            const name = chunk.name
-            return addRequireToSource(name, modules, commonChunks)
-          } else if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&
+            return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
+          }
+          if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&
             (chunk.entryModule.miniType === PARSE_AST_TYPE.PAGE ||
             chunk.entryModule.miniType === PARSE_AST_TYPE.COMPONENT)) {
-            const id = chunk.id
-            return addRequireToSource(id, modules, commonChunks)
+            return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
         }
       })
     })
   }
 }
+
+function getIdOrName (chunk) {
+  if (typeof chunk.id === 'string') {
+    return chunk.id
+  }
+  return chunk.name
+ }
 
 function addRequireToSource (id, modules, commonChunks) {
   const source = new ConcatSource()
