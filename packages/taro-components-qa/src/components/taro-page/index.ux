@@ -90,6 +90,11 @@
         type: Boolean,
         required: false,
         default: false
+      },
+      enablepagescroll: {
+        type: Boolean,
+        required: false,
+        default: false
       }
     },
     data () {
