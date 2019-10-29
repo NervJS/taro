@@ -123,7 +123,6 @@ const Input = {
   maxlength: '140',
   'cursor-spacing': '0',
   'auto-focus': 'false',
-  focus: 'false',
   'confirm-type': singleQuote('done'),
   'confirm-hold': 'false',
   cursor: '',
@@ -412,7 +411,7 @@ function createComponents (components: Components) {
           } else if (propValue === '') {
             propValue = `i.${toCamelCase(prop)}`
           } else {
-            propValue = `i.${toCamelCase(prop)} || ${propValue === 'true' || propValue === 'false' ? singleQuote('') : propValue}`
+            propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
           }
 
           newComp[prop] = propValue
