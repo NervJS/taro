@@ -9,7 +9,8 @@
     "src",
     "dist",
     "utils",
-    "types"
+    "types",
+    "mini"
   ],
   "sideEffects": [
     "*.scss",

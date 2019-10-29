@@ -16,7 +16,7 @@ const common = {
 }
 
 const View = {
-  'hover-class': 'none',
+  'hover-class': singleQuote('none'),
   'hover-stop-propagation': 'false',
   'hover-start-time': '50',
   'hover-stay-time': '400'
@@ -62,7 +62,7 @@ const Button = {
   loading: 'false',
   'form-type': '',
   'open-type': '',
-  'hover-class': 'button-hover',
+  'hover-class': singleQuote('button-hover'),
   'hover-stop-propagation': 'false',
   'hover-start-time': '20',
   'hover-stay-time': '70',
@@ -257,8 +257,8 @@ const MoveableView = {
   bindscale: '',
   htouchmove: '',
   vtouchmove: '',
-  width: '10px',
-  height: '10px'
+  width: singleQuote('10px'),
+  height: singleQuote('10px')
 }
 
 const ScrollView = {
@@ -284,8 +284,8 @@ function singleQuote (s: string) {
 
 const Swiper = {
   'indicator-dots': 'false',
-  'indicator-color': '\'rgba(0, 0, 0, .3)\'',
-  'indicator-active-color': '\'#000000\'',
+  'indicator-color': singleQuote('rgba(0, 0, 0, .3)'),
+  'indicator-active-color': singleQuote('#000000'),
   autoplay: 'fasle',
   current: '0',
   interval: '5000',
@@ -412,7 +412,7 @@ function createComponents (components: Components) {
           } else if (propValue === '') {
             propValue = `i.${toCamelCase(prop)}`
           } else {
-            propValue = `i.${toCamelCase(prop)} || ${propValue}`
+            propValue = `i.${toCamelCase(prop)} || ${propValue === 'true' || propValue === 'false' ? singleQuote('') : propValue}`
           }
 
           newComp[prop] = propValue
