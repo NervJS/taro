@@ -19,7 +19,7 @@ function buildStandardComponentTemplate (comp: Component, level: number): string
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
   <${comp.nodeName} ${buildAttribute(comp.attributes)} id="{{ i.uid }}">
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="{{id}}">
+    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
       <template is="tmpl_${level + 1}_${Shortcuts.Container}" data="{{i: item}}" />
     </block>
   </${comp.nodeName}>
@@ -66,7 +66,7 @@ function buildControlledComponentTemplte (comp: Component, level: number) {
 
 <template name="tmpl_${level}_${comp.nodeName}_controlled">
   <${comp.nodeName} ${buildAttribute(comp.attributes)} id="{{ i.uid }}">
-  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="{{id}}">
+  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
     <template is="tmpl_${level + 1}_${Shortcuts.Container}" data="{{i: item}}" />
   </block>
   </${comp.nodeName}>
@@ -74,7 +74,7 @@ function buildControlledComponentTemplte (comp: Component, level: number) {
 
 <template name="tmpl_${level}_${comp.nodeName}_uncontrolled">
   <${comp.nodeName} ${buildAttribute(attrs)} id="{{ i.uid }}">
-  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="{{id}}">
+  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
     <template is="tmpl_${level + 1}_${Shortcuts.Container}" data="{{i: item}}" />
   </block>
   </${comp.nodeName}>
