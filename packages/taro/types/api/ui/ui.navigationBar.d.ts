@@ -105,5 +105,44 @@ declare namespace Taro {
    */
   function hideNavigationBarLoading(): void
 
-  // TODO: wx.hideHomeButton
+  namespace hideHomeButton {
+    type Param = {
+      /** 
+       * 接口调用结束的回调函数（调用成功、失败都会执行）
+       */
+      complete?: CompleteCallback
+      /** 
+       * 接口调用失败的回调函数
+       */
+      fail?: FailCallback
+      /** 
+       * 接口调用成功的回调函数
+       */
+      success?: SuccessCallback
+    }
+
+    type Promised = {
+      /**
+       * 错误信息
+       */
+      errMsg: string
+    }
+
+    type SuccessCallback = (res: Promised) => void
+    type FailCallback = (res: Promised) => void
+    type CompleteCallback = (res: Promised) => void
+  }
+  /**
+   * 隐藏返回首页按钮。
+   * 
+   * **注意：** 微信7.0.7版本起，当用户打开的小程序最底层页面是非首页时，
+   * 默认展示“返回首页”按钮，开发者可在页面 onShow 中调用 hideHomeButton 进行隐藏。
+   * 
+   * @param option 隐藏返回首页按钮的参数
+   * 
+   * @since 2.8.3
+   * 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideHomeButton.html
+   */
+  function hideHomeButton(option?: hideHomeButton.Param): Promise<hideHomeButton.Promised>
 }

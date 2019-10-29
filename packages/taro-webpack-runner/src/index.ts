@@ -8,7 +8,7 @@ import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
-import { addLeadingSlash, addTrailingSlash, recursiveMerge } from './util'
+import { addLeadingSlash, addTrailingSlash, recursiveMerge, formatOpenHost } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
 import { makeConfig } from './util/chain';
@@ -121,7 +121,13 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 
       /* 补充处理devServer.open配置 */
       if (devServerOptions.open) {
-        opn(devUrl)
+        const openUrl = formatUrl({
+          protocol: devServerOptions.https ? 'https' : 'http',
+          hostname: formatOpenHost(devServerOptions.host),
+          port: devServerOptions.port,
+          pathname
+        })
+        opn(openUrl)
       }
     })
   })

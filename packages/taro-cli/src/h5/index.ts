@@ -84,8 +84,9 @@ class Compiler {
     [key: string]: string
   }
   pages: [PageName, FilePath][] = []
+  isUi: boolean
 
-  constructor (public appPath: string, entryFile?: string) {
+  constructor (public appPath: string, entryFile?: string, isUi?: boolean) {
     const projectConfig = recursiveMerge({
       h5: defaultH5Config
     }, require(path.join(appPath, PROJECT_CONFIG))(merge))
@@ -107,6 +108,7 @@ class Compiler {
     if (projectConfig.hasOwnProperty(deviceRatioConfigName)) {
       this.pxTransformConfig.deviceRatio = projectConfig.deviceRatio
     }
+    this.isUi = !!isUi
   }
 
   async clean () {
@@ -286,6 +288,7 @@ class Compiler {
       : addLeadingSlash(stripTrailingSlash(get(this.h5Config, 'router.basename')))
 
     const renamePagename = get(this.h5Config, 'router.renamePagename', identity)
+    const isUi = this.isUi
 
     let ast = wxTransformer({
       code,
@@ -736,8 +739,9 @@ class Compiler {
             isMultiRouterMode ? toAst(`mountApis(${routerConfigs});`) : toAst(`mountApis(${routerConfigs}, _taroHistory);`)
           ]
           astPath.traverse(programExitVisitor)
-
-          lastImportNode.insertAfter(compact(extraNodes))
+          if (!isUi) {
+            lastImportNode.insertAfter(compact(extraNodes))
+          }
           if (renderCallCode) {
             const renderCallNode = toAst(renderCallCode)
             node.body.push(renderCallNode)
