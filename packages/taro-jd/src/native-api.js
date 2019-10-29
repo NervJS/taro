@@ -210,7 +210,7 @@ function pxTransform (size) {
 }
 
 function canIUseWebp () {
-  const { platform } = jd.getSystemInfoSync()
+  const { platform = '' } = jd.getSystemInfoSync()
   const platformLower = platform.toLowerCase()
   if (platformLower === 'android' || platformLower === 'devtools') {
     return true
