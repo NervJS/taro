@@ -7,7 +7,6 @@ import { document } from '../bom/document'
 import { TaroRootElement } from '../dom/root'
 import { MpInstance } from '../render'
 import { Instance, PageInstance, PageProps } from './instance'
-// import { updateVuePages } from '../dsl/vue'
 import { incrementId } from '../utils'
 
 const instances = new Map<string, Instance>()
@@ -53,19 +52,11 @@ export function createPageConfig (component: React.ComponentClass) {
         page.ctx = this
         page.performUpdate()
       })
-
-      // if (isVue) {
-      //   updateVuePages(render)
-      // }
     },
     onUnload () {
       Current.app!.unmount(id, () => {
         page.ctx = null
       })
-
-      // if (isVue) {
-      //   updateVuePages(() => (page.ctx = null))
-      // }
     },
     onShow () {
       safeExecute(isReact ? instance.componentDidShow : instance.$options.onShow)
@@ -106,4 +97,15 @@ export function createPageConfig (component: React.ComponentClass) {
   }
 
   return config
+}
+
+export function createComponentConfig () {
+  return {
+    eh (event: CommonEvent) {
+      const node = document.getElementById(event.currentTarget.id)
+      if (node != null) {
+        node.dispatchEvent(createEvent(event))
+      }
+    }
+  }
 }

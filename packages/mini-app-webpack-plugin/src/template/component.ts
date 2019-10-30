@@ -55,8 +55,8 @@ const Text = {
 }
 
 const Button = {
-  size: 'default',
-  type: 'default',
+  size: singleQuote('default'),
+  type: singleQuote('default'),
   plain: 'false',
   disabled: 'false',
   loading: 'false',
@@ -114,7 +114,7 @@ const Form = {
 
 const Input = {
   value: '',
-  type: 'text',
+  type: singleQuote(''),
   password: 'false',
   placeholder: '',
   'placeholder-style': '',
