@@ -2,7 +2,7 @@ export const isArray = Array.isArray
 
 export const EMPTY_OBJ: any = {}
 
-export const EMPTY_ARR = {}
+export const EMPTY_ARR = []
 
 export function isString (o: unknown): o is string {
   return typeof o === 'string'

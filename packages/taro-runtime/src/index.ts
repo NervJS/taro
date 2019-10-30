@@ -7,3 +7,8 @@ export { connectVuePage, createVueApp } from './dsl/vue'
 export { createPageConfig, injectPageInstance, createComponentConfig } from './dsl/common'
 // eslint-disable-next-line @typescript-eslint/camelcase
 export { Current as internal_do_not_use_current } from './current'
+export { TaroElement } from './dom/element'
+export { TaroText } from './dom/text'
+export { TaroNode } from './dom/node'
+export { TaroRootElement } from './dom/root'
+export { Style } from './dom/style'
