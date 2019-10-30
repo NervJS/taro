@@ -62,7 +62,7 @@ function setBuildData (appPath, uiIndex) {
 }
 
 function buildEntry (uiIndex) {
-  const { appPath, outputDirName } = buildData
+  const {appPath, outputDirName} = buildData
   let indexName = 'index'
   if (uiIndex) {
     indexName = path.basename(uiIndex, path.extname(uiIndex))
@@ -197,12 +197,19 @@ function watchFiles () {
 }
 
 export async function build (appPath, {watch, uiIndex}: IBuildConfig) {
+  console.log(uiIndex)
   setBuildData(appPath, uiIndex)
   setMiniBuildData(appPath, BUILD_TYPES.WEAPP)
   buildEntry(uiIndex)
-  await buildForWeapp(buildData)
-  await buildForH5(uiIndex, buildData)
-  await buildForRN(uiIndex, buildData)
+  const platforms = _.get(buildData, 'projectConfig.ui.platforms')
+  if (platforms && Array.isArray(platforms)) {
+    platforms.includes(BUILD_TYPES.WEAPP) && await buildForWeapp(buildData)
+    platforms.includes(BUILD_TYPES.H5) && await buildForH5(uiIndex, buildData)
+    platforms.includes(BUILD_TYPES.RN) && await buildForRN(uiIndex, buildData)
+  } else {
+    await buildForWeapp(buildData)
+    await buildForH5(uiIndex, buildData)
+  }
   if (watch) {
     watchFiles()
   }

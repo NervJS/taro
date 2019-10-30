@@ -21,6 +21,7 @@ function copyAllInterfaceFiles (sourceDir, outputDir, buildData) {
 
 export async function buildForWeapp (buildData: IBuildData) {
   const { appPath, entryFilePath, outputDirName, entryFileName, sourceDir } = buildData
+  console.log(entryFilePath)
   console.log()
   console.log(chalk.green('开始编译小程序端组件库！'))
   if (!fs.existsSync(entryFilePath)) {
