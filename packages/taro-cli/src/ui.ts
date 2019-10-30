@@ -46,6 +46,7 @@ interface IBuildData {
 }
 
 const weappOutputName = 'weapp'
+const quickappOutputName = 'quickapp'
 const h5OutputName = 'h5'
 const tempDir = '.temp'
 
@@ -402,6 +403,9 @@ function buildEntry (uiIndex) {
   }
   const content = `if (process.env.TARO_ENV === '${BUILD_TYPES.H5}') {
     module.exports = require('./${h5OutputName}/${indexName}')
+    module.exports.default = module.exports
+  } else if (process.env.TARO_ENV === '${BUILD_TYPES.QUICKAPP}') {
+    module.exports = require('./${quickappOutputName}/index')
     module.exports.default = module.exports
   } else {
     module.exports = require('./${weappOutputName}/${indexName}')
