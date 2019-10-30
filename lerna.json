@@ -1,6 +1,7 @@
 {
   "lerna": "3.16.5",
   "useWorkspaces": true,
+  "packages": ["packages/*"],
   "command": {
     "publish": {
       "message": "chore(release): publish %s"

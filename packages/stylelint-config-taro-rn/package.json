@@ -22,8 +22,5 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "author": "O2Team",
-  "license": "MIT",
-  "devDependencies": {
-    "stylelint-taro-rn": "1.3.22"
-  }
+  "license": "MIT"
 }

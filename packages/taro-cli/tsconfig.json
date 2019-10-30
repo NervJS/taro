@@ -18,7 +18,7 @@
     "strictNullChecks": true,
     "target": "es2015",
     "traceResolution": false,
-    "types" : ["node"]
+    "types": ["node"]
   },
   "include": [
     "./src"

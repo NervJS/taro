@@ -1,5 +1,5 @@
 {
-  "name": "@tarojs/taro",
+  "name": "taro",
   "description": "Nerv-multi多端开发解决方案",
   "main": "index.js",
   "private": true,
@@ -63,6 +63,7 @@
     "@babel/preset-typescript": "^7.6.0",
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^7.1.2",
+    "@tarojs/taro": "file:packages/taro",
     "@tarojs/components": "file:packages/taro-components",
     "@types/babel-generator": "^6.25.3",
     "@types/babel-traverse": "^6.25.5",
@@ -144,6 +145,7 @@
     "sinon": "^7.5.0",
     "style-loader": "^0.20.3",
     "stylelint": "^11.0.0",
+    "stylelint-taro-rn": "file:packages/stylelint-taro-rn",
     "ts-jest": "23",
     "typescript": "^3.6.3",
     "vue": "^2.6.10",
