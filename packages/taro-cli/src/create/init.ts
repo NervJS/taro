@@ -212,10 +212,10 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
     gitInit.on('close', code => {
       if (code === 0) {
         gitInitSpinner.color = 'green'
-        gitInitSpinner.succeed(gitInit.stdout.read())
+        gitInitSpinner.succeed(gitInit.stdout!.read())
       } else {
         gitInitSpinner.color = 'red'
-        gitInitSpinner.fail(gitInit.stderr.read())
+        gitInitSpinner.fail(gitInit.stderr!.read())
       }
     })
 
