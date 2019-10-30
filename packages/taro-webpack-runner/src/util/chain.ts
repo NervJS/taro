@@ -472,8 +472,8 @@ const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory },
   }
 }
 
-const getDevtool = enableSourceMap => {
-  return enableSourceMap ? 'cheap-module-eval-source-map' : 'none'
+const getDevtool = ({ enableSourceMap, sourceMapType }) => {
+  return enableSourceMap ? sourceMapType || 'cheap-module-eval-source-map' : 'none'
 }
 
 export {
