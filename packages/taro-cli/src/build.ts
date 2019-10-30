@@ -117,7 +117,7 @@ function buildForJD (appPath: string, { watch }: IBuildConfig) {
 }
 
 function buildForUILibrary (appPath: string, { watch, uiIndex }: IBuildConfig) {
-  require('./ui').build(appPath, { watch, uiIndex })
+  require('./ui/index').build(appPath, { watch, uiIndex })
 }
 
 function buildForPlugin (appPath: string, { watch, platform }) {
