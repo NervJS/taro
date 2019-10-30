@@ -450,7 +450,8 @@ export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = 
 export function recursiveFindNodeModules (filePath: string): string {
   const dirname = path.dirname(filePath)
   const workspaceRoot = findWorkspaceRoot(dirname)
-  const nodeModules = path.join(workspaceRoot || dirname, 'node_modules')
+  let nodeModules = path.join(workspaceRoot || dirname, 'node_modules')
+  nodeModules = path.join(dirname, 'node_modules')
   if (fs.existsSync(nodeModules)) {
     return nodeModules
   }
