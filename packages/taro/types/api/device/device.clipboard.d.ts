@@ -1,5 +1,15 @@
 declare namespace Taro {
   namespace setClipboardData {
+    type Promised = {
+      /**
+       * 错误信息
+       */
+      errMsg: string
+      /**
+       * 剪贴板的内容
+       */
+      data: string
+    }
     type Param = {
       /**
        * 需要设置的内容
@@ -11,6 +21,8 @@ declare namespace Taro {
    * @since 1.1.0
    *
    * 设置系统剪贴板的内容
+   * 
+   * **注意** 调用成功后，会弹出 toast 提示"内容已复制"，持续 1.5s
    *
    * **示例代码：**
    *
@@ -28,10 +40,14 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.setClipboardData.html
    */
-  function setClipboardData(OBJECT: setClipboardData.Param): Promise<any>
+  function setClipboardData(OBJECT: setClipboardData.Param): Promise<setClipboardData.Promised>
 
   namespace getClipboardData {
     type Promised = {
+      /**
+       * 错误信息
+       */
+      errMsg: string
       /**
        * 剪贴板的内容
        */

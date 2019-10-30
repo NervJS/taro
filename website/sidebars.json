@@ -68,6 +68,7 @@
       "css-modules",
       "template",
       "report",
+      "join-in",
       "CONTRIBUTING"
     ]
   },

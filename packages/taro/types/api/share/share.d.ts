@@ -4,7 +4,43 @@ declare namespace Taro {
       /**
        * 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html)
        */
-      withShareTicket?: boolean
+      withShareTicket?: boolean,
+      /**
+       * 是否是动态消息，详见[动态消息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share/updatable-message.html)
+       * 
+       * @since 2.4.0
+       */
+      isUpdatableMessage?: boolean,
+      /**
+       * 动态消息的 activityId。通过 [updatableMessage.createActivityId](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/updatable-message/updatableMessage.createActivityId.html) 接口获取
+       * 
+       * @since 2.4.0
+       */
+      activityId?: string,
+      /**
+       * 动态消息的模板信息
+       * 
+       * @since 2.4.0
+       */
+      templateInfo?: TemplateInfo
+    }
+
+    interface TemplateInfo {
+      /**
+       * 参数列表
+       */
+      parameterList: Array<TemplateInfoParameter>
+    }
+
+    interface TemplateInfoParameter {
+      /**
+       * 参数名
+       */
+      name: string,
+      /**
+       * 参数值
+       */
+      value: string
     }
   }
   /**

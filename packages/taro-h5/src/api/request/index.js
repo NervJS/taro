@@ -68,6 +68,9 @@ function _request (options) {
   if (options.mode) {
     params.mode = options.mode
   }
+  if (options.signal) {
+    params.signal = options.signal
+  }
   params.credentials = options.credentials
   return fetch(url, params)
     .then(response => {
@@ -76,6 +79,9 @@ function _request (options) {
       response.headers.forEach((val, key) => {
         res.header[key] = val
       })
+      if(!response.ok) {
+        throw response
+      }
       if (options.responseType === 'arraybuffer') {
         return response.arrayBuffer()
       }

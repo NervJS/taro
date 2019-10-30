@@ -75,6 +75,7 @@
  * │   │   ├── openAPI.report.d.ts          开放接口 -> 数据上报 API
  * │   │   ├── openAPI.settings.d.ts        开放接口 -> 设置 API
  * │   │   ├── openAPI.soter.d.ts           开放接口 -> 生物认证 API
+ * |   |   ├── openAPI.subscribeMessage.d.ts开放接口 -> 订阅消息 API
  * │   │   ├── openAPI.userInfo.d.ts        开放接口 -> 用户信息 API
  * │   │   └── openAPI.weRun.d.ts           开放接口 -> 微信运动 API
  * │   ├── router
@@ -184,6 +185,7 @@
 /// <reference path="api/openAPI/openAPI.report.d.ts" />
 /// <reference path="api/openAPI/openAPI.settings.d.ts" />
 /// <reference path="api/openAPI/openAPI.soter.d.ts" />
+/// <reference path="api/openAPI/openAPI.subscribeMessage.d.ts" />
 /// <reference path="api/openAPI/openAPI.userInfo.d.ts" />
 /// <reference path="api/openAPI/openAPI.weRun.d.ts" />
 /// <reference path="api/router/router.d.ts" />

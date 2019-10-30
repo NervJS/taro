@@ -231,6 +231,8 @@ const otherApis = {
 
   setBackgroundColor: true,
   setBackgroundTextStyle: true,
+  getSelectedTextRange: true,
+  hideHomeButton: true,
 
   // 第三方平台
   getExtConfig: true,
@@ -262,6 +264,9 @@ const otherApis = {
   checkIsSupportSoterAuthentication: true,
   startSoterAuthentication: true,
   checkIsSoterEnrolledInDevice: true,
+
+  // 订阅消息
+  requestSubscribeMessage: true,
 
   setEnableDebug: true,
   // 支付宝小程序API

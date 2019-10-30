@@ -1,5 +1,65 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.20...v) (2019-10-14)
+# [](https://github.com/NervJS/taro/compare/v1.3.22...v) (2019-10-28)
+
+
+
+<a name="1.3.22"></a>
+## [1.3.22](https://github.com/NervJS/taro/compare/v1.3.21...v1.3.22) (2019-10-28)
+
+
+### Bug Fixes
+
+* **chore:** dependabot couldn't reach registry.m.jd.com as it timed out close [#4684](https://github.com/NervJS/taro/issues/4684) ([258ea17](https://github.com/NervJS/taro/commit/258ea17))
+* **cli:** ui 库打包将 ts 编译成 js，close [#4672](https://github.com/NervJS/taro/issues/4672) ([a51ee6a](https://github.com/NervJS/taro/commit/a51ee6a))
+* **cli:** ui 库打包时会 copy .d.ts 结尾的 interface 文件 && 移除 H5 打包时入口的多余代码，[#4672](https://github.com/NervJS/taro/issues/4672) ([3f16e4d](https://github.com/NervJS/taro/commit/3f16e4d))
+* **mobx:** 修复 H5 & RN 端在生命周期函数中无法获得 store 信息的问题（[#4637](https://github.com/NervJS/taro/issues/4637)） ([87af6ee](https://github.com/NervJS/taro/commit/87af6ee))
+* **rn:** react native中input实现有问题，close [#4613](https://github.com/NervJS/taro/issues/4613) ([16257d0](https://github.com/NervJS/taro/commit/16257d0))
+* **rn:** 接入项目的 babel config 配置导致的 constructor 编译错误 ([ba853b8](https://github.com/NervJS/taro/commit/ba853b8))
+* **taro:** 修复 setClipboardData 错误的返回类型 ([bea4b44](https://github.com/NervJS/taro/commit/bea4b44))
+* **taro-h5:** 修复 H5 下 iOS 设备 Taro.setClipboardData 无效 [#4611](https://github.com/NervJS/taro/issues/4611) ([a94897d](https://github.com/NervJS/taro/commit/a94897d))
+* **taro-plugin-sass:** 修复 plugins.sass 只配置了 resource 时编译出错的问题 ([92b53d7](https://github.com/NervJS/taro/commit/92b53d7))
+
+
+### Features
+
+* **cli:** RN 编译使用 babel 配置 ([a3df953](https://github.com/NervJS/taro/commit/a3df953))
+* **rn:** 添加 RN 端 ui build 的 watch ([811e895](https://github.com/NervJS/taro/commit/811e895))
+* **taro:** 分享参数增加动态消息相关字段 [#4618](https://github.com/NervJS/taro/issues/4618) ([d95f3cc](https://github.com/NervJS/taro/commit/d95f3cc))
+* **taro:** 新增 getSelectedTextRange 和 hideHomeButton API ([82037c9](https://github.com/NervJS/taro/commit/82037c9))
+* **taro:** 添加 getSelectedTextRange 的类型定义 close [#4654](https://github.com/NervJS/taro/issues/4654) ([d4eccf8](https://github.com/NervJS/taro/commit/d4eccf8))
+* **taro:** 添加 hideHomeButton 的类型定义 close [#4629](https://github.com/NervJS/taro/issues/4629) ([a552264](https://github.com/NervJS/taro/commit/a552264))
+* **taro-webpack-runner:** 使 H5 支持修改后的 plugin.sass 配置 ([f76467f](https://github.com/NervJS/taro/commit/f76467f))
+* **ui:**  实现 基于 Taro 开发第三方多端 UI 库 的RN 端 ([ecc1557](https://github.com/NervJS/taro/commit/ecc1557))
+* **weapp:** requestSubscribeMessage 补充 [#4687](https://github.com/NervJS/taro/issues/4687) close [#4686](https://github.com/NervJS/taro/issues/4686) ([798a5d2](https://github.com/NervJS/taro/commit/798a5d2))
+* **webpack-runner:** dev-server配置host为0.0.0.0时, 默认以本地ip打开 ([#4699](https://github.com/NervJS/taro/issues/4699)) ([6bd7884](https://github.com/NervJS/taro/commit/6bd7884))
+
+
+
+<a name="1.3.21"></a>
+## [1.3.21](https://github.com/NervJS/taro/compare/v1.3.20...v1.3.21) (2019-10-21)
+
+
+### Bug Fixes
+
+* **jd:** props 系统优化 ([18813a8](https://github.com/NervJS/taro/commit/18813a8))
+* **mobx:** mobx 监听器 dispose 之前先判断监听器是否存在([#4617](https://github.com/NervJS/taro/issues/4617)) ([0ab6b27](https://github.com/NervJS/taro/commit/0ab6b27))
+* **rn:** rn上的Textarea在disableScroll为true时候的问题  close [#4476](https://github.com/NervJS/taro/issues/4476) ([f190dc1](https://github.com/NervJS/taro/commit/f190dc1))
+* **taro:** 修复 h5 Fragment 支持方式 ([5e20e75](https://github.com/NervJS/taro/commit/5e20e75))
+* **taro-h5:** 修复h5环境下setClipboardData在ios无效, 在android滚动到页面最后的问题 ([#4622](https://github.com/NervJS/taro/issues/4622)) ([351c0ac](https://github.com/NervJS/taro/commit/351c0ac))
+* **taro-h5:** 响应体无数据时抛错进入reject ([#4599](https://github.com/NervJS/taro/issues/4599)) ([84ce3ef](https://github.com/NervJS/taro/commit/84ce3ef))
+* **taro-h5:** 支持fetch abort ([#4596](https://github.com/NervJS/taro/issues/4596)) ([7fdb3fc](https://github.com/NervJS/taro/commit/7fdb3fc))
+* **transformer:** babel-remove-dead-code 求值不正确 ([bfaaa09](https://github.com/NervJS/taro/commit/bfaaa09))
+* **transformer-wx:** 解决babel插件path.hub 中无法获取文件名 ([#4495](https://github.com/NervJS/taro/issues/4495)) ([7453b8d](https://github.com/NervJS/taro/commit/7453b8d))
+* quickapp text lines fix [#4607](https://github.com/NervJS/taro/issues/4607) ([751cbd9](https://github.com/NervJS/taro/commit/751cbd9))
+* 快应用编译导致 lines 属性丢失 ([46aeaee](https://github.com/NervJS/taro/commit/46aeaee))
+
+
+### Features
+
+* **rn:** add Taro.reLaunch close  [#4615](https://github.com/NervJS/taro/issues/4615) ([9664c45](https://github.com/NervJS/taro/commit/9664c45))
+* **rn:** 添加 tabbar borderStyle 支持 ([ab46b5a](https://github.com/NervJS/taro/commit/ab46b5a))
+* **router:** H5 实现 componentDidNotFound 方法 ([eb3f0e3](https://github.com/NervJS/taro/commit/eb3f0e3))
+* **taro:** 增加 requestSubscribeMessage 的类型定义 [#4630](https://github.com/NervJS/taro/issues/4630) ([0165a4d](https://github.com/NervJS/taro/commit/0165a4d))
 
 
 

@@ -8,8 +8,9 @@ import * as chokidar from 'chokidar'
 import * as fs from 'fs-extra'
 import * as klaw from 'klaw'
 import _, { compact, findLastIndex, first, fromPairs, get, identity, merge, transform } from 'lodash'
-import { pipe, partial } from 'lodash/fp'
+import { partial, pipe } from 'lodash/fp'
 import * as path from 'path'
+import * as resolve from 'resolve'
 
 import CONFIG from '../config'
 import {
@@ -46,12 +47,12 @@ import {
 import {
   addLeadingSlash,
   createRoute,
+  isTaroClass,
   isUnderSubPackages,
   pRimraf,
   removeLeadingSlash,
   resetTSClassProperty,
-  stripTrailingSlash,
-  isTaroClass
+  stripTrailingSlash
 } from './helper'
 
 const defaultH5Config: Partial<IH5Config> = {
@@ -64,6 +65,8 @@ const defaultH5Config: Partial<IH5Config> = {
 
 type PageName = string
 type FilePath = string
+
+const BLOCK_TAG_NAME = 'Block'
 
 class Compiler {
   projectConfig: IProjectConfig
@@ -82,8 +85,9 @@ class Compiler {
     [key: string]: string
   }
   pages: [PageName, FilePath][] = []
+  isUi: boolean
 
-  constructor (public appPath: string, entryFile?: string) {
+  constructor (public appPath: string, entryFile?: string, isUi?: boolean) {
     const projectConfig = recursiveMerge({
       h5: defaultH5Config
     }, require(path.join(appPath, PROJECT_CONFIG))(merge))
@@ -105,6 +109,7 @@ class Compiler {
     if (projectConfig.hasOwnProperty(deviceRatioConfigName)) {
       this.pxTransformConfig.deviceRatio = projectConfig.deviceRatio
     }
+    this.isUi = !!isUi
   }
 
   async clean () {
@@ -284,6 +289,7 @@ class Compiler {
       : addLeadingSlash(stripTrailingSlash(get(this.h5Config, 'router.basename')))
 
     const renamePagename = get(this.h5Config, 'router.renamePagename', identity)
+    const isUi = this.isUi
 
     let ast = wxTransformer({
       code,
@@ -318,7 +324,7 @@ class Compiler {
         [require('babel-plugin-preval')],
         [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
         [require('babel-plugin-transform-taroapi').default, {
-          apis: npmProcess.getNpmPkgSync('@tarojs/taro-h5/dist/taroApis', this.appPath),
+          apis: require(resolve.sync('@tarojs/taro-h5/dist/taroApis', { basedir: this.appPath })),
           packageName: '@tarojs/taro-h5'
         }]
       ]
@@ -734,8 +740,9 @@ class Compiler {
             isMultiRouterMode ? toAst(`mountApis(${routerConfigs});`) : toAst(`mountApis(${routerConfigs}, _taroHistory);`)
           ]
           astPath.traverse(programExitVisitor)
-
-          lastImportNode.insertAfter(compact(extraNodes))
+          if (!isUi) {
+            lastImportNode.insertAfter(compact(extraNodes))
+          }
           if (renderCallCode) {
             const renderCallNode = toAst(renderCallCode)
             node.body.push(renderCallNode)
@@ -878,7 +885,7 @@ class Compiler {
         [require('babel-plugin-preval')],
         [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'nervjs'] }],
         [require('babel-plugin-transform-taroapi').default, {
-          apis: npmProcess.getNpmPkgSync('@tarojs/taro-h5/dist/taroApis', this.appPath),
+          apis: require(resolve.sync('@tarojs/taro-h5/dist/taroApis', { basedir: this.appPath })),
           packageName: '@tarojs/taro'
         }]
       ]
@@ -1046,9 +1053,17 @@ class Compiler {
       JSXOpeningElement: {
         exit (astPath: NodePath<t.JSXOpeningElement>) {
           const node = astPath.node
-          const componentName = componentnameMap.get(toVar(node.name))
+          const tagName = toVar(node.name)
+          const componentName = componentnameMap.get(tagName)
           const componentId = getComponentId(componentName, node)
           const componentRef = getComponentRef(node)
+
+          if (tagName === BLOCK_TAG_NAME) {
+            node.name = t.jSXMemberExpression(
+              t.jSXIdentifier('Nerv'),
+              t.jSXIdentifier('Fragment')
+            )
+          }
 
           if (!componentId) return
           const refFunc = createRefFunc(componentId)
@@ -1067,6 +1082,18 @@ class Compiler {
                 t.jSXIdentifier('ref'),
                 t.jSXExpressionContainer(refFunc)
               )
+            )
+          }
+        }
+      },
+      JSXClosingElement: {
+        exit (astPath: NodePath<t.JSXClosingElement>) {
+          const node = astPath.node
+          const tagName = toVar(node.name)
+          if (tagName === BLOCK_TAG_NAME) {
+            node.name = t.jSXMemberExpression(
+              t.jSXIdentifier('Nerv'),
+              t.jSXIdentifier('Fragment')
             )
           }
         }
