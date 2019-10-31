@@ -152,6 +152,8 @@ async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
     defineConstants: projectConfig.defineConstants,
     designWidth: projectConfig.designWidth,
     deviceRatio: projectConfig.deviceRatio,
+    baseLevel: projectConfig.baseLevel,
+    framework: projectConfig.framework,
     nodeModulesPath,
     quickappJSON: quickappManifest,
     ...projectConfig.mini

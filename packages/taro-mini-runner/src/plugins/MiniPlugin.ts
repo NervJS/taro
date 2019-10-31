@@ -14,7 +14,6 @@ import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency
 import { buildBaseTemplate, buildPageTemplate } from '../template'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
-import TaroNormalModule from './TaroNormalModule'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -28,6 +27,8 @@ interface ITaroMiniPluginOptions {
   adapter: BUILD_TYPES
   sourceDir: string
   commonChunks: string[]
+  framework: string
+  baseLevel: number
 }
 
 export interface IComponentObj {
@@ -69,7 +70,9 @@ export default class TaroMiniPlugin {
     this.options = Object.assign({
       adapter: BUILD_TYPES.WEAPP,
       sourceDir: '',
-      commonChunks: ['runtime', 'vendors']
+      framework: 'nerv',
+      commonChunks: ['runtime', 'vendors'],
+      baseLevel: 10
     }, options)
     this.pages = new Set()
     this.components = new Set()
@@ -114,18 +117,20 @@ export default class TaroMiniPlugin {
       compilation.dependencyFactories.set(TaroSingleEntryDependency as any, normalModuleFactory)
 
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
+        const { framework } = this.options
+
         if (module.miniType === META_TYPE.ENTRY) {
           module.loaders.unshift({
             loader: '@tarojs/taro-loader',
             options: {
-              framework: 'nerv'
+              framework
             }
           })
         } else if (module.miniType === META_TYPE.PAGE) {
           module.loaders.unshift({
             loader: '@tarojs/taro-loader/lib/page',
             options: {
-              framework: 'nerv'
+              framework
             }
           })
         }
@@ -302,8 +307,10 @@ export default class TaroMiniPlugin {
   }
 
   generateMiniFiles (compilation: webpack.compilation.Compilation) {
+    const { baseLevel, framework } = this.options
+    console.log(baseLevel,framework)
     this.generateConfigFile(compilation, this.appEntry, this.appConfig)
-    this.generateTemplateFile(compilation, 'base', buildBaseTemplate, { level: 10 })
+    this.generateTemplateFile(compilation, 'base', buildBaseTemplate, { level: baseLevel })
     this.components.forEach(component => {
       this.generateConfigFile(compilation, component.path, this.filesConfig[component.name])
       this.generateTemplateFile(compilation, component.path, buildPageTemplate)

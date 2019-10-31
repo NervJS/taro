@@ -355,6 +355,8 @@ export interface IProjectBaseConfig {
   uglify?: TogglableOptions,
   sass?: ISassOptions,
   plugins?: ICommonPlugin[],
+  baseLevel?: number,
+  framework?: string
 }
 
 export interface IProjectConfig extends IProjectBaseConfig {

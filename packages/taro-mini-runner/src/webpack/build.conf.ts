@@ -35,6 +35,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     designWidth = 750,
     deviceRatio,
     enableSourceMap = false,
+    baseLevel = 10,
+    framework = 'nerv',
 
     defineConstants = emptyObj,
     env = emptyObj,
@@ -94,7 +96,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
     isBuildPlugin: !!config.isBuildPlugin,
-    commonChunks: !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors']
+    commonChunks: !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors'],
+    baseLevel,
+    framework
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
