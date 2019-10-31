@@ -4,6 +4,7 @@ export const ENV_TYPE = {
   RN: 'RN',
   SWAN: 'SWAN',
   ALIPAY: 'ALIPAY',
+  QUICKAPP: 'QUICKAPP',
   TT: 'TT',
   QQ: 'QQ',
   JD: 'JD'
@@ -29,6 +30,10 @@ export function getEnv () {
   if (typeof wx !== 'undefined' && wx.getSystemInfo) {
     _env = ENV_TYPE.WEAPP
     return ENV_TYPE.WEAPP
+  }
+  if (typeof qa !== 'undefined' && qa.getSystemInfo) {
+    _env = ENV_TYPE.QUICKAPP
+    return ENV_TYPE.QUICKAPP
   }
   if (typeof swan !== 'undefined' && swan.getSystemInfo) {
     _env = ENV_TYPE.SWAN
