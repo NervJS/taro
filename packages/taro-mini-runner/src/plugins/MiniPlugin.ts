@@ -11,9 +11,10 @@ import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 import { BUILD_TYPES, MINI_APP_FILES, CONFIG_MAP, META_TYPE, NODE_MODULES_REG } from '../utils/constants'
 import { resolveScriptPath, readConfig, isEmptyObject } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
+import { buildBaseTemplate, buildPageTemplate } from '../template'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
-import { buildBaseTemplate, buildPageTemplate } from '../template'
+import TaroNormalModule from './TaroNormalModule'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -111,6 +112,24 @@ export default class TaroMiniPlugin {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, { normalModuleFactory }) => {
       compilation.dependencyFactories.set(SingleEntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency as any, normalModuleFactory)
+
+      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
+        if (module.miniType === META_TYPE.ENTRY) {
+          module.loaders.unshift({
+            loader: '@tarojs/taro-loader',
+            options: {
+              framework: 'nerv'
+            }
+          })
+        } else if (module.miniType === META_TYPE.PAGE) {
+          module.loaders.unshift({
+            loader: '@tarojs/taro-loader/lib/page',
+            options: {
+              framework: 'nerv'
+            }
+          })
+        }
+      })
     })
 
     new TaroNormalModulesPlugin().apply(compiler)

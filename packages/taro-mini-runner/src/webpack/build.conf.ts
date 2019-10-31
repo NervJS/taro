@@ -54,7 +54,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     csso,
     uglify
   } = config
-
+  
   let { copy } = config
 
   const plugin: any = {}
