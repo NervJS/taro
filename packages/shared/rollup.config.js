@@ -1,22 +1,50 @@
 const { join } = require('path')
-// const buble = require('rollup-plugin-buble')
-// const babel = require('rollup-plugin-babel')
-// const nodeResolve = require('rollup-plugin-node-resolve')
-// const common = require('rollup-plugin-commonjs')
-// const alias = require('rollup-plugin-alias')
+const buble = require('rollup-plugin-buble')
+const alias = require('rollup-plugin-alias')
 const typescript = require('rollup-plugin-typescript2')
 const cwd = __dirname
 
-module.exports = {
+const baseConfig = {
   input: join(cwd, 'src/index.ts'),
   output: [
     {
+      file: join(cwd, 'dist/index.js'),
+      format: 'cjs',
       sourcemap: true,
-      format: 'es',
-      file: join(cwd, 'dist/index.esm.js')
+      exports: 'named'
     }
   ],
   plugins: [
-    typescript()
+    alias({
+      entries: [
+        {
+          find: '@tarojs/shared',
+          replacement: join(cwd, '../shared/dist/index.esm')
+        }
+      ]
+    }),
+    typescript(),
+    buble()
   ]
 }
+const esmConfig = Object.assign({}, baseConfig, {
+  output: Object.assign({}, baseConfig.output, {
+    sourcemap: true,
+    format: 'es',
+    file: join(cwd, 'dist/index.esm.js')
+  }),
+  plugins: baseConfig.plugins.slice(0, baseConfig.plugins.length - 1)
+})
+
+function rollup () {
+  const target = process.env.TARGET
+
+  if (target === 'umd') {
+    return baseConfig
+  } else if (target === 'esm') {
+    return esmConfig
+  } else {
+    return [baseConfig, esmConfig]
+  }
+}
+module.exports = rollup()
