@@ -99,9 +99,7 @@
     },
     data () {
       const pageInstance = this.$app.pageInstaceMap[this.pagepath]
-      let showTabBar = false,
-      enablepulldownrefresh = false,
-      enablepagescroll = false
+      let showTabBar = false
       if (this.tabbar && this.tabbar.list.length) {
         this.tabbar.list.forEach(item => {
           if (addLeadingSlash(item.pagePath) === addLeadingSlash(this.pagepath)) {
@@ -109,17 +107,8 @@
           }
         })
       }
-      if (pageInstance) {
-        if (pageInstance.onPullDownRefresh) {
-          onPullDownRefresh = true
-        } else if (pageInstance.onPageScroll || pageInstance.onReachBottom) {
-          enablepagescroll = true
-        }
-      }
       return {
         showTabBar,
-        enablepulldownrefresh,
-        enablepagescroll,
         isPageRefreshing: false,
         tabBarData: {}
       }
