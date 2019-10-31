@@ -120,7 +120,7 @@ function watchFiles () {
   }
 
   function syncQuickappFile (filePath) {
-    const outputDir = path.join(appPath, outputDirName, WEAPP_OUTPUT_NAME)
+    const outputDir = path.join(appPath, outputDirName, QUICKAPP_OUTPUT_NAME)
     copyFileToDist(filePath, sourceDir, outputDir, buildData)
     // 依赖分析
     const extname = path.extname(filePath)
