@@ -28,6 +28,10 @@ export function isFunction (o: unknown): o is Function {
   return typeof o === 'function'
 }
 
+export function isNumber (o: unknown): o is number {
+  return typeof o === 'number'
+}
+
 export const noop = (..._: unknown[]) => {}
 
 /**

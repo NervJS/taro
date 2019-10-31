@@ -1,5 +1,5 @@
 import { TaroElement, Style } from '@tarojs/runtime'
-import { isFunction, isString, isObject } from '@tarojs/shared'
+import { isFunction, isString, isObject, isNumber } from '@tarojs/shared'
 import { CommonEvent } from '@tarojs/components'
 
 export type Props = Record<string, any>
@@ -34,7 +34,7 @@ function eventProxy (e: CommonEvent) {
 
 function setStyle (style: Style, key: string, value: string | number) {
   style[key] =
-    typeof value === 'number' && IS_NON_DIMENSIONAL.test(key) === false
+    isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
       ? value + 'px'
       : value == null
         ? ''
