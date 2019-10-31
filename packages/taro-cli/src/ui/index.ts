@@ -24,6 +24,7 @@ import {
   TEMP_DIR,
   RN_TEMP_DIR,
   WEAPP_OUTPUT_NAME,
+  QUICKAPP_OUTPUT_NAME,
   copyFileToDist,
   analyzeStyleFilesImport,
   analyzeFiles
@@ -72,6 +73,9 @@ function buildEntry (uiIndex) {
     module.exports.default = module.exports
   } else if(process.env.TARO_ENV === '${BUILD_TYPES.RN}'){
     module.exports = require('./${RN_OUTPUT_NAME}/${indexName}')
+    module.exports.default = module.exports
+  } else if(process.env.TARO_ENV === '${BUILD_TYPES.QUICKAPP}'){
+    module.exports = require('./${QUICKAPP_OUTPUT_NAME}/${indexName}')
     module.exports.default = module.exports
   } else {
     module.exports = require('./${WEAPP_OUTPUT_NAME}/${indexName}')
