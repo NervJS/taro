@@ -1,5 +1,6 @@
 import { TaroElement, Style } from '@tarojs/runtime'
 import { isFunction, isString, isObject } from '@tarojs/shared'
+import { CommonEvent } from '@tarojs/components'
 
 export type Props = Record<string, any>
 
@@ -23,6 +24,12 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
       setProperty(dom, i, newProps[i], oldProps[i])
     }
   }
+}
+
+const listeners = new Map<string, Record<string, Function>>()
+
+function eventProxy (e: CommonEvent) {
+  listeners.get(e.target.id)![e.type](e)
 }
 
 function setStyle (style: Style, key: string, value: string | number) {
@@ -76,9 +83,12 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
     const eventName = name.toLowerCase().slice(2)
     if (isFunction(value)) {
       if (!oldValue) {
-        dom.addEventListener(eventName, value, isCapture)
+        dom.addEventListener(eventName, eventProxy, isCapture)
+        listeners.set(dom.uid, { [eventName]: value })
       } else {
-        dom.removeEventListener(eventName, value)
+        dom.removeEventListener(eventName, eventProxy)
+        const event = listeners.get(dom.uid)!
+        delete event[eventName]
       }
     } else {
       console.error('')
