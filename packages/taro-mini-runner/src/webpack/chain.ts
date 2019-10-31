@@ -325,7 +325,8 @@ export const getModule = (appPath: string, {
       use: {
         urlLoader: getUrlLoader([defaultMediaUrlLoaderOption, {
           name: `${staticDirectory}/media/[name].[ext]`,
-          ...mediaUrlLoaderOption
+          ...mediaUrlLoaderOption,
+          limit: isQuickapp ? false : mediaUrlLoaderOption.limit
         }])
       }
     },
@@ -334,7 +335,8 @@ export const getModule = (appPath: string, {
       use: {
         urlLoader: getUrlLoader([defaultFontUrlLoaderOption, {
           name: `${staticDirectory}/fonts/[name].[ext]`,
-          ...fontUrlLoaderOption
+          ...fontUrlLoaderOption,
+          limit: isQuickapp ? false : fontUrlLoaderOption.limit
         }])
       }
     },
@@ -343,7 +345,8 @@ export const getModule = (appPath: string, {
       use: {
         urlLoader: getUrlLoader([defaultImageUrlLoaderOption, {
           name: `${staticDirectory}/images/[name].[ext]`,
-          ...imageUrlLoaderOption
+          ...imageUrlLoaderOption,
+          limit: isQuickapp ? false : imageUrlLoaderOption.limit
         }])
       }
     }
