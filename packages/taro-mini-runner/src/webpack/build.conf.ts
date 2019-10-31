@@ -12,6 +12,7 @@ import {
   getModule,
   mergeOption,
   getMiniPlugin,
+  getProviderPlugin,
   getMiniCssExtractPlugin,
   getEntry,
 } from './chain'
@@ -100,6 +101,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     filename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`,
     chunkFilename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`
   }, miniCssExtractPluginOption])
+
+  plugin.providerPlugin = getProviderPlugin({
+    'window': ['@tarojs/runtime', 'window'],
+    'document': ['@tarojs/runtime', 'document']
+  })
 
   const isCssoEnabled = (csso && csso.enable === false)
     ? false

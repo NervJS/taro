@@ -158,6 +158,10 @@ export const getMiniPlugin = args => {
   return partial(getPlugin, MiniPlugin)([args])
 }
 
+export const getProviderPlugin = args => {
+  return partial(getPlugin, webpack.ProvidePlugin)([args])
+}
+
 export const getModule = (appPath: string, {
   sourceDir,
 

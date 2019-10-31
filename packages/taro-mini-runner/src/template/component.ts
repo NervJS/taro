@@ -1,5 +1,6 @@
-import { Shortcuts } from './shortcuts'
 import { toDashed, hasOwn, toCamelCase } from '@tarojs/shared'
+
+import { Shortcuts } from './shortcuts'
 
 const styles = {
   style: `i.${Shortcuts.Style}`,
