@@ -7,6 +7,7 @@ import { Compiler } from '../h5'
 import { buildH5Script, buildForH5 } from './h5'
 import { buildForRN } from './rn'
 import { buildForWeapp } from './weapp'
+import { buildForQuickapp } from './quickapp'
 import CONFIG from '../config'
 import { resolveScriptPath, printLog } from '../util'
 import {
@@ -200,10 +201,12 @@ export async function build (appPath, {watch, uiIndex}: IBuildConfig) {
   console.log(uiIndex)
   setBuildData(appPath, uiIndex)
   setMiniBuildData(appPath, BUILD_TYPES.WEAPP)
+  setMiniBuildData(appPath, BUILD_TYPES.QUICKAPP)
   buildEntry(uiIndex)
   const platforms = _.get(buildData, 'projectConfig.ui.platforms')
   if (platforms && Array.isArray(platforms)) {
     platforms.includes(BUILD_TYPES.WEAPP) && await buildForWeapp(buildData)
+    platforms.includes(BUILD_TYPES.QUICKAPP) && await buildForQuickapp(buildData)
     platforms.includes(BUILD_TYPES.H5) && await buildForH5(uiIndex, buildData)
     platforms.includes(BUILD_TYPES.RN) && await buildForRN(uiIndex, buildData)
   } else {
