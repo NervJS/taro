@@ -119,6 +119,18 @@ function watchFiles () {
     }
   }
 
+  function syncQuickappFile (filePath) {
+    const outputDir = path.join(appPath, outputDirName, WEAPP_OUTPUT_NAME)
+    copyFileToDist(filePath, sourceDir, outputDir, buildData)
+    // 依赖分析
+    const extname = path.extname(filePath)
+    if (REG_STYLE.test(extname)) {
+      analyzeStyleFilesImport([filePath], sourceDir, outputDir, buildData)
+    } else {
+      analyzeFiles([filePath], sourceDir, outputDir, buildData)
+    }
+  }
+
   function syncH5File (filePath, compiler) {
     const {sourceDir, appPath, outputDirName, tempPath} = buildData
     const outputDir = path.join(appPath, outputDirName, H5_OUTPUT_NAME)
@@ -173,6 +185,7 @@ function watchFiles () {
 
     try {
       syncWeappFile(filePath)
+      syncQuickappFile(filePath)
       syncH5File(filePath, compiler)
       syncRNFile(filePath, rnCompiler)
     } catch (err) {
@@ -191,12 +204,15 @@ function watchFiles () {
       const relativePath = path.relative(appPath, filePath)
       printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
       const weappOutputPath = path.join(appPath, outputDirName, WEAPP_OUTPUT_NAME)
+      const quickappOutputPath = path.join(appPath, outputDirName, QUICKAPP_OUTPUT_NAME)
       const h5OutputPath = path.join(appPath, outputDirName, H5_OUTPUT_NAME)
       const fileTempPath = filePath.replace(sourceDir, tempPath)
       const fileWeappPath = filePath.replace(sourceDir, weappOutputPath)
+      const fileQuickappPath = filePath.replace(sourceDir, quickappOutputPath)
       const fileH5Path = filePath.replace(sourceDir, h5OutputPath)
       fs.existsSync(fileTempPath) && fs.unlinkSync(fileTempPath)
       fs.existsSync(fileWeappPath) && fs.unlinkSync(fileWeappPath)
+      fs.existsSync(fileQuickappPath) && fs.unlinkSync(fileQuickappPath)
       fs.existsSync(fileH5Path) && fs.unlinkSync(fileH5Path)
     })
 }
