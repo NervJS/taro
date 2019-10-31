@@ -5,6 +5,7 @@ import * as resolvePath from 'resolve'
 import * as t from 'babel-types'
 import { mergeWith } from 'lodash'
 import chalk from 'chalk'
+import * as babel from '@babel/core'
 
 import {
   CONFIG_MAP,
@@ -239,4 +240,21 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
 
 export function removeHeadSlash (str: string) {
   return str.replace(/^(\/|\\)/, '')
+}
+
+export function readConfig (configPath: string) {
+  if (fs.existsSync(configPath)) {
+    try {
+      delete require.cache[require.resolve(configPath)]
+      const config = require(configPath)
+      return config
+    } catch (error) {
+      const res = babel.transformFileSync(configPath, {
+        presets: [['@babel/env']],
+        plugins: ['@babel/plugin-proposal-class-properties']
+      })
+      return eval(res!.code as string)
+    }
+  }
+  return {}
 }

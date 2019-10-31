@@ -226,7 +226,7 @@ export const QUICKAPP_SPECIAL_COMPONENTS = new Set<string>([
   'Text'
 ])
 
-export enum PARSE_AST_TYPE {
+export enum META_TYPE {
   ENTRY = 'ENTRY',
   PAGE = 'PAGE',
   COMPONENT = 'COMPONENT',

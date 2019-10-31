@@ -113,9 +113,8 @@ function buildTemplate (level: number) {
   return template
 }
 
-export function buildTemplates (level: number) {
-  let template = `${buildXsTemplate()}
-<template name="taro_tmpl">
+export function buildBaseTemplate ({ level = 10 }: { level: number }) {
+  let template = `<template name="taro_tmpl">
   <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="{{id}}">
     <template is="tmpl_0_${Shortcuts.Container}" data="{{i: item}}" />
   </block>
@@ -125,6 +124,13 @@ export function buildTemplates (level: number) {
   for (let i = 0; i < level; i++) {
     template += buildTemplate(i)
   }
+
+  return template
+}
+
+export function buildPageTemplate () {
+  const template = `<import src="../../base.wxml"/>
+  <template is="taro_tmpl" data="{{root: root}}" />`
 
   return template
 }

@@ -16,7 +16,7 @@ import {
   getEntry,
 } from './chain'
 import getBaseConf from './base.conf'
-import { BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES } from '../utils/constants'
+import { BUILD_TYPES, MINI_APP_FILES } from '../utils/constants'
 import { Targets } from '../plugins/MiniPlugin'
 
 const emptyObj = {}
@@ -164,14 +164,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         chunks: 'all',
         maxInitialRequests: Infinity,
         minSize: 0,
-        name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
-        cacheGroups: {
-          vendors: {
-            test (module) {
-              return /[\\/]node_modules[\\/]/.test(module.resource) && module.miniType !== PARSE_AST_TYPE.COMPONENT
-            }
-          }
-        }
+        name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors'
       }
     }
   })

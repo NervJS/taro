@@ -3,9 +3,6 @@
   "description": "Nerv-multi多端开发解决方案",
   "main": "index.js",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "lint": "eslint packages/  --ext .js --ext .ts --fix",
     "docs": "cd website && docusaurus-build",

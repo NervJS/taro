@@ -1,9 +1,9 @@
 import * as ModuleDependency from 'webpack/lib/dependencies/ModuleDependency'
-import { PARSE_AST_TYPE } from '../utils/constants'
+import { META_TYPE } from '../utils/constants'
 
 export default class TaroSingleEntryDependency extends ModuleDependency {
   name: string
-  miniType: PARSE_AST_TYPE
+  miniType: META_TYPE
   loc: any
   constructor (request, name, loc, miniType) {
     super(request)

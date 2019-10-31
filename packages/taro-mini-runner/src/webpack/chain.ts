@@ -113,8 +113,7 @@ export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader')
 export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
-export const getFileParseLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/fileParseLoader')))
-export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/wxTransformerLoader')))
+export const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
 const getExtractCssLoader = () => {
   return {
     loader: MiniCssExtractPlugin.loader
@@ -264,25 +263,6 @@ export const getModule = (appPath: string, {
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
-  // const fileLoader = getFileLoader([{
-  //   useRelativePath: true,
-  //   name: `[path][name]${MINI_APP_FILES[buildAdapter].STYLE}`,
-  //   context: sourceDir
-  // }])
-
-  const fileParseLoader = getFileParseLoader([{
-    babel,
-    designWidth,
-    deviceRatio,
-    buildAdapter,
-    constantsReplaceList,
-    sourceDir
-  }])
-
-  const wxTransformerLoader = getWxTransformerLoader([{
-    buildAdapter
-  }])
-
   const rule: any = {
     sass: {
       test: REG_SASS,
@@ -318,7 +298,9 @@ export const getModule = (appPath: string, {
     },
     script: {
       test: REG_SCRIPTS,
-      use: [fileParseLoader, wxTransformerLoader],
+      use: {
+        babelLoader: getBabelLoader([])
+      }
     },
     media: {
       test: REG_MEDIA,

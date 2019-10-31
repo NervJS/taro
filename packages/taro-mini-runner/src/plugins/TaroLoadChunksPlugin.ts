@@ -4,7 +4,7 @@ import webpack, { compilation } from 'webpack'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 
-import { PARSE_AST_TYPE, REG_STYLE, BUILD_TYPES } from '../utils/constants'
+import { META_TYPE, REG_STYLE, BUILD_TYPES } from '../utils/constants'
 import { promoteRelativePath } from '../utils'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
@@ -37,7 +37,7 @@ export default class TaroLoadChunksPlugin {
           if (this.isBuildPlugin) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
-          if (chunk.entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
+          if (chunk.entryModule.miniType === META_TYPE.ENTRY) {
             compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
               const files = chunk.files
               files.forEach(item => {
@@ -59,8 +59,8 @@ export default class TaroLoadChunksPlugin {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
           if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&
-            (chunk.entryModule.miniType === PARSE_AST_TYPE.PAGE ||
-            chunk.entryModule.miniType === PARSE_AST_TYPE.COMPONENT)) {
+            (chunk.entryModule.miniType === META_TYPE.PAGE ||
+            chunk.entryModule.miniType === META_TYPE.COMPONENT)) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
         }
