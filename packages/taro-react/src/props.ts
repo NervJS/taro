@@ -9,11 +9,6 @@ function isEventName (s: string) {
 
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord/i
 
-export function diffProps (_dom: TaroElement, _lastProps: Props, _nextProps: Props) {
-  const updatePayload: string[] = []
-  return updatePayload.length === 0 ? null : updatePayload
-}
-
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
   let i: string
 
@@ -24,12 +19,7 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
   }
 
   for (i in newProps) {
-    if (
-      (isFunction(newProps[i])) &&
-      // i !== 'value' &&
-      // i !== 'checked' &&
-      oldProps[i] !== newProps[i]
-    ) {
+    if (oldProps[i] !== newProps[i]) {
       setProperty(dom, i, newProps[i], oldProps[i])
     }
   }
@@ -83,18 +73,19 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
     }
   } else if (isEventName(name)) {
     const isCapture = name !== (name = name.replace(/Capture$/, ''))
+    const eventName = name.toLowerCase().slice(2)
     if (isFunction(value)) {
       if (!oldValue) {
-        dom.addEventListener(name, value, isCapture)
+        dom.addEventListener(eventName, value, isCapture)
       } else {
-        dom.removeEventListener(name, value)
+        dom.removeEventListener(eventName, value)
       }
     } else {
       console.error('')
     }
   } else if (
     !isFunction(value) &&
-    name !== 'dangerouslySetInnerHTML'
+    name !== 'dangerouslySetInnerHTML' // TODO: 实现 innerHTML
   ) {
     if (value == null) {
       dom.removeAttribute(name)

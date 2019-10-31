@@ -14,6 +14,7 @@ const baseConfig = {
       exports: 'named'
     }
   ],
+  external: ['@tarojs/runtime', 'scheduler', 'react-reconciler'],
   plugins: [
     alias({
       entries: [
@@ -27,6 +28,7 @@ const baseConfig = {
     buble()
   ]
 }
+
 const esmConfig = Object.assign({}, baseConfig, {
   output: Object.assign({}, baseConfig.output, {
     sourcemap: true,

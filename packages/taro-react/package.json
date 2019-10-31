@@ -5,20 +5,16 @@
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
   "license": "MIT",
-  "main": "lib/index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
-  "files": [
-    "lib"
-  ],
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "jest",
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
