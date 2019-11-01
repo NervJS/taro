@@ -1,5 +1,4 @@
-import { Shortcuts } from './shortcuts'
-import { standComponents } from './component'
+import { internalComponents, Shortcuts } from '@tarojs/shared'
 import { Adapter } from './adapters'
 
 interface Component {
@@ -99,11 +98,11 @@ function buildContainerTemplate (level: number) {
 }
 
 function buildTemplate (level: number) {
-  const components = Object.keys(standComponents)
+  const components = Object.keys(internalComponents)
   let template = ''
 
   for (const nodeName of components) {
-    const attributes: Attributes = standComponents[nodeName]
+    const attributes: Attributes = internalComponents[nodeName]
     template += buildComponentTemplate({ nodeName, attributes }, level)
   }
 

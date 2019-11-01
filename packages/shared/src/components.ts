@@ -1,6 +1,5 @@
-import { toDashed, hasOwn, toCamelCase } from '@tarojs/shared'
-
 import { Shortcuts } from './shortcuts'
+import { toDashed, hasOwn, toCamelCase } from './utils'
 
 const styles = {
   style: `i.${Shortcuts.Style}`,
@@ -392,6 +391,109 @@ const LivePlayer = {
   bindnetstatus: ''
 }
 
+const Video = {
+  src: '',
+  duration: '',
+  controls: 'true',
+  'danmu-list': '',
+  'danmu-btn': '',
+  'enable-danmu': '',
+  autoplay: 'false',
+  loop: 'false',
+  muted: 'false',
+  'initial-time': '0',
+  'page-gesture': 'false',
+  direction: '',
+  'show-progress': 'true',
+  'show-fullscreen-btn': 'true',
+  'show-play-btn': 'true',
+  'show-center-play-btn': 'true',
+  'enable-progress-gesture': 'true',
+  'object-fit': singleQuote('contain'),
+  poster: '',
+  'show-mute-btn': 'false',
+  title: '',
+  'play-btn-position': singleQuote('bottom'),
+  'enable-play-gesture': 'false',
+  'auto-pause-if-navigate': 'true',
+  'auto-pause-if-open-native': 'true',
+  'vslide-gesture': 'false',
+  'vslide-gesture-in-fullscreen': 'true',
+  'ad-unit-id': '',
+  bindplay: '',
+  bindpause: '',
+  bindended: '',
+  bindtimeupdate: '',
+  bindfullscreenchange: '',
+  bindwaiting: '',
+  binderror: '',
+  bindprogress: '',
+  bindloadedmetadata: ''
+}
+
+const Canvas = {
+  type: '',
+  'canvas-id': '',
+  'disable-scroll': 'false',
+  bindtouchstart: '',
+  bindtouchmove: '',
+  bindtouchend: '',
+  bindtouchcancel: '',
+  bindlongtap: '',
+  binderror: ''
+}
+
+const Ad = {
+  'unit-id': '',
+  'ad-intervals': '',
+  bindload: '',
+  binderror: '',
+  bindclose: ''
+}
+
+const OfficialAccount = {
+  bindload: '',
+  binderror: ''
+}
+
+const OpenData = {
+  type: '',
+  'open-gid': '',
+  lang: singleQuote('en'),
+  'default-text': '',
+  'default-avatar': '',
+  binderror: ''
+}
+
+const WebView = {
+  src: '',
+  bindmessage: '',
+  bindload: ''
+}
+
+const NavigationBar = {
+  title: '',
+  loading: 'false',
+  'front-color': '',
+  'background-color': '',
+  'color-animation-duration': '0',
+  'color-animation-timing-func': singleQuote('linear')
+}
+
+const PageMeta = {
+  'background-text-style': '',
+  'background-color': '',
+  'background-color-top': '',
+  'background-color-bottom': '',
+  'scroll-top': singleQuote(''),
+  'scroll-duration': '300',
+  'page-style': singleQuote(''),
+  'root-font-size': singleQuote(''),
+  bindresize: '',
+  bindscroll: '',
+  bindscrolldone: ''
+}
+
 interface Components {
   [key: string]: Record<string, string>;
 }
@@ -426,7 +528,7 @@ function createComponents (components: Components) {
   return result
 }
 
-export const standComponents = createComponents({
+export const internalComponents = createComponents({
   View,
   Icon,
   Progress,
@@ -459,5 +561,13 @@ export const standComponents = createComponents({
   Audio,
   Camera,
   Image,
-  LivePlayer
+  LivePlayer,
+  Video,
+  Canvas,
+  Ad,
+  OfficialAccount,
+  OpenData,
+  WebView,
+  NavigationBar,
+  PageMeta
 })
