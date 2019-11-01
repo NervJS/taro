@@ -3,7 +3,7 @@ import { AppInstance, VueAppInstance, VueInstance } from './instance'
 import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { isFunction } from '@tarojs/shared'
+import { isFunction, noop } from '@tarojs/shared'
 
 export function connectVuePage (Vue: VueConstructor, id: string) {
   return (component: ComponentOptions<VueCtor>) => {
@@ -39,6 +39,8 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
 }
 
 export function createVueApp (Vue: VueConstructor, App: VueInstance) {
+  (Vue.config as any).getTagNamespace = noop
+
   const elements: VNode[] = []
   const pages: Array<(h: Vue.CreateElement) => VNode> = []
   let appInstance: VueAppInstance
