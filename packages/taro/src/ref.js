@@ -43,9 +43,15 @@ export class RefsArray extends Array {
    */
   constructor (initList = []) {
     super(...initList)
+    this.inited = false
   }
-  pushRef ($$ref) {
-    const isExist = this.find(item => item.id === $$ref.id)
-    !isExist && this.push($$ref)
+  pushRefs ($$refs) {
+    if (this.inited) return
+    $$refs.forEach(ref => this.pushRef(ref))
+    this.inited = true
+  }
+  pushRef (ref) {
+    const isExist = this.find(item => item.id === ref.id)
+    !isExist && this.push(ref)
   }
 }
