@@ -1,9 +1,7 @@
 declare namespace Taro {
   /**
    * 停止当前页面下拉刷新。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Page({
      onPullDownRefresh: function(){
@@ -25,12 +23,9 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.5.0
-   *
    * 开始下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致
-   *
-   * **示例代码：**
-   *
+   * @since 1.5.0
+   * @example
    ```javascript
    Taro.startPullDownRefresh()
    ```

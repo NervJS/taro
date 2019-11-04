@@ -19,7 +19,6 @@ declare namespace Taro {
       statusCode: number
       /**
        * 开发者服务器返回的 HTTP Response Header
-       *
        * @since 1.2.0
        */
       header: any
@@ -50,62 +49,52 @@ declare namespace Taro {
       header?: any
       /**
        * （需大写）有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-       *
        * @default GET
        */
       method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
       /**
        * 如果设为 json，会尝试对返回的数据做一次 JSON.parse
-       *
        * @default json
        */
       dataType?: string
       /**
        * 设置响应的数据类型。合法值：text、arraybuffer
-       *
        * @default text
        * @since 1.7.0
        */
       responseType?: string
       /**
        * 设置 H5 端是否使用jsonp方式获取数据
-       *
        * @default false
        */
       jsonp?: boolean
       /**
        * 设置 H5 端 jsonp 请求 url 是否需要被缓存
-       *
        * @default false
        */
       jsonpCache?: boolean
       /**
        * 设置 H5 端是否允许跨域请求。有效值：no-cors, cors, same-origin
-       *
        * @default same-origin
        */
       mode?: 'no-cors' | 'cors' | 'same-origin'
       /**
        * 设置 H5 端是否携带 Cookie。有效值：include, same-origin, omit
-       *
        * @default omit
        */
       credentials?: 'include' | 'same-origin' | 'omit'
       /**
        * 设置 H5 端缓存模式。有效值：default, no-cache, reload, force-cache, only-if-cached
-       *
        * @default default
        */
       cache?: 'default' | 'no-cache' | 'reload' | 'force-cache' | 'only-if-cached'
       /**
        * 设置 H5 端请求响应超时时间
-       *
        * @default 2000
        */
       timeout?: number
       /**
        * 设置 H5 端请求重试次数
-       *
        * @default 2
        */
       retryTimes?: number
@@ -119,7 +108,6 @@ declare namespace Taro {
       dataCheck?(): boolean
       /**
        * 设置 H5 端请求是否使用缓存
-       *
        * @default false
        */
       useStore?: boolean

@@ -1,11 +1,8 @@
 declare namespace Taro {
   /**
-   * @since 2.2.2
-   *
    * 获取当前帐号信息
-   *
-   * **示例代码：**
-   *
+   * @since 2.2.2
+   * @example
    ```javascript
    const accountInfo = wx.getAccountInfoSync();
    console.log(accountInfo.miniProgram.appId) // 小程序 appId

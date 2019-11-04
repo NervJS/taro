@@ -3,12 +3,9 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.1.0
-   *
    * 停止监听加速度数据。
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.stopAccelerometer()
    ```
@@ -20,12 +17,9 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.1.0
-   *
    * 开始监听加速度数据。
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.startAccelerometer()
    ```
@@ -52,9 +46,7 @@ declare namespace Taro {
   }
   /**
    * 监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 `Taro.stopAccelerometer` 停止监听。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.onAccelerometerChange(function(res) {
      console.log(res.x)

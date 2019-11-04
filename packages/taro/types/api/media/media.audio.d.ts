@@ -2,9 +2,7 @@ declare namespace Taro {
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
    * 结束播放语音。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.startRecord({
      success: function(res) {
@@ -59,10 +57,8 @@ declare namespace Taro {
     type ParamPropComplete = () => any
   }
   /**
-   * @since 2.3.0
-   *
    * 设置 InnerAudioContext 的播放选项。设置之后对当前小程序全局生效。
-   *
+   * @since 2.3.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.setInnerAudioOption.html
    */
   function setInnerAudioOption(OBJECT: setInnerAudioOption.Param): Promise<any>
@@ -75,7 +71,6 @@ declare namespace Taro {
       filePath: string
       /**
        * 指定录音时长，到达指定的录音时长后会自动停止录音，单位：秒，默认值：60
-       *
        * @since 1.6.0
        */
       duration?: number
@@ -109,9 +104,7 @@ declare namespace Taro {
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
    *
    * 开始播放语音，同时只允许一个语音文件正在播放，如果前一个语音文件还没播放完，将中断前一个语音播放。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.startRecord({
      success: function(res) {
@@ -131,9 +124,7 @@ declare namespace Taro {
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
    * 暂停正在播放的语音。再次调用Taro.playVoice播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 Taro.stopVoice。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.startRecord({
      success: function(res) {
@@ -215,16 +206,13 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 2.1.0
    * 获取当前支持的音频输入源。
-   *
+   * @since 2.1.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html
    */
   function getAvailableAudioSources(OBJECT: getAvailableAudioSources.Param): Promise<any>
 
   /**
-   * @since 1.6.0
-   *
    * 创建并返回内部 audio 上下文 `innerAudioContext` 对象。_本接口是 `Taro.createAudioContext` 升级版。_
    *
    * **errCode 说明：**
@@ -236,9 +224,8 @@ declare namespace Taro {
    *   10003     | 文件错误
    *   10004     | 格式错误
    *   -1        | 未知错误
-   *
-   * **示例代码：**
-   *
+   * @since 1.6.0
+   * @example
    ```javascript
    const innerAudioContext = Taro.createInnerAudioContext()
    innerAudioContext.autoplay = true
@@ -277,31 +264,26 @@ declare namespace Taro {
     obeyMuteSwitch: boolean
     /**
      * 当前音频的长度（单位：s），只有在当前有合法的 src 时返回
-     *
      * @readonly
      */
     duration: number
     /**
      * 当前音频的播放位置（单位：s），只有在当前有合法的 src 时返回，时间不取整，保留小数点后 6 位
-     *
      * @readonly
      */
     currentTime: number
     /**
      * 当前是是否暂停或停止状态，true 表示暂停或停止，false 表示正在播放
-     *
      * @readonly
      */
     paused: boolean
     /**
      * 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲。
-     *
      * @readonly
      */
     buffered: number
     /**
      * 音量。范围 0~1。
-     *
      * @since 1.9.90
      */
     volume: number
@@ -367,61 +349,51 @@ declare namespace Taro {
     onSeeked(callback?: () => void): void
     /**
      * 取消监听 onCanplay 事件
-     *
      * @since 1.9.0
      */
     offCanplay(callback?: () => void): void
     /**
      * 取消监听 onPlay 事件
-     *
      * @since 1.9.0
      */
     offPlay(callback?: () => void): void
     /**
      * 取消监听 onPause 事件
-     *
      * @since 1.9.0
      */
     offPause(callback?: () => void): void
     /**
      * 取消监听 onStop 事件
-     *
      * @since 1.9.0
      */
     offStop(callback?: () => void): void
     /**
      * 取消监听 onEnded 事件
-     *
      * @since 1.9.0
      */
     offEnded(callback?: () => void): void
     /**
      * 取消监听 onTimeUpdate 事件
-     *
      * @since 1.9.0
      */
     offTimeUpdate(callback?: () => void): void
     /**
      * 取消监听 onError 事件
-     *
      * @since 1.9.0
      */
     offError(callback?: () => void): void
     /**
      * 取消监听 onWaiting 事件
-     *
      * @since 1.9.0
      */
     offWaiting(callback?: () => void): void
     /**
      * 取消监听 onSeeking 事件
-     *
      * @since 1.9.0
      */
     offSeeking(callback?: () => void): void
     /**
      * 取消监听 onSeeked 事件
-     *
      * @since 1.9.0
      */
     offSeeked(callback?: () => void): void

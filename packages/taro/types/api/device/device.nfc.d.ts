@@ -13,12 +13,9 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.7.0
-   *
    * 关闭 NFC 模块。仅在安卓系统下有效。
-   *
-   * **示例代码：**
-   *
+   * @since 1.7.0
+   * @example
    ```javascript
    Taro.stopHCE({
      success: function(res) {
@@ -49,12 +46,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.7.0
-   *
    * 初始化 NFC 模块。
-   *
-   * **示例代码：**
-   *
+   * @since 1.7.0
+   * @example
    ```javascript
    Taro.startHCE({
      aid_list: ['F222222222']
@@ -101,8 +95,6 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.7.0
-   *
    * 发送 NFC 消息。仅在安卓系统下有效。
    *
    * **success返回参数说明：**
@@ -121,6 +113,7 @@ declare namespace Taro {
      }
    })
    ```
+   * @since 1.7.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.sendHCEMessage.html
    */
   function sendHCEMessage(OBJECT: sendHCEMessage.Param): Promise<sendHCEMessage.Promised>
@@ -143,12 +136,11 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.7.0
-   *
    * 监听 NFC 设备的消息回调，并在回调中处理。返回参数中 `messageType` 表示消息类型，目前有如下值：
    *
    * *   1：消息为HCE Apdu Command类型，小程序需对此指令进行处理，并调用 `sendHCEMessage` 接口返回处理指令；
    * *   2：消息为设备离场事件
+   * @since 1.7.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.onHCEMessage.html
    */
   function onHCEMessage(CALLBACK: onHCEMessage.Param): void
@@ -167,8 +159,6 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.7.0
-   *
    * 判断当前设备是否支持 HCE 能力。
    *
    * **success返回参数说明：**
@@ -180,6 +170,7 @@ declare namespace Taro {
      }
    })
    ```
+   * @since 1.7.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.getHCEState.html
    */
   function getHCEState(OBJECT?: getHCEState.Param): Promise<getHCEState.Promised>

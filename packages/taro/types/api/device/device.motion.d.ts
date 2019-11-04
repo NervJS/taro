@@ -19,11 +19,10 @@ declare namespace Taro {
     /** 接口调用成功的回调函数 */
     success?: StopDeviceMotionListeningSuccessCallback
   }
-  /** [wx.stopDeviceMotionListening(Object object)](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.stopDeviceMotionListening.html)
-   *
+  /**
    * 停止监听设备方向的变化。
-   *
-   * 最低基础库： `2.3.0`
+   * @since 最低基础库： `2.3.0`
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.stopDeviceMotionListening.html
    */
   function stopDeviceMotionListening(
     option?: StopDeviceMotionListeningOption,
@@ -58,11 +57,10 @@ declare namespace Taro {
     /** 接口调用成功的回调函数 */
     success?: StartDeviceMotionListeningSuccessCallback
   }
-  /** [wx.startDeviceMotionListening(Object object)](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.startDeviceMotionListening.html)
-   *
+  /**
    * 开始监听设备方向的变化。
-   *
-   * 最低基础库： `2.3.0`
+   * @since 最低基础库： `2.3.0`
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.startDeviceMotionListening.html
    */
   function startDeviceMotionListening(
     option: StartDeviceMotionListeningOption,
@@ -80,11 +78,10 @@ declare namespace Taro {
   type OnDeviceMotionChangeCallback = (
     result: OnDeviceMotionChangeCallbackResult,
   ) => void
-  /** [wx.onDeviceMotionChange(function callback)](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.onDeviceMotionChange.html)
-   *
+  /**
    * 监听设备方向变化事件。频率根据 [wx.startDeviceMotionListening()](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.startDeviceMotionListening.html) 的 interval 参数。可以使用 [wx.stopDeviceMotionListening()](https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.stopDeviceMotionListening.html) 停止监听。
-   *
-   * 最低基础库： `2.3.0`
+   * @since 最低基础库： `2.3.0`
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.onDeviceMotionChange.html
    */
   function onDeviceMotionChange(
     /** 设备方向变化事件的回调函数 */

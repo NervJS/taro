@@ -1,11 +1,7 @@
 declare namespace Taro {
   /**
    * 停止播放音乐。
-   *
-   * **示例代码**
-   *
-   * **示例：**
-   *
+   * @example
    ```javascript
    Taro.stopBackgroundAudio()
    ```
@@ -23,9 +19,7 @@ declare namespace Taro {
   }
   /**
    * 控制音乐播放进度。
-   *
-   * **OBJECT参数说明：**
-   *
+   * @example
    ```javascript
    Taro.seekBackgroundAudio({
        position: 30
@@ -53,9 +47,7 @@ declare namespace Taro {
   }
   /**
    * 使用后台播放器播放音乐，对于微信客户端来说，只能同时有一个后台音乐在播放。当用户离开小程序后，音乐将暂停播放；当用户点击“显示在聊天顶部”时，音乐不会暂停播放；当用户在其他小程序占用了音乐播放器，原有小程序内的音乐将停止播放。
-   *
-   * **OBJECT参数说明：**
-   *
+   * @example
    ```javascript
    Taro.playBackgroundAudio({
        dataUrl: '',
@@ -69,11 +61,7 @@ declare namespace Taro {
 
   /**
    * 暂停播放音乐。
-   *
-   * **示例代码**
-   *
-   * **示例：**
-   *
+   * @example
    ```javascript
    Taro.pauseBackgroundAudio()
    ```
@@ -132,9 +120,7 @@ declare namespace Taro {
    * **注意：1.2.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.getBackgroundAudioManager](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html) 接口**
    *
    * 获取后台音乐播放状态。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.getBackgroundAudioPlayerState({
        success: function(res) {
@@ -151,8 +137,6 @@ declare namespace Taro {
   function getBackgroundAudioPlayerState(OBJECT?: getBackgroundAudioPlayerState.Param): Promise<getBackgroundAudioPlayerState.Promised>
 
   /**
-   * @since 1.2.0
-   *
    * 获取**全局唯一**的背景音频管理器 `backgroundAudioManager`。
    *
    * **errcode 说明：**
@@ -164,9 +148,8 @@ declare namespace Taro {
    *   10003     | 文件错误
    *   10004     | 格式错误
    *   -1        | 未知错误
-   *
-   * **示例代码：**
-   *
+   * @since 1.2.0
+   * @example
    ```javascript
    const backgroundAudioManager = Taro.getBackgroundAudioManager()
          backgroundAudioManager.title = '此时此刻'
@@ -181,19 +164,16 @@ declare namespace Taro {
   class BackgroundAudioManager {
     /**
      * 当前音频的长度（单位：s），只有在当前有合法的 src 时返回
-     *
      * @readonly
      */
     readonly duration: number
     /**
      * 当前音频的播放位置（单位：s），只有在当前有合法的 src 时返回
-     *
      * @readonly
      */
     readonly currentTime: number
     /**
      * 当前是是否暂停或停止状态，true 表示暂停或停止，false 表示正在播放
-     *
      * @readonly
      */
     readonly paused: boolean
@@ -207,7 +187,6 @@ declare namespace Taro {
     startTime: number
     /**
      * 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲。
-     *
      * @readonly
      */
     buffered: number
@@ -233,7 +212,6 @@ declare namespace Taro {
     webUrl: string
     /**
      * 音频协议。默认值为 'http'，设置 'hls' 可以支持播放 HLS 协议的直播音频
-     *
      * @since 1.9.94
      */
     protocol: string

@@ -44,12 +44,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.2.0
-   *
    * 更新转发属性
-   *
-   * **示例代码：**
-   *
+   * @since 1.2.0
+   * @example
    ```javascript
    Taro.updateShareMenu({
      withShareTicket: true,
@@ -75,12 +72,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 显示当前页面的转发按钮
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.showShareMenu({
      withShareTicket: true
@@ -94,12 +88,9 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.1.0
-   *
    * 隐藏转发按钮
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.hideShareMenu()
    ```
@@ -141,16 +132,14 @@ declare namespace Taro {
       shareTicket: string
       /**
        * 超时时间，单位 ms
-       *
        * @since 1.9.90
        */
       timeout?: number
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 获取转发详细信息
+   * @since 1.1.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html
    */
   function getShareInfo(OBJECT: getShareInfo.Param): Promise<getShareInfo.Promised>

@@ -218,25 +218,21 @@ declare namespace Taro {
     moveToLocation(): void
     /**
      * 平移marker，带动画
-     *
      * @since 1.2.0
      */
     translateMarker(OBJECT: MapContext.translateMarker.Param): any
     /**
      * 缩放视野展示所有经纬度
-     *
      * @since 1.2.0
      */
     includePoints(OBJECT: MapContext.includePoints.Param): any
     /**
      * 获取当前地图的视野范围
-     *
      * @since 1.4.0
      */
     getRegion(OBJECT: MapContext.getRegion.Param): any
     /**
      * 获取当前地图的缩放级别
-     *
      * @since 1.4.0
      */
     getScale(OBJECT: MapContext.getScale.Param): any

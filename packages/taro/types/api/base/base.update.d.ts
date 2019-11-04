@@ -1,13 +1,9 @@
 declare namespace Taro {
   /**
-   * @since 1.9.90
-   *
    * 获取**全局唯一**的版本更新管理器，用于管理小程序更新。
-   *
    * 关于小程序的更新机制，可以查看 [运行机制](https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/operating-mechanism.html) 文档。
-   *
-   * **示例代码：**
-   *
+   * @since 1.9.90
+   * @example
    ```javascript
    const updateManager = Taro.getUpdateManager()
          updateManager.onCheckForUpdate(function (res) {

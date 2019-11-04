@@ -8,9 +8,8 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.2.0
-   *
    * 设置屏幕亮度。
+   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.setScreenBrightness.html
    */
   function setScreenBrightness(OBJECT: setScreenBrightness.Param): Promise<any>
@@ -30,12 +29,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.4.0
-   *
    * 设置是否保持常亮状态。仅在当前小程序生效，离开小程序后设置失效。
-   *
-   * **示例代码：**
-   *
+   * @since 1.4.0
+   * @example
    ```javascript
    // 保持屏幕常亮
    Taro.setKeepScreenOn({
@@ -47,12 +43,9 @@ declare namespace Taro {
   function setKeepScreenOn(OBJECT: setKeepScreenOn.Param): Promise<setKeepScreenOn.Promised>
 
   /**
-   * @since 1.4.0
-   *
    * 监听用户主动截屏事件，用户使用系统截屏按键截屏时触发此事件
-   *
-   * **示例代码：**
-   *
+   * @since 1.4.0
+   * @example
    ```javascript
    Taro.onUserCaptureScreen(function(res) {
        console.log('用户截屏了')
@@ -72,14 +65,12 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.2.0
-   *
    * 获取屏幕亮度。
    *
    * **Bug & Tip：**
    *
    * 1. `tip`: `getScreenBrightness` 接口若安卓系统设置中开启了自动调节亮度功能，则屏幕亮度会根据光线自动调整，该接口仅能获取自动调节亮度之前的值，而非实时的亮度值。
-   *
+   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.getScreenBrightness.html
    */
   function getScreenBrightness(OBJECT?: getScreenBrightness.Param): Promise<getScreenBrightness.Promised>

@@ -26,17 +26,13 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 读取低功耗蓝牙设备的特征值的二进制数据值。注意：必须设备的特征值支持`read`才可以成功调用，具体参照 characteristic 的 properties 属性
    *
    * **Bug & Tip：**
    *
    * 1.  `tip`: 并行调用多次读写接口存在读写失败的可能性。
    * 2.  `tip`: `read`接口读取到的信息需要在`onBLECharacteristicValueChange`方法注册的回调中获取。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    // 必须在这里的回调才能获取
    Taro.onBLECharacteristicValueChange(function(characteristic) {
@@ -54,6 +50,7 @@ declare namespace Taro {
      }
    })
    ```
+   * @since 1.1.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.readBLECharacteristicValue.html
    */
   function readBLECharacteristicValue(OBJECT: readBLECharacteristicValue.Param): Promise<readBLECharacteristicValue.Promised>
@@ -72,12 +69,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.1
-   *
    * 监听低功耗蓝牙连接状态的改变事件，包括开发者主动连接或断开连接，设备丢失，连接异常断开等等
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.1
+   * @example
    ```javascript
    Taro.onBLEConnectionStateChange(function(res) {
      // 该方法回调中可以用于处理连接意外断开等异常情况
@@ -110,12 +104,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 监听低功耗蓝牙设备的特征值变化。必须先启用`notify`接口才能接收到设备推送的notification。
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    // ArrayBuffer转16进度字符串示例
    function ab2hex(buffer) {
@@ -163,8 +154,6 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.1
-   *
    * 启用低功耗蓝牙设备特征值变化时的 notify 功能，订阅特征值。注意：必须设备的特征值支持`notify`或者`indicate`才可以成功调用，具体参照 characteristic 的 properties 属性
    *
    * 另外，必须先启用`notify`才能监听到设备 characteristicValueChange 事件
@@ -173,9 +162,8 @@ declare namespace Taro {
    *
    * 1.  `tip`: 订阅操作成功后需要设备主动更新特征值的value，才会触发 Taro.onBLECharacteristicValueChange 回调。
    * 2.  `tip`: 安卓平台上，在调用notify成功后立即调用write接口，在部分机型上会发生 10008 系统错误
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.1
+   * @example
    ```javascript
    Taro.notifyBLECharacteristicValueChange({
      state: true, // 启用 notify 功能
@@ -227,16 +215,13 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 获取蓝牙设备所有 service（服务）
    *
    * **Bug & Tip：**
    *
    * 1.  `tip`:iOS平台上后续对特征值的read、write、notify，由于系统需要获取特征值实例，传入的 serviceId 与 characteristicId 必须由 getBLEDeviceServices 与 getBLEDeviceCharacteristics 中获取到后才能使用。建议双平台统一在建立链接后先执行 getBLEDeviceServices 与 getBLEDeviceCharacteristics 后再进行与蓝牙设备的数据交互
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.getBLEDeviceServices({
      // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
@@ -308,17 +293,14 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 获取蓝牙设备某个服务中的所有 characteristic（特征值）
    *
    * **Bug & Tip：**
    *
    * 1.  `tip`:传入的serviceId需要在getBLEDeviceServices获取到
    * 2.  `tip`:iOS平台上后续对特征值的read、write、notify，由于系统需要获取特征值实例，传入的 serviceId 与 characteristicId 必须由 getBLEDeviceServices 与 getBLEDeviceCharacteristics 中获取到后才能使用。建议双平台统一在建立链接后先执行 getBLEDeviceServices 与 getBLEDeviceCharacteristics 后再进行与蓝牙设备的数据交互
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.getBLEDeviceCharacteristics({
      // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
@@ -349,8 +331,6 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 连接低功耗蓝牙设备。
    *
    * > 若小程序在之前已有搜索过某个蓝牙设备，并成功建立链接，可直接传入之前搜索获取的deviceId直接尝试连接该设备，无需进行搜索操作。
@@ -360,9 +340,8 @@ declare namespace Taro {
    * 1.  `tip`: 安卓手机上如果多次调用create创建连接，有可能导致系统持有同一设备多个连接的实例，导致调用close的时候并不能真正的断开与设备的连接。因此请保证尽量成对的调用create和close接口
    * 2.  `tip`: 蓝牙链接随时可能断开，建议监听 Taro.onBLEConnectionStateChange 回调事件，当蓝牙设备断开时按需执行重连操作
    * 3.  `tip`: 若对未连接的设备或已断开连接的设备调用数据读写操作的接口，会返回10006错误，详见错误码，建议进行重连操作
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.createBLEConnection({
      // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
@@ -391,12 +370,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 断开与低功耗蓝牙设备的连接
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.closeBLEConnection({
      deviceId:deviceId
@@ -436,8 +412,6 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 向低功耗蓝牙设备特征值中写入二进制数据。注意：必须设备的特征值支持`write`才可以成功调用，具体参照 characteristic 的 properties 属性
    *
    * _tips: 并行调用多次读写接口存在读写失败的可能性_
@@ -448,9 +422,8 @@ declare namespace Taro {
    * 2.  `tip`: 小程序不会对写入数据包大小做限制，但系统与蓝牙设备会确定蓝牙4.0单次传输的数据大小，超过最大字节数后会发生写入错误，建议每次写入不超过20字节。
    * 3.  `tip`: 安卓平台上，在调用notify成功后立即调用write接口，在部分机型上会发生 10008 系统错误
    * 4.  `bug`: 若单次写入数据过长，iOS平台上存在系统不会有任何回调的情况(包括错误回调)。
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    // 向蓝牙设备发送一个0x00的16进制数据
    let buffer = new ArrayBuffer(1)

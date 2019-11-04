@@ -19,9 +19,7 @@ declare namespace Taro {
    * **bug & tip：**
    *
    * 1.  `tip`: 本地文件存储的大小限制为 10M
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.chooseImage({
      success: function(res) {
@@ -49,9 +47,7 @@ declare namespace Taro {
   }
   /**
    * 删除本地存储的文件
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.getSavedFileList({
      success: function(res) {
@@ -78,7 +74,6 @@ declare namespace Taro {
       filePath: string
       /**
        * 文件类型，指定文件类型打开文件，有效值 doc, xls, ppt, pdf, docx, xlsx, pptx
-       *
        * @since 1.4.0
        */
       fileType?: string
@@ -86,9 +81,7 @@ declare namespace Taro {
   }
   /**
    * 新开页面打开文档，支持格式：doc, xls, ppt, pdf, docx, xlsx, pptx
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.downloadFile({
      url: 'http://example.com/somefile.pdf',
@@ -140,9 +133,7 @@ declare namespace Taro {
   }
   /**
    * 获取本地已保存的文件列表
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.getSavedFileList({
      success: function(res) {
@@ -178,9 +169,7 @@ declare namespace Taro {
   }
   /**
    * 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html) 接口。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.getSavedFileInfo({
      filePath: 'wxfile://somefile', //仅做示例用，非真正的文件路径
@@ -221,12 +210,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.4.0
-   *
    * 获取文件信息
-   *
-   * **示例代码：**
-   *
+   * @since 1.4.0
+   * @example
    ```javascript
    Taro.getFileInfo({
        success(res) {

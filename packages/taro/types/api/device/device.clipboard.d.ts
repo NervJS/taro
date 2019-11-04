@@ -18,14 +18,11 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 设置系统剪贴板的内容
    * 
    * **注意** 调用成功后，会弹出 toast 提示"内容已复制"，持续 1.5s
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.setClipboardData({
      data: 'data',
@@ -56,12 +53,9 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.1.0
-   *
    * 获取系统剪贴板内容
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.getClipboardData({
      success: function(res){

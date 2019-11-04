@@ -1,9 +1,7 @@
 declare namespace Taro {
   /**
    * ​主动调用停止录音。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.startRecord({
      success: function(res) {
@@ -42,8 +40,6 @@ declare namespace Taro {
   function startRecord(OBJECT?: startRecord.Param): Promise<startRecord.Promised>
 
   /**
-   * @since 1.6.0
-   *
    * 获取**全局唯一**的录音管理器 `recorderManager`。
    *
    * **其中，采样率和码率有一定要求，具体有效值如下：：**
@@ -59,9 +55,8 @@ declare namespace Taro {
    *   32000   |  48000 ~ 192000
    *   44100   |  64000 ~ 320000
    *   48000   |  64000 ~ 320000
-   *
-   * **示例代码：**
-   *
+   * @since 1.6.0
+   * @example
    ```javascript
    const recorderManager = Taro.getRecorderManager()
          recorderManager.onStart(() => {

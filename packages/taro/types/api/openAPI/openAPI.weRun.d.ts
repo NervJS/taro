@@ -31,21 +31,16 @@ declare namespace Taro {
     type Param = {
       /**
        * 超时时间，单位 ms
-       *
        * @since 1.9.90
        */
       timeout?: number
     }
   }
   /**
-   * @since 1.2.0
-   *
    * 获取用户过去三十天微信运动步数，需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html) 接口。
-   *
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.werun
-   *
-   * **示例代码：**
-   *
+   * @since 1.2.0
+   * @example
    ```javascript
    Taro.getWeRunData({
        success(res) {

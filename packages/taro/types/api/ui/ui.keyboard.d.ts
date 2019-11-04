@@ -1,9 +1,7 @@
 declare namespace Taro {
   /**
    * 收起键盘。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.hideKeyboard()
    ```
@@ -59,9 +57,7 @@ declare namespace Taro {
    * **注意：** 只有在 `focus `的时候调用此接口才有效。
    * 
    * @param option 接口调用的参数
-   * 
-   * **示例代码**
-   * 
+   * @example
    * ```js
    wx.getSelectedTextRange({
      complete: res => {
@@ -69,9 +65,7 @@ declare namespace Taro {
      }
    })
    ```
-   *
    * @since 2.7.0
-   * 
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.getSelectedTextRange.html
    */
   function getSelectedTextRange(option?: getSelectedTextRange.Param): Promise<getSelectedTextRange.Promised>

@@ -1,6 +1,5 @@
 declare namespace Taro {
   /**
-   * @since 1.9.90
    *
    * 在使用 createWorker 前，请查阅 [多线程](https://developers.weixin.qq.com/miniprogram/dev/framework/workers.html) 文档了解基础知识和配置方法。
    *
@@ -8,8 +7,8 @@ declare namespace Taro {
    *
    * `scriptPath` 为 worker 的入口文件路径，需填写绝对路径。
    *
-   * **示例代码：**
-   *
+   * @since 1.9.90
+   * @example
    ```javascript
    const worker = Taro.createWorker('workers/request/index.js') // 文件名指定 worker 的入口文件路径，绝对路径
          worker.onMessage(function (res) {

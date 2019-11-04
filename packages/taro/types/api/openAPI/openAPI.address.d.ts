@@ -41,14 +41,11 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.1.0
-   *
    * 调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。
    *
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.address
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.chooseAddress({
      success: function (res) {

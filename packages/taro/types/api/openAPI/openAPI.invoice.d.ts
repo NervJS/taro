@@ -37,14 +37,10 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.5.0
-   *
    * 选择用户的发票抬头。
-   *
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.invoiceTitle
-   *
-   * **示例代码：**
-   *
+   * @since 1.5.0
+   * @example
    ```javascript
    Taro.chooseInvoiceTitle({
      success(res) {
@@ -73,14 +69,10 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.5.0
-   *
    * 选择用户的发票抬头。
-   *
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.invoice
-   *
-   * **示例代码：**
-   *
+   * @since 1.5.0
+   * @example
    ```javascript
    Taro.chooseInvoice({
      success(res) {

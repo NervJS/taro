@@ -31,9 +31,7 @@ declare namespace Taro {
    * **Bug & Tip：**
    *
    * 1.  `bug`: `iOS` `6.3.30` type 参数不生效，只会返回 wgs84 类型的坐标信息
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.getLocation({
      type: 'gcj02', //返回可以用于Taro.openLocation的经纬度
@@ -72,19 +70,16 @@ declare namespace Taro {
       accuracy: number
       /**
        * 高度，单位 m
-       *
        * @since 1.2.0
        */
       altitude: number
       /**
        * 垂直精度，单位 m（Android 无法获取，返回 0）
-       *
        * @since 1.2.0
        */
       verticalAccuracy: number
       /**
        * 水平精度，单位 m
-       *
        * @since 1.2.0
        */
       horizontalAccuracy: number
@@ -96,7 +91,6 @@ declare namespace Taro {
       type?: 'wgs84' | 'gcj02'
       /**
        * 传入 true 会返回高度信息，由于获取高度需要较高精确度，会减慢接口返回速度
-       *
        * @since 1.6.0
        */
       altitude?: boolean
@@ -128,9 +122,7 @@ declare namespace Taro {
   }
   /**
    * 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用；当用户点击“显示在聊天顶部”时，此接口可继续调用。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
     Taro.getLocation({
       type: 'wgs84',

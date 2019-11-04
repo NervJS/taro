@@ -12,12 +12,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.4.0
-   *
    * 将页面滚动到目标位置。
-   *
-   * **示例代码：**
-   *
+   * @since 1.4.0
+   * @example
    ```javascript
    Taro.pageScrollTo({
      scrollTop: 0,

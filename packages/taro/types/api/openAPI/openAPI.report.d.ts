@@ -1,11 +1,8 @@
 declare namespace Taro {
   /**
-   * @since 2.0.1
-   *
    * 自定义业务数据监控上报接口。
-   *
-   * **示例代码：**
-   *
+   * @since 2.0.1
+   * @example
    ```javascript
    Taro.reportMonitor('1', 1)
    ```

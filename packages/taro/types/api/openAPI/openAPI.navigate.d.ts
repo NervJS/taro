@@ -26,9 +26,7 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.3.0
-   * >
-   * > iOS 微信客户端 6.5.9 版本开始支持，Android 客户端即将在 6.5.10 版本开始支持，请先使用 iOS 客户端进行调试
+   * iOS 微信客户端 6.5.9 版本开始支持，Android 客户端即将在 6.5.10 版本开始支持，请先使用 iOS 客户端进行调试
    *
    * 打开同一公众号下关联的另一个小程序。**（注：必须是同一公众号下，而非同个 open 账号下）**
    *
@@ -37,9 +35,8 @@ declare namespace Taro {
    * 1.  `tip`: 在开发者工具上调用此 API 并不会真实的跳转到另外的小程序，但是开发者工具会校验本次调用跳转是否成功[详情](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#小程序跳转的调试支持)
    * 2.  `tip`: 开发者工具上支持被跳转的小程序处理接收参数的调试[详情](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#小程序跳转的调试支持)
    * 3.  `tip`: 只有同一公众号下的关联的小程序之间才可相互跳转 [详情](https://mp.weixin.qq.com/debug/wxadoc/introduction/index.html#%E5%85%AC%E4%BC%97%E5%8F%B7%E5%85%B3%E8%81%94%E5%B0%8F%E7%A8%8B%E5%BA%8F)
-   *
-   * **示例代码：**
-   *
+   * @since 1.3.0
+   * @example
    ```javascript
    Taro.navigateToMiniProgram({
      appId: '',
@@ -72,14 +69,11 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.3.0
-   * >
-   * > iOS 微信客户端 6.5.9 版本开始支持，Android 客户端即将在 6.5.10 版本开始支持，请先使用 iOS 客户端进行调试
+   * iOS 微信客户端 6.5.9 版本开始支持，Android 客户端即将在 6.5.10 版本开始支持，请先使用 iOS 客户端进行调试
    *
    * 返回到上一个小程序，只有在当前小程序是被其他小程序打开时可以调用成功
-   *
-   * **示例代码：**
-   *
+   * @since 1.3.0
+   * @example
    ```javascript
    Taro.navigateBackMiniProgram({
      extraData: {

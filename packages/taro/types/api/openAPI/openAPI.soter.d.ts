@@ -54,7 +54,6 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.5.0
    *
    * 开始 SOTER 生物认证
    *
@@ -81,9 +80,7 @@ declare namespace Taro {
        "uid":"21"
    }
    ```
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.startSoterAuthentication({
      requestAuthModes: ['fingerPrint'],
@@ -93,6 +90,7 @@ declare namespace Taro {
      }
    })
    ```
+   * @since 1.5.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.startSoterAuthentication.html
    */
   function startSoterAuthentication(OBJECT: startSoterAuthentication.Param): Promise<startSoterAuthentication.Promised>
@@ -119,12 +117,9 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.5.0
-   *
    * 获取本机支持的 SOTER 生物认证方式
-   *
-   * **示例代码：**
-   *
+   * @since 1.5.0
+   * @example
    ```javascript
    Taro.checkIsSupportSoterAuthentication({
        success(res) {
@@ -165,12 +160,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.6.0
-   *
    * 获取设备内是否录入如指纹等生物信息的接口
-   *
-   * **示例代码：**
-   *
+   * @since 1.6.0
+   * @example
    ```javascript
    Taro.checkIsSoterEnrolledInDevice({
        checkAuthMode: 'fingerPrint',

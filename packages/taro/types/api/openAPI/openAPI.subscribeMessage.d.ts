@@ -51,11 +51,10 @@ declare namespace Taro {
   }
   /**
    * 请求订阅消息
-   * @param {requestSubscribeMessage.Param} OBJECT 请求订阅消息参数
    * 
    * **注意：** 2.8.2 版本开始，用户发生点击行为或者发起支付回调后，才可以调起订阅消息界面。
-   * 
-   * **示例代码**
+   * @param {requestSubscribeMessage.Param} OBJECT 请求订阅消息参数
+   * @example
    ```js
    wx.requestSubscribeMessage({
      tmplIds: [ 'zun-LzcQyW-edafCVvzPkK4de2Rllr1fFpw2A_x0oXE' ],
@@ -66,7 +65,6 @@ declare namespace Taro {
    })
    ```
    * @since 2.8.2
-   *
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/subscribe-message/wx.requestSubscribeMessage.html
    */
   function requestSubscribeMessage(OBJECT: requestSubscribeMessage.Param): Promise<requestSubscribeMessage.Promised>

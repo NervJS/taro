@@ -91,8 +91,6 @@ declare namespace Taro {
    *
    * **返回值：**
    *
-   * @since 1.4.0
-   *
    * 返回一个 `uploadTask` 对象，通过 `uploadTask`，可监听上传进度变化事件，以及取消上传任务。
    *
    * **示例代码：**
@@ -139,6 +137,7 @@ declare namespace Taro {
    })
          uploadTask.abort() // 取消上传任务
    ```
+   * @since 1.4.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html
    */
   function uploadFile(OBJECT: uploadFile.Param): uploadFile.UploadTask

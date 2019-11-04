@@ -14,12 +14,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.2.0
-   *
    * 提前向用户发起授权请求。调用后会立刻弹窗询问用户是否同意授权小程序使用某项功能或获取用户的某些数据，但不会实际调用对应接口。如果用户之前已经同意授权，则不会出现弹窗，直接返回成功。
-   *
-   * **示例代码：**
-   *
+   * @since 1.2.0
+   * @example
    ```javascript
    // 可以通过 Taro.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
    Taro.getSetting({

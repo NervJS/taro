@@ -14,12 +14,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.4.0
-   *
    * 设置是否打开调试开关，此开关对正式版也能生效。
-   *
-   * **示例代码：**
-   *
+   * @since 1.4.0
+   * @example
    ```javascript
    // 打开调试
    Taro.setEnableDebug({
@@ -37,9 +34,8 @@ declare namespace Taro {
   namespace getLogManager {
     type Param = {
       /**
-       * @since 2.3.2
-       *
        * 取值为0/1，取值为0表示是否会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志，取值为1则不会。默认值是 0
+       * @since 2.3.2
        */
       level?: number
     }
@@ -63,12 +59,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 2.1.0
-   *
    * 获取日志管理器对象。
-   *
-   * **示例代码：**
-   *
+   * @since 2.1.0
+   * @example
    ```javascript
    const logger = Taro.getLogManager({level: 1})
    logger.log({str: 'hello world'}, 'basic log', 100, [1, 2, 3])

@@ -15,9 +15,7 @@ declare namespace Taro {
   }
   /**
    * 动态设置当前页面的标题。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.setNavigationBarTitle({
      title: '当前页面'
@@ -82,9 +80,7 @@ declare namespace Taro {
   }
   /**
    * @since 1.4.0
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.setNavigationBarColor({
        frontColor: '#ffffff',

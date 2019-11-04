@@ -13,7 +13,6 @@ declare namespace Taro {
     type Param = {
       /**
        * 超时时间，单位 ms
-       *
        * @since 1.9.90
        */
       timeout?: number
@@ -36,9 +35,7 @@ declare namespace Taro {
   }
   /**
    * 调用接口Taro.login() 获取**临时登录凭证（code）**
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    //app.js
    App({
@@ -70,9 +67,7 @@ declare namespace Taro {
   }
   /**
    * 校验用户当前session_key是否有效。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.checkSession({
      success: function(){

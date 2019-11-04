@@ -8,16 +8,13 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 获取[第三方平台](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/ext.html)自定义的数据字段的同步接口。
    *
    * **Bug & Tip：**
    *
    * 1.  `Taro.getExtConfigSync` 暂时无法通过 `Taro.canIUse` 判断是否兼容，开发者需要自行判断 `Taro.getExtConfigSync` 是否存在来兼容
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    let extConfig = Taro.getExtConfigSync? Taro.getExtConfigSync(): {}
    console.log(extConfig)
@@ -40,16 +37,13 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.1.0
-   *
    * 获取[第三方平台](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/ext.html)自定义的数据字段。
    *
    * **Bug & Tip：**
    *
    * 1.  `Taro.getExtConfig` 暂时无法通过 `Taro.canIUse` 判断是否兼容，开发者需要自行判断 `Taro.getExtConfig` 是否存在来兼容
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    if(Taro.getExtConfig) {
      Taro.getExtConfig({

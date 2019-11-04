@@ -61,9 +61,7 @@ declare namespace Taro {
    * **Bug & Tip：**
    *
    * 1.  `bug`: 6.5.2 及之前版本中，用户取消支付不会触发 fail 回调，只会触发 complete 回调，回调 errMsg 为 'requestPayment:cancel'
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.requestPayment({
       'timeStamp': '',

@@ -62,19 +62,16 @@ declare namespace Taro {
     type Param = {
       /**
        * 是否带上登录态信息
-       *
        * @since 1.1.0
        */
       withCredentials?: boolean
       /**
        * 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。默认为en。
-       *
        * @since 1.3.0
        */
       lang?: string
       /**
        * 超时时间，单位 ms
-       *
        * @since 1.9.90
        */
       timeout?: number

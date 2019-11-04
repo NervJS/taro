@@ -76,8 +76,6 @@ declare namespace Taro {
     type ParamPropComplete = () => any
   }
   /**
-   * @since 1.1.0
-   *
    * 关闭所有页面，打开到应用内的某个页面。
    *
    * **示例代码：**
@@ -98,6 +96,7 @@ declare namespace Taro {
      }
    })
    ```
+   * @since 1.1.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.reLaunch.html
    */
   function reLaunch(OBJECT: reLaunch.Param): Promise<any>
@@ -127,9 +126,7 @@ declare namespace Taro {
   }
   /**
    * 关闭当前页面，跳转到应用内的某个页面。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.redirectTo({
      url: 'test?id=1'
@@ -191,7 +188,6 @@ declare namespace Taro {
     type Param = {
       /**
        * 返回的页面数，如果 delta 大于现有页面数，则返回到首页。
-       *
        * @default 1
        */
       delta?: number
@@ -218,9 +214,7 @@ declare namespace Taro {
    * **Tip：**
    *
    * 1.  `tip`: Taro.navigateTo 和 Taro.redirectTo 不允许跳转到 tabbar 页面，只能用 Taro.switchTab 跳转到 tabbar 页面
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    // 注意：调用 navigateTo 跳转时，调用该方法的页面会被加入堆栈，而 redirectTo 方法则不会。见下方示例代码
          // 此处是A页面

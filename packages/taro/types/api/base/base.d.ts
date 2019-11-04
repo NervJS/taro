@@ -14,10 +14,8 @@ declare namespace Taro {
    * *   `${attribute}` 代表组件属性
    * *   `${option}` 代表组件属性的可选值
    *
-   * 例子：
-   *
-   * **示例：**
-   *
+   * @since 1.1.1
+   * @example
    ```js
    Taro.canIUse('openBluetoothAdapter')
    Taro.canIUse('getSystemInfoSync.return.screenWidth')

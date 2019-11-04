@@ -8,9 +8,8 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.9.0
-   *
    * 显示 tabBar 某一项的右上角的红点
+   * @since 1.9.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBarRedDot.html
    */
   function showTabBarRedDot(OBJECT: showTabBarRedDot.Param): Promise<any>
@@ -24,9 +23,8 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.9.0
-   *
    * 显示 tabBar
+   * @since 1.9.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBar.html
    */
   function showTabBar(OBJECT?: showTabBar.Param): Promise<any>
@@ -52,12 +50,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.9.0
-   *
    * 动态设置 tabBar 的整体样式
-   *
-   * **示例代码：**
-   *
+   * @since 1.9.0
+   * @example
    ```javascript
    Taro.setTabBarStyle({
        color: '#FF0000',
@@ -91,12 +86,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.9.0
-   *
    * 动态设置 tabBar 某一项的内容
-   *
-   * **示例代码：**
-   *
+   * @since 1.9.0
+   * @example
    ```javascript
    Taro.setTabBarItem({
        index: 0,
@@ -122,12 +114,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.9.0
-   *
    * 为 tabBar 某一项的右上角添加文本
-   *
-   * **示例代码：**
-   *
+   * @since 1.9.0
+   * @example
    ```javascript
    Taro.setTabBarBadge({
      index: 0,
@@ -147,9 +136,8 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.9.0
-   *
    * 移除 tabBar 某一项右上角的文本
+   * @since 1.9.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.removeTabBarBadge.html
    */
   function removeTabBarBadge(OBJECT: removeTabBarBadge.Param): Promise<any>
@@ -163,9 +151,8 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.9.0
-   *
    * 隐藏 tabBar 某一项的右上角的红点
+   * @since 1.9.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBarRedDot.html
    */
   function hideTabBarRedDot(OBJECT: hideTabBarRedDot.Param): Promise<any>
@@ -179,9 +166,8 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.9.0
-   *
    * 隐藏 tabBar
+   * @since 1.9.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBar.html
    */
   function hideTabBar(OBJECT?: hideTabBar.Param): Promise<any>

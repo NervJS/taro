@@ -76,7 +76,6 @@ declare namespace Taro {
    *
    * **返回值：**
    *
-   * @since 1.4.0
    *
    * 返回一个 `downloadTask` 对象，通过 `downloadTask`，可监听下载进度变化事件，以及取消下载任务。
    *
@@ -118,6 +117,7 @@ declare namespace Taro {
    })
          downloadTask.abort() // 取消下载任务
    ```
+   * @since 1.4.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
    */
   function downloadFile(OBJECT: downloadFile.Param): downloadFile.DownloadTask

@@ -9,9 +9,7 @@ declare namespace Taro {
   }
   /**
    * 通过 WebSocket 连接发送数据，需要先 [Taro.connectSocket](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.connectSocket.html) 回调之后才能发送。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    var socketOpen = false
    var socketMsgQueue = []
@@ -44,7 +42,6 @@ declare namespace Taro {
     type ParamParam = {
       /**
        * 连接成功的 HTTP 响应 Header
-       *
        * @since 2.0.0
        */
       header?: any
@@ -52,9 +49,7 @@ declare namespace Taro {
   }
   /**
    * 监听WebSocket连接打开事件。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.connectSocket({
      url: 'test.php'
@@ -78,9 +73,7 @@ declare namespace Taro {
   }
   /**
    * 监听WebSocket接受到服务器的消息事件。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.connectSocket({
      url: 'test.php'
@@ -95,9 +88,7 @@ declare namespace Taro {
 
   /**
    * 监听WebSocket错误。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.connectSocket({
      url: 'test.php'
@@ -118,16 +109,13 @@ declare namespace Taro {
    *
    * **返回值：**
    *
-   * @since 1.7.0
-   *
    * 返回一个 [SocketTask](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html)。
    *
    * **Bug & Tip：**
    *
    * 1.  `tip`: 基础库 1.7.0 开始，支持同时存在 2 条 WebSocket 连接
-   *
-   * **示例：**
-   *
+   * @since 1.7.0
+   * @example
    ```javascript
    Taro.connectSocket({
      url: 'test.php'
@@ -164,7 +152,6 @@ declare namespace Taro {
       method?: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
       /**
        * 子协议数组
-       *
        * @since 1.4.0
        */
       protocols?: string[]
@@ -175,9 +162,7 @@ declare namespace Taro {
    * **使用前请先阅读[说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)**。
    *
    * **基础库 1.7.0 之前，一个微信小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会自动关闭该连接，并重新创建一个 WebSocket 连接。基础库版本 1.7.0 及以后，支持存在多个 WebSokcet 连接，每次成功调用 Taro.connectSocket 会返回一个新的 [SocketTask](https://developers.weixin.qq.com/minigame/dev/api/network/websocket/SocketTask.html)。**
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.connectSocket({
      url: 'wss://example.qq.com',
@@ -200,13 +185,11 @@ declare namespace Taro {
     type Param = {
       /**
        * 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。如果这个参数没有被指定，默认的取值是1000 （表示正常连接关闭）
-       *
        * @since 1.4.0
        */
       code?: number
       /**
        * 一个可读的字符串，表示连接被关闭的原因。这个字符串必须是不长于123字节的UTF-8 文本（不是字符）
-       *
        * @since 1.4.0
        */
       reason?: string
@@ -307,9 +290,8 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.7.0
-   *
    * WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html) 接口创建返回。
+   * @since 1.7.0
    */
   class SocketTask {
 
@@ -354,42 +336,36 @@ declare namespace Taro {
     readonly ws: WebSocket
 
     /**
-     *
      * **SocketTask.send(OBJECT)：**
      *
      * 通过 WebSocket 连接发送数据。
      */
     send(OBJECT: SocketTask.send.Param): void
     /**
-     *
      * **SocketTask.close(OBJECT)：**
      *
      * 关闭 WebSocket 连接。
      */
     close(OBJECT: SocketTask.close.Param): void
     /**
-     *
      * **SocketTask.onOpen(CALLBACK)：**
      *
      * 监听 WebSocket 连接打开事件。
      */
     onOpen(CALLBACK?: any): void
     /**
-     *
      * **SocketTask.onClose(CALLBACK)：**
      *
      * 监听 WebSocket 连接关闭事件。
      */
     onClose(CALLBACK?: any): void
     /**
-     *
      * **SocketTask.onError(CALLBACK)：**
      *
      * 监听 WebSocket 错误。
      */
     onError(CALLBACK?: SocketTask.onError.Param): void
     /**
-     *
      * **SocketTask.onMessage(CALLBACK)：**
      *
      * 监听WebSocket接受到服务器的消息事件。

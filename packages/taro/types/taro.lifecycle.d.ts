@@ -70,7 +70,7 @@ declare namespace Taro {
 
   interface TabItemTapObject {
     /**
-     * 被点击tabItem的序号，从0开始
+     * 被点击tabItem的序号，从 0 开始
      * 
      * @since 1.9.0
      */

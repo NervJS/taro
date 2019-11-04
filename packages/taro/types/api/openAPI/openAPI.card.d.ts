@@ -22,17 +22,14 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 查看微信卡包中的卡券。
    *
    * **Tip：**
    *
    * 1.  `tip`: 目前只有认证小程序才能使用卡券接口，可参考[指引](https://mp.weixin.qq.com/debug/wxadoc/product/renzheng.html)进行认证。
    * 2.  `tip`: 了解更多信息，请查看[微信卡券接口文档](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1490190158&version=1&lang=zh_CN&platform=2)
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.openCard({
      cardList: [
@@ -117,8 +114,6 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 批量添加卡券。
    *
    * **回调结果：**
@@ -128,9 +123,8 @@ declare namespace Taro {
    *   success   |  addCard:ok                      |  添加卡券成功
    *   fail      |  addCard:fail cancel             |  用户取消添加卡券
    *   fail      |  addCard:fail (detail message)   |添加卡券失败，其中 detail message 为后台返回的详细失败原因
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.addCard({
      cardList: [

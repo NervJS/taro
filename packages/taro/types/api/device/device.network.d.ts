@@ -24,12 +24,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.1.0
-   *
    * 监听网络状态变化。
-   *
-   * **示例代码：**
-   *
+   * @since 1.1.0
+   * @example
    ```javascript
    Taro.onNetworkStatusChange(function(res) {
      console.log(res.isConnected)

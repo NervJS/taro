@@ -14,12 +14,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.2.0
-   *
    * 保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
-   *
-   * **示例代码：**
-   *
+   * @since 1.2.0
+   * @example
    ```javascript
    Taro.saveImageToPhotosAlbum({
        success(res) {
@@ -44,9 +41,7 @@ declare namespace Taro {
   }
   /**
    * 预览图片。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.previewImage({
      current: '', // 当前显示图片的http链接
@@ -86,13 +81,11 @@ declare namespace Taro {
        *   down-mirrored    |  同down，但水平翻转
        *   left-mirrored    |  同left，但垂直翻转
        *   right-mirrored   |  同right，但垂直翻转
-       *
        * @since 1.9.90
        */
       orientation: 'up' | 'down' | 'left' | 'right' | 'up-mirrored' | 'down-mirrored ' | 'left-mirrored' | 'right-mirrored'
       /**
        * 返回图片的格式
-       *
        * @since 1.9.90
        */
       type: string
@@ -106,9 +99,7 @@ declare namespace Taro {
   }
   /**
    * 获取图片信息
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.getImageInfo({
      src: 'images/a.jpg',
@@ -141,7 +132,6 @@ declare namespace Taro {
       tempFilePaths: string[]
       /**
        * 图片的本地文件列表，每一项是一个 File 对象
-       *
        * @since 1.2.0
        */
       tempFiles: PromisedPropTempFiles
@@ -191,9 +181,7 @@ declare namespace Taro {
   }
   /**
    * 从本地相册选择图片或使用相机拍照。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.chooseImage({
      count: 1, // 默认9

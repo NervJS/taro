@@ -1,9 +1,7 @@
 declare namespace Taro {
   /**
    * 将 data 存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个同步接口。
-   *
-   * **参数说明：**
-   *
+   * @example
    ```javascript
    try {
        Taro.setStorageSync('key', 'value')
@@ -28,9 +26,7 @@ declare namespace Taro {
   }
   /**
    * 将数据存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个异步接口。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.setStorage({
      key:"key",
@@ -43,9 +39,7 @@ declare namespace Taro {
 
   /**
    * 从本地缓存中同步移除指定 key 。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    try {
      Taro.removeStorageSync('key')
@@ -67,9 +61,7 @@ declare namespace Taro {
   }
   /**
    * 从本地缓存中异步移除指定 key 。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.removeStorage({
      key: 'key',
@@ -84,9 +76,7 @@ declare namespace Taro {
 
   /**
    * 从本地缓存中同步获取指定 key 对应的内容。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    try {
      var value = Taro.getStorageSync('key')
@@ -119,9 +109,7 @@ declare namespace Taro {
   }
   /**
    * 同步获取当前storage的相关信息
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    try {
      var res = Taro.getStorageInfoSync()
@@ -155,9 +143,7 @@ declare namespace Taro {
   }
   /**
    * 异步获取当前storage的相关信息
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.getStorageInfo({
      success: function(res) {
@@ -187,9 +173,7 @@ declare namespace Taro {
   }
   /**
    * 从本地缓存中异步获取指定 key 对应的内容。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.getStorage({
      key: 'key',
@@ -208,9 +192,7 @@ declare namespace Taro {
    * **Bug & Tip：**
    *
    * 1.  `tip`: 本地数据存储的大小限制为 10MB
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    try {
        Taro.clearStorageSync()
@@ -224,9 +206,7 @@ declare namespace Taro {
 
   /**
    * 清理本地数据缓存。
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.clearStorage()
    ```

@@ -8,12 +8,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 2.1.0
-   *
    * 动态设置下拉背景字体、loading 图的样式
-   *
-   * **示例代码：**
-   *
+   * @since 2.1.0
+   * @example
    ```javascript
    Taro.setBackgroundTextStyle({
      textStyle: 'dark' // 下拉背景字体、loading 图的样式为dark
@@ -40,12 +37,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 2.1.0
-   *
    * 动态设置窗口的背景色
-   *
-   * **示例代码：**
-   *
+   * @since 2.1.0
+   * @example
    ```javascript
    Taro.setBackgroundColor({
      backgroundColor: '#ffffff', // 窗口的背景色为白色

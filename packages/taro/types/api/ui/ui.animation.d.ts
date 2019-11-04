@@ -21,19 +21,16 @@ declare namespace Taro {
        *   ease-out      |  动画以低速结束
        *   step-start    |动画第一帧就跳至结束状态直到结束
        *   step-end      |动画一直保持开始状态，最后一帧跳到结束状态
-       *
        * @default linear
        */
       timingFunction?: string
       /**
        * 动画延迟时间，单位 ms
-       *
        * @default 0
        */
       delay?: number
       /**
        * 设置transform-origin
-       *
        * @default 50% 50% 0
        */
       transformOrigin?: string
@@ -45,7 +42,7 @@ declare namespace Taro {
    * **注意: `export` 方法每次调用后会清掉之前的动画操作**
    *
    * **timingFunction 有效值：**
-   *
+   * @example
    ```javascript
    var animation = Taro.createAnimation({
      transformOrigin: "50% 50%",

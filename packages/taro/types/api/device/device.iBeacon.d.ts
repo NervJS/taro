@@ -9,9 +9,8 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.2.0
-   *
    * 停止搜索附近的`iBeacon`设备
+   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.stopBeaconDiscovery.html
    */
   function stopBeaconDiscovery(OBJECT?: stopBeaconDiscovery.Param): Promise<stopBeaconDiscovery.Promised>
@@ -31,12 +30,9 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.2.0
-   *
    * 开始搜索附近的`iBeacon`设备
-   *
-   * **示例代码：**
-   *
+   * @since 1.2.0
+   * @example
    ```javascript
    Taro.startBeaconDiscovery({
        success(res) {
@@ -87,9 +83,8 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.2.0
-   *
    * 监听 `iBeacon` 设备的更新事件
+   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconUpdate.html
    */
   function onBeaconUpdate(CALLBACK: onBeaconUpdate.Param): void
@@ -108,9 +103,8 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.2.0
-   *
    * 监听 `iBeacon` 服务的状态变化
+   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconServiceChange.html
    */
   function onBeaconServiceChange(CALLBACK: onBeaconServiceChange.Param): void
@@ -159,9 +153,8 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * @since 1.2.0
-   *
    * 获取所有已搜索到的`iBeacon`设备
+   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.getBeacons.html
    */
   function getBeacons(OBJECT?: getBeacons.Param): Promise<getBeacons.Promised>

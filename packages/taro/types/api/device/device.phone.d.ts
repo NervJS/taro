@@ -8,9 +8,7 @@ declare namespace Taro {
     }
   }
   /**
-   *
-   * **示例代码：**
-   *
+   * @example
    ```javascript
    Taro.makePhoneCall({
      phoneNumber: '1340000' //仅为示例，并非真实的电话号码
