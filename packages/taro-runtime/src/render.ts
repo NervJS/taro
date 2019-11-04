@@ -1,10 +1,8 @@
 import { isText } from './utils'
 import { TaroElement } from './dom/element'
 import { TaroText } from './dom/text'
-import { TaroRootElement } from './dom/root'
 
 export interface MpInstance {
-  dom: TaroRootElement;
   setData: (data: unknown, cb: () => void) => void;
 }
 

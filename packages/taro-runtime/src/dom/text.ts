@@ -1,5 +1,6 @@
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
+import { Shortcuts } from '@tarojs/shared'
 
 export class TaroText extends TaroNode {
   private _value: string
@@ -11,7 +12,10 @@ export class TaroText extends TaroNode {
 
   public set textContent (text: string) {
     this._value = text
-    this.enqueueUpdate()
+    this.enqueueUpdate({
+      path: `${this._path}.${Shortcuts.Text}`,
+      value: text
+    })
   }
 
   public get textContent () {
@@ -20,7 +24,10 @@ export class TaroText extends TaroNode {
 
   public set nodeValue (text: string) {
     this._value = text
-    this.enqueueUpdate()
+    this.enqueueUpdate({
+      path: `${this._path}.${Shortcuts.Text}`,
+      value: text
+    })
   }
 
   public get nodeValue () {

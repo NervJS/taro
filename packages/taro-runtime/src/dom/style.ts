@@ -1,4 +1,4 @@
-import { isUndefined, toCamelCase, toDashed } from '@tarojs/shared'
+import { isUndefined, toCamelCase, toDashed, Shortcuts } from '@tarojs/shared'
 import { styleProperties } from './style_properties'
 import { TaroElement } from './element'
 
@@ -33,7 +33,10 @@ export class Style {
           }
           if (old !== newVal) {
             this._value[styleKey] = newVal
-            this._element.enqueueUpdate()
+            this._element.enqueueUpdate({
+              path: `${this._element._path}.${Shortcuts.Style}`,
+              value: this.cssText
+            })
           }
         }
       }

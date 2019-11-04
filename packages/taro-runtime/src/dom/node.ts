@@ -3,8 +3,16 @@ import { incrementId } from '../utils'
 import { TaroEventTarget } from './event_target'
 import { eventSource } from './event'
 import { TaroRootElement } from './root'
+import { Shortcuts } from '@tarojs/shared'
+import { hydrate } from '../render'
+import { TaroElement } from './element'
 
 const nodeId = incrementId()
+
+export interface UpdatePayload {
+  path: string;
+  value: unknown
+}
 
 export class TaroNode extends TaroEventTarget {
   public nodeType: NodeType
@@ -19,6 +27,8 @@ export class TaroNode extends TaroEventTarget {
 
   protected _root: TaroRootElement | null = null
 
+  public _path = ''
+
   public constructor (nodeType: NodeType, nodeName: string) {
     super()
     this.nodeType = nodeType
@@ -30,8 +40,10 @@ export class TaroNode extends TaroEventTarget {
   public get nextSibling () {
     const parentNode = this.parentNode
     if (parentNode) {
-      return parentNode.childNodes[this.findIndex(parentNode.childNodes, this) + 1]
+      return parentNode.childNodes[this.findIndex(parentNode.childNodes, this) + 1] || null
     }
+
+    return null
   }
 
   public get previousSibling () {
@@ -44,15 +56,27 @@ export class TaroNode extends TaroEventTarget {
   public insertBefore<T extends TaroNode> (newChild: T, refChild?: TaroNode | null): T {
     newChild.remove()
     newChild.parentNode = this
-    this.setRootElement(newChild)
+    let index = this.childNodes.length
+
     if (refChild) {
-      const index = this.findIndex(this.childNodes, refChild)
+      index = this.findIndex(this.childNodes, refChild)
       this.childNodes.splice(index, 0, newChild)
     } else {
       this.childNodes.push(newChild)
     }
-    this.enqueueUpdate()
+
+    this.setDataPath(newChild, index, this._path)
+    this.enqueueUpdate({
+      path: this.getChildPath(index),
+      value: this.hydrate(newChild)
+    })
     return newChild
+  }
+
+  private hydrate = (node: TaroNode) => () => hydrate(node as TaroElement)
+
+  private getChildPath (index: number, path = this._path) {
+    return `${path}.${Shortcuts.Childnodes}[${index}]`
   }
 
   public appendChild (child: TaroNode) {
@@ -68,11 +92,14 @@ export class TaroNode extends TaroEventTarget {
   }
 
   public removeChild<T extends TaroNode> (child: T): T {
-    this.removeRootElement(child)
     const index = this.findIndex(this.childNodes, child)
+    this.removeDataPath(child)
     child.parentNode = null
     this.childNodes.splice(index, 1)
-    this.enqueueUpdate()
+    this.enqueueUpdate({
+      path: this.getChildPath(index),
+      value: []
+    })
     eventSource.delete(this.uid)
     return child
   }
@@ -96,34 +123,36 @@ export class TaroNode extends TaroEventTarget {
     return this.childNodes.length > 0
   }
 
-  public enqueueUpdate () {
+  public enqueueUpdate (payload: UpdatePayload) {
     if (this._root === null) {
       return
     }
 
-    this._root.performUpdate()
+    this._root.enqueueUpdate(payload)
   }
 
-  private setRootElement (child: TaroNode) {
+  private setDataPath (child: TaroNode, index: number, path: string) {
     if (this._root === null || child._root === this._root) {
       return
     } else {
+      child._path = this.getChildPath(index, path)
       child._root = this._root
     }
 
     for (let i = 0; i < child.childNodes.length; i++) {
-      this.setRootElement(child.childNodes[i])
+      this.setDataPath(child.childNodes[i], i, child._path)
     }
   }
 
-  private removeRootElement (node: TaroNode) {
+  private removeDataPath (node: TaroNode) {
     if (node._root === null) {
       return
     }
 
     node._root = null
+    node._path = ''
     for (let i = 0; i < node.childNodes.length; i++) {
-      this.removeRootElement(node.childNodes[i])
+      this.removeDataPath(node.childNodes[i])
     }
   }
 }

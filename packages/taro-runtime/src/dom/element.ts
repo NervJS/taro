@@ -1,4 +1,4 @@
-import { isArray, isUndefined } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
@@ -58,14 +58,23 @@ export class TaroElement extends TaroNode {
   public setAttribute (qualifiedName: string, value: string) {
     if (qualifiedName === 'style') {
       this.style.cssText = value
+      qualifiedName = Shortcuts.Style
     } else if (qualifiedName === 'id') {
       eventSource.delete(this.uid)
       this.uid = value
       eventSource.set(value, this)
+      qualifiedName = 'uid'
     } else {
       this.props[qualifiedName] = value
+      if (qualifiedName === 'class') {
+        qualifiedName = Shortcuts.Class
+      }
     }
-    this.enqueueUpdate()
+
+    this.enqueueUpdate({
+      path: `${this._path}.${qualifiedName}`,
+      value
+    })
   }
 
   public removeAttribute (qualifiedName: string) {
@@ -74,7 +83,10 @@ export class TaroElement extends TaroNode {
     } else {
       delete this.props[qualifiedName]
     }
-    this.enqueueUpdate()
+    this.enqueueUpdate({
+      path: `${this._path}.${qualifiedName}`,
+      value: ''
+    })
   }
 
   public getAttribute (qualifiedName: string): string | null {
