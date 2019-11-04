@@ -44,7 +44,7 @@ const excludeNpmPkgs = ['ReactPropTypes']
 
 const resolvedCache: IResolvedCache = {}
 const copyedFiles = {}
-const excludeReplaceTaroFrameworkPkgs = new Set([taroJsRedux, taroJsMobx, taroJsMobxCommon])
+export const excludeReplaceTaroFrameworkPkgs = new Set([taroJsRedux, taroJsMobx, taroJsMobxCommon])
 
 export function resolveNpmPkgMainPath (
   pkgName: string,
