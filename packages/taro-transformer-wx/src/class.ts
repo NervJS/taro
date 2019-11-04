@@ -205,7 +205,7 @@ class Transformer {
       return false
     })
 
-    if (_constructor && t.isClassMethod(_constructor)) {
+    if (_constructor && t.isClassMethod(_constructor) && Adapter.type !== Adapters.quickapp) {
       _constructor.body.body.push(
         t.expressionStatement(t.assignmentExpression(
           '=',
