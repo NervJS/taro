@@ -10,9 +10,9 @@ export default class TaroSingleEntryDependency extends ModuleDependency {
     this.name = name
     this.loc = loc
     this.miniType = miniType
-	}
+  }
 
-	get type () {
-		return 'single entry'
-	}
+  get type () {
+    return 'single entry'
+  }
 }
