@@ -2,7 +2,7 @@ import { TaroElement, Style } from '@tarojs/runtime'
 import { isFunction, isString, isObject, isNumber } from '@tarojs/shared'
 import { CommonEvent } from '@tarojs/components'
 
-export type Props = Record<string, any>
+export type Props = Record<string, unknown>
 
 function isEventName (s: string) {
   return s[0] === 'o' && s[1] === 'n'

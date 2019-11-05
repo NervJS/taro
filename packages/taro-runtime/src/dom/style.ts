@@ -49,6 +49,7 @@ export class Style {
     let text = ''
     this._usedStyleProp.forEach(key => {
       const val = this[key]
+      if (!val) return
       text += `${toDashed(key)}: ${val};`
     })
     return text

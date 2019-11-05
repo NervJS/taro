@@ -1,6 +1,7 @@
 import { isText } from './utils'
 import { TaroElement } from './dom/element'
 import { TaroText } from './dom/text'
+import { Shortcuts } from '@tarojs/shared'
 
 export interface MpInstance {
   setData: (data: unknown, cb: () => void) => void;
@@ -9,17 +10,17 @@ export interface MpInstance {
 export function hydrate (node: TaroElement | TaroText) {
   if (isText(node)) {
     return {
-      nodeValue: node.nodeValue,
-      nodeName: node.nodeName
+      [Shortcuts.Text]: node.nodeValue,
+      [Shortcuts.NodeName]: node.nodeName
     }
   }
 
   return {
     ...node.props,
-    cn: node.childNodes.map(hydrate),
-    nodeName: node.nodeName,
-    cl: node.className,
-    style: node.cssText || '',
+    [Shortcuts.Childnodes]: node.childNodes.map(hydrate),
+    [Shortcuts.NodeName]: node.nodeName,
+    [Shortcuts.Class]: node.className,
+    [Shortcuts.Style]: node.cssText || '',
     uid: node.uid
   }
 }
