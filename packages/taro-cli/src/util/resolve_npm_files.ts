@@ -498,6 +498,7 @@ async function recursiveRequire ({
         }
       }
     }
+    outputNpmPath = outputNpmPath.replace(path.extname(outputNpmPath), '.js')
     fs.ensureDirSync(path.dirname(outputNpmPath))
     fs.writeFileSync(outputNpmPath, fileContent)
     let modifyOutput = outputNpmPath.replace(path.dirname(rootNpm) + path.sep, '')
