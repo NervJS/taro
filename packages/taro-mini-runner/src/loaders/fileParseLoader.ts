@@ -49,7 +49,6 @@ function processAst (
   let hasComponentDidHide
   let hasComponentDidShow
   let hasComponentWillMount
-  let hasEnablePageScroll
   if (isQuickApp) {
     cannotRemoves.push(taroJsComponents)
   }
@@ -149,8 +148,6 @@ function processAst (
         hasComponentDidShow = true
       } else if (keyName === 'componentDidHide') {
         hasComponentDidHide = true
-      } else if (keyName === 'onPageScroll' || keyName === 'onReachBottom') {
-        hasEnablePageScroll = true
       }
     },
 
