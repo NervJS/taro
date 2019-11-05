@@ -83,6 +83,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-taroapi": "file:packages/babel-plugin-transform-taroapi",
     "conventional-changelog-cli": "^2.0.1",
+    "copy": "^0.3.2",
     "css-loader": "^0.28.10",
     "docusaurus": "^2.0.0-alpha.23",
     "enzyme": "^3.10.0",

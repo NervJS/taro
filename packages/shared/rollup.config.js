@@ -1,6 +1,6 @@
 const { join } = require('path')
 const buble = require('rollup-plugin-buble')
-const alias = require('rollup-plugin-alias')
+// const alias = require('rollup-plugin-alias')
 const typescript = require('rollup-plugin-typescript2')
 const cwd = __dirname
 
@@ -15,14 +15,6 @@ const baseConfig = {
     }
   ],
   plugins: [
-    alias({
-      entries: [
-        {
-          find: '@tarojs/shared',
-          replacement: join(cwd, '../shared/dist/index.esm')
-        }
-      ]
-    }),
     typescript(),
     buble()
   ]
@@ -31,7 +23,7 @@ const esmConfig = Object.assign({}, baseConfig, {
   output: Object.assign({}, baseConfig.output, {
     sourcemap: true,
     format: 'es',
-    file: join(cwd, 'dist/index.esm.js')
+    file: join(cwd, 'dist/shared.esm.js')
   }),
   plugins: baseConfig.plugins.slice(0, baseConfig.plugins.length - 1)
 })

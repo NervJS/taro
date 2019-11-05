@@ -10,5 +10,6 @@
       "language": "typescriptreact",
       "autoFix": true
     }
-  ]
+  ],
+  "jest.autoEnable": false
 }

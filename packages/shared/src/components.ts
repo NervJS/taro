@@ -498,7 +498,7 @@ interface Components {
   [key: string]: Record<string, string>;
 }
 
-function createComponents (components: Components) {
+export function createMiniComponents (components: Components) {
   const result: Components = Object.create(null)
 
   for (const key in components) {
@@ -528,7 +528,7 @@ function createComponents (components: Components) {
   return result
 }
 
-export const internalComponents = createComponents({
+export const internalComponents = {
   View,
   Icon,
   Progress,
@@ -570,4 +570,4 @@ export const internalComponents = createComponents({
   WebView,
   NavigationBar,
   PageMeta
-})
+}

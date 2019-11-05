@@ -8,7 +8,7 @@
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },
-  "module": "dist/index.esm.js",
+  "module": "dist/runtime.esm.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/NervJS/taro/tree/master/packages/taro-dom"

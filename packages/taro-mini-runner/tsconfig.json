@@ -20,7 +20,7 @@
     "traceResolution": false,
     "types": ["jest"],
     "paths": {
-      "@tarojs/shared": ["../shared/src"]
+      "@tarojs/shared": ["./src/@tarojs/shared/src"]
     }
   },
   "include": [

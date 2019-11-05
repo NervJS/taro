@@ -20,7 +20,7 @@ const baseConfig = {
       entries: [
         {
           find: '@tarojs/shared',
-          replacement: join(cwd, '../shared/dist/index.esm')
+          replacement: join(cwd, '../shared/dist/shared.esm')
         }
       ]
     }),
@@ -33,7 +33,7 @@ const esmConfig = Object.assign({}, baseConfig, {
   output: Object.assign({}, baseConfig.output, {
     sourcemap: true,
     format: 'es',
-    file: join(cwd, 'dist/index.esm.js')
+    file: join(cwd, 'dist/react.esm.js')
   }),
   plugins: baseConfig.plugins.slice(0, baseConfig.plugins.length - 1)
 })
