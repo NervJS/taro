@@ -50,9 +50,18 @@ export function writeJson (routepath: string, doc: DocEntry[]) {
 }
 
 export function writeDoc (routepath: string, doc: DocEntry[]) {
+  const o = path.parse(routepath)
+  const md: string[] = ['---', `title: ${o.base}`, `sidebar_label: ${o.base}`, '---', '']
+  doc.forEach(e => {
+    // console.log(`${routepath}/${e.name}.md`)
+    // if (e.name === 'Taro') {
+    //   console.log(routepath, e)
+    // }
+    e.name !== 'Taro' && md.push(JSON.stringify(e, undefined, 2))
+  })
   fs.writeFileSync(
     `${routepath}.md`,
-    JSON.stringify(doc, undefined, 4),
+    md.join('\n'),
     {}
   )
 }

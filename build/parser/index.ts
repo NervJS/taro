@@ -46,7 +46,7 @@ export function generateDocumentation(
       symbol && output.push(serializeClass(symbol))
     } else if (ts.isFunctionDeclaration(node)) {
       const signature = checker.getSignatureFromDeclaration(node)
-      signature && output.push(serializeSignature(signature))
+      signature && output.push(serializeSignature(signature, node.name && ts.idText(node.name)))
     } else if (ts.isInterfaceDeclaration(node)) {
       const symbol = checker.getTypeAtLocation(node).getSymbol()
       symbol && output.push(serializeType(symbol, undefined, 'InterfaceDeclaration'))
@@ -93,7 +93,7 @@ export function generateDocumentation(
       symbol.valueDeclaration!
     )
     const signatures = constructorType.getConstructSignatures()
-    details.constructors = signatures.map(serializeSignature)
+    details.constructors = signatures.map(n => serializeSignature(n))
     return details
   }
 
@@ -113,9 +113,10 @@ export function generateDocumentation(
   }
 
   /** Serialize a signature (call or construct) */
-  function serializeSignature(signature: ts.Signature) {
+  function serializeSignature(signature: ts.Signature, name?: string) {
     const typeParameters = signature.getTypeParameters() || []
     return {
+      name,
       jsTags: signature.getJsDocTags(),
       documentation: ts.displayPartsToString(signature.getDocumentationComment(checker)),
       parameters: signature.getParameters().map((e, i) =>
