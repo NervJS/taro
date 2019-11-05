@@ -113,8 +113,8 @@ p {
 .footer_cont {
   position: relative;
   box-sizing: content-box;
-  height: 350px;
-  padding-top: 100px;
+  //height: 350px;
+  margin-top: 100px;
 }
 
 .footer .footer_logo_container {
@@ -142,14 +142,26 @@ p {
   background-size: 100% auto;
 }
 
+.footer .footer_cont {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.footer .footer_logo_container {
+  height: 200px;
+  position: relative;
+}
+
 .footer .footer_link_container {
-  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
   box-sizing: border-box;
-  width: 800px;
+  max-width: 800px;
   vertical-align: top;
 }
 
 .footer .footer_link {
+  height: 350px;
   display: inline-block;
   width: 190px;
   margin-left: 10px;
@@ -335,6 +347,6 @@ pre {
   }
 }
 
-#back-to-top{
+#back-to-top {
   opacity: 0.6;
 }
