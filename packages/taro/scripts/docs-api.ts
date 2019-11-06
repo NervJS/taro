@@ -114,8 +114,10 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
       ''
     ]
     e.documentation && md.push(e.documentation, '')
-    e.type && md.push('## 类型', '```typescript', e.type, '```', '')
-    parameters.length && md.push('## 参数')
+    const since = tags.find(tag => tag.name === 'since')
+    since && md.push(`> 最低版本: ${since.text || ''}`, '')
+    e.type && md.push('## 类型', '', '```typescript', e.type, '```', '')
+    parameters.length && md.push('## 参数', '')
     parameters.map(p => {
       const arr = p.members || p.exports || []
       const hasType = arr.some(v => !!v.type && v.type !== p.name)
@@ -144,10 +146,10 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     example && md.push('## 示例代码', '', example.text || '', '')
     const supported = tags.find(tag => tag.name === 'supported')
     const apis = getAPI(name, supported && supported.text)
-    apis && md.push('## API 支持度', ...apis,
+    apis.length > 0 && md.push('## API 支持度', '', ...apis,
     '')
     const see = tags.find(tag => tag.name === 'see')
-    see && md.push('', `> [参考文档](${see.text || ''})`, '')
+    see && md.push(`> [参考文档](${see.text || ''})`, '')
     // md.push(JSON.stringify(e, undefined, 2))
 
     fs.writeFileSync(
