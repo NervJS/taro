@@ -2,9 +2,6 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "umd",
-    "resolveJsonModule": false,
-    "paths": {
-      "@tarojs/taro-h5": ["packages/taro-h5"]
-    }
+    "resolveJsonModule": false
   }
 }

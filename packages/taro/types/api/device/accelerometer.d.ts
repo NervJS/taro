@@ -2,10 +2,10 @@ declare namespace Taro {
   namespace startAccelerometer {
     type Param = {
       /**
-       * 监听加速度数据回调函数的执行频率 game 适用于更新游戏的回调频率，在 20ms/次 左右 ui 适用于更新 UI 的回调频率，在 60ms/次 左右 normal 普通的回调频率，在 200ms/次 左右
+       * 监听加速度数据回调函数的执行频率
        * @default normal
        */
-      interval?: 'game' | 'ui' | 'normal'
+      interval?: keyof typeof interval
       /**
        * 接口调用成功的回调函数
        */
@@ -19,10 +19,26 @@ declare namespace Taro {
        */
       complete?: Function
     }
+
+    enum interval {
+      /**
+       * 适用于更新游戏的回调频率，在 20ms/次 左右
+       */
+      'game',
+      /**
+       * 适用于更新 UI 的回调频率，在 60ms/次 左右
+       */
+      'ui',
+      /**
+       * 普通的回调频率，在 200ms/次 左右
+       */
+      'normal'
+    }
   }
   /**
    * 开始监听加速度数据。
    * @since 1.1.0
+   * @supported weapp, h5, rn
    * @example
 ```javascript
 import Taro from '@tarojs/taro'
