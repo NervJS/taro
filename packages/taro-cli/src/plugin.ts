@@ -62,7 +62,7 @@ export async function build (appPath: string, { watch, platform }: IBuildConfig)
 
 function compilePluginJson (pluginJson, pluginPath) {
   if (typeof pluginJson.main === 'string') {
-    pluginJson.main = pluginJson.main.replace(/.tsx$/, '.js')
+    pluginJson.main = pluginJson.main.replace(/\.tsx$|\.ts$/, '.js')
   }
   fs.writeJSONSync(pluginPath, pluginJson)
 }
@@ -252,7 +252,12 @@ function wxPluginWatchFiles () {
           if (filePath === outputFilePath) {
             return
           }
-          fs.copySync(filePath, outputFilePath)
+          const pluginJsonPath = path.join(sourceDir, PLUGIN_ROOT, PLUGIN_JSON)
+          if (filePath === pluginJsonPath) {
+            compilePluginJson(fs.readJSONSync(filePath), outputFilePath)
+          } else {
+            fs.copySync(filePath, outputFilePath)
+          }
         }
       }
 
