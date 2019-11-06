@@ -1,5 +1,5 @@
 export default {
-  'background': (value, declaration, addDeclaration) => {
+  background: (value, declaration, addDeclaration) => {
     if (~value.indexOf('linear-gradient')) { // 线性
       // 按照指定方向渐变时，必须有to在direction前。
       const DIR_REG = /linear\-gradient\((top|right|bottom|left)/

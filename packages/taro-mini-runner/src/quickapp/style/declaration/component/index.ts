@@ -1,6 +1,6 @@
 export default {
   'placeholder-color': '', // input
-  'columns': '', // list
+  columns: '', // list
   'column-span': '', // list-item
   'mask-color': '', // popup
   'progress-color': '', // refresh

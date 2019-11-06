@@ -4,11 +4,11 @@ export default {
   'box-align': 'I:',
   'box-orient': (value, declaration, addDeclaration) => {
     const boxOrient = {
-      'horizontal': 'row',
-      'vertical': 'row-reverse',
+      horizontal: 'row',
+      vertical: 'row-reverse',
       'inline-axis': 'row',
       'block-axis': 'row-reverse',
-      'inherit': ''
+      inherit: ''
     }
     if (value === 'inherit') {
       return 'I:'
@@ -19,9 +19,9 @@ export default {
     }
     return 'I:'
   },
-  'float': 'E:',
-  'content': 'I:',
-  'overflow': 'I:',
+  float: 'E:',
+  content: 'I:',
+  overflow: 'I:',
   'overflow-x': 'I:',
   'overflow-y': 'I:',
   'overflow-scrolling': 'I:'

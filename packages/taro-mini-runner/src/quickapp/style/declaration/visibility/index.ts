@@ -1,3 +1,3 @@
 export default {
-  'visibility': ''
+  visibility: ''
 }

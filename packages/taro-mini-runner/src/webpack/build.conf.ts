@@ -14,7 +14,7 @@ import {
   getMiniPlugin,
   getProviderPlugin,
   getMiniCssExtractPlugin,
-  getEntry,
+  getEntry
 } from './chain'
 import getBaseConf from './base.conf'
 import { BUILD_TYPES, MINI_APP_FILES, FRAMEWORK_MAP } from '../utils/constants'
@@ -85,7 +85,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       plugin: new VueLoaderPlugin()
     }
   }
-  env['FRAMEWORK'] = JSON.stringify(framework)
+  env.FRAMEWORK = JSON.stringify(framework)
   const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
   const entryRes = getEntry({
     sourceDir,
@@ -103,7 +103,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
     isBuildPlugin: !!config.isBuildPlugin,
-    commonChunks: !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors'],
+    commonChunks: config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors'],
     baseLevel,
     framework
   })
@@ -114,17 +114,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   }, miniCssExtractPluginOption])
 
   plugin.providerPlugin = getProviderPlugin({
-    'window': ['@tarojs/runtime', 'window'],
-    'document': ['@tarojs/runtime', 'document']
+    window: ['@tarojs/runtime', 'window'],
+    document: ['@tarojs/runtime', 'document']
   })
 
-  const isCssoEnabled = (csso && csso.enable === false)
-    ? false
-    : true
+  const isCssoEnabled = !((csso && csso.enable === false))
 
-  const isUglifyEnabled = (uglify && uglify.enable === false)
-    ? false
-    : true
+  const isUglifyEnabled = !((uglify && uglify.enable === false))
 
   if (mode === 'production') {
     if (isUglifyEnabled) {
@@ -175,13 +171,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     optimization: {
       minimizer,
       runtimeChunk: {
-        name: !!config.isBuildPlugin ? 'plugin/runtime' : 'runtime'
+        name: config.isBuildPlugin ? 'plugin/runtime' : 'runtime'
       },
       splitChunks: {
         chunks: 'all',
         maxInitialRequests: Infinity,
         minSize: 0,
-        name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors'
+        name: config.isBuildPlugin ? 'plugin/vendors' : 'vendors'
       }
     }
   })

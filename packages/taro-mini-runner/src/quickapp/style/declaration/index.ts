@@ -11,7 +11,7 @@ function parse (dir) {
     const filePath = path.join(dirPath, file)
     if (fs.statSync(filePath).isFile()) {
       if (path.extname(filePath) === '.js') {
-        Object.assign(declarations, require(filePath)['default'])
+        Object.assign(declarations, require(filePath).default)
       }
     } else {
       parse(path.join(dir, file))

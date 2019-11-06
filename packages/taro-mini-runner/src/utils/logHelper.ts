@@ -33,7 +33,7 @@ const LOG_MAP = {
 const getServeSpinner = (() => {
   let spinner
   return () => {
-    if (!spinner) spinner = ora(`Starting development server, please wait~`)
+    if (!spinner) spinner = ora('Starting development server, please wait~')
     return spinner
   }
 })()
@@ -68,7 +68,7 @@ const printBuildError = (err: Error): void => {
 const printSuccess = (buildAdapter: BUILD_TYPES) => {
   getServeSpinner().stopAndPersist({
     symbol: '✅ ',
-    text: isFirst ? chalk.green(`编译成功，${LOG_MAP[buildAdapter].OPEN}\n`) : chalk.green(`编译成功\n`)
+    text: isFirst ? chalk.green(`编译成功，${LOG_MAP[buildAdapter].OPEN}\n`) : chalk.green('编译成功\n')
   })
 }
 

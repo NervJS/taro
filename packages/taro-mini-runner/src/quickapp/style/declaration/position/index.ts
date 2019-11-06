@@ -9,11 +9,11 @@ function setValue (value, declaration) {
 }
 
 export default {
-  'bottom': (value, declaration, addDeclaration) => {
+  bottom: (value, declaration, addDeclaration) => {
     return setValue(value, declaration)
   },
   // 'display': '',
-  'display': (value, declaration, addDeclaration, rule) => {
+  display: (value, declaration, addDeclaration, rule) => {
     // 暂时忽略掉不支持的情况
     if (!~['flex', 'none'].indexOf(value)) {
       return 'E:'
@@ -24,10 +24,10 @@ export default {
       }
     }
   },
-  'left': (value, declaration, addDeclaration) => {
+  left: (value, declaration, addDeclaration) => {
     return setValue(value, declaration)
   },
-  'position': (value, declaration, addDeclaration) => {
+  position: (value, declaration, addDeclaration) => {
     if (value === 'static') {
       declaration.value = 'none'
     } else if (value === 'absolute' || value === 'relative') {
@@ -37,13 +37,13 @@ export default {
       return 'I:'
     }
   },
-  'right': (value, declaration, addDeclaration) => {
+  right: (value, declaration, addDeclaration) => {
     return setValue(value, declaration)
   },
-  'top': (value, declaration, addDeclaration) => {
+  top: (value, declaration, addDeclaration) => {
     return setValue(value, declaration)
   },
-  'overflow': 'I:',
+  overflow: 'I:',
   'vertical-align': 'I:',
   'z-index': 'I:'
 }

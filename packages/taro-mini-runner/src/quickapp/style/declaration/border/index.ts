@@ -42,7 +42,7 @@ function setWidth (value, declaration) {
 }
 
 export default {
-  'border': (value, declaration, addDeclaration) => {
+  border: (value, declaration, addDeclaration) => {
     if (value === 'none') {
       declaration.value = 0
     }

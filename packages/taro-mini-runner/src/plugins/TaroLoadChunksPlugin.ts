@@ -74,7 +74,7 @@ function getIdOrName (chunk) {
     return chunk.id
   }
   return chunk.name
- }
+}
 
 function addRequireToSource (id, modules, commonChunks) {
   const source = new ConcatSource()

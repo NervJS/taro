@@ -211,8 +211,8 @@ export const getModule = (appPath: string, {
       },
       {
         modules: typeof generateScopedName === 'function'
-        ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
-        : { localIdentName: generateScopedName }
+          ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
+          : { localIdentName: generateScopedName }
       }
     ),
     cssLoaderOption

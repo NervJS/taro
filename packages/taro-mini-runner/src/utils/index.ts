@@ -59,7 +59,7 @@ export function traverseObjectNode (node, buildAdapter: string, parentKey?: stri
   }
   if (node.type === 'ObjectExpression') {
     const properties = node.properties
-    const obj= {}
+    const obj = {}
     properties.forEach(p => {
       let key = t.isIdentifier(p.key) ? p.key.name : p.key.value
       if (CONFIG_MAP[buildAdapter][key] === false) {

@@ -1,5 +1,5 @@
 export default {
-  'margin': (value, declaration, addDeclaration) => {
+  margin: (value, declaration, addDeclaration) => {
     if (~value.indexOf('auto')) {
       return 'I:'
     }

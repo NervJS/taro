@@ -1,5 +1,5 @@
 export default {
-  'color': (value, declaration, addDeclaration) => {
+  color: (value, declaration, addDeclaration) => {
     if (~value.indexOf('inherit')) {
       return 'I:'
     }
@@ -27,11 +27,11 @@ export default {
   'word-wrap': 'I:',
   'word-break': 'I:',
   'text-align-last': 'I:',
-  'line-clamp':  (value, declaration, addDeclaration) => {
+  'line-clamp': (value, declaration, addDeclaration) => {
     if (value > 0) {
       addDeclaration('lines', value)
     }
     return 'I:'
   },
-  'lines': ''
+  lines: ''
 }

@@ -1,5 +1,5 @@
 export default {
-  'height': (value, declaration, addDeclaration) => {
+  height: (value, declaration, addDeclaration) => {
     if (~value.indexOf('auto') || ~value.indexOf('inherit')) {
       addDeclaration('display', 'flex') // 部分应用利用height:0,height:auto来实现隐藏,显示
       //    addDeclaration('flex-direction', 'row')
@@ -15,7 +15,7 @@ export default {
   'max-width': 'I:',
   'min-height': 'I:',
   'min-width': 'I:',
-  'width': (value, declaration, addDeclaration) => {
+  width: (value, declaration, addDeclaration) => {
     if (~value.indexOf('auto') || ~value.indexOf('inherit')) {
       addDeclaration('display', 'flex') // 部分应用利用height:0,height:auto来实现隐藏,显示
       //    addDeclaration('flex-direction', 'row')
