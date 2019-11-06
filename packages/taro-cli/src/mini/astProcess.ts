@@ -49,6 +49,7 @@ import {
 } from '../util/astConvert'
 import babylonConfig from '../config/babylon'
 import { getExactedNpmFilePath, getNotExistNpmList } from '../util/npmExact'
+import { excludeReplaceTaroFrameworkPkgs } from '../util/resolve_npm_files'
 
 import { IComponentObj } from './interface'
 import {
@@ -490,7 +491,10 @@ export function parseAst (
               if (defaultSpecifier) {
                 taroImportDefaultName = defaultSpecifier
               }
-              value = taroMiniAppFramework
+              excludeReplaceTaroFrameworkPkgs.add(taroMiniAppFramework)
+              if (!Array.from(excludeReplaceTaroFrameworkPkgs).some(item => sourceFilePath.replace(/\\/g, '/').indexOf(item) >= 0)) {
+                value = taroMiniAppFramework
+              }
             } else if (value === taroJsRedux) {
               specifiers.forEach(item => {
                 if (item.type === 'ImportSpecifier') {
@@ -592,7 +596,10 @@ export function parseAst (
                   const id = parentNode.declarations[0].id
                   if (value === taroJsFramework && id.type === 'Identifier') {
                     taroImportDefaultName = id.name
-                    value = taroMiniAppFramework
+                    excludeReplaceTaroFrameworkPkgs.add(taroMiniAppFramework)
+                    if (!Array.from(excludeReplaceTaroFrameworkPkgs).some(item => sourceFilePath.replace(/\\/g, '/').indexOf(item) >= 0)) {
+                      value = taroMiniAppFramework
+                    }
                   } else if (value === taroJsRedux) {
                     const declarations = parentNode.declarations
                     declarations.forEach(item => {

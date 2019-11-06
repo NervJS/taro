@@ -624,16 +624,18 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
     }, Util.generateEnvList(projectConfig.env || {}), Util.generateConstantsList(projectConfig.defineConstants || {}))
     // TODO 使用 babel-plugin-transform-jsx-to-stylesheet 处理 JSX 里面样式的处理，删除无效的样式引入待优化
 
-    const extraBabelPlugins = [
+    const plugins = [
       [require('babel-plugin-transform-jsx-to-stylesheet'), {filePath}],
+      require('babel-plugin-transform-class-properties'),
+      require('babel-plugin-transform-decorators-legacy').default,
       [require('babel-plugin-danger-remove-unused-import'), {ignore: ['@tarojs/taro', 'react', 'react-native', 'nervjs']}],
       [require('babel-plugin-transform-define').default, constantsReplaceList]
     ]
 
-    const babelConfig = projectConfig.plugins.babel
-    const plugins = babelConfig.plugins.concat(extraBabelPlugins)
-    const newBabelConfig = Object.assign({}, babelConfig, {plugins})
-    
+    // const babelConfig = projectConfig.plugins.babel
+    // const plugins = babelConfig.plugins.concat(extraBabelPlugins)
+    const newBabelConfig = Object.assign({}, {plugins})
+
     ast = babel.transformFromAst(ast, code, newBabelConfig).ast
   } catch (e) {
     throw e

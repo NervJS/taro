@@ -28,9 +28,11 @@ import Taro, { Component } from '@tarojs/taro'
 import { WebView } from '@tarojs/components'
 
 class App extends Component {
+  handleMessage () {}
+  
   render () {
     return (
-      <WebView src='https://mp.weixin.qq.com/'  />
+      <WebView src='https://mp.weixin.qq.com/' onMessage={this.handleMessage} />
     )
   }
 }

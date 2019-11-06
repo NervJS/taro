@@ -154,6 +154,7 @@ export class RenderParser {
   private usedState: Set<string>
   private componentProperies: Set<string>
   private loopRefs: Map<t.JSXElement, LoopRef>
+  private refObjExpr: t.ObjectExpression[]
   private upperCaseComponentProps: Set<string>
 
   private finalReturnElement!: t.JSXElement
@@ -1604,6 +1605,7 @@ export class RenderParser {
     customComponentNames: Set<string>,
     componentProperies: Set<string>,
     loopRefs: Map<t.JSXElement, LoopRef>,
+    refObjExpr: t.ObjectExpression[],
     methodName: string
   ) {
     this.renderPath = renderPath
@@ -1614,6 +1616,7 @@ export class RenderParser {
     this.customComponentNames = customComponentNames
     this.componentProperies = componentProperies
     this.loopRefs = loopRefs
+    this.refObjExpr = refObjExpr
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
     this.isDefaultRender = methodName === 'render'
@@ -2428,6 +2431,14 @@ export class RenderParser {
     })
     this.renderPath.node.body.body.unshift(...Array.from(this.genCompidExprs))
     if (this.isDefaultRender) {
+      if (this.refObjExpr && this.refObjExpr.length) {
+        this.renderPath.node.body.body.push(t.expressionStatement(
+          t.callExpression(
+            t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('$$refs')), t.identifier('pushRefs')),
+            [t.arrayExpression(this.refObjExpr)]
+          )
+        ))
+      }
       this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
         // ...propsStatement,
         buildAssignState(pendingState),

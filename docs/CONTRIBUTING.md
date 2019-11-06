@@ -2,7 +2,7 @@
 
 ## Taro 组成
 | NPM 包           |   描述 |
-| ------------- |:-------------:|
+| ------------- |:------------- |
 | [`@tarojs/taro`](https://www.npmjs.com/package/@tarojs/taro)      |  Taro 运行时框架  |
 | [`@tarojs/taro-h5`](https://www.npmjs.com/package/@tarojs/taro-h5) |  Taro H5 运行时框架  |
 | [`@tarojs/taro-rn`](https://www.npmjs.com/package/@tarojs/taro-rn) |  Taro React Native 运行时框架  |

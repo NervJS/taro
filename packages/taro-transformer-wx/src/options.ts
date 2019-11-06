@@ -39,6 +39,7 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
   }
   return {
     filename: transformOptions.sourcePath,
+    babelrc: false,
     parserOpts: {
       sourceType: 'module',
       plugins: [

@@ -11,6 +11,7 @@ import {
   internal_inline_style,
   internal_get_original,
   interceptors,
+  RefsArray,
   useEffect,
   useLayoutEffect,
   useReducer,
@@ -62,6 +63,7 @@ export const Taro = {
   getElementById,
   propsManager,
   interceptors,
+  RefsArray,
   genCompid,
   // eslint-disable-next-line object-property-newline
   useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo,
