@@ -5,8 +5,8 @@
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
   "license": "MIT",
-  "main": "dist/shared.esm.js",
-  "module": "dist/shared.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"

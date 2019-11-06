@@ -16,7 +16,7 @@ import { getPostcssPlugins } from './postcss.conf'
 
 import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption } from '../utils/types'
-import { recursiveMerge, isNodeModule, resolveScriptPath } from '../utils'
+import { recursiveMerge, isNodeModule, resolveMainFilePath } from '../utils'
 import {
   REG_SASS,
   REG_LESS,
@@ -26,7 +26,8 @@ import {
   REG_FONT,
   REG_IMAGE,
   BUILD_TYPES,
-  REG_SCRIPTS
+  REG_SCRIPTS,
+  REG_VUE
 } from '../utils/constants'
 
 const globalObjectMap = {
@@ -114,6 +115,8 @@ export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-load
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
+export const getVueLoader = pipe(mergeOption, partial(getLoader, 'vue-loader'))
+
 const getExtractCssLoader = () => {
   return {
     loader: MiniCssExtractPlugin.loader
@@ -300,6 +303,14 @@ export const getModule = (appPath: string, {
       enforce: 'post',
       use: [extractCssLoader]
     },
+    vue: {
+      test: REG_VUE,
+      use: {
+        vueLoader: getVueLoader([{
+          optimizeSSR: false
+        }])
+      }
+    },
     script: {
       test: REG_SCRIPTS,
       use: {
@@ -364,11 +375,11 @@ export const getEntry = ({
     if (key === 'main') {
       const filePath = path.join(pluginDir, pluginConfig[key])
       const fileName = path.basename(filePath).replace(path.extname(filePath), '')
-      entryObj[`plugin/${fileName}`] = [resolveScriptPath(filePath.replace(path.extname(filePath), ''))]
+      entryObj[`plugin/${fileName}`] = [resolveMainFilePath(filePath.replace(path.extname(filePath), ''))]
     } else if (key === 'publicComponents' || key === 'pages') {
       Object.keys(pluginConfig[key]).forEach(subKey => {
         const filePath = path.join(pluginDir, pluginConfig[key][subKey])
-        entryObj[`plugin/${pluginConfig[key][subKey]}`] = [resolveScriptPath(filePath.replace(path.extname(filePath), ''))]
+        entryObj[`plugin/${pluginConfig[key][subKey]}`] = [resolveMainFilePath(filePath.replace(path.extname(filePath), ''))]
       })
     }
   })

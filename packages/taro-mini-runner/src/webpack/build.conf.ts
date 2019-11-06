@@ -17,7 +17,7 @@ import {
   getEntry,
 } from './chain'
 import getBaseConf from './base.conf'
-import { BUILD_TYPES, MINI_APP_FILES } from '../utils/constants'
+import { BUILD_TYPES, MINI_APP_FILES, FRAMEWORK_MAP } from '../utils/constants'
 import { Targets } from '../plugins/MiniPlugin'
 
 const emptyObj = {}
@@ -57,7 +57,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     csso,
     uglify
   } = config
-  
+
   let { copy } = config
 
   const plugin: any = {}
@@ -79,6 +79,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
+  if (framework === FRAMEWORK_MAP.VUE) {
+    const VueLoaderPlugin = require('vue-loader/lib/plugin')
+    plugin.vueLoaderPlugin = {
+      plugin: new VueLoaderPlugin()
+    }
+  }
+  env['FRAMEWORK'] = JSON.stringify(framework)
   const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
   const entryRes = getEntry({
     sourceDir,

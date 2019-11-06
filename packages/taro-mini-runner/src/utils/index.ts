@@ -9,11 +9,10 @@ import * as babel from '@babel/core'
 
 import {
   CONFIG_MAP,
-  JS_EXT,
-  TS_EXT,
   NODE_MODULES_REG,
   processTypeMap,
-  processTypeEnum
+  processTypeEnum,
+  SCRIPT_EXT
 } from './constants'
 import { IOption, IComponentObj } from './types'
 
@@ -98,7 +97,7 @@ export function replaceAliasPath (filePath: string, name: string, pathAlias: obj
 
   const prefixs = Object.keys(pathAlias)
   if (prefixs.includes(name)) {
-    return promoteRelativePath(path.relative(filePath, fs.realpathSync(resolveScriptPath(pathAlias[name]))))
+    return promoteRelativePath(path.relative(filePath, fs.realpathSync(resolveMainFilePath(pathAlias[name]))))
   }
   const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
   name = name.replace(reg, function (m, $1, $2) {
@@ -126,12 +125,11 @@ export function promoteRelativePath (fPath: string): string {
   return fPath.replace(/\\/g, '/')
 }
 
-export function resolveScriptPath (p: string): string {
+export function resolveMainFilePath (p: string, extArrs = SCRIPT_EXT): string {
   const realPath = p
   const taroEnv = process.env.TARO_ENV
-  const SCRIPT_EXT = JS_EXT.concat(TS_EXT)
-  for (let i = 0; i < SCRIPT_EXT.length; i++) {
-    const item = SCRIPT_EXT[i]
+  for (let i = 0; i < extArrs.length; i++) {
+    const item = extArrs[i]
     if (taroEnv) {
       if (fs.existsSync(`${p}.${taroEnv}${item}`)) {
         return `${p}.${taroEnv}${item}`
@@ -166,7 +164,7 @@ export function buildUsingComponents (
     if (isAliasPath(componentPath as string, pathAlias)) {
       componentPath = replaceAliasPath(filePath, componentPath as string, pathAlias)
     }
-    componentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
+    componentPath = resolveMainFilePath(path.resolve(filePath, '..', componentPath as string))
     if (fs.existsSync(componentPath)) {
       if (NODE_MODULES_REG.test(componentPath) && !NODE_MODULES_REG.test(filePath)) {
         componentPath = componentPath.replace(NODE_MODULES_REG, path.join(sourceDir, 'npm'))

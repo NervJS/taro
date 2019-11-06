@@ -8,8 +8,8 @@ import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 
-import { BUILD_TYPES, MINI_APP_FILES, CONFIG_MAP, META_TYPE, NODE_MODULES_REG } from '../utils/constants'
-import { resolveScriptPath, readConfig, isEmptyObject } from '../utils'
+import { BUILD_TYPES, MINI_APP_FILES, CONFIG_MAP, META_TYPE, NODE_MODULES_REG, FRAMEWORK_MAP, VUE_EXT, SCRIPT_EXT } from '../utils/constants'
+import { resolveMainFilePath, readConfig, isEmptyObject } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { buildBaseTemplate, buildPageTemplate } from '../template'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
@@ -87,7 +87,7 @@ export default class TaroMiniPlugin {
 			callback(err)
 		}
   }
-  
+
   apply (compiler: webpack.Compiler) {
     this.context = compiler.context
     this.appConfig = this.getAppConfig(compiler)
@@ -177,7 +177,7 @@ export default class TaroMiniPlugin {
         path: usingComponents[item]
       })) : []
       depComponents.forEach(item => {
-        const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
+        const componentPath = resolveMainFilePath(path.resolve(path.dirname(file.path), item.path))
         if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
           const componentName = this.getComponentName(componentPath)
           const componentTempPath = this.getTemplatePath(componentPath)
@@ -198,9 +198,10 @@ export default class TaroMiniPlugin {
     if (!appPages || !appPages.length) {
       throw new Error('全局配置缺少 pages 字段，请检查！')
     }
+    const { framework } = this.options
     this.pages = new Set([
       ...appPages.map(item => {
-        const pagePath = resolveScriptPath(path.join(this.options.sourceDir, item))
+        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), framework === FRAMEWORK_MAP.VUE ? VUE_EXT : SCRIPT_EXT)
         const pageTemplatePath = this.getTemplatePath(pagePath)
         const isNative = this.isNativePageORComponent(pageTemplatePath)
         return { name: item, path: pagePath, isNative }
@@ -211,6 +212,7 @@ export default class TaroMiniPlugin {
 
   getSubPackages (appConfig) {
     const subPackages = appConfig.subPackages || appConfig['subpackages']
+    const { framework } = this.options
     if (subPackages && subPackages.length) {
       subPackages.forEach(item => {
         if (item.pages && item.pages.length) {
@@ -225,7 +227,7 @@ export default class TaroMiniPlugin {
               }
             })
             if (!hasPageIn) {
-              const pagePath = resolveScriptPath(path.join(this.options.sourceDir, pageItem))
+              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), framework === FRAMEWORK_MAP.VUE ? VUE_EXT : SCRIPT_EXT)
               const templatePath = this.getTemplatePath(pagePath)
               const isNative = this.isNativePageORComponent(templatePath)
               this.pages.add({
@@ -307,8 +309,7 @@ export default class TaroMiniPlugin {
   }
 
   generateMiniFiles (compilation: webpack.compilation.Compilation) {
-    const { baseLevel, framework } = this.options
-    console.log(baseLevel,framework)
+    const { baseLevel } = this.options
     this.generateConfigFile(compilation, this.appEntry, this.appConfig)
     this.generateTemplateFile(compilation, 'base', buildBaseTemplate, { level: baseLevel })
     this.components.forEach(component => {
@@ -345,7 +346,7 @@ export default class TaroMiniPlugin {
   }
 
   getConfigFilePath (filePath) {
-    return resolveScriptPath(`${filePath.replace(path.extname(filePath), '')}.config`)
+    return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
   }
 
   getTemplatePath (filePath) {

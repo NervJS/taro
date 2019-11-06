@@ -7,11 +7,14 @@ export const SCSS_EXT: string[] = ['.scss']
 export const JS_EXT: string[] = ['.js', '.jsx']
 export const TS_EXT: string[] = ['.ts', '.tsx']
 export const UX_EXT: string[] = ['.ux']
+export const SCRIPT_EXT: string[] = JS_EXT.concat(TS_EXT)
+export const VUE_EXT: string[] = ['.vue']
 
 export const REG_JS: RegExp = /\.js(\?.*)?$/
 export const REG_SCRIPT: RegExp = /\.(js|jsx)(\?.*)?$/
 export const REG_TYPESCRIPT: RegExp = /\.(tsx|ts)(\?.*)?$/
 export const REG_SCRIPTS: RegExp = /\.[tj]sx?$/i
+export const REG_VUE: RegExp = /\.vue$/i
 export const REG_SASS: RegExp = /\.(s[ac]ss)$/
 export const REG_LESS: RegExp = /\.less$/
 export const REG_STYLUS: RegExp = /\.styl$/
@@ -300,4 +303,10 @@ export const processTypeMap: IProcessTypeMap = {
     name: '引用',
     color: 'blue'
   }
+}
+
+export enum FRAMEWORK_MAP {
+  VUE = 'vue',
+  REACT = 'react',
+  NERV = 'nerv'
 }
