@@ -42,7 +42,7 @@ function Versions (props) {
                 </a>
               </td>
               <td>
-                <a href={`${repoUrl}/releases/tag/v${latestVersion}`}>
+                <a href={`${repoUrl}/blob/master/CHANGELOG.md`}>
                   更新日志
                 </a>
               </td>
