@@ -130,8 +130,8 @@ export function buildBaseTemplate (level: number) {
   return template
 }
 
-export function buildPageTemplate () {
-  const template = `<import src="../../base.wxml"/>
+export function buildPageTemplate (baseTempPath) {
+  const template = `<import src="${baseTempPath}"/>
   <template is="taro_tmpl" data="{{root: root}}" />`
 
   return template

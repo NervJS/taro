@@ -9,7 +9,7 @@ import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 
 import { BUILD_TYPES, MINI_APP_FILES, CONFIG_MAP, META_TYPE, NODE_MODULES_REG, FRAMEWORK_MAP, VUE_EXT, SCRIPT_EXT } from '../utils/constants'
-import { resolveMainFilePath, readConfig, isEmptyObject } from '../utils'
+import { resolveMainFilePath, readConfig, isEmptyObject, promoteRelativePath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { buildBaseTemplate, buildPageTemplate } from '../template'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
@@ -37,7 +37,7 @@ export interface IComponentObj {
   type?: string
 }
 
-export const createTarget = function createTarget (name) {
+export const createTarget = function createTarget () {
   return (compiler: webpack.compiler.Compiler) => {
     const { options } = compiler
     new JsonpTemplatePlugin().apply(compiler)
@@ -80,29 +80,29 @@ export default class TaroMiniPlugin {
   }
 
   tryAsync = fn => async (arg, callback) => {
-		try {
-			await fn(arg)
-			callback()
-		} catch (err) {
-			callback(err)
-		}
+    try {
+      await fn(arg)
+      callback()
+    } catch (err) {
+      callback(err)
+    }
   }
 
   apply (compiler: webpack.Compiler) {
     this.context = compiler.context
     this.appConfig = this.getAppConfig(compiler)
     compiler.hooks.run.tapAsync(
-			PLUGIN_NAME,
-			this.tryAsync(async (compiler: webpack.Compiler) => {
-				await this.run(compiler)
-			})
+      PLUGIN_NAME,
+      this.tryAsync(async (compiler: webpack.Compiler) => {
+        await this.run(compiler)
+      })
     )
 
     compiler.hooks.watchRun.tapAsync(
-			PLUGIN_NAME,
-			this.tryAsync(async (compiler: webpack.Compiler) => {
-				await this.run(compiler)
-			})
+      PLUGIN_NAME,
+      this.tryAsync(async (compiler: webpack.Compiler) => {
+        await this.run(compiler)
+      })
     )
 
     compiler.hooks.emit.tapAsync(
@@ -148,7 +148,7 @@ export default class TaroMiniPlugin {
 
   getAppConfig (compiler) {
     const originalEntry = compiler.options.entry
-    const originalEntryPath = path.resolve(this.context, originalEntry['app'][0])
+    const originalEntryPath = path.resolve(this.context, originalEntry.app[0])
     const appConfigPath = this.getConfigFilePath(originalEntryPath)
     const appConfig = readConfig(appConfigPath)
     this.appEntry = originalEntryPath
@@ -194,7 +194,7 @@ export default class TaroMiniPlugin {
     if (isEmptyObject(this.appConfig)) {
       throw new Error('缺少 app 全局配置，请检查！')
     }
-    const appPages = this.appConfig['pages']
+    const appPages = this.appConfig.pages
     if (!appPages || !appPages.length) {
       throw new Error('全局配置缺少 pages 字段，请检查！')
     }
@@ -211,7 +211,7 @@ export default class TaroMiniPlugin {
   }
 
   getSubPackages (appConfig) {
-    const subPackages = appConfig.subPackages || appConfig['subpackages']
+    const subPackages = appConfig.subPackages || appConfig.subpackages
     const { framework } = this.options
     if (subPackages && subPackages.length) {
       subPackages.forEach(item => {
@@ -253,7 +253,7 @@ export default class TaroMiniPlugin {
       } = CONFIG_MAP[adapter]
 
       const list = tabBar[listConfig] || []
-      let tabBarIcons: string[] = []
+      const tabBarIcons: string[] = []
       list.forEach(item => {
         item[pathConfig] && tabBarIcons.push(item[pathConfig])
         item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
@@ -309,16 +309,19 @@ export default class TaroMiniPlugin {
   }
 
   generateMiniFiles (compilation: webpack.compilation.Compilation) {
+    const baseTemplateName = 'base'
     const { baseLevel } = this.options
     this.generateConfigFile(compilation, this.appEntry, this.appConfig)
-    this.generateTemplateFile(compilation, 'base', buildBaseTemplate, { level: baseLevel })
+    this.generateTemplateFile(compilation, baseTemplateName, buildBaseTemplate, baseLevel)
     this.components.forEach(component => {
+      const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
       this.generateConfigFile(compilation, component.path, this.filesConfig[component.name])
-      this.generateTemplateFile(compilation, component.path, buildPageTemplate)
+      this.generateTemplateFile(compilation, component.path, buildPageTemplate, importBaseTemplatePath)
     })
     this.pages.forEach(page => {
+      const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
       this.generateConfigFile(compilation, page.path, this.filesConfig[page.name])
-      this.generateTemplateFile(compilation, page.path, buildPageTemplate)
+      this.generateTemplateFile(compilation, page.path, buildPageTemplate, importBaseTemplatePath)
     })
   }
 
