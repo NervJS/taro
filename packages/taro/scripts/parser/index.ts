@@ -1,7 +1,9 @@
 import * as ts from "typescript"
 
 export interface DocEntry {
-  name?: string | ts.__String
+  name?: string
+  kind?: ts.SyntaxKind
+  flags?: ts.SymbolFlags
   fileName?: string
   documentation?: string
   jsTags?: ts.JSDocTagInfo[]
@@ -11,27 +13,27 @@ export interface DocEntry {
   returnType?: string
   members?: DocEntry[]
   exports?: DocEntry[]
+  children?: DocEntry[]
 }
 
 export function generateDocumentation(
   filepath: string,
-  options: ts.CompilerOptions
+  options: ts.CompilerOptions,
+  output: DocEntry[] = []
 ): DocEntry[] {
   const program = ts.createProgram([filepath], options)
   const checker = program.getTypeChecker()
 
-  const output: DocEntry[] = []
-
   for (const sourceFile of program.getSourceFiles()) {
     // if (!sourceFile.isDeclarationFile) {}
     if (filepath === sourceFile.fileName) {
-      ts.forEachChild(sourceFile, visitAST)
+      ts.forEachChild(sourceFile, (n) => visitAST(n, output))
     }
   }
 
   return output
 
-  function visitAST(node: ts.Node) {
+  function visitAST(node: ts.Node, o: DocEntry[]) {
     // Only consider exported nodes
     if (!isNodeExported(node as ts.Declaration) || node.kind === ts.SyntaxKind.EndOfFileToken || node.kind === ts.SyntaxKind.DeclareKeyword
         || ts.isImportDeclaration(node) || ts.isImportEqualsDeclaration(node) || ts.isImportClause(node)
@@ -43,29 +45,38 @@ export function generateDocumentation(
 
     if (ts.isVariableDeclaration(node) || ts.isClassDeclaration(node) && node.name) {
       const symbol = checker.getSymbolAtLocation(node)
-      symbol && output.push(serializeClass(symbol))
+      symbol && o.push(serializeClass(symbol))
     } else if (ts.isFunctionDeclaration(node)) {
       const signature = checker.getSignatureFromDeclaration(node)
-      signature && output.push(serializeSignature(signature, node.name && ts.idText(node.name)))
+      signature && o.push(serializeSignature(signature, node.name && ts.idText(node.name)))
     } else if (ts.isInterfaceDeclaration(node)) {
       const symbol = checker.getTypeAtLocation(node).getSymbol()
-      symbol && output.push(serializeType(symbol, undefined, 'InterfaceDeclaration'))
+      symbol && o.push(serializeType(symbol, undefined, 'InterfaceDeclaration'))
     } else if (ts.isTypeAliasDeclaration(node)) {
       const symbol = checker.getTypeAtLocation(node).getSymbol()
-      symbol && output.push(serializeType(symbol, ts.idText(node.name), 'TypeAliasDeclaration'))
+      symbol && o.push(serializeType(symbol, ts.idText(node.name), 'TypeAliasDeclaration'))
     } else if (ts.isEnumDeclaration(node)) {
       const symbol = checker.getTypeAtLocation(node).getSymbol()
-      symbol && output.push(serializeType(symbol))
+      symbol && o.push(serializeType(symbol))
     } else if (ts.isIdentifier(node)) {
       const symbol = checker.getTypeAtLocation(node).getSymbol()
-      symbol && output.push(serializeType(symbol))
-    } else if (ts.isModuleDeclaration(node) || ts.isModuleBlock(node) || ts.isVariableStatement(node)) {
+      symbol && o.push(serializeType(symbol))
+    } else if (ts.isModuleDeclaration(node) || ts.isVariableStatement(node)) {
       // This is a namespace, visitAST its children
-      ts.forEachChild(node, visitAST)
+      ts.forEachChild(node, (n) => visitAST(n, o))
+    } else if (ts.isModuleBlock(node)) {
+      // This is a namespace, visitAST its children
+      const out: DocEntry = {
+        name: ts.isIdentifier(node.parent.name) ? ts.idText(node.parent.name) : '',
+        kind: node.kind,
+        children: []
+      }
+      ts.forEachChild(node, (n) => visitAST(n, out.children!))
+      o.push(out)
     } else if (ts.isVariableDeclarationList(node)) {
       node.declarations.forEach(d => {
         const symbol = d['symbol']
-        symbol && output.push(serializeType(symbol))
+        symbol && o.push(serializeType(symbol))
       })
     } else {
       console.log(`WARN: Statement kind ${node.kind} is missing parse!\n\n${node.getText()}`)
@@ -77,6 +88,7 @@ export function generateDocumentation(
     return {
       jsTags: symbol.getJsDocTags(),
       name: name || symbol.getName(),
+      flags: symbol.flags,
       documentation: ts.displayPartsToString(symbol.getDocumentationComment(checker)),
       type: type || checker.typeToString(
         checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration!)
