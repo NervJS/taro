@@ -153,8 +153,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     example && md.push('## 示例代码', '', example.text || '', '')
     const supported = tags.find(tag => tag.name === 'supported')
     const apis = getAPI(name, supported && supported.text)
-    apis.length > 0 && md.push('## API 支持度', '', ...apis,
-    '')
+    apis.length > 0 && md.push('## API 支持度', '', ...apis, '')
     const see = tags.find(tag => tag.name === 'see')
     see && md.push(`> [参考文档](${see.text || ''})`, '')
     // md.push(JSON.stringify(e, undefined, 2))
@@ -174,10 +173,12 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     let splits = `| :---: |`
     let row = `| Taro.${name} |`
     for (let i = 0; i < envMap.length; i++) {
+      titles += ` ${envMap[i].label} |`
+      splits += ' :---: |'
       if (apis.find(e => e === envMap[i].name)) {
-        titles += ` ${envMap[i].label} |`
-        splits += ' :---: |'
         row += ' ✔️ |'
+      } else {
+        row += '  |'
       }
     }
     return [titles, splits, row]
