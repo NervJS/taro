@@ -164,14 +164,33 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
       }
     }
 
+
+
+    /***
+     * 修复小程序下css没有正确引用样式
+     * 当前位置只进行了文件hash转换并没有做文件copy操作
+     */
     if (publicPath && typeof url !== 'function') {
       customUrlConf.config.url = (assets) => {
+
+        // 本地文件路径
         if (/\./.test(assets.url)) {
-          const hashName = getHashName(assets.absolutePath)
-          assets.url = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName
+          const hashName = getHashName(assets.absolutePath);
+          assets.url = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName;
+
+          // 目前只在头条小程序复现，避免影响，只针对头条处理
+          if(buildAdapter === BUILD_TYPES.TT){
+            const outputFile = path.resolve(outputDir,`./${assets.url}`);
+            fs.ensureDirSync(path.dirname(outputFile));
+            fs.copySync(assets.absolutePath,outputFile);
+            // 头条下不支持 / ，修正头条路径
+            assets.url = assets.url.replace(/^[\/]/,'');
+          }
         }
+
         return assets.url
       }
+
     }
 
     const cssUrlParseConf = {
