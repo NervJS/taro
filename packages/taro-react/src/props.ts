@@ -39,6 +39,10 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
     eventName = eventName.slice(0, -7)
   }
 
+  if (eventName === 'click') {
+    eventName = 'tap'
+  }
+
   if (isFunction(value)) {
     if (!oldValue) {
       dom.addEventListener(eventName, eventProxy, isCapture)

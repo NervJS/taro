@@ -15,7 +15,13 @@ const baseConfig = {
     }
   ],
   plugins: [
-    typescript(),
+    typescript({
+      tsconfigOverride: {
+        compilerOptions: {
+          preserveConstEnums: true
+        }
+      }
+    }),
     buble()
   ]
 }
@@ -25,7 +31,9 @@ const esmConfig = Object.assign({}, baseConfig, {
     format: 'es',
     file: join(cwd, 'dist/shared.esm.js')
   }),
-  plugins: baseConfig.plugins.slice(0, baseConfig.plugins.length - 1)
+  plugins: [
+    typescript()
+  ]
 })
 
 function rollup () {
