@@ -107,7 +107,7 @@ export async function processStyleUseCssModule (styleObj: IStyleObj): Promise<an
 }
 
 async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
-  const { appPath, projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
+  const { appPath, outputDir,projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
   const weappConf = Object.assign({}, projectConfig.weapp)
   const publicPath = weappConf.publicPath
   const useModuleConf = weappConf.module || {}
@@ -183,7 +183,7 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
             const outputFile = path.resolve(outputDir,`./${assets.url}`);
             fs.ensureDirSync(path.dirname(outputFile));
             fs.copySync(assets.absolutePath,outputFile);
-            // 头条下不支持 / ，修正头条路径
+            // 头条下不支持 / ，修正头条css background路径
             assets.url = assets.url.replace(/^[\/]/,'');
           }
         }
