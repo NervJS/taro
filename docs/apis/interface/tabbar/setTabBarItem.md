@@ -21,5 +21,5 @@ Taro.setTabBarItem(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.setTabBarItem | ✔️ | ✔️ |  |
+| Taro.setTabBarItem | ✔️ | ✔️ | ✔️ |
 
