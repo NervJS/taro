@@ -61,7 +61,7 @@
  * │   │   ├── udp.d.ts                     网络 -> UDP 通信 API
  * │   │   ├── upload.d.ts                  网络 -> 上传 API
  * │   │   └── webSocket.d.ts               网络 -> WebSocket API
- * │   ├── openAPI
+ * │   ├── open-api
  * │   │   ├── account.d.ts                 开放接口 -> 账号信息 API
  * │   │   ├── address.d.ts                 开放接口 -> 收货地址 API
  * │   │   ├── authorize.d.ts               开放接口 -> 授权 API
@@ -172,22 +172,22 @@
 /// <reference path="api/network/udp.d.ts" />
 /// <reference path="api/network/upload.d.ts" />
 /// <reference path="api/network/webSocket.d.ts" />
-/// <reference path="api/openAPI/account.d.ts" />
-/// <reference path="api/openAPI/address.d.ts" />
-/// <reference path="api/openAPI/authorize.d.ts" />
-/// <reference path="api/openAPI/card.d.ts" />
-/// <reference path="api/openAPI/dataAnalysis.d.ts" />
-/// <reference path="api/openAPI/facial.d.ts" />
-/// <reference path="api/openAPI/invoice.d.ts" />
-/// <reference path="api/openAPI/login.d.ts" />
-/// <reference path="api/openAPI/navigate.d.ts" />
-/// <reference path="api/openAPI/payment.d.ts" />
-/// <reference path="api/openAPI/report.d.ts" />
-/// <reference path="api/openAPI/settings.d.ts" />
-/// <reference path="api/openAPI/soter.d.ts" />
-/// <reference path="api/openAPI/subscribeMessage.d.ts" />
-/// <reference path="api/openAPI/userInfo.d.ts" />
-/// <reference path="api/openAPI/weRun.d.ts" />
+/// <reference path="api/open-api/account.d.ts" />
+/// <reference path="api/open-api/address.d.ts" />
+/// <reference path="api/open-api/authorize.d.ts" />
+/// <reference path="api/open-api/card.d.ts" />
+/// <reference path="api/open-api/dataAnalysis.d.ts" />
+/// <reference path="api/open-api/facial.d.ts" />
+/// <reference path="api/open-api/invoice.d.ts" />
+/// <reference path="api/open-api/login.d.ts" />
+/// <reference path="api/open-api/navigate.d.ts" />
+/// <reference path="api/open-api/payment.d.ts" />
+/// <reference path="api/open-api/report.d.ts" />
+/// <reference path="api/open-api/settings.d.ts" />
+/// <reference path="api/open-api/soter.d.ts" />
+/// <reference path="api/open-api/subscribeMessage.d.ts" />
+/// <reference path="api/open-api/userInfo.d.ts" />
+/// <reference path="api/open-api/weRun.d.ts" />
 /// <reference path="api/router/index.d.ts" />
 /// <reference path="api/share/index.d.ts" />
 /// <reference path="api/storage/backgroundFetch.d.ts" />

@@ -32,7 +32,7 @@ export function compile (p: string, n: string, callback?: (routepath: string, do
     fs.readdirSync(route, {
       encoding: 'utf8'
     }).forEach(filename => ![
-      'node_modules', 'bin', 'templates', 'dist', '__tests__', '__mocks__', '_book', '.vscode', '.idea'
+      'node_modules', 'bin', 'templates', 'dist', '__tests__', '__mocks__', '_book', '.vscode', '.idea',
     ].includes(filename) && compile(route, filename, callback))
   } else {
     const docTree = generateDocumentation(route, {
@@ -100,8 +100,9 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     const md: string[] = [
       '---',
       `title: Taro.${name}(${params.map(param => param.name).join(', ')})`,
-      `sidebar_label: ${name}`, '---',
-      ''
+      `sidebar_label: ${name}`,
+      '---',
+      '',
     ]
     e.documentation && md.push(e.documentation, '')
     const since = tags.find(tag => tag.name === 'since')
