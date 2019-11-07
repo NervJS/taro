@@ -59,7 +59,6 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     d.forEach(e => {
       const name = e.name || 'undefined'
       const target = o.find(v => v.name === name)
-      if (name === 'onAccelerometerChange') console.log(JSON.stringify(e.children, undefined, 2))
       if (!target) o.push(e)
       else {
         for (const key in e) {

@@ -3,9 +3,9 @@ declare namespace Taro {
     type Param = {
       /**
        * 监听加速度数据回调函数的执行频率
-       * @default normal
+       * @default "normal"
        */
-      interval?: keyof startAccelerometer.interval
+      interval?: keyof interval
       /**
        * 接口调用成功的回调函数
        */
