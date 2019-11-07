@@ -26,10 +26,33 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
   }
 }
 
-const listeners = new Map<string, Record<string, Function>>()
+const listeners: Record<string, Record<string, Function>> = {}
 
 function eventProxy (e: CommonEvent) {
-  listeners.get(e.target.id)![e.type](e)
+  listeners[e.target.id][e.type](e)
+}
+
+function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
+  const isCapture = name.endsWith('Capture')
+  let eventName = name.toLowerCase().slice(2)
+  if (isCapture) {
+    eventName = eventName.slice(0, -7)
+  }
+
+  if (isFunction(value)) {
+    if (!oldValue) {
+      dom.addEventListener(eventName, eventProxy, isCapture)
+    }
+    let events = listeners[dom.uid]
+    if (!events) {
+      events = listeners[dom.uid] = {}
+    }
+    events[eventName] = value
+  } else {
+    dom.removeEventListener(eventName, eventProxy)
+    const events = listeners[dom.uid]
+    delete events[eventName]
+  }
 }
 
 function setStyle (style: Style, key: string, value: string | number) {
@@ -79,20 +102,7 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       }
     }
   } else if (isEventName(name)) {
-    const isCapture = name !== (name = name.replace(/Capture$/, ''))
-    const eventName = name.toLowerCase().slice(2)
-    if (isFunction(value)) {
-      if (!oldValue) {
-        dom.addEventListener(eventName, eventProxy, isCapture)
-        listeners.set(dom.uid, { [eventName]: value })
-      } else {
-        dom.removeEventListener(eventName, eventProxy)
-        const event = listeners.get(dom.uid)!
-        delete event[eventName]
-      }
-    } else {
-      console.error('')
-    }
+    setEvent(dom, name, value, oldValue)
   } else if (
     !isFunction(value) &&
     name !== 'dangerouslySetInnerHTML' // TODO: 实现 innerHTML
