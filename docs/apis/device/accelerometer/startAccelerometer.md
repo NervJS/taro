@@ -17,7 +17,7 @@ sidebar_label: startAccelerometer
 
 | Name | Type | Default | Description |
 | --- | --- | :---: | --- |
-| interval | `"game" | "ui" | "normal"` | `normal` | 监听加速度数据回调函数的执行频率 |
+| interval | `"game" | "ui" | "normal"` | `"normal"` | 监听加速度数据回调函数的执行频率 |
 | success | `Function` |  | 接口调用成功的回调函数 |
 | fail | `Function` |  | 接口调用失败的回调函数 |
 | complete | `Function` |  | 接口调用结束的回调函数（调用成功、失败都会执行） |

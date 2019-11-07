@@ -106,7 +106,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     ]
     e.documentation && md.push(e.documentation, '')
     const since = tags.find(tag => tag.name === 'since')
-    since && md.push(`> 最低版本: ${since.text || ''}`, '')
+    since && md.push(`> 最低 Taro 版本: ${since.text || ''}`, '')
     e.type && md.push('## 类型', '', '```tsx', e.type, '```', '')
     parameters.length && md.push('## 参数', '')
     parameters.map(p => {
@@ -149,8 +149,19 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
         )
       }
     })
-    const example = tags.find(tag => tag.name === 'example')
-    example && md.push('## 示例代码', '', example.text || '', '')
+    let example_i = tags.findIndex(tag => tag.name === 'example')
+    let example_index = 0
+    do {
+      const example = tags[example_i]
+      if (example) {
+        example_i === 0 && md.push('## 示例代码', '')
+        example_index++
+        if ((example_i = tags.findIndex((tag, i) => example_i < i && tag.name === 'example')) > -1 || example_index > 1) {
+          md.push(`### 示例 ${example_index}`, '')
+        }
+        md.push((example.text || '').split('\\`@').join('@'), '')
+      }
+    } while (example_i > -1)
     const supported = tags.find(tag => tag.name === 'supported')
     const apis = getAPI(name, supported && supported.text)
     apis.length > 0 && md.push('## API 支持度', '', ...apis, '')

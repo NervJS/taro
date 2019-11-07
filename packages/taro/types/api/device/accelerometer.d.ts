@@ -37,13 +37,13 @@ declare namespace Taro {
   }
   /**
    * 开始监听加速度数据。
-   * @supported weapp, h5, rn
    * @example
-```tsx
-import Taro from '@tarojs/taro'
-
-Taro.startAccelerometer({ interval: 'game' })
-```
+   * ```tsx
+   * import Taro from '\`@tarojs/taro'
+   * 
+   * Taro.startAccelerometer({ interval: 'game' })
+   * ```
+   * @supported weapp, h5, rn
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.startAccelerometer.html
    */
   function startAccelerometer (res?: startAccelerometer.Param): Promise<any>
@@ -66,13 +66,13 @@ Taro.startAccelerometer({ interval: 'game' })
   }
   /**
    * 停止监听加速度数据。
-   * @supported weapp, h5, rn
    * @example
-```tsx
-import Taro from '@tarojs/taro'
-
-Taro.stopAccelerometer()
-```
+   * ```tsx
+   * import Taro from '\`@tarojs/taro'
+   * 
+   * Taro.stopAccelerometer()
+   * ```
+   * @supported weapp, h5, rn
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.stopAccelerometer.html
    */
   function stopAccelerometer (res?: stopAccelerometer.Param): Promise<any>
@@ -98,15 +98,15 @@ Taro.stopAccelerometer()
    * 监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 `Taro.stopAccelerometer` 停止监听。
    * @supported weapp, h5, rn
    * @example
-```tsx
-import Taro from '@tarojs/taro'
-
-Taro.onAccelerometerChange(res => {
-  console.log(res.x)
-  console.log(res.y)
-  console.log(res.z)
-})
-```
+   * ```tsx
+   * import Taro from '\`@tarojs/taro'
+   * 
+   * Taro.onAccelerometerChange(res => {
+   *   console.log(res.x)
+   *   console.log(res.y)
+   *   console.log(res.z)
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.onAccelerometerChange.html
    */
   function onAccelerometerChange (callback: onAccelerometerChange.Param): void
