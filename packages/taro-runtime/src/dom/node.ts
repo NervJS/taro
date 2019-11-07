@@ -149,4 +149,16 @@ export class TaroNode extends TaroEventTarget {
 
     this._root.enqueueUpdate(payload)
   }
+
+  /**
+   * @textContent 目前只能置空子元素
+   * @TODO 等待完整 innerHTML 实现
+   */
+  public set textContent (text: string) {
+    if (text === '') {
+      while (this.childNodes.length > 0) {
+        this.childNodes[0].remove()
+      }
+    }
+  }
 }

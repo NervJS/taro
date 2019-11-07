@@ -45,7 +45,7 @@ export class TaroRootElement extends TaroElement {
         if (path.endsWith(Shortcuts.Childnodes)) {
           resetPaths.add(path)
         }
-        data[path] = isFunction(value) ? value() : value
+        data[path] = value
       }
 
       for (const path in data) {
@@ -55,6 +55,11 @@ export class TaroRootElement extends TaroElement {
             delete data[path]
           }
         })
+
+        const value = data[path]
+        if (isFunction(value)) {
+          data[path] = value()
+        }
       }
 
       ctx.setData(data, () => {
