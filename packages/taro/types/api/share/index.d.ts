@@ -8,19 +8,16 @@ declare namespace Taro {
       /**
        * 是否是动态消息，详见[动态消息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share/updatable-message.html)
        * 
-       * @since 2.4.0
        */
       isUpdatableMessage?: boolean,
       /**
        * 动态消息的 activityId。通过 [updatableMessage.createActivityId](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/updatable-message/updatableMessage.createActivityId.html) 接口获取
        * 
-       * @since 2.4.0
        */
       activityId?: string,
       /**
        * 动态消息的模板信息
        * 
-       * @since 2.4.0
        */
       templateInfo?: TemplateInfo
     }
@@ -45,9 +42,8 @@ declare namespace Taro {
   }
   /**
    * 更新转发属性
-   * @since 1.2.0
    * @example
-   ```javascript
+   ```tsx
    Taro.updateShareMenu({
      withShareTicket: true,
      success() {
@@ -56,7 +52,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.updateShareMenu.html
    */
-  function updateShareMenu(OBJECT?: updateShareMenu.Param): Promise<any>
+  function updateShareMenu(res?: updateShareMenu.Param): Promise<any>
 
   namespace showShareMenu {
     type Param = {
@@ -73,30 +69,28 @@ declare namespace Taro {
   }
   /**
    * 显示当前页面的转发按钮
-   * @since 1.1.0
    * @example
-   ```javascript
+   ```tsx
    Taro.showShareMenu({
      withShareTicket: true
    })
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.showShareMenu.html
    */
-  function showShareMenu(OBJECT?: showShareMenu.Param): Promise<any>
+  function showShareMenu(res?: showShareMenu.Param): Promise<any>
 
   namespace hideShareMenu {
     type Param = {}
   }
   /**
    * 隐藏转发按钮
-   * @since 1.1.0
    * @example
-   ```javascript
+   ```tsx
    Taro.hideShareMenu()
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.hideShareMenu.html
    */
-  function hideShareMenu(OBJECT?: hideShareMenu.Param): Promise<any>
+  function hideShareMenu(res?: hideShareMenu.Param): Promise<any>
 
   namespace getShareInfo {
     type Promised = {
@@ -132,15 +126,13 @@ declare namespace Taro {
       shareTicket: string
       /**
        * 超时时间，单位 ms
-       * @since 1.9.90
        */
       timeout?: number
     }
   }
   /**
    * 获取转发详细信息
-   * @since 1.1.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html
    */
-  function getShareInfo(OBJECT: getShareInfo.Param): Promise<getShareInfo.Promised>
+  function getShareInfo(res: getShareInfo.Param): Promise<getShareInfo.Promised>
 }

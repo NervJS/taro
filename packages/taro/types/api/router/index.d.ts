@@ -43,14 +43,14 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Taro.switchTab({
      url: '/index'
    })
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.switchTab.html
    */
-  function switchTab(OBJECT: switchTab.Param): Promise<any>
+  function switchTab(res: switchTab.Param): Promise<any>
 
   namespace reLaunch {
     type Param = {
@@ -80,7 +80,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Taro.reLaunch({
      url: 'test?id=1'
    })
@@ -88,7 +88,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    //test.js
    Page({
      onLoad: function(option){
@@ -96,10 +96,9 @@ declare namespace Taro {
      }
    })
    ```
-   * @since 1.1.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.reLaunch.html
    */
-  function reLaunch(OBJECT: reLaunch.Param): Promise<any>
+  function reLaunch(res: reLaunch.Param): Promise<any>
 
   namespace redirectTo {
     type Param = {
@@ -127,14 +126,14 @@ declare namespace Taro {
   /**
    * 关闭当前页面，跳转到应用内的某个页面。
    * @example
-   ```javascript
+   ```tsx
    Taro.redirectTo({
      url: 'test?id=1'
    })
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.redirectTo.html
    */
-  function redirectTo(OBJECT: redirectTo.Param): Promise<any>
+  function redirectTo(res: redirectTo.Param): Promise<any>
 
   namespace navigateTo {
     type Param = {
@@ -164,7 +163,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Taro.navigateTo({
      url: 'test?id=1'
    })
@@ -172,7 +171,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    //test.js
    Page({
      onLoad: function(option){
@@ -182,7 +181,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateTo.html
    */
-  function navigateTo(OBJECT: navigateTo.Param): Promise<any>
+  function navigateTo(res: navigateTo.Param): Promise<any>
 
   namespace navigateBack {
     type Param = {
@@ -215,7 +214,7 @@ declare namespace Taro {
    *
    * 1.  `tip`: Taro.navigateTo 和 Taro.redirectTo 不允许跳转到 tabbar 页面，只能用 Taro.switchTab 跳转到 tabbar 页面
    * @example
-   ```javascript
+   ```tsx
    // 注意：调用 navigateTo 跳转时，调用该方法的页面会被加入堆栈，而 redirectTo 方法则不会。见下方示例代码
          // 此处是A页面
    Taro.navigateTo({
@@ -232,7 +231,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateBack.html
    */
-  function navigateBack(OBJECT?: navigateBack.Param): Promise<any>
+  function navigateBack(res?: navigateBack.Param): Promise<any>
 
   // TODO: EventChannel
 }

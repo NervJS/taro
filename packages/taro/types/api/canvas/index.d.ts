@@ -1,6 +1,5 @@
 declare namespace Taro {
   /**
-   * @since 微信小程序 2.7.0
    *
    * 创建离屏 canvas 实例
    */
@@ -98,7 +97,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // Draw coordinates
    ctx.arc(100, 75, 50, 0, 2   Math.PI)
@@ -186,7 +185,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // begin path
    ctx.rect(10, 10, 100, 30)
@@ -214,7 +213,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // Draw points
    ctx.beginPath()
@@ -270,7 +269,7 @@ declare namespace Taro {
    ```html
    <canvas canvas-id="myCanvas" style="border: 1px solid; background: #123456;"/>
    ```
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(0, 0, 150, 200)
@@ -297,7 +296,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    wx.downloadFile({
    url: 'http://is5.mzstatic.com/image/thumb/Purple128/v4/75/3b/90/753b907c-b7fb-5877-215a-759bd73691a4/source/50x50bb.jpg',
@@ -323,7 +322,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.moveTo(10, 10)
    ctx.lineTo(100, 10)
@@ -334,7 +333,7 @@ declare namespace Taro {
    ```
      * ![]
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // begin path
    ctx.rect(10, 10, 100, 30)
@@ -374,7 +373,7 @@ declare namespace Taro {
      *
      * 第二次 draw() reserve 为 true。所以保留了上一次的绘制结果，在上下文设置的 fillStyle 'red' 也变成了默认的 'black'。
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(10, 10, 150, 100)
@@ -389,7 +388,7 @@ declare namespace Taro {
      *
      * 第二次 draw() reserve 为 false。所以没有保留了上一次的绘制结果和在上下文设置的 fillStyle 'red'。
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(10, 10, 150, 100)
@@ -418,7 +417,7 @@ declare namespace Taro {
      * - drawImage(imageResource, dx, dy, dWidth, dHeight)
      * - drawImage(imageResource, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) 从 1.9.0 起支持
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    wx.chooseImage({
    success: function(res){
@@ -480,7 +479,7 @@ declare namespace Taro {
      *
      * 如果当前路径没有闭合，fill() 方法会将起点和终点进行连接，然后填充。
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.moveTo(10, 10)
    ctx.lineTo(100, 10)
@@ -493,7 +492,7 @@ declare namespace Taro {
      *
      * ![]
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // begin path
    ctx.rect(10, 10, 100, 30)
@@ -521,7 +520,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(10, 10, 150, 75)
@@ -545,7 +544,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setFontSize(20)
    ctx.fillText('Hello', 20, 20)
@@ -570,7 +569,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.moveTo(10, 10)
    ctx.rect(10, 10, 100, 50)
@@ -592,7 +591,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.moveTo(10, 10)
    ctx.lineTo(100, 10)
@@ -615,7 +614,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // Draw points
    ctx.beginPath()
@@ -672,7 +671,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.rect(10, 10, 150, 75)
    ctx.setFillStyle('red')
@@ -697,7 +696,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // save the default fill style
    ctx.save()
@@ -717,7 +716,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.strokeRect(100, 10, 150, 100)
    ctx.rotate(20   Math.PI / 180)
@@ -738,7 +737,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // save the default fill style
    ctx.save()
@@ -758,7 +757,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.strokeRect(10, 10, 25, 15)
    ctx.scale(2, 2)
@@ -801,7 +800,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setFontSize(20)
    ctx.fillText('20', 20, 20)
@@ -825,7 +824,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(10, 10, 150, 100)
@@ -848,7 +847,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.beginPath()
    ctx.moveTo(10, 10)
@@ -886,7 +885,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setLineDash([10, 20], 5);
    ctx.beginPath();
@@ -911,7 +910,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.beginPath()
    ctx.moveTo(10, 10)
@@ -953,7 +952,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.beginPath()
    ctx.moveTo(10, 10)
@@ -989,7 +988,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.beginPath()
    ctx.setLineWidth(10)
@@ -1037,7 +1036,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.setShadow(10, 50, 50, 'blue')
@@ -1083,7 +1082,7 @@ declare namespace Taro {
      *
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setStrokeStyle('red')
    ctx.moveTo(150, 20)
@@ -1113,7 +1112,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setStrokeStyle('red')
    ctx.moveTo(5, 75)
@@ -1163,7 +1162,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.moveTo(10, 10)
    ctx.lineTo(100, 10)
@@ -1175,7 +1174,7 @@ declare namespace Taro {
      *
      * stroke() 描绘的的路径是从 beginPath() 开始计算，但是不会将 strokeRect() 包含进去。
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // begin path
    ctx.rect(10, 10, 100, 30)
@@ -1203,7 +1202,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.setStrokeStyle('red')
    ctx.strokeRect(10, 10, 150, 75)
@@ -1262,7 +1261,7 @@ declare namespace Taro {
      *
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    ctx.strokeRect(10, 10, 150, 100)
    ctx.translate(20, 20)
@@ -1295,7 +1294,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // Create circular gradient
    const grd = ctx.createCircularGradient(75, 50, 50)
@@ -1322,7 +1321,7 @@ declare namespace Taro {
      * **示例代码**
      *
      *
-   ```javascript
+   ```tsx
    const ctx = wx.createCanvasContext('myCanvas')
    // Create linear gradient
    const grd = ctx.createLinearGradient(0, 0, 200, 0)
@@ -1351,37 +1350,31 @@ declare namespace Taro {
       /**
        * 画布x轴起点（默认0）
        *
-       * @since 1.2.0
        */
       x?: number
       /**
        * 画布y轴起点（默认0）
        *
-       * @since 1.2.0
        */
       y?: number
       /**
        * 画布宽度（默认为canvas宽度-x）
        *
-       * @since 1.2.0
        */
       width?: number
       /**
        * 画布高度（默认为canvas高度-y）
        *
-       * @since 1.2.0
        */
       height?: number
       /**
        * 输出图片宽度（默认为width）
        *
-       * @since 1.2.0
        */
       destWidth?: number
       /**
        * 输出图片高度（默认为height）
        *
-       * @since 1.2.0
        */
       destHeight?: number
       /**
@@ -1391,13 +1384,11 @@ declare namespace Taro {
       /**
        * 目标文件的类型，只支持 'jpg' 或 'png'。默认为 'png'
        *
-       * @since 1.7.0
        */
       fileType?: string
       /**
        * 图片的质量，取值范围为 (0, 1]，不在范围内时当作1.0处理
        *
-       * @since 1.7.0
        */
       quality?: number
       /**
@@ -1435,7 +1426,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Taro.canvasToTempFilePath({
      x: 100,
      y: 200,
@@ -1451,7 +1442,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html
    */
-  function canvasToTempFilePath(OBJECT: canvasToTempFilePath.Param0, instance?: any): void
+  function canvasToTempFilePath(res: canvasToTempFilePath.Param0, instance?: any): void
 
   namespace canvasPutImageData {
     type Param = {
@@ -1482,13 +1473,12 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.9.0
    *
    * 将像素数据绘制到画布的方法
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    const data = new Uint8ClampedArray([255, 0, 0, 1])
    Taro.canvasPutImageData({
      canvasId: 'myCanvas',
@@ -1501,7 +1491,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasPutImageData.html
    */
-  function canvasPutImageData(OBJECT: canvasPutImageData.Param): Promise<any>
+  function canvasPutImageData(res: canvasPutImageData.Param): Promise<any>
 
   namespace canvasGetImageData {
     type Promised = {
@@ -1546,13 +1536,12 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.9.0
    *
    * 返回一个数组，用来描述 canvas 区域隐含的像素数据
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Taro.canvasGetImageData({
      canvasId: 'myCanvas',
      x: 0,
@@ -1569,7 +1558,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasGetImageData.html
    */
-  function canvasGetImageData(OBJECT: canvasGetImageData.Param): Promise<canvasGetImageData.Promised>
+  function canvasGetImageData(res: canvasGetImageData.Param): Promise<canvasGetImageData.Promised>
 
   // TODO: RenderingContext
 }

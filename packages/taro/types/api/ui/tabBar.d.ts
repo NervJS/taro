@@ -9,10 +9,9 @@ declare namespace Taro {
   }
   /**
    * 显示 tabBar 某一项的右上角的红点
-   * @since 1.9.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBarRedDot.html
    */
-  function showTabBarRedDot(OBJECT: showTabBarRedDot.Param): Promise<any>
+  function showTabBarRedDot(res: showTabBarRedDot.Param): Promise<any>
 
   namespace showTabBar {
     type Param = {
@@ -24,10 +23,9 @@ declare namespace Taro {
   }
   /**
    * 显示 tabBar
-   * @since 1.9.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBar.html
    */
-  function showTabBar(OBJECT?: showTabBar.Param): Promise<any>
+  function showTabBar(res?: showTabBar.Param): Promise<any>
 
   namespace setTabBarStyle {
     type Param = {
@@ -51,19 +49,18 @@ declare namespace Taro {
   }
   /**
    * 动态设置 tabBar 的整体样式
-   * @since 1.9.0
    * @example
-   ```javascript
-   Taro.setTabBarStyle({
-       color: '#FF0000',
-       selectedColor: '#00FF00',
-       backgroundColor: '#0000FF',
-       borderStyle: 'white'
-   })
-   ```
+```tsx
+Taro.setTabBarStyle({
+    color: '#FF0000',
+    selectedColor: '#00FF00',
+    backgroundColor: '#0000FF',
+    borderStyle: 'white'
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarStyle.html
    */
-  function setTabBarStyle(OBJECT?: setTabBarStyle.Param): Promise<any>
+  function setTabBarStyle(res?: setTabBarStyle.Param): Promise<any>
 
   namespace setTabBarItem {
     type Param = {
@@ -87,19 +84,18 @@ declare namespace Taro {
   }
   /**
    * 动态设置 tabBar 某一项的内容
-   * @since 1.9.0
    * @example
-   ```javascript
-   Taro.setTabBarItem({
-       index: 0,
-       text: 'text',
-       iconPath: '/path/to/iconPath',
-       selectedIconPath: '/path/to/selectedIconPath'
-   })
-   ```
+```tsx
+Taro.setTabBarItem({
+    index: 0,
+    text: 'text',
+    iconPath: '/path/to/iconPath',
+    selectedIconPath: '/path/to/selectedIconPath'
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarItem.html
    */
-  function setTabBarItem(OBJECT: setTabBarItem.Param): Promise<any>
+  function setTabBarItem(res: setTabBarItem.Param): Promise<any>
 
   namespace setTabBarBadge {
     type Param = {
@@ -115,17 +111,16 @@ declare namespace Taro {
   }
   /**
    * 为 tabBar 某一项的右上角添加文本
-   * @since 1.9.0
    * @example
-   ```javascript
-   Taro.setTabBarBadge({
-     index: 0,
-     text: '1'
-   })
-   ```
+```tsx
+Taro.setTabBarBadge({
+  index: 0,
+  text: '1'
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarBadge.html
    */
-  function setTabBarBadge(OBJECT: setTabBarBadge.Param): Promise<any>
+  function setTabBarBadge(res: setTabBarBadge.Param): Promise<any>
 
   namespace removeTabBarBadge {
     type Param = {
@@ -137,10 +132,9 @@ declare namespace Taro {
   }
   /**
    * 移除 tabBar 某一项右上角的文本
-   * @since 1.9.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.removeTabBarBadge.html
    */
-  function removeTabBarBadge(OBJECT: removeTabBarBadge.Param): Promise<any>
+  function removeTabBarBadge(res: removeTabBarBadge.Param): Promise<any>
 
   namespace hideTabBarRedDot {
     type Param = {
@@ -152,10 +146,9 @@ declare namespace Taro {
   }
   /**
    * 隐藏 tabBar 某一项的右上角的红点
-   * @since 1.9.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBarRedDot.html
    */
-  function hideTabBarRedDot(OBJECT: hideTabBarRedDot.Param): Promise<any>
+  function hideTabBarRedDot(res: hideTabBarRedDot.Param): Promise<any>
 
   namespace hideTabBar {
     type Param = {
@@ -167,8 +160,7 @@ declare namespace Taro {
   }
   /**
    * 隐藏 tabBar
-   * @since 1.9.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBar.html
    */
-  function hideTabBar(OBJECT?: hideTabBar.Param): Promise<any>
+  function hideTabBar(res?: hideTabBar.Param): Promise<any>
 }

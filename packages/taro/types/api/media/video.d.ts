@@ -19,9 +19,8 @@ declare namespace Taro {
    * **Bug & Tip：**
    *
    * 1.  `tip`: camera 参数在部分 Android 手机下由于系统 ROM 不支持无法生效
-   * @since 1.2.0
    * @example
-   ```javascript
+   ```tsx
    Taro.saveVideoToPhotosAlbum({
      filePath: 'wxfile://xxx'
      success(res) {
@@ -31,7 +30,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html
    */
-  function saveVideoToPhotosAlbum(OBJECT: saveVideoToPhotosAlbum.Param): Promise<saveVideoToPhotosAlbum.Promised>
+  function saveVideoToPhotosAlbum(res: saveVideoToPhotosAlbum.Param): Promise<saveVideoToPhotosAlbum.Promised>
 
   class VideoContext {
     /**
@@ -44,7 +43,6 @@ declare namespace Taro {
     pause(): void
     /**
      * 停止
-     * @since 1.7.0
      */
     stop(): void
     /**
@@ -57,27 +55,22 @@ declare namespace Taro {
     sendDanmu(danmu: { text: string; color: string }): void
     /**
      * 设置倍速播放，支持的倍率有 0.5/0.8/1.0/1.25/1.5
-     * @since 1.4.0
      */
     playbackRate(rate: number): void
     /**
      * 进入全屏，可传入{direction}参数（1.7.0起支持），详见video组件文档
-     * @since 1.4.0
      */
     requestFullScreen(param: { direction: 0 | 90 | -90 }): void
     /**
      * 退出全屏
-     * @since 1.4.0
      */
     exitFullScreen(): void
     /**
      * 显示状态栏，仅在iOS全屏下有效
-     * @since 2.1.0
      */
     showStatusBar(): void
     /**
      * 隐藏状态栏，仅在iOS全屏下有效
-     * @since 2.1.0
      */
     hideStatusBar(): void
   }
@@ -102,7 +95,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    function getRandomColor () {
      let rgb = []
      for (let i = 0 ; i < 3; ++i){
@@ -162,7 +155,6 @@ declare namespace Taro {
       sourceType?: string[]
       /**
        * 是否压缩所选的视频源文件，默认值为true，需要压缩
-       * @since 1.6.0
        */
       compressed?: boolean
       /**
@@ -220,7 +212,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Page({
        bindButtonTap: function() {
            var that = this
@@ -239,5 +231,5 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html
    */
-  function chooseVideo(OBJECT?: chooseVideo.Param): Promise<chooseVideo.Promised>
+  function chooseVideo(res?: chooseVideo.Param): Promise<chooseVideo.Promised>
 }

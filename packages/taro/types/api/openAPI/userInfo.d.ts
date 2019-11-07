@@ -62,17 +62,14 @@ declare namespace Taro {
     type Param = {
       /**
        * 是否带上登录态信息
-       * @since 1.1.0
        */
       withCredentials?: boolean
       /**
        * 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。默认为en。
-       * @since 1.3.0
        */
       lang?: string
       /**
        * 超时时间，单位 ms
-       * @since 1.9.90
        */
       timeout?: number
       success?: ParamPropSuccess
@@ -99,7 +96,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Taro.getUserInfo({
      success: function(res) {
        var userInfo = res.userInfo
@@ -134,5 +131,5 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html
    */
-  function getUserInfo(OBJECT?: getUserInfo.Param): Promise<getUserInfo.Promised>
+  function getUserInfo(res?: getUserInfo.Param): Promise<getUserInfo.Promised>
 }

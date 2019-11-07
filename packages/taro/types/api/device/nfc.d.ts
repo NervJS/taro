@@ -14,18 +14,17 @@ declare namespace Taro {
   }
   /**
    * 关闭 NFC 模块。仅在安卓系统下有效。
-   * @since 1.7.0
    * @example
-   ```javascript
-   Taro.stopHCE({
-     success: function(res) {
-       console.log(res.errMsg)
-     }
-   })
-   ```
+```tsx
+Taro.stopHCE({
+  success: function(res) {
+    console.log(res.errMsg)
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.stopHCE.html
    */
-  function stopHCE(OBJECT?: stopHCE.Param): Promise<stopHCE.Promised>
+  function stopHCE(res?: stopHCE.Param): Promise<stopHCE.Promised>
 
   namespace startHCE {
     type Promised = {
@@ -47,19 +46,18 @@ declare namespace Taro {
   }
   /**
    * 初始化 NFC 模块。
-   * @since 1.7.0
    * @example
-   ```javascript
-   Taro.startHCE({
-     aid_list: ['F222222222']
-     success: function(res) {
-       console.log(res.errMsg)
-     }
-   })
-   ```
+```tsx
+Taro.startHCE({
+  aid_list: ['F222222222']
+  success: function(res) {
+    console.log(res.errMsg)
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.startHCE.html
    */
-  function startHCE(OBJECT: startHCE.Param): Promise<startHCE.Promised>
+  function startHCE(res: startHCE.Param): Promise<startHCE.Promised>
 
   namespace sendHCEMessage {
     type Promised = {
@@ -99,24 +97,23 @@ declare namespace Taro {
    *
    * **success返回参数说明：**
    *
-   ```javascript
-   const buffer = new ArrayBuffer(1)
-   const dataView = new DataView(buffer)
-   dataView.setUint8(0, 0)
-         Taro.startHCE({
-     success: function(res) {
-       Taro.onHCEMessage(function(res) {
-         if (res.messageType === 1) {
-           Taro.sendHCEMessage({data: buffer})
-         }
-       })
-     }
-   })
-   ```
-   * @since 1.7.0
+```tsx
+const buffer = new ArrayBuffer(1)
+const dataView = new DataView(buffer)
+dataView.setUint8(0, 0)
+      Taro.startHCE({
+  success: function(res) {
+    Taro.onHCEMessage(function(res) {
+      if (res.messageType === 1) {
+        Taro.sendHCEMessage({data: buffer})
+      }
+    })
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.sendHCEMessage.html
    */
-  function sendHCEMessage(OBJECT: sendHCEMessage.Param): Promise<sendHCEMessage.Promised>
+  function sendHCEMessage(res: sendHCEMessage.Param): Promise<sendHCEMessage.Promised>
 
   namespace onHCEMessage {
     type Param = (res: ParamParam) => any
@@ -140,10 +137,9 @@ declare namespace Taro {
    *
    * *   1：消息为HCE Apdu Command类型，小程序需对此指令进行处理，并调用 `sendHCEMessage` 接口返回处理指令；
    * *   2：消息为设备离场事件
-   * @since 1.7.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.onHCEMessage.html
    */
-  function onHCEMessage(CALLBACK: onHCEMessage.Param): void
+  function onHCEMessage(callback: onHCEMessage.Param): void
 
   namespace getHCEState {
     type Promised = {
@@ -163,17 +159,16 @@ declare namespace Taro {
    *
    * **success返回参数说明：**
    *
-   ```javascript
-   Taro.getHCEState({
-     success: function(res) {
-       console.log(res.errCode)
-     }
-   })
-   ```
-   * @since 1.7.0
+```tsx
+Taro.getHCEState({
+  success: function(res) {
+    console.log(res.errCode)
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.getHCEState.html
    */
-  function getHCEState(OBJECT?: getHCEState.Param): Promise<getHCEState.Promised>
+  function getHCEState(res?: getHCEState.Param): Promise<getHCEState.Promised>
 
   // TODO: wx.offHCEMessage
 }

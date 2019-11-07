@@ -32,23 +32,23 @@ declare namespace Taro {
    *
    * 1.  `bug`: `iOS` `6.3.30` type 参数不生效，只会返回 wgs84 类型的坐标信息
    * @example
-   ```javascript
-   Taro.getLocation({
-     type: 'gcj02', //返回可以用于Taro.openLocation的经纬度
-     success: function(res) {
-       var latitude = res.latitude
-       var longitude = res.longitude
-       Taro.openLocation({
-         latitude: latitude,
-         longitude: longitude,
-         scale: 28
-       })
-     }
-   })
-   ```
+```tsx
+Taro.getLocation({
+  type: 'gcj02', //返回可以用于Taro.openLocation的经纬度
+  success: function(res) {
+    var latitude = res.latitude
+    var longitude = res.longitude
+    Taro.openLocation({
+      latitude: latitude,
+      longitude: longitude,
+      scale: 28
+    })
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html
    */
-  function openLocation(OBJECT: openLocation.Param): Promise<any>
+  function openLocation(res: openLocation.Param): Promise<any>
 
   namespace getLocation {
     type Promised = {
@@ -70,17 +70,14 @@ declare namespace Taro {
       accuracy: number
       /**
        * 高度，单位 m
-       * @since 1.2.0
        */
       altitude: number
       /**
        * 垂直精度，单位 m（Android 无法获取，返回 0）
-       * @since 1.2.0
        */
       verticalAccuracy: number
       /**
        * 水平精度，单位 m
-       * @since 1.2.0
        */
       horizontalAccuracy: number
     }
@@ -91,7 +88,6 @@ declare namespace Taro {
       type?: 'wgs84' | 'gcj02'
       /**
        * 传入 true 会返回高度信息，由于获取高度需要较高精确度，会减慢接口返回速度
-       * @since 1.6.0
        */
       altitude?: boolean
       /**
@@ -123,20 +119,20 @@ declare namespace Taro {
   /**
    * 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用；当用户点击“显示在聊天顶部”时，此接口可继续调用。
    * @example
-   ```javascript
-    Taro.getLocation({
-      type: 'wgs84',
-      success: function(res) {
-        var latitude = res.latitude
-        var longitude = res.longitude
-        var speed = res.speed
-        var accuracy = res.accuracy
-      }
-    })
-    ```
+```tsx
+Taro.getLocation({
+  type: 'wgs84',
+  success: function(res) {
+    var latitude = res.latitude
+    var longitude = res.longitude
+    var speed = res.speed
+    var accuracy = res.accuracy
+  }
+})
+```
     * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getLocation.html
     */
-  function getLocation(OBJECT?: getLocation.Param): Promise<getLocation.Promised>
+  function getLocation(res?: getLocation.Param): Promise<getLocation.Promised>
 
   namespace chooseLocation {
     type Promised = {
@@ -165,7 +161,7 @@ declare namespace Taro {
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.userLocation
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.chooseLocation.html
    */
-  function chooseLocation(OBJECT?: chooseLocation.Param): Promise<chooseLocation.Promised>
+  function chooseLocation(res?: chooseLocation.Param): Promise<chooseLocation.Promised>
 
   // TODO: wx.stopLocationUpdate
   // TODO: wx.startLocationUpdateBackground

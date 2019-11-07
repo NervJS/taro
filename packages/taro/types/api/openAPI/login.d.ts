@@ -13,7 +13,6 @@ declare namespace Taro {
     type Param = {
       /**
        * 超时时间，单位 ms
-       * @since 1.9.90
        */
       timeout?: number
       success?: ParamPropSuccess
@@ -36,7 +35,7 @@ declare namespace Taro {
   /**
    * 调用接口Taro.login() 获取**临时登录凭证（code）**
    * @example
-   ```javascript
+   ```tsx
    //app.js
    App({
      onLaunch: function() {
@@ -60,7 +59,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html
    */
-  function login(OBJECT?: login.Param): Promise<login.Promised>
+  function login(res?: login.Param): Promise<login.Promised>
 
   namespace checkSession {
     type Param = {}
@@ -68,7 +67,7 @@ declare namespace Taro {
   /**
    * 校验用户当前session_key是否有效。
    * @example
-   ```javascript
+   ```tsx
    Taro.checkSession({
      success: function(){
        //session_key 未过期，并且在本生命周期一直有效
@@ -82,5 +81,5 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.checkSession.html
    */
-  function checkSession(OBJECT?: checkSession.Param): Promise<any>
+  function checkSession(res?: checkSession.Param): Promise<any>
 }

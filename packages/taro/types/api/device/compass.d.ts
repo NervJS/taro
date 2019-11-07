@@ -4,28 +4,26 @@ declare namespace Taro {
   }
   /**
    * 停止监听罗盘数据。
-   * @since 1.1.0
    * @example
-   ```javascript
-   Taro.stopCompass()
-   ```
+```tsx
+Taro.stopCompass()
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.stopCompass.html
    */
-  function stopCompass(OBJECT?: stopCompass.Param): Promise<any>
+  function stopCompass(res?: stopCompass.Param): Promise<any>
 
   namespace startCompass {
     type Param = {}
   }
   /**
    * 开始监听罗盘数据。
-   * @since 1.1.0
    * @example
-   ```javascript
-   Taro.startCompass()
-   ```
+```tsx
+Taro.startCompass()
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.startCompass.html
    */
-  function startCompass(OBJECT?: startCompass.Param): Promise<any>
+  function startCompass(res?: startCompass.Param): Promise<any>
 
   namespace onCompassChange {
     type Param = (res: ParamParam) => any
@@ -39,14 +37,14 @@ declare namespace Taro {
   /**
    * 监听罗盘数据，频率：5次/秒，接口调用后会自动开始监听，可使用`Taro.stopCompass`停止监听。
    * @example
-   ```javascript
-   Taro.onCompassChange(function (res) {
-     console.log(res.direction)
-   })
-   ```
+```tsx
+Taro.onCompassChange(function (res) {
+  console.log(res.direction)
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.onCompassChange.html
    */
-  function onCompassChange(CALLBACK: onCompassChange.Param): void
+  function onCompassChange(callback: onCompassChange.Param): void
 
   // TODO: wx.offCompassChange
 }

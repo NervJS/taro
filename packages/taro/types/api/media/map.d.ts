@@ -19,7 +19,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    // map.js
    Page({
      onReady: function (e) {
@@ -211,30 +211,26 @@ declare namespace Taro {
     /**
      * 获取当前地图中心的经纬度，返回的是 gcj02 坐标系，可以用于 [`Taro.openLocation`](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html)
      */
-    getCenterLocation(OBJECT: MapContext.getCenterLocation.Param): any
+    getCenterLocation(res: MapContext.getCenterLocation.Param): any
     /**
      * 将地图中心移动到当前定位点，需要配合map组件的show-location使用
      */
     moveToLocation(): void
     /**
      * 平移marker，带动画
-     * @since 1.2.0
      */
-    translateMarker(OBJECT: MapContext.translateMarker.Param): any
+    translateMarker(res: MapContext.translateMarker.Param): any
     /**
      * 缩放视野展示所有经纬度
-     * @since 1.2.0
      */
-    includePoints(OBJECT: MapContext.includePoints.Param): any
+    includePoints(res: MapContext.includePoints.Param): any
     /**
      * 获取当前地图的视野范围
-     * @since 1.4.0
      */
-    getRegion(OBJECT: MapContext.getRegion.Param): any
+    getRegion(res: MapContext.getRegion.Param): any
     /**
      * 获取当前地图的缩放级别
-     * @since 1.4.0
      */
-    getScale(OBJECT: MapContext.getScale.Param): any
+    getScale(res: MapContext.getScale.Param): any
   }
 }

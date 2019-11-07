@@ -16,14 +16,14 @@ declare namespace Taro {
   /**
    * 动态设置当前页面的标题。
    * @example
-   ```javascript
-   Taro.setNavigationBarTitle({
-     title: '当前页面'
-   })
-   ```
+```tsx
+Taro.setNavigationBarTitle({
+  title: '当前页面'
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarTitle.html
    */
-  function setNavigationBarTitle(OBJECT: setNavigationBarTitle.Param): Promise<any>
+  function setNavigationBarTitle(res: setNavigationBarTitle.Param): Promise<any>
 
   namespace setNavigationBarColor {
     type Promised = {
@@ -79,21 +79,20 @@ declare namespace Taro {
     }
   }
   /**
-   * @since 1.4.0
    * @example
-   ```javascript
-   Taro.setNavigationBarColor({
-       frontColor: '#ffffff',
-       backgroundColor: '#ff0000',
-       animation: {
-           duration: 400,
-           timingFunc: 'easeIn'
-       }
-   })
-   ```
+```tsx
+Taro.setNavigationBarColor({
+    frontColor: '#ffffff',
+    backgroundColor: '#ff0000',
+    animation: {
+        duration: 400,
+        timingFunc: 'easeIn'
+    }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarColor.html
    */
-  function setNavigationBarColor(OBJECT: setNavigationBarColor.Param): Promise<setNavigationBarColor.Promised>
+  function setNavigationBarColor(res: setNavigationBarColor.Param): Promise<setNavigationBarColor.Promised>
 
   /**
    * 隐藏导航条加载动画。
@@ -136,7 +135,6 @@ declare namespace Taro {
    * 
    * @param option 隐藏返回首页按钮的参数
    * 
-   * @since 2.8.3
    * 
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideHomeButton.html
    */

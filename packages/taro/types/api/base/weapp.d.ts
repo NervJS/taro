@@ -34,7 +34,6 @@ declare namespace Taro {
    * 部分版本在无 `referrerInfo` 的时候会返回 undefined，
    * 建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
    *
-   * @since 微信小程序 2.1.2
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html
    */
   function getLaunchOptionsSync(): getLaunchOptionsSync.Return
@@ -68,7 +67,6 @@ declare namespace Taro {
   }
   /**
    * 监听小程序要打开的页面不存在事件。该事件与 `App.onPageNotFound` 的回调时机一致
-   * @since 微信小程序 2.1.2
    */
   function onPageNotFound(callback: onPageNotFound.onPageNotFoundCallback): void
 
@@ -84,19 +82,16 @@ declare namespace Taro {
   }
   /**
    * 监听小程序错误事件。如脚本错误或 API 调用报错等。该事件与 App.onError 的回调时机与参数一致
-   * @since 微信小程序 2.1.2
    */
   function onError(callback: onError.onErrorCallback): void
 
   /**
    * 监听音频中断结束事件。在收到 onAudioInterruptionBegin 事件之后，小程序内所有音频会暂停，收到此事件之后才可再次播放成功
-   * @since 微信小程序  2.6.2
    */
   function onAudioInterruptionEnd(callback: () => void): void
 
   /**
    * 监听音频因为受到系统占用而被中断开始事件。以下场景会触发此事件：闹钟、电话、FaceTime 通话、微信语音聊天、微信视频聊天。此事件触发后，小程序内所有音频会暂停
-   * @since 微信小程序  2.6.2
    */
   function onAudioInterruptionBegin(callback: () => void): void
 

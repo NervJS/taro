@@ -20,7 +20,7 @@ declare namespace Taro {
    *
    * 1.  `tip`: 本地文件存储的大小限制为 10M
    * @example
-   ```javascript
+   ```tsx
    Taro.chooseImage({
      success: function(res) {
        var tempFilePaths = res.tempFilePaths
@@ -35,7 +35,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.saveFile.html
    */
-  function saveFile(OBJECT: saveFile.Param): Promise<saveFile.Promised>
+  function saveFile(res: saveFile.Param): Promise<saveFile.Promised>
 
   namespace removeSavedFile {
     type Param = {
@@ -48,7 +48,7 @@ declare namespace Taro {
   /**
    * 删除本地存储的文件
    * @example
-   ```javascript
+   ```tsx
    Taro.getSavedFileList({
      success: function(res) {
        if (res.fileList.length > 0){
@@ -64,7 +64,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.removeSavedFile.html
    */
-  function removeSavedFile(OBJECT: removeSavedFile.Param): Promise<any>
+  function removeSavedFile(res: removeSavedFile.Param): Promise<any>
 
   namespace openDocument {
     type Param = {
@@ -74,7 +74,6 @@ declare namespace Taro {
       filePath: string
       /**
        * 文件类型，指定文件类型打开文件，有效值 doc, xls, ppt, pdf, docx, xlsx, pptx
-       * @since 1.4.0
        */
       fileType?: string
     }
@@ -82,7 +81,7 @@ declare namespace Taro {
   /**
    * 新开页面打开文档，支持格式：doc, xls, ppt, pdf, docx, xlsx, pptx
    * @example
-   ```javascript
+   ```tsx
    Taro.downloadFile({
      url: 'http://example.com/somefile.pdf',
      success: function (res) {
@@ -98,7 +97,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.openDocument.html
    */
-  function openDocument(OBJECT: openDocument.Param): Promise<any>
+  function openDocument(res: openDocument.Param): Promise<any>
 
   namespace getSavedFileList {
     type Promised = {
@@ -134,7 +133,7 @@ declare namespace Taro {
   /**
    * 获取本地已保存的文件列表
    * @example
-   ```javascript
+   ```tsx
    Taro.getSavedFileList({
      success: function(res) {
        console.log(res.fileList)
@@ -143,7 +142,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileList.html
    */
-  function getSavedFileList(OBJECT?: getSavedFileList.Param): Promise<getSavedFileList.Promised>
+  function getSavedFileList(res?: getSavedFileList.Param): Promise<getSavedFileList.Promised>
 
   namespace getSavedFileInfo {
     type Promised = {
@@ -170,7 +169,7 @@ declare namespace Taro {
   /**
    * 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html) 接口。
    * @example
-   ```javascript
+   ```tsx
    Taro.getSavedFileInfo({
      filePath: 'wxfile://somefile', //仅做示例用，非真正的文件路径
      success: function(res) {
@@ -181,7 +180,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getSavedFileInfo.html
    */
-  function getSavedFileInfo(OBJECT: getSavedFileInfo.Param): Promise<getSavedFileInfo.Promised>
+  function getSavedFileInfo(res: getSavedFileInfo.Param): Promise<getSavedFileInfo.Promised>
 
   namespace getFileInfo {
     type Promised = {
@@ -211,9 +210,8 @@ declare namespace Taro {
   }
   /**
    * 获取文件信息
-   * @since 1.4.0
    * @example
-   ```javascript
+   ```tsx
    Taro.getFileInfo({
        success(res) {
            console.log(res.size)
@@ -223,7 +221,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html
    */
-  function getFileInfo(OBJECT: getFileInfo.Param): Promise<getFileInfo.Promised>
+  function getFileInfo(res: getFileInfo.Param): Promise<getFileInfo.Promised>
 
   // TODO: wx.getFileSystemManager
   // TODO: FileSystemManager

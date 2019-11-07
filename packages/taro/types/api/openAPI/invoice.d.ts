@@ -39,9 +39,8 @@ declare namespace Taro {
   /**
    * 选择用户的发票抬头。
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.invoiceTitle
-   * @since 1.5.0
    * @example
-   ```javascript
+   ```tsx
    Taro.chooseInvoiceTitle({
      success(res) {
      }
@@ -49,7 +48,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/invoice/wx.chooseInvoiceTitle.html
    */
-  function chooseInvoiceTitle(OBJECT?: chooseInvoiceTitle.Param): Promise<chooseInvoiceTitle.Promised>
+  function chooseInvoiceTitle(res?: chooseInvoiceTitle.Param): Promise<chooseInvoiceTitle.Promised>
 
   namespace chooseInvoice {
     type Promised = {
@@ -71,9 +70,8 @@ declare namespace Taro {
   /**
    * 选择用户的发票抬头。
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.invoice
-   * @since 1.5.0
    * @example
-   ```javascript
+   ```tsx
    Taro.chooseInvoice({
      success(res) {
      }
@@ -81,5 +79,5 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/invoice/wx.chooseInvoice.html
    */
-  function chooseInvoice(OBJECT?: chooseInvoice.Param): Promise<chooseInvoice.Promised>
+  function chooseInvoice(res?: chooseInvoice.Param): Promise<chooseInvoice.Promised>
 }

@@ -14,6 +14,8 @@ export interface DocEntry {
   members?: DocEntry[]
   exports?: DocEntry[]
   children?: DocEntry[]
+  declarations?: DocEntry[]
+  symbol?: DocEntry
 }
 
 export function generateDocumentation(
@@ -54,7 +56,7 @@ export function generateDocumentation(
       symbol && o.push(serializeType(symbol, undefined, 'InterfaceDeclaration'))
     } else if (ts.isTypeAliasDeclaration(node)) {
       const symbol = checker.getTypeAtLocation(node).getSymbol()
-      symbol && o.push(serializeType(symbol, ts.idText(node.name), 'TypeAliasDeclaration'))
+      symbol && o.push(serializeType(symbol, ts.idText(node.name)))
     } else if (ts.isEnumDeclaration(node)) {
       const symbol = checker.getTypeAtLocation(node).getSymbol()
       symbol && o.push(serializeType(symbol))
@@ -85,6 +87,13 @@ export function generateDocumentation(
 
   /** Serialize a symbol into a json object */
   function serializeSymbol(symbol: ts.Symbol, name?: string, type?: string): DocEntry {
+    const declarations: DocEntry[] = [];
+    (symbol.getDeclarations() || []).map(
+      d => checker.getSignaturesOfType(checker.getTypeAtLocation(d), ts.SignatureKind.Call).map(
+        e => declarations.push(serializeSignature(e))
+      )
+    )
+
     return {
       jsTags: symbol.getJsDocTags(),
       name: name || symbol.getName(),
@@ -92,7 +101,8 @@ export function generateDocumentation(
       documentation: ts.displayPartsToString(symbol.getDocumentationComment(checker)),
       type: type || checker.typeToString(
         checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration!)
-      )
+      ),
+      declarations
     }
   }
 

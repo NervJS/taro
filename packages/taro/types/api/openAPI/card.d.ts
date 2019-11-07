@@ -28,26 +28,25 @@ declare namespace Taro {
    *
    * 1.  `tip`: 目前只有认证小程序才能使用卡券接口，可参考[指引](https://mp.weixin.qq.com/debug/wxadoc/product/renzheng.html)进行认证。
    * 2.  `tip`: 了解更多信息，请查看[微信卡券接口文档](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1490190158&version=1&lang=zh_CN&platform=2)
-   * @since 1.1.0
    * @example
-   ```javascript
-   Taro.openCard({
-     cardList: [
-       {
-         cardId: '',
-         code: ''
-       }, {
-         cardId: '',
-         code: ''
-       }
-     ],
-     success: function(res) {
-     }
-   })
-   ```
+```tsx
+Taro.openCard({
+  cardList: [
+    {
+      cardId: '',
+      code: ''
+    }, {
+      cardId: '',
+      code: ''
+    }
+  ],
+  success: function(res) {
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.openCard.html
    */
-  function openCard(OBJECT: openCard.Param): Promise<any>
+  function openCard(res: openCard.Param): Promise<any>
 
   namespace addCard {
     type Promised = {
@@ -123,25 +122,24 @@ declare namespace Taro {
    *   success   |  addCard:ok                      |  添加卡券成功
    *   fail      |  addCard:fail cancel             |  用户取消添加卡券
    *   fail      |  addCard:fail (detail message)   |添加卡券失败，其中 detail message 为后台返回的详细失败原因
-   * @since 1.1.0
    * @example
-   ```javascript
-   Taro.addCard({
-     cardList: [
-       {
-         cardId: '',
-         cardExt: '{"code": "", "openid": "", "timestamp": "", "signature":""}'
-       }, {
-         cardId: '',
-         cardExt: '{"code": "", "openid": "", "timestamp": "", "signature":""}'
-       }
-     ],
-     success: function(res) {
-       console.log(res.cardList) // 卡券添加结果
-     }
-   })
-   ```
+```tsx
+Taro.addCard({
+  cardList: [
+    {
+      cardId: '',
+      cardExt: '{"code": "", "openid": "", "timestamp": "", "signature":""}'
+    }, {
+      cardId: '',
+      cardExt: '{"code": "", "openid": "", "timestamp": "", "signature":""}'
+    }
+  ],
+  success: function(res) {
+    console.log(res.cardList) // 卡券添加结果
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/card/wx.addCard.html
    */
-  function addCard(OBJECT: addCard.Param): Promise<addCard.Promised>
+  function addCard(res: addCard.Param): Promise<addCard.Promised>
 }

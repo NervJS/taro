@@ -13,15 +13,14 @@ declare namespace Taro {
   }
   /**
    * 将页面滚动到目标位置。
-   * @since 1.4.0
    * @example
-   ```javascript
-   Taro.pageScrollTo({
-     scrollTop: 0,
-     duration: 300
-   })
-   ```
+```tsx
+Taro.pageScrollTo({
+  scrollTop: 0,
+  duration: 300
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/wx.pageScrollTo.html
    */
-  function pageScrollTo(OBJECT: pageScrollTo.Param): void
+  function pageScrollTo(res: pageScrollTo.Param): void
 }

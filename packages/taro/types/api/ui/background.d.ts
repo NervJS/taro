@@ -9,16 +9,15 @@ declare namespace Taro {
   }
   /**
    * 动态设置下拉背景字体、loading 图的样式
-   * @since 2.1.0
    * @example
-   ```javascript
+   ```tsx
    Taro.setBackgroundTextStyle({
      textStyle: 'dark' // 下拉背景字体、loading 图的样式为dark
    })
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundTextStyle.html
    */
-  function setBackgroundTextStyle(OBJECT: setBackgroundTextStyle.Param): Promise<any>
+  function setBackgroundTextStyle(res: setBackgroundTextStyle.Param): Promise<any>
 
   namespace setBackgroundColor {
     type Param = {
@@ -38,9 +37,8 @@ declare namespace Taro {
   }
   /**
    * 动态设置窗口的背景色
-   * @since 2.1.0
    * @example
-   ```javascript
+   ```tsx
    Taro.setBackgroundColor({
      backgroundColor: '#ffffff', // 窗口的背景色为白色
      backgroundColorTop: '#ffffff', // 顶部窗口的背景色为白色
@@ -49,5 +47,5 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/background/wx.setBackgroundColor.html
    */
-  function setBackgroundColor(OBJECT: setBackgroundColor.Param): Promise<any>
+  function setBackgroundColor(res: setBackgroundColor.Param): Promise<any>
 }

@@ -85,7 +85,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Taro.downloadFile({
      url: 'https://example.com/audio/123', //仅为示例，并非真实的资源
      success: function(res) {
@@ -101,7 +101,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    const downloadTask = Taro.downloadFile({
        url: 'http://example.com/audio/123', //仅为示例，并非真实的资源
        success: function(res) {
@@ -117,8 +117,7 @@ declare namespace Taro {
    })
          downloadTask.abort() // 取消下载任务
    ```
-   * @since 1.4.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html
    */
-  function downloadFile(OBJECT: downloadFile.Param): downloadFile.DownloadTask
+  function downloadFile(res: downloadFile.Param): downloadFile.DownloadTask
 }

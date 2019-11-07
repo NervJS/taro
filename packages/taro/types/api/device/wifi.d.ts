@@ -4,36 +4,34 @@ declare namespace Taro {
   }
   /**
    * 关闭 Wi-Fi 模块。
-   * @since 1.6.0
    * @example
-   ```javascript
-   Taro.stopWifi({
-     success: function(res) {
-       console.log(res.errMsg)
-     }
-   })
-   ```
+```tsx
+Taro.stopWifi({
+  success: function(res) {
+    console.log(res.errMsg)
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.stopWifi.html
    */
-  function stopWifi(OBJECT?: stopWifi.Param): Promise<any>
+  function stopWifi(res?: stopWifi.Param): Promise<any>
 
   namespace startWifi {
     type Param = {}
   }
   /**
    * 初始化 Wi-Fi 模块。
-   * @since 1.6.0
    * @example
-   ```javascript
-   Taro.startWifi({
-     success: function(res) {
-       console.log(res.errMsg)
-     }
-   })
-   ```
+```tsx
+Taro.startWifi({
+  success: function(res) {
+    console.log(res.errMsg)
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.startWifi.html
    */
-  function startWifi(OBJECT?: startWifi.Param): Promise<any>
+  function startWifi(res?: startWifi.Param): Promise<any>
 
   namespace setWifiList {
     type Param = {
@@ -69,29 +67,28 @@ declare namespace Taro {
    * 1.  该接口只能在 `onGetWifiList` 回调之后才能调用。
    * 2.  此时客户端会挂起，等待小程序设置 Wi-Fi 信息，请务必尽快调用该接口，若无数据请传入一个空数组。
    * 3.  有可能随着周边 Wi-Fi 列表的刷新，单个流程内收到多次带有存在重复的 Wi-Fi 列表的回调。
-   * @since 1.6.0
    * @example
-   ```javascript
-   Taro.onGetWifiList(function(res) {
-     if (res.wifiList.length) {
-       Taro.setWifiList({
-         wifiList: [{
-           SSID: res.wifiList[0].SSID,
-           BSSID: res.wifiList[0].BSSID,
-           password: '123456'
-         }]
-       })
-     } else {
-       Taro.setWifiList({
-         wifiList: []
-       })
-     }
-   })
-   Taro.getWifiList()
-   ```
+```tsx
+Taro.onGetWifiList(function(res) {
+  if (res.wifiList.length) {
+    Taro.setWifiList({
+      wifiList: [{
+        SSID: res.wifiList[0].SSID,
+        BSSID: res.wifiList[0].BSSID,
+        password: '123456'
+      }]
+    })
+  } else {
+    Taro.setWifiList({
+      wifiList: []
+    })
+  }
+})
+Taro.getWifiList()
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.setWifiList.html
    */
-  function setWifiList(OBJECT: setWifiList.Param): Promise<any>
+  function setWifiList(res: setWifiList.Param): Promise<any>
 
   namespace onWifiConnected {
     type Param = (res: ParamParam) => any
@@ -125,10 +122,9 @@ declare namespace Taro {
   }
   /**
    * 监听连接上 Wi-Fi 的事件。
-   * @since 1.6.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onWifiConnected.html
    */
-  function onWifiConnected(CALLBACK: onWifiConnected.Param): void
+  function onWifiConnected(callback: onWifiConnected.Param): void
 
   namespace onGetWifiList {
     type Param = (res: ParamParam) => any
@@ -163,20 +159,18 @@ declare namespace Taro {
   }
   /**
    * 监听在获取到 Wi-Fi 列表数据时的事件，在回调中将返回 wifiList。
-   * @since 1.6.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onGetWifiList.html
    */
-  function onGetWifiList(CALLBACK: onGetWifiList.Param): void
+  function onGetWifiList(callback: onGetWifiList.Param): void
 
   namespace getWifiList {
     type Param = {}
   }
   /**
    * 请求获取 Wi-Fi 列表，在 `onGetWifiList` 注册的回调中返回 wifiList 数据。iOS 将跳转到系统的 Wi-Fi 界面，Android 不会跳转。 **iOS 11.0 及 iOS 11.1 两个版本因系统问题，该方法失效。但在 iOS 11.2 中已修复。**
-   * @since 1.6.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.getWifiList.html
    */
-  function getWifiList(OBJECT?: getWifiList.Param): Promise<any>
+  function getWifiList(res?: getWifiList.Param): Promise<any>
 
   namespace getConnectedWifi {
     type Promised = {
@@ -230,10 +224,9 @@ declare namespace Taro {
    *   12009   |  system config err       | 系统运营商配置拒绝连接 Wi-Fi
    *   12010   |  system internal error   |系统其他错误，需要在errmsg打印具体的错误原因
    *   12011   |  weapp in background     |  应用在后台无法配置 Wi-Fi
-   * @since 1.6.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.getConnectedWifi.html
    */
-  function getConnectedWifi(OBJECT?: getConnectedWifi.Param): Promise<getConnectedWifi.Promised>
+  function getConnectedWifi(res?: getConnectedWifi.Param): Promise<getConnectedWifi.Promised>
 
   namespace connectWifi {
     type Param = {
@@ -253,18 +246,17 @@ declare namespace Taro {
   }
   /**
    * 连接 Wi-Fi。若已知 Wi-Fi 信息，可以直接利用该接口连接。仅 Android 与 iOS 11 以上版本支持。
-   * @since 1.6.0
    * @example
-   ```javascript
-   Taro.connectWifi({
-     SSID: '',
-     BSSID: '',
-     success: function(res) {
-       console.log(res.errMsg)
-     }
-   })
-   ```
+```tsx
+Taro.connectWifi({
+  SSID: '',
+  BSSID: '',
+  success: function(res) {
+    console.log(res.errMsg)
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.connectWifi.html
    */
-  function connectWifi(OBJECT: connectWifi.Param): Promise<any>
+  function connectWifi(res: connectWifi.Param): Promise<any>
 }

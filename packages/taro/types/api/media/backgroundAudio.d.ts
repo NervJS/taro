@@ -2,7 +2,7 @@ declare namespace Taro {
   /**
    * 停止播放音乐。
    * @example
-   ```javascript
+   ```tsx
    Taro.stopBackgroundAudio()
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.stopBackgroundAudio.html
@@ -20,14 +20,14 @@ declare namespace Taro {
   /**
    * 控制音乐播放进度。
    * @example
-   ```javascript
+   ```tsx
    Taro.seekBackgroundAudio({
        position: 30
    })
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.seekBackgroundAudio.html
    */
-  function seekBackgroundAudio(OBJECT: seekBackgroundAudio.Param): Promise<any>
+  function seekBackgroundAudio(res: seekBackgroundAudio.Param): Promise<any>
 
   namespace playBackgroundAudio {
     type Param = {
@@ -48,7 +48,7 @@ declare namespace Taro {
   /**
    * 使用后台播放器播放音乐，对于微信客户端来说，只能同时有一个后台音乐在播放。当用户离开小程序后，音乐将暂停播放；当用户点击“显示在聊天顶部”时，音乐不会暂停播放；当用户在其他小程序占用了音乐播放器，原有小程序内的音乐将停止播放。
    * @example
-   ```javascript
+   ```tsx
    Taro.playBackgroundAudio({
        dataUrl: '',
        title: '',
@@ -57,12 +57,12 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.playBackgroundAudio.html
    */
-  function playBackgroundAudio(OBJECT: playBackgroundAudio.Param): Promise<any>
+  function playBackgroundAudio(res: playBackgroundAudio.Param): Promise<any>
 
   /**
    * 暂停播放音乐。
    * @example
-   ```javascript
+   ```tsx
    Taro.pauseBackgroundAudio()
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.pauseBackgroundAudio.html
@@ -77,19 +77,19 @@ declare namespace Taro {
    * 1.  `bug`: `iOS` `6.3.30` Taro.seekBackgroundAudio 会有短暂延迟
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioStop.html
    */
-  function onBackgroundAudioStop(CALLBACK: any): void
+  function onBackgroundAudioStop(callback: any): void
 
   /**
    * 监听音乐播放。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioPlay.html
    */
-  function onBackgroundAudioPlay(CALLBACK: any): void
+  function onBackgroundAudioPlay(callback: any): void
 
   /**
    * 监听音乐暂停。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioPause.html
    */
-  function onBackgroundAudioPause(CALLBACK: any): void
+  function onBackgroundAudioPause(callback: any): void
 
   namespace getBackgroundAudioPlayerState {
     type Promised = {
@@ -121,7 +121,7 @@ declare namespace Taro {
    *
    * 获取后台音乐播放状态。
    * @example
-   ```javascript
+   ```tsx
    Taro.getBackgroundAudioPlayerState({
        success: function(res) {
            var status = res.status
@@ -134,7 +134,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioPlayerState.html
    */
-  function getBackgroundAudioPlayerState(OBJECT?: getBackgroundAudioPlayerState.Param): Promise<getBackgroundAudioPlayerState.Promised>
+  function getBackgroundAudioPlayerState(res?: getBackgroundAudioPlayerState.Param): Promise<getBackgroundAudioPlayerState.Promised>
 
   /**
    * 获取**全局唯一**的背景音频管理器 `backgroundAudioManager`。
@@ -148,9 +148,8 @@ declare namespace Taro {
    *   10003     | 文件错误
    *   10004     | 格式错误
    *   -1        | 未知错误
-   * @since 1.2.0
    * @example
-   ```javascript
+   ```tsx
    const backgroundAudioManager = Taro.getBackgroundAudioManager()
          backgroundAudioManager.title = '此时此刻'
    backgroundAudioManager.epname = '此时此刻'
@@ -212,7 +211,6 @@ declare namespace Taro {
     webUrl: string
     /**
      * 音频协议。默认值为 'http'，设置 'hls' 可以支持播放 HLS 协议的直播音频
-     * @since 1.9.94
      */
     protocol: string
     /**

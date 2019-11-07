@@ -43,17 +43,17 @@ declare namespace Taro {
    *
    * **timingFunction 有效值：**
    * @example
-   ```javascript
-   var animation = Taro.createAnimation({
-     transformOrigin: "50% 50%",
-     duration: 1000,
-     timingFunction: "ease",
-     delay: 0
-   })
-   ```
+```tsx
+var animation = Taro.createAnimation({
+  transformOrigin: "50% 50%",
+  duration: 1000,
+  timingFunction: "ease",
+  delay: 0
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/wx.createAnimation.html
    */
-  function createAnimation(OBJECT: createAnimation.Param): Animation
+  function createAnimation(res: createAnimation.Param): Animation
 
   class Animation {
     /**

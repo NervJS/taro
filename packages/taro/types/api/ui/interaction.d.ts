@@ -19,7 +19,6 @@ declare namespace Taro {
       icon?: string
       /**
        * 自定义图标的本地路径，image 的优先级高于 icon
-       * @since 1.1.0
        */
       image?: string
       /**
@@ -59,7 +58,7 @@ declare namespace Taro {
   /**
    * 显示消息提示框
    * @example
-   ```javascript
+   ```tsx
    Taro.showToast({
      title: '成功',
      icon: 'success',
@@ -68,7 +67,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showToast.html
    */
-  function showToast(OBJECT: showToast.Param): Promise<any>
+  function showToast(res: showToast.Param): Promise<any>
 
   namespace showModal {
     type Promised = {
@@ -78,7 +77,6 @@ declare namespace Taro {
       confirm: boolean
       /**
        * 为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭）
-       * @since 1.1.0
        */
       cancel: boolean
     }
@@ -140,7 +138,7 @@ declare namespace Taro {
   /**
    * ​显示模态弹窗
    * @example
-   ```javascript
+   ```tsx
    Taro.showModal({
      title: '提示',
      content: '这是一个模态弹窗',
@@ -155,7 +153,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showModal.html
    */
-  function showModal(OBJECT: showModal.Param): Promise<showModal.Promised>
+  function showModal(res: showModal.Param): Promise<showModal.Promised>
 
   namespace showLoading {
     type Param = {
@@ -195,10 +193,9 @@ declare namespace Taro {
   }
   /**
    * 显示 loading 提示框, 需主动调用 [Taro.hideLoading](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.hideLoading.html) 才能关闭提示框
-   * @since 1.1.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showLoading.html
    */
-  function showLoading(OBJECT?: showLoading.Param): Promise<any>
+  function showLoading(res?: showLoading.Param): Promise<any>
 
   namespace showActionSheet {
     type Promised = {
@@ -252,7 +249,7 @@ declare namespace Taro {
    * 3.  `tip`: Taro.showLoading 和 Taro.showToast 同时只能显示一个，但 Taro.hideToast/Taro.hideLoading 也应当配对使用；
    * 4.  `tip`: `iOS` Taro.showModal 点击蒙层不会关闭模态弹窗，所以尽量避免使用“取消”分支中实现业务逻辑。
    * @example
-   ```javascript
+   ```tsx
    Taro.showActionSheet({
      itemList: ['A', 'B', 'C'],
      success: function(res) {
@@ -265,7 +262,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showActionSheet.html
    */
-  function showActionSheet(OBJECT: showActionSheet.Param): Promise<showActionSheet.Promised>
+  function showActionSheet(res: showActionSheet.Param): Promise<showActionSheet.Promised>
 
   /**
    * 隐藏消息提示框
@@ -275,9 +272,8 @@ declare namespace Taro {
 
   /**
    * 隐藏 loading 提示框
-   * @since 1.1.0
    * @example
-   ```javascript
+   ```tsx
    Taro.showLoading({
      title: '加载中',
    })

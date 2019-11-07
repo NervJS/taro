@@ -2,13 +2,13 @@ declare namespace Taro {
   /**
    * 停止当前页面下拉刷新。
    * @example
-   ```javascript
-   Page({
-     onPullDownRefresh: function(){
-       Taro.stopPullDownRefresh()
-     }
-   })
-   ```
+```tsx
+Page({
+  onPullDownRefresh: function(){
+    Taro.stopPullDownRefresh()
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/pull-down-refresh/wx.stopPullDownRefresh.html
    */
   function stopPullDownRefresh(): void
@@ -24,12 +24,11 @@ declare namespace Taro {
   }
   /**
    * 开始下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致
-   * @since 1.5.0
    * @example
-   ```javascript
-   Taro.startPullDownRefresh()
-   ```
+```tsx
+Taro.startPullDownRefresh()
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/pull-down-refresh/wx.startPullDownRefresh.html
    */
-  function startPullDownRefresh(OBJECT?: startPullDownRefresh.Param): Promise<startPullDownRefresh.Promised>
+  function startPullDownRefresh(res?: startPullDownRefresh.Param): Promise<startPullDownRefresh.Promised>
 }

@@ -8,7 +8,7 @@ declare namespace Taro {
       checkAliveType?: number
     }
   }
-  function checkIsSupportFacialRecognition(OBJECT?: checkIsSupportFacialRecognition.Param): Promise<checkIsSupportFacialRecognition.Promised>
+  function checkIsSupportFacialRecognition(res?: checkIsSupportFacialRecognition.Param): Promise<checkIsSupportFacialRecognition.Promised>
 
   namespace startFacialRecognitionVerify {
     type Promised = {
@@ -22,7 +22,7 @@ declare namespace Taro {
       checkAliveType?: number
     }
   }
-  function startFacialRecognitionVerify(OBJECT?: startFacialRecognitionVerify.Param): Promise<startFacialRecognitionVerify.Promised>
+  function startFacialRecognitionVerify(res?: startFacialRecognitionVerify.Param): Promise<startFacialRecognitionVerify.Promised>
 
   namespace startFacialRecognitionVerifyAndUploadVideo {
     type Promised = {
@@ -36,5 +36,5 @@ declare namespace Taro {
       checkAliveType?: number
     }
   }
-  function startFacialRecognitionVerifyAndUploadVideo(OBJECT?: startFacialRecognitionVerifyAndUploadVideo.Param): Promise<startFacialRecognitionVerifyAndUploadVideo.Promised>
+  function startFacialRecognitionVerifyAndUploadVideo(res?: startFacialRecognitionVerifyAndUploadVideo.Param): Promise<startFacialRecognitionVerifyAndUploadVideo.Promised>
 }

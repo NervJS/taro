@@ -141,8 +141,7 @@ declare namespace Taro {
    *   success   |  ok               |  添加成功
    *   fail      |  fail cancel      |  用户取消操作
    *   fail      |  fail ${detail}   |调用失败，detail 加上详细信息
-   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/contact/wx.addPhoneContact.html
    */
-  function addPhoneContact(OBJECT: addPhoneContact.Param): Promise<any>
+  function addPhoneContact(res: addPhoneContact.Param): Promise<any>
 }

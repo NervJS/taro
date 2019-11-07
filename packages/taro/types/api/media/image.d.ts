@@ -15,9 +15,8 @@ declare namespace Taro {
   }
   /**
    * 保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
-   * @since 1.2.0
    * @example
-   ```javascript
+   ```tsx
    Taro.saveImageToPhotosAlbum({
        success(res) {
        }
@@ -25,7 +24,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html
    */
-  function saveImageToPhotosAlbum(OBJECT: saveImageToPhotosAlbum.Param): Promise<saveImageToPhotosAlbum.Promised>
+  function saveImageToPhotosAlbum(res: saveImageToPhotosAlbum.Param): Promise<saveImageToPhotosAlbum.Promised>
 
   namespace previewImage {
     type Param = {
@@ -42,7 +41,7 @@ declare namespace Taro {
   /**
    * 预览图片。
    * @example
-   ```javascript
+   ```tsx
    Taro.previewImage({
      current: '', // 当前显示图片的http链接
      urls: [] // 需要预览的图片http链接列表
@@ -50,7 +49,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewImage.html
    */
-  function previewImage(OBJECT: previewImage.Param): Promise<any>
+  function previewImage(res: previewImage.Param): Promise<any>
 
   namespace getImageInfo {
     type Promised = {
@@ -81,12 +80,10 @@ declare namespace Taro {
        *   down-mirrored    |  同down，但水平翻转
        *   left-mirrored    |  同left，但垂直翻转
        *   right-mirrored   |  同right，但垂直翻转
-       * @since 1.9.90
        */
       orientation: 'up' | 'down' | 'left' | 'right' | 'up-mirrored' | 'down-mirrored ' | 'left-mirrored' | 'right-mirrored'
       /**
        * 返回图片的格式
-       * @since 1.9.90
        */
       type: string
     }
@@ -100,7 +97,7 @@ declare namespace Taro {
   /**
    * 获取图片信息
    * @example
-   ```javascript
+   ```tsx
    Taro.getImageInfo({
      src: 'images/a.jpg',
      success: function (res) {
@@ -122,7 +119,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.getImageInfo.html
    */
-  function getImageInfo(OBJECT: getImageInfo.Param): Promise<getImageInfo.Promised>
+  function getImageInfo(res: getImageInfo.Param): Promise<getImageInfo.Promised>
 
   namespace chooseImage {
     type Promised = {
@@ -132,7 +129,6 @@ declare namespace Taro {
       tempFilePaths: string[]
       /**
        * 图片的本地文件列表，每一项是一个 File 对象
-       * @since 1.2.0
        */
       tempFiles: PromisedPropTempFiles
     }
@@ -182,7 +178,7 @@ declare namespace Taro {
   /**
    * 从本地相册选择图片或使用相机拍照。
    * @example
-   ```javascript
+   ```tsx
    Taro.chooseImage({
      count: 1, // 默认9
      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -195,7 +191,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html
    */
-  function chooseImage(OBJECT?: chooseImage.Param): Promise<chooseImage.Promised>
+  function chooseImage(res?: chooseImage.Param): Promise<chooseImage.Promised>
 
   // TODO: wx.compressImage
   // TODO: wx.chooseMessageFile

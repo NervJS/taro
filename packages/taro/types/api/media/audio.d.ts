@@ -3,7 +3,7 @@ declare namespace Taro {
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
    * 结束播放语音。
    * @example
-   ```javascript
+   ```tsx
    Taro.startRecord({
      success: function(res) {
        var tempFilePath = res.tempFilePath
@@ -58,10 +58,9 @@ declare namespace Taro {
   }
   /**
    * 设置 InnerAudioContext 的播放选项。设置之后对当前小程序全局生效。
-   * @since 2.3.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.setInnerAudioOption.html
    */
-  function setInnerAudioOption(OBJECT: setInnerAudioOption.Param): Promise<any>
+  function setInnerAudioOption(res: setInnerAudioOption.Param): Promise<any>
 
   namespace playVoice {
     type Param = {
@@ -71,7 +70,6 @@ declare namespace Taro {
       filePath: string
       /**
        * 指定录音时长，到达指定的录音时长后会自动停止录音，单位：秒，默认值：60
-       * @since 1.6.0
        */
       duration?: number
       /**
@@ -105,7 +103,7 @@ declare namespace Taro {
    *
    * 开始播放语音，同时只允许一个语音文件正在播放，如果前一个语音文件还没播放完，将中断前一个语音播放。
    * @example
-   ```javascript
+   ```tsx
    Taro.startRecord({
      success: function(res) {
        var tempFilePath = res.tempFilePath
@@ -119,13 +117,13 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.playVoice.html
    */
-  function playVoice(OBJECT: playVoice.Param): Promise<any>
+  function playVoice(res: playVoice.Param): Promise<any>
 
   /**
    * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html) 接口**
    * 暂停正在播放的语音。再次调用Taro.playVoice播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 Taro.stopVoice。
    * @example
-   ```javascript
+   ```tsx
    Taro.startRecord({
      success: function(res) {
        var tempFilePath = res.tempFilePath
@@ -207,10 +205,9 @@ declare namespace Taro {
   }
   /**
    * 获取当前支持的音频输入源。
-   * @since 2.1.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html
    */
-  function getAvailableAudioSources(OBJECT: getAvailableAudioSources.Param): Promise<any>
+  function getAvailableAudioSources(res: getAvailableAudioSources.Param): Promise<any>
 
   /**
    * 创建并返回内部 audio 上下文 `innerAudioContext` 对象。_本接口是 `Taro.createAudioContext` 升级版。_
@@ -224,9 +221,8 @@ declare namespace Taro {
    *   10003     | 文件错误
    *   10004     | 格式错误
    *   -1        | 未知错误
-   * @since 1.6.0
    * @example
-   ```javascript
+   ```tsx
    const innerAudioContext = Taro.createInnerAudioContext()
    innerAudioContext.autoplay = true
    innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
@@ -284,7 +280,6 @@ declare namespace Taro {
     buffered: number
     /**
      * 音量。范围 0~1。
-     * @since 1.9.90
      */
     volume: number
     /**
@@ -349,52 +344,42 @@ declare namespace Taro {
     onSeeked(callback?: () => void): void
     /**
      * 取消监听 onCanplay 事件
-     * @since 1.9.0
      */
     offCanplay(callback?: () => void): void
     /**
      * 取消监听 onPlay 事件
-     * @since 1.9.0
      */
     offPlay(callback?: () => void): void
     /**
      * 取消监听 onPause 事件
-     * @since 1.9.0
      */
     offPause(callback?: () => void): void
     /**
      * 取消监听 onStop 事件
-     * @since 1.9.0
      */
     offStop(callback?: () => void): void
     /**
      * 取消监听 onEnded 事件
-     * @since 1.9.0
      */
     offEnded(callback?: () => void): void
     /**
      * 取消监听 onTimeUpdate 事件
-     * @since 1.9.0
      */
     offTimeUpdate(callback?: () => void): void
     /**
      * 取消监听 onError 事件
-     * @since 1.9.0
      */
     offError(callback?: () => void): void
     /**
      * 取消监听 onWaiting 事件
-     * @since 1.9.0
      */
     offWaiting(callback?: () => void): void
     /**
      * 取消监听 onSeeking 事件
-     * @since 1.9.0
      */
     offSeeking(callback?: () => void): void
     /**
      * 取消监听 onSeeked 事件
-     * @since 1.9.0
      */
     offSeeked(callback?: () => void): void
   }
@@ -421,7 +406,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    // audio.js
    Page({
      onReady: function (e) {

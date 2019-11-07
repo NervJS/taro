@@ -7,7 +7,6 @@ declare namespace Taro {
     type Return = {
       /**
        * 手机品牌
-       * @since 1.5.0
        */
       brand: string
       /**
@@ -20,12 +19,10 @@ declare namespace Taro {
       pixelRatio: number
       /**
        * 屏幕宽度
-       * @since 1.1.0
        */
       screenWidth: number
       /**
        * 屏幕高度
-       * @since 1.1.0
        */
       screenHeight: number
       /**
@@ -38,7 +35,6 @@ declare namespace Taro {
       windowHeight: number
       /**
        * 状态栏的高度
-       * @since 1.9.0
        */
       statusBarHeight: number
       /**
@@ -59,12 +55,10 @@ declare namespace Taro {
       platform: string
       /**
        * 用户字体大小设置。以“我-设置-通用-字体大小”中的设置为准，单位：px
-       * @since 1.5.0
        */
       fontSizeSetting: number
       /**
        * 客户端基础库版本
-       * @since 1.1.0
        */
       SDKVersion: string
     }
@@ -72,20 +66,20 @@ declare namespace Taro {
   /**
    * 获取系统信息同步接口
    * @example
-   ```javascript
-   try {
-     var res = Taro.getSystemInfoSync()
-     console.log(res.model)
-     console.log(res.pixelRatio)
-     console.log(res.windowWidth)
-     console.log(res.windowHeight)
-     console.log(res.language)
-     console.log(res.version)
-     console.log(res.platform)
-   } catch (e) {
-     // Do something when catch error
-   }
-   ```
+```tsx
+try {
+  var res = Taro.getSystemInfoSync()
+  console.log(res.model)
+  console.log(res.pixelRatio)
+  console.log(res.windowWidth)
+  console.log(res.windowHeight)
+  console.log(res.language)
+  console.log(res.version)
+  console.log(res.platform)
+} catch (e) {
+  // Do something when catch error
+}
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfoSync.html
    */
   function getSystemInfoSync(): getSystemInfoSync.Return
@@ -94,7 +88,6 @@ declare namespace Taro {
     type Promised = {
       /**
        * 手机品牌
-       * @since 1.5.0
        */
       brand: string
       /**
@@ -107,12 +100,10 @@ declare namespace Taro {
       pixelRatio: string
       /**
        * 屏幕宽度
-       * @since 1.1.0
        */
       screenWidth: number
       /**
        * 屏幕高度
-       * @since 1.1.0
        */
       screenHeight: number
       /**
@@ -125,7 +116,6 @@ declare namespace Taro {
       windowHeight: number
       /**
        * 状态栏的高度
-       * @since 1.9.0
        */
       statusBarHeight: number
       /**
@@ -146,12 +136,10 @@ declare namespace Taro {
       platform: string
       /**
        * 用户字体大小设置。以“我-设置-通用-字体大小”中的设置为准，单位：px
-       * @since 1.5.0
        */
       fontSizeSetting: number
       /**
        * 客户端基础库版本
-       * @since 1.1.0
        */
       SDKVersion: string
     }
@@ -160,20 +148,20 @@ declare namespace Taro {
   /**
    * 获取系统信息。
    * @example
-   ```javascript
-   Taro.getSystemInfo({
-     success: function(res) {
-       console.log(res.model)
-       console.log(res.pixelRatio)
-       console.log(res.windowWidth)
-       console.log(res.windowHeight)
-       console.log(res.language)
-       console.log(res.version)
-       console.log(res.platform)
-     }
-   })
-   ```
+```tsx
+Taro.getSystemInfo({
+  success: function(res) {
+    console.log(res.model)
+    console.log(res.pixelRatio)
+    console.log(res.windowWidth)
+    console.log(res.windowHeight)
+    console.log(res.language)
+    console.log(res.version)
+    console.log(res.platform)
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfo.html
    */
-  function getSystemInfo(OBJECT?: getSystemInfo.Param): Promise<getSystemInfo.Promised>
+  function getSystemInfo(res?: getSystemInfo.Param): Promise<getSystemInfo.Promised>
 }

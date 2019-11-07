@@ -2,7 +2,7 @@ declare namespace Taro {
   /**
    * ​主动调用停止录音。
    * @example
-   ```javascript
+   ```tsx
    Taro.startRecord({
      success: function(res) {
        var tempFilePath = res.tempFilePath
@@ -37,7 +37,7 @@ declare namespace Taro {
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.record
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.startRecord.html
    */
-  function startRecord(OBJECT?: startRecord.Param): Promise<startRecord.Promised>
+  function startRecord(res?: startRecord.Param): Promise<startRecord.Promised>
 
   /**
    * 获取**全局唯一**的录音管理器 `recorderManager`。
@@ -55,9 +55,8 @@ declare namespace Taro {
    *   32000   |  48000 ~ 192000
    *   44100   |  64000 ~ 320000
    *   48000   |  64000 ~ 320000
-   * @since 1.6.0
    * @example
-   ```javascript
+   ```tsx
    const recorderManager = Taro.getRecorderManager()
          recorderManager.onStart(() => {
      console.log('recorder start')

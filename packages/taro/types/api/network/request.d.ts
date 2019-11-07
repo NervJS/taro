@@ -19,7 +19,6 @@ declare namespace Taro {
       statusCode: number
       /**
        * 开发者服务器返回的 HTTP Response Header
-       * @since 1.2.0
        */
       header: any
     }
@@ -60,7 +59,6 @@ declare namespace Taro {
       /**
        * 设置响应的数据类型。合法值：text、arraybuffer
        * @default text
-       * @since 1.7.0
        */
       responseType?: string
       /**
@@ -156,7 +154,6 @@ declare namespace Taro {
    *
    * @returns {request.requestTask} 返回一个 `requestTask` 对象，通过 `requestTask`，可中断请求任务。
    *
-   * @since 1.4.0
    *
    * **Bug & Tip：**
    *
@@ -212,5 +209,5 @@ declare namespace Taro {
    *
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
    */
-  function request<T = any, U = any>(OBJECT: request.Param<U>): request.requestTask<T>
+  function request<T = any, U = any>(res: request.Param<U>): request.requestTask<T>
 }

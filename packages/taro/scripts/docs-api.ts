@@ -2,17 +2,7 @@ import * as fs from "fs"
 import * as path from "path"
 import * as ts from "typescript"
 import { generateDocumentation, DocEntry } from "./parser"
-
-const envMap = [
-  { name: 'weapp', label: '微信小程序' },
-  { name: 'swan', label: '百度小程序' },
-  { name: 'alipay', label: '支付宝小程序' },
-  { name: 'tt', label: '字节跳动小程序' },
-  { name: 'qq', label: 'QQ 小程序' },
-  { name: 'h5', label: 'H5' },
-  { name: 'rn', label: 'React Native' },
-  { name: 'quickapp', label: '快应用' },
-]
+import envMap from './parser/taro-env'
 
 export default function docsAPI (base: string = '.', out: string, files: string[]) {
   const cwd: string = process.cwd();
@@ -69,6 +59,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     d.forEach(e => {
       const name = e.name || 'undefined'
       const target = o.find(v => v.name === name)
+      if (name === 'onAccelerometerChange') console.log(JSON.stringify(e.children, undefined, 2))
       if (!target) o.push(e)
       else {
         for (const key in e) {
@@ -116,31 +107,47 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     e.documentation && md.push(e.documentation, '')
     const since = tags.find(tag => tag.name === 'since')
     since && md.push(`> 最低版本: ${since.text || ''}`, '')
-    e.type && md.push('## 类型', '', '```typescript', e.type, '```', '')
+    e.type && md.push('## 类型', '', '```tsx', e.type, '```', '')
     parameters.length && md.push('## 参数', '')
     parameters.map(p => {
       const arr = p.members || p.exports || []
       const hasType = arr.some(v => !!v.type && v.type !== p.name)
       const hasDef = arr.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
       const hasDes = arr.some(v => !!v.documentation)
+      const _param = params.find(e => e.type === p.name)
+      const p_lens = arr.reduce((s, v) => v.name !== ts.InternalSymbolName.Call && ++s, 0)
 
-      md.push(p.name || '',
-        `| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasDes? ' Description |' :''}`,
-        `| --- |${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasDes? ' --- |' :''}`,
-        ...arr.map(v => {
-          const vtags = v.jsTags || [];
-          const def = vtags.find(tag => tag.name === 'default') || { text: '' }
-          return `| ${v.name} |${
-            hasType? ` ${v.type ? `\`${v.type}\`` : ''} |` :''}${
-            hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''}${
-            hasDes? ` ${v.documentation || ''}${
-              vtags.length > 0 ? `<br />${vtags
-                .filter(arrs => !['default', 'supported'].includes(arrs.name))
-                .map(arrs => `${arrs.name}: ${arrs.text}`).join('<br />')
-            }` : ''} |` :''}`
-        }
-        ),
-      '')
+      arr.length > 0 && md.push(`### ${p.name}${_param ? ` ${_param.name}` : ''}`, '')
+
+      if (p_lens > 0) {
+        md.push(`| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasDes? ' Description |' :''}`,
+          `| --- |${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasDes? ' --- |' :''}`,
+          ...arr.map(v => {
+            const vtags = v.jsTags || [];
+            const def = vtags.find(tag => tag.name === 'default') || { text: '' }
+            return `| ${v.name} |${
+              hasType? ` ${v.type ? `\`${v.type}\`` : ''} |` :''}${
+              hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''}${
+              hasDes? ` ${v.documentation || ''}${
+                vtags.length > 0 ? `${vtags
+                  .filter(arrs => !['default', 'supported'].includes(arrs.name))
+                  .map(arrs => `<br />${arrs.name}: ${arrs.text}`).join('')
+              }` : ''} |` :''}`
+          }),
+        '')
+      } else if (arr.length > 0) {
+        const callback = arr.find(e => e.name === ts.InternalSymbolName.Call)
+        const declarations = callback && callback.declarations || []
+        const call_decla = declarations[0]
+        call_decla && md.push(
+          '```tsx',
+          `(${(call_decla.parameters || [])
+            .map(call_params => `${call_params.name}: ${call_params.type}`)
+            .join(',')}) => ${call_decla.returnType}`,
+          '```',
+          '',
+        )
+      }
     })
     const example = tags.find(tag => tag.name === 'example')
     example && md.push('## 示例代码', '', example.text || '', '')
@@ -155,7 +162,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     fs.writeFileSync(
       path.resolve(_p.name === 'index' ? _p.dir : routepath, `${name}.md`),
       md.join('\n'),
-      {}
+      {},
     )
   })
 

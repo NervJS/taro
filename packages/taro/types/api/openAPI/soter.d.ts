@@ -81,7 +81,7 @@ declare namespace Taro {
    }
    ```
    * @example
-   ```javascript
+   ```tsx
    Taro.startSoterAuthentication({
      requestAuthModes: ['fingerPrint'],
      challenge: '123456',
@@ -90,10 +90,9 @@ declare namespace Taro {
      }
    })
    ```
-   * @since 1.5.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.startSoterAuthentication.html
    */
-  function startSoterAuthentication(OBJECT: startSoterAuthentication.Param): Promise<startSoterAuthentication.Promised>
+  function startSoterAuthentication(res: startSoterAuthentication.Param): Promise<startSoterAuthentication.Promised>
 
   namespace checkIsSupportSoterAuthentication {
     type Promised = {
@@ -118,9 +117,8 @@ declare namespace Taro {
   }
   /**
    * 获取本机支持的 SOTER 生物认证方式
-   * @since 1.5.0
    * @example
-   ```javascript
+   ```tsx
    Taro.checkIsSupportSoterAuthentication({
        success(res) {
            // res.supportMode = [] 不具备任何被SOTER支持的生物识别方式
@@ -131,7 +129,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.checkIsSupportSoterAuthentication.html
    */
-  function checkIsSupportSoterAuthentication(OBJECT?: checkIsSupportSoterAuthentication.Param): Promise<checkIsSupportSoterAuthentication.Promised>
+  function checkIsSupportSoterAuthentication(res?: checkIsSupportSoterAuthentication.Param): Promise<checkIsSupportSoterAuthentication.Promised>
 
   namespace checkIsSoterEnrolledInDevice {
     type Promised = {
@@ -161,9 +159,8 @@ declare namespace Taro {
   }
   /**
    * 获取设备内是否录入如指纹等生物信息的接口
-   * @since 1.6.0
    * @example
-   ```javascript
+   ```tsx
    Taro.checkIsSoterEnrolledInDevice({
        checkAuthMode: 'fingerPrint',
        success(res) {
@@ -173,5 +170,5 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/soter/wx.checkIsSoterEnrolledInDevice.html
    */
-  function checkIsSoterEnrolledInDevice(OBJECT: checkIsSoterEnrolledInDevice.Param): Promise<checkIsSoterEnrolledInDevice.Promised>
+  function checkIsSoterEnrolledInDevice(res: checkIsSoterEnrolledInDevice.Param): Promise<checkIsSoterEnrolledInDevice.Promised>
 }

@@ -1,7 +1,6 @@
 declare namespace Taro {
   /**
    * 创建并返回 camera 上下文 `cameraContext` 对象，`cameraContext` 与页面的 `camera` 组件绑定，一个页面只能有一个camera，通过它可以操作对应的 `<camera/>` 组件。 在自定义组件下，第一个参数传入组件实例this，以操作组件内 `<camera/>` 组件
-   * @since 1.6.0
    * @example
    * [在开发者工具中预览效果](wechatide://minicode/VBZ3Jim26zYu)
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html
@@ -137,21 +136,20 @@ declare namespace Taro {
   }
   class CameraContext {
     /**
-     * @since 2.7.0
      * 获取 Camera 实时帧数据
      */
     onCameraFrame(callback: CameraContext.onCameraFrame.Callback): CameraContext.onCameraFrame.CameraFrameListener
     /**
      * 拍照，可指定质量，成功则返回图片
      */
-    takePhoto(OBJECT: CameraContext.takePhoto.Param): any
+    takePhoto(res: CameraContext.takePhoto.Param): any
     /**
      * 开始录像
      */
-    startRecord(OBJECT: CameraContext.startRecord.Param): any
+    startRecord(res: CameraContext.startRecord.Param): any
     /**
      * 结束录像，成功则返回封面与视频
      */
-    stopRecord(OBJECT: CameraContext.stopRecord.Param): any
+    stopRecord(res: CameraContext.stopRecord.Param): any
   }
 }

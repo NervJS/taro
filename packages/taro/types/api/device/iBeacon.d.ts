@@ -10,10 +10,9 @@ declare namespace Taro {
   }
   /**
    * 停止搜索附近的`iBeacon`设备
-   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.stopBeaconDiscovery.html
    */
-  function stopBeaconDiscovery(OBJECT?: stopBeaconDiscovery.Param): Promise<stopBeaconDiscovery.Promised>
+  function stopBeaconDiscovery(res?: stopBeaconDiscovery.Param): Promise<stopBeaconDiscovery.Promised>
 
   namespace startBeaconDiscovery {
     type Promised = {
@@ -31,17 +30,15 @@ declare namespace Taro {
   }
   /**
    * 开始搜索附近的`iBeacon`设备
-   * @since 1.2.0
    * @example
-   ```javascript
-   Taro.startBeaconDiscovery({
-       success(res) {
-       }
-   })
-   ```
+```tsx
+Taro.startBeaconDiscovery({
+  success(res) {}
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.startBeaconDiscovery.html
    */
-  function startBeaconDiscovery(OBJECT: startBeaconDiscovery.Param): Promise<startBeaconDiscovery.Promised>
+  function startBeaconDiscovery(res: startBeaconDiscovery.Param): Promise<startBeaconDiscovery.Promised>
 
   namespace onBeaconUpdate {
     type Param = (res: ParamParam) => any
@@ -84,10 +81,9 @@ declare namespace Taro {
   }
   /**
    * 监听 `iBeacon` 设备的更新事件
-   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconUpdate.html
    */
-  function onBeaconUpdate(CALLBACK: onBeaconUpdate.Param): void
+  function onBeaconUpdate(callback: onBeaconUpdate.Param): void
 
   namespace onBeaconServiceChange {
     type Param = (res: ParamParam) => any
@@ -104,10 +100,9 @@ declare namespace Taro {
   }
   /**
    * 监听 `iBeacon` 服务的状态变化
-   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.onBeaconServiceChange.html
    */
-  function onBeaconServiceChange(CALLBACK: onBeaconServiceChange.Param): void
+  function onBeaconServiceChange(callback: onBeaconServiceChange.Param): void
 
   namespace getBeacons {
     type Promised = {
@@ -154,10 +149,9 @@ declare namespace Taro {
   }
   /**
    * 获取所有已搜索到的`iBeacon`设备
-   * @since 1.2.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.getBeacons.html
    */
-  function getBeacons(OBJECT?: getBeacons.Param): Promise<getBeacons.Promised>
+  function getBeacons(res?: getBeacons.Param): Promise<getBeacons.Promised>
 
   // TODO: wx.offBeaconUpdate
   // TODO: wx.offBeaconServiceChange

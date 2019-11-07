@@ -31,7 +31,6 @@ declare namespace Taro {
     type Param = {
       /**
        * 超时时间，单位 ms
-       * @since 1.9.90
        */
       timeout?: number
     }
@@ -39,9 +38,8 @@ declare namespace Taro {
   /**
    * 获取用户过去三十天微信运动步数，需要先调用 [Taro.login](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html) 接口。
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.werun
-   * @since 1.2.0
    * @example
-   ```javascript
+   ```tsx
    Taro.getWeRunData({
        success(res) {
            const encryptedData = res.encryptedData
@@ -50,5 +48,5 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/werun/wx.getWeRunData.html
    */
-  function getWeRunData(OBJECT?: getWeRunData.Param): Promise<getWeRunData.Promised>
+  function getWeRunData(res?: getWeRunData.Param): Promise<getWeRunData.Promised>
 }

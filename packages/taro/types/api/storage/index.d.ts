@@ -2,7 +2,7 @@ declare namespace Taro {
   /**
    * 将 data 存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个同步接口。
    * @example
-   ```javascript
+   ```tsx
    try {
        Taro.setStorageSync('key', 'value')
    } catch (e) {
@@ -27,7 +27,7 @@ declare namespace Taro {
   /**
    * 将数据存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个异步接口。
    * @example
-   ```javascript
+   ```tsx
    Taro.setStorage({
      key:"key",
      data:"value"
@@ -35,12 +35,12 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html
    */
-  function setStorage(OBJECT: setStorage.Param): Promise<any>
+  function setStorage(res: setStorage.Param): Promise<any>
 
   /**
    * 从本地缓存中同步移除指定 key 。
    * @example
-   ```javascript
+   ```tsx
    try {
      Taro.removeStorageSync('key')
    } catch (e) {
@@ -62,7 +62,7 @@ declare namespace Taro {
   /**
    * 从本地缓存中异步移除指定 key 。
    * @example
-   ```javascript
+   ```tsx
    Taro.removeStorage({
      key: 'key',
      success: function(res) {
@@ -72,12 +72,12 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorage.html
    */
-  function removeStorage(OBJECT: removeStorage.Param): Promise<any>
+  function removeStorage(res: removeStorage.Param): Promise<any>
 
   /**
    * 从本地缓存中同步获取指定 key 对应的内容。
    * @example
-   ```javascript
+   ```tsx
    try {
      var value = Taro.getStorageSync('key')
      if (value) {
@@ -110,7 +110,7 @@ declare namespace Taro {
   /**
    * 同步获取当前storage的相关信息
    * @example
-   ```javascript
+   ```tsx
    try {
      var res = Taro.getStorageInfoSync()
      console.log(res.keys)
@@ -144,7 +144,7 @@ declare namespace Taro {
   /**
    * 异步获取当前storage的相关信息
    * @example
-   ```javascript
+   ```tsx
    Taro.getStorageInfo({
      success: function(res) {
        console.log(res.keys)
@@ -155,7 +155,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfo.html
    */
-  function getStorageInfo(OBJECT?: getStorageInfo.Param): Promise<getStorageInfo.Promised>
+  function getStorageInfo(res?: getStorageInfo.Param): Promise<getStorageInfo.Promised>
 
   namespace getStorage {
     type Promised = {
@@ -174,7 +174,7 @@ declare namespace Taro {
   /**
    * 从本地缓存中异步获取指定 key 对应的内容。
    * @example
-   ```javascript
+   ```tsx
    Taro.getStorage({
      key: 'key',
      success: function(res) {
@@ -184,7 +184,7 @@ declare namespace Taro {
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorage.html
    */
-  function getStorage(OBJECT: getStorage.Param): Promise<getStorage.Promised>
+  function getStorage(res: getStorage.Param): Promise<getStorage.Promised>
 
   /**
    * 同步清理本地数据缓存
@@ -193,7 +193,7 @@ declare namespace Taro {
    *
    * 1.  `tip`: 本地数据存储的大小限制为 10MB
    * @example
-   ```javascript
+   ```tsx
    try {
        Taro.clearStorageSync()
    } catch(e) {
@@ -207,7 +207,7 @@ declare namespace Taro {
   /**
    * 清理本地数据缓存。
    * @example
-   ```javascript
+   ```tsx
    Taro.clearStorage()
    ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorage.html

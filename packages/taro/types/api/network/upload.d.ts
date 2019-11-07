@@ -95,7 +95,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Taro.chooseImage({
      success: function(res) {
        var tempFilePaths = res.tempFilePaths
@@ -117,7 +117,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    const uploadTask = Taro.uploadFile({
        url: 'http://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
        filePath: tempFilePaths[0],
@@ -137,8 +137,7 @@ declare namespace Taro {
    })
          uploadTask.abort() // 取消上传任务
    ```
-   * @since 1.4.0
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html
    */
-  function uploadFile(OBJECT: uploadFile.Param): uploadFile.UploadTask
+  function uploadFile(res: uploadFile.Param): uploadFile.UploadTask
 }

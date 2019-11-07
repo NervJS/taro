@@ -2,7 +2,7 @@ declare namespace Taro {
   /**
    * **注意：此接口从基础库 1.1.1 版本开始支持。**
    *
-   * 判断小程序的API，回调，参数，组件等是否在当前版本可用。
+   * 判断小程序的 API，回调，参数，组件等是否在当前版本可用。
    *
    * **String参数说明：** 使用`${API}.${method}.${param}.${options}`或者`${component}.${attribute}.${option}`方式来调用，例如：
    *
@@ -14,19 +14,18 @@ declare namespace Taro {
    * *   `${attribute}` 代表组件属性
    * *   `${option}` 代表组件属性的可选值
    *
-   * @since 1.1.1
    * @example
-   ```js
-   Taro.canIUse('openBluetoothAdapter')
-   Taro.canIUse('getSystemInfoSync.return.screenWidth')
-   Taro.canIUse('getSystemInfo.success.screenWidth')
-   Taro.canIUse('showToast.object.image')
-   Taro.canIUse('onCompassChange.callback.direction')
-   Taro.canIUse('request.object.method.GET')
-   Taro.canIUse('live-player')
-   Taro.canIUse('text.selectable')
-   Taro.canIUse('button.open-type.contact')
-   ```
+```js
+Taro.canIUse('openBluetoothAdapter')
+Taro.canIUse('getSystemInfoSync.return.screenWidth')
+Taro.canIUse('getSystemInfo.success.screenWidth')
+Taro.canIUse('showToast.object.image')
+Taro.canIUse('onCompassChange.callback.direction')
+Taro.canIUse('request.object.method.GET')
+Taro.canIUse('live-player')
+Taro.canIUse('text.selectable')
+Taro.canIUse('button.open-type.contact')
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/wx.canIUse.html
    */
   function canIUse(String: any): boolean

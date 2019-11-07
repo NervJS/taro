@@ -1,12 +1,9 @@
 declare namespace Taro {
   /**
-   * @since 1.4.0
    *
    * 返回一个 SelectorQuery 对象实例。可以在这个实例上使用`select`等方法选择节点，并使用`boundingClientRect`等方法选择需要查询的信息。
    *
    * **selectorQuery.in(component)：**
-   *
-   * @since 1.6.0
    *
    * 将选择器的选取范围更改为自定义组件`component`内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点。）
    *
@@ -49,7 +46,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Page({
      queryMultipleNodes: function(){
        var query = Taro.createSelectorQuery()
@@ -65,7 +62,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Component({
      queryMultipleNodes: function(){
        var query = Taro.createSelectorQuery().in(this)
@@ -78,7 +75,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Page({
      getRect: function(){
        Taro.createSelectorQuery().select('#the-id').boundingClientRect(function(rect){
@@ -111,7 +108,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Page({
      getScrollOffset: function(){
        Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
@@ -126,7 +123,7 @@ declare namespace Taro {
    *
    * **示例代码：**
    *
-   ```javascript
+   ```tsx
    Page({
      getFields: function(){
        Taro.createSelectorQuery().select('#the-id').fields({

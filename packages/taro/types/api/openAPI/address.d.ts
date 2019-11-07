@@ -44,23 +44,22 @@ declare namespace Taro {
    * 调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。
    *
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.address
-   * @since 1.1.0
    * @example
-   ```javascript
-   Taro.chooseAddress({
-     success: function (res) {
-       console.log(res.userName)
-       console.log(res.postalCode)
-       console.log(res.provinceName)
-       console.log(res.cityName)
-       console.log(res.countyName)
-       console.log(res.detailInfo)
-       console.log(res.nationalCode)
-       console.log(res.telNumber)
-     }
-   })
-   ```
+```tsx
+Taro.chooseAddress({
+  success: function (res) {
+    console.log(res.userName)
+    console.log(res.postalCode)
+    console.log(res.provinceName)
+    console.log(res.cityName)
+    console.log(res.countyName)
+    console.log(res.detailInfo)
+    console.log(res.nationalCode)
+    console.log(res.telNumber)
+  }
+})
+```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html
    */
-  function chooseAddress(OBJECT?: chooseAddress.Param): Promise<chooseAddress.Promised>
+  function chooseAddress(res?: chooseAddress.Param): Promise<chooseAddress.Promised>
 }

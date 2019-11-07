@@ -501,7 +501,7 @@ declare namespace Taro {
         total: number
       }
     }
-    function init(OBJECT?: ICloudConfig): void
+    function init(res?: ICloudConfig): void
 
     function callFunction(param: ICloud.CallFunctionParam): Promise<ICloud.CallFunctionResult> & void
     function uploadFile(param: ICloud.UploadFileParam): Promise<ICloud.UploadFileResult> & WXNS.IUploadFileTask
