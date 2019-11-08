@@ -98,7 +98,7 @@
  * │   │   ├── pull-down-refresh.d.ts       界面 -> 下拉刷新 API
  * │   │   ├── scroll.d.ts                  界面 -> 滚动 API
  * │   │   ├── sticky.d.ts                  界面 -> 置顶 API
- * │   │   ├── tab-bar.d.ts                  界面 -> TabBar API
+ * │   │   ├── tab-bar.d.ts                 界面 -> TabBar API
  * │   │   ├── window.d.ts                  界面 -> 窗口 API
  * │   │   └── interaction.d.ts             界面 -> 交互 API
  * │   ├── worker
