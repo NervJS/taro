@@ -45,20 +45,20 @@ declare namespace Taro {
    *
    * 需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.address
    * @example
-```tsx
-Taro.chooseAddress({
-  success: function (res) {
-    console.log(res.userName)
-    console.log(res.postalCode)
-    console.log(res.provinceName)
-    console.log(res.cityName)
-    console.log(res.countyName)
-    console.log(res.detailInfo)
-    console.log(res.nationalCode)
-    console.log(res.telNumber)
-  }
-})
-```
+   * ```tsx
+   * Taro.chooseAddress({
+   *   success: function (res) {
+   *     console.log(res.userName)
+   *     console.log(res.postalCode)
+   *     console.log(res.provinceName)
+   *     console.log(res.cityName)
+   *     console.log(res.countyName)
+   *     console.log(res.detailInfo)
+   *     console.log(res.nationalCode)
+   *     console.log(res.telNumber)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html
    */
   function chooseAddress(res?: chooseAddress.Param): Promise<chooseAddress.Promised>

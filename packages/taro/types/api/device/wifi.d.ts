@@ -5,13 +5,13 @@ declare namespace Taro {
   /**
    * 关闭 Wi-Fi 模块。
    * @example
-```tsx
-Taro.stopWifi({
-  success: function(res) {
-    console.log(res.errMsg)
-  }
-})
-```
+   * ```tsx
+   * Taro.stopWifi({
+   *   success: function(res) {
+   *     console.log(res.errMsg)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.stopWifi.html
    */
   function stopWifi(res?: stopWifi.Param): Promise<any>
@@ -22,13 +22,13 @@ Taro.stopWifi({
   /**
    * 初始化 Wi-Fi 模块。
    * @example
-```tsx
-Taro.startWifi({
-  success: function(res) {
-    console.log(res.errMsg)
-  }
-})
-```
+   * ```tsx
+   * Taro.startWifi({
+   *   success: function(res) {
+   *     console.log(res.errMsg)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.startWifi.html
    */
   function startWifi(res?: startWifi.Param): Promise<any>
@@ -68,24 +68,24 @@ Taro.startWifi({
    * 2.  此时客户端会挂起，等待小程序设置 Wi-Fi 信息，请务必尽快调用该接口，若无数据请传入一个空数组。
    * 3.  有可能随着周边 Wi-Fi 列表的刷新，单个流程内收到多次带有存在重复的 Wi-Fi 列表的回调。
    * @example
-```tsx
-Taro.onGetWifiList(function(res) {
-  if (res.wifiList.length) {
-    Taro.setWifiList({
-      wifiList: [{
-        SSID: res.wifiList[0].SSID,
-        BSSID: res.wifiList[0].BSSID,
-        password: '123456'
-      }]
-    })
-  } else {
-    Taro.setWifiList({
-      wifiList: []
-    })
-  }
-})
-Taro.getWifiList()
-```
+   * ```tsx
+   * Taro.onGetWifiList(function(res) {
+   *   if (res.wifiList.length) {
+   *     Taro.setWifiList({
+   *       wifiList: [{
+   *         SSID: res.wifiList[0].SSID,
+   *         BSSID: res.wifiList[0].BSSID,
+   *         password: '123456'
+   *       }]
+   *     })
+   *   } else {
+   *     Taro.setWifiList({
+   *       wifiList: []
+   *     })
+   *   }
+   * })
+   * Taro.getWifiList()
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.setWifiList.html
    */
   function setWifiList(res: setWifiList.Param): Promise<any>
@@ -247,15 +247,15 @@ Taro.getWifiList()
   /**
    * 连接 Wi-Fi。若已知 Wi-Fi 信息，可以直接利用该接口连接。仅 Android 与 iOS 11 以上版本支持。
    * @example
-```tsx
-Taro.connectWifi({
-  SSID: '',
-  BSSID: '',
-  success: function(res) {
-    console.log(res.errMsg)
-  }
-})
-```
+   * ```tsx
+   * Taro.connectWifi({
+   *   SSID: '',
+   *   BSSID: '',
+   *   success: function(res) {
+   *     console.log(res.errMsg)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.connectWifi.html
    */
   function connectWifi(res: connectWifi.Param): Promise<any>

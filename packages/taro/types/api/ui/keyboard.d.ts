@@ -2,9 +2,9 @@ declare namespace Taro {
   /**
    * 收起键盘。
    * @example
-```tsx
-Taro.hideKeyboard()
-```
+   * ```tsx
+   * Taro.hideKeyboard()
+   * ```
    * @see https://developers.weixin.qq.com/minigame/dev/api/ui/keyboard/wx.hideKeyboard.html
    */
   function hideKeyboard(): void

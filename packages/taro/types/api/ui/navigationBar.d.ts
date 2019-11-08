@@ -16,11 +16,11 @@ declare namespace Taro {
   /**
    * 动态设置当前页面的标题。
    * @example
-```tsx
-Taro.setNavigationBarTitle({
-  title: '当前页面'
-})
-```
+   * ```tsx
+   * Taro.setNavigationBarTitle({
+   *   title: '当前页面'
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarTitle.html
    */
   function setNavigationBarTitle(res: setNavigationBarTitle.Param): Promise<any>
@@ -80,16 +80,16 @@ Taro.setNavigationBarTitle({
   }
   /**
    * @example
-```tsx
-Taro.setNavigationBarColor({
-    frontColor: '#ffffff',
-    backgroundColor: '#ff0000',
-    animation: {
-        duration: 400,
-        timingFunc: 'easeIn'
-    }
-})
-```
+   * ```tsx
+   * Taro.setNavigationBarColor({
+   *     frontColor: '#ffffff',
+   *     backgroundColor: '#ff0000',
+   *     animation: {
+   *         duration: 400,
+   *         timingFunc: 'easeIn'
+   *     }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarColor.html
    */
   function setNavigationBarColor(res: setNavigationBarColor.Param): Promise<setNavigationBarColor.Promised>

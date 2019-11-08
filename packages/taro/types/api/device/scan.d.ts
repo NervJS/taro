@@ -32,21 +32,21 @@ declare namespace Taro {
   /**
    * 调起客户端扫码界面，扫码成功后返回对应的结果
    * @example
-```tsx
-// 允许从相机和相册扫码
-Taro.scanCode({
-  success: (res) => {
-    console.log(res)
-  }
-})
-      // 只允许从相机扫码
-Taro.scanCode({
-  onlyFromCamera: true,
-  success: (res) => {
-    console.log(res)
-  }
-})
-```
+   * ```tsx
+   * // 允许从相机和相册扫码
+   * Taro.scanCode({
+   *   success: (res) => {
+   *     console.log(res)
+   *   }
+   * })
+   *       // 只允许从相机扫码
+   * Taro.scanCode({
+   *   onlyFromCamera: true,
+   *   success: (res) => {
+   *     console.log(res)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/scan/wx.scanCode.html
    */
   function scanCode(res?: scanCode.Param): Promise<scanCode.Promised>

@@ -16,16 +16,16 @@ declare namespace Taro {
   /**
    * 设置是否打开调试开关，此开关对正式版也能生效。
    * @example
-```tsx
-// 打开调试
-Taro.setEnableDebug({
-    enableDebug: true
-})
-      // 关闭调试
-Taro.setEnableDebug({
-    enableDebug: false
-})
-```
+   * ```tsx
+   * // 打开调试
+   * Taro.setEnableDebug({
+   *     enableDebug: true
+   * })
+   *       // 关闭调试
+   * Taro.setEnableDebug({
+   *     enableDebug: false
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.setEnableDebug.html
    */
   function setEnableDebug(res: setEnableDebug.Param): Promise<setEnableDebug.Promised>
@@ -59,14 +59,14 @@ Taro.setEnableDebug({
   /**
    * 获取日志管理器对象。
    * @example
-```tsx
-const logger = Taro.getLogManager({level: 1})
-
-logger.log({str: 'hello world'}, 'basic log', 100, [1, 2, 3])
-logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
-logger.debug({str: 'hello world'}, 'debug log', 100, [1, 2, 3])
-logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
-```
+   * ```tsx
+   * const logger = Taro.getLogManager({level: 1})
+   * 
+   * logger.log({str: 'hello world'}, 'basic log', 100, [1, 2, 3])
+   * logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
+   * logger.debug({str: 'hello world'}, 'debug log', 100, [1, 2, 3])
+   * logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.getLogManager.html
    */
   function getLogManager(res?: getLogManager.Param): getLogManager.Return

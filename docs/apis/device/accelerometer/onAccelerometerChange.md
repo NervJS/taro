@@ -30,8 +30,6 @@ sidebar_label: onAccelerometerChange
 ## 示例代码
 
 ```tsx
-import Taro from '@tarojs/taro'
-
 Taro.onAccelerometerChange(res => {
   console.log(res.x)
   console.log(res.y)

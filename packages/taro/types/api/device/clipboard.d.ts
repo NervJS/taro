@@ -22,18 +22,18 @@ declare namespace Taro {
    * 
    * **注意** 调用成功后，会弹出 toast 提示"内容已复制"，持续 1.5s
    * @example
-```tsx
-Taro.setClipboardData({
-  data: 'data',
-  success: function(res) {
-    Taro.getClipboardData({
-      success: function(res) {
-        console.log(res.data) // data
-      }
-    })
-  }
-})
-```
+   * ```tsx
+   * Taro.setClipboardData({
+   *   data: 'data',
+   *   success: function(res) {
+   *     Taro.getClipboardData({
+   *       success: function(res) {
+   *         console.log(res.data) // data
+   *       }
+   *     })
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.setClipboardData.html
    */
   function setClipboardData(res: setClipboardData.Param): Promise<setClipboardData.Promised>
@@ -54,13 +54,13 @@ Taro.setClipboardData({
   /**
    * 获取系统剪贴板内容
    * @example
-```tsx
-Taro.getClipboardData({
-  success: function(res){
-    console.log(res.data)
-  }
-})
-```
+   * ```tsx
+   * Taro.getClipboardData({
+   *   success: function(res){
+   *     console.log(res.data)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.getClipboardData.html
    */
   function getClipboardData(res?: getClipboardData.Param): Promise<getClipboardData.Promised>

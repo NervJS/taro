@@ -33,8 +33,6 @@ sidebar_label: startAccelerometer
 ## 示例代码
 
 ```tsx
-import Taro from '@tarojs/taro'
-
 Taro.startAccelerometer({ interval: 'game' })
 ```
 

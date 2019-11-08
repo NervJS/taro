@@ -32,20 +32,20 @@ declare namespace Taro {
    *
    * 1.  `bug`: `iOS` `6.3.30` type 参数不生效，只会返回 wgs84 类型的坐标信息
    * @example
-```tsx
-Taro.getLocation({
-  type: 'gcj02', //返回可以用于Taro.openLocation的经纬度
-  success: function(res) {
-    var latitude = res.latitude
-    var longitude = res.longitude
-    Taro.openLocation({
-      latitude: latitude,
-      longitude: longitude,
-      scale: 28
-    })
-  }
-})
-```
+   * ```tsx
+   * Taro.getLocation({
+   *   type: 'gcj02', //返回可以用于Taro.openLocation的经纬度
+   *   success: function(res) {
+   *     var latitude = res.latitude
+   *     var longitude = res.longitude
+   *     Taro.openLocation({
+   *       latitude: latitude,
+   *       longitude: longitude,
+   *       scale: 28
+   *     })
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html
    */
   function openLocation(res: openLocation.Param): Promise<any>
@@ -119,17 +119,17 @@ Taro.getLocation({
   /**
    * 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用；当用户点击“显示在聊天顶部”时，此接口可继续调用。
    * @example
-```tsx
-Taro.getLocation({
-  type: 'wgs84',
-  success: function(res) {
-    var latitude = res.latitude
-    var longitude = res.longitude
-    var speed = res.speed
-    var accuracy = res.accuracy
-  }
-})
-```
+   * ```tsx
+   * Taro.getLocation({
+   *   type: 'wgs84',
+   *   success: function(res) {
+   *     var latitude = res.latitude
+   *     var longitude = res.longitude
+   *     var speed = res.speed
+   *     var accuracy = res.accuracy
+   *   }
+   * })
+   * ```
     * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getLocation.html
     */
   function getLocation(res?: getLocation.Param): Promise<getLocation.Promised>

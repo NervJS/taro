@@ -78,7 +78,7 @@
  * |   |   ├── subscribeMessage.d.ts        开放接口 -> 订阅消息 API
  * │   │   ├── userInfo.d.ts                开放接口 -> 用户信息 API
  * │   │   └── weRun.d.ts                   开放接口 -> 微信运动 API
- * │   ├── router
+ * │   ├── route
  * │   │   └── index.d.ts                   路由 API
  * │   ├── share
  * │   │   └── index.d.ts                   转发 API
@@ -188,7 +188,7 @@
 /// <reference path="api/open-api/subscribeMessage.d.ts" />
 /// <reference path="api/open-api/userInfo.d.ts" />
 /// <reference path="api/open-api/weRun.d.ts" />
-/// <reference path="api/router/index.d.ts" />
+/// <reference path="api/route/index.d.ts" />
 /// <reference path="api/share/index.d.ts" />
 /// <reference path="api/storage/backgroundFetch.d.ts" />
 /// <reference path="api/storage/index.d.ts" />

@@ -66,20 +66,20 @@ declare namespace Taro {
   /**
    * 获取系统信息同步接口
    * @example
-```tsx
-try {
-  var res = Taro.getSystemInfoSync()
-  console.log(res.model)
-  console.log(res.pixelRatio)
-  console.log(res.windowWidth)
-  console.log(res.windowHeight)
-  console.log(res.language)
-  console.log(res.version)
-  console.log(res.platform)
-} catch (e) {
-  // Do something when catch error
-}
-```
+   * ```tsx
+   * try {
+   *   var res = Taro.getSystemInfoSync()
+   *   console.log(res.model)
+   *   console.log(res.pixelRatio)
+   *   console.log(res.windowWidth)
+   *   console.log(res.windowHeight)
+   *   console.log(res.language)
+   *   console.log(res.version)
+   *   console.log(res.platform)
+   * } catch (e) {
+   *   // Do something when catch error
+   * }
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfoSync.html
    */
   function getSystemInfoSync(): getSystemInfoSync.Return
@@ -148,19 +148,19 @@ try {
   /**
    * 获取系统信息。
    * @example
-```tsx
-Taro.getSystemInfo({
-  success: function(res) {
-    console.log(res.model)
-    console.log(res.pixelRatio)
-    console.log(res.windowWidth)
-    console.log(res.windowHeight)
-    console.log(res.language)
-    console.log(res.version)
-    console.log(res.platform)
-  }
-})
-```
+   * ```tsx
+   * Taro.getSystemInfo({
+   *   success: function(res) {
+   *     console.log(res.model)
+   *     console.log(res.pixelRatio)
+   *     console.log(res.windowWidth)
+   *     console.log(res.windowHeight)
+   *     console.log(res.language)
+   *     console.log(res.version)
+   *     console.log(res.platform)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfo.html
    */
   function getSystemInfo(res?: getSystemInfo.Param): Promise<getSystemInfo.Promised>

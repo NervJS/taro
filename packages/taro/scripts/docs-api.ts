@@ -108,7 +108,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     const since = tags.find(tag => tag.name === 'since')
     since && md.push(`> 最低 Taro 版本: ${since.text || ''}`, '')
     e.type && md.push('## 类型', '', '```tsx', e.type, '```', '')
-    parameters.length && md.push('## 参数', '')
+    parameters.length > 0 && md.push('## 参数', '')
     parameters.map(p => {
       const arr = p.members || p.exports || []
       const hasType = arr.some(v => !!v.type && v.type !== p.name)
@@ -154,7 +154,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     do {
       const example = tags[example_i]
       if (example) {
-        example_i === 0 && md.push('## 示例代码', '')
+        example_index === 0 && md.push('## 示例代码', '')
         example_index++
         if ((example_i = tags.findIndex((tag, i) => example_i < i && tag.name === 'example')) > -1 || example_index > 1) {
           md.push(`### 示例 ${example_index}`, '')
@@ -163,7 +163,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
       }
     } while (example_i > -1)
     const supported = tags.find(tag => tag.name === 'supported')
-    const apis = getAPI(name, supported && supported.text)
+    const apis = getAPI(name, supported && supported.text, tags)
     apis.length > 0 && md.push('## API 支持度', '', ...apis, '')
     const see = tags.find(tag => tag.name === 'see')
     see && md.push(`> [参考文档](${see.text || ''})`, '')
@@ -176,7 +176,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     )
   })
 
-  function getAPI (name: string, text?: string) {
+  function getAPI (name: string, text?: string, tags: ts.JSDocTagInfo[] = []) {
     if (!text)
       return []
     const apis = text.split(',').map(e => e.trim().toLowerCase())
@@ -184,13 +184,11 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     let splits = `| :---: |`
     let row = `| Taro.${name} |`
     for (let i = 0; i < envMap.length; i++) {
+      const api_name = apis.find(e => e === envMap[i].name)
+      const api_desc = tags.find(tag => tag.name === api_name)
       titles += ` ${envMap[i].label} |`
       splits += ' :---: |'
-      if (apis.find(e => e === envMap[i].name)) {
-        row += ' ✔️ |'
-      } else {
-        row += '  |'
-      }
+      row += ` ${api_name ? '✔️': ''}${api_desc && api_desc.text ? `(${api_desc.text})` : ''} |`
     }
     return [titles, splits, row]
   }

@@ -14,11 +14,11 @@ declare namespace Taro {
    *
    * 1.  `Taro.getExtConfigSync` 暂时无法通过 `Taro.canIUse` 判断是否兼容，开发者需要自行判断 `Taro.getExtConfigSync` 是否存在来兼容
    * @example
-```tsx
-let extConfig = Taro.getExtConfigSync? Taro.getExtConfigSync(): {}
-
-console.log(extConfig)
-```
+   * ```tsx
+   * let extConfig = Taro.getExtConfigSync? Taro.getExtConfigSync(): {}
+   * 
+   * console.log(extConfig)
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext/wx.getExtConfigSync.html
    */
   function getExtConfigSync(): getExtConfigSync.Return
@@ -43,15 +43,15 @@ console.log(extConfig)
    *
    * 1.  `Taro.getExtConfig` 暂时无法通过 `Taro.canIUse` 判断是否兼容，开发者需要自行判断 `Taro.getExtConfig` 是否存在来兼容
    * @example
-```tsx
-if(Taro.getExtConfig) {
-  Taro.getExtConfig({
-    success: function (res) {
-      console.log(res.extConfig)
-    }
-  })
-}
-```
+   * ```tsx
+   * if(Taro.getExtConfig) {
+   *   Taro.getExtConfig({
+   *     success: function (res) {
+   *       console.log(res.extConfig)
+   *     }
+   *   })
+   * }
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext/wx.getExtConfig.html
    */
   function getExtConfig(res?: getExtConfig.Param): Promise<getExtConfig.Promised>

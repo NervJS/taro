@@ -14,12 +14,12 @@ declare namespace Taro {
   /**
    * 将页面滚动到目标位置。
    * @example
-```tsx
-Taro.pageScrollTo({
-  scrollTop: 0,
-  duration: 300
-})
-```
+   * ```tsx
+   * Taro.pageScrollTo({
+   *   scrollTop: 0,
+   *   duration: 300
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/wx.pageScrollTo.html
    */
   function pageScrollTo(res: pageScrollTo.Param): void

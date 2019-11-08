@@ -9,11 +9,11 @@ declare namespace Taro {
   }
   /**
    * @example
-```tsx
-Taro.makePhoneCall({
-  phoneNumber: '1340000' //仅为示例，并非真实的电话号码
-})
-```
+   * ```tsx
+   * Taro.makePhoneCall({
+   *   phoneNumber: '1340000' //仅为示例，并非真实的电话号码
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/phone/wx.makePhoneCall.html
    */
   function makePhoneCall(res: makePhoneCall.Param): Promise<any>

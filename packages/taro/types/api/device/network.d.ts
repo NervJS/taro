@@ -26,12 +26,12 @@ declare namespace Taro {
   /**
    * 监听网络状态变化。
    * @example
-```tsx
-Taro.onNetworkStatusChange(function(res) {
-  console.log(res.isConnected)
-  console.log(res.networkType)
-})
-```
+   * ```tsx
+   * Taro.onNetworkStatusChange(function(res) {
+   *   console.log(res.isConnected)
+   *   console.log(res.networkType)
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.onNetworkStatusChange.html
    */
   function onNetworkStatusChange(callback: onNetworkStatusChange.Param): void
@@ -50,15 +50,15 @@ Taro.onNetworkStatusChange(function(res) {
    *
    * **success返回参数说明：**
    *
-```tsx
-Taro.getNetworkType({
-  success: function(res) {
-    // 返回网络类型, 有效值：
-    // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
-    var networkType = res.networkType
-  }
-})
-```
+   * ```tsx
+   * Taro.getNetworkType({
+   *   success: function(res) {
+   *     // 返回网络类型, 有效值：
+   *     // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
+   *     var networkType = res.networkType
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.getNetworkType.html
    */
   function getNetworkType(res?: getNetworkType.Param): Promise<getNetworkType.Promised>

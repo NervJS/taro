@@ -39,8 +39,6 @@ declare namespace Taro {
    * 开始监听加速度数据。
    * @example
    * ```tsx
-   * import Taro from '\`@tarojs/taro'
-   * 
    * Taro.startAccelerometer({ interval: 'game' })
    * ```
    * @supported weapp, h5, rn
@@ -68,8 +66,6 @@ declare namespace Taro {
    * 停止监听加速度数据。
    * @example
    * ```tsx
-   * import Taro from '\`@tarojs/taro'
-   * 
    * Taro.stopAccelerometer()
    * ```
    * @supported weapp, h5, rn
@@ -99,8 +95,6 @@ declare namespace Taro {
    * @supported weapp, h5, rn
    * @example
    * ```tsx
-   * import Taro from '\`@tarojs/taro'
-   * 
    * Taro.onAccelerometerChange(res => {
    *   console.log(res.x)
    *   console.log(res.y)

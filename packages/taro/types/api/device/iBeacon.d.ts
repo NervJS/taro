@@ -31,11 +31,11 @@ declare namespace Taro {
   /**
    * 开始搜索附近的`iBeacon`设备
    * @example
-```tsx
-Taro.startBeaconDiscovery({
-  success(res) {}
-})
-```
+   * ```tsx
+   * Taro.startBeaconDiscovery({
+   *   success(res) {}
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.startBeaconDiscovery.html
    */
   function startBeaconDiscovery(res: startBeaconDiscovery.Param): Promise<startBeaconDiscovery.Promised>

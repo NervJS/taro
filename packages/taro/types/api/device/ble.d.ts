@@ -33,23 +33,23 @@ declare namespace Taro {
    * 1.  `tip`: 并行调用多次读写接口存在读写失败的可能性。
    * 2.  `tip`: `read`接口读取到的信息需要在`onBLECharacteristicValueChange`方法注册的回调中获取。
    * @example
-```tsx
-// 必须在这里的回调才能获取
-Taro.onBLECharacteristicValueChange(function(characteristic) {
-  console.log('characteristic value comed:', characteristic)
-})
-      Taro.readBLECharacteristicValue({
-  // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接  [  new  ]
-  deviceId: deviceId,
-  // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
-  serviceId: serviceId,
-  // 这里的 characteristicId 需要在上面的 getBLEDeviceCharacteristics 接口中获取
-  characteristicId: characteristicId,
-  success: function (res) {
-    console.log('readBLECharacteristicValue:', res.errCode)
-  }
-})
-```
+   * ```tsx
+   * // 必须在这里的回调才能获取
+   * Taro.onBLECharacteristicValueChange(function(characteristic) {
+   *   console.log('characteristic value comed:', characteristic)
+   * })
+   *       Taro.readBLECharacteristicValue({
+   *   // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接  [  new  ]
+   *   deviceId: deviceId,
+   *   // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
+   *   serviceId: serviceId,
+   *   // 这里的 characteristicId 需要在上面的 getBLEDeviceCharacteristics 接口中获取
+   *   characteristicId: characteristicId,
+   *   success: function (res) {
+   *     console.log('readBLECharacteristicValue:', res.errCode)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.readBLECharacteristicValue.html
    */
   function readBLECharacteristicValue(res: readBLECharacteristicValue.Param): Promise<readBLECharacteristicValue.Promised>

@@ -55,15 +55,15 @@ declare namespace Taro {
    * **注意：** 2.8.2 版本开始，用户发生点击行为或者发起支付回调后，才可以调起订阅消息界面。
    * @param {requestSubscribeMessage.Param} res 请求订阅消息参数
    * @example
-```tsx
-wx.requestSubscribeMessage({
-  tmplIds: [ 'zun-LzcQyW-edafCVvzPkK4de2Rllr1fFpw2A_x0oXE' ],
-  success (res) { 
-    var key =  res.zun-LzcQyW-edafCVvzPkK4de2Rllr1fFpw2A_x0oXE
-    var msg = res.errMsg
-  }
-})
-```
+   * ```tsx
+   * wx.requestSubscribeMessage({
+   *   tmplIds: [ 'zun-LzcQyW-edafCVvzPkK4de2Rllr1fFpw2A_x0oXE' ],
+   *   success (res) { 
+   *     var key =  res.zun-LzcQyW-edafCVvzPkK4de2Rllr1fFpw2A_x0oXE
+   *     var msg = res.errMsg
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/subscribe-message/wx.requestSubscribeMessage.html
    */
   function requestSubscribeMessage(res: requestSubscribeMessage.Param): Promise<requestSubscribeMessage.Promised>

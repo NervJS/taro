@@ -30,12 +30,12 @@ declare namespace Taro {
   /**
    * 设置是否保持常亮状态。仅在当前小程序生效，离开小程序后设置失效。
    * @example
-```tsx
-// 保持屏幕常亮
-Taro.setKeepScreenOn({
-    keepScreenOn: true
-})
-```
+   * ```tsx
+   * // 保持屏幕常亮
+   * Taro.setKeepScreenOn({
+   *     keepScreenOn: true
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.setKeepScreenOn.html
    */
   function setKeepScreenOn(res: setKeepScreenOn.Param): Promise<setKeepScreenOn.Promised>
@@ -43,11 +43,11 @@ Taro.setKeepScreenOn({
   /**
    * 监听用户主动截屏事件，用户使用系统截屏按键截屏时触发此事件
    * @example
-```tsx
-Taro.onUserCaptureScreen(function(res) {
-    console.log('用户截屏了')
-})
-```
+   * ```tsx
+   * Taro.onUserCaptureScreen(function(res) {
+   *     console.log('用户截屏了')
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.onUserCaptureScreen.html
    */
   function onUserCaptureScreen(callback: any): void

@@ -24,8 +24,6 @@ sidebar_label: stopAccelerometer
 ## 示例代码
 
 ```tsx
-import Taro from '@tarojs/taro'
-
 Taro.stopAccelerometer()
 ```
 

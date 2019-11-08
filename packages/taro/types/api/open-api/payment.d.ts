@@ -62,19 +62,19 @@ declare namespace Taro {
    *
    * 1.  `bug`: 6.5.2 及之前版本中，用户取消支付不会触发 fail 回调，只会触发 complete 回调，回调 errMsg 为 'requestPayment:cancel'
    * @example
-```tsx
-Taro.requestPayment({
-  'timeStamp': '',
-  'nonceStr': '',
-  'package': '',
-  'signType': 'MD5',
-  'paySign': '',
-  'success':function(res){
-  },
-  'fail':function(res){
-  }
-})
-```
+   * ```tsx
+   * Taro.requestPayment({
+   *   'timeStamp': '',
+   *   'nonceStr': '',
+   *   'package': '',
+   *   'signType': 'MD5',
+   *   'paySign': '',
+   *   'success':function(res){
+   *   },
+   *   'fail':function(res){
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.requestPayment.html
    */
   function requestPayment(res: requestPayment.Param): Promise<any>

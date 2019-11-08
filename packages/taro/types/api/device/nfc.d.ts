@@ -15,13 +15,13 @@ declare namespace Taro {
   /**
    * 关闭 NFC 模块。仅在安卓系统下有效。
    * @example
-```tsx
-Taro.stopHCE({
-  success: function(res) {
-    console.log(res.errMsg)
-  }
-})
-```
+   * ```tsx
+   * Taro.stopHCE({
+   *   success: function(res) {
+   *     console.log(res.errMsg)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.stopHCE.html
    */
   function stopHCE(res?: stopHCE.Param): Promise<stopHCE.Promised>
@@ -47,14 +47,14 @@ Taro.stopHCE({
   /**
    * 初始化 NFC 模块。
    * @example
-```tsx
-Taro.startHCE({
-  aid_list: ['F222222222']
-  success: function(res) {
-    console.log(res.errMsg)
-  }
-})
-```
+   * ```tsx
+   * Taro.startHCE({
+   *   aid_list: ['F222222222']
+   *   success: function(res) {
+   *     console.log(res.errMsg)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.startHCE.html
    */
   function startHCE(res: startHCE.Param): Promise<startHCE.Promised>
@@ -97,20 +97,20 @@ Taro.startHCE({
    *
    * **success返回参数说明：**
    *
-```tsx
-const buffer = new ArrayBuffer(1)
-const dataView = new DataView(buffer)
-dataView.setUint8(0, 0)
-      Taro.startHCE({
-  success: function(res) {
-    Taro.onHCEMessage(function(res) {
-      if (res.messageType === 1) {
-        Taro.sendHCEMessage({data: buffer})
-      }
-    })
-  }
-})
-```
+   * ```tsx
+   * const buffer = new ArrayBuffer(1)
+   * const dataView = new DataView(buffer)
+   * dataView.setUint8(0, 0)
+   *       Taro.startHCE({
+   *   success: function(res) {
+   *     Taro.onHCEMessage(function(res) {
+   *       if (res.messageType === 1) {
+   *         Taro.sendHCEMessage({data: buffer})
+   *       }
+   *     })
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.sendHCEMessage.html
    */
   function sendHCEMessage(res: sendHCEMessage.Param): Promise<sendHCEMessage.Promised>
@@ -159,13 +159,13 @@ dataView.setUint8(0, 0)
    *
    * **success返回参数说明：**
    *
-```tsx
-Taro.getHCEState({
-  success: function(res) {
-    console.log(res.errCode)
-  }
-})
-```
+   * ```tsx
+   * Taro.getHCEState({
+   *   success: function(res) {
+   *     console.log(res.errCode)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/nfc/wx.getHCEState.html
    */
   function getHCEState(res?: getHCEState.Param): Promise<getHCEState.Promised>

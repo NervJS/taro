@@ -50,14 +50,14 @@ declare namespace Taro {
   /**
    * 动态设置 tabBar 的整体样式
    * @example
-```tsx
-Taro.setTabBarStyle({
-    color: '#FF0000',
-    selectedColor: '#00FF00',
-    backgroundColor: '#0000FF',
-    borderStyle: 'white'
-})
-```
+   * ```tsx
+   * Taro.setTabBarStyle({
+   *     color: '#FF0000',
+   *     selectedColor: '#00FF00',
+   *     backgroundColor: '#0000FF',
+   *     borderStyle: 'white'
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarStyle.html
    */
   function setTabBarStyle(res?: setTabBarStyle.Param): Promise<any>
@@ -85,14 +85,14 @@ Taro.setTabBarStyle({
   /**
    * 动态设置 tabBar 某一项的内容
    * @example
-```tsx
-Taro.setTabBarItem({
-    index: 0,
-    text: 'text',
-    iconPath: '/path/to/iconPath',
-    selectedIconPath: '/path/to/selectedIconPath'
-})
-```
+   * ```tsx
+   * Taro.setTabBarItem({
+   *     index: 0,
+   *     text: 'text',
+   *     iconPath: '/path/to/iconPath',
+   *     selectedIconPath: '/path/to/selectedIconPath'
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarItem.html
    */
   function setTabBarItem(res: setTabBarItem.Param): Promise<any>
@@ -112,12 +112,12 @@ Taro.setTabBarItem({
   /**
    * 为 tabBar 某一项的右上角添加文本
    * @example
-```tsx
-Taro.setTabBarBadge({
-  index: 0,
-  text: '1'
-})
-```
+   * ```tsx
+   * Taro.setTabBarBadge({
+   *   index: 0,
+   *   text: '1'
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarBadge.html
    */
   function setTabBarBadge(res: setTabBarBadge.Param): Promise<any>

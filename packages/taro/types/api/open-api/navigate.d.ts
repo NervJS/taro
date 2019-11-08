@@ -36,19 +36,19 @@ declare namespace Taro {
    * 2.  `tip`: 开发者工具上支持被跳转的小程序处理接收参数的调试[详情](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#小程序跳转的调试支持)
    * 3.  `tip`: 只有同一公众号下的关联的小程序之间才可相互跳转 [详情](https://mp.weixin.qq.com/debug/wxadoc/introduction/index.html#%E5%85%AC%E4%BC%97%E5%8F%B7%E5%85%B3%E8%81%94%E5%B0%8F%E7%A8%8B%E5%BA%8F)
    * @example
-```tsx
-Taro.navigateToMiniProgram({
-  appId: '',
-  path: 'pages/index/index?id=123',
-  extraData: {
-    foo: 'bar'
-  },
-  envVersion: 'develop',
-  success(res) {
-    // 打开成功
-  }
-})
-```
+   * ```tsx
+   * Taro.navigateToMiniProgram({
+   *   appId: '',
+   *   path: 'pages/index/index?id=123',
+   *   extraData: {
+   *     foo: 'bar'
+   *   },
+   *   envVersion: 'develop',
+   *   success(res) {
+   *     // 打开成功
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateToMiniProgram.html
    */
   function navigateToMiniProgram(res: navigateToMiniProgram.Param): Promise<navigateToMiniProgram.Promised>
@@ -72,16 +72,16 @@ Taro.navigateToMiniProgram({
    *
    * 返回到上一个小程序，只有在当前小程序是被其他小程序打开时可以调用成功
    * @example
-```tsx
-Taro.navigateBackMiniProgram({
-  extraData: {
-    foo: 'bar'
-  },
-  success(res) {
-    // 返回成功
-  }
-})
-```
+   * ```tsx
+   * Taro.navigateBackMiniProgram({
+   *   extraData: {
+   *     foo: 'bar'
+   *   },
+   *   success(res) {
+   *     // 返回成功
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateBackMiniProgram.html
    */
   function navigateBackMiniProgram(res?: navigateBackMiniProgram.Param): Promise<navigateBackMiniProgram.Promised>
