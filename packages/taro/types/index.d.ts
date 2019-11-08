@@ -3,7 +3,7 @@
  * 
  * 目录结构
  * ├── api                                  小程序端能力 API
- * │   ├── advertisement
+ * │   ├── ad
  * │   │   └── index.d.ts                   广告 API
  * │   ├── alipay
  * │   │   └── index.d.ts                   支付宝小程序 API
@@ -46,7 +46,7 @@
  * │   │   └── index.d.ts                   位置 API
  * │   ├── media
  * │   │   ├── audio.d.ts                   媒体 -> 音频 API
- * │   │   ├── backgroundAudio.d.ts         媒体 -> 背景音频 API
+ * │   │   ├── background-audio.d.ts        媒体 -> 背景音频 API
  * │   │   ├── camera.d.ts                  媒体 -> 相机 API
  * │   │   ├── editor.d.ts                  媒体 -> 富文本 API
  * │   │   ├── image.d.ts                   媒体 -> 图片 API
@@ -127,7 +127,7 @@
  * thanks for the great work by @qiu8310 👍👍👍
  *
  */
-/// <reference path="api/advertisement/index.d.ts" />
+/// <reference path="api/ad/index.d.ts" />
 /// <reference path="api/base/index.d.ts" />
 /// <reference path="api/base/debug.d.ts" />
 /// <reference path="api/base/system.d.ts" />
@@ -158,7 +158,7 @@
 /// <reference path="api/framework/index.d.ts" />
 /// <reference path="api/location/index.d.ts" />
 /// <reference path="api/media/audio.d.ts" />
-/// <reference path="api/media/backgroundAudio.d.ts" />
+/// <reference path="api/media/background-audio.d.ts" />
 /// <reference path="api/media/camera.d.ts" />
 /// <reference path="api/media/editor.d.ts" />
 /// <reference path="api/media/image.d.ts" />

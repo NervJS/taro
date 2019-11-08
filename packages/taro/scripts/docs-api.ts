@@ -53,7 +53,8 @@ export function writeJson (routepath: string, doc: DocEntry[]) {
 
 export function writeDoc (routepath: string, doc: DocEntry[]) {
   const _p = path.parse(routepath)
-  const Taro = merge()[0]
+  const parseData = merge()
+  const Taro = parseData.find(e => e.name === 'Taro') || {}
 
   function merge (d: DocEntry[] = doc, o: DocEntry[] = []) {
     d.forEach(e => {
@@ -164,7 +165,11 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     } while (example_i > -1)
     const supported = tags.find(tag => tag.name === 'supported')
     const apis = getAPI(name, supported && supported.text, tags)
-    apis.length > 0 && md.push('## API 支持度', '', ...apis, '')
+    if (supported) {
+      md.push('## API 支持度', '', ...apis, '')
+    }/*  else {
+      md.push('## API 支持度', '', '> 该 api 暂不支持', '')
+    } */
     const see = tags.find(tag => tag.name === 'see')
     see && md.push(`> [参考文档](${see.text || ''})`, '')
     // md.push(JSON.stringify(e, undefined, 2))
