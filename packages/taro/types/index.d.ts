@@ -56,17 +56,17 @@
  * │   │   └── video.d.ts                   媒体 -> 视频 API
  * │   ├── network
  * │   │   ├── download.d.ts                网络 -> 下载 API
- * │   │   ├── mDNS.d.ts                    网络 -> mDNS API
+ * │   │   ├── mdns.d.ts                    网络 -> mDNS API
  * │   │   ├── request.d.ts                 网络 -> 发起请求 API
  * │   │   ├── udp.d.ts                     网络 -> UDP 通信 API
  * │   │   ├── upload.d.ts                  网络 -> 上传 API
- * │   │   └── webSocket.d.ts               网络 -> WebSocket API
+ * │   │   └── websocket.d.ts               网络 -> WebSocket API
  * │   ├── open-api
  * │   │   ├── account.d.ts                 开放接口 -> 账号信息 API
  * │   │   ├── address.d.ts                 开放接口 -> 收货地址 API
  * │   │   ├── authorize.d.ts               开放接口 -> 授权 API
  * │   │   ├── card.d.ts                    开放接口 -> 卡券 API
- * │   │   ├── dataAnalysis.d.ts            开放接口 -> 数据分析 API
+ * │   │   ├── data-analysis.d.ts           开放接口 -> 数据分析 API
  * │   │   ├── facial.d.ts                  开放接口 -> 人脸识别 API // 在微信小程序文档已找不到
  * │   │   ├── invoice.d.ts                 开放接口 -> 发票 API
  * │   │   ├── login.d.ts                   开放接口 -> 登录 API
@@ -75,30 +75,30 @@
  * │   │   ├── report.d.ts                  开放接口 -> 数据上报 API
  * │   │   ├── settings.d.ts                开放接口 -> 设置 API
  * │   │   ├── soter.d.ts                   开放接口 -> 生物认证 API
- * |   |   ├── subscribeMessage.d.ts        开放接口 -> 订阅消息 API
- * │   │   ├── userInfo.d.ts                开放接口 -> 用户信息 API
- * │   │   └── weRun.d.ts                   开放接口 -> 微信运动 API
+ * |   |   ├── subscribe-message.d.ts       开放接口 -> 订阅消息 API
+ * │   │   ├── user-info.d.ts               开放接口 -> 用户信息 API
+ * │   │   └── werun.d.ts                   开放接口 -> 微信运动 API
  * │   ├── route
  * │   │   └── index.d.ts                   路由 API
  * │   ├── share
  * │   │   └── index.d.ts                   转发 API
  * │   ├── storage
- * │   │   ├── backgroundFetch.d.ts         数据缓存 -> 后台获取 API
+ * │   │   ├── background-fetch.d.ts        数据缓存 -> 后台获取 API
  * │   │   └── index.d.ts                   数据缓存 API
  * │   ├── swan
  * │   │   └── index.d.ts                   百度小程序 API
  * │   ├── ui
  * │   │   ├── animation.d.ts               界面 -> 动画 API
  * │   │   ├── background.d.ts              界面 -> 背景 API
- * │   │   ├── customComponent.d.ts         界面 -> 自定义组件 API
+ * │   │   ├── custom-component.d.ts        界面 -> 自定义组件 API
  * │   │   ├── fonts.d.ts                   界面 -> 字体 API
  * │   │   ├── keyboard.d.ts                界面 -> 键盘 API
  * │   │   ├── menu.d.ts                    界面 -> 菜单 API
- * │   │   ├── navigationBar.d.ts           界面 -> 导航栏 API
- * │   │   ├── pullDownRefresh.d.ts         界面 -> 下拉刷新 API
+ * │   │   ├── navigation-bar.d.ts          界面 -> 导航栏 API
+ * │   │   ├── pull-down-refresh.d.ts       界面 -> 下拉刷新 API
  * │   │   ├── scroll.d.ts                  界面 -> 滚动 API
  * │   │   ├── sticky.d.ts                  界面 -> 置顶 API
- * │   │   ├── tabBar.d.ts                  界面 -> TabBar API
+ * │   │   ├── tab-bar.d.ts                  界面 -> TabBar API
  * │   │   ├── window.d.ts                  界面 -> 窗口 API
  * │   │   └── interaction.d.ts             界面 -> 交互 API
  * │   ├── worker
@@ -167,16 +167,16 @@
 /// <reference path="api/media/recorder.d.ts" />
 /// <reference path="api/media/video.d.ts" />
 /// <reference path="api/network/download.d.ts" />
-/// <reference path="api/network/mDNS.d.ts" />
+/// <reference path="api/network/mdns.d.ts" />
 /// <reference path="api/network/request.d.ts" />
 /// <reference path="api/network/udp.d.ts" />
 /// <reference path="api/network/upload.d.ts" />
-/// <reference path="api/network/webSocket.d.ts" />
+/// <reference path="api/network/websocket.d.ts" />
 /// <reference path="api/open-api/account.d.ts" />
 /// <reference path="api/open-api/address.d.ts" />
 /// <reference path="api/open-api/authorize.d.ts" />
 /// <reference path="api/open-api/card.d.ts" />
-/// <reference path="api/open-api/dataAnalysis.d.ts" />
+/// <reference path="api/open-api/data-analysis.d.ts" />
 /// <reference path="api/open-api/facial.d.ts" />
 /// <reference path="api/open-api/invoice.d.ts" />
 /// <reference path="api/open-api/login.d.ts" />
@@ -185,24 +185,24 @@
 /// <reference path="api/open-api/report.d.ts" />
 /// <reference path="api/open-api/settings.d.ts" />
 /// <reference path="api/open-api/soter.d.ts" />
-/// <reference path="api/open-api/subscribeMessage.d.ts" />
-/// <reference path="api/open-api/userInfo.d.ts" />
-/// <reference path="api/open-api/weRun.d.ts" />
+/// <reference path="api/open-api/subscribe-message.d.ts" />
+/// <reference path="api/open-api/user-info.d.ts" />
+/// <reference path="api/open-api/werun.d.ts" />
 /// <reference path="api/route/index.d.ts" />
 /// <reference path="api/share/index.d.ts" />
-/// <reference path="api/storage/backgroundFetch.d.ts" />
+/// <reference path="api/storage/background-fetch.d.ts" />
 /// <reference path="api/storage/index.d.ts" />
 /// <reference path="api/ui/animation.d.ts" />
 /// <reference path="api/ui/background.d.ts" />
-/// <reference path="api/ui/customComponent.d.ts" />
+/// <reference path="api/ui/custom-component.d.ts" />
 /// <reference path="api/ui/fonts.d.ts" />
 /// <reference path="api/ui/keyboard.d.ts" />
 /// <reference path="api/ui/menu.d.ts" />
-/// <reference path="api/ui/navigationBar.d.ts" />
-/// <reference path="api/ui/pullDownRefresh.d.ts" />
+/// <reference path="api/ui/navigation-bar.d.ts" />
+/// <reference path="api/ui/pull-down-refresh.d.ts" />
 /// <reference path="api/ui/scroll.d.ts" />
 /// <reference path="api/ui/sticky.d.ts" />
-/// <reference path="api/ui/tabBar.d.ts" />
+/// <reference path="api/ui/tab-bar.d.ts" />
 /// <reference path="api/ui/window.d.ts" />
 /// <reference path="api/ui/interaction.d.ts" />
 /// <reference path="api/worker/index.d.ts" />
