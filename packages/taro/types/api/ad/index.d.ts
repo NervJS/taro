@@ -1,5 +1,3 @@
-/// <reference path="../index.d.ts" />
-
 declare namespace Taro {
   /** 创建激励视频广告组件。
    * @supported weapp
@@ -216,16 +214,16 @@ declare namespace Taro {
       isEnded: boolean
     }
     /** 用户点击 `关闭广告` 按钮的事件的回调函数 */
-    type OffCloseCallback = (res: Taro.GeneralCallbackResult) => void
+    type OffCloseCallback = (res: GeneralCallbackResult) => void
     /** 激励视频错误事件的回调函数 */
-    type OffErrorCallback = (res: Taro.GeneralCallbackResult) => void
+    type OffErrorCallback = (res: GeneralCallbackResult) => void
     /** 激励视频广告加载事件的回调函数 */
-    type OffLoadCallback = (res: Taro.GeneralCallbackResult) => void
+    type OffLoadCallback = (res: GeneralCallbackResult) => void
     /** 用户点击 `关闭广告` 按钮的事件的回调函数 */
     type OnCloseCallback = (result: OnCloseCallbackResult) => void
     /** 激励视频错误事件的回调函数 */
     type OnErrorCallback = (result: OnErrorCallbackResult) => void
     /** 激励视频广告加载事件的回调函数 */
-    type OnLoadCallback = (res: Taro.GeneralCallbackResult) => void
+    type OnLoadCallback = (res: GeneralCallbackResult) => void
   }
 }

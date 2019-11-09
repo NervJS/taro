@@ -1,127 +1,98 @@
-import * as fs from "fs"
 import * as path from "path"
 import * as ts from "typescript"
-import { generateDocumentation, DocEntry } from "./parser"
-import envMap from './parser/taro-env'
+import compile, { DocEntry, envMap } from "./parser"
+import writeFile from "./write"
 
-export default function docsAPI (base: string = '.', out: string, files: string[]) {
+type TCallback = (routepath: string, doc: DocEntry[]) => void
+
+export default function docsAPI (
+  base: string = '.',
+  out: string,
+  files: string[],
+  callback: TCallback = () => {},
+  withLog = true,
+) {
   const cwd: string = process.cwd();
   const basepath: string = path.resolve(cwd, base);
   files.forEach(async s => {
     compile(cwd, s, (routepath, doc) => {
-      console.log(routepath) // , doc.length)
+      withLog && console.log(routepath)
       if (doc.length < 1) return
-      const outpath: string = routepath
+      callback(
+        routepath
         .replace(basepath, path.resolve(cwd, out))
-        .replace(/(.[a-z]+)$|(.d.ts)$/ig, '')
-      try {
-        writeDoc(outpath, doc)
-      } catch (error) {
-        const _p = path.parse(outpath)
-        fs.mkdirSync(_p.name === 'index' ? _p.dir : outpath, { recursive: true })
-        writeDoc(outpath, doc)
-      }
+        .replace(/(.[a-z]+)$|(.d.ts)$/ig, ''),
+        doc,
+      )
     })
   })
 }
-  
-export function compile (p: string, n: string, callback?: (routepath: string, doc: DocEntry[]) => void) {
-  const route = path.resolve(p, n)
-  const stat = fs.statSync(route)
-  if (stat.isDirectory()) {
-    fs.readdirSync(route, {
-      encoding: 'utf8'
-    }).forEach(filename => ![
-      'node_modules', 'bin', 'templates', 'dist', '__tests__', '__mocks__', '_book', '.vscode', '.idea',
-    ].includes(filename) && compile(route, filename, callback))
-  } else {
-    const docTree = generateDocumentation(route, {
-      target: ts.ScriptTarget.ES5,
-      module: ts.ModuleKind.ESNext
-    })
-    callback && callback(route, docTree)
-  }
-}
 
-export function writeJson (routepath: string, doc: DocEntry[]) {
-  fs.writeFileSync(
-    `${routepath}.json`,
-    JSON.stringify(doc, undefined, 4),
-    {}
-  )
-}
-
-export function writeDoc (routepath: string, doc: DocEntry[]) {
-  const _p = path.parse(routepath)
-  const parseData = merge()
-  const Taro = parseData.find(e => e.name === 'Taro') || {}
-
-  function merge (d: DocEntry[] = doc, o: DocEntry[] = []) {
-    d.forEach(e => {
-      const name = e.name || 'undefined'
-      const target = o.find(v => v.name === name)
-      if (!target) o.push(e)
-      else {
-        for (const key in e) {
-          if (e.hasOwnProperty(key) && e[key] && !['name', 'kind', 'flags'].includes(key)) {
-            if (key === 'children') {
-              if (!target.children) {
-                target.children = merge(e.children)
-              }
-            } else if (key === 'exports') {
-              if (!target.exports) {
-                target.exports = merge(e.exports)
-              }
-            } else {
-              target[key] = e[key]
+export function childrenMerge (d: DocEntry[] = [], o: DocEntry[] = []) {
+  d.forEach(e => {
+    const name = e.name || 'undefined'
+    const target = o.find(v => v.name === name)
+    if (!target) o.push(e)
+    else {
+      for (const key in e) {
+        if (e.hasOwnProperty(key) && e[key] && !['name', 'kind', 'flags'].includes(key)) {
+          if (key === 'children') {
+            if (!target.children) {
+              target.children = childrenMerge(e.children)
             }
+          } else if (key === 'exports') {
+            if (!target.exports) {
+              target.exports = childrenMerge(e.exports)
+            }
+          } else {
+            target[key] = e[key]
           }
         }
       }
-    })
-    o.forEach((e: DocEntry) => {
-      if (e.children) {
-        if (!e.exports) e.exports = [];
-        (e.children || []).forEach(k => {
-          const kk = e.exports!.find(kk => kk.name === k.name)
-          if (!kk) e.exports!.push(k)
-          else Object.assign(kk, k)
-        })
-        delete e.children
-      }
-    })
-    return o
-  }
+    }
+  })
+  o.forEach((e: DocEntry) => {
+    if (e.children) {
+      if (!e.exports) e.exports = [];
+      (e.children || []).forEach(k => {
+        const kk = e.exports!.find(kk => kk.name === k.name)
+        if (!kk) e.exports!.push(k)
+        else Object.assign(kk, k)
+      })
+      delete e.children
+    }
+  })
+  return o
+}
 
-  (Taro.exports || []).forEach(e => {
-    const name = e.name || 'undefined'
-    const tags = e.jsTags || []
-    const params = e.parameters || []
-    const parameters = e.exports || []
-    const md: string[] = [
-      '---',
-      `title: Taro.${name}(${params.map(param => param.name).join(', ')})`,
-      `sidebar_label: ${name}`,
-      '---',
-      '',
-    ]
-    e.documentation && md.push(e.documentation, '')
-    const since = tags.find(tag => tag.name === 'since')
-    since && md.push(`> 最低 Taro 版本: ${since.text || ''}`, '')
-    e.type && md.push('## 类型', '', '```tsx', e.type, '```', '')
-    parameters.length > 0 && md.push('## 参数', '')
-    parameters.map(p => {
-      const arr = p.members || p.exports || []
-      const hasType = arr.some(v => !!v.type && v.type !== p.name)
+export function writeJson (routepath: string, doc: DocEntry[]) {
+  const parseData = childrenMerge(doc)
+  const Taro = parseData.find(e => e.name === 'Taro')
+
+  writeFile(`${routepath}.json`, JSON.stringify(Taro, undefined, 2))
+}
+
+const get = {
+  header: (data: {
+    title: string
+    sidebar_label: string
+    [key: string]: string
+  }) => ['---', ...Object.keys(data).map(key => `${key}: ${data[key]}`), '---', ''].join('\n'),
+  document: (data?: string) => data ? [data, ''].join('\n') : undefined,
+  since: (data?: ts.JSDocTagInfo) => data ? [`> 最低 Taro 版本: ${data.text || ''}`, ''].join('\n') : undefined,
+  type: (data?: string) => data ? ['## 类型', '', '```tsx', data, '```', ''].join('\n') : undefined,
+  parameters: (data?: DocEntry[]) => {
+    return data && data.length > 0 ? ['## 参数', '', ...data.map(param => {
+      const arr = param.members || param.exports || []
+      const hasType = arr.some(v => !!v.type && v.type !== param.name)
       const hasDef = arr.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
       const hasDes = arr.some(v => !!v.documentation)
-      const _param = params.find(e => e.type === p.name)
-      const p_lens = arr.reduce((s, v) => v.name !== ts.InternalSymbolName.Call && ++s, 0)
+      const paramLens = arr.reduce((s, v) => v.name !== ts.InternalSymbolName.Call && ++s, 0)
 
-      arr.length > 0 && md.push(`### ${p.name}${_param ? ` ${_param.name}` : ''}`, '')
-
-      if (p_lens > 0) {
-        md.push(`| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasDes? ' Description |' :''}`,
+      if (paramLens > 0) {
+        return [
+          `### ${param.name}`, '',
+          `| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasDes? ' Description |' :''}`,
           `| --- |${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasDes? ' --- |' :''}`,
           ...arr.map(v => {
             const vtags = v.jsTags || [];
@@ -129,75 +100,104 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
             return `| ${v.name} |${
               hasType? ` ${v.type ? `\`${v.type}\`` : ''} |` :''}${
               hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''}${
-              hasDes? ` ${v.documentation || ''}${
+              hasDes? ` ${(v.documentation || '').split('\n').join('<br />')}${
                 vtags.length > 0 ? `${vtags
                   .filter(arrs => !['default', 'supported'].includes(arrs.name))
                   .map(arrs => `<br />${arrs.name}: ${arrs.text}`).join('')
               }` : ''} |` :''}`
           }),
-        '')
+        ''].join('\n')
       } else if (arr.length > 0) {
         const callback = arr.find(e => e.name === ts.InternalSymbolName.Call)
         const declarations = callback && callback.declarations || []
         const call_decla = declarations[0]
-        call_decla && md.push(
+        return call_decla && [
+          `### ${param.name}`, '',
           '```tsx',
           `(${(call_decla.parameters || [])
             .map(call_params => `${call_params.name}: ${call_params.type}`)
             .join(',')}) => ${call_decla.returnType}`,
           '```',
           '',
-        )
+        ].join('\n') || undefined
       }
-    })
-    let example_i = tags.findIndex(tag => tag.name === 'example')
-    let example_index = 0
+      return undefined
+    }), ''].join('\n') : undefined
+  },
+  example: (tags: ts.JSDocTagInfo[]) => {
+    const array: string[] = []
+    let exampleIdx = tags.findIndex(tag => tag.name === 'example')
+    let exampleNum = 0
     do {
-      const example = tags[example_i]
+      const example = tags[exampleIdx]
       if (example) {
-        example_index === 0 && md.push('## 示例代码', '')
-        example_index++
-        if ((example_i = tags.findIndex((tag, i) => example_i < i && tag.name === 'example')) > -1 || example_index > 1) {
-          md.push(`### 示例 ${example_index}`, '')
+        exampleNum === 0 && array.push('## 示例代码', '')
+        exampleNum++
+        if ((exampleIdx = tags.findIndex((tag, i) => exampleIdx < i && tag.name === 'example')) > -1 || exampleNum > 1) {
+          array.push(`### 示例 ${exampleNum}`, '')
         }
-        md.push((example.text || '').split('\\`@').join('@'), '')
+        array.push((example.text || '').split('\\`@').join('@'), '')
       }
-    } while (example_i > -1)
-    const supported = tags.find(tag => tag.name === 'supported')
-    const apis = getAPI(name, supported && supported.text, tags)
-    if (supported) {
-      md.push('## API 支持度', '', ...apis, '')
-    }/*  else {
-      md.push('## API 支持度', '', '> 该 api 暂不支持', '')
-    } */
-    const see = tags.find(tag => tag.name === 'see')
-    see && md.push(`> [参考文档](${see.text || ''})`, '')
-    // md.push(JSON.stringify(e, undefined, 2))
+    } while (exampleIdx > -1)
 
-    fs.writeFileSync(
-      path.resolve(_p.name === 'index' ? _p.dir : routepath, `${name}.md`),
-      md.join('\n'),
-      {},
-    )
-  })
+    return array.length > 0 ? array.join('\n') : undefined
+  },
+  api: (data: {[name: string]: ts.JSDocTagInfo[]}) => {
+    const isSupported = Object.values(data).find(tags => tags.find(tag => tag.name === 'supported'))
+    const titles = envMap.reduce((p, env) => `${p} ${env.label} |`, '| API |')
+    const splits = envMap.reduce((p) => `${p} :---: |`, '| :---: |')
+    const rows = Object.keys(data).map(name => {
+      const tags = data[name]
+      const supported = tags.find(tag => tag.name === 'supported')
+      const apis = (supported && supported.text || '').split(',').map(e => e.trim().toLowerCase())
 
-  function getAPI (name: string, text?: string, tags: ts.JSDocTagInfo[] = []) {
-    if (!text)
-      return []
-    const apis = text.split(',').map(e => e.trim().toLowerCase())
-    let titles = '| API |'
-    let splits = `| :---: |`
-    let row = `| Taro.${name} |`
-    for (let i = 0; i < envMap.length; i++) {
-      const api_name = apis.find(e => e === envMap[i].name)
-      const api_desc = tags.find(tag => tag.name === api_name)
-      titles += ` ${envMap[i].label} |`
-      splits += ' :---: |'
-      row += ` ${api_name ? '✔️': ''}${api_desc && api_desc.text ? `(${api_desc.text})` : ''} |`
-    }
-    return [titles, splits, row]
-  }
+      return `| Taro.${name} |${envMap.map(env => {
+        const apiName = apis.find(e => e === env.name)
+        const apiDesc = tags.find(e => e.name === apiName)
+        return ` ${apiName ? '✔️': ''}${apiDesc && apiDesc.text ? `(${apiDesc.text})` : ''} |`
+      }).join('')}`
+    })
+
+    return isSupported ? [
+      '## API 支持度', '', titles, splits, ...rows, ''
+    ].join('\n') : undefined // ['## API 支持度', '', '> 该 api 暂不支持', ''].join('\n')
+  },
+  see: (data?: ts.JSDocTagInfo) => data ? [`> [参考文档](${data.text || ''})`, ''].join('\n') : undefined
 }
 
-// docsAPI('.', process.argv[2], process.argv.slice(3))
-docsAPI('./types/api', '../../docs/apis', ['./types/api/'])
+export function writeDoc (routepath: string, doc: DocEntry[]) {
+  const _p = path.parse(routepath)
+  const parseData = childrenMerge(doc)
+  const Taro = parseData.find(e => e.name === 'Taro')
+
+  Taro && (Taro.exports || []).forEach(e => {
+    const name = e.name || 'undefined'
+    const tags = e.jsTags || []
+    const params = e.parameters || []
+    const md: (string | undefined)[] = []
+    
+    md.push(
+      get.header({
+        title: `Taro.${name}(${params.map(param => param.name).join(', ')})`,
+        sidebar_label: name
+      }),
+      get.document(e.documentation),
+      get.since(tags.find(tag => tag.name === 'since')),
+      get.type(e.type),
+      get.parameters(e.exports),
+      get.example(tags),
+      get.api({ [name]: tags }),
+      get.see(tags.find(tag => tag.name === 'see')),
+      // JSON.stringify(e, undefined, 2),
+    )
+
+    writeFile(
+      path.resolve(_p.name === 'index' ? _p.dir : routepath, `${name}.md`),
+      md.filter(e => typeof e === 'string').join('\n'),
+    )
+  })
+}
+
+// docsAPI('./types/api', './apis', ['./types/api/'], writeJson)
+// docsAPI('./types/api', './apis', ['./types/api/'], writeDoc)
+docsAPI('./types/api', '../../docs/apis', ['./types/api/'], writeDoc)

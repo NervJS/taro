@@ -119,6 +119,8 @@
 /// <reference path="taro.config.d.ts" />
 /// <reference path="taro.extend.d.ts" />
 
+/// <reference path="api/index.d.ts" />
+
 /**
  *
  * 微信端能力

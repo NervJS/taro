@@ -1,8 +1,4 @@
 declare namespace Taro {
-  /**
-   * 系统信息
-   */
-
   namespace getSystemInfoSync {
     type Return = {
       /**
@@ -64,11 +60,14 @@ declare namespace Taro {
     }
   }
   /**
-   * 获取系统信息同步接口
+   * 获取系统信息同步接口。
+   * 
+   * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
+   * @supported weapp, h5, rn
    * @example
    * ```tsx
    * try {
-   *   var res = Taro.getSystemInfoSync()
+   *   const res = Taro.getSystemInfoSync()
    *   console.log(res.model)
    *   console.log(res.pixelRatio)
    *   console.log(res.windowWidth)
@@ -146,7 +145,15 @@ declare namespace Taro {
     type Param = {}
   }
   /**
-   * 获取系统信息。
+   * 获取系统信息，支持 `Promise` 化使用。
+   * @supported weapp, h5, rn
+   * @example
+   * ```tsx
+   * Taro.getSystemInfo({
+   *   success: res => console.log(res)
+   * })
+   * .then(res => console.log(res))
+   * ```
    * @example
    * ```tsx
    * Taro.getSystemInfo({
