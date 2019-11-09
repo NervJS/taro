@@ -166,38 +166,6 @@ export async function buildSinglePage (page: string) {
       if (isProduction) {
         resCode = uglifyJS(resCode, pageJs, appPath, projectConfig!.plugins!.uglify as TogglableOptions)
       }
-    } else {
-      // 快应用编译，搜集创建页面 ux 文件
-      const importTaroSelfComponents = getImportTaroSelfComponents(outputPageJSPath, res.taroSelfComponents)
-      const importCustomComponents = new Set(realComponentsPathList.map(item => {
-        return {
-          path: promoteRelativePath(path.relative(pageJs, item.path as string)).replace(extnameExpRegOf(item.path as string), ''),
-          name: item.name as string
-        }
-      }))
-      const usingComponents = res.configObj.usingComponents
-      let importUsingComponent: any = new Set([])
-      if (usingComponents) {
-        importUsingComponent = new Set(Object.keys(usingComponents).map(item => {
-          return {
-            name: item,
-            path: usingComponents[item]
-          }
-        }))
-      }
-      // 生成页面 ux 文件
-      let styleRelativePath
-      if (res.styleFiles.length) {
-        styleRelativePath = promoteRelativePath(path.relative(outputPageJSPath, outputPageWXSSPath))
-      }
-      const uxTxt = generateQuickAppUx({
-        script: resCode,
-        style: styleRelativePath,
-        imports: new Set([...importTaroSelfComponents, ...importCustomComponents, ...importUsingComponent]),
-        template: rewriterTemplate(pageWXMLContent)
-      })
-      fs.writeFileSync(outputPageWXMLPath, uxTxt)
-      printLog(processTypeEnum.GENERATE, '页面文件', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)
     }
     // 编译依赖的组件文件
     if (realComponentsPathList.length) {
@@ -235,6 +203,39 @@ export async function buildSinglePage (page: string) {
           })
         }
       })
+    }
+    if (isQuickApp) {
+      // 快应用编译，搜集创建页面 ux 文件
+      const importTaroSelfComponents = getImportTaroSelfComponents(outputPageJSPath, res.taroSelfComponents)
+      const importCustomComponents = new Set(pageDepComponents.map(item => {
+        return {
+          path: item.path,
+          name: item.name as string
+        }
+      }))
+      const usingComponents = res.configObj.usingComponents
+      let importUsingComponent: any = new Set([])
+      if (usingComponents) {
+        importUsingComponent = new Set(Object.keys(usingComponents).map(item => {
+          return {
+            name: item,
+            path: usingComponents[item]
+          }
+        }))
+      }
+      // 生成页面 ux 文件
+      let styleRelativePath
+      if (res.styleFiles.length) {
+        styleRelativePath = promoteRelativePath(path.relative(outputPageJSPath, outputPageWXSSPath))
+      }
+      const uxTxt = generateQuickAppUx({
+        script: resCode,
+        style: styleRelativePath,
+        imports: new Set([...importTaroSelfComponents, ...importCustomComponents, ...importUsingComponent]),
+        template: rewriterTemplate(pageWXMLContent)
+      })
+      fs.writeFileSync(outputPageWXMLPath, uxTxt)
+      printLog(processTypeEnum.GENERATE, '页面文件', `${outputDirName}/${page}${outputFilesTypes.TEMPL}`)
     }
     const fileDep = dependencyTree.get(pageJs) || {
       style: [],

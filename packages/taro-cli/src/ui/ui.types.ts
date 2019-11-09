@@ -1,0 +1,24 @@
+import { IH5Config, IProjectConfig } from '../util/types'
+
+export interface IBuildData {
+  appPath: string,
+  projectConfig: IProjectConfig,
+  sourceDirName: string,
+  outputDirName: string,
+  sourceDir: string,
+  entryFilePath: string,
+  entryFileName: string,
+  tempPath: string,
+  rnTempPath: string
+}
+
+export interface IH5BuildConfig extends IH5Config {
+  env?: object,
+  defineConstants?: object,
+  plugins?: object,
+  designWidth?: number,
+  deviceRatio?: object,
+  sourceRoot?: string,
+  outputRoot?: string,
+  isWatch?: boolean
+}

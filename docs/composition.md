@@ -9,6 +9,7 @@ title: 更多资源
 * 💯[首个 Taro 多端统一实例 - 网易严选（小程序 + H5 + React Native）](https://github.com/js-newbee/taro-yanxuan)
 * 💯[基于Taro + Dva构建的时装衣橱(电商实战项目)](https://github.com/EasyTuan/taro-msparis)
 * 💯[基于Taro + Taro-ui + dva开发的公益App](https://github.com/hugetiny/quit-smoking)
+* 💯[github上能找到的taro适配Android、iOS、微信小程序、H5最佳实践项目脚手架](https://github.com/bozaigao/Taro-demo)
 * [Taro 掘金小册源码](https://github.com/o2team/taro-ebook-source)
 * [基于taro + dva开发的音乐播放器小程序](https://github.com/huangzhuangjia/taro-music)
 * [Taro + Taro-UI GitHub小程序客户端Gitter源码](https://github.com/huangjianke/Gitter)

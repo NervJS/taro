@@ -426,7 +426,7 @@ export interface MapProps extends StandardProps {
    * 视野在地图 padding 范围内展示
    * @from alipay
    */
-  includePadding?: { [key: 'left' | 'right' | 'top' | 'bottom']: number | string };
+  includePadding?: { [key in ('left' | 'right' | 'top' | 'bottom')]: number | string };
 
   /**
    * 覆盖物，自定义贴图

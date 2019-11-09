@@ -59,7 +59,13 @@ class Router extends Taro.Component<Props, State> {
         if (isIndex && pathname === '/') return true;
         return pathname === path;
       })
-  
+      if (!matchedRoute[0] && Taro['_$app'] && Taro['_$app'].componentDidNotFound) {
+        Taro['_$app'].componentDidNotFound.call(Taro['_$app'], {
+          path: pathname,
+          query: location.params
+        })
+      }
+
       invariant(matchedRoute[0], `Can not find proper registered route for '${pathname}'`)
       return matchedRoute[0]!
     }

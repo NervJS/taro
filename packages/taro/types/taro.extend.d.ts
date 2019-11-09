@@ -1,6 +1,6 @@
 /// <reference types="react" />
 /// <reference path="taro.component.d.ts" />
-/// <reference path="api/network/network.request.d.ts" />
+/// <reference path="api/network/request.d.ts" />
 
 declare namespace Taro {
   // Events

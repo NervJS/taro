@@ -125,6 +125,7 @@ class Transformer {
   private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
   private anonymousFuncCounter = incrementId()
   private importJSXs = new Set<String>()
+  private refObjExpr: t.ObjectExpression[] = []
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
@@ -169,7 +170,7 @@ class Transformer {
   }
 
   handleRefs () {
-    const objExpr = this.refs.map(ref => {
+    this.refObjExpr = this.refs.map(ref => {
       return t.objectExpression([
         t.objectProperty(
           t.identifier('type'),
@@ -193,7 +194,7 @@ class Transformer {
     if (isTestEnv) {
       this.classPath.node.body.body.push(t.classProperty(
         t.identifier('$$refs'),
-        t.arrayExpression(objExpr)
+        t.arrayExpression(this.refObjExpr)
       ))
     }
 
@@ -204,12 +205,12 @@ class Transformer {
       return false
     })
 
-    if (_constructor && t.isClassMethod(_constructor)) {
+    if (_constructor && t.isClassMethod(_constructor) && Adapter.type !== Adapters.quickapp) {
       _constructor.body.body.push(
         t.expressionStatement(t.assignmentExpression(
           '=',
           t.memberExpression(t.thisExpression(), t.identifier('$$refs')),
-          t.arrayExpression(objExpr)
+          t.newExpression(t.memberExpression(t.identifier('Taro'), t.identifier('RefsArray')), [])
         ))
       )
     }
@@ -1127,6 +1128,7 @@ class Transformer {
           this.customComponentNames,
           this.componentProperies,
           this.loopRefs,
+          this.refObjExpr,
           methodName
         ).outputTemplate + '\n'
       })

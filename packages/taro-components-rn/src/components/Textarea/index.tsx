@@ -10,6 +10,7 @@
  */
 
 import * as React from 'react'
+import { Keyboard } from 'react-native'
 import Input from '../Input'
 import { omit } from '../../utils'
 import { TextareaProps } from './PropsType'
@@ -25,6 +26,7 @@ const _Textarea: React.SFC<TextareaProps> = (props) => {
       _multiline={true}
       _autoHeight={autoHeight}
       _onLineChange={onLineChange}
+      onBlur={() => Keyboard.dismiss()}
       {...omit(props, [
         'type',
         'password',

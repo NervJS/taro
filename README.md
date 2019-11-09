@@ -20,6 +20,10 @@
 
 掘金小册：[Taro 多端开发实现原理与实战](https://juejin.im/book/5b73a131f265da28065fb1cd?referrer=5ba228f16fb9a05d3251492d)
 
+## 加入社区共建
+
+[Taro 邀你加入社区共建](https://github.com/NervJS/taro/issues/4714)
+
 ## 社区共享
 
 [Taro 交流社区——让每一次交流都被沉淀](http://taro-club.jd.com/)

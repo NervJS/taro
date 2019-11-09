@@ -9,6 +9,7 @@ title: 基于 Taro 开发第三方多端 UI 库
 多端 UI 库的项目目录结构与普通 Taro 项目基本一致，不同点如下
 
 #### 增加一个 UI 库入口文件
+> RN 端 `index.js` 已经被占用，如果要兼容 RN 端，需改为其他名字，并通过 `--ui-index`指定入口文件。
 
 需要在 `src` 目录下添加 `index.js` 或者 `index.ts` 来作为 UI 库的入口文件，用于输出 UI 组件，如果有多个 UI 组件，可以如下书写
 
@@ -83,8 +84,9 @@ if (process.env.TARO_BUILD_TYPE === 'ui') {
 这时候你可以通过如下命令来进行打包
 
 ```bash
-$ TARO_BUILD_TYPE=ui taro build --ui
+$ TARO_BUILD_TYPE=ui taro build --ui --ui-index=${CUSTOM_ENTRY}
 ```
+只有当 UI 库入口文件非 `index.js` 时，才需要通过 `--ui-index`指定入口文件，其中 `CUSTOM_ENTRY` 为自定义的 UI 库入口文件。 
 
 打包之后的文件在 `dist` 目录下
 
