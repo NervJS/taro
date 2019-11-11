@@ -368,7 +368,7 @@ class ImageContainer extends PureComponent {
       // console.info('handleTouchEnd one diffTime = %s, diffX = %s, diffy = %s', diffTime, diffX, diffY)
       // 判断为点击则关闭图片浏览组件
       if (diffTime < maxTapTimeValue && Math.abs(diffX) < minTapMoveValue && Math.abs(diffY) < minTapMoveValue) {
-        this.context.onClose()
+        setTimeout(this.context.onClose,300)
         return
       }
 
