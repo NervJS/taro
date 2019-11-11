@@ -88,13 +88,14 @@ function buildEntry (uiIndex) {
 
 function watchFiles () {
   const {sourceDir, projectConfig, appPath, outputDirName, tempPath} = buildData
+  const platforms = _.get(buildData, 'projectConfig.ui.platforms')
   console.log('\n', chalk.gray('监听文件修改中...'), '\n')
 
   const watchList = [sourceDir]
 
   const uiConfig = projectConfig.ui
   let extraWatchFiles
-  if (uiConfig) {
+  if (uiConfig && Array.isArray(uiConfig.extraWatchFiles)) {
     extraWatchFiles = uiConfig.extraWatchFiles
     extraWatchFiles.forEach(item => {
       watchList.push(path.join(appPath, item.path))
@@ -134,7 +135,9 @@ function watchFiles () {
   function syncH5File (filePath, compiler) {
     const {sourceDir, appPath, outputDirName, tempPath} = buildData
     const outputDir = path.join(appPath, outputDirName, H5_OUTPUT_NAME)
-    const fileTempPath = filePath.replace(sourceDir, tempPath)
+    let fileTempPath = filePath.replace(sourceDir, tempPath)
+    fileTempPath = fileTempPath.replace(new RegExp(`${path.extname(fileTempPath)}$`), '')
+    fileTempPath = resolveScriptPath(fileTempPath)
     compiler.processFiles(filePath)
 
     if (process.env.TARO_BUILD_TYPE === 'script') {
@@ -184,10 +187,15 @@ function watchFiles () {
     if (processed) return
 
     try {
-      syncWeappFile(filePath)
-      syncQuickappFile(filePath)
-      syncH5File(filePath, compiler)
-      syncRNFile(filePath, rnCompiler)
+      if (platforms && Array.isArray(platforms)) {
+        platforms.includes(BUILD_TYPES.WEAPP) && syncWeappFile(filePath)
+        platforms.includes(BUILD_TYPES.QUICKAPP) && syncQuickappFile(filePath)
+        platforms.includes(BUILD_TYPES.H5) && syncH5File(filePath, compiler)
+        platforms.includes(BUILD_TYPES.RN) && syncRNFile(filePath, rnCompiler)
+      } else {
+        syncWeappFile(filePath)
+        syncH5File(filePath, compiler)
+      }
     } catch (err) {
       console.log(err)
     }
@@ -218,7 +226,7 @@ function watchFiles () {
 }
 
 export async function build (appPath, {watch, uiIndex}: IBuildConfig) {
-  console.log(uiIndex)
+  uiIndex && console.log('uiIndex: ', uiIndex)
   setBuildData(appPath, uiIndex)
   setMiniBuildData(appPath, BUILD_TYPES.WEAPP)
   setMiniBuildData(appPath, BUILD_TYPES.QUICKAPP)

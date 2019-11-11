@@ -1,16 +1,17 @@
 import * as t from 'babel-types'
-import { IComponentObj } from '../mini/interface'
+import * as glob from 'glob'
 import traverse from 'babel-traverse'
-import { cssImports, printLog, resolveScriptPath, resolveStylePath } from '../util'
 import * as path from 'path'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import { PARSE_AST_TYPE, processTypeEnum, REG_STYLE, REG_TYPESCRIPT } from '../util/constants'
 import generate from 'babel-generator'
 import * as fs from 'fs-extra'
 import { parseAst } from '../mini/astProcess'
 import { IBuildData } from './ui.types'
+import { cssImports, printLog, resolveScriptPath, resolveStylePath } from '../util'
+import { PARSE_AST_TYPE, processTypeEnum, REG_STYLE, REG_TYPESCRIPT } from '../util/constants'
+import { IComponentObj } from '../mini/interface'
 
-const processedScriptFiles: Set<string> = new Set()
+let processedScriptFiles: Set<string> = new Set()
 
 export const WEAPP_OUTPUT_NAME = 'weapp'
 export const QUICKAPP_OUTPUT_NAME = 'quickappp'
@@ -146,7 +147,7 @@ export function analyzeFiles (files: string[], sourceDir: string, outputDir: str
         mediaFiles
       } = parseAst(PARSE_AST_TYPE.NORMAL, transformResult.ast, [], file, file, true)
 
-      const resFiles = styleFiles.concat(scriptFiles,jsonFiles, mediaFiles)
+      const resFiles = styleFiles.concat(scriptFiles, jsonFiles, mediaFiles)
 
       if (resFiles.length) {
         resFiles.forEach(item => {
@@ -161,6 +162,7 @@ export function analyzeFiles (files: string[], sourceDir: string, outputDir: str
       }
     }
   })
+  processedScriptFiles = new Set()
 }
 
 export function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir, buildData: IBuildData) {
@@ -190,4 +192,13 @@ export function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir, build
       analyzeStyleFilesImport(imports, sourceDir, outputDir, buildData)
     }
   })
+}
+
+export function copyAllInterfaceFiles (sourceDir, outputDir, buildData) {
+  const interfaceFiles = glob.sync(path.join(sourceDir, '**/*.d.ts'))
+  if (interfaceFiles && interfaceFiles.length) {
+    interfaceFiles.forEach(item => {
+      copyFileToDist(item, sourceDir, outputDir, buildData)
+    })
+  }
 }

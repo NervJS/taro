@@ -1,27 +1,16 @@
 import chalk from 'chalk'
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import * as glob from 'glob'
 
 import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
 import * as wxTransformer from '@tarojs/transformer-wx'
 import { compileDepStyles } from '../mini/compileStyle'
 import { printLog } from '../util'
-import { analyzeFiles, parseEntryAst, WEAPP_OUTPUT_NAME, copyFileToDist } from './common'
+import { analyzeFiles, parseEntryAst, WEAPP_OUTPUT_NAME, copyFileToDist, copyAllInterfaceFiles } from './common'
 import { IBuildData } from './ui.types'
-
-function copyAllInterfaceFiles (sourceDir, outputDir, buildData) {
-  const interfaceFiles = glob.sync(path.join(sourceDir, '**/*.d.ts'))
-  if (interfaceFiles && interfaceFiles.length) {
-    interfaceFiles.forEach(item => {
-      copyFileToDist(item, sourceDir, outputDir, buildData)
-    })
-  }
-}
 
 export async function buildForWeapp (buildData: IBuildData) {
   const { appPath, entryFilePath, outputDirName, entryFileName, sourceDir } = buildData
-  console.log(entryFilePath)
   console.log()
   console.log(chalk.green('开始编译小程序端组件库！'))
   if (!fs.existsSync(entryFilePath)) {

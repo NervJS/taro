@@ -8,7 +8,7 @@ import * as wxTransformer from '@tarojs/transformer-wx'
 
 import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
 import { IBuildData, IH5BuildConfig } from './ui.types'
-import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME } from './common'
+import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME, copyAllInterfaceFiles } from './common'
 
 async function buildForH5 (uiIndex = 'index', buildData: IBuildData) {
   const {appPath} = buildData
@@ -48,7 +48,7 @@ async function buildH5Script (buildData: IBuildData) {
 
 async function buildH5Lib (uiIndex, buildData: IBuildData) {
   try {
-    const {appPath, outputDirName, tempPath} = buildData
+    const {sourceDir, appPath, outputDirName, tempPath} = buildData
     const outputDir = path.join(appPath, outputDirName, H5_OUTPUT_NAME)
     const tempEntryFilePath = resolveScriptPath(path.join(tempPath, uiIndex))
     const outputEntryFilePath = path.join(outputDir, path.basename(tempEntryFilePath))
@@ -77,6 +77,7 @@ async function buildH5Lib (uiIndex, buildData: IBuildData) {
       })
       analyzeStyleFilesImport(styleFiles, tempPath, path.join(appPath, outputDirName), buildData)
     }
+    copyAllInterfaceFiles(sourceDir, outputDir, buildData)
   } catch (err) {
     console.log(err)
   }
