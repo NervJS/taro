@@ -1,4 +1,5 @@
 import { TaroNode } from './node'
+import { isUndefined } from '@tarojs/shared'
 
 interface EventOptions {
   bubbles: boolean;
@@ -19,6 +20,10 @@ export class TaroEvent {
   public _end = false
 
   public defaultPrevented = false
+
+  public target: Record<string, unknown>
+
+  public currentTarget: Record<string, unknown>
 
   public constructor (type: string, opts: EventOptions) {
     this.type = type.toLowerCase()
@@ -41,16 +46,24 @@ export class TaroEvent {
 
 interface MpEvent {
   type: string;
+  detail: Record<string, unknown>
 }
 
 export function createEvent (event: MpEvent) {
   const domEv = new TaroEvent(event.type, { bubbles: true, cancelable: true })
   for (const key in event) {
-    if (key === 'currentTarget') {
-      continue
+    if (key === 'currentTarget' || key === 'target') {
+      domEv[key] = {
+        ...event[key],
+        ...event.detail
+      }
+    } else {
+      domEv[key] = event[key]
     }
+  }
 
-    domEv[key] = event[key]
+  if (isUndefined(domEv.currentTarget)) {
+    domEv.currentTarget = domEv.target
   }
 
   return domEv
