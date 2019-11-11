@@ -15,15 +15,19 @@ export default function docsAPI (
   const cwd: string = process.cwd();
   const basepath: string = path.resolve(cwd, base);
   files.forEach(async s => {
-    compile(cwd, s, (routepath, doc) => {
-      withLog && console.log(routepath)
-      if (doc.length < 1) return
-      callback(
-        routepath
-        .replace(basepath, path.resolve(cwd, out))
-        .replace(/(.[a-z]+)$|(.d.ts)$/ig, ''),
-        doc,
-      )
+    compile(cwd, s, (docTree) => {
+      Object.keys(docTree).forEach(e => {
+        const doc = docTree[e]
+        const isOutput = e.search(basepath)
+        if (isOutput > -1) {
+          const output = e
+            .replace(basepath, path.resolve(cwd, out))
+            .replace(/(.[a-z]+)$|(.d.ts)$/ig, '')
+          withLog && console.log(e)
+          if (doc.length < 1) return
+          callback(output, doc)
+        }
+      })
     })
   })
 }
@@ -77,24 +81,41 @@ const get = {
     title: string
     sidebar_label: string
     [key: string]: string
-  }) => ['---', ...Object.keys(data).map(key => `${key}: ${data[key]}`), '---', ''].join('\n'),
-  document: (data?: string) => data ? [data, ''].join('\n') : undefined,
-  since: (data?: ts.JSDocTagInfo) => data ? [`> 最低 Taro 版本: ${data.text || ''}`, ''].join('\n') : undefined,
-  type: (data?: string) => data ? ['## 类型', '', '```tsx', data, '```', ''].join('\n') : undefined,
-  parameters: (data?: DocEntry[]) => {
-    return data && data.length > 0 ? ['## 参数', '', ...data.map(param => {
-      const arr = param.members || param.exports || []
-      const hasType = arr.some(v => !!v.type && v.type !== param.name)
-      const hasDef = arr.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
-      const hasDes = arr.some(v => !!v.documentation)
-      const paramLens = arr.reduce((s, v) => v.name !== ts.InternalSymbolName.Call && ++s, 0)
+  }) => splicing(['---', ...Object.keys(data).map(key => `${key}: ${data[key]}`), '---', '']),
+  document: (data?: string) => data ? splicing([data, '']) : undefined,
+  since: (data?: ts.JSDocTagInfo) => data ? splicing([`> 最低 Taro 版本: ${data.text || ''}`, '']) : undefined,
+  type: (data?: string, withTitle = false) => data && data !== 'InterfaceDeclaration' ?
+    splicing([withTitle ? '## 类型' : undefined, withTitle ? '' : undefined, '```tsx', data, '```', '']) : undefined,
+  members: (data?: DocEntry[], level: number = 2) => {
+    return data && data.length > 0 ? splicing([`${'#'.repeat(level)} 方法`, '', ...data.map(param => {
+      param.name === 'offClose' && console.log(param)
+      const tags = param.jsTags || []
+      const members = param.members || []
+      const paramLens = members.reduce((s, v) => v.name !== ts.InternalSymbolName.Call && ++s, 0)
+
+      if (param.name && ts.InternalSymbolName.Call) {
+        const declarations = param.declarations || []
+        const call_decla = declarations[0] || {}
+        return splicing([
+          '```tsx',
+          `(${(call_decla.parameters || [])
+            .map(call_params => `${call_params.name}: ${call_params.type}`)
+            .join(',')}) => ${call_decla.returnType}`,
+          '```',
+          '',
+        ])
+      }
 
       if (paramLens > 0) {
-        return [
-          `### ${param.name}`, '',
+        const hasType = members.some(v => !!v.type && v.type !== param.name)
+        const hasDef = members.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
+        const hasDes = members.some(v => !!v.documentation)
+
+        return splicing([
+          `${'#'.repeat(level + 1)} ${param.name}`, '',
           `| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasDes? ' Description |' :''}`,
           `| --- |${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasDes? ' --- |' :''}`,
-          ...arr.map(v => {
+          ...members.map(v => {
             const vtags = v.jsTags || [];
             const def = vtags.find(tag => tag.name === 'default') || { text: '' }
             return `| ${v.name} |${
@@ -106,23 +127,67 @@ const get = {
                   .map(arrs => `<br />${arrs.name}: ${arrs.text}`).join('')
               }` : ''} |` :''}`
           }),
-        ''].join('\n')
-      } else if (arr.length > 0) {
-        const callback = arr.find(e => e.name === ts.InternalSymbolName.Call)
+        ''])
+      }
+
+      return splicing([
+        `${'#'.repeat(level + 1)} ${param.name}`,
+        '',
+        get.document(param.documentation),
+        get.since(tags.find(tag => tag.name === 'since')),
+        get.type(param.type),
+        get.see(tags.find(tag => tag.name === 'see')),
+      ])
+    }), '']) : undefined
+  },
+  parameters: (data?: DocEntry[]) => {
+    const parameters = data && data.map(param => {
+      const paramExports = param.exports || []
+      const hasType = paramExports.some(v => !!v.type && v.type !== param.name)
+      const hasDef = paramExports.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
+      const hasDes = paramExports.some(v => !!v.documentation)
+      const paramLens = paramExports.reduce((s, v) => v.name !== ts.InternalSymbolName.Call && ++s, 0)
+
+      if (paramLens > 0) {
+        return splicing([
+          `### ${param.name}`, '',
+          `| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasDes? ' Description |' :''}`,
+          `| --- |${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasDes? ' --- |' :''}`,
+          ...paramExports.map(v => {
+            const vtags = v.jsTags || [];
+            const def = vtags.find(tag => tag.name === 'default') || { text: '' }
+
+            return `| ${v.name} |${
+              hasType? ` ${v.type ? `\`${v.type}\`` : ''} |` :''}${
+              hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''}${
+              hasDes? ` ${(v.documentation || '').split('\n').join('<br />')}${
+                vtags.length > 0 ? `${vtags
+                  .filter(arrs => !['default', 'supported'].includes(arrs.name))
+                  .map(arrs => `<br />${arrs.name}: ${arrs.text}`).join('')
+              }` : ''} |` :''}`
+          }),
+        ''])
+      } else {
+        const callback = paramExports.find(e => e.name === ts.InternalSymbolName.Call)
+        const documentation = callback && callback.documentation
+        const tags = callback && callback.jsTags || []
         const declarations = callback && callback.declarations || []
         const call_decla = declarations[0]
-        return call_decla && [
-          `### ${param.name}`, '',
-          '```tsx',
-          `(${(call_decla.parameters || [])
-            .map(call_params => `${call_params.name}: ${call_params.type}`)
-            .join(',')}) => ${call_decla.returnType}`,
-          '```',
+
+        return call_decla && splicing([
+          `### ${param.name}`,
           '',
-        ].join('\n') || undefined
+          get.document(documentation),
+          get.since(tags.find(tag => tag.name === 'since')),
+          get.type(param.type),
+          get.members(param.members, 3),
+          get.example(tags),
+          get.see(tags.find(tag => tag.name === 'see')),
+        ]) || undefined
       }
-      return undefined
-    }), ''].join('\n') : undefined
+    })
+
+    return parameters && parameters.filter(e => !!e).length > 0 ? splicing(['## 参数', '', ...parameters, '']) : undefined
   },
   example: (tags: ts.JSDocTagInfo[]) => {
     const array: string[] = []
@@ -140,7 +205,7 @@ const get = {
       }
     } while (exampleIdx > -1)
 
-    return array.length > 0 ? array.join('\n') : undefined
+    return array.length > 0 ? splicing(array) : undefined
   },
   api: (data: {[name: string]: ts.JSDocTagInfo[]}) => {
     const isSupported = Object.values(data).find(tags => tags.find(tag => tag.name === 'supported'))
@@ -158,11 +223,11 @@ const get = {
       }).join('')}`
     })
 
-    return isSupported ? [
+    return isSupported ? splicing([
       '## API 支持度', '', titles, splits, ...rows, ''
-    ].join('\n') : undefined // ['## API 支持度', '', '> 该 api 暂不支持', ''].join('\n')
+    ]) : undefined // splicing(['## API 支持度', '', '> 该 api 暂不支持', ''])
   },
-  see: (data?: ts.JSDocTagInfo) => data ? [`> [参考文档](${data.text || ''})`, ''].join('\n') : undefined
+  see: (data?: ts.JSDocTagInfo) => data ? splicing([`> [参考文档](${data.text || ''})`, '']) : undefined
 }
 
 export function writeDoc (routepath: string, doc: DocEntry[]) {
@@ -175,6 +240,8 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     const tags = e.jsTags || []
     const params = e.parameters || []
     const md: (string | undefined)[] = []
+
+    if (name === 'InterstitialAd') console.log(JSON.stringify(e))
     
     md.push(
       get.header({
@@ -183,21 +250,27 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
       }),
       get.document(e.documentation),
       get.since(tags.find(tag => tag.name === 'since')),
-      get.type(e.type),
+      get.type(e.type, true),
       get.parameters(e.exports),
+      get.members(e.members),
       get.example(tags),
       get.api({ [name]: tags }),
       get.see(tags.find(tag => tag.name === 'see')),
       // JSON.stringify(e, undefined, 2),
     )
+    name === 'InterstitialAd' && console.log(md)
 
     writeFile(
       path.resolve(_p.name === 'index' ? _p.dir : routepath, `${name}.md`),
-      md.filter(e => typeof e === 'string').join('\n'),
+      splicing(md),
     )
   })
 }
 
-// docsAPI('./types/api', './apis', ['./types/api/'], writeJson)
+// docsAPI('./types/api', './apis', ['./types/index.d.ts'], writeJson)
 // docsAPI('./types/api', './apis', ['./types/api/'], writeDoc)
 docsAPI('./types/api', '../../docs/apis', ['./types/api/'], writeDoc)
+
+function splicing (arr: (string | undefined)[] = []) {
+  return arr.filter(e => typeof e === 'string').join('\n')
+}

@@ -4,7 +4,7 @@ import * as ts from "typescript"
 import { generateDocumentation, DocEntry } from "./ast"
 import envMap from './taro-env'
   
-export default function compile (p: string, n: string, callback?: (routepath: string, doc: DocEntry[]) => void) {
+export default function compile (p: string, n: string, callback?: (docTree: { [path: string]: DocEntry[] }) => void) {
   const route = path.resolve(p, n)
   const stat = fs.statSync(route)
   if (stat.isDirectory()) {
@@ -18,7 +18,7 @@ export default function compile (p: string, n: string, callback?: (routepath: st
       target: ts.ScriptTarget.ES5,
       module: ts.ModuleKind.ESNext
     })
-    callback && callback(route, docTree)
+    callback && callback(docTree)
   }
 }
 
