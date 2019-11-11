@@ -58,7 +58,7 @@ function bindProperties (weappComponentConf, ComponentClass, isPage) {
       if (!this.$component || !this.$component.__isReady) return
 
       const nextProps = filterProps(ComponentClass.defaultProps, {}, this.$component.props, this.data.extraProps)
-      this.$component.props = nextProps
+      this.$component.nextProps = nextProps
       nextTick(() => {
         this.$component._unsafeCallUpdate = true
         updateComponent(this.$component)
