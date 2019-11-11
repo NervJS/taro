@@ -3,7 +3,7 @@
     src="{{src}}"
     alt="{{alt}}"
     id="{{id}}"
-    class="taro_image {{classname}}"
+    class="taro_image {{class}}"
     style="{{imageStyle}}"
     onclick="handleClick"
   >
@@ -23,7 +23,7 @@
         required: false,
         default: 'taro-img'
       },
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''
@@ -38,7 +38,7 @@
         required: false,
         default: {}
       },
-      model: {
+      mode: {
         type: String,
         required: false,
         default: 'scaleToFill'
@@ -52,7 +52,7 @@
 
     onInit () {
       let imageStyle = {}
-      switch (this.model) {
+      switch (this.mode) {
         case 'scaleToFill':
           this.imageStyle['object-fit'] = 'fill';
           break;
@@ -69,11 +69,11 @@
     },
 
     handleClick () {
-      this.$emit('click')
+      // this.$emit('click')
     },
 
     handleError () {
-      this.$emit('error')
+      // this.$emit('error')
     }
   }
 </script>

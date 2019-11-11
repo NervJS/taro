@@ -1,6 +1,6 @@
 <template>
     <web
-      class="{{classname}}"
+      class="{{class}}"
       style="{{customstyle}}"
       src="{{src}}"
       onclick="handleClick"
@@ -13,7 +13,7 @@
   <script>
     export default {
       props: {
-        classname: {
+        class: {
           type: String,
           required: false,
         },

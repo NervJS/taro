@@ -1,0 +1,195 @@
+<template>
+    <div class="audio {{class}}" id="{{id}}" style="{{customstyle}}">
+      <div class="audio_content">
+        <div
+          class="player_ontent"
+          onclick="playAudio"
+          show="{{controls}}"
+        >
+          <image class="audio_content_img" show="{{playerStatus}}" src="{{startImg}}"></image>
+          <image class="audio_content_img" show="{{!playerStatus}}" src="{{pauseImg}}"></image>
+        </div>
+        <text class="duration_content">{{spendTime}}/{{totalTime}}</text>
+        <slider
+          class="audio_slider"
+          min="0"
+          step="1"
+          max="{{duration}}"
+          value="{{currentTime}}"
+          @change="sliderChange"
+        >
+        </slider>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    import audio from '@system.audio'
+
+    import { PAUSE_IMG, START_IMG } from './img.js'
+
+    export default {
+      props: {
+        id: {
+          type: String,
+          required: false,
+          default: ''
+        },
+        class: {
+          type: String,
+          required: false,
+          default: ''
+        },
+        customstyle: {
+          type: Object,
+          required: false,
+          default: {}
+        },
+        src: {
+          type: String,
+          required: true,
+          default: ''
+        },
+        autoplay: {
+          type: Boolean,
+          required: false,
+          default: false
+        },
+        initialtime: {
+          type: Number,
+          required: false,
+          default: 0
+        },
+        controls: {
+          type: Boolean,
+          required: false,
+          default: true
+        },
+        loop: {
+          type: Boolean,
+          required: false,
+          default: false
+        },
+      },
+
+      data: () => ({
+        duration: 100,
+        spendTime: '00:00',
+        totalTime: '00:00',
+        currentTime: 0,
+        volume: 0,
+        playerStatus: true,
+        startImg: START_IMG,
+        pauseImg: PAUSE_IMG
+      }),
+
+      onInit () {
+        audio.src = this.src
+        audio.autoplay = this.autoplay
+        this.volume = parseInt(audio.volume * 10)
+        this.audioInit()
+      },
+      audioInit () {
+        audio.onloadeddata = () => {
+          this.duration = audio.duration
+          audio.currentTime = this.initialtime
+          this.totalTime = this.formatTime(audio.duration)
+        }
+        audio.ontimeupdate =  () => {
+          this.updateAudio()
+        }
+        audio.onpause = () => {
+          this.$emit('pause')
+        }
+        audio.onended = () => {
+          this.playerStatus = true
+          this.$emit('ended')
+        }
+        // 出错时触发
+        audio.onerror = () => {
+          console.info('error')
+          this.$emit('error')
+        }
+        audio.ondurationchange = () => {
+          console.info('change')
+          this.$emit('change')
+        }
+        // 播放时触发
+        audio.onplay = () => {
+          console.log('onplay')
+          this.playerStatus = false
+          this.$emit('play')
+        }
+        // 停止时触发
+        audio.onstop = () => {
+          console.log('onstop')
+          this.currentTime = 0
+          this.spendTime = '00:00'
+          this.playerStatus = true
+          this.$emit('stop')
+        }
+      },
+
+      playAudio () {
+        if (this.playerStatus) {
+          audio.play()
+        } else {
+          audio.pause()
+        }
+        this.playerStatus = !this.playerStatus
+      },
+
+      updateAudio () {
+        const time = audio.currentTime
+        this.currentTime = time
+        this.spendTime = this.formatTime(time)
+      },
+
+      sliderChange (e) {
+        const value = e.progress - audio.currentTime
+        if(value > 1 || value < -1) {
+          audio.currentTime = e.progress
+          this.playerStatus && audio.play()
+          this.playerStatus = false
+        }
+      },
+      formatTime (time) {
+        const s = parseInt(time)
+        if(!s) {return '00:00'}
+        const m = parseInt(s/60)
+        const se = s % 60
+        const min = m >= 10 ? m : '0' + m
+        const sec = se >= 10 ? se : '0' + se
+        return min + ':' + sec
+      }
+    }
+  </script>
+  <style>
+    .audio_content {
+      flex-direction: row;
+      background-color: #dddddd;
+      align-items: center;
+    }
+    .player_content {
+      height: 120px;
+      width: 100px;
+      justify-content: center;
+      align-items: center;
+    }
+    .audio_content_img {
+      height: 40px;
+      width: 40px;
+    }
+    .duration_content {
+      height: 120px;
+      text-align: center;
+      font-size: 25px;
+      width: 200px;
+      color: #000000;
+    }
+    .audio_slider {
+      color: #FFFFFF;
+      padding-left: 20px;
+      width: 100%;
+    }
+  </style>

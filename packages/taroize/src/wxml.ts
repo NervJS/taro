@@ -8,6 +8,7 @@ import { parseTemplate, parseModule } from './template'
 import { usedComponents, errors, globals, THIRD_PARTY_COMPONENTS } from './global'
 import { reserveKeyWords } from './constant'
 import { parse as parseFile } from 'babylon'
+import { getCacheWxml, saveCacheWxml } from './cache'
 const { prettyPrint } = require('html')
 
 const allCamelCase = (str: string) =>
@@ -68,6 +69,13 @@ export interface Imports {
   ast: t.File,
   name: string,
   wxs?: boolean
+}
+
+export interface Wxml {
+  wxses: WXS[]
+  wxml?: t.Node
+  imports: Imports[]
+  refIds: Set<string>
 }
 
 const WX_IF = 'wx:if'
@@ -293,16 +301,16 @@ export const createWxmlVistor = (
   } as Visitor
 }
 
-export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): {
-  wxses: WXS[]
-  wxml?: t.Node
-  imports: Imports[]
-  refIds: Set<string>
-} {
+export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): Wxml {
+  let parseResult = getCacheWxml(dirPath)
+  if (parseResult) {
+    return parseResult
+  }
   try {
     wxml = prettyPrint(wxml, {
       max_char: 0,
-      unformatted: ['text']
+      indent_char: 0,
+      unformatted: ['text', 'wxs']
     })
   } catch (error) {
     //
@@ -343,13 +351,14 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       refIds.delete(id)
     }
   })
-
-  return {
+  parseResult = {
     wxses,
     imports,
     wxml: hydrate(ast),
     refIds
   }
+  saveCacheWxml(dirPath, parseResult)
+  return parseResult
 }
 
 function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports: Imports[]): WXS {
@@ -555,24 +564,29 @@ function handleConditions (conditions: Condition[]) {
     const lastLength = conditions.length - 1
     const lastCon = conditions[lastLength]
     let lastAlternate: t.Expression = cloneDeep(lastCon.path.node)
-    if (lastCon.condition === WX_ELSE_IF) {
-      lastAlternate = t.logicalExpression(
-        '&&',
-        lastCon.tester.expression,
-        lastAlternate
-      )
-    }
-    const node = conditions
-      .slice(0, lastLength)
-      .reduceRight((acc: t.Expression, condition) => {
-        return t.conditionalExpression(
-          condition.tester.expression,
-          cloneDeep(condition.path.node),
-          acc
+    try {
+      if (lastCon.condition === WX_ELSE_IF) {
+        lastAlternate = t.logicalExpression(
+          '&&',
+          lastCon.tester.expression,
+          lastAlternate
         )
-      }, lastAlternate)
-    conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
-    conditions.slice(1).forEach(c => c.path.remove())
+      }
+      const node = conditions
+        .slice(0, lastLength)
+        .reduceRight((acc: t.Expression, condition) => {
+          return t.conditionalExpression(
+            condition.tester.expression,
+            cloneDeep(condition.path.node),
+            acc
+          )
+        }, lastAlternate)
+      conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
+      conditions.slice(1).forEach(c => c.path.remove())
+    } catch(error) {
+      // tslint:disable-next-line
+      console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
+    }
   }
 }
 

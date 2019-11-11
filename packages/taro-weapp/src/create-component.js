@@ -37,8 +37,17 @@ function bindProperties (weappComponentConf, ComponentClass, isPage) {
   weappComponentConf.properties.compid = {
     type: null,
     value: null,
-    observer () {
+    observer (newVal, oldVal) {
       initComponent.apply(this, [ComponentClass, isPage])
+      if (oldVal) {
+        const { extraProps } = this.data
+        const component = this.$component
+        propsManager.observers[newVal] = {
+          component,
+          ComponentClass: component.constructor
+        }
+        component.props = filterProps(component.constructor.defaultProps, propsManager.map[newVal], component.props, extraProps || null)
+      }
     }
   }
   weappComponentConf.properties.extraProps = {

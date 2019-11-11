@@ -39,7 +39,8 @@ import {
   traverseObjectNode,
   isQuickappPkg,
   getBabelConfig,
-  extnameExpRegOf
+  extnameExpRegOf,
+  generateAlipayPath
 } from '../util'
 import {
   convertObjectToAstExpression,
@@ -48,6 +49,7 @@ import {
 } from '../util/astConvert'
 import babylonConfig from '../config/babylon'
 import { getExactedNpmFilePath, getNotExistNpmList } from '../util/npmExact'
+import { excludeReplaceTaroFrameworkPkgs } from '../util/resolve_npm_files'
 
 import { IComponentObj } from './interface'
 import {
@@ -103,7 +105,8 @@ function analyzeImportUrl ({
     sourceDir,
     outputDir,
     npmConfig,
-    projectConfig
+    projectConfig,
+    buildAdapter
   } = getBuildData()
   const publicPath = (projectConfig.weapp || ({} as any)).publicPath
   if (value.indexOf('.') === 0) {
@@ -190,6 +193,9 @@ function analyzeImportUrl ({
           outputVpath = vpath.replace(nodeModulesPath, npmOutputDir)
         } else {
           outputVpath = vpath.replace(sourceDir, outputDir)
+        }
+        if (buildAdapter === BUILD_TYPES.ALIPAY) {
+          outputVpath = generateAlipayPath(outputVpath)
         }
         let relativePath = path.relative(filePath, outputVpath)
         if (vpath && vpath !== sourceFilePath) {
@@ -461,9 +467,6 @@ export function parseAst (
               }
             })
           }
-          if (type === PARSE_AST_TYPE.PAGE) {
-            taroSelfComponents.add('taro-page')
-          }
           astPath.remove()
         } else {
           let isDepComponent = false
@@ -488,7 +491,10 @@ export function parseAst (
               if (defaultSpecifier) {
                 taroImportDefaultName = defaultSpecifier
               }
-              value = taroMiniAppFramework
+              excludeReplaceTaroFrameworkPkgs.add(taroMiniAppFramework)
+              if (!Array.from(excludeReplaceTaroFrameworkPkgs).some(item => sourceFilePath.replace(/\\/g, '/').indexOf(item) >= 0)) {
+                value = taroMiniAppFramework
+              }
             } else if (value === taroJsRedux) {
               specifiers.forEach(item => {
                 if (item.type === 'ImportSpecifier') {
@@ -590,7 +596,10 @@ export function parseAst (
                   const id = parentNode.declarations[0].id
                   if (value === taroJsFramework && id.type === 'Identifier') {
                     taroImportDefaultName = id.name
-                    value = taroMiniAppFramework
+                    excludeReplaceTaroFrameworkPkgs.add(taroMiniAppFramework)
+                    if (!Array.from(excludeReplaceTaroFrameworkPkgs).some(item => sourceFilePath.replace(/\\/g, '/').indexOf(item) >= 0)) {
+                      value = taroMiniAppFramework
+                    }
                   } else if (value === taroJsRedux) {
                     const declarations = parentNode.declarations
                     declarations.forEach(item => {
@@ -976,6 +985,11 @@ export function parseAst (
       }
     }
   })
+
+  if (isQuickApp && type === PARSE_AST_TYPE.PAGE) {
+    taroSelfComponents.add('taro-page')
+  }
+
   return {
     code: generate(ast).code,
     styleFiles,

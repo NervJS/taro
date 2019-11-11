@@ -3,7 +3,6 @@ import { useState } from '@tarojs/taro-h5'
 import {
   PropTypes,
   onError,
-  observer,
   isUsingStaticRendering,
   useStaticRendering,
   useLocalStore as originUseLocalStore,
@@ -12,6 +11,7 @@ import {
 
 import Provider from './Provider'
 import { inject } from './inject'
+import { observer } from './observer'
 
 function useLocalStore (initializer, current) {
   return originUseLocalStore(initializer, current, useState)

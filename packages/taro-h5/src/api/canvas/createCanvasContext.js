@@ -162,35 +162,35 @@ const createCanvasContext = (canvasId, componentInstance) => {
   ]
 
   const functionProperties = [
-    'arc',
-    'arcTo',
-    'beginPath',
-    'bezierCurveTo',
-    'clearRect',
-    'clip',
-    'closePath',
-    'createCircularGradient',
-    'createLinearGradient',
-    'createPattern',
-    'drawImage',
-    'fill',
-    'fillRect',
-    'fillText',
-    'lineTo',
-    'measureText',
-    'moveTo',
-    'quadraticCurveTo',
-    'rect',
-    'restore',
-    'rotate',
-    'save',
-    'scale',
-    'setTransform',
-    'stroke',
-    'strokeRect',
-    'strokeText',
-    'transform',
-    'translate'
+    ['arc'],
+    ['arcTo'],
+    ['beginPath'],
+    ['bezierCurveTo'],
+    ['clearRect'],
+    ['clip'],
+    ['closePath'],
+    ['createCircularGradient'],
+    ['createLinearGradient'],
+    ['createPattern'],
+    ['drawImage'],
+    ['fill'],
+    ['fillRect'],
+    ['fillText'],
+    ['lineTo'],
+    ['measureText', true],
+    ['moveTo'],
+    ['quadraticCurveTo'],
+    ['rect'],
+    ['restore'],
+    ['rotate'],
+    ['save'],
+    ['scale'],
+    ['setTransform'],
+    ['stroke'],
+    ['strokeRect'],
+    ['strokeText'],
+    ['transform'],
+    ['translate']
   ]
 
   const valueProperties = [
@@ -227,11 +227,11 @@ const createCanvasContext = (canvasId, componentInstance) => {
     })
   })
 
-  functionProperties.forEach(funcName => {
+  functionProperties.forEach(([funcName, isSync]) => {
     Object.defineProperty(CanvasContext, funcName, {
-      get () {
-        return enqueueActions(ctx[funcName])
-      },
+      get: isSync
+        ? () => ctx[funcName].bind(ctx)
+        : () => enqueueActions(ctx[funcName]),
       enumerable: true
     })
   })

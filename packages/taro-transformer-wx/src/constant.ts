@@ -84,6 +84,8 @@ export let LOOP_STATE = '$loopState'
 
 export const setLoopState = (s: string) => LOOP_STATE = s
 
+export let PREV_COMPID = '$prevCompid'
+
 export let COMPID = '$compid'
 
 export const setCompId = (s: string) => COMPID = s
@@ -152,6 +154,7 @@ export const setFnPrefix = (s: string) => FN_PREFIX = s
 
 export const quickappComponentName = new Set([
   'Swiper',
+  'Audio',
   'Image',
   'Progress',
   // 'Text',

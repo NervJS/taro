@@ -6,7 +6,7 @@ title: 安装及使用
 
 Taro 项目基于 node，请确保已具备较新的 node 环境（>=8.0.0），推荐使用 node 版本管理工具 [nvm](https://github.com/creationix/nvm) 来管理 node，这样不仅可以很方便地切换 node 版本，而且全局安装时候也不用加 sudo 了。
 
-### cli 工具安装
+### CLI 工具安装
 
 首先，你需要使用 npm 或者 yarn 全局安装`@tarojs/cli`，或者直接使用[npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b):
 
@@ -18,20 +18,6 @@ $ yarn global add @tarojs/cli
 # OR 安装了 cnpm，使用 cnpm 安装 CLI
 $ cnpm install -g @tarojs/cli
 ```
-
-## 回到某个版本
-
-需要安装某个固定版本，或者回到某个版本，例如我们要安装 `1.3.9` ， 则如下：
-
-```bash
-# 使用 npm 安装 CLI
-$ npm install -g @tarojs/cli@1.3.9
-# OR 使用 yarn 安装 CLI
-$ yarn global add @tarojs/cli@1.3.9
-# OR 安装了 cnpm，使用 cnpm 安装 CLI
-$ cnpm install -g @tarojs/cli@1.3.9
-```
-
 ### 注意事项
 
 值得一提的是，如果安装过程出现`sass`相关的安装错误，请在安装[`mirror-config-china`](https://www.npmjs.com/package/mirror-config-china)后重试。
@@ -40,7 +26,7 @@ $ cnpm install -g @tarojs/cli@1.3.9
 $ npm install -g mirror-config-china
 ```
 
-## 使用
+## 项目初始化
 
 使用命令创建模板项目
 
@@ -69,14 +55,10 @@ $ npm install
 
 进入项目目录开始开发，目前已经支持 微信/百度/支付宝/字节跳动/QQ 小程序、H5、快应用以及 ReactNative 等端的代码转换，针对不同端的启动以及预览、打包方式并不一致
 
+## 运行
+Taro 需要运行不同的命令，将 Taro 代码编译成不同端的代码，然后在对应的开发工具中查看效果。
 
-### 注意事项
-
-值得一提再提的是，如果安装过程出现`sass`相关的安装错误，请在安装[`mirror-config-china`](https://www.npmjs.com/package/mirror-config-china)后重试。
-
-```bash
-$ npm install -g mirror-config-china
-```
+![image](https://storage.360buyimg.com/taro-resource/platforms.jpg)
 
 ### 微信小程序
 
@@ -161,6 +143,7 @@ $ taro build --type tt
 $ npx taro build --type tt --watch
 $ npx taro build --type tt
 ```
+
 ### QQ 小程序
 
 选择 QQ 小程序模式，需要自行下载并打开[QQ 小程序开发者工具](https://q.qq.com/wiki/#_4-%E7%BC%96%E7%A0%81%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F)，然后在项目编译完后选择项目根目录下 `dist` 目录进行预览。
@@ -181,6 +164,7 @@ $ taro build --type qq
 $ npx taro build --type qq --watch
 $ npx taro build --type qq
 ```
+
 ### 快应用
 
 选择快应用模式，需要自行下载并打开[快应用开发者工具](https://www.quickapp.cn/docCenter/IDEPublicity)，然后在项目编译完后，在开发者工具中选择「打开文件夹」选择项目根目录下 `dist` 目录，点击左边的预览图标（那个眼睛图标）进行预览。
@@ -201,10 +185,10 @@ $ taro build --type quickapp
 $ npx taro build --type quickapp --watch
 $ npx taro build --type quickapp
 ```
+
 [快应用开发者工具如何使用？点击了解](https://doc.quickapp.cn/tutorial/ide/overview.html)
 
 [快应用端开发流程](https://taro-docs.jd.com/taro/docs/quick-app.html)
-
 
 ### H5
 
@@ -238,7 +222,7 @@ $ npx taro build --type h5
 
 ### React Native
 
-React Native 端运行需执行如下命令，React Native 端相关的运行说明请参见 [React Native 教程](https://nervjs.github.io/taro/docs/react-native.html)
+React Native 端运行需执行如下命令，React Native 端相关的运行说明请参见 [React Native 教程](./react-native.html)
 
 ```bash
 # yarn
@@ -250,15 +234,16 @@ $ taro build --type rn --watch
 # npx 用户也可以使用
 $ npx taro build --type rn --watch
 ```
-> Note：React Native 端和其他端样式兼容性差异较大，如果需要兼容 React Native 端，建议 React Native 端和其他端同步开发。 
+
+> Note：React Native 端和其他端样式兼容性差异较大，如果需要兼容 React Native 端，建议 React Native 端和其他端同步开发。
 
 > Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器，且不
-支持 **组合器** [Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
+> 支持 **组合器** [Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
 
 以下选择器的写法都是不支持的，在样式转换时会自动忽略。
 
 ```css
-.button.button_theme_islands{
+.button.button_theme_islands {
   font-style: bold;
 }
 
@@ -274,8 +259,9 @@ div > span {
   background-color: DodgerBlue;
 }
 
-div span { background-color: DodgerBlue; }
-
+div span {
+  background-color: DodgerBlue;
+}
 ```
 
 样式上 H5 最为灵活，小程序次之，RN 最弱，统一多端样式即是对齐短板，也就是要以 RN 的约束来管理样式，同时兼顾小程序的限制，核心可以用三点来概括：
@@ -286,7 +272,15 @@ div span { background-color: DodgerBlue; }
 
 RN 中 View 标签默认主轴方向是 column，如果不将其他端改成与 RN 一致，就需要在所有用到 display: flex 的地方都显式声明主轴方向。
 
-## 更新
+## 常用 CLI 命令
+
+### 查看 Taro 所有命令及帮助
+
+```bash
+$ taro --help
+```
+
+### 更新
 
 Taro 提供了更新命令来更新 CLI 工具自身和项目中 Taro 相关的依赖
 
@@ -307,7 +301,10 @@ yarn global add @tarojs/cli@latest
 $ taro update project
 ```
 
-## 环境及依赖检测
+如命令更新失败，需要在 package.json 文件手动更新依赖版本，然后重新安装依赖。
+
+### 环境及依赖检测
+
 Taro 提供了命令来一键检测 Taro 环境及依赖的版本等信息，方便大家查看项目的环境及依赖，排查环境问题。在提 issue 的时候，请附上 `taro info` 打印的信息，帮助开发人员快速定位问题。
 
 ```bash
@@ -341,7 +338,7 @@ $ taro info
       eslint-plugin-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
 ```
 
-## Taro Doctor
+### Taro Doctor
 
 Taro Doctor 就像一个医生一样，可以诊断项目的依赖、设置、结构，以及代码的规范是否存在问题，并尝试给出解决方案。
 
@@ -349,7 +346,11 @@ Taro Doctor 就像一个医生一样，可以诊断项目的依赖、设置、�
 
 ![Taro Doctor 诊断结果图](https://img10.360buyimg.com/ling/jfs/t1/46613/36/5573/202581/5d357d14E6f0df7e1/fc026be7dc69dcf2.png)
 
-## CLI 配置
+### 快速创建新页面
+
+Taro create --name [页面名称] 能够在当前项目的pages目录下快速生成新的页面文件，并填充基础代码，是一个提高开发效率的利器。
+
+### CLI 配置
 
 > 自 `1.3.9` 开始支持
 
@@ -367,5 +368,26 @@ $ taro config get <key>
 # 删除配置项<key>
 $ taro config delete <key>
 # 打印所有配置项
-$ taro config list [--json] 
+$ taro config list [--json]
 ```
+
+## 其他常见问题
+
+### 回到某个版本
+
+需要安装某个固定版本，或者回到某个版本，例如我们要安装 `1.3.9` ， 则如下：
+
+```bash
+# 使用 npm 安装 CLI
+$ npm install -g @tarojs/cli@1.3.9
+# OR 使用 yarn 安装 CLI
+$ yarn global add @tarojs/cli@1.3.9
+# OR 安装了 cnpm，使用 cnpm 安装 CLI
+$ cnpm install -g @tarojs/cli@1.3.9
+```
+
+### 保持 `@tarojs/cli` 的版本与各端依赖版本一致
+
+在使用 Taro 进行多端开发中，请保持 Taro CLI 的版本与你项目的依赖版本一致，否则可能会出现编译错误或者运行时错误。
+
+如果你所使用的 Taro CLI 版本为 1.3.9，而项目里使用的依赖版本为 1.3.20，则有可能会出现问题，这时请将你的 Taro CLI 版本更新至项目依赖版本号相同的版本，如果还是出现问题，请向我们提出 [Issue](https://github.com/NervJS/taro/issues/new?assignees=&labels=&template=bug_report.md&title=)。

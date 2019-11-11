@@ -1,10 +1,10 @@
-import { Component } from '@tarojs/taro-h5'
+import Taro from '@tarojs/taro-h5'
 import classNames from 'classnames'
 import Nerv from 'nervjs'
 
 const noop = () => {}
 
-export default class Tabbar extends Component {
+export default class Tabbar extends Taro.Component {
   static defaultProps = {
     index: null,
     isSelected: false,

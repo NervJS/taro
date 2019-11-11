@@ -37,15 +37,22 @@ export function useState (initialState) {
 
 function usePageLifecycle (callback, lifecycle) {
   const hook = getHooks(Current.index++)
-  hook.component = Current.current
+
   if (!hook.marked) {
     hook.marked = true
+    hook.component = Current.current
+    hook.callback = callback
+
     const component = hook.component
     const originalLifecycle = component[lifecycle]
+
     hook.component[lifecycle] = function () {
+      const callback = hook.callback
       originalLifecycle && originalLifecycle.call(component, ...arguments)
-      callback && callback.call(component, ...arguments)
+      return callback && callback.call(component, ...arguments)
     }
+  } else {
+    hook.callback = callback
   }
 }
 
@@ -88,6 +95,15 @@ export function useRouter () {
     hook.router = hook.component.$router
   }
   return hook.router
+}
+
+export function useScope () {
+  const hook = getHooks(Current.index++)
+  if (!hook.scope) {
+    hook.component = Current.current
+    hook.scope = hook.component.$scope
+  }
+  return hook.scope
 }
 
 export function useReducer (

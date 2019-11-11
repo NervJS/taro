@@ -44,6 +44,7 @@ import {
   MAP_CALL_ITERATOR,
   LOOP_STATE,
   LOOP_CALLEE,
+  PREV_COMPID,
   COMPID,
   THIRD_PARTY_COMPONENTS,
   LOOP_ORIGINAL,
@@ -54,7 +55,8 @@ import {
   ALIPAY_BUBBLE_EVENTS,
   FN_PREFIX,
   CLASS_COMPONENT_UID,
-  IS_TARO_READY
+  IS_TARO_READY,
+  DEFAULT_Component_SET_COPY
 } from './constant'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { transformOptions, buildBabelTransformOptions } from './options'
@@ -152,6 +154,7 @@ export class RenderParser {
   private usedState: Set<string>
   private componentProperies: Set<string>
   private loopRefs: Map<t.JSXElement, LoopRef>
+  private refObjExpr: t.ObjectExpression[]
   private upperCaseComponentProps: Set<string>
 
   private finalReturnElement!: t.JSXElement
@@ -976,10 +979,10 @@ export class RenderParser {
 
   isEmptyBlock = ((block: t.JSXElement) => block.children.length === 0 && block.openingElement.attributes.length === 0)
 
-  private genPropsSettingExpression (properties: Array<t.ObjectProperty | t.SpreadProperty> | t.Identifier, id: t.StringLiteral | t.Identifier): t.Expression {
+  private genPropsSettingExpression (properties: Array<t.ObjectProperty | t.SpreadProperty> | t.Identifier, id: t.StringLiteral | t.Identifier, previd: t.Identifier): t.Expression {
     return t.callExpression(
       t.memberExpression(t.identifier(PROPS_MANAGER), t.identifier('set')),
-      [Array.isArray(properties) ? t.objectExpression(properties) : properties, id]
+      [Array.isArray(properties) ? t.objectExpression(properties) : properties, id, previd]
     )
   }
 
@@ -1023,6 +1026,13 @@ export class RenderParser {
 
   private propsDecls = new Map<string, NodePath<t.VariableDeclaration>>()
 
+  private isInternalComponent = (element: t.JSXOpeningElement) => {
+    return t.isJSXIdentifier(element.name) &&
+    !DEFAULT_Component_SET.has(element.name.name) &&
+    !DEFAULT_Component_SET_COPY.has(element.name.name) &&
+    /[A-Z]/.test(element.name.name.charAt(0))
+  }
+
   private addIdToElement (jsxElementPath: NodePath<t.JSXElement>) {
     const openingElement = jsxElementPath.node.openingElement
     if (openingElement.attributes.find(attr => {
@@ -1030,35 +1040,35 @@ export class RenderParser {
     })) {
       return
     }
-
-    if (
-      t.isJSXIdentifier(openingElement.name) &&
-      !DEFAULT_Component_SET.has(openingElement.name.name) &&
-      /[A-Z]/.test(openingElement.name.name.charAt(0))
-    ) {
+    if (this.isInternalComponent(openingElement)) {
       if (this.isEmptyProps(openingElement.attributes)) {
         return
       }
       const compId = genCompid()
+      const prevName = `${PREV_COMPID}__${compId}`
       const name = `${COMPID}__${compId}`
       const variableName = t.identifier(name)
       this.referencedIdentifiers.add(variableName)
-      const idExpr = buildConstVariableDeclaration(name,
-        t.callExpression(t.identifier(GEN_COMP_ID), [
-          t.binaryExpression(
-            '+',
-            this.prefixExpr(),
-            t.stringLiteral(name)
-          )
-        ])
-      )
+      const idExpr = t.variableDeclaration('const', [
+        t.variableDeclarator(
+          t.arrayPattern([t.identifier(prevName), variableName]),
+          t.callExpression(t.identifier(GEN_COMP_ID), [
+            t.binaryExpression(
+              '+',
+              this.prefixExpr(),
+              t.stringLiteral(name)
+            )
+          ])
+        )
+      ])
+
       // createData 中设置 props
       const properties = this.getPropsFromAttrs(openingElement)
       const propsId = `$props__${compId}`
       const collectedProps = buildConstVariableDeclaration(propsId, t.objectExpression(properties))
       const result = jsxElementPath.getStatementParent().insertBefore(collectedProps)
       this.propsDecls.set(propsId, result[0])
-      const propsSettingExpr = this.genPropsSettingExpression(t.identifier(propsId), variableName)
+      const propsSettingExpr = this.genPropsSettingExpression(t.identifier(propsId), variableName, t.identifier(prevName))
       this.genCompidExprs.add(idExpr)
       const expr = setAncestorCondition(jsxElementPath, propsSettingExpr)
       this.ancestorConditions.add(expr)
@@ -1595,6 +1605,7 @@ export class RenderParser {
     customComponentNames: Set<string>,
     componentProperies: Set<string>,
     loopRefs: Map<t.JSXElement, LoopRef>,
+    refObjExpr: t.ObjectExpression[],
     methodName: string
   ) {
     this.renderPath = renderPath
@@ -1605,6 +1616,7 @@ export class RenderParser {
     this.customComponentNames = customComponentNames
     this.componentProperies = componentProperies
     this.loopRefs = loopRefs
+    this.refObjExpr = refObjExpr
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
     this.isDefaultRender = methodName === 'render'
@@ -1853,17 +1865,15 @@ export class RenderParser {
           },
           JSXElement: path => {
             const element = path.node.openingElement
-            if (
-              t.isJSXIdentifier(element.name) &&
-              !DEFAULT_Component_SET.has(element.name.name) &&
-              /[A-Z]/.test(element.name.name.charAt(0))
-            ) {
+            if (this.isInternalComponent(element)) {
               if (this.isEmptyProps(element.attributes)) {
                 return
               }
 
               // createData 函数里加入 compid 相关逻辑
-              const variableName = `${COMPID}__${genCompid()}`
+              const compid = genCompid()
+              const prevVariableName = `${PREV_COMPID}__${compid}`
+              const variableName = `${COMPID}__${compid}`
               const tpmlExprs: t.Expression[] = []
               for (let index = 0; index < loopIndices.length; index++) {
                 const element = loopIndices[index]
@@ -1872,23 +1882,28 @@ export class RenderParser {
                   tpmlExprs.push(t.stringLiteral('-'))
                 }
               }
-              const compidTempDecl = buildConstVariableDeclaration(variableName, t.callExpression(
-                t.identifier(GEN_COMP_ID),
-                [t.templateLiteral(
-                  [
-                    t.templateElement({ raw: '' }),
-                    t.templateElement({ raw: createRandomLetters(10) }),
-                    ...tpmlExprs.map(() => t.templateElement({ raw: '' }))
-                  ],
-                  [
-                    this.prefixExpr(),
-                    ...tpmlExprs
-                  ]
-                )]
-              ))
+              const compidTempDecl = t.variableDeclaration('const', [
+                t.variableDeclarator(
+                  t.arrayPattern([t.identifier(prevVariableName), t.identifier(variableName)]),
+                  t.callExpression(
+                    t.identifier(GEN_COMP_ID),
+                    [t.templateLiteral(
+                      [
+                        t.templateElement({ raw: '' }),
+                        t.templateElement({ raw: createRandomLetters(10) }),
+                        ...tpmlExprs.map(() => t.templateElement({ raw: '' }))
+                      ],
+                      [
+                        this.prefixExpr(),
+                        ...tpmlExprs
+                      ]
+                    ), t.booleanLiteral(true)]
+                  )
+                )
+              ])
 
               const properties = this.getPropsFromAttrs(element)
-              const propsSettingExpr = this.genPropsSettingExpression(properties, t.identifier(variableName))
+              const propsSettingExpr = this.genPropsSettingExpression(properties, t.identifier(variableName), t.identifier(prevVariableName))
               const expr = setAncestorCondition(path, propsSettingExpr)
               this.ancestorConditions.add(expr)
 
@@ -1951,6 +1966,20 @@ export class RenderParser {
                     stateToBeAssign.add(name)
                     dcl.id = t.identifier(name)
                   }
+                } else if (t.isArrayPattern(dcl.id)) {
+                  dcl.id.elements.forEach(stm => {
+                    if (t.isIdentifier(stm)) {
+                      const name = stm.name
+                      if (
+                        name.startsWith(LOOP_STATE) ||
+                        name.startsWith(LOOP_CALLEE) ||
+                        name.startsWith(COMPID) ||
+                        name.startsWith('_$indexKey')
+                      ) {
+                        stateToBeAssign.add(name)
+                      }
+                    }
+                  })
                 }
               }
             }
@@ -2402,6 +2431,14 @@ export class RenderParser {
     })
     this.renderPath.node.body.body.unshift(...Array.from(this.genCompidExprs))
     if (this.isDefaultRender) {
+      if (this.refObjExpr && this.refObjExpr.length) {
+        this.renderPath.node.body.body.push(t.expressionStatement(
+          t.callExpression(
+            t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('$$refs')), t.identifier('pushRefs')),
+            [t.arrayExpression(this.refObjExpr)]
+          )
+        ))
+      }
       this.renderPath.node.body.body = this.renderPath.node.body.body.concat(
         // ...propsStatement,
         buildAssignState(pendingState),

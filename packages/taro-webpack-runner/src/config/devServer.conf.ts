@@ -1,10 +1,12 @@
-export default {
+import WebpackDevServer = require('webpack-dev-server')
+
+const devServerConf: WebpackDevServer.Configuration = {
   compress: true,
   disableHostCheck: true,
   historyApiFallback: {
     disableDotRule: true
   },
-  host: '127.0.0.1',
+  host: '0.0.0.0',
   hot: true,
   https: false,
   inline: true,
@@ -12,6 +14,8 @@ export default {
   overlay: true,
   port: 10086,
   quiet: true,
-  watchContentBase: true
-  // watchOptions: { ignored: /node_modules/ }
+  watchContentBase: true,
+  writeToDisk: false
 }
+
+export default devServerConf

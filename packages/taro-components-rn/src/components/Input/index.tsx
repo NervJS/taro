@@ -65,7 +65,7 @@ class _Input extends React.Component<InputProps, InputState> {
 
   static getDerivedStateFromProps (props: InputProps, state: InputState) {
     return props.value !== state.value ? {
-      value: props.value
+      returnValue: props.value
     } : null
   }
 
@@ -83,7 +83,7 @@ class _Input extends React.Component<InputProps, InputState> {
     const onEvent = onInput || onChange
     this.tmpValue = text || ''
     if (onEvent) {
-      const result = onEvent({
+      const result: unknown = onEvent({
         target: { value: text },
         detail: { value: text }
       })

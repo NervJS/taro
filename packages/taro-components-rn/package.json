@@ -1,12 +1,12 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "1.3.14",
+  "version": "1.3.22",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "rm -rf ./dist && gulp",
+    "build": "rimraf -rf ./dist && gulp",
     "build:static": "rsync -avr --exclude=*.ts ./src/assets ./dist",
-    "buildv2": "rm -rf ./dist && npm run build:static && tsc",
+    "buildv2": "rimraf -rf ./dist && npm run build:static && tsc",
     "dev": "npm run build:static && tsc --watch",
     "lint": "eslint .",
     "prepare": "npm run build",

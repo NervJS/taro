@@ -1,14 +1,16 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
+import { Transform } from 'stream'
 import * as crypto from 'crypto'
 import * as os from 'os'
 import * as child_process from 'child_process'
+
 import chalk from 'chalk'
 import { mergeWith, isPlainObject, camelCase, flatMap } from 'lodash'
 import * as minimatch from 'minimatch'
 import * as t from 'babel-types'
 import * as yauzl from 'yauzl'
-import { Transform } from 'stream'
+import * as findWorkspaceRoot from 'find-yarn-workspace-root'
 
 import defaultBabelConfig from '../config/babel'
 import defaultUglifyConfig from '../config/uglify'
@@ -23,7 +25,8 @@ import {
   MINI_APP_FILES,
   BUILD_TYPES,
   CONFIG_MAP,
-  REG_STYLE
+  REG_STYLE,
+  UX_EXT
 } from './constants'
 import { ICopyArgOptions, ICopyOptions, TogglableOptions } from './types'
 import { callPluginSync } from './npm'
@@ -196,6 +199,74 @@ export function resolveScriptPath (p: string): string {
     }
   }
   return realPath
+}
+
+export function resolvePureScriptPath (p: string): string {
+  const realPath = p
+  const SCRIPT_EXT = JS_EXT.concat(TS_EXT)
+  for (let i = 0; i < SCRIPT_EXT.length; i++) {
+    const item = SCRIPT_EXT[i]
+    if (fs.existsSync(`${p}${item}`)) {
+      return `${p}${item}`
+    }
+    if (fs.existsSync(`${p}${path.sep}index${item}`)) {
+      return `${p}${path.sep}index${item}`
+    }
+  }
+  return realPath
+}
+
+export function resolveQuickappFilePath (p: string): string {
+  for (let i = 0; i < UX_EXT.length; i++) {
+    const item = UX_EXT[i]
+    if (fs.existsSync(`${p}${item}`)) {
+      return `${p}${item}`
+    }
+    if (fs.existsSync(`${p}${path.sep}index${item}`)) {
+      return `${p}${path.sep}index${item}`
+    }
+  }
+  return p
+}
+
+export function processUxContent (contents, cb) {
+  const reg = /(<script(?:(?=\s)[\s\S]*?["'\s\w\/\-]>|>))([\s\S]*?)(?=<\/script\s*>|$)|(<style(?:(?=\s)[\s\S]*?["'\s\w\/\-]>|>))([\s\S]*?)(?=<\/style\s*>|$)|<(image)\s+[\s\S]*?["'\s\w\/\-](?:>|$)|(<import(?:(?=\s)[\s\S]*?["'\s\w\/\-]>|>))([\s\S]*?)(?=<\/import\s*>|$)/ig;
+  contents = contents.replace(reg, function (m, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10) {
+    if ($1) {
+      $1 = $1.replace(/(\ssrc\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
+        if (typeof cb === 'function') {
+          value = cb(value)
+        }
+        return prefix + value
+      })
+      m = $1 + $2
+    } else if ($3) {
+      $3 = $3.replace(/(\ssrc\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
+        if (typeof cb === 'function') {
+          value = cb(value)
+        }
+        return prefix + value
+      })
+      m = $3 + $4
+    } else if ($5) {
+      m = m.replace(/(src\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
+        if (typeof cb === 'function') {
+          value = cb(value)
+        }
+        return prefix + value
+      })
+    } else if ($6) {
+      $6 = $6.replace(/(\ssrc\s*=\s*)('[^']+'|"[^"]+"|[^\s\/>]+)/ig, function (m, prefix, value) {
+        if (typeof cb === 'function') {
+          value = cb(value)
+        }
+        return prefix + value
+      })
+      m = $6 + $7
+    }
+    return m
+  })
+  return contents
 }
 
 export function resolveStylePath (p: string): string {
@@ -378,7 +449,8 @@ export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = 
 
 export function recursiveFindNodeModules (filePath: string): string {
   const dirname = path.dirname(filePath)
-  const nodeModules = path.join(dirname, 'node_modules')
+  const workspaceRoot = findWorkspaceRoot(dirname)
+  const nodeModules = path.join(workspaceRoot || dirname, 'node_modules')
   if (fs.existsSync(nodeModules)) {
     return nodeModules
   }
@@ -721,7 +793,7 @@ export function getUserHomeDir (): string {
 export type TemplateSourceType = 'git' | 'url'
 
 export function getTemplateSourceType (url: string): TemplateSourceType {
-  if (/^github:/.test(url) || /^gitlab:/.test(url)) {
+  if (/^github:/.test(url) || /^gitlab:/.test(url) || /^direct:/.test(url)) {
     return 'git'
   } else {
     return 'url'
@@ -749,4 +821,8 @@ export function readDirWithFileTypes (floder: string): FileStat[] {
 
 export function extnameExpRegOf (filePath: string): RegExp {
   return new RegExp(`${path.extname(filePath)}$`)
+}
+
+export function generateAlipayPath (filePath) {
+  return filePath.replace(/@/g, '_')
 }

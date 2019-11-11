@@ -2,7 +2,7 @@
 title: React Native 端开发流程
 ---
 
-> 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](https://nervjs.github.io/taro/docs/before-dev-remind.html)
+> 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](./before-dev-remind.html)
 > 
 > 适配 RN 端可参考项目：[首个 Taro 多端统一实例 - 网易严选（小程序 + H5 + React Native） - By 趣店 FED](https://github.com/js-newbee/taro-yanxuan)
 
@@ -334,7 +334,7 @@ iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run �
 
 ![image](https://developer.apple.com/library/archive/documentation/ToolsLanguages/Conceptual/Xcode_Overview/Art/XC_O_SchemeMenuWithCallouts_2x.png)
 
-这里需要注意的是 jsBundle 的 moduleName，默认的 moduleName 为 "taro-demo"，需要和 `rn_temp/app.json` 里面的 name 字段保持一致。该配置在 `AppDelegate.m` 文件中。
+这里需要注意的是 jsBundle 的 moduleName，默认的 moduleName 为 "taroDemo"，需要和 `rn_temp/app.json` 里面的 name 字段保持一致。该配置在 `AppDelegate.m` 文件中。
 
 ```objc
 @implementation AppDelegate
@@ -346,7 +346,7 @@ iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run �
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"rn_temp/index" fallbackResource:nil];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"taro-demo"
+                                                      moduleName:@"taroDemo"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
@@ -685,7 +685,17 @@ rn: {
 Taro 会读取 appJson 字段的内容且自动覆盖到 .rn_temp/app.json。
 
 ### 构建 app
-待完善
+首先使用 React Native 的 bundle 命令将 rn_temp 目录下的 RN 代码及资源打包成 jsbundle，命令如下：
+
+```sh
+node ../node_modules/react-native/local-cli/cli.js bundle --entry-file ./rn_temp/index.js --bundle-output ./bundle/index.bundle --assets-dest ./${BUNDLE_DIR_NAME} --dev false
+```
+
+其中参数可以自行调整，`--bundle-output` 可以制定任意目录，然后将 bundle 目录下的文件 copy 到 `taro-native-shell`目录即可。
+
+当然，也可以通过指定 `--bundle-output` 直接打包到 `taro-native-shell`目录。
+
+接下来，按照 React Native 的文档按照不同的端分别打包对应的应用即可。
 
 #### iOS
 
@@ -695,10 +705,19 @@ Taro 会读取 appJson 字段的内容且自动覆盖到 .rn_temp/app.json。
 参考文档：[打包APK](https://reactnative.cn/docs/0.55/signed-apk-android/)
 
 ## 发布
-待完善
+打包好的应用发布到 App Store 或各大应用商店可以查看官方文档。
 
-## 更新
-待完善
+- [Overview of publishing an app](https://help.apple.com/app-store-connect/#/dev34e9bbb5a)
+- [Publish your app | Android Developers](https://developer.android.com/studio/publish)
+
+## 更新 React Native 版本
+Taro RN 版本暂时固定在 0.55.4 ,用户如有需求，可以自行升级到更高版本。步骤如下：
+
+1. 更新 Taro 项目中 `package.json` React Native 版本，并重新安装依赖
+2. 更新 `taro-native-shell` 项目中 `package.json`  React Native 版本，并重新安装依赖
+3. 分别重新安装 `taro-native-shell` 项目中 ios/android 依赖，如 iOS：`cd ios && pod install`
+
+> 如果对 react 版本有要求，可以同步更新。
 
 ## 常见错误
 

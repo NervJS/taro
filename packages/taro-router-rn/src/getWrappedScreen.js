@@ -42,9 +42,9 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
 
       // 如果页面组件也定义了navigationOptions，那么就合并页面那边的返回值
       if (Screen.navigationOptions !== undefined) {
-        const target = Screen.navigationOptions({navigation})
-        Object.assign(target, options)
-        return target
+        const customOptions = Screen.navigationOptions({navigation})
+        Object.assign(options, customOptions)
+        return options
       }
       return options
     }

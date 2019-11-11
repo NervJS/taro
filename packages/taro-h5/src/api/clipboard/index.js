@@ -46,20 +46,25 @@ export const setClipboardData = ({ data, success, fail, complete }) => {
       key: CLIPBOARD_STORAGE_NAME,
       data
     }).then(() => {
-      if (document.execCommand('copy')) {
+      /**
+       * 已于 iPhone 6s Plus iOS 13.1.3 上的 Safari 测试通过
+       * iOS < 10 的系统可能无法使用编程方式访问剪贴板，参考：
+       * https://stackoverflow.com/questions/34045777/copy-to-clipboard-using-javascript-in-ios/34046084
+       */
+      if (typeof document.execCommand === 'function') {
         const input = document.createElement('input')
-        input.setAttribute('readonly', 'readonly')
-        input.setAttribute('value', data)
+        input.readOnly = true
+        input.value = data
         input.style.position = 'absolute'
         input.style.width = '100px'
         input.style.left = '-10000px'
         document.body.appendChild(input)
-        input.focus()
-        if (input.setSelectionRange) {
-          input.setSelectionRange(0, input.value.length)
-          document.execCommand('copy')
-          document.body.removeChild(input)
-        }
+        input.select()
+        input.setSelectionRange(0, input.value.length)
+        document.execCommand('copy')
+        document.body.removeChild(input)
+      } else {
+        throw new Error(`Unsupported Function: 'document.execCommand'.`)
       }
       const res = {
         errMsg: 'setClipboardData:ok',

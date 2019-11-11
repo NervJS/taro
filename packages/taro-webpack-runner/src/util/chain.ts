@@ -1,7 +1,8 @@
 import * as apis from '@tarojs/taro-h5/dist/taroApis'
+import * as Bundler from '@tarojs/plugin-sass/bundler'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
-import * as sass from 'dart-sass'
+import * as sass from 'sass'
 import * as HtmlWebpackPlugin from 'html-webpack-plugin'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
@@ -12,7 +13,64 @@ import * as webpack from 'webpack'
 
 import { recursiveMerge } from '.'
 import { getPostcssPlugins } from '../config/postcss.conf'
-import { CopyOptions, Option, PostcssOption } from './types'
+import { BuildConfig, CopyOptions, Option, PostcssOption } from './types'
+
+const makeConfig = async (config: BuildConfig) => {
+  const plugins = config.plugins || {}
+  const sassLoaderOption = config.sassLoaderOption || {}
+  const sass = plugins.sass || {}
+
+  let bundledContent = ''
+  // when plugins.sass only configured resource property
+  if (sass.resource && !sass.projectDirectory) {
+    const { resource } = sass
+    try {
+      if (typeof resource === 'string') {
+        const res = await Bundler(resource)
+        bundledContent += res.bundledContent
+      }
+      if (Array.isArray(resource)) {
+        for (const url of resource) {
+          const res = await Bundler(url)
+          bundledContent += res.bundledContent
+        }
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  // check resource & projectDirectory property
+  // projectDirectory used for resolving tilde imports
+  if (sass.resource && sass.projectDirectory) {
+    const { resource, projectDirectory } = sass
+    try {
+      if (typeof resource === 'string') {
+        const res = await Bundler(resource, projectDirectory)
+        bundledContent += res.bundledContent
+      }
+      if (Array.isArray(resource)) {
+        for (const url of resource) {
+          const res = await Bundler(url, projectDirectory)
+          bundledContent += res.bundledContent
+        }
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  if (sass.data) {
+    bundledContent += sass.data
+  }
+  return {
+    ...config,
+    plugins,
+    sassLoaderOption: {
+      ...sassLoaderOption,
+      data: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
+    }
+  }
+}
 
 const defaultUglifyJsOption = {
   keep_fnames: true,
@@ -141,13 +199,6 @@ const getCopyWebpackPlugin = ({ copy, appPath }: {
   return partial(getPlugin, CopyWebpackPlugin)(args)
 }
 
-const getEntry = (customEntry = {}) => {
-  return {
-    app: join('.temp', 'app.js'),
-    ...customEntry
-  }
-}
-
 const sassReg = /\.(s[ac]ss)\b/
 const lessReg = /\.less\b/
 const stylReg = /\.styl\b/
@@ -268,7 +319,7 @@ const getModule = (appPath: string, {
   const extractCssLoader = getExtractCssLoader()
 
   const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
-  
+
   /**
    * css-loader 1.0.0版本移除了minimize选项...升级需谨慎
    *
@@ -428,7 +479,8 @@ const getDevtool = enableSourceMap => {
 export {
   isNodeModule,
   isTaroModule,
-  getEsnextModuleRules
+  getEsnextModuleRules,
+  makeConfig
 }
 
-export { getEntry, getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getModule, getUglifyPlugin, getDevtool, getCssoWebpackPlugin, getCopyWebpackPlugin }
+export { getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getModule, getUglifyPlugin, getDevtool, getCssoWebpackPlugin, getCopyWebpackPlugin }

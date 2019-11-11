@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react' // eslint-disable-line
 import getWrappedScreen from './getWrappedScreen'
 import { getNavigationOptions } from './utils'
 import { TabBarIcon } from './TabBarIcon'
@@ -67,6 +67,7 @@ function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
   const RouteConfigs = getTabRouteConfig({pageList, Taro, tabBar, navigationOptions})
   // TODO tabBar.position
   return createBottomTabNavigator(RouteConfigs, {
+    initialRouteName: pageList[0][0], // app.json里pages的顺序，第一项是默认打开页
     navigationOptions: ({navigation}) => ({ // 这里得到的是 tab 的 navigation
       tabBarIcon: ({focused, tintColor}) => {
         const {routeName} = navigation.state
@@ -97,15 +98,23 @@ function getTabBarRootStack ({pageList, Taro, tabBar, navigationOptions}) {
       })(),
       tabBarVisible: getTabBarVisibleFlag(navigation)
     }),
+    /**
+     * color ✅
+     * selectedColor ✅
+     * backgroundColor ✅
+     * borderStyle 🤔
+     * position ❌
+     * custom ❌
+     */
     tabBarOptions: {
       backBehavior: 'none',
       activeTintColor: tabBar.selectedColor || '#3cc51f',
       inactiveTintColor: tabBar.color || '#7A7E83',
       activeBackgroundColor: tabBar.backgroundColor || '#ffffff',
       inactiveBackgroundColor: tabBar.backgroundColor || '#ffffff',
-      style: {
-        borderColor: tabBar.borderTopColor || '#c6c6c6'
-      }
+      style: tabBar.borderStyle ? {
+        backgroundColor: tabBar.borderStyle
+      } : {}
     }
   })
 }

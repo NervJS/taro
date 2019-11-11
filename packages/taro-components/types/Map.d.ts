@@ -117,7 +117,7 @@ export type marker = {
   /**
    * 标记点id
    *
-   * 备注：marker点击事件回调会返回此id。建议为每个marker设置上Number类型id，保证更新marker时有更好的性能。
+   * 备注：marker 点击事件回调会返回此id。建议为每个 marker 设置上 Number 类型 id，保证更新 marker 时有更好的性能。
    */
   id?: number;
 
@@ -208,87 +208,243 @@ export type marker = {
 /**
  * 地图。
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/map.html#map
+ * @see https://smartprogram.baidu.com/docs/develop/component/map/#map
+ * @see https://docs.alipay.com/mini/component/map
  */
 export interface MapProps extends StandardProps {
 
   /**
    * 中心经度
    */
-  longitude: number,
+  longitude: number;
 
   /**
    * 中心纬度
    */
-  latitude: number,
+  latitude: number;
 
   /**
-   * 缩放级别，取值范围为5-18
+   * 缩放级别，取值范围为5-18 (baidu: 4-21)
    * 默认值：`16`
    */
-  scale?: number,
+  scale?: number;
 
   /**
    * 标记点
    */
-  markers?: Array<marker>,
+  markers?: marker[];
 
   /**
    * @deprecated
    * 即将移除，请使用 markers
+   * @from wechat
    */
-  covers?: any[],
+  covers?: any[];
 
   /**
    * 路线
    */
-  polyline?: any[],
+  polyline?: any[];
 
   /**
    * 圆
    */
-  circles?: any[],
+  circles?: any[];
 
   /**
-   * 控件
+   * 控件（即将废弃，建议使用 cover-view 代替）
    */
-  controls?: any[],
+  controls?: any[];
 
   /**
    * 缩放视野以包含所有给定的坐标点
    */
-  includePoints?: any[],
+  includePoints?: any[];
 
   /**
    * 显示带有方向的当前定位点
+   * 默认值：`false`
    */
-  showLocation?: boolean,
+  showLocation?: boolean;
 
   /**
-   * 点击标记点时触发，会返回marker的id
+   * 多边形
+   * @since 2.3.0
    */
-  onMarkerTap?: CommonEventFunction,
+  polygons?: any[];
 
   /**
-   * @since 1.2.0
-   * 点击标记点对应的气泡时触发，会返回 marker 的 id
+   * 个性化地图使用的 key
+   * @since 2.3.0
+   * @from wechat
    */
-  onCalloutTap?: CommonEventFunction,
+  subkey?: string;
+
+  /**
+   * 个性化地图配置的 style，不支持动态修改
+   * 默认值：`1`
+   * @from wechat
+   */
+  layerStyle?: number;
+
+  /**
+   * 旋转角度，范围 0 ~ 360, 地图正北和设备 y 轴角度的夹角
+   * 默认值：`0`
+   * @since 2.5.0
+   * @from wechat
+   */
+  rotate?: number;
+
+  /**
+   * 倾斜角度，范围 0 ~ 40 , 关于 z 轴的倾角
+   * 默认值：`0`
+   * @since 2.5.0
+   * @from wechat
+   */
+  skew?: number;
+
+  /**
+   * 展示 3D 楼块
+   * 默认值：`false`
+   * @since 2.3.0
+   * @from wechat
+   */
+  enable3D?: boolean;
+
+  /**
+   * 显示指南针
+   * 默认值：`false`
+   * @since 2.3.0
+   * @absence alipay
+   */
+  showCompass?: boolean;
+
+  /**
+   * 显示比例尺
+   * 默认值：`false`
+   * @since 2.8.0
+   */
+  showScale?: boolean;
+
+  /**
+   * 开启俯视
+   * 默认值：`false`
+   * @since 2.3.0
+   * @absence alipay
+   */
+  enableOverlooking?: boolean;
+
+  /**
+   * 是否支持缩放
+   * 默认值：`true`
+   * @since 2.3.0
+   * @absence alipay
+   */
+  enableZoom?: boolean;
+
+  /**
+   * 是否支持拖动
+   * 默认值：`true`
+   * @since 2.3.0
+   * @absence alipay
+   */
+  enableScroll?: boolean;
+
+  /**
+   * 是否支持旋转
+   * 默认值：`false`
+   * @since 2.3.0
+   * @absence alipay
+   */
+  enableRotate?: boolean;
+
+  /**
+   * 是否开启卫星图
+   * 默认值：`false`
+   * @since 2.7.0
+   * @from wechat
+   */
+  enableSatellite?: boolean;
+
+  /**
+   * 是否开启实时路况
+   * 默认值：`false`
+   * @since 2.7.0
+   * @from wechat
+   */
+  enableTraffic?: boolean;
+
+  /**
+   * 配置项
+   * @since 2.8.2
+   * @absence baidu
+   */
+  setting?: MapProps | { [key: string]: number | string | any };
+
+  /**
+   * 点击地图时触发
+   */
+  onTap?: CommonEventFunction;
+
+  /**
+   * 点击标记点时触发，会返回 marker 的 id
+   */
+  onMarkerTap?: CommonEventFunction;
 
   /**
    * 点击控件时触发，会返回 control 的 id
    */
-  onControlTap?: CommonEventFunction,
+  onControlTap?: CommonEventFunction;
+
+  /**
+   * 点击标记点对应的气泡时触发，会返回 marker 的 id
+   * @since 1.2.0
+   */
+  onCalloutTap?: CommonEventFunction;
+
+  /**
+   * 在地图渲染更新完成时触发
+   * @since 1.6.0
+   * @absence alipay
+   */
+  onUpdated?: CommonEventFunction;
 
   /**
    * 视野发生变化时触发
+   * @since 2.3.0
    */
-  onRegionChange?: CommonEventFunction,
+  onRegionChange?: CommonEventFunction;
 
   /**
-   * @since 1.6.0
-   * 在地图渲染更新完成时触发
+   * 点击地图 poi 点时触发，会返回 poi 点的 name, longitude, latitude
+   * @since 2.3.0
+   * @absence alipay
    */
-  onUpdated?: CommonEventFunction
+  onPoiTap?: CommonEventFunction;
+
+  /**
+   * 视野在地图 padding 范围内展示
+   * @from alipay
+   */
+  includePadding?: { [key in ('left' | 'right' | 'top' | 'bottom')]: number | string };
+
+  /**
+   * 覆盖物，自定义贴图
+   * @from alipay
+   */
+  groundOverlays?: any[];
+
+  /**
+   * 覆盖物，网格贴图
+   * @from alipay
+   */
+  tileOverlay?: any[];
+
+  /**
+   * 开启 optimize 模式后，无需再监听 onRegionChange 来获取并设置新的 scale 值以保证地图不会再回到原来的缩放比例。
+   * @from alipay
+   */
+  optimize?: boolean;
 }
 
 declare const Map: ComponentType<MapProps>

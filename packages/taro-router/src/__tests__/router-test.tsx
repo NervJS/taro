@@ -24,7 +24,7 @@ beforeEach(() => {
       '/pages/about/index': '/about'
     }
   })
-  mountApis(mockHistory)
+  mountApis({ customRoutes: {}, basename: '', currentPagename: 'pages/index/index' }, mockHistory)
 })
 
 describe('router component', () => {
@@ -52,6 +52,7 @@ describe('router component', () => {
       render () {
         return (
           <Router
+            mode={'hash'}
             history={mockHistory}
             routes={[{
               path: url1,
@@ -75,7 +76,7 @@ describe('router component', () => {
       }
     }
 
-    const routerComponent = <RouterComponent />
+    const routerComponent: any = <RouterComponent />
     const getComputedStyle = window.getComputedStyle
     Nerv.render(routerComponent, document.createElement('div'))
     const dom = routerComponent.dom
@@ -111,6 +112,7 @@ describe('router component', () => {
       render () {
         return (
           <Router
+            mode={'hash'}
             history={mockHistory}
             routes={[{
               path: url1,
