@@ -63,9 +63,9 @@
 
     onInit () {
       this.btnClass = this.plain ? 
-        `taro-button taro-button_default btn_plain btn_plain_${this.type} ${this.class}` 
+        `taro-button taro-button_default btn_plain btn_plain_${this.type} ${this.className}` 
         : 
-        `taro-button taro-button_default btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`} ${this.class}`
+        `taro-button taro-button_default btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`} ${this.className}`
     },
   }
 </script>
