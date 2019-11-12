@@ -1,4 +1,4 @@
-import { internalComponents, Shortcuts, createMiniComponents } from '@tarojs/shared'
+import { internalComponents, Shortcuts, createMiniComponents, controlledComponent } from '@tarojs/shared'
 import { Adapter } from './adapters'
 
 const miniComponents = createMiniComponents(internalComponents)
@@ -27,15 +27,6 @@ function buildStandardComponentTemplate (comp: Component, level: number): string
 </template>
 `
 }
-
-const controlledComponent = new Set([
-  'input',
-  'checkbox',
-  'picker-view',
-  'radio',
-  'slider',
-  'textarea'
-])
 
 // 各种小程序类 js 语法
 function buildXsTemplate () {

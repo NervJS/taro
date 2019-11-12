@@ -1,5 +1,7 @@
+import { controlledComponent } from '@tarojs/shared'
 import { TaroText } from '../dom/text'
 import { TaroElement } from '../dom/element'
+import { FormElement } from '../dom/form'
 import { NodeType } from '../dom/node_types'
 import { TaroRootElement } from '../dom/root'
 import { eventSource } from '../dom/event'
@@ -13,6 +15,11 @@ export class TaroDocument extends TaroElement {
     if (type === 'root') {
       return new TaroRootElement()
     }
+
+    if (controlledComponent.has(type)) {
+      return new FormElement(NodeType.ELEMENT_NODE, type)
+    }
+
     return new TaroElement(NodeType.ELEMENT_NODE, type)
   }
 

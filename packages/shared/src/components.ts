@@ -571,3 +571,12 @@ export const internalComponents = {
   NavigationBar,
   PageMeta
 }
+
+export const controlledComponent = new Set([
+  'input',
+  'checkbox',
+  'picker-view',
+  'radio',
+  'slider',
+  'textarea'
+])

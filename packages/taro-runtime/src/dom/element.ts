@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-class-members */
 import { isArray, isUndefined, Shortcuts } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
@@ -55,17 +56,25 @@ export class TaroElement extends TaroNode {
     return this.attributes.length > 0
   }
 
-  public setAttribute (qualifiedName: string, value: string) {
+  public focus () {
+    this.setAttribute('focus', true)
+  }
+
+  public blur () {
+    this.setAttribute('focus', false)
+  }
+
+  public setAttribute (qualifiedName: string, value: string | boolean): void {
     if (qualifiedName === 'style') {
-      this.style.cssText = value
+      this.style.cssText = value as string
       qualifiedName = Shortcuts.Style
     } else if (qualifiedName === 'id') {
       eventSource.delete(this.uid)
-      this.uid = value
-      eventSource.set(value, this)
+      this.uid = value as string
+      eventSource.set(value as string, this)
       qualifiedName = 'uid'
     } else {
-      this.props[qualifiedName] = value
+      this.props[qualifiedName] = value as string
       if (qualifiedName === 'class') {
         qualifiedName = Shortcuts.Class
       }
