@@ -191,15 +191,9 @@ class Transformer {
       ])
     })
 
-    if (isTestEnv) {
-      this.classPath.node.body.body.push(t.classProperty(
-        t.identifier('$$refs'),
-        t.arrayExpression(this.refObjExpr)
-      ))
-    }
-
     const _constructor = this.classPath.node.body.body.find(item => {
-      if (t.isClassMethod(item) && t.isIdentifier(item.key) && item.key.name === '_constructor') {
+      const constructorName = isTestEnv ? 'constructor' : '_constructor'
+      if (t.isClassMethod(item) && t.isIdentifier(item.key) && item.key.name === constructorName) {
         return true
       }
       return false
