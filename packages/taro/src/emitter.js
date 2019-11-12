@@ -1,6 +1,6 @@
 import { objectIs } from './util'
 
-class Emiter {
+class Emitter {
   constructor (value = {}) {
     this.value = value
     this.handlers = []
@@ -24,5 +24,5 @@ class Emiter {
 }
 
 export {
-  Emiter
+  Emitter
 }
