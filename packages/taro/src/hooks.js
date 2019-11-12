@@ -240,20 +240,20 @@ export function useImperativeHandle (ref, init, deps) {
 }
 
 export function useContext ({ context }) {
-  const emiter = context.emiter
-  if (emiter === null) {
+  const emitter = context.emitter
+  if (emitter === null) {
     return context._defaultValue
   }
   const hook = getHooks(Current.index++)
   if (isUndefined(hook.context)) {
     hook.context = true
     hook.component = Current.current
-    emiter.on(_ => {
+    emitter.on(_ => {
       if (hook.component) {
         hook.component._disable = false
         hook.component.setState({})
       }
     })
   }
-  return emiter.value
+  return emitter.value
 }
