@@ -1,6 +1,6 @@
 ---
 name: 🚩其他问题报告
-about: 如果不属于以上分类，请使用这份模板
+about: 如果不属于其他分类，请使用这份模板
 title: ''
 labels: ''
 assignees: ''
