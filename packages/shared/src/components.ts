@@ -494,6 +494,8 @@ const PageMeta = {
   bindscrolldone: ''
 }
 
+const Block = {}
+
 interface Components {
   [key: string]: Record<string, string>;
 }
@@ -520,7 +522,9 @@ export function createMiniComponents (components: Components) {
           newComp[prop] = propValue
         }
       }
-      Object.assign(newComp, common)
+      if (compName !== 'block') {
+        Object.assign(newComp, common)
+      }
       result[compName] = newComp
     }
   }
@@ -569,7 +573,8 @@ export const internalComponents = {
   OpenData,
   WebView,
   NavigationBar,
-  PageMeta
+  PageMeta,
+  Block
 }
 
 export const controlledComponent = new Set([
