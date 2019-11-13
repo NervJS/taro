@@ -3,6 +3,7 @@ import * as path from 'path'
 import * as chokidar from 'chokidar'
 import chalk from 'chalk'
 import * as _ from 'lodash'
+
 import { Compiler } from '../h5'
 import { buildH5Script, buildForH5 } from './h5'
 import { buildForRN } from './rn'
@@ -33,6 +34,7 @@ import {
 import { Compiler as RNCompiler } from '../rn'
 
 let buildData: IBuildData
+let platforms: BUILD_TYPES[]
 
 function setBuildData (appPath, uiIndex) {
   const configDir = path.join(appPath, PROJECT_CONFIG)
@@ -69,19 +71,36 @@ function buildEntry (uiIndex) {
   if (uiIndex) {
     indexName = path.basename(uiIndex, path.extname(uiIndex))
   }
-  const content = `if (process.env.TARO_ENV === '${BUILD_TYPES.H5}') {
-    module.exports = require('./${H5_OUTPUT_NAME}/${indexName}')
-    module.exports.default = module.exports
-  } else if(process.env.TARO_ENV === '${BUILD_TYPES.RN}'){
-    module.exports = require('./${RN_OUTPUT_NAME}/${indexName}')
-    module.exports.default = module.exports
-  } else if(process.env.TARO_ENV === '${BUILD_TYPES.QUICKAPP}'){
-    module.exports = require('./${QUICKAPP_OUTPUT_NAME}/${indexName}')
-    module.exports.default = module.exports
-  } else {
-    module.exports = require('./${WEAPP_OUTPUT_NAME}/${indexName}')
-    module.exports.default = module.exports
-  }`
+
+  let content =''
+  platforms.forEach((item, index) => {
+    let dir: any = item
+    if (
+      [
+        BUILD_TYPES.WEAPP,
+        BUILD_TYPES.ALIPAY,
+        BUILD_TYPES.QQ,
+        BUILD_TYPES.TT,
+        BUILD_TYPES.SWAN,
+        BUILD_TYPES.JD
+      ].includes(item)
+    ) {
+      dir = WEAPP_OUTPUT_NAME
+    }
+    content += `if (process.env.TARO_ENV === '${item}') {
+      module.exports = require('./${dir}/${indexName}')
+      module.exports.default = module.exports
+    }`
+    if (index < platforms.length - 1) {
+      content += ' else '
+    } else {
+      content += ` else {
+        module.exports = require('./${WEAPP_OUTPUT_NAME}/${indexName}')
+        module.exports.default = module.exports
+      }`
+    }
+  })
+
   const outputDir = path.join(appPath, outputDirName)
   fs.writeFileSync(path.join(outputDir, `index.js`), content)
 }
@@ -226,12 +245,11 @@ function watchFiles () {
 }
 
 export async function build (appPath, {watch, uiIndex}: IBuildConfig) {
-  uiIndex && console.log('uiIndex: ', uiIndex)
   setBuildData(appPath, uiIndex)
   setMiniBuildData(appPath, BUILD_TYPES.WEAPP)
   setMiniBuildData(appPath, BUILD_TYPES.QUICKAPP)
+  platforms = _.get(buildData, 'projectConfig.ui.platforms') || [BUILD_TYPES.WEAPP, BUILD_TYPES.H5]
   buildEntry(uiIndex)
-  const platforms = _.get(buildData, 'projectConfig.ui.platforms')
   if (platforms && Array.isArray(platforms)) {
     platforms.includes(BUILD_TYPES.WEAPP) && await buildForWeapp(buildData)
     platforms.includes(BUILD_TYPES.QUICKAPP) && await buildForQuickapp(buildData)
