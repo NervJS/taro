@@ -1,5 +1,18 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.23...v) (2019-11-12)
+# [](https://github.com/NervJS/taro/compare/v1.3.24...v) (2019-11-13)
+
+
+
+<a name="1.3.24"></a>
+## [1.3.24](https://github.com/NervJS/taro/compare/v1.3.23...v1.3.24) (2019-11-13)
+
+
+### Bug Fixes
+
+* **rn:** Taro.previewImage 报错 ([8fa7045](https://github.com/NervJS/taro/commit/8fa7045))
+* **ui:** 修复 ui 库编译的入口文件生成 ([0994338](https://github.com/NervJS/taro/commit/0994338))
+* **ui:** 移除 ui 库编译后 h5 入口文件中的冗余代码 ([445f243](https://github.com/NervJS/taro/commit/445f243))
+* **weapp:** 修复微信小程序遗留代码：nextProps 初始化，引起的冲突 ([00cf71c](https://github.com/NervJS/taro/commit/00cf71c))
 
 
 
