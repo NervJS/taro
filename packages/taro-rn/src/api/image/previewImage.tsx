@@ -1,7 +1,7 @@
 import React from 'react'
-import { Modal } from 'react-native'
+import { Modal ,Text} from 'react-native'
 import RootSiblings from 'react-native-root-siblings'
-const ImageViewer = require('react-native-image-zoom-viewer')
+import ImageViewer from 'react-native-image-zoom-viewer'
 
 function previewImage (obj) {
   let {
@@ -28,7 +28,7 @@ function previewImage (obj) {
           onClick={onSuccess}
           onSwipeDown={onSuccess}
           enableSwipeDown
-          loadingRender={() => 'loading...'}
+          loadingRender={() => <Text>loading...</Text>}
         />
       </Modal>
     )
