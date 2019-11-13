@@ -1,6 +1,6 @@
 ---
-name: QQ bug report
-about: 在 QQ 小程序端遇到的问题
+name: QQ小程序问题报告
+about: 在QQ小程序端遇到的问题
 title: ""
 labels: QQ小程序
 assignees: Chen-jj
@@ -18,7 +18,7 @@ assignees: Chen-jj
 
 ### 问题描述
 
-<!-- 问题描述：站在其它人的角度尽可能清晰地、简洁地把问题描述清楚 -->
+<!-- 站在其它人的角度尽可能清晰地、简洁地把问题描述清楚 -->
 
 ### 复现步骤
 
@@ -38,6 +38,8 @@ assignees: Chen-jj
  * 
  * 查看如何插入代码：https://coding.net/help/doc/project/markdown.html#i-5
  */
+
+
 ```
 
 ### 期望行为

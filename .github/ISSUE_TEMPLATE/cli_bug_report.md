@@ -1,5 +1,5 @@
 ---
-name: Cli bug report
+name: Cli问题报告
 about: 在编译过程中遇到的问题
 title: ""
 labels: CLI
@@ -18,7 +18,7 @@ assignees: luckyadam
 
 ### 问题描述
 
-<!-- 问题描述：站在其它人的角度尽可能清晰地、简洁地把问题描述清楚 -->
+<!-- 站在其它人的角度尽可能清晰地、简洁地把问题描述清楚 -->
 
 ### 复现步骤
 
@@ -38,6 +38,8 @@ assignees: luckyadam
  * 
  * 查看如何插入代码：https://coding.net/help/doc/project/markdown.html#i-5
  */
+
+
 ```
 
 ### 期望行为
