@@ -46,7 +46,7 @@ export interface PageInstance extends Show {
   onPopMenuClick?(): void
   onPullIntercept?(): void
   eh?(event: CommonEvent): void
-  onLoad(): void
+  onLoad(options: Record<string, unknown>): void
   onUnload(): void
 }
 

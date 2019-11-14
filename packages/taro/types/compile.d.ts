@@ -48,9 +48,7 @@ export type IMINI_APP_FILES = {
   [key: string]: IMINI_APP_FILE_TYPE
 }
 
-export interface IOption {
-  [key: string]: any
-}
+export type IOption = Record<string, any>
 
 export interface ICopyOptions {
   patterns: {

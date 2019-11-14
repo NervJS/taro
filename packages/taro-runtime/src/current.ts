@@ -1,18 +1,16 @@
-import { TaroRootElement } from './dom/root'
-import { Instance, AppInstance } from './dsl/instance'
+import { AppInstance } from './dsl/instance'
+
+interface Router {
+  params: Record<string, unknown>
+  path: string
+}
 
 interface Current {
-  root: null | TaroRootElement;
-  pages: Set<string>;
-  activeId: string | null;
-  app: AppInstance | null;
-  roots: Set<Instance>
+  app: AppInstance | null,
+  router: Router | null
 }
 
 export const Current: Current = {
-  root: null,
-  pages: new Set(),
-  activeId: null,
   app: null,
-  roots: new Set()
+  router: null
 }

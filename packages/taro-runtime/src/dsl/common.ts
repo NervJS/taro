@@ -18,6 +18,10 @@ export function injectPageInstance (inst: Instance<PageProps>) {
   }
 }
 
+function addLeadingSlash (path: string) {
+  return path.charAt(0) === '/' ? path : '/' + path
+}
+
 const pageId = incrementId()
 
 export function createPageConfig (component: React.ComponentClass) {
@@ -40,7 +44,12 @@ export function createPageConfig (component: React.ComponentClass) {
         node.dispatchEvent(createEvent(event))
       }
     },
-    onLoad (this: MpInstance) {
+    onLoad (this: MpInstance, options) {
+      Current.router = {
+        params: options,
+        path: addLeadingSlash(this.route || this.__route__)
+      }
+
       Current.app!.mount(component, id, () => {
         page = document.getElementById(id) as TaroRootElement
         instance = instances.get(id) || EMPTY_OBJ
@@ -54,6 +63,8 @@ export function createPageConfig (component: React.ComponentClass) {
       })
     },
     onUnload () {
+      Current.router = null
+
       Current.app!.unmount(id, () => {
         page.ctx = null
       })
