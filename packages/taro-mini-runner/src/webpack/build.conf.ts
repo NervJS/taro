@@ -93,7 +93,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
     isBuildPlugin: !!config.isBuildPlugin,
-    commonChunks: !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors']
+    commonChunks: !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors'],
+    alias
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
