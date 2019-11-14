@@ -5,8 +5,31 @@ import writeFile from "./write"
 
 type TCallback = (routepath: string, doc: DocEntry[], withGeneral?: boolean) => void
 
-const FunctionFlags = [16, 1040]
-const isntTaroMethod = [-1, 1024, 1088]
+const FunctionFlags = [ts.SymbolFlags.Function, ts.SymbolFlags.Function + ts.SymbolFlags.NamespaceModule]
+const TaroMethod = [
+  ts.SymbolFlags.Class, ts.SymbolFlags.ValueModule, ts.SymbolFlags.Namespace, ...FunctionFlags
+]
+const isntTaroMethod = [
+  -1,
+  ts.SymbolFlags.Interface,
+  ts.SymbolFlags.ConstEnum,
+  ts.SymbolFlags.RegularEnum,
+  ts.SymbolFlags.ValueModule + ts.SymbolFlags.Class,
+  ts.SymbolFlags.NamespaceModule,
+  ts.SymbolFlags.NamespaceModule + ts.SymbolFlags.Class,
+  ts.SymbolFlags.NamespaceModule + ts.SymbolFlags.Interface,
+  ts.SymbolFlags.TypeLiteral,
+  ts.SymbolFlags.TypeAlias,
+]
+const showAPI = [
+  ts.SymbolFlags.Property,
+  ts.SymbolFlags.Method,
+  ts.SymbolFlags.Optional + ts.SymbolFlags.Property,
+]
+const dontShowAPI = [
+  -1,
+  ts.SymbolFlags.Signature,
+]
 const generalParh = path.resolve(__dirname, '../', 'types/api/index.d.ts')
 
 export default function docsAPI (
@@ -14,7 +37,7 @@ export default function docsAPI (
   out: string,
   files: string[],
   callback: TCallback = () => {},
-  withLog = true,
+  withLog = false,
 ) {
   const cwd: string = process.cwd();
   files.forEach(s => {
@@ -76,7 +99,7 @@ const get = {
     [key: string]: string
   }) => splicing(['---', ...Object.keys(data).map(key => `${key}: ${data[key]}`), '---', '']),
   title: (name: string, params: DocEntry[], flags: number = -1) => `${
-    isntTaroMethod.includes(flags) ? '' : 'Taro.'
+    TaroMethod.includes(flags) ? 'Taro.' : ''
   }${name}${
     FunctionFlags.includes(flags) ? `(${params.map(param => param.name).join(', ')})` : ''
   }`,
@@ -141,7 +164,7 @@ const get = {
   parameters: (data?: DocEntry[]) => {
     const parameters = data && data.map(param => {
       const tags = param.jsTags || []
-      // 'OffLoadCallback' === param.name && console.log(JSON.stringify(param))
+
       return splicing([
         `### ${param.name}`,
         '',
@@ -174,7 +197,6 @@ const get = {
     return array.length > 0 ? splicing(array) : undefined
   },
   api: (data: {[name: string]: ts.JSDocTagInfo[]}) => {
-    const isSupported = Object.values(data).find(tags => tags.find(tag => tag.name === 'supported'))
     const titles = envMap.reduce((p, env) => `${p} ${env.label} |`, '| API |')
     const splits = envMap.reduce((p) => `${p} :---: |`, '| :---: |')
     const rows = Object.keys(data).map(name => {
@@ -182,14 +204,14 @@ const get = {
       const supported = tags.find(tag => tag.name === 'supported')
       const apis = (supported && supported.text || '').split(',').map(e => e.trim().toLowerCase())
 
-      return `| Taro.${name} |${envMap.map(env => {
+      return supported ? `| ${name} |${envMap.map(env => {
         const apiName = apis.find(e => e === env.name)
         const apiDesc = tags.find(e => e.name === apiName)
         return ` ${apiName ? '✔️': ''}${apiDesc && apiDesc.text ? `(${apiDesc.text})` : ''} |`
-      }).join('')}`
+      }).join('')}` : undefined
     })
 
-    return isSupported ? splicing([
+    return rows && rows.filter(e => !!e).length > 0 ? splicing([
       '## API 支持度', '', titles, splits, ...rows, ''
     ]) : undefined // splicing(['## API 支持度', '', '> 该 api 暂不支持', ''])
   },
@@ -204,12 +226,26 @@ export function writeDoc (routepath: string, doc: DocEntry[], withGeneral = fals
     const name = e.name || 'undefined'
     const tags = e.jsTags || []
     const params = e.parameters || []
+    const members = e.members || []
     const md: (string | undefined)[] = []
-    ;(!FunctionFlags.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) && console.log(e.flags, name)
 
     if (name === 'General' && !withGeneral) {
       return
     }
+
+    if (!FunctionFlags.includes(e.flags || -1) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
+      console.warn(`WARN: Symbol flags ${e.flags} is missing parse! Watch symbol name:${name}.`)
+    }
+
+    const apis = { [`${TaroMethod.includes(e.flags || -1) ? 'Taro.' : ''}${name}`]: tags }
+
+    members.forEach(member => {
+      if (showAPI.includes(member.flags || -1)) {
+        if (member.name && member.jsTags) apis[member.name] = member.jsTags || []
+      } else if (!dontShowAPI.includes(member.flags || -1)) {
+        console.warn(`WARN: Symbol flags ${member.flags} for members is missing parse! Watch member name:${member.name}.`)
+      }
+    })
 
     md.push(
       get.header({ title: get.title(name, params, e.flags), sidebar_label: name }),
@@ -219,7 +255,7 @@ export function writeDoc (routepath: string, doc: DocEntry[], withGeneral = fals
       get.parameters(e.exports),
       get.members(e.members),
       get.example(tags),
-      get.api({ [name]: tags }),
+      get.api(apis),
       get.see(tags.find(tag => tag.name === 'see')),
       // JSON.stringify(e, undefined, 2),
     )
@@ -232,7 +268,7 @@ export function writeDoc (routepath: string, doc: DocEntry[], withGeneral = fals
 }
 
 // docsAPI('./types/api', './apis', ['./types/api'], writeJson)
-// docsAPI('./types/api', './apis', ['./types/index'], writeDoc)
+// docsAPI('./types/api', './apis', ['./types/api'], writeDoc)
 docsAPI('./types/api', '../../docs/apis', ['./types/api'], writeDoc)
 
 function splicing (arr: (string | undefined)[] = []) {

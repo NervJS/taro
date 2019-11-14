@@ -95,7 +95,7 @@ export function generateDocumentation(
         symbol && o.push(serializeType(symbol))
       })
     } else {
-      console.log(`WARN: Statement kind ${node.kind} is missing parse!\n\n${node.getText()}`)
+      console.warn(`WARN: Statement kind ${node.kind} is missing parse!\n\n${node.getText()}`)
     }
   }
 
