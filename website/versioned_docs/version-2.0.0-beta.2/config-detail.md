@@ -1,5 +1,7 @@
 ---
 title: 编译配置详情
+id: version-2.0.0-beta.2-config-detail
+original_id: config-detail
 ---
 
 ## designWidth

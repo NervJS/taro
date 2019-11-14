@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.0-beta.1...v) (2019-11-13)
+# [](https://github.com/NervJS/taro/compare/v2.0.0-beta.2...v) (2019-11-14)
+
+
+
+<a name="2.0.0-beta.2"></a>
+# [2.0.0-beta.2](https://github.com/NervJS/taro/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2019-11-14)
+
+
+### Bug Fixes
+
+* **mini-runner:** 修复对 alias 的支持 ([07774b3](https://github.com/NervJS/taro/commit/07774b3))
 
 
 
