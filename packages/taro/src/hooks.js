@@ -26,7 +26,9 @@ export function useState (initialState) {
     hook.state = [
       initialState,
       (action) => {
-        hook.state[0] = isFunction(action) ? action(hook.state[0]) : action
+        const nextState = isFunction(action) ? action(hook.state[0]) : action
+        if (hook.state[0] === nextState) return
+        hook.state[0] = nextState
         hook.component._disable = false
         hook.component.setState({}, forceUpdateCallback)
       }
