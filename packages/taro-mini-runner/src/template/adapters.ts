@@ -1,11 +1,4 @@
-export const enum Adapters {
-  weapp = 'weapp',
-  swan = 'swan',
-  alipay = 'alipay',
-  quickapp = 'quickapp',
-  tt = 'tt',
-  qq = 'qq'
-}
+import { BUILD_TYPES } from '../utils/constants'
 
 interface Adapter {
   if: string;
@@ -15,7 +8,7 @@ interface Adapter {
   forItem: string;
   forIndex: string;
   key: string;
-  type: Adapters;
+  type: BUILD_TYPES;
 }
 
 const weixinAdapter: Adapter = {
@@ -26,7 +19,7 @@ const weixinAdapter: Adapter = {
   forItem: 'wx:for-item',
   forIndex: 'wx:for-index',
   key: 'wx:key',
-  type: Adapters.weapp
+  type: BUILD_TYPES.WEAPP
 }
 
 const swanAdapter: Adapter = {
@@ -37,7 +30,7 @@ const swanAdapter: Adapter = {
   forItem: 's-for-item',
   forIndex: 's-for-index',
   key: 's-key',
-  type: Adapters.swan
+  type: BUILD_TYPES.SWAN
 }
 
 const alipayAdapter: Adapter = {
@@ -48,7 +41,7 @@ const alipayAdapter: Adapter = {
   forItem: 'a:for-item',
   forIndex: 'a:for-index',
   key: 'a:key',
-  type: Adapters.alipay
+  type: BUILD_TYPES.ALIPAY
 }
 
 const ttAdapter: Adapter = {
@@ -59,7 +52,7 @@ const ttAdapter: Adapter = {
   forItem: 'tt:for-item',
   forIndex: 'tt:for-index',
   key: 'tt:key',
-  type: Adapters.tt
+  type: BUILD_TYPES.TT
 }
 
 const quickappAdapter: Adapter = {
@@ -70,7 +63,7 @@ const quickappAdapter: Adapter = {
   forItem: 'for-item',
   forIndex: 'for-index',
   key: 'key',
-  type: Adapters.quickapp
+  type: BUILD_TYPES.QUICKAPP
 }
 
 const qqAdapter: Adapter = {
@@ -81,26 +74,26 @@ const qqAdapter: Adapter = {
   forItem: 'qq:for-item',
   forIndex: 'qq:for-index',
   key: 'qq:key',
-  type: Adapters.qq
+  type: BUILD_TYPES.QQ
 }
 
 export let Adapter: Adapter = weixinAdapter
 
-export function setAdapter (adapter: Adapters) {
+export function setAdapter (adapter: BUILD_TYPES) {
   switch (adapter.toLowerCase()) {
-    case Adapters.swan:
+    case BUILD_TYPES.SWAN:
       Adapter = swanAdapter
       break
-    case Adapters.alipay:
+    case BUILD_TYPES.ALIPAY:
       Adapter = alipayAdapter
       break
-    case Adapters.tt:
+    case BUILD_TYPES.TT:
       Adapter = ttAdapter
       break
-    case Adapters.quickapp:
+    case BUILD_TYPES.QUICKAPP:
       Adapter = quickappAdapter
       break
-    case Adapters.qq:
+    case BUILD_TYPES.QQ:
       Adapter = qqAdapter
       break
     default:

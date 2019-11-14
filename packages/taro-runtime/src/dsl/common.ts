@@ -31,10 +31,25 @@ export function createPageConfig (component: React.ComponentClass) {
   let instance: Instance = EMPTY_OBJ
   const isReact = process.env.framework !== 'vue' // isReact means all kind of react-like library
 
-  function safeExecute (func?: Function, ...args: unknown[]) {
-    if (instance != null && isFunction(func)) {
-      func.apply(instance, args)
+  function safeExecute (lifecycle: keyof PageInstance, ...args: unknown[]) {
+    if (instance == null) {
+      return
     }
+
+    if (isReact) {
+      if (lifecycle === 'onShow') {
+        lifecycle = 'componentDidShow'
+      } else if (lifecycle === 'onHide') {
+        lifecycle = 'componentDidHide'
+      }
+    }
+
+    const func = isReact ? instance[lifecycle] : instance.$options[lifecycle]
+    if (!isFunction(func)) {
+      return
+    }
+
+    func.apply(instance, args)
   }
 
   const config: PageInstance = {
@@ -70,40 +85,40 @@ export function createPageConfig (component: React.ComponentClass) {
       })
     },
     onShow () {
-      safeExecute(isReact ? instance.componentDidShow : instance.$options.onShow)
+      safeExecute('onShow')
     },
     onHide () {
-      safeExecute(isReact ? instance.componentDidHide : instance.$options.onHide)
+      safeExecute('onHide')
     },
     onPullDownRefresh () {
-      safeExecute(instance.onPullDownRefresh)
+      safeExecute('onPullDownRefresh')
     },
     onReachBottom () {
-      safeExecute(instance.onReachBottom)
+      safeExecute('onReachBottom')
     },
     onPageScroll (options: unknown) {
-      safeExecute(instance.onPageScroll, options)
+      safeExecute('onPageScroll', options)
     },
     onShareAppMessage (options: unknown) {
-      safeExecute(instance.onShareAppMessage, options)
+      safeExecute('onShareAppMessage', options)
     },
     onResize (options: unknown) {
-      safeExecute(instance.onResize, options)
+      safeExecute('onResize', options)
     },
     onTabItemTap (options: unknown) {
-      safeExecute(instance.onTabItemTap, options)
+      safeExecute('onTabItemTap', options)
     },
     onTitleClick () {
-      safeExecute(instance.onTitleClick)
+      safeExecute('onTitleClick')
     },
     onOptionMenuClick () {
-      safeExecute(instance.onOptionMenuClick)
+      safeExecute('onOptionMenuClick')
     },
     onPopMenuClick () {
-      safeExecute(instance.onPopMenuClick)
+      safeExecute('onPopMenuClick')
     },
     onPullIntercept () {
-      safeExecute(instance.onPullIntercept)
+      safeExecute('onPullIntercept')
     }
   }
 

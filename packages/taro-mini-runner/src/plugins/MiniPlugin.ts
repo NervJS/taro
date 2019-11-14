@@ -14,6 +14,7 @@ import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency
 import { buildBaseTemplate, buildPageTemplate } from '../template'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
+import { setAdapter } from '../template/adapters'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -24,7 +25,7 @@ interface IComponent {
 }
 
 interface ITaroMiniPluginOptions {
-  adapter: BUILD_TYPES
+  buildAdapter: BUILD_TYPES
   sourceDir: string
   commonChunks: string[]
   framework: string
@@ -68,12 +69,13 @@ export default class TaroMiniPlugin {
 
   constructor (options = {}) {
     this.options = Object.assign({
-      adapter: BUILD_TYPES.WEAPP,
+      buildAdapter: BUILD_TYPES.WEAPP,
       sourceDir: '',
       framework: 'nerv',
       commonChunks: ['runtime', 'vendors'],
       baseLevel: 10
     }, options)
+    setAdapter(this.options.buildAdapter)
     this.pages = new Set()
     this.components = new Set()
     this.filesConfig = {}
@@ -141,7 +143,7 @@ export default class TaroMiniPlugin {
 
     new TaroLoadChunksPlugin({
       commonChunks: this.options.commonChunks,
-      buildAdapter: this.options.adapter,
+      buildAdapter: this.options.buildAdapter,
       isBuildPlugin: false
     }).apply(compiler)
   }
@@ -244,7 +246,7 @@ export default class TaroMiniPlugin {
 
   generateTabBarFiles (compiler, appConfig) {
     const tabBar = appConfig.tabBar
-    const { adapter, sourceDir } = this.options
+    const { buildAdapter: adapter, sourceDir } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
       const {
         list: listConfig,
@@ -353,11 +355,11 @@ export default class TaroMiniPlugin {
   }
 
   getTemplatePath (filePath) {
-    return this.getTargetFilePath(filePath, MINI_APP_FILES[this.options.adapter].TEMPL)
+    return this.getTargetFilePath(filePath, MINI_APP_FILES[this.options.buildAdapter].TEMPL)
   }
 
   getConfigPath (filePath) {
-    return this.getTargetFilePath(filePath, MINI_APP_FILES[this.options.adapter].CONFIG)
+    return this.getTargetFilePath(filePath, MINI_APP_FILES[this.options.buildAdapter].CONFIG)
   }
 
   getTargetFilePath (filePath, targetExtname) {
