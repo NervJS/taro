@@ -1,8 +1,68 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-type OpenType = 'contact' | 'share' | 'getUserInfo' | 'getPhoneNumber'
+type OpenType = 'contact' | 'share' | 'getUserInfo' | 'getPhoneNumber' |
+  'launchApp' | 'openSetting' | 'feedback' | 'getRealnameAuthInfo' |
+  'getAuthorize' | 'lifestyle' | 'contactShare'
 
+export type OnGetUserInfoEventDetail = {
+  /** 用户信息 */
+  userInfo: {
+    /** 昵称 */
+    nickName: string,
+    /** 头像 */
+    avatarUrl: string,
+    /**
+     * 性别
+     *
+     * - `0`: 未知
+     * - `1`: 男
+     * - `2`: 女
+     */
+    gender: 0 | 1 | 2,
+    /** 省份，如：`Yunnan` */
+    province: string,
+    /** 城市，如：`Dalian` */
+    city: string,
+    /** 国家，如：`China` */
+    country: string,
+  },
+  /** 不包括敏感信息的原始数据 `JSON` 字符串，用于计算签名 */
+  rawData: string,
+  /** 使用 `sha1(rawData + sessionkey)` 得到字符串，用于校验用户信息 */
+  signature: string,
+  /** 包括敏感数据在内的完整用户信息的加密数据 */
+  encryptedData: string,
+  /** 加密算法的初始向量 */
+  iv: string,
+  /* 用户信息的调用状态 */
+  errMsg: string
+}
+
+export type OnContactEventDetail = {
+  /* 小程序消息的调用状态 */
+  errMsg: string,
+  /** 小程序消息指定的路径 */
+  path: string,
+  /** 小程序消息指定的查询参数 */
+  query: Record<string, any>
+}
+
+export type OnGetPhoneNumberEventDetail = {
+  /* 获取用户手机号的调用状态 */
+  errMsg: string,
+  /** 包括敏感数据在内的完整用户信息的加密数据 */
+  encryptedData: string,
+  /** 加密算法的初始向量 */
+  iv: string
+}
+
+export type OnOpenSettingEventDetail = {
+  /* 打开授权设置页的调用状态 */
+  errMsg: string,
+  /* 用户授权结果 */
+  authSetting: Record<string, boolean>
+}
 
 export interface ButtonProps extends StandardProps {
 
@@ -49,9 +109,7 @@ export interface ButtonProps extends StandardProps {
   /**
    * 微信开放能力
    */
-  openType?: 'contact' | 'share' | 'getUserInfo' | 'getPhoneNumber' |
-    'launchApp' | 'openSetting' | 'feedback' | 'getRealnameAuthInfo' |
-    'getAuthorize' | 'lifestyle' | 'contactShare',
+  openType?: OpenType,
 
   /**
    * 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
@@ -93,37 +151,7 @@ export interface ButtonProps extends StandardProps {
    *
    * 生效时机: `open-type="getUserInfo"`
    */
-  onGetUserInfo?: CommonEventFunction<{
-    /** 用户信息 */
-    userInfo: {
-      /** 昵称 */
-      nickName: string,
-      /** 头像 */
-      avatarUrl: string,
-      /**
-       * 性别
-       *
-       * - `0`: 未知
-       * - `1`: 男
-       * - `2`: 女
-       */
-      gender: 0 | 1 | 2,
-      /** 省份，如：`Yunnan` */
-      province: string,
-      /** 城市，如：`Dalian` */
-      city: string,
-      /** 国家，如：`China` */
-      country: string,
-    },
-    /** 不包括敏感信息的原始数据 `JSON` 字符串，用于计算签名 */
-    rawData: string,
-    /** 使用 `sha1(rawData + sessionkey)` 得到字符串，用于校验用户信息 */
-    signature: string,
-    /** 包括敏感数据在内的完整用户信息的加密数据 */
-    encryptedData: string,
-    /** 加密算法的初始向量 */
-    iv: string,
-  }>,
+  onGetUserInfo?: CommonEventFunction<OnGetUserInfoEventDetail>,
 
   /**
    * 支付宝小程序scope
@@ -180,26 +208,14 @@ export interface ButtonProps extends StandardProps {
    *
    * 生效时机：`open-type="contact"`
    */
-  onContact?: (
-    event: {
-      /** 小程序消息指定的路径 */
-      path: string,
-      /** 小程序消息指定的查询参数 */
-      query: Record<string, any>
-    }
-  ) => any,
+  onContact?: CommonEventFunction<OnContactEventDetail>,
 
   /**
    * 获取用户手机号回调
    *
    * 生效时机：`open-type="getphonenumber"`
    */
-  onGetPhoneNumber?: CommonEventFunction<{
-    /** 包括敏感数据在内的完整用户信息的加密数据 */
-    encryptedData: string,
-    /** 加密算法的初始向量 */
-    iv: string
-  }>,
+  onGetPhoneNumber?: CommonEventFunction<OnGetPhoneNumberEventDetail>,
 
   /**
    * 获取用户实名
@@ -226,7 +242,7 @@ export interface ButtonProps extends StandardProps {
    *
    * 生效时机：`open-type="openSetting"`
    */
-  onOpenSetting?: CommonEventFunction,
+  onOpenSetting?: CommonEventFunction<OnOpenSettingEventDetail>,
 
   /**
    * 支付宝获取会员基础信息授权回调
