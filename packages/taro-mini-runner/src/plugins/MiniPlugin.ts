@@ -17,7 +17,7 @@ import * as _ from 'lodash'
 
 import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, REG_SCRIPTS, processTypeEnum } from '../utils/constants'
 import { IComponentObj } from '../utils/types'
-import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog } from '../utils'
+import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog, isAliasPath, replaceAliasPath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, generateQuickAppManifest } from '../utils/helper'
 import parseAst from '../utils/parseAst'
@@ -37,7 +37,8 @@ interface IMiniPluginOptions {
   designWidth: number,
   commonChunks: string[],
   pluginConfig?: object,
-  isBuildPlugin: boolean
+  isBuildPlugin: boolean,
+  alias: object
 }
 
 export interface ITaroFileInfo {
@@ -150,7 +151,8 @@ export default class MiniPlugin {
       outputDir: '',
       designWidth: 750,
       commonChunks: ['runtime', 'vendors'],
-      isBuildPlugin: false
+      isBuildPlugin: false,
+      alias: {}
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
@@ -325,15 +327,21 @@ export default class MiniPlugin {
     return componentRealPath
   }
 
-  transfromComponentsPath (components: IComponentObj[]) {
-    const { buildAdapter } = this.options
+  transfromComponentsPath (filePath, components: IComponentObj[]) {
+    const { buildAdapter, alias } = this.options
     components.forEach(component => {
-      const componentPath = component.path
+      let componentPath = component.path
+      let realComponentPath
       if (componentPath && isNpmPkg(componentPath)) {
-        const res = resolveNpmSync(componentPath, this.context)
-        const code = fs.readFileSync(res).toString()
-        const newComponent = Object.assign({}, component, { path: res })
-        const realComponentPath = this.getNpmComponentRealPath(code, newComponent, buildAdapter)
+        if (isAliasPath(componentPath, alias)) {
+          componentPath = replaceAliasPath(filePath, componentPath, alias)
+          realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
+        } else {
+          const res = resolveNpmSync(componentPath, this.context)
+          const code = fs.readFileSync(res).toString()
+          const newComponent = Object.assign({}, component, { path: res })
+          realComponentPath = this.getNpmComponentRealPath(code, newComponent, buildAdapter)
+        }
         component.path = realComponentPath
       }
     })
@@ -517,7 +525,7 @@ export default class MiniPlugin {
   }
 
   getComponents (fileList: Set<IComponent>, isRoot: boolean) {
-    const { buildAdapter } = this.options
+    const { buildAdapter, alias } = this.options
     const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     fileList.forEach(file => {
       const isNative = file.isNative
@@ -597,7 +605,7 @@ export default class MiniPlugin {
         code = transformResult.code
       }
       depComponents = depComponents.filter(item => !/^plugin:\/\//.test(item.path))
-      this.transfromComponentsPath(depComponents)
+      this.transfromComponentsPath(file.path, depComponents)
       if (isQuickApp) {
         const scriptPath = file.path
         const outputScriptPath = scriptPath.replace(this.sourceDir, this.outputDir).replace(path.extname(scriptPath), MINI_APP_FILES[buildAdapter].SCRIPT)
@@ -626,7 +634,7 @@ export default class MiniPlugin {
       printLog(processTypeEnum.COMPILE, isRoot ? '发现页面' : '发现组件', file.path)
       taroFileTypeMap[file.path] = {
         type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
-        config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, {}, depComponents), configObj),
+        config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, alias, depComponents), configObj),
         template,
         code
       }
