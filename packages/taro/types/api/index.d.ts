@@ -1,5 +1,10 @@
 declare namespace Taro {
-  interface GeneralCallbackResult {
-    errMsg: string
+  namespace General {
+    interface CallbackResult {
+      /**
+       * 错误信息
+       */
+      errMsg: string
+    }
   }
 }

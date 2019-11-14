@@ -3,7 +3,11 @@ import * as ts from "typescript"
 import compile, { DocEntry, envMap } from "./parser"
 import writeFile from "./write"
 
-type TCallback = (routepath: string, doc: DocEntry[]) => void
+type TCallback = (routepath: string, doc: DocEntry[], withGeneral?: boolean) => void
+
+const FunctionFlags = [16, 1040]
+const isntTaroMethod = [-1, 1024, 1088]
+const generalParh = path.resolve(__dirname, '../', 'types/api/index.d.ts')
 
 export default function docsAPI (
   base: string = '.',
@@ -13,21 +17,14 @@ export default function docsAPI (
   withLog = true,
 ) {
   const cwd: string = process.cwd();
-  const basepath: string = path.resolve(cwd, base);
-  files.forEach(async s => {
-    compile(cwd, s, (docTree) => {
-      Object.keys(docTree).forEach(e => {
-        const doc = docTree[e]
-        const isOutput = e.search(basepath)
-        if (isOutput > -1) {
-          const output = e
-            .replace(basepath, path.resolve(cwd, out))
-            .replace(/(.[a-z]+)$|(.d.ts)$/ig, '')
-          withLog && console.log(e)
-          if (doc.length < 1) return
-          callback(output, doc)
-        }
-      })
+  files.forEach(s => {
+    compile(cwd, s, [generalParh], (route, doc) => {
+      const output = route
+        .replace(path.resolve(cwd, base), path.resolve(cwd, out))
+        .replace(/(.[a-z]+)$|(.d.ts)$/ig, '')
+      withLog && console.log(route)
+      if (doc.length < 1) return
+      callback(output, doc, route === generalParh)
     })
   })
 }
@@ -35,43 +32,39 @@ export default function docsAPI (
 export function childrenMerge (d: DocEntry[] = [], o: DocEntry[] = []) {
   d.forEach(e => {
     const name = e.name || 'undefined'
-    const target = o.find(v => v.name === name)
-    if (!target) o.push(e)
-    else {
-      for (const key in e) {
-        if (e.hasOwnProperty(key) && e[key] && !['name', 'kind', 'flags'].includes(key)) {
-          if (key === 'children') {
-            if (!target.children) {
-              target.children = childrenMerge(e.children)
-            }
-          } else if (key === 'exports') {
-            if (!target.exports) {
-              target.exports = childrenMerge(e.exports)
-            }
-          } else {
-            target[key] = e[key]
-          }
+    if (!o.find(v => v.name === name)) o.push(e)
+    const target = o.find(v => v.name === name) || {}
+    for (const key in e) {
+      if (e.hasOwnProperty(key) && e[key] && !['name', 'kind'].includes(key)) {
+        if (key === 'flags') {
+          if (!target.flags || !FunctionFlags.includes(e.flags || -1)) target.flags = e.flags
+        } if (key === 'children') {
+          target.children = childrenMerge(e.children, target.children)
+        } if (key === 'exports') {
+          target.exports = childrenMerge(e.exports, target.exports)
+        } else {
+          target[key] = e[key]
         }
       }
     }
   })
-  o.forEach((e: DocEntry) => {
+
+  return o.map(e => {
     if (e.children) {
       if (!e.exports) e.exports = [];
-      (e.children || []).forEach(k => {
+      e.children.forEach(k => {
         const kk = e.exports!.find(kk => kk.name === k.name)
         if (!kk) e.exports!.push(k)
         else Object.assign(kk, k)
       })
       delete e.children
     }
+    return e
   })
-  return o
 }
 
 export function writeJson (routepath: string, doc: DocEntry[]) {
-  const parseData = childrenMerge(doc)
-  const Taro = parseData.find(e => e.name === 'Taro')
+  const Taro = childrenMerge(doc, []).find(e => e.name === 'Taro')
 
   writeFile(`${routepath}.json`, JSON.stringify(Taro, undefined, 2))
 }
@@ -82,109 +75,82 @@ const get = {
     sidebar_label: string
     [key: string]: string
   }) => splicing(['---', ...Object.keys(data).map(key => `${key}: ${data[key]}`), '---', '']),
+  title: (name: string, params: DocEntry[], flags: number = -1) => `${
+    isntTaroMethod.includes(flags) ? '' : 'Taro.'
+  }${name}${
+    FunctionFlags.includes(flags) ? `(${params.map(param => param.name).join(', ')})` : ''
+  }`,
   document: (data?: string) => data ? splicing([data, '']) : undefined,
   since: (data?: ts.JSDocTagInfo) => data ? splicing([`> 最低 Taro 版本: ${data.text || ''}`, '']) : undefined,
-  type: (data?: string, withTitle = false) => data && data !== 'InterfaceDeclaration' ?
-    splicing([withTitle ? '## 类型' : undefined, withTitle ? '' : undefined, '```tsx', data, '```', '']) : undefined,
+  type: (data?: string, level = 0) => data && data !== 'InterfaceDeclaration' ?
+    splicing([level !== 0 ? `${'#'.repeat(level)} 类型\n` : undefined, '```tsx', data, '```', '']) : undefined,
   members: (data?: DocEntry[], level: number = 2) => {
-    return data && data.length > 0 ? splicing([`${'#'.repeat(level)} 方法`, '', ...data.map(param => {
-      param.name === 'offClose' && console.log(param)
-      const tags = param.jsTags || []
-      const members = param.members || []
-      const paramLens = members.reduce((s, v) => v.name !== ts.InternalSymbolName.Call && ++s, 0)
+    if (!data) return undefined
+    const methods: string[] = []
+    const paramLens = data && data.reduce((s, v) => v.name !== ts.InternalSymbolName.Call && ++s, 0)
 
-      if (param.name && ts.InternalSymbolName.Call) {
-        const declarations = param.declarations || []
-        const call_decla = declarations[0] || {}
+    if (paramLens > 0) {
+      const hasType = data.some(v => !!v.type)
+      const hasDef = data.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
+      const hasDes = data.some(v => !!v.documentation)
+
+      methods.push(splicing([
+        `| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasDes? ' Description |' :''}`,
+        `| --- |${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasDes? ' --- |' :''}`,
+        ...data.map(v => {
+          const vtags = v.jsTags || [];
+          const def = vtags.find(tag => tag.name === 'default') || { text: '' }
+          return `| ${v.name} |${
+            hasType? ` ${v.type ? `\`${v.type}\`` : ''} |` :''}${
+            hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''}${
+            hasDes? ` ${(v.documentation || '').split('\n').join('<br />')}${
+              vtags.length > 0 ? `${vtags
+                .filter(arrs => !['default', 'supported'].includes(arrs.name))
+                .map(arrs => `<br />${arrs.name}: ${arrs.text}`).join('')
+            }` : ''} |` :''}`
+        }),
+      '']))
+    } else {
+      methods.push(...data.map(param => {
+        const tags = param.jsTags || []
+  
+        if (param.name === ts.InternalSymbolName.Call) {
+          const declarations = param.declarations || []
+          const call_decla = declarations[0] || {}
+          return splicing([
+            '```tsx',
+            `(${(call_decla.parameters || [])
+              .map(call_params => `${call_params.name}: ${call_params.type}`)
+              .join(',')}) => ${call_decla.returnType}`,
+            '```',
+            '',
+          ])
+        }
         return splicing([
-          '```tsx',
-          `(${(call_decla.parameters || [])
-            .map(call_params => `${call_params.name}: ${call_params.type}`)
-            .join(',')}) => ${call_decla.returnType}`,
-          '```',
-          '',
+          level !== 0 ? `${'#'.repeat(level + 1)} ${param.name}\n` : undefined,
+          get.document(param.documentation),
+          get.since(tags.find(tag => tag.name === 'since')),
+          get.type(param.type),
+          get.see(tags.find(tag => tag.name === 'see')),
         ])
-      }
+      }))
+    }
 
-      if (paramLens > 0) {
-        const hasType = members.some(v => !!v.type && v.type !== param.name)
-        const hasDef = members.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
-        const hasDes = members.some(v => !!v.documentation)
-
-        return splicing([
-          `${'#'.repeat(level + 1)} ${param.name}`, '',
-          `| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasDes? ' Description |' :''}`,
-          `| --- |${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasDes? ' --- |' :''}`,
-          ...members.map(v => {
-            const vtags = v.jsTags || [];
-            const def = vtags.find(tag => tag.name === 'default') || { text: '' }
-            return `| ${v.name} |${
-              hasType? ` ${v.type ? `\`${v.type}\`` : ''} |` :''}${
-              hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''}${
-              hasDes? ` ${(v.documentation || '').split('\n').join('<br />')}${
-                vtags.length > 0 ? `${vtags
-                  .filter(arrs => !['default', 'supported'].includes(arrs.name))
-                  .map(arrs => `<br />${arrs.name}: ${arrs.text}`).join('')
-              }` : ''} |` :''}`
-          }),
-        ''])
-      }
-
-      return splicing([
-        `${'#'.repeat(level + 1)} ${param.name}`,
-        '',
-        get.document(param.documentation),
-        get.since(tags.find(tag => tag.name === 'since')),
-        get.type(param.type),
-        get.see(tags.find(tag => tag.name === 'see')),
-      ])
-    }), '']) : undefined
+    return splicing(methods)
   },
   parameters: (data?: DocEntry[]) => {
     const parameters = data && data.map(param => {
-      const paramExports = param.exports || []
-      const hasType = paramExports.some(v => !!v.type && v.type !== param.name)
-      const hasDef = paramExports.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
-      const hasDes = paramExports.some(v => !!v.documentation)
-      const paramLens = paramExports.reduce((s, v) => v.name !== ts.InternalSymbolName.Call && ++s, 0)
-
-      if (paramLens > 0) {
-        return splicing([
-          `### ${param.name}`, '',
-          `| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasDes? ' Description |' :''}`,
-          `| --- |${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasDes? ' --- |' :''}`,
-          ...paramExports.map(v => {
-            const vtags = v.jsTags || [];
-            const def = vtags.find(tag => tag.name === 'default') || { text: '' }
-
-            return `| ${v.name} |${
-              hasType? ` ${v.type ? `\`${v.type}\`` : ''} |` :''}${
-              hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''}${
-              hasDes? ` ${(v.documentation || '').split('\n').join('<br />')}${
-                vtags.length > 0 ? `${vtags
-                  .filter(arrs => !['default', 'supported'].includes(arrs.name))
-                  .map(arrs => `<br />${arrs.name}: ${arrs.text}`).join('')
-              }` : ''} |` :''}`
-          }),
-        ''])
-      } else {
-        const callback = paramExports.find(e => e.name === ts.InternalSymbolName.Call)
-        const documentation = callback && callback.documentation
-        const tags = callback && callback.jsTags || []
-        const declarations = callback && callback.declarations || []
-        const call_decla = declarations[0]
-
-        return call_decla && splicing([
-          `### ${param.name}`,
-          '',
-          get.document(documentation),
-          get.since(tags.find(tag => tag.name === 'since')),
-          get.type(param.type),
-          get.members(param.members, 3),
-          get.example(tags),
-          get.see(tags.find(tag => tag.name === 'see')),
-        ]) || undefined
-      }
+      const tags = param.jsTags || []
+      // 'OffLoadCallback' === param.name && console.log(JSON.stringify(param))
+      return splicing([
+        `### ${param.name}`,
+        '',
+        get.document(param.documentation),
+        get.since(tags.find(tag => tag.name === 'since')),
+        get.members(param.members, 4),
+        get.example(tags),
+        get.see(tags.find(tag => tag.name === 'see')),
+      ]) || undefined
     })
 
     return parameters && parameters.filter(e => !!e).length > 0 ? splicing(['## 参数', '', ...parameters, '']) : undefined
@@ -230,27 +196,26 @@ const get = {
   see: (data?: ts.JSDocTagInfo) => data ? splicing([`> [参考文档](${data.text || ''})`, '']) : undefined
 }
 
-export function writeDoc (routepath: string, doc: DocEntry[]) {
+export function writeDoc (routepath: string, doc: DocEntry[], withGeneral = false) {
   const _p = path.parse(routepath)
-  const parseData = childrenMerge(doc)
-  const Taro = parseData.find(e => e.name === 'Taro')
+  const Taro = childrenMerge(doc, []).find(e => e.name === 'Taro')
 
   Taro && (Taro.exports || []).forEach(e => {
     const name = e.name || 'undefined'
     const tags = e.jsTags || []
     const params = e.parameters || []
     const md: (string | undefined)[] = []
+    ;(!FunctionFlags.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) && console.log(e.flags, name)
 
-    if (name === 'InterstitialAd') console.log(JSON.stringify(e))
-    
+    if (name === 'General' && !withGeneral) {
+      return
+    }
+
     md.push(
-      get.header({
-        title: `Taro.${name}(${params.map(param => param.name).join(', ')})`,
-        sidebar_label: name
-      }),
+      get.header({ title: get.title(name, params, e.flags), sidebar_label: name }),
       get.document(e.documentation),
       get.since(tags.find(tag => tag.name === 'since')),
-      get.type(e.type, true),
+      get.type(e.type, 2),
       get.parameters(e.exports),
       get.members(e.members),
       get.example(tags),
@@ -258,7 +223,6 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
       get.see(tags.find(tag => tag.name === 'see')),
       // JSON.stringify(e, undefined, 2),
     )
-    name === 'InterstitialAd' && console.log(md)
 
     writeFile(
       path.resolve(_p.name === 'index' ? _p.dir : routepath, `${name}.md`),
@@ -267,9 +231,9 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
   })
 }
 
-// docsAPI('./types/api', './apis', ['./types/index.d.ts'], writeJson)
-// docsAPI('./types/api', './apis', ['./types/api/'], writeDoc)
-docsAPI('./types/api', '../../docs/apis', ['./types/api/'], writeDoc)
+// docsAPI('./types/api', './apis', ['./types/api'], writeJson)
+// docsAPI('./types/api', './apis', ['./types/index'], writeDoc)
+docsAPI('./types/api', '../../docs/apis', ['./types/api'], writeDoc)
 
 function splicing (arr: (string | undefined)[] = []) {
   return arr.filter(e => typeof e === 'string').join('\n')

@@ -19,27 +19,31 @@ export interface DocEntry {
 }
 
 export function generateDocumentation(
-  filepath: string,
+  filepaths: string[],
   options: ts.CompilerOptions,
-  output: { [path: string]: DocEntry[] } = {}
-): { [path: string]: DocEntry[] } {
-  const program = ts.createProgram([filepath], options)
+  output: DocEntry[] = []
+): DocEntry[] {
+  const program = ts.createProgram(filepaths, options)
   const checker = program.getTypeChecker()
-  const sourceFiles = program.getSourceFiles()
-  const mainFile = sourceFiles.find(e => e.fileName === filepath)
+  // const sourceFiles = program.getSourceFiles()
+  // const mainFile = sourceFiles.find(e => e.fileName === filepath)
 
-  if (mainFile) {
-    output[mainFile.fileName] = []
-    ts.forEachChild(mainFile, (n) => visitAST(n, output[mainFile.fileName]))
-    const referencedFiles = mainFile.referencedFiles
-    for (let index = 0; index < referencedFiles.length; index++) {
-      const referencedFileName = referencedFiles[index].fileName;
-      const referencedFile = sourceFiles.find(e => e.fileName.search(referencedFileName) > -1)
+  // if (mainFile) {
+  //   output[mainFile.fileName] = []
+  //   ts.forEachChild(mainFile, (n) => visitAST(n, output[mainFile.fileName]))
+  //   const referencedFiles = mainFile.referencedFiles
+  //   for (let index = 0; index < referencedFiles.length; index++) {
+  //     const referencedFileName = referencedFiles[index].fileName;
+  //     const referencedFile = sourceFiles.find(e => e.fileName.search(referencedFileName) > -1)
 
-      if (referencedFile) {
-        output[referencedFile.fileName] = []
-        ts.forEachChild(referencedFile, (n) => visitAST(n, output[referencedFile.fileName]))
-      }
+  //     if (referencedFile) {
+  //       output[referencedFile.fileName] = []
+  //       ts.forEachChild(referencedFile, (n) => visitAST(n, output[referencedFile.fileName]))
+  //     }
+  for (const sourceFile of program.getSourceFiles()) {
+    // if (!sourceFile.isDeclarationFile) {}
+    if (filepaths[0] === sourceFile.fileName) {
+      ts.forEachChild(sourceFile, (n) => visitAST(n, output))
     }
   }
 

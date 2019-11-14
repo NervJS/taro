@@ -3,7 +3,7 @@ declare namespace Taro {
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/wx.createRewardedVideoAd.html
    */
-  function createRewardedVideoAd(option: createRewardedVideoAd.Option): RewardedVideoAd
+  function createRewardedVideoAd (option: createRewardedVideoAd.Option): RewardedVideoAd
   namespace createRewardedVideoAd {
     interface Option {
       /** 广告单元 id */
@@ -19,7 +19,7 @@ declare namespace Taro {
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/wx.createInterstitialAd.html
    */
-  function createInterstitialAd(option: createInterstitialAd.Option): InterstitialAd
+  function createInterstitialAd (option: createInterstitialAd.Option): InterstitialAd
 
   namespace createInterstitialAd {
     interface Option {
@@ -98,22 +98,18 @@ declare namespace Taro {
     show(): Promise<any>
   }
   namespace InterstitialAd {
-    interface Option {
-      /** 广告单元 id */
-      adUnitId: string
-    }
     /** 插屏广告关闭事件的回调函数 */
-    type OffCloseCallback = (res: GeneralCallbackResult) => void
+    type OffCloseCallback = (res: General.CallbackResult) => void
     /** 插屏错误事件的回调函数 */
-    type OffErrorCallback = (res: GeneralCallbackResult) => void
+    type OffErrorCallback = (res: General.CallbackResult) => void
     /** 插屏广告加载事件的回调函数 */
-    type OffLoadCallback = (res: GeneralCallbackResult) => void
+    type OffLoadCallback = (res: General.CallbackResult) => void
     /** 插屏广告关闭事件的回调函数 */
-    type OnCloseCallback = (res: GeneralCallbackResult) => void
+    type OnCloseCallback = (res: General.CallbackResult) => void
     /** 插屏错误事件的回调函数 */
     type OnErrorCallback = (result: OnErrorCallbackResult) => void
     /** 插屏广告加载事件的回调函数 */
-    type OnLoadCallback = (res: GeneralCallbackResult) => void
+    type OnLoadCallback = (res: General.CallbackResult) => void
     interface OnErrorCallbackResult {
       errCode: keyof errCode
       /** 错误信息 */
@@ -214,16 +210,16 @@ declare namespace Taro {
       isEnded: boolean
     }
     /** 用户点击 `关闭广告` 按钮的事件的回调函数 */
-    type OffCloseCallback = (res: GeneralCallbackResult) => void
+    type OffCloseCallback = (res: General.CallbackResult) => void
     /** 激励视频错误事件的回调函数 */
-    type OffErrorCallback = (res: GeneralCallbackResult) => void
+    type OffErrorCallback = (res: General.CallbackResult) => void
     /** 激励视频广告加载事件的回调函数 */
-    type OffLoadCallback = (res: GeneralCallbackResult) => void
+    type OffLoadCallback = (res: General.CallbackResult) => void
     /** 用户点击 `关闭广告` 按钮的事件的回调函数 */
     type OnCloseCallback = (result: OnCloseCallbackResult) => void
     /** 激励视频错误事件的回调函数 */
     type OnErrorCallback = (result: OnErrorCallbackResult) => void
     /** 激励视频广告加载事件的回调函数 */
-    type OnLoadCallback = (res: GeneralCallbackResult) => void
+    type OnLoadCallback = (res: General.CallbackResult) => void
   }
 }
