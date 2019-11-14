@@ -1,5 +1,7 @@
 ---
 title: 编译配置详情
+id: version-2.0.0-beta.2-config-detail
+original_id: config-detail
 ---
 
 ## designWidth
@@ -669,9 +671,6 @@ Taro app 的入口，同 [webpack.entry](https://webpack.js.org/configuration/en
 
 sourceMap 开关，影响 js、css 的 sourceMap 配置。
 dev 状态默认 **开**，prod 状态默认 **关**。
-
-### h5.sourceMapType
-sourceMap格式, 默认cheap-module-eval-source-map。[具体配置](https://webpack.js.org/configuration/devtool/#devtool)
 
 ### h5.enableDll
 
