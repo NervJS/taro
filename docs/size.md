@@ -20,7 +20,7 @@ const config = {
 目前 Taro 支持 `750`、 `640` 、 `828` 三种尺寸设计稿，他们的换算规则如下：
 
 ```jsx
-const DEVICE_RATIO = {
+const deviceRatio = {
   '640': 2.34 / 2,
   '750': 1,
   '828': 1.81 / 2
@@ -29,13 +29,16 @@ const DEVICE_RATIO = {
 
 建议使用 Taro 时，设计稿以 iPhone 6 `750px` 作为设计尺寸标准。
 
-如果你的设计稿是 `375` ，不在以上三种之中，那么你需要把 `designWidth` 配置为 `375`，同时在 `DEVICE_RATIO` 中添加换算规则如下：
-```jsx
-const DEVICE_RATIO = {
-  '640': 2.34 / 2,
-  '750': 1,
-  '828': 1.81 / 2,
-  '375': 2 / 1
+如果你的设计稿是 `375` ，不在以上三种之中，那么你需要把 `designWidth` 配置为 `375`，同时在 `deviceRatio` 中添加换算规则如下：
+```js
+{
+  designWidth: 375,
+  deviceRatio: {
+    '375': 1 / 2,
+    '640': 2.34 / 2,
+    '750': 1,
+    '828': 1.81 / 2
+  }
 }
 ```
 
