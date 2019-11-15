@@ -144,6 +144,7 @@ export default class TaroMiniPlugin {
     new TaroLoadChunksPlugin({
       commonChunks: this.options.commonChunks,
       buildAdapter: this.options.buildAdapter,
+      framework: this.options.framework,
       isBuildPlugin: false
     }).apply(compiler)
   }

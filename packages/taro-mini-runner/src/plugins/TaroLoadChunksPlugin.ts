@@ -1,36 +1,55 @@
 import * as path from 'path'
 
-import webpack, { compilation } from 'webpack'
+import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 
 import { META_TYPE, REG_STYLE, BUILD_TYPES } from '../utils/constants'
 import { promoteRelativePath } from '../utils'
+import { componentConfig } from '../template/component'
+import { toDashed } from '@tarojs/shared'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 
 interface IOptions {
   commonChunks: string[],
   buildAdapter: BUILD_TYPES,
-  isBuildPlugin: boolean
+  isBuildPlugin: boolean,
+  framework: string
 }
 
 export default class TaroLoadChunksPlugin {
   commonChunks: string[]
   buildAdapter: BUILD_TYPES
   isBuildPlugin: boolean
+  framework: string
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
     this.buildAdapter = options.buildAdapter
     this.isBuildPlugin = options.isBuildPlugin
+    this.framework = options.framework
   }
 
   apply (compiler: webpack.Compiler) {
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: any) => {
       let commonChunks
-      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: compilation.Chunk[]) => {
+      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: webpack.compilation.Chunk[]) => {
         commonChunks = chunks.filter(chunk => this.commonChunks.includes(chunk.name)).reverse()
+
+        if (this.framework === 'vue') {
+          return
+        }
+
+        const vendor = chunks.find(c => c.name === 'vendors')
+        if (vendor == null) {
+          return
+        }
+        vendor.modulesIterable.forEach(m => {
+          if (m.rawRequest === '@tarojs/components') {
+            componentConfig.includes = new Set(m.usedExports.map(toDashed))
+          }
+        })
       })
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
         if (chunk.entryModule) {

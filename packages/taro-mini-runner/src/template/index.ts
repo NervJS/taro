@@ -1,6 +1,7 @@
 import { internalComponents, Shortcuts, createMiniComponents, controlledComponent } from '@tarojs/shared'
 import { Adapter } from './adapters'
 import { BUILD_TYPES } from '../utils/constants'
+import { componentConfig } from './component'
 
 interface Component {
   nodeName: string;
@@ -102,7 +103,7 @@ function buildContainerTemplate (level: number) {
 
 function buildTemplate (level: number, supportRecursive: boolean) {
   const miniComponents = createMiniComponents(internalComponents, Adapter.type === BUILD_TYPES.ALIPAY)
-  const components = Object.keys(miniComponents)
+  const components = Object.keys(miniComponents).filter(c => componentConfig.includes.size ? componentConfig.includes.has(c) : true)
   let template = ''
 
   for (const nodeName of components) {
