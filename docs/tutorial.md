@@ -156,7 +156,7 @@ class App extends Component {
 | navigationBarTextStyle | ✔️ | ✔️|✔️|  ✘ |✔️|✔️|
 | navigationBarTitleText | ✔️ | ✔️|✔️| ✔️ |✔️|✔️|
 | navigationStyle | ✔️（微信客户端 6.6.0） | ✔️（百度 App 版本 11.1.0）|✔️|  ✘ | ✘| ✘|
-| backgroundColor | ✔️ | ✔️|✔️| ✘ |✘|✘|
+| backgroundColor | ✔️ | ✔️|✔️| ✘ |✘|✔️|
 | backgroundTextStyle | ✔️ | ✔️|✔️| ✘ |✘|✘|
 | backgroundColorTop |✔️（微信客户端 6.5.16） | ✘|✔️| ✘ |✘|✘|
 | backgroundColorBottom | ✔️（微信客户端 6.5.16） | ✘|✔️| ✘ |✘|✘|

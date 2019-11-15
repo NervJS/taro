@@ -37,7 +37,21 @@ function getRootStack ({pageList, Taro, navigationOptions}) {
     const Screen = v[1]
     RouteConfigs[pageKey] = getWrappedScreen(Screen, Taro, navigationOptions)
   })
-  return createStackNavigator(RouteConfigs, {headerLayoutPreset: 'center'})
+
+  // 让rn支持背景颜色设置,支持透明色
+  let stackNavigatorOptions = navigationOptions.stackNavigatorOptions || {}
+  let navigatorOptions = {
+    cardStyle: { // 第一层颜色设置
+      backgroundColor: navigationOptions.backgroundColor
+    },
+    transitionConfig: () => ({
+      containerStyle: { // 第二层颜色设置
+        backgroundColor: navigationOptions.backgroundColor
+      }
+    }),
+    ...stackNavigatorOptions
+  }
+  return createStackNavigator(RouteConfigs, {headerLayoutPreset: 'center', ...navigatorOptions})
 }
 
 function getRootStackPageList ({pageList, tabBar, currentTabPath}) {
