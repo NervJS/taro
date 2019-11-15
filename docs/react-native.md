@@ -301,7 +301,7 @@ git clone git@github.com:NervJS/taro-native-shell.git
 ```
 然后 `cd taro-native-shell`，使用 yarn 或者 npm install 安装依赖。
 
-> 注意 `taro-native-shell` 工程和 Taro 工程最好独立存放，不要潜逃，否则会报：`multi react-native ` 错误
+> 注意 `taro-native-shell` 工程和 Taro 工程最好独立存放，不要嵌套，否则会报：`multi react-native ` 错误
 
 工程目录如下：
 
