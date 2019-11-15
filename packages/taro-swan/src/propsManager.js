@@ -10,7 +10,6 @@ class Manager {
     if (!compid) return
 
     if (previd) {
-      this.observers[compid] = this.observers[previd]
       this.delete(previd)
     }
 
