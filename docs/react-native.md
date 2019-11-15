@@ -10,9 +10,13 @@ title: React Native 端开发流程
 
 Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://github.com/facebook/react-native)，目前是项目依赖中固定 React Native 版本为 `0.55.4`。
 
-整个 RN 端的架构如下：
+整个 RN 端的开发流程如下：
 
 ![image](http://assets.processon.com/chart_image/5c988481e4b01e76978bd6ab.png)
+
+首先在 Taro 项目里执行：`taro build --type rn --watch`，这个命令会将 Taro 代码编译为 React Native 代码（默认输出在 rn_temp 目录下），并启动 Metro Server（可以看成是 webpack run devserver --port 8081）打包 rn_temp 下的 js。
+
+然后进入 `taro-native-shell` 目录（建议和 Taro 项目平级），通过 `react-native run-android|ios`启动，或者通过对应的 Android Studio / Xcode 启动应用，启动后应用可以看成是一个浏览器，会从 8081 端口加载 js 并渲染。
 
 ## 搭建 iOS 开发环境
 
