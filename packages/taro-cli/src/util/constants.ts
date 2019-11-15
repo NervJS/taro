@@ -12,7 +12,8 @@ export const enum processTypeEnum {
   ERROR = 'error',
   WARNING = 'warning',
   UNLINK = 'unlink',
-  REFERENCE = 'reference'
+  REFERENCE = 'reference',
+  REMIND = 'remind'
 }
 
 export interface IProcessTypeMap {
@@ -66,6 +67,10 @@ export const processTypeMap: IProcessTypeMap = {
   [processTypeEnum.REFERENCE]: {
     name: '引用',
     color: 'blue'
+  },
+  [processTypeEnum.REMIND]: {
+    name: '提示',
+    color: 'green'
   }
 }
 

@@ -8,7 +8,7 @@ import CONFIG from './config'
 import { BUILD_TYPES, PROJECT_CONFIG } from './util/constants'
 import { IBuildConfig } from './util/types'
 
-export default function build (appPath, buildConfig: IBuildConfig) {
+export default async function build (appPath, buildConfig: IBuildConfig) {
   const { type, watch, platform, port, release, page, component, uiIndex } = buildConfig
   const configDir = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
   const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
@@ -17,6 +17,7 @@ export default function build (appPath, buildConfig: IBuildConfig) {
   } else if (type !== BUILD_TYPES.H5 && (type !== BUILD_TYPES.QUICKAPP || !watch)) {
     Util.emptyDirectory(outputPath)
   }
+  await Util.checkCliAndFrameworkVersion(appPath, type)
   switch (type) {
     case BUILD_TYPES.H5:
       buildForH5(appPath, { watch, port })
