@@ -11,7 +11,7 @@ import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 import { BUILD_TYPES, MINI_APP_FILES, CONFIG_MAP, META_TYPE, NODE_MODULES_REG, FRAMEWORK_MAP, VUE_EXT, SCRIPT_EXT } from '../utils/constants'
 import { resolveMainFilePath, readConfig, isEmptyObject, promoteRelativePath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { buildBaseTemplate, buildPageTemplate } from '../template'
+import { buildBaseTemplate, buildPageTemplate, buildXScript } from '../template'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import { setAdapter } from '../template/adapters'
@@ -310,11 +310,26 @@ export default class TaroMiniPlugin {
     }
   }
 
+  generateXSFile (compilation: webpack.compilation.Compilation) {
+    const ext = MINI_APP_FILES[this.options.buildAdapter].XS
+    if (ext == null) {
+      return
+    }
+
+    const xs = buildXScript()
+    const filePath = this.getTargetFilePath('utils', ext)
+    compilation.assets[filePath] = {
+      size: () => xs.length,
+      source: () => xs
+    }
+  }
+
   generateMiniFiles (compilation: webpack.compilation.Compilation) {
     const baseTemplateName = 'base'
     const { baseLevel } = this.options
     this.generateConfigFile(compilation, this.appEntry, this.appConfig)
     this.generateTemplateFile(compilation, baseTemplateName, buildBaseTemplate, baseLevel)
+    this.generateXSFile(compilation)
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
       this.generateConfigFile(compilation, component.path, this.filesConfig[component.name])

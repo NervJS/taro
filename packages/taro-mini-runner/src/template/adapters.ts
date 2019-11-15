@@ -8,6 +8,7 @@ interface Adapter {
   forItem: string;
   forIndex: string;
   key: string;
+  xs?: string,
   type: BUILD_TYPES;
 }
 
@@ -19,6 +20,7 @@ const weixinAdapter: Adapter = {
   forItem: 'wx:for-item',
   forIndex: 'wx:for-index',
   key: 'wx:key',
+  xs: 'wxs',
   type: BUILD_TYPES.WEAPP
 }
 
@@ -30,6 +32,7 @@ const swanAdapter: Adapter = {
   forItem: 's-for-item',
   forIndex: 's-for-index',
   key: 's-key',
+  xs: 'sjs',
   type: BUILD_TYPES.SWAN
 }
 
@@ -41,6 +44,7 @@ const alipayAdapter: Adapter = {
   forItem: 'a:for-item',
   forIndex: 'a:for-index',
   key: 'a:key',
+  xs: 'sjs',
   type: BUILD_TYPES.ALIPAY
 }
 

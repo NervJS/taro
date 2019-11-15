@@ -1,5 +1,6 @@
 import { internalComponents, Shortcuts, createMiniComponents, controlledComponent } from '@tarojs/shared'
 import { Adapter } from './adapters'
+import { BUILD_TYPES } from '../utils/constants'
 
 const miniComponents = createMiniComponents(internalComponents)
 
@@ -16,40 +17,51 @@ function buildAttribute (attrs: Attributes): string {
     .join('')
 }
 
-function buildStandardComponentTemplate (comp: Component, level: number): string {
+function buildStandardComponentTemplate (comp: Component, level: number, supportRecursive: boolean): string {
+  const nextLevel = supportRecursive ? 0 : level + 1
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
   <${comp.nodeName} ${buildAttribute(comp.attributes)} id="{{ i.uid }}">
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
-      <template is="tmpl_${level + 1}_${Shortcuts.Container}" data="{{i: item}}" />
+      <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{i: item}}" />
     </block>
   </${comp.nodeName}>
 </template>
 `
 }
 
-// 各种小程序类 js 语法
+// @TODO: 其它小程序的 XS 语法
 function buildXsTemplate () {
-  return `
-<wxs module="xs">
-  module.exports = {
-    c: function(i, prefix) {
-      var s = '_' + i.value !== undefined ? 'controlled' : 'uncontrolled'
-      return prefix + i.${Shortcuts.NodeName} + '_' + s
-    }
+  let xs = ''
+  if (Adapter.type === BUILD_TYPES.WEAPP) {
+    xs = `<wxs module="xs" src="./utils.${Adapter.xs}" />`
+  } if (Adapter.type === BUILD_TYPES.SWAN || Adapter.type === BUILD_TYPES.ALIPAY) {
+    xs = `<import-sjs name="xs" from="./utils.${Adapter.xs}" />`
+  } else if (Adapter.type === BUILD_TYPES.QQ) {
+    xs = `<qs module="xs" src="./utils.${Adapter.xs}" />`
   }
-</wxs>
-`
+  return xs
 }
 
-function buildComponentTemplate (comp: Component, level: number) {
+export function buildXScript () {
+  const exportExpr = Adapter.type === BUILD_TYPES.ALIPAY ? 'export default' : 'module.exports ='
+  return `${exportExpr} {
+  c: function(i, prefix) {
+    var s = '_' + i.value !== undefined ? 'controlled' : 'uncontrolled'
+    return prefix + i.${Shortcuts.NodeName} + '_' + s
+  }
+}`
+}
+
+function buildComponentTemplate (comp: Component, level: number, supportRecursive: boolean) {
   return controlledComponent.has(comp.nodeName)
-    ? buildControlledComponentTemplte(comp, level)
-    : buildStandardComponentTemplate(comp, level)
+    ? buildControlledComponentTemplte(comp, level, supportRecursive)
+    : buildStandardComponentTemplate(comp, level, supportRecursive)
 }
 
-function buildControlledComponentTemplte (comp: Component, level: number) {
+function buildControlledComponentTemplte (comp: Component, level: number, supportRecursive: boolean) {
   const attrs = { ...comp.attributes }
+  const nextLevel = supportRecursive ? 0 : level + 1
   delete attrs.value
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
@@ -59,7 +71,7 @@ function buildControlledComponentTemplte (comp: Component, level: number) {
 <template name="tmpl_${level}_${comp.nodeName}_controlled">
   <${comp.nodeName} ${buildAttribute(comp.attributes)} id="{{ i.uid }}">
   <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
-    <template is="tmpl_${level + 1}_${Shortcuts.Container}" data="{{i: item}}" />
+    <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{i: item}}" />
   </block>
   </${comp.nodeName}>
 </template>
@@ -67,7 +79,7 @@ function buildControlledComponentTemplte (comp: Component, level: number) {
 <template name="tmpl_${level}_${comp.nodeName}_uncontrolled">
   <${comp.nodeName} ${buildAttribute(attrs)} id="{{ i.uid }}">
   <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
-    <template is="tmpl_${level + 1}_${Shortcuts.Container}" data="{{i: item}}" />
+    <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{i: item}}" />
   </block>
   </${comp.nodeName}>
 </template>
@@ -90,13 +102,13 @@ function buildContainerTemplate (level: number) {
 `
 }
 
-function buildTemplate (level: number) {
+function buildTemplate (level: number, supportRecursive: boolean) {
   const components = Object.keys(miniComponents)
   let template = ''
 
   for (const nodeName of components) {
     const attributes: Attributes = miniComponents[nodeName]
-    template += buildComponentTemplate({ nodeName, attributes }, level)
+    template += buildComponentTemplate({ nodeName, attributes }, level, supportRecursive)
   }
 
   template += buildPlainTextTemplate(level)
@@ -114,8 +126,17 @@ export function buildBaseTemplate (level: number) {
 </template>
 `
 
-  for (let i = 0; i < level; i++) {
-    template += buildTemplate(i)
+  let supportRecursive = false
+  if (Adapter.type === BUILD_TYPES.ALIPAY || Adapter.type === BUILD_TYPES.SWAN) {
+    supportRecursive = true
+  }
+
+  if (supportRecursive) {
+    template += buildTemplate(0, supportRecursive)
+  } else {
+    for (let i = 0; i < level; i++) {
+      template += buildTemplate(i, supportRecursive)
+    }
   }
 
   return template
@@ -123,7 +144,7 @@ export function buildBaseTemplate (level: number) {
 
 export function buildPageTemplate (baseTempPath) {
   const template = `<import src="${baseTempPath}"/>
-  <template is="taro_tmpl" data="{{root: root}}" />`
+<template is="taro_tmpl" data="{{root: root}}" />`
 
   return template
 }
