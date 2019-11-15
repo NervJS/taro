@@ -10,9 +10,8 @@ const events = {
   bindtap: 'eh'
 }
 
-const common = {
-  ...styles,
-  ...events
+const alipayEvents = {
+  onTap: 'eh'
 }
 
 const View = {
@@ -40,7 +39,7 @@ const Progress = {
   active: 'false',
   'active-mode': 'backwards',
   duration: '30',
-  bindactiveend: ''
+  bindActiveEnd: ''
 }
 
 const RichText = {
@@ -73,12 +72,12 @@ const Button = {
   'send-message-img': '',
   'app-parameter': '',
   'show-message-card': 'false',
-  bindgetuserinfo: '',
-  bindcontact: '',
-  bindgetphonenumber: '',
-  binderror: '',
-  bindopensetting: '',
-  bindlaunchapp: ''
+  bindGetUserInfo: '',
+  bindContact: '',
+  bindGetPhoneNumber: '',
+  bindError: '',
+  bindOpenSetting: '',
+  bindLaunchApp: ''
 }
 
 const Checkbox = {
@@ -89,7 +88,7 @@ const Checkbox = {
 }
 
 const CheckboxGroup = {
-  bindchange: ''
+  bindChange: ''
 }
 
 const Editor = {
@@ -98,18 +97,18 @@ const Editor = {
   'show-img-size': 'false',
   'show-img-toolbar': 'false',
   'show-img-resize': 'false',
-  bindready: '',
-  bindfocus: '',
-  bindblur: '',
-  bindinput: '',
-  bindstatuschange: ''
+  bindReady: '',
+  bindFocus: '',
+  bindBlur: '',
+  bindInput: '',
+  bindStatusChange: ''
 }
 
 const Form = {
   'report-submit': 'false',
   'report-submit-timeout': '0',
-  bindsubmit: '',
-  bindreset: ''
+  bindSubmit: '',
+  bindReset: ''
 }
 
 const Input = {
@@ -130,11 +129,11 @@ const Input = {
   'selection-end': '-1',
   'adjust-position': 'true',
   'hold-keyboard': 'false',
-  bindinput: '',
-  bindfocus: '',
-  bindblur: '',
-  bindconfirm: '',
-  bindkeyboardheightchange: ''
+  bindInput: '',
+  bindFocus: '',
+  bindBlur: '',
+  bindConfirm: '',
+  bindKeyboardHeightChange: ''
 }
 
 const Label = {
@@ -144,7 +143,7 @@ const Label = {
 const Picker = {
   mode: singleQuote('selector'),
   disabled: 'false',
-  bindcancel: ''
+  bindCancel: ''
 }
 
 const PickerView = {
@@ -153,9 +152,9 @@ const PickerView = {
   'indicator-class': '',
   'mask-style': '',
   'mask-class': '',
-  bindchange: '',
-  bindpickstart: '',
-  bindpickend: ''
+  bindChange: '',
+  bindPickStart: '',
+  bindPickEnd: ''
 }
 
 const PickerViewColumn = {
@@ -170,7 +169,7 @@ const Radio = {
 }
 
 const RadioGroup = {
-  bindchange: ''
+  bindChange: ''
 }
 
 const Slider = {
@@ -186,8 +185,8 @@ const Slider = {
   'block-size': '28',
   'block-color': singleQuote('#ffffff'),
   'show-value': 'false',
-  bindchange: '',
-  bindchanging: ''
+  bindChange: '',
+  bindChanging: ''
 }
 
 const Switch = {
@@ -195,13 +194,13 @@ const Switch = {
   disabled: 'false',
   type: singleQuote('switch'),
   color: singleQuote('#04BE02'),
-  bindchange: ''
+  bindChange: ''
 }
 
 const CoverImage = {
   src: '',
-  bindload: 'eh',
-  binderror: 'eh'
+  bindLoad: 'eh',
+  bindError: 'eh'
 }
 
 const Textarea = {
@@ -222,12 +221,12 @@ const Textarea = {
   'selection-end': '-1',
   'adjust-position': 'true',
   'hold-keyboard': 'false',
-  bindfocus: '',
-  bindblur: '',
-  bindlinechange: '',
-  bindinput: '',
-  bindconfirm: '',
-  bindkeyboardheightchange: ''
+  bindFocus: '',
+  bindBlur: '',
+  bindLineChange: '',
+  bindInput: '',
+  bindConfirm: '',
+  bindKeyboardHeightChange: ''
 }
 
 const CoverView = {
@@ -252,8 +251,8 @@ const MoveableView = {
   'scale-max': '10',
   'scale-value': '1',
   animation: 'true',
-  bindchange: '',
-  bindscale: '',
+  bindChange: '',
+  bindScale: '',
   htouchmove: '',
   vtouchmove: '',
   width: singleQuote('10px'),
@@ -272,9 +271,9 @@ const ScrollView = {
   'enable-back-to-top': 'false',
   'enable-flex': 'false',
   'scroll-anchoring': ' false',
-  bindscrolltoupper: '',
-  bindscrolltolower: '',
-  bindscroll: ''
+  bindScrolltoUpper: '',
+  bindScrolltoLower: '',
+  bindScroll: ''
 }
 
 function singleQuote (s: string) {
@@ -296,9 +295,9 @@ const Swiper = {
   'display-multiple-items': '1',
   'skip-hidden-item-layout': 'false',
   'easing-function': singleQuote('default'),
-  bindchange: '',
-  bindtransition: '',
-  bindanimationfinish: ''
+  bindChange: '',
+  bindTransition: '',
+  bindAnimationFinish: ''
 }
 
 const SwiperItem = {
@@ -309,9 +308,9 @@ const FunctionalPageNavigator = {
   version: singleQuote('release'),
   name: '',
   args: '',
-  bindsuccess: '',
-  bindfail: '',
-  bindcancel: ''
+  bindSuccess: '',
+  bindFail: '',
+  bindCancel: ''
 }
 
 const Navigator = {
@@ -327,9 +326,9 @@ const Navigator = {
   'hover-stop-propagation': 'false',
   'hover-start-time': '50',
   'hover-stay-time': '600',
-  bindsuccess: '',
-  bindfail: '',
-  bindcomplete: ''
+  bindSuccess: '',
+  bindFail: '',
+  bindComplete: ''
 }
 
 const Audio = {
@@ -340,11 +339,11 @@ const Audio = {
   poster: '',
   name: '',
   author: '',
-  binderror: '',
-  bindplay: '',
-  bindpause: '',
-  bindtimeupdate: '',
-  bindended: ''
+  bindError: '',
+  bindPlay: '',
+  bindPause: '',
+  bindTimeUpdate: '',
+  bindEnded: ''
 }
 
 const specialEvents = new Set([
@@ -357,10 +356,10 @@ const Camera = {
   'device-position': singleQuote('back'),
   flash: singleQuote('auto'),
   'frame-size': singleQuote('medium'),
-  bindstop: '',
-  binderror: '',
-  bindinitdone: '',
-  bindscancode: ''
+  bindStop: '',
+  bindError: '',
+  bindInitDone: '',
+  bindScanCode: ''
 }
 
 const Image = {
@@ -369,8 +368,8 @@ const Image = {
   webp: 'false',
   'lazy-load': 'false',
   'show-menu-by-longpress': 'false',
-  binderror: '',
-  bindload: ''
+  bindError: '',
+  bindLoad: ''
 }
 
 const LivePlayer = {
@@ -386,9 +385,9 @@ const LivePlayer = {
   'sound-mode': singleQuote('speaker'),
   'auto-pause-if-navigate': 'true',
   'auto-pause-if-open-native': 'true',
-  bindstatechange: '',
-  bindfullscreenchange: '',
-  bindnetstatus: ''
+  bindStateChange: '',
+  bindFullScreenChange: '',
+  bindNetStatus: ''
 }
 
 const Video = {
@@ -420,40 +419,40 @@ const Video = {
   'vslide-gesture': 'false',
   'vslide-gesture-in-fullscreen': 'true',
   'ad-unit-id': '',
-  bindplay: '',
-  bindpause: '',
-  bindended: '',
-  bindtimeupdate: '',
-  bindfullscreenchange: '',
-  bindwaiting: '',
-  binderror: '',
-  bindprogress: '',
-  bindloadedmetadata: ''
+  bindPlay: '',
+  bindPause: '',
+  bindEnded: '',
+  bindTimeUpdate: '',
+  bindFullScreenChange: '',
+  bindWaiting: '',
+  bindError: '',
+  bindProgress: '',
+  bindLoadedMetadata: ''
 }
 
 const Canvas = {
   type: '',
   'canvas-id': '',
   'disable-scroll': 'false',
-  bindtouchstart: '',
-  bindtouchmove: '',
-  bindtouchend: '',
-  bindtouchcancel: '',
-  bindlongtap: '',
-  binderror: ''
+  bindTouchStart: '',
+  bindTouchMove: '',
+  bindTouchEnd: '',
+  bindTouchCancel: '',
+  bindLongtap: '',
+  bindError: ''
 }
 
 const Ad = {
   'unit-id': '',
   'ad-intervals': '',
-  bindload: '',
-  binderror: '',
-  bindclose: ''
+  bindLoad: '',
+  bindError: '',
+  bindClose: ''
 }
 
 const OfficialAccount = {
-  bindload: '',
-  binderror: ''
+  bindLoad: '',
+  bindError: ''
 }
 
 const OpenData = {
@@ -462,13 +461,13 @@ const OpenData = {
   lang: singleQuote('en'),
   'default-text': '',
   'default-avatar': '',
-  binderror: ''
+  bindError: ''
 }
 
 const WebView = {
   src: '',
-  bindmessage: '',
-  bindload: ''
+  bindMessage: '',
+  bindLoad: ''
 }
 
 const NavigationBar = {
@@ -489,9 +488,9 @@ const PageMeta = {
   'scroll-duration': '300',
   'page-style': singleQuote(''),
   'root-font-size': singleQuote(''),
-  bindresize: '',
-  bindscroll: '',
-  bindscrolldone: ''
+  bindResize: '',
+  bindScroll: '',
+  bindScrollDone: ''
 }
 
 const Block = {}
@@ -500,7 +499,7 @@ interface Components {
   [key: string]: Record<string, string>;
 }
 
-export function createMiniComponents (components: Components) {
+export function createMiniComponents (components: Components, isAlipay = false) {
   const result: Components = Object.create(null)
 
   for (const key in components) {
@@ -508,10 +507,13 @@ export function createMiniComponents (components: Components) {
       const component = components[key]
       const compName = toDashed(key)
       const newComp: Record<string, string> = Object.create(null)
-      for (const prop in component) {
+      for (let prop in component) {
         if (hasOwn(component, prop)) {
           let propValue = component[prop]
           if (prop.startsWith('bind') || specialEvents.has(prop)) {
+            if (isAlipay) {
+              prop = prop.replace('bind', 'on')
+            }
             propValue = 'eh'
           } else if (propValue === '') {
             propValue = `i.${toCamelCase(prop)}`
@@ -523,7 +525,7 @@ export function createMiniComponents (components: Components) {
         }
       }
       if (compName !== 'block') {
-        Object.assign(newComp, common)
+        Object.assign(newComp, styles, isAlipay ? alipayEvents : events)
       }
       result[compName] = newComp
     }

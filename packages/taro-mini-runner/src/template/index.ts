@@ -2,8 +2,6 @@ import { internalComponents, Shortcuts, createMiniComponents, controlledComponen
 import { Adapter } from './adapters'
 import { BUILD_TYPES } from '../utils/constants'
 
-const miniComponents = createMiniComponents(internalComponents)
-
 interface Component {
   nodeName: string;
   attributes: Attributes;
@@ -13,7 +11,7 @@ type Attributes = Record<string, string>
 
 function buildAttribute (attrs: Attributes): string {
   return Object.keys(attrs)
-    .map(k => `${k}="${k.startsWith('bind') ? attrs[k] : `{{ ${attrs[k]} }}`}" `)
+    .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') ? attrs[k] : `{{ ${attrs[k]} }}`}" `)
     .join('')
 }
 
@@ -103,6 +101,7 @@ function buildContainerTemplate (level: number) {
 }
 
 function buildTemplate (level: number, supportRecursive: boolean) {
+  const miniComponents = createMiniComponents(internalComponents, Adapter.type === BUILD_TYPES.ALIPAY)
   const components = Object.keys(miniComponents)
   let template = ''
 
