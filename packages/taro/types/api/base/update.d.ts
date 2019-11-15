@@ -25,6 +25,7 @@ declare namespace Taro {
    *   // 新的版本下载失败
    * })
    * ```
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/update/wx.getUpdateManager.html
    */
   function getUpdateManager(): UpdateManager

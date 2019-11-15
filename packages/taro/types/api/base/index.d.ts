@@ -28,8 +28,6 @@ declare namespace Taro {
    */
   function canIUse(param: string): boolean
 
-  type arrayBuffer = Uint8Array | Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | ArrayBuffer
-
   /**
    * 将 Base64 字符串转成 ArrayBuffer 数据。
    * @supported weapp, h5
@@ -39,7 +37,7 @@ declare namespace Taro {
    * const arrayBuffer = Taro.base64ToArrayBuffer(base64)
    * ```
    */
-  function base64ToArrayBuffer(base64: string): arrayBuffer
+  function base64ToArrayBuffer(base64: string): General.arrayBuffer
 
   /**
    * 将 ArrayBuffer 数据转成 Base64 字符串。
@@ -49,5 +47,5 @@ declare namespace Taro {
    * const base64 = Taro.arrayBufferToBase64(arrayBuffer)
    * ```
    */
-  function arrayBufferToBase64(buffer: arrayBuffer): string
+  function arrayBufferToBase64(buffer: General.arrayBuffer): string
 }

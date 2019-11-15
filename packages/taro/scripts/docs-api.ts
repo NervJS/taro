@@ -30,6 +30,12 @@ const dontShowAPI = [
   -1,
   ts.SymbolFlags.Signature,
 ]
+const descTags = [
+  'abnormal', 'reason', 'solution',
+]
+const isntShowType = [
+  'any', 'InterfaceDeclaration',
+]
 const generalParh = path.resolve(__dirname, '../', 'types/api/index.d.ts')
 
 export default function docsAPI (
@@ -78,7 +84,13 @@ export function childrenMerge (d: DocEntry[] = [], o: DocEntry[] = []) {
       e.children.forEach(k => {
         const kk = e.exports!.find(kk => kk.name === k.name)
         if (!kk) e.exports!.push(k)
-        else Object.assign(kk, k)
+        else {
+          for (const key in k) {
+            if (k.hasOwnProperty(key) && !kk[key]) {
+              kk[key] = k[key]
+            }
+          }
+        }
       })
       delete e.children
     }
@@ -105,31 +117,47 @@ const get = {
   }`,
   document: (data?: string) => data ? splicing([data, '']) : undefined,
   since: (data?: ts.JSDocTagInfo) => data ? splicing([`> 最低 Taro 版本: ${data.text || ''}`, '']) : undefined,
-  type: (data?: string, level = 0) => data && data !== 'InterfaceDeclaration' ?
+  type: (data?: string, level = 0) => data && !isntShowType.includes(data) ?
     splicing([level !== 0 ? `${'#'.repeat(level)} 类型\n` : undefined, '```tsx', data, '```', '']) : undefined,
   members: (data?: DocEntry[], level: number = 2) => {
     if (!data) return undefined
-    const methods: string[] = []
+    const methods: string[] = level === 2 ? ['## 方法', ''] : []
     const paramLens = data && data.reduce((s, v) => v.name !== ts.InternalSymbolName.Call && ++s, 0)
 
     if (paramLens > 0) {
-      const hasType = data.some(v => !!v.type)
+      const hasType = data.some(v => !!v.type && !isntShowType.includes(v.type))
       const hasDef = data.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
+      const hasAbnormal = data.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'abnormal'))
+      const hasReason = data.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'reason'))
+      const hasSolution = data.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'solution'))
       const hasDes = data.some(v => !!v.documentation)
 
       methods.push(splicing([
-        `| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasDes? ' Description |' :''}`,
-        `| --- |${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasDes? ' --- |' :''}`,
+        `| Name |${hasType? ' Type |' :''}${hasDef? ' Default |' :''}${hasAbnormal? ' 异常情况 |' :''}${hasReason? ' 理由 |' :''}${hasSolution? ' 解决方案 |' :''}${hasDes? ' Description |' :''}`,
+        `| --- |${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasAbnormal? ' :---: |' :''}${hasReason? ' :---: |' :''}${hasSolution? ' :---: |' :''}${hasDes? ' --- |' :''}`,
         ...data.map(v => {
           const vtags = v.jsTags || [];
           const def = vtags.find(tag => tag.name === 'default') || { text: '' }
+          const abnormal = vtags.find(tag => tag.name === 'abnormal') || { text: '' }
+          const reason = vtags.find(tag => tag.name === 'reason') || { text: '' }
+          const solution = vtags.find(tag => tag.name === 'solution') || { text: '' }
           return `| ${v.name} |${
             hasType? ` ${v.type ? `\`${v.type}\`` : ''} |` :''}${
             hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''}${
-            hasDes? ` ${(v.documentation || '').split('\n').join('<br />')}${
+            hasAbnormal? ` ${abnormal.text ? `\`${abnormal.text}\`` : ''} |` :''}${
+            hasReason? ` ${reason.text ? `\`${reason.text}\`` : ''} |` :''}${
+            hasSolution? ` ${solution.text ? `\`${solution.text}\`` : ''} |` :''}${
+            hasDes? ` ${parseLineFeed(v.documentation)}${
               vtags.length > 0 ? `${vtags
                 .filter(arrs => !['default', 'supported'].includes(arrs.name))
-                .map(arrs => `<br />${arrs.name}: ${arrs.text}`).join('')
+                .map(arrs => {
+                  if (arrs.name === 'see') {
+                    return `<br />[参考地址](${arrs.text})`
+                  } else if (!descTags.includes(arrs.name)) {
+                    return `<br />${arrs.name}: ${parseLineFeed(arrs.text)}`
+                  }
+                  return undefined
+                }).join('')
             }` : ''} |` :''}`
         }),
       '']))
@@ -176,7 +204,8 @@ const get = {
       ]) || undefined
     })
 
-    return parameters && parameters.filter(e => !!e).length > 0 ? splicing(['## 参数', '', ...parameters, '']) : undefined
+    return parameters && parameters.filter(e => !!e).length > 0 ?
+      splicing(['## 参数', '', ...parameters, '']) : undefined
   },
   example: (tags: ts.JSDocTagInfo[]) => {
     const array: string[] = []
@@ -252,8 +281,8 @@ export function writeDoc (routepath: string, doc: DocEntry[], withGeneral = fals
       get.document(e.documentation),
       get.since(tags.find(tag => tag.name === 'since')),
       get.type(e.type, 2),
-      get.parameters(e.exports),
       get.members(e.members),
+      get.parameters(e.exports),
       get.example(tags),
       get.api(apis),
       get.see(tags.find(tag => tag.name === 'see')),
@@ -273,4 +302,8 @@ docsAPI('./types/api', '../../docs/apis', ['./types/api'], writeDoc)
 
 function splicing (arr: (string | undefined)[] = []) {
   return arr.filter(e => typeof e === 'string').join('\n')
+}
+
+function parseLineFeed (s?: string) {
+  return (s || '').split('\n').join('<br />')
 }
