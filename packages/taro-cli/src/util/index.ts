@@ -479,13 +479,14 @@ export async function checkCliAndFrameworkVersion (appPath, buildAdapter) {
     if (frameworkVersion !== pkgVersion) {
       const taroCliPath = path.join(getRootPath(), 'package.json')
       const frameworkPath = path.join(nodeModulesPath, frameworkName, 'package.json')
-      printLog(processTypeEnum.ERROR, '版本问题', `Taro CLI 与版本安装运行时框架 ${frameworkName} 版本不一致, 请确保版本一致！`)
+      printLog(processTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装运行时框架 ${frameworkName} 版本不一致, 请确保版本一致！`)
       printLog(processTypeEnum.REMIND, '升级命令', `升级到最新CLI：taro update self   升级到最新依赖库：taro update project`);
       printLog(processTypeEnum.REMIND, '升级文档', `请参考 "常用 CLI 命令"中"更新" 章节：https://taro-docs.jd.com/taro/docs/GETTING-STARTED.html`);
       console.log(``)
       console.log(`Taro CLI：${getPkgVersion()}             路径：${taroCliPath}`)
       console.log(`${frameworkName}：${frameworkVersion}   路径：${frameworkPath}`)
       console.log(``)
+      process.exit(1)
     }
   } else {
     printLog(processTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
