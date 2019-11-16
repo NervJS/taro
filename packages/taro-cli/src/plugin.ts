@@ -312,7 +312,7 @@ function wxPluginWatchFiles () {
 }
 
 function isWxPluginPage (pages, filePath) {
-  return pages.findIndex(page => filePath.includes(page)) >= 0
+  return pages.findIndex(page => filePath.includes(path.join(page))) >= 0
 }
 
 async function buildWxPlugin (appPath, { watch }) {
