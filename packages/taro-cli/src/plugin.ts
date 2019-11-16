@@ -290,6 +290,7 @@ function wxPluginWatchFiles () {
         await Promise.all(ioPromises)
 
         await Promise.all(names.map(async from => {
+          from = path.join(from)
           if (fs.existsSync(from) && fs.statSync(from).isFile()) {
             const to = from.replace(outputDir, appPath)
             fs.ensureDirSync(path.dirname(to))
