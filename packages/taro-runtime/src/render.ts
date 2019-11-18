@@ -9,7 +9,25 @@ export interface MpInstance {
   __route__: string;
 }
 
-export function hydrate (node: TaroElement | TaroText) {
+interface MiniElementData {
+  [Shortcuts.Childnodes]: MiniData[]
+  [Shortcuts.NodeName]: string
+  [Shortcuts.Class]: string
+  [Shortcuts.Style]: string
+  uid: string
+  [key: string]: unknown
+}
+
+interface MiniTextData {
+  [Shortcuts.Text]: string
+  [Shortcuts.NodeName]: string
+}
+
+export type MiniData = MiniElementData | MiniTextData
+
+export type HydratedData = () => MiniData | MiniData[]
+
+export function hydrate (node: TaroElement | TaroText): MiniData {
   if (isText(node)) {
     return {
       [Shortcuts.Text]: node.nodeValue,

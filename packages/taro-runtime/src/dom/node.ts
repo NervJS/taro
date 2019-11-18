@@ -3,16 +3,18 @@ import { incrementId } from '../utils'
 import { TaroEventTarget } from './event_target'
 import { eventSource } from './event'
 import { TaroRootElement } from './root'
-import { Shortcuts } from '@tarojs/shared'
-import { hydrate } from '../render'
+import { Shortcuts, invariant } from '@tarojs/shared'
+import { hydrate, HydratedData } from '../render'
 import { TaroElement } from './element'
 
 const nodeId = incrementId()
 
 export interface UpdatePayload {
   path: string;
-  value: unknown
+  value: UpdatePayloadValue
 }
+
+export type UpdatePayloadValue = string | boolean | HydratedData
 
 export class TaroNode extends TaroEventTarget {
   public nodeType: NodeType
@@ -160,5 +162,12 @@ export class TaroNode extends TaroEventTarget {
         this.childNodes[0].remove()
       }
     }
+  }
+
+  protected findIndex (childeNodes: TaroNode[], refChild: TaroNode) {
+    const index = childeNodes.indexOf(refChild)
+    invariant(index !== -1, 'The node to be replaced is not a child of this node.')
+
+    return index
   }
 }

@@ -1,7 +1,7 @@
 import { TaroElement } from './element'
 import { NodeType } from './node_types'
-import { MpInstance } from '../render'
-import { UpdatePayload } from './node'
+import { MpInstance, HydratedData } from '../render'
+import { UpdatePayload, UpdatePayloadValue } from './node'
 import { isFunction, Shortcuts } from '@tarojs/shared'
 
 export class TaroRootElement extends TaroElement {
@@ -38,7 +38,7 @@ export class TaroRootElement extends TaroElement {
     const ctx = this.ctx!
 
     setTimeout(() => {
-      const data = Object.create(null)
+      const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
       const resetPaths = new Set<string>()
       while (this.updatePayloads.length > 0) {
         const { path, value } = this.updatePayloads.shift()!

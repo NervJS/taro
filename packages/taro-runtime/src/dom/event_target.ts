@@ -58,16 +58,10 @@ export class TaroEventTarget {
       return
     }
 
-    const index = this.findIndex(handlers, handler)
+    const index = handlers.indexOf(handler)
+
+    warn(index === -1, `事件: '${type}' 没有注册在 DOM 中，因此不会被移除。`)
+
     handlers.splice(index, 1)
-  }
-
-  protected findIndex<T> (childeNodes: T[], refChild: T) {
-    const index = childeNodes.indexOf(refChild)
-    if (index === -1) {
-      throw new Error('refChild 不属于') // 改进报错
-    }
-
-    return index
   }
 }

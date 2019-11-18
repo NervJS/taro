@@ -46,7 +46,7 @@ export function buildXScript () {
   const exportExpr = Adapter.type === BUILD_TYPES.ALIPAY ? 'export default' : 'module.exports ='
   return `${exportExpr} {
   c: function(i, prefix) {
-    var s = '_' + i.value !== undefined ? 'controlled' : 'uncontrolled'
+    var s = i.focus !== undefined ? 'focus' : 'blur'
     return prefix + i.${Shortcuts.NodeName} + '_' + s
   }
 }`
@@ -61,13 +61,13 @@ function buildComponentTemplate (comp: Component, level: number, supportRecursiv
 function buildControlledComponentTemplte (comp: Component, level: number, supportRecursive: boolean) {
   const attrs = { ...comp.attributes }
   const nextLevel = supportRecursive ? 0 : level + 1
-  delete attrs.value
+  delete attrs.focus
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
   <template is="{{ xs.c(i, 'tmpl_${level}_') }}" data="{{i: i}}" />
 </template>
 
-<template name="tmpl_${level}_${comp.nodeName}_controlled">
+<template name="tmpl_${level}_${comp.nodeName}_focus">
   <${comp.nodeName} ${buildAttribute(comp.attributes)} id="{{ i.uid }}">
   <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
     <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{i: item}}" />
@@ -75,7 +75,7 @@ function buildControlledComponentTemplte (comp: Component, level: number, suppor
   </${comp.nodeName}>
 </template>
 
-<template name="tmpl_${level}_${comp.nodeName}_uncontrolled">
+<template name="tmpl_${level}_${comp.nodeName}_blur">
   <${comp.nodeName} ${buildAttribute(attrs)} id="{{ i.uid }}">
   <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
     <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{i: item}}" />

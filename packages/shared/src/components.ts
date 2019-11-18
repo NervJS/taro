@@ -97,6 +97,7 @@ const Editor = {
   'show-img-size': 'false',
   'show-img-toolbar': 'false',
   'show-img-resize': 'false',
+  focus: 'false',
   bindReady: '',
   bindFocus: '',
   bindBlur: '',
@@ -122,6 +123,7 @@ const Input = {
   maxlength: '140',
   'cursor-spacing': '0',
   'auto-focus': 'false',
+  focus: 'false',
   'confirm-type': singleQuote('done'),
   'confirm-hold': 'false',
   cursor: '',
@@ -584,4 +586,10 @@ export const controlledComponent = new Set([
   'radio',
   'slider',
   'textarea'
+])
+
+export const focusComponents = new Set([
+  'input',
+  'textarea',
+  'editor'
 ])
