@@ -55,3 +55,19 @@ export const hasOwn = (
   val: object,
   key: string | symbol
 ) => hasOwnProperty.call(val, key)
+
+const reportIssue = '请提交 issue 至：https://github.com/nervjs/taro/issues'
+
+export function invariant (condition: boolean, msg: string): asserts condition {
+  if (condition) {
+    return
+  }
+
+  throw new Error(msg + reportIssue)
+}
+
+export function warn (condition: boolean, msg: string) {
+  if (condition) {
+    console.error(msg)
+  }
+}

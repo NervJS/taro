@@ -1,4 +1,4 @@
-import { controlledComponent } from '@tarojs/shared'
+import { controlledComponent, isUndefined } from '@tarojs/shared'
 import { TaroText } from '../dom/text'
 import { TaroElement } from '../dom/element'
 import { FormElement } from '../dom/form'
@@ -28,7 +28,8 @@ export class TaroDocument extends TaroElement {
   }
 
   public getElementById<T extends TaroElement> (id: string) {
-    return (eventSource.get(id) as T) || null
+    const el = eventSource.get(id)
+    return isUndefined(el) ? null : el as T
   }
 }
 

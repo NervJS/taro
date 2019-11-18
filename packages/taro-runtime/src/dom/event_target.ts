@@ -1,4 +1,4 @@
-import { isArray, isObject } from '@tarojs/shared'
+import { isArray, isObject, invariant, warn } from '@tarojs/shared'
 
 interface EventListenerOptions {
   capture?: boolean;
@@ -38,11 +38,7 @@ export class TaroEventTarget {
       return
     }
 
-    if (isCapture) {
-      // TODO: 实现 Capture
-      // eslint-disable-next-line no-console
-      console.error('The event capture feature is unimplemented.')
-    }
+    warn(isCapture, 'The event capture feature is unimplemented.')
 
     if (isArray(handlers)) {
       handlers.push(handler)

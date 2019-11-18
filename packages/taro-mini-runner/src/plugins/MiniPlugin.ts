@@ -38,7 +38,7 @@ export interface IComponentObj {
   type?: string
 }
 
-export const createTarget = function createTarget () {
+export const createTarget = function createTarget (_) {
   return (compiler: webpack.compiler.Compiler) => {
     const { options } = compiler
     new JsonpTemplatePlugin().apply(compiler)

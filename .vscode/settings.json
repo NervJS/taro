@@ -11,5 +11,6 @@
       "autoFix": true
     }
   ],
-  "jest.autoEnable": false
+  "jest.autoEnable": false,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

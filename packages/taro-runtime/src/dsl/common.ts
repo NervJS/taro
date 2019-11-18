@@ -1,6 +1,6 @@
 import { CommonEvent } from '@tarojs/components'
 import * as React from 'react'
-import { isFunction, EMPTY_OBJ } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, invariant } from '@tarojs/shared'
 import { createEvent } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
@@ -27,7 +27,7 @@ const pageId = incrementId()
 export function createPageConfig (component: React.ComponentClass) {
   const id = `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
-  let page: TaroRootElement
+  let page: TaroRootElement | null = null
   let instance: Instance = EMPTY_OBJ
   const isReact = process.env.framework !== 'vue' // isReact means all kind of react-like library
 
@@ -66,12 +66,10 @@ export function createPageConfig (component: React.ComponentClass) {
       }
 
       Current.app!.mount(component, id, () => {
-        page = document.getElementById(id) as TaroRootElement
+        page = document.getElementById<TaroRootElement>(id)
         instance = instances.get(id) || EMPTY_OBJ
 
-        if (page === null) {
-          return
-        }
+        invariant(page !== null, '没有找到页面实例。')
 
         page.ctx = this
         page.performUpdate()
@@ -81,7 +79,7 @@ export function createPageConfig (component: React.ComponentClass) {
       Current.router = null
 
       Current.app!.unmount(id, () => {
-        page.ctx = null
+        page!.ctx = null
       })
     },
     onShow () {
