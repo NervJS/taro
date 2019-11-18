@@ -29,6 +29,8 @@ import {
   REG_SCRIPTS,
   REG_VUE
 } from '../utils/constants'
+import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
+import { componentConfig } from '../template/component'
 
 const globalObjectMap = {
   [BUILD_TYPES.WEAPP]: 'wx',
@@ -307,7 +309,18 @@ export const getModule = (appPath: string, {
       test: REG_VUE,
       use: {
         vueLoader: getVueLoader([{
-          optimizeSSR: false
+          optimizeSSR: false,
+          compilerOptions: {
+            modules: [{
+              preTransformNode (el) {
+                const nodeName = el.tag
+                if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+                  componentConfig.includes.add(nodeName)
+                }
+                return el
+              }
+            }]
+          }
         }])
       }
     },

@@ -37,17 +37,14 @@ export default class TaroLoadChunksPlugin {
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: webpack.compilation.Chunk[]) => {
         commonChunks = chunks.filter(chunk => this.commonChunks.includes(chunk.name)).reverse()
 
-        if (this.framework === 'vue') {
-          return
-        }
-
         const vendor = chunks.find(c => c.name === 'vendors')
         if (vendor == null) {
           return
         }
-        vendor.modulesIterable.forEach(m => {
+
+        (vendor.modulesIterable as Set<unknown>).forEach((m: { rawRequest: string, usedExports: string[] }) => {
           if (m.rawRequest === '@tarojs/components') {
-            componentConfig.includes = new Set(m.usedExports.map(toDashed))
+            m.usedExports.map(toDashed).map(componentConfig.includes.add)
           }
         })
       })
@@ -88,7 +85,7 @@ export default class TaroLoadChunksPlugin {
   }
 }
 
-function getIdOrName (chunk) {
+function getIdOrName (chunk: webpack.compilation.Chunk) {
   if (typeof chunk.id === 'string') {
     return chunk.id
   }

@@ -511,9 +511,7 @@ export function createMiniComponents (components: Components, isAlipay = false) 
         if (hasOwn(component, prop)) {
           let propValue = component[prop]
           if (prop.startsWith('bind') || specialEvents.has(prop)) {
-            if (isAlipay) {
-              prop = prop.replace('bind', 'on')
-            }
+            prop = isAlipay ? prop.replace('bind', 'on') : prop.toLowerCase()
             propValue = 'eh'
           } else if (propValue === '') {
             propValue = `i.${toCamelCase(prop)}`

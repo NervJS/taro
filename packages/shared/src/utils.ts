@@ -49,6 +49,10 @@ export function toCamelCase (s: string) {
   return camel
 }
 
+export function capitalize (s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
 const hasOwnProperty = Object.prototype.hasOwnProperty
 
 export const hasOwn = (
