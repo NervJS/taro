@@ -166,12 +166,12 @@ export const getProviderPlugin = args => {
 }
 
 export const getModule = (appPath: string, {
-  sourceDir,
+  // sourceDir,
 
   designWidth,
   deviceRatio,
   buildAdapter,
-  constantsReplaceList,
+  // constantsReplaceList,
   enableSourceMap,
 
   cssLoaderOption,
@@ -181,9 +181,9 @@ export const getModule = (appPath: string, {
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
-  postcss,
+  postcss
 
-  babel
+  // babel
 }) => {
   const isQuickapp = buildAdapter === BUILD_TYPES.QUICKAPP
   const postcssOption: IPostcssOption = postcss || {}
@@ -389,7 +389,7 @@ export const getEntry = ({
   }
 }
 
-export function getOutput (appPath: string, [{ outputRoot, publicPath, buildAdapter, isBuildPlugin }, customOutput]) {
+export function getOutput (appPath: string, [{ outputRoot, publicPath, buildAdapter }, customOutput]) {
   return {
     path: path.join(appPath, outputRoot),
     publicPath,

@@ -53,7 +53,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     nodeModulesPath,
     quickappJSON,
 
-    babel,
     csso,
     uglify
   } = config
@@ -85,7 +84,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       plugin: new VueLoaderPlugin()
     }
   }
-  env.FRAMEWORK = JSON.stringify(framework)
+  (env as any).FRAMEWORK = JSON.stringify(framework)
   const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
   const entryRes = getEntry({
     sourceDir,
@@ -142,16 +141,15 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     output: getOutput(appPath, [{
       outputRoot,
       publicPath: '/',
-      buildAdapter,
-      isBuildPlugin: config.isBuildPlugin
+      buildAdapter
     }, output]),
     target: Targets[buildAdapter],
     resolve: { alias },
     module: getModule(appPath, {
-      sourceDir,
+      // sourceDir,
 
       buildAdapter,
-      constantsReplaceList,
+      // constantsReplaceList,
       designWidth,
       deviceRatio,
       enableSourceMap,
@@ -164,8 +162,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
 
-      postcss,
-      babel
+      postcss
+      // babel
     }),
     plugin,
     optimization: {
