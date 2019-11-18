@@ -44,7 +44,7 @@ function buildProjectConfig () {
   }
 
   let projectConfigFileName = `project.${buildAdapter}.json`
-  if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
+  if (buildAdapter === BUILD_TYPES.WEAPP) {
     projectConfigFileName = 'project.config.json'
   }
   let projectConfigPath = path.join(appPath, projectConfigFileName)
@@ -55,7 +55,7 @@ function buildProjectConfig () {
   }
 
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
-  if (buildAdapter === BUILD_TYPES.TT) {
+  if (buildAdapter === BUILD_TYPES.TT || buildAdapter === BUILD_TYPES.QQ) {
     projectConfigFileName = 'project.config.json'
   }
   fs.ensureDirSync(outputDir)
