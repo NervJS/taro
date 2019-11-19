@@ -327,11 +327,11 @@ export default class MiniPlugin {
     return componentRealPath
   }
 
-  transfromComponentsPath (filePath, components: IComponentObj[]) {
+  transformComponentsPath (filePath, components: IComponentObj[]) {
     const { buildAdapter, alias } = this.options
     components.forEach(component => {
       let componentPath = component.path
-      let realComponentPath = componentPath
+      let realComponentPath
       if (componentPath) {
         if (isNpmPkg(componentPath)) {
           if (isAliasPath(componentPath, alias)) {
@@ -340,6 +340,8 @@ export default class MiniPlugin {
           } else {
             realComponentPath = resolveNpmSync(componentPath, this.context)
           }
+        } else {
+          realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
         }
         const code = fs.readFileSync(realComponentPath).toString()
         const newComponent = Object.assign({}, component, { path: realComponentPath })
@@ -398,7 +400,11 @@ export default class MiniPlugin {
     }
   }
 
-  getPages (compiler) {
+  getShowPath (filePath) {
+    return filePath.replace(this.context, '').replace(/\\/g, '/').replace(/^\//, '')
+  }
+
+  getPages () {
     const { buildAdapter } = this.options
     const appEntry = this.appEntry
     const code = fs.readFileSync(appEntry).toString()
@@ -415,7 +421,7 @@ export default class MiniPlugin {
     if (!appPages || appPages.length === 0) {
       throw new Error('缺少页面')
     }
-    printLog(processTypeEnum.COMPILE, '发现入口', appEntry)
+    printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(appEntry))
     this.getSubPackages(configObj)
     this.getTabBarFiles(configObj)
     const template = ''
@@ -607,7 +613,7 @@ export default class MiniPlugin {
         code = transformResult.code
       }
       depComponents = depComponents.filter(item => !/^plugin:\/\//.test(item.path))
-      this.transfromComponentsPath(file.path, depComponents)
+      this.transformComponentsPath(file.path, depComponents)
       if (isQuickApp) {
         const scriptPath = file.path
         const outputScriptPath = scriptPath.replace(this.sourceDir, this.outputDir).replace(path.extname(scriptPath), MINI_APP_FILES[buildAdapter].SCRIPT)
@@ -633,7 +639,7 @@ export default class MiniPlugin {
           imports: new Set([...importTaroSelfComponents, ...importUsingComponent, ...importCustomComponents])
         })
       }
-      printLog(processTypeEnum.COMPILE, isRoot ? '发现页面' : '发现组件', file.path)
+      printLog(processTypeEnum.COMPILE, isRoot ? '发现页面' : '发现组件', this.getShowPath(file.path))
       taroFileTypeMap[file.path] = {
         type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
         config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, alias, depComponents), configObj),
@@ -808,7 +814,7 @@ export default class MiniPlugin {
 
   run (compiler: webpack.Compiler) {
     if (!this.options.isBuildPlugin) {
-      this.getPages(compiler)
+      this.getPages()
       this.getComponents(this.pages, true)
       this.addEntries(compiler)
     } else {
