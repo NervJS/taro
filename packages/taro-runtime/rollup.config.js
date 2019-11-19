@@ -6,6 +6,7 @@ const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.ts'),
+  external: ['react', 'nervjs', 'react-dom', 'vue'],
   output: [
     {
       file: join(cwd, 'dist/index.js'),

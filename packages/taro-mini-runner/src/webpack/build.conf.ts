@@ -17,7 +17,7 @@ import {
   getEntry
 } from './chain'
 import getBaseConf from './base.conf'
-import { BUILD_TYPES, MINI_APP_FILES, FRAMEWORK_MAP } from '../utils/constants'
+import { BUILD_TYPES, MINI_APP_FILES, FRAMEWORK_MAP, taroJsComponents } from '../utils/constants'
 import { Targets } from '../plugins/MiniPlugin'
 
 const emptyObj: Record<string, string> = {}
@@ -84,6 +84,15 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       plugin: new VueLoaderPlugin()
     }
   }
+  alias[taroJsComponents] = `${taroJsComponents}/mini`
+  if (framework === 'react') {
+    alias['react-dom'] = '@tarojs/react'
+  }
+  if (framework === 'nerv') {
+    alias['react-dom'] = 'nervjs'
+    alias.react = 'nervjs'
+  }
+
   env.FRAMEWORK = JSON.stringify(framework)
   env.TARO_ENV = JSON.stringify(buildAdapter)
   const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
@@ -168,6 +177,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     }),
     plugin,
     optimization: {
+      usedExports: true,
       minimizer,
       runtimeChunk: {
         name: config.isBuildPlugin ? 'plugin/runtime' : 'runtime'

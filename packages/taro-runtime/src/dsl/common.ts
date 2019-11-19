@@ -29,7 +29,7 @@ export function createPageConfig (component: React.ComponentClass) {
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let page: TaroRootElement | null = null
   let instance: Instance = EMPTY_OBJ
-  const isReact = process.env.framework !== 'vue' // isReact means all kind of react-like library
+  const isReact = process.env.FRAMEWORK !== 'vue' // isReact means all kind of react-like library
 
   function safeExecute (lifecycle: keyof PageInstance, ...args: unknown[]) {
     if (instance == null) {

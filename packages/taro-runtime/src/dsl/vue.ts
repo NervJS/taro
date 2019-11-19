@@ -3,7 +3,7 @@ import { AppInstance, VueAppInstance, VueInstance } from './instance'
 import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { isFunction, noop } from '@tarojs/shared'
+import { isFunction, noop, invariant } from '@tarojs/shared'
 
 export function connectVuePage (Vue: VueConstructor, id: string) {
   return (component: ComponentOptions<VueCtor>) => {
@@ -38,14 +38,23 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
   }
 }
 
-export function createVueApp (Vue: VueConstructor, App: VueInstance) {
-  (Vue.config as any).getTagNamespace = noop
+export function createVueApp (App: VueInstance) {
+  let Vue
+  // webpack 开发模式不会执行 tree-shaking，因此我们需要做此判断
+  if (process.env.FRAMEWORK === 'vue') {
+    const v = require('vue')
+    Vue = v.default || v
+  }
+
+  invariant(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
+
+  Vue.config.getTagNamespace = noop
 
   const elements: VNode[] = []
   const pages: Array<(h: Vue.CreateElement) => VNode> = []
   let appInstance: VueAppInstance
 
-  const wrapper = new Vue({
+  const wrapper = new (Vue as VueConstructor)({
     render (h) {
       while (pages.length > 0) {
         const page = pages.pop()!

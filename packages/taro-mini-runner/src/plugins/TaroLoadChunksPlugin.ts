@@ -4,7 +4,7 @@ import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 
-import { META_TYPE, REG_STYLE, BUILD_TYPES } from '../utils/constants'
+import { META_TYPE, REG_STYLE, BUILD_TYPES, taroJsComponents } from '../utils/constants'
 import { promoteRelativePath } from '../utils'
 import { componentConfig } from '../template/component'
 import { toDashed } from '@tarojs/shared'
@@ -43,8 +43,9 @@ export default class TaroLoadChunksPlugin {
         }
 
         (vendor.modulesIterable as Set<unknown>).forEach((m: { rawRequest: string, usedExports: string[] }) => {
-          if (m.rawRequest === '@tarojs/components') {
-            m.usedExports.map(toDashed).map(componentConfig.includes.add)
+          if (m.rawRequest === taroJsComponents) {
+            const includes = componentConfig.includes
+            m.usedExports.map(toDashed).map(includes.add.bind(includes))
           }
         })
       })

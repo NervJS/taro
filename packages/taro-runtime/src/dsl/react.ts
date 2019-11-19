@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { isFunction } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, invariant } from '@tarojs/shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps } from './instance'
 import { document } from '../bom/document'
@@ -19,7 +19,24 @@ export function connectReactPage (
   }
 }
 
-export function createReactApp (R: typeof React, App: React.ComponentClass, render) {
+export function createReactApp (App: React.ComponentClass) {
+  // 初始值设置为 any 主要是为了过 TS 的校验
+  let R: typeof React = EMPTY_OBJ
+  let ReactDOM
+
+  if (process.env.FRAMEWORK === 'nerv') {
+    R = require('nervjs')
+    ReactDOM = R
+  }
+
+  // 其它 react-like 框架走 react 模式，在 webpack.resolve.alias 设置 react/react-dom 到对应包
+  if (process.env.FRAMEWORK === 'react') {
+    R = require('react')
+    ReactDOM = require('react-dom')
+  }
+
+  invariant(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
+
   const ref = R.createRef<ReactPageInstance>()
 
   let wrapper: AppWrapper
@@ -63,7 +80,7 @@ export function createReactApp (R: typeof React, App: React.ComponentClass, rend
 
   class AppConfig implements AppInstance {
     onLaunch () {
-      wrapper = render(R.createElement(AppWrapper), document.getElementById('app'))
+      wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
     }
 
     onShow (options: unknown) {

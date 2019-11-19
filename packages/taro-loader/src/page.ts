@@ -42,8 +42,7 @@ class PageLoader extends Loader {
       Program: {
         enter (path) {
           path.scope.rename('Page', '__Page')
-        },
-        exit: this.ensureMainModuleImported.bind(this)
+        }
       }
     })
 
