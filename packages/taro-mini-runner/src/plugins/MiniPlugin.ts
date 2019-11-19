@@ -7,6 +7,7 @@ import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
 import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
+import { AppConfig } from '@tarojs/taro'
 
 import { BUILD_TYPES, MINI_APP_FILES, CONFIG_MAP, META_TYPE, NODE_MODULES_REG, FRAMEWORK_MAP, VUE_EXT, SCRIPT_EXT } from '../utils/constants'
 import { resolveMainFilePath, readConfig, isEmptyObject, promoteRelativePath } from '../utils'
@@ -62,7 +63,7 @@ export default class TaroMiniPlugin {
   options: ITaroMiniPluginOptions
   context: string
   appEntry: string
-  appConfig: object
+  appConfig: AppConfig
   filesConfig: object
   pages: Set<IComponent>
   components: Set<IComponent>
