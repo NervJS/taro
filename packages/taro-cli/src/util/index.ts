@@ -11,6 +11,7 @@ import * as minimatch from 'minimatch'
 import * as t from 'babel-types'
 import * as yauzl from 'yauzl'
 import * as findWorkspaceRoot from 'find-yarn-workspace-root'
+import * as chokidar from 'chokidar';
 
 import defaultBabelConfig from '../config/babel'
 import defaultUglifyConfig from '../config/uglify'
@@ -559,6 +560,15 @@ export function copyFiles (appPath: string, copyConfig: ICopyOptions | void) {
             }
           }
           copyFileSync(from, to, copyOptions)
+	        if (pattern.watch){
+		        const watcher = chokidar.watch(from,{
+			        persistent: true,
+			        ignoreInitial: true
+		        })
+		        watcher.on('change',(res) => {
+			        copyFileSync(from, to, copyOptions);
+		        })
+	        }
         } else {
           printLog(processTypeEnum.ERROR, '拷贝失败', `${pattern.from} 文件不存在！`)
         }

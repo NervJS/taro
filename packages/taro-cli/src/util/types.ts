@@ -73,7 +73,8 @@ export interface ICopyOptions {
   patterns: {
     from: string,
     to: string,
-    ignore?: string[]
+    ignore?: string[],
+    watch?: boolean
   }[],
   options: {
     ignore?: string[]
