@@ -133,6 +133,7 @@ class Input extends Nerv.Component {
 
     if (e.type === 'compositionend') {
       this.isOnComposition = false
+      this.onInputExcuted = false
       this.onInput(e)
     } else {
       this.isOnComposition = true
