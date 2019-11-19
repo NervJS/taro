@@ -511,7 +511,7 @@ export default function transform (options: Options): TransformResult {
 
       const forStatement = path.findParent(isForStatement)
       if (isForStatement(forStatement)) {
-        throw codeFrameError(forStatement.node, '不行使用 for 循环操作 JSX 元素，详情：https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/manipulate-jsx-as-array.md')
+        throw codeFrameError(forStatement.node, '不能使用 for 循环操作 JSX 元素，详情：https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/manipulate-jsx-as-array.md')
       }
 
       const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p))
