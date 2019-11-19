@@ -67,6 +67,7 @@ export default class TaroMiniPlugin {
   filesConfig: object
   pages: Set<IComponent>
   components: Set<IComponent>
+  tabBarIcons: Set<string>
 
   constructor (options = {}) {
     this.options = Object.assign({
@@ -80,6 +81,7 @@ export default class TaroMiniPlugin {
     this.pages = new Set()
     this.components = new Set()
     this.filesConfig = {}
+    this.tabBarIcons = new Set()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -112,6 +114,13 @@ export default class TaroMiniPlugin {
       PLUGIN_NAME,
       this.tryAsync(async compilation => {
         await this.generateMiniFiles(compilation)
+      })
+    )
+
+    compiler.hooks.afterEmit.tapAsync(
+      PLUGIN_NAME,
+      this.tryAsync(async compilation => {
+        await this.addTarBarFilesToDependencies(compilation)
       })
     )
 
@@ -212,6 +221,7 @@ export default class TaroMiniPlugin {
       })
     ])
     this.getSubPackages(this.appConfig)
+    this.getTabBarFiles(this.appConfig)
   }
 
   getSubPackages (appConfig) {
@@ -246,27 +256,45 @@ export default class TaroMiniPlugin {
     }
   }
 
-  generateTabBarFiles (compiler, appConfig) {
+  getTabBarFiles (appConfig) {
     const tabBar = appConfig.tabBar
-    const { buildAdapter: adapter, sourceDir } = this.options
+    const { buildAdapter } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
       const {
         list: listConfig,
         iconPath: pathConfig,
         selectedIconPath: selectedPathConfig
-      } = CONFIG_MAP[adapter]
+      } = CONFIG_MAP[buildAdapter]
 
       const list = tabBar[listConfig] || []
-      const tabBarIcons: string[] = []
       list.forEach(item => {
-        item[pathConfig] && tabBarIcons.push(item[pathConfig])
-        item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
-      })
-      tabBarIcons.map(item => {
-        const itemPath = path.resolve(sourceDir, item)
-        this.addEntry(compiler, itemPath, item, META_TYPE.STATIC)
+        item[pathConfig] && this.tabBarIcons.add(item[pathConfig])
+        item[selectedPathConfig] && this.tabBarIcons.add(item[selectedPathConfig])
       })
     }
+  }
+
+  generateTabBarFiles (compilation) {
+    this.tabBarIcons.forEach(icon => {
+      const iconPath = path.resolve(this.options.sourceDir, icon)
+      if (fs.existsSync(iconPath)) {
+        const iconStat = fs.statSync(iconPath)
+        const iconSource = fs.readFileSync(iconPath)
+        compilation.assets[icon] = {
+          size: () => iconStat.size,
+          source: () => iconSource
+        }
+      }
+    })
+  }
+
+  addTarBarFilesToDependencies (compilation: webpack.compilation.Compilation) {
+    const { fileDependencies } = compilation
+    this.tabBarIcons.forEach(icon => {
+      if (!fileDependencies.has(icon)) {
+        fileDependencies.add(icon)
+      }
+    })
   }
 
   addEntry (compiler: webpack.Compiler, entryPath, entryName, entryType) {
@@ -342,12 +370,12 @@ export default class TaroMiniPlugin {
       this.generateConfigFile(compilation, page.path, this.filesConfig[page.name])
       this.generateTemplateFile(compilation, page.path, buildPageTemplate, importBaseTemplatePath)
     })
+    this.generateTabBarFiles(compilation)
   }
 
   run (compiler) {
     this.getPages()
     this.getPagesConfig()
-    this.generateTabBarFiles(compiler, this.appConfig)
     this.addEntries(compiler)
   }
 
