@@ -359,7 +359,8 @@ export async function build (appPath: string, buildConfig: IBuildConfig) {
   }
   const t1 = performance.now()
   Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-
+  // rn 配置添加onlyTaroToRn字段,支持项目构建只编译不打包
+  if(compiler.rnConfig.onlyTaroToRn)return;
   if (watch) {
     compiler.watchFiles()
     if (!compiler.hasJDReactOutput) {
