@@ -331,17 +331,19 @@ export default class MiniPlugin {
     const { buildAdapter, alias } = this.options
     components.forEach(component => {
       let componentPath = component.path
-      let realComponentPath
-      if (componentPath && isNpmPkg(componentPath)) {
-        if (isAliasPath(componentPath, alias)) {
-          componentPath = replaceAliasPath(filePath, componentPath, alias)
-          realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
-        } else {
-          const res = resolveNpmSync(componentPath, this.context)
-          const code = fs.readFileSync(res).toString()
-          const newComponent = Object.assign({}, component, { path: res })
-          realComponentPath = this.getNpmComponentRealPath(code, newComponent, buildAdapter)
+      let realComponentPath = componentPath
+      if (componentPath) {
+        if (isNpmPkg(componentPath)) {
+          if (isAliasPath(componentPath, alias)) {
+            componentPath = replaceAliasPath(filePath, componentPath, alias)
+            realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
+          } else {
+            realComponentPath = resolveNpmSync(componentPath, this.context)
+          }
         }
+        const code = fs.readFileSync(realComponentPath).toString()
+        const newComponent = Object.assign({}, component, { path: realComponentPath })
+        realComponentPath = this.getNpmComponentRealPath(code, newComponent, buildAdapter)
         component.path = realComponentPath
       }
     })
