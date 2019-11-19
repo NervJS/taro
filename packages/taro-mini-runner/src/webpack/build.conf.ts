@@ -20,7 +20,7 @@ import getBaseConf from './base.conf'
 import { BUILD_TYPES, MINI_APP_FILES, FRAMEWORK_MAP } from '../utils/constants'
 import { Targets } from '../plugins/MiniPlugin'
 
-const emptyObj = {}
+const emptyObj: Record<string, string> = {}
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
@@ -84,7 +84,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       plugin: new VueLoaderPlugin()
     }
   }
-  (env as any).FRAMEWORK = JSON.stringify(framework)
+  env.FRAMEWORK = JSON.stringify(framework)
+  env.TARO_ENV = JSON.stringify(buildAdapter)
   const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
   const entryRes = getEntry({
     sourceDir,

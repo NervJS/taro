@@ -1,4 +1,4 @@
-export function timeoutInterceptor(chain) {
+export function timeoutInterceptor (chain) {
   const requestParams = chain.requestParams
   let p
   const res = new Promise((resolve, reject) => {
@@ -23,13 +23,14 @@ export function timeoutInterceptor(chain) {
   return res
 }
 
-export function logInterceptor(chain) {
+export function logInterceptor (chain) {
   const requestParams = chain.requestParams
   const { method, data, url } = requestParams
   // eslint-disable-next-line no-console
   console.log(`http ${method || 'GET'} --> ${url} data: `, data)
   const p = chain.proceed(requestParams)
   const res = p.then(res => {
+    // eslint-disable-next-line no-console
     console.log(`http <-- ${url} result:`, res)
     return res
   })

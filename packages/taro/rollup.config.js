@@ -1,11 +1,12 @@
 const { join } = require('path')
 const resolve = require('rollup-plugin-node-resolve')
+const cjs = require('rollup-plugin-commonjs')
 const babel = require('rollup-plugin-babel')
 const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.js'),
-  external: ['nervjs'],
+  external: ['nervjs', '@tarojs/runtime'],
   output: [
     {
       file: join(cwd, 'dist/index.js'),
@@ -25,6 +26,7 @@ const baseConfig = {
     resolve({
       preferBuiltins: false
     }),
+    cjs(),
     babel({
       babelrc: false,
       presets: [

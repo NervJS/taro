@@ -41,7 +41,9 @@ module.exports = {
     'swan': 'readonly',
     'my': 'readonly',
     'getCurrentPages': 'readonly',
-    'getApp': 'readonly'
+    'getApp': 'readonly',
+    'requirePlugin': 'readonly',
+    'jd': 'readonly'
   },
   'parserOptions': {
     'ecmaFeatures': {
