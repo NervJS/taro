@@ -2,6 +2,8 @@
 title: Taro 介绍
 ---
 
+> 这是 Taro 2.x 版本的文档，若要查看 1.x 版本的文档，请[点击这里选择版本](/taro/versions.html)。
+
 ## 简介
 
 **Taro** 是一套遵循 [React](https://reactjs.org/) 语法规范的 **多端开发** 解决方案。
