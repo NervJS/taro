@@ -1,6 +1,6 @@
 import * as webpack from 'webpack'
 import { getOptions } from 'loader-utils'
-import traverse from '@babel/traverse'
+import traverse, { NodePath } from '@babel/traverse'
 import { Loader } from './loader'
 import * as t from '@babel/types'
 import { CREATE_REACT_APP, CREATE_VUE_APP } from './constants'
@@ -26,6 +26,7 @@ class AppLoader extends Loader {
     traverse(this.ast, {
       Program: {
         enter: (path) => {
+          path.scope.rename('App', '__App')
           reactDOMImported = !!path.scope.getBinding('ReactDOM')
         },
         exit: this.ensureMainModuleImported.bind(this)

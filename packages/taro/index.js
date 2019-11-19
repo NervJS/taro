@@ -18,7 +18,7 @@ if (process.env.TARO_ENV === 'alipay') {
 }
 
 // 兼容不同工具的 import 机制，如 Jest, rollup
-const initNativeAPI = api ? api.default : api
+const initNativeAPI = api && api.default ? api.default : api
 // 如果没有对应的 env type，那就啥也不干，例如 h5
 if (typeof initNativeAPI === 'function') {
   initNativeAPI(Taro)

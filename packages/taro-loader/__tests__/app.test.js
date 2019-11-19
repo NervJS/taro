@@ -36,6 +36,23 @@ describe('app loader', () => {
           App(createReactApp(React, app, ReactDOM.render));
       `))
     })
+
+    test('rename App', async () => {
+      const result = await compile('rename-app.txt', { type: 'app', framework: 'react' })
+      expect(result).toBe(pretty(`
+      import ReactDOM from "react-dom";
+      import React from "react";
+      import { createReactApp } from "@tarojs/runtime";
+
+      class __App extends Component {
+        render() {
+          return null;
+        }
+      }
+
+      App(createReactApp(React, __App, ReactDOM.render))
+      `))
+    })
   })
 
   describe('vue', () => {

@@ -40,6 +40,9 @@ class PageLoader extends Loader {
       ClassDeclaration: this.injectReactComponent.bind(this),
       ClassExpression: this.injectReactComponent.bind(this),
       Program: {
+        enter (path) {
+          path.scope.rename('Page', '__Page')
+        },
         exit: this.ensureMainModuleImported.bind(this)
       }
     })
