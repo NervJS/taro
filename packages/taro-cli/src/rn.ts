@@ -17,7 +17,7 @@ import { IBuildConfig } from './util/types'
 // import { Error } from 'tslint/lib/error'
 
 let isBuildingStyles = {}
-let styleDenpendencyTree = {}
+const styleDenpendencyTree = {}
 
 const depTree: {
   [key: string]: string[]
@@ -357,7 +357,7 @@ export async function build (appPath: string, buildConfig: IBuildConfig) {
   }
   const t1 = performance.now()
   Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
-
+  if(compiler.rnConfig.onlyTaroToRn)return;
   if (watch) {
     compiler.watchFiles()
     if (!compiler.hasJDReactOutput) {
