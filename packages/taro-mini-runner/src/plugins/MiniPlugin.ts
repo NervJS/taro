@@ -95,7 +95,7 @@ export default class TaroMiniPlugin {
 
   apply (compiler: webpack.Compiler) {
     this.context = compiler.context
-    this.appConfig = this.getAppConfig(compiler)
+    this.appEntry = this.getAppEntry(compiler)
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(async (compiler: webpack.Compiler) => {
@@ -159,13 +159,20 @@ export default class TaroMiniPlugin {
     }).apply(compiler)
   }
 
-  getAppConfig (compiler) {
+  getAppEntry (compiler) {
     const originalEntry = compiler.options.entry
-    const originalEntryPath = path.resolve(this.context, originalEntry.app[0])
-    const appConfigPath = this.getConfigFilePath(originalEntryPath)
-    const appConfig = readConfig(appConfigPath)
-    this.appEntry = originalEntryPath
     compiler.options.entry = {}
+    return path.resolve(this.context, originalEntry.app[0])
+  }
+
+  getAppConfig () {
+    const appConfigPath = this.getConfigFilePath(this.appEntry)
+    const appConfig = readConfig(appConfigPath)
+    const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
+    this.filesConfig[appConfigName] = {
+      content: appConfig,
+      path: appConfigPath
+    }
     if (isEmptyObject(appConfig)) {
       throw new Error('缺少 app 全局配置，请检查！')
     }
@@ -183,7 +190,10 @@ export default class TaroMiniPlugin {
     const fileConfigPath = this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
     const usingComponents = fileConfig.usingComponents
-    this.filesConfig[file.name] = fileConfig
+    this.filesConfig[this.getConfigFilePath(file.name)] = {
+      content: fileConfig,
+      path: fileConfigPath
+    }
     if (usingComponents) {
       const depComponents = usingComponents ? Object.keys(usingComponents).map(item => ({
         name: item,
@@ -254,6 +264,23 @@ export default class TaroMiniPlugin {
         }
       })
     }
+  }
+
+  getConfigFiles (compiler: webpack.Compiler) {
+    const filesConfig = this.filesConfig
+    Object.keys(filesConfig).forEach(item => {
+      this.addEntry(compiler, filesConfig[item].path, item, META_TYPE.CONFIG)
+    })
+    compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
+      compilation.hooks.beforeChunkAssets.tap(PLUGIN_NAME, () => {
+        Object.keys(filesConfig).forEach(item => {
+          const assetsChunkIndex = compilation.chunks.findIndex(({ name }) => name === item)
+          if (assetsChunkIndex > -1) {
+            compilation.chunks.splice(assetsChunkIndex, 1)
+          }
+        })
+      })
+    })
   }
 
   getTabBarFiles (appConfig) {
@@ -362,20 +389,28 @@ export default class TaroMiniPlugin {
     this.generateXSFile(compilation)
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
-      this.generateConfigFile(compilation, component.path, this.filesConfig[component.name])
+      const config = this.filesConfig[this.getConfigFilePath(component.name)]
+      if (config) {
+        this.generateConfigFile(compilation, component.path, config.content)
+      }
       this.generateTemplateFile(compilation, component.path, buildPageTemplate, importBaseTemplatePath)
     })
     this.pages.forEach(page => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
-      this.generateConfigFile(compilation, page.path, this.filesConfig[page.name])
+      const config = this.filesConfig[this.getConfigFilePath(page.name)]
+      if (config) {
+        this.generateConfigFile(compilation, page.path, config.content)
+      }
       this.generateTemplateFile(compilation, page.path, buildPageTemplate, importBaseTemplatePath)
     })
     this.generateTabBarFiles(compilation)
   }
 
   run (compiler) {
+    this.appConfig = this.getAppConfig()
     this.getPages()
     this.getPagesConfig()
+    this.getConfigFiles(compiler)
     this.addEntries(compiler)
   }
 

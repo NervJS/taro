@@ -249,7 +249,8 @@ export enum META_TYPE {
   PAGE = 'PAGE',
   COMPONENT = 'COMPONENT',
   NORMAL = 'NORMAL',
-  STATIC = 'STATIC'
+  STATIC = 'STATIC',
+  CONFIG = 'CONFIG'
 }
 
 export const enum processTypeEnum {
