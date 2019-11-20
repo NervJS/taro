@@ -269,7 +269,9 @@ export default class TaroMiniPlugin {
   getConfigFiles (compiler: webpack.Compiler) {
     const filesConfig = this.filesConfig
     Object.keys(filesConfig).forEach(item => {
-      this.addEntry(compiler, filesConfig[item].path, item, META_TYPE.CONFIG)
+      if (fs.existsSync(filesConfig[item].path)) {
+        this.addEntry(compiler, filesConfig[item].path, item, META_TYPE.CONFIG)
+      }
     })
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.beforeChunkAssets.tap(PLUGIN_NAME, () => {

@@ -5,7 +5,7 @@ import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as sass from 'node-sass'
-import { partial } from 'lodash'
+import { partial, cloneDeep } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
@@ -27,7 +27,8 @@ import {
   REG_IMAGE,
   BUILD_TYPES,
   REG_SCRIPTS,
-  REG_VUE
+  REG_VUE,
+  REG_CSS
 } from '../utils/constants'
 import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
@@ -219,16 +220,46 @@ export const getModule = (appPath: string, {
     ),
     cssLoaderOption
   ]
-
   const extractCssLoader = getExtractCssLoader()
   const quickappStyleLoader = getQuickappStyleLoader()
 
   const cssLoader = getCssLoader(cssOptions)
+  const sassLoader = getSassLoader([{
+    sourceMap: true,
+    implementation: sass
+  }, sassLoaderOption])
+
+  const postcssLoader = getPostcssLoader([
+    { sourceMap: enableSourceMap },
+    {
+      ident: 'postcss',
+      plugins: getPostcssPlugins(appPath, {
+        isQuickapp,
+        designWidth,
+        deviceRatio,
+        postcssOption
+      })
+    }
+  ])
+
+  const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
+
+  const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
+
   const cssLoaders: {
     include?;
     use;
   }[] = [{
-    use: isQuickapp ? [cssLoader, quickappStyleLoader] : [cssLoader]
+    use: isQuickapp ? [
+      extractCssLoader,
+      quickappStyleLoader,
+      cssLoader,
+      postcssLoader
+    ] : [
+      extractCssLoader,
+      cssLoader,
+      postcssLoader
+    ]
   }]
 
   if (cssModuleOptions.enable) {
@@ -248,62 +279,38 @@ export const getModule = (appPath: string, {
     }
     cssLoaders.unshift({
       include: [cssModuleCondition],
-      use: [cssLoaderWithModule]
+      use: [
+        extractCssLoader,
+        cssLoaderWithModule,
+        postcssLoader
+      ]
     })
   }
 
-  const postcssLoader = getPostcssLoader([
-    { sourceMap: enableSourceMap },
-    {
-      ident: 'postcss',
-      plugins: getPostcssPlugins(appPath, {
-        isQuickapp,
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
-    }
-  ])
-  const sassLoader = getSassLoader([{
-    sourceMap: true,
-    implementation: sass
-  }, sassLoaderOption])
-  const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
-
-  const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
+  function addCssLoader (cssLoaders, loader) {
+    const cssLoadersCopy = cloneDeep(cssLoaders)
+    cssLoadersCopy.forEach(item => {
+      item.use && item.use.push(loader)
+    })
+    return cssLoadersCopy
+  }
 
   const rule: any = {
     sass: {
       test: REG_SASS,
-      enforce: 'pre',
-      use: [sassLoader]
+      oneOf: addCssLoader(cssLoaders, sassLoader)
     },
     less: {
       test: REG_LESS,
-      enforce: 'pre',
-      use: [lessLoader]
+      oneOf: addCssLoader(cssLoaders, lessLoader)
     },
     stylus: {
       test: REG_STYLUS,
-      enforce: 'pre',
-      use: [stylusLoader]
+      oneOf: addCssLoader(cssLoaders, stylusLoader)
     },
-    css: {
-      test: REG_STYLE,
+    nomorlCss: {
+      test: REG_CSS,
       oneOf: cssLoaders
-    },
-    // styleFiles: {
-    //   test: REG_STYLE,
-    //   use: [fileLoader]
-    // },
-    postcss: {
-      test: REG_STYLE,
-      use: [postcssLoader]
-    },
-    customStyle: {
-      test: REG_STYLE,
-      enforce: 'post',
-      use: [extractCssLoader]
     },
     vue: {
       test: REG_VUE,
