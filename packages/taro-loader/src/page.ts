@@ -5,10 +5,10 @@ import * as t from '@babel/types'
 import traverse, { NodePath } from '@babel/traverse'
 import { INJECT_PAGE_INSTANCE, CREATE_PAGE_CONFIG } from './constants'
 
-export default function (this: webpack.loader.LoaderContext, source: string) {
+export default function (this: webpack.loader.LoaderContext, source: string, inputSourceMap) {
   const options = getOptions(this)
-  const loader = new PageLoader(source, this, options.framework)
-  return loader.apply()
+  const loader = new PageLoader(source, this, options.framework, inputSourceMap)
+  loader.apply()
 }
 
 const ReactLifeCycle = new Set([

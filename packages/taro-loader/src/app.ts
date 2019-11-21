@@ -5,10 +5,10 @@ import { Loader } from './loader'
 import * as t from '@babel/types'
 import { CREATE_REACT_APP, CREATE_VUE_APP } from './constants'
 
-export default function (this: webpack.loader.LoaderContext, source: string) {
+export default function (this: webpack.loader.LoaderContext, source: string, inputSourceMap) {
   const options = getOptions(this)
-  const loader = new AppLoader(source, this, options.framework)
-  return loader.apply()
+  const loader = new AppLoader(source, this, options.framework, inputSourceMap)
+  loader.apply()
 }
 
 class AppLoader extends Loader {

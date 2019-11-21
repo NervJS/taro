@@ -1,11 +1,12 @@
 import * as webpack from 'webpack'
 import * as t from '@babel/types'
 import * as parser from '@babel/parser'
-import generate from '@babel/generator'
 import { NodePath } from '@babel/traverse'
+import * as babel from '@babel/core'
 import { Framework } from './types'
 import { TARO_RUNTIME_PACKAGE_NAME } from './constants'
 import { capitalize } from './utils'
+import { RawSourceMap } from 'source-map'
 
 export class Loader {
   protected context: webpack.loader.LoaderContext
@@ -24,10 +25,14 @@ export class Loader {
 
   protected needToImportMainModule = false
 
-  public constructor (source: string, context: webpack.loader.LoaderContext, framework: Framework = 'react') {
+  protected sourcemap: RawSourceMap
+
+  public constructor (source: string, context: webpack.loader.LoaderContext, framework: Framework = 'react', sourcemap: RawSourceMap) {
+    this.context.async()
     this.context = context
     this.framework = framework
     this.source = source
+    this.sourcemap = sourcemap
     this.ast = this.parse()
   }
 
@@ -103,12 +108,26 @@ export class Loader {
     return stem
   }
 
-  protected generate (): string {
+  protected generate () {
     const decl = this.exportDefaultDecl!
     const body = this.ast.program.body
     body.splice(body.indexOf(decl), 1)
 
-    return generate(this.ast, {}, this.source).code
+    try {
+      const { code, map } = babel.transformFromAstSync(this.ast, this.source, {
+        ast: false,
+        babelrc: false,
+        configFile: false,
+        sourceType: 'module',
+        inputSourceMap: this.sourcemap,
+        filename: this.context.resourcePath,
+        sourceFileName: this.context.resourcePath
+      })!
+      this.context.callback(null, code!, map as RawSourceMap)
+    } catch (error) {
+      this.context.callback(error)
+      this.context.emitError(error)
+    }
   }
 
   protected ensureTaroRuntimeImported (specifier: t.Identifier) {
