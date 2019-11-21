@@ -70,7 +70,7 @@ export function createPageConfig (component: React.ComponentClass) {
         instance = instances.get(id) || EMPTY_OBJ
 
         invariant(page !== null, '没有找到页面实例。')
-
+        safeExecute('onLoad', options)
         page.ctx = this
         page.performUpdate()
       })

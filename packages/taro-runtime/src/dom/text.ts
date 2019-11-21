@@ -23,11 +23,7 @@ export class TaroText extends TaroNode {
   }
 
   public set nodeValue (text: string) {
-    this._value = text
-    this.enqueueUpdate({
-      path: `${this._path}.${Shortcuts.Text}`,
-      value: text
-    })
+    this.textContent = text
   }
 
   public get nodeValue () {

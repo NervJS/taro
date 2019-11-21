@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "run-s clean prod",
-    "dev": "npm run copy && tsc -w",
-    "prod": "npm run copy && tsc",
-    "copy": "copy ../shared/src/*.ts ./src/@tarojs/shared",
+    "dev": "tsc -w",
+    "prod": "tsc",
     "clean": "rimraf dist",
     "lint": "tslint src/**/*.ts --fix",
     "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
