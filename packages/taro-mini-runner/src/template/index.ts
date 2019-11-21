@@ -93,10 +93,16 @@ function buildPlainTextTemplate (level: number): string {
 `
 }
 
-function buildContainerTemplate (level: number) {
+function buildContainerTemplate (level: number, restart = false) {
+  let tmpl = ''
+  if (restart) {
+    tmpl = '<comp i="{{i}}" />'
+  } else {
+    tmpl = `<template is="{{'tmpl_${level}_' + i.${Shortcuts.NodeName}}}" data="{{i: i}}" />`
+  }
   return `
 <template name="tmpl_${level}_${Shortcuts.Container}" data="{{i: i}}">
-  <template is="{{'tmpl_${level}_' + i.${Shortcuts.NodeName}}}" data="{{i: i}}" />
+  ${tmpl}
 </template>
 `
 }
@@ -117,7 +123,7 @@ function buildTemplate (level: number, supportRecursive: boolean) {
   return template
 }
 
-export function buildBaseTemplate (level: number) {
+export function buildBaseTemplate (maxLevel: number, supportRecursive: boolean) {
   let template = `${buildXsTemplate()}
 <template name="taro_tmpl">
   <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="{{id}}">
@@ -126,25 +132,29 @@ export function buildBaseTemplate (level: number) {
 </template>
 `
 
-  let supportRecursive = false
-  if (Adapter.type === BUILD_TYPES.ALIPAY || Adapter.type === BUILD_TYPES.SWAN) {
-    supportRecursive = true
-  }
-
   if (supportRecursive) {
     template += buildTemplate(0, supportRecursive)
   } else {
-    for (let i = 0; i < level; i++) {
+    for (let i = 0; i < maxLevel; i++) {
       template += buildTemplate(i, supportRecursive)
+      const nextLevel = i + 1
+      if (maxLevel === nextLevel) {
+        template += buildContainerTemplate(nextLevel, true)
+      }
     }
   }
 
   return template
 }
 
-export function buildPageTemplate (baseTempPath) {
+export function buildPageTemplate (baseTempPath: string) {
   const template = `<import src="${baseTempPath}"/>
 <template is="taro_tmpl" data="{{root: root}}" />`
 
   return template
+}
+
+export function buildBaseComponentTemplate () {
+  return `<import src="./base.wxml" />
+<template is="tmpl_0_container" data="{{i: i}}" />`
 }

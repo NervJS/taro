@@ -125,6 +125,9 @@ export function createPageConfig (component: React.ComponentClass) {
 
 export function createComponentConfig () {
   return {
+    properties: {
+      i: Object
+    },
     eh (event: CommonEvent) {
       const node = document.getElementById(event.currentTarget.id)
       if (node != null) {

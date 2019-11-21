@@ -12,7 +12,7 @@ import { AppConfig } from '@tarojs/taro'
 import { BUILD_TYPES, MINI_APP_FILES, CONFIG_MAP, META_TYPE, NODE_MODULES_REG, FRAMEWORK_MAP, VUE_EXT, SCRIPT_EXT } from '../utils/constants'
 import { resolveMainFilePath, readConfig, isEmptyObject, promoteRelativePath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { buildBaseTemplate, buildPageTemplate, buildXScript } from '../template'
+import { buildBaseTemplate, buildPageTemplate, buildXScript, buildBaseComponentTemplate } from '../template'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import { setAdapter } from '../template/adapters'
@@ -360,8 +360,8 @@ export default class TaroMiniPlugin {
     }
   }
 
-  generateTemplateFile (compilation, filePath, templateFn, options?) {
-    const templStr = templateFn(options)
+  generateTemplateFile (compilation, filePath, templateFn, ...options) {
+    const templStr = templateFn(...options)
     const fileTemplName = this.getTemplatePath(this.getComponentName(filePath))
     compilation.assets[fileTemplName] = {
       size: () => templStr.length,
@@ -383,11 +383,23 @@ export default class TaroMiniPlugin {
     }
   }
 
+  get supportRecursive () {
+    return this.options.buildAdapter !== BUILD_TYPES.WEAPP && this.options.buildAdapter !== BUILD_TYPES.QQ
+  }
+
   generateMiniFiles (compilation: webpack.compilation.Compilation) {
     const baseTemplateName = 'base'
+    const baseCompName = 'comp'
     const { baseLevel } = this.options
     this.generateConfigFile(compilation, this.appEntry, this.appConfig)
-    this.generateTemplateFile(compilation, baseTemplateName, buildBaseTemplate, baseLevel)
+    this.generateConfigFile(compilation, baseCompName, {
+      components: true,
+      usingComponents: {
+        [baseCompName]: `./${baseCompName}`
+      }
+    })
+    this.generateTemplateFile(compilation, baseTemplateName, buildBaseTemplate, baseLevel, this.supportRecursive)
+    this.generateTemplateFile(compilation, baseCompName, buildBaseComponentTemplate)
     this.generateXSFile(compilation)
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
@@ -401,6 +413,13 @@ export default class TaroMiniPlugin {
       const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
       if (config) {
+        if (!this.supportRecursive) {
+          const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(baseCompName, ''))))
+          config.content.usingComponents = {
+            [baseCompName]: importBaseCompPath,
+            ...config.content.usingComponents
+          }
+        }
         this.generateConfigFile(compilation, page.path, config.content)
       }
       this.generateTemplateFile(compilation, page.path, buildPageTemplate, importBaseTemplatePath)
