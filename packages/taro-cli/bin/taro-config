@@ -4,6 +4,8 @@ const program = require('commander')
 const helper = require('../dist/taro-config')
 
 program
+  .name('taro config')
+  .usage('<command> [options]')
   .option('--json', '以 JSON 形式输出')
   .on('--help', function () {
     console.log('')
@@ -22,15 +24,15 @@ const [cmd, key, value] = args
 
 switch (cmd) {
   case 'get':
-    if (!key) return
+    if (!key) return console.log('Usage: taro config get foo')
     helper.get(key)
     break
   case 'set':
-    if (!key || !value) return
+    if (!key || !value) return console.log('Usage: taro config set foo bar')
     helper.set(key, value)
     break
   case 'delete':
-    if (!key) return
+    if (!key) return console.log('Usage: taro config delete foo')
     helper.deleteKey(key)
     break
   case 'list':
@@ -38,5 +40,6 @@ switch (cmd) {
     helper.list(json)
     break
   default:
+    program.help()
     break
 }
