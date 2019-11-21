@@ -29,9 +29,7 @@ const config = {
     postcss: {
       pxtransform: {
         enable: true,
-        config: {
-
-        }
+        config: {}
       },
       url: {
         enable: true,
