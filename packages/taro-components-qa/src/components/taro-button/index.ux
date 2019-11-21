@@ -4,104 +4,141 @@
     disabled="{{disabled}}"
     style="{{customstyle}}"
   >
+  <image if="{{loading}}" src="{{loadingImg}}"></image>
     <slot></slot>
   </div>
 </template>
 
 <script>
-  // import LOADING_IMG from './img.js'
+import LOADING_IMG from './img.js'
+
+export default {
+  props: {
+    class: {
+      type: String,
+      required: false,
+      default: 'default'
+    },
+    id: {
+      type: String,
+      required: false,
+      default: 'default'
+    },
+    customstyle: {
+      type: Object,
+      required: false,
+      default: {}
+    },
+    size: {
+      type: String,
+      required: false,
+      default: 'default'
+    },
+    plain: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    type: {
+      type: String,
+      required: false,
+      default: 'default'
+    }
+  },
+
+  data: () => ({
+    btnStyle: {},
+    btnClass: '',
+    loading: false,
+    loadingImg: LOADING_IMG,
+  }),
+
+  onInit() {
+    this.btnClass = `taro-button taro-button-${this.type} taro-button-${this.size} ${this.plain ? `taro-button-plain` : `taro-button-noplain`} ${this.disabled ? `taro-button-disabled` : `taro-button-nodisabled`} ${this.circle ? `taro-button-circle` : `taro-button-nocircle`} ${this.className}`
+  },
   
-  export default {
-    props: {
-      class: {
-        type: String,
-        required: false,
-        default: ''
-      },
-      id: {
-        type: String,
-        required: false,
-        default: ''
-      },
-      customstyle: {
-        type: Object,
-        required: false,
-        default: {}
-      },
-      size: {
-        type: String,
-        required: false,
-        default: 'default'
-      },
-      plain: {
-        type: Boolean,
-        required: false,
-        default: false
-      },
-      disabled: {
-        type: Boolean,
-        required: false,
-        default: false
-      },
-      loading: {
-        type: Boolean,
-        required: false,
-        default: false
-      },
-      type: {
-        type: String,
-        required: false,
-        default: 'default'
-      }
-    },
-
-    data: () => ({
-      btnStyle: {},
-      btnClass: '',
-      // loadingImg: LOADING_IMG,
-    }),
-
-    onInit () {
-      this.btnClass = this.plain ? 
-        `taro-button taro-button_default btn_plain btn_plain_${this.type} ${this.class}` 
-        : 
-        `taro-button taro-button_default btn_size_${this.size} ${this.disabled ? `disabled_${this.type}` : `btn_color_${this.type}`} ${this.class}`
-    },
+  onclick(){	
+    	
   }
-</script>
+};</script>
 
 <style>
   .taro-button {
-    width: 100%;
+    height: 85px;
+    width: 710px;
     padding-left: 14px;
     padding-right: 14px;
     font-size: 18px;
     text-align: center;
     text-decoration: none;
     line-height: 46px;
-    border-radius: 5px;
-    border: 1px solid #000;
+    border-radius: 7px;
+    border-color: lightslategray;  
+    background-color: #F7F7F7;
   }
-  /* .taro-button::after {
-      content: " ";
-      width: 200%;
-      height: 200%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      transform: scale(0.5);
-      transform-origin: 0 0;
-      box-sizing: border-box;
-      border-radius: 10px;
-  } */
-  .taro-button text {
-    color: #000;
+  .taro-button:active {
+    border-width: 1px;
+    border-color: lightslategray;  
+    background-color: #F6F6E5;
   }
-  .taro-button_default {
-      background-color: #F8F8F8;
+  .taro-button-circle {
+    border-radius: 30px;
   }
-  .taro-button_default text{
-    color: #000000;
+  .taro-button-small {
+    height: 56px;
+    width: 116px;
+    border: 1px solid #6190E8;
+    background-color: #6190E8;
+  }
+  .taro-button-full {
+    margin-left: 0px;
+    border-radius: 0px;
+    width: 100%;
+  }
+  .taro-button-primary{
+    color: #FFF;
+    border: 1px solid #6190E8;
+    background-color: #6190E8;
+  }
+  .taro-button-primary:active {
+    color: #FFF;
+    border: 1px solid #78A4F4;
+    background-color: #78A4F4;
+  }
+  .taro-button-secondary{
+    color: #6190E8;
+    border: 1.5px solid #6190E8;
+    background-color: #FFF;
+  }
+  .taro-button-secondary:active {
+    color: #6190E8;
+    border: 1.5px solid #78A4F4;
+    background-color: #FFF;
+  }     
+  .taro-button-danger {
+    background-color: #EF4F4F;
+    border-color: #EF4F4F;  
+    color: white;
+  }
+  .taro-button-danger:active {
+    background-color: #ab2048;
+    border-color: #ab2048; 
+    color: white;
+  } 
+  .taro-button-plain {
+    opacity: 0.6;
+  }
+  .taro-button-disabled {
+    opacity: 0.3;
   }
 </style>
