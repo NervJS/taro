@@ -31,18 +31,8 @@ const config = {
     options: {
     }
   },
-  weapp: {
+  mini: {
     postcss: {
-      autoprefixer: {
-        enable: true,
-        config: {
-          browsers: [
-            'last 3 versions',
-            'Android >= 4.1',
-            'ios >= 8'
-          ]
-        }
-      },
       pxtransform: {
         enable: true,
         config: {
