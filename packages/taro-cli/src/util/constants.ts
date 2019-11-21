@@ -364,6 +364,6 @@ export const taroJsMobxCommon = '@tarojs/mobx-common'
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
 
-export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates'
+export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#next'
 export const TARO_CONFIG_FLODER = '.taro'
 export const TARO_BASE_CONFIG = 'index.json'
