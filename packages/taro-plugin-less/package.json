@@ -16,6 +16,6 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "less": "^3.0.4"
+    "less": "^3.10.3"
   }
 }
