@@ -33,32 +33,25 @@
 }
 
 .font {
-  font-family:"微软雅黑";
   color: #FFF;
   font-size: 30px;
   text-align: center;
 }
-  
+
 .txt {
   text-align: center;
-  font-family:"微软雅黑";
-  width: 100%;
   font-size: 30px;
   color: #000000;
 }
 
 .txt-white {
   text-align: center;
-  font-family:"微软雅黑";
-  width: 100%;
   font-size: 30px;
   color: #ffffff;
 }
 
 .txt-blue {
   text-align: center;
-  font-family:"微软雅黑";
-  width: 100%;
   font-size: 30px;
   color: #6190E8;
 }

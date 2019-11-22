@@ -94,7 +94,7 @@ export default {
     text-decoration: none;
     line-height: 46px;
     border-radius: 7px;
-    border-color: lightslategray;  
+    border: 1px solid #AFAFAF;   
     background-color: #F7F7F7;
   }
   .taro-image {
