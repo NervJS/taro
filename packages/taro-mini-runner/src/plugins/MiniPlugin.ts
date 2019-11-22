@@ -335,6 +335,7 @@ export default class TaroMiniPlugin {
 
   addEntries (compiler: webpack.Compiler) {
     this.addEntry(compiler, this.appEntry, 'app', META_TYPE.ENTRY)
+    this.addEntry(compiler, path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
     this.pages.forEach(item => {
       if (item.isNative) {
         this.addEntry(compiler, item.path, item.name, META_TYPE.NORMAL)
