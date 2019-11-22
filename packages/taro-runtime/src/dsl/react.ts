@@ -1,19 +1,28 @@
 import * as React from 'react'
 import { isFunction, EMPTY_OBJ, invariant } from '@tarojs/shared'
 import { Current } from '../current'
-import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps } from './instance'
+import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps, Instance } from './instance'
 import { document } from '../bom/document'
+import { injectPageInstance } from './common'
 
 export function connectReactPage (
-  h: typeof React.createElement, // 为了支持 React 和 React-like
+  R: typeof React,
   id: string
 ) {
+  const h = R.createElement
   return (component: ReactPageComponent): React.FunctionComponent<PageProps> => {
+    const isReactComponent = !!component.prototype.isReactComponent ||
+      component.prototype instanceof R.Component // compat for some others react-like library
+    const inject = (node?: Instance) => node && injectPageInstance(node, id)
+    const refs = isReactComponent ? { ref: inject } : { forwardedRef: inject }
     return (props: PageProps) => {
       return h(
         'root',
         { id },
-        h(component, props)
+        h(component, {
+          ...props,
+          ...refs
+        })
       )
     }
   }
@@ -102,7 +111,7 @@ export function createReactApp (App: React.ComponentClass) {
     }
 
     mount (component: ReactPageComponent, id: string, cb: () => void) {
-      const page = connectReactPage(R.createElement, id)(component)
+      const page = connectReactPage(R, id)(component)
       wrapper.mount(page, id, cb)
     }
 

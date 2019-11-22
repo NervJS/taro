@@ -11,11 +11,8 @@ import { incrementId } from '../utils'
 
 const instances = new Map<string, Instance>()
 
-export function injectPageInstance (inst: Instance<PageProps>) {
-  const id = inst.tid != null ? inst.tid : inst.props.tid
-  if (id != null) {
-    instances.set(id, inst)
-  }
+export function injectPageInstance (inst: Instance<PageProps>, id: string) {
+  instances.set(id, inst)
 }
 
 function addLeadingSlash (path: string) {

@@ -13,7 +13,7 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
       },
       mixins: [component, {
         created () {
-          injectPageInstance(this)
+          injectPageInstance(this, id)
         }
       }]
     })
