@@ -80,7 +80,7 @@ export function convertAstExpressionToVariable<T = any> (node): T {
   } else if (t.isArrayExpression(node)) {
     return (node.elements.map(convertAstExpressionToVariable) as any) as T
   } else if (t.isLiteral(node)) {
-    return node.value
+    return (node as any).value
   } else if (t.isIdentifier(node) || t.isJSXIdentifier(node)) {
     const name = node.name
     return name === 'undefined' ? ((undefined as any) as T) : ((name as any) as T)
