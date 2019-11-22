@@ -144,3 +144,10 @@ export function useStore<S = any, A extends Action = AnyAction>(): Store<S, A>;
 // the Dispatch function (see also this PR: https://github.com/reduxjs/redux-thunk/pull/247)
 export function useDispatch<TDispatch = Dispatch<any>>(): TDispatch;
 export function useDispatch<A extends Action = AnyAction>(): Dispatch<A>;
+
+/**
+ * Compares two arbitrary values for shallow equality. Object values are compared based on their keys, i.e. they must
+ * have the same keys and for each key the value must be equal according to the `Object.is()` algorithm. Non-object
+ * values are also compared with the same algorithm as `Object.is()`.
+ */
+export function shallowEqual(left: any, right: any): boolean;

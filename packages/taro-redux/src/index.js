@@ -5,6 +5,7 @@ import { useDispatch } from './hooks/use-dispatch'
 import { useSelector } from './hooks/use-selector'
 import { useStore } from './hooks/use-store'
 import { ReduxContext } from './hooks/context'
+import shallowEqual from './utils/shallowEqual'
 
 export default {
   connect,
@@ -14,7 +15,8 @@ export default {
   useDispatch,
   useSelector,
   useStore,
-  ReduxContext
+  ReduxContext,
+  shallowEqual
 }
 
 export {
@@ -25,5 +27,6 @@ export {
   useDispatch,
   useSelector,
   useStore,
-  ReduxContext
+  ReduxContext,
+  shallowEqual
 }
