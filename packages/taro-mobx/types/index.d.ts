@@ -20,6 +20,8 @@ export function observer<P extends ITaroComponent>(component: P): P;
 export function inject(...stores: string[]);
 export function inject(fn: (stores: IValueMap, nextProps: IValueMap) => IValueMap);
 
+export function getStore(): IValueMap;
+
 export class Provider extends Taro.Component<any, {}> {}
 
 export const PropTypes: {
