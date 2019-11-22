@@ -1,5 +1,5 @@
 import { internalComponents, Shortcuts, createMiniComponents, controlledComponent } from '@tarojs/shared'
-import { Adapter } from './adapters'
+import { Adapter, supportXS } from './adapters'
 import { BUILD_TYPES } from '../utils/constants'
 import { componentConfig } from './component'
 
@@ -54,17 +54,20 @@ export function buildXScript () {
 
 function buildComponentTemplate (comp: Component, level: number, supportRecursive: boolean) {
   return controlledComponent.has(comp.nodeName)
-    ? buildControlledComponentTemplte(comp, level, supportRecursive)
+    ? buildFocusComponentTemplte(comp, level, supportRecursive)
     : buildStandardComponentTemplate(comp, level, supportRecursive)
 }
 
-function buildControlledComponentTemplte (comp: Component, level: number, supportRecursive: boolean) {
+function buildFocusComponentTemplte (comp: Component, level: number, supportRecursive: boolean) {
   const attrs = { ...comp.attributes }
   const nextLevel = supportRecursive ? 0 : level + 1
+  const templateName = supportXS()
+    ? `xs.c(i, 'tmpl_${level}_')`
+    : `i.focus ? 'tmpl_${level}_${comp.nodeName}_focus' : tmpl_${level}_${comp.nodeName}_blur }}`
   delete attrs.focus
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
-  <template is="{{ xs.c(i, 'tmpl_${level}_') }}" data="{{i: i}}" />
+  <template is="{{ ${templateName} }}" data="{{i: i}}" />
 </template>
 
 <template name="tmpl_${level}_${comp.nodeName}_focus">

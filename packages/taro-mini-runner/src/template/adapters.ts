@@ -81,6 +81,10 @@ const qqAdapter: Adapter = {
   type: BUILD_TYPES.QQ
 }
 
+export const supportXS = () => {
+  return [BUILD_TYPES.QQ, BUILD_TYPES.WEAPP, BUILD_TYPES.SWAN, BUILD_TYPES.ALIPAY].includes(Adapter.type)
+}
+
 export let Adapter: Adapter = weixinAdapter
 
 export function setAdapter (adapter: BUILD_TYPES) {

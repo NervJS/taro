@@ -28,8 +28,8 @@ export class Loader {
   protected sourcemap: RawSourceMap
 
   public constructor (source: string, context: webpack.loader.LoaderContext, framework: Framework = 'react', sourcemap: RawSourceMap) {
-    this.context.async()
     this.context = context
+    this.context.async()
     this.framework = framework
     this.source = source
     this.sourcemap = sourcemap
