@@ -9,7 +9,8 @@ class Image extends Nerv.Component {
   constructor () {
     super(...arguments)
     this.state = {
-      isLoaded: false
+      isLoaded: false,
+      aspectFillMode: 'width'
     }
     this.imageOnLoad = this.imageOnLoad.bind(this)
   }
@@ -43,6 +44,11 @@ class Image extends Nerv.Component {
         height: this.imgRef.height
       }
     })
+    if (this.imgRef.naturalWidth > this.imgRef.naturalHeight) {
+      this.setState({ aspectFillMode: 'width' })
+    } else {
+      this.setState({ aspectFillMode: 'height' })
+    }
     onLoad && onLoad(e)
   }
 
@@ -56,6 +62,7 @@ class Image extends Nerv.Component {
       lazyLoad,
       ...reset
     } = this.props
+    const { aspectFillMode } = this.state
     const cls = classNames(
       'taro-img',
       {
@@ -65,7 +72,10 @@ class Image extends Nerv.Component {
     )
     const imgCls = classNames(
       'taro-img__mode-' +
-        (mode || 'scaleToFill').toLowerCase().replace(/\s/g, '')
+        (mode || 'scaleToFill').toLowerCase().replace(/\s/g, ''),
+      {
+        [`taro-img__mode-aspectfill--${aspectFillMode}`]: mode === 'aspectFill'
+      }
     )
 
     return (
