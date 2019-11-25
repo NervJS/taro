@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { isFunction, EMPTY_OBJ, invariant } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure } from '@tarojs/shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps, Instance } from './instance'
 import { document } from '../bom/document'
@@ -44,7 +44,7 @@ export function createReactApp (App: React.ComponentClass) {
     ReactDOM = require('react-dom')
   }
 
-  invariant(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
+  ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
 
   const ref = R.createRef<ReactPageInstance>()
 

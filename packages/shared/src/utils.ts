@@ -62,7 +62,13 @@ export const hasOwn = (
 
 const reportIssue = '请提交 issue 至：https://github.com/nervjs/taro/issues'
 
-export function invariant (condition: boolean, msg: string): asserts condition {
+/**
+ * ensure takes a condition and throw a error if the condition fails,
+ * like failure::ensure: https://docs.rs/failure/0.1.1/failure/macro.ensure.html
+ * @param condition condition.
+ * @param msg error message.
+ */
+export function ensure (condition: boolean, msg: string): asserts condition {
   if (condition) {
     return
   }

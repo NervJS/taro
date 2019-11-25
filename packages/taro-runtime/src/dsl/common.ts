@@ -1,6 +1,6 @@
 import { CommonEvent } from '@tarojs/components'
 import * as React from 'react'
-import { isFunction, EMPTY_OBJ, invariant } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure } from '@tarojs/shared'
 import { createEvent } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
@@ -66,7 +66,7 @@ export function createPageConfig (component: React.ComponentClass) {
         page = document.getElementById<TaroRootElement>(id)
         instance = instances.get(id) || EMPTY_OBJ
 
-        invariant(page !== null, '没有找到页面实例。')
+        ensure(page !== null, '没有找到页面实例。')
         safeExecute('onLoad', options)
         page.ctx = this
         page.performUpdate()

@@ -3,7 +3,7 @@ import { incrementId } from '../utils'
 import { TaroEventTarget } from './event_target'
 import { eventSource } from './event'
 import { TaroRootElement } from './root'
-import { Shortcuts, invariant } from '@tarojs/shared'
+import { Shortcuts, ensure } from '@tarojs/shared'
 import { hydrate, HydratedData } from '../render'
 import { TaroElement } from './element'
 
@@ -166,7 +166,7 @@ export class TaroNode extends TaroEventTarget {
 
   protected findIndex (childeNodes: TaroNode[], refChild: TaroNode) {
     const index = childeNodes.indexOf(refChild)
-    invariant(index !== -1, 'The node to be replaced is not a child of this node.')
+    ensure(index !== -1, 'The node to be replaced is not a child of this node.')
 
     return index
   }

@@ -3,7 +3,7 @@ import { AppInstance, VueAppInstance, VueInstance } from './instance'
 import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { isFunction, noop, invariant } from '@tarojs/shared'
+import { isFunction, noop, ensure } from '@tarojs/shared'
 
 export function connectVuePage (Vue: VueConstructor, id: string) {
   return (component: ComponentOptions<VueCtor>) => {
@@ -46,7 +46,7 @@ export function createVueApp (App: VueInstance) {
     Vue = v.default || v
   }
 
-  invariant(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
+  ensure(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
 
   Vue.config.getTagNamespace = noop
 
