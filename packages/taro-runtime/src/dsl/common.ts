@@ -1,7 +1,6 @@
-import { CommonEvent } from '@tarojs/components'
 import * as React from 'react'
-import { isFunction, EMPTY_OBJ, ensure } from '@tarojs/shared'
-import { createEvent } from '../dom/event'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts } from '@tarojs/shared'
+import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
 import { TaroRootElement } from '../dom/root'
@@ -50,12 +49,6 @@ export function createPageConfig (component: React.ComponentClass) {
   }
 
   const config: PageInstance = {
-    eh (event: CommonEvent) {
-      const node = document.getElementById(event.currentTarget.id)
-      if (node != null) {
-        node.dispatchEvent(createEvent(event))
-      }
-    },
     onLoad (this: MpInstance, options) {
       Current.router = {
         params: options,
@@ -117,19 +110,26 @@ export function createPageConfig (component: React.ComponentClass) {
     }
   }
 
+  config.eh = eventHandler
+
   return config
 }
 
 export function createComponentConfig () {
   return {
     properties: {
-      i: Object
-    },
-    eh (event: CommonEvent) {
-      const node = document.getElementById(event.currentTarget.id)
-      if (node != null) {
-        node.dispatchEvent(createEvent(event))
+      i: {
+        type: Object,
+        value: {
+          [Shortcuts.NodeName]: 'view'
+        }
       }
+    },
+    options: {
+      addGlobalClass: true
+    },
+    methods: {
+      eh: eventHandler
     }
   }
 }

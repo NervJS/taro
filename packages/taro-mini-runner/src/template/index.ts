@@ -110,7 +110,7 @@ function buildContainerTemplate (level: number, restart = false) {
 `
 }
 
-function buildTemplate (level: number, supportRecursive: boolean) {
+function buildTemplate (level: number, supportRecursive: boolean, restart = false) {
   const miniComponents = createMiniComponents(internalComponents, Adapter.type === BUILD_TYPES.ALIPAY)
   const components = Object.keys(miniComponents).filter(c => componentConfig.includes.size ? componentConfig.includes.has(c) : true)
   let template = ''
@@ -121,7 +121,7 @@ function buildTemplate (level: number, supportRecursive: boolean) {
   }
 
   template += buildPlainTextTemplate(level)
-  template += buildContainerTemplate(level)
+  template += buildContainerTemplate(level, restart)
 
   return template
 }
@@ -139,11 +139,7 @@ export function buildBaseTemplate (maxLevel: number, supportRecursive: boolean) 
     template += buildTemplate(0, supportRecursive)
   } else {
     for (let i = 0; i < maxLevel; i++) {
-      template += buildTemplate(i, supportRecursive)
-      const nextLevel = i + 1
-      if (maxLevel === nextLevel) {
-        template += buildContainerTemplate(nextLevel, true)
-      }
+      template += buildTemplate(i, supportRecursive, maxLevel === i + 1)
     }
   }
 

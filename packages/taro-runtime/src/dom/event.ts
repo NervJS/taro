@@ -1,5 +1,7 @@
 import { TaroNode } from './node'
 import { isUndefined } from '@tarojs/shared'
+import { CommonEvent } from '@tarojs/components'
+import { document } from '../bom/document'
 
 interface EventOptions {
   bubbles: boolean;
@@ -67,4 +69,11 @@ export function createEvent (event: MpEvent) {
   }
 
   return domEv
+}
+
+export function eventHandler (event: CommonEvent) {
+  const node = document.getElementById(event.currentTarget.id)
+  if (node != null) {
+    node.dispatchEvent(createEvent(event))
+  }
 }
