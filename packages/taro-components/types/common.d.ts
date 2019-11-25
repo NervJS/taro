@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import {CSSProperties} from 'react';
 
 export type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: never } & { [x: string]: never })[keyof T]>;
 
@@ -27,7 +27,7 @@ export interface StandardProps extends EventProps {
   /**
    * 动画属性
    */
-  animation?: object[],
+  animation?: { actions: object[] },
   /**
    * 引用
    */
@@ -147,13 +147,13 @@ export interface BaseEventOrig<T> {
   detail: T,
 
   /**
-  * 阻止元素发生默认的行为
-  */
+   * 阻止元素发生默认的行为
+   */
   preventDefault: () => void,
 
   /**
-  * 阻止事件冒泡到父元素,阻止任何父事件处理程序被执行
-  */
+   * 阻止事件冒泡到父元素,阻止任何父事件处理程序被执行
+   */
   stopPropagation: () => void
 }
 
@@ -215,4 +215,5 @@ export interface Target {
   }
 }
 
-export interface currentTarget extends Target {}
+export interface currentTarget extends Target {
+}
