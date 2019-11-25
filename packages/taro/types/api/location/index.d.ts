@@ -89,7 +89,17 @@ declare namespace Taro {
       /**
        * 传入 true 会返回高度信息，由于获取高度需要较高精确度，会减慢接口返回速度
        */
-      altitude?: boolean
+      altitude?: boolean,
+      /**
+       * 开启高精度定位
+       * 2.9.0+
+       */
+      isHighAccuracy?: boolean,
+      /**
+       * 高精度定位超时时间(ms)，指定时间内返回最高精度，该值3000ms以上高精度定位才有效果
+       * 2.9.0+
+       */
+      highAccuracyExpireTime?: number,
       /**
        * 接口调用成功的回调函数
        */
