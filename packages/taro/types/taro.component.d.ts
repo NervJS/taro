@@ -72,12 +72,22 @@ declare namespace Taro {
     params: {
       [key: string]: string
     } & {
-      path?: string
       scene?: number | string
       query?: {[key: string]: string} | string
       shareTicket?: string
       referrerInfo?: {[key: string]: any} | string
     }
+
+    /**
+     * 可以于 `this.$router.path` 中获取当前页面路径
+     * 
+     * @example
+     * componentWillMount () {
+     *   console.log(this.$router.path)
+     * }
+     */
+    path?: string
+
     /**
     * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
     *
