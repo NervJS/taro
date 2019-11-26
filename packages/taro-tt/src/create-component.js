@@ -192,22 +192,25 @@ export function componentTrigger (component, key, args) {
 
     if (component['$$refs'] && component['$$refs'].length > 0) {
       let refs = {}
-      const refComponents = component['$$refs'].map(ref => new Promise((resolve, reject) => {
-        const query = tt.createSelectorQuery().in(component.$scope)
-        if (ref.type === 'component') {
-          component.$scope.selectComponent(`#${ref.id}`, target => {
+      const refComponents = []
+      component['$$refs'].forEach(ref =>{
+        refComponents.push(new Promise((resolve, reject) => {
+          const query = tt.createSelectorQuery().in(component.$scope)
+          if (ref.type === 'component') {
+            component.$scope.selectComponent(`#${ref.id}`, target => {
+              resolve({
+                target: target ? target.$component || target : null,
+                ref
+              })
+            })
+          } else {
             resolve({
-              target: target ? target.$component || target : null,
+              target: query.select(`#${ref.id}`),
               ref
             })
-          })
-        } else {
-          resolve({
-            target: query.select(`#${ref.id}`),
-            ref
-          })
-        }
-      }))
+          }
+        }))
+      })
       Promise.all(refComponents)
         .then(targets => {
           targets.forEach(({ ref, target }) => {
