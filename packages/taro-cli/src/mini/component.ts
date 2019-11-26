@@ -303,7 +303,7 @@ export async function buildSingleComponent (
         return item
       }).filter(item => item)
       realComponentsPathList = realComponentsPathList.filter(item => !isComponentHasBeenBuilt(item.path as string) || notTaroComponents.has(item.path as string))
-      await buildDepComponents(realComponentsPathList)
+      await buildDepComponents(realComponentsPathList, buildConfig)
     }
     if (componentExportsMap.size && realComponentsPathList.length) {
       realComponentsPathList.forEach(componentObj => {
