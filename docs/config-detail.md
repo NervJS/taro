@@ -502,6 +502,9 @@ Taro app 的入口，同 [webpack.entry](https://webpack.js.org/configuration/en
 sourceMap 开关，影响 js、css 的 sourceMap 配置。
 dev 状态默认 **开**，prod 状态默认 **关**。
 
+### h5.sourceMapType
+sourceMap格式, 默认cheap-module-eval-source-map。[具体配置](https://webpack.js.org/configuration/devtool/#devtool)
+
 ### h5.enableDll
 
 dll 开关，开启后将使用 `dllPlugin` 把内置的部分依赖库打包为单独的 dll 文件，

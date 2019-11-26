@@ -55,6 +55,7 @@ export interface TaroH5Config {
   router?: IH5RouterConfig;
   devServer: webpackDevServer.Configuration;
   enableSourceMap: boolean;
+  sourceMapType?: 'none' | 'eval' | 'cheap-eval-source-map' | 'cheap-module-eval-source-map' | 'eval-source-map' | 'cheap-source-map' | 'cheap-module-source-map' | 'inline-cheap-source-map' | 'inline-cheap-module-source-map' | 'source-map' | 'inline-source-map' | 'hidden-source-map' | 'nosources-source-map';
   enableExtract: boolean;
 
   cssLoaderOption: Option;
