@@ -290,7 +290,9 @@
           "apis/device/wifi/getConnectedWifi",
           "apis/device/wifi/getWifiList",
           "apis/device/wifi/onGetWifiList",
+          "apis/device/wifi/offGetWifiList",
           "apis/device/wifi/onWifiConnected",
+          "apis/device/wifi/offWifiConnected",
           "apis/device/wifi/setWifiList",
           "apis/device/wifi/startWifi",
           "apis/device/wifi/stopWifi"

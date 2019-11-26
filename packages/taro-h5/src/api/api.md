@@ -316,6 +316,10 @@
 
 ❌ wx.getConnectedWifi
 
+❌ wx.offWifiConnected
+
+❌ wx.offGetWifiList
+
 ### 界面
 
 #### 交互反馈
