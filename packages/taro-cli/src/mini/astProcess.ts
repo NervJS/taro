@@ -62,10 +62,17 @@ import { QUICKAPP_SPECIAL_COMPONENTS } from './constants'
 function generateCssModuleMapFilename (styleFilePath) {
   const {
     sourceDir,
-    outputDir
+    outputDir,
+    nodeModulesPath,
+    npmOutputDir
   } = getBuildData()
   const cssModuleMapFilename = path.basename(styleFilePath) + '.map.js'
-  const cssModuleMapFile = path.join(path.dirname(styleFilePath), cssModuleMapFilename).replace(sourceDir, outputDir)
+  let cssModuleMapFile
+  if (NODE_MODULES_REG.test(styleFilePath)) {
+    cssModuleMapFile = path.join(path.dirname(styleFilePath), cssModuleMapFilename).replace(nodeModulesPath, npmOutputDir)
+  } else {
+    cssModuleMapFile = path.join(path.dirname(styleFilePath), cssModuleMapFilename).replace(sourceDir, outputDir)
+  }
   return cssModuleMapFile
 }
 

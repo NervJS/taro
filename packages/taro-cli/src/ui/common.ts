@@ -8,7 +8,7 @@ import * as fs from 'fs-extra'
 import { parseAst } from '../mini/astProcess'
 import { IBuildData } from './ui.types'
 import { cssImports, printLog, resolveScriptPath, resolveStylePath, isNpmPkg } from '../util'
-import { PARSE_AST_TYPE, processTypeEnum, REG_STYLE, REG_TYPESCRIPT } from '../util/constants'
+import { PARSE_AST_TYPE, processTypeEnum, REG_STYLE, REG_TYPESCRIPT, CSS_EXT } from '../util/constants'
 import { IComponentObj } from '../mini/interface'
 
 let processedScriptFiles: Set<string> = new Set()
@@ -109,11 +109,23 @@ export function parseEntryAst (ast: t.File, relativeFile: string) {
   }
 }
 
+export function isFileToBeCSSModulesMap (filePath) {
+  let isMap = false
+  CSS_EXT.forEach(item => {
+    const reg = new RegExp(`${item}.map.js$`, 'g')
+    if (reg.test(filePath)) {
+      isMap = true
+    }
+  })
+  return isMap
+}
+
 export function copyFileToDist (filePath: string, sourceDir: string, outputDir: string, buildData: IBuildData) {
-  if (!filePath && !path.isAbsolute(filePath)) {
+  if ((!filePath && !path.isAbsolute(filePath)) || isFileToBeCSSModulesMap(filePath)) {
     return
   }
-  const {appPath} = buildData
+
+  const { appPath } = buildData
   const dirname = path.dirname(filePath)
   const distDirname = dirname.replace(sourceDir, outputDir)
   const relativePath = path.relative(appPath, filePath)
