@@ -60,6 +60,14 @@ Taro 需要运行不同的命令，将 Taro 代码编译成不同端的代码，
 
 ![image](https://storage.360buyimg.com/taro-resource/platforms.jpg)
 
+
+### 保持 `@tarojs/cli` 的版本与各端依赖版本一致
+
+在使用 Taro 进行多端开发中，请确保 Taro CLI 的版本与你项目的依赖版本一致，否则可能会出现编译错误或者运行时错误。
+
+如果你所使用的 Taro CLI 版本为 1.3.9，而项目里使用的依赖版本为 1.3.20，则有可能会出现问题，查询方法请参见本章 "环境及依赖检测" 章节，这时请将你的 Taro CLI 版本更新至项目依赖版本号相同的版本，如果还是出现问题，请向我们提出 [Issue](https://github.com/NervJS/taro/issues/new?assignees=&labels=&template=bug_report.md&title=)。
+
+
 ### 微信小程序
 
 选择微信小程序模式，需要自行下载并打开[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)，然后选择项目根目录进行预览。
@@ -385,9 +393,3 @@ $ yarn global add @tarojs/cli@1.3.9
 # OR 安装了 cnpm，使用 cnpm 安装 CLI
 $ cnpm install -g @tarojs/cli@1.3.9
 ```
-
-### 保持 `@tarojs/cli` 的版本与各端依赖版本一致
-
-在使用 Taro 进行多端开发中，请保持 Taro CLI 的版本与你项目的依赖版本一致，否则可能会出现编译错误或者运行时错误。
-
-如果你所使用的 Taro CLI 版本为 1.3.9，而项目里使用的依赖版本为 1.3.20，则有可能会出现问题，这时请将你的 Taro CLI 版本更新至项目依赖版本号相同的版本，如果还是出现问题，请向我们提出 [Issue](https://github.com/NervJS/taro/issues/new?assignees=&labels=&template=bug_report.md&title=)。
