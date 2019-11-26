@@ -1,16 +1,15 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
 import { commitAttachRef, detachAllRef, Current, eventCenter } from '@tarojs/taro'
 import { isEmptyObject, isFunction, isArray } from './util'
-import { mountComponent } from './lifecycle'
+import { mountComponent, updateComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
-import propsManager from './propsManager'
 
 const anonymousFnNamePreffix = 'funPrivate'
 const COLLECT_CHILDS = 'onTaroCollectChilds'
 const preloadPrivateKey = '__preload_'
 const PRELOAD_DATA_KEY = 'preload'
 const preloadInitedComponent = '$preloadComponent'
-const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage']
+const pageExtraFns = ['onTitleClick', 'onOptionMenuClick', 'onPageScroll', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onTabItemTap']
 
 function bindStaticFns (weappComponentConf, ComponentClass) {
   for (const key in ComponentClass) {
@@ -174,7 +173,7 @@ export function componentTrigger (component, key, args) {
   if (key === 'componentWillUnmount') {
     if (component.$scope.props) {
       const compid = component.$scope.props.compid
-      if (compid) propsManager.delete(compid)
+      if (compid) my.propsManager.delete(compid)
     }
   }
 
@@ -248,6 +247,7 @@ function createComponent (ComponentClass, isPage) {
         hasPageInited = false
         if (cacheDataHas(preloadInitedComponent)) {
           this.$component = cacheDataGet(preloadInitedComponent, true)
+          this.$component.$componentType = 'PAGE'
         } else {
           this.$component = new ComponentClass({}, isPage)
         }
@@ -316,7 +316,7 @@ function createComponent (ComponentClass, isPage) {
     Object.assign(weappComponentConf, {
       didMount () {
         const compid = this.props.compid
-        const props = filterProps(ComponentClass.defaultProps, propsManager.map[compid], {})
+        const props = filterProps(ComponentClass.defaultProps, my.propsManager.map[compid], {})
 
         this.$component = new ComponentClass(props, isPage)
         this.$component._init(this)
@@ -324,7 +324,7 @@ function createComponent (ComponentClass, isPage) {
         this.$component.__propTypes = ComponentClass.propTypes
 
         if (compid) {
-          propsManager.observers[compid] = {
+          my.propsManager.observers[compid] = {
             component: this.$component,
             ComponentClass
           }
@@ -333,7 +333,29 @@ function createComponent (ComponentClass, isPage) {
         initComponent.apply(this, [isPage])
       },
 
-      didUpdate (prevProps, prevData) {},
+      didUpdate (prevProps, prevData) {
+        // 父组件每次更新，其渲染渲染的子自定义组件每次会生成不同的 compid
+        // 但组件 didmount 中的 this.props.compid 只会是第一次 setData 的
+        // 因此要对自组件 didmount 前父组件多次 setData 的情况进行兜底
+        const previd = prevProps.compid
+        const compid = this.props.compid
+        if (
+          previd &&
+          compid &&
+          previd !== compid &&
+          !my.propsManager.map[previd] &&
+          my.propsManager.map[compid] &&
+          !my.propsManager.observers[compid]
+        ) {
+          my.propsManager.observers[compid] = {
+            component: this.$component,
+            ComponentClass: ComponentClass
+          };
+          var nextProps = filterProps(ComponentClass.defaultProps, my.propsManager.map[compid], this.$component.props);
+          this.$component.props = nextProps;
+          updateComponent(this.$component);
+        }
+      },
 
       didUnmount () {
         const component = this.$component

@@ -49,8 +49,11 @@ class Route extends Taro.Component<RouteProps, {}> {
     const path = currentLocation.path;
     const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
-    if (isIndex && path === '/') return true
-    return key === this.props.key
+    if (key !== undefined) {
+      return key === this.props.key
+    } else {
+      return isIndex && path === '/'
+    }
   }
 
   getWrapRef = ref => {
@@ -76,13 +79,10 @@ class Route extends Taro.Component<RouteProps, {}> {
       })
   }
 
-  componentWillMount () {
-    this.updateComponent()
-  }
-
   componentDidMount () {
     scroller = scroller || getScroller()
     scroller.set(0)
+    this.updateComponent()
   }
 
   componentWillReceiveProps (nProps, nContext) {
@@ -98,21 +98,24 @@ class Route extends Taro.Component<RouteProps, {}> {
 
     this.matched = nextMatched
 
-    nextTick(() => {
-      if (nextMatched) {
-        this.showPage()
-        if (!isRedirect) {
+    
+    if (nextMatched) {
+      if (!isRedirect) {
+        nextTick(() => {
+          this.showPage()
           scroller = scroller || getScroller()
           scroller.set(this.scrollPos)
-          tryToCall(this.componentRef.componentDidShow, this.componentRef)
-        }
-      } else {
-        scroller = scroller || getScroller()
-        this.scrollPos = scroller.get()
+        })
+        tryToCall(this.componentRef.componentDidShow, this.componentRef)
+      }
+    } else {
+      scroller = scroller || getScroller()
+      this.scrollPos = scroller.get()
+      nextTick(() => {
         this.hidePage()
         tryToCall(this.componentRef.componentDidHide, this.componentRef)
-      }
-    })
+      })
+    }
   }
 
   shouldComponentUpdate () {
@@ -144,7 +147,7 @@ class Route extends Taro.Component<RouteProps, {}> {
       <div
         className="taro_page"
         ref={this.getWrapRef}
-        style={"min-height: 100%"}>
+        style={{ minHeight: '100%' }}>
         <WrappedComponent ref={this.getRef} />
       </div>
     )

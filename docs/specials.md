@@ -1,5 +1,5 @@
 ---
-title: 特殊问题的处理
+title: 常见问题
 ---
 
 - [Issue #46](https://github.com/NervJS/taro/issues/46)，`redux-saga` 的引入问题处理

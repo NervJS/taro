@@ -2,6 +2,9 @@ import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
 import { getObjChainValue, genCompPrefix } from './util'
 import { cacheDataSet, cacheDataGet } from './data-cache'
+import {
+  internal_force_update as forceUpdateCallback
+} from '@tarojs/taro'
 // #组件state对应小程序组件data
 // #私有的__componentProps更新用于触发子组件中对应obsever，生命周期componentWillReciveProps,componentShouldUpdate在这里处理
 // #父组件传过来的props放到data.__props中供模板使用，这么做的目的是模拟reciveProps生命周期
@@ -22,6 +25,7 @@ class BaseComponent {
   nextProps = {}
   _dirty = true
   _disable = true
+  _isForceUpdate = false
   _pendingStates = []
   _pendingCallbacks = []
   $componentType = ''
@@ -64,7 +68,7 @@ class BaseComponent {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
     if (!this._disable) {
-      enqueueRender(this)
+      enqueueRender(this, forceUpdateCallback === callback)
     }
   }
 
@@ -90,6 +94,7 @@ class BaseComponent {
     if (typeof callback === 'function') {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
+    this._isForceUpdate = true
     updateComponent(this)
   }
 

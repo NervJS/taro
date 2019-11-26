@@ -1,8 +1,14 @@
 import {
-  internal_safe_get as safeGet
+  internal_safe_get as safeGet,
+  internal_force_update as forceUpdateCallback
 } from '@tarojs/taro'
+
 import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
+import { isFunction, genCompPrefix } from './util'
+import { cacheDataSet, cacheDataGet } from './data-cache'
+
+const PRELOAD_DATA_KEY = 'preload'
 
 export default class BaseComponent {
   // _createData的时候生成，小程序中通过data.__createData访问
@@ -12,8 +18,11 @@ export default class BaseComponent {
   __isReady = false
   // 会在componentDidMount后置为true
   __mounted = false
+  nextProps = {}
+  context = {}
   _dirty = true
   _disable = true
+  _isForceUpdate = false
   _pendingStates = []
   _pendingCallbacks = []
   $componentType = ''
@@ -22,10 +31,17 @@ export default class BaseComponent {
     path: ''
   }
 
+  _afterScheduleEffect = false
+  _disableEffect = false
+  hooks = []
+  effects = []
+  layoutEffects = []
+
   constructor (props = {}, isPage) {
     this.state = {}
-    this.props = {}
+    this.props = props || {}
     this.$componentType = isPage ? 'PAGE' : 'COMPONENT'
+    this.$prefix = genCompPrefix()
     this.isTaroComponent = this.$componentType && this.$router && this._pendingStates
   }
   _constructor (props) {
@@ -38,11 +54,11 @@ export default class BaseComponent {
     if (state) {
       (this._pendingStates = this._pendingStates || []).push(state)
     }
-    if (typeof callback === 'function') {
+    if (isFunction(callback)) {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
     if (!this._disable) {
-      enqueueRender(this)
+      enqueueRender(this, forceUpdateCallback === callback)
     }
   }
 
@@ -68,7 +84,20 @@ export default class BaseComponent {
     if (typeof callback === 'function') {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
+    this._isForceUpdate = true
     updateComponent(this)
+  }
+
+  $preload (key, value) {
+    const preloadData = cacheDataGet(PRELOAD_DATA_KEY) || {}
+    if (typeof key === 'object') {
+      for (const k in key) {
+        preloadData[k] = key[k]
+      }
+    } else {
+      preloadData[key] = value
+    }
+    cacheDataSet(PRELOAD_DATA_KEY, preloadData)
   }
 
   // 会被匿名函数调用
@@ -94,11 +123,12 @@ export default class BaseComponent {
         __arguments: args
       }
       const detail = {}
-      if (this.$scope._externalBinding) {
-        const tempalateAttr = this.$scope._externalBinding.template.attr
-        Object.keys(tempalateAttr).forEach(item => {
+      const externalBinding = this.$scope._externalBinding
+      const attr = this.$scope._attr || this.$scope.attr || (externalBinding && externalBinding.template.attr)
+      if (attr) {
+        Object.keys(attr).forEach(item => {
           if (/^data/.test(item)) {
-            detail[item.replace(/^data/, '')] = tempalateAttr[item]
+            detail[item.replace(/_/g, '').replace(/^data/, '')] = typeof attr[item] === 'function' ? attr[item]() : attr[item]
           }
         })
       }

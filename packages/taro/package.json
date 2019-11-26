@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "1.3.4",
+  "version": "1.3.25",
   "description": "Taro framework",
   "module": "dist/index.esm.js",
   "main": "index.js",
@@ -14,7 +14,8 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c rollup.config.js"
+    "build": "rollup -c rollup.config.js",
+    "docs": "ts-node ./scripts/docs-api.ts"
   },
   "repository": {
     "type": "git",
@@ -24,8 +25,14 @@
     "taro"
   ],
   "peerDependencies": {
-    "nervjs": "^1.4.0"
+    "nervjs": "^1.5.0"
   },
   "author": "O2Team",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/utils": "1.3.25"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.4"
+  }
 }

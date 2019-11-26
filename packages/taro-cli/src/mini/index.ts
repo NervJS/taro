@@ -1,11 +1,11 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
+import * as os from 'os'
 
 import chalk from 'chalk'
 import * as _ from 'lodash'
 import * as ora from 'ora'
 import { execSync } from 'child_process'
-import * as resolvePath from 'resolve'
 
 import {
   printLog,
@@ -14,7 +14,8 @@ import {
   copyFiles,
   unzip,
   shouldUseYarn,
-  shouldUseCnpm
+  shouldUseCnpm,
+  resolvePureScriptPath
 } from '../util'
 import { processTypeEnum, BUILD_TYPES } from '../util/constants'
 import { IMiniAppBuildConfig } from '../util/types'
@@ -25,17 +26,25 @@ import {
   getBuildData,
   setIsProduction,
   setAppConfig,
-  IBuildData
+  IBuildData,
+  setQuickappManifest
 } from './helper'
 import { buildEntry } from './entry'
-import { buildPages } from './page'
+import { buildPages, buildSinglePage } from './page'
 import { watchFiles } from './watch'
 import { downloadGithubRepoLatestRelease } from '../util/dowload'
+import { buildSingleComponent } from './component'
 
 function buildProjectConfig () {
   const { buildAdapter, sourceDir, outputDir, outputDirName, appPath } = getBuildData()
+
+  if (buildAdapter === BUILD_TYPES.JD) {
+    // 京东小程序暂不支持 project.config.json
+    return
+  }
+
   let projectConfigFileName = `project.${buildAdapter}.json`
-  if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ) {
+  if (buildAdapter === BUILD_TYPES.WEAPP) {
     projectConfigFileName = 'project.config.json'
   }
   let projectConfigPath = path.join(appPath, projectConfigFileName)
@@ -46,7 +55,7 @@ function buildProjectConfig () {
   }
 
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
-  if (buildAdapter === BUILD_TYPES.TT) {
+  if (buildAdapter === BUILD_TYPES.TT || buildAdapter === BUILD_TYPES.QQ) {
     projectConfigFileName = 'project.config.json'
   }
   fs.ensureDirSync(outputDir)
@@ -88,21 +97,45 @@ async function buildFrameworkInfo () {
   }
 }
 
-function generateQuickAppManifest () {
-  const { appConfig, pageConfigs, appPath, outputDir, projectConfig } = getBuildData()
+function readQuickAppManifest () {
+  const { appPath } = getBuildData()
+  // 读取 project.quickapp.json
+  const quickappJSONPath = path.join(appPath, 'project.quickapp.json')
+  let quickappJSON
+  if (fs.existsSync(quickappJSONPath)) {
+    quickappJSON = fs.readJSONSync(quickappJSONPath)
+  } else {
+    printLog(processTypeEnum.WARNING, '缺少配置', `检测到项目目录下未添加 ${chalk.bold('project.quickapp.json')} 文件，将使用默认配置，参考文档 https://nervjs.github.io/taro/docs/project-config.html`)
+    quickappJSON = defaultManifestJSON
+  }
+  return quickappJSON
+}
+
+function generateQuickAppManifest (quickappJSON: any) {
+  const { appConfig, pageConfigs, outputDir, projectConfig } = getBuildData()
   // 生成 router
   const pages = (appConfig.pages as string[]).concat()
   const routerPages = {}
+  const customPageConfig = quickappJSON.customPageConfig || {}
+
   pages.forEach(element => {
-    routerPages[path.dirname(element)] = {
-      component: path.basename(element),
-      filter: {
-        view: {
-          uri: 'https?://.*'
-        }
+    const customConfig = customPageConfig[element]
+    const pageConf: any = {
+      component: path.basename(element)
+    }
+    if (customConfig) {
+      const filter = customConfig.filter
+      const launchMode = customConfig.launchMode
+      if (filter) {
+        pageConf.filter = filter
+      }
+      if (launchMode) {
+        pageConf.launchMode = launchMode
       }
     }
+    routerPages[path.dirname(element)] = pageConf
   })
+  delete quickappJSON.customPageConfig
   const routerEntry = pages.shift()
   const router = {
     entry: path.dirname(routerEntry as string),
@@ -116,20 +149,15 @@ function generateQuickAppManifest () {
       display.pages[path.dirname(page)] = item
     }
   })
-  // 读取 project.quickapp.json
-  const quickappJSONPath = path.join(appPath, 'project.quickapp.json')
-  let quickappJSON
-  if (fs.existsSync(quickappJSONPath)) {
-    quickappJSON = fs.readJSONSync(quickappJSONPath)
-  } else {
-    printLog(processTypeEnum.WARNING, '缺少配置', `检测到项目目录下未添加 ${chalk.bold('project.quickapp.json')} 文件，将使用默认配置，参考文档 https://nervjs.github.io/taro/docs/project-config.html`)
-    quickappJSON = defaultManifestJSON
-  }
   quickappJSON.router = router
   quickappJSON.display = display
   quickappJSON.config = Object.assign({}, quickappJSON.config, {
     designWidth: projectConfig.designWidth || 750
   })
+  if (appConfig.window && appConfig.window.navigationStyle === 'custom') {
+    quickappJSON.display.titleBar = false
+    delete quickappJSON.display.navigationStyle
+  }
   fs.writeFileSync(path.join(outputDir, 'manifest.json'), JSON.stringify(quickappJSON, null, 2))
 }
 
@@ -160,13 +188,26 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
     needInstall = true
   }
   if (needInstall) {
+    const isWindows = os.platform() === 'win32'
     let command
     if (shouldUseYarn()) {
-      command = 'NODE_ENV=development yarn install'
+      if(!isWindows) {
+        command = 'NODE_ENV=development yarn install'
+      } else {
+        command = 'yarn install'
+      }
     } else if (shouldUseCnpm()) {
-      command = 'NODE_ENV=development cnpm install'
+      if(!isWindows) {
+        command = 'NODE_ENV=development cnpm install'
+      } else {
+        command = 'cnpm install'
+      }
     } else {
-      command = 'NODE_ENV=development npm install'
+      if(!isWindows) {
+        command = 'NODE_ENV=development npm install'
+      } else {
+        command = 'npm install'
+      }
     }
     const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
     try {
@@ -190,11 +231,9 @@ async function prepareQuickAppEnvironment (buildData: IBuildData) {
 
 async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port?: number, release?: boolean) {
   const originalOutputDir = buildData.originalOutputDir
-  const hapToolkitPath = resolvePath.sync('hap-toolkit/package.json', { basedir: originalOutputDir })
-  const hapToolkitLib = path.join(path.dirname(hapToolkitPath), 'lib')
-  const compile = require(path.join(hapToolkitLib, 'commands/compile'))
+  const { compile } = require(require.resolve('hap-toolkit/lib/commands/compile', { paths: [originalOutputDir] }))
   if (isWatch) {
-    const launchServer = require(path.join(hapToolkitLib, 'server'))
+    const { launchServer } = require(require.resolve('@hap-toolkit/server', { paths: [originalOutputDir] }))
     launchServer({
       port: port || 12306,
       watch: isWatch,
@@ -211,9 +250,21 @@ async function runQuickApp (isWatch: boolean | void, buildData: IBuildData, port
   }
 }
 
-export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IMiniAppBuildConfig) {
-  const buildData = setBuildData(appPath, adapter)
+export async function build (
+  appPath: string,
+  {
+    watch,
+    adapter = BUILD_TYPES.WEAPP,
+    envHasBeenSet = false,
+    port,
+    release,
+    page,
+    component
+  }: IMiniAppBuildConfig
+) {
+  const buildData = envHasBeenSet ? getBuildData() : setBuildData(appPath, adapter)
   const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
+  let quickappJSON
   process.env.TARO_ENV = adapter
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)
@@ -222,8 +273,25 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
   if (!isQuickApp) {
     buildProjectConfig()
     await buildFrameworkInfo()
+  } else {
+    quickappJSON = readQuickAppManifest()
+    setQuickappManifest(quickappJSON)
   }
-  copyFiles(appPath, buildData.projectConfig.copy)
+  if (!isQuickApp) {
+    copyFiles(appPath, buildData.projectConfig.copy)
+  }
+  if (page) {
+    const pagePath = path.resolve(appPath, page).replace(buildData.sourceDir, '')
+    await buildSinglePage(pagePath)
+    return
+  }
+  if (component) {
+    const componentPath = resolvePureScriptPath(path.resolve(appPath, component))
+    await buildSingleComponent({
+      path: componentPath
+    })
+    return
+  }
   const appConfig = await buildEntry()
   setAppConfig(appConfig)
   await buildPages()
@@ -231,7 +299,7 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
     watchFiles()
   }
   if (isQuickApp) {
-    generateQuickAppManifest()
+    generateQuickAppManifest(quickappJSON)
     const isReady = await prepareQuickAppEnvironment(buildData)
     if (!isReady) {
       console.log()
@@ -239,6 +307,7 @@ export async function build (appPath: string, { watch, adapter = BUILD_TYPES.WEA
       process.exit(0)
       return
     }
+    copyFiles(appPath, buildData.projectConfig.copy)
     await runQuickApp(watch, buildData, port, release)
   }
 }

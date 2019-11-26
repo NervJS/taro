@@ -5,7 +5,7 @@ import babylonConfig from '../config/babylon'
 
 const template = require('babel-template')
 
-export function convertObjectToAstExpression (obj: object): t.ObjectProperty[] {
+export function convertObjectToAstExpression (obj: Record<string, any>): t.ObjectProperty[] {
   const objArr = Object.keys(obj).map(key => {
     const value = obj[key]
     if (typeof value === 'string') {
@@ -65,7 +65,7 @@ export function convertSourceStringToAstExpression (str: string, opts: object = 
   return template(str, Object.assign({}, babylonConfig, opts))()
 }
 
-export function convertAstExpressionToVariable (node) {
+export function convertAstExpressionToVariable<T=any> (node): T {
   if (t.isObjectExpression(node)) {
     const obj = {}
     const properties = node.properties
@@ -76,18 +76,20 @@ export function convertAstExpressionToVariable (node) {
         obj[key] = value
       }
     })
-    return obj
+    return obj as any as T
   } else if (t.isArrayExpression(node)) {
-    return node.elements.map(convertAstExpressionToVariable)
+    return node.elements.map(convertAstExpressionToVariable) as any as T
   } else if (t.isLiteral(node)) {
     return node['value']
   } else if (t.isIdentifier(node) || t.isJSXIdentifier(node)) {
     const name = node.name
     return name === 'undefined'
-      ? undefined
-      : name
+      ? undefined as any as T
+      : name as any as T
   } else if (t.isJSXExpressionContainer(node)) {
-    return convertAstExpressionToVariable(node.expression)
+    return convertAstExpressionToVariable<T>(node.expression)
+  } else {
+    return undefined as any as T
   }
 }
 

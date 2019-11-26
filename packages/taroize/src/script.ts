@@ -1,18 +1,34 @@
 import * as t from 'babel-types'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import * as template from 'babel-template'
-import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, parseCode, isAliasThis, isValidVarName } from './utils'
+import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, parseCode } from './utils'
 import { WXS } from './wxml'
-import { PageLifecycle, Lifecycle } from './lifecycle'
-import { usedComponents, globals } from './global'
+import { usedComponents } from './global'
 
 const defaultClassName = '_C'
 
-const buildDecorator = (type: string, id?: string) => id ? t.decorator(
-  t.callExpression(t.identifier('withWeapp'), [t.stringLiteral(type), t.identifier(id)])
-) : t.decorator(
-  t.callExpression(t.identifier('withWeapp'), [t.stringLiteral(type)])
+const buildDecorator = (id: t.Identifier | t.ObjectExpression) => t.decorator(
+  t.callExpression(t.identifier('withWeapp'), [id])
 )
+
+function replaceIdentifier (callee: NodePath<t.Node>) {
+  if (callee.isIdentifier()) {
+    const name = callee.node.name
+    if (name === 'getApp' || name === 'getCurrentPages') {
+      callee.replaceWith(
+        t.memberExpression(t.identifier('Taro'), callee.node)
+      )
+    }
+  }
+}
+
+function replaceMemberExpression (callee: NodePath<t.Node>) {
+  if (callee.isMemberExpression()) {
+    const object = callee.get('object')
+    if (object.isIdentifier({ name: 'wx' })) {
+      object.replaceWith(t.identifier('Taro'))
+    }
+  }
+}
 
 export function parseScript (
   script?: string,
@@ -34,22 +50,15 @@ export function parseScript (
     BlockStatement (path) {
       path.scope.rename('wx', 'Taro')
     },
+    Identifier (path) {
+      if (path.isReferenced() && path.node.name === 'wx') {
+        path.replaceWith(t.identifier('Taro'))
+      }
+    },
     CallExpression (path) {
       const callee = path.get('callee')
-      if (callee.isIdentifier()) {
-        const name = callee.node.name
-        if (name === 'getApp' || name === 'getCurrentPages') {
-          callee.replaceWith(
-            t.memberExpression(t.identifier('Taro'), callee.node)
-          )
-        }
-      }
-      if (callee.isMemberExpression()) {
-        const object = callee.get('object')
-        if (object.isIdentifier({ name: 'wx' })) {
-          object.replaceWith(t.identifier('Taro'))
-        }
-      }
+      replaceIdentifier(callee)
+      replaceMemberExpression(callee)
       if (
         callee.isIdentifier({ name: 'Page' }) ||
         callee.isIdentifier({ name: 'Component' }) ||
@@ -65,9 +74,6 @@ export function parseScript (
           refId,
           wxses
         )
-        if (componentType !== 'App' && classDecl.decorators!.length === 0) {
-          classDecl.decorators = [buildDecorator(componentType)]
-        }
         ast.program.body.push(
           classDecl,
           t.exportDefaultDeclaration(t.identifier(componentType !== 'App' ? defaultClassName : 'App'))
@@ -104,8 +110,6 @@ export function parseScript (
   return ast
 }
 
-const staticProps = ['externalClasses', 'relations', 'options']
-
 function parsePage (
   pagePath: NodePath<t.CallExpression>,
   returned: t.Expression,
@@ -115,55 +119,11 @@ function parsePage (
   wxses?: WXS[]
 ) {
   const stateKeys: string[] = []
-  let weappConf: string | null = null
-  let methods: NodePath<
-    t.ObjectProperty | t.ObjectMethod
-  >[] = []
   pagePath.traverse({
     CallExpression (path) {
       const callee = path.get('callee')
-      if (callee.isIdentifier()) {
-        const name = callee.node.name
-        if (name === 'getApp' || name === 'getCurrentPages') {
-          callee.replaceWith(
-            t.memberExpression(t.identifier('Taro'), callee.node)
-          )
-        }
-      }
-      if (callee.isMemberExpression()) {
-        const object = callee.get('object')
-        const property = callee.get('property')
-        if (object.isIdentifier()) {
-          const objectName = object.node.name
-          if (objectName === 'wx') {
-            object.replaceWith(t.identifier('Taro'))
-          }
-        }
-
-        let isThis = property.isThisExpression()
-
-        if (property.isIdentifier() && object.isIdentifier()) {
-          const propertyName = property.node.name
-          const objectName = object.node.name
-          if (PageLifecycle.has(propertyName) && isAliasThis(property, objectName)) {
-            isThis = true
-          }
-
-          if (isThis && PageLifecycle.has(propertyName)) {
-            property.replaceWith(t.identifier(PageLifecycle.get(propertyName)))
-          }
-        }
-      }
-    },
-    ObjectProperty (path) {
-      const { key, value } = path.node
-      if (!t.isIdentifier(key, { name: 'methods' }) || path.parentPath !== pagePath.get('arguments')[0] || !t.isObjectExpression(value)) {
-        return
-      }
-      methods = path.get('value.properties') as NodePath<
-        t.ObjectProperty | t.ObjectMethod
-      >[]
-      path.remove()
+      replaceIdentifier(callee)
+      replaceMemberExpression(callee)
     }
   })
   if (refId) {
@@ -176,248 +136,15 @@ function parsePage (
   const propsKeys: string[] = []
   const arg = pagePath.get('arguments')[0]
 
-  let classBody: any = []
-  if (arg.isObjectExpression()) {
-    const defaultProps: { name: string, value: any }[] = []
-    const props = arg.get('properties')
-    const properties = props.filter(p => !p.isSpreadProperty()).concat(methods) as NodePath<
-      t.ObjectProperty | t.ObjectMethod
-    >[]
-
-    classBody = properties.map(prop => {
-      const key = prop.get('key')
-      const value = prop.get('value')
-      let params = prop.isObjectMethod()
-        ? prop.node.params
-        : value.isFunctionExpression() || value.isArrowFunctionExpression()
-          ? value.node.params
-          : []
-      const isAsync = prop.isObjectMethod()
-        ? prop.node.async
-        : value.isFunctionExpression() || value.isArrowFunctionExpression()
-          ? value.node.async
-          : false
-      if (!key.isIdentifier()) {
-        throw codeFrameError(key.node, 'Page 对象的键值只能是字符串')
-      }
-      const name = key.node.name
-      const currentStateKeys: string[] = []
-      if (name === 'data') {
-        if (value.isObjectExpression()) {
-          value
-            .get('properties')
-            .map(p => p.node)
-            .forEach(prop => {
-              if (t.isObjectProperty(prop)) {
-                let propKey = ''
-                if (t.isStringLiteral(prop.key)) {
-                  propKey = prop.key.value
-                }
-                if (t.isIdentifier(prop.key)) {
-                  propKey = prop.key.name
-                }
-
-                if (!isValidVarName(propKey)) {
-                  throw codeFrameError(prop, `${propKey} 不是一个合法的 JavaScript 变量名`)
-                }
-
-                if (propKey) {
-                  currentStateKeys.push(propKey)
-                }
-              }
-            })
-        }
-        return t.classProperty(t.identifier('state'), value.node)
-      }
-      if (name === 'properties') {
-        const observeProps: { name: string, observer: any }[] = []
-        if (value.isObjectExpression()) {
-          value
-            .get('properties')
-            .map(p => p.node)
-            .forEach(prop => {
-              if (t.isObjectProperty(prop)) {
-                let propKey: string | null = null
-                if (t.isStringLiteral(prop.key)) {
-                  propKey = prop.key.value
-                }
-                if (t.isIdentifier(prop.key)) {
-                  propKey = prop.key.name
-                  // propsKeys.push(prop.key.name)
-                }
-                if (t.isObjectExpression(prop.value) && propKey) {
-                  for (const p of prop.value.properties) {
-                    if (t.isObjectProperty(p)) {
-                      let key: string | null = null
-                      if (t.isStringLiteral(p.key)) {
-                        key = p.key.value
-                      }
-                      if (t.isIdentifier(p.key)) {
-                        key = p.key.name
-                      }
-                      if (key === 'value') {
-                        defaultProps.push({
-                          name: propKey,
-                          value: p.value
-                        })
-                      } else if (key === 'observer') {
-                        observeProps.push({
-                          name: propKey,
-                          observer: p.value
-                        })
-                      }
-                      if (!isValidVarName(propKey)) {
-                        throw codeFrameError(prop, `${propKey} 不是一个合法的 JavaScript 变量名`)
-                      }
-                    }
-                    if (t.isObjectMethod(p) && t.isIdentifier(p.key, { name: 'observer' })) {
-                      observeProps.push({
-                        name: propKey,
-                        observer: t.arrowFunctionExpression(p.params, p.body, p.async)
-                      })
-                    }
-                  }
-                }
-                if (propKey) {
-                  propsKeys.push(propKey)
-                }
-              }
-            })
-        }
-        currentStateKeys.forEach(s => {
-          if (propsKeys.includes(s)) {
-            throw new Error(`当前 Component 定义了重复的 data 和 properites: ${s}`)
-          }
-        })
-        stateKeys.push(...currentStateKeys)
-        return t.classProperty(t.identifier('_observeProps'), t.arrayExpression(
-          observeProps.map(p => t.objectExpression([
-            t.objectProperty(
-              t.identifier('name'),
-              t.stringLiteral(p.name)
-            ),
-            t.objectProperty(
-              t.identifier('observer'),
-              p.observer
-            )
-          ]))
-        ))
-      }
-      if (PageLifecycle.has(name)) {
-        const lifecycle = PageLifecycle.get(name)!
-        if (name === 'onLoad' && t.isIdentifier(params[0])) {
-          params = [t.assignmentPattern(params[0] as t.Identifier, t.logicalExpression('||', t.memberExpression(
-            t.memberExpression(
-              t.thisExpression(),
-              t.identifier('$router')
-            ),
-            t.identifier('params')
-          ), t.objectExpression([])))]
-        }
-        if (prop.isObjectMethod()) {
-          const body = prop.get('body')
-          return t.classMethod('method', t.identifier(lifecycle), params, body.node)
-        }
-        const node = value.node
-        const method = t.isFunctionExpression(node) || t.isArrowFunctionExpression(node)
-          ? t.classProperty(t.identifier(lifecycle), t.arrowFunctionExpression(params, node.body, isAsync))
-          : t.classProperty(t.identifier(lifecycle), node)
-        return method
-      }
-      let hasArguments = false
-      prop.traverse({
-        Identifier (path) {
-          if (path.node.name === 'arguments') {
-            hasArguments = true
-            path.stop()
-          }
-        }
-      })
-
-      if (prop.isObjectMethod()) {
-        const body = prop.get('body')
-        if (hasArguments) {
-          return t.classMethod('method', t.identifier(name), params, body.node)
-        }
-        return t.classProperty(
-          t.identifier(name),
-          t.arrowFunctionExpression(params, body.node, isAsync)
-        )
-      }
-
-      if (hasArguments && (value.isFunctionExpression() || value.isArrowFunctionExpression())) {
-        const method = t.classMethod('method', t.identifier(name), params, value.node.body as any)
-        method.async = isAsync
-        return method
-      }
-
-      const classProp = t.classProperty(
-        t.identifier(name),
-        value.isFunctionExpression() || value.isArrowFunctionExpression()
-          ? t.arrowFunctionExpression(value.node.params, value.node.body, isAsync)
-          : value.node
-      ) as any
-
-      if (staticProps.includes(name)) {
-        classProp.static = true
-      }
-
-      return classProp
-    })
-
-    if (globals.hasCatchTrue) {
-      classBody.push(t.classMethod('method', t.identifier('privateStopNoop'), [t.identifier('e')], t.blockStatement([
-        t.expressionStatement(
-          t.callExpression(
-            t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')),
-            []
-          )
-        )
-      ])))
-    }
-
-    if (defaultProps.length) {
-      let classProp = t.classProperty(t.identifier('defaultProps'), t.objectExpression(
-        defaultProps.map(p => t.objectProperty(t.identifier(p.name), p.value))
-      )) as any
-      classProp.static = true
-      classBody.unshift(classProp)
-    }
-  } else if (arg.isIdentifier()) {
-    weappConf = arg.node.name
+  const classBody: any[] = []
+  if (arg.isObjectExpression() || arg.isIdentifier()) {
+    //
   } else {
     throw codeFrameError(arg.node, `${componentType || '组件'} 的第一个参数必须是一个对象或变量才能转换。`)
   }
 
   if (json && t.isObjectExpression(json)) {
     classBody.push(t.classProperty(t.identifier('config'), json))
-  }
-
-  if (componentType === 'App') {
-    let hasWillMount = false
-    const globalData = template(`this.$app.globalData = this.globalData`)()
-    for (const method of classBody) {
-      if (!method) {
-        continue
-      }
-      if (!t.isClassMethod(method)) {
-        continue
-      }
-      if (t.isIdentifier(method.key, { name: Lifecycle.componentWillMount })) {
-        hasWillMount = true
-        method.body.body.unshift(globalData)
-      }
-    }
-    if (!hasWillMount) {
-      classBody.push(
-        t.classMethod(
-          'method',
-          t.identifier(Lifecycle.componentWillMount),
-          [],
-          t.blockStatement([globalData])
-        )
-      )
-    }
   }
 
   const wxsNames = new Set(wxses ? wxses.map(w => w.module) : [])
@@ -433,9 +160,7 @@ function parsePage (
     []
   )
 
-  if (weappConf) {
-    classDecl.decorators = [buildDecorator(componentType || 'Page', weappConf)]
-  }
+  classDecl.decorators = [buildDecorator(arg.node)]
 
   return classDecl
 }

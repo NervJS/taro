@@ -1,5 +1,6 @@
 import isPlainObject from 'lodash/isPlainObject'
 import { Current } from '@tarojs/taro'
+import { SimpleMap } from '@tarojs/utils'
 
 export function isEmptyObject (obj) {
   if (!obj || !isPlainObject(obj)) {
@@ -131,13 +132,16 @@ function diffArrToPath (to, from, res = {}, keyPrev = '') {
             res[targetKey] = toItem
           } else {
             // 对象
-            let shouldDiffObject = true
+            let shouldDiffObject = isPlainObject(toItem)
+
+            shouldDiffObject &&
             Object.keys(fromItem).some(key => {
               if (typeof toItem[key] === 'undefined' && typeof fromItem[key] !== 'undefined') {
                 shouldDiffObject = false
                 return true
               }
             })
+
             if (shouldDiffObject) {
               diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
             } else {
@@ -161,7 +165,9 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
     const toItem = to[key]
     const fromItem = from[key]
     const targetKey = `${keyPrev}${key}`
-    if (toItem === fromItem) {
+    if (/^\$compid__/.test(key)) {
+      res[targetKey] = toItem
+    } else if (toItem === fromItem) {
       continue
     } else if (!hasProp.call(from, key)) {
       res[targetKey] = toItem
@@ -188,13 +194,16 @@ export function diffObjToPath (to, from, res = {}, keyPrev = '') {
             res[targetKey] = toItem
           } else {
             // 对象
-            let shouldDiffObject = true
+            let shouldDiffObject = isPlainObject(toItem)
+
+            shouldDiffObject &&
             Object.keys(fromItem).some(key => {
               if (typeof toItem[key] === 'undefined' && typeof fromItem[key] !== 'undefined') {
                 shouldDiffObject = false
                 return true
               }
             })
+
             if (shouldDiffObject) {
               diffObjToPath(toItem, fromItem, res, `${targetKey}.`)
             } else {
@@ -267,13 +276,25 @@ function genId () {
   return String(id++)
 }
 
-const compIdsMapper = new Map()
-export function genCompid (key) {
-  if (!Current || !Current.current || !Current.current.$scope) return
+let compIdsMapper
+try {
+  compIdsMapper = new Map()
+} catch (error) {
+  compIdsMapper = new SimpleMap()
+}
+export function genCompid (key, isNeedCreate) {
+  if (!Current || !Current.current || !Current.current.$scope) return []
+
   const prevId = compIdsMapper.get(key)
-  const id = prevId || genId()
-  !prevId && compIdsMapper.set(key, id)
-  return id
+  if (isNeedCreate) {
+    const id = genId()
+    compIdsMapper.set(key, id)
+    return [prevId, id]
+  } else {
+    const id = prevId || genId()
+    !prevId && compIdsMapper.set(key, id)
+    return [null, id]
+  }
 }
 
 let prefix = 0

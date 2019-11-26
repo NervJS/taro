@@ -144,7 +144,7 @@ class Title extends Component{
 
 ### 函数式组件
 
-在函数式组件中，事件传参可以传入事件的引用也可以传入匿名函数，以下是函数式组件配合 [`useCallback`](docs/hooks.html#usecallback) 的一个例子：
+在函数式组件中，事件传参可以传入事件的引用也可以传入匿名函数，以下是函数式组件配合 [`useCallback`](hooks.html#usecallback) 的一个例子：
 
 ```jsx
 const App = () => {

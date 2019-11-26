@@ -1,20 +1,22 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import chalk from 'chalk'
-
-import CONFIG from '../config'
-
 import Creator from './creator'
+import { createPage } from './init'
+import fetchTemplate from './fetchTemplate'
+import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } from '../util/constants'
+import { getUserHomeDir } from '../util'
 
-interface IPageConf {
-  name: string,
+
+export interface IPageConf {
+  projectDir: string,
+  projectName: string,
+  template: string,
   description?: string,
-  template: 'default' | 'mobx' | 'redux',
-  typescript?: boolean,
+  pageName: string,
   css: 'none' | 'sass' | 'stylus' | 'less',
-  date?: string,
-  src?: string,
-  projectDir?: string
+  typescript?: boolean,
+  date?: string
 }
 
 export default class Page extends Creator {
@@ -27,9 +29,11 @@ export default class Page extends Creator {
 
     this.conf = Object.assign({
       projectDir: '',
+      projectName: '',
       template: '',
       description: ''
     }, options)
+    this.conf.projectName = path.basename(this.conf.projectDir)
   }
 
   getPkgPath () {
@@ -42,7 +46,7 @@ export default class Page extends Creator {
   }
 
   getTemplateInfo () {
-    const pkg = JSON.parse(fs.readFileSync(this.getPkgPath()).toString())
+    const pkg = fs.readJSONSync(this.getPkgPath())
     const templateInfo = pkg.templateInfo || {
       name: 'default',
       css: 'none',
@@ -53,25 +57,43 @@ export default class Page extends Creator {
     this.conf = Object.assign(this.conf, templateInfo)
   }
 
-  create () {
+  async fetchTemplates () {
+    const homedir = getUserHomeDir()
+    let templateSource = DEFAULT_TEMPLATE_SRC
+    if (!homedir) chalk.yellow('找不到用户根目录，使用默认模版源！')
+
+    const taroConfigPath = path.join(homedir, TARO_CONFIG_FLODER)
+    const taroConfig = path.join(taroConfigPath, TARO_BASE_CONFIG)
+
+    if (fs.existsSync(taroConfig)) {
+      const config = await fs.readJSON(taroConfig)
+      templateSource = config && config.templateSource ? config.templateSource : DEFAULT_TEMPLATE_SRC
+    } else {
+      await fs.createFile(taroConfig)
+      await fs.writeJSON(taroConfig, { templateSource: DEFAULT_TEMPLATE_SRC })
+      templateSource = DEFAULT_TEMPLATE_SRC
+    }
+
+    // 从模板源下载模板
+    await fetchTemplate(templateSource, this.templatePath(''))
+  }
+
+  async create () {
     const date = new Date()
     this.getTemplateInfo()
     this.conf.date = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()}`
+
+    if (!fs.existsSync(this.templatePath(this.conf.template))) {
+      await this.fetchTemplates()
+    }
+
     this.write()
   }
 
   write () {
-    const { template, name, typescript, css, projectDir } = this.conf
-    const { createPage } = require(path.join(this.templatePath(), template, 'index.js'))
-    createPage(this, {
-      page: name,
-      projectDir,
-      src: CONFIG.SOURCE_DIR,
-      template,
-      typescript,
-      css
-    }, () => {
-      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${name} 成功！`)}`)
+    createPage(this, this.conf, () => {
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
     })
+      .catch(err => console.log(err))
   }
 }

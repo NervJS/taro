@@ -1,23 +1,21 @@
 <template>
-  <div
-    class="{{className}}"
-    style="{{style}}"
+  <label
+    class="{{class}}"
+    style="{{customstyle}}"
     id="{{id}}"
-    onclick="handleClick"
   >
-    <slot></slot>
   </label>
 </template>
 
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: 'taro_label'
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

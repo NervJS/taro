@@ -6,8 +6,12 @@ class Manager {
   map = {}
   observers = {}
 
-  set (props = {}, compid) {
+  set (props = {}, compid, previd) {
     if (!compid) return
+
+    if (previd) {
+      this.delete(previd)
+    }
 
     const { observers } = this
     if (!this.map[compid]) {

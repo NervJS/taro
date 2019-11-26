@@ -1,12 +1,12 @@
+/* eslint camelcase: [1] */
+
 import {
   ENV_TYPE,
   eventCenter,
   Events,
   getEnv,
   initPxTransform as originalInitPxTransform,
-  /* eslint-disable-next-line camelcase */
   internal_safe_get,
-  /* eslint-disable-next-line camelcase */
   internal_safe_set,
   render,
   interceptors
@@ -21,11 +21,9 @@ import Nerv, {
   isValidElement,
   unmountComponentAtNode,
   createPortal,
-  /* eslint-disable-next-line camelcase */
   unstable_renderSubtreeIntoContainer,
   hydrate,
   createFactory,
-  /* eslint-disable-next-line camelcase */
   unstable_batchedUpdates,
   version,
   PropTypes,
@@ -41,10 +39,14 @@ import Nerv, {
   useCallback,
   useMemo,
   useImperativeHandle,
-  useContext
+  useContext,
+  getHooks,
+  Current
 } from 'nervjs'
 
 import { permanentlyNotSupport } from '../api/utils'
+import { onPageScroll } from '../api/privateApis/onPageScroll'
+import { onReachBottom } from '../api/privateApis/onReachBottom'
 
 const taro = {
   getEnv,
@@ -101,6 +103,14 @@ class Component extends Nerv.Component {
   set $app (app) {
     console.warn('Property "$app" is read-only.')
   }
+
+  get $component () {
+    return this
+  }
+
+  set $component (app) {
+    console.warn('Property "$component" is read-only.')
+  }
 }
 
 class PureComponent extends Nerv.PureComponent {
@@ -117,6 +127,14 @@ class PureComponent extends Nerv.PureComponent {
 
   set $app (app) {
     console.warn('Property "$app" is read-only.')
+  }
+
+  get $component () {
+    return this
+  }
+
+  set $component (app) {
+    console.warn('Property "$component" is read-only.')
   }
 }
 
@@ -165,6 +183,84 @@ const canIUseWebp = function () {
   return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
 }
 
+function usePageLifecycle (callback, lifecycle) {
+  const hook = getHooks(Current.index++)
+  let originalLifecycle
+  hook.component = Current.current
+  if (!hook.marked) {
+    hook.marked = true
+    originalLifecycle = hook.component[lifecycle]
+  }
+  hook.component[lifecycle] = function () {
+    originalLifecycle && originalLifecycle.call(hook.component, ...arguments)
+    callback && callback.call(hook.component, ...arguments)
+  }
+}
+
+function useSpecialPageLifecycle (callback, lifecycle, lifeFn) {
+  const hook = getHooks(Current.index++)
+  let originalLifecycle
+  hook.component = Current.current
+  if (!hook.marked) {
+    hook.marked = true
+    originalLifecycle = hook.component[lifecycle]
+    const originalDidShow = hook.component['componentDidShow']
+    const originalDidHide = hook.component['componentDidHide']
+    hook.component['componentDidShow'] = function () {
+      originalDidShow && originalDidShow.call(hook.component, ...arguments)
+      hook.component._offFn = lifeFn({
+        callback: function () {
+          originalLifecycle && originalLifecycle.call(hook.component, ...arguments)
+          callback && callback.call(hook.component, ...arguments)
+        },
+        ctx: hook.component
+      })
+    }
+    hook.component['componentDidHide'] = function () {
+      originalDidHide && originalDidHide.call(hook.component, ...arguments)
+      hook.component._offFn && hook.component._offFn()
+    }
+  } else {
+    hook.component._offFn && hook.component._offFn()
+    hook.component._offFn = lifeFn({
+      callback: function () {
+        originalLifecycle && originalLifecycle.call(hook.component, ...arguments)
+        callback && callback.call(hook.component, ...arguments)
+      },
+      ctx: hook.component
+    })
+  }
+}
+
+function useDidShow (callback) {
+  usePageLifecycle(callback, 'componentDidShow')
+}
+
+function useDidHide (callback) {
+  usePageLifecycle(callback, 'componentDidHide')
+}
+
+function usePullDownRefresh (callback) {
+  usePageLifecycle(callback, 'onPullDownRefresh')
+}
+
+function useReachBottom (callback) {
+  useSpecialPageLifecycle(callback, 'onReachBottom', onReachBottom)
+}
+
+function usePageScroll (callback) {
+  useSpecialPageLifecycle(callback, 'onPageScroll', onPageScroll)
+}
+
+function useRouter () {
+  const hook = getHooks(Current.index++)
+  if (!hook.router) {
+    hook.component = Current.current
+    hook.router = hook.component.$router
+  }
+  return hook.router
+}
+
 taro.Component = Component
 taro.PureComponent = PureComponent
 taro.initPxTransform = initPxTransform
@@ -173,5 +269,65 @@ taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.canIUseWebp = canIUseWebp
 taro.interceptors = interceptors
+taro.useDidShow = useDidShow
+taro.useDidHide = useDidHide
+taro.usePullDownRefresh = usePullDownRefresh
+taro.useReachBottom = useReachBottom
+taro.usePageScroll = usePageScroll
+taro.useRouter = useRouter
 
 export default taro
+
+export {
+  getEnv,
+  ENV_TYPE,
+  Events,
+  eventCenter,
+  render,
+  internal_safe_set,
+  internal_safe_get,
+  Children,
+  createElement,
+  cloneElement,
+  options,
+  findDOMNode,
+  isValidElement,
+  unmountComponentAtNode,
+  createPortal,
+  /* eslint-disable-next-line camelcase */
+  unstable_renderSubtreeIntoContainer,
+  hydrate,
+  createFactory,
+  /* eslint-disable-next-line camelcase */
+  unstable_batchedUpdates,
+  version,
+  PropTypes,
+  createRef,
+  forwardRef,
+  memo,
+  createContext,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useImperativeHandle,
+  useContext,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useRouter,
+
+  Component,
+  PureComponent,
+  initPxTransform,
+  requirePlugin,
+  getApp,
+  pxTransform,
+  canIUseWebp,
+  interceptors
+}

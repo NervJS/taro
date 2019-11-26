@@ -63,7 +63,9 @@ const chooseImage = function (options) {
   taroChooseImageId.onchange = function (e) {
     let arr = [...e.target.files]
     arr && arr.forEach(item => {
-      let blob = new Blob([item])
+      let blob = new Blob([item], {
+        type: item.type
+      })
       let url = URL.createObjectURL(blob)
       res.tempFilePaths.push(url)
       res.tempFiles.push({path: url, size: item.size, type: item.type})
@@ -71,6 +73,7 @@ const chooseImage = function (options) {
     typeof success === 'function' && success(res)
     typeof complete === 'function' && complete(res)
     taroChooseImageCallback(res)
+    e.target.value = ''
   }
   return taroChooseImagePromise
 }

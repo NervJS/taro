@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash'
 import generate from 'babel-generator'
 import { DEFAULT_Component_SET } from './constant'
 import { injectRenderPropsListener } from './render-props'
+import { transformOptions } from './options'
 
 function initialIsCapital (word: string) {
   return word[0] !== word[0].toLowerCase()
@@ -21,10 +22,16 @@ export const functionalComponent: () => {
     visitor: {
       JSXElement (path) {
         const arrowFuncExpr = path.findParent(p => p.isArrowFunctionExpression())
+        const funcExpr = path.findParent(p => p.isFunctionExpression())
+        if (funcExpr && funcExpr.isFunctionExpression() && funcExpr.parentPath.isVariableDeclarator()) {
+          const { params, body, async } = funcExpr.node
+          funcExpr.replaceWith(t.arrowFunctionExpression(params, body, async))
+          return
+        }
         if (arrowFuncExpr && arrowFuncExpr.isArrowFunctionExpression()) {
           if (arrowFuncExpr.parentPath.isVariableDeclarator()) {
             const valDecl = arrowFuncExpr.parentPath.parentPath
-            if (!valDecl.isVariableDeclaration()) {
+            if (!valDecl.isVariableDeclaration() && !valDecl.isFunctionDeclaration()) {
               throw codeFrameError(valDecl.node, '函数式组件不能同时定义多个值')
             }
             const id = arrowFuncExpr.parentPath.node.id
@@ -65,7 +72,7 @@ export const functionalComponent: () => {
 
         const functionDecl = path.findParent(p => p.isFunctionDeclaration())
         if (functionDecl && functionDecl.isFunctionDeclaration()) {
-          const hasClassDecl = functionDecl.findParent(p => p.isClassDeclaration())
+          const hasClassDecl = path.findParent(p => p.isClassDeclaration() || p.isClassExpression())
           if (hasClassDecl) {
             // @TODO: 加上链接
             return
@@ -130,7 +137,7 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
       JSXAttribute (path) {
         const { name, value } = path.node
         const jsxElementPath = path.parentPath.parentPath
-        if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement()) {
+        if (t.isJSXIdentifier(name) && jsxElementPath.isJSXElement() && transformOptions.isNormal !== true) {
           const componentName = (jsxElementPath.node.openingElement as any).name.name
           if (/^render[A-Z]/.test(name.name) && !DEFAULT_Component_SET.has(componentName)) {
             if (!t.isJSXExpressionContainer(value)) {

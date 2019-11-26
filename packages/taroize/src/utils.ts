@@ -81,7 +81,7 @@ export function buildRender (
         t.objectPattern(Array.from(new Set(stateKeys)).filter(s => !propsKeys.includes(s)).map(s =>
           t.objectProperty(t.identifier(s), t.identifier(s), false, true)
         ) as any),
-        t.memberExpression(t.thisExpression(), t.identifier('state'))
+        t.memberExpression(t.thisExpression(), t.identifier('data'))
       )
     ])
     returnStatement.unshift(stateDecl)
@@ -134,7 +134,8 @@ export function buildImportStatement (source: string, specifiers: string[] = [],
 }
 
 export const setting = {
-  sourceCode: ''
+  sourceCode: '',
+  rootPath: ''
 }
 
 export function codeFrameError (node, msg: string) {

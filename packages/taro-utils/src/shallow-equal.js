@@ -1,5 +1,5 @@
 /* eslint-disable */
-Object.is = Object.is || function (x, y) {
+const objectIs = Object.is || function (x, y) {
   if (x === y) {
     return x !== 0 || 1 / x === 1 / y
   }
@@ -7,13 +7,17 @@ Object.is = Object.is || function (x, y) {
 }
 
 export default function shallowEqual (obj1, obj2) {
+  if (typeof obj1 !== 'object' && typeof obj2 !== 'object') {
+    return obj1 === obj2
+  }
+
   if (obj1 === null && obj2 === null) {
     return true
   }
   if (obj1 === null || obj2 === null) {
     return false
   }
-  if (Object.is(obj1, obj2)) {
+  if (objectIs(obj1, obj2)) {
     return true
   }
   const obj1Keys = obj1 ? Object.keys(obj1) : []
@@ -24,7 +28,7 @@ export default function shallowEqual (obj1, obj2) {
 
   for (let i = 0; i < obj1Keys.length; i++) {
     const obj1KeyItem = obj1Keys[i]
-    if (!obj2.hasOwnProperty(obj1KeyItem) || !Object.is(obj1[obj1KeyItem], obj2[obj1KeyItem])) {
+    if (!obj2.hasOwnProperty(obj1KeyItem) || !objectIs(obj1[obj1KeyItem], obj2[obj1KeyItem])) {
       return false
     }
   }

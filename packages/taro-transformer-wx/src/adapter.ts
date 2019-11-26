@@ -4,7 +4,8 @@ export const enum Adapters {
   alipay = 'alipay',
   quickapp = 'quickapp',
   tt = 'tt',
-  qq = 'qq'
+  qq = 'qq',
+  jd = 'jd'
 }
 
 interface Adapter {
@@ -84,10 +85,21 @@ const qqAdapter: Adapter = {
   type: Adapters.qq
 }
 
+const jdAdapter: Adapter = {
+  if: 'jd:if',
+  else: 'jd:else',
+  elseif: 'jd:elif',
+  for: 'jd:for',
+  forItem: 'jd:for-item',
+  forIndex: 'jd:for-index',
+  key: 'jd:key',
+  type: Adapters.jd
+}
+
 export let Adapter: Adapter = weixinAdapter
 
 export const isNewPropsSystem = () => {
-  return [Adapters.weapp, Adapters.swan, Adapters.tt, Adapters.qq, Adapters.alipay].includes(Adapter.type)
+  return [Adapters.weapp, Adapters.swan, Adapters.tt, Adapters.qq, Adapters.alipay, Adapters.quickapp, Adapters.jd].includes(Adapter.type)
 }
 
 export function setAdapter (adapter: Adapters) {
@@ -106,6 +118,9 @@ export function setAdapter (adapter: Adapters) {
       break
     case Adapters.qq:
       Adapter = qqAdapter
+      break
+    case Adapters.jd:
+      Adapter = jdAdapter
       break
     default:
       Adapter = weixinAdapter

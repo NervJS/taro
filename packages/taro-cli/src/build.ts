@@ -9,7 +9,7 @@ import { BUILD_TYPES, PROJECT_CONFIG } from './util/constants'
 import { IBuildConfig } from './util/types'
 
 export default function build (appPath, buildConfig: IBuildConfig) {
-  const { type, watch, platform, port, release } = buildConfig
+  const { type, watch, platform, port, release, page, component, uiIndex } = buildConfig
   const configDir = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
   const outputPath = path.join(appPath, configDir.outputRoot || CONFIG.OUTPUT_DIR)
   if (!fs.existsSync(outputPath)) {
@@ -22,16 +22,16 @@ export default function build (appPath, buildConfig: IBuildConfig) {
       buildForH5(appPath, { watch, port })
       break
     case BUILD_TYPES.WEAPP:
-      buildForWeapp(appPath, { watch })
+      buildForWeapp(appPath, { watch, page, component })
       break
     case BUILD_TYPES.SWAN:
-      buildForSwan(appPath, { watch })
+      buildForSwan(appPath, { watch, page, component })
       break
     case BUILD_TYPES.ALIPAY:
-      buildForAlipay(appPath, { watch })
+      buildForAlipay(appPath, { watch, page, component })
       break
     case BUILD_TYPES.TT:
-      buildForTt(appPath, { watch })
+      buildForTt(appPath, { watch, page, component })
       break
     case BUILD_TYPES.RN:
       buildForRN(appPath, { watch })
@@ -40,10 +40,13 @@ export default function build (appPath, buildConfig: IBuildConfig) {
       buildForQuickApp(appPath, { watch, port, release })
       break
     case BUILD_TYPES.QQ:
-      buildForQQ(appPath, { watch })
+      buildForQQ(appPath, { watch, page, component })
+      break
+    case BUILD_TYPES.JD:
+      buildForJD(appPath, { watch })
       break
     case BUILD_TYPES.UI:
-      buildForUILibrary(appPath, { watch })
+      buildForUILibrary(appPath, { watch, uiIndex })
       break
     case BUILD_TYPES.PLUGIN:
       buildForPlugin(appPath, {
@@ -56,32 +59,28 @@ export default function build (appPath, buildConfig: IBuildConfig) {
   }
 }
 
-function buildForWeapp (appPath: string, { watch }: IBuildConfig) {
-  require('./mini').build(appPath, {
-    watch,
+function buildForWeapp (appPath: string, buildConfig: IBuildConfig) {
+  require('./mini').build(appPath, Object.assign({
     adapter: BUILD_TYPES.WEAPP
-  })
+  }, buildConfig))
 }
 
-function buildForSwan (appPath: string, { watch }: IBuildConfig) {
-  require('./mini').build(appPath, {
-    watch,
+function buildForSwan (appPath: string, buildConfig: IBuildConfig) {
+  require('./mini').build(appPath, Object.assign({
     adapter: BUILD_TYPES.SWAN
-  })
+  }, buildConfig))
 }
 
-function buildForAlipay (appPath: string, { watch }: IBuildConfig) {
-  require('./mini').build(appPath, {
-    watch,
+function buildForAlipay (appPath: string, buildConfig: IBuildConfig) {
+  require('./mini').build(appPath, Object.assign({
     adapter: BUILD_TYPES.ALIPAY
-  })
+  }, buildConfig))
 }
 
-function buildForTt (appPath: string, { watch }: IBuildConfig) {
-  require('./mini').build(appPath, {
-    watch,
+function buildForTt (appPath: string, buildConfig: IBuildConfig) {
+  require('./mini').build(appPath, Object.assign({
     adapter: BUILD_TYPES.TT
-  })
+  }, buildConfig))
 }
 
 function buildForH5 (appPath: string, buildConfig: IBuildConfig) {
@@ -101,15 +100,21 @@ function buildForQuickApp (appPath: string, { watch, port, release }: IBuildConf
   })
 }
 
-function buildForQQ (appPath: string, { watch }: IBuildConfig) {
+function buildForQQ (appPath: string, buildConfig: IBuildConfig) {
+  require('./mini').build(appPath, Object.assign({
+    adapter: BUILD_TYPES.QQ
+  }, buildConfig))
+}
+
+function buildForJD (appPath: string, { watch }: IBuildConfig) {
   require('./mini').build(appPath, {
     watch,
-    adapter: BUILD_TYPES.QQ
+    adapter: BUILD_TYPES.JD
   })
 }
 
-function buildForUILibrary (appPath: string, { watch }: IBuildConfig) {
-  require('./ui').build(appPath, { watch })
+function buildForUILibrary (appPath: string, { watch, uiIndex }: IBuildConfig) {
+  require('./ui/index').build(appPath, { watch, uiIndex })
 }
 
 function buildForPlugin (appPath: string, { watch, platform }) {

@@ -4,6 +4,7 @@ import * as path from 'path'
 import * as _ from 'lodash'
 import { Config } from '@tarojs/taro'
 import * as wxTransformer from '@tarojs/transformer-wx'
+import getHashName from '../util/hash'
 
 import {
   BUILD_TYPES,
@@ -27,16 +28,20 @@ import {
   generateEnvList,
   generateConstantsList,
   isEmptyObject,
-  getInstalledNpmPkgPath,
   recursiveFindNodeModules,
-  getBabelConfig
+  getBabelConfig,
+  extnameExpRegOf,
+  generateAlipayPath
 } from '../util'
 import { resolveNpmPkgMainPath } from '../util/resolve_npm_files'
+import { resolveNpmSync } from '../util/npm'
+
 import {
   IProjectConfig,
   IOption,
   INpmConfig,
-  IWxTransformResult
+  IWxTransformResult,
+  ITaroManifestConfig
 } from '../util/types'
 import CONFIG from '../config'
 
@@ -69,7 +74,7 @@ export interface IBuildData {
   appConfig: Config,
   pageConfigs: Map<string, Config>,
   alias: IOption,
-  compileInclude: string[],
+  compileConfig: {[k: string]: any},
   isProduction: boolean,
   buildAdapter: BUILD_TYPES,
   outputFilesTypes: IMINI_APP_FILE_TYPE,
@@ -78,7 +83,8 @@ export interface IBuildData {
   npmOutputDir: string,
   jsxAttributeNameReplace?: {
     [key: string]: any
-  }
+  },
+  quickappManifest?: ITaroManifestConfig
 }
 
 let BuildData: IBuildData
@@ -100,6 +106,10 @@ export function setIsProduction (isProduction: boolean) {
   BuildData.isProduction = isProduction
 }
 
+export function setQuickappManifest (quickappManifest: ITaroManifestConfig) {
+  BuildData.quickappManifest = quickappManifest
+}
+
 export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData {
   const configDir = path.join(appPath, PROJECT_CONFIG)
   const projectConfig = require(configDir)(_.merge)
@@ -117,7 +127,6 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData
     dir: null
   }, weappConf.npm)
   const useCompileConf = Object.assign({}, weappConf.compile)
-  const compileInclude = useCompileConf.include || []
   BuildData = {
     appPath,
     configDir,
@@ -134,7 +143,7 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES): IBuildData
     isProduction: false,
     appConfig: {},
     pageConfigs: new Map<string, Config>(),
-    compileInclude,
+    compileConfig: useCompileConf,
     buildAdapter: adapter,
     outputFilesTypes: MINI_APP_FILES[adapter],
     constantsReplaceList: Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
@@ -205,6 +214,7 @@ export function buildUsingComponents (
   components: IComponentObj[],
   isComponent?: boolean
 ): IOption {
+  const { buildAdapter } = getBuildData()
   const usingComponents = Object.create(null)
   const pathAlias = BuildData.projectConfig.alias || {}
   for (const component of components) {
@@ -218,8 +228,11 @@ export function buildUsingComponents (
     } else {
       componentPath = component.path
     }
+    if (buildAdapter === BUILD_TYPES.ALIPAY) {
+      componentPath = generateAlipayPath(componentPath)
+    }
     if (component.name) {
-      usingComponents[component.name] = (componentPath as string).replace(path.extname(componentPath as string), '')
+      usingComponents[component.name] = (componentPath as string).replace(extnameExpRegOf(componentPath as string), '')
     }
   }
   return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
@@ -233,7 +246,7 @@ export function getRealComponentsPathList (
 ): IComponentObj[] {
   const { appPath, isProduction, buildAdapter, projectConfig, npmConfig } = BuildData
   const pathAlias = projectConfig.alias || {}
-  return components.map(component => {
+  return components.length ? components.map(component => {
     let componentPath = component.path
     if (isAliasPath(componentPath as string, pathAlias)) {
       componentPath = replaceAliasPath(filePath, componentPath as string, pathAlias)
@@ -256,7 +269,7 @@ export function getRealComponentsPathList (
       name: component.name,
       type: component.type
     }
-  })
+  }) : []
 }
 
 export function isFileToBePage (filePath: string): boolean {
@@ -295,13 +308,20 @@ export function initCopyFiles () {
 }
 
 export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath: string, outputFilePath: string) => void) {
-  const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath } = BuildData
+  const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath, projectConfig } = BuildData
+  const adapterConfig = Object.assign({}, projectConfig.weapp)
   files.forEach(file => {
     let outputFilePath
     if (NODE_MODULES_REG.test(file)) {
       outputFilePath = file.replace(nodeModulesPath, npmOutputDir)
     } else {
-      outputFilePath = file.replace(sourceDir, outputDir)
+      if (adapterConfig.publicPath && adapterConfig.staticDirectory) {
+        const hashName = getHashName(file)
+        const staticPath = path.join(appPath, adapterConfig.staticDirectory, projectConfig.projectName || '')
+        outputFilePath = `${staticPath}/${hashName}`
+      } else {
+        outputFilePath = file.replace(sourceDir, outputDir)
+      }
     }
     if (isCopyingFiles.get(outputFilePath)) {
       return
@@ -329,7 +349,7 @@ export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath:
 }
 
 export function getTaroJsQuickAppComponentsPath () {
-  const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, BuildData.nodeModulesPath)
+  const taroJsQuickAppComponentsPkg = resolveNpmSync(taroJsQuickAppComponents, BuildData.nodeModulesPath)
   if (!taroJsQuickAppComponentsPkg) {
     printLog(processTypeEnum.ERROR, '包安装', `缺少包 ${taroJsQuickAppComponents}，请安装！`)
     process.exit(0)

@@ -12,7 +12,7 @@ Taro 在编译时提供了一些内置的环境变量来帮助用户做一些特
 
 ### process.env.TARO_ENV
 
-用于判断当前编译类型，目前有 `weapp` / `swan` / `alipay` / `h5` / `rn` / `tt` 六个取值，可以通过这个变量来书写对应一些不同环境下的代码，在编译时会将不属于当前编译类型的代码去掉，只保留当前编译类型下的代码，例如想在微信小程序和 H5 端分别引用不同资源
+用于判断当前编译类型，目前有 `weapp` / `swan` / `alipay` / `h5` / `rn` / `tt` / `qq` / `quickapp` 八个取值，可以通过这个变量来书写对应一些不同环境下的代码，在编译时会将不属于当前编译类型的代码去掉，只保留当前编译类型下的代码，例如想在微信小程序和 H5 端分别引用不同资源
 
 ```jsx
 if (process.env.TARO_ENV === 'weapp') {
@@ -58,6 +58,10 @@ render () {
 `test.weapp.js` 文件，这是 `Test` 组件的 微信小程序 版本
 
 `test.swan.js` 文件，这是 `Test` 组件的 百度小程序 版本
+
+`test.qq.js` 文件，这是 `Test` 组件的 QQ 小程序 版本
+
+`test.quickapp.js` 文件，这是 `Test` 组件的 快应用 版本
 
 四个文件，对外暴露的是统一的接口，它们接受一致的参数，只是内部有针对各自平台的代码实现
 
@@ -109,3 +113,28 @@ setTitle('页面标题')
 - 不同端的对应文件一定要统一接口，统一调用方式
 - 最好有一个平台无关的默认文件，这样在使用 ts 的时候也不会出现报错
 - 引用文件的时候，只需要写默认文件名，不用带文件后缀
+
+### app.js 中使用不同的 pages
+
+> 1.3.11 开始支持
+
+根据不同环境返回不同的 `pages`，可以这么写
+```
+config: Config = {
+  "pages": preval`
+    module.exports=(function() {
+      if (process.env.TARO_ENV === 'weapp') {
+        return [
+          '/pages/index/index'
+        ]
+      }
+      if (process.env.TARO_ENV === 'swan') {
+        return [
+          '/pages/indexswan/indexswan'
+        ]
+      }
+    })()
+  `
+}
+```
+详情可以参考 [issue](https://github.com/NervJS/taro/pull/3867)

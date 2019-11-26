@@ -2,9 +2,9 @@
   <div class="taro_switch">
     <input
       if="{{type === 'checkbox'}}"
-      class="{{className}}"
+      class="{{class}}"
       id="{{id}}"
-      style="{{style}}"
+      style="{{customstyle}}"
       value="{{value}}"
       type="checkbox"
       checked="{{checked}}"
@@ -13,8 +13,8 @@
     />
     <switch
       else
-      class="{{className}}"
-      style="{{style}}"
+      class="{{class}}"
+      style="{{customstyle}}"
       id="{{id}}"
       disabled="{{disabled}}"
       checked="{{checked}}"
@@ -26,7 +26,7 @@
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: 'taro_switch'
@@ -36,7 +36,7 @@
         required: false,
         default: ''
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

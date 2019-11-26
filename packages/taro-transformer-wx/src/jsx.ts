@@ -1,7 +1,7 @@
 import generate from 'babel-generator'
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import { kebabCase } from 'lodash'
+import { kebabCase, snakeCase } from 'lodash'
 import {
   DEFAULT_Component_SET,
   SPECIAL_COMPONENT_PROPS,
@@ -9,12 +9,14 @@ import {
   THIRD_PARTY_COMPONENTS,
   TRANSFORM_COMPONENT_PROPS,
   lessThanSignPlacehold,
-  FN_PREFIX
+  FN_PREFIX,
+  DEFAULT_Component_SET_COPY
 } from './constant'
 import { createHTMLElement } from './create-html-element'
 import { codeFrameError, decodeUnicode } from './utils'
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import { Status } from './functional'
+import { transformOptions } from './options'
 
 export function isStartWithWX (str: string) {
   return str[0] === 'w' && str[1] === 'x'
@@ -36,8 +38,10 @@ export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   }
 }
 
-export function findJSXAttrByName (attrs: t.JSXAttribute[], name: string) {
+export function findJSXAttrByName (attrs: (t.JSXAttribute | t.JSXSpreadAttribute)[], name: string) {
   for (const attr of attrs) {
+    if (!t.isJSXAttribute(attr)) continue
+
     if (!t.isJSXIdentifier(attr.name)) {
       break
     }
@@ -102,15 +106,18 @@ export function setJSXAttr (
   }
 }
 
+export function buildTrueJSXAttrValue () {
+  return t.jSXExpressionContainer(t.booleanLiteral(true))
+}
+
 export function generateJSXAttr (ast: t.Node) {
   const code = decodeUnicode(
     generate(ast, {
       quotes: 'single',
       jsonCompatibleStrings: true
-    })
-    .code
+    }).code
   )
-  .replace(/</g, lessThanSignPlacehold)
+    .replace(/</g, lessThanSignPlacehold)
   if (Status.isSFC) {
     return code
   }
@@ -143,7 +150,10 @@ function parseJSXChildren (
       if (t.isJSXText(child)) {
         const strings: string[] = []
         child.value.split(/(\r?\n\s*)/).forEach((val) => {
-          const value = val.replace(/\u00a0/g, '&nbsp;')
+          const value = val
+            .replace(/\u00a0/g, '&nbsp;')
+            .replace(/\u2002/g, '&ensp;')
+            .replace(/\u2003/g, '&emsp;')
           if (!value) {
             return
           }
@@ -212,6 +222,9 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           name = name.toLowerCase()
         }
       }
+      if (Adapters.quickapp === Adapter.type && !DEFAULT_Component_SET_COPY.has(componentName) && typeof name === 'string' && !/(^on[A-Z_])|(^catch[A-Z_])/.test(name)) {
+        name = snakeCase(name)
+      }
       let value: string | boolean = true
       let attrValue = attr.value
       if (typeof name === 'string') {
@@ -222,9 +235,9 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           let isBindEvent =
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
           let code = decodeUnicode(generate(attrValue.expression, {
-              quotes: 'single',
-              concise: true
-            }).code)
+            quotes: 'single',
+            concise: true
+          }).code)
             .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')
@@ -268,7 +281,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         if (componentTransfromProps && componentTransfromProps[componentName]) {
           const transfromProps = componentTransfromProps[componentName]
           Object.keys(transfromProps).forEach(oriName => {
-            if (transfromProps.hasOwnProperty(name as string)) {
+            if (name === oriName) {
               name = transfromProps[oriName]
             }
           })
@@ -276,7 +289,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
           obj['maxlength'] = value
         } else if (
-          componentSpecialProps && componentSpecialProps.has(name) ||
+          (componentSpecialProps && componentSpecialProps.has(name)) ||
           name.startsWith(FN_PREFIX) ||
           isAlipayOrQuickappEvent
         ) {
@@ -296,11 +309,29 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
     }
   }
 
-  return createHTMLElement({
-    name: kebabCase(componentName),
-    attributes: attributesTrans,
-    value: parseJSXChildren(children)
-  }, isFirstEmit)
+  let elementStr
+
+  if (isFirstEmit && Adapters.quickapp === Adapter.type && !transformOptions.isRoot) {
+    const rootAttributes = Object.assign({}, attributesTrans)
+    delete rootAttributes[Adapter.if]
+    elementStr = createHTMLElement({
+      name: kebabCase(componentName),
+      attributes: rootAttributes,
+      value: createHTMLElement({
+        name: 'block',
+        attributes: { [Adapter.if]: attributesTrans[Adapter.if] },
+        value: parseJSXChildren(children)
+      })
+    }, isFirstEmit)
+  } else {
+    elementStr = createHTMLElement({
+      name: kebabCase(componentName),
+      attributes: attributesTrans,
+      value: parseJSXChildren(children)
+    }, isFirstEmit)
+  }
+
+  return elementStr
 }
 
 export function generateHTMLTemplate (template: t.JSXElement, name: string) {

@@ -6,14 +6,6 @@ const { shouldUseYarn } = require('../dist/util')
 const Project = require('../dist/create/project').default
 
 class GenerateLockfile extends Project {
-  constructor () {
-    super()
-    this.conf = Object.assign(this.conf, {
-      projectName: 'temp',
-      template: 'default'
-    })
-  }
-
   copy () {
     const cwd = process.cwd()
     const {projectName, template} = this.conf
@@ -31,6 +23,11 @@ class GenerateLockfile extends Project {
 }
 
 if (shouldUseYarn) {
-  const generateLockfile = new GenerateLockfile()
+  const generateLockfile = new GenerateLockfile({
+    projectName: 'temp',
+    template: 'default',
+    typescript: false,
+    env: 'test'
+  })
   generateLockfile.start()
 }

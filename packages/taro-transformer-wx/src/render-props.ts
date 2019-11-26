@@ -60,12 +60,12 @@ export function injectRenderPropsEmiter (callExpr: NodePath<t.CallExpression>, a
   if (Array.isArray(callExpr.node.arguments) && callExpr.node.arguments.length) {
     args.push(callExpr.node.arguments[0])
   }
-  const emiter = t.callExpression(
+  const emitter = t.callExpression(
     t.memberExpression(buildEventCenterMemberExpr(), t.identifier('trigger')),
     args
   )
   const stemParent = callExpr.getStatementParent()
-  stemParent.insertBefore(t.expressionStatement(emiter))
+  stemParent.insertBefore(t.expressionStatement(emitter))
 }
 
 function buildListener (renderClosureFuncName: string, renderPropsArgs: t.MemberExpression) {

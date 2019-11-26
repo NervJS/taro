@@ -10,7 +10,9 @@ export default class PickerGroup extends Nerv.Component {
     const transition = this.touchEnd ? 0.3 : 0
     return `transform: translate3d(0, ${
       this.props.height
-    }px, 0);transition: transform ${transition}s;`
+    }px, 0);-webkit-transform: translate3d(0, ${
+      this.props.height
+    }px, 0);transition: transform ${transition}s;-webkit-transition: transform ${transition}s;`
   }
 
   formulaUnlimitedScroll (range, absoluteHeight, direction) {

@@ -13,6 +13,15 @@ import initNativeApi from './native-api'
 import { Component, PureComponent } from './component'
 
 import {
+  Children,
+  createElement,
+  cloneElement,
+  isValidElement,
+  createFactory,
+  version,
+  createRef,
+  forwardRef,
+  memo,
   createContext,
   useState,
   useEffect,
@@ -23,8 +32,6 @@ import {
   useLayoutEffect,
   useContext
 } from 'react'
-
-import { permanentlyNotSupport } from '../api/utils'
 
 const Taro = {
   getEnv,
@@ -37,6 +44,16 @@ const Taro = {
   internal_safe_set,
   Component,
   PureComponent,
+  //react
+  Children,
+  createElement,
+  cloneElement,
+  isValidElement,
+  createFactory,
+  version,
+  createRef,
+  forwardRef,
+  memo,
   createContext,
   useState,
   useEffect,
@@ -59,6 +76,16 @@ export {
   internal_safe_set,
   Component,
   PureComponent,
+  //react
+  Children,
+  createElement,
+  cloneElement,
+  isValidElement,
+  createFactory,
+  version,
+  createRef,
+  forwardRef,
+  memo,
   createContext,
   useState,
   useEffect,

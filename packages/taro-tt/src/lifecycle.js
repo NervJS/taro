@@ -95,16 +95,16 @@ function injectContextType (component) {
   const ctxType = component.constructor.contextType
   if (ctxType) {
     const context = ctxType.context
-    const emiter = context.emiter
-    if (emiter === null) {
+    const emitter = context.emitter
+    if (emitter === null) {
       component.context = context._defaultValue
       return
     }
     if (!component._hasContext) {
       component._hasContext = true
-      emiter.on(_ => enqueueRender(component))
+      emitter.on(_ => enqueueRender(component))
     }
-    component.context = emiter.value
+    component.context = emitter.value
   }
 }
 
@@ -224,10 +224,6 @@ function doUpdate (component, prevProps, prevState) {
       while (--i >= 0) {
         typeof cbs[i] === 'function' && cbs[i].call(component)
       }
-    }
-    if (!component.__mounted) {
-      component.__mounted = true
-      componentTrigger(component, 'componentDidMount')
     }
   }
 

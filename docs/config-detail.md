@@ -64,17 +64,59 @@ csso: {
 
 ### plugins.sass
 用来配置 `sass` 工具，设置打包过程中的 SCSS 代码编译。  
-具体配置可以参考[dart-sass](https://www.npmjs.com/package/node-sass)  
+具体配置可以参考[node-sass](https://www.npmjs.com/package/node-sass)  
 当需要全局注入scss文件时，可以添加三个额外参数：`resource` 、 `projectDirectory` (v1.2.25开始支持)、`data`（v1.3.0开始支持），具体配置方式如下：
-```jsx
+
+#### 单文件路径形式
+
+当只有 `resource` 字段时，可以传入 scss 文件的绝对路径。
+
+```js
 sass: {
-    resource: path.resolve(__dirname, '..', 'src/styles/variable.scss'),
-    // OR 
-    // resource:  ['path/to/global.variable.scss', 'path/to/global.mixin.scss']
-    projectDirectory: path.resolve(__dirname, '..'),
-    data: '$nav-height: 48px;',
-  }
+  resource: path.resolve(__dirname, '..', 'src/styles/variable.scss')
+}
 ```
+
+#### 多文件路径形式
+
+此外，当只有 `resource` 字段时，也可以传入一个路径数组。
+
+```js
+sass: {
+  resource: [
+    path.resolve(__dirname, '..', 'src/styles/variable.scss'),
+    path.resolve(__dirname, '..', 'src/styles/mixins.scss')
+  ]
+}
+```
+
+#### 指定项目根目录路径形式
+
+你可以额外配置 `projectDirectory` 字段，这样你就可以在 `resource` 里写相对路径了。
+
+```js
+sass: {
+  resource: [
+    'src/styles/variable.scss',
+    'src/styles/mixins.scss'
+  ],
+  projectDirectory: path.resolve(__dirname, '..')
+}
+```
+
+#### 传入 scss 变量字符串
+
+```js
+sass: {
+  resource: [
+    'src/styles/variable.scss',
+    'src/styles/mixins.scss'
+  ],
+  projectDirectory: path.resolve(__dirname, '..'),
+  data: '$nav-height: 48px;'
+}
+```
+
 * resource: 如果要引入多个文件，支持数组形式传入
 * projectDirectory: 项目根目录的绝对地址(若为小程序云开发模板，则应该是client目录)
 * data: 全局 scss 变量，若 data 与 resource 中设置了同样的变量，则 data 的优先级高于 resource

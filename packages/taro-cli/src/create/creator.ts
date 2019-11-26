@@ -49,10 +49,10 @@ export default class Creator {
   protected _rootPath: string
   private _destinationRoot: string
 
-  constructor () {
+  constructor (sourceRoot?: string) {
     const store = memFs.create()
     this.fs = editor.create(store)
-    this.sourceRoot(path.join(getRootPath()))
+    this.sourceRoot(sourceRoot || path.join(getRootPath()))
     this.init()
   }
 
@@ -101,8 +101,12 @@ export default class Creator {
       data = dest
       dest = source
     }
+
+    const src = this.templatePath(template, source)
+    if (!fs.existsSync(src)) return
+
     this.fs.copyTpl(
-      this.templatePath(template, source),
+      src,
       this.destinationPath(dest),
       Object.assign({ _ }, this, data),
       options

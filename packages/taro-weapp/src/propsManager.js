@@ -6,8 +6,12 @@ class Manager {
   map = {}
   observers = {}
 
-  set (props = {}, compid) {
+  set (props = {}, compid, previd) {
     if (!compid) return
+
+    if (previd) {
+      this.delete(previd)
+    }
 
     const { observers } = this
     if (!this.map[compid]) {
@@ -25,7 +29,9 @@ class Manager {
 
           const extraProps = (component.$scope && component.$scope.data && component.$scope.data.extraProps) || null
           const nextProps = filterProps(ComponentClass.defaultProps, props, component.props, extraProps)
-          component.props = nextProps
+          // 这里原来是提前修改了 props, 实际更新又是nextTick异步的，这样可以会导致很多问题
+          // 很难保证如果开发者无意中多次并发更新，props可能提前于生命周期被获取到
+          component.nextProps = nextProps
           nextTick(() => {
             component._unsafeCallUpdate = true
             updateComponent(component)

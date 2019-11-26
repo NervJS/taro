@@ -3,6 +3,7 @@ import * as t from 'babel-types'
 import generate from 'babel-generator'
 import template from 'babel-template'
 import * as html from 'html'
+import T from '@tarojs/taro'
 
 export function prettyPrint (str: string): string {
   return html.prettyPrint(str, { max_char: 0 })
@@ -49,7 +50,7 @@ function genLoopCompid () {
 }
 
 function genCompid () {
-  return undefined
+  return ''
 }
 
 var propsManager = {
@@ -189,6 +190,7 @@ export function evalClass (ast: t.File, props = '', isRequire = false) {
   code = internalFunction + code
 
   // tslint:disable-next-line
+  const Taro = T
   return eval(code)
 }
 

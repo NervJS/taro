@@ -5,9 +5,9 @@
       name="{{name}}"
       id="{{id}}"
       type="radio"
-      class="{{className}}"
+      class="{{class}}"
       disabled="{{disabled}}"
-      style="{{style}}"
+      style="{{customstyle}}"
       @change="handleChange"
     />
     <slot></slot>
@@ -37,12 +37,12 @@
         required: false,
         default: ''
       },
-      classname: {
+      class: {
         type: String,
         required: false,
         default: 'taro_input'
       },
-      style: {
+      customstyle: {
         type: Object,
         required: false,
         default: {}

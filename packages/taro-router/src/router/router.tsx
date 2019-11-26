@@ -9,6 +9,7 @@ import Route from './route'
 
 interface Props {
   history: Types.History;
+  mode: 'multi' | 'hash' | 'browser';
   routes: Types.RouteObj[];
   children?: any[];
   customRoutes: Types.CustomRoutes;
@@ -44,20 +45,30 @@ class Router extends Taro.Component<Props, State> {
     // 找出匹配的路由组件
     const originalPathname = location.path;
     let pathname = originalPathname
-    const foundRoute = this.customRoutes.filter(([originalRoute, mappedRoute]) => {
-      return originalPathname === mappedRoute
-    })
-    if (foundRoute.length) {
-      pathname = foundRoute[0][0]
+
+    if (this.props.mode === 'multi') {
+      return this.props.routes[0]
+    } else {
+      const foundRoute = this.customRoutes.filter(([originalRoute, mappedRoute]) => {
+        return originalPathname === mappedRoute
+      })
+      if (foundRoute.length) {
+        pathname = foundRoute[0][0]
+      }
+      const matchedRoute = this.props.routes.filter(({path, isIndex}) => {
+        if (isIndex && pathname === '/') return true;
+        return pathname === path;
+      })
+      if (!matchedRoute[0] && Taro['_$app'] && Taro['_$app'].componentDidNotFound) {
+        Taro['_$app'].componentDidNotFound.call(Taro['_$app'], {
+          path: pathname,
+          query: location.params
+        })
+      }
+
+      invariant(matchedRoute[0], `Can not find proper registered route for '${pathname}'`)
+      return matchedRoute[0]!
     }
-    const matchedRoute = this.props.routes.filter(({path, isIndex}) => {
-      if (isIndex && pathname === '/') return true;
-      return pathname === path;
-    })
-
-    invariant(matchedRoute[0], `Can not find proper registered route for '${pathname}'`)
-
-    return matchedRoute[0]!
   }
 
   push (toLocation: Types.Location) {
@@ -105,8 +116,8 @@ class Router extends Taro.Component<Props, State> {
     this.currentPages[k] = comp
   }
 
-  componentWillMount () {
-    const { history, customRoutes } = this.props
+  componentDidMount () {
+    const { history, customRoutes, mode } = this.props
 
     this.mountApis()
     this.customRoutes = toPairs(customRoutes)
@@ -131,20 +142,27 @@ class Router extends Taro.Component<Props, State> {
     })
     this.lastLocation = history.location
     this.push(this.lastLocation)
+    if (mode === 'multi') {
+      this.unlisten()
+    }
+  }
+
+  componentWillUpdate () {
+    this.currentPages.length = this.state.routeStack.length
   }
 
   componentWillUnmount () {
+    const { mode } = this.props
+    if (mode === 'multi') return
     this.unlisten()
   }
 
   render () {
-    const router = this
     const currentLocation = Taro._$router
-    router.currentPages.length = this.state.routeStack.length
     return (
       <div
         className="taro_router"
-        style={"min-height: 100%"}>
+        style={{ height: '100%' }}>
         {this.state.routeStack.map(({ path, componentLoader, isIndex, key, isRedirect }, k) => {
           return (
             <Route

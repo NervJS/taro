@@ -44,6 +44,10 @@ function callGetSnapshotBeforeUpdate (component, props, state) {
 
 export function updateComponent (component) {
   const { props, __propTypes } = component
+  // 由 forceUpdate 或者组件自身 setState 发起的 update 可能是没有新的nextProps的
+  const nextProps = component.nextProps || props
+  const prevProps = props
+
   if (isDEV && __propTypes) {
     let componentName = component.constructor.name
     if (isUndefined(componentName)) {
@@ -52,18 +56,17 @@ export function updateComponent (component) {
     }
     PropTypes.checkPropTypes(__propTypes, props, 'prop', componentName)
   }
-  const prevProps = component.prevProps || props
-  component.props = prevProps
+
   if (component.__mounted && component._unsafeCallUpdate === true && !hasNewLifecycle(component) && component.componentWillReceiveProps) {
     component._disable = true
-    component.componentWillReceiveProps(props)
+    component.componentWillReceiveProps(nextProps)
     component._disable = false
   }
   let state = component.getState()
 
   const prevState = component.prevState || state
 
-  const stateFromProps = callGetDerivedStateFromProps(component, props, state)
+  const stateFromProps = callGetDerivedStateFromProps(component, nextProps, state)
 
   if (!isUndefined(stateFromProps)) {
     state = stateFromProps
@@ -73,21 +76,21 @@ export function updateComponent (component) {
   if (component.__mounted) {
     if (typeof component.shouldComponentUpdate === 'function' &&
       !component._isForceUpdate &&
-      component.shouldComponentUpdate(props, state) === false) {
+      component.shouldComponentUpdate(nextProps, state) === false) {
       skip = true
     } else if (!hasNewLifecycle(component) && isFunction(component.componentWillUpdate)) {
-      component.componentWillUpdate(props, state)
+      component.componentWillUpdate(nextProps, state)
     }
   }
 
-  component.props = props
+  component.props = nextProps
   component.state = state
   component._dirty = false
   component._isForceUpdate = false
   if (!skip) {
     doUpdate(component, prevProps, prevState)
   }
-  component.prevProps = component.props
+  delete component.nextProps
   component.prevState = component.state
 }
 
@@ -114,7 +117,6 @@ export function mountComponent (component) {
     }
   }
   doUpdate(component, props, component.state)
-  component.prevProps = component.props
   component.prevState = component.state
 }
 
@@ -122,16 +124,16 @@ function injectContextType (component) {
   const ctxType = component.constructor.contextType
   if (ctxType) {
     const context = ctxType.context
-    const emiter = context.emiter
-    if (emiter === null) {
+    const emitter = context.emitter
+    if (emitter === null) {
       component.context = context._defaultValue
       return
     }
     if (!component._hasContext) {
       component._hasContext = true
-      emiter.on(_ => enqueueRender(component))
+      emitter.on(_ => enqueueRender(component))
     }
-    component.context = emiter.value
+    component.context = emitter.value
   }
 }
 
@@ -160,9 +162,8 @@ function doUpdate (component, prevProps, prevState) {
         return
       }
       if (typeof val === 'object') {
-        if (isEmptyObject(val)) return safeSet(_data, key, val)
+        if (isEmptyObject(val)) return safeSet(_data, key, {})
 
-        val = shakeFnFromObject(val)
         // 避免筛选完 Fn 后产生了空对象还去渲染
         if (!isEmptyObject(val)) safeSet(_data, key, val)
       } else {

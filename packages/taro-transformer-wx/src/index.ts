@@ -35,11 +35,13 @@ import {
   PROPS_MANAGER,
   GEN_COMP_ID,
   GEN_LOOP_COMPID,
-  CONTEXT_PROVIDER
+  CONTEXT_PROVIDER,
+  setIsTaroReady,
+  setCompId
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
-import { get as safeGet, cloneDeep } from 'lodash'
+import { get as safeGet, cloneDeep, snakeCase } from 'lodash'
 import { isTestEnv } from './env'
 
 const template = require('babel-template')
@@ -159,20 +161,24 @@ function buildFullPathThisPropsRef (id: t.Identifier, memberIds: string[], path:
 function handleThirdPartyComponent (expr: t.ClassMethod | t.ClassProperty) {
   if (t.isClassProperty(expr) && expr.key.name === 'config' && t.isObjectExpression(expr.value)) {
     const properties = expr.value.properties
-    for (const prop of properties) {
-      if (
-        t.isObjectProperty(prop) &&
-        (t.isIdentifier(prop.key, { name: 'usingComponents' }) || t.isStringLiteral(prop.key, { value: 'usingComponents' })) &&
-        t.isObjectExpression(prop.value)
-      ) {
-        for (const value of prop.value.properties) {
-          if (t.isObjectProperty(value)) {
-            if (t.isStringLiteral(value.key)) {
-              THIRD_PARTY_COMPONENTS.add(value.key.value)
-            }
-            if (t.isIdentifier(value.key)) {
-              THIRD_PARTY_COMPONENTS.add(value.key.name)
-            }
+    findThirdPartyComponent(properties)
+  }
+}
+
+function findThirdPartyComponent (properties: (t.ObjectMethod | t.ObjectProperty | t.SpreadProperty)[]) {
+  for (const prop of properties) {
+    if (
+      t.isObjectProperty(prop) &&
+      (t.isIdentifier(prop.key, { name: 'usingComponents' }) || t.isStringLiteral(prop.key, { value: 'usingComponents' })) &&
+      t.isObjectExpression(prop.value)
+    ) {
+      for (const value of prop.value.properties) {
+        if (t.isObjectProperty(value)) {
+          if (t.isStringLiteral(value.key)) {
+            THIRD_PARTY_COMPONENTS.add(value.key.value)
+          }
+          if (t.isIdentifier(value.key)) {
+            THIRD_PARTY_COMPONENTS.add(value.key.name)
           }
         }
       }
@@ -210,6 +216,10 @@ export default function transform (options: Options): TransformResult {
     setLoopCallee('anonymousCallee_')
     setLoopState('loopState')
   }
+  if (Adapter.type === Adapters.quickapp) {
+    setIsTaroReady('priTaroCompReady')
+    setCompId('priCompid')
+  }
   THIRD_PARTY_COMPONENTS.clear()
   const code = options.isTyped
     ? ts.transpile(options.code, {
@@ -244,6 +254,7 @@ export default function transform (options: Options): TransformResult {
   const componentSourceMap = new Map<string, string[]>()
   const imageSource = new Set<string>()
   const importSources = new Set<string>()
+  const classMethods = new Map<string, NodePath<t.ClassMethod | t.ClassProperty>>()
   let componentProperies: string[] = []
   let mainClass!: NodePath<t.ClassDeclaration>
   let storeName!: string
@@ -263,6 +274,14 @@ export default function transform (options: Options): TransformResult {
             }
           }
         }
+      }
+    },
+    MemberExpression (path) {
+      const { property } = path.node
+      const right = path.getSibling('right')
+      if (t.isIdentifier(property, { name: 'config' }) && path.parentPath.isAssignmentExpression() && right.isObjectExpression()) {
+        const properties = right.node.properties
+        findThirdPartyComponent(properties)
       }
     },
     JSXText (path) {
@@ -330,8 +349,11 @@ export default function transform (options: Options): TransformResult {
       mainClass = path as any
     },
     ClassMethod (path) {
-      if (t.isIdentifier(path.node.key) && path.node.key.name === 'render') {
-        renderMethod = path
+      if (t.isIdentifier(path.node.key)) {
+        if (path.node.key.name === 'render') {
+          renderMethod = path
+        }
+        classMethods.set(path.node.key.name, path)
       }
     },
     IfStatement (path) {
@@ -489,7 +511,7 @@ export default function transform (options: Options): TransformResult {
 
       const forStatement = path.findParent(isForStatement)
       if (isForStatement(forStatement)) {
-        throw codeFrameError(forStatement.node, '不行使用 for 循环操作 JSX 元素，详情：https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/manipulate-jsx-as-array.md')
+        throw codeFrameError(forStatement.node, '不能使用 for 循环操作 JSX 元素，详情：https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/manipulate-jsx-as-array.md')
       }
 
       const loopCallExpr = path.findParent(p => isArrayMapCallExpression(p))
@@ -506,18 +528,29 @@ export default function transform (options: Options): TransformResult {
     JSXOpeningElement (path) {
       const { name } = path.node.name as t.JSXIdentifier
       const binding = path.scope.getBinding(name)
-      if (process.env.NODE_ENV !== 'test' && DEFAULT_Component_SET.has(name) && binding && binding.kind === 'module') {
+      if (process.env.NODE_ENV !== 'test' && binding && binding.kind === 'module') {
         const bindingPath = binding.path
         if (bindingPath.parentPath.isImportDeclaration()) {
           const source = bindingPath.parentPath.node.source
-          if (source.value !== COMPONENTS_PACKAGE_NAME) {
+          if (DEFAULT_Component_SET.has(name) && source.value !== COMPONENTS_PACKAGE_NAME) {
             throw codeFrameError(bindingPath.parentPath.node, `内置组件名: '${name}' 只能从 ${COMPONENTS_PACKAGE_NAME} 引入。`)
+          }
+
+          if (name === 'Fragment') {
+            path.node.name = t.jSXIdentifier('block')
           }
         }
       }
-      if (name === 'View' && Adapter.type === Adapters.quickapp) {
-        path.node.name = t.jSXIdentifier('div')
+
+      if (Adapter.type === Adapters.quickapp) {
+        if (name === 'View') {
+          path.node.name = t.jSXIdentifier('div')
+        }
+        if (name === 'Block') {
+          path.node.name = t.jSXIdentifier('block')
+        }
       }
+
       if (name === 'Provider') {
         const modules = path.scope.getAllBindings('module')
         const providerBinding = Object.values(modules).some((m: Binding) => m.identifier.name === 'Provider')
@@ -606,6 +639,57 @@ export default function transform (options: Options): TransformResult {
         // @TODO: bind 的处理待定
       }
     },
+    ClassProperty (path) {
+      const { key: { name }, value } = path.node
+      if (t.isArrowFunctionExpression(value) || t.isFunctionExpression(value)) {
+        classMethods.set(name, path)
+        if (name.startsWith('render')) {
+          path.replaceWith(t.classMethod(
+            'method',
+            t.identifier(name),
+            value.params,
+            t.isBlockStatement(value.body) ? value.body : t.blockStatement([
+              t.returnStatement(value.body)
+            ])
+          ))
+        }
+      }
+      if (Adapter.type !== Adapters.quickapp) {
+        return
+      }
+      if (path.node.key.name === 'defaultProps' && t.isObjectExpression(path.node.value)) {
+        const props = path.node.value.properties
+        for (const prop of props) {
+          if (t.isObjectProperty(prop)) {
+            if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value) && !prop.key.value.startsWith('on')) {
+              prop.key = t.stringLiteral(snakeCase(prop.key.value))
+            }
+            if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name) && !prop.key.name.startsWith('on')) {
+              prop.key = t.identifier(snakeCase(prop.key.name))
+            }
+          }
+        }
+      }
+    },
+    AssignmentExpression (path) {
+      if (Adapter.type !== Adapters.quickapp) {
+        return
+      }
+      const { left, right } = path.node
+      if (t.isMemberExpression(left) && t.isIdentifier(left.property, { name: 'defaultProps' }) && t.isObjectExpression(right)) {
+        const props = right.properties
+        for (const prop of props) {
+          if (t.isObjectProperty(prop)) {
+            if (t.isStringLiteral(prop.key) && /[A-Z]/.test(prop.key.value) && !prop.key.value.startsWith('on')) {
+              prop.key = t.stringLiteral(snakeCase(prop.key.value))
+            }
+            if (t.isIdentifier(prop.key) && /[A-Z]/.test(prop.key.name) && !prop.key.name.startsWith('on')) {
+              prop.key = t.identifier(snakeCase(prop.key.name))
+            }
+          }
+        }
+      }
+    },
     ImportDeclaration (path) {
       const source = path.node.source.value
       if (importSources.has(source)) {
@@ -633,10 +717,14 @@ export default function transform (options: Options): TransformResult {
           t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
           t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
           t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
-          t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)),
           t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
           t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
         )
+        if (Adapter.type !== Adapters.alipay) {
+          path.node.specifiers.push(
+            t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER))
+          )
+        }
       }
       if (
         source === REDUX_PACKAGE_NAME || source === MOBX_PACKAGE_NAME
@@ -674,22 +762,44 @@ export default function transform (options: Options): TransformResult {
   })
 
   if (!isImportTaro) {
+    const specifiers = [
+      t.importDefaultSpecifier(t.identifier('Taro')),
+      t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
+      t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
+      t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
+      t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
+      t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
+      t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
+    ]
+    if (Adapter.type !== Adapters.alipay) {
+      specifiers.push(t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)))
+    }
     ast.program.body.unshift(
-      t.importDeclaration([
-        t.importDefaultSpecifier(t.identifier('Taro')),
-        t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
-        t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
-        t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
-        t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
-        t.importSpecifier(t.identifier(PROPS_MANAGER), t.identifier(PROPS_MANAGER)),
-        t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
-        t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
-      ], t.stringLiteral('@tarojs/taro'))
+      t.importDeclaration(specifiers, t.stringLiteral('@tarojs/taro'))
     )
   }
 
   if (!mainClass) {
     throw new Error('未找到 Taro.Component 的类定义')
+  }
+
+  if (Adapter.type === Adapters.alipay) {
+    const body = ast.program.body
+    for (const i in body) {
+      if (t.isImportDeclaration(body[i]) && !t.isImportDeclaration(body[Number(i) + 1])) {
+        body.splice(Number(i) + 1, 0, t.variableDeclaration(
+          'const',
+          [t.variableDeclarator(
+            t.identifier('propsManager'),
+            t.memberExpression(
+              t.identifier('my'),
+              t.identifier('propsManager')
+            )
+          )]
+        ))
+        break
+      }
+    }
   }
 
   mainClass.node.body.body.forEach(handleThirdPartyComponent)
@@ -729,7 +839,7 @@ export default function transform (options: Options): TransformResult {
     )
     return { ast } as TransformResult
   }
-  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir!).result
+  result = new Transformer(mainClass, options.sourcePath, componentProperies, options.sourceDir!, classMethods).result
   result.code = generate(ast).code
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')

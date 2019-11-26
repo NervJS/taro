@@ -28,6 +28,8 @@ import { isTestEnv } from './env'
 import { Status } from './functional'
 import { injectRenderPropsEmiter } from './render-props'
 
+const stopPropagationExpr = require('babel-template')(`typeof e === 'object' && e.stopPropagation && e.stopPropagation()`)
+
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
 function buildConstructor () {
@@ -89,7 +91,7 @@ interface Result {
     name: string,
     path: string,
     type: string
-  }[],
+  }[]
   componentProperies: string[]
 }
 
@@ -106,11 +108,11 @@ class Transformer {
     components: [],
     componentProperies: []
   }
-  private methods: ClassMethodsMap = new Map()
+  private methods: ClassMethodsMap
   private renderJSX: Map<string, NodePath<t.ClassMethod>> = new Map()
   private refIdMap: Map<NodePath<t.ClassMethod>, Set<t.Identifier>> = new Map()
   private initState: Set<string> = new Set()
-  private customComponents: Map<string, { sourcePath: string, type: string }> = new Map()
+  private customComponents: Map<string, { sourcePath: string, type: string, imported?: string }> = new Map()
   private anonymousMethod: Map<string, string> = new Map()
   private moduleNames: string[]
   private classPath: NodePath<t.ClassDeclaration>
@@ -123,18 +125,21 @@ class Transformer {
   private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
   private anonymousFuncCounter = incrementId()
   private importJSXs = new Set<String>()
+  private refObjExpr: t.ObjectExpression[] = []
 
   constructor (
     path: NodePath<t.ClassDeclaration>,
     sourcePath: string,
     componentProperies: string[],
-    sourceDir: string
+    sourceDir: string,
+    methods: ClassMethodsMap
   ) {
     this.classPath = path
     this.sourcePath = sourcePath
     this.sourceDir = sourceDir
     this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
     this.componentProperies = new Set(componentProperies)
+    this.methods = methods
     this.compile()
   }
 
@@ -165,7 +170,7 @@ class Transformer {
   }
 
   handleRefs () {
-    const objExpr = this.refs.map(ref => {
+    this.refObjExpr = this.refs.map(ref => {
       return t.objectExpression([
         t.objectProperty(
           t.identifier('type'),
@@ -186,26 +191,20 @@ class Transformer {
       ])
     })
 
-    if (isTestEnv) {
-      this.classPath.node.body.body.push(t.classProperty(
-        t.identifier('$$refs'),
-        t.arrayExpression(objExpr)
-      ))
-    }
-
     const _constructor = this.classPath.node.body.body.find(item => {
-      if (t.isClassMethod(item) && t.isIdentifier(item.key) && item.key.name === '_constructor') {
+      const constructorName = isTestEnv ? 'constructor' : '_constructor'
+      if (t.isClassMethod(item) && t.isIdentifier(item.key) && item.key.name === constructorName) {
         return true
       }
       return false
     })
 
-    if (_constructor && t.isClassMethod(_constructor)) {
+    if (_constructor && t.isClassMethod(_constructor) && Adapter.type !== Adapters.quickapp) {
       _constructor.body.body.push(
         t.expressionStatement(t.assignmentExpression(
           '=',
           t.memberExpression(t.thisExpression(), t.identifier('$$refs')),
-          t.arrayExpression(objExpr)
+          t.newExpression(t.memberExpression(t.identifier('Taro'), t.identifier('RefsArray')), [])
         ))
       )
     }
@@ -232,6 +231,7 @@ class Transformer {
     const classBody = this.classPath.node.body.body
     const loopCallExpr = jsxExpr.findParent(p => isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
     let index: t.Identifier
+    const self = this
     if (loopCallExpr) {
       index = safeGet(loopCallExpr, 'node.arguments[0].params[1]')
       if (!t.isIdentifier(index)) {
@@ -247,7 +247,7 @@ class Transformer {
         while (callExpr = callExpr.findParent(p => isArrayMapCallExpression(p) && p !== callExpr) as NodePath<t.CallExpression>) {
           let index = safeGet(callExpr, 'node.arguments[0].params[1]')
           if (!t.isIdentifier(index)) {
-            index = t.identifier('__index' + counter)
+            index = t.identifier('__index' + self.anonymousFuncCounter())
             safeSet(callExpr, 'node.arguments[0].params[1]', index)
           }
           indices.add(index)
@@ -274,13 +274,16 @@ class Transformer {
 
       const func = loopCallExpr.node.arguments[0]
       if (t.isArrowFunctionExpression(func)) {
+        const body = loopCallExpr.get('arguments')[0].get('body.body')
         if (!t.isBlockStatement(func.body)) {
           func.body = t.blockStatement([
             indexKeyDecl,
             t.returnStatement(func.body)
           ])
         } else {
-          func.body.body.push(indexKeyDecl)
+          // func.body.body.push(indexKeyDecl)
+          // 只有 path 的方法才能触发 traverse
+          body[body.length - 1].insertBefore(indexKeyDecl)
         }
         const arrayFunc = t.memberExpression(
           t.memberExpression(t.thisExpression(), t.identifier(anonymousFuncName + 'Map')),
@@ -288,9 +291,9 @@ class Transformer {
           true
         )
         classBody.push(
-          t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.identifier('e')], t.blockStatement([
-            isCatch ? t.expressionStatement(t.callExpression(t.memberExpression(t.identifier('e'), t.identifier('stopPropagation')), [])) : t.emptyStatement(),
-            t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.identifier('e')])))
+          t.classMethod('method', t.identifier(anonymousFuncName), [t.identifier(indexKey), t.restElement(t.identifier('e'))], t.blockStatement([
+            isCatch ? stopPropagationExpr() : t.emptyStatement(),
+            t.returnStatement(t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.spreadElement(t.identifier('e'))])))
           ]))
         )
         exprPath.replaceWith(t.callExpression(
@@ -300,7 +303,7 @@ class Transformer {
           ),
           [t.thisExpression(), t.identifier(indexKey)]
         ))
-        func.body.body.push(
+        body[body.length - 1].insertBefore(
           t.expressionStatement(t.assignmentExpression(
             '=',
             arrayFunc,
@@ -441,6 +444,26 @@ class Transformer {
                 fn: expr
               })
             }
+          } else if (t.isIdentifier(expr)) {
+            const type = DEFAULT_Component_SET.has(componentName) ? 'dom' : 'component'
+            const binding = path.scope.getBinding(expr.name)
+            const decl = t.expressionStatement(
+              t.assignmentExpression(
+                '=',
+                t.memberExpression(t.thisExpression(), expr),
+                expr
+              )
+            )
+            if (binding) {
+              binding.path.parentPath.insertAfter(decl)
+            } else {
+              path.getStatementParent().insertBefore(decl)
+            }
+            this.refs.push({
+              type,
+              id,
+              fn: t.memberExpression(t.thisExpression(), expr)
+            })
           } else {
             throw codeFrameError(refAttr, 'ref 仅支持传入字符串、匿名箭头函数和 class 中已声明的函数')
           }
@@ -464,7 +487,8 @@ class Transformer {
           self.methods.set(methodName, classMethodPath)
           if (methodName.startsWith('render')) {
             if (!isContainJSXElement(classMethodPath)) {
-              throw codeFrameError(classMethodPath.node, '以 render 开头的类函数必须返回 JSX，否则会导致渲染失败。如果是为了渲染字符串，建议更名。')
+              throw codeFrameError(classMethodPath.node, '以 render 开头的类函数必须返回 JSX，否则会导致渲染失败。如果是为了渲染字符串，建议更名。\n' +
+              '以 VSCode 为例：右键点击选择方法名，点击 rename symbol（重命名符号），输入新方法名。')
             }
             hasRender = true
             self.renderJSX.set(methodName, classMethodPath)
@@ -632,7 +656,6 @@ class Transformer {
         const scope = renderMethod! && renderMethod!.scope || path.scope
         const calleeExpr = expression.get('callee')
         const parentPath = path.parentPath
-
         if (
           hasComplexExpression(expression) &&
           !isFunctionProp &&
@@ -642,8 +665,14 @@ class Transformer {
             calleeExpr.get('property').isIdentifier({ name: 'bind' })) // is not bind
         ) {
           const calleeName = calleeExpr.isIdentifier() && calleeExpr.node.name
-          if (typeof calleeName === 'string' && isDerivedFromProps(calleeExpr.scope, calleeName)) {
+          if (typeof calleeName === 'string' && calleeName.startsWith('render') && isDerivedFromProps(calleeExpr.scope, calleeName)) {
             return
+          }
+          if (calleeExpr.isMemberExpression() && isDerivedFromProps(calleeExpr.scope, findFirstIdentifierFromMemberExpression(calleeExpr.node).name)) {
+            const idName = findFirstIdentifierFromMemberExpression(calleeExpr.node).name
+            if (isDerivedFromProps(calleeExpr.scope, idName) && t.isIdentifier(calleeExpr.node.property) && calleeExpr.node.property.name.startsWith('render')) {
+              return
+            }
           }
           generateAnonymousState(scope, expression, jsxReferencedIdentifiers)
         } else {
@@ -674,14 +703,14 @@ class Transformer {
               (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
             ) {
-              self.buildPropsAnonymousFunc(attr, expr, true)
+              self.buildPropsAnonymousFunc(attr, expr, true, path)
             }
           } else if (t.isMemberExpression(expr)) {
             if (
               (!isNewPropsSystem()) ||
               (t.isJSXIdentifier(jsx.node.name) && DEFAULT_Component_SET.has(jsx.node.name.name))
               ) {
-              self.buildPropsAnonymousFunc(attr, expr as any, false)
+              self.buildPropsAnonymousFunc(attr, expr as any, false, path)
             }
           } else if (!t.isLiteral(expr)) {
             self.buildAnonyMousFunc(path, attr, expr)
@@ -699,6 +728,10 @@ class Transformer {
       },
       Identifier (path) {
         const isStartWithRender = /^render[A-Z]/.test(path.node.name)
+        const isInJSXExprContainer = !!path.findParent(p => p.isJSXExpressionContainer())
+        if (!isInJSXExprContainer) {
+          return
+        }
         if (path.node.name === 'children' || isStartWithRender) {
           const parentPath = path.parentPath
           const slot = t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier('slot'), [], true), t.jSXClosingElement(t.jSXIdentifier('slot')), [], true)
@@ -712,7 +745,21 @@ class Transformer {
               parentPath.replaceWith(slot)
             }
           }
-          if (parentPath.isMemberExpression() && parentPath.isReferenced() && parentPath.parentPath.isJSXExpressionContainer()) {
+          if (parentPath.isMemberExpression() && parentPath.parentPath.isCallExpression()) {
+            if (isDerivedFromProps(path.scope, findFirstIdentifierFromMemberExpression(parentPath.node).name)) {
+              injectRenderPropsEmiter(parentPath.parentPath, path.node.name)
+              parentPath.parentPath.replaceWith(slot)
+            }
+          }
+          if (
+            parentPath.isMemberExpression() &&
+            parentPath.isReferenced() &&
+            (
+              parentPath.parentPath.isJSXExpressionContainer() ||
+              parentPath.parentPath.isLogicalExpression() ||
+              parentPath.parentPath.isConditionalExpression()
+            )
+          ) {
             const object = parentPath.get('object')
             if (object.isIdentifier()) {
               const objectName = object.node.name
@@ -738,16 +785,26 @@ class Transformer {
             const binding = self.classPath.scope.getBinding(name)
             if (binding && t.isImportDeclaration(binding.path.parent)) {
               const sourcePath = binding.path.parent.source.value
+              const specs = binding.path.parent.specifiers.filter(s => t.isImportSpecifier(s)) as Array<t.ImportSpecifier>
               if (binding.path.isImportDefaultSpecifier()) {
                 self.customComponents.set(name, {
                   sourcePath,
                   type: 'default'
                 })
               } else {
-                self.customComponents.set(name, {
-                  sourcePath,
-                  type: 'pattern'
-                })
+                const spec = specs.find(s => s.local.name === name && s.imported.name !== name)
+                if (spec) {
+                  self.customComponents.set(name, {
+                    sourcePath,
+                    type: 'pattern',
+                    imported: spec.imported.name
+                  })
+                } else {
+                  self.customComponents.set(name, {
+                    sourcePath,
+                    type: 'pattern'
+                  })
+                }
               }
             }
           }
@@ -844,7 +901,7 @@ class Transformer {
     })
   }
 
-  buildPropsAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false) => {
+  buildPropsAnonymousFunc = (attr: NodePath<t.JSXAttribute>, expr: t.CallExpression, isBind = false, path) => {
     const { code } = generate(expr)
     const id = t.isMemberExpression(expr.callee) ? findFirstIdentifierFromMemberExpression(expr.callee) : null
     if (
@@ -905,6 +962,9 @@ class Transformer {
           ))
         ]))
       this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
+    } else if (t.isMemberExpression(expr) && !t.isThisExpression(expr.object)) {
+      // @TODO: 新旧 props 系统在事件处理上耦合太深，快应用应用新 props 把旧 props 系统逻辑全部清楚
+      this.buildAnonyMousFunc(path, attr, expr)
     }
   }
 
@@ -920,7 +980,7 @@ class Transformer {
       components.push(name)
       this.result.components.push({
         path: pathResolver(component.sourcePath, this.sourcePath),
-        name: kebabCase(name),
+        name: component.imported ? kebabCase(name) + '|' + kebabCase(component.imported) : kebabCase(name),
         type: component.type
       })
     })
@@ -1062,6 +1122,7 @@ class Transformer {
           this.customComponentNames,
           this.componentProperies,
           this.loopRefs,
+          this.refObjExpr,
           methodName
         ).outputTemplate + '\n'
       })

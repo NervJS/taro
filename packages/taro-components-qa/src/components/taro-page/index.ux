@@ -21,10 +21,10 @@
           <slot></slot>
         </block>
     </block>
-    <div class="taro-tabbar" if="{{showTabBar}}" style="background-color:{{tabBar.backgroundColor}}">
-      <div class="taro-tabbar_item" for="(index, item) in tabBar.list" @click="onSelected(item)">
+    <div class="taro-tabbar" if="{{showTabBar}}" style="background-color:{{tabBarData.backgroundColor ? tabBarData.backgroundColor : '#ffffff'}}">
+      <div class="taro-tabbar_item" for="(index, item) in tabBarData.list" @click="onSelected(item, index)">
         <image src="{{ item.selected ? item.selectedIconPath : item.iconPath }}" />
-        <text style="color:{{ item.selected ? tabBar.selectedColor: tabBar.color }};font-size: 20px;">
+        <text style="color:{{ item.selected ? tabBarData.selectedColor: tabBarData.color }};font-size: 20px;">
           {{item.text}}
         </text>
       </div>
@@ -43,7 +43,7 @@
     height: 110px;
   }
 
-  .taro-tabbar .tab {
+  .taro-tabbar .taro-tabbar_item {
     flex: 1;
     margin: 10px;
     flex-direction: column;
@@ -51,12 +51,12 @@
     align-items: center;
   }
 
-  .taro-tabbar .tab image {
+  .taro-tabbar .taro-tabbar_item image {
     width: 45px;
     height: 45px;
   }
 
-  .taro-tabbar .tab a {
+  .taro-tabbar .taro-tabbar_item a {
     margin: 10px;
     border: 1px solid #eeeeee;
   }
@@ -64,6 +64,9 @@
 
 <script>
   import Taro from '@tarojs/taro-quickapp'
+  function addLeadingSlash (str) {
+    return str[0] === '/' ? str : `/${str}`
+  }
   export default {
     props: {
       tabbar: {
@@ -86,7 +89,7 @@
       let showTabBar = false
       if (this.tabbar && this.tabbar.list.length) {
         this.tabbar.list.forEach(item => {
-          if (item.pagePath === this.pagepath) {
+          if (addLeadingSlash(item.pagePath) === addLeadingSlash(this.pagepath)) {
             showTabBar = true
           }
         })
@@ -94,6 +97,7 @@
       return {
         showTabBar,
         isPageRefreshing: false,
+        tabBarData: {}
       }
     },
 
@@ -104,6 +108,33 @@
       Taro.eventCenter.on('TaroPage:startPullDownRefresh', () => {
         this.isPageRefreshing = true
       })
+      this.setTabBarData()
+    },
+
+    onShow () {
+      this.setTabBarData()
+    },
+
+    setTabBarData () {
+      const tabBarData = Object.assign({}, this.tabbar)
+      if (this.tabbar && this.tabbar.list && this.tabbar.list.length) {
+        tabBarData.backgroundColor = tabBarData.backgroundColor || '#fff'
+        tabBarData.color = tabBarData.color || '#333'
+        tabBarData.selectedColor = tabBarData.selectedColor || '#48adc4'
+        tabBarData.list.forEach(item => {
+          item.selected = false
+          if (addLeadingSlash(item.pagePath) === addLeadingSlash(this.pagepath)) {
+            item.selected = true
+          }
+          if (item.selectedIconPath) {
+            item.selectedIconPath = addLeadingSlash(item.selectedIconPath.replace(/^[\.]?/, ''))
+          }
+          if (item.iconPath) {
+            item.iconPath = addLeadingSlash(item.iconPath.replace(/^[\.]?/, ''))
+          }
+        })
+        this.tabBarData = tabBarData
+      }
     },
 
     onPullDownRefresh (e) {
@@ -126,6 +157,21 @@
       if (pageInstance && pageInstance.onReachBottom) {
         pageInstance.onReachBottom()
       }
+    },
+
+    onSelected (item, index) {
+      const pageInstance = this.$app.pageInstaceMap[this.pagepath]
+      if (pageInstance && pageInstance.onTabItemTap) {
+        pageInstance.onTabItemTap({
+          pagePath: item.pagePath,
+          text: this.tabbar.list[index].text,
+          index
+        })
+      }
+      this.pagepath = item.pagePath
+      Taro.redirectTo({
+        url: item.pagePath
+      })
     }
   }
 </script>

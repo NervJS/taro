@@ -2,7 +2,8 @@ import { enqueueRender } from './render-queue'
 import { updateComponent } from './lifecycle'
 import { genCompPrefix } from './util'
 import {
-  internal_safe_get as safeGet
+  internal_safe_get as safeGet,
+  internal_force_update as forceUpdateCallback
 } from '@tarojs/taro'
 import { cacheDataSet, cacheDataGet } from './data-cache'
 // #组件state对应小程序组件data
@@ -24,6 +25,7 @@ class BaseComponent {
   nextProps = {}
   _dirty = true
   _disable = true
+  _isForceUpdate = false
   _pendingStates = []
   _pendingCallbacks = []
   $componentType = ''
@@ -60,7 +62,7 @@ class BaseComponent {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
     if (!this._disable) {
-      enqueueRender(this)
+      enqueueRender(this, forceUpdateCallback)
     }
   }
 
@@ -86,6 +88,7 @@ class BaseComponent {
     if (typeof callback === 'function') {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
+    this._isForceUpdate = true
     updateComponent(this)
   }
 

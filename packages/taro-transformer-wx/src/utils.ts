@@ -2,7 +2,7 @@ import * as t from 'babel-types'
 import generate from 'babel-generator'
 import { codeFrameColumns } from '@babel/code-frame'
 import { NodePath, Scope } from 'babel-traverse'
-import { LOOP_STATE, TARO_PACKAGE_NAME } from './constant'
+import { LOOP_STATE, TARO_PACKAGE_NAME, IS_TARO_READY } from './constant'
 import { cloneDeep } from 'lodash'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -31,6 +31,20 @@ export function isDerivedFromProps (scope: Scope, bindingName: string) {
       if (t.isThisExpression(object) && t.isIdentifier(property, { name: 'props' })) {
         return true
       }
+    }
+    if (init.isIdentifier()) {
+      return isDerivedFromProps(scope, init.node.name)
+    }
+  }
+  return false
+}
+
+export function isDerivedFromThis (scope: Scope, bindingName: string) {
+  const binding = scope.getBinding(bindingName)
+  if (binding && binding.path.isVariableDeclarator()) {
+    const init = binding.path.get('init')
+    if (init.isThisExpression()) {
+      return true
     }
   }
   return false
@@ -401,9 +415,18 @@ export function createUUID () {
   }).replace(/-/g, '').slice(0, 8)
 }
 
+let count = 0
 export function createRandomLetters (n: number) {
-  const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-  return Array(n).join().split(',').map(function () { return str.charAt(Math.floor(Math.random() * str.length)) }).join('')
+  const countStr = (count++).toString()
+  let letters = ''
+  for (const s of countStr) {
+    letters += String.fromCharCode(97 + parseInt(s, 10))
+  }
+  const padding = n - letters.length
+  for (let i = 0; i < padding; i++) {
+    letters += 'z'
+  }
+  return letters
 }
 
 export function isBlockIfStatement (ifStatement, blockStatement): ifStatement is NodePath<t.IfStatement> {
@@ -648,7 +671,7 @@ export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression)
     Adapter.if,
     Adapter.else
   ])
-  const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => ifAttrSet.has(a.name.name as string))) as NodePath<t.JSXElement>
+  const logicalJSX = jsx.findParent(p => p.isJSXElement() && p.node.openingElement.attributes.some(a => t.isJSXIdentifier(a.name) && ifAttrSet.has(a.name.name))) as NodePath<t.JSXElement>
   if (logicalJSX) {
     const attr = logicalJSX.node.openingElement.attributes.find(a => ifAttrSet.has(a.name.name as string))
     if (attr) {
@@ -663,7 +686,7 @@ export function setAncestorCondition (jsx: NodePath<t.Node>, expr: t.Expression)
         }
       } else if (t.isJSXExpressionContainer(attr.value)) {
         const condition = cloneDeep(attr.value.expression)
-        if (t.isJSXIdentifier(condition, { name: '$taroCompReady' })) {
+        if (t.isJSXIdentifier(condition, { name: IS_TARO_READY })) {
           return expr
         }
         const ifStem = logicalJSX.findParent(p => p.isIfStatement())

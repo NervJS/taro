@@ -17,31 +17,17 @@ function grabStoresByName (storeNames) {
   }
 }
 
-export function generateDisplayName (sourceComponent, injectNames) {
-  let displayName =
-        'inject-' +
-        (sourceComponent.displayName ||
-          sourceComponent.name ||
-            (sourceComponent.constructor && sourceComponent.constructor.name) ||
-            'Unknown')
-    if (injectNames) {
-      displayName += '-with-' + injectNames
-    }
-    return displayName
+export function getInjectName (component, injectNames) {
+  const componentName = component.displayName || component.name || 'Component'
+  if (injectNames) {
+    return `inject-with-${injectNames}(${componentName})`
+  }
+  return `inject(${componentName})`
 }
 
 export function mapStoreToProps (grabStoresFn, props) {
-  let newProps = {}
-  for (let key in props) {
-    if (props.hasOwnProperty(key)) {
-      newProps[key] = props[key]
-    }
-  }
-  const additionalProps = grabStoresFn(getStore() || {}, newProps) || {}
-  for (let key in additionalProps) {
-    newProps[key] = additionalProps[key]
-  }
-  return newProps
+  const newProps = { ...props }
+  return Object.assign(newProps, grabStoresFn(getStore() || {}, newProps) || {})
 }
 
 export function inject (/* fn(stores, nextProps) or ...storeNames, createStoreInjector */) {

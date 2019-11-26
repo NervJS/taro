@@ -1,5 +1,11 @@
 <template>
-  <input type='checkbox' checked="{{ checked }}" class="{{ className }}" id="{{ id }}" onchange ="change"/>
+  <input
+    type='checkbox'
+    checked="{{ checked }}"
+    class="{{ class }}"
+    id="{{ id }}"
+    onchange="change"
+    style="{{customstyle}}" />
 </template>
 
 <script>
@@ -10,14 +16,19 @@
         default: false,
         required: false,
       },
-      className: {
+      class: {
         type: String,
         required: false,
       },
       id: {
-          type: String,
-          required: false
+        type: String,
+        required: false
       },
+      customstyle: {
+        type: Object,
+        required: false,
+        default: {}
+      }
     },
 
     data: () => ({

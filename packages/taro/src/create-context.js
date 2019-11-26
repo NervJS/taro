@@ -1,20 +1,20 @@
-import { Emiter } from './emiter'
+import { Emitter } from './emitter'
 
 export let contextUid = 0
 
 export function createContext (defaultValue) {
   const contextId = '__context_' + contextUid++ + '__'
   const context = {
-    emiter: null,
+    emitter: null,
     _id: contextId,
     _defaultValue: defaultValue
   }
   function Provider (newValue) {
-    const emiter = context.emiter
-    if (!emiter) {
-      context.emiter = new Emiter(defaultValue)
+    const emitter = context.emitter
+    if (!emitter) {
+      context.emitter = new Emitter(defaultValue)
     } else {
-      emiter.set(newValue)
+      emitter.set(newValue)
     }
   }
   return {

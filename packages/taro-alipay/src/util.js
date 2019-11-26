@@ -1,5 +1,6 @@
 import isPlainObject from 'lodash/isPlainObject'
 import { Current } from '@tarojs/taro'
+import { SimpleMap } from '@tarojs/utils'
 
 export function isEmptyObject (obj) {
   if (!obj || !isPlainObject(obj)) {
@@ -272,13 +273,25 @@ function genId () {
   return String(id++)
 }
 
-const compIdsMapper = new Map()
-export function genCompid (key) {
-  if (!Current || !Current.current || !Current.current.$scope) return
+let compIdsMapper
+try {
+  compIdsMapper = new Map()
+} catch (error) {
+  compIdsMapper = new SimpleMap()
+}
+export function genCompid (key, isNeedCreate) {
+  if (!Current || !Current.current || !Current.current.$scope) return []
+
   const prevId = compIdsMapper.get(key)
-  const id = prevId || genId()
-  !prevId && compIdsMapper.set(key, id)
-  return id
+  if (isNeedCreate) {
+    const id = genId()
+    compIdsMapper.set(key, id)
+    return [prevId, id]
+  } else {
+    const id = prevId || genId()
+    !prevId && compIdsMapper.set(key, id)
+    return [null, id]
+  }
 }
 
 let prefix = 0
