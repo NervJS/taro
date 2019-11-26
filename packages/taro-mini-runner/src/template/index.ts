@@ -1,4 +1,4 @@
-import { internalComponents, Shortcuts, createMiniComponents, controlledComponent } from '@tarojs/shared'
+import { internalComponents, Shortcuts, createMiniComponents, controlledComponent, isArray } from '@tarojs/shared'
 import { Adapter, supportXS } from './adapters'
 import { BUILD_TYPES } from '../utils/constants'
 import { componentConfig } from './component'
@@ -10,19 +10,42 @@ interface Component {
 
 type Attributes = Record<string, string>
 
-function buildAttribute (attrs: Attributes): string {
+const swanSpecialAttrs = {
+  'scroll-view': ['scrollTop', 'scrollLeft', 'scrollIntoView'],
+  'movable-view': ['x', 'y'],
+  slider: ['value'],
+  input: ['value'],
+  textarea: ['value']
+}
+
+function buildAttribute (attrs: Attributes, nodeName: string): string {
+  function getValue (key: string) {
+    if (Adapter.type !== BUILD_TYPES.SWAN && isArray(swanSpecialAttrs[nodeName]) && swanSpecialAttrs[nodeName].includes(key)) {
+      return `= ${attrs[key]} =`
+    }
+
+    return `{ ${attrs[key]} }`
+  }
   return Object.keys(attrs)
-    .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') ? attrs[k] : `{{ ${attrs[k]} }}`}" `)
+    .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') ? attrs[k] : `{${getValue(k)}}`}" `)
     .join('')
+}
+
+const dataKeymap = (keymap: string) => {
+  return Adapter.type === BUILD_TYPES.SWAN ? `{ ${keymap} }` : keymap
 }
 
 function buildStandardComponentTemplate (comp: Component, level: number, supportRecursive: boolean): string {
   const nextLevel = supportRecursive ? 0 : level + 1
+  const child = Adapter.type === BUILD_TYPES.SWAN && comp.nodeName === 'text'
+    ? `<block>{{ i.${Shortcuts.Childnodes}[index].${Shortcuts.Text} }}</block>`
+    : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />`
+
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
-  <${comp.nodeName} ${buildAttribute(comp.attributes)} id="{{ i.uid }}">
+  <${comp.nodeName} ${buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}">
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
-      <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{i: item}}" />
+      ${child}
     </block>
   </${comp.nodeName}>
 </template>
@@ -34,8 +57,10 @@ function buildXsTemplate () {
   let xs = ''
   if (Adapter.type === BUILD_TYPES.WEAPP) {
     xs = `<wxs module="xs" src="./utils.${Adapter.xs}" />`
-  } if (Adapter.type === BUILD_TYPES.SWAN || Adapter.type === BUILD_TYPES.ALIPAY) {
+  } else if (Adapter.type === BUILD_TYPES.ALIPAY) {
     xs = `<import-sjs name="xs" from="./utils.${Adapter.xs}" />`
+  } else if (Adapter.type === BUILD_TYPES.SWAN) {
+    xs = `<import-sjs module="xs" src="./utils.${Adapter.xs}" />`
   } else if (Adapter.type === BUILD_TYPES.QQ) {
     xs = `<qs module="xs" src="./utils.${Adapter.xs}" />`
   }
@@ -67,21 +92,21 @@ function buildFocusComponentTemplte (comp: Component, level: number, supportRecu
   delete attrs.focus
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
-  <template is="{{ ${templateName} }}" data="{{i: i}}" />
+  <template is="{{ ${templateName} }}" data="{{${dataKeymap('i: i')}}}" />
 </template>
 
 <template name="tmpl_${level}_${comp.nodeName}_focus">
-  <${comp.nodeName} ${buildAttribute(comp.attributes)} id="{{ i.uid }}">
+  <${comp.nodeName} ${buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}">
   <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
-    <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{i: item}}" />
+    <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />
   </block>
   </${comp.nodeName}>
 </template>
 
 <template name="tmpl_${level}_${comp.nodeName}_blur">
-  <${comp.nodeName} ${buildAttribute(attrs)} id="{{ i.uid }}">
+  <${comp.nodeName} ${buildAttribute(attrs, comp.nodeName)} id="{{ i.uid }}">
   <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
-    <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{i: item}}" />
+    <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />
   </block>
   </${comp.nodeName}>
 </template>
@@ -90,7 +115,7 @@ function buildFocusComponentTemplte (comp: Component, level: number, supportRecu
 
 function buildPlainTextTemplate (level: number): string {
   return `
-<template name="tmpl_${level}_#text" data="{{i: i}}">
+<template name="tmpl_${level}_#text" data="{{${dataKeymap('i: i')}}}">
   <block>{{i.${Shortcuts.Text}}}</block>
 </template>
 `
@@ -101,10 +126,10 @@ function buildContainerTemplate (level: number, restart = false) {
   if (restart) {
     tmpl = '<comp i="{{i}}" />'
   } else {
-    tmpl = `<template is="{{'tmpl_${level}_' + i.${Shortcuts.NodeName}}}" data="{{i: i}}" />`
+    tmpl = `<template is="{{'tmpl_${level}_' + i.${Shortcuts.NodeName}}}" data="{{${dataKeymap('i: i')}}}" />`
   }
   return `
-<template name="tmpl_${level}_${Shortcuts.Container}" data="{{i: i}}">
+<template name="tmpl_${level}_${Shortcuts.Container}" data="{{${dataKeymap('i: i')}}}">
   ${tmpl}
 </template>
 `
@@ -130,7 +155,7 @@ export function buildBaseTemplate (maxLevel: number, supportRecursive: boolean) 
   let template = `${buildXsTemplate()}
 <template name="taro_tmpl">
   <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="id">
-    <template is="tmpl_0_${Shortcuts.Container}" data="{{i: item}}" />
+    <template is="tmpl_0_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />
   </block>
 </template>
 `
@@ -148,12 +173,12 @@ export function buildBaseTemplate (maxLevel: number, supportRecursive: boolean) 
 
 export function buildPageTemplate (baseTempPath: string) {
   const template = `<import src="${baseTempPath}"/>
-<template is="taro_tmpl" data="{{root: root}}" />`
+<template is="taro_tmpl" data="{{${dataKeymap('root: root')}}}" />`
 
   return template
 }
 
 export function buildBaseComponentTemplate () {
   return `<import src="./base.wxml" />
-<template is="tmpl_0_container" data="{{i: i}}" />`
+<template is="tmpl_0_container" data="{{${dataKeymap('i: i')}}}" />`
 }

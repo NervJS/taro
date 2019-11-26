@@ -37,7 +37,7 @@ export class TaroNode extends TaroEventTarget {
 
   public get _path () {
     if (this.parentNode !== null) {
-      return `${this.parentNode._path}.${Shortcuts.Childnodes}.[${this.parentNode.childNodes.indexOf(this)}]`
+      return `${this.parentNode._path}.${Shortcuts.Childnodes}.${this.parentNode.childNodes.indexOf(this)}`
     }
 
     return ''
