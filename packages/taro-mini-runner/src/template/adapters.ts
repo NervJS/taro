@@ -81,6 +81,17 @@ const qqAdapter: Adapter = {
   type: BUILD_TYPES.QQ
 }
 
+const jdAdapter: Adapter = {
+  if: 'jd:if',
+  else: 'jd:else',
+  elseif: 'jd:elif',
+  for: 'jd:for',
+  forItem: 'jd:for-item',
+  forIndex: 'jd:for-index',
+  key: 'jd:key',
+  type: BUILD_TYPES.JD
+}
+
 export const supportXS = () => {
   return [BUILD_TYPES.QQ, BUILD_TYPES.WEAPP, BUILD_TYPES.SWAN, BUILD_TYPES.ALIPAY].includes(Adapter.type)
 }
@@ -103,6 +114,9 @@ export function setAdapter (adapter: BUILD_TYPES) {
       break
     case BUILD_TYPES.QQ:
       Adapter = qqAdapter
+      break
+    case BUILD_TYPES.JD:
+      Adapter = jdAdapter
       break
     default:
       Adapter = weixinAdapter

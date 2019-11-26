@@ -63,7 +63,7 @@ function buildFocusComponentTemplte (comp: Component, level: number, supportRecu
   const nextLevel = supportRecursive ? 0 : level + 1
   const templateName = supportXS()
     ? `xs.c(i, 'tmpl_${level}_')`
-    : `i.focus ? 'tmpl_${level}_${comp.nodeName}_focus' : tmpl_${level}_${comp.nodeName}_blur }}`
+    : `i.focus ? 'tmpl_${level}_${comp.nodeName}_focus' : 'tmpl_${level}_${comp.nodeName}_blur'`
   delete attrs.focus
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
@@ -129,7 +129,7 @@ function buildTemplate (level: number, supportRecursive: boolean, restart = fals
 export function buildBaseTemplate (maxLevel: number, supportRecursive: boolean) {
   let template = `${buildXsTemplate()}
 <template name="taro_tmpl">
-  <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="{{id}}">
+  <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="id">
     <template is="tmpl_0_${Shortcuts.Container}" data="{{i: item}}" />
   </block>
 </template>
