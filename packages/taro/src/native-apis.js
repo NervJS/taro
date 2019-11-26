@@ -19,6 +19,8 @@ const onAndSyncApis = {
   onHCEMessage: true,
   onGetWifiList: true,
   onWifiConnected: true,
+  offWifiConnected: true,
+  offGetWifiList: true,
   onDeviceMotionChange: true,
   setStorageSync: true,
   getStorageSync: true,

@@ -241,6 +241,14 @@
         "title": "Taro.getWifiList(OBJECT)",
         "sidebar_label": "getWifiList"
       },
+      "apis/device/wifi/offGetWifiList": {
+        "title": "Taro.offGetWifiList(CALLBACK)",
+        "sidebar_label": "offGetWifiList"
+      },
+      "apis/device/wifi/offWifiConnected": {
+        "title": "Taro.offWifiConnected(CALLBACK)",
+        "sidebar_label": "offWifiConnected"
+      },
       "apis/device/wifi/onGetWifiList": {
         "title": "Taro.onGetWifiList(CALLBACK)",
         "sidebar_label": "onGetWifiList"
