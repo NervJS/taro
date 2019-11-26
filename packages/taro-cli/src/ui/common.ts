@@ -7,7 +7,7 @@ import generate from 'babel-generator'
 import * as fs from 'fs-extra'
 import { parseAst } from '../mini/astProcess'
 import { IBuildData } from './ui.types'
-import { cssImports, printLog, resolveScriptPath, resolveStylePath } from '../util'
+import { cssImports, printLog, resolveScriptPath, resolveStylePath, isNpmPkg } from '../util'
 import { PARSE_AST_TYPE, processTypeEnum, REG_STYLE, REG_TYPESCRIPT } from '../util/constants'
 import { IComponentObj } from '../mini/interface'
 
@@ -185,10 +185,13 @@ export function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir, build
     let imports = cssImports(content)
     if (imports.length > 0) {
       imports = imports.map(importItem => {
+        if (isNpmPkg(importItem)) {
+          return ''
+        }
         const filePath = resolveStylePath(path.resolve(path.dirname(item), importItem))
         copyFileToDist(filePath, sourceDir, outputDir, buildData)
         return filePath
-      })
+      }).filter(item => item)
       analyzeStyleFilesImport(imports, sourceDir, outputDir, buildData)
     }
   })
