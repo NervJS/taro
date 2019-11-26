@@ -317,6 +317,14 @@ export const getModule = (appPath: string, {
       use: {
         vueLoader: getVueLoader([{
           optimizeSSR: false,
+          transformAssetUrls: {
+            video: ['src', 'poster'],
+            'live-player': 'src',
+            audio: 'src',
+            source: 'src',
+            image: 'src',
+            'cover-image': 'src'
+          },
           compilerOptions: {
             modules: [{
               preTransformNode (el) {
