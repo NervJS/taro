@@ -232,7 +232,8 @@ export function buildUsingComponents (
       componentPath = generateAlipayPath(componentPath)
     }
     if (component.name) {
-      usingComponents[component.name] = (componentPath as string).replace(extnameExpRegOf(componentPath as string), '')
+      const componentName = component.name.split('|')[0]
+      usingComponents[componentName] = (componentPath as string).replace(extnameExpRegOf(componentPath as string), '')
     }
   }
   return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {

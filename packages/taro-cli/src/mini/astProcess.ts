@@ -1014,6 +1014,7 @@ export function parseComponentExportAst (ast: t.File, componentName: string, com
       [require('babel-plugin-transform-define').default, constantsReplaceList]
     ]
   }).ast as t.File
+  componentName = componentName.split('|')[1] || componentName
   traverse(ast, {
     ExportNamedDeclaration (astPath) {
       const node = astPath.node
