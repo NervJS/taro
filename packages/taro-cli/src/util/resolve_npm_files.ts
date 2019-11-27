@@ -54,7 +54,16 @@ export function resolveNpmPkgMainPath (
   root: string
 ) {
   try {
-    return resolvePath.sync(pkgName, { basedir: root })
+    const exts = ['.js', '.ts', '.jsx', '.tsx']
+    return resolvePath.sync(pkgName, {
+        basedir: root,
+        extensions: [
+            ...exts.map(ext => `.${buildAdapter}${ext}`),
+            ...exts.map(ext => `/index.${buildAdapter}${ext}`),
+            ...exts,
+            ...exts.map(ext => `/index${ext}`)
+        ]
+    })
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
       console.log(`缺少npm包${pkgName}，开始安装...`)
