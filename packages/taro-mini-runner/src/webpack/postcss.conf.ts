@@ -2,6 +2,7 @@ import * as path from 'path'
 
 import * as autoprefixer from 'autoprefixer'
 import * as pxtransform from 'postcss-pxtransform'
+import * as url from 'postcss-url'
 import { sync as resolveSync } from 'resolve'
 import { IPostcssOption } from '@tarojs/taro/types/compile'
 
@@ -21,6 +22,14 @@ const defaultPxtransformOption: {
   enable: true,
   config: {
     platform: 'weapp'
+  }
+}
+
+const defaultUrlOption = {
+  enable: true,
+  config: {
+    limit: 1000,
+    url: 'inline'
   }
 }
 
@@ -45,13 +54,16 @@ export const getPostcssPlugins = function (appPath: string, {
 
   const autoprefixerOption = recursiveMerge({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
   const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, postcssOption.pxtransform)
-
+  const urlOption = recursiveMerge({}, defaultUrlOption, postcssOption.url)
   if (autoprefixerOption.enable) {
     plugins.push(autoprefixer(autoprefixerOption.config))
   }
 
   if (pxtransformOption.enable && !isQuickapp) {
     plugins.push(pxtransform(pxtransformOption.config))
+  }
+  if (urlOption.enable) {
+    plugins.push(url(urlOption.config))
   }
 
   Object.entries(postcssOption).forEach(([pluginName, pluginOption]) => {
