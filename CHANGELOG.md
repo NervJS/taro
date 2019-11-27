@@ -1,5 +1,51 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.25...v) (2019-11-14)
+# [](https://github.com/NervJS/taro/compare/v1.3.26...v) (2019-11-27)
+
+
+
+<a name="1.3.26"></a>
+## [1.3.26](https://github.com/NervJS/taro/compare/v1.3.25...v1.3.26) (2019-11-27)
+
+
+### Bug Fixes
+
+* ref在字节跳动中不能使用的BUG ([b0ca0a3](https://github.com/NervJS/taro/commit/b0ca0a3))
+* 修改代码格式问题 ([838766b](https://github.com/NervJS/taro/commit/838766b))
+* **alipay:** 函数 Page 组件没有触发effect cleanup ([deaebb7](https://github.com/NervJS/taro/commit/deaebb7)), closes [#4068](https://github.com/NervJS/taro/issues/4068)
+* **cli:** Bug css url loader ([#4780](https://github.com/NervJS/taro/issues/4780)) ([de11450](https://github.com/NervJS/taro/commit/de11450))
+* 修正previewImage点透问题 ([#4802](https://github.com/NervJS/taro/issues/4802)) ([36e19b5](https://github.com/NervJS/taro/commit/36e19b5))
+* **cli:** ui 库编译支持 css modules，[#4445](https://github.com/NervJS/taro/issues/4445) ([a9993c5](https://github.com/NervJS/taro/commit/a9993c5))
+* **cli:** ui 库编译时从 npm 包中引入的样式不做处理 ([75f8d11](https://github.com/NervJS/taro/commit/75f8d11))
+* **cli:** 修复插件 watch 时在 windows 上的路径问题 ([b8196fd](https://github.com/NervJS/taro/commit/b8196fd))
+* **cli:** 修复插件 watch 时在 windows 上的路径问题，fix [#4811](https://github.com/NervJS/taro/issues/4811) ([8acfae8](https://github.com/NervJS/taro/commit/8acfae8))
+* **cli:** 修正qq轻应用配置文件读取 ([#4865](https://github.com/NervJS/taro/issues/4865)) ([ae6f268](https://github.com/NervJS/taro/commit/ae6f268))
+* **cli:** 组件引用支持 import as 语法 ([642ce25](https://github.com/NervJS/taro/commit/642ce25))
+* **components:** h5下Image的aspectFill与小程序不一致([#4620](https://github.com/NervJS/taro/issues/4620)) ([#4897](https://github.com/NervJS/taro/issues/4897)) ([989a3ce](https://github.com/NervJS/taro/commit/989a3ce))
+* **components:** 修复联想词无法触发 onInput (close [#4677](https://github.com/NervJS/taro/issues/4677)) ([a39a4ee](https://github.com/NervJS/taro/commit/a39a4ee))
+* **docs:** 修复和优化 readme 描述错误 ([#4864](https://github.com/NervJS/taro/issues/4864)) ([1cfbf13](https://github.com/NervJS/taro/commit/1cfbf13))
+* **hooks:** 钩子 useState，设置新 state 和当前 state 全等时跳过渲染。 ([aec705e](https://github.com/NervJS/taro/commit/aec705e))
+* **taro-cli:** 小程序组件打包时，将打包参数传递到依赖文件的打包中 ([#4924](https://github.com/NervJS/taro/issues/4924)) ([c2e7e04](https://github.com/NervJS/taro/commit/c2e7e04))
+* **taro-router:** 修复路由参数 `path` ([#4921](https://github.com/NervJS/taro/issues/4921)) ([bef8531](https://github.com/NervJS/taro/commit/bef8531))
+* 修复 commom.d.ts 的 animation 类型错误 ([#4920](https://github.com/NervJS/taro/issues/4920)) ([91660c2](https://github.com/NervJS/taro/commit/91660c2))
+* **weapp:** 修复插件通过 extraProps 不能传函数的问题，fix [#4658](https://github.com/NervJS/taro/issues/4658) ([f240cff](https://github.com/NervJS/taro/commit/f240cff))
+* **weapp:** 添加微信小程序 getLocation 参数定义 ([#4916](https://github.com/NervJS/taro/issues/4916)) ([267c15d](https://github.com/NervJS/taro/commit/267c15d))
+* **weapp:** 调整 wx.pageScrollTo 类型签名 ([#4856](https://github.com/NervJS/taro/issues/4856)) ([28fb2e9](https://github.com/NervJS/taro/commit/28fb2e9))
+* **weapp/jd/qq/swan/tt:** 循环中 pm.observers 应该在 observer 里绑定。fix [#4839](https://github.com/NervJS/taro/issues/4839) ([64f1ea4](https://github.com/NervJS/taro/commit/64f1ea4))
+
+
+### Features
+
+* **cli:** 引入第三方原生组件支持 ([#4526](https://github.com/NervJS/taro/issues/4526)) ([adf8864](https://github.com/NervJS/taro/commit/adf8864))
+* **taro:** 添加Wi-Fi新API(offWifiConnected & offGetWifiList)及更新文档 ([#4927](https://github.com/NervJS/taro/issues/4927)) ([cae2997](https://github.com/NervJS/taro/commit/cae2997))
+* **webpack-runner:** h5环境支持自定义source-map格式 ([#4722](https://github.com/NervJS/taro/issues/4722)) ([472324d](https://github.com/NervJS/taro/commit/472324d))
+*  rn 环境下CoverView 与 CoverImage 向下兼容为 View 与Image ([0cd0741](https://github.com/NervJS/taro/commit/0cd0741))
+*  rn 配置添加onlyTaroToRn字段,支持项目构建只编译不打包 ([c766251](https://github.com/NervJS/taro/commit/c766251))
+*  rn 配置添加onlyTaroToRn字段,支持项目构建只编译不打包 ([2188030](https://github.com/NervJS/taro/commit/2188030))
+*  在rn环境下,window属性支持配置backgroundColor ([2bea8b7](https://github.com/NervJS/taro/commit/2bea8b7))
+* docs with general types ([716e826](https://github.com/NervJS/taro/commit/716e826))
+* multi-supported ([079e95a](https://github.com/NervJS/taro/commit/079e95a))
+* upload types ([4e9d19f](https://github.com/NervJS/taro/commit/4e9d19f))
+* **button:** 优化 Button 部分事件的参数类型 ([d2d156b](https://github.com/NervJS/taro/commit/d2d156b))
 
 
 
