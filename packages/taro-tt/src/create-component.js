@@ -193,7 +193,7 @@ export function componentTrigger (component, key, args) {
     if (component['$$refs'] && component['$$refs'].length > 0) {
       let refs = {}
       const refComponents = []
-      component['$$refs'].forEach(ref =>{
+      component['$$refs'].forEach(ref => {
         refComponents.push(new Promise((resolve, reject) => {
           const query = tt.createSelectorQuery().in(component.$scope)
           if (ref.type === 'component') {
