@@ -10,6 +10,21 @@ interface Component {
 
 type Attributes = Record<string, string>
 
+const voidElements = new Set([
+  'progress',
+  'icon',
+  'rich-text',
+  'input',
+  'textarea',
+  'slider',
+  'switch',
+  'audio',
+  'camera',
+  'live-player',
+  'live-pusher',
+  'video'
+])
+
 const swanSpecialAttrs = {
   'scroll-view': ['scrollTop', 'scrollLeft', 'scrollIntoView'],
   'movable-view': ['x', 'y'],
@@ -40,14 +55,16 @@ function buildStandardComponentTemplate (comp: Component, level: number, support
   const child = Adapter.type === BUILD_TYPES.SWAN && comp.nodeName === 'text'
     ? `<block>{{ i.${Shortcuts.Childnodes}[index].${Shortcuts.Text} }}</block>`
     : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />`
-
-  return `
-<template name="tmpl_${level}_${comp.nodeName}">
-  <${comp.nodeName} ${buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}">
+  const children = voidElements.has(comp.nodeName)
+    ? ''
+    : `
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
       ${child}
     </block>
-  </${comp.nodeName}>
+    `
+  return `
+<template name="tmpl_${level}_${comp.nodeName}">
+  <${comp.nodeName} ${buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}">${children}</${comp.nodeName}>
 </template>
 `
 }
