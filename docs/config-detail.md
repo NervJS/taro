@@ -567,36 +567,6 @@ h5 编译后的静态文件目录。
 }
 ```
 
-### [DEPRECATED]h5.webpack
-
-自定义 Webpack 配置。这个配置项支持两种形式的配置：
-
-1. 如果该配置项以**对象**的形态呈现，Taro 将会使用 `webpack-merge` 将这个对象合并到默认的配置项中。
-例子：
-
-```jsx
-webpack: {
-  resolve: {
-    alias: {
-      'test': './test'
-    }
-  }
-}
-```
-
-2. 如果该配置以**函数**的形态呈现，那这个函数将会接收到两个参数：默认配置（defaultConfig）和 Webpack 实例（webpack）。Taro 将会以该函数的返回值作为最终的 Webpack 配置。
-
-例子：
-
-```jsx
-webpack (defaultConfig, webpack) {
-  defaultConfig.plugins.push(
-    new webpack.EnvironmentPlugin(['NODE_ENV'])
-  )
-  return defaultConfig
-}
-```
-
 ### h5.router
 
 路由相关的配置，支持路由模式、路由基准路径以及自定义路由的配置。
