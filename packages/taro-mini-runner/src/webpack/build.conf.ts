@@ -126,6 +126,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   chain.merge({
     mode,
     devtool: getDevtool(enableSourceMap),
+    watch: mode === 'development',
     entry: entryRes!.entry,
     output: getOutput(appPath, [{
       outputRoot,

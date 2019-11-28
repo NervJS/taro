@@ -33,14 +33,16 @@ const LOG_MAP = {
 const getServeSpinner = (() => {
   let spinner
   return () => {
-    if (!spinner) spinner = ora(`Starting development server, please wait~`)
+    if (!spinner) {
+      spinner = ora(`即将开始启动编译，请稍等~`)
+      spinner.start()
+    }
     return spinner
   }
 })()
 
 const printCompiling = () => {
   getServeSpinner().text = '正在编译...'
-  getServeSpinner().start()
 }
 
 const printBuildError = (err: Error): void => {
