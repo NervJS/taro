@@ -29,7 +29,7 @@ export default function build (appPath: string, config: IBuildConfig, mainBuilde
       bindDevLogger(compiler, config.buildAdapter)
       compiler.watch({
         aggregateTimeout: 300,
-        poll: undefined
+        poll: true
       }, (err, stats) => {
         if (err) {
           printBuildError(err)
