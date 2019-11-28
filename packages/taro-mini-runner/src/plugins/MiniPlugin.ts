@@ -75,7 +75,7 @@ export default class TaroMiniPlugin {
       sourceDir: '',
       framework: 'nerv',
       commonChunks: ['runtime', 'vendors'],
-      baseLevel: 10
+      baseLevel: 16
     }, options)
     setAdapter(this.options.buildAdapter)
     this.pages = new Set()
@@ -400,8 +400,10 @@ export default class TaroMiniPlugin {
       }
     })
     this.generateTemplateFile(compilation, baseTemplateName, buildBaseTemplate, baseLevel, this.supportRecursive)
-    this.generateTemplateFile(compilation, baseCompName, buildBaseComponentTemplate)
-    this.generateXSFile(compilation)
+    if (!this.supportRecursive) {
+      this.generateTemplateFile(compilation, baseCompName, buildBaseComponentTemplate)
+      this.generateXSFile(compilation)
+    }
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(component.name)]

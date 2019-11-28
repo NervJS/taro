@@ -35,7 +35,7 @@ const swanSpecialAttrs = {
 
 function buildAttribute (attrs: Attributes, nodeName: string): string {
   function getValue (key: string) {
-    if (Adapter.type !== BUILD_TYPES.SWAN && isArray(swanSpecialAttrs[nodeName]) && swanSpecialAttrs[nodeName].includes(key)) {
+    if (Adapter.type === BUILD_TYPES.SWAN && isArray(swanSpecialAttrs[nodeName]) && swanSpecialAttrs[nodeName].includes(key)) {
       return `= ${attrs[key]} =`
     }
 
