@@ -142,6 +142,8 @@ export default class MiniPlugin {
   pageConfigs: Map<string, PageConfig>
   changedFile: string
   tabBarIcons: Set<string>
+  isWatch: boolean
+  errors: any[]
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -161,6 +163,9 @@ export default class MiniPlugin {
     this.components = new Set()
     this.pageConfigs = new Map()
     this.tabBarIcons = new Set()
+
+    this.isWatch = false
+    this.errors = []
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -202,6 +207,7 @@ export default class MiniPlugin {
     compiler.hooks.emit.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(async compilation => {
+        compilation.errors = compilation.errors.concat(this.errors)
         await this.generateMiniFiles(compilation)
       })
     )
@@ -408,37 +414,47 @@ export default class MiniPlugin {
     const { buildAdapter } = this.options
     const appEntry = this.appEntry
     const code = fs.readFileSync(appEntry).toString()
-    const transformResult = wxTransformer({
-      code,
-      sourcePath: appEntry,
-      isTyped: REG_TYPESCRIPT.test(appEntry),
-      isApp: true,
-      adapter: buildAdapter
-    })
-    const { configObj } = parseAst(transformResult.ast, buildAdapter)
-    const appPages = configObj.pages
-    this.appConfig = configObj
-    if (!appPages || appPages.length === 0) {
-      throw new Error('缺少页面')
-    }
-    printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(appEntry))
-    this.getSubPackages(configObj)
-    this.getTabBarFiles(configObj)
-    const template = ''
-    taroFileTypeMap[this.appEntry] = {
-      type: PARSE_AST_TYPE.ENTRY,
-      config: configObj,
-      template,
-      code: transformResult.code
-    }
-    this.pages = new Set([
-      ...appPages.map(item => {
-        const pagePath = resolveScriptPath(path.join(this.sourceDir, item))
-        const pageTemplatePath = this.getTemplatePath(pagePath)
-        const isNative = this.isNativePageORComponent(pageTemplatePath, fs.readFileSync(pagePath).toString())
-        return { name: item, path: pagePath, isNative }
+    try {
+      const transformResult = wxTransformer({
+        code,
+        sourcePath: appEntry,
+        isTyped: REG_TYPESCRIPT.test(appEntry),
+        isApp: true,
+        adapter: buildAdapter
       })
-    ])
+      const { configObj } = parseAst(transformResult.ast, buildAdapter)
+      const appPages = configObj.pages
+      this.appConfig = configObj
+      if (!appPages || appPages.length === 0) {
+        throw new Error('缺少页面')
+      }
+      if (!this.isWatch) {
+        printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(appEntry))
+      }
+      this.getSubPackages(configObj)
+      this.getTabBarFiles(configObj)
+      const template = ''
+      taroFileTypeMap[this.appEntry] = {
+        type: PARSE_AST_TYPE.ENTRY,
+        config: configObj,
+        template,
+        code: transformResult.code
+      }
+      this.pages = new Set([
+        ...appPages.map(item => {
+          const pagePath = resolveScriptPath(path.join(this.sourceDir, item))
+          const pageTemplatePath = this.getTemplatePath(pagePath)
+          const isNative = this.isNativePageORComponent(pageTemplatePath, fs.readFileSync(pagePath).toString())
+          return { name: item, path: pagePath, isNative }
+        })
+      ])
+    } catch (error) {
+      if (error.codeFrame) {
+        this.errors.push(new Error(error.message + '\n' + error.codeFrame))
+      } else {
+        this.errors.push(error)
+      }
+    }
   }
 
   getPluginFiles (compiler) {
@@ -479,14 +495,14 @@ export default class MiniPlugin {
               path: filePath,
               isNative: false
             })
-            this.getComponents(fileList, isPage)
+            this.getComponents(compiler, fileList, isPage)
           } else if (isComponent) {
             this.components.add({
               name: key,
               path: filePath,
               isNative: false
             })
-            this.getComponents(fileList, false)
+            this.getComponents(compiler, fileList, false)
           } else {
             normalFiles.add({
               name: key,
@@ -532,143 +548,153 @@ export default class MiniPlugin {
     return componentName.replace(/^(\/|\\)/, '')
   }
 
-  getComponents (fileList: Set<IComponent>, isRoot: boolean) {
+  getComponents (compiler: webpack.Compiler, fileList: Set<IComponent>, isRoot: boolean) {
     const { buildAdapter, alias } = this.options
     const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     fileList.forEach(file => {
-      const isNative = file.isNative
-      const isComponentConfig = isRoot ? {} : { component: true }
+      try {
+        const isNative = file.isNative
+        const isComponentConfig = isRoot ? {} : { component: true }
 
-      let configObj
-      let taroSelfComponents
-      let depComponents
-      let template
-      let code = fs.readFileSync(file.path).toString()
-      if (isNative) {
-        const templatePath = this.getTemplatePath(file.path)
-        const configPath = this.getConfigPath(file.path)
-        if (fs.existsSync(templatePath)) {
-          template = fs.readFileSync(templatePath).toString()
-        }
-        if (fs.existsSync(configPath)) {
-          configObj = JSON.parse(fs.readFileSync(configPath).toString())
-          const usingComponents = configObj.usingComponents
-          depComponents = usingComponents ? Object.keys(usingComponents).map(item => ({
-            name: item,
-            path: usingComponents[item]
-          })) : []
-        }
-      } else {
-        const rootProps: { [key: string]: any } = {}
-        if (isQuickApp && isRoot) {
-          // 如果是快应用，需要提前解析一次 ast，获取 config
-          const aheadTransformResult = wxTransformer({
+        let configObj
+        let taroSelfComponents
+        let depComponents
+        let template
+        let code = fs.readFileSync(file.path).toString()
+        if (isNative) {
+          const templatePath = this.getTemplatePath(file.path)
+          const configPath = this.getConfigPath(file.path)
+          if (fs.existsSync(templatePath)) {
+            template = fs.readFileSync(templatePath).toString()
+          }
+          if (fs.existsSync(configPath)) {
+            configObj = JSON.parse(fs.readFileSync(configPath).toString())
+            const usingComponents = configObj.usingComponents
+            depComponents = usingComponents ? Object.keys(usingComponents).map(item => ({
+              name: item,
+              path: usingComponents[item]
+            })) : []
+          }
+        } else {
+          const rootProps: { [key: string]: any } = {}
+          if (isQuickApp && isRoot) {
+            // 如果是快应用，需要提前解析一次 ast，获取 config
+            const aheadTransformResult = wxTransformer({
+              code,
+              sourcePath: file.path,
+              isRoot,
+              isTyped: REG_TYPESCRIPT.test(file.path),
+              adapter: buildAdapter
+            })
+            const res = parseAst(aheadTransformResult.ast, buildAdapter)
+            if (res.configObj.enablePullDownRefresh || (this.appConfig.window && this.appConfig.window.enablePullDownRefresh)) {
+              rootProps.enablePullDownRefresh = true
+            }
+            if (this.appConfig.tabBar) {
+              rootProps.tabBar = this.appConfig.tabBar
+            }
+            rootProps.pagePath = file.path.replace(this.sourceDir, '').replace(path.extname(file.path), '')
+            if (res.hasEnablePageScroll) {
+              rootProps.enablePageScroll = true
+            }
+          }
+          const transformResult = wxTransformer({
             code,
             sourcePath: file.path,
-            isRoot,
             isTyped: REG_TYPESCRIPT.test(file.path),
+            isRoot,
+            rootProps: isEmptyObject(rootProps) || rootProps,
             adapter: buildAdapter
           })
-          const res = parseAst(aheadTransformResult.ast, buildAdapter)
-          if (res.configObj.enablePullDownRefresh || (this.appConfig.window && this.appConfig.window.enablePullDownRefresh)) {
-            rootProps.enablePullDownRefresh = true
+          let parseAstRes = parseAst(transformResult.ast, buildAdapter)
+          configObj = parseAstRes.configObj
+          if (isRoot) {
+            const showPath = file.path.replace(this.sourceDir, '').replace(path.extname(file.path), '')
+            this.pageConfigs.set(showPath, configObj)
           }
-          if (this.appConfig.tabBar) {
-            rootProps.tabBar = this.appConfig.tabBar
-          }
-          rootProps.pagePath = file.path.replace(this.sourceDir, '').replace(path.extname(file.path), '')
-          if (res.hasEnablePageScroll) {
-            rootProps.enablePageScroll = true
-          }
-        }
-        const transformResult = wxTransformer({
-          code,
-          sourcePath: file.path,
-          isTyped: REG_TYPESCRIPT.test(file.path),
-          isRoot,
-          rootProps: isEmptyObject(rootProps) || rootProps,
-          adapter: buildAdapter
-        })
-        let parseAstRes = parseAst(transformResult.ast, buildAdapter)
-        configObj = parseAstRes.configObj
-        if (isRoot) {
-          const showPath = file.path.replace(this.sourceDir, '').replace(path.extname(file.path), '')
-          this.pageConfigs.set(showPath, configObj)
-        }
-        taroSelfComponents = parseAstRes.taroSelfComponents
-        const usingComponents = configObj.usingComponents
-        if (usingComponents) {
-          Object.keys(usingComponents).forEach(item => {
-            transformResult.components.push({
-              name: item,
-              path: usingComponents[item]
+          taroSelfComponents = parseAstRes.taroSelfComponents
+          const usingComponents = configObj.usingComponents
+          if (usingComponents) {
+            Object.keys(usingComponents).forEach(item => {
+              transformResult.components.push({
+                name: item,
+                path: usingComponents[item]
+              })
             })
+          }
+          if (isRoot) {
+            taroSelfComponents.add('taro-page')
+          }
+          depComponents = transformResult.components
+          template = transformResult.template
+          code = transformResult.code
+        }
+        depComponents = depComponents.filter(item => !/^plugin:\/\//.test(item.path))
+        this.transformComponentsPath(file.path, depComponents)
+        if (isQuickApp) {
+          const scriptPath = file.path
+          const outputScriptPath = scriptPath.replace(this.sourceDir, this.outputDir).replace(path.extname(scriptPath), MINI_APP_FILES[buildAdapter].SCRIPT)
+          const importTaroSelfComponents = getImportTaroSelfComponents(outputScriptPath, this.options.nodeModulesPath, this.outputDir, taroSelfComponents)
+          const usingComponents = configObj.usingComponents
+          let importUsingComponent: any = new Set([])
+          if (usingComponents) {
+            importUsingComponent = new Set(Object.keys(usingComponents).map(item => {
+              return {
+                name: item,
+                path: usingComponents[item]
+              }
+            }))
+          }
+          const importCustomComponents = new Set(depComponents.map(item => {
+            return {
+              path: item.path,
+              name: item.name as string
+            }
+          }))
+          template = generateQuickAppUx({
+            template,
+            imports: new Set([...importTaroSelfComponents, ...importUsingComponent, ...importCustomComponents])
           })
         }
-        if (isRoot) {
-          taroSelfComponents.add('taro-page')
+        if (!this.isWatch) {
+          printLog(processTypeEnum.COMPILE, isRoot ? '发现页面' : '发现组件', this.getShowPath(file.path))
         }
-        depComponents = transformResult.components
-        template = transformResult.template
-        code = transformResult.code
-      }
-      depComponents = depComponents.filter(item => !/^plugin:\/\//.test(item.path))
-      this.transformComponentsPath(file.path, depComponents)
-      if (isQuickApp) {
-        const scriptPath = file.path
-        const outputScriptPath = scriptPath.replace(this.sourceDir, this.outputDir).replace(path.extname(scriptPath), MINI_APP_FILES[buildAdapter].SCRIPT)
-        const importTaroSelfComponents = getImportTaroSelfComponents(outputScriptPath, this.options.nodeModulesPath, this.outputDir, taroSelfComponents)
-        const usingComponents = configObj.usingComponents
-        let importUsingComponent: any = new Set([])
-        if (usingComponents) {
-          importUsingComponent = new Set(Object.keys(usingComponents).map(item => {
+        taroFileTypeMap[file.path] = {
+          type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
+          config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, alias, depComponents), configObj),
+          template,
+          code
+        }
+        if (isQuickApp && taroSelfComponents) {
+          taroFileTypeMap[file.path].taroSelfComponents = new Set(Array.from(taroSelfComponents).map(item => {
+            const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath(this.options.nodeModulesPath)
+            const componentPath = path.join(taroJsQuickAppComponentsPath, item as string, `index${MINI_APP_FILES[buildAdapter].TEMPL}`)
             return {
-              name: item,
-              path: usingComponents[item]
+              name: item as string,
+              path: componentPath
             }
           }))
         }
-        const importCustomComponents = new Set(depComponents.map(item => {
-          return {
-            path: item.path,
-            name: item.name as string
-          }
-        }))
-        template = generateQuickAppUx({
-          template,
-          imports: new Set([...importTaroSelfComponents, ...importUsingComponent, ...importCustomComponents])
-        })
-      }
-      printLog(processTypeEnum.COMPILE, isRoot ? '发现页面' : '发现组件', this.getShowPath(file.path))
-      taroFileTypeMap[file.path] = {
-        type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
-        config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, alias, depComponents), configObj),
-        template,
-        code
-      }
-      if (isQuickApp && taroSelfComponents) {
-        taroFileTypeMap[file.path].taroSelfComponents = new Set(Array.from(taroSelfComponents).map(item => {
-          const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath(this.options.nodeModulesPath)
-          const componentPath = path.join(taroJsQuickAppComponentsPath, item as string, `index${MINI_APP_FILES[buildAdapter].TEMPL}`)
-          return {
-            name: item as string,
-            path: componentPath
-          }
-        }))
-      }
 
-      if (depComponents && depComponents.length) {
-        depComponents.forEach(item => {
-          const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
-          if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
-            const componentName = this.getComponentName(componentPath)
-            const componentTempPath = this.getTemplatePath(componentPath)
-            const isNative = this.isNativePageORComponent(componentTempPath, fs.readFileSync(componentPath).toString())
-            const componentObj = { name: componentName, path: componentPath, isNative }
-            this.components.add(componentObj)
-            this.getComponents(new Set([componentObj]), false)
-          }
-        })
+        if (depComponents && depComponents.length) {
+          depComponents.forEach(item => {
+            const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
+            if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
+              const componentName = this.getComponentName(componentPath)
+              const componentTempPath = this.getTemplatePath(componentPath)
+              const isNative = this.isNativePageORComponent(componentTempPath, fs.readFileSync(componentPath).toString())
+              const componentObj = { name: componentName, path: componentPath, isNative }
+              this.components.add(componentObj)
+              this.getComponents(compiler, new Set([componentObj]), false)
+            }
+          })
+        }
+      } catch (error) {
+        if (error.codeFrame) {
+          this.errors.push(new Error(error.message + '\n' + error.codeFrame))
+        } else {
+          this.errors.push(error)
+        }
       }
     })
   }
@@ -813,9 +839,10 @@ export default class MiniPlugin {
   }
 
   run (compiler: webpack.Compiler) {
+    this.errors = []
     if (!this.options.isBuildPlugin) {
       this.getPages()
-      this.getComponents(this.pages, true)
+      this.getComponents(compiler, this.pages, true)
       this.addEntries(compiler)
     } else {
       this.getPluginFiles(compiler)
@@ -825,6 +852,7 @@ export default class MiniPlugin {
 
   watchRun (compiler: webpack.Compiler, changedFiles: string[]) {
     const changedFile = changedFiles[0]
+    this.isWatch = true
     if (REG_SCRIPTS.test(changedFile)) {
       this.changedFile = changedFile
       this.components.forEach(component => {
