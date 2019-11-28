@@ -1,4 +1,4 @@
-import { internalComponents, Shortcuts, createMiniComponents, controlledComponent, isArray } from '@tarojs/shared'
+import { internalComponents, Shortcuts, createMiniComponents, focusComponents, isArray } from '@tarojs/shared'
 import { Adapter, supportXS } from './adapters'
 import { BUILD_TYPES } from '../utils/constants'
 import { componentConfig } from './component'
@@ -61,7 +61,7 @@ function buildStandardComponentTemplate (comp: Component, level: number, support
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
       ${child}
     </block>
-    `
+  `
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
   <${comp.nodeName} ${buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}">${children}</${comp.nodeName}>
@@ -95,14 +95,13 @@ export function buildXScript () {
 }
 
 function buildComponentTemplate (comp: Component, level: number, supportRecursive: boolean) {
-  return controlledComponent.has(comp.nodeName)
-    ? buildFocusComponentTemplte(comp, level, supportRecursive)
+  return focusComponents.has(comp.nodeName)
+    ? buildFocusComponentTemplte(comp, level)
     : buildStandardComponentTemplate(comp, level, supportRecursive)
 }
 
-function buildFocusComponentTemplte (comp: Component, level: number, supportRecursive: boolean) {
+function buildFocusComponentTemplte (comp: Component, level: number) {
   const attrs = { ...comp.attributes }
-  const nextLevel = supportRecursive ? 0 : level + 1
   const templateName = supportXS()
     ? `xs.c(i, 'tmpl_${level}_')`
     : `i.focus ? 'tmpl_${level}_${comp.nodeName}_focus' : 'tmpl_${level}_${comp.nodeName}_blur'`
@@ -113,19 +112,11 @@ function buildFocusComponentTemplte (comp: Component, level: number, supportRecu
 </template>
 
 <template name="tmpl_${level}_${comp.nodeName}_focus">
-  <${comp.nodeName} ${buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}">
-  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
-    <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />
-  </block>
-  </${comp.nodeName}>
+  <${comp.nodeName} ${buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}" />
 </template>
 
 <template name="tmpl_${level}_${comp.nodeName}_blur">
-  <${comp.nodeName} ${buildAttribute(attrs, comp.nodeName)} id="{{ i.uid }}">
-  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
-    <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />
-  </block>
-  </${comp.nodeName}>
+  <${comp.nodeName} ${buildAttribute(attrs, comp.nodeName)} id="{{ i.uid }}" />
 </template>
 `
 }
