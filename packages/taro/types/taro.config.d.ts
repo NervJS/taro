@@ -304,6 +304,7 @@ declare namespace Taro {
       [key: string]: string
     }
     window?: WindowConfig
-    cloud?: boolean
+    cloud?: boolean,
+    pageOrientation?: 'auto' | 'portrait' | 'landscape'
   }
 }
