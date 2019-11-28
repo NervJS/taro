@@ -5,6 +5,10 @@ import { BUILD_TYPES } from './constants'
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
 export type CustomWebpackConfig = FunctionLikeCustomWebpackConfig | webpack.Configuration
+export interface IInstallOptions {
+  dev: boolean,
+  peerDependencies?: boolean
+}
 export interface IOption {
   [key: string]: any
 }

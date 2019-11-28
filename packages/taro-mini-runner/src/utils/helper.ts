@@ -1,11 +1,11 @@
 import * as path from 'path'
 import * as _ from 'lodash'
 
-import { getInstalledNpmPkgPath, promoteRelativePath, removeHeadSlash } from '.'
+import { resolveNpmSync, promoteRelativePath, removeHeadSlash } from '.'
 import { taroJsQuickAppComponents, REG_STYLE, REG_SCRIPT } from './constants'
 
 export function getTaroJsQuickAppComponentsPath (nodeModulesPath: string): string {
-  const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, nodeModulesPath)
+  const taroJsQuickAppComponentsPkg = resolveNpmSync(taroJsQuickAppComponents, nodeModulesPath)
   if (!taroJsQuickAppComponentsPkg) {
     // printLog(processTypeEnum.ERROR, '包安装', `缺少包 ${taroJsQuickAppComponents}，请安装！`)
     process.exit(0)

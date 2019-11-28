@@ -1,10 +1,13 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
-
-import * as resolvePath from 'resolve'
 import * as t from 'babel-types'
-import { mergeWith } from 'lodash'
+import * as spawn from 'cross-spawn'
+import * as resolvePath from 'resolve'
+import * as child_process from 'child_process'
+
 import chalk from 'chalk'
+import { mergeWith } from 'lodash'
+import { IOption, IComponentObj, IInstallOptions } from './types'
 
 import {
   CONFIG_MAP,
@@ -14,9 +17,19 @@ import {
   processTypeMap,
   processTypeEnum
 } from './constants'
-import { IOption, IComponentObj } from './types'
+
+const npmCached = {}
+const erroneous: string[] = []
+const execSync = child_process.execSync
+const PEERS = /UNMET PEER DEPENDENCY ([a-z\-0-9.]+)@(.+)/gm
+
+const defaultInstallOptions: IInstallOptions = {
+  dev: false,
+  peerDependencies: true
+}
 
 export const isNodeModule = (filename: string) => NODE_MODULES_REG.test(filename)
+export const taroPluginPrefix = '@tarojs/plugin-'
 
 export function isNpmPkg (name: string): boolean {
   if (/^(\.|\/)/.test(name)) {
@@ -39,6 +52,24 @@ export function isEmptyObject (obj: any): boolean {
     }
   }
   return true
+}
+
+export function shouldUseYarn (): boolean {
+  try {
+    execSync('yarn --version', { stdio: 'ignore' })
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+export function shouldUseCnpm (): boolean {
+  try {
+    execSync('cnpm --version', { stdio: 'ignore' })
+    return true
+  } catch (e) {
+    return false
+  }
 }
 
 export function traverseObjectNode (node, buildAdapter: string, parentKey?: string) {
@@ -182,19 +213,96 @@ export function buildUsingComponents (
     usingComponents
   } : {})
 }
-const npmCached = {}
-export function resolveNpmSync (pkgName: string, root): string | null {
+
+export function resolveNpmSync (pluginName: string, root): string {
   try {
-    if (!npmCached[pkgName]) {
-      return resolvePath.sync(pkgName, { basedir: root })
+    if (!npmCached[pluginName]) {
+      const res = resolvePath.sync(pluginName, { basedir: root })
+      return res
     }
-    return npmCached[pkgName]
+    return npmCached[pluginName]
   } catch (err) {
     if (err.code === 'MODULE_NOT_FOUND') {
-      throw new Error(`包 ${pkgName} 未安装`)
+      console.log(chalk.cyan(`缺少npm包${pluginName}，开始安装...`))
+      const installOptions: IInstallOptions = {
+        dev: false
+      }
+      if (pluginName.indexOf(taroPluginPrefix) >= 0) {
+        installOptions.dev = true
+      }
+      installNpmPkg(pluginName, installOptions)
+      return resolveNpmSync(pluginName, root)
     }
-    return null
+    return ''
   }
+}
+
+export function installNpmPkg (pkgList: string[] | string, options: IInstallOptions) {
+  if (!pkgList) {
+    return
+  }
+  if (!Array.isArray(pkgList)) {
+    pkgList = [pkgList]
+  }
+  pkgList = pkgList.filter(dep => {
+    return erroneous.indexOf(dep) === -1
+  })
+
+  if (!pkgList.length) {
+    return
+  }
+  options = Object.assign({}, defaultInstallOptions, options)
+  let installer = ''
+  let args: string[] = []
+
+  if (shouldUseYarn()) {
+    installer = 'yarn'
+  } else if (shouldUseCnpm()) {
+    installer = 'cnpm'
+  } else {
+    installer = 'npm'
+  }
+
+  if (shouldUseYarn()) {
+    args = ['add'].concat(pkgList).filter(Boolean)
+    args.push('--silent', '--no-progress')
+    if (options.dev) {
+      args.push('-D')
+    }
+  } else {
+    args = ['install'].concat(pkgList).filter(Boolean)
+    args.push('--silent', '--no-progress')
+    if (options.dev) {
+      args.push('--save-dev')
+    } else {
+      args.push('--save')
+    }
+  }
+  const output = spawn.sync(installer, args, {
+    stdio: ['ignore', 'pipe', 'inherit']
+  })
+  if (output.status) {
+    pkgList.forEach(dep => {
+      erroneous.push(dep)
+    })
+  }
+  let matches: RegExpExecArray | null = null
+  const peers: string[] = []
+
+  while ((matches = PEERS.exec(output.stdout))) {
+    const pkg = matches[1]
+    const version = matches[2]
+    if (version.match(' ')) {
+      peers.push(pkg)
+    } else {
+      peers.push(`${pkg}@${version}`)
+    }
+  }
+  if (options.peerDependencies && peers.length) {
+    console.info('正在安装 peerDependencies...')
+    installNpmPkg(peers, options)
+  }
+  return output
 }
 
 export function recursiveMerge (src, ...args) {
@@ -209,15 +317,6 @@ export function recursiveMerge (src, ...args) {
       return recursiveMerge(value, srcValue)
     }
   })
-}
-
-export function getInstalledNpmPkgPath (pkgName: string, basedir: string): string | null {
-  const resolvePath = require('resolve')
-  try {
-    return resolvePath.sync(`${pkgName}/package.json`, { basedir })
-  } catch (err) {
-    return null
-  }
 }
 
 export function printLog (type: processTypeEnum, tag: string, filePath?: string) {
