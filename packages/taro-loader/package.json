@@ -26,11 +26,6 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/parser": "^7.7.3",
-    "@babel/template": "^7.6.0",
-    "@babel/traverse": "^7.7.2",
-    "@babel/types": "^7.6.3",
     "loader-utils": "^1.2.3"
   }
 }
