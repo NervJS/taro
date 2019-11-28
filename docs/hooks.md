@@ -25,7 +25,7 @@ title: Hooks
 在 Taro 中使用 Hooks API 很简单，只需要从 `@tarojs/taro` 中引入即可。
 
 ```javascript
-import { useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo } from '@tarojs/taro'
+import { useEffect, useLayoutEffect, useReducer, useState, useContext,useRef, useCallback, useMemo } from '@tarojs/taro'
 ```
 
 ### `useState`
