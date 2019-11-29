@@ -13,95 +13,95 @@ export interface LivePusherProps extends StandardProps {
   /**
    * 推流地址。目前仅支持 flv, rtmp 格式
    */
-  url: string,
+  url?: string,
 
   /**
    * SD（标清）, HD（高清）, FHD（超清）, RTC（实时通话）
    * 默认值：`RTC`
    */
-  mode: 'SD' | 'HD' | 'FHD' | 'RTC',
+  mode?: 'SD' | 'HD' | 'FHD' | 'RTC',
 
   /**
    * 自动推流
    * 默认值：`false`
    */
-  autopush: boolean,
+  autopush?: boolean,
 
   /**
    * 是否静音
    * 默认值：`false`
    */
-  muted: boolean,
+  muted?: boolean,
 
   /**
    * 开启摄像头
    * 默认值：`true`
    */
-  enableCamera: boolean,
+  enableCamera?: boolean,
 
   /**
    * 自动聚集
    * 默认值：`true`
    */
-  autoFocus: boolean,
+  autoFocus?: boolean,
 
   /**
    * 画面方向，可选值有 vertical，horizontal
    * 默认值：`vertical`
    */
-  orientation: 'vertical' | 'horizontal',
+  orientation?: 'vertical' | 'horizontal',
 
   /**
    * 美颜
    * 默认值：`0`
    */
-  beauty: number,
+  beauty?: number,
 
   /**
    * 美白
    * 默认值：`0`
    */
-  whiteness: number,
+  whiteness?: number,
 
   /**
    * 宽高比，可选值有 3:4, 9:16
    * 默认值：`9:16`
    */
-  aspect: '9:16' | '3:4',
+  aspect?: '9:16' | '3:4',
 
   /**
    * 最小码率
    * 默认值：`200`
    */
-  minBitrate: number,
+  minBitrate?: number,
 
   /**
    * 最大码率
    * 默认值：`1000`
    */
-  maxBitrate: number,
+  maxBitrate?: number,
 
   /**
    * 进入后台时推流的等待画面
    */
-  waitingImage: string,
+  waitingImage?: string,
 
   /**
    * 等待画面资源的MD5值
    */
-  waitingImageHash: string,
+  waitingImageHash?: string,
 
   /**
    * 调整焦距
    * 默认值：`false`
    */
-  zoom: boolean,
+  zoom?: boolean,
 
   /**
    * 进入后台时是否静音
    * 默认值：`false`
    */
-  backgroundMute: boolean,
+  backgroundMute?: boolean,
 
   /**
    * 状态变化事件，detail = {code}
