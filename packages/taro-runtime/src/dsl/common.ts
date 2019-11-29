@@ -14,6 +14,10 @@ export function injectPageInstance (inst: Instance<PageProps>, id: string) {
   instances.set(id, inst)
 }
 
+export function getPageInstance (id: string) {
+  return instances.get(id)
+}
+
 function addLeadingSlash (path: string) {
   return path.charAt(0) === '/' ? path : '/' + path
 }

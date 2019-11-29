@@ -3,7 +3,7 @@ import { isFunction, EMPTY_OBJ, ensure } from '@tarojs/shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps, Instance } from './instance'
 import { document } from '../bom/document'
-import { injectPageInstance } from './common'
+import { injectPageInstance, getPageInstance } from './common'
 
 export function connectReactPage (
   R: typeof React,
@@ -19,14 +19,36 @@ export function connectReactPage (
       return h(
         'root',
         { id },
-        h(component, {
+        h(PageContext.Provider, { value: id }, h(component, {
           ...props,
           ...refs
-        })
+        }))
       )
     }
   }
 }
+
+export let PageContext: React.Context<string>
+
+export const taroHooks = (lifecycle: string) => {
+  return (fn: Function) => {
+    const id = React.useContext(PageContext)
+    let inst = getPageInstance(id)
+    React.useLayoutEffect(() => {
+      let first = false
+      if (inst == null) {
+        first = true
+        inst = Object.create(null)
+      }
+      inst![lifecycle] = fn.bind(null)
+      if (first) {
+        injectPageInstance(inst!, id)
+      }
+    }, [])
+  }
+}
+
+export let react: typeof React
 
 export function createReactApp (App: React.ComponentClass) {
   // 初始值设置为 any 主要是为了过 TS 的校验
@@ -43,6 +65,10 @@ export function createReactApp (App: React.ComponentClass) {
     R = require('react')
     ReactDOM = require('react-dom')
   }
+
+  react = R
+
+  PageContext = R.createContext('')
 
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
 

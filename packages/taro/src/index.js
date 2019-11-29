@@ -11,7 +11,21 @@ import {
   otherApis,
   initPxTransform
 } from './native-apis'
-import { Current } from '@tarojs/runtime'
+import {
+  Current,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useTitleClick,
+  useOptionMenuClick,
+  usePullIntercept,
+  useRouter
+} from '@tarojs/runtime'
 
 let eventCenter
 if (process.env.TARO_ENV === 'alipay') {
@@ -35,7 +49,19 @@ export const Taro = {
   initPxTransform,
   Link,
   interceptors,
-  Current
+  Current,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useTitleClick,
+  useOptionMenuClick,
+  usePullIntercept,
+  useRouter
 }
 
 export default Taro
