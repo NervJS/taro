@@ -69,7 +69,6 @@ function buildStandardComponentTemplate (comp: Component, level: number, support
 `
 }
 
-// @TODO: 其它小程序的 XS 语法
 function buildXsTemplate () {
   let xs = ''
   if (Adapter.type === BUILD_TYPES.WEAPP) {
@@ -79,7 +78,7 @@ function buildXsTemplate () {
   } else if (Adapter.type === BUILD_TYPES.SWAN) {
     xs = `<import-sjs module="xs" src="./utils.${Adapter.xs}" />`
   } else if (Adapter.type === BUILD_TYPES.QQ) {
-    xs = `<qs module="xs" src="./utils.${Adapter.xs}" />`
+    xs = `<wxs module="xs" src="./utils.${Adapter.xs}" />`
   }
   return xs
 }

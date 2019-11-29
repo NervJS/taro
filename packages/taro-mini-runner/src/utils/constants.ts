@@ -50,7 +50,7 @@ export const enum TEMPLATE_TYPES {
   ALIPAY = '.axml',
   TT = '.ttml',
   QUICKAPP = '.ux',
-  QQ = '.qml',
+  QQ = '.wxml',
   JD = '.jxml'
 }
 
@@ -80,7 +80,7 @@ export const enum XS_TYPES {
   ALIPAY = '.sjs',
   TT = '.sjs',
   QUICKAPP = '.js',
-  QQ = '.qs',
+  QQ = '.wxs',
   JD = '.js'
 }
 

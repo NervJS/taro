@@ -78,6 +78,7 @@ const qqAdapter: Adapter = {
   forItem: 'qq:for-item',
   forIndex: 'qq:for-index',
   key: 'qq:key',
+  xs: 'wxs',
   type: BUILD_TYPES.QQ
 }
 
