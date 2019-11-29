@@ -38,6 +38,10 @@
   align-items: center;
 }
 
+.headerWrapper > header > a:nth-child(2){
+  margin-right: 20px;
+}
+
 .fixedHeaderContainer header .logo {
   width: 30px;
   height: auto;
