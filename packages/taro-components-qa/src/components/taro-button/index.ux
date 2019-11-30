@@ -4,13 +4,14 @@
     disabled="{{disabled}}"
     style="{{customstyle}}"
   >
-  <image if="{{loading}}" src="{{loadingImg}}"></image>
+    <image class="{{imageClass}}" if="{{loading}}" src="{{loadingImg}}" ></image>
     <slot></slot>
   </div>
+
 </template>
 
 <script>
-import LOADING_IMG from './img.js'
+import LOADING_IMG from './img.js';
 
 export default {
   props: {
@@ -44,6 +45,11 @@ export default {
       required: false,
       default: false
     },
+    circle: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     loading: {
       type: Boolean,
       required: false,
@@ -60,50 +66,70 @@ export default {
     btnStyle: {},
     btnClass: '',
     loading: false,
-    loadingImg: LOADING_IMG,
+    loadingImg: LOADING_IMG
   }),
 
   onInit() {
-    this.btnClass = `taro-button taro-button-${this.type} taro-button-${this.size} ${this.plain ? `taro-button-plain` : `taro-button-noplain`} ${this.disabled ? `taro-button-disabled` : `taro-button-nodisabled`} ${this.circle ? `taro-button-circle` : `taro-button-nocircle`} ${this.className}`
+    this.btnClass = `taro-button taro-button-${this.type} taro-button-${this.size} ${this.plain ? `taro-button-plain` : `taro-button-noplain`} ${this.disabled ? `taro-button-disabled` : `taro-button-nodisabled`} ${this.circle ? `taro-button-circle` : `taro-button-nocircle`} ${this.className}`;
+    this.imageClass = `taro-image taro-image-${this.size} `;
   },
-  
-  onclick(){	
-    	
-  }
+
+  onclick() {}
 };</script>
 
 <style>
+  /* @import '../../../common/css/common.css';
+    @TODO 1.待编译时适配公共样式载入，控制需从父类引入才能生效的样式  2.构建属性解耦
+  */
+
   .taro-button {
     height: 85px;
     width: 710px;
+    margin-bottom: 12px;
     padding-left: 14px;
-    padding-right: 14px;
+    padding-right: 10px;
     font-size: 18px;
     text-align: center;
+    justify-content: center;
     text-decoration: none;
     line-height: 46px;
     border-radius: 7px;
-    border-color: lightslategray;  
+    border: 1px solid #AFAFAF;   
     background-color: #F7F7F7;
+  }
+  .taro-image {
+    margin-right: 10px;
+    margin-top: 10px;
+    height: 60px;
+  }
+  .taro-image-small {
+    margin-left: 5px;
+    margin-top: 8px;
+    margin-bottom: 5px;
+    height: 40px;
+  }
+  .taro-button-txt {
+    text-overflow: ellipsis;
+    lines: 1;
+    color: #000000;
+    font-size: 36px;
   }
   .taro-button:active {
     border-width: 1px;
     border-color: lightslategray;  
     background-color: #F6F6E5;
   }
-  .taro-button-circle {
-    border-radius: 30px;
-  }
   .taro-button-small {
+    margin-right: 20px;
     height: 56px;
     width: 116px;
-    border: 1px solid #6190E8;
-    background-color: #6190E8;
   }
   .taro-button-full {
-    margin-left: 0px;
     border-radius: 0px;
     width: 100%;
+  }
+  .taro-button-circle {
+    border-radius: 30px;
   }
   .taro-button-primary{
     color: #FFF;
@@ -134,7 +160,7 @@ export default {
     background-color: #ab2048;
     border-color: #ab2048; 
     color: white;
-  } 
+  }
   .taro-button-plain {
     opacity: 0.6;
   }
