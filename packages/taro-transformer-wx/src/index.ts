@@ -247,6 +247,22 @@ export default function transform (options: Options): TransformResult {
         resetTSClassProperty(mainClassNode.body.body)
       }
     }
+    // 针对1. const pic = './images/xx.png'或者
+    // 2. const obj = {pic: './images/xx.png'}
+    // 这两种类型的图片地址赋值，转换成H5时，需要替换为require('./images/xx.png')，才能正确的模块化，否则会图片资源找不到
+    traverse(ast, {
+      Literal: function(path) {
+        if ((t.isVariableDeclarator(path.parent) || t.isObjectProperty(path.parent)) &&
+            t.isStringLiteral(path) &&
+            // 不处理http, blob等线上图片地址
+            /^(?!http|blob).+\.(png|jpg|gif|jpeg|svg)$/.test(path.node.value)) {
+            path.replaceWith(t.callExpression(
+                t.identifier('require'),
+                [t.stringLiteral(path.node.value)]
+            ));
+        }
+      }
+    });
     return { ast } as any
   }
   // transformFromAst(ast, code)
