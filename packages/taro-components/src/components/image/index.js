@@ -13,11 +13,12 @@ class Image extends Nerv.Component {
       aspectFillMode: 'width'
     }
     this.imageOnLoad = this.imageOnLoad.bind(this)
+    this.observer = {}
   }
 
   componentDidMount () {
     if (this.props.lazyLoad) {
-      const lazyImg = new IntersectionObserver((entries, observer) => {
+      this.observer = new IntersectionObserver((entries, observer) => {
         // 异步 api 关系
         if (entries[entries.length - 1].isIntersecting) {
           this.setState({ isLoaded: true }, () => {
@@ -28,11 +29,12 @@ class Image extends Nerv.Component {
       }, {
         rootMargin: '300px 0px'
       })
-      lazyImg.observe(this.imgRef)
+      this.observer.observe(this.imgRef)
     }
   }
 
   componentWillUnMount () {
+    this.observer.disconnect && this.observer.disconnect()
   }
 
   imageOnLoad (e) {
