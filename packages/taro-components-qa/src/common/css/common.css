@@ -1,0 +1,57 @@
+.index {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.secondary {
+  flex-direction: column;
+}
+
+.plain {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.full {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.small {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.taro-button-txt {
+  text-overflow: ellipsis;
+  color: #FFF;
+  font-size: 36px;
+}
+
+.font {
+  color: #FFF;
+  font-size: 30px;
+  text-align: center;
+}
+
+.txt {
+  text-align: center;
+  font-size: 30px;
+  color: #000000;
+}
+
+.txt-white {
+  text-align: center;
+  font-size: 30px;
+  color: #ffffff;
+}
+
+.txt-blue {
+  text-align: center;
+  font-size: 30px;
+  color: #6190E8;
+}
