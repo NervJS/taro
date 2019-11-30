@@ -166,7 +166,7 @@ function bindEvents (weappComponentConf, events, isPage) {
   })
 }
 
-export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curAllProps = {}) {
+export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curAllProps = {}, extraProps) {
   let newProps = Object.assign({}, curAllProps, propsFromPropsManager)
 
   if (!isEmptyObject(defaultProps)) {
@@ -176,6 +176,11 @@ export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curA
       }
     }
   }
+  
+  if (extraProps) {
+    newProps = Object.assign({}, newProps, extraProps)
+  }
+  
   return newProps
 }
 
