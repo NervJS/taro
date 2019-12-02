@@ -31,8 +31,11 @@ function inlineStyle (style) {
 }
 
 function setTransform (el, val) {
-  el.style.webkitTransform = val
   el.style.transform = val
+  el.style.OTransform = val
+  el.style.msTransform = val
+  el.style.MozTransform = val
+  el.style.WebkitTransform = val
 }
 
 function isFunction (obj) {
