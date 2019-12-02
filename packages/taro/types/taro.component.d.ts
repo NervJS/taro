@@ -24,38 +24,15 @@ declare namespace Taro {
     onResize?(obj: any): void
   }
 
-  interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
-    $scope?: any
-  }
-
   interface ComponentOptions {
     addGlobalClass?: boolean
   }
-
-  interface FunctionComponent<P = {}> {
-    (props: Readonly<P>): JSX.Element
-    defaultProps?: Partial<P>
-    config?: Config
-    options?: ComponentOptions
-  }
-
-  type FC<P = {}> = FunctionComponent<P>
-
-  interface StatelessFunctionComponent {
-    (): JSX.Element
-  }
-
-  type SFC = StatelessFunctionComponent
 
   interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
     new (...args: any[]): Component<P, {}>
-    propTypes?: any
+    propTypes?: any // TODO: Use prop-types type definition.
     defaultProps?: Partial<P>
     displayName?: string
-  }
-
-  interface ComponentOptions {
-    addGlobalClass?: boolean
   }
 
   interface RouterInfo {
@@ -106,8 +83,17 @@ declare namespace Taro {
     }
   }
 
+  interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
+    $scope?: any
+  }
+
   class Component<P, S> {
-    constructor(props?: P, context?: any)
+    constructor(props: Readonly<P>)
+    /**
+     * @deprecated
+     * @see https://reactjs.org/docs/legacy-context.html
+     */
+    constructor(props: P, context?: any)
 
     config?: Config
 
@@ -135,15 +121,33 @@ declare namespace Taro {
 
     forceUpdate(callBack?: () => any): void
 
-    render(): any
+    render(): React.ReactNode
 
-    props: Readonly<P> & Readonly<{ children?: any }>
+    readonly props: Readonly<P> & Readonly<{ children?: React.ReactNode }>
     state: Readonly<S>
     context: any
     refs: {
       [key: string]: any
     }
   }
+
+  type PropsWithChildren<P> = P & { children?: React.ReactNode };
+
+  interface FunctionComponent<P = {}> {
+    (props: PropsWithChildren<P>, context?: any): React.ReactElement | null
+    propTypes?: any // TODO: Use prop-types type definition.
+    defaultProps?: Partial<P>
+    config?: Config
+    options?: ComponentOptions
+  }
+
+  type FC<P = {}> = FunctionComponent<P>
+
+  interface StatelessFunctionComponent {
+    (): JSX.Element
+  }
+
+  type SFC = StatelessFunctionComponent
 
   class PureComponent<P = {}, S = {}> extends Component<P, S> {}
 
