@@ -343,8 +343,9 @@ function installDep (path: string) {
 export { Compiler }
 
 export async function build (appPath: string, buildConfig: IBuildConfig) {
-  const {watch} = buildConfig
+  const { watch } = buildConfig
   process.env.TARO_ENV = BUILD_TYPES.RN
+  await Util.checkCliAndFrameworkVersion(appPath, BUILD_TYPES.RN)
   const compiler = new Compiler(appPath)
   fs.ensureDirSync(compiler.tempPath)
   const t0 = performance.now()

@@ -17,7 +17,6 @@ export default async function build (appPath, buildConfig: IBuildConfig) {
   } else if (type !== BUILD_TYPES.H5 && (type !== BUILD_TYPES.QUICKAPP || !watch)) {
     Util.emptyDirectory(outputPath)
   }
-  await Util.checkCliAndFrameworkVersion(appPath, type)
   switch (type) {
     case BUILD_TYPES.H5:
       buildForH5(appPath, { watch, port })
