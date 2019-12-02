@@ -318,8 +318,7 @@ export function recursiveFindNodeModules (filePath: string): string {
   if (fs.existsSync(nodeModules)) {
     return nodeModules
   }
-  const len = dirname.split('\\').length-1 || dirname.split('/').length-1
-  if (len <= 1) {
+  if (dirname.split(path.sep).length <= 1) {
       printLog(processTypeEnum.ERROR, `在${dirname}目录下`, `未找到node_modules文件夹，请先安装相关依赖库！`)
       return nodeModules;
   }
