@@ -79,9 +79,6 @@ function _request (options) {
       response.headers.forEach((val, key) => {
         res.header[key] = val
       })
-      if(!response.ok) {
-        throw response
-      }
       if (options.responseType === 'arraybuffer') {
         return response.arrayBuffer()
       }
