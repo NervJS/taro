@@ -735,10 +735,10 @@ export default class MiniPlugin {
         relativePath = item.replace(this.sourceDir, '')
       }
       const extname = path.extname(item)
-      const templatePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].TEMPL)
-      const jsonPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].CONFIG)
-      const scriptPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].SCRIPT)
-      const stylePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].STYLE)
+      const templatePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].TEMPL).replace(/\\/g, '/')
+      const jsonPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].CONFIG).replace(/\\/g, '/')
+      const scriptPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].SCRIPT).replace(/\\/g, '/')
+      const stylePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].STYLE).replace(/\\/g, '/')
       const itemInfo = taroFileTypeMap[item]
       let template = itemInfo.template
       if (!isQuickApp) {
