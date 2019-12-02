@@ -772,7 +772,7 @@ export default class MiniPlugin {
           pageConfigs: this.pageConfigs,
           quickappJSON: this.options.quickappJSON
         })
-        const quickappJSONStr = JSON.stringify(quickappJSON)
+        const quickappJSONStr = JSON.stringify(quickappJSON).replace(/\\\\/g, '/')
         compilation.assets['./manifest.json'] = {
           size: () => quickappJSONStr.length,
           source: () => quickappJSONStr
