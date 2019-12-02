@@ -32,8 +32,10 @@ declare namespace Taro {
     addGlobalClass?: boolean
   }
 
+  type PropsWithChildren<P> = Readonly<P> & Readonly<{ children?: any }>
+
   interface FunctionComponent<P = {}> {
-    (props: Readonly<P>): JSX.Element
+    (props: PropsWithChildren<P>): JSX.Element
     defaultProps?: Partial<P>
     config?: Config
     options?: ComponentOptions
@@ -80,7 +82,7 @@ declare namespace Taro {
 
     /**
      * 可以于 `this.$router.path` 中获取当前页面路径
-     * 
+     *
      * @example
      * componentWillMount () {
      *   console.log(this.$router.path)
