@@ -1,6 +1,7 @@
 import { Config as IConfig } from '@tarojs/taro'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
+import { transformFromAst } from 'babel-core'
 
 import { BUILD_TYPES, taroJsComponents, QUICKAPP_SPECIAL_COMPONENTS } from './constants'
 import { traverseObjectNode, isNpmPkg } from '../utils'
@@ -19,7 +20,13 @@ export default function parseAst (
   const taroSelfComponents = new Set<string>()
   const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
 
-  traverse(ast, {
+  const newAst = transformFromAst(ast, '', {
+    plugins: [
+      [require('babel-plugin-preval')]
+    ]
+  }).ast as t.File
+
+  traverse(newAst, {
     ClassDeclaration (astPath) {
       const node = astPath.node
       let hasCreateData = false
