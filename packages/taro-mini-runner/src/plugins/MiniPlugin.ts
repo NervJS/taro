@@ -265,6 +265,7 @@ export default class MiniPlugin {
     if (isTaroComponent) {
       return component.path
     }
+    const componentName = component.name!.split('|')[1] || component.name
     const { ast } = transformResult
     traverse(ast, {
       ExportNamedDeclaration (astPath) {
@@ -274,14 +275,14 @@ export default class MiniPlugin {
         if (source && source.type === 'StringLiteral') {
           specifiers.forEach(specifier => {
             const exported = specifier.exported
-            if (kebabCase(exported.name) === component.name) {
+            if (kebabCase(exported.name) === componentName) {
               componentRealPath = resolveScriptPath(path.resolve(path.dirname(component.path as string), source.value))
             }
           })
         } else {
           specifiers.forEach(specifier => {
             const exported = specifier.exported
-            if (kebabCase(exported.name) === component.name) {
+            if (kebabCase(exported.name) === componentName) {
               importExportName = exported.name
             }
           })
