@@ -50,7 +50,7 @@ declare namespace Taro {
     /** 线条的端点样式。用法同 [CanvasContext.setLineCap()]。
      *
      * 最低基础库： `1.9.90` */
-    lineCap: number
+    lineCap: 'lineCap' | 'round' | 'square'
     /** 虚线偏移量，初始值为0
      *
      * 最低基础库： `1.9.90` */
