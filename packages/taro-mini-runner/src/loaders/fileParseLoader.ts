@@ -14,7 +14,8 @@ import {
   taroJsRedux,
   QUICKAPP_SPECIAL_COMPONENTS,
   PARSE_AST_TYPE,
-  NODE_MODULES_REG
+  NODE_MODULES_REG,
+  excludeReplaceTaroFrameworkPkgs
 } from '../utils/constants'
 import {
   isNpmPkg,
@@ -192,9 +193,6 @@ function processAst (
         )
         return
       }
-      if (NODE_MODULES_REG.test(sourceFilePath) && sourceFilePath.indexOf(taroMiniAppFramework) >= 0) {
-        return
-      }
       if (isNpmPkg(value)) {
         if (value === taroJsComponents) {
           if (isQuickApp) {
@@ -219,7 +217,10 @@ function processAst (
             if (defaultSpecifier) {
               taroImportDefaultName = defaultSpecifier
             }
-            value = taroMiniAppFramework
+            excludeReplaceTaroFrameworkPkgs.add(taroMiniAppFramework)
+            if (!Array.from(excludeReplaceTaroFrameworkPkgs).some(item => sourceFilePath.replace(/\\/g, '/').indexOf(item) >= 0)) {
+              value = taroMiniAppFramework
+            }
           } else if (value === taroJsRedux) {
             specifiers.forEach(item => {
               if (item.type === 'ImportSpecifier') {
@@ -250,9 +251,6 @@ function processAst (
           callee.name = NON_WEBPACK_REQUIRE
           return
         }
-        if (NODE_MODULES_REG.test(sourceFilePath) && sourceFilePath.indexOf(taroMiniAppFramework) >= 0) {
-          return
-        }
         if (isNpmPkg(value)) {
           if (value === taroJsComponents) {
             if (isQuickApp) {
@@ -275,7 +273,10 @@ function processAst (
                 const id = parentNode.declarations[0].id
                 if (value === taroJsFramework && id.type === 'Identifier') {
                   taroImportDefaultName = id.name
-                  value = taroMiniAppFramework
+                  excludeReplaceTaroFrameworkPkgs.add(taroMiniAppFramework)
+                  if (!Array.from(excludeReplaceTaroFrameworkPkgs).some(item => sourceFilePath.replace(/\\/g, '/').indexOf(item) >= 0)) {
+                    value = taroMiniAppFramework
+                  }
                 } else if (value === taroJsRedux) {
                   const declarations = parentNode.declarations
                   declarations.forEach(item => {
