@@ -217,6 +217,8 @@ export const taroJsComponents = '@tarojs/components'
 export const taroJsQuickAppComponents = '@tarojs/components-qa'
 export const taroJsFramework = '@tarojs/taro'
 export const taroJsRedux = '@tarojs/redux'
+export const taroJsMobx = '@tarojs/mobx'
+export const taroJsMobxCommon = '@tarojs/mobx-common'
 
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
@@ -301,3 +303,5 @@ export const processTypeMap: IProcessTypeMap = {
     color: 'blue'
   }
 }
+
+export const excludeReplaceTaroFrameworkPkgs = new Set([taroJsRedux, taroJsMobx, taroJsMobxCommon])
