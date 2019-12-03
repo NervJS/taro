@@ -1,5 +1,31 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.26...v) (2019-11-27)
+# [](https://github.com/NervJS/taro/compare/v1.3.27...v) (2019-12-03)
+
+
+
+<a name="1.3.27"></a>
+## [1.3.27](https://github.com/NervJS/taro/compare/v1.3.26...v1.3.27) (2019-12-03)
+
+
+### Bug Fixes
+
+* **cli:** 修复编译 ui 库及 plugin 时报错的问题，close [#4965](https://github.com/NervJS/taro/issues/4965) ([36ef638](https://github.com/NervJS/taro/commit/36ef638))
+* **components:** h5 image在unmount时取消IntersectionObserver监听 ([#4975](https://github.com/NervJS/taro/issues/4975)) ([a42bc6e](https://github.com/NervJS/taro/commit/a42bc6e))
+* **qq:** import nextTick & updateComponent ([59ecaad](https://github.com/NervJS/taro/commit/59ecaad))
+* **taro:** modify live-pusher props are not required ([#4952](https://github.com/NervJS/taro/issues/4952)) ([c10feed](https://github.com/NervJS/taro/commit/c10feed))
+* **taro:** 修复页面 config 参数缺失 pageOrientation 的类型定义 ([#4961](https://github.com/NervJS/taro/issues/4961)) ([6277ea3](https://github.com/NervJS/taro/commit/6277ea3))
+* **taro:** 修正 lineCap 的类型 ([#4992](https://github.com/NervJS/taro/issues/4992)) ([3bbd955](https://github.com/NervJS/taro/commit/3bbd955))
+* **taro.component:** 修改类组件构造器定义，保持向后兼容 ([e8eb71e](https://github.com/NervJS/taro/commit/e8eb71e))
+* **taro.components:** fix Taro.FC typings and others, close [#4987](https://github.com/NervJS/taro/issues/4987) ([57c3346](https://github.com/NervJS/taro/commit/57c3346))
+* **transformer-wx:** enhancing the eslint checker ([#4995](https://github.com/NervJS/taro/issues/4995)) ([27d9905](https://github.com/NervJS/taro/commit/27d9905))
+* set transform method ([f681da1](https://github.com/NervJS/taro/commit/f681da1))
+* **template:** default 模版补充 rn 和 quickapp 的依赖 ([7ea8892](https://github.com/NervJS/taro/commit/7ea8892))
+* **tt:** 修复头条小程序报nextTick is undefined ([f75ee9b](https://github.com/NervJS/taro/commit/f75ee9b))
+
+
+### Reverts
+
+* **template:** 从默认模版中移除 RN 依赖 ([9dcdc61](https://github.com/NervJS/taro/commit/9dcdc61))
 
 
 
