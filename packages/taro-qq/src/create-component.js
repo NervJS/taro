@@ -1,8 +1,9 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
 import { commitAttachRef, detachAllRef, Current, eventCenter } from '@tarojs/taro'
 import { isEmptyObject, isFunction, isArray } from './util'
-import { mountComponent } from './lifecycle'
+import { mountComponent, updateComponent } from './lifecycle'
 import { cacheDataSet, cacheDataGet, cacheDataHas } from './data-cache'
+import nextTick from './next-tick'
 import propsManager from './propsManager'
 
 const anonymousFnNamePreffix = 'funPrivate'
