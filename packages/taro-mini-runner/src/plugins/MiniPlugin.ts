@@ -418,6 +418,7 @@ export default class MiniPlugin {
       const transformResult = wxTransformer({
         code,
         sourcePath: appEntry,
+        sourceDir: this.sourceDir,
         isTyped: REG_TYPESCRIPT.test(appEntry),
         isApp: true,
         adapter: buildAdapter
@@ -582,6 +583,7 @@ export default class MiniPlugin {
             const aheadTransformResult = wxTransformer({
               code,
               sourcePath: file.path,
+              sourceDir: this.sourceDir,
               isRoot,
               isTyped: REG_TYPESCRIPT.test(file.path),
               adapter: buildAdapter
@@ -601,6 +603,7 @@ export default class MiniPlugin {
           const transformResult = wxTransformer({
             code,
             sourcePath: file.path,
+            sourceDir: this.sourceDir,
             isTyped: REG_TYPESCRIPT.test(file.path),
             isRoot,
             rootProps: isEmptyObject(rootProps) || rootProps,
