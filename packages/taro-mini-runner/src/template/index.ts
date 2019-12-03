@@ -71,15 +71,15 @@ function buildStandardComponentTemplate (comp: Component, level: number, support
 
 function buildXsTemplate () {
   let xs = ''
-  if (Adapter.type === BUILD_TYPES.WEAPP) {
+
+  if (Adapter.type === BUILD_TYPES.WEAPP || Adapter.type === BUILD_TYPES.QQ) {
     xs = `<wxs module="xs" src="./utils.${Adapter.xs}" />`
   } else if (Adapter.type === BUILD_TYPES.ALIPAY) {
     xs = `<import-sjs name="xs" from="./utils.${Adapter.xs}" />`
   } else if (Adapter.type === BUILD_TYPES.SWAN) {
     xs = `<import-sjs module="xs" src="./utils.${Adapter.xs}" />`
-  } else if (Adapter.type === BUILD_TYPES.QQ) {
-    xs = `<wxs module="xs" src="./utils.${Adapter.xs}" />`
   }
+
   return xs
 }
 
@@ -153,7 +153,38 @@ function buildTemplate (level: number, supportRecursive: boolean, restart = fals
   }
 
   template += buildPlainTextTemplate(level)
+  template += buildThirdPartyTemplate(level, supportRecursive)
   template += buildContainerTemplate(level, restart)
+
+  return template
+}
+
+function buildThirdPartyAttr (attrs: Set<string>) {
+  return [...attrs].reduce((str, attr) => {
+    if (attr.startsWith('@')) { // vue event
+      return str + `${attr.slice(1)}="eh" `
+    } else if (attr.startsWith('bind')) {
+      return str + `${attr}="eh" `
+    }
+    return str + `${attr}="{{ i.${attr} }}" `
+  }, '')
+}
+
+function buildThirdPartyTemplate (level: number, supportRecursive: boolean) {
+  const nextLevel = supportRecursive ? 0 : level + 1
+  let template = ''
+
+  for (const [compName, attrs] of componentConfig.thirdPartyComponents) {
+    template += `
+<template name="tmpl_${level}_${compName}">
+  <${compName}${buildThirdPartyAttr(attrs)} id="{{ i.uid }}">
+    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
+      <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />
+    </block>
+  </${compName}>
+</template>
+`
+  }
 
   return template
 }

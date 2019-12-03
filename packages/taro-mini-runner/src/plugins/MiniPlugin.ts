@@ -16,6 +16,7 @@ import { buildBaseTemplate, buildPageTemplate, buildXScript, buildBaseComponentT
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import { setAdapter } from '../template/adapters'
+import { componentConfig } from '../template/component'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -195,10 +196,18 @@ export default class TaroMiniPlugin {
       path: fileConfigPath
     }
     if (usingComponents) {
-      const depComponents = usingComponents ? Object.keys(usingComponents).map(item => ({
-        name: item,
-        path: usingComponents[item]
-      })) : []
+      const componentNames = Object.keys(usingComponents)
+      const depComponents: Array<{ name: string, path: string }> = []
+      for (const compName of componentNames) {
+        depComponents.push({
+          name: compName,
+          path: usingComponents[compName]
+        })
+
+        if (!componentConfig.thirdPartyComponents.has(compName)) {
+          componentConfig.thirdPartyComponents.set(compName, new Set())
+        }
+      }
       depComponents.forEach(item => {
         const componentPath = resolveMainFilePath(path.resolve(path.dirname(file.path), item.path))
         if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {

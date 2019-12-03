@@ -332,6 +332,12 @@ export const getModule = (appPath: string, {
                 if (capitalize(toCamelCase(nodeName)) in internalComponents) {
                   componentConfig.includes.add(nodeName)
                 }
+
+                const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)
+                if (usingComponent != null) {
+                  el.attrsList.filter(a => !a.dynamic).map(a => usingComponent.add(a.name))
+                }
+
                 return el
               }
             }]
