@@ -88,12 +88,12 @@ declare namespace Taro {
   }
 
   class Component<P, S> {
-    constructor(props: Readonly<P>)
+    constructor(props?: Readonly<P>)
     /**
      * @deprecated
      * @see https://reactjs.org/docs/legacy-context.html
      */
-    constructor(props: P, context?: any)
+    constructor(props?: P, context?: any)
 
     config?: Config
 
