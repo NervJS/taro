@@ -175,7 +175,8 @@ export function buildUsingComponents (
       componentPath = component.path
     }
     if (component.name) {
-      usingComponents[component.name] = (componentPath as string).replace(path.extname(componentPath as string), '')
+      const componentName = component.name.split('|')[0]
+      usingComponents[componentName] = (componentPath as string).replace(path.extname(componentPath as string), '')
     }
   }
   return Object.assign({}, isComponent ? { component: true } : { usingComponents: {} }, components.length ? {
