@@ -1,4 +1,4 @@
-import { internalComponents, Shortcuts, createMiniComponents, focusComponents, isArray } from '@tarojs/shared'
+import { internalComponents, Shortcuts, createMiniComponents, focusComponents, isArray, capitalize } from '@tarojs/shared'
 import { Adapter, supportXS } from './adapters'
 import { BUILD_TYPES } from '../utils/constants'
 import { componentConfig } from './component'
@@ -162,7 +162,10 @@ function buildTemplate (level: number, supportRecursive: boolean, restart = fals
 function buildThirdPartyAttr (attrs: Set<string>) {
   return [...attrs].reduce((str, attr) => {
     if (attr.startsWith('@')) { // vue event
-      return str + `${attr.slice(1)}="eh" `
+      if (Adapter.type === BUILD_TYPES.ALIPAY) {
+        return str + `on${capitalize(attr.slice(1))}="eh" `
+      }
+      return str + `bind${attr.slice(1)}="eh" `
     } else if (attr.startsWith('bind')) {
       return str + `${attr}="eh" `
     }
@@ -177,7 +180,7 @@ function buildThirdPartyTemplate (level: number, supportRecursive: boolean) {
   for (const [compName, attrs] of componentConfig.thirdPartyComponents) {
     template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName}${buildThirdPartyAttr(attrs)} id="{{ i.uid }}">
+  <${compName} ${buildThirdPartyAttr(attrs)} id="{{ i.uid }}">
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
       <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />
     </block>

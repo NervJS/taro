@@ -186,9 +186,13 @@ export default class TaroMiniPlugin {
     })
   }
 
+  replaceExt (file: string, ext: string) {
+    return path.join(path.dirname(file), path.basename(file, path.extname(file)) + `${ext}`)
+  }
+
   compileFile (file: IComponent) {
     const filePath = file.path
-    const fileConfigPath = this.getConfigFilePath(filePath)
+    const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
     const usingComponents = fileConfig.usingComponents
     this.filesConfig[this.getConfigFilePath(file.name)] = {
@@ -419,7 +423,10 @@ export default class TaroMiniPlugin {
       if (config) {
         this.generateConfigFile(compilation, component.path, config.content)
       }
-      this.generateTemplateFile(compilation, component.path, buildPageTemplate, importBaseTemplatePath)
+      const templateFn = component.isNative
+        ? () => fs.readFileSync(this.replaceExt(component.path, MINI_APP_FILES[this.options.buildAdapter].TEMPL), 'utf-8')
+        : buildPageTemplate
+      this.generateTemplateFile(compilation, component.path, templateFn, importBaseTemplatePath)
     })
     this.pages.forEach(page => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
