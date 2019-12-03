@@ -14,7 +14,6 @@ import {
   taroJsRedux,
   QUICKAPP_SPECIAL_COMPONENTS,
   PARSE_AST_TYPE,
-  NODE_MODULES_REG,
   excludeReplaceTaroFrameworkPkgs
 } from '../utils/constants'
 import {
