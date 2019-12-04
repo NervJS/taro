@@ -443,6 +443,7 @@ export default class MiniPlugin {
         code: transformResult.code
       }
       this.pages = new Set([
+        ...this.pages,
         ...appPages.map(item => {
           const pagePath = resolveScriptPath(path.join(this.sourceDir, item))
           const pageTemplatePath = this.getTemplatePath(pagePath)
