@@ -131,7 +131,6 @@ export default class TaroMiniPlugin {
 
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
         const { framework } = this.options
-
         if (module.miniType === META_TYPE.ENTRY) {
           module.loaders.unshift({
             loader: '@tarojs/taro-loader',

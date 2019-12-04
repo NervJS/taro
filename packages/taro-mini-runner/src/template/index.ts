@@ -168,7 +168,14 @@ function buildThirdPartyAttr (attrs: Set<string>) {
       return str + `bind${attr.slice(1)}="eh" `
     } else if (attr.startsWith('bind')) {
       return str + `${attr}="eh" `
+    } else if (attr.startsWith('on')) {
+      if (Adapter.type === BUILD_TYPES.ALIPAY) {
+        return str + `${attr}="eh" `
+      }
+
+      return str + `bind${attr.slice(2).toLowerCase()}="eh" `
     }
+
     return str + `${attr}="{{ i.${attr} }}" `
   }, '')
 }
