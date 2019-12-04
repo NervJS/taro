@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.0-beta.5...v) (2019-12-03)
+# [](https://github.com/NervJS/taro/compare/v2.0.0-beta.6...v) (2019-12-04)
+
+
+
+<a name="2.0.0-beta.6"></a>
+# [2.0.0-beta.6](https://github.com/NervJS/taro/compare/v2.0.0-beta.5...v2.0.0-beta.6) (2019-12-04)
+
+
+### Bug Fixes
+
+* **mini-runner:** 修复分包页面丢失的问题 ([ba87378](https://github.com/NervJS/taro/commit/ba87378))
 
 
 
