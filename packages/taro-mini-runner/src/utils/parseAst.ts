@@ -19,6 +19,7 @@ export default function parseAst (
   let hasEnablePageScroll
   const taroSelfComponents = new Set<string>()
   const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
+  let componentClassName: string = ''
 
   const newAst = transformFromAst(ast, '', {
     plugins: [
@@ -62,6 +63,40 @@ export default function parseAst (
               }
             }
           })
+          if (node.id === null) {
+            componentClassName = '_TaroComponentClass'
+          } else if (node.id.name === 'App') {
+            componentClassName = '_App'
+          } else {
+            componentClassName = node.id.name
+          }
+        }
+      }
+    },
+    ClassExpression (astPath) {
+      const node = astPath.node
+      if (node.superClass) {
+        let hasCreateData = false
+        astPath.traverse({
+          ClassMethod (astPath) {
+            if (astPath.get('key').isIdentifier({ name: '_createData' })) {
+              hasCreateData = true
+            }
+          }
+        })
+        if (hasCreateData) {
+          if (node.id === null) {
+            const parentNode = astPath.parentPath.node as any
+            if (t.isVariableDeclarator(astPath.parentPath)) {
+              componentClassName = parentNode.id.name
+            } else {
+              componentClassName = '_TaroComponentClass'
+            }
+          } else if (node.id.name === 'App') {
+            componentClassName = '_App'
+          } else {
+            componentClassName = node.id.name
+          }
         }
       }
     },
@@ -113,6 +148,17 @@ export default function parseAst (
             }
           }
           astPath.remove()
+        }
+      }
+    },
+    AssignmentExpression (astPath) {
+      const node = astPath.node
+      const left = node.left
+      if (t.isMemberExpression(left) && t.isIdentifier(left.object)) {
+        if (left.object.name === componentClassName
+            && t.isIdentifier(left.property)
+            && left.property.name === 'config') {
+          configObj = traverseObjectNode(node.right, buildAdapter)
         }
       }
     }
