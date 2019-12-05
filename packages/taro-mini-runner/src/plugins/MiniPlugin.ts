@@ -144,6 +144,7 @@ export default class MiniPlugin {
   tabBarIcons: Set<string>
   isWatch: boolean
   errors: any[]
+  changedFileType: PARSE_AST_TYPE | undefined
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -783,7 +784,7 @@ export default class MiniPlugin {
           source: () => quickappJSONStr
         }
       }
-      if (template && (!this.changedFile || this.changedFile === item)) {
+      if (template && (!this.changedFile || this.changedFile === item || this.changedFileType === PARSE_AST_TYPE.ENTRY)) {
         compilation.assets[templatePath] = {
           size: () => template!.length,
           source: () => template
@@ -860,12 +861,52 @@ export default class MiniPlugin {
     this.isWatch = true
     if (REG_SCRIPTS.test(changedFile)) {
       this.changedFile = changedFile
-      this.components.forEach(component => {
-        if (component.path === changedFile) {
-          this.components.delete(component)
+      const { type, obj } = this.getChangedFileInfo(changedFile)
+      this.changedFileType = type
+      if (this.changedFileType === PARSE_AST_TYPE.ENTRY
+        || this.changedFileType === PARSE_AST_TYPE.PAGE
+        || this.changedFileType === PARSE_AST_TYPE.COMPONENT) {
+        this.components.forEach(component => {
+          if (component.path === changedFile) {
+            this.components.delete(component)
+          }
+        })
+        this.errors = []
+        if (this.changedFileType === PARSE_AST_TYPE.ENTRY) {
+          this.run(compiler)
+        } else {
+          if (!this.options.isBuildPlugin) {
+            this.getComponents(compiler, new Set([obj]), this.changedFileType === PARSE_AST_TYPE.PAGE)
+          } else {
+            this.getPluginFiles(compiler)
+          }
+          this.transferFileContent(compiler)
         }
-      })
-      this.run(compiler)
+      }
+    }
+  }
+
+  getChangedFileInfo (filePath) {
+    let type
+    let obj
+    this.pages.forEach(page => {
+      if (page.path === filePath) {
+        type = PARSE_AST_TYPE.PAGE
+        obj = page
+      }
+    })
+    this.components.forEach(component => {
+      if (component.path === filePath) {
+        type = PARSE_AST_TYPE.COMPONENT
+        obj = component
+      }
+    })
+    if (filePath === this.appEntry) {
+      type = PARSE_AST_TYPE.ENTRY
+    }
+    return {
+      type,
+      obj
     }
   }
 
