@@ -1,0 +1,28 @@
+{
+  "name": "@tarojs/runner-utils",
+  "version": "2.0.0-beta.6",
+  "description": "Taro runner utilities.",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "garfield550",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "scss-bundle": "^3.0.2"
+  }
+}
