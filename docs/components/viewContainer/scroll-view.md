@@ -50,14 +50,10 @@ export default class PageView extends Component {
     super(...arguments)
   }
   
-  onScrollToUpper(e){
-    console.log(e.detail)
-  }
+  onScrollToUpper() {}
   
   // or 使用箭头函数
-  // onScrollToUpper = (e) => {
-  //  console.log(e.detail)
-  // }
+  // onScrollToUpper = () => {}
   
   onScroll(e){
     console.log(e.detail)
