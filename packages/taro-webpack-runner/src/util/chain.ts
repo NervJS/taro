@@ -18,6 +18,7 @@ import { Option, BuildConfig } from './types'
 
 const getSassLoaderOption = async ({ sass, sassLoaderOption }: BuildConfig) => {
   let bundledContent = ''
+  sassLoaderOption = sassLoaderOption || {}
   if (!sass) {
     return sassLoaderOption
   }
