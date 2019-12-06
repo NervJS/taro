@@ -18,7 +18,8 @@ interface BuildConfig {
  * Return bundled sass content.
  * 
  * @param {string} url Absolute file path.
- * @param {(string | undefined)} projectDirectory Absolute project location, where node_modules are located. Used for resolving tilde imports.
+ * @param {(string | undefined)} projectDirectory Absolute project location, where node_modules are located.
+ * Used for resolving tilde imports.
  * @returns Bundle result.
  */
 export async function getBundleResult(url: string, 
@@ -32,6 +33,13 @@ export async function getBundleResult(url: string,
   return res
 }
 
+/**
+ * Return bundled sass content, but input resource can be a single string or an array.
+ * @param {(string | string[])} resource Input file path or a path array.
+ * @param {(string | undefined)} projectDirectory Absolute project location, where node_modules are located.
+ * Used for resolving tilde imports.
+ * @returns Bundle result.
+ */
 export async function getBundleContent(resource: string | string[],
   projectDirectory: string | undefined = undefined
 ): Promise<string | undefined> {
@@ -56,6 +64,11 @@ export async function getBundleContent(resource: string | string[],
   return result
 }
 
+/**
+ * Return the merged sass loader option.
+ * @param {BuildConfig} param0 Build config.
+ * @returns Merged sass loader option.
+ */
 export async function getSassLoaderOption(
   { sass, sassLoaderOption }: BuildConfig
 ): Promise<LoaderOption> {
