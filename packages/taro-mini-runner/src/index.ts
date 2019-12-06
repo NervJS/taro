@@ -1,9 +1,9 @@
 import * as webpack from 'webpack'
+import { getSassLoaderOption } from '@tarojs/runner-utils'
 
-import { IBuildConfig } from './utils/types'
+import { IBuildConfig, IOption } from './utils/types'
 import { BUILD_TYPES } from './utils/constants'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
-import Bundler from './utils/bundler'
 import buildConf from './webpack/build.conf'
 
 const customizeChain = (chain, customizeFunc: Function) => {
@@ -12,58 +12,8 @@ const customizeChain = (chain, customizeFunc: Function) => {
   }
 }
 
-const getSassLoaderOption = async ({ sass, sassLoaderOption }: IBuildConfig) => {
-  let bundledContent = ''
-  sassLoaderOption = sassLoaderOption || {}
-  if (!sass) {
-    return sassLoaderOption
-  }
-  if (sass.resource && !sass.projectDirectory) {
-    const { resource } = sass
-    try {
-      if (typeof resource === 'string') {
-        const res = await Bundler(resource)
-        bundledContent += res.bundledContent
-        if (Array.isArray(resource)) {
-          for (const url of resource) {
-            const res = await Bundler(url)
-            bundledContent += res.bundledContent
-          }
-        }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  if (sass.resource && sass.projectDirectory) {
-    const { resource, projectDirectory } = sass
-    try {
-      if (typeof resource === 'string') {
-        const res = await Bundler(resource, projectDirectory)
-        bundledContent += res.bundledContent
-      }
-      if (Array.isArray(resource)) {
-        for (const url of resource) {
-          const res = await Bundler(url, projectDirectory)
-          bundledContent += res.bundledContent
-        }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  if (sass.data) {
-    bundledContent += sass.data
-  }
-  return {
-    ...sassLoaderOption,
-    data: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
-  }
-}
-
 const makeConfig = async (buildConfig: IBuildConfig) => {
-  const sassLoaderOption = await getSassLoaderOption(buildConfig)
+  const sassLoaderOption: IOption = await getSassLoaderOption(buildConfig)
   return {
     ...buildConfig,
     sassLoaderOption
