@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getBundleContent test sass resource array 1`] = `
+"$color-ui-info: #78A4FA !default;
+$color-ui-positive: #13CE66 !default;
+$color-ui-negative: #FF4949 !default;
+$color-ui-warning: #FFC82C !default;
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+"
+`;
+
+exports[`getBundleContent test sass resource array with directory 1`] = `
+"$color-ui-info: #78A4FA !default;
+$color-ui-positive: #13CE66 !default;
+$color-ui-negative: #FF4949 !default;
+$color-ui-warning: #FFC82C !default;
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+"
+`;
+
+exports[`getBundleContent test sass resource path 1`] = `
+"$color-ui-info: #78A4FA !default;
+$color-ui-positive: #13CE66 !default;
+$color-ui-negative: #FF4949 !default;
+$color-ui-warning: #FFC82C !default;
+"
+`;
+
+exports[`getBundleContent test sass resource path with directory 1`] = `
+"$color-ui-info: #78A4FA !default;
+$color-ui-positive: #13CE66 !default;
+$color-ui-negative: #FF4949 !default;
+$color-ui-warning: #FFC82C !default;
+"
+`;
+
+exports[`getBundleResult test file name and project directory path 1`] = `
+"$color-ui-info: #78A4FA !default;
+$color-ui-positive: #13CE66 !default;
+$color-ui-negative: #FF4949 !default;
+$color-ui-warning: #FFC82C !default;
+"
+`;
+
+exports[`getBundleResult test file path 1`] = `
+"$color-ui-info: #78A4FA !default;
+$color-ui-positive: #13CE66 !default;
+$color-ui-negative: #FF4949 !default;
+$color-ui-warning: #FFC82C !default;
+"
+`;
+
+exports[`getSassLoaderOption test get sass loader option 1`] = `
+Object {
+  "data": "$color-ui-info: #78A4FA !default;
+$color-ui-positive: #13CE66 !default;
+$color-ui-negative: #FF4949 !default;
+$color-ui-warning: #FFC82C !default;
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+",
+  "implementation": "dart-sass",
+}
+`;
