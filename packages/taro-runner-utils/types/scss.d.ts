@@ -20,5 +20,5 @@ interface BuildConfig {
  */
 export declare function getBundleResult(url: string, projectDirectory?: string | undefined): Promise<BundleResult>;
 export declare function getBundleContent(resource: string | string[], projectDirectory?: string | undefined): Promise<string | undefined>;
-export declare function getSassLoaderOption<T extends BuildConfig>({ sass, sassLoaderOption }: T): Promise<LoaderOption>;
+export declare function getSassLoaderOption({ sass, sassLoaderOption }: BuildConfig): Promise<LoaderOption>;
 export default getSassLoaderOption;
