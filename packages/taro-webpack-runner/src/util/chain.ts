@@ -1,5 +1,5 @@
 import * as apis from '@tarojs/taro-h5/dist/taroApis'
-import * as Bundler from '@tarojs/plugin-sass/bundler'
+import { getSassLoaderOption } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as sass from 'sass'
@@ -16,60 +16,8 @@ import { recursiveMerge } from '.'
 import { getPostcssPlugins } from '../config/postcss.conf'
 import { Option, BuildConfig } from './types'
 
-const getSassLoaderOption = async ({ sass, sassLoaderOption }: BuildConfig) => {
-  let bundledContent = ''
-  sassLoaderOption = sassLoaderOption || {}
-  if (!sass) {
-    return sassLoaderOption
-  }
-  if (sass.resource && !sass.projectDirectory) {
-    const { resource } = sass
-    try {
-      if (typeof resource === 'string') {
-        const res = await Bundler(resource)
-        bundledContent += res.bundledContent
-        if (Array.isArray(resource)) {
-          for (const url of resource) {
-            const res = await Bundler(url)
-            bundledContent += res.bundledContent
-          }
-        }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  // check resource & projectDirectory property
-  // projectDirectory used for resolving tilde imports
-  if (sass.resource && sass.projectDirectory) {
-    const { resource, projectDirectory } = sass
-    try {
-      if (typeof resource === 'string') {
-        const res = await Bundler(resource, projectDirectory)
-        bundledContent += res.bundledContent
-      }
-      if (Array.isArray(resource)) {
-        for (const url of resource) {
-          const res = await Bundler(url, projectDirectory)
-          bundledContent += res.bundledContent
-        }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  if (sass.data) {
-    bundledContent += sass.data
-  }
-  return {
-    ...sassLoaderOption,
-    data: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
-  }
-}
-
 const makeConfig = async (buildConfig: BuildConfig) => {
-  const sassLoaderOption = await getSassLoaderOption(buildConfig)
+  const sassLoaderOption: Option = await getSassLoaderOption(buildConfig)
   return {
     ...buildConfig,
     sassLoaderOption
