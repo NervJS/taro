@@ -56,8 +56,8 @@ export async function getBundleContent(resource: string | string[],
   return result
 }
 
-export async function getSassLoaderOption<T extends BuildConfig>(
-  { sass, sassLoaderOption }: T
+export async function getSassLoaderOption(
+  { sass, sassLoaderOption }: BuildConfig
 ): Promise<LoaderOption> {
   sassLoaderOption = sassLoaderOption || {}
 
