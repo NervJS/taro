@@ -5,7 +5,7 @@
     "alwaysStrict": true,
     "baseUrl": ".",
     "declaration": true,
-    "declarationDir": "types/taro-runner-utils",
+    "declarationDir": "types",
     "experimentalDecorators": true,
     "module": "CommonJS",
     "moduleResolution": "node",
@@ -22,8 +22,7 @@
     "traceResolution": false
   },
   "include": [
-    "./src",
-    "./types"
+    "./src"
   ],
   "exclude": [
     "./src/__tests__"
