@@ -21,6 +21,11 @@
   "author": "garfield550",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@types/jest": "^24.0.23",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
     "typescript": "^3.7.3"
   },
   "dependencies": {
