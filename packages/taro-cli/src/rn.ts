@@ -187,27 +187,30 @@ class Compiler {
   buildTemp () {
     return new Promise((resolve, reject) => {
       const filePaths: string[] = []
-      klaw(this.sourceDir)
-        .on('data', file => {
-          if (!file.stats.isDirectory()) {
-            filePaths.push(file.path)
-          }
+      this.processFile(this.entryFilePath).then(() => {
+        klaw(this.sourceDir)
+            .on('data', file => {
+            if (!file.stats.isDirectory()) {
+                filePaths.push(file.path);
+            }
         })
-        .on('error', (err, item) => {
-          console.log(err.message)
-          console.log(item.path)
+            .on('error', (err, item) => {
+            console.log(err.message);
+            console.log(item.path);
         })
-        .on('end', () => {
-          Promise.all(filePaths.map(filePath => this.processFile(filePath)))
-            .then(() => {
-              if (!this.hasJDReactOutput) {
-                this.initProjectFile()
-                resolve()
-              } else {
-                resolve()
-              }
-            })
-        })
+            .on('end', () => {
+            Promise.all(filePaths.filter(f => f !== this.entryFilePath).map(filePath => this.processFile(filePath)))
+                .then(() => {
+                if (!this.hasJDReactOutput) {
+                    this.initProjectFile();
+                    resolve();
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+      })
     })
   }
 
