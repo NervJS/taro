@@ -8,7 +8,7 @@ sidebar_label: Video
 > 属性及支持度
 
 | 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :-: | :- | :- | :- |
+|:-:|:-:|:-:|:--|
 | src            | String      |        | 要播放视频的资源地址                                         |
 | controls       | Boolean     | true   | 是否显示默认播放控件（播放/暂停按钮、播放进度、时间）        |
 | autoplay       | Boolean     | false  | 是否自动播放                                                 |
@@ -42,7 +42,7 @@ sidebar_label: Video
 | showPlayBtn | Boolean | true | 是否显示视频底部控制栏的播放按钮                         |
 | showProgress | Boolean | true | 若不设置，宽度大于240时才会显示                         |
 | vslideGesture | Boolean | false | 在非全屏模式下，是否开启亮度与音量调节手势（同 pageGesture）                         |
-| vslideGestureInFullscreen | Boolean | true |在全屏模式下，是否开启亮度与音量调节手势                         |
+| vslideGestureInFullscreen | Boolean | true |在全屏模式下，是否开启亮度与音量调节手势                         | |
 
 
 > 各端支持度
