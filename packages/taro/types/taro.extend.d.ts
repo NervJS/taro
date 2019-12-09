@@ -76,7 +76,7 @@ declare namespace Taro {
   function pxTransform(size: number): string
   function initPxTransform(config: { designWidth: number; deviceRatio: object })
 
-  interface RequestParams extends request.Param<any> {
+  interface RequestParams extends request.Option<any> {
     [propName: string]: any
   }
 

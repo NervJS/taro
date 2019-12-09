@@ -8,7 +8,6 @@ import { History } from '../utils/types'
 type SuccessCallback = (res: any) => any
 type FailCallback = (err: any) => any
 type CompleteCallback = () => any
-type Result = { errMsg?: string }
 
 type CustomRoutes = Record<string, string>
 
@@ -61,8 +60,10 @@ const getTargetUrl = (url: string, customRoutes: CustomRoutes) => {
 }
 
 const createNavigateTo = ({ customRoutes }: RouterConfig, history?: History) => {
-  return function ({ url }: NavigateToOption): Promise<Result> {
-    const res: Result = {}
+  return function ({ url }: NavigateToOption): Promise<Taro.General.CallbackResult> {
+    const res: Taro.General.CallbackResult = {
+      errMsg: ''
+    }
 
     try {
       invariant(url, 'navigateTo must be called with a url')
@@ -83,8 +84,10 @@ const createNavigateTo = ({ customRoutes }: RouterConfig, history?: History) => 
 }
 
 const createNavigateBack = ({ customRoutes }: RouterConfig, history?: History) => {
-  return function (opts: NavigateBackOption = {}) {
-    const res: Result = {}
+  return function (opts: NavigateBackOption = {}): Promise<Taro.General.CallbackResult> {
+    const res: Taro.General.CallbackResult = {
+      errMsg: ''
+    }
     try {
       const { delta = 1 } = opts
       invariant(delta >= 0, 'navigateBack must be called with a delta greater than 0')
@@ -104,8 +107,10 @@ const createNavigateBack = ({ customRoutes }: RouterConfig, history?: History) =
 }
 
 const createRedirectTo = ({ customRoutes }: RouterConfig, history?: History) => {
-  return function ({ url }: RedirectToOption) {
-    const res: Result = {}
+  return function ({ url }: RedirectToOption): Promise<Taro.General.CallbackResult> {
+    const res: Taro.General.CallbackResult = {
+      errMsg: ''
+    }
 
     try {
       invariant(url, 'redirectTo must be called with a url')
@@ -136,8 +141,10 @@ const createReLaunch = ({ customRoutes }: RouterConfig, history?: History) => {
   } catch (e) {
     console.log(e.message)
   }
-  return function ({ url }) {
-    const res: Result = {}
+  return function ({ url }): Promise<Taro.General.CallbackResult> {
+    const res: Taro.General.CallbackResult = {
+      errMsg: ''
+    }
     try {
       if (history) {
         history.go(-(history.length - 1))
