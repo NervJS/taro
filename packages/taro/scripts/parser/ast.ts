@@ -151,6 +151,7 @@ export function generateDocumentation(
   /** Serialize a signature (call or construct) */
   function serializeSignature(signature: ts.Signature, name?: string) {
     const typeParameters = signature.getTypeParameters() || []
+
     return {
       name,
       jsTags: signature.getJsDocTags(),
