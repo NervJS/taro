@@ -16,12 +16,11 @@ declare namespace Taro {
   /**
    * 保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
    * @example
-   ```tsx
-   Taro.saveImageToPhotosAlbum({
-       success(res) {
-       }
-   })
-   ```
+   * ```tsx
+   * Taro.saveImageToPhotosAlbum({
+   *   success: function (res) {}
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.saveImageToPhotosAlbum.html
    */
   function saveImageToPhotosAlbum(res: saveImageToPhotosAlbum.Param): Promise<saveImageToPhotosAlbum.Promised>
@@ -41,12 +40,12 @@ declare namespace Taro {
   /**
    * 预览图片。
    * @example
-   ```tsx
-   Taro.previewImage({
-     current: '', // 当前显示图片的http链接
-     urls: [] // 需要预览的图片http链接列表
-   })
-   ```
+   * ```tsx
+   * Taro.previewImage({
+   *   current: '', // 当前显示图片的http链接
+   *   urls: [] // 需要预览的图片http链接列表
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewImage.html
    */
   function previewImage(res: previewImage.Param): Promise<any>
@@ -97,26 +96,26 @@ declare namespace Taro {
   /**
    * 获取图片信息
    * @example
-   ```tsx
-   Taro.getImageInfo({
-     src: 'images/a.jpg',
-     success: function (res) {
-       console.log(res.width)
-       console.log(res.height)
-     }
-   })
-         Taro.chooseImage({
-     success: function (res) {
-       Taro.getImageInfo({
-         src: res.tempFilePaths[0],
-         success: function (res) {
-           console.log(res.width)
-           console.log(res.height)
-         }
-       })
-     }
-   })
-   ```
+   * ```tsx
+   * Taro.getImageInfo({
+   *   src: 'images/a.jpg',
+   *   success: function (res) {
+   *     console.log(res.width)
+   *     console.log(res.height)
+   *   }
+   * })
+   * Taro.chooseImage({
+   *   success: function (res) {
+   *     Taro.getImageInfo({
+   *       src: res.tempFilePaths[0],
+   *       success: function (res) {
+   *         console.log(res.width)
+   *         console.log(res.height)
+   *       }
+   *     })
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.getImageInfo.html
    */
   function getImageInfo(res: getImageInfo.Param): Promise<getImageInfo.Promised>
@@ -178,17 +177,17 @@ declare namespace Taro {
   /**
    * 从本地相册选择图片或使用相机拍照。
    * @example
-   ```tsx
-   Taro.chooseImage({
-     count: 1, // 默认9
-     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-     success: function (res) {
-       // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-       var tempFilePaths = res.tempFilePaths
-     }
-   })
-   ```
+   * ```tsx
+   * Taro.chooseImage({
+   *   count: 1, // 默认9
+   *   sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+   *   sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+   *   success: function (res) {
+   *     // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+   *     var tempFilePaths = res.tempFilePaths
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html
    */
   function chooseImage(res?: chooseImage.Param): Promise<chooseImage.Promised>

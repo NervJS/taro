@@ -1,9 +1,31 @@
 declare namespace Taro {
-  /**
-   * 获取当前帐号信息
+  namespace getAccountInfoSync {
+    /** 帐号信息 */
+    interface AccountInfo {
+      /** 小程序帐号信息 */
+      miniProgram: MiniProgram
+      /** 插件帐号信息（仅在插件中调用时包含这一项） */
+      plugin: Plugin
+    }
+    /** 小程序帐号信息 */
+    interface MiniProgram {
+      /** 小程序 appId */
+      appId: string
+    }
+    /** 插件帐号信息（仅在插件中调用时包含这一项） */
+    interface Plugin {
+      /** 插件 appId */
+      appId: string
+      /** 插件版本号 */
+      version: string
+    }
+  }
+
+  /** 获取当前帐号信息
+   * @supported weapp
    * @example
    * ```tsx
-   * const accountInfo = wx.getAccountInfoSync();
+   * const accountInfo = Taro.getAccountInfoSync();
    * 
    * console.log(accountInfo.miniProgram.appId) // 小程序 appId
    * console.log(accountInfo.plugin.appId) // 插件 appId
@@ -11,31 +33,5 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/account-info/wx.getAccountInfoSync.html
    */
-  function getAccountInfoSync(): getAccountInfoSync.Return
-  namespace getAccountInfoSync {
-    interface Return {
-      /**
-       * 小程序帐号信息
-       */
-      miniProgram: {
-        /**
-         * 小程序 appId
-         */
-        appId: string
-      }
-      /**
-       * 插件帐号信息（仅在插件中调用时包含这一项）
-       */
-      plugin?: {
-        /**
-         * 插件 appId
-         */
-        appId: string
-        /**
-         * 插件版本号
-         */
-        version: string
-      }
-    }
-  }
+  function getAccountInfoSync(): getAccountInfoSync.AccountInfo
 }

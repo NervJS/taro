@@ -1,81 +1,57 @@
 declare namespace Taro {
   namespace requestPayment {
-    type Param = {
-      /**
-       * 时间戳从1970年1月1日00:00:00至今的秒数,即当前的时间
-       */
-      timeStamp: string
-      /**
-       * 随机字符串，长度为32个字符以下。
-       */
+    interface Option {
+      /** 随机字符串，长度为32个字符以下 */
       nonceStr: string
-      /**
-       * 统一下单接口返回的 prepay\_id 参数值，提交格式如：prepay\_id=_*_
-       */
+      /** 统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=*** */
       package: string
-      /**
-       * 签名算法，暂支持 MD5
-       */
-      signType: string
-      /**
-       * 签名,具体签名方案参见[小程序支付接口文档](https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7&index=3);
-       */
+      /** 签名，具体签名方案参见 [小程序支付接口文档](https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7&index=3) */
       paySign: string
-      /**
-       * 接口调用成功的回调函数
-       */
-      success?: ParamPropSuccess
-      /**
-       * 接口调用失败的回调函数
-       */
-      fail?: ParamPropFail
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      complete?: ParamPropComplete
+      /** 时间戳，从 1970 年 1 月 1 日 00:00:00 至今的秒数，即当前的时间 */
+      timeStamp: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 签名算法 */
+      signType?: keyof signType
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
     }
-    /**
-     * 接口调用成功的回调函数
-     */
-    type ParamPropSuccess = (res: any) => any
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: any) => any
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = () => any
+
+    interface signType {
+      /** MD5 */
+      MD5
+      /** HMAC-SHA256 */
+      'HMAC-SHA256'
+    }
   }
-  /**
-   * 发起微信支付。
-   *
-   * **回调结果：**
-   *
-   *   回调类型  |  errMsg                                 |  说明
-   * ------------|-----------------------------------------|------------------------------------------
-   *   success   |  requestPayment:ok                      |  调用支付成功
-   *   fail      |  requestPayment:fail cancel             |  用户取消支付
-   *   fail      |  requestPayment:fail (detail message)   |调用支付失败，其中 detail message 为后台返回的详细失败原因
-   *
-   * **Bug & Tip：**
-   *
-   * 1.  `bug`: 6.5.2 及之前版本中，用户取消支付不会触发 fail 回调，只会触发 complete 回调，回调 errMsg 为 'requestPayment:cancel'
+
+  /** 发起微信支付。了解更多信息，请查看[微信支付接口文档](https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_3&index=1)
+   * @supported weapp, h5
    * @example
    * ```tsx
    * Taro.requestPayment({
-   *   'timeStamp': '',
-   *   'nonceStr': '',
-   *   'package': '',
-   *   'signType': 'MD5',
-   *   'paySign': '',
-   *   'success':function(res){
-   *   },
-   *   'fail':function(res){
-   *   }
+   *   timeStamp: '',
+   *   nonceStr: '',
+   *   package: '',
+   *   signType: 'MD5',
+   *   paySign: '',
+   *   success: function (res) { },
+   *   fail: function (res) { }
    * })
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.requestPayment.html
    */
-  function requestPayment(res: requestPayment.Param): Promise<any>
+  function requestPayment(option: requestPayment.Option): Promise<General.CallbackResult>
+
+  /** 支付各个安全场景验证人脸
+   * @supported weapp
+   * @example
+   * ```tsx
+   * Taro.faceVerifyForPay(params).then(...)
+   * ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.faceVerifyForPay.html
+   */
+  function faceVerifyForPay(option: any): Promise<any>
 }

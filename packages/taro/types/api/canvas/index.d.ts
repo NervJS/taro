@@ -21,6 +21,7 @@ declare namespace Taro {
    * 创建 canvas 绘图上下文（指定 canvasId）。在自定义组件下，第二个参数传入组件实例this，以操作组件内 `<canvas/>` 组件
    *
    * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
    */
   function createCanvasContext(canvasId: string, componentInstance: any): CanvasContext
@@ -50,7 +51,7 @@ declare namespace Taro {
     /** 线条的端点样式。用法同 [CanvasContext.setLineCap()]。
      *
      * 最低基础库： `1.9.90` */
-    lineCap: 'lineCap' | 'round' | 'square'
+    lineCap: number
     /** 虚线偏移量，初始值为0
      *
      * 最低基础库： `1.9.90` */
@@ -94,11 +95,11 @@ declare namespace Taro {
      *   - 创建一个圆可以指定起始弧度为 0，终止弧度为 2 * Math.PI。
      *   - 用 `stroke` 或者 `fill` 方法来在 `canvas` 中画弧线。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    // Draw coordinates
    ctx.arc(100, 75, 50, 0, 2   Math.PI)
    ctx.setFillStyle('#EEEEEE')
@@ -182,11 +183,11 @@ declare namespace Taro {
      *   - 在最开始的时候相当于调用了一次 `beginPath`。
      *   - 同一个路径内的多次 `setFillStyle`、`setStrokeStyle`、`setLineWidth`等设置，以最后一次设置为准。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    // begin path
    ctx.rect(10, 10, 100, 30)
    ctx.setFillStyle('yellow')
@@ -204,17 +205,17 @@ declare namespace Taro {
    ctx.draw()
    ```
      *
-     * ![] */
+     */
     beginPath(): void
     /** [CanvasContext.bezierCurveTo()](CanvasContext.bezierCurveTo.md)
      *
      * 创建三次方贝塞尔曲线路径。曲线的起始点为路径中前一个点。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    // Draw points
    ctx.beginPath()
    ctx.arc(20, 20, 2, 0, 2   Math.PI)
@@ -262,7 +263,7 @@ declare namespace Taro {
      *
      * 清除画布上在该矩形区域内的内容
      *
-     * **示例代码**
+     * @example
      *
      *
      * clearRect 并非画一个白色的矩形在地址区域，而是清空，为了有直观感受，对 canvas 加了一层背景色。
@@ -270,7 +271,7 @@ declare namespace Taro {
    <canvas canvas-id="myCanvas" style="border: 1px solid; background: #123456;"/>
    ```
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(0, 0, 150, 200)
    ctx.setFillStyle('blue')
@@ -278,7 +279,7 @@ declare namespace Taro {
    ctx.clearRect(10, 10, 150, 75)
    ctx.draw()
    ```
-     * ![] */
+     */
     clearRect(
       /** 矩形路径左上角的横坐标 */
       x: number,
@@ -293,14 +294,14 @@ declare namespace Taro {
      *
      * 从原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。可以在使用 `clip` 方法前通过使用 `save` 方法对当前画布区域进行保存，并在以后的任意时间通过`restore`方法对其进行恢复。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
-   wx.downloadFile({
+   const ctx = Taro.createCanvasContext('myCanvas')
+   Taro.downloadFile({
    url: 'http://is5.mzstatic.com/image/thumb/Purple128/v4/75/3b/90/753b907c-b7fb-5877-215a-759bd73691a4/source/50x50bb.jpg',
-   success: function(res) {
+   success: function (res) {
    ctx.save()
    ctx.beginPath()
    ctx.arc(50, 50, 25, 0, 2 Math.PI)
@@ -319,11 +320,11 @@ declare namespace Taro {
      *
      * 关闭一个路径。会连接起点和终点。如果关闭路径后没有调用 `fill` 或者 `stroke` 并开启了新的路径，那之前的路径将不会被渲染。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.moveTo(10, 10)
    ctx.lineTo(100, 10)
    ctx.lineTo(100, 100)
@@ -334,7 +335,7 @@ declare namespace Taro {
      * ![]
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    // begin path
    ctx.rect(10, 10, 100, 30)
    ctx.closePath()
@@ -351,7 +352,7 @@ declare namespace Taro {
    ctx.draw()
    ```
      *
-     * ![] */
+     */
     closePath(): void
     /** [CanvasContext.createPattern(string image, string repetition)](CanvasContext.createPattern.md)
      *
@@ -368,13 +369,13 @@ declare namespace Taro {
      *
      * 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
      *
-     * **示例代码**
+     * @example
      *
      *
      * 第二次 draw() reserve 为 true。所以保留了上一次的绘制结果，在上下文设置的 fillStyle 'red' 也变成了默认的 'black'。
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(10, 10, 150, 100)
    ctx.draw()
@@ -383,20 +384,20 @@ declare namespace Taro {
    ```
      * ![]
      *
-     * **示例代码**
+     * @example
      *
      *
      * 第二次 draw() reserve 为 false。所以没有保留了上一次的绘制结果和在上下文设置的 fillStyle 'red'。
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(10, 10, 150, 100)
    ctx.draw()
    ctx.fillRect(50, 50, 150, 100)
    ctx.draw()
    ```
-     * ![] */
+     */
     draw(
       /** 本次绘制是否接着上一次绘制。即 reserve 参数为 false，则在本次调用绘制之前 native 层会先清空画布再继续绘制；若 reserve 参数为 true，则保留当前画布上的内容，本次调用 drawCanvas 绘制的内容覆盖在上面，默认 false。 */
       reserve?: boolean,
@@ -407,7 +408,7 @@ declare namespace Taro {
      *
      * 绘制图像到画布
      *
-     * **示例代码**
+     * @example
      *
      *
      *
@@ -418,15 +419,15 @@ declare namespace Taro {
      * - drawImage(imageResource, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) 从 1.9.0 起支持
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
-   wx.chooseImage({
-   success: function(res){
+   const ctx = Taro.createCanvasContext('myCanvas')
+   Taro.chooseImage({
+   success: function (res){
    ctx.drawImage(res.tempFilePaths[0], 0, 0, 150, 100)
    ctx.draw()
    }
    })
    ```
-     * ![] */
+     */
     drawImage(
       /** 所要绘制的图片资源 */
       imageResource: string,
@@ -473,14 +474,14 @@ declare namespace Taro {
      *
      * 对当前路径中的内容进行填充。默认的填充色为黑色。
      *
-     * **示例代码**
+     * @example
      *
      *
      *
      * 如果当前路径没有闭合，fill() 方法会将起点和终点进行连接，然后填充。
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.moveTo(10, 10)
    ctx.lineTo(100, 10)
    ctx.lineTo(100, 100)
@@ -493,7 +494,7 @@ declare namespace Taro {
      * ![]
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    // begin path
    ctx.rect(10, 10, 100, 30)
    ctx.setFillStyle('yellow')
@@ -511,22 +512,22 @@ declare namespace Taro {
    ctx.draw()
    ```
      *
-     * ![] */
+     */
     fill(): void
     /** [CanvasContext.fillRect(number x, number y, number width, number height)](CanvasContext.fillRect.md)
      *
      * 填充一个矩形。用 [`setFillStyle`] 设置矩形的填充色，如果没设置默认是黑色。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(10, 10, 150, 75)
    ctx.draw()
    ```
-     * ![] */
+     */
     fillRect(
       /** 矩形路径左上角的横坐标 */
       x: number,
@@ -540,18 +541,15 @@ declare namespace Taro {
     /** [CanvasContext.fillText(string text, number x, number y, number maxWidth)](CanvasContext.fillText.md)
      *
      * 在画布上绘制被填充的文本
-     *
-     * **示例代码**
-     *
-     *
-   ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
-   ctx.setFontSize(20)
-   ctx.fillText('Hello', 20, 20)
-   ctx.fillText('MINA', 100, 100)
-   ctx.draw()
-   ```
-     * ![] */
+     * @example
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * ctx.setFontSize(20)
+     * ctx.fillText('Hello', 20, 20)
+     * ctx.fillText('MINA', 100, 100)
+     * ctx.draw()
+     * ```
+     */
     fillText(
       /** 在画布上输出的文本 */
       text: string,
@@ -565,19 +563,16 @@ declare namespace Taro {
     /** [CanvasContext.lineTo(number x, number y)](CanvasContext.lineTo.md)
      *
      * 增加一个新点，然后创建一条从上次指定点到目标点的线。用 `stroke` 方法来画线条
-     *
-     * **示例代码**
-     *
-     *
-   ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
-   ctx.moveTo(10, 10)
-   ctx.rect(10, 10, 100, 50)
-   ctx.lineTo(110, 60)
-   ctx.stroke()
-   ctx.draw()
-   ```
-     * ![] */
+     * @example
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * ctx.moveTo(10, 10)
+     * ctx.rect(10, 10, 100, 50)
+     * ctx.lineTo(110, 60)
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     */
     lineTo(
       /** 目标位置的 x 坐标 */
       x: number,
@@ -588,19 +583,17 @@ declare namespace Taro {
      *
      * 把路径移动到画布中的指定点，不创建线条。用 `stroke` 方法来画线条
      *
-     * **示例代码**
-     *
-     *
-   ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
-   ctx.moveTo(10, 10)
-   ctx.lineTo(100, 10)
-   ctx.moveTo(10, 50)
-   ctx.lineTo(100, 50)
-   ctx.stroke()
-   ctx.draw()
-   ```
-     * ![] */
+     * @example
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * ctx.moveTo(10, 10)
+     * ctx.lineTo(100, 10)
+     * ctx.moveTo(10, 50)
+     * ctx.lineTo(100, 50)
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
+     */
     moveTo(
       /** 目标位置的 x 坐标 */
       x: number,
@@ -610,45 +603,39 @@ declare namespace Taro {
     /** [CanvasContext.quadraticCurveTo(number cpx, number cpy, number x, number y)](CanvasContext.quadraticCurveTo.md)
      *
      * 创建二次贝塞尔曲线路径。曲线的起始点为路径中前一个点。
-     *
-     * **示例代码**
-     *
-     *
-   ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
-   // Draw points
-   ctx.beginPath()
-   ctx.arc(20, 20, 2, 0, 2   Math.PI)
-   ctx.setFillStyle('red')
-   ctx.fill()
-   ctx.beginPath()
-   ctx.arc(200, 20, 2, 0, 2   Math.PI)
-   ctx.setFillStyle('lightgreen')
-   ctx.fill()
-   ctx.beginPath()
-   ctx.arc(20, 100, 2, 0, 2   Math.PI)
-   ctx.setFillStyle('blue')
-   ctx.fill()
-   ctx.setFillStyle('black')
-   ctx.setFontSize(12)
-   // Draw guides
-   ctx.beginPath()
-   ctx.moveTo(20, 20)
-   ctx.lineTo(20, 100)
-   ctx.lineTo(200, 20)
-   ctx.setStrokeStyle('#AAAAAA')
-   ctx.stroke()
-   // Draw quadratic curve
-   ctx.beginPath()
-   ctx.moveTo(20, 20)
-   ctx.quadraticCurveTo(20, 100, 200, 20)
-   ctx.setStrokeStyle('black')
-   ctx.stroke()
-   ctx.draw()
-   ```
-     *
-     * ![]
-     *
+     * @example
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * // Draw points
+     * ctx.beginPath()
+     * ctx.arc(20, 20, 2, 0, 2   Math.PI)
+     * ctx.setFillStyle('red')
+     * ctx.fill()
+     * ctx.beginPath()
+     * ctx.arc(200, 20, 2, 0, 2   Math.PI)
+     * ctx.setFillStyle('lightgreen')
+     * ctx.fill()
+     * ctx.beginPath()
+     * ctx.arc(20, 100, 2, 0, 2   Math.PI)
+     * ctx.setFillStyle('blue')
+     * ctx.fill()
+     * ctx.setFillStyle('black')
+     * ctx.setFontSize(12)
+     * // Draw guides
+     * ctx.beginPath()
+     * ctx.moveTo(20, 20)
+     * ctx.lineTo(20, 100)
+     * ctx.lineTo(200, 20)
+     * ctx.setStrokeStyle('#AAAAAA')
+     * ctx.stroke()
+     * // Draw quadratic curve
+     * ctx.beginPath()
+     * ctx.moveTo(20, 20)
+     * ctx.quadraticCurveTo(20, 100, 200, 20)
+     * ctx.setStrokeStyle('black')
+     * ctx.stroke()
+     * ctx.draw()
+     * ```
      * 针对 moveTo(20, 20) quadraticCurveTo(20, 100, 200, 20) 的三个关键坐标如下：
      *
      * - 红色：起始点(20, 20)
@@ -667,18 +654,15 @@ declare namespace Taro {
     /** [CanvasContext.rect(number x, number y, number width, number height)](CanvasContext.rect.md)
      *
      * 创建一个矩形路径。需要用 [`fill`] 方法将矩形真正的画到 `canvas` 中
-     *
-     * **示例代码**
-     *
-     *
-   ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
-   ctx.rect(10, 10, 150, 75)
-   ctx.setFillStyle('red')
-   ctx.fill()
-   ctx.draw()
-   ```
-     * ![] */
+     * @example
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * ctx.rect(10, 10, 150, 75)
+     * ctx.setFillStyle('red')
+     * ctx.fill()
+     * ctx.draw()
+     * ```
+     */
     rect(
       /** 矩形路径左上角的横坐标 */
       x: number,
@@ -693,11 +677,11 @@ declare namespace Taro {
      *
      * 恢复之前保存的绘图上下文。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    // save the default fill style
    ctx.save()
    ctx.setFillStyle('red')
@@ -707,17 +691,17 @@ declare namespace Taro {
    ctx.fillRect(50, 50, 150, 100)
    ctx.draw()
    ```
-     * ![] */
+     */
     restore(): void
     /** [CanvasContext.rotate(number rotate)](CanvasContext.rotate.md)
      *
      * 以原点为中心顺时针旋转当前坐标轴。多次调用旋转的角度会叠加。原点可以用 `translate` 方法修改。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.strokeRect(100, 10, 150, 100)
    ctx.rotate(20   Math.PI / 180)
    ctx.strokeRect(100, 10, 150, 100)
@@ -725,7 +709,7 @@ declare namespace Taro {
    ctx.strokeRect(100, 10, 150, 100)
    ctx.draw()
    ```
-     * ![] */
+     */
     rotate(
       /** 旋转角度，以弧度计 degrees * Math.PI/180；degrees 范围为 0-360 */
       rotate: number
@@ -734,11 +718,11 @@ declare namespace Taro {
      *
      * 保存绘图上下文。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    // save the default fill style
    ctx.save()
    ctx.setFillStyle('red')
@@ -748,17 +732,17 @@ declare namespace Taro {
    ctx.fillRect(50, 50, 150, 100)
    ctx.draw()
    ```
-     * ![] */
+     */
     save(): void
     /** [CanvasContext.scale(number scaleWidth, number scaleHeight)](CanvasContext.scale.md)
      *
      * 在调用后，之后创建的路径其横纵坐标会被缩放。多次调用倍数会相乘。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.strokeRect(10, 10, 25, 15)
    ctx.scale(2, 2)
    ctx.strokeRect(10, 10, 25, 15)
@@ -766,7 +750,7 @@ declare namespace Taro {
    ctx.strokeRect(10, 10, 25, 15)
    ctx.draw()
    ```
-     * ![] */
+     */
     scale(
       /** 横坐标缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%) */
       scaleWidth: number,
@@ -781,12 +765,12 @@ declare namespace Taro {
      *
      *
    ```js
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(10, 10, 150, 75)
    ctx.draw()
    ```
-     * ![] */
+     */
     setFillStyle(
       /** [Color]
        *
@@ -797,11 +781,11 @@ declare namespace Taro {
      *
      * 设置字体的字号
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setFontSize(20)
    ctx.fillText('20', 20, 20)
    ctx.setFontSize(30)
@@ -812,7 +796,7 @@ declare namespace Taro {
    ctx.fillText('50', 90, 90)
    ctx.draw()
    ```
-     * ![] */
+     */
     setFontSize(
       /** 字体的字号 */
       fontSize: number
@@ -821,11 +805,11 @@ declare namespace Taro {
      *
      * 设置全局画笔透明度。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.fillRect(10, 10, 150, 100)
    ctx.setGlobalAlpha(0.2)
@@ -835,7 +819,7 @@ declare namespace Taro {
    ctx.fillRect(100, 100, 150, 100)
    ctx.draw()
    ```
-     * ![] */
+     */
     setGlobalAlpha(
       /** 透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 */
       alpha: number
@@ -844,11 +828,11 @@ declare namespace Taro {
      *
      * 设置线条的端点样式
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.beginPath()
    ctx.moveTo(10, 10)
    ctx.lineTo(150, 10)
@@ -873,7 +857,7 @@ declare namespace Taro {
    ctx.stroke()
    ctx.draw()
    ```
-     * ![] */
+     */
     setLineCap(
       /** 线条的结束端点样式 */
       lineCap: string
@@ -882,11 +866,11 @@ declare namespace Taro {
      *
      * 设置虚线样式。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setLineDash([10, 20], 5);
    ctx.beginPath();
    ctx.moveTo(0,100);
@@ -907,11 +891,11 @@ declare namespace Taro {
      *
      * 设置线条的交点样式
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.beginPath()
    ctx.moveTo(10, 10)
    ctx.lineTo(100, 50)
@@ -940,7 +924,7 @@ declare namespace Taro {
    ctx.stroke()
    ctx.draw()
    ```
-     * ![] */
+     */
     setLineJoin(
       /** 线条的结束交点样式 */
       lineJoin: string
@@ -949,11 +933,11 @@ declare namespace Taro {
      *
      * 设置线条的宽度
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.beginPath()
    ctx.moveTo(10, 10)
    ctx.lineTo(150, 10)
@@ -976,7 +960,7 @@ declare namespace Taro {
    ctx.draw()
    ```
      *
-     * ![] */
+     */
     setLineWidth(
       /** 线条的宽度，单位px */
       lineWidth: number
@@ -985,11 +969,11 @@ declare namespace Taro {
      *
      * 设置最大斜接长度。斜接长度指的是在两条线交汇处内角和外角之间的距离。当 [CanvasContext.setLineJoin()] 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.beginPath()
    ctx.setLineWidth(10)
    ctx.setLineJoin('miter')
@@ -1024,7 +1008,7 @@ declare namespace Taro {
    ctx.stroke()
    ctx.draw()
    ```
-     * ![] */
+     */
     setMiterLimit(
       /** 最大斜接长度 */
       miterLimit: number
@@ -1033,17 +1017,17 @@ declare namespace Taro {
      *
      * 设定阴影样式。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setFillStyle('red')
    ctx.setShadow(10, 50, 50, 'blue')
    ctx.fillRect(10, 10, 150, 75)
    ctx.draw()
    ```
-     * ![] */
+     */
     setShadow(
       /** 阴影相对于形状在水平方向的偏移，默认值为 0。 */
       offsetX: number,
@@ -1062,12 +1046,12 @@ declare namespace Taro {
      *
      *
    ```js
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setStrokeStyle('red')
    ctx.strokeRect(10, 10, 150, 75)
    ctx.draw()
    ```
-     * ![] */
+     */
     setStrokeStyle(
       /** [Color]
        *
@@ -1078,12 +1062,12 @@ declare namespace Taro {
      *
      * 设置文字的对齐
      *
-     * **示例代码**
+     * @example
      *
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setStrokeStyle('red')
    ctx.moveTo(150, 20)
    ctx.lineTo(150, 170)
@@ -1109,11 +1093,11 @@ declare namespace Taro {
      *
      * 设置文字的竖直对齐
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.setStrokeStyle('red')
    ctx.moveTo(5, 75)
    ctx.lineTo(295, 75)
@@ -1159,11 +1143,11 @@ declare namespace Taro {
      *
      * 画出当前路径的边框。默认颜色色为黑色。
      *
-     * **示例代码**
+     * @example
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.moveTo(10, 10)
    ctx.lineTo(100, 10)
    ctx.lineTo(100, 100)
@@ -1175,7 +1159,7 @@ declare namespace Taro {
      * stroke() 描绘的的路径是从 beginPath() 开始计算，但是不会将 strokeRect() 包含进去。
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    // begin path
    ctx.rect(10, 10, 100, 30)
    ctx.setStrokeStyle('yellow')
@@ -1193,22 +1177,22 @@ declare namespace Taro {
    ctx.draw()
    ```
      *
-     * ![] */
+     */
     stroke(): void
     /** [CanvasContext.strokeRect(number x, number y, number width, number height)](CanvasContext.strokeRect.md)
      *
      * 画一个矩形(非填充)。 用 [`setStrokeStyle`] 设置矩形线条的颜色，如果没设置默认是黑色。
      *
-     * **示例代码**
+     * @example
      *
      *
-   ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
-   ctx.setStrokeStyle('red')
-   ctx.strokeRect(10, 10, 150, 75)
-   ctx.draw()
-   ```
-     * ![] */
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * ctx.setStrokeStyle('red')
+     * ctx.strokeRect(10, 10, 150, 75)
+     * ctx.draw()
+     * ```
+     */
     strokeRect(
       /** 矩形路径左上角的横坐标 */
       x: number,
@@ -1257,12 +1241,12 @@ declare namespace Taro {
      *
      * 对当前坐标系的原点 (0, 0) 进行变换。默认的坐标系原点为页面左上角。
      *
-     * **示例代码**
+     * @example
      *
      *
      *
    ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
+   const ctx = Taro.createCanvasContext('myCanvas')
    ctx.strokeRect(10, 10, 150, 100)
    ctx.translate(20, 20)
    ctx.strokeRect(10, 10, 150, 100)
@@ -1271,7 +1255,7 @@ declare namespace Taro {
    ctx.draw()
    ```
      *
-     * ![] */
+     */
     translate(
       /** 水平坐标平移量 */
       x: number,
@@ -1291,21 +1275,21 @@ declare namespace Taro {
      *
      * 创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()] 来指定渐变点，至少要两个。
      *
-     * **示例代码**
+     * @example
      *
      *
-   ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
-   // Create circular gradient
-   const grd = ctx.createCircularGradient(75, 50, 50)
-   grd.addColorStop(0, 'red')
-   grd.addColorStop(1, 'white')
-   // Fill with gradient
-   ctx.setFillStyle(grd)
-   ctx.fillRect(10, 10, 150, 80)
-   ctx.draw()
-   ```
-     * ![] */
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * // Create circular gradient
+     * const grd = ctx.createCircularGradient(75, 50, 50)
+     * grd.addColorStop(0, 'red')
+     * grd.addColorStop(1, 'white')
+     * // Fill with gradient
+     * ctx.setFillStyle(grd)
+     * ctx.fillRect(10, 10, 150, 80)
+     * ctx.draw()
+     * ```
+     */
     createCircularGradient(
       /** 圆心的 x 坐标 */
       x: number,
@@ -1317,22 +1301,19 @@ declare namespace Taro {
     /** [[CanvasGradient] CanvasContext.createLinearGradient(number x0, number y0, number x1, number y1)](CanvasContext.createLinearGradient.md)
      *
      * 创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()] 来指定渐变点，至少要两个。
-     *
-     * **示例代码**
-     *
-     *
-   ```tsx
-   const ctx = wx.createCanvasContext('myCanvas')
-   // Create linear gradient
-   const grd = ctx.createLinearGradient(0, 0, 200, 0)
-   grd.addColorStop(0, 'red')
-   grd.addColorStop(1, 'white')
-   // Fill with gradient
-   ctx.setFillStyle(grd)
-   ctx.fillRect(10, 10, 150, 80)
-   ctx.draw()
-   ```
-     * ![] */
+     * @example
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * // Create linear gradient
+     * const grd = ctx.createLinearGradient(0, 0, 200, 0)
+     * grd.addColorStop(0, 'red')
+     * grd.addColorStop(1, 'white')
+     * // Fill with gradient
+     * ctx.setFillStyle(grd)
+     * ctx.fillRect(10, 10, 150, 80)
+     * ctx.draw()
+     * ```
+     */
     createLinearGradient(
       /** 起点的 x 坐标 */
       x0: number,
@@ -1423,23 +1404,22 @@ declare namespace Taro {
    * **Bug & Tip：**
    *
    * 1.  `tip`: 在 `draw` 回调里调用该方法才能保证图片导出成功。
-   *
-   * **示例代码：**
-   *
-   ```tsx
-   Taro.canvasToTempFilePath({
-     x: 100,
-     y: 200,
-     width: 50,
-     height: 50,
-     destWidth: 100,
-     destHeight: 100,
-     canvasId: 'myCanvas',
-     success: function(res) {
-       console.log(res.tempFilePath)
-     }
-   })
-   ```
+   * @supported weapp, h5
+   * @example
+   * ```tsx
+   * Taro.canvasToTempFilePath({
+   *   x: 100,
+   *   y: 200,
+   *   width: 50,
+   *   height: 50,
+   *   destWidth: 100,
+   *   destHeight: 100,
+   *   canvasId: 'myCanvas',
+   *   success: function (res) {
+   *     console.log(res.tempFilePath)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html
    */
   function canvasToTempFilePath(res: canvasToTempFilePath.Param0, instance?: any): void
@@ -1472,26 +1452,23 @@ declare namespace Taro {
       height?: number
     }
   }
-  /**
-   *
-   * 将像素数据绘制到画布的方法
-   *
-   * **示例代码：**
-   *
-   ```tsx
-   const data = new Uint8ClampedArray([255, 0, 0, 1])
-   Taro.canvasPutImageData({
-     canvasId: 'myCanvas',
-     x: 0,
-     y: 0,
-     width: 1,
-     data: data,
-     success(res) {}
-   })
-   ```
+  /** 将像素数据绘制到画布的方法
+   * @supported weapp, h5
+   * @example
+   * ```tsx
+   * const data = new Uint8ClampedArray([255, 0, 0, 1])
+   * Taro.canvasPutImageData({
+   *   canvasId: 'myCanvas',
+   *   x: 0,
+   *   y: 0,
+   *   width: 1,
+   *   data: data,
+   *   success: function (res) {}
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasPutImageData.html
    */
-  function canvasPutImageData(res: canvasPutImageData.Param): Promise<any>
+  function canvasPutImageData(res: canvasPutImageData.Param): Promise<General.CallbackResult>
 
   namespace canvasGetImageData {
     type Promised = {
@@ -1538,24 +1515,23 @@ declare namespace Taro {
   /**
    *
    * 返回一个数组，用来描述 canvas 区域隐含的像素数据
-   *
-   * **示例代码：**
-   *
-   ```tsx
-   Taro.canvasGetImageData({
-     canvasId: 'myCanvas',
-     x: 0,
-     y: 0,
-     width: 100,
-     height: 100,
-     success(res) {
-       console.log(res.width) // 100
-       console.log(res.height) // 100
-       console.log(res.data instanceof Uint8ClampedArray) // true
-       console.log(res.data.length) // 100   100   4
-     }
-   })
-   ```
+   * @supported weapp, h5
+   * @example
+   * ```tsx
+   * Taro.canvasGetImageData({
+   *   canvasId: 'myCanvas',
+   *   x: 0,
+   *   y: 0,
+   *   width: 100,
+   *   height: 100,
+   *   success: function (res) {
+   *     console.log(res.width) // 100
+   *     console.log(res.height) // 100
+   *     console.log(res.data instanceof Uint8ClampedArray) // true
+   *     console.log(res.data.length) // 100   100   4
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasGetImageData.html
    */
   function canvasGetImageData(res: canvasGetImageData.Param): Promise<canvasGetImageData.Promised>

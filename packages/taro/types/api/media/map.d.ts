@@ -6,65 +6,62 @@ declare namespace Taro {
    *
    * `mapContext` 通过 mapId 跟一个 `<map/>` 组件绑定，通过它可以操作对应的 `<map/>` 组件。
    *
-   * **示例代码：**
-   *
-   ```html
-   <!-- map.wxml -->
-   <map id="myMap" show-location />
-         <button type="primary" bindtap="getCenterLocation">获取位置</button>
-   <button type="primary" bindtap="moveToLocation">移动位置</button>
-   <button type="primary" bindtap="translateMarker">移动标注</button>
-   <button type="primary" bindtap="includePoints">缩放视野展示所有经纬度</button>
-   ```
-   *
-   * **示例代码：**
-   *
-   ```tsx
-   // map.js
-   Page({
-     onReady: function (e) {
-       // 使用 Taro.createMapContext 获取 map 上下文
-       this.mapCtx = Taro.createMapContext('myMap')
-     },
-     getCenterLocation: function () {
-       this.mapCtx.getCenterLocation({
-         success: function(res){
-           console.log(res.longitude)
-           console.log(res.latitude)
-         }
-       })
-     },
-     moveToLocation: function () {
-       this.mapCtx.moveToLocation()
-     },
-     translateMarker: function() {
-       this.mapCtx.translateMarker({
-         markerId: 0,
-         autoRotate: true,
-         duration: 1000,
-         destination: {
-           latitude:23.10229,
-           longitude:113.3345211,
-         },
-         animationEnd() {
-           console.log('animation end')
-         }
-       })
-     },
-     includePoints: function() {
-       this.mapCtx.includePoints({
-         padding: [10],
-         points: [{
-           latitude:23.10229,
-           longitude:113.3345211,
-         }, {
-           latitude:23.00229,
-           longitude:113.3345211,
-         }]
-       })
-     }
-   })
-   ```
+   * @example
+   * ```html
+   * <!-- map.wxml -->
+   * <map id="myMap" show-location />
+   *       <button type="primary" bindtap="getCenterLocation">获取位置</button>
+   * <button type="primary" bindtap="moveToLocation">移动位置</button>
+   * <button type="primary" bindtap="translateMarker">移动标注</button>
+   * <button type="primary" bindtap="includePoints">缩放视野展示所有经纬度</button>
+   * ```
+   * @example
+   * ```tsx
+   * // map.js
+   * Page({
+   *   onReady: function (e) {
+   *     // 使用 Taro.createMapContext 获取 map 上下文
+   *     this.mapCtx = Taro.createMapContext('myMap')
+   *   },
+   *   getCenterLocation: function () {
+   *     this.mapCtx.getCenterLocation({
+   *       success: function (res){
+   *         console.log(res.longitude)
+   *         console.log(res.latitude)
+   *       }
+   *     })
+   *   },
+   *   moveToLocation: function () {
+   *     this.mapCtx.moveToLocation()
+   *   },
+   *   translateMarker: function() {
+   *     this.mapCtx.translateMarker({
+   *       markerId: 0,
+   *       autoRotate: true,
+   *       duration: 1000,
+   *       destination: {
+   *         latitude:23.10229,
+   *         longitude:113.3345211,
+   *       },
+   *       animationEnd() {
+   *         console.log('animation end')
+   *       }
+   *     })
+   *   },
+   *   includePoints: function() {
+   *     this.mapCtx.includePoints({
+   *       padding: [10],
+   *       points: [{
+   *         latitude:23.10229,
+   *         longitude:113.3345211,
+   *       }, {
+   *         latitude:23.00229,
+   *         longitude:113.3345211,
+   *       }]
+   *     })
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/wx.createMapContext.html
    */
   function createMapContext(mapId: any, instance?: any): MapContext

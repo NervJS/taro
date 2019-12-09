@@ -97,7 +97,7 @@ declare namespace Taro {
    *
    ```tsx
    Taro.chooseImage({
-     success: function(res) {
+     success: function (res) {
        var tempFilePaths = res.tempFilePaths
        Taro.uploadFile({
          url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
@@ -106,7 +106,7 @@ declare namespace Taro {
          formData:{
            'user': 'test'
          },
-         success: function(res){
+         success: function (res){
            var data = res.data
            //do something
          }
@@ -125,7 +125,7 @@ declare namespace Taro {
        formData:{
            'user': 'test'
        },
-       success: function(res){
+       success: function (res){
            var data = res.data
            //do something
        }
