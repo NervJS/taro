@@ -126,7 +126,7 @@ export function watchFiles () {
             modifySource = modifySource.split(path.sep).join('/')
             if (isImported) {
               printLog(processTypeEnum.MODIFY, 'JS文件', modifySource)
-              await compileDepScripts([filePath], !isQuickApp)
+              await Promise.all(compileDepScripts([filePath], !isQuickApp))
             } else {
               printLog(processTypeEnum.WARNING, 'JS文件', `${modifySource} 没有被引用到，不会被编译`)
             }

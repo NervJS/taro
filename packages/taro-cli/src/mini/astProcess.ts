@@ -7,7 +7,8 @@ import generate from 'babel-generator'
 import traverse, { NodePath } from 'babel-traverse'
 import * as _ from 'lodash'
 import { Config as IConfig } from '@tarojs/taro'
-import getHashName from '../util/hash'
+import { getHashName } from '../util/hash'
+import { normalizeUrl } from '../util'
 
 const template = require('babel-template')
 
@@ -115,7 +116,7 @@ function analyzeImportUrl ({
     projectConfig,
     buildAdapter
   } = getBuildData()
-  const publicPath = (projectConfig.weapp || ({} as any)).publicPath
+  const { publicPath, staticDirectory, useHashName } = Object.assign({}, projectConfig.weapp)
   if (value.indexOf('.') === 0) {
     let importPath = path.resolve(path.dirname(sourceFilePath), value)
     importPath = resolveScriptPath(importPath)
@@ -177,9 +178,12 @@ function analyzeImportUrl ({
           showPath = vpath.replace(nodeModulesPath, `/${npmConfig.name}`)
         } else {
           showPath = vpath.replace(sourceDir, '')
-          if (publicPath) {
-            const hashName = getHashName(vpath)
-            showPath = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName
+          if (publicPath || staticDirectory) {
+            if (staticDirectory && useHashName !== false) {
+              const hashName = getHashName(vpath, useHashName)
+              showPath = showPath.replace(path.basename(showPath), hashName)
+            }
+            showPath = normalizeUrl(publicPath||'', staticDirectory||'', showPath)
           }
         }
         if (defaultSpecifier) {
@@ -271,7 +275,7 @@ export function parseAst (
     projectConfig,
     quickappManifest
   } = getBuildData()
-  const publicPath = (projectConfig.weapp || {} as any).publicPath
+  const { publicPath, staticDirectory, useHashName} = Object.assign({}, projectConfig.weapp)
   const notExistNpmList = getNotExistNpmList()
   const taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
   let configObj: IConfig = {}
@@ -876,9 +880,12 @@ export function parseAst (
                       showPath = vpath.replace(nodeModulesPath, `/${npmConfig.name}`)
                     } else {
                       showPath = vpath.replace(sourceDir, '')
-                      if (publicPath) {
-                        const hashName = getHashName(vpath)
-                        showPath = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName
+                      if (publicPath || staticDirectory) {
+                        if (staticDirectory && useHashName !== false) {
+                          const hashName = getHashName(vpath, useHashName)
+                          showPath = showPath.replace(path.basename(showPath), hashName)
+                        }
+                        showPath = normalizeUrl(publicPath||'', staticDirectory||'', showPath)
                       }
                     }
                     astPath.replaceWith(t.stringLiteral(showPath.replace(/\\/g, '/')))

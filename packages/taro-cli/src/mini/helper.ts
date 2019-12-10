@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as _ from 'lodash'
 import { Config } from '@tarojs/taro'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import getHashName from '../util/hash'
+import { getHashName } from '../util/hash'
 
 import {
   BUILD_TYPES,
@@ -308,7 +308,11 @@ export function initCopyFiles () {
   isCopyingFiles.clear()
 }
 
-export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath: string, outputFilePath: string) => void) {
+export function copyFilesFromSrcToOutput (
+  files: string[], 
+  cb?: (sourceFilePath: string, outputFilePath: string) => void,
+  outputStaticDir?: boolean
+) {
   const { nodeModulesPath, npmOutputDir, sourceDir, outputDir, appPath, projectConfig } = BuildData
   const adapterConfig = Object.assign({}, projectConfig.weapp)
   files.forEach(file => {
@@ -316,10 +320,13 @@ export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath:
     if (NODE_MODULES_REG.test(file)) {
       outputFilePath = file.replace(nodeModulesPath, npmOutputDir)
     } else {
-      if (adapterConfig.publicPath && adapterConfig.staticDirectory) {
-        const hashName = getHashName(file)
-        const staticPath = path.join(appPath, adapterConfig.staticDirectory, projectConfig.projectName || '')
-        outputFilePath = `${staticPath}/${hashName}`
+      if (adapterConfig.staticDirectory && outputStaticDir !== false) {
+        const staticPath = path.join(outputDir, adapterConfig.staticDirectory)
+        outputFilePath = file.replace(sourceDir, staticPath)
+        if (adapterConfig.useHashName !== false ) {
+          const hashName = getHashName(file, adapterConfig.useHashName)
+          outputFilePath = outputFilePath.replace(path.basename(outputFilePath), hashName)
+        }
       } else {
         outputFilePath = file.replace(sourceDir, outputDir)
       }
@@ -336,14 +343,14 @@ export function copyFilesFromSrcToOutput (files: string[], cb?: (sourceFilePath:
     if (!fs.existsSync(file)) {
       printLog(processTypeEnum.ERROR, '文件', `${modifySrc} 不存在`)
     } else {
-      fs.ensureDir(path.dirname(outputFilePath))
-      if (file === outputFilePath) {
-        return
-      }
-      if (cb) {
-        cb(file, outputFilePath)
-      } else {
-        fs.copySync(file, outputFilePath)
+      fs.ensureDirSync(path.dirname(outputFilePath))
+      // 文件位置不变或已存在则忽略
+      if (file !== outputFilePath) {
+        if (cb) {
+          cb(file, outputFilePath)
+        } else if(!fs.existsSync(outputFilePath)){
+          fs.copySync(file, outputFilePath)
+        }
       }
     }
   })

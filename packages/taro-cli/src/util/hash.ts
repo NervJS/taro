@@ -11,6 +11,8 @@ const defaultHashOptions = {
   append: false
 }
 
+const fileHashNames = {}
+
 const getxxhash = (content, options) => {
   const hashFunc = options.method === 'xxhash32' ? xxh.h32 : xxh.h64
   const seed = 0
@@ -40,8 +42,7 @@ const getHash = (content, options) => {
   }
 }
 
-function hash(content, options) {
-
+export const hash = (content, options) => {
   options = options || defaultHashOptions
 
   let hash = getHash(content, options)
@@ -55,8 +56,25 @@ function hash(content, options) {
   return options.shrink ? hash.substr(0, options.shrink) : hash
 }
 
-export default (file, options? : any) => {
-  const content = fs.readFileSync(file)
-  const ext = path.extname(file)
-  return hash(content, options) + ext
+export const getHashName = (filePath: string, format: boolean | string = '[name].[hash].[ext]') => {
+  if (!filePath) return ''
+  if (typeof format !== 'string') {
+    format = '[name].[hash].[ext]'
+  }
+  const key = `${filePath}-${format}`
+  if (!fileHashNames[key]) {
+    const code = hash(fs.readFileSync(filePath), defaultHashOptions)
+    const ext = path.extname(filePath)
+    const name = path.basename(filePath, ext)
+    fileHashNames[key] = Object.entries({
+      '\\[name\\]': name,
+      '\\[hash\\]': code,
+      '\\[ext\\]': ext.slice(1)
+    }).reduce(
+      (result, item) => result.replace(RegExp(item[0], 'g'), item[1]),
+      format
+    )
+  }
+
+  return fileHashNames[key] || path.basename(filePath)
 }

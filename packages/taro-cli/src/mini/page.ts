@@ -91,7 +91,7 @@ export async function buildSinglePage (page: string) {
       copyFileSync(pageJSONPath, outputPageJSONPath)
       transfromNativeComponents(pageJSONPath, pageJSON)
     }
-    await compileDepScripts([pageJs], true)
+    await Promise.all(compileDepScripts([pageJs], true))
     copyFileSync(pageWXMLPath, outputPageWXMLPath)
     if (fs.existsSync(pageWXSSPath)) {
       await compileDepStyles(outputPageWXSSPath, [pageWXSSPath])
@@ -254,7 +254,7 @@ export async function buildSinglePage (page: string) {
     }
     // 编译依赖的脚本文件
     if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      await compileDepScripts(res.scriptFiles, !isQuickApp)
+      await Promise.all(compileDepScripts(res.scriptFiles, !isQuickApp))
     }
     // 编译样式文件
     if (isDifferentArray(fileDep['style'], res.styleFiles) || isDifferentArray(depComponents.get(pageJs) || [], pageDepComponents)) {

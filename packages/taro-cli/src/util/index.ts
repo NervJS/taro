@@ -861,3 +861,7 @@ export function extnameExpRegOf (filePath: string): RegExp {
 export function generateAlipayPath (filePath) {
   return filePath.replace(/@/g, '_')
 }
+
+export function normalizeUrl(base: string, ...paths: string[]) {
+  return (/\/$/.test(base) ? base.slice(0,-1) : base) + path.join('/',...paths)
+}

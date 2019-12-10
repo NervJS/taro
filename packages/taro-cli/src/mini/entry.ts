@@ -62,7 +62,7 @@ function buildWorkers (worker: string) {
               const isDir = stats.isDirectory()
               if (isFile) {
                 if (REG_SCRIPTS.test(filePath)) {
-                  await compileDepScripts([filePath], true)
+                  await Promise.all(compileDepScripts([filePath], true))
                 } else {
                   copyFilesFromSrcToOutput([filePath])
                 }
@@ -123,6 +123,7 @@ export async function buildEntry (): Promise<AppConfig> {
     }
     // 处理res.configObj 中的tabBar配置
     const tabBar = res.configObj.tabBar
+    let tabBarIcons: string[] = []
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
       const {
         list: listConfig,
@@ -130,14 +131,14 @@ export async function buildEntry (): Promise<AppConfig> {
         selectedIconPath: selectedPathConfig
       } = CONFIG_MAP[buildAdapter]
       const list = tabBar[listConfig] || []
-      let tabBarIcons: string[] = []
       list.forEach(item => {
         item[pathConfig] && tabBarIcons.push(item[pathConfig])
         item[selectedPathConfig] && tabBarIcons.push(item[selectedPathConfig])
       })
       tabBarIcons = tabBarIcons.map(item => path.resolve(sourceDir, item))
       if (tabBarIcons && tabBarIcons.length) {
-        res.mediaFiles = res.mediaFiles.concat(tabBarIcons)
+        // res.mediaFiles = res.mediaFiles.concat(tabBarIcons)
+        copyFilesFromSrcToOutput(tabBarIcons, undefined, false)
       }
     }
     if (buildAdapter === BUILD_TYPES.QUICKAPP) {
@@ -190,7 +191,7 @@ export async function buildEntry (): Promise<AppConfig> {
     fileDep['style'] = res.styleFiles
     fileDep['script'] = res.scriptFiles
     fileDep['json'] = res.jsonFiles
-    fileDep['media'] = res.mediaFiles
+    fileDep['media'] = res.mediaFiles.concat(tabBarIcons)
     dependencyTree.set(entryFilePath, fileDep)
     return res.configObj
   } catch (err) {

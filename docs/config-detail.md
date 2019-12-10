@@ -241,6 +241,18 @@ copy: {
 
 专属于小程序的配置。
 
+### weapp.publicPath
+
+`publicPath`设置输出解析文件的目录。
+
+### weapp.staticDirectory
+
+`staticDirectory`小程序编译后的静态文件（仅图片，字体，音/视频）放置目录（相对于`outputRoot`的）。
+
+### weapp.useHashName
+
+`useHashName`输出静态文件是否使用hash名称，配置了`staticDirectory`才生效，默认`[name].[hash].[ext]`, 可配置`false`将输出原文件名。
+
 ### weapp.compile
 
 小程序编译过程的相关配置。

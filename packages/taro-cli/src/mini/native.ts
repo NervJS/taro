@@ -110,7 +110,7 @@ export function transfromNativeComponents (configFile: string, componentConfig: 
             const buildDepComponentsRes = await buildDepComponents([{ path: componentJSPath, name: item, type: 'default' }])
             return buildDepComponentsRes
           }
-          await compileDepScripts([componentJSPath], true)
+          await Promise.all(compileDepScripts([componentJSPath], true))
         } else {
           return printLog(processTypeEnum.ERROR, '编译错误', `原生组件文件 ${componentJSPath} 不存在！`)
         }

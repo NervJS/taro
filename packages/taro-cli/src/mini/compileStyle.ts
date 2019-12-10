@@ -5,7 +5,6 @@ import * as autoprefixer from 'autoprefixer'
 import * as postcss from 'postcss'
 import * as pxtransform from 'postcss-pxtransform'
 import rewriter from '../quickapp/style-rewriter'
-import getHashName from '../util/hash'
 import browserList from '../config/browser_list'
 import {
   resolveNpmPkgMainPath,
@@ -18,12 +17,15 @@ import {
   isNpmPkg,
   processStyleImports,
   promoteRelativePath,
-  getBabelConfig
+  getBabelConfig,
+  normalizeUrl
 } from '../util'
 import { CSS_EXT, FILE_PROCESSOR_MAP, DEVICE_RATIO_NAME, BUILD_TYPES } from '../util/constants'
 import { IMiniAppConfig } from '../util/types'
+import { getHashName } from '../util/hash'
 
 import {
+  copyFilesFromSrcToOutput,
   getBuildData
 } from './helper'
 
@@ -107,9 +109,10 @@ export async function processStyleUseCssModule (styleObj: IStyleObj): Promise<an
 }
 
 async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
-  const { appPath, outputDir,projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
+  const { appPath, outputDir, sourceDir, projectConfig, npmConfig, isProduction, buildAdapter } = getBuildData()
+  const styleFilePath = styleObj.filePath.replace(sourceDir, outputDir)
   const weappConf = Object.assign({}, projectConfig.weapp)
-  const publicPath = weappConf.publicPath
+  const { publicPath, staticDirectory, useHashName } = weappConf
   const useModuleConf = weappConf.module || {}
   const customPostcssConf = useModuleConf.postcss || {}
   const customCssModulesConf = Object.assign({
@@ -144,7 +147,6 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
     postcssPxtransformOption[DEVICE_RATIO_NAME] = projectConfig.deviceRatio
   }
 
-  const maxSize = (customUrlConf.config.limit || 1024) / 1024
   const postcssPxtransformConf = Object.assign({}, postcssPxtransformOption, customPxtransformConf, customPxtransformConf.config)
   const processors: any[] = []
   if (customAutoprefixerConf.enable) {
@@ -154,50 +156,61 @@ async function processStyleWithPostCSS (styleObj: IStyleObj): Promise<string> {
     processors.push(pxtransform(postcssPxtransformConf))
   }
   if (customUrlConf.enable) {
-    let inlineOpts = {}
-    const url = customUrlConf.config.url || 'inline'
-    if (url === 'inline' && !publicPath) {
-      inlineOpts = {
-        encodeType: 'base64',
-        maxSize,
-        url
+    let options: any[] = []
+    const config = customUrlConf.config
+    if (Array.isArray(config)) {
+      // 数组模式参数同: https://github.com/postcss/postcss-url#muiltiple-options
+      options = options.concat(config)
+    } else {
+      const url = config.url || 'inline'
+      const limit = config.limit || 1024
+      if (url !== 'inline') {
+        options.push(config)
+      } else if (limit >= 0) {
+        // limit < 0 时忽略`inline`
+        options.push({
+          url,
+          encodeType: 'base64',
+          maxSize: limit / 1024,
+          ...config
+        })
       }
     }
 
+    const customOption = {
+      multi: true,
+      url: (assets, dir, opts) => {
+        if (!/^(https?|data):/.test(assets.url)) {
+          const relativePath = path.relative(sourceDir, assets.absolutePath)
+          const outputFile = path.resolve(outputDir, `./${staticDirectory||''}`, `./${relativePath}`)
 
+          if (assets.absolutePath) {
+            copyFilesFromSrcToOutput([assets.absolutePath])
 
-    /***
-     * 修复小程序下css没有正确引用样式
-     * 当前位置只进行了文件hash转换并没有做文件copy操作
-     */
-    if (publicPath && typeof url !== 'function') {
-      customUrlConf.config.url = (assets) => {
+            if (publicPath) {
+              assets.url = normalizeUrl(publicPath, staticDirectory||'', relativePath)
+            } else if (staticDirectory) {
+              assets.url = path.relative(path.dirname(styleFilePath), outputFile)
+            }
 
-        // 本地文件路径
-        if (/\./.test(assets.url)) {
-          const hashName = getHashName(assets.absolutePath);
-          assets.url = (/\/$/.test(publicPath) ? publicPath : publicPath + '/') + hashName;
+            if (useHashName !== false && staticDirectory) {
+              const hashName = getHashName(assets.absolutePath, useHashName)
+              assets.url = assets.url.replace(path.basename(assets.url), hashName)
+            }
+          }
 
-          // 目前只在头条小程序复现，避免影响，只针对头条处理
-          if(buildAdapter === BUILD_TYPES.TT){
-            const outputFile = path.resolve(outputDir,`./${assets.url}`);
-            fs.ensureDirSync(path.dirname(outputFile));
-            fs.copySync(assets.absolutePath,outputFile);
+          if (buildAdapter === BUILD_TYPES.TT) {
             // 头条下不支持 / ，修正头条css background路径
-            assets.url = assets.url.replace(/^[\/]/,'');
+            assets.url = assets.url.replace(/^[\/]/,'')
           }
         }
 
         return assets.url
       }
-
     }
 
-    const cssUrlParseConf = {
-      ...inlineOpts,
-      ...customUrlConf.config
-    }
-    processors.push(cssUrlParse(cssUrlParseConf))
+    options.push(customOption) 
+    processors.push(cssUrlParse(options))
   }
 
   const defaultPostCSSPluginNames = ['autoprefixer', 'pxtransform', 'url', 'cssModules']

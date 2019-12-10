@@ -338,7 +338,7 @@ export async function buildSingleComponent (
     }
     // 编译依赖的脚本文件
     if (isDifferentArray(fileDep['script'], res.scriptFiles)) {
-      await compileDepScripts(res.scriptFiles, !isQuickApp)
+      await Promise.all(compileDepScripts(res.scriptFiles, !isQuickApp))
     }
     const depComponents = getDepComponents()
     // 编译样式文件

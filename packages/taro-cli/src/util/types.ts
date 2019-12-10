@@ -131,7 +131,8 @@ export interface IMiniAppConfig {
   compile?: ICompileOption,
   customFilesTypes: IMINI_APP_FILE_TYPE,
   publicPath?: string,
-  staticDirectory?: string
+  staticDirectory?: string,
+  useHashName?: boolean | string
 }
 
 export type TogglableOptions<T = IOption> = {

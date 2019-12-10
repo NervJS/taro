@@ -27,6 +27,11 @@ const config = {
   defineConstants: {
   },
   weapp: {
+    publicPath: '',     // 可设置为路径和URL地址，如`/`,`{url}`
+    staticDirectory: '', // 静态资源（fonts,images,multimedia）放置目录，相对于`outputRoot`
+    // 输出静态文件是否使用hash名称，配置了`staticDirectory`才生效
+    // 默认为`[name].[hash].[ext]`，配置`false`将输出原文件名
+    useHashName: '[name].[hash].[ext]',
     module: {
       postcss: {
         autoprefixer: {
