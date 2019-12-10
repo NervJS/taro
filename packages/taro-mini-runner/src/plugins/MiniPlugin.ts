@@ -15,7 +15,7 @@ import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
 
-import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, REG_SCRIPTS, processTypeEnum } from '../utils/constants'
+import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsQuickAppComponents, REG_SCRIPTS, processTypeEnum } from '../utils/constants'
 import { IComponentObj } from '../utils/types'
 import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog, isAliasPath, replaceAliasPath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -59,6 +59,8 @@ interface IComponent { name: string, path: string, isNative: boolean }
 const PLUGIN_NAME = 'MiniPlugin'
 
 const taroFileTypeMap: ITaroFileInfo = {}
+
+const quickappCommonStyle = 'common'
 
 export const createTarget = function createTarget (name) {
   return (compiler: webpack.compiler.Compiler) => {
@@ -142,6 +144,7 @@ export default class MiniPlugin {
   pageConfigs: Map<string, PageConfig>
   changedFile: string
   tabBarIcons: Set<string>
+  quickappStyleFiles: Set<any>
   isWatch: boolean
   errors: any[]
   changedFileType: PARSE_AST_TYPE | undefined
@@ -164,7 +167,7 @@ export default class MiniPlugin {
     this.components = new Set()
     this.pageConfigs = new Map()
     this.tabBarIcons = new Set()
-
+    this.quickappStyleFiles = new Set()
     this.isWatch = false
     this.errors = []
   }
@@ -602,6 +605,13 @@ export default class MiniPlugin {
             if (res.hasEnablePageScroll) {
               rootProps.enablePageScroll = true
             }
+            const styleName = this.getStylePath(quickappCommonStyle)
+            const taroJsQuickAppStylesPath = path.resolve(this.options.nodeModulesPath, taroJsQuickAppComponents, 'src/common/css')
+            const sourceStylePath = path.resolve(taroJsQuickAppStylesPath, styleName)
+            this.quickappStyleFiles.add({
+              path: sourceStylePath,
+              name: styleName
+            })
           }
           const transformResult = wxTransformer({
             code,
@@ -818,6 +828,23 @@ export default class MiniPlugin {
 					size: () => iconStat.size,
 					source: () => iconSource
 				}
+      }
+    })
+
+    this.quickappStyleFiles.forEach(item => {
+      if (fs.existsSync(item.path)) {
+          const styleContent = fs.readFileSync(item.path).toString()
+          let relativePath
+          if (NODE_MODULES_REG.test(item.path)) {
+              relativePath = item.path.replace(this.context, '').replace(/node_modules/gi, 'npm').replace(/\\\\/g, '/')
+          }
+          else {
+              relativePath = item.path.replace(this.sourceDir, '').replace(/\\\\/g, '/')
+          }
+          compilation.assets[relativePath] = {
+              size: () => styleContent.length,
+              source: () => styleContent
+          }
       }
     })
   }
