@@ -5,11 +5,11 @@ module.exports = {
   rules: {
     ...config.rules,
     'no-console': 0,
-    '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': 'Nerv' }],
+    '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': 'h' }]
   },
   settings: {
     react: {
-      pragma: 'Nerv'
+      pragma: 'h'
     }
   }
 }
