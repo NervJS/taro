@@ -7,7 +7,7 @@ import {
 } from '@tarojs/taro'
 import PropTypes from 'prop-types'
 import { componentTrigger } from './create-component'
-import { shakeFnFromObject, isEmptyObject, diffObjToPath, isFunction, isUndefined, isArray } from './util'
+import { cloneDeep, isEmptyObject, diffObjToPath, isFunction, isUndefined, isArray } from './util'
 import { enqueueRender } from './render-queue'
 
 const isDEV = typeof process === 'undefined' ||
@@ -164,7 +164,8 @@ function doUpdate (component, prevProps, prevState) {
       if (typeof val === 'object') {
         if (isEmptyObject(val)) return safeSet(_data, key, {})
 
-        // 避免筛选完 Fn 后产生了空对象还去渲染
+        val = cloneDeep(val)
+
         if (!isEmptyObject(val)) safeSet(_data, key, val)
       } else {
         safeSet(_data, key, val)
