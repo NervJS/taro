@@ -14,6 +14,7 @@ import {
   getSuperClassCode
 } from './utils'
 import * as t from 'babel-types'
+import ValidatorStrategy from './validator'
 import {
   DEFAULT_Component_SET,
   INTERNAL_SAFE_GET,
@@ -28,7 +29,6 @@ import {
   GEL_ELEMENT_BY_ID,
   lessThanSignPlacehold,
   COMPONENTS_PACKAGE_NAME,
-  quickappComponentName,
   setFnPrefix,
   setLoopCallee,
   setLoopState,
@@ -575,11 +575,9 @@ export default function transform (options: TransformOptions): TransformResult {
       }
 
       if (Adapter.type === Adapters.quickapp) {
-        if (name === 'View') {
-          path.node.name = t.jSXIdentifier('div')
-        }
-        if (name === 'Block') {
-          path.node.name = t.jSXIdentifier('block')
+        let result = ValidatorStrategy.validator(name)
+        if (result.isQuickappComponent) {
+          path.node.name = t.jSXIdentifier(result.name)
         }
       }
 
@@ -734,8 +732,9 @@ export default function transform (options: TransformOptions): TransformResult {
         path.node.specifiers.forEach((s) => {
           if (t.isImportSpecifier(s)) {
             const originalName = s.imported.name
-            if (quickappComponentName.has(originalName)) {
-              const importedName = `Taro${originalName}`
+            let result = ValidatorStrategy.validator(originalName)
+            if (result.isQuickappComponent) {
+              const importedName = result.name
               s.imported.name = importedName
               s.local.name = importedName
             }
