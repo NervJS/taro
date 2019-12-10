@@ -26,12 +26,6 @@ const config = {
   },
   defineConstants: {
   },
-  copy: {
-    patterns: [
-    ],
-    options: {
-    }
-  },
   weapp: {
     module: {
       postcss: {
