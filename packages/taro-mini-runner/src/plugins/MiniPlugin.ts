@@ -395,7 +395,7 @@ export default class MiniPlugin {
             if (!hasPageIn) {
               const pagePath = resolveScriptPath(path.join(this.sourceDir, pageItem))
               const templatePath = this.getTemplatePath(pagePath)
-              const isNative = this.isNativePageORComponent(templatePath, fs.readFileSync(pagePath).toString())
+              const isNative = this.isNativePageOrComponent(templatePath, fs.readFileSync(pagePath).toString())
               this.pages.add({
                 name: pageItem,
                 path: pagePath,
@@ -448,7 +448,7 @@ export default class MiniPlugin {
         ...appPages.map(item => {
           const pagePath = resolveScriptPath(path.join(this.sourceDir, item))
           const pageTemplatePath = this.getTemplatePath(pagePath)
-          const isNative = this.isNativePageORComponent(pageTemplatePath, fs.readFileSync(pagePath).toString())
+          const isNative = this.isNativePageOrComponent(pageTemplatePath, fs.readFileSync(pagePath).toString())
           return { name: item, path: pagePath, isNative }
         })
       ])
@@ -536,7 +536,7 @@ export default class MiniPlugin {
     })
   }
 
-  isNativePageORComponent (templatePath, jsContent) {
+  isNativePageOrComponent (templatePath, jsContent) {
     return fs.existsSync(templatePath) && jsContent.indexOf(taroJsFramework) < 0
   }
 
@@ -688,7 +688,7 @@ export default class MiniPlugin {
             if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
               const componentName = this.getComponentName(componentPath)
               const componentTempPath = this.getTemplatePath(componentPath)
-              const isNative = this.isNativePageORComponent(componentTempPath, fs.readFileSync(componentPath).toString())
+              const isNative = this.isNativePageOrComponent(componentTempPath, fs.readFileSync(componentPath).toString())
               const componentObj = { name: componentName, path: componentPath, isNative }
               this.components.add(componentObj)
               this.getComponents(compiler, new Set([componentObj]), false)
