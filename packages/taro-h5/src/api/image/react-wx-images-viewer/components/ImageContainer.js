@@ -192,8 +192,8 @@ class ImageContainer extends PureComponent {
 
   handleTouchStart = (event) => {
     // console.info('handleTouchStart')
-    // event.preventDefault()
-    // event.stopPropagation()
+    event.preventDefault()
+    event.stopPropagation()
     if (this.animationID) {
       raf.cancel(this.animationID)
     }
@@ -240,8 +240,8 @@ class ImageContainer extends PureComponent {
   }
 
   handleTouchMove = (event) => {
-    // event.preventDefault()
-    // event.stopPropagation()
+    event.preventDefault()
+    event.stopPropagation()
 
     switch (event.touches.length) {
       case 1: {
