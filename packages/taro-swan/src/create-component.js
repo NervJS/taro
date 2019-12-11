@@ -1,8 +1,9 @@
 import { getCurrentPageUrl } from '@tarojs/utils'
 import { commitAttachRef, detachAllRef, Current, eventCenter } from '@tarojs/taro'
 import { isEmptyObject, isFunction, isArray } from './util'
-import { mountComponent } from './lifecycle'
+import { mountComponent, updateComponent } from './lifecycle'
 import { cacheDataGet, cacheDataHas } from './data-cache'
+import nextTick from './next-tick'
 import propsManager from './propsManager'
 
 const anonymousFnNamePreffix = 'funPrivate'
@@ -24,7 +25,7 @@ function bindProperties (weappComponentConf, ComponentClass, isPage) {
           ComponentClass: component.constructor
         }
         const nextProps = filterProps(component.constructor.defaultProps, propsManager.map[newVal], component.props, extraProps || null)
-        this.$component.nextProps = nextProps
+        this.$component.props = nextProps
         nextTick(() => {
           this.$component._unsafeCallUpdate = true
           updateComponent(this.$component)
