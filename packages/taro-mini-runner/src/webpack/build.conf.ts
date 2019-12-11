@@ -52,7 +52,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
     babel,
     csso,
-    uglify
+    uglify,
+    commonChunks
   } = config
 
   let { copy } = config
@@ -83,6 +84,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     isBuildPlugin: config.isBuildPlugin
   })
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
+  console.log(commonChunks)
+  const customCommonChunks = commonChunks && commonChunks.length ? commonChunks : !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors']
   plugin.miniPlugin = getMiniPlugin({
     sourceDir,
     outputDir,
@@ -93,7 +96,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
     isBuildPlugin: !!config.isBuildPlugin,
-    commonChunks: !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors'],
+    commonChunks: customCommonChunks,
     alias
   })
 
