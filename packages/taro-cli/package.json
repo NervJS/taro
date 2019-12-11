@@ -96,7 +96,7 @@
     "ora": "^2.0.0",
     "postcss": "^6.0.22",
     "postcss-modules-extract-imports": "^1.1.0",
-    "postcss-modules-local-by-default": "^1.2.0",
+    "postcss-modules-local-by-default": "^3.0.2",
     "postcss-modules-resolve-imports": "^1.3.0",
     "postcss-modules-scope": "^1.1.0",
     "postcss-modules-values": "^3.0.0",
