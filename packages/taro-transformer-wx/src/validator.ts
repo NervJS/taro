@@ -8,9 +8,8 @@ import {
 
 export interface ValidatorResult {
   name: string,
-  isTaroComponent?: boolean,
-  isQuickappComponent?: boolean,
-  isUiComponent?: boolean
+  isRuntimeNameUpdated?: boolean,
+  isTemplateNameUpdated?: boolean,
 }
 
 //抽象策略类
@@ -44,12 +43,12 @@ class QucikappNativeValidator implements Validator {
   }
 }
 
-//快应用模拟组件类：添加Taro前缀
+//快应用模拟组件类：组件名称匹配时，添加Taro前缀
 class QucikappTaroSimulateValidator implements Validator {
   public validatorCheck (name: string): ValidatorResult {
     return {
       name: `Taro${name}`,
-      isTaroComponent: true
+      isRuntimeNameUpdated: true
     }
   }
 }
@@ -57,35 +56,38 @@ class QucikappTaroSimulateValidator implements Validator {
 //快应用原生不支持组件类：通过div模拟，待运行时补齐
 class QucikappUnSupportValidator implements Validator {
   public validatorCheck (name: string): ValidatorResult {
-    let simulateName = 'div'
+    let componentName = 'div'
     if (name === 'Block') {
-      simulateName = 'block'
+      componentName = 'block'
     }
     return {
-      name: simulateName,
-      isQuickappComponent: true
+      name: componentName,
+      isTemplateNameUpdated: true
     }
   }
 }
 
-//UI原生支持组件类：去除At前缀
+//UI原生支持组件类：组件名称匹配时，At前缀截断，如果为模拟组件替换为Taro前缀
 class UiNativeValidator implements Validator {
   public validatorCheck (name: string): ValidatorResult {
     let componentName = name.slice(2, name.length)
+    if (QUICKAPP_Taro_Simulate_Components_SET.has(componentName)) {
+      componentName = `Taro${componentName}`
+    }
     return {
       name: componentName,
-      isQuickappComponent: true
+      isTemplateNameUpdated: true
     }
   }
 }
 
-//UI不支持组件类：通过div模拟，待运行时补齐
+//UI不支持组件类：通过div模拟，待运行时实现相应效果进行补齐
 class UiUnSupportValidator implements Validator {
   public validatorCheck (): ValidatorResult {
-    let simulateName = 'div'
+    let componentName = 'div'
     return {
-      name: simulateName,
-      isQuickappComponent: true
+      name: componentName,
+      isTemplateNameUpdated: true
     }
   }
 }

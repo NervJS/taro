@@ -576,7 +576,7 @@ export default function transform (options: TransformOptions): TransformResult {
 
       if (Adapter.type === Adapters.quickapp) {
         let result = ValidatorStrategy.validator(name)
-        if (result.isQuickappComponent) {
+        if (result.isTemplateNameUpdated) {
           path.node.name = t.jSXIdentifier(result.name)
         }
       }
@@ -733,7 +733,7 @@ export default function transform (options: TransformOptions): TransformResult {
           if (t.isImportSpecifier(s)) {
             const originalName = s.imported.name
             let result = ValidatorStrategy.validator(originalName)
-            if (result.isQuickappComponent) {
+            if (result.isRuntimeNameUpdated) {
               const importedName = result.name
               s.imported.name = importedName
               s.local.name = importedName
