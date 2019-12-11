@@ -341,23 +341,31 @@ export default class MiniPlugin {
   transformComponentsPath (filePath, components: IComponentObj[]) {
     const { buildAdapter, alias } = this.options
     components.forEach(component => {
-      let componentPath = component.path
-      let realComponentPath
-      if (componentPath) {
-        if (isNpmPkg(componentPath)) {
-          if (isAliasPath(componentPath, alias)) {
-            componentPath = replaceAliasPath(filePath, componentPath, alias)
-            realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
+      try {
+        let componentPath = component.path
+        let realComponentPath
+        if (componentPath) {
+          if (isNpmPkg(componentPath)) {
+            if (isAliasPath(componentPath, alias)) {
+              componentPath = replaceAliasPath(filePath, componentPath, alias)
+              realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
+            } else {
+              realComponentPath = resolveNpmSync(componentPath, this.context)
+            }
           } else {
-            realComponentPath = resolveNpmSync(componentPath, this.context)
+            realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
           }
-        } else {
-          realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
+          const code = fs.readFileSync(realComponentPath).toString()
+          const newComponent = Object.assign({}, component, { path: realComponentPath })
+          realComponentPath = this.getNpmComponentRealPath(code, newComponent, buildAdapter)
+          component.path = realComponentPath
         }
-        const code = fs.readFileSync(realComponentPath).toString()
-        const newComponent = Object.assign({}, component, { path: realComponentPath })
-        realComponentPath = this.getNpmComponentRealPath(code, newComponent, buildAdapter)
-        component.path = realComponentPath
+      } catch (error) {
+        if (error.codeFrame) {
+          this.errors.push(new Error(error.message + '\n' + error.codeFrame))
+        } else {
+          this.errors.push(error)
+        }
       }
     })
   }
