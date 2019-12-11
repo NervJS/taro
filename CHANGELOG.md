@@ -1,5 +1,24 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.27...v) (2019-12-03)
+# [](https://github.com/NervJS/taro/compare/v1.3.28...v) (2019-12-11)
+
+
+
+<a name="1.3.28"></a>
+## [1.3.28](https://github.com/NervJS/taro/compare/v1.3.27...v1.3.28) (2019-12-11)
+
+
+### Bug Fixes
+
+* **cli:** 删掉模板中空的 copy 配置 ([7274ce2](https://github.com/NervJS/taro/commit/7274ce2))
+* **weapp:** setData 前需要深拷贝衍生自 state 的 data, fix [#5012](https://github.com/NervJS/taro/issues/5012) ([0892241](https://github.com/NervJS/taro/commit/0892241))
+* 修复 API 类型重构导致的编译失败问题 ([fd96d81](https://github.com/NervJS/taro/commit/fd96d81))
+
+
+### Features
+
+* checkout scripts from auto-docs ([dba5426](https://github.com/NervJS/taro/commit/dba5426))
+* checkout types from auto-docs branch ([70ec501](https://github.com/NervJS/taro/commit/70ec501))
+* createSelectorQuery Method`scrollOffset` fix ([e8af0a8](https://github.com/NervJS/taro/commit/e8af0a8))
 
 
 
