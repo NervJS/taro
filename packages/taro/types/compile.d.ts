@@ -130,7 +130,8 @@ export interface IMiniAppConfig {
   imageUrlLoaderOption: IOption,
   miniCssExtractPluginOption: IOption,
 
-  customFilesTypes: IMINI_APP_FILE_TYPE
+  customFilesTypes: IMINI_APP_FILE_TYPE,
+  commonChunks: string[]
 }
 
 export type TogglableOptions<T = IOption> = {
