@@ -1,5 +1,21 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.28...v) (2019-12-11)
+# [](https://github.com/NervJS/taro/compare/v1.3.29...v) (2019-12-11)
+
+
+
+<a name="1.3.29"></a>
+## [1.3.29](https://github.com/NervJS/taro/compare/v1.3.28...v1.3.29) (2019-12-11)
+
+
+### Bug Fixes
+
+* **jd:** 京东小程序暂不支持插件 ([553ff83](https://github.com/NervJS/taro/commit/553ff83))
+* **weapp/tt/swan/qq/jd:** 取消“从 prevProps 改为使用 nextProps”的改动 ([48b8271](https://github.com/NervJS/taro/commit/48b8271))
+
+
+### Reverts
+
+* **weapp:** 取消“从 prevProps 改为使用 nextProps”的改动 ([8694e8f](https://github.com/NervJS/taro/commit/8694e8f))
 
 
 
