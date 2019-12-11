@@ -84,7 +84,7 @@
     "fs-extra": "^5.0.0",
     "generic-names": "^2.0.1",
     "glob": "^7.1.2",
-    "inquirer": "^5.2.0",
+    "inquirer": "^7.0.0",
     "joi": "^14.0.6",
     "klaw": "^3.0.0",
     "latest-version": "^4.0.0",
