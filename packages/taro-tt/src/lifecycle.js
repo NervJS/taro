@@ -45,7 +45,7 @@ function callGetSnapshotBeforeUpdate (component, props, state) {
 export function updateComponent (component) {
   const { props, __propTypes } = component
   // 由 forceUpdate 或者组件自身 setState 发起的 update 可能是没有新的nextProps的
-  const nextProps = component.nextProps || props
+  const nextProps = (component.nextProps && !isEmptyObject(component.nextProps)) ? component.nextProps : props
   const prevProps = component.prevProps || props
   
   if (isDEV && __propTypes) {
