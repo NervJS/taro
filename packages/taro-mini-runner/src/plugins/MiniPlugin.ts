@@ -266,7 +266,8 @@ export default class MiniPlugin {
     let componentRealPath: string | null = null
     let importExportName
     const { isTaroComponent, transformResult } = isFileToBeTaroComponent(code, component.path as string, adapter)
-    if (isTaroComponent) {
+    const isNativePageOrComponent = this.isNativePageOrComponent(this.getTemplatePath(component.path), fs.readFileSync(component.path).toString())
+    if (isTaroComponent || isNativePageOrComponent) {
       return component.path
     }
     const componentName = component.name!.split('|')[1] || component.name
