@@ -47,6 +47,7 @@ export interface ITaroFileInfo {
     config: IConfig,
     template?: string,
     code?: string,
+    style?: string,
     taroSelfComponents?: Set<{
       name: string,
       path: string
@@ -690,6 +691,10 @@ export default class MiniPlugin {
           template,
           code
         }
+        if (isNative) {
+          const stylePath = this.getStylePath(file.path)
+          if (fs.existsSync(stylePath)) taroFileTypeMap[file.path]['style'] = fs.readFileSync(stylePath).toString()
+        }
         if (isQuickApp && taroSelfComponents) {
           taroFileTypeMap[file.path].taroSelfComponents = new Set(Array.from(taroSelfComponents).map(item => {
             const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath(this.options.nodeModulesPath)
@@ -809,6 +814,12 @@ export default class MiniPlugin {
           source: () => template
         }
       }
+      if (itemInfo.style) {
+        compilation.assets[stylePath] = {
+          size: () => itemInfo.style!.length,
+          source: () => itemInfo.style
+        }
+      }
       if (itemInfo.taroSelfComponents) {
         itemInfo.taroSelfComponents.forEach(item => {
           if (fs.existsSync(item.path)) {
@@ -842,18 +853,18 @@ export default class MiniPlugin {
 
     this.quickappStyleFiles.forEach(item => {
       if (fs.existsSync(item.path)) {
-          const styleContent = fs.readFileSync(item.path).toString()
-          let relativePath
-          if (NODE_MODULES_REG.test(item.path)) {
-              relativePath = item.path.replace(this.context, '').replace(/node_modules/gi, 'npm').replace(/\\\\/g, '/')
-          }
-          else {
-              relativePath = item.path.replace(this.sourceDir, '').replace(/\\\\/g, '/')
-          }
-          compilation.assets[relativePath] = {
-              size: () => styleContent.length,
-              source: () => styleContent
-          }
+        const styleContent = fs.readFileSync(item.path).toString()
+        let relativePath
+        if (NODE_MODULES_REG.test(item.path)) {
+          relativePath = item.path.replace(this.context, '').replace(/node_modules/gi, 'npm').replace(/\\\\/g, '/')
+        }
+        else {
+          relativePath = item.path.replace(this.sourceDir, '').replace(/\\\\/g, '/')
+        }
+        compilation.assets[relativePath] = {
+          size: () => styleContent.length,
+          source: () => styleContent
+        }
       }
     })
   }
