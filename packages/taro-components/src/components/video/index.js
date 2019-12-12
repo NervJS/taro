@@ -428,6 +428,7 @@ class Video extends Component {
       src,
       autoplay,
       className,
+      style,
       id,
       initialTime,
       loop,
@@ -455,6 +456,7 @@ class Video extends Component {
       muted,
       start: initialTime,
       className: classnames('taro-video-video', className),
+      style: Object.assign({ objectFit }, style),
       ref: this.getVideoRef,
       playsinline: true,
       'webkit-playsinline': true,
@@ -468,7 +470,6 @@ class Video extends Component {
       onError: this.onError,
       onDurationChange: this.onLoadedMetadata
     }
-
     const videoNode = (
       <div
         className={classnames('taro-video-container', {
