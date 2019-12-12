@@ -50,10 +50,14 @@ class Controls extends Component {
   }
 
   setCurrentTime (time) {
-    this.currentTimeRef.innerHTML = formatTime(time)
+    if (this.currentTimeRef) {
+      this.currentTimeRef.innerHTML = formatTime(time)
+    }
   }
   setProgressBall (percentage) {
-    if(this.progressBallRef) this.progressBallRef.style.left = `${percentage * 100}%`
+    if (this.progressBallRef) {
+      this.progressBallRef.style.left = `${percentage * 100}%`
+    }
   }
 
   toggleVisibility (nextVisible) {
@@ -65,9 +69,13 @@ class Controls extends Component {
           this.toggleVisibility(false)
         }, 2000)
       }
-      this.controlsRef.style.visibility = 'visible'
+      if (this.controlsRef) {
+        this.controlsRef.style.visibility = 'visible'
+      }
     } else {
-      this.controlsRef.style.visibility = 'hidden'
+      if (this.controlsRef) {
+        this.controlsRef.style.visibility = 'hidden'
+      }
     }
     this.visible = !!visible
   }
