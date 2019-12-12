@@ -22,7 +22,7 @@ class Image extends Nerv.Component {
         // 异步 api 关系
         if (entries[entries.length - 1].isIntersecting) {
           this.setState({ isLoaded: true }, () => {
-            lazyImg.unobserve(this.imgRef)
+            this.observer.unobserve(this.imgRef)
             Nerv.findDOMNode(this).children[0].src = this.props.src
           })
         }
@@ -41,6 +41,7 @@ class Image extends Nerv.Component {
     const { onLoad } = this.props
     Object.defineProperty(e, 'detail', {
       enumerable: true,
+      writable: true,
       value: {
         width: this.imgRef.width,
         height: this.imgRef.height
