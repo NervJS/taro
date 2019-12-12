@@ -998,17 +998,17 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@tarojs/taro@1.3.21":
-  version "1.3.21"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.3.21.tgz#c69c5b6466e09412261ea83d10e5563f72c77902"
-  integrity sha512-xuUloKUVfNQkM0mPYADdydP6TwXyQf1muUJ/luUAclZSXGwPOY1cxcsiBWlFp2lwuq6sgtxyTQdMYtZgHAtoSQ==
+"@tarojs/taro@1.3.29":
+  version "1.3.29"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.3.29.tgz#20b28f577f72866a1b0470625617231633c13eae"
+  integrity sha512-BhgbaWZWrs0rvz+uu1mHKnqN4CPzlQd4J00Suk0vbIgP4RSDyJplL6sOj/ZjHeGYcEDOIYpO5dopVfuXJrmiBQ==
   dependencies:
-    "@tarojs/utils" "1.3.21"
+    "@tarojs/utils" "1.3.29"
 
-"@tarojs/utils@1.3.21":
-  version "1.3.21"
-  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-1.3.21.tgz#56b5820a14ffd70c4e0b2364799e26f10392b889"
-  integrity sha512-rjZ/9yo8JFAKUS7bsP+tTlwts+aNHqS6jqXRlmDZXslLf6QUk9riXIt21ApjcMslJR8MDyJ7xHxzCfqNVSAjyA==
+"@tarojs/utils@1.3.29":
+  version "1.3.29"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-1.3.29.tgz#3f473a470ce64241985725b35052c1c27f5052df"
+  integrity sha512-mdyUvbDIEuQ6ZyVOp24F3my3w8x7R+um/uDLO/iqpYcczoE9JSNdFJPvVf6BpCI3CcRxYaDYZ6pCTWGuGvAmOQ==
 
 "@types/babel-types@^7.0.7":
   version "7.0.7"
@@ -1073,9 +1073,9 @@
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
 "@types/react-dom@^16.8.4":
-  version "16.9.3"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.3.tgz#4006ff0e13958af91313869077c04cb20d9b9d04"
-  integrity sha512-FUuZKXPr9qlzUT9lhuzrZgLjH63TvNn28Ch3MvKG4B+F52zQtO8DtE0Opbncy3xaucNZM2WIPfuNTgkbKx5Brg==
+  version "16.9.4"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.4.tgz#0b58df09a60961dcb77f62d4f1832427513420df"
+  integrity sha512-fya9xteU/n90tda0s+FtN5Ym4tbgxpq/hb/Af24dvs6uYnYn+fspaxw5USlw0R8apDNwxsqumdRoCoKitckQqw==
   dependencies:
     "@types/react" "*"
 
