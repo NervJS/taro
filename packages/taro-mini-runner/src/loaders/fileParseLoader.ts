@@ -513,6 +513,7 @@ export default function fileParseLoader (source, ast) {
   const filePath = this.resourcePath
   const newAst = transformFromAst(ast, '', {
     plugins: [
+      [require('babel-plugin-preval')],
       [require('babel-plugin-danger-remove-unused-import'), { ignore: cannotRemoves }],
       [require('babel-plugin-transform-define').default, constantsReplaceList]
     ]
