@@ -2,6 +2,7 @@ import './polyfill'
 import * as React from 'nervjs'
 import { Audio } from '../h5'
 import { waitForChange } from './utils'
+import * as assert from 'assert'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
 
@@ -51,6 +52,11 @@ describe('Audio', () => {
       }
 
       render () {
+        const {
+          src,
+          controls,
+          loop
+        } = this.state
         return <Audio ref={ref} src={src} controls={controls} loop={loop} />
       }
     }
@@ -68,18 +74,17 @@ describe('Audio', () => {
      * @type {HTMLAudioElement}
      */
     const audio = node.childNodes[0]
-    expect(audio instanceof HTMLAudioElement).toBeTruthy()
-    expect(audio.src).toBe(location.origin + '/' + src)
-    expect(audio.controls).toBe(controls)
-    expect(audio.loop).toBe(loop)
+    assert(audio instanceof HTMLAudioElement)
+    assert(audio.src === location.origin + '/' + src)
+    assert(audio.controls === controls)
+    assert(audio.loop === loop)
 
     instance.setState({
       controls: false,
       loop: false
     })
-    instance.forceUpdate()
-
-    expect(audio.controls).toBe(true)
-    expect(audio.loop).toBe(true)
+    await waitForChange(audio)
+    assert(audio.controls === false)
+    assert(audio.loop === false)
   })
 })

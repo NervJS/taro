@@ -17,7 +17,6 @@ export namespace Components {
   }
   interface TaroBlock {}
   interface TaroButton {
-    'class': string;
     'disabled': boolean;
     'hoverClass': string;
     'hoverStartTime': number;
@@ -94,7 +93,6 @@ declare namespace LocalJSX {
   }
   interface TaroBlock {}
   interface TaroButton {
-    'class'?: string;
     'disabled'?: boolean;
     'hoverClass'?: string;
     'hoverStartTime'?: number;

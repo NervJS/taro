@@ -17,8 +17,8 @@
     "dev": "webpack --config webpack.prod.config.js --watch",
     "deploy": "webpack --config webpack.config.js",
     "build": "stencil build --config stencil.config.ts",
-    "test": "karmatic --files '__tests__/**.spec.js'",
-    "test:debug": "karmatic debug --files '__tests__/**.spec.js'",
+    "test": "karmatic --files '__tests__/**.spec.js' --coverage false",
+    "test:debug": "karmatic debug --files '__tests__/**.spec.js' --coverage false",
     "test-update": "jest --updateSnapshot"
   },
   "repository": {

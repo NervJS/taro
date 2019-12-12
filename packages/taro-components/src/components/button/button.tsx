@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, Host, Prop, State, ComponentInterface, Event, EventEmitter } from '@stencil/core'
+import { Component, h, Prop, State, ComponentInterface, Event, EventEmitter } from '@stencil/core'
 import classNames from 'classnames'
 
 @Component({
@@ -7,7 +7,6 @@ import classNames from 'classnames'
   styleUrl: './style/index.scss'
 })
 export class Button implements ComponentInterface {
-  @Prop() class: string
   @Prop() disabled: boolean
   @Prop() hoverClass = 'button-hover'
   @Prop() type = 'default'
@@ -20,8 +19,7 @@ export class Button implements ComponentInterface {
   @State() touch = false
 
   @Event({
-    eventName: 'click',
-    bubbles: true
+    eventName: 'click'
   }) onClick: EventEmitter
 
   @Event({
@@ -35,7 +33,6 @@ export class Button implements ComponentInterface {
   render () {
     const {
       disabled,
-      onClick,
       hoverClass,
       hoverStartTime,
       hoverStayTime,
@@ -45,7 +42,7 @@ export class Button implements ComponentInterface {
       type
     } = this
 
-    const cls = this.class ?? classNames(
+    const cls = classNames(
       'weui-btn',
       'taro-button',
       {
@@ -67,7 +64,7 @@ export class Button implements ComponentInterface {
           }
         }, hoverStartTime)
       }
-      this.onTouchStart.emit()
+      // this.onTouchStart.emit()
     }
 
     const _onTouchEnd = () => {
@@ -79,21 +76,20 @@ export class Button implements ComponentInterface {
           }
         }, hoverStayTime)
       }
-      this.onTouchEnd.emit()
+      // this.onTouchEnd.emit()
     }
 
     return (
-      <Host
+      <button
         class={cls}
         type={type}
-        onClick={onClick}
         disabled={disabled}
         onTouchStart={_onTouchStart}
         onTouchEnd={_onTouchEnd}
       >
         {loading && <i class='weui-loading' />}
         <slot />
-      </Host>
+      </button>
     )
   }
 }

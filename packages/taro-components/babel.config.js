@@ -1,7 +1,8 @@
 module.exports = {
   presets: [
     ['@babel/env', { targets: { node: 'current' } }],
-    '@babel/typescript'
+    '@babel/preset-react',
+    'power-assert'
   ],
   plugins: [
     '@babel/plugin-proposal-class-properties'
