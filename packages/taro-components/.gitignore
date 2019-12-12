@@ -18,3 +18,4 @@ build
 coverage
 __snapshots__
 .stencil
+loader

@@ -4,6 +4,7 @@
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "typings": "types/index.d.ts",
   "sideEffects": [
     "*.scss",
@@ -16,8 +17,8 @@
     "dev": "webpack --config webpack.prod.config.js --watch",
     "deploy": "webpack --config webpack.config.js",
     "build": "stencil build --config stencil.config.ts",
-    "test": "jest",
-    "test-coverage": "jest --coverage",
+    "test": "karmatic --files '__tests__/**.spec.js'",
+    "test:debug": "karmatic debug --files '__tests__/**.spec.js'",
     "test-update": "jest --updateSnapshot"
   },
   "repository": {

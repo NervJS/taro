@@ -32,7 +32,7 @@ export class Input implements ComponentInterface {
   @Prop() confirmType: string
   @Prop() password: string
   @Prop() placeholder: string
-  // @Prop() focus = false
+  @Prop() autoFocus = false
   @Prop() disabled = false
   @Prop() value: string
 
@@ -92,10 +92,6 @@ export class Input implements ComponentInterface {
         e.target.value = value
       }
 
-      Object.defineProperty(e, 'detail', {
-        enumerable: true,
-        value: { value }
-      })
       // 修复 IOS 光标跳转问题
       if (!(['number', 'file'].indexOf(inputType) >= 0)) {
         const pos = e.target.selectionEnd
@@ -163,7 +159,6 @@ export class Input implements ComponentInterface {
       disabled,
       maxLength,
       confirmType = '',
-      // focus = false,
       value
     } = this
 
@@ -180,6 +175,7 @@ export class Input implements ComponentInterface {
         maxlength={maxLength}
         onInput={this.hanldeInput}
         onFocus={this.handleFocus}
+        autoFocus={this.autoFocus}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
         type={getTrueType(type, confirmType, password)}

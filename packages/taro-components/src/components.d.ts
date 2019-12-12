@@ -29,6 +29,7 @@ export namespace Components {
   }
   interface TaroCamera {}
   interface TaroInput {
+    'autoFocus': boolean;
     'confirmType': string;
     'disabled': boolean;
     'maxLength': number;
@@ -108,6 +109,7 @@ declare namespace LocalJSX {
   }
   interface TaroCamera {}
   interface TaroInput {
+    'autoFocus'?: boolean;
     'confirmType'?: string;
     'disabled'?: boolean;
     'maxLength'?: number;
