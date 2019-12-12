@@ -25,6 +25,13 @@ export interface ImageProps extends StandardProps {
   lazyLoad?: boolean,
 
   /**
+   * 开启长按图片显示识别小程序码菜单
+   * 
+   * 默认值: `false`
+   */
+  showMenuByLongpress?: boolean,
+
+  /**
    * 当错误发生时，发布到 AppService 的事件名，事件对象
    *
    * event.detail = {errMsg: 'something wrong'}
