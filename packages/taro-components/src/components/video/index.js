@@ -530,7 +530,7 @@ class Video extends Component {
         </div>
       </div>
     )
-    return this.state.isFullScreen ? createPortal(videoNode, document.body) : <div className='taro-video'>{videoNode}</div>
+    return this.state.isFullScreen ? createPortal(videoNode, document.body) : <div className='taro-video' style={this.props.style}>{videoNode}</div>
   }
 }
 
