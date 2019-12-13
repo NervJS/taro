@@ -15,7 +15,8 @@ import {
   unzip,
   shouldUseYarn,
   shouldUseCnpm,
-  resolvePureScriptPath
+  resolvePureScriptPath,
+  checkCliAndFrameworkVersion
 } from '../util'
 import { processTypeEnum, BUILD_TYPES } from '../util/constants'
 import { IMiniAppBuildConfig } from '../util/types'
@@ -265,6 +266,7 @@ export async function build (
   const buildData = envHasBeenSet ? getBuildData() : setBuildData(appPath, adapter)
   const isQuickApp = adapter === BUILD_TYPES.QUICKAPP
   let quickappJSON
+  await checkCliAndFrameworkVersion(appPath, adapter)
   process.env.TARO_ENV = adapter
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)

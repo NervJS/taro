@@ -59,7 +59,7 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
       ] as any[]
     },
     plugins: plugins
-      .concat(functionalComponent)
+      .concat(process.env.TARO_ENV === 'rn' ? [] : functionalComponent)
       .concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)
       .concat((isTestEnv) ? [] : require('babel-plugin-minify-dead-code').default)
   }

@@ -244,7 +244,6 @@ export default function initNativeApi (taro) {
   taro.cleanInterceptors = link.cleanInterceptors.bind(link)
   taro.getCurrentPages = getCurrentPages
   taro.getApp = getApp
-  taro.requirePlugin = requirePlugin
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
   taro.canIUseWebp = canIUseWebp

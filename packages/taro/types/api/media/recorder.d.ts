@@ -2,20 +2,20 @@ declare namespace Taro {
   /**
    * ​主动调用停止录音。
    * @example
-   ```tsx
-   Taro.startRecord({
-     success: function(res) {
-       var tempFilePath = res.tempFilePath
-     },
-     fail: function(res) {
-        //录音失败
-     }
-   })
-   setTimeout(function() {
-     //结束录音
-     Taro.stopRecord()
-   }, 10000)
-   ```
+   * ```tsx
+   * Taro.startRecord({
+   *   success: function (res) {
+   *     var tempFilePath = res.tempFilePath
+   *   },
+   *   fail: function (res) {
+   *      //录音失败
+   *   }
+   * })
+   * setTimeout(function() {
+   *   //结束录音
+   *   Taro.stopRecord()
+   * }, 10000)
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.stopRecord.html
    */
   function stopRecord(): void
@@ -56,32 +56,32 @@ declare namespace Taro {
    *   44100   |  64000 ~ 320000
    *   48000   |  64000 ~ 320000
    * @example
-   ```tsx
-   const recorderManager = Taro.getRecorderManager()
-         recorderManager.onStart(() => {
-     console.log('recorder start')
-   })
-   recorderManager.onPause(() => {
-     console.log('recorder pause')
-   })
-   recorderManager.onStop((res) => {
-     console.log('recorder stop', res)
-     const { tempFilePath } = res
-   })
-   recorderManager.onFrameRecorded((res) => {
-     const { frameBuffer } = res
-     console.log('frameBuffer.byteLength', frameBuffer.byteLength)
-   })
-         const options = {
-     duration: 10000,
-     sampleRate: 44100,
-     numberOfChannels: 1,
-     encodeBitRate: 192000,
-     format: 'aac',
-     frameSize: 50
-   }
-         recorderManager.start(options)
-   ```
+   * ```tsx
+   * const recorderManager = Taro.getRecorderManager()
+   * recorderManager.onStart(() => {
+   *   console.log('recorder start')
+   * })
+   * recorderManager.onPause(() => {
+   *   console.log('recorder pause')
+   * })
+   * recorderManager.onStop((res) => {
+   *   console.log('recorder stop', res)
+   *   const { tempFilePath } = res
+   * })
+   * recorderManager.onFrameRecorded((res) => {
+   *   const { frameBuffer } = res
+   *   console.log('frameBuffer.byteLength', frameBuffer.byteLength)
+   * })
+   * const options = {
+   *   duration: 10000,
+   *   sampleRate: 44100,
+   *   numberOfChannels: 1,
+   *   encodeBitRate: 192000,
+   *   format: 'aac',
+   *   frameSize: 50
+   * }
+   * recorderManager.start(options)
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/wx.getRecorderManager.html
    */
   function getRecorderManager(): RecorderManager

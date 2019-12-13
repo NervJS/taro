@@ -12,7 +12,10 @@
  * │   │   ├── debug.d.ts                   基础 -> 调试 API
  * │   │   ├── system.d.ts                  基础 -> 系统 API
  * │   │   ├── update.d.ts                  基础 -> 更新 API
- * │   │   └── weapp.d.ts                   基础 -> 小程序 API
+ * │   │   ├── weapp                        基础 -> 小程序 API
+ * │   │   │   ├── life-cycle.d.ts          基础 -> 小程序 API -> 生命周期
+ * │   │   │   └── app-event.d.ts           基础 -> 小程序 API -> 应用级事件
+ * │   │   └── env.d.ts                     基础 -> ENV
  * │   ├── canvas
  * │   │   └── index.d.ts                   画布 API
  * │   ├── cloud
@@ -134,7 +137,9 @@
 /// <reference path="api/base/debug.d.ts" />
 /// <reference path="api/base/system.d.ts" />
 /// <reference path="api/base/update.d.ts" />
-/// <reference path="api/base/weapp.d.ts" />
+/// <reference path="api/base/weapp/life-cycle.d.ts" />
+/// <reference path="api/base/weapp/app-event.d.ts" />
+/// <reference path="api/base/env.d.ts" />
 /// <reference path="api/canvas/index.d.ts" />
 /// <reference path="api/cloud/index.d.ts" />
 /// <reference path="api/device/accelerometer.d.ts" />

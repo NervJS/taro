@@ -81,6 +81,8 @@ function filter (fields, dom, selector) {
   if (scrollOffset) {
     res.scrollLeft = dom.scrollLeft
     res.scrollTop = dom.scrollTop
+    res.scrollHeight = dom.scrollHeight
+    res.scrollWidth = dom.scrollWidth
   }
   if (properties.length) {
     properties.forEach(prop => {

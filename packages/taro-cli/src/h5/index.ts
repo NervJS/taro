@@ -21,7 +21,8 @@ import {
   promoteRelativePath,
   recursiveMerge,
   replaceAliasPath,
-  resolveScriptPath
+  resolveScriptPath,
+  checkCliAndFrameworkVersion
 } from '../util'
 import {
   convertAstExpressionToVariable as toVar,
@@ -1452,6 +1453,7 @@ export { Compiler }
 
 export async function build (appPath: string, buildConfig: IBuildConfig) {
   process.env.TARO_ENV = BUILD_TYPES.H5
+  await checkCliAndFrameworkVersion(appPath, BUILD_TYPES.H5)
   const compiler = new Compiler(appPath)
   await compiler.clean()
   await compiler.buildTemp()

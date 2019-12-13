@@ -5,12 +5,12 @@ declare namespace Taro {
    * @example
    ```tsx
    Taro.startRecord({
-     success: function(res) {
+     success: function (res) {
        var tempFilePath = res.tempFilePath
        Taro.playVoice({
          filePath:tempFilePath
        })
-             setTimeout(function(){
+       setTimeout(function(){
          Taro.stopVoice()
        }, 5000)
      }
@@ -105,7 +105,7 @@ declare namespace Taro {
    * @example
    ```tsx
    Taro.startRecord({
-     success: function(res) {
+     success: function (res) {
        var tempFilePath = res.tempFilePath
        Taro.playVoice({
          filePath: tempFilePath,
@@ -125,12 +125,12 @@ declare namespace Taro {
    * @example
    ```tsx
    Taro.startRecord({
-     success: function(res) {
+     success: function (res) {
        var tempFilePath = res.tempFilePath
          Taro.playVoice({
          filePath: tempFilePath
        })
-             setTimeout(function() {
+       setTimeout(function() {
            //暂停播放
          Taro.pauseVoice()
        }, 5000)

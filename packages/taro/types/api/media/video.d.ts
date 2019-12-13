@@ -23,7 +23,7 @@ declare namespace Taro {
    ```tsx
    Taro.saveVideoToPhotosAlbum({
      filePath: 'wxfile://xxx'
-     success(res) {
+     success: function (res) {
        console.log(res.errMsg)
      }
    })
@@ -220,7 +220,7 @@ declare namespace Taro {
                sourceType: ['album','camera'],
                maxDuration: 60,
          camera: 'back',
-               success: function(res) {
+               success: function (res) {
                    that.setData({
                        src: res.tempFilePath
                    })

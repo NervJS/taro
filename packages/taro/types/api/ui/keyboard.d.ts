@@ -1,73 +1,81 @@
 declare namespace Taro {
-  /**
-   * 收起键盘。
+  namespace hideKeyboard {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
+  }
+
+  /** 在input、textarea等focus拉起键盘之后，手动调用此接口收起键盘
+   * @supported weapp
    * @example
    * ```tsx
-   * Taro.hideKeyboard()
+   * Taro.hideKeyboard({
+   *   complete: res => {
+   *     console.log('hideKeyboard res', res)
+   *   }
+   * })
    * ```
    * @see https://developers.weixin.qq.com/minigame/dev/api/ui/keyboard/wx.hideKeyboard.html
    */
-  function hideKeyboard(): void
+  function hideKeyboard(option?: hideKeyboard.Option): void
 
   namespace getSelectedTextRange {
-    type Promised = {
-      /** 
-       * 输入框光标结束位置
-       */
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends General.CallbackResult {
+      /** 输入框光标结束位置 */
       end: number
-      /** 
-       * 输入框光标起始位置
-       */
+      /** 输入框光标起始位置 */
       start: number
-      /**
-       * 错误信息
-       */
+      /** 调用结果 */
       errMsg: string
     }
-
-    type Param = {
-      /** 
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      complete?: CompleteCallback
-      /** 
-       * 接口调用失败的回调函数
-       */
-      fail?: FailCallback
-      /** 
-       * 接口调用成功的回调函数
-       */
-      success?: SuccessCallback
-    }
-
-    type GeneralCallbackResult = {
-      /**
-       * 错误信息
-       */
-      errMsg: string
-    }
-
-    type CompleteCallback = (res: GeneralCallbackResult) => void
-    type FailCallback = (res: GeneralCallbackResult) => void
-    type SuccessCallback = (res: Promised) => void
   }
-  /**
-   * 在 `input`、`textarea` 等 `focus` 之后，获取输入框的光标位置。
-   * 
-   * **注意：** 只有在 `focus `的时候调用此接口才有效。
-   * 
-   * @param option 接口调用的参数
+
+  /** 在input、textarea等focus之后，获取输入框的光标位置。注意：只有在focus的时候调用此接口才有效。
+   * @supported weapp
    * @example
-```js
-wx.getSelectedTextRange({
-  complete: res => {
-    console.log('getSelectedTextRange res', res.start, res.end)
-  }
-})
-```
+   * ```tsx
+   * Taro.getSelectedTextRange({
+   *   complete: res => {
+   *     console.log('getSelectedTextRange res', res.start, res.end)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.getSelectedTextRange.html
    */
-  function getSelectedTextRange(option?: getSelectedTextRange.Param): Promise<getSelectedTextRange.Promised>
+  function getSelectedTextRange(option?: getSelectedTextRange.Option): Promise<getSelectedTextRange.SuccessCallbackResult>
 
-  // TODO: wx.onKeyboardHeightChange
+  namespace onKeyboardHeightChange {
+    type Callback = (
+      result: CallbackResult,
+    ) => void
+    interface CallbackResult {
+      /** 键盘高度 */
+      height: number
+    }
+  }
+
+  /** 监听键盘高度变化
+   * @supported weapp
+   * @example
+   * ```tsx
+   * Taro.onKeyboardHeightChange(res => {
+   *   console.log(res.height)
+   * })
+   * ```
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/keyboard/wx.onKeyboardHeightChange.html
+   */
+  function onKeyboardHeightChange(callback: onKeyboardHeightChange.Callback): void
 }

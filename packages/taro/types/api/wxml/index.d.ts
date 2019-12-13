@@ -19,7 +19,7 @@ declare namespace Taro {
      * @example
      * ```tsx
      * Page({
-     *   getRect: function(){
+     *   getRect: function (){
      *     Taro.createSelectorQuery().select('#the-id').boundingClientRect(function(rect){
      *       rect.id      // 节点的ID
      *       rect.dataset // 节点的dataset
@@ -31,7 +31,7 @@ declare namespace Taro {
      *       rect.height  // 节点的高度
      *     }).exec()
      *   },
-     *   getAllRects: function(){
+     *   getAllRects: function (){
      *     Taro.createSelectorQuery().selectAll('.a-class').boundingClientRect(function(rects){
      *       rects.forEach(function(rect){
      *         rect.id      // 节点的ID
@@ -56,11 +56,11 @@ declare namespace Taro {
      * @example
      * ```tsx
      * Page({
-     *   queryMultipleNodes: function(){
+     *   queryMultipleNodes: function (){
      *     var query = Taro.createSelectorQuery()
      *     query.select('#the-id').boundingClientRect()
      *     query.selectViewport().scrollOffset()
-     *     query.exec(function(res){
+     *     query.exec(function (res){
      *       res[0].top       // #the-id节点的上边界坐标
      *       res[1].scrollTop // 显示区域的竖直滚动位置
      *     })
@@ -93,9 +93,9 @@ declare namespace Taro {
      * @example
      * ```tsx
      * Component({
-     *   queryMultipleNodes: function(){
+     *   queryMultipleNodes: function (){
      *     var query = Taro.createSelectorQuery().in(this)
-     *     query.select('#the-id').boundingClientRect(function(res){
+     *     query.select('#the-id').boundingClientRect(function (res){
      *       res.top // 这个组件内 #the-id 节点的上边界坐标
      *     }).exec()
      *   }
@@ -116,13 +116,13 @@ declare namespace Taro {
      * @example
      * ```tsx
      * Page({
-     *   getFields: function(){
+     *   getFields: function (){
      *     Taro.createSelectorQuery().select('#the-id').fields({
      *       dataset: true,
      *       size: true,
      *       scrollOffset: true,
      *       properties: ['scrollX', 'scrollY']
-     *     }, function(res){
+     *     }, function (res){
      *       res.dataset    // 节点的dataset
      *       res.width      // 节点的宽度
      *       res.height     // 节点的高度
@@ -146,8 +146,8 @@ declare namespace Taro {
      * @example
      * ```tsx
      * Page({
-     *   getScrollOffset: function(){
-     *     Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
+     *   getScrollOffset: function (){
+     *     Taro.createSelectorQuery().selectViewport().scrollOffset(function (res){
      *       res.id      // 节点的ID
      *       res.dataset // 节点的dataset
      *       res.scrollLeft // 节点的水平滚动位置

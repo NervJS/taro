@@ -123,7 +123,7 @@ declare namespace Taro {
    * @example
    ```tsx
    Taro.getBackgroundAudioPlayerState({
-       success: function(res) {
+       success: function (res) {
            var status = res.status
            var dataUrl = res.dataUrl
            var currentPosition = res.currentPosition

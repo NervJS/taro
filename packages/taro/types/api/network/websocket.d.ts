@@ -16,7 +16,7 @@ declare namespace Taro {
    Taro.connectSocket({
      url: 'test.php'
    })
-         Taro.onSocketOpen(function(res) {
+         Taro.onSocketOpen(function (res) {
      socketOpen = true
      for (var i = 0; i < socketMsgQueue.length; i++){
         sendSocketMessage(socketMsgQueue[i])
@@ -53,7 +53,7 @@ declare namespace Taro {
    Taro.connectSocket({
      url: 'test.php'
    })
-   Taro.onSocketOpen(function(res) {
+   Taro.onSocketOpen(function (res) {
      console.log('WebSocket连接已打开！')
    })
    ```
@@ -77,7 +77,7 @@ declare namespace Taro {
    Taro.connectSocket({
      url: 'test.php'
    })
-         Taro.onSocketMessage(function(res) {
+         Taro.onSocketMessage(function (res) {
      console.log('收到服务器内容：' + res.data)
    })
    ```
@@ -92,10 +92,10 @@ declare namespace Taro {
    Taro.connectSocket({
      url: 'test.php'
    })
-   Taro.onSocketOpen(function(res){
+   Taro.onSocketOpen(function (res){
      console.log('WebSocket连接已打开！')
    })
-   Taro.onSocketError(function(res){
+   Taro.onSocketError(function (res){
      console.log('WebSocket连接打开失败，请检查！')
    })
    ```
@@ -121,10 +121,10 @@ declare namespace Taro {
          //注意这里有时序问题，
    //如果 Taro.connectSocket 还没回调 Taro.onSocketOpen，而先调用 Taro.closeSocket，那么就做不到关闭 WebSocket 的目的。
    //必须在 WebSocket 打开期间调用 Taro.closeSocket 才能关闭。
-   Taro.onSocketOpen(function() {
+   Taro.onSocketOpen(function () {
      Taro.closeSocket()
    })
-         Taro.onSocketClose(function(res) {
+         Taro.onSocketClose(function (res) {
      console.log('WebSocket 已关闭！')
    })
    ```

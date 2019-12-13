@@ -74,9 +74,8 @@ declare namespace Taro {
      */
     load(): Promise<any>
     /** 显示插屏广告。
-     *
+     * 
      * **错误码信息表**
-     *
      *
      *  如果插屏广告显示失败，InterstitialAd.show() 方法会返回一个rejected Promise，开发者可以获取到错误码及对应的错误信息。
      *
@@ -105,7 +104,7 @@ declare namespace Taro {
     type OnErrorCallback = (result: OnErrorCallbackResult) => void
     /** 插屏广告加载事件的回调函数 */
     type OnLoadCallback = (res: General.CallbackResult) => void
-    interface OnErrorCallbackResult {
+    interface OnErrorCallbackResult extends General.CallbackResult {
       /** 错误码
        * @see https://nervjs.github.io/taro/docs/apis/General#AdErrCode
        */
@@ -168,7 +167,7 @@ declare namespace Taro {
     onLoad(callback: RewardedVideoAd.OnLoadCallback): void
   }
   namespace RewardedVideoAd {
-    interface OnErrorCallbackResult {
+    interface OnErrorCallbackResult extends General.CallbackResult {
       /** 错误码
        * @see https://nervjs.github.io/taro/docs/apis/General#AdErrCode
        */

@@ -40,6 +40,7 @@ class Image extends Nerv.Component {
     const { onLoad } = this.props
     Object.defineProperty(e, 'detail', {
       enumerable: true,
+      writable: true,
       value: {
         width: this.imgRef.width,
         height: this.imgRef.height

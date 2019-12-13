@@ -1,18 +1,15 @@
 declare namespace Taro {
   namespace getExtConfigSync {
-    type Return = {
-      /**
-       * 第三方平台自定义的数据
-       */
-      extConfig: any
+    interface ExtInfo {
+      /** 第三方平台自定义的数据 */
+      extConfig: General.IAnyObject
     }
   }
-  /**
-   * 获取[第三方平台](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/ext.html)自定义的数据字段的同步接口。
+  /** Taro.getExtConfig 的同步版本。
    *
-   * **Bug & Tip：**
-   *
-   * 1.  `Taro.getExtConfigSync` 暂时无法通过 `Taro.canIUse` 判断是否兼容，开发者需要自行判断 `Taro.getExtConfigSync` 是否存在来兼容
+   * **Tips**
+   * 1. 本接口暂时无法通过 Taro.canIUse 判断是否兼容，开发者需要自行判断 Taro.getExtConfigSync 是否存在来兼容
+   * @supported weapp
    * @example
    * ```tsx
    * let extConfig = Taro.getExtConfigSync? Taro.getExtConfigSync(): {}
@@ -21,27 +18,29 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext/wx.getExtConfigSync.html
    */
-  function getExtConfigSync(): getExtConfigSync.Return
+  function getExtConfigSync(): getExtConfigSync.ExtInfo
 
   namespace getExtConfig {
-    type Promised = {
-      /**
-       * 调用结果
-       */
-      errMsg: string
-      /**
-       * 第三方平台自定义的数据
-       */
-      extConfig: any
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
     }
-    type Param = {}
+    interface SuccessCallbackResult extends General.CallbackResult {
+      /** 第三方平台自定义的数据 */
+      extConfig: General.IAnyObject
+      /** 调用结果 */
+      errMsg: string
+    }
   }
-  /**
-   * 获取[第三方平台](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/ext.html)自定义的数据字段。
-   *
-   * **Bug & Tip：**
-   *
-   * 1.  `Taro.getExtConfig` 暂时无法通过 `Taro.canIUse` 判断是否兼容，开发者需要自行判断 `Taro.getExtConfig` 是否存在来兼容
+  /** 获取[第三方平台](https://developers.weixin.qq.com/miniprogram/dev/devtools/ext.html)自定义的数据字段。
+    *
+    * **Tips**
+    * 1. 本接口暂时无法通过 Taro.canIUse 判断是否兼容，开发者需要自行判断 Taro.getExtConfig 是否存在来兼容
+   * @supported weapp
    * @example
    * ```tsx
    * if(Taro.getExtConfig) {
@@ -54,5 +53,5 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext/wx.getExtConfig.html
    */
-  function getExtConfig(res?: getExtConfig.Param): Promise<getExtConfig.Promised>
+  function getExtConfig(option?: getExtConfig.Option): Promise<getExtConfig.SuccessCallbackResult>
 }

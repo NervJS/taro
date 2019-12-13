@@ -30,6 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/components": "<%= version %>",
+    "@tarojs/components-qa": "<%= version %>",
     "@tarojs/router": "<%= version %>",
     "@tarojs/taro": "<%= version %>",
     "@tarojs/taro-alipay": "<%= version %>",
@@ -39,8 +40,8 @@
     "@tarojs/taro-swan": "<%= version %>",
     "@tarojs/taro-tt": "<%= version %>",
     "@tarojs/taro-weapp": "<%= version %>",
-    "nervjs": "^1.5.0",
-    "nerv-devtools": "^1.5.0"
+    "nervjs": "^1.5.5",
+    "nerv-devtools": "^1.5.5"
   },
   "devDependencies": {
     "@types/react": "^16.4.6",

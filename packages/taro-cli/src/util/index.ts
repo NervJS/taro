@@ -490,7 +490,8 @@ export async function checkCliAndFrameworkVersion (appPath, buildAdapter) {
       process.exit(1)
     }
   } else {
-    printLog(processTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误！`))
+    printLog(processTypeEnum.WARNING, '依赖安装', chalk.red(`项目依赖 ${frameworkName} 未安装，或安装有误，请重新安装此依赖！`))
+    process.exit(1)
   }
 }
 

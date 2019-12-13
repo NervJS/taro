@@ -1,168 +1,84 @@
 declare namespace Taro {
   namespace stopWifi {
-    type Param = {
-      /**
-       * 接口调用成功的回调函数 ，res = { errMsg }
-       */
-      success?: ParamPropSuccess
-      /**
-       * 接口调用失败的回调函数
-       */
-      fail?: ParamPropFail
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      complete?: ParamPropComplete
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.WifiError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.WifiError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.WifiError) => void
     }
-    /**
-     * 接口调用成功的回调函数 ，res = { errMsg }
-     */
-    type ParamPropSuccess = (res: { errMsg: string }) => void
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: any) => any
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = () => any
   }
-
-  /**
-   * 关闭 Wi-Fi 模块。
+  /** 关闭 Wi-Fi 模块。
+   * @supported weapp
    * @example
    * ```tsx
    * Taro.stopWifi({
-   *   success: function(res) {
+   *   success: function (res) {
    *     console.log(res.errMsg)
    *   }
    * })
    * ```
-   * **errCode列表：**
-   *
-   * 每个接口调用的时候，都会返回 `errCode` 字段。
-   *
-   *   错误码   |  说明                      |  备注
-   * ----------|---------------------------|------------------------------
-   *   0       |  ok                       |  正常
-   *   12000   |  not init                 |  未先调用startWifi接口
-   *   12001   |  system not support       |  当前系统不支持相关能力
-   *   12002   |  password error Wi-Fi     |  Wi-Fi 密码错误
-   *   12003   |  connection timeout       |  连接超时
-   *   12004   |  duplicate request        |  重复连接 Wi-Fi
-   *   12005   |  wifi not turned on        |  Android特有，未打开 Wi-Fi 开关
-   *   12006   |  gps not turned on        |  Android特有，未打开 GPS 定位开关
-   *   12007   |  user denied              |  用户拒绝授权链接 Wi-Fi
-   *   12008   |  invalid SSID             |  无效SSID
-   *   12009   |  system config err         |  系统运营商配置拒绝连接 Wi-Fi
-   *   12010   |  system internal error    |  系统其他错误，需要在errmsg打印具体的错误原因
-   *   12011   |  weapp in background      |  应用在后台无法配置 Wi-Fi
-   *   12013   |  wifi config may be expired |  系统保存的 Wi-Fi 配置过期，建议忘记 Wi-Fi 后重试
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.stopWifi.html
    */
-  function stopWifi(res?: stopWifi.Param): Promise<any>
+  function stopWifi(option?: stopWifi.Option): Promise<General.WifiError>
 
   namespace startWifi {
-    type Param = {
-      /**
-       * 接口调用成功的回调函数 ，res = { errMsg }
-       */
-      success?: ParamPropSuccess
-      /**
-       * 接口调用失败的回调函数
-       */
-      fail?: ParamPropFail
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      complete?: ParamPropComplete
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.WifiError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.WifiError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.WifiError) => void
     }
-    /**
-     * 接口调用成功的回调函数 ，res = { errMsg }
-     */
-    type ParamPropSuccess = (res: { errMsg: string }) => void
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: any) => any
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = () => any
   }
-
-  /**
-   * 初始化 Wi-Fi 模块。
+  /** 初始化 Wi-Fi 模块。
+   * @supported weapp
    * @example
    * ```tsx
    * Taro.startWifi({
-   *   success: function(res) {
+   *   success: function (res) {
    *     console.log(res.errMsg)
    *   }
    * })
    * ```
-   * **errCode列表：**
-   *
-   * 每个接口调用的时候，都会返回 `errCode` 字段。
-   *
-   *   错误码   |  说明                      |  备注
-   * ----------|---------------------------|------------------------------
-   *   0       |  ok                       |  正常
-   *   12000   |  not init                 |  未先调用startWifi接口
-   *   12001   |  system not support       |  当前系统不支持相关能力
-   *   12002   |  password error Wi-Fi     |  Wi-Fi 密码错误
-   *   12003   |  connection timeout       |  连接超时
-   *   12004   |  duplicate request        |  重复连接 Wi-Fi
-   *   12005   |  wifi not turned on        |  Android特有，未打开 Wi-Fi 开关
-   *   12006   |  gps not turned on        |  Android特有，未打开 GPS 定位开关
-   *   12007   |  user denied              |  用户拒绝授权链接 Wi-Fi
-   *   12008   |  invalid SSID             |  无效SSID
-   *   12009   |  system config err         |  系统运营商配置拒绝连接 Wi-Fi
-   *   12010   |  system internal error    |  系统其他错误，需要在errmsg打印具体的错误原因
-   *   12011   |  weapp in background      |  应用在后台无法配置 Wi-Fi
-   *   12013   |  wifi config may be expired |  系统保存的 Wi-Fi 配置过期，建议忘记 Wi-Fi 后重试
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.startWifi.html
    */
-  function startWifi(res?: startWifi.Param): Promise<any>
+  function startWifi(option?: startWifi.Option): Promise<General.WifiError>
 
   namespace setWifiList {
-    type Param = {
-      /**
-       * 提供预设的 Wi-Fi 信息列表
-       */
-      wifiList: ParamPropWifiList
+    interface Option {
+      /** 提供预设的 Wi-Fi 信息列表 */
+      wifiList: WifiData[]
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.WifiError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.WifiError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.WifiError) => void
     }
-    /**
-     * 提供预设的 Wi-Fi 信息列表
-     */
-    type ParamPropWifiList = ParamPropWifiListItem[]
-    type ParamPropWifiListItem = {
-      /**
-       * Wi-Fi 设备ssid
-       */
-      SSID: string
-      /**
-       * Wi-Fi 设备bssid
-       */
-      BSSID: string
-      /**
-       * Wi-Fi 设备密码
-       */
-      password: string
+
+    /** 提供预设的 Wi-Fi 信息列表 */
+    interface WifiData {
+      /** Wi-Fi 的 BSSID */
+      BSSID?: string
+      /** Wi-Fi 的 SSID */
+      SSID?: string
+      /** Wi-Fi 设备密码 */
+      password?: string
     }
   }
-
-  /**
-   * **iOS特有接口** 在 `onGetWifiList` 回调后，利用接口设置 wifiList 中 AP 的相关信息。
+  /** 设置 `wifiList` 中 AP 的相关信息。在 `onGetWifiList` 回调后调用，**iOS特有接口**。
    *
-   * 注意：
-   *
-   * 1.  该接口只能在 `onGetWifiList` 回调之后才能调用。
-   * 2.  此时客户端会挂起，等待小程序设置 Wi-Fi 信息，请务必尽快调用该接口，若无数据请传入一个空数组。
-   * 3.  有可能随着周边 Wi-Fi 列表的刷新，单个流程内收到多次带有存在重复的 Wi-Fi 列表的回调。
+   * **注意**
+   * - 该接口只能在 `onGetWifiList` 回调之后才能调用。
+   * - 此时客户端会挂起，等待小程序设置 Wi-Fi 信息，请务必尽快调用该接口，若无数据请传入一个空数组。
+   * - 有可能随着周边 Wi-Fi 列表的刷新，单个流程内收到多次带有存在重复的 Wi-Fi 列表的回调。
+   * @supported weapp
    * @example
    * ```tsx
-   * Taro.onGetWifiList(function(res) {
+   * Taro.onGetWifiList(function (res) {
    *   if (res.wifiList.length) {
    *     Taro.setWifiList({
    *       wifiList: [{
@@ -181,313 +97,119 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.setWifiList.html
    */
-  function setWifiList(res: setWifiList.Param): Promise<any>
+  function setWifiList(option: setWifiList.Option): Promise<General.WifiError>
 
   namespace onWifiConnected {
-    type Param = (res: ParamParam) => any
-    type ParamParam = {
-      /**
-       * Wi-Fi 信息
-       */
-      wifi: ParamParamPropWifi
-    }
-    /**
-     * Wi-Fi 信息
-     */
-    type ParamParamPropWifi = {
-      /**
-       * Wi-Fi 的SSID
-       */
-      SSID: string
-      /**
-       * Wi-Fi 的BSSID
-       */
-      BSSID: string
-      /**
-       * Wi-Fi 是否安全
-       */
-      secure: boolean
-      /**
-       * Wi-Fi 信号强度
-       */
-      signalStrength: number
+    /** 连接上 Wi-Fi 的事件的回调函数 */
+    type Callback = (
+        result: CallbackResult,
+    ) => void
+    interface CallbackResult {
+      /** Wi-Fi 信息 */
+      wifi: WifiInfo
     }
   }
-
-  /**
-   * 监听连接上 Wi-Fi 的事件。
+  /** 监听连接上 Wi-Fi 的事件。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onWifiConnected.html
    */
-  function onWifiConnected(callback: onWifiConnected.Param): void
+  function onWifiConnected(
+    /** 连接上 Wi-Fi 的事件的回调函数 */
+    callback: onWifiConnected.Callback,
+  ): void
 
   namespace onGetWifiList {
-    type Param = (res: ParamParam) => any
-    type ParamParam = {
-      /**
-       * Wi-Fi 列表数据
-       */
-      wifiList: ParamParamPropWifiList
-    }
-    /**
-     * Wi-Fi 列表数据
-     */
-    type ParamParamPropWifiList = ParamParamPropWifiListItem[]
-    type ParamParamPropWifiListItem = {
-      /**
-       * Wi-Fi 的SSID
-       */
-      SSID: string
-      /**
-       * Wi-Fi 的BSSID
-       */
-      BSSID: string
-      /**
-       * Wi-Fi 是否安全
-       */
-      secure: boolean
-      /**
-       * Wi-Fi 信号强度
-       */
-      signalStrength: number
+    /** 获取到 Wi-Fi 列表数据事件的回调函数 */
+    type Callback = (result: CallbackResult) => void
+    interface CallbackResult {
+      /** Wi-Fi 列表数据 */
+      wifiList: WifiInfo[]
     }
   }
-
-  /**
-   * 监听在获取到 Wi-Fi 列表数据时的事件，在回调中将返回 wifiList。
+  /** 监听获取到 Wi-Fi 列表数据事件
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.onGetWifiList.html
    */
-  function onGetWifiList(callback: onGetWifiList.Param): void
-
-  namespace offWifiConnected {
-    type Param = () => any
-  }
+  function onGetWifiList(
+    /** 获取到 Wi-Fi 列表数据事件的回调函数 */
+    callback: onGetWifiList.Callback,
+  ): void
 
   /**
    * 取消监听连接上 Wi-Fi 的事件。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.offWifiConnected.html
    */
-  function offWifiConnected(callback: offWifiConnected.Param): void
+  function offWifiConnected(
+    /** 连接上 Wi-Fi 的事件的回调函数 */
+    callback: (...args: any[]) => any,
+  ): void
 
-  namespace offGetWifiList {
-    type Param = () => any
-  }
   /**
    * 取消监听获取到 Wi-Fi 列表数据事件。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.offGetWifiList.html
    */
-  function offGetWifiList(callback: offGetWifiList.Param): void
+  function offGetWifiList(
+    /** 获取到 Wi-Fi 列表数据事件的回调函数 */
+    callback: (...args: any[]) => any,
+  ): void
 
   namespace getWifiList {
-    type Param = {
-      /**
-       * 接口调用成功的回调函数 ，res = { errMsg, wifiList}
-       */
-      success?: ParamPropSuccess
-      /**
-       * 接口调用失败的回调函数
-       */
-      fail?: ParamPropFail
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      complete?: ParamPropComplete
-    }
-    type SuccessParam = {
-      /**
-       * 错误信息
-       */
-      errMsg: string
-      /**
-       * Wi-Fi 列表数据
-       */
-      wifiList: SuccessParamWifiItem[]
-    }
-    type SuccessParamWifiItem = {
-      /**
-       * Wi-Fi 的SSID
-       */
-      SSID: string
-      /**
-       * Wi-Fi 的BSSID
-       */
-      BSSID: string
-      /**
-       * Wi-Fi 是否安全
-       */
-      secure: boolean
-      /**
-       * Wi-Fi 信号强度
-       */
-      signalStrength: number
-    }
-    /**
-     * 接口调用成功的回调函数 ，res = { errMsg, wifiList }
-     */
-    type ParamPropSuccess = (res: SuccessParam) => void
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: any) => any
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = () => any
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.WifiError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.WifiError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.WifiError) => void
   }
-  /**
-   * 请求获取 Wi-Fi 列表，
-   * 在 onGetWifiList 注册的回调中返回 wifiList 数据。 **Android 调用前需要 用户授权 scope.userLocation**。
-   * iOS 将跳转到系统的 Wi-Fi 界面，Android 不会跳转。 **iOS 11.0 及 iOS 11.1 两个版本因系统问题，该方法失效。但在 iOS 11.2 中已修复。**
+  }
+  /** 请求获取 Wi-Fi 列表。在 `onGetWifiList` 注册的回调中返回 `wifiList` 数据。 **Android 调用前需要 [用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.userLocation。**
    *
-   * **errCode列表：**
-   *
-   * 每个接口调用的时候，都会返回 `errCode` 字段。
-   *
-   *   错误码   |  说明                      |  备注
-   * ----------|---------------------------|------------------------------
-   *   0       |  ok                       |  正常
-   *   12000   |  not init                 |  未先调用startWifi接口
-   *   12001   |  system not support       |  当前系统不支持相关能力
-   *   12002   |  password error Wi-Fi     |  Wi-Fi 密码错误
-   *   12003   |  connection timeout       |  连接超时
-   *   12004   |  duplicate request        |  重复连接 Wi-Fi
-   *   12005   |  wifi not turned on        |  Android特有，未打开 Wi-Fi 开关
-   *   12006   |  gps not turned on        |  Android特有，未打开 GPS 定位开关
-   *   12007   |  user denied              |  用户拒绝授权链接 Wi-Fi
-   *   12008   |  invalid SSID             |  无效SSID
-   *   12009   |  system config err         |  系统运营商配置拒绝连接 Wi-Fi
-   *   12010   |  system internal error    |  系统其他错误，需要在errmsg打印具体的错误原因
-   *   12011   |  weapp in background      |  应用在后台无法配置 Wi-Fi
-   *   12013   |  wifi config may be expired |  系统保存的 Wi-Fi 配置过期，建议忘记 Wi-Fi 后重试
+   * iOS 将跳转到系统的 Wi-Fi 界面，Android 不会跳转。 iOS 11.0 及 iOS 11.1 两个版本因系统问题，该方法失效。但在 iOS 11.2 中已修复。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.getWifiList.html
    */
-  function getWifiList(res?: getWifiList.Param): Promise<any>
+  function getWifiList(option?: getWifiList.Option): Promise<General.WifiError>
 
   namespace getConnectedWifi {
-    type Param = {
-      /**
-       * 接口调用成功的回调函数 ，res = { errMsg, wifi }
-       */
-      success?: ParamPropSuccess
-      /**
-       * 接口调用失败的回调函数
-       */
-      fail?: ParamPropFail
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      complete?: ParamPropComplete
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.WifiError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.WifiError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
     }
-    /**
-     * 接口调用成功的回调函数 ，res = { errMsg }
-     */
-    type ParamPropSuccess = (res: Promised) => void
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: any) => any
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = () => any
-
-    type Promised = {
-     /**
-      * 错误信息
-      */
-     errMsg: string
-      /**
-       * Wi-Fi 信息
-       */
-      wifi: PromisedPropWifi
-    }
-    /**
-     * Wi-Fi 信息
-     */
-    type PromisedPropWifi = {
-      /**
-       * Wi-Fi 的SSID
-       */
-      SSID: string
-      /**
-       * Wi-Fi 的BSSID
-       */
-      BSSID: string
-      /**
-       * Wi-Fi 是否安全
-       */
-      secure: boolean
-      /**
-       * Wi-Fi 信号强度
-       */
-      signalStrength: number
+    interface SuccessCallbackResult extends General.WifiError {
+      /** Wi-Fi 信息 */
+      wifi: WifiInfo
+      /** 调用结果 */
+      errMsg: string
     }
   }
-  /**
-   * 获取已连接中的 Wi-Fi 信息
-   *
-   * **errCode列表：**
-   *
-   * 每个接口调用的时候，都会返回 `errCode` 字段。
-   *
-   *   错误码   |  说明                      |  备注
-   * ----------|---------------------------|------------------------------
-   *   0       |  ok                       |  正常
-   *   12000   |  not init                 |  未先调用startWifi接口
-   *   12001   |  system not support       |  当前系统不支持相关能力
-   *   12002   |  password error Wi-Fi     |  Wi-Fi 密码错误
-   *   12003   |  connection timeout       |  连接超时
-   *   12004   |  duplicate request        |  重复连接 Wi-Fi
-   *   12005   |  wifi not turned on        |  Android特有，未打开 Wi-Fi 开关
-   *   12006   |  gps not turned on        |  Android特有，未打开 GPS 定位开关
-   *   12007   |  user denied              |  用户拒绝授权链接 Wi-Fi
-   *   12008   |  invalid SSID             |  无效SSID
-   *   12009   |  system config err         |  系统运营商配置拒绝连接 Wi-Fi
-   *   12010   |  system internal error    |  系统其他错误，需要在errmsg打印具体的错误原因
-   *   12011   |  weapp in background      |  应用在后台无法配置 Wi-Fi
-   *   12013   |  wifi config may be expired |  系统保存的 Wi-Fi 配置过期，建议忘记 Wi-Fi 后重试
+  /** 获取已连接中的 Wi-Fi 信息。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.getConnectedWifi.html
    */
-  function getConnectedWifi(res?: getConnectedWifi.Param): Promise<getConnectedWifi.Promised>
+  function getConnectedWifi(option?: getConnectedWifi.Option): Promise<General.WifiError>
 
   namespace connectWifi {
-    type Param = {
-      /**
-       * Wi-Fi 设备ssid
-       */
+    interface Option {
+      /** Wi-Fi 设备 SSID */
       SSID: string
-      /**
-       * Wi-Fi 设备bssid
-       */
-      BSSID: string
-      /**
-       * Wi-Fi 设备密码
-       */
-      password?: string,
-      /**
-       * 接口调用成功的回调函数 ，res = { errMsg }
-       */
-      success?: ParamPropSuccess
-      /**
-       * 接口调用失败的回调函数
-       */
-      fail?: ParamPropFail
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      complete?: ParamPropComplete
+      /** Wi-Fi 设备密码 */
+      password: string
+      /** Wi-Fi 设备 BSSID */
+      BSSID?: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.WifiError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.WifiError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.WifiError) => void
     }
-    /**
-     * 接口调用成功的回调函数 ，res = { errMsg }
-     */
-    type ParamPropSuccess = (res: { errMsg: string }) => void
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: any) => any
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = () => any
   }
 
   /**
@@ -497,32 +219,25 @@ declare namespace Taro {
    * Taro.connectWifi({
    *   SSID: '',
    *   BSSID: '',
-   *   success: function(res) {
+   *   success: function (res) {
    *     console.log(res.errMsg)
    *   }
    * })
    * ```
-   * **errCode列表：**
-   *
-   * 每个接口调用的时候，都会返回 `errCode` 字段。
-   *
-   *   错误码   |  说明                      |  备注
-   * ----------|---------------------------|------------------------------
-   *   0       |  ok                       |  正常
-   *   12000   |  not init                 |  未先调用startWifi接口
-   *   12001   |  system not support       |  当前系统不支持相关能力
-   *   12002   |  password error Wi-Fi     |  Wi-Fi 密码错误
-   *   12003   |  connection timeout       |  连接超时
-   *   12004   |  duplicate request        |  重复连接 Wi-Fi
-   *   12005   |  wifi not turned on        |  Android特有，未打开 Wi-Fi 开关
-   *   12006   |  gps not turned on        |  Android特有，未打开 GPS 定位开关
-   *   12007   |  user denied              |  用户拒绝授权链接 Wi-Fi
-   *   12008   |  invalid SSID             |  无效SSID
-   *   12009   |  system config err         |  系统运营商配置拒绝连接 Wi-Fi
-   *   12010   |  system internal error    |  系统其他错误，需要在errmsg打印具体的错误原因
-   *   12011   |  weapp in background      |  应用在后台无法配置 Wi-Fi
-   *   12013   |  wifi config may be expired |  系统保存的 Wi-Fi 配置过期，建议忘记 Wi-Fi 后重试
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/wifi/wx.connectWifi.html
    */
-  function connectWifi(res: connectWifi.Param): Promise<any>
+  function connectWifi(option: connectWifi.Option): Promise<General.WifiError>
+
+  /** Wifi 信息 */
+  interface WifiInfo {
+    /** Wi-Fi 的 BSSID */
+    BSSID: string
+    /** Wi-Fi 的 SSID */
+    SSID: string
+    /** Wi-Fi 是否安全 */
+    secure: boolean
+    /** Wi-Fi 信号强度 */
+    signalStrength: number
+  }
 }

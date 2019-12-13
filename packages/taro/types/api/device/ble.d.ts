@@ -1,50 +1,39 @@
 declare namespace Taro {
   namespace readBLECharacteristicValue {
-    type Promised = {
-      /**
-       * 错误码
-       */
-      errCode: number
-      /**
-       * 成功：ok，错误：详细信息
-       */
-      errMsg: string
-    }
-    type Param = {
-      /**
-       * 蓝牙设备 id，参考 device 对象
-       */
-      deviceId: string
-      /**
-       * 蓝牙特征值对应服务的 uuid
-       */
-      serviceId: string
-      /**
-       * 蓝牙特征值的 uuid
-       */
+    interface Option {
+      /** 蓝牙特征值的 uuid */
       characteristicId: string
+      /** 蓝牙设备 id */
+      deviceId: string
+      /** 蓝牙特征值对应服务的 uuid */
+      serviceId: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.BluetoothError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.BluetoothError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.BluetoothError) => void
     }
   }
-  /**
-   * 读取低功耗蓝牙设备的特征值的二进制数据值。注意：必须设备的特征值支持`read`才可以成功调用，具体参照 characteristic 的 properties 属性
+  /** 读取低功耗蓝牙设备的特征值的二进制数据值。注意：必须设备的特征值支持 read 才可以成功调用。
    *
-   * **Bug & Tip：**
-   *
-   * 1.  `tip`: 并行调用多次读写接口存在读写失败的可能性。
-   * 2.  `tip`: `read`接口读取到的信息需要在`onBLECharacteristicValueChange`方法注册的回调中获取。
+   * **注意**
+   * - 并行调用多次会存在读失败的可能性。
+   * - 接口读取到的信息需要在 `onBLECharacteristicValueChange` 方法注册的回调中获取。
+   * @supported weapp
    * @example
    * ```tsx
    * // 必须在这里的回调才能获取
    * Taro.onBLECharacteristicValueChange(function(characteristic) {
    *   console.log('characteristic value comed:', characteristic)
    * })
-   *       Taro.readBLECharacteristicValue({
-   *   // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接  [  new  ]
-   *   deviceId: deviceId,
-   *   // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
-   *   serviceId: serviceId,
-   *   // 这里的 characteristicId 需要在上面的 getBLEDeviceCharacteristics 接口中获取
-   *   characteristicId: characteristicId,
+   * Taro.readBLECharacteristicValue({
+   *   // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+   *   deviceId,
+   *   // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+   *   serviceId,
+   *   // 这里的 characteristicId 需要在 getBLEDeviceCharacteristics 接口中获取
+   *   characteristicId,
    *   success: function (res) {
    *     console.log('readBLECharacteristicValue:', res.errCode)
    *   }
@@ -52,389 +41,359 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.readBLECharacteristicValue.html
    */
-  function readBLECharacteristicValue(res: readBLECharacteristicValue.Param): Promise<readBLECharacteristicValue.Promised>
+  function readBLECharacteristicValue(
+    option: readBLECharacteristicValue.Option,
+  ): Promise<General.BluetoothError>
 
   namespace onBLEConnectionStateChange {
-    type Param = (res: ParamParam) => any
-    type ParamParam = {
-      /**
-       * 蓝牙设备 id，参考 device 对象
-       */
-      deviceId: string
-      /**
-       * 连接目前的状态
-       */
+    interface CallbackResult {
+      /** 是否处于已连接状态 */
       connected: boolean
+      /** 蓝牙设备ID */
+      deviceId: string
     }
+    /** 低功耗蓝牙连接状态的改变事件的回调函数 */
+    type Callback = (
+      result: CallbackResult,
+    ) => void
   }
-  /**
-   * 监听低功耗蓝牙连接状态的改变事件，包括开发者主动连接或断开连接，设备丢失，连接异常断开等等
+  /** 监听低功耗蓝牙连接状态的改变事件。包括开发者主动连接或断开连接，设备丢失，连接异常断开等等
+   * @supported weapp
    * @example
-   ```tsx
-   Taro.onBLEConnectionStateChange(function(res) {
-     // 该方法回调中可以用于处理连接意外断开等异常情况
-     console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}`)
-   })
-   ```
+   * ```tsx
+   * Taro.onBLEConnectionStateChange(function (res) {
+   *   // 该方法回调中可以用于处理连接意外断开等异常情况
+   *   console.log(`device ${res.deviceId} state has changed, connected: ${res.connected}`)
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.onBLEConnectionStateChange.html
    */
-  function onBLEConnectionStateChange(callback: onBLEConnectionStateChange.Param): void
+  function onBLEConnectionStateChange(
+     /** 低功耗蓝牙连接状态的改变事件的回调函数 */
+     callback: onBLEConnectionStateChange.Callback,
+   ): void
 
   namespace onBLECharacteristicValueChange {
-    type Param = (res: ParamParam) => any
-    type ParamParam = {
-      /**
-       * 蓝牙设备 id，参考 device 对象
-       */
-      deviceId: string
-      /**
-       * 特征值所属服务 uuid
-       */
-      serviceId: string
-      /**
-       * 特征值 uuid
-       */
+    /** 低功耗蓝牙设备的特征值变化事件的回调函数 */
+    type Callback = (
+      result: CallbackResult,
+    ) => void
+    interface CallbackResult {
+      /** 蓝牙特征值的 uuid */
       characteristicId: string
-      /**
-       * 特征值最新的值 **（注意：vConsole 无法打印出 ArrayBuffer 类型数据）**
-       */
+      /** 蓝牙设备 id */
+      deviceId: string
+      /** 蓝牙特征值对应服务的 uuid */
+      serviceId: string
+      /** 特征值最新的值 */
       value: ArrayBuffer
     }
   }
-  /**
-   * 监听低功耗蓝牙设备的特征值变化。必须先启用`notify`接口才能接收到设备推送的notification。
+  /** 监听低功耗蓝牙设备的特征值变化事件。必须先启用 `notifyBLECharacteristicValueChange` 接口才能接收到设备推送的 notification。
+   * @supported weapp
    * @example
-   ```tsx
-   // ArrayBuffer转16进度字符串示例
-   function ab2hex(buffer) {
-     var hexArr = Array.prototype.map.call(
-       new Uint8Array(buffer),
-       function(bit) {
-         return ('00' + bit.toString(16)).slice(-2)
-       }
-     )
-     return hexArr.join('');
-   }
-   Taro.onBLECharacteristicValueChange(function(res) {
-     console.log(`characteristic ${res.characteristicId} has changed, now is ${res.value}`)
-     console.log(ab2hext(res.value))
-   })
-   ```
+   * ```tsx
+   * // ArrayBuffer转16进制字符串示例
+   * function ab2hex(buffer) {
+   *   let hexArr = Array.prototype.map.call(
+   *     new Uint8Array(buffer),
+   *     function(bit) {
+   *       return ('00' + bit.toString(16)).slice(-2)
+   *     }
+   *   )
+   *   return hexArr.join('');
+   * }
+   * Taro.onBLECharacteristicValueChange(function (res) {
+   *   console.log(`characteristic ${res.characteristicId} has changed, now is ${res.value}`)
+   *   console.log(ab2hex(res.value))
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.onBLECharacteristicValueChange.html
    */
-  function onBLECharacteristicValueChange(callback: onBLECharacteristicValueChange.Param): void
+  function onBLECharacteristicValueChange(
+     /** 低功耗蓝牙设备的特征值变化事件的回调函数 */
+     callback: onBLECharacteristicValueChange.Callback,
+   ): void
 
   namespace notifyBLECharacteristicValueChange {
-    type Promised = {
-      /**
-       * 成功：ok，错误：详细信息
-       */
+    interface Promised extends General.CallbackResult {
+      /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
-    type Param = {
-      /**
-       * 蓝牙设备 id，参考 device 对象
-       */
-      deviceId: string
-      /**
-       * 蓝牙特征值对应服务的 uuid
-       */
-      serviceId: string
-      /**
-       * 蓝牙特征值的 uuid
-       */
+    interface Option {
+      /** 蓝牙特征值的 uuid */
       characteristicId: string
-      /**
-       * true: 启用 notify; false: 停用 notify
-       */
+      /** 蓝牙设备 id */
+      deviceId: string
+      /** 蓝牙特征值对应服务的 uuid */
+      serviceId: string
+      /** 是否启用 notify */
       state: boolean
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.BluetoothError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.BluetoothError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.BluetoothError) => void
     }
   }
-  /**
-   * 启用低功耗蓝牙设备特征值变化时的 notify 功能，订阅特征值。注意：必须设备的特征值支持`notify`或者`indicate`才可以成功调用，具体参照 characteristic 的 properties 属性
+  /** 启用低功耗蓝牙设备特征值变化时的 notify 功能，订阅特征值。注意：必须设备的特征值支持 notify 或者 indicate 才可以成功调用。
    *
-   * 另外，必须先启用`notify`才能监听到设备 characteristicValueChange 事件
+   * 另外，必须先启用 `notifyBLECharacteristicValueChange` 才能监听到设备 `characteristicValueChange` 事件
    *
-   * **Bug & Tip：**
-   *
-   * 1.  `tip`: 订阅操作成功后需要设备主动更新特征值的value，才会触发 Taro.onBLECharacteristicValueChange 回调。
-   * 2.  `tip`: 安卓平台上，在调用notify成功后立即调用write接口，在部分机型上会发生 10008 系统错误
+   * **注意**
+   * - 订阅操作成功后需要设备主动更新特征值的 value，才会触发 Taro.onBLECharacteristicValueChange 回调。
+   * - 安卓平台上，在调用 `notifyBLECharacteristicValueChange` 成功后立即调用 `writeBLECharacteristicValue` 接口，在部分机型上会发生 10008 系统错误
+   * @supported weapp
    * @example
-   ```tsx
-   Taro.notifyBLECharacteristicValueChange({
-     state: true, // 启用 notify 功能
-     // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-     deviceId: deviceId,
-     // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
-     serviceId: serviceId,
-     // 这里的 characteristicId 需要在上面的 getBLEDeviceCharacteristics 接口中获取
-     characteristicId: characteristicId,
-     success: function (res) {
-       console.log('notifyBLECharacteristicValueChange success', res.errMsg)
-     }
-   })
-   ```
+   * ```tsx
+   * Taro.notifyBLECharacteristicValueChange({
+   *   state: true, // 启用 notify 功能
+   *   // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+   *   deviceId,
+   *   // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+   *   serviceId,
+   *   // 这里的 characteristicId 需要在 getBLEDeviceCharacteristics 接口中获取
+   *   characteristicId,
+   *   success: function (res) {
+   *     console.log('notifyBLECharacteristicValueChange success', res.errMsg)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.notifyBLECharacteristicValueChange.html
    */
-  function notifyBLECharacteristicValueChange(res: notifyBLECharacteristicValueChange.Param): Promise<notifyBLECharacteristicValueChange.Promised>
+  function notifyBLECharacteristicValueChange(
+    option: notifyBLECharacteristicValueChange.Option,
+  ): Promise<notifyBLECharacteristicValueChange.Promised>
 
   namespace getBLEDeviceServices {
-    type Promised = {
-      /**
-       * 设备服务列表
-       */
-      services: PromisedPropServices
-      /**
-       * 成功：ok，错误：详细信息
-       */
+    interface Option {
+      /** 蓝牙设备 id */
+      deviceId: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.BluetoothError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.BluetoothError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (
+        result: SuccessCallbackResult,
+      ) => void
+    }
+    interface SuccessCallbackResult extends General.CallbackResult {
+      /** 设备服务列表 */
+      services: BLEService[]
+      /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
-    /**
-     * 设备服务列表
-     */
-    type PromisedPropServices = PromisedPropServicesItem[]
-    type PromisedPropServicesItem = {
-      /**
-       * 蓝牙设备服务的 uuid
-       */
-      uuid: string
-      /**
-       * 该服务是否为主服务
-       */
+    /** 设备服务列表 */
+    interface BLEService {
+      /** 该服务是否为主服务 */
       isPrimary: boolean
-    }
-    type Param = {
-      /**
-       * 蓝牙设备 id，参考 getDevices 接口
-       */
-      deviceId: string
+      /** 蓝牙设备服务的 uuid */
+      uuid: string
     }
   }
-  /**
-   * 获取蓝牙设备所有 service（服务）
-   *
-   * **Bug & Tip：**
-   *
-   * 1.  `tip`:iOS平台上后续对特征值的read、write、notify，由于系统需要获取特征值实例，传入的 serviceId 与 characteristicId 必须由 getBLEDeviceServices 与 getBLEDeviceCharacteristics 中获取到后才能使用。建议双平台统一在建立链接后先执行 getBLEDeviceServices 与 getBLEDeviceCharacteristics 后再进行与蓝牙设备的数据交互
+  /** 获取蓝牙设备所有服务(service)。
+   * @supported weapp
    * @example
-   ```tsx
-   Taro.getBLEDeviceServices({
-     // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-     deviceId: deviceId,
-     success: function (res) {
-       console.log('device services:', res.services)
-     }
-   })
-   ```
+   * ```tsx
+   * Taro.getBLEDeviceServices({
+   *   // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+   *   deviceId,
+   *   success: function (res) {
+   *     console.log('device services:', res.services)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.getBLEDeviceServices.html
    */
-  function getBLEDeviceServices(res: getBLEDeviceServices.Param): Promise<getBLEDeviceServices.Promised>
+  function getBLEDeviceServices(
+    option: getBLEDeviceServices.Option,
+  ): Promise<getBLEDeviceServices.SuccessCallbackResult>
 
   namespace getBLEDeviceCharacteristics {
-    type Promised = {
-      /**
-       * 设备特征值列表
-       */
-      characteristics: PromisedPropCharacteristics
-      /**
-       * 成功：ok，错误：详细信息
-       */
+    interface Option {
+      /** 蓝牙设备 id */
+      deviceId: string
+      /** 蓝牙服务 uuid，需要使用 `getBLEDeviceServices` 获取 */
+      serviceId: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.BluetoothError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.BluetoothError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends General.CallbackResult {
+      /** 设备特征值列表 */
+      characteristics: BLECharacteristic[]
+      /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
-    /**
-     * 设备特征值列表
-     */
-    type PromisedPropCharacteristics = PromisedPropCharacteristicsItem[]
-    type PromisedPropCharacteristicsItem = {
-      /**
-       * 蓝牙设备特征值的 uuid
-       */
+    /** 设备特征值列表 */
+    interface BLECharacteristic {
+      /** 该特征值支持的操作类型 */
+      properties: Properties
+      /** 蓝牙设备特征值的 uuid */
       uuid: string
-      /**
-       * 该特征值支持的操作类型
-       */
-      properties: PromisedPropCharacteristicsItemPropProperties
     }
-    /**
-     * 该特征值支持的操作类型
-     */
-    type PromisedPropCharacteristicsItemPropProperties = {
-      /**
-       * 该特征值是否支持 read 操作
-       */
-      read: boolean
-      /**
-       * 该特征值是否支持 write 操作
-       */
-      write: boolean
-      /**
-       * 该特征值是否支持 notify 操作
-       */
-      notify: boolean
-      /**
-       * 该特征值是否支持 indicate 操作
-       */
+    /** 该特征值支持的操作类型 */
+    interface Properties {
+      /** 该特征值是否支持 indicate 操作 */
       indicate: boolean
-    }
-    type Param = {
-      /**
-       * 蓝牙设备 id，参考 device 对象
-       */
-      deviceId: string
-      /**
-       * 蓝牙服务 uuid
-       */
-      serviceId: string
+      /** 该特征值是否支持 notify 操作 */
+      notify: boolean
+      /** 该特征值是否支持 read 操作 */
+      read: boolean
+      /** 该特征值是否支持 write 操作 */
+      write: boolean
     }
   }
-  /**
-   * 获取蓝牙设备某个服务中的所有 characteristic（特征值）
-   *
-   * **Bug & Tip：**
-   *
-   * 1.  `tip`:传入的serviceId需要在getBLEDeviceServices获取到
-   * 2.  `tip`:iOS平台上后续对特征值的read、write、notify，由于系统需要获取特征值实例，传入的 serviceId 与 characteristicId 必须由 getBLEDeviceServices 与 getBLEDeviceCharacteristics 中获取到后才能使用。建议双平台统一在建立链接后先执行 getBLEDeviceServices 与 getBLEDeviceCharacteristics 后再进行与蓝牙设备的数据交互
+  /** 获取蓝牙设备某个服务中所有特征值(characteristic)。
+   * @supported weapp
    * @example
-   ```tsx
-   Taro.getBLEDeviceCharacteristics({
-     // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-     deviceId: deviceId,
-     // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
-     serviceId: serviceId,
-     success: function (res) {
-       console.log('device getBLEDeviceCharacteristics:', res.characteristics)
-     }
-   })
-   ```
+   * ```tsx
+   * Taro.getBLEDeviceCharacteristics({
+   *   // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+   *   deviceId,
+   *   // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+   *   serviceId,
+   *   success: function (res) {
+   *     console.log('device getBLEDeviceCharacteristics:', res.characteristics)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.getBLEDeviceCharacteristics.html
    */
-  function getBLEDeviceCharacteristics(res: getBLEDeviceCharacteristics.Param): Promise<getBLEDeviceCharacteristics.Promised>
+  function getBLEDeviceCharacteristics(
+    option: getBLEDeviceCharacteristics.Option,
+  ): Promise<getBLEDeviceCharacteristics.SuccessCallbackResult>
 
   namespace createBLEConnection {
-    type Promised = {
-      /**
-       * 成功：ok，错误：详细信息
-       */
+    interface Promised extends General.CallbackResult {
+      /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
-    type Param = {
-      /**
-       * 蓝牙设备 id，参考 getDevices 接口
-       */
+    interface Option {
+      /** 用于区分设备的 id */
       deviceId: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.BluetoothError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.BluetoothError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.BluetoothError) => void
+      /** 超时时间，单位ms，不填表示不会超时 */
+      timeout?: number
     }
   }
-  /**
-   * 连接低功耗蓝牙设备。
+  /** 连接低功耗蓝牙设备。
    *
-   * > 若小程序在之前已有搜索过某个蓝牙设备，并成功建立链接，可直接传入之前搜索获取的deviceId直接尝试连接该设备，无需进行搜索操作。
+   * 若小程序在之前已有搜索过某个蓝牙设备，并成功建立连接，可直接传入之前搜索获取的 deviceId 直接尝试连接该设备，无需进行搜索操作。
    *
-   * **Bug & Tip：**
-   *
-   * 1.  `tip`: 安卓手机上如果多次调用create创建连接，有可能导致系统持有同一设备多个连接的实例，导致调用close的时候并不能真正的断开与设备的连接。因此请保证尽量成对的调用create和close接口
-   * 2.  `tip`: 蓝牙链接随时可能断开，建议监听 Taro.onBLEConnectionStateChange 回调事件，当蓝牙设备断开时按需执行重连操作
-   * 3.  `tip`: 若对未连接的设备或已断开连接的设备调用数据读写操作的接口，会返回10006错误，详见错误码，建议进行重连操作
+   * **注意**
+   * - 请保证尽量成对的调用 `createBLEConnection` 和 `closeBLEConnection` 接口。安卓如果多次调用 `createBLEConnection` 创建连接，有可能导致系统持有同一设备多个连接的实例，导致调用 `closeBLEConnection` 的时候并不能真正的断开与设备的连接。
+   * - 蓝牙连接随时可能断开，建议监听 Taro.onBLEConnectionStateChange 回调事件，当蓝牙设备断开时按需执行重连操作
+   * - 若对未连接的设备或已断开连接的设备调用数据读写操作的接口，会返回 10006 错误，建议进行重连操作。
+   * @supported weapp
    * @example
-   ```tsx
-   Taro.createBLEConnection({
-     // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-     deviceId: deviceId,
-     success: function (res) {
-       console.log(res)
-     }
-   })
-   ```
+   * ```tsx
+   * Taro.createBLEConnection({
+   *   // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+   *   deviceId,
+   *   success: function (res) {
+   *     console.log(res)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.createBLEConnection.html
    */
-  function createBLEConnection(res: createBLEConnection.Param): Promise<createBLEConnection.Promised>
+   function createBLEConnection(option: createBLEConnection.Option): Promise<createBLEConnection.Promised>
 
   namespace closeBLEConnection {
-    type Promised = {
-      /**
-       * 成功：ok，错误：详细信息
-       */
+    interface Promised extends General.CallbackResult {
+      /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
-    type Param = {
-      /**
-       * 蓝牙设备 id，参考 getDevices 接口
-       */
+    interface Option {
+      /** 用于区分设备的 id */
       deviceId: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.BluetoothError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.BluetoothError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.BluetoothError) => void
     }
   }
-  /**
-   * 断开与低功耗蓝牙设备的连接
+  /** 断开与低功耗蓝牙设备的连接。
+   * @supported weapp
    * @example
-   ```tsx
-   Taro.closeBLEConnection({
-     deviceId:deviceId
-     success: function (res) {
-       console.log(res)
-     }
-   })
-   ```
+   * ```tsx
+   * Taro.closeBLEConnection({
+   *   deviceId,
+   *   success: function (res) {
+   *     console.log(res)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.closeBLEConnection.html
    */
-  function closeBLEConnection(res: closeBLEConnection.Param): Promise<closeBLEConnection.Promised>
+  function closeBLEConnection(option: closeBLEConnection.Option): Promise<closeBLEConnection.Promised>
 
   namespace writeBLECharacteristicValue {
-    type Promised = {
-      /**
-       * 成功：ok，错误：详细信息
-       */
+    interface Promised extends General.CallbackResult {
+      /** 成功：ok，错误：详细信息 */
       errMsg: string
     }
-    type Param = {
-      /**
-       * 蓝牙设备 id，参考 device 对象
-       */
-      deviceId: string
-      /**
-       * 蓝牙特征值对应服务的 uuid
-       */
-      serviceId: string
-      /**
-       * 蓝牙特征值的 uuid
-       */
+    interface Option {
+      /** 蓝牙特征值的 uuid */
       characteristicId: string
-      /**
-       * 蓝牙设备特征值对应的二进制值
-       */
+      /** 蓝牙设备 id */
+      deviceId: string
+      /** 蓝牙特征值对应服务的 uuid */
+      serviceId: string
+      /** 蓝牙设备特征值对应的二进制值 */
       value: ArrayBuffer
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.BluetoothError) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.BluetoothError) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.BluetoothError) => void
     }
   }
-  /**
-   * 向低功耗蓝牙设备特征值中写入二进制数据。注意：必须设备的特征值支持`write`才可以成功调用，具体参照 characteristic 的 properties 属性
+  /** 向低功耗蓝牙设备特征值中写入二进制数据。注意：必须设备的特征值支持 write 才可以成功调用。
    *
-   * _tips: 并行调用多次读写接口存在读写失败的可能性_
-   *
-   * **Bug & Tip：**
-   *
-   * 1.  `tip`: 并行调用多次读写接口存在读写失败的可能性。
-   * 2.  `tip`: 小程序不会对写入数据包大小做限制，但系统与蓝牙设备会确定蓝牙4.0单次传输的数据大小，超过最大字节数后会发生写入错误，建议每次写入不超过20字节。
-   * 3.  `tip`: 安卓平台上，在调用notify成功后立即调用write接口，在部分机型上会发生 10008 系统错误
-   * 4.  `bug`: 若单次写入数据过长，iOS平台上存在系统不会有任何回调的情况(包括错误回调)。
+   * **注意**
+   * - 并行调用多次会存在写失败的可能性。
+   * - 小程序不会对写入数据包大小做限制，但系统与蓝牙设备会限制蓝牙4.0单次传输的数据大小，超过最大字节数后会发生写入错误，建议每次写入不超过20字节。
+   * - 若单次写入数据过长，iOS 上存在系统不会有任何回调的情况（包括错误回调）。
+   * - 安卓平台上，在调用 `notifyBLECharacteristicValueChange` 成功后立即调用 `writeBLECharacteristicValue` 接口，在部分机型上会发生 10008 系统错误
+   * @supported weapp
    * @example
-   ```tsx
-   // 向蓝牙设备发送一个0x00的16进制数据
-   let buffer = new ArrayBuffer(1)
-   let dataView = new DataView(buffer)
-   dataView.setUint8(0, 0)
-         Taro.writeBLECharacteristicValue({
-     // 这里的 deviceId 需要在上面的 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
-     deviceId: deviceId,
-     // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
-     serviceId: serviceId,
-     // 这里的 characteristicId 需要在上面的 getBLEDeviceCharacteristics 接口中获取
-     characteristicId: characteristicId,
-     // 这里的value是ArrayBuffer类型
-     value: buffer,
-     success: function (res) {
-       console.log('writeBLECharacteristicValue success', res.errMsg)
-     }
-   })
-   ```
+   * ```tsx
+   * // 向蓝牙设备发送一个0x00的16进制数据
+   * let buffer = new ArrayBuffer(1)
+   * let dataView = new DataView(buffer)
+   * dataView.setUint8(0, 0)
+   * Taro.writeBLECharacteristicValue({
+   *   // 这里的 deviceId 需要在 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
+   *   deviceId,
+   *   // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+   *   serviceId,
+   *   // 这里的 characteristicId 需要在 getBLEDeviceCharacteristics 接口中获取
+   *   characteristicId,
+   *   // 这里的value是ArrayBuffer类型
+   *   value: buffer,
+   *   success: function (res) {
+   *     console.log('writeBLECharacteristicValue success', res.errMsg)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.writeBLECharacteristicValue.html
    */
-  function writeBLECharacteristicValue(res: writeBLECharacteristicValue.Param): Promise<writeBLECharacteristicValue.Promised>
+  function writeBLECharacteristicValue(
+    option: writeBLECharacteristicValue.Option,
+  ): Promise<writeBLECharacteristicValue.Promised>
 }

@@ -1,34 +1,46 @@
 declare namespace Taro {
-  /**
-   * 停止当前页面下拉刷新。
+  namespace stopPullDownRefresh {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
+  }
+
+  /** 停止当前页面下拉刷新。
+   * @supported weapp, h5, rn
    * @example
    * ```tsx
-   * Page({
-   *   onPullDownRefresh: function(){
-   *     Taro.stopPullDownRefresh()
-   *   }
-   * })
+   * onPullDownRefresh: function (){
+   *   Taro.stopPullDownRefresh()
+   * }
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/pull-down-refresh/wx.stopPullDownRefresh.html
    */
-  function stopPullDownRefresh(): void
+  function stopPullDownRefresh(option?: stopPullDownRefresh.Option): void
 
   namespace startPullDownRefresh {
-    type Promised = {
-      /**
-       * 接口调用结果
-       */
-      errMsg: string
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
     }
-    type Param = {}
   }
-  /**
-   * 开始下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致
+
+  /** 开始下拉刷新。调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。
+   * @supported weapp, h5, rn
+   * @rn 无动画效果
    * @example
    * ```tsx
    * Taro.startPullDownRefresh()
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/pull-down-refresh/wx.startPullDownRefresh.html
    */
-  function startPullDownRefresh(res?: startPullDownRefresh.Param): Promise<startPullDownRefresh.Promised>
+  function startPullDownRefresh(option?: startPullDownRefresh.Option): Promise<General.CallbackResult>
 }

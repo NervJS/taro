@@ -1,5 +1,8 @@
 declare namespace Taro {
   namespace getSystemInfoSync {
+    /**
+     * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
+     */
     interface Result {
       /** 客户端基础库版本 */
       SDKVersion: string
@@ -60,8 +63,6 @@ declare namespace Taro {
 
   /**
    * 获取系统信息同步接口。
-   * 
-   * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
    * @supported weapp, h5, rn
    * @example
    * ```tsx
@@ -85,13 +86,16 @@ declare namespace Taro {
   namespace getSystemInfo {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: SuccessCallbackResult | any) => void
+      complete?: (res: Result | any) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: any) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: SuccessCallbackResult) => void
+      success?: (res: Result) => void
     }
-    interface SuccessCallbackResult {
+    /**
+     * 注意：**H5** 端不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
+     */
+    interface Result extends General.CallbackResult {
       /** 客户端基础库版本 */
       SDKVersion: string
       /** 允许微信使用相册的开关（仅 iOS 有效） */
@@ -146,6 +150,7 @@ declare namespace Taro {
       windowHeight: number
       /** 可使用窗口宽度，单位px */
       windowWidth: number
+      /** 调用结果 */
       errMsg: string
   }
   }
@@ -162,7 +167,7 @@ declare namespace Taro {
    * @example
    * ```tsx
    * Taro.getSystemInfo({
-   *   success: function(res) {
+   *   success: function (res) {
    *     console.log(res.model)
    *     console.log(res.pixelRatio)
    *     console.log(res.windowWidth)
@@ -175,5 +180,5 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/system-info/wx.getSystemInfo.html
    */
-  function getSystemInfo(res?: getSystemInfo.Option): Promise<getSystemInfo.SuccessCallbackResult>
+  function getSystemInfo(res?: getSystemInfo.Option): Promise<getSystemInfo.Result>
 }
