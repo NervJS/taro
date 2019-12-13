@@ -178,11 +178,11 @@ env: {
 
 ## defineConstants
 
-用来配置一些全局变量供代码中进行使用，例如：
+用来配置一些全局变量供代码中进行使用，配置方式与 [Webpack DefinePlugin](https://webpack.js.org/plugins/define-plugin/) 类似，例如：
 
 ```js
 defineConstants: {
-  A: '"a"' // JSON.stringify('a')
+  A: JSON.stringify('a') // '"a"'
 }
 ```
 
