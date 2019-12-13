@@ -17,7 +17,7 @@ jobs:
         - npm run build
         - npm run test
     - stage: deploy
-      if: (branch =~ /^(master|2.x)$/) AND (NOT (type IN (pull_request)))
+      if: (branch = 2.x) AND (NOT (type IN (pull_request)))
       script: yarn run build:docs
       deploy:
         - provider: pages
