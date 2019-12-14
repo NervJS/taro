@@ -46,7 +46,7 @@
     "@types/jasmine": "2.8.11",
     "@types/jest": "23.3.9",
     "@types/lodash": "4.14.117",
-    "@types/webpack": "4.4.18",
+    "@types/webpack": "4.41.0",
     "jest": "23.6.0",
     "nervjs": "^1.5.0",
     "rollup": "1.1.0",
