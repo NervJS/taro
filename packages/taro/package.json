@@ -14,8 +14,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c rollup.config.js",
-    "docs": "ts-node ./scripts/docs-api.ts"
+    "build": "rollup -c rollup.config.js"
   },
   "repository": {
     "type": "git",

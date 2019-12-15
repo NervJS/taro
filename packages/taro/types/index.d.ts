@@ -56,7 +56,8 @@
  * │   │   ├── live.d.ts                    媒体 -> 实时音视频 API
  * │   │   ├── map.d.ts                     媒体 -> 地图 API
  * │   │   ├── recorder.d.ts                媒体 -> 录音 API
- * │   │   └── video.d.ts                   媒体 -> 视频 API
+ * │   │   ├── video.d.ts                   媒体 -> 视频 API
+ * │   │   └── video-processing.d.ts        媒体 -> 音视频合成 API
  * │   ├── network
  * │   │   ├── download.d.ts                网络 -> 下载 API
  * │   │   ├── mdns.d.ts                    网络 -> mDNS API
@@ -173,6 +174,7 @@
 /// <reference path="api/media/map.d.ts" />
 /// <reference path="api/media/recorder.d.ts" />
 /// <reference path="api/media/video.d.ts" />
+/// <reference path="api/media/video-processing.d.ts" />
 /// <reference path="api/network/download.d.ts" />
 /// <reference path="api/network/mdns.d.ts" />
 /// <reference path="api/network/request.d.ts" />

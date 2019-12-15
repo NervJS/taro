@@ -59,15 +59,6 @@ declare namespace Taro {
    *   url: 'test?id=1'
    * })
    * ```
-   *
-   * ```html
-   * // test
-   * Page({
-   *   onLoad (option) {
-   *     console.log(option.query)
-   *   }
-   * })
-   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.reLaunch.html
    */
   function reLaunch(option: reLaunch.Option): Promise<General.CallbackResult>
@@ -134,21 +125,6 @@ declare namespace Taro {
    *   }
    * })
    * ```
-   *
-   * ```tsx
-   * //test.js
-   * Page({
-   *   onLoad: function(option){
-   *     console.log(option.query)
-   *     const eventChannel = this.getOpenerEventChannel()
-   *     eventChannel.emit('acceptDataFromOpenedPage', {data: 'test'});
-   *     eventChannel.emit('someEvent', {data: 'test'});
-   *     // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
-   *     eventChannel.on('acceptDataFromOpenerPage', function(data) {
-   *       console.log(data)
-   *     })
-   *   }
-   * })
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateTo.html
    */
   function navigateTo(option: navigateTo.Option): Promise<General.CallbackResult>
