@@ -1,155 +1,160 @@
 declare namespace Taro {
-  /**
-   * 创建并返回 camera 上下文 `cameraContext` 对象，`cameraContext` 与页面的 `camera` 组件绑定，一个页面只能有一个camera，通过它可以操作对应的 `<camera/>` 组件。 在自定义组件下，第一个参数传入组件实例this，以操作组件内 `<camera/>` 组件
+  /** 创建 camera 上下文 CameraContext 对象。
+   * @supported weapp
    * @example
-   * [在开发者工具中预览效果](wechatide://minicode/VBZ3Jim26zYu)
+   * ```tsx
+   * const cameraContext = Taro.createCameraContext()
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html
    */
-  function createCameraContext(instance?: any): CameraContext
+  function createCameraContext(): CameraContext
+
+  /** 
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.html
+   */
+  interface CameraContext {
+    /** 开始录像
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.startRecord.html
+     */
+    startRecord(option: CameraContext.StartRecordOption): void
+    /** 结束录像
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.stopRecord.html
+     */
+    stopRecord(option?: CameraContext.StopRecordOption): void
+    /** 拍摄照片
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.takePhoto.html
+     */
+    takePhoto(option: CameraContext.TakePhotoOption): void
+    /** 获取 Camera 实时帧数据
+     *
+     * ****
+     *
+     * 注： 使用该接口需同时在 [camera](https://developers.weixin.qq.com/miniprogram/dev/component/camera.html) 组件属性中指定 frame-size。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const context = wx.createCameraContext()
+     * const listener = context.onCameraFrame((frame) => {
+     *   console.log(frame.data instanceof ArrayBuffer, frame.width, frame.height)
+     * })
+     * listener.start()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.onCameraFrame.html
+     */
+    onCameraFrame(
+      /** 回调函数 */
+      callback: CameraContext.OnCameraFrameCallback,
+    ): CameraFrameListener
+  }
+
   namespace CameraContext {
-    namespace onCameraFrame {
-      type CallbackParam = {
-        /**
-         * 图像数据矩形的宽度
-         */
-        width: number
-        /**
-         * 图像数据矩形的高度
-         */
-        height: number
-        /**
-         * 图像像素点数据，一维数组，每四项表示一个像素点的 rgba
-         */
-        data: ArrayBuffer
-      }
-      type Callback = (res: CallbackParam) => any
-      /**
-       * CameraContext.onCameraFrame() 返回的监听器。
-       */
-      class CameraFrameListener {
-        /**
-         * 开始监听帧数据
-         */
-        start(): any
-        /**
-         * 停止监听帧数据
-         */
-        stop(): any
-      }
+    interface StartRecordOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+      /** 超过30s或页面 `onHide` 时会结束录像 */
+      timeoutCallback?: StartRecordTimeoutCallback
     }
-    namespace takePhoto {
-      type Param = {
-        /**
-         * 成像质量，值为high, normal, low，默认normal
-         */
-        quality?: string
-        /**
-         * 接口调用成功的回调函数 ，res = { tempImagePath }
-         */
-        success?: ParamPropSuccess
-        /**
-         * 接口调用失败的回调函数
-         */
-        fail?: ParamPropFail
-        /**
-         * 接口调用结束的回调函数（调用成功、失败都会执行）
-         */
-        complete?: ParamPropComplete
-      }
-      /**
-       * 接口调用成功的回调函数 ，res = { tempImagePath }
-       */
-      type ParamPropSuccess = (res: { tempImagePath: string }) => void
-      /**
-       * 接口调用失败的回调函数
-       */
-      type ParamPropFail = (err: any) => any
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      type ParamPropComplete = () => any
+    /** 超过30s或页面 `onHide` 时会结束录像 */
+    type StartRecordTimeoutCallback = (
+      result: StartRecordTimeoutCallbackResult,
+    ) => void
+    interface StartRecordTimeoutCallbackResult {
+      /** 封面图片文件的临时路径 */
+      tempThumbPath: string
+      /** 视频的文件的临时路径 */
+      tempVideoPath: string
     }
-    namespace startRecord {
-      type Param = {
-        /**
-         * 接口调用成功的回调函数
-         */
-        success?: ParamPropSuccess
-        /**
-         * 接口调用失败的回调函数
-         */
-        fail?: ParamPropFail
-        /**
-         * 接口调用结束的回调函数（调用成功、失败都会执行）
-         */
-        complete?: ParamPropComplete
-        /**
-         * 超过30s或页面onHide时会结束录像，res = { tempThumbPath, tempVideoPath }
-         */
-        timeoutCallback?: ParamPropTimeoutCallback
-      }
-      /**
-       * 接口调用成功的回调函数
-       */
-      type ParamPropSuccess = (res: { tempThumbPath: string; tempVideoPath: string }) => any
-      /**
-       * 接口调用失败的回调函数
-       */
-      type ParamPropFail = (err: any) => any
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      type ParamPropComplete = () => any
-      /**
-       * 超过30s或页面onHide时会结束录像，res = { tempThumbPath, tempVideoPath }
-       */
-      type ParamPropTimeoutCallback = (res: { tempThumbPath: string; tempVideoPath: string }) => void
+    interface StopRecordOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: StopRecordSuccessCallbackResult) => void
     }
-    namespace stopRecord {
-      type Param = {
-        /**
-         * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
-         */
-        success?: ParamPropSuccess
-        /**
-         * 接口调用失败的回调函数
-         */
-        fail?: ParamPropFail
-        /**
-         * 接口调用结束的回调函数（调用成功、失败都会执行）
-         */
-        complete?: ParamPropComplete
-      }
-      /**
-       * 接口调用成功的回调函数 ，res = { tempThumbPath, tempVideoPath }
-       */
-      type ParamPropSuccess = (res: { tempThumbPath: string; tempVideoPath: string }) => any
-      /**
-       * 接口调用失败的回调函数
-       */
-      type ParamPropFail = (err: any) => any
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      type ParamPropComplete = () => any
+    interface StopRecordSuccessCallbackResult extends General.CallbackResult {
+      /** 封面图片文件的临时路径 */
+      tempThumbPath: string
+      /** 视频的文件的临时路径 */
+      tempVideoPath: string
+      /** 调用结果 */
+      errMsg: string
+    }
+    interface TakePhotoOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 成像质量 */
+      quality?: keyof quality
+      /** 接口调用成功的回调函数 */
+      success?: (result: TakePhotoSuccessCallbackResult) => void
+    }
+    interface TakePhotoSuccessCallbackResult extends General.CallbackResult {
+      /** 照片文件的临时路径，安卓是jpg图片格式，ios是png */
+      tempImagePath: string
+      /** 调用结果 */
+      errMsg: string
+    }
+    /** 回调函数 */
+    type OnCameraFrameCallback = (result: OnCameraFrameCallbackResult) => void
+    interface OnCameraFrameCallbackResult {
+      /** 图像像素点数据，一维数组，每四项表示一个像素点的 rgba */
+      data: ArrayBuffer
+      /** 图像数据矩形的高度 */
+      height: number
+      /** 图像数据矩形的宽度 */
+      width: number
+    }
+    interface quality {
+      /** 高质量 */
+      high
+      /** 普通质量 */
+      normal
+      /** 低质量 */
+      low
     }
   }
-  class CameraContext {
-    /**
-     * 获取 Camera 实时帧数据
+
+  /** CameraContext.onCameraFrame() 返回的监听器。
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraFrameListener.html
+   */
+  interface CameraFrameListener {
+    /** 开始监听帧数据
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraFrameListener.start.html
      */
-    onCameraFrame(callback: CameraContext.onCameraFrame.Callback): CameraContext.onCameraFrame.CameraFrameListener
-    /**
-     * 拍照，可指定质量，成功则返回图片
+    start(option?: CameraFrameListener.StartOption): void
+    /** 停止监听帧数据
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraFrameListener.stop.html
      */
-    takePhoto(res: CameraContext.takePhoto.Param): any
-    /**
-     * 开始录像
-     */
-    startRecord(res: CameraContext.startRecord.Param): any
-    /**
-     * 结束录像，成功则返回封面与视频
-     */
-    stopRecord(res: CameraContext.stopRecord.Param): any
+    stop(option?: CameraFrameListener.StopOption): void
+  }
+
+  namespace CameraFrameListener {
+    interface StartOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
+    interface StopOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+    }
   }
 }
