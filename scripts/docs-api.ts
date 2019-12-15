@@ -244,7 +244,7 @@ export default function docsAPI (
 
   if (diff) {
     const canges = spawn('git', ['status', '-z'])
-  
+
     canges.stdout.on('data', (data) => {
       const ss = data.toString().trim().split(/\u0000|\s+/ig)
       ss.forEach(s => {
@@ -339,7 +339,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
   const _p = path.parse(routepath)
   const Component = childrenMerge(doc, []).find(e => e.name === _p.name) || {}
   const ComponentTags = Component.jsTags || []
-    
+
   const apis = { [`${_p.name}`]: ComponentTags }
 
   Component && (Component.members || []).forEach(member => {
@@ -369,11 +369,11 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
         if (name === _p.name) return undefined
         const tags = e.jsTags || []
         const md: (string | undefined)[] = []
-    
+
         if (!isFunction(e.flags) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
           console.warn(`WARN: Symbol flags ${e.flags} is missing parse! Watch symbol name:${name}.`)
         }
-    
+
         md.push(
           `## ${e.name}\n`,
           get.since(tags.find(tag => tag.name === 'since')),
