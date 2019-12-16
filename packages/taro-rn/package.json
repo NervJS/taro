@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "server": "node node_modules/react-native/local-cli/cli.js start",
-    "build": "rm -rf ./dist && gulp",
+    "build": "rimraf ./dist && gulp",
     "dev": "tsc --watch",
     "prepack": "npm run build",
     "test": "jest",
@@ -76,6 +76,7 @@
     "react-native": "0.55.4",
     "react-test-renderer": "^16.5.2",
     "redux": "^4.0.0",
+    "rimraf": "^3.0.0",
     "ts-jest": "23.10.4",
     "tslib": "1.9.3",
     "typescript": "3.0.3"
