@@ -1,4 +1,4 @@
-import { inlineStyle } from '../utils'
+import { inlineStyle, interactiveHelper } from '../utils'
 
 const noop = function () {}
 
@@ -135,6 +135,8 @@ export default class Toast {
 
     // show immediately
     document.body.appendChild(this.el)
+    // set body position fixed style
+    interactiveHelper().handleAfterCreate()
     setTimeout(() => { this.el.style.opacity = '1' }, 0)
     this.type = config._type
 
@@ -192,6 +194,8 @@ export default class Toast {
 
     // show
     this.el.style.display = 'block'
+    // set body position fixed style
+    interactiveHelper().handleAfterCreate()
     setTimeout(() => { this.el.style.opacity = '1' }, 0)
     this.type = config._type
 
@@ -212,6 +216,8 @@ export default class Toast {
 
     this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'
+      // reset body style as default
+      interactiveHelper().handleBeforeDestroy()
       this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 100)
     }, duration)
   }

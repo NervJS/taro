@@ -64,9 +64,9 @@ function serializeParams (params) {
   }
   return Object.keys(params)
     .map(key => (
-      `${encodeURIComponent(key)}=${typeof (params[key]) ==="object" ?
-        encodeURIComponent(JSON.stringify(params[key])):
-        encodeURIComponent(params[key])}`))
+      `${encodeURIComponent(key)}=${typeof (params[key]) === 'object'
+        ? encodeURIComponent(JSON.stringify(params[key]))
+        : encodeURIComponent(params[key])}`))
     .join('&')
 }
 
@@ -236,6 +236,78 @@ const getTimingFunc = (easeFunc, frameCnt) => {
   }
 }
 
+/**
+ * use closure function to store document.body.style in memory when loaded
+ */
+const bodyStatusClosure = (() => {
+  let hasCalculated
+  let bodyStyle
+  // use object copy to prevent document.body style read issue
+  const bodyCopy = Object.assign({}, document.body.style)
+  if (!hasCalculated) {
+    bodyStyle = bodyCopy
+  }
+  hasCalculated = true
+  return {
+    getInlineStyle: () => bodyStyle && bodyStyle.cssText,
+    hasCalculated
+  }
+})()
+
+/**
+ * get scrollTop and compact for all possible browser
+ *
+ * @returns scrollTop
+ */
+function getScrollTop () {
+  if (document.scrollingElement) {
+    return document.scrollingElement.scrollTop
+  } else {
+    return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+  }
+}
+
+/**
+ * compact for scrollTop
+ *
+ * for more info @see: https://www.zhangxinxu.com/wordpress/2019/02/document-scrollingelement/
+ * @param scrollTop scrollTop which needs to be reset
+ */
+function setScrollTop (scrollTop) {
+  if (document.scrollingElement) {
+    document.scrollingElement.scrollTop = scrollTop
+  } else {
+    document.documentElement.scrollTop = scrollTop
+    document.body.scrollTop = scrollTop
+  }
+}
+
+let scrollTop = 0
+
+/**
+ * interactive helper to provide position fixed when modal/toast/actionSheet open.
+ * And reset body style as default when close.
+ */
+const interactiveHelper = () => {
+  return {
+    handleAfterCreate: () => {
+      scrollTop = getScrollTop()
+      const bodyFixStyle = {
+        'position': 'fixed',
+        'width': '100%',
+        'overflow': 'hidden',
+        'top': `${-scrollTop}px`
+      }
+      document.body.setAttribute('style', inlineStyle(bodyFixStyle))
+    },
+    handleBeforeDestroy: () => {
+      const bodyInlineStyle = bodyStatusClosure.getInlineStyle() || {}
+      document.body.style = bodyInlineStyle
+      setScrollTop(scrollTop)
+    }
+  }
+}
+
 export {
   shouleBeObject,
   getParameterError,
@@ -254,5 +326,6 @@ export {
   processOpenapi,
   findRef,
   easeInOut,
-  getTimingFunc
+  getTimingFunc,
+  interactiveHelper
 }
