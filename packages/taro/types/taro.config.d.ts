@@ -297,6 +297,11 @@ declare namespace Taro {
      * @since 微信客户端 7.0.0
      */
     permission?: Permission
+    /**
+     * 指定使用升级后的weui样式
+     * @since 2.8.0
+     */
+    style?: 'v2'
   }
 
   interface Config extends PageConfig, AppConfig {
