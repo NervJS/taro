@@ -17,7 +17,7 @@ jobs:
         - npm run build
         - npm run test
     - stage: deploy
-      if: (branch = master) AND (NOT (type IN (pull_request)))
+      if: (branch = 2.x) AND (NOT (type IN (pull_request)))
       script: yarn run build:docs
       deploy:
         - provider: pages
@@ -25,4 +25,4 @@ jobs:
           github-token: $GITHUB_TOKEN
           local-dir: website/build/taro
           on:
-            branch: master
+            branch: 2.x
