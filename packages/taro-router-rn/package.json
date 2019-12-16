@@ -9,7 +9,7 @@
     "index.js"
   ],
   "scripts": {
-    "build": "rm -rf ./dist && gulp",
+    "build": "rimraf ./dist && gulp",
     "dev": "npm run build:static && tsc --watch",
     "prepack": "npm run build",
     "test": "jest"
@@ -49,6 +49,7 @@
     "react-native": "^0.55.4",
     "react-test-renderer": "^16.5.2",
     "regenerator-runtime": "^0.12.1",
+    "rimraf": "^3.0.0",
     "ts-jest": "23.10.4",
     "tslib": "1.9.3",
     "typescript": "3.0.3"
