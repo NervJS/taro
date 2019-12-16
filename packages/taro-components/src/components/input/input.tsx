@@ -76,6 +76,7 @@ export class Input implements ComponentInterface {
   }
 
   hanldeInput = (e: TaroEvent<HTMLInputElement>) => {
+    e.stopPropagation()
     const {
       type,
       maxLength,
@@ -129,6 +130,8 @@ export class Input implements ComponentInterface {
   handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
     const value = e.target.value
     this.onInputExcuted = false
+    e.stopPropagation()
+
     this.onKeyDown.emit({
       value
     })
@@ -166,7 +169,7 @@ export class Input implements ComponentInterface {
       <input
         ref={input => {
           this.inputRef = input!
-          input && focus && input.focus()
+          input && this.autoFocus && input.focus()
         }}
         class='weui-input'
         value={fixControlledValue(value)}
@@ -175,7 +178,7 @@ export class Input implements ComponentInterface {
         maxlength={maxLength}
         onInput={this.hanldeInput}
         onFocus={this.handleFocus}
-        autoFocus={this.autoFocus}
+        autofocus={this.autoFocus}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
         type={getTrueType(type, confirmType, password)}
