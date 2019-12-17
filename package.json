@@ -93,7 +93,7 @@
     "rollup-plugin-buble": "^0.19.2",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-postcss": "^1.6.1",
+    "rollup-plugin-postcss": "^2.0.3",
     "sass-loader": "^6.0.7",
     "shelljs": "^0.8.1",
     "style-loader": "^0.20.3",
