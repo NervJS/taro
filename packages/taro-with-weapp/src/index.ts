@@ -1,6 +1,7 @@
-import { Component, ComponentLifecycle, internal_safe_set as safeSet } from '@tarojs/taro'
+import { Component, ComponentLifecycle, internal_safe_set as safeSet, internal_safe_get as safeGet } from '@tarojs/taro'
 import { lifecycles, lifecycleMap, TaroLifeCycles } from './lifecycle'
 import { bind, proxy, isEqual } from './utils'
+import { diff } from './diff'
 
 type Observer = (newProps, oldProps, changePath: string) => void
 
@@ -14,6 +15,7 @@ interface ComponentClass<P = {}, S = {}> extends ComponentLifecycle<P, S> {
   externalClasses: Record<string, unknown>
   defaultProps?: Partial<P>
   _observeProps?: ObserverProperties[]
+  observers?: Record<string, Function>
 }
 
 interface WxOptions {
@@ -22,7 +24,8 @@ interface WxOptions {
   }
   properties?: Record<string, Record<string, unknown> | Function>
   props?: Record<string, unknown>
-  data?: Record<string, unknown>
+  data?: Record<string, unknown>,
+  observers?: Record<string, Function>
 }
 
 function defineGetter (component: Component, key: string, getter: string) {
@@ -61,6 +64,8 @@ export default function withWeapp (weappConf: WxOptions) {
       private didShows: Function[] = []
 
       private willUnmounts: Function[] = []
+
+      public observers?: Record<string, Function>
 
       constructor (props) {
         super(props)
@@ -195,12 +200,49 @@ export default function withWeapp (weappConf: WxOptions) {
       }
 
       setData = (obj: S, callback?: () => void) => {
-        const state = Object.assign({}, this.state)
+        const oldState = JSON.parse(JSON.stringify(this.state))
         Object.keys(obj).forEach(key => {
-          safeSet(state, key, obj[key])
+          safeSet(this.state, key, obj[key])
         })
-        Object.assign(this.state, state)
-        this.setState(state, callback)
+        this.setState(this.state, () => {
+          this.triggerObservers(this.state, oldState)
+          if (callback) {
+            callback.call(this)
+          }
+        })
+      }
+
+      private triggerObservers (current, prev) {
+        const observers = this.observers
+        if (observers == null) {
+          return
+        }
+
+        const result = diff(current, prev)
+        const resultKeys = Object.keys(result)
+        if (resultKeys.length === 0) {
+          return
+        }
+
+        for (const observerKey in observers) {
+          const keys = observerKey.split(',').map(k => k.trim())
+          const args: any = []
+          for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            for (let j = 0; j < resultKeys.length; j++) {
+              const resultKey = resultKeys[j]
+              if (
+                resultKey.startsWith(key) ||
+                (key.startsWith(resultKey) && key.endsWith(']'))
+              ) {
+                args.push(safeGet(current, key))
+              }
+            }
+          }
+          if (args.length) {
+            observers[observerKey].apply(this, args)
+          }
+        }
       }
 
       public triggerEvent = (eventName: string, ...args: unknown[]) => {
