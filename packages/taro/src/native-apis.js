@@ -109,7 +109,10 @@ const noPromiseApis = {
 
   // 广告
   createRewardedVideoAd: true,
-  createInterstitialAd: true
+  createInterstitialAd: true,
+
+  // 调试
+  getRealtimeLogManager: true
 }
 const otherApis = {
   // 网络
