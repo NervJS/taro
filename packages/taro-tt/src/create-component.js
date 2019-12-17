@@ -185,6 +185,7 @@ export function componentTrigger (component, key, args) {
   if (key === 'componentDidMount') {
     if (component['$$hasLoopRef']) {
       Current.current = component
+      Current.index = 0
       component._disableEffect = true
       component._createData(component.state, component.props, true)
       component._disableEffect = false
