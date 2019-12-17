@@ -6533,10 +6533,10 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-klaw@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/klaw/-/klaw-2.1.1.tgz#42b76894701169cc910fd0d19ce677b5fb378af1"
-  integrity sha1-QrdolHARacyRD9DRnOZ3tfs3ivE=
+klaw@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/klaw/-/klaw-3.0.0.tgz#b11bec9cf2492f06756d6e809ab73a2910259146"
+  integrity sha512-0Fo5oir+O9jnXu5EefYbVK+mHMBeEVEy2cmctR1O1NECcCkPRreJKrS6Qt/j3KC2C148Dfo9i3pCmCMsdqGr0g==
   dependencies:
     graceful-fs "^4.1.9"
 
