@@ -54,7 +54,7 @@ class Compiler {
   plugins: ICommonPlugin[]
   rnConfig
   hasJDReactOutput: boolean
-  babelConfig: any
+  // babelConfig: any
   // pxTransformConfig
   // pathAlias
 
@@ -74,7 +74,7 @@ class Compiler {
     this.stylus = this.projectConfig.stylus
     this.less = this.projectConfig.less
     this.rnConfig = this.projectConfig.rn || {}
-    this.babelConfig = this.projectConfig.plugins.babel // 用来配置 babel
+    // this.babelConfig = this.projectConfig.plugins.babel // 用来配置 babel
 
     // 直接输出编译后代码到指定目录
     if (this.rnConfig.outPath) {
