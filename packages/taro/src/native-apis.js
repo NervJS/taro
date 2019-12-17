@@ -91,6 +91,7 @@ const noPromiseApis = {
   hideKeyboard: true,
   stopPullDownRefresh: true,
   createIntersectionObserver: true,
+  nextTick: true,
 
   // 菜单
   getMenuButtonBoundingClientRect: true,
