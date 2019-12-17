@@ -1,5 +1,5 @@
 import { Adapters, Adapter } from './adapter'
-import { quickappComponentName, DEFAULT_Component_SET_COPY } from './constant'
+import { quickappComponentName, DEFAULT_Component_SET_COPY, LOOP_ORIGINAL } from './constant'
 import { transformOptions } from './options'
 import { camelCase } from 'lodash'
 import { isTestEnv } from './env'
@@ -46,6 +46,12 @@ function stringifyAttributes (input: object, componentName: string) {
         (quickappComponentName.has(nameCapitalized) || DEFAULT_Component_SET_COPY.has(nameCapitalized))
       ) {
         attribute = 'customstyle'
+      }
+    }
+
+    if (Adapters.weapp === Adapter.type && key === 'key' && typeof value === 'string') {
+      if (value.startsWith(LOOP_ORIGINAL)) {
+        value = value.replace(LOOP_ORIGINAL + '.', '')
       }
     }
 
