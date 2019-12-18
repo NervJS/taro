@@ -13,6 +13,7 @@
     "noUnusedParameters": true,
     "strictNullChecks": true,
     "sourceMap": true,
+    "allowJs": true,
     "baseUrl": ".",
     "rootDir": "."
   },
