@@ -289,7 +289,7 @@ describe('state', () => {
 
     delay(() => {
       expect(spy.callCount).toBe(1)
-      expect(spy2.callCount).toBeTruthy(1)
+      expect(spy2.callCount).toBe(1)
       done()
     })
   })
