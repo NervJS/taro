@@ -149,11 +149,11 @@ v1.2.22 已支持引入原生的 SDK。
 Pay.js 文件，这是 Test 组件默认的形式，编译到微信小程序、百度小程序和 H5 三端之外的端使用的版本
 
 ```
-test.h5.js 文件，这是 Pay 组件的 H5 版本
+pay.h5.js 文件，这是 Pay 组件的 H5 版本
 
-test.weapp.js 文件，这是 Pay 组件的 微信小程序 版本
+pay.weapp.js 文件，这是 Pay 组件的 微信小程序 版本
 
-test.rn.js 文件，这是 Pay 组件的 RN 版本
+pay.rn.js 文件，这是 Pay 组件的 RN 版本
 ```
 
 ### 其他注意事项
