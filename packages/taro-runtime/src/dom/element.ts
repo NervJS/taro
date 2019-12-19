@@ -1,5 +1,5 @@
 /* eslint-disable no-dupe-class-members */
-import { isArray, isUndefined, Shortcuts } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
@@ -13,6 +13,8 @@ interface Attributes {
 
 export class TaroElement extends TaroNode {
   public props: Record<string, string> = {}
+
+  public dataset: Record<string, unknown> = EMPTY_OBJ
 
   public tagName: string
 
@@ -77,6 +79,12 @@ export class TaroElement extends TaroNode {
       this.props[qualifiedName] = value as string
       if (qualifiedName === 'class') {
         qualifiedName = Shortcuts.Class
+      }
+      if (qualifiedName.startsWith('data-')) {
+        if (this.dataset === EMPTY_OBJ) {
+          this.dataset = Object.create(null)
+        }
+        this.dataset[qualifiedName.replace(/^data-/, '')] = value
       }
     }
 
