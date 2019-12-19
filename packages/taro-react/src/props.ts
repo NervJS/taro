@@ -29,7 +29,7 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
 const listeners: Record<string, Record<string, Function>> = {}
 
 function eventProxy (e: CommonEvent) {
-  listeners[e.target.id][e.type](e)
+  listeners[e.currentTarget.id][e.type](e)
 }
 
 function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {

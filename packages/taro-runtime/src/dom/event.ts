@@ -8,6 +8,8 @@ interface EventOptions {
   cancelable: boolean;
 }
 
+type Target = Record<string, unknown & { dataset: Record<string, string> }>
+
 export const eventSource = new Map<string, TaroNode>()
 
 export class TaroEvent {
@@ -23,9 +25,9 @@ export class TaroEvent {
 
   public defaultPrevented = false
 
-  public target: Record<string, unknown>
+  public target: Target
 
-  public currentTarget: Record<string, unknown>
+  public currentTarget: Target
 
   public constructor (type: string, opts: EventOptions) {
     this.type = type.toLowerCase()
