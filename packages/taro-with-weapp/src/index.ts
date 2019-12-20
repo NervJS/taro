@@ -2,6 +2,7 @@ import { Component, ComponentLifecycle, internal_safe_set as safeSet, internal_s
 import { lifecycles, lifecycleMap, TaroLifeCycles } from './lifecycle'
 import { bind, proxy, isEqual } from './utils'
 import { diff } from './diff'
+import { clone } from './clone'
 
 type Observer = (newProps, oldProps, changePath: string) => void
 
@@ -200,7 +201,10 @@ export default function withWeapp (weappConf: WxOptions) {
       }
 
       setData = (obj: S, callback?: () => void) => {
-        const oldState = JSON.parse(JSON.stringify(this.state))
+        let oldState
+        if (this.observers && Object.keys(Object.keys(this.observers))) {
+          oldState = clone(this.state)
+        }
         Object.keys(obj).forEach(key => {
           safeSet(this.state, key, obj[key])
         })
@@ -215,6 +219,10 @@ export default function withWeapp (weappConf: WxOptions) {
       private triggerObservers (current, prev) {
         const observers = this.observers
         if (observers == null) {
+          return
+        }
+
+        if (Object.keys(observers).length === 0) {
           return
         }
 
@@ -289,6 +297,7 @@ export default function withWeapp (weappConf: WxOptions) {
       }
 
       public componentWillReceiveProps (nextProps: P) {
+        this.triggerObservers(nextProps, this.props)
         this._observeProps.forEach(({ name: key, observer }) => {
           const prop = this.props[key]
           const nextProp = nextProps[key]
