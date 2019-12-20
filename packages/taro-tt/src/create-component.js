@@ -371,7 +371,7 @@ function createComponent (ComponentClass, isPage) {
       if (componentInstance[fn] && typeof componentInstance[fn] === 'function') {
         weappComponentConf[fn] = function () {
           const component = this.$component
-          if (component[fn] && typeof component[fn] === 'function') {
+          if (component && component[fn] && typeof component[fn] === 'function') {
             return component[fn](...arguments)
           }
         }
