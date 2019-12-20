@@ -11,7 +11,11 @@ const events = {
 }
 
 const alipayEvents = {
-  onTap: 'eh'
+  onTap: 'eh',
+  onTouchMove: 'eh',
+  onTouchEnd: 'eh',
+  onTouchCancel: 'eh',
+  onLongTap: 'eh'
 }
 
 const View = {
@@ -19,7 +23,12 @@ const View = {
   'hover-stop-propagation': 'false',
   'hover-start-time': '50',
   'hover-stay-time': '400',
-  animation: ''
+  animation: '',
+  bindTouchStart: '',
+  bindTouchMove: '',
+  bindTouchEnd: '',
+  bindTouchCancel: '',
+  bindLongTap: ''
 }
 
 const Icon = {
@@ -58,7 +67,7 @@ const Button = {
   size: singleQuote('default'),
   type: singleQuote('default'),
   plain: 'false',
-  disabled: 'false',
+  disabled: '',
   loading: 'false',
   'form-type': '',
   'open-type': '',
@@ -83,7 +92,7 @@ const Button = {
 
 const Checkbox = {
   value: '',
-  disabled: 'false',
+  disabled: '',
   checked: 'false',
   color: singleQuote('#09BB07')
 }
@@ -120,7 +129,7 @@ const Input = {
   placeholder: '',
   'placeholder-style': '',
   'placeholder-class': singleQuote('input-placeholder'),
-  disabled: 'false',
+  disabled: '',
   maxlength: '140',
   'cursor-spacing': '0',
   'auto-focus': 'false',
@@ -145,7 +154,7 @@ const Label = {
 
 const Picker = {
   mode: singleQuote('selector'),
-  disabled: 'false',
+  disabled: '',
   bindCancel: ''
 }
 
@@ -167,7 +176,7 @@ const PickerViewColumn = {
 const Radio = {
   value: '',
   checked: 'false',
-  disabled: 'false',
+  disabled: '',
   color: singleQuote('#09BB07')
 }
 
@@ -179,7 +188,7 @@ const Slider = {
   min: '0',
   max: '100',
   step: '1',
-  disabled: 'false',
+  disabled: '',
   value: '0',
   color: singleQuote('#e9e9e9'),
   'selected-color': singleQuote('#1aad19'),
@@ -194,7 +203,7 @@ const Slider = {
 
 const Switch = {
   checked: 'false',
-  disabled: 'false',
+  disabled: '',
   type: singleQuote('switch'),
   color: singleQuote('#04BE02'),
   bindChange: ''
@@ -211,7 +220,7 @@ const Textarea = {
   placeholder: '',
   'placeholder-style': '',
   'placeholder-class': singleQuote('textarea-placeholder'),
-  disabled: 'false',
+  disabled: '',
   maxlength: '140',
   'auto-focus': 'false',
   focus: 'false',
@@ -248,7 +257,7 @@ const MoveableView = {
   y: '',
   damping: '20',
   friction: '2',
-  disabled: 'fasle',
+  disabled: '',
   scale: 'false',
   'scale-min': '0.5',
   'scale-max': '10',
