@@ -231,6 +231,7 @@ export function componentTrigger (component, key, args) {
     }
     if (component['$$hasLoopRef']) {
       Current.current = component
+      Current.index = 0
       component._disableEffect = true
       component._createData(component.state, component.props, true)
       component._disableEffect = false
@@ -389,7 +390,7 @@ function createComponent (ComponentClass, isPage) {
       if (componentInstance[fn] && typeof componentInstance[fn] === 'function') {
         weappComponentConf.methods[fn] = function () {
           const component = this.$component
-          if (component[fn] && typeof component[fn] === 'function') {
+          if (component && component[fn] && typeof component[fn] === 'function') {
             return component[fn].call(component, ...arguments)
           }
         }

@@ -242,19 +242,32 @@ export function getUniqueKey () {
   return _loadTime + (_i++)
 }
 
-export function handleLoopRef (component, id, type, handler = function () {}) {
+function triggerLoopRef (that, dom, handler) {
+  const handlerType = typeof handler
+  if (handlerType !== 'function' && handlerType !== 'object') {
+    return console.warn(`循环 Ref 只支持函数或 createRef()，当前类型为：${handlerType}`)
+  }
+
+  if (handlerType === 'object') {
+    handler.current = dom
+  } else if (handlerType === 'function') {
+    handler.call(that, dom)
+  }
+}
+
+export function handleLoopRef (component, id, type, handler) {
   if (!component) return null
 
   let res
   if (type === 'component') {
     component.selectComponent(id, function (res) {
       res = res ? res.$component || res : null
-      res && handler.call(component.$component, res)
+      res && triggerLoopRef(component.$component, res, handler)
     })
   } else {
     const query = wx.createSelectorQuery().in(component)
     res = query.select(id)
-    res && handler.call(component.$component, res)
+    res && triggerLoopRef(component.$component, res, handler)
   }
 
   return null

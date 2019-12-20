@@ -91,6 +91,7 @@ const noPromiseApis = {
   hideKeyboard: true,
   stopPullDownRefresh: true,
   createIntersectionObserver: true,
+  nextTick: true,
 
   // 菜单
   getMenuButtonBoundingClientRect: true,
@@ -108,7 +109,10 @@ const noPromiseApis = {
 
   // 广告
   createRewardedVideoAd: true,
-  createInterstitialAd: true
+  createInterstitialAd: true,
+
+  // 调试
+  getRealtimeLogManager: true
 }
 const otherApis = {
   // 网络
