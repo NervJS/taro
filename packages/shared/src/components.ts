@@ -18,7 +18,8 @@ const View = {
   'hover-class': singleQuote('none'),
   'hover-stop-propagation': 'false',
   'hover-start-time': '50',
-  'hover-stay-time': '400'
+  'hover-stay-time': '400',
+  animation: ''
 }
 
 const Icon = {
