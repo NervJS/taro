@@ -77,7 +77,9 @@ export function ensure (condition: boolean, msg: string): asserts condition {
 }
 
 export function warn (condition: boolean, msg: string) {
-  if (condition) {
-    console.error(msg)
+  if (process.env.NODE_ENV !== 'production') {
+    if (condition) {
+      console.error(msg)
+    }
   }
 }

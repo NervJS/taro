@@ -42,7 +42,11 @@ export class TaroRootElement extends TaroElement {
       const resetPaths = new Set<string>()
       while (this.updatePayloads.length > 0) {
         const { path, value } = this.updatePayloads.shift()!
-        if (path.endsWith(Shortcuts.Childnodes)) {
+        if (
+          path.endsWith(Shortcuts.Childnodes) ||
+          path === 'root.cn.[0]' || // 页面初次渲染
+          path === 'root.cn[0]' // swan
+        ) {
           resetPaths.add(path)
         }
         data[path] = value

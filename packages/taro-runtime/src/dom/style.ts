@@ -1,4 +1,4 @@
-import { isUndefined, toCamelCase, toDashed, Shortcuts } from '@tarojs/shared'
+import { isUndefined, toCamelCase, toDashed, Shortcuts, warn } from '@tarojs/shared'
 import { styleProperties } from './style_properties'
 import { TaroElement } from './element'
 
@@ -31,6 +31,12 @@ export class Style {
           if (newVal) {
             usedStyleProp.add(styleKey)
           }
+
+          warn(
+            styleKey === 'style' && newVal.startsWith('data:image/'),
+            '直接在图片地址使用 data64 会造成渲染性能急剧下降，考虑在 CSS 类使用 base64 或其它替代方案。'
+          )
+
           if (old !== newVal) {
             this._value[styleKey] = newVal
             this._element.enqueueUpdate({

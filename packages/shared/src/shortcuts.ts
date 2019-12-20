@@ -2,12 +2,12 @@
 export const enum Shortcuts {
   Container = 'container',
   Childnodes = 'cn',
-  Text = 'nodeValue',
-  NodeType = 'nodeType',
-  NodeName = 'nodeName',
+  Text = 'v',
+  NodeType = 'nt',
+  NodeName = 'nn',
 
   // Attrtibutes
-  Style = 'style',
+  Style = 'st',
   Class = 'cl',
   Src = 'src'
 }

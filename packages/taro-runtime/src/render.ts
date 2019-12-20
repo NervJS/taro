@@ -12,8 +12,8 @@ export interface MpInstance {
 interface MiniElementData {
   [Shortcuts.Childnodes]: MiniData[]
   [Shortcuts.NodeName]: string
-  [Shortcuts.Class]: string
-  [Shortcuts.Style]: string
+  [Shortcuts.Class]?: string
+  [Shortcuts.Style]?: string
   uid: string
   [key: string]: unknown
 }
@@ -35,12 +35,25 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     }
   }
 
-  return {
+  const data: MiniData = {
     ...node.props,
     [Shortcuts.Childnodes]: node.childNodes.map(hydrate),
     [Shortcuts.NodeName]: node.nodeName,
-    [Shortcuts.Class]: node.className,
-    [Shortcuts.Style]: node.cssText || '',
     uid: node.uid
   }
+
+  if (node.className) {
+    data[Shortcuts.Class] = node.className
+  }
+
+  if (node.cssText) {
+    data[Shortcuts.Style] = node.cssText
+  }
+
+  // eslint-disable-next-line dot-notation
+  delete data['class']
+  // eslint-disable-next-line dot-notation
+  delete data['style']
+
+  return data
 }
