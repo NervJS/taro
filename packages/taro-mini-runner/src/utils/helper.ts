@@ -28,6 +28,19 @@ export function getImportTaroSelfComponents (filePath, nodeModulesPath, outputDi
   return importTaroSelfComponents
 }
 
+export function getImportCustomComponents(outputDir, depComponents) {
+  const importCustomComponents = new Set();
+  depComponents.forEach(item => {
+      const extnamePath = item.path.replace(path.extname(item.path), '')
+      const cRelativePath = path.relative(path.join(outputDir, 'index'), extnamePath).replace(/\\/g, '/')
+      importCustomComponents.add({
+          path: cRelativePath,
+          name: item.name
+      })
+  })
+  return importCustomComponents;
+}
+
 export function generateQuickAppUx ({
   script,
   template,
