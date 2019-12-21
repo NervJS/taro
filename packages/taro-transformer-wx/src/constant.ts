@@ -50,6 +50,116 @@ export const DEFAULT_Component_SET = new Set<string>([
   'Editor'
 ])
 
+// tslint:disable-next-line: variable-name
+export const QUICKAPP_Native_Support_Components_SET = new Set<string>([
+  'Icon',
+  'RichText',
+  'Checkbox',
+  'Radio',
+  'SwiperItem',
+  'Navigator',
+  'ScrollView',
+  'WebView'
+])
+
+// tslint:disable-next-line: variable-name
+export const QUICKAPP_Taro_Simulate_Components_SET = new Set<string>([
+  'Swiper',
+  'Audio',
+  'Image',
+  'CoverImage',
+  'Progress',
+  'Input',
+  'Label',
+  'Picker',
+  'Slider',
+  'Switch',
+  'Textarea',
+  'Video',
+  'Camera',
+  'Canvas',
+  'Map',
+  'Button'
+])
+
+// tslint:disable-next-line: variable-name
+export const QUICKAPP_Un_Support_Component_SET = new Set<string>([
+  'Ad',
+  'Block',
+  'View',
+  'CoverView',
+  'Form',
+  'RadioGroup',
+  'CheckboxGroup',
+  'PickerView',
+  'PickerViewColumn',
+  'CheckboxGroup',
+  'LivePlayer',
+  'LivePusher',
+  'OpenData',
+  'MovableArea',
+  'MovableView',
+  'FunctionalPageNavigator'
+])
+
+// tslint:disable-next-line: variable-name
+export const UI_Un_Support_Component_SET = new Set<string>([
+  'AtActionSheet',
+  'AtActionSheetItem',
+  'AtActivityIndicator',
+  'AtAvatar',
+  'AtBadge',
+  'AtCard',
+  'AtDrawer',
+  'AtFloatLayout',
+  'AtGrid',
+  'AtInputNumber',
+  'AtList',
+  'AtListItem',
+  'AtModalHeader',
+  'AtModalContent',
+  'AtModalAction',
+  'AtNavBar',
+  'AtNoticebar',
+  'AtPagination',
+  'AtRate',
+  'AtSegmentedControl',
+  'AtTabBar',
+  'AtTabs',
+  'AtTabsPane',
+  'AtTag',
+  'AtTimeline',
+  'AtToast',
+  'AtAccordion',
+  'AtSwipeAction',
+  'AtSearchBar',
+  'AtLoadMore',
+  'AtDivider',
+  'AtCountdown',
+  'AtSteps',
+  'AtCurtain',
+  'AtMessage',
+  'AtRange',
+  'AtIndexes',
+  'AtCalendar',
+  'AtFab',
+  'AtLoading',
+  'AtImagePicker',
+  'AtComponentcommon'
+])
+
+// tslint:disable-next-line: variable-name
+export const UI_Native_Support_Components_SET = new Set<string>([
+  'AtProgress',
+  'AtButton',
+  'AtCheckbox',
+  'AtForm',
+  'AtInput',
+  'AtRadio',
+  'AtSlider',
+  'AtSwitch'
+])
+
 // tslint:disable-next-line:variable-name
 export const DEFAULT_Component_SET_COPY = new Set<string>([])
 DEFAULT_Component_SET.forEach((c) => DEFAULT_Component_SET_COPY.add(c))

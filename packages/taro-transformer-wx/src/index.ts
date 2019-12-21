@@ -2,6 +2,7 @@ import traverse, { Binding, NodePath } from 'babel-traverse'
 import generate from 'babel-generator'
 import { prettyPrint } from 'html'
 import { transform as parse } from 'babel-core'
+import ValidatorStrategy from './validator'
 import * as ts from 'typescript'
 import { Transformer } from './class'
 import {
@@ -575,11 +576,9 @@ export default function transform (options: TransformOptions): TransformResult {
       }
 
       if (Adapter.type === Adapters.quickapp) {
-        if (name === 'View') {
-          path.node.name = t.jSXIdentifier('div')
-        }
-        if (name === 'Block') {
-          path.node.name = t.jSXIdentifier('block')
+        let result = ValidatorStrategy.validator(name)
+        if (result.isQuickappComponent) {
+          path.node.name = t.jSXIdentifier(result.name)
         }
       }
 
@@ -734,8 +733,9 @@ export default function transform (options: TransformOptions): TransformResult {
         path.node.specifiers.forEach((s) => {
           if (t.isImportSpecifier(s)) {
             const originalName = s.imported.name
-            if (quickappComponentName.has(originalName)) {
-              const importedName = `Taro${originalName}`
+            let result = ValidatorStrategy.validator(originalName)
+            if (result.isQuickappComponent) {
+              const importedName = result.name
               s.imported.name = importedName
               s.local.name = importedName
             }
