@@ -1,4 +1,11 @@
 declare namespace Taro {
+  namespace getExtConfigSync {
+    interface ExtInfo {
+      /** 第三方平台自定义的数据 */
+      extConfig: General.IAnyObject
+    }
+  }
+
   /** Taro.getExtConfig 的同步版本。
    *
    * **Tips**
@@ -12,7 +19,7 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext/wx.getExtConfigSync.html
    */
-  function getExtConfigSync(): General.IAnyObject
+  function getExtConfigSync(): getExtConfigSync.ExtInfo
 
   namespace getExtConfig {
     interface Option {
