@@ -92,7 +92,9 @@ function readQuickAppManifest () {
 export async function build (appPath: string, { watch, type = BUILD_TYPES.WEAPP, envHasBeenSet = false, port, release }: IBuildOptions, customBuildData: Partial<IBuildData> | null | undefined, builder: Builder) {
   const buildData = setBuildData(appPath, type, customBuildData)
   const isQuickApp = type === BUILD_TYPES.QUICKAPP
-  await checkCliAndFrameworkVersion(appPath, type)
+  if (type !== BUILD_TYPES.PLUGIN) {
+    await checkCliAndFrameworkVersion(appPath, type)
+  }
   process.env.TARO_ENV = type
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)
