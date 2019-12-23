@@ -33,20 +33,21 @@ export class TaroRootElement extends TaroElement {
     this.performUpdate()
   }
 
-  public performUpdate () {
+  public performUpdate (initRender = false) {
     this.pendingUpdate = true
     const ctx = this.ctx!
 
     setTimeout(() => {
       const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
-      const resetPaths = new Set<string>()
+      const resetPaths = new Set<string>(
+        initRender
+          ? ['root.cn.[0]', 'root.cn[0]']
+          : []
+      )
+
       while (this.updatePayloads.length > 0) {
         const { path, value } = this.updatePayloads.shift()!
-        if (
-          path.endsWith(Shortcuts.Childnodes) ||
-          path === 'root.cn.[0]' || // 页面初次渲染
-          path === 'root.cn[0]' // swan
-        ) {
+        if (path.endsWith(Shortcuts.Childnodes)) {
           resetPaths.add(path)
         }
         data[path] = value

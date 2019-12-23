@@ -33,7 +33,7 @@ export interface ReactPageInstance<T = PageProps> extends Component<T>, Show, Pa
   //
 }
 
-export interface PageInstance extends Show {
+export interface PageLifeCycle extends Show {
   onPullDownRefresh?(): void
   onReachBottom?(): void
   onPageScroll?(obj: { scrollTop: number }): void
@@ -48,6 +48,10 @@ export interface PageInstance extends Show {
   eh?(event: CommonEvent): void
   onLoad(options: Record<string, unknown>): void
   onUnload(): void
+}
+
+export interface PageInstance extends PageLifeCycle {
+  data?: Record<string, unknown>
 }
 
 interface Show {

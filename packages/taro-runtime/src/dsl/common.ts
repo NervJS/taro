@@ -24,8 +24,8 @@ function addLeadingSlash (path: string) {
 
 const pageId = incrementId()
 
-export function createPageConfig (component: React.ComponentClass) {
-  const id = `taro_page_${pageId()}`
+export function createPageConfig (component: React.ComponentClass, pageName?: string) {
+  const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let page: TaroRootElement | null = null
   let instance: Instance = EMPTY_OBJ
@@ -66,7 +66,7 @@ export function createPageConfig (component: React.ComponentClass) {
         ensure(page !== null, '没有找到页面实例。')
         safeExecute('onLoad', options)
         page.ctx = this
-        page.performUpdate()
+        page.performUpdate(true)
       })
     },
     onUnload () {

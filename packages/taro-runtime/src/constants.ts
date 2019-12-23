@@ -1,0 +1,1 @@
+export const PROPERTY_THRESHOLD = 2046

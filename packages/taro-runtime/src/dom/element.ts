@@ -1,10 +1,11 @@
 /* eslint-disable no-dupe-class-members */
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
 import { isElement } from '../utils'
 import { Style } from './style'
+import { PROPERTY_THRESHOLD } from '../constants'
 
 interface Attributes {
   name: string;
@@ -67,6 +68,11 @@ export class TaroElement extends TaroNode {
   }
 
   public setAttribute (qualifiedName: string, value: string | boolean): void {
+    warn(
+      isString(value) && value.length > PROPERTY_THRESHOLD,
+      `元素 ${this.nodeName} 的 属性 ${qualifiedName} 的值数据量过大，可能会影响渲染性能。`
+    )
+
     if (qualifiedName === 'style') {
       this.style.cssText = value as string
       qualifiedName = Shortcuts.Style

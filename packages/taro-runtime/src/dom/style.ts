@@ -1,6 +1,7 @@
-import { isUndefined, toCamelCase, toDashed, Shortcuts, warn } from '@tarojs/shared'
+import { isUndefined, toCamelCase, toDashed, Shortcuts, warn, isString } from '@tarojs/shared'
 import { styleProperties } from './style_properties'
 import { TaroElement } from './element'
+import { PROPERTY_THRESHOLD } from '../constants'
 
 function initStyle (ctor: typeof Style) {
   const properties = {}
@@ -18,8 +19,8 @@ function initStyle (ctor: typeof Style) {
         }
 
         warn(
-          styleKey === 'style' && newVal.startsWith('data:image/'),
-          '直接在图片地址使用 data64 会造成渲染性能急剧下降，考虑在 CSS 类使用 base64 或其它替代方案。'
+          isString(newVal) && newVal.length > PROPERTY_THRESHOLD,
+          `Style 属性 ${styleKey} 的值数据量过大，可能会影响渲染性能，考虑使用 CSS 类或其它方案替代。`
         )
 
         if (old !== newVal) {

@@ -1,9 +1,9 @@
 import { PageContext, R as React } from './react'
 import { getPageInstance, injectPageInstance } from './common'
-import { PageInstance } from './instance'
+import { PageLifeCycle } from './instance'
 import { Current } from '../current'
 
-const taroHooks = (lifecycle: keyof PageInstance) => {
+const taroHooks = (lifecycle: keyof PageLifeCycle) => {
   return (fn: Function) => {
     const id = React.useContext(PageContext)
     let inst = getPageInstance(id)

@@ -142,7 +142,8 @@ export default class TaroMiniPlugin {
           module.loaders.unshift({
             loader: '@tarojs/taro-loader/lib/page',
             options: {
-              framework
+              framework,
+              name: module.name
             }
           })
         }
