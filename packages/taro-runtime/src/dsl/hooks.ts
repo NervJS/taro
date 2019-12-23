@@ -1,4 +1,4 @@
-import { PageContext, react as React } from './react'
+import { PageContext, R as React } from './react'
 import { getPageInstance, injectPageInstance } from './common'
 import { PageInstance } from './instance'
 import { Current } from '../current'

@@ -38,14 +38,14 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
   }
 }
 
-export function createVueApp (App: VueInstance) {
-  let Vue
-  // webpack 开发模式不会执行 tree-shaking，因此我们需要做此判断
-  if (process.env.FRAMEWORK === 'vue') {
-    const v = require('vue')
-    Vue = v.default || v
-  }
+let Vue
+// webpack 开发模式不会执行 tree-shaking，因此我们需要做此判断
+if (process.env.FRAMEWORK === 'vue') {
+  const v = require('vue')
+  Vue = v.default || v
+}
 
+export function createVueApp (App: VueInstance) {
   ensure(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
 
   Vue.config.getTagNamespace = noop

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { isFunction, EMPTY_OBJ, ensure } from '@tarojs/shared'
+import { isFunction, ensure, EMPTY_OBJ } from '@tarojs/shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps, Instance } from './instance'
 import { document } from '../bom/document'
@@ -28,13 +28,29 @@ export function connectReactPage (
   }
 }
 
-export let PageContext: React.Context<string>
+// 初始值设置为 any 主要是为了过 TS 的校验
+export let R: typeof React = EMPTY_OBJ
+
+let ReactDOM
+
+if (process.env.FRAMEWORK === 'nerv') {
+  R = require('nervjs')
+  ReactDOM = R
+}
+
+// 其它 react-like 框架走 react 模式，在 webpack.resolve.alias 设置 react/react-dom 到对应包
+if (process.env.FRAMEWORK === 'react') {
+  R = require('react')
+  ReactDOM = require('react-dom')
+}
+
+export const PageContext: React.Context<string> = R.createContext('')
 
 export const taroHooks = (lifecycle: string) => {
   return (fn: Function) => {
-    const id = React.useContext(PageContext)
+    const id = R.useContext(PageContext)
     let inst = getPageInstance(id)
-    React.useLayoutEffect(() => {
+    R.useLayoutEffect(() => {
       let first = false
       if (inst == null) {
         first = true
@@ -48,28 +64,7 @@ export const taroHooks = (lifecycle: string) => {
   }
 }
 
-export let react: typeof React
-
 export function createReactApp (App: React.ComponentClass) {
-  // 初始值设置为 any 主要是为了过 TS 的校验
-  let R: typeof React = EMPTY_OBJ
-  let ReactDOM
-
-  if (process.env.FRAMEWORK === 'nerv') {
-    R = require('nervjs')
-    ReactDOM = R
-  }
-
-  // 其它 react-like 框架走 react 模式，在 webpack.resolve.alias 设置 react/react-dom 到对应包
-  if (process.env.FRAMEWORK === 'react') {
-    R = require('react')
-    ReactDOM = require('react-dom')
-  }
-
-  react = R
-
-  PageContext = R.createContext('')
-
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
 
   const ref = R.createRef<ReactPageInstance>()
