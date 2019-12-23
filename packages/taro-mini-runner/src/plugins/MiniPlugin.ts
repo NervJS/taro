@@ -19,7 +19,7 @@ import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODUL
 import { IComponentObj } from '../utils/types'
 import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog, isAliasPath, replaceAliasPath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, generateQuickAppManifest } from '../utils/helper'
+import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, getImportCustomComponents, generateQuickAppManifest } from '../utils/helper'
 import parseAst from '../utils/parseAst'
 import rewriterTemplate from '../quickapp/template-rewriter'
 
@@ -661,6 +661,7 @@ export default class MiniPlugin {
           const scriptPath = file.path
           const outputScriptPath = scriptPath.replace(this.sourceDir, this.outputDir).replace(path.extname(scriptPath), MINI_APP_FILES[buildAdapter].SCRIPT)
           const importTaroSelfComponents = getImportTaroSelfComponents(outputScriptPath, this.options.nodeModulesPath, this.outputDir, taroSelfComponents)
+          const importCustomComponents = getImportCustomComponents(this.outputDir, depComponents)
           const usingComponents = configObj.usingComponents
           let importUsingComponent: any = new Set([])
           if (usingComponents) {
@@ -671,12 +672,6 @@ export default class MiniPlugin {
               }
             }))
           }
-          const importCustomComponents = new Set(depComponents.map(item => {
-            return {
-              path: item.path,
-              name: item.name as string
-            }
-          }))
           template = generateQuickAppUx({
             template,
             imports: new Set([...importTaroSelfComponents, ...importUsingComponent, ...importCustomComponents])
