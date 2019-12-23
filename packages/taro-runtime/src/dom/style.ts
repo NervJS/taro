@@ -2,8 +2,42 @@ import { isUndefined, toCamelCase, toDashed, Shortcuts, warn } from '@tarojs/sha
 import { styleProperties } from './style_properties'
 import { TaroElement } from './element'
 
+function initStyle (ctor: typeof Style) {
+  const properties = {}
+
+  for (let i = 0; i < styleProperties.length; i++) {
+    const styleKey = styleProperties[i]
+    properties[styleKey] = {
+      get (this: Style) {
+        return this._value[styleKey] || ''
+      },
+      set (this: Style, newVal: string) {
+        const old = this[styleKey]
+        if (newVal) {
+          this._usedStyleProp.add(styleKey)
+        }
+
+        warn(
+          styleKey === 'style' && newVal.startsWith('data:image/'),
+          '直接在图片地址使用 data64 会造成渲染性能急剧下降，考虑在 CSS 类使用 base64 或其它替代方案。'
+        )
+
+        if (old !== newVal) {
+          this._value[styleKey] = newVal
+          this._element.enqueueUpdate({
+            path: `${this._element._path}.${Shortcuts.Style}`,
+            value: this.cssText
+          })
+        }
+      }
+    }
+  }
+
+  Object.defineProperties(ctor.prototype, properties)
+}
+
 export class Style {
-  private _usedStyleProp: Set<string>
+  public _usedStyleProp: Set<string>
 
   public _value: Partial<CSSStyleDeclaration>
 
@@ -13,42 +47,6 @@ export class Style {
     this._element = element
     this._usedStyleProp = new Set()
     this._value = {}
-    this.initStyle()
-  }
-
-  private initStyle () {
-    const properties = {}
-    const usedStyleProp = this._usedStyleProp
-
-    for (let i = 0; i < styleProperties.length; i++) {
-      const styleKey = styleProperties[i]
-      properties[styleKey] = {
-        get (this: Style) {
-          return this._value[styleKey] || ''
-        },
-        set (this: Style, newVal: string) {
-          const old = this[styleKey]
-          if (newVal) {
-            usedStyleProp.add(styleKey)
-          }
-
-          warn(
-            styleKey === 'style' && newVal.startsWith('data:image/'),
-            '直接在图片地址使用 data64 会造成渲染性能急剧下降，考虑在 CSS 类使用 base64 或其它替代方案。'
-          )
-
-          if (old !== newVal) {
-            this._value[styleKey] = newVal
-            this._element.enqueueUpdate({
-              path: `${this._element._path}.${Shortcuts.Style}`,
-              value: this.cssText
-            })
-          }
-        }
-      }
-    }
-
-    Object.defineProperties(this, properties)
   }
 
   public get cssText () {
@@ -125,3 +123,5 @@ export class Style {
     return value
   }
 }
+
+initStyle(Style)

@@ -27,7 +27,5 @@ describe('lifecycle', () => {
     }
 
     render(<A />, scratch)
-
-    expect(false).toBeTruthy()
   })
 })

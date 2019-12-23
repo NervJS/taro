@@ -10,6 +10,14 @@ const events = {
   bindtap: 'eh'
 }
 
+const touchEvents = {
+  bindTouchStart: '',
+  bindTouchMove: '',
+  bindTouchEnd: '',
+  bindTouchCancel: '',
+  bindLongTap: ''
+}
+
 const alipayEvents = {
   onTap: 'eh',
   onTouchMove: 'eh',
@@ -24,11 +32,7 @@ const View = {
   'hover-start-time': '50',
   'hover-stay-time': '400',
   animation: '',
-  bindTouchStart: '',
-  bindTouchMove: '',
-  bindTouchEnd: '',
-  bindTouchCancel: '',
-  bindLongTap: ''
+  ...touchEvents
 }
 
 const Icon = {
