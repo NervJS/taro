@@ -149,6 +149,7 @@ export default class MiniPlugin {
   isWatch: boolean
   errors: any[]
   changedFileType: PARSE_AST_TYPE | undefined
+  addedComponents: Set<IComponent>
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -171,6 +172,7 @@ export default class MiniPlugin {
     this.quickappStyleFiles = new Set()
     this.isWatch = false
     this.errors = []
+    this.addedComponents = new Set()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -214,6 +216,7 @@ export default class MiniPlugin {
       this.tryAsync(async compilation => {
         compilation.errors = compilation.errors.concat(this.errors)
         await this.generateMiniFiles(compilation)
+        this.addedComponents.clear()
       })
     )
 
@@ -234,8 +237,8 @@ export default class MiniPlugin {
   }
 
   getChangedFiles (compiler) {
-    const { watchFileSystem } = compiler;
-    const watcher = watchFileSystem.watcher || watchFileSystem.wfs.watcher;
+    const { watchFileSystem } = compiler
+    const watcher = watchFileSystem.watcher || watchFileSystem.wfs.watcher
 
     return Object.keys(watcher.mtimes)
   }
@@ -700,7 +703,6 @@ export default class MiniPlugin {
             }
           }))
         }
-
         if (depComponents && depComponents.length) {
           depComponents.forEach(item => {
             const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
@@ -710,6 +712,7 @@ export default class MiniPlugin {
               const isNative = this.isNativePageOrComponent(componentTempPath, fs.readFileSync(componentPath).toString())
               const componentObj = { name: componentName, path: componentPath, isNative }
               this.components.add(componentObj)
+              this.addedComponents.add(componentObj)
               this.getComponents(compiler, new Set([componentObj]), false)
             }
           })
@@ -803,7 +806,11 @@ export default class MiniPlugin {
           source: () => quickappJSONStr
         }
       }
-      if (template && (!this.changedFile || this.changedFile === item || this.changedFileType === PARSE_AST_TYPE.ENTRY)) {
+      if (template && (
+        !this.changedFile
+        || this.changedFile === item
+        || this.changedFileType === PARSE_AST_TYPE.ENTRY
+        || Array.from(this.addedComponents).some(component => component.path === item))) {
         compilation.assets[templatePath] = {
           size: () => template!.length,
           source: () => template
@@ -919,6 +926,15 @@ export default class MiniPlugin {
         } else {
           if (!this.options.isBuildPlugin) {
             this.getComponents(compiler, new Set([obj]), this.changedFileType === PARSE_AST_TYPE.PAGE)
+            if (this.addedComponents.size) {
+              this.addedComponents.forEach(item => {
+                if (item.isNative) {
+                  this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+                } else {
+                  this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
+                }
+              })
+            }
           } else {
             this.getPluginFiles(compiler)
           }
