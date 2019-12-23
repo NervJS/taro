@@ -55,6 +55,7 @@ function processAst (
     cannotRemoves.push(taroJsComponents)
   }
   const taroSelfComponents = new Set<string>()
+  const customComponents = new Set<string>()
 
   traverse(ast, {
     ClassDeclaration (astPath) {
@@ -143,13 +144,40 @@ function processAst (
     },
 
     ClassMethod (astPath) {
+      const node = astPath.node
       const keyName = (astPath.get('key').node as t.Identifier).name
-      if (keyName === 'componentWillMount') {
-        hasComponentWillMount = true
-      } else if (keyName === 'componentDidShow') {
-        hasComponentDidShow = true
-      } else if (keyName === 'componentDidHide') {
-        hasComponentDidHide = true
+      if (node.kind === 'constructor') {
+        astPath.traverse({
+          ExpressionStatement (astPath) {
+            const node = astPath.node
+            if (node.expression &&
+              node.expression.type === 'AssignmentExpression' &&
+              node.expression.operator === '=') {
+              const left = node.expression.left
+              if (left.type === 'MemberExpression' &&
+                left.object.type === 'ThisExpression' &&
+                left.property.type === 'Identifier' &&
+                left.property.name === 'customComponents') {
+                const right = node.expression.right
+                if (t.isArrayExpression(right)) {
+                  right.elements.forEach(item => {
+                    if (t.isStringLiteral(item)) {
+                      customComponents.add(item.value)
+                    }
+                  })
+                }
+              }
+            }
+          }
+        })
+      } else {
+        if (keyName === 'componentWillMount') {
+          hasComponentWillMount = true
+        } else if (keyName === 'componentDidShow') {
+          hasComponentDidShow = true
+        } else if (keyName === 'componentDidHide') {
+          hasComponentDidHide = true
+        }
       }
     },
 
@@ -157,7 +185,13 @@ function processAst (
       const node = astPath.node
       const keyName = node.key.name
       const valuePath = astPath.get('value')
-      if (valuePath.isFunctionExpression() || valuePath.isArrowFunctionExpression()) {
+      if (keyName === 'customComponents' && valuePath.isArrayExpression()) {
+        valuePath.node.elements.forEach(item => {
+          if (t.isStringLiteral(item)) {
+            customComponents.add(item.value)
+          }
+        })
+      } else if (valuePath.isFunctionExpression() || valuePath.isArrowFunctionExpression()) {
         if (keyName === 'componentWillMount') {
           hasComponentWillMount = true
         } else if (keyName === 'componentDidShow') {
@@ -431,6 +465,49 @@ function processAst (
                 node.body.body.unshift(convertSourceStringToAstExpression(`this.__listenToSetNavigationBarEvent()`))
               } else if (keyName === 'componentDidHide') {
                 node.body.body.unshift(convertSourceStringToAstExpression(`this.__offListenToSetNavigationBarEvent()`))
+              }
+            }
+          },
+          ImportDeclaration (astPath) {
+            const node = astPath.node
+            const source = node.source
+            let value = source.value
+            const specifiers = node.specifiers
+            let needRemove = false
+            if (!isNpmPkg(value)) {
+              specifiers.forEach(item => {
+                if (customComponents.has(item.local.name)) {
+                  needRemove = true
+                }
+              })
+              if (needRemove) {
+                astPath.remove()
+              }
+            }
+          },
+          CallExpression (astPath) {
+            const node = astPath.node
+            const callee = node.callee as t.Identifier
+            if (callee.name === 'require') {
+              const parentNode = astPath.parentPath.node as t.VariableDeclarator
+              const args = node.arguments as t.StringLiteral[]
+              let value = args[0].value
+              let needRemove = false
+              if (!isNpmPkg(value)) {
+                const id = parentNode.id
+                if (t.isObjectPattern(id)) {
+                  const properties = id.properties
+                  properties.forEach(property => {
+                    if (t.isObjectProperty(property) && customComponents.has((property.value as t.Identifier).name)) {
+                      needRemove = true
+                    }
+                  })
+                } else if (t.isIdentifier(id) && customComponents.has(id.name)) {
+                  needRemove = true
+                }
+              }
+              if (needRemove) {
+                astPath.parentPath.parentPath.remove()
               }
             }
           }
