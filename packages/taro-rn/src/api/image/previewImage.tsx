@@ -1,7 +1,15 @@
 import React from 'react'
-import { Modal ,Text} from 'react-native'
+import { Modal, View, ActivityIndicator, StyleSheet } from 'react-native'
 import RootSiblings from 'react-native-root-siblings'
 import ImageViewer from 'react-native-image-zoom-viewer'
+
+const styles = StyleSheet.create({
+  loadingWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
 
 function previewImage (obj) {
   let {
@@ -28,7 +36,13 @@ function previewImage (obj) {
           onClick={onSuccess}
           onSwipeDown={onSuccess}
           enableSwipeDown
-          loadingRender={() => <Text>loading...</Text>}
+          loadingRender={() => {
+            return (
+              <View style={[styles.loadingWrapper]}>
+                <ActivityIndicator size="large" color={'#999'} />
+              </View>
+            )
+          }}
         />
       </Modal>
     )
