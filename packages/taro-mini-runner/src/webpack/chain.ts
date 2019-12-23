@@ -68,7 +68,7 @@ const defaultFontUrlLoaderOption = {
   limit: 10240
 }
 const defaultImageUrlLoaderOption = {
-  limit: 10240
+  limit: 2046
 }
 const defaultCssModuleOption: PostcssOption.cssModules = {
   enable: false,
