@@ -3,11 +3,14 @@ const path = require('path')
 const fs = require('fs-extra')
 const program = require('commander')
 const chalk = require('chalk')
-const { getPkgItemByKey, shouldUseYarn, shouldUseCnpm } = require('../dist/util')
+const { getPkgItemByKey, shouldUseYarn, shouldUseCnpm } = require(
+  '../dist/util')
 const ora = require('ora')
 const exec = require('child_process').exec
 const getLatestVersion = require('latest-version')
-const { PROJECT_CONFIG, UPDATE_PACKAGE_LIST } = require('../dist/util/constants')
+const semver = require('semver')
+const { PROJECT_CONFIG, UPDATE_PACKAGE_LIST } = require(
+  '../dist/util/constants')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 const pkgPath = path.join(process.cwd(), 'package.json')
 
@@ -18,7 +21,7 @@ program.parse(process.argv)
 
 const args = program.args
 
-if (args.length === 1) {
+if (args.length > 0 && args.length < 3) {
   switch (args[0]) {
     case 'self': {
       updateSelf()
@@ -35,18 +38,35 @@ if (args.length === 1) {
   info()
 }
 
-function info () {
-  console.log(chalk.red('命令错误:'))
-  console.log(`${chalk.green('taro update self')} 更新 Taro 开发工具 taro-cli 到最新版本`)
-  console.log(`${chalk.green('taro update project')} 更新项目所有 Taro 相关依赖到最新版本...`)
+async function getTargetVersion () {
+  let targetTaroVersion
+  const currentTaroVersion = require(pkgPath).dependencies['@tarojs/taro']
+  if (args[1]) {
+    targetTaroVersion = args[1]
+  } else {
+    // update to current lastest major.x.x
+    targetTaroVersion = await getLatestVersion(pkgName, {
+      version: semver.major(currentTaroVersion).toString()
+    })
+  }
+  return targetTaroVersion
 }
 
-function updateSelf () {
+function info () {
+  console.log(chalk.red('命令错误:'))
+  console.log(`${chalk.green(
+    'taro update self [version]')} 更新 Taro 开发工具 taro-cli 到指定版本或当前主版本的最新版本`)
+  console.log(`${chalk.green(
+    'taro update project [version]')} 更新项目所有 Taro 相关依赖到指定版本或当前主版本的最新版本`)
+}
+
+async function updateSelf () {
   let command
+  const targetTaroVersion = await getTargetVersion()
   if (shouldUseCnpm()) {
-    command = 'cnpm i -g @tarojs/cli@latest'
+    command = `cnpm i -g @tarojs/cli@${targetTaroVersion}`
   } else {
-    command = 'npm i -g @tarojs/cli@latest'
+    command = `npm i -g @tarojs/cli@${targetTaroVersion}`
   }
 
   const child = exec(command)
@@ -70,7 +90,7 @@ async function updateProject () {
   }
   const packageMap = require(pkgPath)
 
-  const version = await getLatestVersion(pkgName)
+  const version = await getTargetVersion()
   // 获取 NervJS 版本
   const nervJSVersion = `^${await getLatestVersion('nervjs')}`
 
@@ -96,7 +116,7 @@ async function updateProject () {
 
   // 写入package.json
   try {
-    await fs.writeJson(pkgPath, packageMap, {spaces: '\t'})
+    await fs.writeJson(pkgPath, packageMap, { spaces: '\t' })
     console.log(chalk.green('更新项目 package.json 成功！'))
     console.log()
   } catch (err) {
