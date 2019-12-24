@@ -470,19 +470,15 @@ function processAst (
           },
           ImportDeclaration (astPath) {
             const node = astPath.node
-            const source = node.source
-            let value = source.value
             const specifiers = node.specifiers
             let needRemove = false
-            if (!isNpmPkg(value)) {
-              specifiers.forEach(item => {
-                if (customComponents.has(item.local.name)) {
-                  needRemove = true
-                }
-              })
-              if (needRemove) {
-                astPath.remove()
+            specifiers.forEach(item => {
+              if (customComponents.has(item.local.name)) {
+                needRemove = true
               }
+            })
+            if (needRemove) {
+              astPath.remove()
             }
           },
           CallExpression (astPath) {
@@ -490,21 +486,17 @@ function processAst (
             const callee = node.callee as t.Identifier
             if (callee.name === 'require') {
               const parentNode = astPath.parentPath.node as t.VariableDeclarator
-              const args = node.arguments as t.StringLiteral[]
-              let value = args[0].value
               let needRemove = false
-              if (!isNpmPkg(value)) {
-                const id = parentNode.id
-                if (t.isObjectPattern(id)) {
-                  const properties = id.properties
-                  properties.forEach(property => {
-                    if (t.isObjectProperty(property) && customComponents.has((property.value as t.Identifier).name)) {
-                      needRemove = true
-                    }
-                  })
-                } else if (t.isIdentifier(id) && customComponents.has(id.name)) {
-                  needRemove = true
-                }
+              const id = parentNode.id
+              if (t.isObjectPattern(id)) {
+                const properties = id.properties
+                properties.forEach(property => {
+                  if (t.isObjectProperty(property) && customComponents.has((property.value as t.Identifier).name)) {
+                    needRemove = true
+                  }
+                })
+              } else if (t.isIdentifier(id) && customComponents.has(id.name)) {
+                needRemove = true
               }
               if (needRemove) {
                 astPath.parentPath.parentPath.remove()
