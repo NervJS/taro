@@ -287,7 +287,7 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorage.html
    */
-  function getStorage(option: getStorage.Option): Promise<General.CallbackResult>
+  function getStorage(option: getStorage.Option): Promise<getStorage.SuccessCallbackResult>
 
   /** Taro.clearStorage 的同步版本
    * @supported weapp, h5
