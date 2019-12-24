@@ -12,6 +12,8 @@ declare namespace Taro {
     interface CallbackResult {
       /** 错误信息 */
       errMsg: string
+      /** storage */
+      data: String
     }
     /** 蓝牙错误 */
     interface BluetoothError extends General.CallbackResult {
