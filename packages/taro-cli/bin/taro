@@ -1,9 +1,10 @@
 #! /usr/bin/env node
 
 const program = require('commander')
-const { getPkgVersion, printPkgVersion } = require('../dist/util')
+const { getPkgVersion, printPkgVersion, printVersionTip } = require('../dist/util')
 
 printPkgVersion()
+printVersionTip()
 
 program
   .version(getPkgVersion())
