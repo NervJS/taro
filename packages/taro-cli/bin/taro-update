@@ -45,8 +45,12 @@ async function getTargetVersion () {
     targetTaroVersion = args[1]
   } else {
     // update to current lastest major.x.x
+    let version = semver.major(currentTaroVersion).toString()
+    if (/-beta\./.test(currentTaroVersion)) {
+      version = `^${currentTaroVersion}`
+    }
     targetTaroVersion = await getLatestVersion(pkgName, {
-      version: semver.major(currentTaroVersion).toString()
+      version
     })
   }
   return targetTaroVersion
