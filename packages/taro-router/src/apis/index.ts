@@ -142,28 +142,39 @@ const createReLaunch = ({ customRoutes }: RouterConfig, history?: History) => {
     console.log(e.message)
   }
   return function ({ url }): Promise<Taro.General.CallbackResult> {
-    const res: Taro.General.CallbackResult = {
-      errMsg: ''
+        return new Promise((resolve, reject) => {
+            const res: Taro.General.CallbackResult = {
+                errMsg: ''
+            }
+            try {
+                // setTimeout hack 
+                // 修复 history.go 之后，后面的代码不执行的问题
+                setTimeout(() => {
+                    if (history) {
+                        if (/^(https?:)\/\//.test(url)) {
+                            window.location.assign(url);
+                        } else {
+                            history.replace(url)
+                        }
+                    } else {
+                        localStorage.setItem(relaunchUrlKey, getTargetUrl(url, customRoutes))
+                        window.history.go(-(window.history.length - 1))
+                    }
+                    res.errMsg = 'reLaunch:ok'
+                    resolve(res)
+                }, 50)
+                if (history) {
+                    history.go(-(history.length - 1))
+                } else {
+                    window.history.go(-(window.history.length - 1))
+                }
+            } catch (e) {
+                res.errMsg = `reLaunch:fail ${e.message}`
+                reject(res)
+            }
+        })
+
     }
-    try {
-      if (history) {
-        history.go(-(history.length - 1))
-        if (/^(https?:)\/\//.test(url)) {
-          window.location.assign(url);
-        } else {
-          history.replace(url)
-        }
-      } else {
-        localStorage.setItem(relaunchUrlKey, getTargetUrl(url, customRoutes))
-        window.history.go(-(window.history.length - 1))
-      }
-      res.errMsg = 'reLaunch:ok'
-      return Promise.resolve(res)
-    } catch (e) {
-      res.errMsg = `reLaunch:fail ${e.message}`
-      return Promise.reject(res)
-    }
-  }
 }
 
 const mountApis = (routerConfig: RouterConfig, history?: History) => {
