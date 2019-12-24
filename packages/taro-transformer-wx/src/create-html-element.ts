@@ -49,7 +49,7 @@ function stringifyAttributes (input: object, componentName: string) {
       }
     }
 
-    if (Adapters.weapp === Adapter.type && key === 'key' && typeof value === 'string') {
+    if (Adapters.weapp === Adapter.type && key === Adapter.key && typeof value === 'string') {
       if (value.startsWith(LOOP_ORIGINAL)) {
         value = value.replace(LOOP_ORIGINAL + '.', '')
       }
