@@ -82,3 +82,13 @@ export function getPrototypeChain (obj) {
   }
   return protoChain
 }
+
+let isUsingDiff = true
+
+export function getIsUsingDiff () {
+  return isUsingDiff
+}
+
+export function setIsUsingDiff (flag) {
+  isUsingDiff = Boolean(flag)
+}

@@ -1,4 +1,4 @@
-import { Component, ComponentLifecycle, internal_safe_set as safeSet, internal_safe_get as safeGet } from '@tarojs/taro'
+import { Component, ComponentLifecycle, internal_safe_set as safeSet, internal_safe_get as safeGet, setIsUsingDiff } from '@tarojs/taro'
 import { lifecycles, lifecycleMap, TaroLifeCycles } from './lifecycle'
 import { bind, proxy, isEqual } from './utils'
 import { diff } from './diff'
@@ -208,7 +208,9 @@ export default function withWeapp (weappConf: WxOptions) {
         Object.keys(obj).forEach(key => {
           safeSet(this.state, key, obj[key])
         })
+        setIsUsingDiff(false)
         this.setState(this.state, () => {
+          setIsUsingDiff(true)
           this.triggerObservers(this.state, oldState)
           if (callback) {
             callback.call(this)

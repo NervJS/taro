@@ -101,4 +101,6 @@ declare namespace Taro {
    * 小程序引用插件 JS 接口
    */
   function requirePlugin(pluginName: string): any
+
+  function setIsUsingDiff (flag: boolean)
 }

@@ -43,6 +43,7 @@ import {
 import { Current } from './current'
 import { createContext } from './create-context'
 import { memo } from './memo'
+import { setIsUsingDiff, getIsUsingDiff } from './util'
 
 let eventCenter
 if (process.env.TARO_ENV === 'alipay') {
@@ -99,7 +100,9 @@ export {
   invokeEffects,
   useContext,
   createContext,
-  memo
+  memo,
+  getIsUsingDiff,
+  setIsUsingDiff
 }
 
 export default {
@@ -147,5 +150,7 @@ export default {
   invokeEffects,
   useContext,
   createContext,
-  memo
+  memo,
+  getIsUsingDiff,
+  setIsUsingDiff
 }
