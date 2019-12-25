@@ -50,6 +50,7 @@ function stringifyAttributes (input: object, componentName: string) {
     }
 
     if (
+      process.env.NODE_ENV !== 'test' &&
       (Adapters.weapp === Adapter.type || Adapters.qq === Adapter.type) &&
       key === Adapter.key &&
       typeof value === 'string'
