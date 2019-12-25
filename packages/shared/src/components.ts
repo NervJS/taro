@@ -159,7 +159,16 @@ const Label = {
 const Picker = {
   mode: singleQuote('selector'),
   disabled: '',
-  bindCancel: ''
+  bindCancel: '',
+  range: '',
+  'range-key': '',
+  value: '',
+  bindChange: '',
+  bindColumnChange: '',
+  start: '',
+  end: '',
+  fields: singleQuote('day'),
+  'custom-item': ''
 }
 
 const PickerView = {
