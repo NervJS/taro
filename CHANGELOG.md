@@ -1,5 +1,17 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.32...v) (2019-12-24)
+# [](https://github.com/NervJS/taro/compare/v1.3.33...v) (2019-12-25)
+
+
+
+<a name="1.3.33"></a>
+## [1.3.33](https://github.com/NervJS/taro/compare/v1.3.32...v1.3.33) (2019-12-25)
+
+
+### Bug Fixes
+
+* **transform-wx:** 修复微信开发者工具key警告(使用常量key判断) ([#5181](https://github.com/NervJS/taro/issues/5181)) ([c2044dd](https://github.com/NervJS/taro/commit/c2044dd))
+* **transformer:** 修复循环 ref 测试用例 ([b3a7874](https://github.com/NervJS/taro/commit/b3a7874))
+* **transformer:** 替换掉 key 中包含 LOOP_ORIGINAL 的字符串 ([1c99523](https://github.com/NervJS/taro/commit/1c99523))
 
 
 
