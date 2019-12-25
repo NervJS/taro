@@ -1,4 +1,5 @@
 import * as path from 'path'
+import * as fs from 'fs-extra'
 
 import { getOptions } from 'loader-utils'
 import { transform, transformFromAst } from 'babel-core'
@@ -18,7 +19,11 @@ import {
 } from '../utils/constants'
 import {
   isNpmPkg,
-  isQuickAppPkg
+  isQuickAppPkg,
+  isAliasPath,
+  replaceAliasPath,
+  resolveScriptPath,
+  promoteRelativePath
 } from '../utils'
 import { convertSourceStringToAstExpression } from '../utils/astConvert'
 import babylonConfig from '../config/babylon'
@@ -29,15 +34,27 @@ const cannotRemoves = ['@tarojs/taro', 'react', 'nervjs']
 
 const NON_WEBPACK_REQUIRE = '__non_webpack_require__'
 
-function processAst (
+interface IProcessAstArgs {
   ast: t.File,
   buildAdapter: BUILD_TYPES,
   type: PARSE_AST_TYPE,
   designWidth: number,
   deviceRatio: number,
   sourceFilePath: string,
-  sourceDir: string
-) {
+  sourceDir: string,
+  alias: object
+}
+
+function processAst ({
+  ast,
+  buildAdapter,
+  type,
+  designWidth,
+  deviceRatio,
+  sourceFilePath,
+  sourceDir,
+  alias
+}: IProcessAstArgs) {
   const taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
   let componentClassName: string = ''
   let taroJsReduxConnect: string = ''
@@ -207,6 +224,9 @@ function processAst (
       const source = node.source
       let value = source.value
       const specifiers = node.specifiers
+      if (isAliasPath(value, alias)) {
+        value = replaceAliasPath(sourceFilePath, value, alias)
+      }
       if (isQuickApp && isQuickAppPkg(value)) {
         let defaultSpecifier: string = 'LOCAL'
         specifiers.forEach(item => {
@@ -268,6 +288,12 @@ function processAst (
           }
           source.value = value
         }
+      } else {
+        let vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+        if (fs.existsSync(vpath)) {
+          value = promoteRelativePath(path.relative(sourceFilePath, vpath))
+          source.value = value.replace(path.extname(value), '')
+        }
       }
     },
 
@@ -282,6 +308,10 @@ function processAst (
         const args = node.arguments as t.StringLiteral[]
         let value = args[0].value
         const parentNode = astPath.parentPath.parentPath.node as t.VariableDeclaration
+        if (isAliasPath(value, alias)) {
+          value = replaceAliasPath(sourceFilePath, value, alias)
+          args[0].value = value
+        }
         if (isQuickApp && isQuickAppPkg(value)) {
           callee.name = NON_WEBPACK_REQUIRE
           return
@@ -331,6 +361,12 @@ function processAst (
               }
             }
             args[0].value = value
+          }
+        } else {
+          let vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+          if (fs.existsSync(vpath)) {
+            value = promoteRelativePath(path.relative(sourceFilePath, vpath))
+            args[0].value = value.replace(path.extname(value), '')
           }
         }
       }
@@ -573,6 +609,7 @@ function processAst (
 export default function fileParseLoader (source, ast) {
   const {
     babel: babelConfig,
+    alias,
     buildAdapter,
     designWidth,
     deviceRatio,
@@ -586,7 +623,16 @@ export default function fileParseLoader (source, ast) {
     ]
   }).ast as t.File
   const miniType = this._module.miniType || PARSE_AST_TYPE.NORMAL
-  const result = processAst(newAst, buildAdapter, miniType, designWidth, deviceRatio, filePath, sourceDir)
+  const result = processAst({
+    ast: newAst,
+    buildAdapter,
+    type: miniType,
+    designWidth,
+    deviceRatio,
+    sourceFilePath: filePath,
+    sourceDir,
+    alias
+  })
   const code = generate(result).code
   const res = transform(code, babelConfig)
   return res.code
