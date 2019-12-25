@@ -177,7 +177,8 @@ export const getModule = (appPath: string, {
   mediaUrlLoaderOption,
   postcss,
 
-  babel
+  babel,
+  alias
 }) => {
   const isQuickapp = buildAdapter === BUILD_TYPES.QUICKAPP
   const postcssOption: IPostcssOption = postcss || {}
@@ -272,6 +273,7 @@ export const getModule = (appPath: string, {
 
   const fileParseLoader = getFileParseLoader([{
     babel,
+    alias,
     designWidth,
     deviceRatio,
     buildAdapter,
