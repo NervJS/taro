@@ -1819,7 +1819,7 @@ export class RenderParser {
           )
         )
 
-        body.splice(body.length - 1, 0, loopRefStatement)
+        body.splice(body.length - 1, 0, !isTestEnv ? loopRefStatement : t.expressionStatement(callHandleLoopRef))
       }
 
       if (isNewPropsSystem()) {

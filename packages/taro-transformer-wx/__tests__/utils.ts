@@ -35,10 +35,26 @@ const internalFunction = `function isObject(arg) {
 }
 
 function getElementById (a, b, c) {
-  if (c) {
+  if (c === 'component') {
     return 'test-component-ref'
+  } else if (c === 'dom') {
+    return 'test-ref'
   }
-  return 'test-ref'
+}
+
+function handleLoopRef (component, id, type, handler) {
+  const dom = getElementById(component, id, type)
+
+  const handlerType = typeof handler
+  if (handlerType !== 'function' && handlerType !== 'object') {
+    return
+  }
+
+  if (handlerType === 'object') {
+    handler.current = dom
+  } else if (handlerType === 'function') {
+    handler(dom)
+  }
 }
 
 var Current = {
