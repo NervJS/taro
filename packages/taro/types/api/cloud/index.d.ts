@@ -204,7 +204,7 @@ declare namespace Taro {
   /** 云开发 SDK 实例
    * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/Cloud.html
    */
-  interface cloud {
+  abstract class cloud {
     /** 在调用云开发各 API 前，需先调用初始化方法 init 一次（全局只需一次，多次调用时只有第一次生效）
      * @supported weapp
      * @example
@@ -215,7 +215,7 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/init/client.init.html
      */
-    init(config?: cloud.IInitConfig): void
+    static init(config?: cloud.IInitConfig): void
 
     /** 调用云函数
      * @supported weapp
@@ -239,7 +239,7 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/functions/Cloud.callFunction.html
      */
-    callFunction(param: cloud.CallFunctionParam): Promise<cloud.CallFunctionResult> | void
+    static callFunction(param: cloud.CallFunctionParam): Promise<cloud.CallFunctionResult> | void
 
     /** 将本地资源上传至云存储空间，如果上传至同一路径则是覆盖写
      * @supported weapp
@@ -271,7 +271,7 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/uploadFile/client.uploadFile.html
      */
-    uploadFile(param: cloud.UploadFileParam): Promise<cloud.UploadFileResult> | Taro.UploadTask
+    static uploadFile(param: cloud.UploadFileParam): Promise<cloud.UploadFileResult> | Taro.UploadTask
 
     /** 从云存储空间下载文件
      * @supported weapp
@@ -301,7 +301,7 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/downloadFile/client.downloadFile.html
      */
-    downloadFile(
+    static downloadFile(
       param: cloud.DownloadFileParam,
     ): Promise<cloud.DownloadFileResult> | Taro.DownloadTask
 
@@ -336,7 +336,7 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/Cloud.getTempFileURL.html
      */
-    getTempFileURL(param: cloud.GetTempFileURLParam): Promise<cloud.GetTempFileURLResult> | void
+    static getTempFileURL(param: cloud.GetTempFileURLParam): Promise<cloud.GetTempFileURLResult> | void
 
     /** 从云存储空间删除文件，一次最多 50 个
      * @supported weapp
@@ -369,7 +369,7 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/Cloud.deleteFile.html
      */
-    deleteFile(param: cloud.DeleteFileParam): Promise<cloud.DeleteFileResult> | void
+    static deleteFile(param: cloud.DeleteFileParam): Promise<cloud.DeleteFileResult> | void
 
     /** 获取数据库实例
      * @supported weapp
@@ -389,7 +389,7 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/Cloud.database.html
      */
-    database(config?: cloud.IConfig): DB.Database
+    static database(config?: cloud.IConfig): DB.Database
   }
 
   namespace DB {
