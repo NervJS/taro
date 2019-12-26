@@ -1,3 +1,17 @@
+/**
+ * 这里我们需要关心的小程序种类有两类：
+ * 1. 模板递归：
+ *  - 支持：tmpl0 套 tmpl0
+ *  - 不支持：这就使得我们必须生成多级的模板，tmpl0 套 tmpl1，tmpl1 套 tmpl2……
+ *           直到超过阈值 N (N = config.miniapp.baseLevel) tmplN 会套组件 comp，组件 comp 重新再套 tmpl0。
+ * 2. 小程序脚本语言（wxs, sjs, etc...）：
+ *  - 支持：可以在模板使用函数缩减模板大小或提高性能（存疑），例如判断一个值是不是假值（falsy value）。
+ *         将来或许会把数据序列化^1 的操作也放到小程序脚本语言里。
+ *  - 不支持：使用纯 *xml 语法
+ *
+ * ^1: packages/taro-runtime/src/hydrate.ts
+*/
+
 import { internalComponents, Shortcuts, createMiniComponents, focusComponents, isArray, capitalize } from '@tarojs/shared'
 import { Adapter, supportXS } from './adapters'
 import { BUILD_TYPES } from '../utils/constants'

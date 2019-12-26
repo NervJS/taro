@@ -1,6 +1,6 @@
 import { TaroElement } from './element'
 import { NodeType } from './node_types'
-import { MpInstance, HydratedData } from '../render'
+import { MpInstance, HydratedData } from '../hydrate'
 import { UpdatePayload, UpdatePayloadValue } from './node'
 import { isFunction, Shortcuts } from '@tarojs/shared'
 

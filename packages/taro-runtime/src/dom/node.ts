@@ -4,7 +4,7 @@ import { TaroEventTarget } from './event_target'
 import { eventSource } from './event'
 import { TaroRootElement } from './root'
 import { Shortcuts, ensure } from '@tarojs/shared'
-import { hydrate, HydratedData } from '../render'
+import { hydrate, HydratedData } from '../hydrate'
 import { TaroElement } from './element'
 
 const nodeId = incrementId()

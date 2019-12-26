@@ -44,7 +44,7 @@ export class TaroElement extends TaroNode {
   }
 
   public get cssText () {
-    return this.getAttribute('style')
+    return this.getAttribute('style') || ''
   }
 
   public get children () {

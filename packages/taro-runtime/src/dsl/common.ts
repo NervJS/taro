@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined } from '@tarojs/shared'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
 import { TaroRootElement } from '../dom/root'
-import { MpInstance } from '../render'
+import { MpInstance } from '../hydrate'
 import { Instance, PageInstance, PageProps } from './instance'
 import { incrementId } from '../utils'
 
@@ -24,7 +24,7 @@ function addLeadingSlash (path: string) {
 
 const pageId = incrementId()
 
-export function createPageConfig (component: React.ComponentClass, pageName?: string) {
+export function createPageConfig (component: React.ComponentClass, pageName?: string, data?: Record<string, unknown>) {
   const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let page: TaroRootElement | null = null
@@ -115,6 +115,10 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
   }
 
   config.eh = eventHandler
+
+  if (!isUndefined(data)) {
+    config.data = data
+  }
 
   return config
 }
