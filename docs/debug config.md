@@ -53,7 +53,7 @@ builder.build({
 > 调试入口文件名可自定义设置
 
 #### 3. 增加 VSCode 调试参数配置
-打开 `taro cli` 所在 windows 文件夹，进入目录下的 `.vscode` 子目录，在 `lanuch.json` 文件中新增调试入口参数，设置如下：
+打开 `taro cli` 所在 Windows 文件夹，进入目录下的 `.vscode` 子目录，在 `lanuch.json` 文件中新增调试入口参数，设置如下：
 ```shell
 {
     "version": "0.2.0",
