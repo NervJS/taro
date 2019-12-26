@@ -343,24 +343,24 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
-"@tarojs/runner-utils@2.0.0-beta.8":
-  version "2.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@tarojs/runner-utils/-/runner-utils-2.0.0-beta.8.tgz#abda4e30f2df43fb591fa4c44f98be2ba02e36ae"
-  integrity sha512-xBYAILfz2lLlHxwGR0x4yJve/w/WwNEfx/56aMcXXrc7FyghFnxdUw3pjzbKRBFvwi1nEgqrOm/htXu/3oSonQ==
+"@tarojs/runner-utils@2.0.0-beta.12":
+  version "2.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@tarojs/runner-utils/-/runner-utils-2.0.0-beta.12.tgz#d3a10cdb9a5fa58997f52e2f3fce7726deb742c3"
+  integrity sha512-MDVt8RxEVGF6IBz9PZROowYX95ZU45bxN6+pDdecD+TBfTCrxj+DRJJdEGZXocS5UItMaowTEFBWW6gF1qjZUw==
   dependencies:
     scss-bundle "^3.0.2"
 
-"@tarojs/taro@2.0.0-beta.8":
-  version "2.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.0.0-beta.8.tgz#627dae313832b8dc4b4a92985337f323b2ccb52c"
-  integrity sha512-IKi6UllUQgKgVEvOogdBo3Fpm42vn4KG72n3ZchBekR6TA7YA83kVpkLhn7+xWnpq0cO+M22BmBSBNXA4XABTw==
+"@tarojs/taro@2.0.0-beta.12":
+  version "2.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.0.0-beta.12.tgz#7192028ed0c112ebd1e5923502b864bc6c4e40aa"
+  integrity sha512-JxTUV1ewJKLhBI2Sndh/qSMOXAW1c5b375e2wXCs2VNCZ6V6zgUyaIYArtJNTQcYbnPQEntybOiaREQwXfdhxQ==
   dependencies:
-    "@tarojs/utils" "2.0.0-beta.8"
+    "@tarojs/utils" "2.0.0-beta.12"
 
-"@tarojs/transformer-wx@2.0.0-beta.8":
-  version "2.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@tarojs/transformer-wx/-/transformer-wx-2.0.0-beta.8.tgz#c5cc46cb0e5bb1239ca0b2564424f90ce9bc40f0"
-  integrity sha512-W94E4Ns7lKxa5jDs+W+5NIxFqxdCyiNtNLx6KZzk2z7fDOdMj42vHRLli5lc/8kARhAVVg0Vy63e18ZAzD1oQw==
+"@tarojs/transformer-wx@2.0.0-beta.12":
+  version "2.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@tarojs/transformer-wx/-/transformer-wx-2.0.0-beta.12.tgz#f1ecd5ccd2d7166d2bf65ba1e1babd05028ef98c"
+  integrity sha512-nYhELf9yKV24662BGelTNL5TX7GT7cioUP8Jj9UhJMRpXy+NzCmJYbbgtP3KqmknYfkOYKEFnsnV+ewb2lix/w==
   dependencies:
     "@babel/code-frame" "^7.0.0-beta.44"
     babel-core "^6.26.3"
@@ -370,6 +370,7 @@
     babel-helper-remove-or-void "^0.4.3"
     babel-plugin-danger-remove-unused-import "^1.1.1"
     babel-plugin-minify-dead-code "^1.3.2"
+    babel-plugin-preval "^1.6.4"
     babel-plugin-syntax-dynamic-import "^6.18.0"
     babel-plugin-transform-class-properties "^6.24.1"
     babel-plugin-transform-define "^1.3.0"
@@ -381,16 +382,16 @@
     babel-types "^6.26.0"
     eslint "5.16.0"
     eslint-plugin-react "7.10.0"
-    eslint-plugin-taro "2.0.0-beta.8"
+    eslint-plugin-taro "2.0.0-beta.12"
     html "^1.0.0"
     lodash "^4.17.5"
     prettier "^1.14.2"
     typescript "^3.2.2"
 
-"@tarojs/utils@2.0.0-beta.8":
-  version "2.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.0.0-beta.8.tgz#8a3b4b28c3bfb68b70cdeebc85a1d64a1616b467"
-  integrity sha512-ivTqiGux9PJevv8+S7YGsEsLTDUYwkIeYVLHLvst3NdrFxi4u797PVbD9l9iRf5b6nBxyuJHnJm8AqwL6Th4sg==
+"@tarojs/utils@2.0.0-beta.12":
+  version "2.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.0.0-beta.12.tgz#90a01578451e96e63a231252251268ca0489b3ca"
+  integrity sha512-E57KRPvvi5t90aRhvANUlzBza03rHdO/CAI3j3/UYnTmWjt9ElR4PSl0oxdw+lZTq+6FUQd70jdTyLyojlPpMQ==
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -548,9 +549,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/node@*", "@types/node@^12.0.0":
-  version "12.0.0"
-  resolved "https://registry.npmjs.org/@types/node/-/node-12.0.0.tgz#d11813b9c0ff8aaca29f04cbc12817f4c7d656e5"
+"@types/node@*", "@types/node@^13.1.0":
+  version "13.1.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.0.tgz#225cbaac5fdb2b9ac651b02c070d8aa3c37cc812"
+  integrity sha512-zwrxviZS08kRX40nqBrmERElF2vpw4IUTd5khkhBTfFH8AOaeoLVx48EC4+ZzS2/Iga7NevncqnsUSYjM4OWYA==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1143,6 +1145,13 @@ babel-loader@^8.0.6:
     mkdirp "^0.5.1"
     pify "^4.0.1"
 
+babel-macros@^1.1.1:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/babel-macros/-/babel-macros-1.2.0.tgz#39e47ed6d286d4a98f1948d8bab45dac17e4e2d4"
+  integrity sha512-/GIwkOeNHQU9R27Bkt0jHrJgaXBX5KLKrIH5h/iGebvKppvL9e4wKCgrl4qwUj0qssBHQFeSavk3lG2lQgdq8w==
+  dependencies:
+    cosmiconfig "3.1.0"
+
 babel-messages@^6.23.0, babel-messages@^6.8.0:
   version "6.23.0"
   resolved "https://registry.npmjs.org/babel-messages/-/babel-messages-6.23.0.tgz#f3cdf4703858035b2a2951c6ec5edf6c62f2630e"
@@ -1182,7 +1191,17 @@ babel-plugin-minify-dead-code@^1.3.2:
   dependencies:
     babel-core "6.10.4"
 
-babel-plugin-preval@1.6.4:
+babel-plugin-preval@1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-preval/-/babel-plugin-preval-1.6.2.tgz#8f580a1d4579d5fc79f1cfaee6f9fe0996fdeb1f"
+  integrity sha512-o/65+qySRSkh10QPqEk9dbudYCjRNHc4lZYb7EH838Ri7ATwhw/o/09tr72yJGiOaGO7GFa1MszUg8dN7TAjXQ==
+  dependencies:
+    babel-macros "^1.1.1"
+    babel-register "^6.26.0"
+    babylon "^6.18.0"
+    require-from-string "^2.0.1"
+
+babel-plugin-preval@^1.6.4:
   version "1.6.4"
   resolved "https://registry.yarnpkg.com/babel-plugin-preval/-/babel-plugin-preval-1.6.4.tgz#96febe8172b3ca6c3d03ed96eeb0382ba4b18056"
   integrity sha512-XuNaiZ76CsdWialH2co05YRra9NlsyriTUbJ+56MAcWN9v33drTm5ovBRFuEKVj1dNRhEdBjeEyYtkkaRE8drw==
@@ -1910,6 +1929,16 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
+cosmiconfig@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-3.1.0.tgz#640a94bf9847f321800403cd273af60665c73397"
+  integrity sha512-zedsBhLSbPBms+kE7AH4vHg6JsKDz6epSv2/+5XHs8ILHlgDciSJfSWf8sX9aQ52Jb7KI7VswUTsLpR/G0cr2Q==
+  dependencies:
+    is-directory "^0.3.1"
+    js-yaml "^3.9.0"
+    parse-json "^3.0.0"
+    require-from-string "^2.0.1"
+
 cosmiconfig@^5.0.0:
   version "5.2.1"
   resolved "https://registry.npmjs.org/cosmiconfig/-/cosmiconfig-5.2.1.tgz#040f726809c591e77a17c0a3626ca45b4f168b1a"
@@ -2333,10 +2362,10 @@ eslint-plugin-react@7.10.0:
     jsx-ast-utils "^2.0.1"
     prop-types "^15.6.2"
 
-eslint-plugin-taro@2.0.0-beta.8:
-  version "2.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-taro/-/eslint-plugin-taro-2.0.0-beta.8.tgz#5b305edc2d1ef2b5d734774e1d9f73f3fd563163"
-  integrity sha512-A6TBQiMWU1GYJuKwmarNlasSzUtp0w32DsZIGmEJuytbZd3r9gXP3XLwxvF1cVpvNDZk5bCQFuYQXxjwf8CTYA==
+eslint-plugin-taro@2.0.0-beta.12:
+  version "2.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-taro/-/eslint-plugin-taro-2.0.0-beta.12.tgz#403c23b026c305dc135bda9300d9efab1878e37b"
+  integrity sha512-AYSC0R7dozA1+HqW8XnkI+dqfdOIBvuPX2wI7oIBEMYA4PwVRR8B8h+/8d9/HCQH++HEAL0WhCXJ9AITB7QOlg==
   dependencies:
     has "^1.0.1"
 
@@ -3753,7 +3782,7 @@ js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "4.0.0"
   resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
 
-js-yaml@^3.13.0, js-yaml@^3.13.1:
+js-yaml@^3.13.0, js-yaml@^3.13.1, js-yaml@^3.9.0:
   version "3.13.1"
   resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   dependencies:
@@ -4747,6 +4776,13 @@ parse-json@^2.2.0:
   dependencies:
     error-ex "^1.2.0"
 
+parse-json@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/parse-json/-/parse-json-3.0.0.tgz#fa6f47b18e23826ead32f263e744d0e1e847fb13"
+  integrity sha1-+m9HsY4jgm6tMvJj50TQ4ehH+xM=
+  dependencies:
+    error-ex "^1.3.1"
+
 parse-json@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/parse-json/-/parse-json-4.0.0.tgz#be35f5425be1f7f6c747184f98a788cb99477ee0"
@@ -4950,10 +4986,10 @@ postcss-pxtorem@^4.0.1:
     object-assign "^4.1.0"
     postcss "^5.2.10"
 
-postcss-pxtransform@2.0.0-beta.8:
-  version "2.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/postcss-pxtransform/-/postcss-pxtransform-2.0.0-beta.8.tgz#59f4725bfdf8db88020c4aa9c03f04bd0a32fc6f"
-  integrity sha512-k+0cbWeqR1FfAd1X4BDABT2gXIxTBDe95BM1LvR1tZ/KlGyJ2tkGLs6D4uyJQD6VqJIW+MZApidF05qurxSaGQ==
+postcss-pxtransform@2.0.0-beta.12:
+  version "2.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/postcss-pxtransform/-/postcss-pxtransform-2.0.0-beta.12.tgz#94597013d24fc42e32ee9f00e3216d90c1bfd9c3"
+  integrity sha512-gcnXfO/zlU7wMxqcTQFA6EhVMAmmfGba18LlNMiHIe96pHlwD04SQOQ7I6mf4CSgqosscG+HtDLn1YCOfUY3Nw==
   dependencies:
     postcss "^6.0.16"
     postcss-pxtorem "^4.0.1"
