@@ -15,7 +15,8 @@ import {
   taroJsRedux,
   QUICKAPP_SPECIAL_COMPONENTS,
   PARSE_AST_TYPE,
-  excludeReplaceTaroFrameworkPkgs
+  excludeReplaceTaroFrameworkPkgs,
+  REG_SCRIPTS
 } from '../utils/constants'
 import {
   isNpmPkg,
@@ -289,10 +290,13 @@ function processAst ({
           source.value = value
         }
       } else {
-        let vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value))
-        if (fs.existsSync(vpath)) {
-          value = promoteRelativePath(path.relative(sourceFilePath, vpath))
-          source.value = value.replace(path.extname(value), '')
+        const extname = path.extname(value)
+        if (!extname || REG_SCRIPTS.test(value)) {
+          let vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+          if (fs.existsSync(vpath)) {
+            value = promoteRelativePath(path.relative(sourceFilePath, vpath))
+            source.value = value.replace(path.extname(value), '')
+          }
         }
       }
     },
@@ -363,10 +367,13 @@ function processAst ({
             args[0].value = value
           }
         } else {
+          const extname = path.extname(value)
           let vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value))
-          if (fs.existsSync(vpath)) {
-            value = promoteRelativePath(path.relative(sourceFilePath, vpath))
-            args[0].value = value.replace(path.extname(value), '')
+          if (!extname || REG_SCRIPTS.test(value)) {
+            if (fs.existsSync(vpath)) {
+              value = promoteRelativePath(path.relative(sourceFilePath, vpath))
+              args[0].value = value.replace(path.extname(value), '')
+            }
           }
         }
       }
