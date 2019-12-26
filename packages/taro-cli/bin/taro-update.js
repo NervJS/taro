@@ -51,7 +51,7 @@ async function getTargetVersion () {
         version: semver.major(currentTaroVersion).toString()
       })
     } catch (e) {
-      targetTaroVersion = 'latest'
+      targetTaroVersion = await getLatestVersion(pkgName)
     }
   }
   return targetTaroVersion
