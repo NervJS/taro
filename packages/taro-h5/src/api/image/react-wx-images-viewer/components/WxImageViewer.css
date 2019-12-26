@@ -4,6 +4,9 @@
   top: 0;
   width: 100%;
   height: 100%;
+  touch-action: none;
+  -ms-touch-action: none;
+  /* touch-action: pan-y pinch-zoom; */
 }
 .wx-image-viewer .viewer-cover {
   position: absolute;
