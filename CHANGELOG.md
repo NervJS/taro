@@ -1,5 +1,78 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.29...v) (2019-12-11)
+# [](https://github.com/NervJS/taro/compare/v1.3.33...v) (2019-12-25)
+
+
+
+<a name="1.3.33"></a>
+## [1.3.33](https://github.com/NervJS/taro/compare/v1.3.32...v1.3.33) (2019-12-25)
+
+
+### Bug Fixes
+
+* **transform-wx:** 修复微信开发者工具key警告(使用常量key判断) ([#5181](https://github.com/NervJS/taro/issues/5181)) ([c2044dd](https://github.com/NervJS/taro/commit/c2044dd))
+* **transformer:** 修复循环 ref 测试用例 ([b3a7874](https://github.com/NervJS/taro/commit/b3a7874))
+* **transformer:** 替换掉 key 中包含 LOOP_ORIGINAL 的字符串 ([1c99523](https://github.com/NervJS/taro/commit/1c99523))
+
+
+
+<a name="1.3.32"></a>
+## [1.3.32](https://github.com/NervJS/taro/compare/v1.3.31...v1.3.32) (2019-12-24)
+
+
+### Bug Fixes
+
+* **cli:** update 命令获取 taro 版本时兼容 beta 为 lastest 的情况 ([d854a3e](https://github.com/NervJS/taro/commit/d854a3e))
+* **components:** componentWillUnmount lifecycle ([#5135](https://github.com/NervJS/taro/issues/5135)) ([297eefa](https://github.com/NervJS/taro/commit/297eefa))
+* remove js extension ([073e704](https://github.com/NervJS/taro/commit/073e704))
+
+
+### Features
+
+* **cli:** taro update 到指定版本或者更新到 major 的 latest 版本 ([ae0bf9b](https://github.com/NervJS/taro/commit/ae0bf9b))
+* checkout from auto-docs ([67a945a](https://github.com/NervJS/taro/commit/67a945a))
+
+
+
+<a name="1.3.31"></a>
+## [1.3.31](https://github.com/NervJS/taro/compare/v1.3.30...v1.3.31) (2019-12-20)
+
+
+### Bug Fixes
+
+* **cli:** add taro-rn package in template to pass cli version validate ([5b8bf19](https://github.com/NervJS/taro/commit/5b8bf19))
+* **components:** h5 image 删除无关代码 ([#4998](https://github.com/NervJS/taro/issues/4998)) ([b37483e](https://github.com/NervJS/taro/commit/b37483e))
+* **components:** 修复 Image 组件在 react 环境下报错的问题 ([2d7ccee](https://github.com/NervJS/taro/commit/2d7ccee))
+* **miniprogram:** 修复循环 ref 问题，fix [#5052](https://github.com/NervJS/taro/issues/5052) ([af9d81c](https://github.com/NervJS/taro/commit/af9d81c))
+* **miniprogram:** 修复循环内使用 ref 的问题，fix [#5050](https://github.com/NervJS/taro/issues/5050) ([4e718a2](https://github.com/NervJS/taro/commit/4e718a2))
+* **taro:** 增加 getRealtimeLogManager api, close [#5072](https://github.com/NervJS/taro/issues/5072) ([36fd185](https://github.com/NervJS/taro/commit/36fd185))
+* **taro:** 增加 nextTick api ([23a754e](https://github.com/NervJS/taro/commit/23a754e))
+* **typescript types:** 修复 Taro.getExtConfigSync 返回值类型。 ([#5114](https://github.com/NervJS/taro/issues/5114)) ([d67dfc2](https://github.com/NervJS/taro/commit/d67dfc2))
+* **weapp:** 生命周期调用不严谨 ([19fcf2c](https://github.com/NervJS/taro/commit/19fcf2c))
+* **with-weapp:** props 无法监听 & data 有循环数据报错 ([aa0e3dd](https://github.com/NervJS/taro/commit/aa0e3dd))
+* video component ([f2e0dad](https://github.com/NervJS/taro/commit/f2e0dad))
+
+
+### Features
+
+* **weapp:** taro config add style typing ([#5090](https://github.com/NervJS/taro/issues/5090)) ([4e2b7f0](https://github.com/NervJS/taro/commit/4e2b7f0))
+* add style for video ([6e3a65f](https://github.com/NervJS/taro/commit/6e3a65f))
+* checkout from auto-docs ([9d753fc](https://github.com/NervJS/taro/commit/9d753fc))
+* **weapp:** add missing type for image component ([#5071](https://github.com/NervJS/taro/issues/5071)) ([f07e6b5](https://github.com/NervJS/taro/commit/f07e6b5))
+
+
+
+<a name="1.3.30"></a>
+## [1.3.30](https://github.com/NervJS/taro/compare/v1.3.29...v1.3.30) (2019-12-18)
+
+
+### Bug Fixes
+
+* **transformer:** 修复微信开发者控制台 key 报警 ([e6910db](https://github.com/NervJS/taro/commit/e6910db))
+
+
+### Features
+
+* **with-weapp:** 支持 observers ([3affac6](https://github.com/NervJS/taro/commit/3affac6))
 
 
 

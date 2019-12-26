@@ -647,6 +647,29 @@ describe('Template', () => {
       )
     })
 
+    test('第三方组件事件首字母小写 preval', () => {
+      const { template } = transform({
+        ...baseOptions,
+        code: buildComponent(
+          `
+          const { list } = this.state
+          return (
+            <ec-chart onChange={this.handleChange} />
+          )
+          `,
+          `config = { usingComponents: preval\` module.exports= { 'ec-chart': '../path' } \` }`
+        )
+      })
+
+      expect(template).toMatch(
+        prettyPrint(`
+        <block>
+            <ec-chart bindchange="handleChange"></ec-chart>
+        </block>
+      `)
+      )
+    })
+
     test('第三方组件事件首字母小写 2', () => {
       const { template } = transform({
         ...baseOptions,

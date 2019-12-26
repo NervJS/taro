@@ -1,5 +1,5 @@
 import { Adapters, Adapter } from './adapter'
-import { quickappComponentName, DEFAULT_Component_SET_COPY } from './constant'
+import { quickappComponentName, DEFAULT_Component_SET_COPY, LOOP_ORIGINAL } from './constant'
 import { transformOptions } from './options'
 import { camelCase } from 'lodash'
 import { isTestEnv } from './env'
@@ -47,6 +47,15 @@ function stringifyAttributes (input: object, componentName: string) {
       ) {
         attribute = 'customstyle'
       }
+    }
+
+    if (
+      process.env.NODE_ENV !== 'test' &&
+      (Adapters.weapp === Adapter.type || Adapters.qq === Adapter.type) &&
+      key === Adapter.key &&
+      typeof value === 'string'
+    ) {
+      value = value.split(`${LOOP_ORIGINAL}.`).join('')
     }
 
     if (value !== true) {

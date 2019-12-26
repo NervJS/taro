@@ -1,5 +1,7 @@
 ---
 title: 各端开发前注意
+id: version-1.3.31-before-dev-remind
+original_id: before-dev-remind
 ---
 ## H5
 

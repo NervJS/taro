@@ -40,6 +40,7 @@
     "@tarojs/taro-swan": "<%= version %>",
     "@tarojs/taro-tt": "<%= version %>",
     "@tarojs/taro-weapp": "<%= version %>",
+    "@tarojs/taro-rn": "<%= version %>",
     "nervjs": "^1.5.5",
     "nerv-devtools": "^1.5.5"
   },

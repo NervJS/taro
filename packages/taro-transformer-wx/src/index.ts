@@ -25,7 +25,7 @@ import {
   THIRD_PARTY_COMPONENTS,
   INTERNAL_GET_ORIGNAL,
   setLoopOriginal,
-  GEL_ELEMENT_BY_ID,
+  HANDLE_LOOP_REF,
   lessThanSignPlacehold,
   COMPONENTS_PACKAGE_NAME,
   quickappComponentName,
@@ -716,7 +716,7 @@ export default function transform (options: Options): TransformResult {
           t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
           t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
           t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
-          t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
+          t.importSpecifier(t.identifier(HANDLE_LOOP_REF), t.identifier(HANDLE_LOOP_REF)),
           t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
           t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
         )
@@ -767,7 +767,7 @@ export default function transform (options: Options): TransformResult {
       t.importSpecifier(t.identifier(INTERNAL_SAFE_GET), t.identifier(INTERNAL_SAFE_GET)),
       t.importSpecifier(t.identifier(INTERNAL_GET_ORIGNAL), t.identifier(INTERNAL_GET_ORIGNAL)),
       t.importSpecifier(t.identifier(INTERNAL_INLINE_STYLE), t.identifier(INTERNAL_INLINE_STYLE)),
-      t.importSpecifier(t.identifier(GEL_ELEMENT_BY_ID), t.identifier(GEL_ELEMENT_BY_ID)),
+      t.importSpecifier(t.identifier(HANDLE_LOOP_REF), t.identifier(HANDLE_LOOP_REF)),
       t.importSpecifier(t.identifier(GEN_COMP_ID), t.identifier(GEN_COMP_ID)),
       t.importSpecifier(t.identifier(GEN_LOOP_COMPID), t.identifier(GEN_LOOP_COMPID))
     ]

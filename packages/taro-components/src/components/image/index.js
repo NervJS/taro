@@ -32,7 +32,7 @@ class Image extends Nerv.Component {
     }
   }
 
-  componentWillUnMount () {
+  componentWillUnmount () {
     this.observer.disconnect && this.observer.disconnect()
   }
 

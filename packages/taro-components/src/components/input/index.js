@@ -44,7 +44,7 @@ class Input extends Nerv.Component {
     }
   }
 
-  componentWillUnMount () {
+  componentWillUnmount () {
     // 修复无法选择文件
     if (this.props.type === 'file') {
       this.inputRef.removeEventListener('change', this.onInput)

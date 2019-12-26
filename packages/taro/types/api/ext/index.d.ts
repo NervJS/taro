@@ -5,6 +5,7 @@ declare namespace Taro {
       extConfig: General.IAnyObject
     }
   }
+
   /** Taro.getExtConfig 的同步版本。
    *
    * **Tips**

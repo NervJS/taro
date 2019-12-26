@@ -49,7 +49,7 @@ import {
   THIRD_PARTY_COMPONENTS,
   LOOP_ORIGINAL,
   INTERNAL_GET_ORIGNAL,
-  GEL_ELEMENT_BY_ID,
+  HANDLE_LOOP_REF,
   PROPS_MANAGER,
   GEN_COMP_ID,
   ALIPAY_BUBBLE_EVENTS,
@@ -1799,38 +1799,27 @@ export class RenderParser {
           throw codeFrameError(component.node, '在循环中使用 ref 必须暴露循环的第二个参数 `index`')
         }
         const id = typeof ref.id === 'string' ? t.binaryExpression('+', t.stringLiteral(ref.id), indexId) : ref.id
-        const refDeclName = '__ref'
         const args: any[] = [
           t.identifier('__scope'),
           t.binaryExpression('+', t.stringLiteral('#'), id)
         ]
         if (ref.type === 'component') {
           args.push(t.stringLiteral('component'))
-        }
-        const callGetElementById = t.callExpression(t.identifier(GEL_ELEMENT_BY_ID), args)
-        const refDecl = buildConstVariableDeclaration(refDeclName,
-          isTestEnv ? callGetElementById : t.logicalExpression('&&', t.identifier('__scope'), t.logicalExpression('&&', t.identifier('__isRunloopRef'), callGetElementById))
-        )
-        const callRef = t.callExpression(ref.fn, [t.identifier(refDeclName)])
-        const callRefFunc = t.expressionStatement(
-          isTestEnv ? callRef : t.logicalExpression('&&', t.identifier(refDeclName), callRef)
-        )
-        if (Adapter.type === Adapters.tt) {
-          body.push(
-            t.expressionStatement(
-              t.logicalExpression(
-                '&&',
-                t.logicalExpression('&&', t.identifier('__scope'), t.identifier('__isRunloopRef')),
-                t.callExpression(
-                  t.memberExpression(t.identifier('Taro'), t.identifier('handleLoopRef')),
-                  args.length === 2 ? [...args, t.nullLiteral(), ref.fn] : [...args, ref.fn]
-                )
-              )
-            )
-          )
         } else {
-          body.push(refDecl, callRefFunc)
+          args.push(t.stringLiteral('dom'))
         }
+        args.push(ref.fn)
+        const callHandleLoopRef = t.callExpression(t.identifier(HANDLE_LOOP_REF), args)
+
+        const loopRefStatement = t.expressionStatement(
+          t.logicalExpression(
+            '&&',
+            t.logicalExpression('&&', t.identifier('__scope'), t.identifier('__isRunloopRef')),
+            callHandleLoopRef
+          )
+        )
+
+        body.splice(body.length - 1, 0, !isTestEnv ? loopRefStatement : t.expressionStatement(callHandleLoopRef))
       }
 
       if (isNewPropsSystem()) {

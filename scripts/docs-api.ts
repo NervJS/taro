@@ -4,6 +4,8 @@ import * as ts from "typescript"
 import compile, { DocEntry, envMap } from "./parser"
 import writeFile from "./write"
 
+const taro_apis: (string | undefined)[] = []
+
 type TCallback = (routepath: string, doc: DocEntry[], withGeneral?: boolean) => void
 
 const SymbolFlags = Object.values(ts.SymbolFlags)
@@ -14,12 +16,14 @@ const TaroMethod = [
   ts.SymbolFlags.ValueModule,
   ts.SymbolFlags.Function + ts.SymbolFlags.NamespaceModule,
   ts.SymbolFlags.Namespace,
+  ts.SymbolFlags.Method,
 ]
 const isntTaroMethod = [
   -1,
   ts.SymbolFlags.Interface,
   ts.SymbolFlags.ConstEnum,
   ts.SymbolFlags.RegularEnum,
+  ts.SymbolFlags.ValueModule + ts.SymbolFlags.Interface,
   ts.SymbolFlags.ValueModule + ts.SymbolFlags.Class,
   ts.SymbolFlags.NamespaceModule,
   ts.SymbolFlags.NamespaceModule + ts.SymbolFlags.Class,
@@ -149,7 +153,7 @@ const get = {
   since: (data?: ts.JSDocTagInfo) => data ? splicing([`> 最低 Taro 版本: ${data.text || ''}`, '']) : undefined,
   type: (data?: string, level = 0) => data && !isntShowType.includes(data) ?
     splicing([level !== 0 ? `${'#'.repeat(level)} 类型\n` : undefined, '```tsx', data, '```', '']) : undefined,
-  members: (data?: DocEntry[], title = '方法', level: number = 2) => {
+  members: (data?: DocEntry[], title = '方法', level: number = 2, name = 'Taro') => {
     if (!data) return undefined
     const methods: (string | undefined)[] = [level === 2 ? `## ${title}\n` : undefined]
     const paramTabs: DocEntry[] = []
@@ -248,15 +252,31 @@ const get = {
             }
           }
         })
+
+        if (!isFunction(param.flags) && !TaroMethod.includes(param.flags || -1) && !isntTaroMethod.includes(param.flags || -1)) {
+          console.warn(`WARN: Symbol flags ${param.flags} is missing parse! Watch symbol name:${param.name}.`)
+        }
+
+        const members = param.members || []
+        const apis = { [`${TaroMethod.includes(param.flags || -1) ? `${name}.` : ''}${param.name}`]: tags }
+        members.forEach(member => {
+          if (isShowAPI(member.flags)) {
+            if (member.name && member.jsTags) apis[`${param.name}.${member.name}`] = member.jsTags || []
+          } else if (!isNotAPI(member.flags)) {
+            console.warn(`WARN: Symbol flags ${member.flags} for members is missing parse! Watch member name:${member.name}.`)
+          }
+        })
+
         return splicing([
           `${'#'.repeat(level === 2 ? level + 1 : level)} ${param.name}\n`,
-          get.document(param.documentation),
           get.since(tags.find(tag => tag.name === 'since')),
-          get.type(param.type),
-          get.members(param.members, '方法', level + (level === 2 ? 2 : 1)),
-          get.members(declaration.parameters, '参数', level + (level === 2 ? 2 : 1)),
-          get.example(tags, level + (level === 2 ? 2 : 1)),
+          get.document(param.documentation),
           get.see(tags.find(tag => tag.name === 'see')),
+          get.type(param.type),
+          get.members(param.members, '方法', level + (level === 2 ? 2 : 1), param.name),
+          get.members(declaration.parameters || param.exports, '参数', level + (level === 2 ? 2 : 1), param.name),
+          get.example(tags, level + (level === 2 ? 2 : 1)),
+          get.api(apis, level + (level === 2 ? 2 : 1)),
         ])
       }/*  else if (!isShowAPI(param.flags) && !isNotAPI(param.flags) && param.flags !== 1) {
         console.log(param.name, param.flags)
@@ -283,7 +303,7 @@ const get = {
 
     return array.length > 0 ? splicing(array) : undefined
   },
-  api: (data: {[name: string]: ts.JSDocTagInfo[]}) => {
+  api: (data: {[name: string]: ts.JSDocTagInfo[]}, level: number = 2) => {
     const titles = envMap.reduce((p, env) => `${p} ${env.label} |`, '| API |')
     const splits = envMap.reduce((p) => `${p} :---: |`, '| :---: |')
     const rows = Object.keys(data).map(name => {
@@ -298,8 +318,10 @@ const get = {
       }).join('')}` : undefined
     })
 
+    taro_apis.push(...rows.filter(e => !!e))
+
     return rows && rows.filter(e => !!e).length > 0 ? splicing([
-      '## API 支持度', '', titles, splits, ...rows, ''
+      `${'#'.repeat(level)} API 支持度\n`, titles, splits, ...rows, ''
     ]) : undefined // splicing(['## API 支持度', '', '> 该 api 暂不支持', ''])
   },
   see: (data?: ts.JSDocTagInfo) => data ? splicing([`> [参考文档](${data.text || ''})`, '']) : undefined
@@ -336,14 +358,14 @@ export function writeDoc (routepath: string, doc: DocEntry[], withGeneral = fals
 
     md.push(
       get.header({ title: get.title(name, params, e.flags), sidebar_label: name }),
-      get.document(e.documentation),
       get.since(tags.find(tag => tag.name === 'since')),
+      get.document(e.documentation),
+      get.see(tags.find(tag => tag.name === 'see')),
       get.type(e.type, 2),
       get.members(e.members),
       get.members(e.exports || e.parameters, '参数', 2),
       get.example(tags),
       get.api(apis),
-      get.see(tags.find(tag => tag.name === 'see')),
     )
 
     writeFile(
@@ -364,6 +386,15 @@ docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], wri
 // docsAPI('packages/taro-components/types', 'docs/components', ['packages/taro-components/types'], writeDoc,
 //   process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
 //   process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
+
+// writeFile(
+//   path.resolve(__dirname, `taro-apis.md`),
+//   splicing([
+//     envMap.reduce((p, env) => `${p} ${env.label} |`, '| API |'),
+//     envMap.reduce((p) => `${p} :---: |`, '| :---: |'),
+//     ...taro_apis, ''
+//   ]),
+// )
 
 function splicing (arr: (string | undefined)[] = []) {
   return arr.filter(e => typeof e === 'string').join('\n')

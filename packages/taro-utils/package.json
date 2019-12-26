@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/utils",
-  "version": "1.3.29",
+  "version": "1.3.33",
   "description": "Utils for Taro",
   "main": "index.js",
   "scripts": {
