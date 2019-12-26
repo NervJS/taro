@@ -54,7 +54,8 @@ export default class TaroLoadChunksPlugin {
           if (this.isBuildPlugin) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
-          if (chunk.entryModule.miniType === META_TYPE.ENTRY) {
+          let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
+          if (entryModule.miniType === META_TYPE.ENTRY) {
             compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
               const files = chunk.files
               files.forEach(item => {
@@ -76,8 +77,8 @@ export default class TaroLoadChunksPlugin {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
           if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&
-            (chunk.entryModule.miniType === META_TYPE.PAGE ||
-            chunk.entryModule.miniType === META_TYPE.COMPONENT)) {
+            (entryModule.miniType === META_TYPE.PAGE ||
+            entryModule.miniType === META_TYPE.COMPONENT)) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
         }
