@@ -296,18 +296,21 @@ Taro 提供了更新命令来更新 CLI 工具自身和项目中 Taro 相关的�
 
 ```bash
 # taro
-$ taro update self
+$ taro update self [version]
 # npm
-npm i -g @tarojs/cli@latest
+npm i -g @tarojs/cli@[version]
 # yarn
-yarn global add @tarojs/cli@latest
+yarn global add @tarojs/cli@[version]
 ```
 
 更新项目中 Taro 相关的依赖
 
 ```bash
-$ taro update project
+$ taro update project [version]
 ```
+
+> `version` 为选填，如：`1.x.x/latest` 等，将会直接更新到指定版本。
+> 若不填写 `version`，将会更新到当前项目 Taro 依赖的 `主版本（major）`的最新稳定版，如当前主版本没有稳定版本，则会更新到 `latest` 指定的版本。
 
 如命令更新失败，需要在 package.json 文件手动更新依赖版本，然后重新安装依赖。
 

@@ -40,18 +40,19 @@ if (args.length > 0 && args.length < 3) {
 
 async function getTargetVersion () {
   let targetTaroVersion
+  // base on current project taro versions, not base on @tarojs/cli verison
   const currentTaroVersion = require(pkgPath).dependencies['@tarojs/taro']
   if (args[1]) {
     targetTaroVersion = args[1]
   } else {
     // update to current lastest major.x.x
-    let version = semver.major(currentTaroVersion).toString()
-    if (/-beta\./.test(currentTaroVersion)) {
-      version = `^${currentTaroVersion}`
+    try {
+      targetTaroVersion = await getLatestVersion(pkgName, {
+        version: semver.major(currentTaroVersion).toString()
+      })
+    } catch (e) {
+      targetTaroVersion = 'latest'
     }
-    targetTaroVersion = await getLatestVersion(pkgName, {
-      version
-    })
   }
   return targetTaroVersion
 }
