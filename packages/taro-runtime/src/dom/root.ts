@@ -4,7 +4,7 @@ import { MpInstance, HydratedData } from '../hydrate'
 import { UpdatePayload, UpdatePayloadValue } from './node'
 import { isFunction, Shortcuts } from '@tarojs/shared'
 import { perf } from '../perf'
-import { SET_DATA, PAGE_INIT, TARO_RUNTIME } from '../constants'
+import { SET_DATA, PAGE_INIT } from '../constants'
 
 export class TaroRootElement extends TaroElement {
   private pendingUpdate = false
@@ -69,8 +69,6 @@ export class TaroRootElement extends TaroElement {
           data[path] = value()
         }
       }
-
-      perf.stop(TARO_RUNTIME)
 
       ctx.setData(data, () => {
         perf.stop(SET_DATA)

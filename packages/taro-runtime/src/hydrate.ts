@@ -45,7 +45,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     [Shortcuts.NodeName]: node.nodeName,
     uid: node.uid
   }
-  const props = node.props
+  const { props, childNodes } = node
 
   for (const prop in props) {
     if (
@@ -57,8 +57,18 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     }
   }
 
-  if (node.childNodes.length > 0) {
-    data[Shortcuts.Childnodes] = node.childNodes.map(hydrate)
+  if (childNodes.length > 0) {
+    const childeNodeData: MiniData[] = []
+    for (let i = 0; i < childNodes.length; i++) {
+      const child = childNodes[i] as TaroElement | TaroText
+      if (isText(child) && child.nodeValue === '') {
+        continue
+      }
+      childeNodeData.push(hydrate(child))
+    }
+    if (childeNodeData.length > 0) {
+      data[Shortcuts.Childnodes] = childeNodeData
+    }
   }
 
   if (node.className !== '') {
