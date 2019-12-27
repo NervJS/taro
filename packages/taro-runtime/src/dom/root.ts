@@ -3,6 +3,8 @@ import { NodeType } from './node_types'
 import { MpInstance, HydratedData } from '../hydrate'
 import { UpdatePayload, UpdatePayloadValue } from './node'
 import { isFunction, Shortcuts } from '@tarojs/shared'
+import { perf } from '../perf'
+import { SET_DATA, PAGE_INIT, TARO_RUNTIME } from '../constants'
 
 export class TaroRootElement extends TaroElement {
   private pendingUpdate = false
@@ -38,6 +40,7 @@ export class TaroRootElement extends TaroElement {
     const ctx = this.ctx!
 
     setTimeout(() => {
+      perf.start(SET_DATA)
       const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
       const resetPaths = new Set<string>(
         initRender
@@ -67,7 +70,13 @@ export class TaroRootElement extends TaroElement {
         }
       }
 
+      perf.stop(TARO_RUNTIME)
+
       ctx.setData(data, () => {
+        perf.stop(SET_DATA)
+        if (initRender) {
+          perf.stop(PAGE_INIT)
+        }
         this.pendingUpdate = false
       })
     }, 1)

@@ -7,6 +7,8 @@ import { TaroRootElement } from '../dom/root'
 import { MpInstance } from '../hydrate'
 import { Instance, PageInstance, PageProps } from './instance'
 import { incrementId } from '../utils'
+import { perf } from '../perf'
+import { PAGE_INIT } from '../constants'
 
 const instances = new Map<string, Instance>()
 
@@ -58,6 +60,8 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
         params: options,
         path: addLeadingSlash(this.route || this.__route__)
       }
+
+      perf.start(PAGE_INIT)
 
       Current.app!.mount(component, id, () => {
         page = document.getElementById<TaroRootElement>(id)

@@ -45,14 +45,15 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     [Shortcuts.NodeName]: node.nodeName,
     uid: node.uid
   }
+  const props = node.props
 
-  for (const prop in node.props) {
+  for (const prop in props) {
     if (
       !prop.startsWith('data-') && // 在 node.dataset 的数据
       prop !== 'class' &&
       prop !== 'style'
     ) {
-      data[prop] = node[prop]
+      data[prop] = props[prop]
     }
   }
 
