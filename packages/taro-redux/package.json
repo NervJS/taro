@@ -1,6 +1,10 @@
 {
   "name": "@tarojs/redux",
+<<<<<<< HEAD
   "version": "2.0.0-beta.11",
+=======
+  "version": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
   "description": "Redux for Taro",
   "main": "index.js",
   "typings": "types/index.d.ts",
@@ -32,7 +36,12 @@
     "jest": "^23.1.0"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@tarojs/taro": "2.0.0-beta.11",
     "@tarojs/utils": "2.0.0-beta.11"
+=======
+    "@tarojs/taro": "2.0.0-beta.12",
+    "@tarojs/utils": "2.0.0-beta.12"
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
   }
 }

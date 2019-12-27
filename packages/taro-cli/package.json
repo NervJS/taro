@@ -1,6 +1,10 @@
 {
   "name": "@tarojs/cli",
+<<<<<<< HEAD
   "version": "2.0.0-beta.11",
+=======
+  "version": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -40,8 +44,13 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+<<<<<<< HEAD
     "@tarojs/taroize": "2.0.0-beta.11",
     "@tarojs/transformer-wx": "2.0.0-beta.11",
+=======
+    "@tarojs/taroize": "2.0.0-beta.12",
+    "@tarojs/transformer-wx": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
     "@types/request": "^2.48.1",
     "@typescript-eslint/parser": "^2.0.0",
     "adm-zip": "^0.4.13",
@@ -54,7 +63,11 @@
     "babel-plugin-remove-dead-code": "^1.3.2",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-define": "^1.3.0",
+<<<<<<< HEAD
     "babel-plugin-transform-jsx-to-stylesheet": "2.0.0-beta.11",
+=======
+    "babel-plugin-transform-jsx-to-stylesheet": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-plugin-transform-taroapi": "1.3.15",
     "babel-template": "^6.26.0",
@@ -73,11 +86,19 @@
     "ejs": "^3.0.1",
     "envinfo": "^6.0.1",
     "eslint": "^6.1.0",
+<<<<<<< HEAD
     "eslint-config-taro": "2.0.0-beta.11",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-react-hooks": "^1.6.1",
     "eslint-plugin-taro": "2.0.0-beta.11",
+=======
+    "eslint-config-taro": "2.0.0-beta.12",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "eslint-plugin-taro": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
     "eslint-plugin-typescript": "^0.12.0",
     "fbjs": "^1.0.0",
     "find-yarn-workspace-root": "1.2.1",
@@ -100,7 +121,11 @@
     "postcss-modules-resolve-imports": "^1.3.0",
     "postcss-modules-scope": "^1.1.0",
     "postcss-modules-values": "^1.3.0",
+<<<<<<< HEAD
     "postcss-pxtransform": "2.0.0-beta.11",
+=======
+    "postcss-pxtransform": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
     "postcss-reporter": "^6.0.1",
     "postcss-taro-unit-transform": "1.2.15",
     "postcss-url": "^7.3.2",
@@ -112,10 +137,17 @@
     "semver": "^5.5.0",
     "shelljs": "^0.8.1",
     "stylelint": "9.3.0",
+<<<<<<< HEAD
     "stylelint-config-taro-rn": "2.0.0-beta.11",
     "stylelint-taro-rn": "2.0.0-beta.11",
     "tapable": "^1.1.3",
     "taro-css-to-react-native": "2.0.0-beta.11",
+=======
+    "stylelint-config-taro-rn": "2.0.0-beta.12",
+    "stylelint-taro-rn": "2.0.0-beta.12",
+    "tapable": "^1.1.3",
+    "taro-css-to-react-native": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
     "through2": "^2.0.3",
     "vinyl": "^2.1.0",
     "vinyl-fs": "^3.0.2",
@@ -124,7 +156,11 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@tarojs/taro": "2.0.0-beta.11",
+=======
+    "@tarojs/taro": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
     "@types/autoprefixer": "^9.1.1",
     "@types/babel-core": "^6.25.5",
     "@types/babel-generator": "^6.25.2",

@@ -1,5 +1,7 @@
 ---
 title: 安装及使用
+id: version-2.0.0-beta.12-GETTING-STARTED
+original_id: GETTING-STARTED
 ---
 
 ## 安装

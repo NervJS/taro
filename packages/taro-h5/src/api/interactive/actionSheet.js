@@ -1,4 +1,4 @@
-import { inlineStyle, setTransform } from '../utils'
+import { inlineStyle, setTransform, interactiveHelper } from '../utils'
 
 const noop = function () {}
 export default class ActionSheet {
@@ -12,13 +12,13 @@ export default class ActionSheet {
 
   style = {
     maskStyle: {
-        'position': 'fixed',
-        'z-index': '1000',
-        'top': '0',
-        'right': '0',
-        'left': '0',
-        'bottom': '0',
-        'background': 'rgba(0,0,0,0.6)'
+      'position': 'fixed',
+      'z-index': '1000',
+      'top': '0',
+      'right': '0',
+      'left': '0',
+      'bottom': '0',
+      'background': 'rgba(0,0,0,0.6)'
     },
     actionSheetStyle: {
       'z-index': '4999',
@@ -123,6 +123,8 @@ export default class ActionSheet {
 
     // show immediately
     document.body.appendChild(this.el)
+    // set body position fixed style
+    interactiveHelper().handleAfterCreate()
     setTimeout(() => {
       this.el.style.opacity = '1'
       setTransform(this.actionSheet, 'translate(0, 0)')
@@ -139,7 +141,7 @@ export default class ActionSheet {
       ...this.options,
       ...options
     }
-    
+
     this.lastConfig = config
 
     if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
@@ -179,6 +181,8 @@ export default class ActionSheet {
 
     // show
     this.el.style.display = 'block'
+    // set body position fixed style
+    interactiveHelper().handleAfterCreate()
     setTimeout(() => {
       this.el.style.opacity = '1'
       setTransform(this.actionSheet, 'translate(0, 0)')
@@ -208,6 +212,8 @@ export default class ActionSheet {
 
     this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'
+      // reset body style as default
+      interactiveHelper().handleBeforeDestroy()
       setTransform(this.actionSheet, 'translate(0, 100%)')
       this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 200)
     }, 0)

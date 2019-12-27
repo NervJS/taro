@@ -40,18 +40,23 @@ if (args.length > 0 && args.length < 3) {
 
 async function getTargetVersion () {
   let targetTaroVersion
+  // base on current project taro versions, not base on @tarojs/cli verison
   const currentTaroVersion = require(pkgPath).dependencies['@tarojs/taro']
   if (args[1]) {
-    targetTaroVersion = args[1]
+    targetTaroVersion = semver.clean(args[1])
   } else {
     // update to current lastest major.x.x
-    let version = semver.major(currentTaroVersion).toString()
-    if (/-beta\./.test(currentTaroVersion)) {
-      version = `^${currentTaroVersion}`
+    try {
+      targetTaroVersion = await getLatestVersion(pkgName, {
+        version: semver.major(currentTaroVersion).toString()
+      })
+    } catch (e) {
+      targetTaroVersion = await getLatestVersion(pkgName)
     }
-    targetTaroVersion = await getLatestVersion(pkgName, {
-      version
-    })
+  }
+  if (!semver.valid(targetTaroVersion)) {
+    console.log(chalk.red('命令错误:无效的 version ~'))
+    throw Error('无效的 version!')
   }
   return targetTaroVersion
 }

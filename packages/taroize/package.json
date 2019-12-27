@@ -1,6 +1,10 @@
 {
   "name": "@tarojs/taroize",
+<<<<<<< HEAD
   "version": "2.0.0-beta.11",
+=======
+  "version": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
   "description": "转换原生微信小程序代码为 Taro 代码",
   "main": "index.js",
   "files": [

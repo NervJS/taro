@@ -1,4 +1,4 @@
-import { inlineStyle } from '../utils'
+import { inlineStyle, interactiveHelper } from '../utils'
 
 const noop = function () {}
 
@@ -49,7 +49,10 @@ export default class Modal {
       'min-height': '40px',
       'font-size': '15px',
       'line-height': '1.3',
-      'color': '#808080'
+      'color': '#808080',
+      'display': 'flex',
+      'align-items': 'center',
+      'justify-content': 'space-around'
     },
     footStyle: {
       'position': 'relative',
@@ -156,6 +159,8 @@ export default class Modal {
 
     // show immediately
     document.body.appendChild(this.el)
+    // set body fix style
+    interactiveHelper().handleAfterCreate()
     setTimeout(() => { this.el.style.opacity = '1' }, 0)
 
     return new Promise(resolve => (this.resolveHandler = resolve))
@@ -234,6 +239,8 @@ export default class Modal {
 
     // show
     this.el.style.display = 'block'
+    // set body position fixed style
+    interactiveHelper().handleAfterCreate()
     setTimeout(() => { this.el.style.opacity = '1' }, 0)
 
     return new Promise(resolve => (this.resolveHandler = resolve))
@@ -245,6 +252,8 @@ export default class Modal {
 
     this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'
+      // reset body style as default
+      interactiveHelper().handleBeforeDestroy()
       this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 200)
     }, 0)
   }

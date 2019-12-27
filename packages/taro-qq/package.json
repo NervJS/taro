@@ -1,6 +1,10 @@
 {
   "name": "@tarojs/taro-qq",
+<<<<<<< HEAD
   "version": "2.0.0-beta.11",
+=======
+  "version": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
   "description": "Taro qq framework",
   "main": "index.js",
   "files": [
@@ -24,8 +28,13 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+<<<<<<< HEAD
     "@tarojs/taro": "2.0.0-beta.11",
     "@tarojs/utils": "2.0.0-beta.11",
+=======
+    "@tarojs/taro": "2.0.0-beta.12",
+    "@tarojs/utils": "2.0.0-beta.12",
+>>>>>>> 907e5e9d78fe03bc8329a833f38e10ed564f2799
     "lodash": "^4.17.10",
     "prop-types": "^15.6.1"
   }
