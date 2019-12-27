@@ -55,7 +55,7 @@
     "进阶指南": [
       "config",
       "config-detail",
-      "debug config",
+      "debug-config",
       "hooks",
       "ui-lib",
       "async-await",
