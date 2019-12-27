@@ -24,7 +24,9 @@ function bindProperties (weappComponentConf, ComponentClass, isPage) {
     type: null,
     value: null,
     observer (newVal, oldVal) {
-      initComponent.apply(this, [ComponentClass, isPage])
+      // 头条基础库1.38.2后，太早 setData $taroCompReady 为 true 时，setData 虽然成功，但 slot 会不显示。
+      // 因此不在 observer 里 initComponent，在组件 attached 时 initComponent 吧。
+      // initComponent.apply(this, [ComponentClass, isPage])
       if (oldVal && oldVal !== newVal) {
         const { extraProps } = this.data
         const component = this.$component
