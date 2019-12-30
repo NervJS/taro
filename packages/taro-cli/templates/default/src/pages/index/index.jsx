@@ -1,18 +1,12 @@
+<%if (locals.typescript) {-%>
+import Taro, { Component, Config } from '@tarojs/taro'
+<%} else { -%>
 import Taro, { Component } from '@tarojs/taro'
+<%}-%>
 import { View, Text } from '@tarojs/components'
 import './<%= pageName %>.<%= cssExt %>'
 
 export default class <%= _.capitalize(pageName) %> extends Component {
-
-  componentWillMount () { }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
 
 <%if (locals.typescript) {-%>
   /**
@@ -23,9 +17,19 @@ export default class <%= _.capitalize(pageName) %> extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
 <%}-%>
-  config<%if (locals.typescript) {%>: Taro.PageConfig<%}%> = {
+  config<%if (locals.typescript) {%>: Config<%}%> = {
     navigationBarTitleText: '首页'
   }
+
+  componentWillMount () { }
+
+  componentDidMount () { }
+
+  componentWillUnmount () { }
+
+  componentDidShow () { }
+
+  componentDidHide () { }
 
   render () {
     return (
