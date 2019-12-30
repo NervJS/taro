@@ -67,7 +67,8 @@
     "stylelint-config-taro-rn": "<%= version %>",
     "stylelint-taro-rn": "<%= version %>",
     "eslint-plugin-taro": "<%= version %>"<% if (typescript) {%>,
-    "@typescript-eslint/parser": "^1.6.0",
+    "@typescript-eslint/eslint-plugin": "^2.13.0",
+    "@typescript-eslint/parser": "^2.13.0",
     "typescript": "^3.0.1"<%}%>
   }
 }
