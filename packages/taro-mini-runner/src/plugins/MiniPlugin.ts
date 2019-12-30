@@ -928,7 +928,19 @@ export default class MiniPlugin {
     this.isWatch = true
     if (REG_SCRIPTS.test(changedFile)) {
       this.changedFile = changedFile
-      const { type, obj } = this.getChangedFileInfo(changedFile)
+      let { type, obj } = this.getChangedFileInfo(changedFile)
+      if (!type) {
+        const code = fs.readFileSync(changedFile).toString()
+        const isTaroComponentRes = isFileToBeTaroComponent(code, changedFile, this.options.buildAdapter)
+        if (isTaroComponentRes.isTaroComponent) {
+          type = PARSE_AST_TYPE.COMPONENT
+          obj = {
+            name: changedFile.replace(this.sourceDir, '').replace(path.extname(changedFile), ''),
+            path: changedFile,
+            isNative: this.isNativePageOrComponent(this.getTemplatePath(changedFile), code)
+          }
+        }
+      }
       this.changedFileType = type
       if (this.changedFileType === PARSE_AST_TYPE.ENTRY
         || this.changedFileType === PARSE_AST_TYPE.PAGE
