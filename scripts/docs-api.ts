@@ -49,11 +49,11 @@ export default function docsAPI (
   files: string[],
   callback: TCallback = () => {},
   withLog = true,
-  diif = true,
+  diff = true,
 ) {
   const cwd: string = process.cwd();
 
-  if (diif) {
+  if (diff) {
     const canges = spawn('git', ['status', '-z'])
   
     canges.stdout.on('data', (data) => {
