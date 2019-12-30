@@ -1,8 +1,4 @@
-<%if (locals.typescript) {-%>
-import Taro, { Component, Config } from '@tarojs/taro'
-<%} else { -%>
 import Taro, { Component } from '@tarojs/taro'
-<%}-%>
 import Index from './pages/index'
 
 import './app.<%= cssExt %>'
@@ -15,6 +11,14 @@ import './app.<%= cssExt %>'
 
 class App extends Component {
 
+  componentDidMount () {}
+
+  componentDidShow () {}
+
+  componentDidHide () {}
+
+  componentDidCatchError () {}
+
 <%if (locals.typescript) {-%>
   /**
    * 指定config的类型声明为: Taro.Config
@@ -24,7 +28,7 @@ class App extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
 <%}-%>
-  config<%if (locals.typescript) {%>: Config<%}%> = {
+  config<%if (locals.typescript) {%>: Taro.Config<%}%> = {
     pages: [
       'pages/index/index'
     ],
@@ -35,14 +39,6 @@ class App extends Component {
       navigationBarTextStyle: 'black'
     }
   }
-
-  componentDidMount () {}
-
-  componentDidShow () {}
-
-  componentDidHide () {}
-
-  componentDidCatchError () {}
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
