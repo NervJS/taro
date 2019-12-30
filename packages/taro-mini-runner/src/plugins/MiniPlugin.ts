@@ -375,7 +375,7 @@ export default class MiniPlugin {
     })
   }
 
-  getTabBarFiles (appConfig) {
+  getTabBarFiles (compiler: webpack.Compiler,appConfig) {
     const tabBar = appConfig.tabBar
     const { buildAdapter } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
@@ -390,6 +390,24 @@ export default class MiniPlugin {
         item[pathConfig] && this.tabBarIcons.add(item[pathConfig])
         item[selectedPathConfig] && this.tabBarIcons.add(item[selectedPathConfig])
       })
+      if (tabBar.custom) {
+        const customTabBarPath = path.join(this.sourceDir, 'custom-tab-bar')
+        const customTabBarComponentPath = resolveScriptPath(customTabBarPath)
+        if (fs.existsSync(customTabBarComponentPath)) {
+          const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
+          const isNative = this.isNativePageOrComponent(customTabBarComponentTemplPath, fs.readFileSync(customTabBarComponentPath).toString())
+          if (!this.isWatch) {
+            printLog(processTypeEnum.COMPILE, '自定义 tabBar', this.getShowPath(customTabBarComponentPath))
+          }
+          const componentObj = {
+            name: 'custom-tab-bar/index',
+            path: customTabBarComponentPath,
+            isNative
+          }
+          this.components.add(componentObj)
+          this.getComponents(compiler, new Set([componentObj]), false)
+        }
+      }
     }
   }
 
@@ -428,7 +446,7 @@ export default class MiniPlugin {
     return filePath.replace(this.context, '').replace(/\\/g, '/').replace(/^\//, '')
   }
 
-  getPages () {
+  getPages (compiler: webpack.Compiler) {
     const { buildAdapter } = this.options
     const appEntry = this.appEntry
     const code = fs.readFileSync(appEntry).toString()
@@ -451,7 +469,7 @@ export default class MiniPlugin {
         printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(appEntry))
       }
       this.getSubPackages(configObj)
-      this.getTabBarFiles(configObj)
+      this.getTabBarFiles(compiler, configObj)
       const template = ''
       taroFileTypeMap[this.appEntry] = {
         type: PARSE_AST_TYPE.ENTRY,
@@ -896,7 +914,7 @@ export default class MiniPlugin {
   run (compiler: webpack.Compiler) {
     this.errors = []
     if (!this.options.isBuildPlugin) {
-      this.getPages()
+      this.getPages(compiler)
       this.getComponents(compiler, this.pages, true)
       this.addEntries(compiler)
     } else {
