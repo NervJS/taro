@@ -1,5 +1,35 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.33...v) (2019-12-25)
+# [](https://github.com/NervJS/taro/compare/v1.3.34...v) (2019-12-31)
+
+
+
+<a name="1.3.34"></a>
+## [1.3.34](https://github.com/NervJS/taro/compare/v1.3.33...v1.3.34) (2019-12-31)
+
+
+### Bug Fixes
+
+* **template:** 临时解决 ESLint 分析器认为 Config 未使用的问题 [#5207](https://github.com/NervJS/taro/issues/5207) ([ed6f261](https://github.com/NervJS/taro/commit/ed6f261))
+* **template:** 添加 [@typescript-eslint](https://github.com/typescript-eslint)/eslint-plugin 并更新模版配置 [#5207](https://github.com/NervJS/taro/issues/5207) ([899dacf](https://github.com/NervJS/taro/commit/899dacf))
+* cloud 对象方法未能导出, fixed [#5195](https://github.com/NervJS/taro/issues/5195) ([73a2ddc](https://github.com/NervJS/taro/commit/73a2ddc))
+* error var name ([c6c9c02](https://github.com/NervJS/taro/commit/c6c9c02))
+* **cli:** 当前主版本无稳定版本导致更新报错的问题，并添加文档 ([7852967](https://github.com/NervJS/taro/commit/7852967))
+* **cli:** 获取到确切的 latest vertion ([d7f2ca5](https://github.com/NervJS/taro/commit/d7f2ca5))
+* **h5:** h5环境previewImage左右滑动时触发浏览器前进、后退 ([c3c9929](https://github.com/NervJS/taro/commit/c3c9929))
+* **router:** H5下 ReLaunch 没办法跳到指定的页面 ([484d3b0](https://github.com/NervJS/taro/commit/484d3b0))
+* **taro-h5:** fix scroll issue in iOS when using showToast/showModal/showActionSheet ([#5092](https://github.com/NervJS/taro/issues/5092)) ([698c057](https://github.com/NervJS/taro/commit/698c057))
+* **tt:** 修复头条基础库1.38.2后引起的 slot 问题 ([fffa784](https://github.com/NervJS/taro/commit/fffa784))
+
+
+### Features
+
+* **cli:**  添加了 version 校验 ([325e6d2](https://github.com/NervJS/taro/commit/325e6d2))
+* **h5:** 为h5的uploadFile添加了额外的文件名参数 ([46fdce6](https://github.com/NervJS/taro/commit/46fdce6))
+
+
+### Reverts
+
+* 临时解决 ESLint 分析器认为 Config 未使用的问题 [#5207](https://github.com/NervJS/taro/issues/5207) ([863a5a5](https://github.com/NervJS/taro/commit/863a5a5))
 
 
 
