@@ -11,6 +11,6 @@ export default function (this: webpack.loader.LoaderContext) {
     : this.request.split('!').slice(1).join('!')
   return `import { createPageConfig } from '@tarojs/runtime'
 import component from '${componentPath}'
-Page(createPageConfig(component, '${options.name}'))
+export default Page(createPageConfig(component, '${options.name}'))
 `
 }

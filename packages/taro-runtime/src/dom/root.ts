@@ -35,7 +35,7 @@ export class TaroRootElement extends TaroElement {
     this.performUpdate()
   }
 
-  public performUpdate (initRender = false) {
+  public performUpdate (initRender = false, prerender?: Function) {
     this.pendingUpdate = true
     const ctx = this.ctx!
 
@@ -70,13 +70,17 @@ export class TaroRootElement extends TaroElement {
         }
       }
 
-      ctx.setData(data, () => {
-        perf.stop(SET_DATA)
-        if (initRender) {
-          perf.stop(PAGE_INIT)
-        }
-        this.pendingUpdate = false
-      })
+      if (isFunction(prerender)) {
+        prerender(data)
+      } else {
+        ctx.setData(data, () => {
+          perf.stop(SET_DATA)
+          if (initRender) {
+            perf.stop(PAGE_INIT)
+          }
+          this.pendingUpdate = false
+        })
+      }
     }, 1)
   }
 }

@@ -20,7 +20,10 @@ export function getPageInstance (id: string) {
   return instances.get(id)
 }
 
-function addLeadingSlash (path: string) {
+function addLeadingSlash (path?: string) {
+  if (path == null) {
+    return ''
+  }
   return path.charAt(0) === '/' ? path : '/' + path
 }
 
@@ -55,7 +58,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
   }
 
   const config: PageInstance = {
-    onLoad (this: MpInstance, options) {
+    onLoad (this: MpInstance, options, cb?: Function) {
       Current.router = {
         params: options,
         path: addLeadingSlash(this.route || this.__route__)
@@ -70,7 +73,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
         ensure(page !== null, '没有找到页面实例。')
         safeExecute('onLoad', options)
         page.ctx = this
-        page.performUpdate(true)
+        page.performUpdate(true, cb)
       })
     },
     onUnload () {
