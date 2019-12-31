@@ -970,6 +970,9 @@ export default class MiniPlugin {
           }
           this.transferFileContent(compiler)
         }
+        if (!this.components.has(obj)) {
+          this.components.add(obj)
+        }
       }
     }
   }
