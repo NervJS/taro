@@ -7,6 +7,8 @@ declare namespace Taro {
       name: string
       /** 开发者服务器地址 */
       url: string
+      /** (仅 H5) 上传的文件名 */
+      fileName: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: General.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -62,7 +64,7 @@ declare namespace Taro {
       totalBytesSent: number
     }
   }
-  
+
   /** 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
    * @supported weapp
    * @example
