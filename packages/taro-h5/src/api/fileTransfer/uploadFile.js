@@ -1,12 +1,7 @@
 import { createCallbackManager } from '../utils'
-import {
-  convertObjectUrlToBlob,
-  NETWORK_TIMEOUT,
-  setHeader,
-  XHR_STATS
-} from './utils'
+import { convertObjectUrlToBlob, NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
 
-const createUploadTask = ({ url, filePath, formData, name, header, success, error }) => {
+const createUploadTask = ({ url, filePath, fileName, formData, name, header, success, error }) => {
   let timeout
   let formKey
   const apiName = 'uploadFile'
@@ -79,7 +74,7 @@ const createUploadTask = ({ url, filePath, formData, name, header, success, erro
 
   convertObjectUrlToBlob(filePath)
     .then(fileObj => {
-      form.append(name, fileObj, fileObj.name || `file-${Date.now()}`)
+      form.append(name, fileObj, fileName || fileObj.name || `file-${Date.now()}`)
       send()
     })
     .catch(e => {
@@ -132,6 +127,7 @@ const createUploadTask = ({ url, filePath, formData, name, header, success, erro
  * @param {string} object.url 开发者服务器地址
  * @param {string} object.filePath 要上传文件资源的路径
  * @param {string} object.name 文件对应的 key，开发者在服务端可以通过这个 key 获取文件的二进制内容
+ * @param {string} [object.fileName] （仅H5）上传的文件名
  * @param {Object} [object.header] HTTP 请求 Header，Header 中不能设置 Referer
  * @param {Object} [object.formData] HTTP 请求中其他额外的 form data
  * @param {function} [object.success] 接口调用成功的回调函数
@@ -139,7 +135,7 @@ const createUploadTask = ({ url, filePath, formData, name, header, success, erro
  * @param {function} [object.complete] 接口调用结束的回调函数（调用成功、失败都会执行）
  * @returns {UploadTask}
  */
-const uploadFile = ({ url, filePath, name, header, formData, success, fail, complete }) => {
+const uploadFile = ({ url, filePath, fileName, name, header, formData, success, fail, complete }) => {
   let task
   const promise = new Promise((resolve, reject) => {
     task = createUploadTask({
@@ -148,6 +144,7 @@ const uploadFile = ({ url, filePath, name, header, formData, success, fail, comp
       name,
       filePath,
       formData,
+      fileName,
       success: res => {
         success && success(res)
         complete && complete()
