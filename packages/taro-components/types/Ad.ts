@@ -4,7 +4,7 @@ import { StandardProps, CommonEventFunction } from './common'
 /**
  * 广告。目前暂时以邀请制开放申请，请留意后续模板消息的通知
  * @since 1.9.94
- * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/ad.html}
+ * @see https://developers.weixin.qq.com/miniprogram/dev/component/ad.html
  */
 export interface AdProps extends StandardProps {
 
@@ -24,6 +24,10 @@ export interface AdProps extends StandardProps {
   onError?: CommonEventFunction,
 }
 
+/** 广告。目前暂时以邀请制开放申请，请留意后续模板消息的通知
+ * @classification open
+ * @see https://developers.weixin.qq.com/miniprogram/dev/component/ad.html
+ */
 declare const Ad: ComponentType<AdProps>
 
 export { Ad }

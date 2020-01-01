@@ -78,6 +78,9 @@ export interface ScrollViewProps extends StandardProps {
   onScroll?: (event: CommonEventFunction) => any
 }
 
+/**
+ * @classification viewContainer
+ */
 declare const ScrollView: ComponentType<ScrollViewProps>
 
 export {

@@ -5,7 +5,7 @@ import { StandardProps, CommonEventFunction } from './common'
  * 实时音视频播放。
  * 暂只针对国内主体如下类目的小程序开放，需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
  * @since 1.7.0
- * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html}
+ * @see https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html
  */
 export interface LivePlayerProps extends StandardProps {
 
@@ -79,6 +79,9 @@ export interface LivePlayerProps extends StandardProps {
   onNetstatus?: CommonEventFunction
 }
 
+/**
+ * @classification media
+ */
 declare const LivePlayer: ComponentType<LivePlayerProps>
 
 export { LivePlayer }

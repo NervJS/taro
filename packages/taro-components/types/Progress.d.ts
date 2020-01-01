@@ -66,6 +66,9 @@ export interface ProgressProps extends StandardProps {
   borderRadius?: number
 }
 
+/**
+ * @classification base
+ */
 declare const Progress: ComponentType<ProgressProps>
 
 export { Progress }

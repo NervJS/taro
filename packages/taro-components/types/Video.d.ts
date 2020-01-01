@@ -239,6 +239,9 @@ export interface VideoProps extends StandardProps {
   }>
 }
 
+/**
+ * @classification media
+ */
 declare const Video: ComponentType<VideoProps>
 
 export { Video }

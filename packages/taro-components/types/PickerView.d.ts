@@ -44,6 +44,9 @@ export interface PickerViewProps extends StandardProps {
   onChange: CommonEventFunction
 }
 
+/**
+ * @classification forms
+ */
 declare const PickerView: ComponentType<PickerViewProps>
 
 /**

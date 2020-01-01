@@ -46,6 +46,9 @@ export interface ImageProps extends StandardProps {
   onLoad?: CommonEventFunction
 }
 
+/**
+ * @classification media
+ */
 declare const Image: ComponentType<ImageProps>
 
 export { Image }

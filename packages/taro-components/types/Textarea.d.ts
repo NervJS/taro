@@ -173,6 +173,9 @@ export interface TextareaProps extends StandardProps, FormItemProps {
   }>
 }
 
+/**
+ * @classification forms
+ */
 declare const Textarea: ComponentType<TextareaProps>
 
 export { Textarea }

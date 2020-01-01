@@ -6,7 +6,7 @@ import { StandardProps, CommonEventFunction } from './common'
  * 需要用户授权 scope.camera、scope.record
  * 暂只针对国内主体如下类目的小程序开放，需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
  * @since 1.7.0
- * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html}
+ * @see https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html
  */
 export interface LivePusherProps extends StandardProps {
 
@@ -119,6 +119,9 @@ export interface LivePusherProps extends StandardProps {
   onError?: CommonEventFunction
 }
 
+/**
+ * @classification media
+ */
 declare const LivePusher: ComponentType<LivePusherProps>
 
 export { LivePusher }

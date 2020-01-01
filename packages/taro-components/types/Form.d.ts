@@ -48,6 +48,9 @@ export interface FormProps extends StandardProps {
   onReset?: CommonEventFunction,
 }
 
+/**
+ * @classification forms
+ */
 declare const Form: ComponentType<FormProps>
 
 export { Form }

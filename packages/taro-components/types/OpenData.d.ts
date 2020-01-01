@@ -2,7 +2,6 @@ import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
 export interface OpenDataProps extends StandardProps {
-
   /**
    * 开放数据类型
    */
@@ -12,6 +11,9 @@ export interface OpenDataProps extends StandardProps {
   lang?: 'zh_CN' | 'zh_TW' | 'en'
 }
 
+/**
+ * @classification open
+ */
 declare const OpenData: ComponentType<OpenDataProps>
 
 export { OpenData }

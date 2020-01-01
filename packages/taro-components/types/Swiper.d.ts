@@ -151,6 +151,9 @@ export interface SwiperProps extends StandardProps {
   onAnimationFinish?: SwiperProps['onChange'],
 }
 
+/**
+ * @classification viewContainer
+ */
 declare const Swiper: ComponentType<SwiperProps>
 
 export interface SwiperItemProps extends StandardProps {

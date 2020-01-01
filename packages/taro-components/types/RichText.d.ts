@@ -46,6 +46,9 @@ export interface RichTextProps extends StandardProps {
   nodes: Nodes
 }
 
+/**
+ * @classification base
+ */
 declare const RichText: ComponentType<RichTextProps>
 
 export { RichText }

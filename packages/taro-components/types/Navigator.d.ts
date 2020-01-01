@@ -69,6 +69,9 @@ export interface NavigatorProps extends StandardProps {
   hoverStayTime?: number
 }
 
+/**
+ * @classification navig
+ */
 declare const Navigator: ComponentType<NavigatorProps>
 
 export { Navigator }

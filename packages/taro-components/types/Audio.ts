@@ -5,7 +5,7 @@ import { StandardProps, CommonEventFunction } from './common'
  * 音频。
  * 注意：1.6.0 版本开始，该组件不再维护。建议使用能力更强的 wx.createInnerAudioContext 接口
  * @deprecated
- * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/audio.html}
+ * @see https://developers.weixin.qq.com/miniprogram/dev/component/audio.html
  */
 export interface AudioProps extends StandardProps {
 
@@ -73,6 +73,9 @@ export interface AudioProps extends StandardProps {
   onEnded?: CommonEventFunction
 }
 
+/**
+ * @classification media
+ */
 declare const Audio: ComponentType<AudioProps>
 
 export { Audio }

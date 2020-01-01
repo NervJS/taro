@@ -57,6 +57,9 @@ export interface CameraProps extends StandardProps {
   onInitDone?: CommonEventFunction
 }
 
+/**
+ * @classification media
+ */
 declare const Camera: ComponentType<CameraProps>
 
 export { Camera }

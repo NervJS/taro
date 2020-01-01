@@ -252,6 +252,9 @@ export interface ButtonProps extends StandardProps {
   onGetAuthorize?: CommonEventFunction
 }
 
+/**
+ * @classification forms
+ */
 declare const Button: ComponentType<ButtonProps>
 
 export { Button }

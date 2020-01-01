@@ -37,6 +37,9 @@ export interface SwitchProps extends StandardProps, FormItemProps {
   color?: string
 }
 
+/**
+ * @classification forms
+ */
 declare const Switch: ComponentType<SwitchProps>
 
 export { Switch }

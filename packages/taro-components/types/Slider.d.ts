@@ -102,6 +102,9 @@ export interface SliderProps extends StandardProps, FormItemProps {
   onChanging?: CommonEventFunction
 }
 
+/**
+ * @classification forms
+ */
 declare const Slider: ComponentType<SliderProps>
 
 export { Slider }

@@ -9,6 +9,9 @@ export interface LabelProps extends StandardProps {
   for?: string
 }
 
+/**
+ * @classification forms
+ */
 declare const Label: ComponentType<LabelProps>
 
 export { Label }

@@ -54,6 +54,9 @@ export interface CoverImageProps extends StandardProps {
   onError?: CommonEventFunction
 }
 
+/**
+ * @classification viewContainer
+ */
 declare const CoverView: ComponentType<CoverViewProps>
 
 declare const CoverImage: ComponentType<CoverImageProps>

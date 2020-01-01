@@ -5,7 +5,7 @@ import { StandardProps, CommonEventFunction } from './common'
  * 这个组件从小程序基础库版本 2.1.0 开始支持。
  * 仅在插件的自定义组件中有效，用于跳转到插件功能页。
  * @since 2.1.0
- * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/functional-page-navigator.html}
+ * @see https://developers.weixin.qq.com/miniprogram/dev/component/functional-page-navigator.html
  */
 export interface FunctionalPageNavigatorProps extends StandardProps {
 
@@ -40,6 +40,9 @@ export interface FunctionalPageNavigatorProps extends StandardProps {
   onFail?: CommonEventFunction
 }
 
+/**
+ * @classification navig
+ */
 declare const FunctionalPageNavigator: ComponentType<FunctionalPageNavigatorProps>
 
 export { FunctionalPageNavigator }

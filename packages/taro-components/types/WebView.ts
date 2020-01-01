@@ -1,11 +1,6 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-/**
- * web-view 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用。
- * @since 1.6.4
- * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html|微信官方文档}
- */
 export interface WebViewProps extends StandardProps {
 
   /**
@@ -38,6 +33,10 @@ export interface WebViewProps extends StandardProps {
   }>
 }
 
+/** web-view 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用。
+ * @classification open
+ * @see https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html
+ */
 declare const WebView: ComponentType<WebViewProps>
 
 export { WebView }

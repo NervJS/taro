@@ -36,6 +36,9 @@ export interface CheckboxProps extends StandardProps {
   color?: string
 }
 
+/**
+ * @classification forms
+ */
 declare const Checkbox: ComponentType<CheckboxProps>
 
 

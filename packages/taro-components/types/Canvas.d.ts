@@ -27,6 +27,9 @@ export interface CanvasProps extends StandardProps {
   onError?: CommonEventFunction
 }
 
+/**
+ * @classification canvas
+ */
 declare const Canvas: ComponentType<CanvasProps>
 
 export { Canvas }

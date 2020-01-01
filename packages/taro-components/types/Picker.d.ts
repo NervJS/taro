@@ -119,6 +119,9 @@ export interface PickerRegionProps extends PickerStandardProps {
   customItem?: string
 }
 
+/**
+ * @classification forms
+ */
 declare const Picker: ComponentType<
   | PickerSelectorProps
   | PickerMultiSelectorProps

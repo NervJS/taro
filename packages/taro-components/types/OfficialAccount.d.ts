@@ -24,6 +24,9 @@ export interface OfficialAccountProps extends StandardProps {
   onError?: CommonEventFunction<OfficialAccountEventDetail>
 }
 
+/**
+ * @classification open
+ */
 declare const OfficialAccount: ComponentType<OfficialAccountProps>
 
 export { OfficialAccount }

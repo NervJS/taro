@@ -31,6 +31,9 @@ export interface TextProps extends StandardProps {
   decode?: boolean
 }
 
+/**
+ * @classification base
+ */
 declare const Text: ComponentType<TextProps>
 
 export { Text }

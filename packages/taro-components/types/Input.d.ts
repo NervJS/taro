@@ -153,6 +153,9 @@ export interface InputProps extends StandardProps, FormItemProps {
   }>
 }
 
+/**
+ * @classification forms
+ */
 declare const Input: ComponentType<InputProps>
 
 export { Input }

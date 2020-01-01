@@ -447,6 +447,9 @@ export interface MapProps extends StandardProps {
   optimize?: boolean;
 }
 
+/**
+ * @classification maps
+ */
 declare const Map: ComponentType<MapProps>
 
 export { Map }

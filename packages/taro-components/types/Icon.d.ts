@@ -24,6 +24,9 @@ export interface IconProps extends StandardProps {
   color?: string
 }
 
+/**
+ * @classification base
+ */
 declare const Icon: ComponentType<IconProps>
 
 export { Icon }

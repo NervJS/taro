@@ -18,6 +18,9 @@ export interface PullToRefreshProps {
   damping: number;
 }
 
+/**
+ * @ignore
+ */
 declare const PullToRefresh: ComponentType<PullToRefreshProps>
 
 export { PullToRefresh }

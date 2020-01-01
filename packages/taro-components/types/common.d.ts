@@ -215,5 +215,4 @@ export interface Target {
   }
 }
 
-export interface currentTarget extends Target {
-}
+export interface currentTarget extends Target {}

@@ -35,6 +35,9 @@ export interface RadioProps extends StandardProps {
   color?: string
 }
 
+/**
+ * @classification forms
+ */
 declare const Radio: ComponentType<RadioProps>
 
 export { RadioGroup, Radio }

@@ -128,6 +128,9 @@ export interface MovableViewProps extends Omit<StandardProps, 'animation'> {
 
 declare const MovableArea: ComponentType<MovableAreaProps>
 
+/**
+ * @classification viewContainer
+ */
 declare const MovableView: ComponentType<MovableViewProps>
 
 export { MovableArea, MovableView }

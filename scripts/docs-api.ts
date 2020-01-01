@@ -3,13 +3,12 @@ import { spawn } from "child_process"
 import * as ts from "typescript"
 import compile, { DocEntry, envMap } from "./parser"
 import writeFile from "./write"
+import { childrenMerge, splicing, parseLineFeed, isShowMembers, isShowAPI, isNotAPI, isFunction, isOptional } from "./parser/utils"
 
 const taro_apis: (string | undefined)[] = []
 
 type TCallback = (routepath: string, doc: DocEntry[], withGeneral?: boolean) => void
 
-const SymbolFlags = Object.values(ts.SymbolFlags)
-const InternalSymbolName = Object.values(ts.InternalSymbolName)
 const TaroMethod = [
   ts.SymbolFlags.Function,
   ts.SymbolFlags.Class,
@@ -20,6 +19,7 @@ const TaroMethod = [
 ]
 const isntTaroMethod = [
   -1,
+  ts.SymbolFlags.BlockScopedVariable,
   ts.SymbolFlags.Interface,
   ts.SymbolFlags.ConstEnum,
   ts.SymbolFlags.RegularEnum,
@@ -39,104 +39,9 @@ const isntShowType = [
 ]
 const needLessDeclarationsName = [
   '__@unscopables', '__@iterator',
-  ...InternalSymbolName
+  ...Object.values(ts.InternalSymbolName)
 ]
 const generalParh = path.resolve(__dirname, '../packages/taro', 'types/api/index.d.ts')
-
-export default function docsAPI (
-  base: string = '.',
-  out: string,
-  files: string[],
-  callback: TCallback = () => {},
-  withLog = true,
-  diff = true,
-) {
-  const cwd: string = process.cwd();
-
-  if (diff) {
-    const canges = spawn('git', ['status', '-z'])
-  
-    canges.stdout.on('data', (data) => {
-      const ss = data.toString().trim().split(/\u0000|\s+/ig)
-      ss.forEach(s => {
-        const route = path.resolve(cwd, s)
-        const output = route
-          .replace(path.resolve(cwd, base), path.resolve(cwd, out))
-          .replace(/(.[a-z]+)$|(.d.ts)$/ig, '')
-        files.forEach(e => {
-          const pe = path.resolve(cwd, e)
-          if (route.indexOf(pe) > -1) {
-            compile(cwd, s, [generalParh], (route, doc) => {
-              withLog && console.log(route)
-              if (doc.length < 1) return
-              callback(output, doc, route === generalParh)
-            })
-          }
-        })
-      })
-    })
-    canges.stderr.on('data', (data) => {
-      console.error(`stderr: ${data}`)
-    })
-  } else {
-    files.forEach(s => {
-      compile(cwd, s, [generalParh], (route, doc) => {
-        const output = route
-          .replace(path.resolve(cwd, base), path.resolve(cwd, out))
-          .replace(/(.[a-z]+)$|(.d.ts)$/ig, '')
-        withLog && console.log(route)
-        if (doc.length < 1) return
-        callback(output, doc, route === generalParh)
-      })
-    })
-  }
-}
-
-export function childrenMerge (d: DocEntry[] = [], o: DocEntry[] = []) {
-  d.forEach(e => {
-    const name = e.name || 'undefined'
-    if (!o.find(v => v.name === name)) o.push(e)
-    const target = o.find(v => v.name === name) || {}
-    for (const key in e) {
-      if (e.hasOwnProperty(key) && e[key] && !['name', 'kind'].includes(key)) {
-        if (key === 'flags') {
-          if (!target.flags || !isFunction(e.flags)) target.flags = e.flags
-        } if (key === 'children') {
-          target.children = childrenMerge(e.children, target.children)
-        } if (key === 'exports') {
-          target.exports = childrenMerge(e.exports, target.exports)
-        } else {
-          target[key] = e[key]
-        }
-      }
-    }
-  })
-
-  return o.map(e => {
-    if (e.children) {
-      if (!e.exports) e.exports = [];
-      e.children.forEach(k => {
-        const kk = e.exports!.find(kk => kk.name === k.name)
-        if (!kk) e.exports!.push(k)
-        else {
-          for (const key in k) {
-            if (k.hasOwnProperty(key) && !kk[key]) {
-              kk[key] = k[key]
-            }
-          }
-        }
-      })
-      delete e.children
-    }
-    return e
-  })
-}
-
-export function writeJson (routepath: string, doc: DocEntry[]) {
-  const Taro = childrenMerge(doc, []).find(e => e.name === 'Taro')
-
-  writeFile(`${routepath}.json`, JSON.stringify(Taro, undefined, 2))
-}
 
 const get = {
   header: (data: {
@@ -327,7 +232,62 @@ const get = {
   see: (data?: ts.JSDocTagInfo) => data ? splicing([`> [参考文档](${data.text || ''})`, '']) : undefined
 }
 
-export function writeDoc (routepath: string, doc: DocEntry[], withGeneral = false) {
+export default function docsAPI (
+  base: string = '.',
+  out: string,
+  files: string[],
+  callback: TCallback = () => {},
+  withLog = true,
+  diff = true,
+) {
+  const cwd: string = process.cwd();
+
+  if (diff) {
+    const canges = spawn('git', ['status', '-z'])
+  
+    canges.stdout.on('data', (data) => {
+      const ss = data.toString().trim().split(/\u0000|\s+/ig)
+      ss.forEach(s => {
+        const route = path.resolve(cwd, s)
+        const output = route
+          .replace(path.resolve(cwd, base), path.resolve(cwd, out))
+          .replace(/(\.[a-z]+)$|(\.d\.ts)$/ig, '')
+        files.forEach(e => {
+          const pe = path.resolve(cwd, e)
+          if (route.indexOf(pe) > -1) {
+            compile(cwd, s, [generalParh], (route, doc) => {
+              withLog && console.log(route)
+              if (doc.length < 1) return
+              callback(output, doc, route === generalParh)
+            })
+          }
+        })
+      })
+    })
+    canges.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`)
+    })
+  } else {
+    files.forEach(s => {
+      compile(cwd, s, [generalParh], (route, doc) => {
+        const output = route
+          .replace(path.resolve(cwd, base), path.resolve(cwd, out))
+          .replace(/(\.[a-z]+)$|\.d\.ts$/ig, '')
+        withLog && console.log(route)
+        if (doc.length < 1) return
+        callback(output, doc, route === generalParh)
+      })
+    })
+  }
+}
+
+export function writeJson (routepath: string, doc: DocEntry[]) {
+  const Taro = childrenMerge(doc, []).find(e => e.name === 'Taro')
+
+  writeFile(`${routepath}.json`, JSON.stringify(Taro, undefined, 2))
+}
+
+export function writeApiDoc (routepath: string, doc: DocEntry[], withGeneral = false) {
   const _p = path.parse(routepath)
   const Taro = childrenMerge(doc, []).find(e => e.name === 'Taro')
 
@@ -375,17 +335,74 @@ export function writeDoc (routepath: string, doc: DocEntry[], withGeneral = fals
   })
 }
 
+export function writeDoc (routepath: string, doc: DocEntry[]) {
+  const _p = path.parse(routepath)
+  const Component = childrenMerge(doc, []).find(e => e.name === _p.name) || {}
+  const ComponentTags = Component.jsTags || []
+    
+  const apis = { [`${_p.name}`]: ComponentTags }
+
+  Component && (Component.members || []).forEach(member => {
+    if (isShowAPI(member.flags)) {
+      if (member.name && member.jsTags) apis[`${_p.name}.${member.name}`] = member.jsTags || []
+    } else if (!isNotAPI(member.flags)) {
+      console.warn(`WARN: Symbol flags ${member.flags} for members is missing parse! Watch member name:${member.name}.`)
+    }
+  })
+
+  const name = _p.name && _p.name.split(/(?<!^)(?=[A-Z])/).join('-') || 'undefined'
+  const classification = ComponentTags.find(tag => tag.name === 'classification') || { text: '' }
+
+  ComponentTags.every(tag => tag.name !== 'ignore') && writeFile(
+    path.resolve(_p.dir, classification.text || '', `${name}.md`),
+    splicing([
+      get.header({ title: _p.name, sidebar_label: _p.name }),
+      get.since(ComponentTags.find(tag => tag.name === 'since')),
+      get.document(Component.documentation),
+      get.see(ComponentTags.find(tag => tag.name === 'see')),
+      get.type(Component.type, 2),
+      get.members(Component.members),
+      get.members(Component.exports || Component.parameters, '参数', 2),
+      get.example(ComponentTags),
+      ...doc.map(e => {
+        const name = e.name || 'undefined'
+        if (name === _p.name) return undefined
+        const tags = e.jsTags || []
+        const md: (string | undefined)[] = []
+    
+        if (!isFunction(e.flags) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
+          console.warn(`WARN: Symbol flags ${e.flags} is missing parse! Watch symbol name:${name}.`)
+        }
+    
+        md.push(
+          `## ${e.name}\n`,
+          get.since(tags.find(tag => tag.name === 'since')),
+          get.document(e.documentation),
+          get.see(tags.find(tag => tag.name === 'see')),
+          get.type(e.type, 3),
+          get.members(e.members, undefined, 3),
+          get.members(e.exports || e.parameters, '参数', 3),
+          get.example(tags, 3),
+        )
+
+        return splicing(md)
+      }),
+      get.api(apis),
+    ]),
+  )
+}
+
 // docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeJson)
-// docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeDoc)
-docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeDoc,
+// docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeApiDoc)
+docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeApiDoc,
   process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
   process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
 // docsAPI('packages/taro-components/types', 'docs/components', ['packages/taro-components/types'], writeJson,
 //   process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
 //   process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
-// docsAPI('packages/taro-components/types', 'docs/components', ['packages/taro-components/types'], writeDoc,
-//   process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
-//   process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
+docsAPI('packages/taro-components/types', 'docs/components', ['packages/taro-components/types'], writeDoc,
+  process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
+  process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
 
 // writeFile(
 //   path.resolve(__dirname, `taro-apis.md`),
@@ -395,52 +412,3 @@ docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], wri
 //     ...taro_apis, ''
 //   ]),
 // )
-
-function splicing (arr: (string | undefined)[] = []) {
-  return arr.filter(e => typeof e === 'string').join('\n')
-}
-
-function parseLineFeed (s?: string) {
-  return (s || '').split('\n').join('<br />')
-}
-
-function isShowMembers (flags?: ts.SymbolFlags, used: ts.SymbolFlags[] = []) {
-  return [
-    ts.SymbolFlags.EnumMember,
-    ts.SymbolFlags.Function,
-    ts.SymbolFlags.Class,
-    ts.SymbolFlags.Interface,
-    ts.SymbolFlags.ValueModule,
-    ts.SymbolFlags.NamespaceModule,
-    ts.SymbolFlags.Method,
-    ts.SymbolFlags.TypeAlias,
-  ].some(v => {
-    const e = (flags || -1) - v
-    return e > -1 && !used.includes(v) && (e === 0 || isShowMembers(e, [...used, v]))
-  })
-}
-
-function isShowAPI (flags?: ts.SymbolFlags) {
-  return [
-    ts.SymbolFlags.Property,
-    ts.SymbolFlags.Method,
-    ts.SymbolFlags.Optional + ts.SymbolFlags.Property,
-    ts.SymbolFlags.Optional + ts.SymbolFlags.Method,
-  ].includes(flags || -1)
-}
-
-function isNotAPI (flags?: ts.SymbolFlags) {
-  return [
-    -1,
-    ts.SymbolFlags.Signature,
-    ts.SymbolFlags.TypeParameter,
-  ].includes(flags || -1)
-}
-
-function isFunction (flags?: ts.SymbolFlags) {
-  return SymbolFlags.includes((flags || -1) - ts.SymbolFlags.Function)
-}
-
-function isOptional (flags?: ts.SymbolFlags) {
-  return SymbolFlags.includes((flags || -1) - ts.SymbolFlags.Optional)
-}

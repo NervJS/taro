@@ -31,6 +31,9 @@ export interface ViewProps extends StandardProps {
   hoverStayTime?: number
 }
 
+/**
+ * @classification viewContainer
+ */
 declare const View: ComponentType<ViewProps>
 
 export {
