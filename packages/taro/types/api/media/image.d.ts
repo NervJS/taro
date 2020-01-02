@@ -167,6 +167,10 @@ declare namespace Taro {
       path: string
       /** 本地临时文件大小，单位 B */
       size: number
+      /** (仅 H5) 文件的 MIME 类型 */
+      type?: string
+      /** (仅 H5) 原始的浏览器 File 对象 */
+      originalFileObj?: File
     }
   }
   /**
