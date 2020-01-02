@@ -422,7 +422,7 @@ async function recursiveRequire ({
   const npmExclude = (compileConfig.exclude || []).filter(item => /(?:\/|^)node_modules(\/|$)/.test(item))
   let isNpmInCompileExclude = false
   for (const item of npmExclude) {
-    isNpmInCompileExclude = filePath.indexOf(item) !== -1
+    isNpmInCompileExclude = filePath.replace(/\\/g, '/').indexOf(item) !== -1
     if (isNpmInCompileExclude) {
       break
     }
