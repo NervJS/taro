@@ -40,7 +40,7 @@ const config = {
     }
   },
   // 小程序端专用配置
-  weapp: {
+  mini: {
     postcss: {
       autoprefixer: {
         enable: true
