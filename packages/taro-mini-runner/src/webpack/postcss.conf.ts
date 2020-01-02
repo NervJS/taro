@@ -12,7 +12,7 @@ import browserList from '../config/browser_list'
 const defaultAutoprefixerOption = {
   enable: true,
   config: {
-    browsers: browserList,
+    overrideBrowserslist: browserList,
     flexbox: 'no-2009'
   }
 }

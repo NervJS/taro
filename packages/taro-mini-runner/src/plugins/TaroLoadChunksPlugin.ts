@@ -37,20 +37,25 @@ export default class TaroLoadChunksPlugin {
           if (this.isBuildPlugin) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
-          if (chunk.entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
+          let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
+          if (entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
             compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
               const files = chunk.files
               files.forEach(item => {
                 if (REG_STYLE.test(item)) {
                   const source = new ConcatSource()
-                  const _source = assets[item]._source
+                  const _source = assets[item]._source || assets[item]._value
                   Object.keys(assets).forEach(assetName => {
                     const fileName = path.basename(assetName, path.extname(assetName))
                     if (REG_STYLE.test(assetName) && this.commonChunks.includes(fileName)) {
-                      source.add(`@import ${JSON.stringify(urlToRequest(assetName))}`)
+                      source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
                       source.add('\n')
                       source.add(_source)
-                      assets[item]._source = source
+                      if (assets[item]._source) {
+                        assets[item]._source = source
+                      } else {
+                        assets[item]._value = source.source()
+                      }
                     }
                   })
                 }
@@ -59,8 +64,8 @@ export default class TaroLoadChunksPlugin {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
           if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&
-            (chunk.entryModule.miniType === PARSE_AST_TYPE.PAGE ||
-            chunk.entryModule.miniType === PARSE_AST_TYPE.COMPONENT)) {
+            (entryModule.miniType === PARSE_AST_TYPE.PAGE ||
+            entryModule.miniType === PARSE_AST_TYPE.COMPONENT)) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
         }
