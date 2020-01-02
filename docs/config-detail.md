@@ -346,6 +346,36 @@ mini: {
 }
 ```
 
+#### mini.commonChunks
+
+配置打包时抽离的公共文件，如果是普通编译，则默认值为 `['runtime', 'vendors']`，如果是编译为微信小程序插件，则默认值为 `['plugin/runtime', 'plugin/vendors']`。
+
+`commonChunks` 的配置值主要依据 webpack 配置 [`optimization.runtimeChunk`](https://webpack.js.org/configuration/optimization/#optimizationruntimechunk) 和 [`optimization.splitChunks`](https://webpack.js.org/plugins/split-chunks-plugin/)，Taro 中默认的配置分别为
+
+
+```javascript
+optimization: {
+  runtimeChunk: {
+    name: 'runtime'
+  },
+  splitChunks: {
+    chunks: 'all',
+    maxInitialRequests: Infinity,
+    minSize: 0,
+    name: 'vendors',
+    cacheGroups: {
+      vendors: {
+        test (module) {
+          return /[\\/]node_modules[\\/]/.test(module.resource) && module.miniType !== PARSE_AST_TYPE.COMPONENT
+        }
+      }
+    }
+  }
+}
+```
+
+如果有自行拆分公共文件的需求，请先通过 `webpackChain` 配置覆盖 `optimization.runtimeChunk` 与 `optimization.splitChunks` 配置，再通过 `commonChunks` 配置指定的公共入口文件。
+
 ### mini.cssLoaderOption
 
 css-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/css-loader)，例如：
