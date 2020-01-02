@@ -11,7 +11,8 @@
   "scripts": {
     "build:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",
-    "build:alipay": "taro build --type alipay",
+    "build:alipay": "cross-env TARO_PLAT=alipay taro build --type alipay",
+    "build:amap": "cross-env TARO_PLAT=amap taro build --type alipay",
     "build:tt": "taro build --type tt",
     "build:h5": "taro build --type h5",
     "build:rn": "taro build --type rn",
@@ -55,6 +56,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-eslint": "^8.2.3",
+    "cross-env": "^6.0.3",
     "eslint": "^5.16.0",
     "eslint-config-taro": "<%= version %>",
     "eslint-plugin-react": "^7.8.2",

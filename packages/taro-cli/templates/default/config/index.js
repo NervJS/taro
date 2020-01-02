@@ -24,6 +24,7 @@ const config = {
   },
   plugins: [],
   defineConstants: {
+    'process.env.TARO_PLAT':process.env.TARO_PLAT
   },
   mini: {
     postcss: {
