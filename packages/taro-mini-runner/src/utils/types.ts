@@ -1,6 +1,7 @@
 import * as webpack from 'webpack'
 import { IProjectBaseConfig, IMiniAppConfig } from '@tarojs/taro/types/compile'
 import { BUILD_TYPES } from './constants'
+import { PrerenderConfig } from '../prerender/prerender'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
@@ -27,5 +28,6 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   quickappJSON: any,
   isBuildPlugin: boolean,
   framework: string,
-  baseLevel: number
+  baseLevel: number,
+  prerender?: PrerenderConfig
 }

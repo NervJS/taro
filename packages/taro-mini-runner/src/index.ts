@@ -4,6 +4,7 @@ import { IBuildConfig } from './utils/types'
 import { BUILD_TYPES } from './utils/constants'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import buildConf from './webpack/build.conf'
+import { Prerender } from './prerender/prerender'
 
 const customizeChain = (chain, customizeFunc: Function) => {
   if (customizeFunc instanceof Function) {
@@ -35,8 +36,16 @@ export default function build (appPath: string, config: IBuildConfig, mainBuilde
           printBuildError(err)
           return reject(err)
         }
-        mainBuilder.hooks.afterBuild.call(stats)
-        resolve()
+
+        if (config.prerender) {
+          new Prerender(config, webpackConfig, stats).render().then(() => {
+            mainBuilder.hooks.afterBuild.call(stats)
+            resolve()
+          })
+        } else {
+          mainBuilder.hooks.afterBuild.call(stats)
+          resolve()
+        }
       })
     } else {
       bindProdLogger(compiler, config.buildAdapter)
@@ -45,8 +54,15 @@ export default function build (appPath: string, config: IBuildConfig, mainBuilde
           printBuildError(err)
           return reject(err)
         }
-        mainBuilder.hooks.afterBuild.call(stats)
-        resolve()
+        if (config.prerender) {
+          new Prerender(config, webpackConfig, stats).render().then(() => {
+            mainBuilder.hooks.afterBuild.call(stats)
+            resolve()
+          })
+        } else {
+          mainBuilder.hooks.afterBuild.call(stats)
+          resolve()
+        }
       })
     }
   })

@@ -17,6 +17,7 @@ import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import { setAdapter } from '../template/adapters'
 import { componentConfig } from '../template/component'
+import { valiatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -32,6 +33,7 @@ interface ITaroMiniPluginOptions {
   commonChunks: string[]
   framework: string
   baseLevel: number
+  prerender?: PrerenderConfig
 }
 
 export interface IComponentObj {
@@ -69,6 +71,7 @@ export default class TaroMiniPlugin {
   pages: Set<IComponent>
   components: Set<IComponent>
   tabBarIcons: Set<string>
+  prerenderPages: Set<string>
 
   constructor (options = {}) {
     this.options = Object.assign({
@@ -135,7 +138,8 @@ export default class TaroMiniPlugin {
           module.loaders.unshift({
             loader: '@tarojs/taro-loader',
             options: {
-              framework
+              framework,
+              prerender: this.prerenderPages.size > 0
             }
           })
         } else if (module.miniType === META_TYPE.PAGE) {
@@ -143,7 +147,8 @@ export default class TaroMiniPlugin {
             loader: '@tarojs/taro-loader/lib/page',
             options: {
               framework,
-              name: module.name
+              name: module.name,
+              prerender: this.prerenderPages.has(module.name)
             }
           })
         }
@@ -234,7 +239,8 @@ export default class TaroMiniPlugin {
     if (!appPages || !appPages.length) {
       throw new Error('全局配置缺少 pages 字段，请检查！')
     }
-    const { framework } = this.options
+    const { framework, prerender } = this.options
+    this.prerenderPages = new Set(valiatePrerenderPages(appPages, prerender).map(p => p.path))
     this.pages = new Set([
       ...appPages.map(item => {
         const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), framework === FRAMEWORK_MAP.VUE ? VUE_EXT : SCRIPT_EXT)

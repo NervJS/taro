@@ -9,8 +9,14 @@ export default function (this: webpack.loader.LoaderContext) {
   const componentPath = options.framework === 'vue'
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(1).join('!')
+  const prerender = `
+if (typeof PRERENDER !== 'undefined')  {
+  global._prerender = inst
+}
+`
   return `import { createPageConfig } from '@tarojs/runtime'
 import component from '${componentPath}'
-export default Page(createPageConfig(component, '${options.name}'))
+const inst = Page(createPageConfig(component, '${options.name}'))
+${options.prerender ? prerender : ''}
 `
 }
