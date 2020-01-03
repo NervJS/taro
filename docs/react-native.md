@@ -669,9 +669,11 @@ React Native 参考文档：[集成到现有原生应用](https://reactnative.cn
 
 ## 构建独立 app
 
-接下来的步骤将会帮助你为 iOS 和 Android 创建 Expo 应用程序的独立二进制文件，并将其提交到 Apple App Store 和 Google Play Store。
+接下来的步骤将会帮助你为 iOS 和 Android 创建独立二进制文件，并将其提交到 Apple App Store 和 Google Play Store。
 
 构建 iOS 独立应用程序需要 Apple Developer 帐户，但构建 Android 独立应用程序不需要 Google Play Developer 帐户。如果您想要提交到任一应用商店，您将需要该商店的开发者帐户。
+
+### 编译 RN 代码
 
 在打包发布步骤之前，我们先对开发者的源代码进行预处理，将 Taro 代码转成 React Native 代码：
 
@@ -679,23 +681,11 @@ React Native 参考文档：[集成到现有原生应用](https://reactnative.cn
 taro build --type rn
 ```
 
-然后 `.rn_temp` 目录（如果你没有修改）下会生成转换后的 React Native 代码。
+然后 `rn_temp` 目录（如果你没有修改）下会生成转换后的 React Native 代码。
 
-### 配置 app.json
 
-在 config 目录配置，如：
+### 生成 jsbundle
 
-```json
-rn: {
-  appJson: {
-      "name": "Your App Name",
-  }
-}
-```
-
-Taro 会读取 appJson 字段的内容且自动覆盖到 .rn_temp/app.json。
-
-### 构建 app
 首先使用 React Native 的 bundle 命令将 rn_temp 目录下的 RN 代码及资源打包成 jsbundle，命令如下：
 
 ```sh
@@ -704,9 +694,11 @@ node ../node_modules/react-native/local-cli/cli.js bundle --entry-file ./rn_temp
 
 其中参数可以自行调整，`--bundle-output` 可以制定任意目录，然后将 bundle 目录下的文件 copy 到 `taro-native-shell`目录即可。
 
-当然，也可以通过指定 `--bundle-output` 直接打包到 `taro-native-shell`目录。
+当然，也可以通过指定 `--bundle-output` 直接输出到 `taro-native-shell`目录。
 
 接下来，按照 React Native 的文档按照不同的端分别打包对应的应用即可。
+
+### 构建 APP
 
 #### iOS
 
