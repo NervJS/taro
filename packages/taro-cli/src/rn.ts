@@ -317,8 +317,8 @@ function updatePkgJson (appPath) {
     "@tarojs/taro-rn": "^${version}",
     "@tarojs/taro-router-rn": "^${version}",
     "@tarojs/taro-redux-rn": "^${version}",
-    "react": "16.3.1",
-    "react-native": "0.55.4",
+    "react": "16.8.0",
+    "react-native": "0.59.9",
     "redux": "^4.0.0",
     "tslib": "^1.8.0"
   }
