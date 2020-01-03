@@ -38,7 +38,7 @@
     "rollup-plugin-buble": "^0.19.6",
     "rollup-plugin-typescript2": "^0.17.0",
     "sinon": "^7.4.1",
-    "ts-jest": "^23.10.5",
+    "ts-jest": "^24.2.0",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.10.0",
     "tslint-config-standard": "^7.0.0",

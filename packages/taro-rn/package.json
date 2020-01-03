@@ -77,7 +77,7 @@
     "react-test-renderer": "^16.5.2",
     "redux": "^4.0.0",
     "rimraf": "^3.0.0",
-    "ts-jest": "23.10.4",
+    "ts-jest": "24.2.0",
     "tslib": "1.9.3",
     "typescript": "3.0.3"
   }

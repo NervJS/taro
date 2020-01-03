@@ -54,7 +54,7 @@
     "rollup-plugin-commonjs": "9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-typescript": "1.0.0",
-    "ts-jest": "23.10.4",
+    "ts-jest": "24.2.0",
     "tslib": "1.9.3",
     "typescript": "3.0.3"
   }

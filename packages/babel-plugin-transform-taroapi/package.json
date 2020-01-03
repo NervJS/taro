@@ -19,7 +19,7 @@
     "babel-core": "^6.26.3",
     "babel-types": "^6.26.0",
     "jest": "23.6.0",
-    "ts-jest": "^23.10.5",
+    "ts-jest": "^24.2.0",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
     "tslint-config-standard": "^8.0.1",

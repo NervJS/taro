@@ -74,7 +74,7 @@
     "react-native-mock-render": "^0.0.25",
     "react-test-renderer": "^16.2.0",
     "sinon": "^6.0.0",
-    "ts-jest": "^23.10.5",
+    "ts-jest": "^24.2.0",
     "tsc-watch": "^1.0.30",
     "typescript": "^3.5.2"
   }
