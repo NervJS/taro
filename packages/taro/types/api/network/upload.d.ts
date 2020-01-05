@@ -7,8 +7,10 @@ declare namespace Taro {
       name: string
       /** 开发者服务器地址 */
       url: string
-      /** (仅 H5) 上传的文件名 */
-      fileName: string
+      /** 上传的文件名
+       * @supported h5
+       */
+      fileName?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: General.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -18,12 +20,10 @@ declare namespace Taro {
       /** HTTP 请求 Header，Header 中不能设置 Referer */
       header?: General.IAnyObject
       /** 接口调用成功的回调函数 */
-      success?: SuccessCallback
+      success?: (
+        result: SuccessCallbackResult,
+      ) => void
     }
-    /** 接口调用成功的回调函数 */
-    type SuccessCallback = (
-      result: SuccessCallbackResult,
-    ) => void
     interface SuccessCallbackResult extends General.CallbackResult {
       /** 开发者服务器返回的数据 */
       data: string
@@ -110,7 +110,7 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html
    */
-  function uploadFile(option: uploadFile.Option): UploadTask
+  function uploadFile(option: uploadFile.Option): Promise<uploadFile.SuccessCallbackResult & UploadTask> & UploadTask
 
   /** 一个可以监听上传进度变化事件，以及取消上传任务的对象
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.html
