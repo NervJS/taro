@@ -219,22 +219,42 @@ function request (options) {
   const originSuccess = options['success']
   const originFail = options['fail']
   const originComplete = options['complete']
-  let requestTask
+  let requestTask, completeRes
   const p = new Promise((resolve, reject) => {
     options['success'] = res => {
       res.statusCode = res.status
       delete res.status
       res.header = res.headers
       delete res.headers
+      res.errMsg = 'request:ok'
+      // 避免支付宝complete回调参数为undefined
+      completeRes = res
       originSuccess && originSuccess(res)
       resolve(res)
     }
     options['fail'] = res => {
-      originFail && originFail(res)
-      reject(res)
+      // 将支付宝fail code(11: 无权跨域, 19: HTTP错误) 转为success回调 和微信保持一致
+      if (res.error && [11, 19].indexOf(res.error) !== -1) {
+        res.statusCode = res.status
+        delete res.status
+        res.header = res.headers
+        delete res.headers
+        res.errMsg = 'request:ok'
+        delete res.error
+        delete res.errorMessage
+        // 避免支付宝complete回调参数为undefined
+        completeRes = res
+        originSuccess && originSuccess(res)
+        resolve(res)
+      } else {
+        originFail && originFail(res)
+        reject(res)
+      }
     }
 
     options['complete'] = res => {
+      // 避免res为undefined
+      res = res || completeRes
       originComplete && originComplete(res)
     }
 
