@@ -26,6 +26,7 @@ export default function build (appPath: string, config: IBuildConfig, mainBuilde
     const webpackConfig = webpackChain.toConfig()
 
     const compiler = webpack(webpackConfig)
+    let prerender: Prerender
     if (config.isWatch) {
       bindDevLogger(compiler, config.buildAdapter)
       compiler.watch({
@@ -38,7 +39,10 @@ export default function build (appPath: string, config: IBuildConfig, mainBuilde
         }
 
         if (config.prerender) {
-          new Prerender(config, webpackConfig, stats).render().then(() => {
+          if (prerender == null) {
+            prerender = new Prerender(config, webpackConfig, stats)
+          }
+          prerender.render().then(() => {
             mainBuilder.hooks.afterBuild.call(stats)
             resolve()
           })
@@ -55,7 +59,10 @@ export default function build (appPath: string, config: IBuildConfig, mainBuilde
           return reject(err)
         }
         if (config.prerender) {
-          new Prerender(config, webpackConfig, stats).render().then(() => {
+          if (prerender == null) {
+            prerender = new Prerender(config, webpackConfig, stats)
+          }
+          prerender.render().then(() => {
             mainBuilder.hooks.afterBuild.call(stats)
             resolve()
           })

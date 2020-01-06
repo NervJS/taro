@@ -17,7 +17,7 @@ import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import { setAdapter } from '../template/adapters'
 import { componentConfig } from '../template/component'
-import { valiatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
+import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -240,7 +240,7 @@ export default class TaroMiniPlugin {
       throw new Error('全局配置缺少 pages 字段，请检查！')
     }
     const { framework, prerender } = this.options
-    this.prerenderPages = new Set(valiatePrerenderPages(appPages, prerender).map(p => p.path))
+    this.prerenderPages = new Set(validatePrerenderPages(appPages, prerender).map(p => p.path))
     this.pages = new Set([
       ...appPages.map(item => {
         const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), framework === FRAMEWORK_MAP.VUE ? VUE_EXT : SCRIPT_EXT)

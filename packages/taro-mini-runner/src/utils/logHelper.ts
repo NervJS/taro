@@ -72,6 +72,20 @@ const printSuccess = (buildAdapter: BUILD_TYPES) => {
   })
 }
 
+export const printPrerenderSuccess = (path: string) => {
+  getServeSpinner().stopAndPersist({
+    symbol: '🚀 ',
+    text: chalk.green(`页面 ${path} 预渲染成功`)
+  })
+}
+
+export const printPrerenderFail = (path: string) => {
+  getServeSpinner().stopAndPersist({
+    symbol: '⚠️ ',
+    text: chalk.yellow(`页面 ${path} 预渲染失败：`)
+  })
+}
+
 const printWarning = () => {
   getServeSpinner().stopAndPersist({
     symbol: '⚠️ ',

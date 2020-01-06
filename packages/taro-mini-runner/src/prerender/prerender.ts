@@ -6,6 +6,7 @@ import { join } from 'path'
 import { IBuildConfig } from '../utils/types'
 import { MINI_APP_FILES } from '../utils/constants'
 import { Adapter } from '../template/adapters'
+import { printPrerenderSuccess, printPrerenderFail } from '../utils/logHelper'
 
 const { JSDOM } = require('jsdom')
 const wx = require('miniprogram-simulate/src/api')
@@ -30,24 +31,21 @@ export interface PrerenderConfig {
   include?: Array<string | PageConfig>
   exclude?: string[]
   mock?: Record<string, unknown>
-  transformData?: (data: MiniData, config: PageConfig) => MiniData,
+  console?: boolean
+  transformData?: (data: MiniData, config: PageConfig) => MiniData
 }
 
-export function valiatePrerenderPages (pages: string[], config?: PrerenderConfig) {
+export function validatePrerenderPages (pages: string[], config?: PrerenderConfig) {
   let pageConfigs: PageConfig[] = []
 
   if (config == null) {
     return pageConfigs
   }
 
-  const { include = [], exclude = [], match = 'pages/**' } = config
+  const { include = [], exclude = [], match } = config
 
   if (match) {
-    pageConfigs = micromatch(pages, match).map(p => ({ path: p, params: {} }))
-  }
-
-  if (include.length) {
-    pageConfigs = []
+    pageConfigs = micromatch(pages, match).map((p: string) => ({ path: p, params: {} }))
   }
 
   for (const page of pages) {
@@ -80,25 +78,52 @@ export class Prerender {
   private globalObject: string
   private outputPath: string
   private prerenderConfig: PrerenderConfig
-  public stat: webpack.Stats.ToJsonOutput
+  private stat: webpack.Stats.ToJsonOutput
+  private vm: NodeVM
+  private appLoaded = false
 
-  constructor (buildConfig: IBuildConfig, webpackConfig: webpack.Configuration, stat: webpack.Stats) {
+  public constructor (buildConfig: IBuildConfig, webpackConfig: webpack.Configuration, stat: webpack.Stats) {
     this.buildConfig = buildConfig
     this.outputPath = webpackConfig.output!.path!
     this.globalObject = webpackConfig.output!.globalObject!
     this.prerenderConfig = buildConfig.prerender!
     this.stat = stat.toJson()
+    this.vm = new NodeVM({
+      console: this.prerenderConfig.console ? 'inherit' : 'off',
+      require: {
+        external: true,
+        context: 'sandbox'
+      },
+      sandbox: this.buildSandbox()
+    })
   }
 
   public async render (): Promise<void> {
-    const pages = valiatePrerenderPages(Object.keys(this.stat.entrypoints!), this.prerenderConfig)
+    const pages = validatePrerenderPages(Object.keys(this.stat.entrypoints!), this.prerenderConfig)
+
+    if (!this.prerenderConfig.console && !this.appLoaded) {
+      process.on('unhandledRejection', noop);
+    }
+
     await this.writeScript('app')
+
+    if (!this.appLoaded) {
+      this.vm.run(`
+        const app = require('${this.getRealPath('app')}')
+        app.onLaunch()
+      `, this.outputPath)
+      this.appLoaded = true
+      await Promise.resolve()
+    }
+
     await Promise.all(pages.map(p => this.writeScript(p.path)))
+
     for (const page of pages) {
       try {
         await this.writeXML(page)
+        printPrerenderSuccess(page.path)
       } catch (error) {
-        console.log(`prerender 页面 ${page.path} 出现错误：`)
+        printPrerenderFail(page.path)
         console.error(error)
       }
     }
@@ -175,22 +200,11 @@ export class Prerender {
 
   private renderToData ({ path, params }: PageConfig): Promise<MiniData> {
     return new Promise((resolve, reject) => {
-      const vm = new NodeVM({
-        console: 'off',
-        require: {
-          external: true,
-          context: 'sandbox'
-        },
-        sandbox: this.buildSandbox()
-      })
-
-      const dataReceiver = vm.run(`
-        const app = require('${this.getRealPath('app')}')
-        const component = require('${this.getRealPath(path)}')
-        app.onLaunch()
-        component.route = '${path}'
+      const dataReceiver = this.vm.run(`
+        const page = require('${this.getRealPath(path)}')
+        page.route = '${path}'
         module.exports = function (cb) {
-          component.onLoad(${JSON.stringify(params || {})}, cb)
+          page.onLoad(${JSON.stringify(params || {})}, cb)
         }
       `, this.outputPath)
 
