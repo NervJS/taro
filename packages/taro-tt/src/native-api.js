@@ -103,7 +103,7 @@ function processApis (taro) {
           return tt[key](options)
         }
 
-        if (key === 'navigateTo' || key === 'redirectTo' || key === 'switchTab') {
+        if (key === 'navigateTo' || key === 'redirectTo') {
           let url = obj['url'] ? obj['url'].replace(/^\//, '') : ''
           if (url.indexOf('?') > -1) url = url.split('?')[0]
 
