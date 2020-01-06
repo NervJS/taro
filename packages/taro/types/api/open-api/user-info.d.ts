@@ -73,7 +73,7 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html
    */
-  function getUserInfo(option: getUserInfo.Option): Promise<getUserInfo.SuccessCallbackResult>
+  function getUserInfo(option?: getUserInfo.Option): Promise<getUserInfo.SuccessCallbackResult>
 
 
     
