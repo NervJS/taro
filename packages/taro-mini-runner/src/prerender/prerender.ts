@@ -1,5 +1,6 @@
 import { Shortcuts, noop, isString, isObject, isFunction } from '@tarojs/shared'
 import { NodeVM } from 'vm2'
+import { omitBy } from 'lodash'
 import * as webpack from 'webpack'
 import * as fs from 'fs'
 import { join } from 'path'
@@ -7,6 +8,7 @@ import { IBuildConfig } from '../utils/types'
 import { MINI_APP_FILES } from '../utils/constants'
 import { Adapter } from '../template/adapters'
 import { printPrerenderSuccess, printPrerenderFail } from '../utils/logHelper'
+import { buildAttribute, Attributes } from '../template'
 
 const { JSDOM } = require('jsdom')
 const wx = require('miniprogram-simulate/src/api')
@@ -33,6 +35,7 @@ export interface PrerenderConfig {
   mock?: Record<string, unknown>
   console?: boolean
   transformData?: (data: MiniData, config: PageConfig) => MiniData
+  transformXML?: (data: MiniData, config: PageConfig, xml: string) => MiniData
 }
 
 export function validatePrerenderPages (pages: string[], config?: PrerenderConfig) {
@@ -158,20 +161,35 @@ export class Prerender {
       return data[Shortcuts.Text]
     }
 
+    if (data['disablePrerender' ]|| data['disable-prerender']) {
+      return ''
+    }
+
     const style = data[Shortcuts.Style]
     const klass = data[Shortcuts.Class]
     const children = data[Shortcuts.Childnodes] ?? []
 
-    return `<${nodeName}${style ? ` style="${style}"` : ''}${klass ? ` class="${klass}"` : ''}>${children.map(this.renderToXML).join('')}</${nodeName}>`
+    const attrs = omitBy(data, (_, key) => {
+      const internal = [Shortcuts.NodeName, Shortcuts.Childnodes, Shortcuts.Class, Shortcuts.Style, Shortcuts.Text, 'uid']
+      return internal.includes(key) || key.startsWith('data-')
+    })
+
+    return `<${nodeName}${style ? ` style="${style}"` : ''}${klass ? ` class="${klass}"` : ''} ${buildAttribute(attrs as Attributes, nodeName)}>${children.map(this.renderToXML).join('')}</${nodeName}>`
   }
 
   private async writeXML (config: PageConfig): Promise<void> {
     const { path } = config
+
     let data = await this.renderToData(config)
     if (isFunction(this.prerenderConfig.transformData)) {
       data = this.prerenderConfig.transformData(data, config)
     }
-    const xml = this.renderToXML(data)
+
+    let xml = this.renderToXML(data)
+    if (isFunction(this.prerenderConfig.transformXML)) {
+      xml = this.prerenderConfig.transformXML(data, config, xml)
+    }
+
     const templatePath = this.getRealPath(path, MINI_APP_FILES[this.buildConfig.buildAdapter].TEMPL)
     const [importTemplate, template] = fs.readFileSync(templatePath, 'utf-8').split('\n')
 

@@ -22,7 +22,7 @@ interface Component {
   attributes: Attributes;
 }
 
-type Attributes = Record<string, string>
+export type Attributes = Record<string, string>
 
 const voidElements = new Set([
   'progress',
@@ -47,7 +47,7 @@ const swanSpecialAttrs = {
   textarea: ['value']
 }
 
-function buildAttribute (attrs: Attributes, nodeName: string): string {
+export function buildAttribute (attrs: Attributes, nodeName: string): string {
   function getValue (key: string) {
     if (Adapter.type === BUILD_TYPES.SWAN && isArray(swanSpecialAttrs[nodeName]) && swanSpecialAttrs[nodeName].includes(key)) {
       return `= ${attrs[key]} =`
