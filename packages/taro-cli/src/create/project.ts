@@ -62,7 +62,20 @@ export default class Project extends Creator {
 
   create () {
     this.fetchTemplates()
-      .then((templateChoices: string[]) => this.ask(templateChoices))
+      .then((templateChoices: string[]) => {
+        const choices: string[] = []
+        const framework = this.conf.framework
+        for (const choice of templateChoices) {
+          if (framework === 'vue' && (choice === 'mobx' || choice === 'redux')) {
+            continue
+          }
+          if ((framework === 'react' || framework === 'nerv') && choice === 'vuex') {
+            continue
+          }
+          choices.push(choice)
+        }
+        return this.ask(choices)
+      })
       .then(answers => {
         const date = new Date()
         this.conf = Object.assign(this.conf, answers)
