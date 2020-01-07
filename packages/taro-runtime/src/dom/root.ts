@@ -73,12 +73,12 @@ export class TaroRootElement extends TaroElement {
       if (isFunction(prerender)) {
         prerender(data)
       } else {
+        this.pendingUpdate = false
         ctx.setData(data, () => {
           perf.stop(SET_DATA)
           if (initRender) {
             perf.stop(PAGE_INIT)
           }
-          this.pendingUpdate = false
         })
       }
     }, 1)
