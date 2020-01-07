@@ -1,6 +1,14 @@
 {
   "lerna": "3.16.5",
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/shared",
+    "packages/taro-runtime",
+    "packages/mini-runner",
+    "packages/react",
+    "packages/taro-components",
+    "packages/taro-loader",
+    "packages/taro-cli"
+  ],
   "command": {
     "publish": {
       "message": "chore(release): publish %s"

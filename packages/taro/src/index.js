@@ -25,7 +25,8 @@ import {
   useOptionMenuClick,
   usePullIntercept,
   useRouter,
-  options
+  options,
+  nextTick
 } from '@tarojs/runtime'
 let eventCenter
 if (process.env.TARO_ENV === 'alipay') {
@@ -62,7 +63,8 @@ export const Taro = {
   useOptionMenuClick,
   usePullIntercept,
   useRouter,
-  options
+  options,
+  nextTick
 }
 
 export default Taro

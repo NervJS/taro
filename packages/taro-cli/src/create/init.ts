@@ -42,7 +42,8 @@ function createFiles (
     template,
     templatePath,
     projectPath,
-    pageName
+    pageName,
+    framework
   } = options
   const logs: string[] = []
   // 模板库模板，直接创建，不需要改后缀
@@ -79,7 +80,8 @@ function createFiles (
         date,
         typescript,
         template,
-        pageName
+        pageName,
+        framework
       },
       externalConfig
     )
@@ -142,7 +144,7 @@ export async function createPage (creater: Creator, params: IPageConf, cb) {
 }
 
 export async function createApp (creater: Creator, params: IProjectConf, cb) {
-  const { projectName, projectDir, template, env, autoInstall = true } = params
+  const { projectName, projectDir, template, env, autoInstall = true, framework } = params
   const logs: string[] = []
   // path
   const templatePath = creater.templatePath(template)
@@ -189,6 +191,7 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
   logs.push(
     ...createFiles(creater, files, handler, {
       ...params,
+      framework,
       version,
       templatePath,
       projectPath,

@@ -168,10 +168,12 @@ class SomePage extends Component {
   componentDidMount () {
     // 等待组件载入，先渲染了首屏我们再渲染其它内容，降低首次渲染的数据量
     // 当 mounted 为 true 时，CompA, B, C 的 DOM 树才会作为 data 参与小程序渲染
-    // 注意我们需要在 `componentDidMount()` 这个周期做这件事（对应 Vue 的 `ready()`）
-    // 在更早的生命周期 `setState()` 会与首次渲染的数据一起合并更新
-    this.setState({
-      mounted: true
+    // 注意我们需要在 `componentDidMount()` 这个周期做这件事（对应 Vue 的 `ready()`），更早的生命周期 `setState()` 会与首次渲染的数据一起合并更新
+    // 使用 nextTick 确保本次 setState 不会和首次渲染合并更新
+    Taro.nextTick(() => {
+      this.setState({
+        mounted: true
+      })
     })
   }
 

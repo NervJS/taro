@@ -16,6 +16,7 @@ export interface IPageConf {
   css: 'none' | 'sass' | 'stylus' | 'less';
   typescript?: boolean;
   date?: string;
+  framework: 'react' | 'nerv' | 'vue'
 }
 
 export default class Page extends Creator {

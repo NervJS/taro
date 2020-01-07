@@ -23,7 +23,8 @@ export interface IProjectConf {
   src?: string;
   sourceRoot?: string;
   env?: string;
-  autoInstall?: boolean
+  autoInstall?: boolean,
+  framework: 'nerv' | 'react' | 'vue'
 }
 
 interface AskMethods {
@@ -109,6 +110,7 @@ export default class Project extends Creator {
 
     this.askProjectName(conf, prompts)
     this.askDescription(conf, prompts)
+    this.askFramework(conf, prompts)
     this.askTypescript(conf, prompts)
     this.askCSS(conf, prompts)
     this.askTemplate(conf, prompts, templateChoices)
@@ -196,6 +198,32 @@ export default class Project extends Creator {
         name: 'css',
         message: '请选择 CSS 预处理器（Sass/Less/Stylus）',
         choices: cssChoices
+      })
+    }
+  }
+
+  askFramework: AskMethods = function (conf, prompts) {
+    const frameworks = [
+      {
+        name: 'React',
+        value: 'react'
+      },
+      {
+        name: 'Nerv',
+        value: 'nerv'
+      },
+      {
+        name: 'Vue',
+        value: 'vue'
+      }
+    ]
+
+    if ((typeof conf.framework as string | undefined) !== 'string') {
+      prompts.push({
+        type: 'list',
+        name: 'framework',
+        message: '请选择框架',
+        choices: frameworks
       })
     }
   }

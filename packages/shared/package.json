@@ -1,7 +1,6 @@
 {
   "name": "@tarojs/shared",
   "description": "> TODO: description",
-  "private": true,
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
   "license": "MIT",
