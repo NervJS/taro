@@ -355,7 +355,7 @@ export default class MiniPlugin {
               componentPath = replaceAliasPath(filePath, componentPath, alias)
               realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
             } else {
-              realComponentPath = resolveNpmSync(componentPath, this.context)
+              realComponentPath = resolveNpmSync(componentPath, this.options.nodeModulesPath)
             }
           } else {
             realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
@@ -575,15 +575,10 @@ export default class MiniPlugin {
   }
 
   getComponentName (componentPath) {
-    let componentName
-    if (NODE_MODULES_REG.test(componentPath)) {
-      componentName = componentPath.replace(this.context, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
-      componentName = componentName.replace(/node_modules/gi, 'npm')
-    } else {
-      componentName = componentPath.replace(this.sourceDir, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
-    }
-
-    return componentName.replace(/^(\/|\\)/, '')
+    return this.getRelativePath(componentPath)
+      .replace(/\\/g, '/')
+      .replace(path.extname(componentPath), '')
+      .replace(/^(\/|\\)/, '')
   }
 
   getComponents (compiler: webpack.Compiler, fileList: Set<IComponent>, isRoot: boolean) {
@@ -774,12 +769,7 @@ export default class MiniPlugin {
     const { buildAdapter } = this.options
     const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     Object.keys(taroFileTypeMap).forEach(item => {
-      let relativePath
-      if (NODE_MODULES_REG.test(item)) {
-        relativePath = item.replace(this.context, '').replace(/node_modules/gi, 'npm')
-      } else {
-        relativePath = item.replace(this.sourceDir, '')
-      }
+      const relativePath = this.getRelativePath(item)
       const extname = path.extname(item)
       const templatePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].TEMPL).replace(/\\/g, '/')
       const jsonPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].CONFIG).replace(/\\/g, '/')
@@ -844,12 +834,7 @@ export default class MiniPlugin {
         itemInfo.taroSelfComponents.forEach(item => {
           if (fs.existsSync(item.path)) {
             const content = fs.readFileSync(item.path).toString()
-            let relativePath
-            if (NODE_MODULES_REG.test(item.path)) {
-              relativePath = item.path.replace(this.context, '').replace(/node_modules/gi, 'npm')
-            } else {
-              relativePath = item.path.replace(this.sourceDir, '')
-            }
+            const relativePath = this.getRelativePath(item.path).replace(/\\/g, '/')
             compilation.assets[relativePath] = {
               size: () => content.length,
               source: () => content
@@ -874,19 +859,23 @@ export default class MiniPlugin {
     this.quickappStyleFiles.forEach(item => {
       if (fs.existsSync(item.path)) {
         const styleContent = fs.readFileSync(item.path).toString()
-        let relativePath
-        if (NODE_MODULES_REG.test(item.path)) {
-          relativePath = item.path.replace(this.context, '').replace(/node_modules/gi, 'npm').replace(/\\\\/g, '/')
-        }
-        else {
-          relativePath = item.path.replace(this.sourceDir, '').replace(/\\\\/g, '/')
-        }
+        const relativePath = this.getRelativePath(item.path).replace(/\\/g, '/')
         compilation.assets[relativePath] = {
           size: () => styleContent.length,
           source: () => styleContent
         }
       }
     })
+  }
+
+  getRelativePath (filePath) {
+    let relativePath
+    if (NODE_MODULES_REG.test(filePath)) {
+      relativePath = filePath.replace(this.options.nodeModulesPath, 'npm')
+    } else {
+      relativePath = filePath.replace(this.sourceDir, '')
+    }
+    return relativePath
   }
 
   addTarBarFilesToDependencies (compilation: webpack.compilation.Compilation) {
@@ -900,11 +889,10 @@ export default class MiniPlugin {
 
   transferFileContent (compiler: webpack.Compiler) {
     Object.keys(taroFileTypeMap).forEach(item => {
-      const relativePath = item.replace(compiler.context, '')
       const itemInfo = taroFileTypeMap[item]
       if (typeof itemInfo.code === 'string') {
         new VirtualModulePlugin({
-          moduleName: relativePath,
+          path: item,
           contents: itemInfo.code
         }).apply(compiler)
       }
