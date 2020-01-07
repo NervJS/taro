@@ -105,8 +105,12 @@ export default class Creator {
       dest = source
     }
 
-    const src = this.templatePath(template, source)
+    let src = this.templatePath(template, source)
     if (!fs.existsSync(src)) return
+
+    if (src.endsWith('package.json.tmpl')) {
+      src = src.replace('.tmpl', '')
+    }
 
     this.fs.copyTpl(src, this.destinationPath(dest), Object.assign({ _ }, this, data), options)
     return this

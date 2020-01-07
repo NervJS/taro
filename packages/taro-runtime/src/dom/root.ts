@@ -81,6 +81,6 @@ export class TaroRootElement extends TaroElement {
           }
         })
       }
-    }, 1)
+    }, 0)
   }
 }

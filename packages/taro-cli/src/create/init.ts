@@ -55,6 +55,14 @@ function createFiles (
     const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
     let externalConfig: any = null
 
+    if (framework === 'vue' && file.endsWith('.jsx')) {
+      return
+    }
+
+    if (framework !== 'vue' && file.endsWith('.vue')) {
+      return
+    }
+
     // 跑自定义逻辑，确定是否创建此文件
     if (handler && typeof handler[fileRePath] === 'function') {
       externalConfig = handler[fileRePath](options)
