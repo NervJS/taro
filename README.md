@@ -10,9 +10,7 @@
 
 ## 版本
 
-<h3>当前 2.0 版本处在 beta 测试阶段，可能存在些许问题，若想稳定使用，请安装至 1.3.31 版本</h3>
-
-[1.x 版本文档](https://nervjs.github.io/taro/docs/1.3.29/README.html)
+[1.x 版本文档](https://nervjs.github.io/taro/docs/1.3.35/README.html)
 
 ## 简介
 
