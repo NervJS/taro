@@ -8,6 +8,11 @@ export interface ImageProps extends StandardProps {
    */
   src: string,
 
+	/**
+	 * 默认不解析 webP 格式，只支持网络资源
+	 */
+	webp?: boolean,
+
   /**
    * 图片裁剪、缩放的模式
    *

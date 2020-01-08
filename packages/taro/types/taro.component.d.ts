@@ -139,6 +139,7 @@ declare namespace Taro {
     defaultProps?: Partial<P>
     config?: Config
     options?: ComponentOptions
+		externalClasses?: string[]
   }
 
   type FC<P = {}> = FunctionComponent<P>
