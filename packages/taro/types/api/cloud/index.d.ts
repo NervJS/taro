@@ -239,7 +239,8 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/functions/Cloud.callFunction.html
      */
-    static callFunction(param: cloud.CallFunctionParam): Promise<cloud.CallFunctionResult> | void
+    static callFunction(param: OQ<cloud.CallFunctionParam>): void
+    static callFunction(param: RQ<cloud.CallFunctionParam>): Promise<cloud.CallFunctionResult>
 
     /** 将本地资源上传至云存储空间，如果上传至同一路径则是覆盖写
      * @supported weapp
@@ -271,7 +272,8 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/uploadFile/client.uploadFile.html
      */
-    static uploadFile(param: cloud.UploadFileParam): Promise<cloud.UploadFileResult> | Taro.UploadTask
+    static uploadFile(param: OQ<cloud.UploadFileParam>): Taro.UploadTask
+    static uploadFile(param: RQ<cloud.UploadFileParam>): Promise<cloud.UploadFileResult>
 
     /** 从云存储空间下载文件
      * @supported weapp
@@ -301,9 +303,8 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/downloadFile/client.downloadFile.html
      */
-    static downloadFile(
-      param: cloud.DownloadFileParam,
-    ): Promise<cloud.DownloadFileResult> | Taro.DownloadTask
+    static downloadFile(param: OQ<cloud.DownloadFileParam>): Taro.DownloadTask
+    static downloadFile(param: RQ<cloud.DownloadFileParam>): Promise<cloud.DownloadFileResult>
 
     /** 用云文件 ID 换取真实链接，公有读的文件获取的链接不会过期，私有的文件获取的链接十分钟有效期。一次最多取 50 个。
      * @supported weapp
@@ -336,7 +337,8 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/Cloud.getTempFileURL.html
      */
-    static getTempFileURL(param: cloud.GetTempFileURLParam): Promise<cloud.GetTempFileURLResult> | void
+    static getTempFileURL(param: OQ<cloud.GetTempFileURLParam>): void
+    static getTempFileURL(param: RQ<cloud.GetTempFileURLParam>): Promise<cloud.GetTempFileURLResult>
 
     /** 从云存储空间删除文件，一次最多 50 个
      * @supported weapp
@@ -369,7 +371,8 @@ declare namespace Taro {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/storage/Cloud.deleteFile.html
      */
-    static deleteFile(param: cloud.DeleteFileParam): Promise<cloud.DeleteFileResult> | void
+    static deleteFile(param: OQ<cloud.DeleteFileParam>): void
+    static deleteFile(param: RQ<cloud.DeleteFileParam>): Promise<cloud.DeleteFileResult>
 
     /** 获取数据库实例
      * @supported weapp
@@ -763,10 +766,8 @@ declare namespace Taro {
        * ```
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.add.html 
        */
-      add(
-        /** 新增记录的定义 */
-        options: Document.IAddDocumentOptions
-      ): Promise<Query.IAddResult> | void
+      add(options: OQ<Document.IAddDocumentOptions>): void
+      add(options: RQ<Document.IAddDocumentOptions>): Promise<Query.IAddResult>
 
       /** 监听集合中符合查询条件的数据的更新事件。注意使用 watch 时，只有 where 语句会生效，orderBy、limit 等不生效。
        * @supported weapp
@@ -849,7 +850,8 @@ declare namespace Taro {
        * ```
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.get.html
        */
-      get(options: Document.IGetDocumentOptions): Promise<Query.IQuerySingleResult> | void
+      get(options: OQ<Document.IGetDocumentOptions>): void
+      get(options: RQ<Document.IGetDocumentOptions>): Promise<Query.IQuerySingleResult>
 
       /** 替换更新一条记
        * @supported weapp
@@ -903,7 +905,8 @@ declare namespace Taro {
        * ```
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.set.html
        */
-      set(options: Document.ISetSingleDocumentOptions): Promise<Query.ISetResult> | void
+      set(options: OQ<Document.ISetSingleDocumentOptions>): void
+      set(options: RQ<Document.ISetSingleDocumentOptions>): Promise<Query.ISetResult>
 
       /** 更新一条记录
        * @supported weapp
@@ -932,7 +935,8 @@ declare namespace Taro {
        * ```
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.update.html
        */
-      update(options: Document.IUpdateSingleDocumentOptions): Promise<Query.IUpdateResult> | void
+      update(options: OQ<Document.IUpdateSingleDocumentOptions>): void
+      update(options: RQ<Document.IUpdateSingleDocumentOptions>): Promise<Query.IUpdateResult>
 
       /** 删除一条记录
        * @supported weapp
@@ -951,7 +955,8 @@ declare namespace Taro {
        * ```
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/document/Document.remove.html
        */
-      remove(options: Document.IRemoveSingleDocumentOptions): Promise<Query.IRemoveResult> | void
+      remove(options: OQ<Document.IRemoveSingleDocumentOptions>): void
+      remove(options: RQ<Document.IRemoveSingleDocumentOptions>): Promise<Query.IRemoveResult>
     }
 
     namespace Document {
@@ -1261,7 +1266,8 @@ declare namespace Taro {
        * ```
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.get.html
        */
-      get(options: Document.IGetDocumentOptions): Promise<Query.IQueryResult> | void
+      get(options: OQ<Document.IGetDocumentOptions>): void
+      get(options: RQ<Document.IGetDocumentOptions>): Promise<Query.IQueryResult>
 
       /** 统计匹配查询条件的记录的条数
        * @supported weapp
@@ -1288,7 +1294,8 @@ declare namespace Taro {
        * ```
        * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/database/collection/Collection.count.html
        */
-      count(options: Document.ICountDocumentOptions): Promise<Query.ICountResult> | void
+      count(options: OQ<Document.ICountDocumentOptions>): void
+      count(options: RQ<Document.ICountDocumentOptions>): Promise<Query.ICountResult>
     }
 
     namespace Query {
@@ -2272,3 +2279,24 @@ declare namespace Taro {
     }
   }
 }
+
+type Optional<T> = { [K in keyof T]+?: T[K] }
+
+type OQ<
+  T extends Optional<
+    Record<'complete' | 'success' | 'fail', (...args: any[]) => any>
+  >
+> =
+  | (RQ<T> & Required<Pick<T, 'success'>>)
+  | (RQ<T> & Required<Pick<T, 'fail'>>)
+  | (RQ<T> & Required<Pick<T, 'complete'>>)
+  | (RQ<T> & Required<Pick<T, 'success' | 'fail'>>)
+  | (RQ<T> & Required<Pick<T, 'success' | 'complete'>>)
+  | (RQ<T> & Required<Pick<T, 'fail' | 'complete'>>)
+  | (RQ<T> & Required<Pick<T, 'fail' | 'complete' | 'success'>>)
+
+type RQ<
+  T extends Optional<
+    Record<'complete' | 'success' | 'fail', (...args: any[]) => any>
+  >
+> = Pick<T, Exclude<keyof T, 'complete' | 'success' | 'fail'>>
