@@ -44,7 +44,7 @@ if (process.env.FRAMEWORK === 'react') {
   ReactDOM = require('react-dom')
 }
 
-export const PageContext: React.Context<string> = R.createContext('')
+export const PageContext: React.Context<string> = process.env.FRAMEWORK === 'vue' ? EMPTY_OBJ : R.createContext('')
 
 export const taroHooks = (lifecycle: string) => {
   return (fn: Function) => {
