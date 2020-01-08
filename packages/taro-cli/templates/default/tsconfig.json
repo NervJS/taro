@@ -15,8 +15,9 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "preserve",
-    "jsxFactory": "Taro.createElement",
+    "jsx": "react",<% if (framework === 'react') {%>
+    "jsxFactory": "React.createElement",<%}%><% if (framework === 'nerv') {%>
+    "jsxFactory": "Nerv.createElement",<%}%>
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [

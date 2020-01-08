@@ -3,7 +3,7 @@
   "packages": [
     "packages/shared",
     "packages/taro-runtime",
-    "packages/mini-runner",
+    "packages/taro-mini-runner",
     "packages/react",
     "packages/taro-components",
     "packages/taro-loader",

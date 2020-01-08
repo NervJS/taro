@@ -106,7 +106,8 @@ function createFiles (
       typescript &&
       changeExt &&
       !destRePath.startsWith(`${CONFIG_DIR_NAME}`) &&
-      (path.extname(destRePath) === '.js' || path.extname(destRePath) === '.jsx')
+      (path.extname(destRePath) === '.js' || path.extname(destRePath) === '.jsx') &&
+      !destRePath.endsWith('babel.config.js')
     ) {
       destRePath = destRePath.replace('.js', '.ts')
     }

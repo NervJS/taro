@@ -95,6 +95,9 @@ export default class Creator {
     if (!path.isAbsolute(filepath)) {
       filepath = path.join(this.destinationRoot(), filepath)
     }
+    if (filepath.endsWith('package.json.tmpl')) {
+      filepath = filepath.replace('.tmpl', '')
+    }
     return filepath
   }
 
@@ -105,12 +108,8 @@ export default class Creator {
       dest = source
     }
 
-    let src = this.templatePath(template, source)
+    const src = this.templatePath(template, source)
     if (!fs.existsSync(src)) return
-
-    if (src.endsWith('package.json.tmpl')) {
-      src = src.replace('.tmpl', '')
-    }
 
     this.fs.copyTpl(src, this.destinationPath(dest), Object.assign({ _ }, this, data), options)
     return this
