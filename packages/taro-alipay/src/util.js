@@ -268,28 +268,32 @@ export function getElementById (component, id, type) {
   return null
 }
 
-let id = 0
 function genId () {
-  return String(id++)
+  if (!my.taroCompCounter) {
+    my.taroCompCounter = 0
+  }
+  return String(my.taroCompCounter++)
 }
 
-let compIdsMapper
-try {
-  compIdsMapper = new Map()
-} catch (error) {
-  compIdsMapper = new SimpleMap()
+if (!my.compIdsMapper) {
+  try {
+    my.compIdsMapper = new Map();
+  } catch (error) {
+    my.compIdsMapper = new SimpleMap();
+  }
 }
+
 export function genCompid (key, isNeedCreate) {
   if (!Current || !Current.current || !Current.current.$scope) return []
 
-  const prevId = compIdsMapper.get(key)
+  const prevId = my.compIdsMapper.get(key)
   if (isNeedCreate) {
     const id = genId()
-    compIdsMapper.set(key, id)
+    my.compIdsMapper.set(key, id)
     return [prevId, id]
   } else {
     const id = prevId || genId()
-    !prevId && compIdsMapper.set(key, id)
+    !prevId && my.compIdsMapper.set(key, id)
     return [null, id]
   }
 }
