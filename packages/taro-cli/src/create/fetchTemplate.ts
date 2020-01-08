@@ -23,7 +23,7 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
 
     if (type === 'git') {
       name = path.basename(templateSource)
-      download(templateSource + '#next', path.join(tempPath, name), { clone }, async error => {
+      download(templateSource + '#v3', path.join(tempPath, name), { clone }, async error => {
         if (error) {
           spinner.color = 'red'
           spinner.fail(chalk.red('拉取远程模板仓库失败！'))

@@ -28,9 +28,6 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "peerDependencies": {
-    "nervjs": "^1.5.0"
-  },
   "dependencies": {
     "@stencil/core": "^1.8.1",
     "better-scroll": "^1.14.1",
