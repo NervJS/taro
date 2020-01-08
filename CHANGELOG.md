@@ -1,5 +1,19 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.0-beta.14...v) (2020-01-08)
+# [](https://github.com/NervJS/taro/compare/v2.0.0...v) (2020-01-08)
+
+
+
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/NervJS/taro/compare/v2.0.0-beta.14...v2.0.0) (2020-01-08)
+
+
+### Bug Fixes
+
+* **alipay:** 支付宝小程序分包下 compid 应该挂全局 ([30fd22c](https://github.com/NervJS/taro/commit/30fd22c))
+* **mini:** 修复 requset API 不触发 success 和 fail 的问题，close [#5271](https://github.com/NervJS/taro/issues/5271) ([258cd78](https://github.com/NervJS/taro/commit/258cd78))
+* **weapp:** 修复 Taro.cloud 部分函数返回错误的类型定义 ([#5270](https://github.com/NervJS/taro/issues/5270)) ([de04d79](https://github.com/NervJS/taro/commit/de04d79))
+* **weapp:** 导出 wx.env 对象，增加 Taro.env.USER_DATA_PATH 类型定义 close [#3710](https://github.com/NervJS/taro/issues/3710) ([a9c0c09](https://github.com/NervJS/taro/commit/a9c0c09))
+* **weapp:** 添加微信小程序 webp 属性和修复函数式组件缺少的 externalClasses 类型 ([#5273](https://github.com/NervJS/taro/issues/5273)) ([2dd00dc](https://github.com/NervJS/taro/commit/2dd00dc))
 
 
 
