@@ -23,7 +23,8 @@ const RequestQueue = {
 
     while (this.pendingQueue.length < this.MAX_REQUEST) {
       const options = this.queue.shift()
-      const { successFn, failFn } = options
+      let successFn = options.success
+      let failFn = options.fail
       options.success = (...args) => {
         this.pendingQueue = this.pendingQueue.filter(item => item !== options)
         this.run()
