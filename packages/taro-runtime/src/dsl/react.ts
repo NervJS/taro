@@ -11,8 +11,10 @@ export function connectReactPage (
 ) {
   const h = R.createElement
   return (component: ReactPageComponent): React.FunctionComponent<PageProps> => {
-    const isReactComponent = !!component.prototype.isReactComponent ||
+    const isReactComponent = isFunction(component['render']) ||
+      !!component.prototype.isReactComponent ||
       component.prototype instanceof R.Component // compat for some others react-like library
+
     const inject = (node?: Instance) => node && injectPageInstance(node, id)
     const refs = isReactComponent ? { ref: inject } : { forwardedRef: inject }
     return (props: PageProps) => {
