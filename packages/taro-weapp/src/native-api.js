@@ -240,6 +240,14 @@ function wxCloud (taro) {
   taro.cloud = wxcloud
 }
 
+function wxEnvObj (taro) {
+  const wxEnv = wx.env || {}
+  const taroEnv = {}
+  const envList = ['USER_DATA_PATH']
+  envList.forEach(key => taroEnv[key] = wxEnv[key])
+  taro.env = taroEnv
+}
+
 export default function initNativeApi (taro) {
   processApis(taro)
   taro.request = link.request.bind(link)
@@ -252,4 +260,5 @@ export default function initNativeApi (taro) {
   taro.pxTransform = pxTransform.bind(taro)
   taro.canIUseWebp = canIUseWebp
   wxCloud(taro)
+  wxEnvObj(taro)
 }
