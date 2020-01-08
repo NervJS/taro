@@ -21,5 +21,7 @@ module.exports = {
         'legacy': true
       }
     ]
-  ]
+  ],
+  exclude: 'node_modules/@babel/runtime/**',
+  sourceType: 'unambiguous'
 }

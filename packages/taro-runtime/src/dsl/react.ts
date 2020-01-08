@@ -72,7 +72,7 @@ export function createReactApp (App: React.ComponentClass) {
   let wrapper: AppWrapper
 
   class AppWrapper extends R.Component {
-    // run createElement() in a render function to make sure that owner is right
+    // run createElement() inside the render function to make sure that owner is right
     private pages: Array<() => React.FunctionComponentElement<PageProps>> = []
     private elements: Array<React.FunctionComponentElement<PageProps>> = []
 
