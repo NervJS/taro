@@ -1,5 +1,34 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.34...v) (2019-12-31)
+# [](https://github.com/NervJS/taro/compare/v1.3.35...v) (2020-01-08)
+
+
+
+<a name="1.3.35"></a>
+## [1.3.35](https://github.com/NervJS/taro/compare/v1.3.34...v1.3.35) (2020-01-08)
+
+
+### Bug Fixes
+
+* **alipay:** 支付宝分包时 Current 应该挂 my 上，fix [#5204](https://github.com/NervJS/taro/issues/5204) ([4106d5c](https://github.com/NervJS/taro/commit/4106d5c))
+* **alipay:** 支付宝小程序分包下 compid 应该挂全局 ([a07ec74](https://github.com/NervJS/taro/commit/a07ec74))
+* **cli:** windows下配置 weapp.compile.exclude 为 npm 包时路径问题 ([#5227](https://github.com/NervJS/taro/issues/5227)) ([a946f86](https://github.com/NervJS/taro/commit/a946f86))
+* **mini:** 修复 requset API 不触发 success 和 fail 的问题，close [#5271](https://github.com/NervJS/taro/issues/5271) ([0c5bfe7](https://github.com/NervJS/taro/commit/0c5bfe7))
+* **types:** 补充 chooseImage 在 H5 下的类型 ([c2a02ed](https://github.com/NervJS/taro/commit/c2a02ed))
+* **weapp:** allow Taro.getUserInfo to take no param ([#5248](https://github.com/NervJS/taro/issues/5248)) ([60e5691](https://github.com/NervJS/taro/commit/60e5691))
+* **weapp:** incorrect Taro.canvasToTempFilePath typing ([#5250](https://github.com/NervJS/taro/issues/5250)) ([317604c](https://github.com/NervJS/taro/commit/317604c))
+* **weapp:** 修复 Taro.cloud 部分函数返回错误的类型定义 ([#5270](https://github.com/NervJS/taro/issues/5270)) ([9b056ce](https://github.com/NervJS/taro/commit/9b056ce))
+* **weapp:** 修复小程序 request 并发没有限制的问题，close [#5213](https://github.com/NervJS/taro/issues/5213) ([a4e8a38](https://github.com/NervJS/taro/commit/a4e8a38))
+* **weapp:** 导出 wx.env 对象，增加 Taro.env.USER_DATA_PATH 类型定义 close [#3710](https://github.com/NervJS/taro/issues/3710) ([d902d3e](https://github.com/NervJS/taro/commit/d902d3e))
+* **weapp:** 添加微信小程序 webp 属性和修复函数式组件缺少的 externalClasses 类型 ([#5273](https://github.com/NervJS/taro/issues/5273)) ([c82380e](https://github.com/NervJS/taro/commit/c82380e))
+* **weapp/qq/tt/alipay:** 预加载不支持 switchTab，close [#5185](https://github.com/NervJS/taro/issues/5185) ([1ce8c48](https://github.com/NervJS/taro/commit/1ce8c48))
+* 修复h5独有属性类型 ([2d3a3a0](https://github.com/NervJS/taro/commit/2d3a3a0))
+
+
+### Features
+
+* **taro-weapp/taro-with-weapp:** 增加 isUsingDiff 开关 ([e0af665](https://github.com/NervJS/taro/commit/e0af665))
+* upload for auto-api for components ([c8855ba](https://github.com/NervJS/taro/commit/c8855ba))
+* **h5:** chooseImage回调中加入了originalFileObj属性 ([fe346ef](https://github.com/NervJS/taro/commit/fe346ef))
 
 
 
