@@ -16,7 +16,7 @@ if (typeof PRERENDER !== 'undefined')  {
 `
   return `import { createPageConfig } from '@tarojs/runtime'
 import component from '${componentPath}'
-const inst = Page(createPageConfig(component, '${options.name}'))
+var inst = Page(createPageConfig(component, '${options.name}'))
 ${options.prerender ? prerender : ''}
 `
 }

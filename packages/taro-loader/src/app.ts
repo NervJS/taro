@@ -11,7 +11,7 @@ if (typeof PRERENDER !== 'undefined')  {
 `
   return `import { ${method} } from '@tarojs/runtime'
 import component from '${this.request.split('!').slice(1).join('!')}'
-const inst = App(${method}(component))
+var inst = App(${method}(component))
 ${options.prerender ? prerender : ''}
 `
 }
