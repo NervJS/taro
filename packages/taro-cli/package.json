@@ -66,7 +66,6 @@
     "chokidar": "^2.0.3",
     "commander": "^2.19.0",
     "cross-spawn": "^6.0.5",
-    "crypto": "^1.0.1",
     "css-to-react-native-transform": "^1.4.0",
     "css-what": "^3.2.0",
     "download-git-repo": "^2.0.0",
