@@ -956,6 +956,9 @@
       "css-modules": {
         "title": "使用 CSS Modules"
       },
+      "debug-config": {
+        "title": "单步调测配置"
+      },
       "debug": {
         "title": "Debug 指南"
       },
@@ -988,6 +991,9 @@
       },
       "list": {
         "title": "列表渲染"
+      },
+      "migrate-to-2": {
+        "title": "迁移至 Taro 2.x"
       },
       "mini-third-party": {
         "title": "使用小程序原生第三方组件和插件"
@@ -2684,6 +2690,48 @@
       "version-1.3.27/version-1.3.27-README": {
         "title": "Taro 介绍"
       },
+      "version-1.3.28/components/media/version-1.3.28-video": {
+        "title": "Video",
+        "sidebar_label": "Video"
+      },
+      "version-1.3.28/components/viewContainer/version-1.3.28-scroll-view": {
+        "title": "ScrollView",
+        "sidebar_label": "ScrollView"
+      },
+      "version-1.3.31/version-1.3.31-before-dev-remind": {
+        "title": "各端开发前注意"
+      },
+      "version-1.3.34/version-1.3.34-GETTING-STARTED": {
+        "title": "安装及使用"
+      },
+      "version-1.3.34/version-1.3.34-react-native": {
+        "title": "React Native 端开发流程"
+      },
+      "version-2.0.0-beta.12/version-2.0.0-beta.12-GETTING-STARTED": {
+        "title": "安装及使用"
+      },
+      "version-2.0.0-beta.12/version-2.0.0-beta.12-react-native": {
+        "title": "React Native 端开发流程"
+      },
+      "version-2.0.0-beta.13/components/forms/version-2.0.0-beta.13-button": {
+        "title": "Button",
+        "sidebar_label": "Button"
+      },
+      "version-2.0.0-beta.13/version-2.0.0-beta.13-debug-config": {
+        "title": "单步调测配置"
+      },
+      "version-2.0.0-beta.14/version-2.0.0-beta.14-config-detail": {
+        "title": "编译配置详情"
+      },
+      "version-2.0.0-beta.14/version-2.0.0-beta.14-config": {
+        "title": "编译配置"
+      },
+      "version-2.0.0-beta.14/version-2.0.0-beta.14-optimized-practice": {
+        "title": "性能优化实践"
+      },
+      "version-2.0.0-beta.14/version-2.0.0-beta.14-react-native": {
+        "title": "React Native 端开发流程"
+      },
       "version-2.0.0-beta.2/version-2.0.0-beta.2-config-detail": {
         "title": "编译配置详情"
       },
@@ -2698,6 +2746,27 @@
       },
       "version-2.0.0-beta.3/version-2.0.0-beta.3-README": {
         "title": "Taro 介绍"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-async-await": {
+        "title": "异步编程"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-react-native": {
+        "title": "React Native 端开发流程"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-README": {
+        "title": "Taro 介绍"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-size": {
+        "title": "设计稿及尺寸单位"
+      },
+      "version-2.0.0-beta.4/version-2.0.0-beta.4-taroize": {
+        "title": "微信小程序转 Taro"
+      },
+      "version-2.0.0-beta.5/version-2.0.0-beta.5-config-detail": {
+        "title": "编译配置详情"
+      },
+      "version-2.0.0-beta.9/version-2.0.0-beta.9-config-detail": {
+        "title": "编译配置详情"
       }
     },
     "links": {
@@ -2713,6 +2782,7 @@
       "快速开始": "快速开始",
       "基础教程": "基础教程",
       "进阶指南": "进阶指南",
+      "迁移指南": "迁移指南",
       "社区生态": "社区生态",
       "关于组件库": "关于组件库",
       "视图容器": "视图容器",

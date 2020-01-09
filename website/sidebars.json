@@ -63,6 +63,9 @@
       "hybrid",
       "optimized-practice"
     ],
+    "迁移指南": [
+      "migrate-to-2"
+    ],
     "社区生态": [
       "redux",
       "mobx",
