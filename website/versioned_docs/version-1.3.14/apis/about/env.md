@@ -18,6 +18,12 @@ original_id: env
 
 `ENV_TYPE.RN` ReactNative 环境
 
+`ENV_TYPE.QUICKAPP` 快应用环境
+
+`ENV_TYPE.QQ` QQ小程序 环境
+
+`ENV_TYPE.JD` 京东小程序 环境
+
 ## Taro.getEnv()
 
 获取当前环境值，具体值如上 `Taro.ENV_TYPE`
