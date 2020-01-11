@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://github.com/NervJS/taro">
+    <img alt="Logo" src="website/static/img/taro-logo-colorful.png" width="160" />
+  </a>
+</p>
+
 # Taro
 
 [![](https://img.shields.io/node/v/@tarojs/cli.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/cli)
