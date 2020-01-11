@@ -1,5 +1,8 @@
 # Taro
 
+
+![logo](https://docs.google.com/drawings/d/e/2PACX-1vR_WEh9fOu4SCXo3bqtc_2H4xLTW4wyQHIx6eLsKK6tVevoutcbD7kzT_C3eZgegdiiCoFWzTmqpeA3/pub?w=500&h=500) 
+
 [![](https://img.shields.io/node/v/@tarojs/cli.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/cli)
 [![](https://img.shields.io/npm/v/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
 [![](https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
