@@ -21,6 +21,6 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "promise-polyfill": "^7.1.2",
-    "regenerator-runtime": "^0.11.1"
+    "regenerator-runtime": "0.11.1"
   }
 }
