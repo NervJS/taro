@@ -8,6 +8,16 @@ import './<%= pageName %>.<%= cssExt %>'
 
 export default class <%= _.capitalize(pageName) %> extends Component {
 
+  componentWillMount () { }
+
+  componentDidMount () { }
+
+  componentWillUnmount () { }
+
+  componentDidShow () { }
+
+  componentDidHide () { }
+
 <%if (locals.typescript) {-%>
   /**
    * 指定config的类型声明为: Taro.Config
@@ -20,16 +30,6 @@ export default class <%= _.capitalize(pageName) %> extends Component {
   config<%if (locals.typescript) {%>: Config<%}%> = {
     navigationBarTitleText: '首页'
   }
-
-  componentWillMount () { }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
 
   render () {
     return (

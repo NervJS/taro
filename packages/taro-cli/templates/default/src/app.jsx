@@ -15,6 +15,14 @@ import './app.<%= cssExt %>'
 
 class App extends Component {
 
+  componentDidMount () {}
+
+  componentDidShow () {}
+
+  componentDidHide () {}
+
+  componentDidCatchError () {}
+
 <%if (locals.typescript) {-%>
   /**
    * 指定config的类型声明为: Taro.Config
@@ -35,14 +43,6 @@ class App extends Component {
       navigationBarTextStyle: 'black'
     }
   }
-
-  componentDidMount () {}
-
-  componentDidShow () {}
-
-  componentDidHide () {}
-
-  componentDidCatchError () {}
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
