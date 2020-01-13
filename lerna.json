@@ -8,7 +8,9 @@
     "packages/taro-components",
     "packages/taro-loader",
     "packages/taro-cli",
-    "packages/babel-preset-taro"
+    "packages/babel-preset-taro",
+    "packages/eslint-plugin-taro",
+    "packages/eslint-config-taro"
   ],
   "command": {
     "publish": {

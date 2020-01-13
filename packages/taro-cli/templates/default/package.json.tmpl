@@ -48,14 +48,16 @@
     "@types/react": "^16.0.0",<%}%>
     "@tarojs/mini-runner": "<%= version %>",
     "@babel/core": "^7.8.0",
-    "@babel/preset-taro": "7.6.3",
-    "babel-eslint": "^8.2.3",
+    "babel-preset-taro": "<%= version %>",<% if (framework === 'vue') {%>
+    "eslint-plugin-vue": "^2.5.0",<%}%>
+    "eslint-config-taro": "<%= version %>",
     "eslint": "^6.8.0",<% if (framework === 'react' || framework === 'nerv') {%>
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-react-hooks": "^1.6.1",<%}%>
     "eslint-plugin-import": "^2.12.0",
     "stylelint": "9.3.0"<% if (typescript) {%>,
-    "@typescript-eslint/parser": "^1.6.0",
+    "@typescript-eslint/parser": "^2.x",
+    "@typescript-eslint/eslint-plugin": "^2.x",
     "typescript": "^3.7.0"<%}%>
   }
 }

@@ -7,6 +7,9 @@
     "rules",
     "index.js",
     "html-tags.js",
+    "react.js",
+    "nerv.js",
+    "vue.js",
     "README.md"
   ],
   "repository": {
@@ -19,15 +22,12 @@
     "jsx"
   ],
   "peerDependencies": {
-    "babel-eslint": "*",
-    "eslint": "*",
-    "eslint-plugin-import": "*",
-    "eslint-plugin-react": "*",
-    "eslint-plugin-react-hooks": "*"
+    "eslint": "*"
+  },
+  "dependencies": {
+    "@typescript-eslint/parser": "^2.x",
+    "babel-eslint": "^10.0.0"
   },
   "author": "O2Team",
-  "license": "MIT",
-  "dependencies": {
-    "eslint-plugin-taro": "1.3.22"
-  }
+  "license": "MIT"
 }
