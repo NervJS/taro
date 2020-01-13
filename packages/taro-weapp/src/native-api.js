@@ -8,7 +8,7 @@ import {
 import { cacheDataSet, cacheDataGet } from './data-cache'
 import { queryToJson, getUniqueKey } from './util'
 const RequestQueue = {
-  MAX_REQUEST: 5,
+  MAX_REQUEST: 10,
   queue: [],
   pendingQueue: [],
 
