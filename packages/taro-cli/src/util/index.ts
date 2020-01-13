@@ -579,25 +579,3 @@ export function extnameExpRegOf (filePath: string): RegExp {
 export function generateAlipayPath (filePath) {
   return filePath.replace(/@/g, '_')
 }
-
-
-interface IRemindVersion {
-  remindTimes: number
-}
-export function printVersionTip () {
-  const taroPath = getTaroPath()
-  let remindVersion: IRemindVersion = { remindTimes: 0 }
-  const remindVersionFilePath = path.join(taroPath, '.remind_version.json')
-  if (!fs.existsSync(remindVersionFilePath)) {
-    fs.ensureDirSync(taroPath)
-    fs.writeFileSync(remindVersionFilePath, JSON.stringify(remindVersion))
-  } else {
-    remindVersion = fs.readJSONSync(remindVersionFilePath)
-  }
-  if (remindVersion.remindTimes < 5) {
-    console.log(chalk.red('当前您正在使用 2.0 版本，请先执行 taro doctor 确保编译配置正确'))
-    console.log(chalk.red('如出现令你束手无策的问题，请使用 taro update 命令更新到你指定的稳定版本'))
-    remindVersion.remindTimes++
-    fs.writeFileSync(remindVersionFilePath, JSON.stringify(remindVersion))
-  }
-}
