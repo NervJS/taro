@@ -45,17 +45,17 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tarojs/taro@2.0.0-beta.12":
-  version "2.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.0.0-beta.12.tgz#7192028ed0c112ebd1e5923502b864bc6c4e40aa"
-  integrity sha512-JxTUV1ewJKLhBI2Sndh/qSMOXAW1c5b375e2wXCs2VNCZ6V6zgUyaIYArtJNTQcYbnPQEntybOiaREQwXfdhxQ==
+"@tarojs/taro@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.0.0.tgz#84910effa1fcf3bf3952470a024ee563edb8e324"
+  integrity sha512-d/4ZxMXrW1ueiZKr9sSitr/DPdQfh4D/RH4r+yu5y8wifmNF08FpnVEklcBvWXezt7yXvzM8ejLT+AWZa9RfQg==
   dependencies:
-    "@tarojs/utils" "2.0.0-beta.12"
+    "@tarojs/utils" "2.0.0"
 
-"@tarojs/utils@2.0.0-beta.12":
-  version "2.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.0.0-beta.12.tgz#90a01578451e96e63a231252251268ca0489b3ca"
-  integrity sha512-E57KRPvvi5t90aRhvANUlzBza03rHdO/CAI3j3/UYnTmWjt9ElR4PSl0oxdw+lZTq+6FUQd70jdTyLyojlPpMQ==
+"@tarojs/utils@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.0.0.tgz#108ac6e22ac86bb4b8b305fff156375f4bb14dad"
+  integrity sha512-MWRph63BpmsO5FnWpsTusg20UM8WztqU2ctZIOPfQRwK3xTMrTrdEvojv96tH+q6lUG/J09Uub/NiHlACZupGQ==
 
 "@types/estree@0.0.39":
   version "0.0.39"
@@ -2331,15 +2331,15 @@ lodash.sortby@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
 
-lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4:
-  version "4.17.13"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.13.tgz#0bdc3a6adc873d2f4e0c4bac285df91b64fc7b93"
-  integrity sha512-vm3/XWXfWtRua0FkUyEHBZy8kCPjErNBT9fJx8Zvs+U6zjqPbTUOpkaoum3O5uiA8sm+yNMHXfYkTUHFoMxFNA==
-
-lodash@^4.17.15:
+lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.15, lodash@^4.17.4:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
+lodash@^4.17.11:
+  version "4.17.13"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.13.tgz#0bdc3a6adc873d2f4e0c4bac285df91b64fc7b93"
+  integrity sha512-vm3/XWXfWtRua0FkUyEHBZy8kCPjErNBT9fJx8Zvs+U6zjqPbTUOpkaoum3O5uiA8sm+yNMHXfYkTUHFoMxFNA==
 
 lolex@^4.1.0, lolex@^4.2.0:
   version "4.2.0"
