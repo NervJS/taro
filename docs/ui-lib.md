@@ -2,7 +2,7 @@
 title: 基于 Taro 开发第三方多端 UI 库
 ---
 
-> 通过 Taro 提供的多端 UI 库打包能力，可以打包出一个多端运行的 UI 库，目前已经支持 微信/支付宝/百度小程序以及 H5，RN 端的支持还在调研中，示例项目 [taro-ui-sample](https://github.com/NervJS/taro-ui-sample)
+> 通过 Taro 提供的多端 UI 库打包能力，可以打包出一个多端运行的 UI 库，目前已经支持 微信/支付宝/百度小程序以及 H5，RN 端。示例项目 [taro-ui-sample](https://github.com/NervJS/taro-ui-sample)
 
 ## 多端 UI 库项目结构
 
