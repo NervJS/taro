@@ -958,7 +958,7 @@ export default class MiniPlugin {
           }
           this.transferFileContent(compiler)
         }
-        if (obj && !this.components.has(obj)) {
+        if (obj && type === PARSE_AST_TYPE.COMPONENT && !this.components.has(obj)) {
           this.components.add(obj)
         }
       }
