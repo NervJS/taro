@@ -107,7 +107,7 @@ function createFiles (
       changeExt &&
       !destRePath.startsWith(`${CONFIG_DIR_NAME}`) &&
       (path.extname(destRePath) === '.js' || path.extname(destRePath) === '.jsx') &&
-      !destRePath.endsWith('babel.config.js')
+      !(destRePath.endsWith('babel.config.js') || destRePath.endsWith('.eslintrc.js'))
     ) {
       destRePath = destRePath.replace('.js', '.ts')
     }

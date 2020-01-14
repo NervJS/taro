@@ -421,8 +421,8 @@ export default class TaroMiniPlugin {
     this.generateTemplateFile(compilation, baseTemplateName, buildBaseTemplate, baseLevel, this.supportRecursive)
     if (!this.supportRecursive) {
       this.generateTemplateFile(compilation, baseCompName, buildBaseComponentTemplate)
-      this.generateXSFile(compilation)
     }
+    this.generateXSFile(compilation)
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(component.name)]

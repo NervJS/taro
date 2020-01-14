@@ -100,7 +100,7 @@ module.exports = (_, options = {}) => {
   plugins.push([require('@babel/plugin-transform-runtime'), {
     regenerator: true,
     corejs: envOptions.corejs,
-    helpers: useBuiltIns === 'usage',
+    helpers: true,
     useESModules: process.env.NODE_ENV !== 'test',
     absoluteRuntime,
     version
