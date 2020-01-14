@@ -32,7 +32,6 @@
     "ios >= 8"
   ],
   "author": "",
-  "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
     "@tarojs/components": "<%= version %>",
@@ -49,12 +48,12 @@
     "@tarojs/mini-runner": "<%= version %>",
     "@babel/core": "^7.8.0",
     "babel-preset-taro": "<%= version %>",<% if (framework === 'vue') {%>
-    "eslint-plugin-vue": "^2.5.0",<%}%>
+    "eslint-plugin-vue": "^6.x",<%}%>
     "eslint-config-taro": "<%= version %>",
     "eslint": "^6.8.0",<% if (framework === 'react' || framework === 'nerv') {%>
     "eslint-plugin-react": "^7.8.2",
-    "eslint-plugin-react-hooks": "^1.6.1",<%}%>
     "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-react-hooks": "^1.6.1",<%}%>
     "stylelint": "9.3.0"<% if (typescript) {%>,
     "@typescript-eslint/parser": "^2.x",
     "@typescript-eslint/eslint-plugin": "^2.x",

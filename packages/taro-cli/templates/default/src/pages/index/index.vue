@@ -1,5 +1,5 @@
 <template>
-  <view className='<%= pageName %>'>
+  <view class="<%= pageName %>">
     <text>{{ msg }}</text>
   </view>
 </template>
