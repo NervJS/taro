@@ -274,6 +274,48 @@ copy: {
 
 专属于小程序的配置。
 
+### mini.compile
+
+小程序编译过程的相关配置。
+
+#### mini.compile.exclude
+
+配置小程序编译过程中排除不需要经过 Taro 编译的文件，数组类型，数组里面可以包含具体文件路径，也可以是判断函数，同 [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude)
+
+例如，想要排除某个文件，可以如下配置要排除的文件具体路径：
+
+```js
+const config = {
+  mini: {
+    compile: {
+      exclude: [
+        path.resolve(__dirname, '..', 'src/pages/index/vod-wx-sdk-v2.js')
+      ]
+    }
+  }
+}
+```
+
+也可以配置判断函数，如下
+
+```js
+const config = {
+  mini: {
+    compile: {
+      exclude: [
+        function (modulePath) {
+          return modulePath.indexOf('vod-wx-sdk-v2') >= 0
+        }
+      ]
+    }
+  }
+}
+```
+
+#### mini.compile.incldue
+
+配置额外需要经过 Taro 编译的文件，例如 Taro 默认不编译 `node_modules` 包中文件，可以通过这个配置让 Taro 编译  `node_modules` 包中文件，使用方式与 `mini.compile.exclude` 一致，同 [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude)。
+
 ### mini.webpackChain
 
 自定义 Webpack 配置，接受函数形式的配置。

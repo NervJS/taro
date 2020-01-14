@@ -121,17 +121,22 @@ export interface IMiniAppConfig {
   entry: webpack.Entry,
   output: webpack.Output,
   postcss?: IPostcssOption,
-  cssLoaderOption: IOption,
-  sassLoaderOption: IOption,
-  lessLoaderOption: IOption,
-  stylusLoaderOption: IOption,
-  mediaUrlLoaderOption: IOption,
-  fontUrlLoaderOption: IOption,
-  imageUrlLoaderOption: IOption,
-  miniCssExtractPluginOption: IOption,
+  cssLoaderOption?: IOption,
+  sassLoaderOption?: IOption,
+  lessLoaderOption?: IOption,
+  stylusLoaderOption?: IOption,
+  mediaUrlLoaderOption?: IOption,
+  fontUrlLoaderOption?: IOption,
+  imageUrlLoaderOption?: IOption,
+  miniCssExtractPluginOption?: IOption,
 
-  customFilesTypes: IMINI_APP_FILE_TYPE,
-  commonChunks: string[]
+  customFilesTypes?: IMINI_APP_FILE_TYPE,
+  commonChunks?: string[],
+
+  compile?: {
+    exclude?: any[],
+    include?: any[]
+  }
 }
 
 export type TogglableOptions<T = IOption> = {

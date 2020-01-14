@@ -45,6 +45,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     fontUrlLoaderOption = emptyObj,
     imageUrlLoaderOption = emptyObj,
     miniCssExtractPluginOption = emptyObj,
+    compile = emptyObj,
 
     postcss = emptyObj,
     nodeModulesPath,
@@ -156,6 +157,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       mediaUrlLoaderOption,
 
       postcss,
+      compile,
       babel,
       alias
     }),

@@ -176,7 +176,7 @@ export const getModule = (appPath: string, {
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
   postcss,
-
+  compile,
   babel,
   alias
 }) => {
@@ -223,6 +223,9 @@ export const getModule = (appPath: string, {
   }[] = [{
     use: isQuickapp ? [cssLoader, quickappStyleLoader] : [cssLoader]
   }]
+
+  const compileExclude = compile.exclude || []
+  const compileInclude = compile.include || []
 
   if (cssModuleOptions.enable) {
     const cssLoaderWithModule = getCssLoader(cssOptionsWithModule)
@@ -285,6 +288,23 @@ export const getModule = (appPath: string, {
     buildAdapter
   }])
 
+  let scriptsLoaderConf = {
+    test: REG_SCRIPTS,
+    use: [fileParseLoader, wxTransformerLoader],
+  }
+
+  if (compileExclude && compileExclude.length) {
+    scriptsLoaderConf = Object.assign({}, scriptsLoaderConf, {
+      exclude: compileExclude
+    })
+  }
+
+  if (compileInclude && compileInclude.length) {
+    scriptsLoaderConf = Object.assign({}, scriptsLoaderConf, {
+      include: compileInclude
+    })
+  }
+
   const rule: any = {
     sass: {
       test: REG_SASS,
@@ -318,10 +338,7 @@ export const getModule = (appPath: string, {
       enforce: 'post',
       use: [extractCssLoader]
     },
-    script: {
-      test: REG_SCRIPTS,
-      use: [fileParseLoader, wxTransformerLoader],
-    },
+    script: scriptsLoaderConf,
     media: {
       test: REG_MEDIA,
       use: {
