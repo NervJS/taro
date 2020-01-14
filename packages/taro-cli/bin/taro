@@ -4,6 +4,7 @@ const program = require('commander')
 const { getPkgVersion, printPkgVersion, printVersionTip } = require('../dist/util')
 
 printPkgVersion()
+printVersionTip()
 
 program
   .version(getPkgVersion())
