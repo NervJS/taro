@@ -1,5 +1,24 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.0...v) (2020-01-08)
+# [](https://github.com/NervJS/taro/compare/v2.0.1...v) (2020-01-14)
+
+
+
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/NervJS/taro/compare/v2.0.0...v2.0.1) (2020-01-14)
+
+
+### Bug Fixes
+
+* **mini-runner:** 修复使用 cnpm 等安装器安装依赖时引用 taro-ui 报错的问题，[#5278](https://github.com/NervJS/taro/issues/5278) ([9480496](https://github.com/NervJS/taro/commit/9480496))
+* **mini-runner:** 修复页面文件 watch 时修改的问题，close [#5293](https://github.com/NervJS/taro/issues/5293) ([309f066](https://github.com/NervJS/taro/commit/309f066))
+* **mini-runner:** 添加 mini.compile 配置 ([949fd37](https://github.com/NervJS/taro/commit/949fd37))
+* **weapp/qq:** 微信、qq小程序 request 并发数改为 10，fix [#5291](https://github.com/NervJS/taro/issues/5291) ([474c7aa](https://github.com/NervJS/taro/commit/474c7aa))
+
+
+### Reverts
+
+* 去除版本运行提示 ([3b50289](https://github.com/NervJS/taro/commit/3b50289))
+* 恢复运行时的版本提示 ([b006895](https://github.com/NervJS/taro/commit/b006895))
 
 
 
