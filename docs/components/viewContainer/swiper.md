@@ -47,7 +47,7 @@ import Taro, { Component } from '@tarojs/taro'
 // 引入 Swiper, SwiperItem 组件
 import { Swiper, SwiperItem, View } from '@tarojs/components'
 
-class App extends Components {
+class App extends Component {
   render () {
     return (
       <Swiper
