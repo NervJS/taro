@@ -21,7 +21,7 @@ sidebar_label: Swiper
 |skipHiddenItemLayout    | Boolean     | false             | 是否跳过未显示的滑块布局，设为 true 可优化复杂情况下的滑动性能，但会丢失隐藏状态滑块的布局信息 |
 |displayMultipleItems    | Number      | 1                 | 同时显示的滑块数量                                           |
 |vertical                | Boolean     | false             | 滑动方向是否为纵向                                           |
-|onAnimationfinish       | EventHandle |                   | 动画结束时会触发 animationfinish 事件                        |
+|onAnimationFinish       | EventHandle |                   | 动画结束时会触发 animationfinish 事件                        |
 
 >各端支持度
 
@@ -39,7 +39,7 @@ sidebar_label: Swiper
 |skipHiddenItemLayout    | ✔ |    | x | ✔ |  |  |
 |displayMultipleItems    | ✔ |    | x | ✔ |  | ✔ |
 |vertical                | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-|onAnimationfinish       | ✔ | ✔ | ✔ | ✔ |  |  |
+|onAnimationFinish       | ✔ | ✔ | ✔ | ✔ |  |  |
 
 ###### 示例：
 ```jsx
