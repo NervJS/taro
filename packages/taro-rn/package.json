@@ -40,7 +40,7 @@
     "nullthrows": "^1.1.1",
     "react-native-image-crop-picker": "^0.23.1",
     "react-native-image-zoom-viewer": "^2.2.13",
-    "react-native-root-siblings": "^3.1.0",
+    "react-native-root-siblings": "^4.0.6",
     "react-native-root-toast": "^3.0.1",
     "react-native-stylekit": "^1.0.0",
     "react-native-unimodules": "^0.5.3"
