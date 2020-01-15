@@ -29,6 +29,11 @@ export namespace Components {
   interface TaroCamera {}
   interface TaroCoverImage {}
   interface TaroCoverView {}
+  interface TaroImage {
+    'lazyLoad': boolean;
+    'mode': string;
+    'src': string;
+  }
   interface TaroInput {
     'autoFocus': boolean;
     'confirmType': string;
@@ -42,6 +47,14 @@ export namespace Components {
   interface TaroMoveableArea {}
   interface TaroMoveableView {}
   interface TaroPickerViewColumn {}
+  interface TaroText {
+    'selectable': boolean;
+  }
+  interface TaroView {
+    'hoverClass': string;
+    'hoverStartTime': number;
+    'hoverStayTime': number;
+  }
 }
 
 declare global {
@@ -83,6 +96,12 @@ declare global {
     new (): HTMLTaroCoverViewElement;
   };
 
+  interface HTMLTaroImageElement extends Components.TaroImage, HTMLStencilElement {}
+  var HTMLTaroImageElement: {
+    prototype: HTMLTaroImageElement;
+    new (): HTMLTaroImageElement;
+  };
+
   interface HTMLTaroInputElement extends Components.TaroInput, HTMLStencilElement {}
   var HTMLTaroInputElement: {
     prototype: HTMLTaroInputElement;
@@ -106,6 +125,18 @@ declare global {
     prototype: HTMLTaroPickerViewColumnElement;
     new (): HTMLTaroPickerViewColumnElement;
   };
+
+  interface HTMLTaroTextElement extends Components.TaroText, HTMLStencilElement {}
+  var HTMLTaroTextElement: {
+    prototype: HTMLTaroTextElement;
+    new (): HTMLTaroTextElement;
+  };
+
+  interface HTMLTaroViewElement extends Components.TaroView, HTMLStencilElement {}
+  var HTMLTaroViewElement: {
+    prototype: HTMLTaroViewElement;
+    new (): HTMLTaroViewElement;
+  };
   interface HTMLElementTagNameMap {
     'taro-audio': HTMLTaroAudioElement;
     'taro-block': HTMLTaroBlockElement;
@@ -113,10 +144,13 @@ declare global {
     'taro-camera': HTMLTaroCameraElement;
     'taro-cover-image': HTMLTaroCoverImageElement;
     'taro-cover-view': HTMLTaroCoverViewElement;
+    'taro-image': HTMLTaroImageElement;
     'taro-input': HTMLTaroInputElement;
     'taro-moveable-area': HTMLTaroMoveableAreaElement;
     'taro-moveable-view': HTMLTaroMoveableViewElement;
     'taro-picker-view-column': HTMLTaroPickerViewColumnElement;
+    'taro-text': HTMLTaroTextElement;
+    'taro-view': HTMLTaroViewElement;
   }
 }
 
@@ -148,6 +182,13 @@ declare namespace LocalJSX {
   interface TaroCamera {}
   interface TaroCoverImage {}
   interface TaroCoverView {}
+  interface TaroImage {
+    'lazyLoad'?: boolean;
+    'mode'?: string;
+    'onError'?: (event: CustomEvent<any>) => void;
+    'onLoad'?: (event: CustomEvent<any>) => void;
+    'src'?: string;
+  }
   interface TaroInput {
     'autoFocus'?: boolean;
     'confirmType'?: string;
@@ -167,6 +208,15 @@ declare namespace LocalJSX {
   interface TaroMoveableArea {}
   interface TaroMoveableView {}
   interface TaroPickerViewColumn {}
+  interface TaroText {
+    'selectable'?: boolean;
+  }
+  interface TaroView {
+    'hoverClass'?: string;
+    'hoverStartTime'?: number;
+    'hoverStayTime'?: number;
+    'onLongpress'?: (event: CustomEvent<any>) => void;
+  }
 
   interface IntrinsicElements {
     'taro-audio': TaroAudio;
@@ -175,10 +225,13 @@ declare namespace LocalJSX {
     'taro-camera': TaroCamera;
     'taro-cover-image': TaroCoverImage;
     'taro-cover-view': TaroCoverView;
+    'taro-image': TaroImage;
     'taro-input': TaroInput;
     'taro-moveable-area': TaroMoveableArea;
     'taro-moveable-view': TaroMoveableView;
     'taro-picker-view-column': TaroPickerViewColumn;
+    'taro-text': TaroText;
+    'taro-view': TaroView;
   }
 }
 
@@ -194,10 +247,13 @@ declare module "@stencil/core" {
       'taro-camera': LocalJSX.TaroCamera & JSXBase.HTMLAttributes<HTMLTaroCameraElement>;
       'taro-cover-image': LocalJSX.TaroCoverImage & JSXBase.HTMLAttributes<HTMLTaroCoverImageElement>;
       'taro-cover-view': LocalJSX.TaroCoverView & JSXBase.HTMLAttributes<HTMLTaroCoverViewElement>;
+      'taro-image': LocalJSX.TaroImage & JSXBase.HTMLAttributes<HTMLTaroImageElement>;
       'taro-input': LocalJSX.TaroInput & JSXBase.HTMLAttributes<HTMLTaroInputElement>;
       'taro-moveable-area': LocalJSX.TaroMoveableArea & JSXBase.HTMLAttributes<HTMLTaroMoveableAreaElement>;
       'taro-moveable-view': LocalJSX.TaroMoveableView & JSXBase.HTMLAttributes<HTMLTaroMoveableViewElement>;
       'taro-picker-view-column': LocalJSX.TaroPickerViewColumn & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnElement>;
+      'taro-text': LocalJSX.TaroText & JSXBase.HTMLAttributes<HTMLTaroTextElement>;
+      'taro-view': LocalJSX.TaroView & JSXBase.HTMLAttributes<HTMLTaroViewElement>;
     }
   }
 }
