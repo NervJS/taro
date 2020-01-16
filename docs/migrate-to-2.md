@@ -150,6 +150,30 @@ module.exports = function (merge) {
 
 Taro 2.0 中开启 `async functions` 支持不再需要安装 `@tarojs/async-await`，而是直接通过 babel 插件来获得支持。
 
+如果你已经在项目中安装并使用 `@tarojs/async-await` 包，需先将它删除。
+
+```bash
+# 如果你使用 NPM
+
+$ npm uninstall @tarojs/async-await
+
+# 如果你使用 Yarn
+
+$ yarn remove @tarojs/async-await
+```
+
+在你的 `App.jsx/tsx` 里删除 `import '@tarojs/async-await'`。
+
+```diff
+import Taro, { Component } from '@tarojs/taro'
+- import '@tarojs/async-await'
+import Index from './pages/index'
+
+import './app.scss'
+
+class App extends Component {
+```
+
 在项目根目录下安装包 `babel-plugin-transform-runtime` 和 `babel-runtime`。
 
 ```bash
