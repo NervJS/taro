@@ -23,23 +23,33 @@ function buildProjectConfig () {
   const { buildAdapter, sourceDir, outputDir, outputDirName, appPath } = getBuildData()
   let projectConfigFileName = `project.${buildAdapter}.json`
   if (buildAdapter === BUILD_TYPES.WEAPP) {
+    // 微信小程序 projectConfig 不遵循多端配置规则，规则参考[项目配置](https://taro-docs.jd.com/taro/docs/project-config.html)
     projectConfigFileName = 'project.config.json'
   }
-  let projectConfigPath = path.join(appPath, projectConfigFileName)
 
+  let projectConfigPath = path.join(appPath, projectConfigFileName)
   if (!fs.existsSync(projectConfigPath)) {
+    // 若项目根目录不存在对应平台的 projectConfig 文件，则尝试从源代码目录查找
     projectConfigPath = path.join(sourceDir, projectConfigFileName)
     if (!fs.existsSync(projectConfigPath)) return
   }
 
   const origProjectConfig = fs.readJSONSync(projectConfigPath)
+  // compileType 是 plugin 时不修改 miniprogramRoot 字段
+  let distProjectConfig = origProjectConfig
+  if (origProjectConfig['compileType'] !== 'plugin') {
+    distProjectConfig = Object.assign({}, origProjectConfig, { miniprogramRoot: './' })
+  }
+
   if (buildAdapter === BUILD_TYPES.TT || buildAdapter === BUILD_TYPES.QQ) {
+    // 输出头条和 QQ 小程序要求的 projectConfig 文件名
     projectConfigFileName = 'project.config.json'
   }
+
   fs.ensureDirSync(outputDir)
   fs.writeFileSync(
     path.join(outputDir, projectConfigFileName),
-    JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
+    JSON.stringify(distProjectConfig, null, 2)
   )
   printLog(processTypeEnum.GENERATE, '工具配置', `${outputDirName}/${projectConfigFileName}`)
 }
