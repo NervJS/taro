@@ -141,7 +141,7 @@ class Dialog extends Component {
 }
 ```
 
-父组件调用子组件是传入 JSX
+父组件调用子组件时传入 JSX
 
 ```javascript
 class App extends Component {
