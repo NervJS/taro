@@ -120,7 +120,8 @@ export async function build (appPath: string, { watch, type = BUILD_TYPES.WEAPP,
   }
 
   await buildWithWebpack({
-    appPath
+    appPath,
+    watch,
   }, builder)
   if (isQuickApp) {
     const isReady = await prepareQuickAppEnvironment(buildData)
@@ -134,7 +135,7 @@ export async function build (appPath: string, { watch, type = BUILD_TYPES.WEAPP,
   }
 }
 
-async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
+async function buildWithWebpack ({ appPath, watch }: { appPath: string, watch?: boolean }, builder) {
   const {
     entryFilePath,
     buildAdapter,
@@ -163,7 +164,8 @@ async function buildWithWebpack ({ appPath }: { appPath: string }, builder) {
     uglify: projectConfig.uglify,
     plugins: projectConfig.plugins,
     projectName: projectConfig.projectName,
-    isWatch: !isProduction,
+    isWatch: watch,
+    mode: isProduction? 'production': 'development',
     env: projectConfig.env,
     defineConstants: projectConfig.defineConstants,
     designWidth: projectConfig.designWidth,

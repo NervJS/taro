@@ -21,6 +21,7 @@ export interface IChain {
 
 export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   isWatch: boolean,
+  mode: 'production' |'development',
   port?: number,
   buildAdapter: BUILD_TYPES,
   nodeModulesPath: string,
