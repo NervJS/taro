@@ -210,11 +210,11 @@ class Video extends Component {
   }
 
   onLoadedMetadata = e => {
-    if (this.props.poster) return
     this.setState({
       duration: this.videoRef.duration
     })
     this.duration = this.videoRef.duration
+    if (this.props.poster) return
     if (this.state.isFirst) {
       this.seek(this.props.initialTime)
     }
@@ -479,7 +479,18 @@ class Video extends Component {
         onTouchStart={this.onTouchStartContainer}
         onClick={this.onClickContainer}>
         <video {...videoProps}>暂时不支持播放该视频</video>
-        <Controls controls={controls} currentTime={this.currentTime} duration={this.props.duration || this.state.duration || null} isPlaying={this.state.isPlaying} pauseFunc={this.pause} playFunc={this.play} seekFunc={this.seek} showPlayBtn={showPlayBtn} showProgress={showProgress} ref={this.getControlsRef}>
+        <Controls
+          controls={controls}
+          currentTime={this.currentTime}
+          duration={this.props.duration || this.state.duration || null}
+          isPlaying={this.state.isPlaying}
+          pauseFunc={this.pause}
+          playFunc={this.play}
+          seekFunc={this.seek}
+          showPlayBtn={showPlayBtn}
+          showProgress={showProgress}
+          ref={this.getControlsRef}
+        >
           {showMuteBtn && (
             <div
               className={classnames('taro-video-mute', {
