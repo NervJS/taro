@@ -21,7 +21,7 @@ const makeConfig = async (buildConfig: IBuildConfig) => {
 }
 
 export default function build (appPath: string, config: IBuildConfig, mainBuilder) {
-  const mode = config.isWatch ? 'development' : 'production'
+  const mode = config.mode
   return new Promise((resolve, reject) => {
     const { buildAdapter } = config
     if (buildAdapter === BUILD_TYPES.PLUGIN) {
