@@ -1,10 +1,18 @@
-import { Provider, connect as originConnect, connectAdvanced } from 'react-redux'
+import {
+  Provider, connect as originConnect, connectAdvanced,
+  batch,
+  useSelector,
+  useDispatch,
+  useStore,
+  useActions,
+  shallowEqual
+} from 'react-redux'
 import React from 'react'
 
 function connect (mapStateToProps = null, mapDispatchToProps = null, mergeProps = null, options = {}) {
-
   options.withRef = true
-  let connectAdvanced = originConnect(mapStateToProps, mapDispatchToProps, mergeProps, options)
+  let connectAdvanced = originConnect(mapStateToProps, mapDispatchToProps,
+    mergeProps, options)
 
   return (WrappedComponent) => {
     let Connect = connectAdvanced(WrappedComponent)
@@ -27,12 +35,13 @@ function connect (mapStateToProps = null, mapDispatchToProps = null, mergeProps 
        * @returns {*}
        */
       getWrappedInstance () {
-        return this.connectRef.current && this.connectRef.current.getWrappedInstance()
+        return this.connectRef.current &&
+          this.connectRef.current.getWrappedInstance()
       }
 
       render () {
         return (
-          <Connect ref={this.connectRef} {...this.props}/>
+          <Connect ref={this.connectRef} {...this.props} />
         )
       }
     }
@@ -41,5 +50,25 @@ function connect (mapStateToProps = null, mapDispatchToProps = null, mergeProps 
   }
 }
 
-export { Provider, connect, connectAdvanced }
-export default {Provider, connect, connectAdvanced}
+export {
+  Provider,
+  connect,
+  connectAdvanced,
+  batch,
+  useSelector,
+  useDispatch,
+  useStore,
+  useActions,
+  shallowEqual
+}
+export default {
+  Provider,
+  connect,
+  connectAdvanced,
+  batch,
+  useSelector,
+  useDispatch,
+  useStore,
+  useActions,
+  shallowEqual
+}

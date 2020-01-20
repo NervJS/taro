@@ -37,6 +37,6 @@
     "regenerator-runtime": "^0.12.1"
   },
   "dependencies": {
-    "react-redux": "^5.0.7"
+    "react-redux": "^7.1.0"
   }
 }
