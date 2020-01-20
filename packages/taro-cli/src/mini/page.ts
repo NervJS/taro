@@ -244,7 +244,8 @@ export async function buildSinglePage (page: string) {
       media: []
     }
     if (!isQuickApp) {
-      fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageJs, pageDepComponents), res.configObj), null, 2))
+      const extraPageConfig = buildAdapter === BUILD_TYPES.SWAN ? {'component': true} : {}
+      fs.writeFileSync(outputPageJSONPath, JSON.stringify(_.merge({}, buildUsingComponents(pageJs, pageDepComponents), res.configObj, extraPageConfig), null, 2))
       printLog(processTypeEnum.GENERATE, '页面配置', `${outputDirName}/${page}${outputFilesTypes.CONFIG}`)
       fs.writeFileSync(outputPageJSPath, resCode)
       printLog(processTypeEnum.GENERATE, '页面逻辑', `${outputDirName}/${page}${outputFilesTypes.SCRIPT}`)
