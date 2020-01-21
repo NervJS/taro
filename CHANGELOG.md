@@ -1,5 +1,24 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.1...v) (2020-01-14)
+# [](https://github.com/NervJS/taro/compare/v2.0.2...v) (2020-01-21)
+
+
+
+<a name="2.0.2"></a>
+## [2.0.2](https://github.com/NervJS/taro/compare/v2.0.1...v2.0.2) (2020-01-21)
+
+
+### Bug Fixes
+
+* **cli:** 修复 Node 13 创建项目时的问题, close [#5285](https://github.com/NervJS/taro/issues/5285) ([efc394c](https://github.com/NervJS/taro/commit/efc394c))
+* **h5:** 修复Video组件设置了poster后controlers失效的问题 ([03a3229](https://github.com/NervJS/taro/commit/03a3229))
+* **mini-runner:** 修复小程序 watch 时支持压缩的问题 close [#5322](https://github.com/NervJS/taro/issues/5322) ([#5355](https://github.com/NervJS/taro/issues/5355)) ([11375dc](https://github.com/NervJS/taro/commit/11375dc))
+* **rn:** react native react-redux 版本太低 close [#5335](https://github.com/NervJS/taro/issues/5335) ([e92c019](https://github.com/NervJS/taro/commit/e92c019))
+* 修复编译微信小程序插件时 miniprogramRoot 被更改的问题 close [#5338](https://github.com/NervJS/taro/issues/5338) ([21a0b73](https://github.com/NervJS/taro/commit/21a0b73))
+
+
+### Features
+
+* **swan:** 百度也加上绕开 diff 的后门 ([efaefd4](https://github.com/NervJS/taro/commit/efaefd4)), closes [#5277](https://github.com/NervJS/taro/issues/5277)
 
 
 
