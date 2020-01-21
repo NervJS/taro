@@ -1,5 +1,22 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.35...v) (2020-01-08)
+# [](https://github.com/NervJS/taro/compare/v1.3.36...v) (2020-01-21)
+
+
+
+<a name="1.3.36"></a>
+## [1.3.36](https://github.com/NervJS/taro/compare/v1.3.35...v1.3.36) (2020-01-21)
+
+
+### Bug Fixes
+
+* **cli:** 修复 Node 13 创建项目时的问题, close [#5285](https://github.com/NervJS/taro/issues/5285) ([7bcd4a8](https://github.com/NervJS/taro/commit/7bcd4a8))
+* **swan:** 修复百度小程序 ref, close [#2631](https://github.com/NervJS/taro/issues/2631) ([c54193a](https://github.com/NervJS/taro/commit/c54193a))
+* **weapp/qq:** 微信、qq小程序 request 并发数改为 10，fix [#5291](https://github.com/NervJS/taro/issues/5291) ([aba16f0](https://github.com/NervJS/taro/commit/aba16f0))
+
+
+### Features
+
+* **swan:** 百度也加上绕开 diff 的后门 ([efc55ae](https://github.com/NervJS/taro/commit/efc55ae)), closes [#5277](https://github.com/NervJS/taro/issues/5277)
 
 
 
