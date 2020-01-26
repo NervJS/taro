@@ -1,35 +1,50 @@
 ---
-title: Taro.onNetworkStatusChange(CALLBACK)
+title: Taro.onNetworkStatusChange(callback)
 sidebar_label: onNetworkStatusChange
 ---
 
-
 监听网络状态变化。
 
-**CALLBACK 返回参数：**
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.onNetworkStatusChange.html)
+
+## 类型
+
+```tsx
+(callback: Callback) => void
+```
+
+## 参数
+
+### Callback
+
+网络状态变化事件的回调函数
+
+```tsx
+(result: CallbackResult) => void
+```
+
+| 参数 | 类型 |
+| --- | --- |
+| result | `CallbackResult` |
+
+### CallbackResult
 
 | 参数 | 类型 | 说明 |
-| :-- | :-- | :-- |
-| isConnected | Boolean | 当前是否有网络连接 |
-| networkType | String | 网络类型 |
-
-注意：**H5** 端兼容情况较差，只有当 navigator.connection 支持监听 onChange 事件时才会生效。
+| --- | --- | --- |
+| isConnected | `boolean` | 当前是否有网络连接 |
+| networkType | `"wifi" | "2g" | "3g" | "4g" | "unknown" | "none"` | 网络类型 |
 
 ## 示例代码
 
-```jsx
-import Taro from '@tarojs/taro'
-
-Taro.onNetworkStatusChange(res => {
+```tsx
+Taro.onNetworkStatusChange(function (res) {
   console.log(res.isConnected)
   console.log(res.networkType)
 })
 ```
 
-## API支持度
+## API 支持度
 
-
-| API | 微信小程序 | H5 | ReactNative |
-| :-: | :-: | :-: | :-: |
-| Taro.onNetworkStatusChange | ✔️ | ✔️ | ✔️ |
-
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Taro.onNetworkStatusChange | ✔️ |  |  |  |  | ✔️ | ✔️ |  |
