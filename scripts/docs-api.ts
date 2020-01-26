@@ -178,7 +178,7 @@ const get = {
           get.document(param.documentation),
           get.see(tags.find(tag => tag.name === 'see')),
           get.type(param.type),
-          get.members(param.members, '方法', level + (level === 2 ? 2 : 1), param.name),
+          get.members(param.members, undefined, level + (level === 2 ? 2 : 1), param.name),
           get.members(declaration.parameters || param.exports, '参数', level + (level === 2 ? 2 : 1), param.name),
           get.example(tags, level + (level === 2 ? 2 : 1)),
           get.api(apis, level + (level === 2 ? 2 : 1)),
@@ -322,8 +322,8 @@ export function writeApiDoc (routepath: string, doc: DocEntry[], withGeneral = f
       get.document(e.documentation),
       get.see(tags.find(tag => tag.name === 'see')),
       get.type(e.type, 2),
-      get.members(e.members),
-      get.members(e.exports || e.parameters, '参数', 2),
+      get.members(e.members, undefined, 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
+      get.members(e.exports || e.parameters, '参数', 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
       get.example(tags),
       get.api(apis),
     )
@@ -361,8 +361,8 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
       get.document(Component.documentation),
       get.see(ComponentTags.find(tag => tag.name === 'see')),
       get.type(Component.type, 2),
-      get.members(Component.members),
-      get.members(Component.exports || Component.parameters, '参数', 2),
+      get.members(Component.members, undefined, 2, name),
+      get.members(Component.exports || Component.parameters, '参数', 2, name),
       get.example(ComponentTags),
       ...doc.map(e => {
         const name = e.name || 'undefined'
@@ -375,13 +375,13 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
         }
 
         md.push(
-          `## ${e.name}\n`,
+          `## ${name}\n`,
           get.since(tags.find(tag => tag.name === 'since')),
           get.document(e.documentation),
           get.see(tags.find(tag => tag.name === 'see')),
           get.type(e.type, 3),
-          get.members(e.members, undefined, 3),
-          get.members(e.exports || e.parameters, '参数', 3),
+          get.members(e.members, undefined, 3, name),
+          get.members(e.exports || e.parameters, '参数', 3, name),
           get.example(tags, 3),
         )
 

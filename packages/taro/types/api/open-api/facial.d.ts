@@ -18,7 +18,9 @@ declare namespace Taro {
     }
   }
 
-  /** 检查是否支持面部识别 */
+  /** 检查是否支持面部识别
+   * @supported weapp
+   */
   function checkIsSupportFacialRecognition(
     option?: checkIsSupportFacialRecognition.Option
   ): Promise<checkIsSupportFacialRecognition.CallbackResult>
@@ -48,7 +50,9 @@ declare namespace Taro {
     }
   }
 
-  /** 开始人脸识别认证 */
+  /** 开始人脸识别认证
+   * @supported weapp
+   */
   function startFacialRecognitionVerify(
     option?: startFacialRecognitionVerify.Option
   ): Promise<startFacialRecognitionVerify.CallbackResult>
@@ -78,7 +82,9 @@ declare namespace Taro {
     }
   }
 
-  /** 开始人脸识别认证并上传认证视频 */
+  /** 开始人脸识别认证并上传认证视频
+   * @supported weapp
+   */
   function startFacialRecognitionVerifyAndUploadVideo(
     option?: startFacialRecognitionVerifyAndUploadVideo.Option
   ): Promise<startFacialRecognitionVerifyAndUploadVideo.CallbackResult>
