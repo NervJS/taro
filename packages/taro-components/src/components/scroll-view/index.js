@@ -29,10 +29,10 @@ function easeOutScroll (from, to, callback) {
 }
 function throttle (fn, delay) {
   let timer = null
-  return function () {
+  return function (...arrs) {
     clearTimeout(timer)
     timer = setTimeout(function () {
-      fn()
+      fn(...arrs)
     }, delay)
   }
 }
@@ -140,7 +140,7 @@ class ScrollView extends Nerv.Component {
     )
     upperThreshold = parseInt(upperThreshold)
     lowerThreshold = parseInt(lowerThreshold)
-    const uperAndLower = () => {
+    const uperAndLower = (e) => {
       const {
         offsetWidth,
         offsetHeight,
@@ -156,14 +156,14 @@ class ScrollView extends Nerv.Component {
           (this.props.scrollX &&
             offsetWidth + scrollLeft + lowerThreshold >= scrollWidth))
       ) {
-        onScrollToLower()
+        onScrollToLower(e)
       }
       if (
         onScrollToUpper &&
         ((this.props.scrollY && scrollTop <= upperThreshold) ||
           (this.props.scrollX && scrollLeft <= upperThreshold))
       ) {
-        onScrollToUpper()
+        onScrollToUpper(e)
       }
     }
     const uperAndLowerThrottle = throttle(uperAndLower, 200)
@@ -186,7 +186,7 @@ class ScrollView extends Nerv.Component {
           scrollWidth
         }
       })
-      uperAndLowerThrottle()
+      uperAndLowerThrottle(e)
       onScroll && onScroll(e)
     }
     const _onTouchMove = e => {
