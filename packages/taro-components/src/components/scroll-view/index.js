@@ -174,23 +174,18 @@ class ScrollView extends Nerv.Component {
         scrollHeight,
         scrollWidth
       } = this.container
-      const detail = {
-        scrollLeft,
-        scrollTop,
-        scrollHeight,
-        scrollWidth
-      }
-      try {
-        this._scrollLeft = scrollLeft
-        this._scrollTop = scrollTop
-        Object.assign(e, { detail })
-      } catch (error) {
-        Object.defineProperty(e, 'detail', {
-          writable: true
-        })
-        Object.assign(e, { detail })
-        // console.error(error)
-      }
+      this._scrollLeft = scrollLeft
+      this._scrollTop = scrollTop
+      Object.defineProperty(e, 'detail', {
+        enumerable: true,
+        writable: true,
+        value: {
+          scrollLeft,
+          scrollTop,
+          scrollHeight,
+          scrollWidth
+        }
+      })
       uperAndLowerThrottle()
       onScroll && onScroll(e)
     }
