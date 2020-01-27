@@ -13,7 +13,7 @@ class Radio extends Nerv.Component {
     const key = this.props.for
     const cls = classNames('weui-check', className)
     return (
-      <span className='weui-cells_checkbox' onClick={e => onChange(e, key)} style={style}>
+      <span className='weui-cells_checkbox' onClick={onChange && (e => onChange(e, key))} style={style}>
         <input
           {...omit(this.props, [
             'className',
