@@ -58,7 +58,7 @@ const get = {
   since: (data?: ts.JSDocTagInfo) => data ? splicing([`> 最低 Taro 版本: ${data.text || ''}`, '']) : undefined,
   type: (data?: string, level = 0) => data && !isntShowType.includes(data) ?
     splicing([level !== 0 ? `${'#'.repeat(level)} 类型\n` : undefined, '```tsx', data, '```', '']) : undefined,
-  members: (data?: DocEntry[], title = '方法', level: number = 2, name = 'Taro') => {
+  members: (data?: DocEntry[], title = '方法', level: number = 2, name = 'Taro', isComp = false) => {
     if (!data) return undefined
     const methods: (string | undefined)[] = [level === 2 ? `## ${title}\n` : undefined]
     const paramTabs: DocEntry[] = []
@@ -119,9 +119,11 @@ const get = {
                   if (arrs.name === 'see') {
                     return `<br />[参考地址](${arrs.text})`
                   } else if (arrs.name === 'supported') {
-                    return `<br />API 支持度: ${arrs.text}`
+                    if (!isComp) return `<br />API 支持度: ${arrs.text}`
                   } else {
-                    return `<br />${arrs.name}: ${parseLineFeed(arrs.text)}`
+                    if (!isComp || !Object.values(envMap).find(env => env.name === arrs.name)) {
+                      return `<br />${arrs.name}: ${parseLineFeed(arrs.text)}`
+                    }
                   }
                 }).join('')
             }` : ''
@@ -131,6 +133,7 @@ const get = {
         }),
       '']))
     }
+    const componentApis = {}
     methods.push(...data.map(param => {
       const tags = param.jsTags || []
 
@@ -178,15 +181,18 @@ const get = {
           get.document(param.documentation),
           get.see(tags.find(tag => tag.name === 'see')),
           get.type(param.type),
-          get.members(param.members, undefined, level + (level === 2 ? 2 : 1), param.name),
-          get.members(declaration.parameters || param.exports, '参数', level + (level === 2 ? 2 : 1), param.name),
+          get.members(param.members, undefined, level + (level === 2 ? 2 : 1), param.name, isComp),
+          get.members(declaration.parameters || param.exports, '参数', level + (level === 2 ? 2 : 1), param.name, isComp),
           get.example(tags, level + (level === 2 ? 2 : 1)),
           get.api(apis, level + (level === 2 ? 2 : 1)),
         ])
-      }/*  else if (!isShowAPI(param.flags) && !isNotAPI(param.flags) && param.flags !== 1) {
+      } else if (isComp && isShowAPI(param.flags)) {
+        if (param.name && param.jsTags) componentApis[`${name}.${param.name}`] = param.jsTags || []
+      } /*  else if (!isShowAPI(param.flags) && !isNotAPI(param.flags) && param.flags !== 1) {
         console.log(param.name, param.flags)
       } */
     }))
+    isComp && methods.push(get.api(componentApis, level))
 
     return splicing(methods) || undefined
   },
@@ -336,6 +342,7 @@ export function writeApiDoc (routepath: string, doc: DocEntry[], withGeneral = f
 }
 
 export function writeDoc (routepath: string, doc: DocEntry[]) {
+  const isComp = true
   const _p = path.parse(routepath)
   const Component = childrenMerge(doc, []).find(e => e.name === _p.name) || {}
   const ComponentTags = Component.jsTags || []
@@ -361,8 +368,8 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
       get.document(Component.documentation),
       get.see(ComponentTags.find(tag => tag.name === 'see')),
       get.type(Component.type, 2),
-      get.members(Component.members, undefined, 2, name),
-      get.members(Component.exports || Component.parameters, '参数', 2, name),
+      get.members(Component.members, undefined, 2, name, isComp),
+      get.members(Component.exports || Component.parameters, '参数', 2, name, isComp),
       get.example(ComponentTags),
       ...doc.map(e => {
         const name = e.name || 'undefined'
@@ -380,8 +387,8 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
           get.document(e.documentation),
           get.see(tags.find(tag => tag.name === 'see')),
           get.type(e.type, 3),
-          get.members(e.members, undefined, 3, name),
-          get.members(e.exports || e.parameters, '参数', 3, name),
+          get.members(e.members, undefined, 3, name, isComp),
+          get.members(e.exports || e.parameters, '参数', 3, name, isComp),
           get.example(tags, 3),
         )
 
