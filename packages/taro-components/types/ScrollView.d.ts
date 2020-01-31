@@ -82,7 +82,69 @@ export interface ScrollViewProps extends StandardProps {
    *
    * `event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}`
    */
-  onScroll?: (event: CommonEventFunction) => any
+  onScroll?: (event: CommonEventFunction) => any,
+
+  /**
+   * 开启 scroll anchoring 特性，即控制滚动位置不随内容变化而抖动，仅在 iOS 下生效，安卓下可参考 CSS overflow-anchor 属性。
+   * 
+   * 默认值：`false`
+   */
+  scrollAnchoring?: boolean;
+
+  /**
+   * 开启自定义下拉刷新
+   * 
+   * 默认值：`false`
+   */
+  refresherEnabled?: boolean,
+
+  /**
+   * 设置自定义下拉刷新阈值
+   * 
+   * 默认值：`45`
+   */
+  refresherThreshold?: number,
+
+  /**
+   * 设置自定义下拉刷新默认样式，支持设置 black | white | none， none 表示不使用默认样式
+   * 
+   * 默认值：`black`
+   */
+  refresherDefaultStyle?: 'black' | 'white' | 'none',
+
+  /**
+   * 设置自定义下拉刷新区域背景颜色
+   * 
+   * 默认值：`#FFF`
+   */
+  refresherBackground?: string,
+
+  /**
+   * 设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发
+   * 
+   * 默认值：`false`
+   */
+  refresherTriggered?: boolean,
+
+  /**
+   * 自定义下拉刷新控件被下拉
+   */
+  onRefresherPulling?: (event: CommonEventFunction) => any,
+
+  /**
+   * 自定义下拉刷新被触发
+   */
+  onRefresherRefresh?: (event: CommonEventFunction) => any,
+
+  /**
+   * 自定义下拉刷新被复位
+   */
+  onRefresherRestore?: (event: CommonEventFunction) => any,
+
+  /**
+   * 自定义下拉刷新被中止
+   */
+  onRefresherAbort?: (event: CommonEventFunction) => any,
 }
 
 /**
