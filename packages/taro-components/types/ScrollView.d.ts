@@ -110,7 +110,7 @@ export interface ScrollViewProps extends StandardProps {
    * 
    * 默认值：`black`
    */
-  refresherDefaultStyle?: 'black'|'white'|'none',
+  refresherDefaultStyle?: 'black' | 'white' | 'none',
 
   /**
    * 设置自定义下拉刷新区域背景颜色
