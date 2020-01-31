@@ -129,7 +129,7 @@ export interface ScrollViewProps extends StandardProps {
   /**
    * 自定义下拉刷新控件被下拉
    */
-  onRefresherpulling?: (event: CommonEventFunction) => any,
+  onRefresherPulling?: (event: CommonEventFunction) => any,
 
   /**
    * 自定义下拉刷新被触发
