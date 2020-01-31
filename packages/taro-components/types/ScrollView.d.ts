@@ -139,7 +139,7 @@ export interface ScrollViewProps extends StandardProps {
   /**
    * 自定义下拉刷新被复位
    */
-  onRefresherrestore?: (event: CommonEventFunction) => any,
+  onRefresherRestore?: (event: CommonEventFunction) => any,
 
   /**
    * 自定义下拉刷新被中止
