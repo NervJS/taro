@@ -32,7 +32,7 @@ const isntTaroMethod = [
   ts.SymbolFlags.TypeAlias,
 ]
 const descTags = [
-  'name', 'type', 'default', 'supported', 'abnormal', 'reason', 'solution', 'codeRate', 'readonly', 'ignore'
+  'name', 'type', 'default', 'supported', 'abnormal', 'reason', 'solution', 'codeRate', 'remarks', 'readonly', 'ignore'
 ]
 const isntShowType = [
   'any', 'InterfaceDeclaration',
@@ -79,13 +79,14 @@ const get = {
       const hasSolution = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'solution'))
       const hasDes = paramTabs.some(v => !!v.documentation)
       const hasCodeRate = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'codeRate'))
+      const hasRemarks = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'remarks'))
 
       hasName && [hasType, hasDef, hasAbnormal, hasReason, hasSolution, hasDes, hasCodeRate].reduce((s, b) => {
         b && s++
         return s
       }, 0) > 0 && methods.push(splicing([
-        `| ${hasName ? '参数 |' : ''}${hasType? ' 类型 |' :''}${hasDef? ' 默认值 |' :''}${hasReadonly? ' 只读 |' :''}${hasOptional? ' 必填 |' :''}${hasAbnormal? ' 异常情况 |' :''}${hasReason? ' 理由 |' :''}${hasSolution? ' 解决方案 |' :''}${hasDes? ' 说明 |' :''}${hasCodeRate? ' hasCodeRate |' :''}`,
-        `|${hasName? ' --- |' :''}${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasReadonly? ' :---: |' :''}${hasOptional? ' :---: |' :''}${hasAbnormal? ' :---: |' :''}${hasReason? ' :---: |' :''}${hasSolution? ' :---: |' :''}${hasDes? ' --- |' :''}${hasCodeRate? ' --- |' :''}`,
+        `| ${hasName ? '参数 |' : ''}${hasType? ' 类型 |' :''}${hasDef? ' 默认值 |' :''}${hasReadonly? ' 只读 |' :''}${hasOptional? ' 必填 |' :''}${hasAbnormal? ' 异常情况 |' :''}${hasReason? ' 理由 |' :''}${hasSolution? ' 解决方案 |' :''}${hasDes? ' 说明 |' :''}${hasCodeRate? ' 编码码率 |' :''}${hasRemarks? ' 备注 |' :''}`,
+        `|${hasName? ' --- |' :''}${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasReadonly? ' :---: |' :''}${hasOptional? ' :---: |' :''}${hasAbnormal? ' :---: |' :''}${hasReason? ' :---: |' :''}${hasSolution? ' :---: |' :''}${hasDes? ' --- |' :''}${hasCodeRate? ' --- |' :''}${hasRemarks? ' --- |' :''}`,
         ...paramTabs.map(v => {
           let name = v.name || ''
           let type = v.type || ''
@@ -97,6 +98,7 @@ const get = {
           const reason = vtags.find(tag => tag.name === 'reason') || { text: '' }
           const solution = vtags.find(tag => tag.name === 'solution') || { text: '' }
           const codeRate = vtags.find(tag => tag.name === 'codeRate') || { text: '' }
+          const remarks = vtags.find(tag => tag.name === 'remarks') || { text: '' }
           if (needLessDeclarationsName.includes(name)) {
             const tag_name = vtags.find(tag => tag.name === 'name') || { text: '' }
             const tag_type = vtags.find(tag => tag.name === 'type') || { text: '' }
@@ -129,6 +131,8 @@ const get = {
             }` : ''
           } |` :''}${
             hasCodeRate? ` ${codeRate.text ? `\`${codeRate.text}\`` : ''} |` :''
+          }${
+            hasRemarks? ` ${remarks.text ? `\`${remarks.text}\`` : ''} |` :''
           }`
         }),
       '']))
@@ -357,7 +361,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
     }
   })
 
-  const name = _p.name && _p.name.split(/(?<!^)(?=[A-Z])/).join('-') || 'undefined'
+  const name = (_p.name && _p.name.split(/(?<!^)(?=[A-Z])/).join('-') || 'undefined').toLocaleLowerCase()
   const classification = ComponentTags.find(tag => tag.name === 'classification') || { text: '' }
 
   ComponentTags.every(tag => tag.name !== 'ignore') && writeFile(
