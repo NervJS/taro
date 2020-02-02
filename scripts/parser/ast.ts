@@ -70,7 +70,15 @@ export function generateDocumentation(
       symbol && o.push(serializeType(symbol, undefined, 'InterfaceDeclaration'))
     } else if (ts.isTypeAliasDeclaration(node)) {
       const symbol = checker.getTypeAtLocation(node).getSymbol()
-      symbol && o.push(serializeType(symbol, ts.idText(node.name)))
+      if (symbol) {
+        o.push(serializeType(symbol, ts.idText(node.name)))
+      } else {
+        // @ts-ignore
+        const sym = node.symbol, type = node.type && node.type.types.map(e => checker.typeToString(checker.getTypeFromTypeNode(e))).join(' | ')
+        o.push(
+          serializeSymbol(sym, sym.getName(), type)
+        )
+      }
     } else if (ts.isEnumDeclaration(node)) {
       const symbol = checker.getTypeAtLocation(node).getSymbol()
       symbol && o.push(serializeType(symbol))
