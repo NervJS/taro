@@ -1,12 +1,18 @@
 declare namespace Taro {
   namespace uploadFile {
     interface Option {
+      /** 开发者服务器地址 */
+      url: string
       /** 要上传文件资源的路径 */
       filePath: string
       /** 文件对应的 key，开发者在服务端可以通过这个 key 获取文件的二进制内容 */
       name: string
-      /** 开发者服务器地址 */
-      url: string
+      /** HTTP 请求 Header，Header 中不能设置 Referer */
+      header?: General.IAnyObject
+      /** HTTP 请求中其他额外的 form data */
+      formData?: General.IAnyObject
+      /** 超时时间，单位为毫秒 */
+      timeout?: number
       /** 上传的文件名
        * @supported h5
        */
@@ -15,10 +21,6 @@ declare namespace Taro {
       complete?: (res: General.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: General.CallbackResult) => void
-      /** HTTP 请求中其他额外的 form data */
-      formData?: General.IAnyObject
-      /** HTTP 请求 Header，Header 中不能设置 Referer */
-      header?: General.IAnyObject
       /** 接口调用成功的回调函数 */
       success?: (
         result: SuccessCallbackResult,
