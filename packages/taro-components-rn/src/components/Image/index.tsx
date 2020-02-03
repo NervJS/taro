@@ -22,7 +22,7 @@ import {
   LayoutChangeEvent,
   ImageResolvedAssetSource
 } from 'react-native'
-import { noop } from '../../utils'
+import { noop, omit } from '../../utils'
 // import ClickableSimplified from '../ClickableSimplified'
 import { ImageProps, ImageState, Mode, ResizeModeMap, ResizeMode } from './PropsType'
 
@@ -157,6 +157,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
         return flattenStyle.height || 225
       }
     })()
+    const restImageProps = omit(this.props, ['source', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
 
     return (
       <Image
@@ -174,6 +175,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
             height: imageHeight
           }
         ]}
+        {...restImageProps}
       />
     )
   }
