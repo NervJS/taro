@@ -10,10 +10,9 @@ export default function (this: webpack.loader.LoaderContext) {
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(1).join('!')
   const prerender = `
-if (typeof PRERENDER !== 'undefined')  {
+if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
-}
-`
+}`
   return `import { createPageConfig } from '@tarojs/runtime'
 import component from '${componentPath}'
 var inst = Page(createPageConfig(component, '${options.name}'))

@@ -87,8 +87,6 @@ export function createVueApp (App: VueInstance) {
     }
   })
 
-  // comp.$options
-
   class AppConfig implements AppInstance {
     onLaunch () {
       wrapper.$mount(document.getElementById('app') as any)
