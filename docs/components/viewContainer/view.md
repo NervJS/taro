@@ -19,7 +19,7 @@ sidebar_label: View
 
 | 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
 | :-: | :-: | :-: | :- | :- | :- | :- |
-| hoverClass | ✔ | ✔ |  (支持 hoverStyle 属性，但框架未支持 hoverClass)| ✔ | ✔ | ✔ |
+| hoverClass | ✔ | ✔ |  由于 RN 不支持 Class，故 RN 端的 View 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。| ✔ | ✔ | ✔ |
 | hoverStartTime | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | hoverStayTime | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 | hoverStopPropagation | ✔ | | x | ✔ | ✔ | ✔ |
