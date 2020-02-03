@@ -14,7 +14,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

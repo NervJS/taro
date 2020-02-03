@@ -41,6 +41,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/taroize": "1.3.22",
+    "@tarojs/transformer-wx": "1.3.22",
     "@types/request": "^2.48.1",
     "@typescript-eslint/parser": "^2.0.0",
     "adm-zip": "^0.4.13",

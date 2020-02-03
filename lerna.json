@@ -4,9 +4,10 @@
     "packages/shared",
     "packages/taro-runtime",
     "packages/taro-mini-runner",
-    "packages/react",
+    "packages/taro-react",
     "packages/taro-components",
     "packages/taro-loader",
+    "packages/taro",
     "packages/taro-cli",
     "packages/babel-preset-taro",
     "packages/eslint-plugin-taro",
@@ -22,5 +23,5 @@
     }
   },
   "version": "1.3.22",
-  "npmClient": "npm"
+  "npmClient": "yarn"
 }
