@@ -216,3 +216,33 @@ babel: {
 - React 16.8.0 是第一个支持 Hook 的版本，React Native 从 0.59 版本开始支持 Hook，此前社区一直在呼吁对 RN 0.55.4 进行升级以直接支持 Hook 的写法
 
 本次 RN 端属于无缝升级，原有的写法和配置均不变，如果使用 [taro-native-shell](https://github.com/NervJS/taro-native-shell) 的，选择 0.59.9 分支即可；在原生应用集成 RN 的，需要自行升级 React Native 依赖到 0.59.9。
+
+## 升级常见问题整理
+
+### 小程序
+
+#### 使用 async/await 时出现报错 Function(...) is not a function
+
+在升级到 2.x 后使用 async/await 语法时可能会出现如下报错
+
+![](https://user-images.githubusercontent.com/31717528/72597788-75cd3500-3949-11ea-953c-a34f618e20ec.png)
+
+这是因为 `@tarojs/mini-runner` 使用的 `postcss-loader` 依赖了新版本的 `regenerator-runtime` 包，可能会与 `babel-runtime` 中依赖的 `regenerator-runtime` 版本冲突，而新版本的包无法在小程序中使用，所以导致了如上错误，解决办法是在本地自行安装 `0.11.1` 版本的 `regenerator-runtime` 包。
+
+```bash
+$ npm i --save regenerator-runtime@0.11.1
+```
+
+#### 在 JS 中引入的图片突然变成 base64 格式
+
+在升级到 2.x 后可能会遇到在 JS 中引入的图片突然变成 base64 格式了，是因为 2.x 小程序改用 webpack 编译后图片都会经过 `url-loader` 进行处理，默认 10kb 大小以下的图片（包含以下格式，png | jpg | jpeg | gif | bpm）都会被转为 base64，如果不想这么做，可以通过配置 [mini.imageUrlLoaderOption](./config-detail.mdminiimageurlloaderoption) 来解决
+
+```js
+const config = {
+  mini: {
+    imageUrlLoaderOption: {
+      limit: 10240 // 大小限制，单位为 b
+    }
+  }
+}
+```
