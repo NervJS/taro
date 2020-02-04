@@ -112,9 +112,9 @@ export class TaroElement extends TaroNode {
     })
   }
 
-  public getAttribute (qualifiedName: string): string | null {
+  public getAttribute (qualifiedName: string): string {
     const attr = qualifiedName === 'style' ? this.style.cssText : this.props[qualifiedName]
-    return attr || null
+    return attr ?? ''
   }
 
   public get attributes (): Attributes[] {
@@ -158,6 +158,19 @@ export class TaroElement extends TaroNode {
     }
 
     return listeners != null
+  }
+
+  public get textContent () {
+    let text = ''
+    for (let i = 0; i < this.childNodes.length; i++) {
+      const element = this.childNodes[i]
+      text += element.textContent
+    }
+    return text
+  }
+
+  public set textContent (text: string) {
+    super.textContent = text
   }
 
   private _stopPropagation (event: TaroEvent) {

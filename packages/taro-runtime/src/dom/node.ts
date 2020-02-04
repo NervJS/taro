@@ -67,8 +67,10 @@ export class TaroNode extends TaroEventTarget {
   public get previousSibling () {
     const parentNode = this.parentNode
     if (parentNode) {
-      return parentNode.childNodes[this.findIndex(parentNode.childNodes, this) - 1]
+      return parentNode.childNodes[this.findIndex(parentNode.childNodes, this) - 1] || null
     }
+
+    return null
   }
 
   public insertBefore<T extends TaroNode> (newChild: T, refChild?: TaroNode | null, isReplace?: boolean): T {
@@ -136,12 +138,12 @@ export class TaroNode extends TaroEventTarget {
   }
 
   public get firstChild () {
-    return this.childNodes[0]
+    return this.childNodes[0] || null
   }
 
   public get lastChild () {
     const c = this.childNodes
-    return c[c.length - 1]
+    return c[c.length - 1] || null
   }
 
   public hasChildNodes () {
