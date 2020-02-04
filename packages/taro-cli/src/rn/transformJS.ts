@@ -556,7 +556,7 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
             // 2. Inject import ${screenName} from '.${resolvedPagePath}'
             const screenName = _.camelCase(pagePath)
             const importScreen = template(
-              `import ${screenName} from '.${resolvedPagePath}'`,
+              `import ${screenName} from '${resolvedPagePath}'`,
               babylonConfig as any
             )()
             node.body.unshift(importScreen as any)
