@@ -4,22 +4,28 @@ import { StandardProps } from './common'
 export interface ViewProps extends StandardProps {
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default none
-   * @supported weapp, swan, alipay, tt, h5, rn
-   * @rn 支持 hoverStyle 属性，但框架未支持 hoverClass
+   * @supported weapp, swan, alipay, tt, h5
+   * @rn 由于 RN 不支持 Class，故 RN 端的 View 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。
    */
-  hoverClass?: string,
+  hoverClass?: string
+
+  /** 由于 RN 不支持 Class，故 RN 端的 View 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。
+   * @default none
+   * @supported rn
+   */
+  hoverStyle?: string
 
   /** 指定是否阻止本节点的祖先节点出现点击态
    * @default fasle
    * @supported weapp, swan, alipay, tt
    */
-  hoverStopPropagation?: boolean,
+  hoverStopPropagation?: boolean
 
   /** 按住后多久出现点击态，单位毫秒
    * @default 50
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  hoverStartTime?: number,
+  hoverStartTime?: number
 
   /** 手指松开后点击态保留时间，单位毫秒
    * @default 400
@@ -62,6 +68,4 @@ export interface ViewProps extends StandardProps {
  */
 declare const View: ComponentType<ViewProps>
 
-export {
-  View
-}
+export { View }

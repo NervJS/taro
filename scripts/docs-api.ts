@@ -219,21 +219,24 @@ const get = {
     return array.length > 0 ? splicing(array) : undefined
   },
   api: (data: {[name: string]: ts.JSDocTagInfo[]}, level: number = 2) => {
-    const titles = envMap.reduce((p, env) => `${p} ${env.label} |`, '| API |')
-    const splits = envMap.reduce((p) => `${p} :---: |`, '| :---: |')
+    const hasSupporteds: boolean[] = []
     const rows = Object.keys(data).map(name => {
       const tags = data[name]
       const supported = tags.find(tag => tag.name === 'supported')
       const apis = (supported && supported.text || '').split(',').map(e => e.trim().toLowerCase())
 
-      return supported ? `| ${name} |${envMap.map(env => {
+      return supported ? `| ${name} |${envMap.map((env, i) => {
         const apiName = apis.find(e => e === env.name)
-        const apiDesc = tags.find(e => e.name === apiName)
-        return ` ${apiName ? '✔️': ''}${apiDesc && apiDesc.text ? `(${apiDesc.text})` : ''} |`
+        const apiDesc = tags.find(e => e.name === env.name)
+        const hasSupported = !!(apiName || apiDesc && apiDesc.text)
+        if (!hasSupporteds[i] && hasSupported) hasSupporteds[i] = true
+        return hasSupporteds[i] ? ` ${apiName ? '✔️': ''}${apiDesc && apiDesc.text ? `(${apiDesc.text})` : ''} |` : undefined
       }).join('')}` : undefined
     })
 
     taro_apis.push(...rows.filter(e => !!e))
+    const titles = envMap.reduce((p, env, i) => hasSupporteds[i] ? `${p} ${env.label} |` : p, '| API |')
+    const splits = envMap.reduce((p, _env, i) => hasSupporteds[i] ? `${p} :---: |` : p, '| :---: |')
 
     return rows && rows.filter(e => !!e).length > 0 ? splicing([
       `${'#'.repeat(level)} API 支持度\n`, titles, splits, ...rows, ''
