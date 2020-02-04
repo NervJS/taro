@@ -12,7 +12,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --collectCoverage",
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },

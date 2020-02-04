@@ -1,7 +1,16 @@
-import { Style } from '../src/dom/style'
-import { TaroRootElement } from '../src/dom/root'
+let TaroRootElement
+let Style
 
 describe('style', () => {
+  process.env.FRAMEWORK = 'react'
+  const runtime = require('../dist/runtime.esm')
+  Style = runtime.Style
+  TaroRootElement = runtime.TaroRootElement
+
+  afterAll(() => {
+    process.env.FRAMEWORK = ''
+  })
+
   it('works', () => {
     const style = new Style(new TaroRootElement())
     style.color = 'red'

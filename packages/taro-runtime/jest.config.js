@@ -33,6 +33,6 @@ module.exports = {
   moduleNameMapper: {
     '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts')
   },
-  setupFiles: ['<rootDir>/__tests__/setup.js'],
+  // setupFiles: ['<rootDir>/__tests__/setup.js'],
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)']
 }

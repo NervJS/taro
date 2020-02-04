@@ -4,7 +4,7 @@
   "description": "taro runtime for mini apps.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --collectCoverage",
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },

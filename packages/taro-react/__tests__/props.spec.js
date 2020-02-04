@@ -82,5 +82,27 @@ describe('Context', () => {
       container.firstChild.dispatchEvent(event)
       expect(spy).toBeCalled()
     })
+
+    it('should patch properies properly', () => {
+      const container = document.createElement('div')
+      render(<div id='1' />, container)
+      render(<div id='2' />, container)
+      expect(container.firstChild.id).toBe('2')
+    })
+
+    it('should patch properies properly 2', () => {
+      const container = document.createElement('div')
+      render(<div id='1' a='a' />, container)
+      render(<div id='2' b='b' />, container)
+      expect(container.firstChild.id).toBe('2')
+      expect(container.firstChild.getAttribute('a')).toBe(null)
+      expect(container.firstChild.getAttribute('b')).toBe('b')
+    })
+
+    it('should ignore ref', () => {
+      const container = document.createElement('div')
+      render(<div ref={React.createRef} />, container)
+      expect(container.firstChild.getAttribute('ref')).toBe(null)
+    })
   })
 })
