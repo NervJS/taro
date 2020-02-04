@@ -25,9 +25,9 @@ Canvas 实例，可通过 SelectorQuery 获取。
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Canvas.cancelAnimationFrame | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Canvas.cancelAnimationFrame | ✔️ |  |  |
 
 ### createImageData
 
@@ -41,9 +41,9 @@ Canvas 实例，可通过 SelectorQuery 获取。
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Canvas.createImageData | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Canvas.createImageData | ✔️ |  |  |
 
 ### createImage
 
@@ -57,9 +57,9 @@ Canvas 实例，可通过 SelectorQuery 获取。
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Canvas.createImage | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Canvas.createImage | ✔️ |  |  |
 
 ### getContext
 
@@ -77,9 +77,9 @@ Canvas 实例，可通过 SelectorQuery 获取。
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Canvas.getContext | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Canvas.getContext | ✔️ |  |  |
 
 ### requestAnimationFrame
 
@@ -97,16 +97,16 @@ Canvas 实例，可通过 SelectorQuery 获取。
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Canvas.requestAnimationFrame | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Canvas.requestAnimationFrame | ✔️ |  |  |
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Canvas.cancelAnimationFrame | ✔️ |  |  |  |  |  |  |  |
-| Canvas.createImageData | ✔️ |  |  |  |  |  |  |  |
-| Canvas.createImage | ✔️ |  |  |  |  |  |  |  |
-| Canvas.getContext | ✔️ |  |  |  |  |  |  |  |
-| Canvas.requestAnimationFrame | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Canvas.cancelAnimationFrame | ✔️ |  |  |
+| Canvas.createImageData | ✔️ |  |  |
+| Canvas.createImage | ✔️ |  |  |
+| Canvas.getContext | ✔️ |  |  |
+| Canvas.requestAnimationFrame | ✔️ |  |  |

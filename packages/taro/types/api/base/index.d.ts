@@ -49,7 +49,7 @@ declare namespace Taro {
 
   /**
    * 将 ArrayBuffer 数据转成 Base64 字符串。
-   * @supported weapp
+   * @supported weapp, h5
    * @example
    * ```tsx
    * const arrayBuffer = new Uint8Array([11, 22, 33])

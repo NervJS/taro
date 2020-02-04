@@ -36,6 +36,6 @@ iBeacon 服务状态变化事件的回调函数
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Taro.onBeaconServiceChange | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Taro.onBeaconServiceChange | ✔️ |  |  |

@@ -19,9 +19,9 @@ sidebar_label: RequestTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RequestTask.abort | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RequestTask.abort | ✔️ |  |  |
 
 ### offHeadersReceived
 
@@ -39,9 +39,9 @@ sidebar_label: RequestTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RequestTask.offHeadersReceived | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RequestTask.offHeadersReceived | ✔️ |  |  |
 
 ### onHeadersReceived
 
@@ -59,9 +59,9 @@ sidebar_label: RequestTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RequestTask.onHeadersReceived | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RequestTask.onHeadersReceived | ✔️ |  |  |
 
 ## 参数
 
@@ -130,8 +130,8 @@ requestTask.abort()
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RequestTask.abort | ✔️ |  |  |  |  |  |  |  |
-| RequestTask.offHeadersReceived | ✔️ |  |  |  |  |  |  |  |
-| RequestTask.onHeadersReceived | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RequestTask.abort | ✔️ |  |  |
+| RequestTask.offHeadersReceived | ✔️ |  |  |
+| RequestTask.onHeadersReceived | ✔️ |  |  |

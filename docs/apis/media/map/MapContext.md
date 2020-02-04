@@ -24,9 +24,9 @@ sidebar_label: MapContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MapContext.getCenterLocation | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MapContext.getCenterLocation | ✔️ |  |  |
 
 ### getRegion
 
@@ -44,9 +44,9 @@ sidebar_label: MapContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MapContext.getRegion | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MapContext.getRegion | ✔️ |  |  |
 
 ### getRotate
 
@@ -64,9 +64,9 @@ sidebar_label: MapContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MapContext.getRotate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MapContext.getRotate | ✔️ |  |  |
 
 ### getScale
 
@@ -84,9 +84,9 @@ sidebar_label: MapContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MapContext.getScale | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MapContext.getScale | ✔️ |  |  |
 
 ### getSkew
 
@@ -104,9 +104,9 @@ sidebar_label: MapContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MapContext.getSkew | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MapContext.getSkew | ✔️ |  |  |
 
 ### includePoints
 
@@ -124,9 +124,9 @@ sidebar_label: MapContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MapContext.includePoints | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MapContext.includePoints | ✔️ |  |  |
 
 ### moveToLocation
 
@@ -144,9 +144,9 @@ sidebar_label: MapContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MapContext.moveToLocation | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MapContext.moveToLocation | ✔️ |  |  |
 
 ### translateMarker
 
@@ -164,9 +164,9 @@ sidebar_label: MapContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MapContext.translateMarker | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MapContext.translateMarker | ✔️ |  |  |
 
 ## 参数
 
@@ -359,13 +359,13 @@ sidebar_label: MapContext
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MapContext.getCenterLocation | ✔️ |  |  |  |  |  |  |  |
-| MapContext.getRegion | ✔️ |  |  |  |  |  |  |  |
-| MapContext.getRotate | ✔️ |  |  |  |  |  |  |  |
-| MapContext.getScale | ✔️ |  |  |  |  |  |  |  |
-| MapContext.getSkew | ✔️ |  |  |  |  |  |  |  |
-| MapContext.includePoints | ✔️ |  |  |  |  |  |  |  |
-| MapContext.moveToLocation | ✔️ |  |  |  |  |  |  |  |
-| MapContext.translateMarker | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MapContext.getCenterLocation | ✔️ |  |  |
+| MapContext.getRegion | ✔️ |  |  |
+| MapContext.getRotate | ✔️ |  |  |
+| MapContext.getScale | ✔️ |  |  |
+| MapContext.getSkew | ✔️ |  |  |
+| MapContext.includePoints | ✔️ |  |  |
+| MapContext.moveToLocation | ✔️ |  |  |
+| MapContext.translateMarker | ✔️ |  |  |

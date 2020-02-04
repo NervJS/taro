@@ -21,9 +21,9 @@ sidebar_label: UploadTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UploadTask.abort | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UploadTask.abort | ✔️ |  |  |
 
 ### offHeadersReceived
 
@@ -41,9 +41,9 @@ sidebar_label: UploadTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UploadTask.offHeadersReceived | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UploadTask.offHeadersReceived | ✔️ |  |  |
 
 ### offProgressUpdate
 
@@ -61,9 +61,9 @@ sidebar_label: UploadTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UploadTask.offProgressUpdate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UploadTask.offProgressUpdate | ✔️ |  |  |
 
 ### onHeadersReceived
 
@@ -81,9 +81,9 @@ sidebar_label: UploadTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UploadTask.onHeadersReceived | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UploadTask.onHeadersReceived | ✔️ |  |  |
 
 ### onProgressUpdate
 
@@ -101,9 +101,9 @@ sidebar_label: UploadTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UploadTask.onProgressUpdate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UploadTask.onProgressUpdate | ✔️ |  |  |
 
 ## 参数
 
@@ -171,10 +171,10 @@ HTTP Response Header 事件的回调函数
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UploadTask.abort | ✔️ |  |  |  |  |  |  |  |
-| UploadTask.offHeadersReceived | ✔️ |  |  |  |  |  |  |  |
-| UploadTask.offProgressUpdate | ✔️ |  |  |  |  |  |  |  |
-| UploadTask.onHeadersReceived | ✔️ |  |  |  |  |  |  |  |
-| UploadTask.onProgressUpdate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UploadTask.abort | ✔️ |  |  |
+| UploadTask.offHeadersReceived | ✔️ |  |  |
+| UploadTask.offProgressUpdate | ✔️ |  |  |
+| UploadTask.onHeadersReceived | ✔️ |  |  |
+| UploadTask.onProgressUpdate | ✔️ |  |  |

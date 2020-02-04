@@ -21,9 +21,9 @@ sidebar_label: RewardedVideoAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RewardedVideoAd.load | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RewardedVideoAd.load | ✔️ |  |  |
 
 ### show
 
@@ -37,9 +37,9 @@ sidebar_label: RewardedVideoAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RewardedVideoAd.show | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RewardedVideoAd.show | ✔️ |  |  |
 
 ### destroy
 
@@ -53,9 +53,9 @@ sidebar_label: RewardedVideoAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RewardedVideoAd.destroy | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RewardedVideoAd.destroy | ✔️ |  |  |
 
 ### offClose
 
@@ -73,9 +73,9 @@ sidebar_label: RewardedVideoAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RewardedVideoAd.offClose | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RewardedVideoAd.offClose | ✔️ |  |  |
 
 ### offError
 
@@ -93,9 +93,9 @@ sidebar_label: RewardedVideoAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RewardedVideoAd.offError | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RewardedVideoAd.offError | ✔️ |  |  |
 
 ### offLoad
 
@@ -113,9 +113,9 @@ sidebar_label: RewardedVideoAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RewardedVideoAd.offLoad | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RewardedVideoAd.offLoad | ✔️ |  |  |
 
 ### onClose
 
@@ -133,9 +133,9 @@ sidebar_label: RewardedVideoAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RewardedVideoAd.onClose | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RewardedVideoAd.onClose | ✔️ |  |  |
 
 ### onError
 
@@ -153,9 +153,9 @@ sidebar_label: RewardedVideoAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RewardedVideoAd.onError | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RewardedVideoAd.onError | ✔️ |  |  |
 
 ### onLoad
 
@@ -173,9 +173,9 @@ sidebar_label: RewardedVideoAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RewardedVideoAd.onLoad | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RewardedVideoAd.onLoad | ✔️ |  |  |
 
 ## 参数
 
@@ -266,14 +266,14 @@ sidebar_label: RewardedVideoAd
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RewardedVideoAd.load | ✔️ |  |  |  |  |  |  |  |
-| RewardedVideoAd.show | ✔️ |  |  |  |  |  |  |  |
-| RewardedVideoAd.destroy | ✔️ |  |  |  |  |  |  |  |
-| RewardedVideoAd.offClose | ✔️ |  |  |  |  |  |  |  |
-| RewardedVideoAd.offError | ✔️ |  |  |  |  |  |  |  |
-| RewardedVideoAd.offLoad | ✔️ |  |  |  |  |  |  |  |
-| RewardedVideoAd.onClose | ✔️ |  |  |  |  |  |  |  |
-| RewardedVideoAd.onError | ✔️ |  |  |  |  |  |  |  |
-| RewardedVideoAd.onLoad | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RewardedVideoAd.load | ✔️ |  |  |
+| RewardedVideoAd.show | ✔️ |  |  |
+| RewardedVideoAd.destroy | ✔️ |  |  |
+| RewardedVideoAd.offClose | ✔️ |  |  |
+| RewardedVideoAd.offError | ✔️ |  |  |
+| RewardedVideoAd.offLoad | ✔️ |  |  |
+| RewardedVideoAd.onClose | ✔️ |  |  |
+| RewardedVideoAd.onError | ✔️ |  |  |
+| RewardedVideoAd.onLoad | ✔️ |  |  |

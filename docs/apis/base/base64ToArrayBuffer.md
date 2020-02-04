@@ -1,22 +1,33 @@
 ---
-title: base64ToArrayBuffer
+title: Taro.base64ToArrayBuffer(base64)
 sidebar_label: base64ToArrayBuffer
 ---
 
-将 Base64 字符串转成 ArrayBuffer 数据。(小程序端基础库 1.1.0 开始支持，低版本需做兼容处理)
+将 Base64 字符串转成 ArrayBuffer 数据。
 
-**示例代码：**
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/base/wx.base64ToArrayBuffer.html)
 
-```jsx
-import Taro from '@tarojs/taro'
+## 类型
 
+```tsx
+(base64: string) => ArrayBuffer
+```
+
+## 参数
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| base64 | `string` | 要转化成 ArrayBuffer 对象的 Base64 字符串 |
+
+## 示例代码
+
+```tsx
 const base64 = 'CxYh'
 const arrayBuffer = Taro.base64ToArrayBuffer(base64)
 ```
 
-> API 支持度
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
-| Taro.arrayBufferToBase64 | ✔️ | ✔️ |  |
+| :---: | :---: | :---: | :---: |
 | Taro.base64ToArrayBuffer | ✔️ | ✔️ |  |

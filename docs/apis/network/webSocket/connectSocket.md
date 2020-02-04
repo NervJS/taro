@@ -1,30 +1,53 @@
 ---
-title: Taro.connectSocket(OBJECT)
+title: Taro.connectSocket(option)
 sidebar_label: connectSocket
 ---
 
+创建一个 WebSocket 连接。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
 
-创建一个 [WebSocket](https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket) 链接。
+**并发数**
+- 1.7.0 及以上版本，最多可以同时存在 5 个 WebSocket 连接。
+- 1.7.0 以下版本，一个小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会自动关闭该连接，并重新创建一个 WebSocket 连接。
 
-支持存在最多**两个** WebSocket 链接，每次成功调用 Taro.connectSocket 会返回一个新的 [SocketTask](native-api.md#sockettask)。
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.connectSocket.html)
 
-**OBJECT 参数说明：**
+## 类型
+
+```tsx
+(option: Option) => Promise<SocketTask>
+```
+
+## 参数
+
+### Option
 
 | 参数 | 类型 | 必填 | 说明 |
-| :-- | :-- | :-- | :-- |
-| url | String | 是 | 开发者服务器接口地址，必须是 wss 协议 |
-| header | Object | 否 | HTTP Header , header 中不能设置 Referer |
-| method | String | 否 | 默认是 GET，有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT |
-| protocols | StringArray | 否 | 子协议数组 |
-| success | Function | 否 | 接口调用成功的回调函数 |
-| fail | Function | 否 | 接口调用失败的回调函数 |
-| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| --- | --- | :---: | --- |
+| url | `string` | 是 | 开发者服务器 wss 接口地址 |
+| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| header | `Record<string, any>` | 否 | HTTP Header，Header 中不能设置 Referer |
+| protocols | `string[]` | 否 | 子协议数组 |
+| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| tcpNoDelay | `boolean` | 否 | 建立 TCP 连接的时候的 TCP_NODELAY 设置 |
 
 ## 示例代码
 
-```jsx
-import Taro from '@tarojs/taro'
+### 示例 1
 
+```tsx
+Taro.connectSocket({
+  url: 'wss://example.qq.com',
+  header:{
+    'content-type': 'application/json'
+  },
+  protocols: ['protocol1']
+})
+```
+
+### 示例 2
+
+```tsx
 Taro.connectSocket({
   url: 'ws://echo.websocket.org/echo',
   success: function () {
@@ -48,13 +71,8 @@ Taro.connectSocket({
 })
 ```
 
+## API 支持度
 
-
-## API支持度
-
-
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
-| :-: | :-: | :-: | :-: | :-: | :-: |
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: |
 | Taro.connectSocket | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-| SocketTask | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-

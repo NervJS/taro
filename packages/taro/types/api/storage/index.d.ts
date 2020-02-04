@@ -8,6 +8,7 @@ declare namespace Taro {
    *   data:"value"
    * })
    * ```
+   * @example
    * ```tsx
    * try {
    *   Taro.setStorageSync('key', 'value')

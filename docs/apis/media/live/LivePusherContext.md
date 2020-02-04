@@ -26,9 +26,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.pause | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.pause | ✔️ |  |  |
 
 ### pauseBGM
 
@@ -46,9 +46,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.pauseBGM | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.pauseBGM | ✔️ |  |  |
 
 ### playBGM
 
@@ -66,9 +66,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.playBGM | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.playBGM | ✔️ |  |  |
 
 ### resume
 
@@ -86,9 +86,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.resume | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.resume | ✔️ |  |  |
 
 ### resumeBGM
 
@@ -106,9 +106,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.resumeBGM | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.resumeBGM | ✔️ |  |  |
 
 ### setBGMVolume
 
@@ -126,9 +126,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.setBGMVolume | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.setBGMVolume | ✔️ |  |  |
 
 ### snapshot
 
@@ -146,9 +146,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.snapshot | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.snapshot | ✔️ |  |  |
 
 ### start
 
@@ -166,9 +166,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.start | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.start | ✔️ |  |  |
 
 ### startPreview
 
@@ -186,9 +186,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.startPreview | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.startPreview | ✔️ |  |  |
 
 ### stop
 
@@ -206,9 +206,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.stop | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.stop | ✔️ |  |  |
 
 ### stopBGM
 
@@ -226,9 +226,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.stopBGM | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.stopBGM | ✔️ |  |  |
 
 ### stopPreview
 
@@ -246,9 +246,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.stopPreview | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.stopPreview | ✔️ |  |  |
 
 ### switchCamera
 
@@ -266,9 +266,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.switchCamera | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.switchCamera | ✔️ |  |  |
 
 ### toggleTorch
 
@@ -286,9 +286,9 @@ sidebar_label: LivePusherContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.toggleTorch | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.toggleTorch | ✔️ |  |  |
 
 ## 参数
 
@@ -408,19 +408,19 @@ sidebar_label: LivePusherContext
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePusherContext.pause | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.pauseBGM | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.playBGM | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.resume | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.resumeBGM | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.setBGMVolume | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.snapshot | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.start | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.startPreview | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.stop | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.stopBGM | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.stopPreview | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.switchCamera | ✔️ |  |  |  |  |  |  |  |
-| LivePusherContext.toggleTorch | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePusherContext.pause | ✔️ |  |  |
+| LivePusherContext.pauseBGM | ✔️ |  |  |
+| LivePusherContext.playBGM | ✔️ |  |  |
+| LivePusherContext.resume | ✔️ |  |  |
+| LivePusherContext.resumeBGM | ✔️ |  |  |
+| LivePusherContext.setBGMVolume | ✔️ |  |  |
+| LivePusherContext.snapshot | ✔️ |  |  |
+| LivePusherContext.start | ✔️ |  |  |
+| LivePusherContext.startPreview | ✔️ |  |  |
+| LivePusherContext.stop | ✔️ |  |  |
+| LivePusherContext.stopBGM | ✔️ |  |  |
+| LivePusherContext.stopPreview | ✔️ |  |  |
+| LivePusherContext.switchCamera | ✔️ |  |  |
+| LivePusherContext.toggleTorch | ✔️ |  |  |

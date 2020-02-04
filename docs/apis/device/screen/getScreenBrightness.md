@@ -1,25 +1,39 @@
 ---
-title: Taro.getScreenBrightness(OBJECT)
+title: Taro.getScreenBrightness(option)
 sidebar_label: getScreenBrightness
 ---
 
+获取屏幕亮度。
 
-使用方式同 [`wx.getScreenBrightness`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getScreenBrightness.html)，支持 `Promise` 化使用。
+**说明**
+- 若安卓系统设置中开启了自动调节亮度功能，则屏幕亮度会根据光线自动调整，该接口仅能获取自动调节亮度之前的值，而非实时的亮度值。
 
-## 示例代码
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.getScreenBrightness.html)
 
-```jsx
-import Taro from '@tarojs/taro'
+## 类型
 
-Taro.getScreenBrightness(params).then(...)
+```tsx
+(option?: Option) => Promise<SuccessCallbackOption>
 ```
 
+## 参数
 
+### Option
 
-## API支持度
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(option: SuccessCallbackOption) => void` | 否 | 接口调用成功的回调函数 |
 
+### SuccessCallbackOption
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| value | `number` | 屏幕亮度值，范围 0 ~ 1，0 最暗，1 最亮 |
+
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
-| Taro.getScreenBrightness | ✔️ |  | ✔️ |
-
+| :---: | :---: | :---: | :---: |
+| Taro.getScreenBrightness | ✔️ |  |  |

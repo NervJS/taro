@@ -22,9 +22,9 @@ sidebar_label: AudioContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| AudioContext.pause | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| AudioContext.pause | ✔️ |  |  |
 
 ### play
 
@@ -38,9 +38,9 @@ sidebar_label: AudioContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| AudioContext.play | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| AudioContext.play | ✔️ |  |  |
 
 ### seek
 
@@ -58,9 +58,9 @@ sidebar_label: AudioContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| AudioContext.seek | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| AudioContext.seek | ✔️ |  |  |
 
 ### setSrc
 
@@ -78,15 +78,15 @@ sidebar_label: AudioContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| AudioContext.setSrc | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| AudioContext.setSrc | ✔️ |  |  |
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| AudioContext.pause | ✔️ |  |  |  |  |  |  |  |
-| AudioContext.play | ✔️ |  |  |  |  |  |  |  |
-| AudioContext.seek | ✔️ |  |  |  |  |  |  |  |
-| AudioContext.setSrc | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| AudioContext.pause | ✔️ |  |  |
+| AudioContext.play | ✔️ |  |  |
+| AudioContext.seek | ✔️ |  |  |
+| AudioContext.setSrc | ✔️ |  |  |

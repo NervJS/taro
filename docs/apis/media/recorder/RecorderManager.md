@@ -25,9 +25,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.onError | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.onError | ✔️ |  |  |
 
 ### onFrameRecorded
 
@@ -45,9 +45,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.onFrameRecorded | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.onFrameRecorded | ✔️ |  |  |
 
 ### onInterruptionBegin
 
@@ -65,9 +65,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.onInterruptionBegin | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.onInterruptionBegin | ✔️ |  |  |
 
 ### onInterruptionEnd
 
@@ -85,9 +85,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.onInterruptionEnd | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.onInterruptionEnd | ✔️ |  |  |
 
 ### onPause
 
@@ -105,9 +105,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.onPause | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.onPause | ✔️ |  |  |
 
 ### onResume
 
@@ -125,9 +125,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.onResume | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.onResume | ✔️ |  |  |
 
 ### onStart
 
@@ -145,9 +145,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.onStart | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.onStart | ✔️ |  |  |
 
 ### onStop
 
@@ -165,9 +165,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.onStop | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.onStop | ✔️ |  |  |
 
 ### pause
 
@@ -181,9 +181,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.pause | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.pause | ✔️ |  |  |
 
 ### resume
 
@@ -197,9 +197,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.resume | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.resume | ✔️ |  |  |
 
 ### start
 
@@ -217,9 +217,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.start | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.start | ✔️ |  |  |
 
 ### stop
 
@@ -233,9 +233,9 @@ sidebar_label: RecorderManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.stop | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.stop | ✔️ |  |  |
 
 ## 参数
 
@@ -344,7 +344,7 @@ sidebar_label: RecorderManager
 
 采样率
 
-| 参数 | 说明 | hasCodeRate |
+| 参数 | 说明 | 编码码率 |
 | --- | --- | --- |
 | 8000 | 8000 采样率 | `16000 ~ 48000` |
 | 11025 | 11025 采样率 | `16000 ~ 48000` |
@@ -358,17 +358,17 @@ sidebar_label: RecorderManager
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RecorderManager.onError | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.onFrameRecorded | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.onInterruptionBegin | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.onInterruptionEnd | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.onPause | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.onResume | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.onStart | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.onStop | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.pause | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.resume | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.start | ✔️ |  |  |  |  |  |  |  |
-| RecorderManager.stop | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RecorderManager.onError | ✔️ |  |  |
+| RecorderManager.onFrameRecorded | ✔️ |  |  |
+| RecorderManager.onInterruptionBegin | ✔️ |  |  |
+| RecorderManager.onInterruptionEnd | ✔️ |  |  |
+| RecorderManager.onPause | ✔️ |  |  |
+| RecorderManager.onResume | ✔️ |  |  |
+| RecorderManager.onStart | ✔️ |  |  |
+| RecorderManager.onStop | ✔️ |  |  |
+| RecorderManager.pause | ✔️ |  |  |
+| RecorderManager.resume | ✔️ |  |  |
+| RecorderManager.start | ✔️ |  |  |
+| RecorderManager.stop | ✔️ |  |  |

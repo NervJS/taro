@@ -27,9 +27,9 @@ sidebar_label: showShareMenu
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Option.showShareItems |  |  |  |  | ✔️ |  |  |  |
+| API | 微信小程序 | QQ 小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: |
+| Option.showShareItems |  | ✔️ |  |  |
 
 ## 示例代码
 
@@ -41,6 +41,6 @@ Taro.showShareMenu({
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Taro.showShareMenu | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Taro.showShareMenu | ✔️ |  |  |

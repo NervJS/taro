@@ -36,9 +36,9 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.close | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| SocketTask.close | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### onClose
 
@@ -56,9 +56,9 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.onClose | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| SocketTask.onClose | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### onError
 
@@ -76,9 +76,9 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.onError | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| SocketTask.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### onMessage
 
@@ -96,9 +96,9 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.onMessage | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| SocketTask.onMessage | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### onOpen
 
@@ -116,9 +116,9 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.onOpen | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| SocketTask.onOpen | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### send
 
@@ -136,9 +136,9 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.send | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| SocketTask.send | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ## 参数
 
@@ -236,11 +236,11 @@ WebSocket 连接打开事件的回调函数
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SocketTask.close | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
-| SocketTask.onClose | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
-| SocketTask.onError | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
-| SocketTask.onMessage | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
-| SocketTask.onOpen | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
-| SocketTask.send | ✔️ | ✔️ | ✔️ |  |  | ✔️ | ✔️ |  |
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| SocketTask.close | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SocketTask.onClose | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SocketTask.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SocketTask.onMessage | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SocketTask.onOpen | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SocketTask.send | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

@@ -23,9 +23,9 @@ FileSystemManager.readdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.readdirSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.readdirSync | ✔️ |  |  |
 
 ### access
 
@@ -43,9 +43,9 @@ FileSystemManager.readdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.access | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.access | ✔️ |  |  |
 
 ### accessSync
 
@@ -63,9 +63,9 @@ FileSystemManager.access 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.accessSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.accessSync | ✔️ |  |  |
 
 ### appendFile
 
@@ -83,9 +83,9 @@ FileSystemManager.access 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.appendFile | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.appendFile | ✔️ |  |  |
 
 ### appendFileSync
 
@@ -105,9 +105,9 @@ FileSystemManager.appendFile 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.appendFileSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.appendFileSync | ✔️ |  |  |
 
 ### copyFile
 
@@ -125,9 +125,9 @@ FileSystemManager.appendFile 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.copyFile | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.copyFile | ✔️ |  |  |
 
 ### copyFileSync
 
@@ -146,9 +146,9 @@ FileSystemManager.copyFile 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.copyFileSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.copyFileSync | ✔️ |  |  |
 
 ### getFileInfo
 
@@ -166,9 +166,9 @@ FileSystemManager.copyFile 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.getFileInfo | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.getFileInfo | ✔️ |  |  |
 
 ### getSavedFileList
 
@@ -186,9 +186,9 @@ FileSystemManager.copyFile 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.getSavedFileList | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.getSavedFileList | ✔️ |  |  |
 
 ### mkdir
 
@@ -206,9 +206,9 @@ FileSystemManager.copyFile 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.mkdir | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.mkdir | ✔️ |  |  |
 
 ### mkdirSync
 
@@ -227,9 +227,9 @@ FileSystemManager.mkdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.mkdirSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.mkdirSync | ✔️ |  |  |
 
 ### readFile
 
@@ -247,9 +247,9 @@ FileSystemManager.mkdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.readFile | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.readFile | ✔️ |  |  |
 
 ### readdir
 
@@ -267,9 +267,9 @@ FileSystemManager.mkdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.readdir | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.readdir | ✔️ |  |  |
 
 ### removeSavedFile
 
@@ -287,9 +287,9 @@ FileSystemManager.mkdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.removeSavedFile | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.removeSavedFile | ✔️ |  |  |
 
 ### rename
 
@@ -307,9 +307,9 @@ FileSystemManager.mkdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.rename | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.rename | ✔️ |  |  |
 
 ### renameSync
 
@@ -328,9 +328,9 @@ FileSystemManager.rename 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.renameSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.renameSync | ✔️ |  |  |
 
 ### rmdir
 
@@ -348,9 +348,9 @@ FileSystemManager.rename 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.rmdir | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.rmdir | ✔️ |  |  |
 
 ### rmdirSync
 
@@ -369,9 +369,9 @@ FileSystemManager.rmdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.rmdirSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.rmdirSync | ✔️ |  |  |
 
 ### saveFile
 
@@ -389,9 +389,9 @@ FileSystemManager.rmdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.saveFile | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.saveFile | ✔️ |  |  |
 
 ### stat
 
@@ -407,9 +407,9 @@ FileSystemManager.rmdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.stat |  |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.stat |  |  |  |
 
 ### unlink
 
@@ -427,9 +427,9 @@ FileSystemManager.rmdir 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.unlink | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.unlink | ✔️ |  |  |
 
 ### unlinkSync
 
@@ -447,9 +447,9 @@ FileSystemManager.unlink 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.unlinkSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.unlinkSync | ✔️ |  |  |
 
 ### unzip
 
@@ -467,9 +467,9 @@ FileSystemManager.unlink 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.unzip | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.unzip | ✔️ |  |  |
 
 ### writeFile
 
@@ -487,9 +487,9 @@ FileSystemManager.unlink 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.writeFile | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.writeFile | ✔️ |  |  |
 
 ### writeFileSync
 
@@ -509,9 +509,9 @@ FileSystemManager.writeFile 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.writeFileSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.writeFileSync | ✔️ |  |  |
 
 ### statSync
 
@@ -530,9 +530,9 @@ FileSystemManager.stat 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.statSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.statSync | ✔️ |  |  |
 
 ### saveFileSync
 
@@ -551,9 +551,9 @@ FileSystemManager.saveFile 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.saveFileSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.saveFileSync | ✔️ |  |  |
 
 ### readFileSync
 
@@ -572,9 +572,9 @@ FileSystemManager.readFile 的同步版本
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.readFileSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.readFileSync | ✔️ |  |  |
 
 ## 参数
 
@@ -888,33 +888,33 @@ FileSystemManager.readFile 的同步版本
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| FileSystemManager.readdirSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.access | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.accessSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.appendFile | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.appendFileSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.copyFile | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.copyFileSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.getFileInfo | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.getSavedFileList | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.mkdir | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.mkdirSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.readFile | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.readdir | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.removeSavedFile | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.rename | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.renameSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.rmdir | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.rmdirSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.saveFile | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.stat |  |  |  |  |  |  |  |  |
-| FileSystemManager.unlink | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.unlinkSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.unzip | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.writeFile | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.writeFileSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.statSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.saveFileSync | ✔️ |  |  |  |  |  |  |  |
-| FileSystemManager.readFileSync | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| FileSystemManager.readdirSync | ✔️ |  |  |
+| FileSystemManager.access | ✔️ |  |  |
+| FileSystemManager.accessSync | ✔️ |  |  |
+| FileSystemManager.appendFile | ✔️ |  |  |
+| FileSystemManager.appendFileSync | ✔️ |  |  |
+| FileSystemManager.copyFile | ✔️ |  |  |
+| FileSystemManager.copyFileSync | ✔️ |  |  |
+| FileSystemManager.getFileInfo | ✔️ |  |  |
+| FileSystemManager.getSavedFileList | ✔️ |  |  |
+| FileSystemManager.mkdir | ✔️ |  |  |
+| FileSystemManager.mkdirSync | ✔️ |  |  |
+| FileSystemManager.readFile | ✔️ |  |  |
+| FileSystemManager.readdir | ✔️ |  |  |
+| FileSystemManager.removeSavedFile | ✔️ |  |  |
+| FileSystemManager.rename | ✔️ |  |  |
+| FileSystemManager.renameSync | ✔️ |  |  |
+| FileSystemManager.rmdir | ✔️ |  |  |
+| FileSystemManager.rmdirSync | ✔️ |  |  |
+| FileSystemManager.saveFile | ✔️ |  |  |
+| FileSystemManager.stat |  |  |  |
+| FileSystemManager.unlink | ✔️ |  |  |
+| FileSystemManager.unlinkSync | ✔️ |  |  |
+| FileSystemManager.unzip | ✔️ |  |  |
+| FileSystemManager.writeFile | ✔️ |  |  |
+| FileSystemManager.writeFileSync | ✔️ |  |  |
+| FileSystemManager.statSync | ✔️ |  |  |
+| FileSystemManager.saveFileSync | ✔️ |  |  |
+| FileSystemManager.readFileSync | ✔️ |  |  |

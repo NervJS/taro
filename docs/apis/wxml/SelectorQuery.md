@@ -25,9 +25,9 @@ sidebar_label: SelectorQuery
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SelectorQuery.exec | ✔️ |  |  |  |  | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| SelectorQuery.exec | ✔️ | ✔️ |  |
 
 ### select
 
@@ -76,9 +76,9 @@ Taro.createSelectorQuery().select('#the-id').fields({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SelectorQuery.select | ✔️ |  |  |  |  | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| SelectorQuery.select | ✔️ | ✔️ |  |
 
 ### selectAll
 
@@ -107,9 +107,9 @@ selector类似于 CSS 的选择器，但仅支持下列语法。
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SelectorQuery.selectAll | ✔️ |  |  |  |  | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| SelectorQuery.selectAll | ✔️ | ✔️ |  |
 
 ### selectViewport
 
@@ -134,9 +134,9 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function (res) {
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SelectorQuery.selectViewport | ✔️ |  |  |  |  | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| SelectorQuery.selectViewport | ✔️ | ✔️ |  |
 
 ### in
 
@@ -167,16 +167,16 @@ Component({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SelectorQuery.in | ✔️ |  |  |  |  | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| SelectorQuery.in | ✔️ | ✔️ |  |
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SelectorQuery.exec | ✔️ |  |  |  |  | ✔️ |  |  |
-| SelectorQuery.select | ✔️ |  |  |  |  | ✔️ |  |  |
-| SelectorQuery.selectAll | ✔️ |  |  |  |  | ✔️ |  |  |
-| SelectorQuery.selectViewport | ✔️ |  |  |  |  | ✔️ |  |  |
-| SelectorQuery.in | ✔️ |  |  |  |  | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| SelectorQuery.exec | ✔️ | ✔️ |  |
+| SelectorQuery.select | ✔️ | ✔️ |  |
+| SelectorQuery.selectAll | ✔️ | ✔️ |  |
+| SelectorQuery.selectViewport | ✔️ | ✔️ |  |
+| SelectorQuery.in | ✔️ | ✔️ |  |

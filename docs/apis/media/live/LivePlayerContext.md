@@ -26,9 +26,9 @@ sidebar_label: LivePlayerContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePlayerContext.exitFullScreen | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePlayerContext.exitFullScreen | ✔️ |  |  |
 
 ### mute
 
@@ -46,9 +46,9 @@ sidebar_label: LivePlayerContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePlayerContext.mute | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePlayerContext.mute | ✔️ |  |  |
 
 ### pause
 
@@ -66,9 +66,9 @@ sidebar_label: LivePlayerContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePlayerContext.pause | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePlayerContext.pause | ✔️ |  |  |
 
 ### play
 
@@ -86,9 +86,9 @@ sidebar_label: LivePlayerContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePlayerContext.play | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePlayerContext.play | ✔️ |  |  |
 
 ### requestFullScreen
 
@@ -106,9 +106,9 @@ sidebar_label: LivePlayerContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePlayerContext.requestFullScreen | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePlayerContext.requestFullScreen | ✔️ |  |  |
 
 ### resume
 
@@ -126,9 +126,9 @@ sidebar_label: LivePlayerContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePlayerContext.resume | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePlayerContext.resume | ✔️ |  |  |
 
 ### snapshot
 
@@ -146,9 +146,9 @@ sidebar_label: LivePlayerContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePlayerContext.snapshot | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePlayerContext.snapshot | ✔️ |  |  |
 
 ### stop
 
@@ -166,9 +166,9 @@ sidebar_label: LivePlayerContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePlayerContext.stop | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePlayerContext.stop | ✔️ |  |  |
 
 ## 参数
 
@@ -248,13 +248,13 @@ sidebar_label: LivePlayerContext
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LivePlayerContext.exitFullScreen | ✔️ |  |  |  |  |  |  |  |
-| LivePlayerContext.mute | ✔️ |  |  |  |  |  |  |  |
-| LivePlayerContext.pause | ✔️ |  |  |  |  |  |  |  |
-| LivePlayerContext.play | ✔️ |  |  |  |  |  |  |  |
-| LivePlayerContext.requestFullScreen | ✔️ |  |  |  |  |  |  |  |
-| LivePlayerContext.resume | ✔️ |  |  |  |  |  |  |  |
-| LivePlayerContext.snapshot | ✔️ |  |  |  |  |  |  |  |
-| LivePlayerContext.stop | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LivePlayerContext.exitFullScreen | ✔️ |  |  |
+| LivePlayerContext.mute | ✔️ |  |  |
+| LivePlayerContext.pause | ✔️ |  |  |
+| LivePlayerContext.play | ✔️ |  |  |
+| LivePlayerContext.requestFullScreen | ✔️ |  |  |
+| LivePlayerContext.resume | ✔️ |  |  |
+| LivePlayerContext.snapshot | ✔️ |  |  |
+| LivePlayerContext.stop | ✔️ |  |  |

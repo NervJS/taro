@@ -17,9 +17,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.export | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.export | ✔️ |  |  |
 
 ### backgroundColor
 
@@ -37,9 +37,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.backgroundColor | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.backgroundColor | ✔️ |  |  |
 
 ### bottom
 
@@ -57,9 +57,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.bottom | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.bottom | ✔️ |  |  |
 
 ### height
 
@@ -77,9 +77,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.height | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.height | ✔️ |  |  |
 
 ### left
 
@@ -97,9 +97,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.left | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.left | ✔️ |  |  |
 
 ### matrix
 
@@ -113,9 +113,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.matrix | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.matrix | ✔️ |  |  |
 
 ### matrix3d
 
@@ -129,9 +129,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.matrix3d | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.matrix3d | ✔️ |  |  |
 
 ### opacity
 
@@ -149,9 +149,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.opacity | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.opacity | ✔️ |  |  |
 
 ### right
 
@@ -169,9 +169,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.right | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.right | ✔️ |  |  |
 
 ### rotate
 
@@ -189,9 +189,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.rotate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.rotate | ✔️ |  |  |
 
 ### rotate3d
 
@@ -212,9 +212,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.rotate3d | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.rotate3d | ✔️ |  |  |
 
 ### rotateX
 
@@ -232,9 +232,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.rotateX | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.rotateX | ✔️ |  |  |
 
 ### rotateY
 
@@ -252,9 +252,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.rotateY | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.rotateY | ✔️ |  |  |
 
 ### rotateZ
 
@@ -272,9 +272,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.rotateZ | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.rotateZ | ✔️ |  |  |
 
 ### scale
 
@@ -293,9 +293,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.scale | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.scale | ✔️ |  |  |
 
 ### scale3d
 
@@ -315,9 +315,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.scale3d | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.scale3d | ✔️ |  |  |
 
 ### scaleX
 
@@ -335,9 +335,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.scaleX | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.scaleX | ✔️ |  |  |
 
 ### scaleY
 
@@ -355,9 +355,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.scaleY | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.scaleY | ✔️ |  |  |
 
 ### scaleZ
 
@@ -375,9 +375,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.scaleZ | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.scaleZ | ✔️ |  |  |
 
 ### skew
 
@@ -396,9 +396,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.skew | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.skew | ✔️ |  |  |
 
 ### skewX
 
@@ -416,9 +416,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.skewX | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.skewX | ✔️ |  |  |
 
 ### skewY
 
@@ -436,9 +436,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.skewY | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.skewY | ✔️ |  |  |
 
 ### step
 
@@ -456,9 +456,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.step | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.step | ✔️ |  |  |
 
 ### top
 
@@ -476,9 +476,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.top | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.top | ✔️ |  |  |
 
 ### translate
 
@@ -497,9 +497,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.translate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.translate | ✔️ |  |  |
 
 ### translate3d
 
@@ -519,9 +519,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.translate3d | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.translate3d | ✔️ |  |  |
 
 ### translateX
 
@@ -539,9 +539,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.translateX | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.translateX | ✔️ |  |  |
 
 ### translateY
 
@@ -559,9 +559,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.translateY | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.translateY | ✔️ |  |  |
 
 ### translateZ
 
@@ -579,9 +579,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.translateZ | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.translateZ | ✔️ |  |  |
 
 ### width
 
@@ -599,9 +599,9 @@ sidebar_label: Animation
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.width | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.width | ✔️ |  |  |
 
 ## 参数
 
@@ -628,35 +628,35 @@ sidebar_label: Animation
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Animation.export | ✔️ |  |  |  |  |  |  |  |
-| Animation.backgroundColor | ✔️ |  |  |  |  |  |  |  |
-| Animation.bottom | ✔️ |  |  |  |  |  |  |  |
-| Animation.height | ✔️ |  |  |  |  |  |  |  |
-| Animation.left | ✔️ |  |  |  |  |  |  |  |
-| Animation.matrix | ✔️ |  |  |  |  |  |  |  |
-| Animation.matrix3d | ✔️ |  |  |  |  |  |  |  |
-| Animation.opacity | ✔️ |  |  |  |  |  |  |  |
-| Animation.right | ✔️ |  |  |  |  |  |  |  |
-| Animation.rotate | ✔️ |  |  |  |  |  |  |  |
-| Animation.rotate3d | ✔️ |  |  |  |  |  |  |  |
-| Animation.rotateX | ✔️ |  |  |  |  |  |  |  |
-| Animation.rotateY | ✔️ |  |  |  |  |  |  |  |
-| Animation.rotateZ | ✔️ |  |  |  |  |  |  |  |
-| Animation.scale | ✔️ |  |  |  |  |  |  |  |
-| Animation.scale3d | ✔️ |  |  |  |  |  |  |  |
-| Animation.scaleX | ✔️ |  |  |  |  |  |  |  |
-| Animation.scaleY | ✔️ |  |  |  |  |  |  |  |
-| Animation.scaleZ | ✔️ |  |  |  |  |  |  |  |
-| Animation.skew | ✔️ |  |  |  |  |  |  |  |
-| Animation.skewX | ✔️ |  |  |  |  |  |  |  |
-| Animation.skewY | ✔️ |  |  |  |  |  |  |  |
-| Animation.step | ✔️ |  |  |  |  |  |  |  |
-| Animation.top | ✔️ |  |  |  |  |  |  |  |
-| Animation.translate | ✔️ |  |  |  |  |  |  |  |
-| Animation.translate3d | ✔️ |  |  |  |  |  |  |  |
-| Animation.translateX | ✔️ |  |  |  |  |  |  |  |
-| Animation.translateY | ✔️ |  |  |  |  |  |  |  |
-| Animation.translateZ | ✔️ |  |  |  |  |  |  |  |
-| Animation.width | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Animation.export | ✔️ |  |  |
+| Animation.backgroundColor | ✔️ |  |  |
+| Animation.bottom | ✔️ |  |  |
+| Animation.height | ✔️ |  |  |
+| Animation.left | ✔️ |  |  |
+| Animation.matrix | ✔️ |  |  |
+| Animation.matrix3d | ✔️ |  |  |
+| Animation.opacity | ✔️ |  |  |
+| Animation.right | ✔️ |  |  |
+| Animation.rotate | ✔️ |  |  |
+| Animation.rotate3d | ✔️ |  |  |
+| Animation.rotateX | ✔️ |  |  |
+| Animation.rotateY | ✔️ |  |  |
+| Animation.rotateZ | ✔️ |  |  |
+| Animation.scale | ✔️ |  |  |
+| Animation.scale3d | ✔️ |  |  |
+| Animation.scaleX | ✔️ |  |  |
+| Animation.scaleY | ✔️ |  |  |
+| Animation.scaleZ | ✔️ |  |  |
+| Animation.skew | ✔️ |  |  |
+| Animation.skewX | ✔️ |  |  |
+| Animation.skewY | ✔️ |  |  |
+| Animation.step | ✔️ |  |  |
+| Animation.top | ✔️ |  |  |
+| Animation.translate | ✔️ |  |  |
+| Animation.translate3d | ✔️ |  |  |
+| Animation.translateX | ✔️ |  |  |
+| Animation.translateY | ✔️ |  |  |
+| Animation.translateZ | ✔️ |  |  |
+| Animation.width | ✔️ |  |  |

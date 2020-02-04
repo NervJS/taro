@@ -23,9 +23,9 @@ sidebar_label: CameraContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CameraContext.startRecord | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CameraContext.startRecord | ✔️ |  |  |
 
 ### stopRecord
 
@@ -43,9 +43,9 @@ sidebar_label: CameraContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CameraContext.stopRecord | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CameraContext.stopRecord | ✔️ |  |  |
 
 ### takePhoto
 
@@ -63,9 +63,9 @@ sidebar_label: CameraContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CameraContext.takePhoto | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CameraContext.takePhoto | ✔️ |  |  |
 
 ### onCameraFrame
 
@@ -97,9 +97,9 @@ listener.start()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CameraContext.onCameraFrame | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CameraContext.onCameraFrame | ✔️ |  |  |
 
 ## 参数
 
@@ -193,9 +193,9 @@ listener.start()
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CameraContext.startRecord | ✔️ |  |  |  |  |  |  |  |
-| CameraContext.stopRecord | ✔️ |  |  |  |  |  |  |  |
-| CameraContext.takePhoto | ✔️ |  |  |  |  |  |  |  |
-| CameraContext.onCameraFrame | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CameraContext.startRecord | ✔️ |  |  |
+| CameraContext.stopRecord | ✔️ |  |  |
+| CameraContext.takePhoto | ✔️ |  |  |
+| CameraContext.onCameraFrame | ✔️ |  |  |
