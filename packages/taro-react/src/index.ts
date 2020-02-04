@@ -3,10 +3,13 @@ import { render, ContainerMap } from './render'
 import { TaroReconciler } from './reconciler'
 import { TaroElement } from '@tarojs/runtime'
 import { ReactNode } from 'react'
+import { ensure } from '@tarojs/shared'
 
 const unstable_batchedUpdates = TaroReconciler.batchedUpdates
 
 function unmountComponentAtNode (dom: TaroElement) {
+  ensure(dom && [1, 8, 9, 11].includes(dom.nodeType), 'unmountComponentAtNode(...): Target container is not a DOM element.')
+
   const root = ContainerMap.get(dom)
 
   if (!root) return false
