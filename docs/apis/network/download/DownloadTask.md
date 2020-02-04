@@ -17,9 +17,9 @@ sidebar_label: DownloadTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DownloadTask.abort | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| DownloadTask.abort | ✔️ |  |  |
 
 ### offHeadersReceived
 
@@ -37,9 +37,9 @@ sidebar_label: DownloadTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DownloadTask.offHeadersReceived | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| DownloadTask.offHeadersReceived | ✔️ |  |  |
 
 ### offProgressUpdate
 
@@ -57,9 +57,9 @@ sidebar_label: DownloadTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DownloadTask.offProgressUpdate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| DownloadTask.offProgressUpdate | ✔️ |  |  |
 
 ### onHeadersReceived
 
@@ -77,9 +77,9 @@ sidebar_label: DownloadTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DownloadTask.onHeadersReceived | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| DownloadTask.onHeadersReceived | ✔️ |  |  |
 
 ### onProgressUpdate
 
@@ -97,9 +97,9 @@ sidebar_label: DownloadTask
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DownloadTask.onProgressUpdate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| DownloadTask.onProgressUpdate | ✔️ |  |  |
 
 ## 参数
 
@@ -167,10 +167,10 @@ HTTP Response Header 事件的回调函数
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| DownloadTask.abort | ✔️ |  |  |  |  |  |  |  |
-| DownloadTask.offHeadersReceived | ✔️ |  |  |  |  |  |  |  |
-| DownloadTask.offProgressUpdate | ✔️ |  |  |  |  |  |  |  |
-| DownloadTask.onHeadersReceived | ✔️ |  |  |  |  |  |  |  |
-| DownloadTask.onProgressUpdate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| DownloadTask.abort | ✔️ |  |  |
+| DownloadTask.offHeadersReceived | ✔️ |  |  |
+| DownloadTask.offProgressUpdate | ✔️ |  |  |
+| DownloadTask.onHeadersReceived | ✔️ |  |  |
+| DownloadTask.onProgressUpdate | ✔️ |  |  |

@@ -25,9 +25,9 @@ sidebar_label: MediaContainer
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MediaContainer.addTrack | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MediaContainer.addTrack | ✔️ |  |  |
 
 ### destroy
 
@@ -41,9 +41,9 @@ sidebar_label: MediaContainer
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MediaContainer.destroy | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MediaContainer.destroy | ✔️ |  |  |
 
 ### export
 
@@ -57,9 +57,9 @@ sidebar_label: MediaContainer
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MediaContainer.export | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MediaContainer.export | ✔️ |  |  |
 
 ### extractDataSource
 
@@ -77,9 +77,9 @@ sidebar_label: MediaContainer
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MediaContainer.extractDataSource | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MediaContainer.extractDataSource | ✔️ |  |  |
 
 ### removeTrack
 
@@ -97,9 +97,9 @@ sidebar_label: MediaContainer
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MediaContainer.removeTrack | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MediaContainer.removeTrack | ✔️ |  |  |
 
 ## 参数
 
@@ -111,10 +111,10 @@ sidebar_label: MediaContainer
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| MediaContainer.addTrack | ✔️ |  |  |  |  |  |  |  |
-| MediaContainer.destroy | ✔️ |  |  |  |  |  |  |  |
-| MediaContainer.export | ✔️ |  |  |  |  |  |  |  |
-| MediaContainer.extractDataSource | ✔️ |  |  |  |  |  |  |  |
-| MediaContainer.removeTrack | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| MediaContainer.addTrack | ✔️ |  |  |
+| MediaContainer.destroy | ✔️ |  |  |
+| MediaContainer.export | ✔️ |  |  |
+| MediaContainer.extractDataSource | ✔️ |  |  |
+| MediaContainer.removeTrack | ✔️ |  |  |

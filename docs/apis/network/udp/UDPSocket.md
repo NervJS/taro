@@ -21,9 +21,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.close | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.close | ✔️ |  |  |
 
 ### offClose
 
@@ -41,9 +41,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.offClose | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.offClose | ✔️ |  |  |
 
 ### offError
 
@@ -61,9 +61,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.offError | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.offError | ✔️ |  |  |
 
 ### offListening
 
@@ -81,9 +81,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.offListening | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.offListening | ✔️ |  |  |
 
 ### offMessage
 
@@ -101,9 +101,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.offMessage | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.offMessage | ✔️ |  |  |
 
 ### onClose
 
@@ -121,9 +121,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.onClose | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.onClose | ✔️ |  |  |
 
 ### onError
 
@@ -141,9 +141,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.onError | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.onError | ✔️ |  |  |
 
 ### onListening
 
@@ -161,9 +161,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.onListening | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.onListening | ✔️ |  |  |
 
 ### onMessage
 
@@ -181,9 +181,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.onMessage | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.onMessage | ✔️ |  |  |
 
 ### send
 
@@ -201,9 +201,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.send | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.send | ✔️ |  |  |
 
 ### bind
 
@@ -221,9 +221,9 @@ sidebar_label: UDPSocket
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.bind | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.bind | ✔️ |  |  |
 
 ## 参数
 
@@ -322,16 +322,16 @@ sidebar_label: UDPSocket
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| UDPSocket.close | ✔️ |  |  |  |  |  |  |  |
-| UDPSocket.offClose | ✔️ |  |  |  |  |  |  |  |
-| UDPSocket.offError | ✔️ |  |  |  |  |  |  |  |
-| UDPSocket.offListening | ✔️ |  |  |  |  |  |  |  |
-| UDPSocket.offMessage | ✔️ |  |  |  |  |  |  |  |
-| UDPSocket.onClose | ✔️ |  |  |  |  |  |  |  |
-| UDPSocket.onError | ✔️ |  |  |  |  |  |  |  |
-| UDPSocket.onListening | ✔️ |  |  |  |  |  |  |  |
-| UDPSocket.onMessage | ✔️ |  |  |  |  |  |  |  |
-| UDPSocket.send | ✔️ |  |  |  |  |  |  |  |
-| UDPSocket.bind | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| UDPSocket.close | ✔️ |  |  |
+| UDPSocket.offClose | ✔️ |  |  |
+| UDPSocket.offError | ✔️ |  |  |
+| UDPSocket.offListening | ✔️ |  |  |
+| UDPSocket.offMessage | ✔️ |  |  |
+| UDPSocket.onClose | ✔️ |  |  |
+| UDPSocket.onError | ✔️ |  |  |
+| UDPSocket.onListening | ✔️ |  |  |
+| UDPSocket.onMessage | ✔️ |  |  |
+| UDPSocket.send | ✔️ |  |  |
+| UDPSocket.bind | ✔️ |  |  |

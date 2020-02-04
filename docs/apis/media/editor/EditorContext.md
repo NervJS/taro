@@ -26,9 +26,9 @@ sidebar_label: EditorContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.blur | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.blur | ✔️ |  |  |
 
 ### clear
 
@@ -46,9 +46,9 @@ sidebar_label: EditorContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.clear | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.clear | ✔️ |  |  |
 
 ### format
 
@@ -95,9 +95,9 @@ sidebar_label: EditorContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.format | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.format | ✔️ |  |  |
 
 ### getContents
 
@@ -115,9 +115,9 @@ sidebar_label: EditorContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.getContents | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.getContents | ✔️ |  |  |
 
 ### insertDivider
 
@@ -135,9 +135,9 @@ sidebar_label: EditorContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.insertDivider | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.insertDivider | ✔️ |  |  |
 
 ### insertImage
 
@@ -170,9 +170,9 @@ this.editorCtx.insertImage({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.insertImage | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.insertImage | ✔️ |  |  |
 
 ### insertText
 
@@ -190,9 +190,9 @@ this.editorCtx.insertImage({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.insertText | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.insertText | ✔️ |  |  |
 
 ### redo
 
@@ -210,9 +210,9 @@ this.editorCtx.insertImage({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.redo | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.redo | ✔️ |  |  |
 
 ### removeFormat
 
@@ -230,9 +230,9 @@ this.editorCtx.insertImage({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.removeFormat | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.removeFormat | ✔️ |  |  |
 
 ### scrollIntoView
 
@@ -246,9 +246,9 @@ this.editorCtx.insertImage({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.scrollIntoView | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.scrollIntoView | ✔️ |  |  |
 
 ### setContents
 
@@ -266,9 +266,9 @@ this.editorCtx.insertImage({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.setContents | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.setContents | ✔️ |  |  |
 
 ### undo
 
@@ -286,9 +286,9 @@ this.editorCtx.insertImage({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.undo | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.undo | ✔️ |  |  |
 
 ## 参数
 
@@ -383,17 +383,17 @@ this.editorCtx.insertImage({
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EditorContext.blur | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.clear | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.format | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.getContents | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.insertDivider | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.insertImage | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.insertText | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.redo | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.removeFormat | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.scrollIntoView | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.setContents | ✔️ |  |  |  |  |  |  |  |
-| EditorContext.undo | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EditorContext.blur | ✔️ |  |  |
+| EditorContext.clear | ✔️ |  |  |
+| EditorContext.format | ✔️ |  |  |
+| EditorContext.getContents | ✔️ |  |  |
+| EditorContext.insertDivider | ✔️ |  |  |
+| EditorContext.insertImage | ✔️ |  |  |
+| EditorContext.insertText | ✔️ |  |  |
+| EditorContext.redo | ✔️ |  |  |
+| EditorContext.removeFormat | ✔️ |  |  |
+| EditorContext.scrollIntoView | ✔️ |  |  |
+| EditorContext.setContents | ✔️ |  |  |
+| EditorContext.undo | ✔️ |  |  |

@@ -98,9 +98,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.arc | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.arc | ✔️ |  |  |
 
 ### arcTo
 
@@ -122,9 +122,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.arcTo | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.arcTo | ✔️ |  |  |
 
 ### beginPath
 
@@ -162,9 +162,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.beginPath | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.beginPath | ✔️ |  |  |
 
 ### bezierCurveTo
 
@@ -232,9 +232,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.bezierCurveTo | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.bezierCurveTo | ✔️ |  |  |
 
 ### clearRect
 
@@ -271,9 +271,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.clearRect | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.clearRect | ✔️ |  |  |
 
 ### clip
 
@@ -305,9 +305,9 @@ Taro.downloadFile({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.clip | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.clip | ✔️ |  |  |
 
 ### closePath
 
@@ -355,9 +355,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.closePath | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.closePath | ✔️ |  |  |
 
 ### createPattern
 
@@ -376,9 +376,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.createPattern | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.createPattern | ✔️ |  |  |
 
 ### draw
 
@@ -425,9 +425,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.draw | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.draw | ✔️ |  |  |
 
 ### drawImage
 
@@ -511,9 +511,9 @@ Taro.chooseImage({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.drawImage | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.drawImage | ✔️ |  |  |
 
 ### fill
 
@@ -565,9 +565,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.fill | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.fill | ✔️ |  |  |
 
 ### fillRect
 
@@ -597,9 +597,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.fillRect | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.fillRect | ✔️ |  |  |
 
 ### fillText
 
@@ -630,9 +630,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.fillText | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.fillText | ✔️ |  |  |
 
 ### lineTo
 
@@ -662,9 +662,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.lineTo | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.lineTo | ✔️ |  |  |
 
 ### moveTo
 
@@ -695,9 +695,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.moveTo | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.moveTo | ✔️ |  |  |
 
 ### quadraticCurveTo
 
@@ -759,9 +759,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.quadraticCurveTo | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.quadraticCurveTo | ✔️ |  |  |
 
 ### rect
 
@@ -792,9 +792,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.rect | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.rect | ✔️ |  |  |
 
 ### restore
 
@@ -822,9 +822,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.restore | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.restore | ✔️ |  |  |
 
 ### rotate
 
@@ -854,9 +854,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.rotate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.rotate | ✔️ |  |  |
 
 ### save
 
@@ -884,9 +884,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.save | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.save | ✔️ |  |  |
 
 ### scale
 
@@ -917,9 +917,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.scale | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.scale | ✔️ |  |  |
 
 ### setFillStyle
 
@@ -946,9 +946,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setFillStyle | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setFillStyle | ✔️ |  |  |
 
 ### setFontSize
 
@@ -981,9 +981,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setFontSize | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setFontSize | ✔️ |  |  |
 
 ### setGlobalAlpha
 
@@ -1015,9 +1015,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setGlobalAlpha | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setGlobalAlpha | ✔️ |  |  |
 
 ### setLineCap
 
@@ -1064,9 +1064,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setLineCap | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setLineCap | ✔️ |  |  |
 
 ### setLineDash
 
@@ -1097,9 +1097,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setLineDash | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setLineDash | ✔️ |  |  |
 
 ### setLineJoin
 
@@ -1150,9 +1150,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setLineJoin | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setLineJoin | ✔️ |  |  |
 
 ### setLineWidth
 
@@ -1196,9 +1196,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setLineWidth | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setLineWidth | ✔️ |  |  |
 
 ### setMiterLimit
 
@@ -1255,9 +1255,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setMiterLimit | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setMiterLimit | ✔️ |  |  |
 
 ### setShadow
 
@@ -1288,9 +1288,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setShadow | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setShadow | ✔️ |  |  |
 
 ### setStrokeStyle
 
@@ -1317,9 +1317,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setStrokeStyle | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setStrokeStyle | ✔️ |  |  |
 
 ### setTextAlign
 
@@ -1355,9 +1355,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setTextAlign | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setTextAlign | ✔️ |  |  |
 
 ### setTextBaseline
 
@@ -1395,9 +1395,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setTextBaseline | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setTextBaseline | ✔️ |  |  |
 
 ### setTransform
 
@@ -1420,9 +1420,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.setTransform | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.setTransform | ✔️ |  |  |
 
 ### stroke
 
@@ -1472,9 +1472,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.stroke | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.stroke | ✔️ |  |  |
 
 ### strokeRect
 
@@ -1504,9 +1504,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.strokeRect | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.strokeRect | ✔️ |  |  |
 
 ### strokeText
 
@@ -1527,9 +1527,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.strokeText | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.strokeText | ✔️ |  |  |
 
 ### transform
 
@@ -1552,9 +1552,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.transform | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.transform | ✔️ |  |  |
 
 ### translate
 
@@ -1585,9 +1585,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.translate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.translate | ✔️ |  |  |
 
 ### measureText
 
@@ -1605,9 +1605,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.measureText | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.measureText | ✔️ |  |  |
 
 ### createCircularGradient
 
@@ -1641,9 +1641,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.createCircularGradient | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.createCircularGradient | ✔️ |  |  |
 
 ### createLinearGradient
 
@@ -1678,9 +1678,9 @@ ctx.draw()
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.createLinearGradient | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.createLinearGradient | ✔️ |  |  |
 
 ## 参数
 
@@ -1738,47 +1738,47 @@ ctx.draw()
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CanvasContext.arc | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.arcTo | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.beginPath | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.bezierCurveTo | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.clearRect | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.clip | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.closePath | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.createPattern | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.draw | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.drawImage | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.fill | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.fillRect | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.fillText | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.lineTo | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.moveTo | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.quadraticCurveTo | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.rect | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.restore | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.rotate | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.save | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.scale | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setFillStyle | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setFontSize | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setGlobalAlpha | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setLineCap | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setLineDash | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setLineJoin | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setLineWidth | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setMiterLimit | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setShadow | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setStrokeStyle | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setTextAlign | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setTextBaseline | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.setTransform | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.stroke | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.strokeRect | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.strokeText | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.transform | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.translate | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.measureText | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.createCircularGradient | ✔️ |  |  |  |  |  |  |  |
-| CanvasContext.createLinearGradient | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CanvasContext.arc | ✔️ |  |  |
+| CanvasContext.arcTo | ✔️ |  |  |
+| CanvasContext.beginPath | ✔️ |  |  |
+| CanvasContext.bezierCurveTo | ✔️ |  |  |
+| CanvasContext.clearRect | ✔️ |  |  |
+| CanvasContext.clip | ✔️ |  |  |
+| CanvasContext.closePath | ✔️ |  |  |
+| CanvasContext.createPattern | ✔️ |  |  |
+| CanvasContext.draw | ✔️ |  |  |
+| CanvasContext.drawImage | ✔️ |  |  |
+| CanvasContext.fill | ✔️ |  |  |
+| CanvasContext.fillRect | ✔️ |  |  |
+| CanvasContext.fillText | ✔️ |  |  |
+| CanvasContext.lineTo | ✔️ |  |  |
+| CanvasContext.moveTo | ✔️ |  |  |
+| CanvasContext.quadraticCurveTo | ✔️ |  |  |
+| CanvasContext.rect | ✔️ |  |  |
+| CanvasContext.restore | ✔️ |  |  |
+| CanvasContext.rotate | ✔️ |  |  |
+| CanvasContext.save | ✔️ |  |  |
+| CanvasContext.scale | ✔️ |  |  |
+| CanvasContext.setFillStyle | ✔️ |  |  |
+| CanvasContext.setFontSize | ✔️ |  |  |
+| CanvasContext.setGlobalAlpha | ✔️ |  |  |
+| CanvasContext.setLineCap | ✔️ |  |  |
+| CanvasContext.setLineDash | ✔️ |  |  |
+| CanvasContext.setLineJoin | ✔️ |  |  |
+| CanvasContext.setLineWidth | ✔️ |  |  |
+| CanvasContext.setMiterLimit | ✔️ |  |  |
+| CanvasContext.setShadow | ✔️ |  |  |
+| CanvasContext.setStrokeStyle | ✔️ |  |  |
+| CanvasContext.setTextAlign | ✔️ |  |  |
+| CanvasContext.setTextBaseline | ✔️ |  |  |
+| CanvasContext.setTransform | ✔️ |  |  |
+| CanvasContext.stroke | ✔️ |  |  |
+| CanvasContext.strokeRect | ✔️ |  |  |
+| CanvasContext.strokeText | ✔️ |  |  |
+| CanvasContext.transform | ✔️ |  |  |
+| CanvasContext.translate | ✔️ |  |  |
+| CanvasContext.measureText | ✔️ |  |  |
+| CanvasContext.createCircularGradient | ✔️ |  |  |
+| CanvasContext.createLinearGradient | ✔️ |  |  |

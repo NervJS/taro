@@ -59,9 +59,9 @@ Taro.createSelectorQuery().selectAll('.a-class').boundingClientRect(function(rec
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| NodesRef.boundingClientRect | ✔️ |  |  |  |  | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| NodesRef.boundingClientRect | ✔️ | ✔️ |  |
 
 ### context
 
@@ -87,9 +87,9 @@ Taro.createSelectorQuery().select('.the-video-class').context(function (res) {
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| NodesRef.context | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| NodesRef.context | ✔️ |  |  |
 
 ### fields
 
@@ -136,9 +136,9 @@ Taro.createSelectorQuery().select('#the-id').fields({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| NodesRef.fields | ✔️ |  |  |  |  | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| NodesRef.fields | ✔️ | ✔️ |  |
 
 ### node
 
@@ -164,9 +164,9 @@ Taro.createSelectorQuery().select('.canvas').node(function(res){
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| NodesRef.node | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| NodesRef.node | ✔️ |  |  |
 
 ### scrollOffset
 
@@ -195,9 +195,9 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| NodesRef.scrollOffset | ✔️ |  |  |  |  | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| NodesRef.scrollOffset | ✔️ | ✔️ |  |
 
 ## 参数
 
@@ -314,10 +314,10 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| NodesRef.boundingClientRect | ✔️ |  |  |  |  | ✔️ |  |  |
-| NodesRef.context | ✔️ |  |  |  |  |  |  |  |
-| NodesRef.fields | ✔️ |  |  |  |  | ✔️ |  |  |
-| NodesRef.node | ✔️ |  |  |  |  |  |  |  |
-| NodesRef.scrollOffset | ✔️ |  |  |  |  | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| NodesRef.boundingClientRect | ✔️ | ✔️ |  |
+| NodesRef.context | ✔️ |  |  |
+| NodesRef.fields | ✔️ | ✔️ |  |
+| NodesRef.node | ✔️ |  |  |
+| NodesRef.scrollOffset | ✔️ | ✔️ |  |

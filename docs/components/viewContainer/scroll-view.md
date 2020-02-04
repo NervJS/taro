@@ -104,28 +104,28 @@ export default class PageView extends Component {
 
 ### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| ScrollViewProps.scrollX | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️(二选一) |  |
-| ScrollViewProps.scrollY | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️(二选一) |  |
-| ScrollViewProps.upperThreshold | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ |  |
-| ScrollViewProps.lowerThreshold | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ |  |
-| ScrollViewProps.scrollTop | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ |  |
-| ScrollViewProps.scrollLeft | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ |  |
-| ScrollViewProps.scrollIntoView | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ |  |  |
-| ScrollViewProps.scrollWithAnimation | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ |  |
-| ScrollViewProps.enableBackToTop | ✔️ |  | ✔️ |  |  |  | ✔️ |  |
-| ScrollViewProps.enableFlex | ✔️ |  |  |  |  |  |  |  |
-| ScrollViewProps.scrollAnchoring | ✔️ |  |  |  |  |  |  |  |
-| ScrollViewProps.refresherEnabled | ✔️ |  |  |  |  |  |  |  |
-| ScrollViewProps.refresherThreshold | ✔️ |  |  |  |  |  |  |  |
-| ScrollViewProps.refresherDefaultStyle | ✔️ |  |  |  |  |  |  |  |
-| ScrollViewProps.refresherBackground | ✔️ |  |  |  |  |  |  |  |
-| ScrollViewProps.refresherTriggered | ✔️ |  |  |  |  |  |  |  |
-| ScrollViewProps.onScrollToUpper | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ |  |
-| ScrollViewProps.onScrollToLower | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ |  |
-| ScrollViewProps.onScroll | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ |  |
-| ScrollViewProps.onRefresherPulling | ✔️ |  |  |  |  |  |  |  |
-| ScrollViewProps.onRefresherRefresh | ✔️ |  |  |  |  |  |  |  |
-| ScrollViewProps.onRefresherRestore | ✔️ |  |  |  |  |  |  |  |
-| ScrollViewProps.onRefresherAbort | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| ScrollViewProps.scrollX | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️(二选一) |
+| ScrollViewProps.scrollY | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️(二选一) |
+| ScrollViewProps.upperThreshold | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ScrollViewProps.lowerThreshold | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ScrollViewProps.scrollTop | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ScrollViewProps.scrollLeft | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ScrollViewProps.scrollIntoView | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| ScrollViewProps.scrollWithAnimation | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ScrollViewProps.enableBackToTop | ✔️ |  | ✔️ |  |  | ✔️ |
+| ScrollViewProps.enableFlex | ✔️ |  |  |  |  |  |
+| ScrollViewProps.scrollAnchoring | ✔️ |  |  |  |  |  |
+| ScrollViewProps.refresherEnabled | ✔️ |  |  |  |  |  |
+| ScrollViewProps.refresherThreshold | ✔️ |  |  |  |  |  |
+| ScrollViewProps.refresherDefaultStyle | ✔️ |  |  |  |  |  |
+| ScrollViewProps.refresherBackground | ✔️ |  |  |  |  |  |
+| ScrollViewProps.refresherTriggered | ✔️ |  |  |  |  |  |
+| ScrollViewProps.onScrollToUpper | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ScrollViewProps.onScrollToLower | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ScrollViewProps.onScroll | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ScrollViewProps.onRefresherPulling | ✔️ |  |  |  |  |  |
+| ScrollViewProps.onRefresherRefresh | ✔️ |  |  |  |  |  |
+| ScrollViewProps.onRefresherRestore | ✔️ |  |  |  |  |  |
+| ScrollViewProps.onRefresherAbort | ✔️ |  |  |  |  |  |

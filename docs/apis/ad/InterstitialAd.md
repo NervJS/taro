@@ -21,9 +21,9 @@ sidebar_label: InterstitialAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| InterstitialAd.destroy | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InterstitialAd.destroy | ✔️ |  |  |
 
 ### offClose
 
@@ -41,9 +41,9 @@ sidebar_label: InterstitialAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| InterstitialAd.offClose | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InterstitialAd.offClose | ✔️ |  |  |
 
 ### offError
 
@@ -61,9 +61,9 @@ sidebar_label: InterstitialAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| InterstitialAd.offError | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InterstitialAd.offError | ✔️ |  |  |
 
 ### offLoad
 
@@ -81,9 +81,9 @@ sidebar_label: InterstitialAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| InterstitialAd.offLoad | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InterstitialAd.offLoad | ✔️ |  |  |
 
 ### onClose
 
@@ -101,9 +101,9 @@ sidebar_label: InterstitialAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| InterstitialAd.onClose | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InterstitialAd.onClose | ✔️ |  |  |
 
 ### onError
 
@@ -121,9 +121,9 @@ sidebar_label: InterstitialAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| InterstitialAd.onError | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InterstitialAd.onError | ✔️ |  |  |
 
 ### onLoad
 
@@ -141,9 +141,9 @@ sidebar_label: InterstitialAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| InterstitialAd.onLoad | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InterstitialAd.onLoad | ✔️ |  |  |
 
 ### load
 
@@ -157,9 +157,9 @@ sidebar_label: InterstitialAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| InterstitialAd.load | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InterstitialAd.load | ✔️ |  |  |
 
 ### show
 
@@ -185,9 +185,9 @@ sidebar_label: InterstitialAd
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| InterstitialAd.show | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InterstitialAd.show | ✔️ |  |  |
 
 ## 参数
 
@@ -272,14 +272,14 @@ sidebar_label: InterstitialAd
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| InterstitialAd.destroy | ✔️ |  |  |  |  |  |  |  |
-| InterstitialAd.offClose | ✔️ |  |  |  |  |  |  |  |
-| InterstitialAd.offError | ✔️ |  |  |  |  |  |  |  |
-| InterstitialAd.offLoad | ✔️ |  |  |  |  |  |  |  |
-| InterstitialAd.onClose | ✔️ |  |  |  |  |  |  |  |
-| InterstitialAd.onError | ✔️ |  |  |  |  |  |  |  |
-| InterstitialAd.onLoad | ✔️ |  |  |  |  |  |  |  |
-| InterstitialAd.load | ✔️ |  |  |  |  |  |  |  |
-| InterstitialAd.show | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InterstitialAd.destroy | ✔️ |  |  |
+| InterstitialAd.offClose | ✔️ |  |  |
+| InterstitialAd.offError | ✔️ |  |  |
+| InterstitialAd.offLoad | ✔️ |  |  |
+| InterstitialAd.onClose | ✔️ |  |  |
+| InterstitialAd.onError | ✔️ |  |  |
+| InterstitialAd.onLoad | ✔️ |  |  |
+| InterstitialAd.load | ✔️ |  |  |
+| InterstitialAd.show | ✔️ |  |  |

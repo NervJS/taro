@@ -22,9 +22,9 @@ sidebar_label: EventChannel
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EventChannel.emit | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EventChannel.emit | ✔️ |  |  |
 
 ### off
 
@@ -43,9 +43,9 @@ sidebar_label: EventChannel
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EventChannel.off | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EventChannel.off | ✔️ |  |  |
 
 ### on
 
@@ -64,9 +64,9 @@ sidebar_label: EventChannel
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EventChannel.on | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EventChannel.on | ✔️ |  |  |
 
 ### once
 
@@ -85,15 +85,15 @@ sidebar_label: EventChannel
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EventChannel.once | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EventChannel.once | ✔️ |  |  |
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| EventChannel.emit | ✔️ |  |  |  |  |  |  |  |
-| EventChannel.off | ✔️ |  |  |  |  |  |  |  |
-| EventChannel.on | ✔️ |  |  |  |  |  |  |  |
-| EventChannel.once | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| EventChannel.emit | ✔️ |  |  |
+| EventChannel.off | ✔️ |  |  |
+| EventChannel.on | ✔️ |  |  |
+| EventChannel.once | ✔️ |  |  |

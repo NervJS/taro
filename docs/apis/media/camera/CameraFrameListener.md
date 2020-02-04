@@ -25,9 +25,9 @@ CameraContext.onCameraFrame() 返回的监听器。
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CameraFrameListener.start | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CameraFrameListener.start | ✔️ |  |  |
 
 ### stop
 
@@ -45,9 +45,9 @@ CameraContext.onCameraFrame() 返回的监听器。
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CameraFrameListener.stop | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CameraFrameListener.stop | ✔️ |  |  |
 
 ## 参数
 
@@ -69,7 +69,7 @@ CameraContext.onCameraFrame() 返回的监听器。
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CameraFrameListener.start | ✔️ |  |  |  |  |  |  |  |
-| CameraFrameListener.stop | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CameraFrameListener.start | ✔️ |  |  |
+| CameraFrameListener.stop | ✔️ |  |  |

@@ -31,9 +31,9 @@ sidebar_label: LogManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LogManager.debug | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LogManager.debug | ✔️ |  |  |
 
 ### info
 
@@ -51,9 +51,9 @@ sidebar_label: LogManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LogManager.info | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LogManager.info | ✔️ |  |  |
 
 ### log
 
@@ -71,9 +71,9 @@ sidebar_label: LogManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LogManager.log | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LogManager.log | ✔️ |  |  |
 
 ### warn
 
@@ -91,15 +91,15 @@ sidebar_label: LogManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LogManager.warn | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LogManager.warn | ✔️ |  |  |
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| LogManager.debug | ✔️ |  |  |  |  |  |  |  |
-| LogManager.info | ✔️ |  |  |  |  |  |  |  |
-| LogManager.log | ✔️ |  |  |  |  |  |  |  |
-| LogManager.warn | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| LogManager.debug | ✔️ |  |  |
+| LogManager.info | ✔️ |  |  |
+| LogManager.log | ✔️ |  |  |
+| LogManager.warn | ✔️ |  |  |

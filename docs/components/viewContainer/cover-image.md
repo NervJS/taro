@@ -41,14 +41,14 @@ class App extends Components {
 
 ### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CoverImageProps.src | ✔️ |  |  |  |  |  |  |  |
-| CoverImageProps.onLoad | ✔️ |  |  |  |  |  |  |  |
-| CoverImageProps.onError | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CoverImageProps.src | ✔️ |  |  |
+| CoverImageProps.onLoad | ✔️ |  |  |
+| CoverImageProps.onError | ✔️ |  |  |
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CoverImage | ✔️ | ✔️ | ✔️ |  |  |  |  |  |
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| CoverImage | ✔️ | ✔️ | ✔️ |  |  |

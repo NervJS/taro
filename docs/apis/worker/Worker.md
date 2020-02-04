@@ -21,9 +21,9 @@ sidebar_label: Worker
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Worker.onMessage | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Worker.onMessage | ✔️ |  |  |
 
 ### postMessage
 
@@ -60,9 +60,9 @@ worker.postMessage({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Worker.postMessage | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Worker.postMessage | ✔️ |  |  |
 
 ### terminate
 
@@ -76,9 +76,9 @@ worker.postMessage({
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Worker.terminate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Worker.terminate | ✔️ |  |  |
 
 ## 参数
 
@@ -100,8 +100,8 @@ worker.postMessage({
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Worker.onMessage | ✔️ |  |  |  |  |  |  |  |
-| Worker.postMessage | ✔️ |  |  |  |  |  |  |  |
-| Worker.terminate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Worker.onMessage | ✔️ |  |  |
+| Worker.postMessage | ✔️ |  |  |
+| Worker.terminate | ✔️ |  |  |

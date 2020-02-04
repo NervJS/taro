@@ -27,9 +27,9 @@ sidebar_label: RealtimeLogManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RealtimeLogManager.addFilterMsg | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RealtimeLogManager.addFilterMsg | ✔️ |  |  |
 
 ### error
 
@@ -47,9 +47,9 @@ sidebar_label: RealtimeLogManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RealtimeLogManager.error | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RealtimeLogManager.error | ✔️ |  |  |
 
 ### in
 
@@ -67,9 +67,9 @@ sidebar_label: RealtimeLogManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RealtimeLogManager.in | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RealtimeLogManager.in | ✔️ |  |  |
 
 ### info
 
@@ -87,9 +87,9 @@ sidebar_label: RealtimeLogManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RealtimeLogManager.info | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RealtimeLogManager.info | ✔️ |  |  |
 
 ### setFilterMsg
 
@@ -107,9 +107,9 @@ sidebar_label: RealtimeLogManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RealtimeLogManager.setFilterMsg | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RealtimeLogManager.setFilterMsg | ✔️ |  |  |
 
 ### warn
 
@@ -127,17 +127,17 @@ sidebar_label: RealtimeLogManager
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RealtimeLogManager.warn | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RealtimeLogManager.warn | ✔️ |  |  |
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| RealtimeLogManager.addFilterMsg | ✔️ |  |  |  |  |  |  |  |
-| RealtimeLogManager.error | ✔️ |  |  |  |  |  |  |  |
-| RealtimeLogManager.in | ✔️ |  |  |  |  |  |  |  |
-| RealtimeLogManager.info | ✔️ |  |  |  |  |  |  |  |
-| RealtimeLogManager.setFilterMsg | ✔️ |  |  |  |  |  |  |  |
-| RealtimeLogManager.warn | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| RealtimeLogManager.addFilterMsg | ✔️ |  |  |
+| RealtimeLogManager.error | ✔️ |  |  |
+| RealtimeLogManager.in | ✔️ |  |  |
+| RealtimeLogManager.info | ✔️ |  |  |
+| RealtimeLogManager.setFilterMsg | ✔️ |  |  |
+| RealtimeLogManager.warn | ✔️ |  |  |

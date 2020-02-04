@@ -17,9 +17,9 @@ sidebar_label: VideoContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.exitFullScreen | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.exitFullScreen | ✔️ |  |  |
 
 ### hideStatusBar
 
@@ -33,9 +33,9 @@ sidebar_label: VideoContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.hideStatusBar | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.hideStatusBar | ✔️ |  |  |
 
 ### pause
 
@@ -49,9 +49,9 @@ sidebar_label: VideoContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.pause | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.pause | ✔️ |  |  |
 
 ### play
 
@@ -65,9 +65,9 @@ sidebar_label: VideoContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.play | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.play | ✔️ |  |  |
 
 ### playbackRate
 
@@ -85,9 +85,9 @@ sidebar_label: VideoContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.playbackRate | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.playbackRate | ✔️ |  |  |
 
 ### requestFullScreen
 
@@ -105,9 +105,9 @@ sidebar_label: VideoContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.requestFullScreen | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.requestFullScreen | ✔️ |  |  |
 
 ### seek
 
@@ -125,9 +125,9 @@ sidebar_label: VideoContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.seek | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.seek | ✔️ |  |  |
 
 ### sendDanmu
 
@@ -145,9 +145,9 @@ sidebar_label: VideoContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.sendDanmu | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.sendDanmu | ✔️ |  |  |
 
 ### showStatusBar
 
@@ -161,9 +161,9 @@ sidebar_label: VideoContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.showStatusBar | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.showStatusBar | ✔️ |  |  |
 
 ### stop
 
@@ -177,9 +177,9 @@ sidebar_label: VideoContext
 
 #### API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.stop | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.stop | ✔️ |  |  |
 
 ## 参数
 
@@ -200,15 +200,15 @@ sidebar_label: VideoContext
 
 ## API 支持度
 
-| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | QQ 小程序 | H5 | React Native | 快应用 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoContext.exitFullScreen | ✔️ |  |  |  |  |  |  |  |
-| VideoContext.hideStatusBar | ✔️ |  |  |  |  |  |  |  |
-| VideoContext.pause | ✔️ |  |  |  |  |  |  |  |
-| VideoContext.play | ✔️ |  |  |  |  |  |  |  |
-| VideoContext.playbackRate | ✔️ |  |  |  |  |  |  |  |
-| VideoContext.requestFullScreen | ✔️ |  |  |  |  |  |  |  |
-| VideoContext.seek | ✔️ |  |  |  |  |  |  |  |
-| VideoContext.sendDanmu | ✔️ |  |  |  |  |  |  |  |
-| VideoContext.showStatusBar | ✔️ |  |  |  |  |  |  |  |
-| VideoContext.stop | ✔️ |  |  |  |  |  |  |  |
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| VideoContext.exitFullScreen | ✔️ |  |  |
+| VideoContext.hideStatusBar | ✔️ |  |  |
+| VideoContext.pause | ✔️ |  |  |
+| VideoContext.play | ✔️ |  |  |
+| VideoContext.playbackRate | ✔️ |  |  |
+| VideoContext.requestFullScreen | ✔️ |  |  |
+| VideoContext.seek | ✔️ |  |  |
+| VideoContext.sendDanmu | ✔️ |  |  |
+| VideoContext.showStatusBar | ✔️ |  |  |
+| VideoContext.stop | ✔️ |  |  |

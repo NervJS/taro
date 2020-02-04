@@ -1,52 +1,64 @@
 ---
-title: Taro.showModal(OBJECT)
+title: Taro.showModal(option)
 sidebar_label: showModal
 ---
 
+显示模态对话框
+**注意**
+- Android 6.7.2 以下版本，点击取消或蒙层时，回调 fail, errMsg 为 "fail cancel"；
+- Android 6.7.2 及以上版本 和 iOS 点击蒙层不会关闭模态弹窗，所以尽量避免使用「取消」分支中实现业务逻辑
 
-​显示模态弹窗，支持 `Promise` 化使用。
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showModal.html)
 
-**OBJECT 参数说明：**
+## 类型
+
+```tsx
+(option: Option) => Promise<SuccessCallbackResult>
+```
+
+## 参数
+
+### Option
 
 | 参数 | 类型 | 必填 | 说明 |
-| :-- | :-- | :-- | :-- |
-| title | String | 是 | 提示的标题 |
-| content | String | 是 | 提示的内容 |
-| showCancel | Boolean | 否 | 是否显示取消按钮，默认为 true |
-| cancelText | String | 否 | 取消按钮的文字，默认为"取消"，最多 4 个字符 |
-| cancelColor | HexColor | 否 | 取消按钮的文字颜色，默认为"#000000" |
-| confirmText | String | 否 | 确定按钮的文字，默认为"确定"，最多 4 个字符 |
-| confirmColor | HexColor | 否 | 确定按钮的文字颜色，默认为"#3CC51F" |
-| success | Function | 否 | 接口调用成功的回调函数 |
-| fail | Function | 否 | 接口调用失败的回调函数 |
-| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| --- | --- | :---: | --- |
+| cancelColor | `string` | 否 | 取消按钮的文字颜色，必须是 16 进制格式的颜色字符串 |
+| cancelText | `string` | 否 | 取消按钮的文字，最多 4 个字符 |
+| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| confirmColor | `string` | 否 | 确认按钮的文字颜色，必须是 16 进制格式的颜色字符串 |
+| confirmText | `string` | 否 | 确认按钮的文字，最多 4 个字符 |
+| content | `string` | 否 | 提示的内容 |
+| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
+| showCancel | `boolean` | 否 | 是否显示取消按钮 |
+| success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+| title | `string` | 否 | 提示的标题 |
 
-**success 返回参数说明：**
+### SuccessCallbackResult
 
-| 参数值 | 类型 | 说明 |
-| :-- | :-- | :-- |
-| confirm | Boolean | 为 true 时，表示用户点击了确定按钮 |
-| cancel | Boolean | 为 true 时，表示用户点击了取消 |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| cancel | `boolean` | 为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭） |
+| confirm | `boolean` | 为 true 时，表示用户点击了确定按钮 |
+| errMsg | `string` | 调用结果 |
 
 ## 示例代码
 
-```jsx
-import Taro from '@tarojs/taro'
-
-// 注意：无论用户点击确定还是取消，Promise 都会 resolve。
+```tsx
 Taro.showModal({
-  title: 'xxx',
-  content: 'hello world',
+  title: '提示',
+  content: '这是一个模态弹窗',
+  success: function (res) {
+    if (res.confirm) {
+      console.log('用户点击确定')
+    } else if (res.cancel) {
+      console.log('用户点击取消')
+    }
+  }
 })
-  .then(res => console.log(res.confirm, res.cancel))
 ```
 
-
-
-## API支持度
-
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
+| :---: | :---: | :---: | :---: |
 | Taro.showModal | ✔️ | ✔️ | ✔️ |
-
