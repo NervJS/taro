@@ -546,9 +546,17 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
           // 注入 import page from 'XXX'
           pages.forEach(item => {
             const pagePath = item.startsWith('/') ? item : `/${item}`
+            // 1. Get Resolved Page Relative Path
+            const absolutePath = path.resolve(filePath, '..', pagePath.substr(1))
+            const dirname = path.dirname(absolutePath)
+            const extname = path.extname(absolutePath)
+            const realFilePath = Util.resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+            const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
+            const resolvedPagePath = Util.promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/')
+            // 2. Inject import ${screenName} from '.${resolvedPagePath}'
             const screenName = _.camelCase(pagePath)
             const importScreen = template(
-              `import ${screenName} from '.${pagePath}'`,
+              `import ${screenName} from '.${resolvedPagePath}'`,
               babylonConfig as any
             )()
             node.body.unshift(importScreen as any)
