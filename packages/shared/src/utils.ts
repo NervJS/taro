@@ -60,7 +60,7 @@ export const hasOwn = (
   key: string | symbol
 ) => hasOwnProperty.call(val, key)
 
-const reportIssue = '请提交 issue 至：https://github.com/nervjs/taro/issues'
+const reportIssue = '如有疑问，请提交 issue 至：https://github.com/nervjs/taro/issues'
 
 /**
  * ensure takes a condition and throw a error if the condition fails,
@@ -73,7 +73,7 @@ export function ensure (condition: boolean, msg: string): asserts condition {
     return
   }
 
-  throw new Error(msg + reportIssue)
+  throw new Error(msg + '\n' + reportIssue)
 }
 
 export function warn (condition: boolean, msg: string) {

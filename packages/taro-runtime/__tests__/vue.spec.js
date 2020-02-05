@@ -1,9 +1,11 @@
-import Vue from 'vue'
 
 describe('vue', () => {
   process.env.FRAMEWORK = 'vue'
   const runtime = require('../dist/runtime.esm')
-  const document = runtime.document
+  global.document = runtime.document
+  global.window = runtime.window
+  global.navigator = runtime.navigator
+  const Vue = require('./vue').default
 
   afterAll(() => {
     process.env.FRAMEWORK = ''

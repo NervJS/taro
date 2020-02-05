@@ -8,6 +8,11 @@ module.exports = {
     ...tsjPreset.transform
   },
   testURL: 'http://localhost/',
+  collectCoverage: true,
+  coveragePathIgnorePatterns: [
+    'nerv.js',
+    'vue.js'
+  ],
   moduleFileExtensions: [
     'ts',
     'tsx',

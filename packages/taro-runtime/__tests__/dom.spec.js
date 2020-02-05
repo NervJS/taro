@@ -5,7 +5,7 @@ describe('DOM', () => {
   global.document = runtime.document
   global.window = runtime.window
   global.navigator = runtime.navigator
-  const React = require('nervjs')
+  const React = require('./nerv')
 
   afterAll(() => {
     process.env.FRAMEWORK = ''
@@ -232,12 +232,12 @@ describe('DOM', () => {
       expect(div.id).toBe('')
     })
 
-    it.skip('textContext', () => {
+    it('textContext', () => {
       function App () {
         return (
           <div>
             <div>
-              <span>a </span>
+              <span> a </span>
             </div>
             b
             <span>c</span>
@@ -247,7 +247,7 @@ describe('DOM', () => {
 
       const div = document.createElement('div')
       React.render(<App />, div)
-      expect(div.textContent).toBe('abc')
+      expect(div.textContent).toBe(' a bc')
     })
   })
 })

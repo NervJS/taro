@@ -71,8 +71,12 @@ export const taroHooks = (lifecycle: string) => {
   }
 }
 
-export function createReactApp (App: React.ComponentClass) {
+export function createReactApp (App: React.ComponentClass, r?: typeof React) {
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
+
+  if (r != null) {
+    R = r
+  }
 
   const ref = R.createRef<ReactPageInstance>()
 

@@ -60,7 +60,6 @@ export function createVueApp (App: VueInstance) {
         const page = pages.pop()!
         elements.push(page(h))
       }
-
       return h(App.$options, { ref: 'app' }, elements.slice())
     },
     methods: {
