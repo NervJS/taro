@@ -149,6 +149,10 @@ export class TaroElement extends TaroNode {
       if ((result === false || event._end) && cancelable) {
         event.defaultPrevented = true
       }
+
+      if (event._end && event._stop) {
+        break
+      }
     }
 
     if (event._stop) {

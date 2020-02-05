@@ -62,6 +62,8 @@ export function createEvent (event: MpEvent, element: TaroElement) {
         ...event[key],
         ...event.detail
       }
+    } if (key === 'type') {
+      continue
     } else {
       domEv[key] = event[key]
     }
