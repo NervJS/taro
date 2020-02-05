@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 describe('vue', () => {
-  process.env.FRAMEWORK = 'react'
+  process.env.FRAMEWORK = 'vue'
   const runtime = require('../dist/runtime.esm')
   const document = runtime.document
 

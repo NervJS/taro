@@ -18,6 +18,11 @@ export function connectReactPage (
 
     const inject = (node?: Instance) => node && injectPageInstance(node, id)
     const refs = isReactComponent ? { ref: inject } : { forwardedRef: inject }
+
+    if (PageContext === EMPTY_OBJ) {
+      PageContext = R.createContext('')
+    }
+
     return (props: PageProps) => {
       return h(
         'root',
@@ -33,6 +38,7 @@ export function connectReactPage (
 
 // 初始值设置为 any 主要是为了过 TS 的校验
 export let R: typeof React = EMPTY_OBJ
+export let PageContext: React.Context<string> = EMPTY_OBJ
 
 let ReactDOM
 
@@ -46,8 +52,6 @@ if (process.env.FRAMEWORK === 'react') {
   R = require('react')
   ReactDOM = require('react-dom')
 }
-
-export const PageContext: React.Context<string> = process.env.FRAMEWORK === 'vue' ? EMPTY_OBJ : R.createContext('')
 
 export const taroHooks = (lifecycle: string) => {
   return (fn: Function) => {
