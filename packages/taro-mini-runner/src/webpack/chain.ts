@@ -156,6 +156,7 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
 }
 
 export const getMiniPlugin = args => {
+  MiniPlugin.init()
   return partial(getPlugin, MiniPlugin)([args])
 }
 

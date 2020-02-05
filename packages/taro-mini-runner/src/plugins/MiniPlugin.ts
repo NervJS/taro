@@ -59,7 +59,7 @@ interface IComponent { name: string, path: string, isNative: boolean }
 
 const PLUGIN_NAME = 'MiniPlugin'
 
-const taroFileTypeMap: ITaroFileInfo = {}
+let taroFileTypeMap: ITaroFileInfo = {}
 
 const quickappCommonStyle = 'common'
 
@@ -1011,5 +1011,9 @@ export default class MiniPlugin {
 
   static getTaroFileTypeMap () {
     return taroFileTypeMap
+  }
+
+  static init () {
+    taroFileTypeMap = {}
   }
 }
