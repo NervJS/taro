@@ -51,7 +51,8 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     if (
       !prop.startsWith('data-') && // 在 node.dataset 的数据
       prop !== 'class' &&
-      prop !== 'style'
+      prop !== 'style' &&
+      prop !== 'id'
     ) {
       data[prop] = props[prop]
     }

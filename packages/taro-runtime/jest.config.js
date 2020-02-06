@@ -11,7 +11,8 @@ module.exports = {
   collectCoverage: true,
   coveragePathIgnorePatterns: [
     'nerv.js',
-    'vue.js'
+    'vue.js',
+    'utils.js'
   ],
   moduleFileExtensions: [
     'ts',

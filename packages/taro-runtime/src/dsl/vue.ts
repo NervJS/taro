@@ -45,8 +45,12 @@ if (process.env.FRAMEWORK === 'vue') {
   Vue = v.default || v
 }
 
-export function createVueApp (App: VueInstance) {
+export function createVueApp (App: VueInstance, vue?) {
   ensure(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
+
+  if (vue != null) {
+    Vue = vue
+  }
 
   Vue.config.getTagNamespace = noop
 

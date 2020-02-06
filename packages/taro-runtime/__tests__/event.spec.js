@@ -1,5 +1,4 @@
 describe('event', () => {
-  process.env.FRAMEWORK = 'react'
   const runtime = require('../dist/runtime.esm')
   const document = runtime.document
 

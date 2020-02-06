@@ -2,7 +2,6 @@ let TaroRootElement
 let Style
 
 describe('style', () => {
-  process.env.FRAMEWORK = 'react'
   const runtime = require('../dist/runtime.esm')
   Style = runtime.Style
   TaroRootElement = runtime.TaroRootElement
