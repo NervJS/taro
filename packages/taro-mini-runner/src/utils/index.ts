@@ -12,7 +12,8 @@ import {
   TS_EXT,
   NODE_MODULES_REG,
   processTypeMap,
-  processTypeEnum
+  processTypeEnum,
+  BUILD_TYPES
 } from './constants'
 import { IOption, IComponentObj } from './types'
 
@@ -240,4 +241,44 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
 
 export function removeHeadSlash (str: string) {
   return str.replace(/^(\/|\\)/, '')
+}
+
+export function npmCodeHack (filePath: string, content: string, buildAdapter: BUILD_TYPES): string {
+  const basename = path.basename(filePath)
+  switch (basename) {
+    case 'lodash.js':
+    case '_global.js':
+    case 'lodash.min.js':
+      if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN || buildAdapter === BUILD_TYPES.JD) {
+        content = content.replace(/Function\(['"]return this['"]\)\(\)/, '{}')
+      } else {
+        content = content.replace(/Function\(['"]return this['"]\)\(\)/, 'this')
+      }
+      break
+    case 'mobx.js':
+      // 解决支付宝小程序全局window或global不存在的问题
+      content = content.replace(
+        /typeof window\s{0,}!==\s{0,}['"]undefined['"]\s{0,}\?\s{0,}window\s{0,}:\s{0,}global/,
+        'typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {}'
+      )
+      break
+    case '_html.js':
+      content = 'module.exports = false;'
+      break
+    case '_microtask.js':
+      content = content.replace('if(Observer)', 'if(false && Observer)')
+      // IOS 1.10.2 Promise BUG
+      content = content.replace('Promise && Promise.resolve', 'false && Promise && Promise.resolve')
+      break
+    case '_freeGlobal.js':
+      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this || global || {};')
+      break
+    case 'now.js':
+      content = content.replace('root.Date', 'Date')
+      break
+  }
+  if (buildAdapter === BUILD_TYPES.ALIPAY && content.replace(/\s\r\n/g, '').length <= 0) {
+    content = '// Empty file'
+  }
+  return content
 }

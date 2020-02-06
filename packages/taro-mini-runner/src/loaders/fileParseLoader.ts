@@ -16,7 +16,8 @@ import {
   QUICKAPP_SPECIAL_COMPONENTS,
   PARSE_AST_TYPE,
   excludeReplaceTaroFrameworkPkgs,
-  REG_SCRIPTS
+  REG_SCRIPTS,
+  NODE_MODULES_REG
 } from '../utils/constants'
 import {
   isNpmPkg,
@@ -24,7 +25,8 @@ import {
   isAliasPath,
   replaceAliasPath,
   resolveScriptPath,
-  promoteRelativePath
+  promoteRelativePath,
+  npmCodeHack
 } from '../utils'
 import { convertSourceStringToAstExpression } from '../utils/astConvert'
 import babylonConfig from '../config/babylon'
@@ -642,5 +644,8 @@ export default function fileParseLoader (source, ast) {
   })
   const code = generate(result).code
   const res = transform(code, babelConfig)
+  if (NODE_MODULES_REG.test(filePath) && res.code) {
+    res.code = npmCodeHack(filePath, res.code, buildAdapter)
+  }
   return res.code
 }
