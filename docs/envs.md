@@ -15,10 +15,10 @@ Taro 在编译时提供了一些内置的环境变量来帮助用户做一些特
 用于判断当前编译类型，目前有 `weapp` / `swan` / `alipay` / `h5` / `rn` / `tt` / `qq` / `quickapp` 八个取值，可以通过这个变量来书写对应一些不同环境下的代码，在编译时会将不属于当前编译类型的代码去掉，只保留当前编译类型下的代码，例如想在微信小程序和 H5 端分别引用不同资源
 
 ```jsx
-if (process.env.TARO_ENV === 'weapp') {
-  require('path/to/weapp/name')
-} else if (process.env.TARO_ENV === 'h5') {
-  require('path/to/h5/name')
+if (process.env.TARO_ENV === "weapp") {
+  require("path/to/weapp/name");
+} else if (process.env.TARO_ENV === "h5") {
+  require("path/to/h5/name");
 }
 ```
 
@@ -61,6 +61,8 @@ render () {
 
 `test.qq.js` 文件，这是 `Test` 组件的 QQ 小程序 版本
 
+`test.jd.js` 文件，这是 `Test` 组件的 京东小程序 版本
+
 `test.quickapp.js` 文件，这是 `Test` 组件的 快应用 版本
 
 四个文件，对外暴露的是统一的接口，它们接受一致的参数，只是内部有针对各自平台的代码实现
@@ -68,9 +70,9 @@ render () {
 而我们使用 `Test` 组件的时候，引用的方式依然和之前保持一致，`import` 的是不带端类型的文件名，在编译的时候会自动识别并添加端类型后缀
 
 ```jsx
-import Test from '../../components/test'
+import Test from "../../components/test";
 
-<Test argA={1} argA={2} />
+<Test argA={1} argA={2} />;
 ```
 
 ### 多端脚本逻辑
@@ -82,28 +84,28 @@ import Test from '../../components/test'
 增加 `set_title.h5.js`，代码如下
 
 ```js
-export default function setTitle (title) {
-  document.title = title
+export default function setTitle(title) {
+  document.title = title;
 }
 ```
 
 增加 `set_title.weapp.js`，代码如下
 
 ```js
-import Taro from '@tarojs/taro'
-export default function setTitle (title) {
+import Taro from "@tarojs/taro";
+export default function setTitle(title) {
   Taro.setNavigationBarTitle({
     title
-  })
+  });
 }
 ```
 
 调用的时候，如下使用
 
 ```js
-import setTitle from '../utils/set_title'
+import setTitle from "../utils/set_title";
 
-setTitle('页面标题')
+setTitle("页面标题");
 ```
 
 ### 使用要点
@@ -119,6 +121,7 @@ setTitle('页面标题')
 > 1.3.11 开始支持
 
 根据不同环境返回不同的 `pages`，可以这么写
+
 ```
 config: Config = {
   "pages": preval`
@@ -137,4 +140,5 @@ config: Config = {
   `
 }
 ```
+
 详情可以参考 [issue](https://github.com/NervJS/taro/pull/3867)
