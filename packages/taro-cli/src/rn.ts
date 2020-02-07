@@ -209,27 +209,26 @@ class Compiler {
       const filePaths: string[] = []
       this.processFile(this.entryFilePath).then(() => {
         klaw(this.sourceDir)
-            .on('data', file => {
+          .on('data', file => {
             if (!file.stats.isDirectory()) {
-                filePaths.push(file.path);
+              filePaths.push(file.path)
             }
-        })
-            .on('error', (err, item) => {
-            console.log(err.message);
-            console.log(item.path);
-        })
-            .on('end', () => {
+          })
+          .on('error', (err, item) => {
+            console.log(err.message)
+            console.log(item.path)
+          })
+          .on('end', () => {
             Promise.all(filePaths.filter(f => f !== this.entryFilePath).map(filePath => this.processFile(filePath)))
-                .then(() => {
+              .then(() => {
                 if (!this.hasJDReactOutput) {
-                    this.initProjectFile();
-                    resolve();
+                  this.initProjectFile()
+                  resolve()
+                } else {
+                  resolve()
                 }
-                else {
-                    resolve();
-                }
-            });
-        });
+              })
+          })
       })
     })
   }
@@ -366,7 +365,7 @@ function installDep (path: string) {
 export { Compiler }
 
 export async function build (appPath: string, buildConfig: IBuildOptions) {
-  const { watch } = buildConfig
+  const {watch, port} = buildConfig
   process.env.TARO_ENV = BUILD_TYPES.RN
   await Util.checkCliAndFrameworkVersion(appPath, BUILD_TYPES.RN)
   const compiler = new Compiler(appPath)
@@ -384,11 +383,11 @@ export async function build (appPath: string, buildConfig: IBuildOptions) {
   const t1 = performance.now()
   Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
   // rn 配置添加onlyTaroToRn字段,支持项目构建只编译不打包
-  if(compiler.rnConfig.onlyTaroToRn)return;
+  if (compiler.rnConfig.onlyTaroToRn) return
   if (watch) {
     compiler.watchFiles()
     if (!compiler.hasJDReactOutput) {
-      startServerInNewWindow({appPath})
+      startServerInNewWindow({port, appPath})
     }
   } else {
     compiler.buildBundle()
