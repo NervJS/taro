@@ -174,7 +174,6 @@ class Input extends Nerv.Component {
       <input
         ref={input => {
           this.inputRef = input
-          input && focus && input.focus()
         }}
         {...otherProps}
         className={cls}
