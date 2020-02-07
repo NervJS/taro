@@ -14,5 +14,8 @@
     "url": "https://github.com/NervJS/taro/tree/master/packages/taro-runtime"
   },
   "author": "yuche",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -23,5 +23,8 @@
     "@tarojs/runtime": "^3.0.0-experimental.2",
     "react-reconciler": "^0.23.0",
     "scheduler": "^0.17.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
