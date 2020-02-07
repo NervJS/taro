@@ -204,19 +204,12 @@ export function componentTrigger (component, key, args) {
   }
 }
 
-let hasPageInited = false
-
 function initComponent (isPage) {
   if (this.$component.__isReady) return
 
   this.$component.__isReady = true
 
-  if (isPage && !hasPageInited) {
-    hasPageInited = true
-  }
-  if (hasPageInited || isPage) {
-    mountComponent(this.$component)
-  }
+  mountComponent(this.$component)
 }
 
 function createComponent (ComponentClass, isPage) {
@@ -244,7 +237,6 @@ function createComponent (ComponentClass, isPage) {
   if (isPage) {
     Object.assign(weappComponentConf, {
       onLoad (options = {}) {
-        hasPageInited = false
         if (cacheDataHas(preloadInitedComponent)) {
           this.$component = cacheDataGet(preloadInitedComponent, true)
           this.$component.$componentType = 'PAGE'
@@ -288,13 +280,13 @@ function createComponent (ComponentClass, isPage) {
         componentTrigger(this.$component, 'componentWillUnmount')
         const component = this.$component
         const events = component.$$renderPropsEvents
-        
+
         component.hooks.forEach((hook) => {
           if (isFunction(hook.cleanup)) {
             hook.cleanup()
           }
         })
-        
+
         if (isArray(events)) {
           events.forEach(e => eventCenter.off(e))
         }
