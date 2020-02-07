@@ -29,7 +29,7 @@ sidebar_label: uploadFile
 
 | Name | Type | Description |
 | --- | --- | --- |
-| promise.headersReceive(callback) | <code>function</code> | 绑定接收到http header的回调 |
+| promise.headersReceived(callback) | <code>function</code> | 绑定接收到http header的回调 |
 | promise.progress(callback) | <code>function</code> | 绑定请求进度更新的回调 |
 | promise.abort() | <code>function</code> | 中断请求 |
 | res.statusCode | <code>number</code> | 请求的返回状态码 |
