@@ -1,5 +1,5 @@
 {
-  "lerna": "3.16.5",
+  "lerna": "3.20.1",
   "packages": [
     "packages/babel-preset-taro",
     "packages/eslint-config-taro",
