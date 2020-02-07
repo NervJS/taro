@@ -4,7 +4,7 @@
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
-    "build": "run-s clean prod",
+    "build": "npm run clean && npm run prod",
     "dev": "tsc -w",
     "prod": "tsc",
     "clean": "rimraf dist",
