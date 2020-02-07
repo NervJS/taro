@@ -174,6 +174,12 @@ function processApis (taro) {
             }
             return p
           }
+          p.headersReceived = cb => {
+            if (task) {
+              task.onHeadersReceived(cb)
+            }
+            return p
+          }
           p.abort = cb => {
             cb && cb()
             if (task) {
