@@ -477,6 +477,16 @@ const router = useRouter() // { path: '', params: { ... } }
 
 `useRouter` 是 Taro 专有的 Hook，等同于页面为类时的 `this.$router`
 
+### `useScope`
+
+> 自 `1.3.20` 开始支持
+
+```jsx
+const scope = useScope()
+```
+
+`useScope` 是 Taro 专有的 Hook，等同于页面为类时的 `this.$scope`
+
 ## 页面及组件中相关属性设置
 
 在 Taro 中，你可以为页面及组件设置一些属性来达到一些特殊的目的，例如 `config` 设置配置等等，在前面章节你已经学会如何在类中进行相关设置，同样的，使用 Hooks 时你也可以进行相关设置来达到和使用类一样的效果。
