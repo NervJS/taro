@@ -143,6 +143,10 @@ declare namespace Taro {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onHeadersReceived.html
      */
+    headersReceived(
+      /** HTTP Response Header 事件的回调函数 */
+      callback: UploadTask.OnHeadersReceivedCallback,
+    ): void
     onHeadersReceived(
       /** HTTP Response Header 事件的回调函数 */
       callback: UploadTask.OnHeadersReceivedCallback,
@@ -151,6 +155,10 @@ declare namespace Taro {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onProgressUpdate.html
      */
+    progress(
+      /** 上传进度变化事件的回调函数 */
+      callback: UploadTask.OnProgressUpdateCallback,
+    ): void
     onProgressUpdate(
       /** 上传进度变化事件的回调函数 */
       callback: UploadTask.OnProgressUpdateCallback,
