@@ -22,6 +22,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.0.0-experimental.0",
+  "version": "3.0.0-experimental.1",
   "npmClient": "yarn"
 }

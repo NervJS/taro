@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.0.0-experimental.0",
+  "version": "3.0.0-experimental.1",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
