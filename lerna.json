@@ -1,17 +1,17 @@
 {
   "lerna": "3.16.5",
   "packages": [
+    "packages/babel-preset-taro",
+    "packages/eslint-config-taro",
+    "packages/eslint-plugin-taro",
     "packages/shared",
-    "packages/taro-runtime",
-    "packages/taro-mini-runner",
-    "packages/taro-react",
-    "packages/taro-components",
-    "packages/taro-loader",
     "packages/taro",
     "packages/taro-cli",
-    "packages/babel-preset-taro",
-    "packages/eslint-plugin-taro",
-    "packages/eslint-config-taro"
+    "packages/taro-components",
+    "packages/taro-loader",
+    "packages/taro-mini-runner",
+    "packages/taro-react",
+    "packages/taro-runtime"
   ],
   "command": {
     "publish": {
@@ -22,6 +22,6 @@
       "license": "MIT"
     }
   },
-  "version": "1.3.22",
+  "version": "3.0.0-experimental.0",
   "npmClient": "yarn"
 }
