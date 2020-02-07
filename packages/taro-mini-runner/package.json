@@ -10,7 +10,6 @@
     "clean": "rimraf dist",
     "lint": "tslint src/**/*.ts --fix",
     "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
-    "prepack": "npm run build",
     "test": "jest",
     "test:dev": "jest --watch"
   },

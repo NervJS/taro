@@ -10,8 +10,7 @@
     "prod": "tsc",
     "clean": "rimraf dist",
     "lint": "tslint src/**/*.ts --fix",
-    "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
-    "prepack": "npm run build"
+    "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix"
   },
   "files": [
     "bin",

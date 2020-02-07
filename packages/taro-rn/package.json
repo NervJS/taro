@@ -12,7 +12,6 @@
     "server": "node node_modules/react-native/local-cli/cli.js start",
     "build": "rm -rf ./dist && gulp",
     "dev": "tsc --watch",
-    "prepack": "npm run build",
     "test": "jest",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage"
