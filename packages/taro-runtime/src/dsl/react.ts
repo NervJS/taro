@@ -13,7 +13,7 @@ export function connectReactPage (
   return (component: ReactPageComponent): React.FunctionComponent<PageProps> => {
     // eslint-disable-next-line dot-notation
     const isReactComponent = isFunction(component['render']) ||
-      !!component.prototype.isReactComponent ||
+      !!component.prototype?.isReactComponent ||
       component.prototype instanceof R.Component // compat for some others react-like library
 
     const inject = (node?: Instance) => node && injectPageInstance(node, id)
