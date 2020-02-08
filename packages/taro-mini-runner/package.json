@@ -72,5 +72,8 @@
     "webpack-chain": "4.9.0",
     "webpack-format-messages": "^2.0.5",
     "yauzl": "2.10.0"
+  },
+  "devDependencies": {
+    "babel-types": "^6.26.0"
   }
 }
