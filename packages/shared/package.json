@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "version": "3.0.0-experimental.3",
+  "version": "3.0.0-experimental.4",
   "publishConfig": {
     "access": "public"
   }
