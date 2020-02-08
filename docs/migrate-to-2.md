@@ -221,11 +221,11 @@ babel: {
 
 ### 小程序
 
-#### 使用 async/await 时出现报错 Function(...) is not a function
+#### 使用 async/await 时出现报错 `Function(...) is not a function`
 
 在升级到 2.x 后使用 async/await 语法时可能会出现如下报错
 
-![](https://user-images.githubusercontent.com/31717528/72597788-75cd3500-3949-11ea-953c-a34f618e20ec.png)
+![error image](https://user-images.githubusercontent.com/31717528/72597788-75cd3500-3949-11ea-953c-a34f618e20ec.png)
 
 这是因为 `@tarojs/mini-runner` 使用的 `postcss-loader` 依赖了新版本的 `regenerator-runtime` 包，可能会与 `babel-runtime` 中依赖的 `regenerator-runtime` 版本冲突，而新版本的包无法在小程序中使用，所以导致了如上错误，解决办法是在本地自行安装 `0.11.1` 版本的 `regenerator-runtime` 包。
 
@@ -235,7 +235,7 @@ $ npm i --save regenerator-runtime@0.11.1
 
 #### 在 JS 中引入的图片突然变成 base64 格式
 
-在升级到 2.x 后可能会遇到在 JS 中引入的图片突然变成 base64 格式了，是因为 2.x 小程序改用 webpack 编译后图片都会经过 `url-loader` 进行处理，默认 10kb 大小以下的图片（包含以下格式，png | jpg | jpeg | gif | bpm）都会被转为 base64，如果不想这么做，可以通过配置 [mini.imageUrlLoaderOption](./config-detail.mdminiimageurlloaderoption) 来解决
+在升级到 2.x 后可能会遇到在 JS 中引入的图片突然变成 base64 格式了，是因为 2.x 小程序改用 Webpack 编译后图片都会经过 `url-loader` 进行处理，默认 10kb 大小以下的图片（包含以下格式，png | jpg | jpeg | gif | bmp）都会被转为 base64，如果不想这么做，可以通过配置 [mini.imageUrlLoaderOption](./config-detail.mdminiimageurlloaderoption) 来解决
 
 ```js
 const config = {
