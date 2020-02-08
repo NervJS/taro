@@ -92,7 +92,7 @@ const config = {
   // babel、csso、uglify 等配置从 plugins 配置中移出来
   babel: {
     sourceMap: true,
-    presets: [['env', { modules: false }]],,
+    presets: [['env', { modules: false }]],
     plugins: [
       'transform-decorators-legacy',
       'transform-class-properties',
