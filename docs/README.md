@@ -12,60 +12,9 @@ title: Taro 介绍
 
 ## 特性
 
-#### React 语法风格
+#### 支持多种框架
 
-**Taro** 遵循 [React](https://reactjs.org/) 语法规范，它采用与 React 一致的组件化思想，组件生命周期与 React 保持一致，同时支持使用 [JSX 语法](jsx.html)，让代码具有更丰富的表现力，使用 **Taro** 进行开发可以获得和 React 一致的开发体验。
-
-代码示例
-
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-import { View, Button } from '@tarojs/components'
-
-export default class Index extends Component {
-  constructor () {
-    super(...arguments)
-    this.state = {
-      title: '首页',
-      list: [1, 2, 3]
-    }
-  }
-
-  componentWillMount () {}
-
-  componentDidMount () {}
-
-  componentWillUpdate (nextProps, nextState) {}
-
-  componentDidUpdate (prevProps, prevState) {}
-
-  shouldComponentUpdate (nextProps, nextState) {
-    return true
-  }
-
-  add = (e) => {
-    // dosth
-  }
-
-  render () {
-    return (
-      <View className='index'>
-        <View className='title'>{this.state.title}</View>
-        <View className='content'>
-          {this.state.list.map(item => {
-            return (
-              <View className='item'>{item}</View>
-            )
-          })}
-          <Button className='add' onClick={this.add}>添加</Button>
-        </View>
-      </View>
-    )
-  }
-}
-```
-
-> 由于微信小程序端的限制，有极少数 JSX 的优秀用法暂时不能得到很好地支持，同时，为了遵循 React 语法，Taro 在写法上也有一些自己的规范，具体可以参考：[Taro 开发最佳实践](best-practice.html) 。
+Taro 目前支持 [React](./react.html)、[Nerv](./nerv.html)、[Vue](./vue.html) 三类框架，在未来 Taro 将开放拓展能力，使得开发者可以通过 Taro 拓展更多的框架支持。
 
 #### 快速开发微信小程序
 

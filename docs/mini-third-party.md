@@ -25,13 +25,6 @@ export default class Menu extends Component {
     data: []
   }
 
-  config = {
-    // 定义需要引入的第三方组件
-    usingComponents: {
-      'ec-canvas': '../../components/ec-canvas/ec-canvas' // 书写第三方组件的相对路径
-    }
-  }
-
   constructor (props) {
     super(props)
     this.state = {
@@ -53,23 +46,30 @@ export default class Menu extends Component {
     )
   }
 }
+
+// menu.config.js
+
+export default {
+  // 定义需要引入的第三方组件
+  usingComponents: {
+    'ec-canvas': '../../components/ec-canvas/ec-canvas' // 书写第三方组件的相对路径
+  }
+}
 ```
 
 ## 引入插件
 
 ### 引入插件代码包
 
-使用插件前，使用者要在 `app.js` 的配置中声明需要使用的插件，例如
+使用插件前，使用者要在 `app.confg.js` 的配置中声明需要使用的插件，例如
 
 ```jsx
-import Taro, { Component } from '@tarojs/taro'
-class App extends Component {
-  config = {
-    plugins: {
-      myPlugin: {
-        version: '1.0.0',
-        provider: 'wxidxxxxxxxxxxxxxxxx'
-      }
+// app.config.js
+export default {
+  plugins: {
+    myPlugin: {
+      version: '1.0.0',
+      provider: 'wxidxxxxxxxxxxxxxxxx'
     }
   }
 }
@@ -86,14 +86,10 @@ class App extends Component {
 使用插件提供的自定义组件，和上述 “引入第三方组件” 的方式相仿，在页面或组件的配置中定义需要引入的自定义组件时，使用 `plugin://` 协议指明插件的引用名和自定义组件名，例如：
 
 ```js
-import Taro, { Component } from '@tarojs/taro'
-
-export default class PageA extends Component {
-  config = {
-    // 定义需要引入的插件
-    usingComponents: {
-      'hello-component': 'plugin://myPlugin/hello-component'
-    }
+export default {
+  // 定义需要引入的插件
+  usingComponents: {
+    'hello-component': 'plugin://myPlugin/hello-component'
   }
 }
 ```

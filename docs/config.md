@@ -28,6 +28,8 @@ const config = {
     presets: ['env'],
     plugins: ['transform-class-properties', 'transform-decorators-legacy', 'transform-object-rest-spread']
   },
+  // 框架，react，nerv，vue 三选一
+  framework: 'react',
   // 编译插件配置
   plugins: [],
   // 全局变量设置
@@ -40,7 +42,7 @@ const config = {
     }
   },
   // 小程序端专用配置
-  weapp: {
+  mini: {
     postcss: {
       autoprefixer: {
         enable: true
@@ -53,9 +55,7 @@ const config = {
         }
       }
     },
-    // 替换 JSX 中的属性名，参考：
-    // https://github.com/NervJS/taro/issues/2077
-    jsxAttributeNameReplace: {}
+    webpackChain: {},
   },
   // H5 端专用配置
   h5: {

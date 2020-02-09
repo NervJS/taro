@@ -34,12 +34,14 @@ Taro.navigateTo({
 
 ```
 
-这样的话，在跳转成功的目标页的**生命周期**方法里就能通过 `this.$router.params` 获取到传入的参数，例如上述跳转，在目标页的 `componentWillMount` 生命周期里获取入参
+这样的话，在跳转成功的目标页的**生命周期**方法里就能通过 `Current.router.params` 获取到传入的参数，例如上述跳转，在目标页的 `componentWillMount`（或 Vue 的 `created`） 生命周期里获取入参:
 
 ```jsx
+import { Current } from '@tarojs/taro'
+
 class C extends Taro.Component {
   componentWillMount () {
-    console.log(this.$router.params) // 输出 { id: 2, type: 'test' }
+    console.log(Current.router.params) // 输出 { id: 2, type: 'test' }
   }
 }
 ```

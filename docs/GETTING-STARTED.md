@@ -12,11 +12,11 @@ Taro 项目基于 node，请确保已具备较新的 node 环境（>=8.0.0），
 
 ```bash
 # 使用 npm 安装 CLI
-$ npm install -g @tarojs/cli
+$ npm install -g @tarojs/cli@next
 # OR 使用 yarn 安装 CLI
-$ yarn global add @tarojs/cli
+$ yarn global add @tarojs/cli@next
 # OR 安装了 cnpm，使用 cnpm 安装 CLI
-$ cnpm install -g @tarojs/cli
+$ cnpm install -g @tarojs/cli@next
 ```
 ### 注意事项
 
@@ -165,113 +165,6 @@ $ npx taro build --type qq --watch
 $ npx taro build --type qq
 ```
 
-### 快应用
-
-选择快应用模式，需要自行下载并打开[快应用开发者工具](https://www.quickapp.cn/docCenter/IDEPublicity)，然后在项目编译完后，在开发者工具中选择「打开文件夹」选择项目根目录下 `dist` 目录，点击左边的预览图标（那个眼睛图标）进行预览。
-
-快应用编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
-
-```bash
-# yarn
-$ yarn dev:quickapp
-$ yarn build:quickapp
-# npm script
-$ npm run dev:quickapp
-$ npm run build:quickapp
-# 仅限全局安装
-$ taro build --type quickapp --watch
-$ taro build --type quickapp
-# npx 用户也可以使用
-$ npx taro build --type quickapp --watch
-$ npx taro build --type quickapp
-```
-
-[快应用开发者工具如何使用？点击了解](https://doc.quickapp.cn/tutorial/ide/overview.html)
-
-[快应用端开发流程](https://taro-docs.jd.com/taro/docs/quick-app.html)
-
-### H5
-
-H5 模式，无需特定的开发者工具，在执行完下述命令之后即可通过浏览器进行预览
-
-H5 预览项目
-
-```bash
-# yarn
-$ yarn dev:h5
-# npm script
-$ npm run dev:h5
-# 仅限全局安装
-$ taro build --type h5 --watch
-# npx 用户也可以使用
-$ npx taro build --type h5 --watch
-```
-
-H5 打包项目
-
-```bash
-# yarn
-$ yarn build:h5
-# npm script
-$ npm run build:h5
-# 仅限全局安装
-$ taro build --type h5
-# npx 用户也可以使用
-$ npx taro build --type h5
-```
-
-### React Native
-
-React Native 端运行需执行如下命令，React Native 端相关的运行说明请参见 [React Native 教程](./react-native.html)
-
-```bash
-# yarn
-$ yarn dev:rn
-# npm script
-$ npm run dev:rn
-# 仅限全局安装
-$ taro build --type rn --watch
-# npx 用户也可以使用
-$ npx taro build --type rn --watch
-```
-
-> Note：React Native 端和其他端样式兼容性差异较大，如果需要兼容 React Native 端，建议 React Native 端和其他端同步开发。
-
-> Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器，且不
-> 支持 **组合器** [Combinators and groups of selectors](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors)。
-
-以下选择器的写法都是不支持的，在样式转换时会自动忽略。
-
-```css
-.button.button_theme_islands {
-  font-style: bold;
-}
-
-img + p {
-  font-style: bold;
-}
-
-p ~ span {
-  color: red;
-}
-
-div > span {
-  background-color: DodgerBlue;
-}
-
-div span {
-  background-color: DodgerBlue;
-}
-```
-
-样式上 H5 最为灵活，小程序次之，RN 最弱，统一多端样式即是对齐短板，也就是要以 RN 的约束来管理样式，同时兼顾小程序的限制，核心可以用三点来概括：
-
-- 使用 Flex 布局
-- 基于 BEM 写样式
-- 采用 style 属性覆盖组件样式
-
-RN 中 View 标签默认主轴方向是 column，如果不将其他端改成与 RN 一致，就需要在所有用到 display: flex 的地方都显式声明主轴方向。
-
 ## 常用 CLI 命令
 
 ### 查看 Taro 所有命令及帮助
@@ -279,29 +172,6 @@ RN 中 View 标签默认主轴方向是 column，如果不将其他端改成与 
 ```bash
 $ taro --help
 ```
-
-### 更新
-
-Taro 提供了更新命令来更新 CLI 工具自身和项目中 Taro 相关的依赖
-
-更新 Taro CLI 工具
-
-```bash
-# taro
-$ taro update self
-# npm
-npm i -g @tarojs/cli@latest
-# yarn
-yarn global add @tarojs/cli@latest
-```
-
-更新项目中 Taro 相关的依赖
-
-```bash
-$ taro update project
-```
-
-如命令更新失败，需要在 package.json 文件手动更新依赖版本，然后重新安装依赖。
 
 ### 环境及依赖检测
 

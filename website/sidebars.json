@@ -2,69 +2,70 @@
   "docs": {
     "关于Taro": [
       "README",
-      "taroize",
+      // "taroize",
       "team"
     ],
     "快速开始": [
       "GETTING-STARTED",
       "composition",
-      "before-dev-remind",
-      "specials"
+      "before-dev-remind"
+      // "specials"
     ],
     "基础教程": [
-      "spec-for-taro",
       "tutorial",
       "project-config",
-      "best-practice",
+      // "best-practice",
       "router",
       "size",
       "static-reference",
-      "component-style",
-      {
-        "label": "语法特性",
-        "type": "subcategory",
-        "ids": [
-          "jsx",
-          "props",
-          "state",
-          "event",
-          "condition",
-          "list",
-          "functional-component",
-          "context",
-          "children",
-          "render-props",
-          "ref"
-        ]
-      },
+      // "component-style",
+      // {
+      //   "label": "语法特性",
+      //   "type": "subcategory",
+      //   "ids": [
+      //     "jsx",
+      //     "props",
+      //     "state",
+      //     "event",
+      //     "condition",
+      //     "list",
+      //     "functional-component",
+      //     "context",
+      //     "children",
+      //     "render-props",
+      //     "ref"
+      //   ]
+      // },
       {
         "label": "多端开发",
         "type": "subcategory",
         "ids": [
           "envs",
           "envs-debug",
-          "relations",
+          // "relations",
           "wxcloud",
           "miniprogram-plugin",
-          "quick-app",
-          "react-native"
+          // "quick-app",
+          // "react-native"
         ]
       },
-      "debug"
+      // "debug"
     ],
     "进阶指南": [
       "config",
       "config-detail",
       "hooks",
-      "ui-lib",
-      "async-await",
+      // "ui-lib",
+      // "async-await",
       "mini-third-party",
       "hybrid",
+      // "optimized-practice"
+    ],
+    "迁移指南": [
       "optimized-practice"
     ],
     "社区生态": [
       "redux",
-      "mobx",
       "css-modules",
       "template",
       "report",

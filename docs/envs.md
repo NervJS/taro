@@ -119,22 +119,20 @@ setTitle('页面标题')
 > 1.3.11 开始支持
 
 根据不同环境返回不同的 `pages`，可以这么写
-```
-config: Config = {
-  "pages": preval`
-    module.exports=(function() {
-      if (process.env.TARO_ENV === 'weapp') {
-        return [
-          '/pages/index/index'
-        ]
-      }
-      if (process.env.TARO_ENV === 'swan') {
-        return [
-          '/pages/indexswan/indexswan'
-        ]
-      }
-    })()
-  `
+
+```js
+let pages = []
+if (process.env.TARO_ENV === 'weapp') {
+  pages = [
+    '/pages/index/index'
+  ]
+}
+if (process.env.TARO_ENV === 'swan') {
+  pages = [
+    '/pages/indexswan/indexswan'
+  ]
+}
+export default {
+  pages
 }
 ```
-详情可以参考 [issue](https://github.com/NervJS/taro/pull/3867)

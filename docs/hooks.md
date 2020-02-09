@@ -22,10 +22,13 @@ title: Hooks
 
 ## API
 
-在 Taro 中使用 Hooks API 很简单，只需要从 `@tarojs/taro` 中引入即可。
+在 Taro 中使用 Hooks API 很简单，Taro 的专有 Hooks（例如 usePageScroll, useReachBottom）从 @tarojs/taro 中引入，框架自己的 Hooks （例如 useEffect, useState）从对应的框架引入。
 
-```javascript
-import { useEffect, useLayoutEffect, useReducer, useState, useRef, useCallback, useMemo } from '@tarojs/taro'
+```js
+import { usePageScroll, useReachBottom } from '@tarojs/taro' // Taro 专有 Hooks
+import { useState, useEffect } from 'react' // 框架 Hooks （基础 Hooks）
+// 如果你使用 Nerv 的话
+// import { useState, useEffect } from 'nervjs' // 框架 Hooks （基础 Hooks）
 ```
 
 ### `useState`

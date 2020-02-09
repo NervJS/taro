@@ -49,19 +49,10 @@ import './app.scss'
 const store = configStore()
 
 class App extends Component {
-  config = {
-    pages: [
-      'pages/index/index'
-    ],
-    window: {
-      navigationBarTitleText: 'Test'
-    }
-  }
-
   render() {
     return (
       <Provider store={store}>
-        <Index />
+        {this.props.children}
       </Provider>
     )
   }
