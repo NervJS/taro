@@ -1,5 +1,50 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.2...v) (2020-01-21)
+# [](https://github.com/NervJS/taro/compare/v2.0.3...v) (2020-02-09)
+
+
+
+<a name="2.0.3"></a>
+## [2.0.3](https://github.com/NervJS/taro/compare/v2.0.2...v2.0.3) (2020-02-09)
+
+
+### Bug Fixes
+
+* **alipay:** 去掉hasPageInited判断，fix [#5424](https://github.com/NervJS/taro/issues/5424) ([a35380f](https://github.com/NervJS/taro/commit/a35380f))
+* **cli:** 修复云开发模板创建时 package.json 文件生成不正确的问题 ([dca1890](https://github.com/NervJS/taro/commit/dca1890))
+* **components:** code optimization ([cd69014](https://github.com/NervJS/taro/commit/cd69014))
+* **components:** radio click method lack error ([03269ac](https://github.com/NervJS/taro/commit/03269ac))
+* **components:** ScrollView event fix [#3484](https://github.com/NervJS/taro/issues/3484) ([0024f47](https://github.com/NervJS/taro/commit/0024f47))
+* **components:** 修复跳转时视频继续播放的问题, fix [#5412](https://github.com/NervJS/taro/issues/5412) ([e8937aa](https://github.com/NervJS/taro/commit/e8937aa))
+* **components:** 暂时去除了h5中input的focus能力, fix [#5393](https://github.com/NervJS/taro/issues/5393) [#4991](https://github.com/NervJS/taro/issues/4991) ([c2f8402](https://github.com/NervJS/taro/commit/c2f8402))
+* **mini-runner:** 优化 npm 文件加载顺序 ([b22c0fa](https://github.com/NervJS/taro/commit/b22c0fa))
+* **mini-runner:** 修复编译成插件时，miniprogram 中生成多余文件的问题，[#5411](https://github.com/NervJS/taro/issues/5411) ([04c5616](https://github.com/NervJS/taro/commit/04c5616))
+* **mini-runner:** 加入 node_modules 代码 hack，解决某些包不能直接在小程序中使用的问题，close [#5421](https://github.com/NervJS/taro/issues/5421) ([c3703d3](https://github.com/NervJS/taro/commit/c3703d3))
+* **n:** pages 编译生成相对路径错误 ([42c5688](https://github.com/NervJS/taro/commit/42c5688))
+* **rn:** react-redux 升级导致的 ref 错误 ([4bcdc8a](https://github.com/NervJS/taro/commit/4bcdc8a))
+* **taro-components-qa:** 修复快应用scrollview组件事件无法触发问题 ([#5414](https://github.com/NervJS/taro/issues/5414)) ([215b703](https://github.com/NervJS/taro/commit/215b703))
+* **taro-weapp:** 补上 uploadTask.headersReveived task ([ce7289a](https://github.com/NervJS/taro/commit/ce7289a))
+* add offAccelerometerChange api close [#5394](https://github.com/NervJS/taro/issues/5394) ([f0c1e39](https://github.com/NervJS/taro/commit/f0c1e39))
+* docs redirect ([7a6002b](https://github.com/NervJS/taro/commit/7a6002b))
+* radio with radio-group onCange prop fix [#4750](https://github.com/NervJS/taro/issues/4750) ([efd3ff8](https://github.com/NervJS/taro/commit/efd3ff8))
+* react native路由多端入口文件读取不到 close [#5169](https://github.com/NervJS/taro/issues/5169) ([6dbc48b](https://github.com/NervJS/taro/commit/6dbc48b))
+* scrollview 在火狐浏览器滚动中报错，导致onScroll不执行 fix [#5254](https://github.com/NervJS/taro/issues/5254) ([138ce5d](https://github.com/NervJS/taro/commit/138ce5d))
+* 补全组件文档脚本生成 fix [#4908](https://github.com/NervJS/taro/issues/4908) ([b2d40da](https://github.com/NervJS/taro/commit/b2d40da))
+* **rn:** -port 参数对于RN调试失效 close [#5413](https://github.com/NervJS/taro/issues/5413) ([cb53302](https://github.com/NervJS/taro/commit/cb53302))
+* **transformer:** 函数式组件不支持函数表达式，close [#5415](https://github.com/NervJS/taro/issues/5415) ([1f403bd](https://github.com/NervJS/taro/commit/1f403bd))
+* **weapp:** 添加微信小程序 loadFontFace 参数定义 ([#5429](https://github.com/NervJS/taro/issues/5429)) ([f0284f9](https://github.com/NervJS/taro/commit/f0284f9))
+* uploadFile 增加 timeout 选项 close [#5406](https://github.com/NervJS/taro/issues/5406) ([cde6912](https://github.com/NervJS/taro/commit/cde6912))
+* **types:** add refresher to ScrollViewProps close [#5400](https://github.com/NervJS/taro/issues/5400) ([#5399](https://github.com/NervJS/taro/issues/5399))  ([9a975f1](https://github.com/NervJS/taro/commit/9a975f1))
+
+
+### Features
+
+* **component:** upload components types ([7bf12de](https://github.com/NervJS/taro/commit/7bf12de))
+* **components:** 修复按钮 hoverClass 属性 fix [#4088](https://github.com/NervJS/taro/issues/4088) ([3218656](https://github.com/NervJS/taro/commit/3218656))
+* **docs:** 文档更新 ([c57212f](https://github.com/NervJS/taro/commit/c57212f))
+* **docs:** 暂时屏蔽没有添加的API文档 ([6df2e5c](https://github.com/NervJS/taro/commit/6df2e5c))
+* **docs:** 添加文档脚本识别参数=>京东小程序 ([bfe75ee](https://github.com/NervJS/taro/commit/bfe75ee))
+* **taro-weapp:** 增加 uploadTask.headersReveived，fix [#5407](https://github.com/NervJS/taro/issues/5407) ([d4cc378](https://github.com/NervJS/taro/commit/d4cc378))
+* add types docs absence ([22fd987](https://github.com/NervJS/taro/commit/22fd987))
 
 
 
