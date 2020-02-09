@@ -9,7 +9,8 @@
     "src",
     "index.js",
     "types",
-    "package.json"
+    "package.json",
+    "lib"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
