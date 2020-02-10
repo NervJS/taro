@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.0.0-experimental.4",
+  "version": "3.0.0-experimental.5",
   "description": "Taro framework",
   "main": "index.js",
   "typings": "types/index.d.ts",
@@ -27,6 +27,6 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runtime": "^3.0.0-experimental.4"
+    "@tarojs/runtime": "^3.0.0-experimental.5"
   }
 }
