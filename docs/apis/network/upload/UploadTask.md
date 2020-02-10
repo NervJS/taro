@@ -85,6 +85,16 @@ sidebar_label: UploadTask
 | :---: | :---: | :---: | :---: |
 | UploadTask.onHeadersReceived | ✔️ |  |  |
 
+### headersReceived
+
+```tsx
+(callback: OnHeadersReceivedCallback) => void
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `OnHeadersReceivedCallback` | HTTP Response Header 事件的回调函数 |
+
 ### onProgressUpdate
 
 监听上传进度变化事件
@@ -104,6 +114,16 @@ sidebar_label: UploadTask
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
 | UploadTask.onProgressUpdate | ✔️ |  |  |
+
+### progress
+
+```tsx
+(callback: OnProgressUpdateCallback) => void
+```
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `OnProgressUpdateCallback` | 上传进度变化事件的回调函数 |
 
 ## 参数
 
