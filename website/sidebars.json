@@ -2,67 +2,44 @@
   "docs": {
     "关于Taro": [
       "README",
-      // "taroize",
       "team"
     ],
     "快速开始": [
       "GETTING-STARTED",
       "composition",
       "before-dev-remind"
-      // "specials"
     ],
     "基础教程": [
+      "react",
+      "vue",
+      "nerv",
       "tutorial",
       "project-config",
-      // "best-practice",
       "router",
       "size",
       "static-reference",
-      // "component-style",
-      // {
-      //   "label": "语法特性",
-      //   "type": "subcategory",
-      //   "ids": [
-      //     "jsx",
-      //     "props",
-      //     "state",
-      //     "event",
-      //     "condition",
-      //     "list",
-      //     "functional-component",
-      //     "context",
-      //     "children",
-      //     "render-props",
-      //     "ref"
-      //   ]
-      // },
       {
         "label": "多端开发",
         "type": "subcategory",
         "ids": [
           "envs",
           "envs-debug",
-          // "relations",
           "wxcloud",
-          "miniprogram-plugin",
-          // "quick-app",
-          // "react-native"
+          "miniprogram-plugin"
         ]
-      },
-      // "debug"
+      }
     ],
     "进阶指南": [
       "config",
       "config-detail",
       "hooks",
-      // "ui-lib",
-      // "async-await",
+      "prerender",
       "mini-third-party",
       "hybrid",
-      // "optimized-practice"
+      "migration"
     ],
     "迁移指南": [
-      "optimized-practice"
+      "migration"
     ],
     "社区生态": [
       "redux",
