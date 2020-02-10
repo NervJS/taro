@@ -45,17 +45,17 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tarojs/taro@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.0.2.tgz#108391d79a9fc0710f401bf7fe3999e440e51ad0"
-  integrity sha512-8bTaKKyHN+sO/+y1aKPmI//ojJqkTGRsjcnDSkoT0dpRCyQBSp3/T3iHRXQf1E7Wrc5wyZnzWhuAWWSbynZjdQ==
+"@tarojs/taro@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.0.3.tgz#b56ebd6a26b15026047b1c7f2d2e38b558d4ef30"
+  integrity sha512-ir9jr/TKjbpT0IrXgbkIIlYc3sKJkFsY54Ly31gRqC+TJeK7OHDZYRnptbi/rwXxFZ5td0mCEMfDVkt4PCq1ag==
   dependencies:
-    "@tarojs/utils" "2.0.2"
+    "@tarojs/utils" "2.0.3"
 
-"@tarojs/utils@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.0.2.tgz#8f80a68d30e178062ab3e4999517709ec559e2d5"
-  integrity sha512-xVH0Pt5UCi7Il9NdQxdLbZBD5PycRVGZIl1/myUO6tp5Rnb7GKsXNQHudfCqpVs0mQ2ZwxbDByPWeQQBWs2PAg==
+"@tarojs/utils@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.0.3.tgz#403be7621fbc7b0a6cd5276b68cb934091d3312b"
+  integrity sha512-7g4eAfsBZnymE2OxsQnkW27nhbFraAwdBFo7ttVrKl3+AE3QLthO2Ho1Mrx5exXcYfDvgaBk8v6WK0Aw0CGUTQ==
 
 "@types/estree@0.0.39":
   version "0.0.39"
