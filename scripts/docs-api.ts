@@ -219,7 +219,7 @@ const get = {
     return array.length > 0 ? splicing(array) : undefined
   },
   api: (data: {[name: string]: ts.JSDocTagInfo[]}, level: number = 2) => {
-    const hasSupporteds = [true, undefined, undefined, undefined, undefined, true, true, undefined]
+    const hasSupporteds = [true, undefined, undefined, undefined, undefined, undefined, true, true, undefined]
     const rows = Object.keys(data).map(name => {
       const tags = data[name]
       const supported = tags.find(tag => tag.name === 'supported')
