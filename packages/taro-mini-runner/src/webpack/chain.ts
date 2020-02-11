@@ -435,5 +435,5 @@ export function getOutput (appPath: string, [{ outputRoot, publicPath, buildAdap
 }
 
 export function getDevtool (enableSourceMap) {
-  return enableSourceMap ? 'cheap-module-eval-source-map' : 'none'
+  return enableSourceMap ? 'source-map' : 'none'
 }
