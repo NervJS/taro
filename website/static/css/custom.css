@@ -338,3 +338,13 @@ pre {
 #back-to-top{
   opacity: 0.6;
 }
+
+.docsContainer .wrapper .post .postHeader:before,
+.docsContainer .wrapper .post .postHeaderTitle:before {
+  height: 0;
+  margin-top: 0;
+}
+
+.headerWrapper > header > span {
+  margin-left: 10px;
+}

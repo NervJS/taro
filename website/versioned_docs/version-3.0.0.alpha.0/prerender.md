@@ -1,5 +1,7 @@
 ---
 title: 预渲染（Prerender）
+id: version-3.0.0.alpha.0-prerender
+original_id: prerender
 ---
 
 Prerender 是由 Taro CLI 提供的在小程序端提高页面初始化渲染速度的一种技术，它的实现原理和服务端渲染（Server-side Rendering）一样：将页面初始化的状态直接渲染为无状态(dataless)的 wxml，在框架和业务逻辑运行之前执行渲染流程。经过 Prerender 的页面初始渲染速度通常会和原生小程序一致甚至更快。
