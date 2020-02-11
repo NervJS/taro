@@ -16,7 +16,7 @@ const CWD = process.cwd()
 const versions = require(`${CWD}/versions.json`)
 
 function Versions (props) {
-  const {config: siteConfig} = props
+  const { config: siteConfig } = props
   const latestVersion = versions[0]
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${
     siteConfig.projectName
@@ -44,6 +44,27 @@ function Versions (props) {
                 <td>
                   <a href={`${repoUrl}/blob/master/CHANGELOG.md`}>
                   更新日志
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 id='latest'>Taro Next</h3>
+          <p>Taro 3.0 的文档和源码</p>
+          <table className='versions'>
+            <tbody>
+              <tr>
+                <th>next</th>
+                <td>
+                  <a
+                    href='https://nervjs.github.io/taro/next/docs/README.html'
+                  >
+                  文档
+                  </a>
+                </td>
+                <td>
+                  <a href='https://github.com/NervJS/taro/tree/next'>
+                  源码
                   </a>
                 </td>
               </tr>
