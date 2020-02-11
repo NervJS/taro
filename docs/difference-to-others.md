@@ -2,6 +2,8 @@
 title: 与其它新型小程序框架的异同
 ---
 
+> 请注意：各个框架迭代速度都非常快，可能框架的设计和实现会出现改变。
+
 在本节我们将与三个新型小程序框架进行对比，它们分别是：[remax](https://github.com/remaxjs/remax), [alita](https://github.com/areslabs/alita), [kbone](https://github.com/wechat-miniprogram/kbone)。这三个框架和 Taro Next 总体的思路都一样：相对于编译型的小程序框架而言，新型小程序框架有一个(或多个)基础模板，基础模板接受不同的数据渲染与之对应的内容，小程序框架主要的工作是把开发者的业务逻辑转换成基础模板可接受的数据去驱动小程序渲染。
 
 我们尽量尝试避免偏见。但显而易见，作为 Taro 团队，我们会不可避免地倾向于 Taro。在本次对比中，我们仅会从技术选型、总体设计、内部实现对比各个框架，不会涉及例如生态和项目/开源治理等因素。如果你倾向于全面的对比，可以参考 [小程序框架全面测评](https://aotu.io/notes/2019/03/12/mini-program-framework-full-review/)。
