@@ -13,8 +13,10 @@ import {
 
 export namespace Components {
   interface TaroAudio {
+    'autoplay': boolean;
     'controls': boolean;
     'loop': boolean;
+    'muted': boolean;
     'src': string;
   }
   interface TaroBlock {}
@@ -229,13 +231,15 @@ declare global {
 
 declare namespace LocalJSX {
   interface TaroAudio {
+    'autoplay'?: boolean;
     'controls'?: boolean;
     'loop'?: boolean;
+    'muted'?: boolean;
     'onEnded'?: (event: CustomEvent<any>) => void;
     'onError'?: (event: CustomEvent<any>) => void;
     'onPause'?: (event: CustomEvent<any>) => void;
     'onPlay'?: (event: CustomEvent<any>) => void;
-    'onTimeupdate'?: (event: CustomEvent<any>) => void;
+    'onTimeUpdate'?: (event: CustomEvent<any>) => void;
     'src'?: string;
   }
   interface TaroBlock {}
@@ -245,9 +249,6 @@ declare namespace LocalJSX {
     'hoverStartTime'?: number;
     'hoverStayTime'?: number;
     'loading'?: boolean;
-    'onClick'?: (event: CustomEvent<any>) => void;
-    'onTouchend'?: (event: CustomEvent<any>) => void;
-    'onTouchstart'?: (event: CustomEvent<any>) => void;
     'plain'?: boolean;
     'size'?: string;
     'type'?: string;

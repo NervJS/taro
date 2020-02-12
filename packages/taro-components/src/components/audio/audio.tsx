@@ -8,8 +8,10 @@ import { TaroEvent } from '@tarojs/components'
 })
 export class Audio implements ComponentInterface {
   @Prop() src: string
-  @Prop() loop: boolean
-  @Prop() controls: boolean
+  @Prop() controls = true
+  @Prop() autoplay = false
+  @Prop() loop = false
+  @Prop() muted = false
 
   @Event({
     eventName: 'error'
@@ -24,7 +26,7 @@ export class Audio implements ComponentInterface {
   }) onPause: EventEmitter
 
   @Event({
-    eventName: 'timeupdate'
+    eventName: 'timeUpdate'
   }) onTimeUpdate: EventEmitter
 
   @Event({
@@ -34,7 +36,7 @@ export class Audio implements ComponentInterface {
   private audio: HTMLAudioElement
 
   private bindevent () {
-    this.audio.addEventListener('timeupdate', (e: TaroEvent<HTMLMediaElement>) => {
+    this.audio.addEventListener('timeupdate', (e: TaroEvent<HTMLAudioElement>) => {
       this.onTimeUpdate.emit({
         duration: e.srcElement!.duration,
         currentTime: e.srcElement!.duration
@@ -54,7 +56,7 @@ export class Audio implements ComponentInterface {
     })
 
     // 1网络错误, 2解码错误, 3解码错误，4 不合适资源
-    this.audio.addEventListener('error', (e: TaroEvent<HTMLMediaElement>) => {
+    this.audio.addEventListener('error', (e: TaroEvent<HTMLAudioElement>) => {
       this.onError.emit({
         errMsg: e.srcElement!.error?.code
       })
@@ -69,14 +71,18 @@ export class Audio implements ComponentInterface {
     const {
       src,
       controls,
-      loop
+      autoplay,
+      loop,
+      muted
     } = this
     return (
       <audio
         src={src}
         controls={controls}
+        autoplay={autoplay}
         loop={loop}
-        ref={audio => { this.audio = audio! }}
+        muted={muted}
+        ref={audio => { this.audio = audio as HTMLAudioElement }}
       />
     )
   }
