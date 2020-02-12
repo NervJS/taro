@@ -1,8 +1,7 @@
 import { Component, h, ComponentInterface, Event, EventEmitter, Element } from '@stencil/core'
 
 @Component({
-  tag: 'taro-form',
-  styleUrl: './style/index.scss'
+  tag: 'taro-form'
 })
 export class Form implements ComponentInterface {
   @Event({

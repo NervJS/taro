@@ -1,7 +1,8 @@
-import { Link } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
+import 'unfetch/polyfill'
 import jsonpRetry from 'jsonp-retry'
-import 'whatwg-fetch'
 import { serializeParams } from '../utils'
+const { Link } = Taro
 
 function generateRequestUrlWithParams (url, params) {
   params = typeof params === 'string' ? params : serializeParams(params)
@@ -79,7 +80,7 @@ function _request (options) {
       response.headers.forEach((val, key) => {
         res.header[key] = val
       })
-      if(!response.ok) {
+      if (!response.ok) {
         throw response
       }
       if (options.responseType === 'arraybuffer') {

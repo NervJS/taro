@@ -21,7 +21,7 @@ const baseConfig = {
     }),
     resolve({
       preferBuiltins: false,
-      jsnext: true
+      mainFields: ['module', 'js-next', 'main']
     }),
     postcss(),
     babel({
