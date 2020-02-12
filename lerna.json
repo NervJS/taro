@@ -8,11 +8,11 @@
     "packages/taro",
     "packages/taro-cli",
     "packages/taro-components",
+    "packages/taro-h5",
     "packages/taro-loader",
     "packages/taro-mini-runner",
     "packages/taro-react",
-    "packages/taro-runtime",
-    "packages/taro-h5"
+    "packages/taro-runtime"
   ],
   "command": {
     "publish": {
@@ -23,6 +23,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "npmClient": "yarn"
 }
