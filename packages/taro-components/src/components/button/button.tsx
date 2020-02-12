@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, Prop, State, ComponentInterface, Event, EventEmitter } from '@stencil/core'
+import { Component, h, Prop, State, ComponentInterface } from '@stencil/core'
 import classNames from 'classnames'
 
 @Component({
@@ -18,35 +18,24 @@ export class Button implements ComponentInterface {
   @State() hover = false
   @State() touch = false
 
-  @Event({
-    eventName: 'click'
-  }) onClick: EventEmitter
-
-  @Event({
-    eventName: 'touchstart'
-  }) onTouchStart: EventEmitter
-
-  @Event({
-    eventName: 'touchend'
-  }) onTouchEnd: EventEmitter
-
   render () {
     const {
       disabled,
       hoverClass,
+      type,
       hoverStartTime,
       hoverStayTime,
       size,
       plain,
       loading,
-      type
+      hover
     } = this
 
     const cls = classNames(
       'weui-btn',
       'taro-button',
       {
-        [`${hoverClass}`]: this.hover && !disabled,
+        [`${hoverClass}`]: hover && !disabled,
         [`weui-btn_plain-${type}`]: plain,
         [`weui-btn_${type}`]: !plain && type,
         'weui-btn_mini': size === 'mini',
@@ -64,7 +53,6 @@ export class Button implements ComponentInterface {
           }
         }, hoverStartTime)
       }
-      // this.onTouchStart.emit()
     }
 
     const _onTouchEnd = () => {
@@ -76,13 +64,14 @@ export class Button implements ComponentInterface {
           }
         }, hoverStayTime)
       }
-      // this.onTouchEnd.emit()
     }
 
     return (
       <button
         class={cls}
         type={type}
+        // @ts-ignore: weui need plain for css selector
+        plain={plain}
         disabled={disabled}
         onTouchStart={_onTouchStart}
         onTouchEnd={_onTouchEnd}

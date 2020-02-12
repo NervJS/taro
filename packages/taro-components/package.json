@@ -17,6 +17,7 @@
     "dev": "webpack --config webpack.prod.config.js --watch",
     "deploy": "webpack --config webpack.config.js",
     "build": "stencil build --config stencil.config.ts",
+    "dev-stencil": "stencil build --config stencil.config.ts --watch",
     "test": "karmatic --files '__tests__/**.spec.js' --coverage false",
     "test:debug": "karmatic debug --files '__tests__/**.spec.js' --coverage false",
     "test-update": "jest --updateSnapshot"
@@ -34,6 +35,7 @@
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
     "omit.js": "^1.0.0",
+    "reactify-wc": "^2.0.1",
     "resolve-pathname": "^3.0.0",
     "swiper": "4.4.2",
     "weui": "^1.1.2"
