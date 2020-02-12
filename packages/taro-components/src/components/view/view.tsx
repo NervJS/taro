@@ -20,7 +20,7 @@ export class View implements ComponentInterface {
   private startTime = 0
 
   @Listen('touchstart')
-  onTouchStart() {
+  onTouchStart () {
     if (this.hoverClass) {
       this.touch = true
       setTimeout(() => {
@@ -37,7 +37,7 @@ export class View implements ComponentInterface {
   }
 
   @Listen('touchmove')
-  onTouchMove() {
+  onTouchMove () {
     clearTimeout(this.timeoutEvent)
   }
 
