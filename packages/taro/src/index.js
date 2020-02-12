@@ -38,7 +38,7 @@ if (process.env.TARO_ENV === 'alipay') {
   eventCenter = new Events()
 }
 
-export default {
+export const Taro = {
   Events,
   eventCenter,
   getEnv,
@@ -66,3 +66,5 @@ export default {
   options,
   nextTick
 }
+
+export default Taro
