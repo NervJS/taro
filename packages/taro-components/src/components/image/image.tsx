@@ -1,7 +1,22 @@
-import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
+import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter } from '@stencil/core'
 import classNames from 'classnames'
 
-require('intersection-observer')
+import('intersection-observer')
+
+type Mode =
+  'scaleToFill'
+  | 'aspectFit'
+  | 'aspectFill'
+  | 'widthFix'
+  | 'top'
+  | 'bottom'
+  | 'center'
+  | 'left'
+  | 'right'
+  | 'top left'
+  | 'top right'
+  | 'bottom left'
+  | 'bottom right'
 
 @Component({
   tag: 'taro-image',
@@ -9,9 +24,9 @@ require('intersection-observer')
 })
 export class Image implements ComponentInterface {
   @Prop() src: string
-  @Prop() mode = 'scaleToFill'
+  @Prop() mode: Mode = 'scaleToFill'
   @Prop() lazyLoad = false
-  @State() isLoaded = false
+  @State() aspectFillMode = 'width'
 
   @Event({
     eventName: 'load'
@@ -23,28 +38,36 @@ export class Image implements ComponentInterface {
 
   private imgRef: HTMLImageElement
 
-  @Element() el: HTMLElement
-
   componentDidLoad () {
-    if (this.lazyLoad) {
-      const lazyImg = new IntersectionObserver((entries) => {
-        // 异步 api 关系
-        if (entries[entries.length - 1].isIntersecting) {
-          this.isLoaded = true
-          lazyImg.unobserve(this.imgRef)
-          this.imgRef.src = this.src
-        }
-      }, {
-        rootMargin: '300px 0px'
-      })
-    }
+    if (!this.lazyLoad) return
+
+    const lazyImg = new IntersectionObserver(entries => {
+      // 异步 api 关系
+      if (entries[entries.length - 1].isIntersecting) {
+        lazyImg.unobserve(this.imgRef)
+        this.imgRef.src = this.src
+      }
+    }, {
+      rootMargin: '300px 0px'
+    })
+
+    lazyImg.observe(this.imgRef)
   }
 
   imageOnLoad () {
+    const {
+      width,
+      height,
+      naturalWidth,
+      naturalHeight
+    } = this.imgRef
+
     this.onLoad.emit({
-      width: this.imgRef.width,
-      height: this.imgRef.height
+      width,
+      height
     })
+
+    this.aspectFillMode = naturalWidth > naturalHeight ? 'width' : 'height'
   }
 
   imageOnError () {
@@ -52,33 +75,41 @@ export class Image implements ComponentInterface {
   }
 
   render () {
-    const cls = classNames(
-      'taro-img',
+    const {
+      src,
+      mode,
+      lazyLoad,
+      aspectFillMode,
+      imageOnLoad,
+      imageOnError
+    } = this
+
+    const cls = classNames('taro-img', {
+      'taro-img__widthfix': mode === 'widthFix'
+    })
+    const imgCls = classNames(
+      `taro-img__mode-${mode.toLowerCase().replace(/\s/g, '')}`,
       {
-        'taro-img__widthfix': this.mode === 'widthFix'
+        [`taro-img__mode-aspectfill--${aspectFillMode}`]: mode === 'aspectFill'
       }
     )
-    const imgCls = classNames(
-      'taro-img__mode-' +
-        (this.mode || 'scaleToFill').toLowerCase().replace(/\s/g, '')
-    )
+
     return (
       <Host class={cls}>
-        {this.lazyLoad ? (
+        {lazyLoad ? (
           <img
             ref={img => (this.imgRef = img!)}
             class={imgCls}
-            data-src={this.src}
-            onLoad={this.imageOnLoad}
-            onError={this.imageOnError}
+            onLoad={imageOnLoad.bind(this)}
+            onError={imageOnError.bind(this)}
           />
         ) : (
           <img
             ref={img => (this.imgRef = img!)}
             class={imgCls}
-            src={this.src}
-            onLoad={this.imageOnLoad}
-            onError={this.imageOnError}
+            src={src}
+            onLoad={imageOnLoad.bind(this)}
+            onError={imageOnError.bind(this)}
           />
         )}
       </Host>
