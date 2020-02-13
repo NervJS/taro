@@ -309,6 +309,8 @@ class C extends Components {
 
 在 Taro Next，Taro 的[专有 Hooks](https://nervjs.github.io/taro/docs/1.3.25/hooks.html)（例如 `usePageScroll`, `useReachBottom`）从 `@tarojs/taro` 中引入，框架自己的 Hooks （例如 `useEffect`, `useState`）从对应的框架引入。
 
+另外，旧版本的 Taro 可以在 Class Component 中使用 Hooks，但 React 是不允许这样的行为的。
+
 ```jsx
 import { usePageScroll, useReachBottom } from '@tarojs/taro' // Taro 专有 Hooks
 import { useState, useEffect } from 'react' // 框架 Hooks （基础 Hooks）
