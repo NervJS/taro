@@ -75,6 +75,7 @@ export function createEvent (event: MpEvent, element: TaroElement) {
 
   if (element.dataset !== EMPTY_OBJ) {
     domEv.currentTarget.dataset = { ...element.dataset }
+    domEv.target.dataset = { ...element.dataset }
   }
 
   return domEv
