@@ -305,3 +305,5 @@ export const processTypeMap: IProcessTypeMap = {
 }
 
 export const excludeReplaceTaroFrameworkPkgs = new Set([taroJsRedux, taroJsMobx, taroJsMobxCommon])
+
+export const GLOBAL_PROPS = '{Function,Boolean,Object,Number,Array,Date,String,Symbol,Error,TypeError,Map,Set,WeakMap,WeakSet,ArrayBuffer,Math,Promise,RegExp,DataView,isFinite,parseInt,parseFloat,Float32Array,Float64Array,Int8Array,Int16Array,Int32Array,Uint8Array,Uint16Array,Uint32Array,Uint8ClampedArray,setTimeout,clearTimeout,setInterval,clearInterval}'
