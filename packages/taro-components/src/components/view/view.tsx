@@ -33,7 +33,7 @@ export class View implements ComponentInterface {
     this.timeoutEvent = setTimeout(() => {
       this.onLongPress.emit()
     }, 350)
-    this.startTime = (new Date()).getTime()
+    this.startTime = Date.now()
   }
 
   @Listen('touchmove')
@@ -43,7 +43,7 @@ export class View implements ComponentInterface {
 
   @Listen('touchend')
   onTouchEnd () {
-    const spanTime = (new Date().getTime()) - this.startTime
+    const spanTime = Date.now() - this.startTime
     if (spanTime < 350) {
       clearTimeout(this.timeoutEvent)
     }
@@ -58,13 +58,16 @@ export class View implements ComponentInterface {
   }
 
   render () {
-    const cls = classNames(
-      {
-        [`${this.hoverClass}`]: this.hover
-      }
-    )
+    const cls = classNames({
+      [`${this.hoverClass}`]: this.hover
+    })
     return (
-      <Host class={cls} />
+      <Host
+        class={cls}
+        style={{
+          display: 'block'
+        }}
+      />
     )
   }
 }
