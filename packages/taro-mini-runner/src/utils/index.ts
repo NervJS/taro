@@ -246,8 +246,8 @@ export function removeHeadSlash (str: string) {
 
 export function npmCodeHack (filePath: string, content: string, buildAdapter: BUILD_TYPES): string {
   // 修正core-js目录 _global.js
-  // 修正所有用到过lodash的第三方包,包括@tarojs/taro-alipay/dist/index.js,@tarojs/taro/dist/index.esm.js等
-  // 注：
+  // 修正所有用到过lodash的第三方包
+  // 注：@tarojs/taro-alipay/dist/index.js,@tarojs/taro/dist/index.esm.js里面也有lodash相关的代码
   content = content && content.replace(/(\|\||:)\s*Function\(['"]return this['"]\)\(\)/g, function (match, first, second) {
     return `${first} ${GLOBAL_PROPS}`
   })
