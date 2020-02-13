@@ -26,7 +26,7 @@ export class Audio implements ComponentInterface {
   }) onPause: EventEmitter
 
   @Event({
-    eventName: 'timeUpdate'
+    eventName: 'timeupdate'
   }) onTimeUpdate: EventEmitter
 
   @Event({
