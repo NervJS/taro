@@ -36,8 +36,8 @@ export namespace Components {
   interface TaroForm {}
   interface TaroIcon {
     'color': string;
-    'size': string;
-    'type': string;
+    'size': string | number;
+    'type': Type;
   }
   interface TaroImage {
     'lazyLoad': boolean;
@@ -262,8 +262,8 @@ declare namespace LocalJSX {
   }
   interface TaroIcon {
     'color'?: string;
-    'size'?: string;
-    'type'?: string;
+    'size'?: string | number;
+    'type'?: Type;
   }
   interface TaroImage {
     'lazyLoad'?: boolean;
