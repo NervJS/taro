@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined } from '@tarojs/shared'
-import { eventHandler, getDataset } from '../dom/event'
+import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
 import { TaroRootElement } from '../dom/root'
@@ -100,7 +100,10 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
     },
     onShareAppMessage (options) {
       const id = options.target.id
-      options.target.dataset = getDataset(document.getElementById(id))
+      const element = document.getElementById(id)
+      if (element) {
+        options.target.dataset = element.dataset
+      }
       safeExecute('onShareAppMessage', options)
     },
     onResize (options) {
