@@ -7,25 +7,19 @@ function fixControlledValue (value?: string) {
 }
 
 @Component({
-  tag: 'taro-textarea'
+  tag: 'taro-textarea',
+  styleUrl: './style/index.scss'
 })
 export class Textarea implements ComponentInterface {
-  @Prop() type = 'text'
-  @Prop() maxLength: number
-  @Prop() confirmType: string
-  @Prop() password: string
-  @Prop() placeholder: string
-  @Prop() autoFocus = false
-  @Prop() disabled = false
   @Prop() value: string
+  @Prop() placeholder: string
+  @Prop() disabled = false
+  @Prop() maxLength = 140
+  @Prop() autoFocus = false
 
   @Event({
     eventName: 'input'
   }) onInput: EventEmitter
-
-  @Event({
-    eventName: 'change'
-  }) onChange: EventEmitter
 
   @Event({
     eventName: 'focus'
@@ -36,21 +30,14 @@ export class Textarea implements ComponentInterface {
   }) onBlur: EventEmitter
 
   @Event({
-    eventName: 'keydown'
-  }) onKeyDown: EventEmitter
-
-  @Event({
-    eventName: 'confirm'
-  }) onConfirm: EventEmitter
+    eventName: 'change'
+  }) onChange: EventEmitter
 
   hanldeInput = (e: TaroEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    this.onChange.emit({
-      value
-    })
-
+    e.stopPropagation()
     this.onInput.emit({
-      value
+      value: e.target.value,
+      cursor: e.target.value.length
     })
   }
 
@@ -66,29 +53,40 @@ export class Textarea implements ComponentInterface {
     })
   }
 
+  handleChange = (e: TaroEvent<HTMLInputElement>) => {
+    e.stopPropagation()
+    this.onChange.emit({
+      value: e.target.value
+    })
+  }
+
 
   render () {
     const {
+      value,
       placeholder,
       disabled,
       maxLength,
-      value
+      autoFocus,
+      hanldeInput,
+      handleFocus,
+      handleBlur,
+      handleChange
     } = this
 
     return (
       <textarea
-        ref={input => {
-          input && this.autoFocus && input.focus()
-        }}
-        class='weui-input'
+        ref={input => autoFocus && input?.focus()}
+        class='taro-textarea'
         value={fixControlledValue(value)}
         placeholder={placeholder}
         disabled={disabled}
         maxlength={maxLength}
-        onChange={this.hanldeInput}
-        onFocus={this.handleFocus}
-        autofocus={this.autoFocus}
-        onBlur={this.handleBlur}
+        autofocus={autoFocus}
+        onInput={hanldeInput}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onChange={handleChange}
       />
     )
   }
