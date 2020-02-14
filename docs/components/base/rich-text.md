@@ -43,7 +43,7 @@ class App extends Components {
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | nodes | `Nodes` | 节点列表/ HTML String |
-| space | `"ensp" | "emsp" | "nbsp"` | 显示连续空格 |
+| space | `ensp` \| `emsp` \| `nbsp` | 显示连续空格 |
 
 ### API 支持度
 
