@@ -9,7 +9,7 @@ interface EventOptions {
   cancelable: boolean;
 }
 
-type Target = Record<string, unknown> & { dataset: Record<string, unknown> }
+type Target = Record<string, unknown> & { dataset: Record<string, unknown>, id: string }
 
 export const eventSource = new Map<string, TaroNode>()
 
@@ -26,12 +26,11 @@ export class TaroEvent {
 
   public defaultPrevented = false
 
-  public target: Target
+  public mpEvent: MpEvent
 
-  public currentTarget: Target
-
-  public constructor (type: string, opts: EventOptions) {
+  public constructor (type: string, opts: EventOptions, event: MpEvent) {
     this.type = type.toLowerCase()
+    this.mpEvent = event
     this.bubbles = Boolean(opts && opts.bubbles)
     this.cancelable = Boolean(opts && opts.cancelable)
   }
@@ -47,41 +46,44 @@ export class TaroEvent {
   public preventDefault () {
     this.defaultPrevented = true
   }
+
+  get target () {
+    const element = document.getElementById(this.mpEvent.target.id)
+    return { ...this.mpEvent.target, ...this.mpEvent.detail, dataset: element ? element.dataset : EMPTY_OBJ }
+  }
+
+  get currentTarget () {
+    const element = document.getElementById(this.mpEvent.target.id)
+
+    if (element == null) {
+      return this.target
+    }
+
+    return { ...this.mpEvent.currentTarget, ...this.mpEvent.detail, dataset: element.dataset }
+  }
 }
 
-interface MpEvent {
+export interface MpEvent {
   type: string;
   detail: Record<string, unknown>
+  target: Target
+  currentTarget: Target
 }
 
-export function createEvent (event: MpEvent, element: TaroElement) {
-  const domEv = new TaroEvent(event.type, { bubbles: true, cancelable: true })
+export function createEvent (event: MpEvent, _: TaroElement) {
+  const domEv = new TaroEvent(event.type, { bubbles: true, cancelable: true }, event)
   for (const key in event) {
-    if (key === 'currentTarget' || key === 'target') {
-      domEv[key] = {
-        ...event[key],
-        ...event.detail
-      }
-    } else if (key === 'type') {
+    if (key === 'currentTarget' || key === 'target' || key === 'type') {
       continue
     } else {
       domEv[key] = event[key]
     }
   }
 
-  if (isUndefined(domEv.currentTarget)) {
-    domEv.currentTarget = domEv.target
-  }
-
-  if (element.dataset !== EMPTY_OBJ) {
-    domEv.currentTarget.dataset = { ...element.dataset }
-    domEv.target.dataset = { ...element.dataset }
-  }
-
   return domEv
 }
 
-export function eventHandler (event: CommonEvent) {
+export function eventHandler (event: MpEvent) {
   const node = document.getElementById(event.currentTarget.id)
   if (node != null) {
     node.dispatchEvent(createEvent(event, node))

@@ -1,7 +1,7 @@
 import { Component, ComponentClass } from 'react'
 import VueCtor, { ComponentOptions, VNode } from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
-import { CommonEvent } from '@tarojs/components'
+import { MpEvent } from '../dom/event'
 
 export interface Instance<T = {}> extends Component<T>, Show, PageInstance {
   tid?: string
@@ -45,7 +45,7 @@ export interface PageLifeCycle extends Show {
   onOptionMenuClick?(): void
   onPopMenuClick?(): void
   onPullIntercept?(): void
-  eh?(event: CommonEvent): void
+  eh?(event: MpEvent): void
   onLoad(options: Record<string, unknown>): void
   onUnload(): void
 }
