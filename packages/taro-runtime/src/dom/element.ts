@@ -1,5 +1,5 @@
 /* eslint-disable no-dupe-class-members */
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
@@ -90,7 +90,7 @@ export class TaroElement extends TaroNode {
         if (this.dataset === EMPTY_OBJ) {
           this.dataset = Object.create(null)
         }
-        this.dataset[qualifiedName.replace(/^data-/, '')] = value
+        this.dataset[toCamelCase(qualifiedName.replace(/^data-/, ''))] = value
       }
     }
 
