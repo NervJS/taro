@@ -9,7 +9,7 @@ if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
 }`
   return `import { ${method} } from '@tarojs/runtime'
-import component from '${this.request.split('!').slice(1).join('!')}'
+import component from '${this.request.replace(/\\/g, '/').split('!').slice(1).join('!')}'
 var inst = App(${method}(component))
 ${options.prerender ? prerender : ''}
 `

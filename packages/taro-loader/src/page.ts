@@ -8,7 +8,7 @@ export default function (this: webpack.loader.LoaderContext) {
   const raw = path.join(__dirname, 'raw.js')
   const componentPath = options.framework === 'vue'
     ? `${raw}!${this.resourcePath}`
-    : this.request.split('!').slice(1).join('!')
+    : this.request.replace(/\\/g, '/').split('!').slice(1).join('!')
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
