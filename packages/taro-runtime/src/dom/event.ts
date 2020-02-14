@@ -1,5 +1,5 @@
 import { TaroNode } from './node'
-import { EMPTY_OBJ } from '@tarojs/shared'
+import { EMPTY_OBJ, hasOwn, toCamelCase } from '@tarojs/shared'
 import { document } from '../bom/document'
 import { TaroElement } from './element'
 
@@ -11,6 +11,22 @@ interface EventOptions {
 type Target = Record<string, unknown> & { dataset: Record<string, unknown>, id: string }
 
 export const eventSource = new Map<string, TaroNode>()
+
+export function getDataset (element: TaroElement | null) {
+  if (element === null || element.dataset === EMPTY_OBJ) {
+    return EMPTY_OBJ
+  }
+
+  const dataset = {}
+
+  for (const key in element.dataset) {
+    if (hasOwn(dataset, key)) {
+      dataset[toCamelCase(key)] = element.dataset[key]
+    }
+  }
+
+  return dataset
+}
 
 export class TaroEvent {
   public type: string
@@ -48,7 +64,7 @@ export class TaroEvent {
 
   get target () {
     const element = document.getElementById(this.mpEvent.target.id)
-    return { ...this.mpEvent.target, ...this.mpEvent.detail, dataset: element !== null ? element.dataset : EMPTY_OBJ }
+    return { ...this.mpEvent.target, ...this.mpEvent.detail, dataset: getDataset(element) }
   }
 
   get currentTarget () {
@@ -58,7 +74,7 @@ export class TaroEvent {
       return this.target
     }
 
-    return { ...this.mpEvent.currentTarget, ...this.mpEvent.detail, dataset: element.dataset }
+    return { ...this.mpEvent.currentTarget, ...this.mpEvent.detail, dataset: getDataset(element) }
   }
 }
 
