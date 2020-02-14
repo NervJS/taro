@@ -1,4 +1,4 @@
-import reactifyWc from 'reactify-wc'
+import reactifyWc from './reactify-wc'
 
 export const View = reactifyWc('taro-view')
 export const Icon = reactifyWc('taro-icon')

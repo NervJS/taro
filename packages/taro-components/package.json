@@ -35,7 +35,6 @@
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
     "omit.js": "^1.0.0",
-    "reactify-wc": "^2.0.1",
     "resolve-pathname": "^3.0.0",
     "swiper": "4.4.2",
     "weui": "^1.1.2"
