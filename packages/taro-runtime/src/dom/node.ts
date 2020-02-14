@@ -127,7 +127,7 @@ export class TaroNode extends TaroEventTarget {
       })
     }
     child.parentNode = null
-    eventSource.delete(this.uid)
+    eventSource.delete(child.uid)
     return child
   }
 
