@@ -95,16 +95,21 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
     onReachBottom () {
       safeExecute('onReachBottom')
     },
-    onPageScroll (options: unknown) {
+    onPageScroll (options) {
       safeExecute('onPageScroll', options)
     },
-    onShareAppMessage (options: unknown) {
+    onShareAppMessage (options) {
+      const id = options.target.id
+      const element = document.getElementById(id)
+      if (element) {
+        options.target.dataset = element.dataset
+      }
       safeExecute('onShareAppMessage', options)
     },
-    onResize (options: unknown) {
+    onResize (options) {
       safeExecute('onResize', options)
     },
-    onTabItemTap (options: unknown) {
+    onTabItemTap (options) {
       safeExecute('onTabItemTap', options)
     },
     onTitleClick () {

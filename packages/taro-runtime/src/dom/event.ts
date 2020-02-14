@@ -1,6 +1,5 @@
 import { TaroNode } from './node'
-import { isUndefined, EMPTY_OBJ } from '@tarojs/shared'
-import { CommonEvent } from '@tarojs/components'
+import { EMPTY_OBJ } from '@tarojs/shared'
 import { document } from '../bom/document'
 import { TaroElement } from './element'
 
@@ -49,13 +48,13 @@ export class TaroEvent {
 
   get target () {
     const element = document.getElementById(this.mpEvent.target.id)
-    return { ...this.mpEvent.target, ...this.mpEvent.detail, dataset: element ? element.dataset : EMPTY_OBJ }
+    return { ...this.mpEvent.target, ...this.mpEvent.detail, dataset: element !== null ? element.dataset : EMPTY_OBJ }
   }
 
   get currentTarget () {
     const element = document.getElementById(this.mpEvent.target.id)
 
-    if (element == null) {
+    if (element === null) {
       return this.target
     }
 
@@ -70,7 +69,7 @@ export interface MpEvent {
   currentTarget: Target
 }
 
-export function createEvent (event: MpEvent, _: TaroElement) {
+export function createEvent (event: MpEvent, _?: TaroElement) {
   const domEv = new TaroEvent(event.type, { bubbles: true, cancelable: true }, event)
   for (const key in event) {
     if (key === 'currentTarget' || key === 'target' || key === 'type') {

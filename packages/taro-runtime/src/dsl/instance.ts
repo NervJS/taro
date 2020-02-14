@@ -2,6 +2,7 @@ import { Component, ComponentClass } from 'react'
 import VueCtor, { ComponentOptions, VNode } from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
 import { MpEvent } from '../dom/event'
+import { TaroElement } from '../dom/element'
 
 export interface Instance<T = {}> extends Component<T>, Show, PageInstance {
   tid?: string
@@ -37,7 +38,7 @@ export interface PageLifeCycle extends Show {
   onPullDownRefresh?(): void
   onReachBottom?(): void
   onPageScroll?(obj: { scrollTop: number }): void
-  onShareAppMessage?(obj: { from: string, target: Record<string, string>, webViewUrl: string }): void
+  onShareAppMessage?(obj: { from: string, target: TaroElement, webViewUrl: string }): void
   onResize?(options: unknown): void
   onTabItemTap?(obj: { index: string, pagePath: string, text: string }): void
   componentWillPreload?(): void
