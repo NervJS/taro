@@ -44,3 +44,5 @@ export const useOptionMenuClick = taroHooks('onOptionMenuClick')
 export const usePullIntercept = taroHooks('onPullIntercept')
 
 export const useRouter = () => Current.router
+
+export const useScope = () => undefined

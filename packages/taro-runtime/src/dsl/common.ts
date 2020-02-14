@@ -32,7 +32,7 @@ const pageId = incrementId()
 export function createPageConfig (component: React.ComponentClass, pageName?: string, data?: Record<string, unknown>) {
   const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
-  let page: TaroRootElement | null = null
+  let pageElement: TaroRootElement | null = null
   let instance: Instance = EMPTY_OBJ
   const isReact = process.env.FRAMEWORK !== 'vue' // isReact means all kind of react-like library
 
@@ -64,23 +64,26 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
         path: addLeadingSlash(this.route || this.__route__)
       }
 
+      Current.page = this as any
+
       perf.start(PAGE_INIT)
 
       Current.app!.mount(component, id, () => {
-        page = document.getElementById<TaroRootElement>(id)
+        pageElement = document.getElementById<TaroRootElement>(id)
         instance = instances.get(id) || EMPTY_OBJ
 
-        ensure(page !== null, '没有找到页面实例。')
+        ensure(pageElement !== null, '没有找到页面实例。')
         safeExecute('onLoad', options)
-        page.ctx = this
-        page.performUpdate(true, cb)
+        pageElement.ctx = this
+        pageElement.performUpdate(true, cb)
       })
     },
     onUnload () {
       Current.router = null
+      Current.page = null
 
       Current.app!.unmount(id, () => {
-        page!.ctx = null
+        pageElement!.ctx = null
       })
     },
     onShow () {

@@ -317,3 +317,7 @@ import { useState, useEffect } from 'react' // 框架 Hooks （基础 Hooks）
 // 如果你使用 Nerv 的话
 // import { useState, useEffect } from 'nervjs' // 框架 Hooks （基础 Hooks）
 ```
+
+## $scope 和 $componentType
+
+由于 Taro Next 没有自定义组件，所以也没有了 `this.$scope` 和 `this.$componentType` 的概念。`Current.page` 可以返回当前小程序页面的实例。

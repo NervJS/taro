@@ -1,4 +1,4 @@
-import { AppInstance } from './dsl/instance'
+import { AppInstance, PageInstance } from './dsl/instance'
 
 interface Router {
   params: Record<string, unknown>
@@ -7,10 +7,12 @@ interface Router {
 
 interface Current {
   app: AppInstance | null,
-  router: Router | null
+  router: Router | null,
+  page: PageInstance | null
 }
 
 export const Current: Current = {
   app: null,
-  router: null
+  router: null,
+  page: null
 }
