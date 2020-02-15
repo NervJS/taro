@@ -34,7 +34,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
     designWidth = 750,
     deviceRatio,
-    enableSourceMap = false,
+    enableSourceMap = process.env.NODE_ENV !== 'production',
     baseLevel = 16,
     framework = 'nerv',
     prerender,
