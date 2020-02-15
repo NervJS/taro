@@ -1,10 +1,9 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
-import Taro from '@tarojs/taro-h5'
+import * as Taro from '@tarojs/taro-h5'
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
-import './style/index.scss'
 
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
 // const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
