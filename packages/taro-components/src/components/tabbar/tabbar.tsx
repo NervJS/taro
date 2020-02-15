@@ -32,7 +32,7 @@ interface RouterHandler {
   animation?: boolean
 }
 
-interface Conf {
+export interface Conf {
   color: string
   selectedColor: string
   backgroundColor: string
@@ -187,7 +187,7 @@ export class Tabbar implements ComponentInterface {
     this.selectedIndex = this.getSelectedIndex(this.getOriginUrl(currentPage))
   }
 
-  setTabBarBadgeHandler = ({ index, text, _, errorHandler }: RouterHandler) => {
+  setTabBarBadgeHandler = ({ index, text, errorHandler }: RouterHandler) => {
     const list = this.list
     if (index in list) {
       this.list[index].showRedDot = false

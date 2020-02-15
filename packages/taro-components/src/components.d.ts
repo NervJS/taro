@@ -7,7 +7,9 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-
+import {
+  Conf,
+} from './components/tabbar/tabbar';
 
 export namespace Components {
   interface TaroAudio {
@@ -302,6 +304,7 @@ declare namespace LocalJSX {
   }
   interface TaroPickerViewColumn {}
   interface TaroTabbar {
+    'conf'?: Conf;
     'onLongpress'?: (event: CustomEvent<any>) => void;
   }
   interface TaroText {
