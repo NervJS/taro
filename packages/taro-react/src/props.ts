@@ -1,5 +1,5 @@
 import { TaroElement, Style, document } from '@tarojs/runtime'
-import { isFunction, isString, isObject, isNumber, ensure } from '@tarojs/shared'
+import { isFunction, isString, isObject, isNumber } from '@tarojs/shared'
 import { CommonEvent } from '@tarojs/components'
 
 export type Props = Record<string, unknown>
