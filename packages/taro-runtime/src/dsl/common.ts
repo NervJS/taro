@@ -54,7 +54,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       return
     }
 
-    func.apply(instance, args)
+    return func.apply(instance, args)
   }
 
   const config: PageInstance = {
@@ -93,13 +93,13 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       safeExecute('onHide')
     },
     onPullDownRefresh () {
-      safeExecute('onPullDownRefresh')
+      return safeExecute('onPullDownRefresh')
     },
     onReachBottom () {
-      safeExecute('onReachBottom')
+      return safeExecute('onReachBottom')
     },
     onPageScroll (options) {
-      safeExecute('onPageScroll', options)
+      return safeExecute('onPageScroll', options)
     },
     onShareAppMessage (options) {
       const id = options.target.id
@@ -107,25 +107,25 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       if (element) {
         options.target.dataset = element.dataset
       }
-      safeExecute('onShareAppMessage', options)
+      return safeExecute('onShareAppMessage', options)
     },
     onResize (options) {
-      safeExecute('onResize', options)
+      return safeExecute('onResize', options)
     },
     onTabItemTap (options) {
-      safeExecute('onTabItemTap', options)
+      return safeExecute('onTabItemTap', options)
     },
     onTitleClick () {
-      safeExecute('onTitleClick')
+      return safeExecute('onTitleClick')
     },
     onOptionMenuClick () {
-      safeExecute('onOptionMenuClick')
+      return safeExecute('onOptionMenuClick')
     },
     onPopMenuClick () {
-      safeExecute('onPopMenuClick')
+      return safeExecute('onPopMenuClick')
     },
     onPullIntercept () {
-      safeExecute('onPullIntercept')
+      return safeExecute('onPullIntercept')
     }
   }
 
