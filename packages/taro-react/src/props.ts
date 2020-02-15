@@ -1,5 +1,5 @@
-import { TaroElement, Style } from '@tarojs/runtime'
-import { isFunction, isString, isObject, isNumber } from '@tarojs/shared'
+import { TaroElement, Style, document } from '@tarojs/runtime'
+import { isFunction, isString, isObject, isNumber, ensure } from '@tarojs/shared'
 import { CommonEvent } from '@tarojs/components'
 
 export type Props = Record<string, unknown>
@@ -26,10 +26,11 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
   }
 }
 
-const listeners: Record<string, Record<string, Function>> = {}
+const listeners: WeakMap<TaroElement, Record<string, Function>> = new WeakMap()
 
 function eventProxy (e: CommonEvent) {
-  listeners[e.currentTarget.id][e.type](e)
+  const el = document.getElementById(e.currentTarget.id)
+  listeners.get(el!)![e.type](e)
 }
 
 function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
@@ -47,15 +48,17 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
     if (!oldValue) {
       dom.addEventListener(eventName, eventProxy, isCapture)
     }
-    let events = listeners[dom.uid]
+    let events = listeners.get(dom)
     if (!events) {
-      events = listeners[dom.uid] = {}
+      listeners.set(dom, events = {})
     }
     events[eventName] = value
   } else {
     dom.removeEventListener(eventName, eventProxy)
-    const events = listeners[dom.uid]
-    delete events[eventName]
+    const events = listeners.get(dom)
+    if (events) {
+      delete events[eventName]
+    }
   }
 }
 
