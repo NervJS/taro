@@ -72,13 +72,8 @@ describe('Context', () => {
       const createEvent = runtime.createEvent
       const container = document.createElement('div')
       const spy = jest.fn()
-      render(<div type="button" onClick={spy} />, container)
-      const event = createEvent({ type: 'tap' }, container.firstChild)
-      // mini program event system will do this for us
-      event.currentTarget = {
-        ...container.firstChild,
-        id: container.firstChild.uid
-      }
+      render(<div type="button" onClick={spy} id='fuck2' />, container)
+      const event = createEvent({ type: 'tap', currentTarget: { id: container.firstChild.uid }, target: { id: container.firstChild.uid } })
       container.firstChild.dispatchEvent(event)
       expect(spy).toBeCalled()
     })
@@ -95,14 +90,14 @@ describe('Context', () => {
       render(<div id='1' a='a' />, container)
       render(<div id='2' b='b' />, container)
       expect(container.firstChild.id).toBe('2')
-      expect(container.firstChild.getAttribute('a')).toBe(null)
+      expect(container.firstChild.getAttribute('a')).toBe('')
       expect(container.firstChild.getAttribute('b')).toBe('b')
     })
 
     it('should ignore ref', () => {
       const container = document.createElement('div')
       render(<div ref={React.createRef} />, container)
-      expect(container.firstChild.getAttribute('ref')).toBe(null)
+      expect(container.firstChild.getAttribute('ref')).toBe('')
     })
   })
 })

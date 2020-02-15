@@ -302,7 +302,6 @@ declare namespace LocalJSX {
   }
   interface TaroPickerViewColumn {}
   interface TaroTabbar {
-    'conf'?: Conf;
     'onLongpress'?: (event: CustomEvent<any>) => void;
   }
   interface TaroText {
