@@ -41,15 +41,15 @@ export namespace Components {
   }
   interface TaroImage {
     'lazyLoad': boolean;
-    'mode': string;
+    'mode': Mode;
     'src': string;
   }
   interface TaroInput {
-    'autoFocus': boolean;
     'confirmType': string;
     'disabled': boolean;
-    'maxLength': number;
-    'password': string;
+    'focus': boolean;
+    'maxlength': number;
+    'password': boolean;
     'placeholder': string;
     'type': string;
     'value': string;
@@ -75,12 +75,9 @@ export namespace Components {
   }
   interface TaroTextarea {
     'autoFocus': boolean;
-    'confirmType': string;
     'disabled': boolean;
-    'maxLength': number;
-    'password': string;
+    'maxlength': number;
     'placeholder': string;
-    'type': string;
     'value': string;
   }
   interface TaroView {
@@ -239,7 +236,7 @@ declare namespace LocalJSX {
     'onError'?: (event: CustomEvent<any>) => void;
     'onPause'?: (event: CustomEvent<any>) => void;
     'onPlay'?: (event: CustomEvent<any>) => void;
-    'onTimeUpdate'?: (event: CustomEvent<any>) => void;
+    'onTimeupdate'?: (event: CustomEvent<any>) => void;
     'src'?: string;
   }
   interface TaroBlock {}
@@ -267,23 +264,23 @@ declare namespace LocalJSX {
   }
   interface TaroImage {
     'lazyLoad'?: boolean;
-    'mode'?: string;
+    'mode'?: Mode;
     'onError'?: (event: CustomEvent<any>) => void;
     'onLoad'?: (event: CustomEvent<any>) => void;
     'src'?: string;
   }
   interface TaroInput {
-    'autoFocus'?: boolean;
     'confirmType'?: string;
     'disabled'?: boolean;
-    'maxLength'?: number;
+    'focus'?: boolean;
+    'maxlength'?: number;
     'onBlur'?: (event: CustomEvent<any>) => void;
     'onChange'?: (event: CustomEvent<any>) => void;
     'onConfirm'?: (event: CustomEvent<any>) => void;
     'onFocus'?: (event: CustomEvent<any>) => void;
     'onInput'?: (event: CustomEvent<any>) => void;
     'onKeydown'?: (event: CustomEvent<any>) => void;
-    'password'?: string;
+    'password'?: boolean;
     'placeholder'?: string;
     'type'?: string;
     'value'?: string;
@@ -313,18 +310,13 @@ declare namespace LocalJSX {
   }
   interface TaroTextarea {
     'autoFocus'?: boolean;
-    'confirmType'?: string;
     'disabled'?: boolean;
-    'maxLength'?: number;
+    'maxlength'?: number;
     'onBlur'?: (event: CustomEvent<any>) => void;
     'onChange'?: (event: CustomEvent<any>) => void;
-    'onConfirm'?: (event: CustomEvent<any>) => void;
     'onFocus'?: (event: CustomEvent<any>) => void;
     'onInput'?: (event: CustomEvent<any>) => void;
-    'onKeydown'?: (event: CustomEvent<any>) => void;
-    'password'?: string;
     'placeholder'?: string;
-    'type'?: string;
     'value'?: string;
   }
   interface TaroView {

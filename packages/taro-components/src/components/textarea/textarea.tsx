@@ -14,7 +14,7 @@ export class Textarea implements ComponentInterface {
   @Prop() value: string
   @Prop() placeholder: string
   @Prop() disabled = false
-  @Prop() maxLength = 140
+  @Prop() maxlength = 140
   @Prop() autoFocus = false
 
   @Event({
@@ -66,7 +66,7 @@ export class Textarea implements ComponentInterface {
       value,
       placeholder,
       disabled,
-      maxLength,
+      maxlength,
       autoFocus,
       hanldeInput,
       handleFocus,
@@ -81,7 +81,7 @@ export class Textarea implements ComponentInterface {
         value={fixControlledValue(value)}
         placeholder={placeholder}
         disabled={disabled}
-        maxlength={maxLength}
+        maxlength={maxlength}
         autofocus={autoFocus}
         onInput={hanldeInput}
         onFocus={handleFocus}

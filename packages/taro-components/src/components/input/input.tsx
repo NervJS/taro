@@ -2,7 +2,7 @@
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter } from '@stencil/core'
 import { EventHandler, TaroEvent } from '@tarojs/components'
 
-function getTrueType (type: string, confirmType: string, password: string) {
+function getTrueType (type: string, confirmType: string, password: boolean) {
   if (!type) {
     throw new Error('unexpected type')
   }
@@ -27,22 +27,18 @@ export class Input implements ComponentInterface {
   private onInputExcuted = false
   private fileListener: EventHandler
 
-  @Prop() type = 'text'
-  @Prop() maxLength: number
-  @Prop() confirmType: string
-  @Prop() password: string
-  @Prop() placeholder: string
-  @Prop() autoFocus = false
-  @Prop() disabled = false
   @Prop() value: string
+  @Prop() type = 'text'
+  @Prop() password = false
+  @Prop() placeholder: string
+  @Prop() disabled = false
+  @Prop() maxlength = 140
+  @Prop() focus = false
+  @Prop() confirmType = 'done'
 
   @Event({
     eventName: 'input'
   }) onInput: EventEmitter
-
-  @Event({
-    eventName: 'change'
-  }) onChange: EventEmitter
 
   @Event({
     eventName: 'focus'
@@ -53,12 +49,16 @@ export class Input implements ComponentInterface {
   }) onBlur: EventEmitter
 
   @Event({
-    eventName: 'keydown'
-  }) onKeyDown: EventEmitter
-
-  @Event({
     eventName: 'confirm'
   }) onConfirm: EventEmitter
+
+  @Event({
+    eventName: 'change'
+  }) onChange: EventEmitter
+
+  @Event({
+    eventName: 'keydown'
+  }) onKeyDown: EventEmitter
 
   componentDidLoad () {
     if (this.type === 'file') {
@@ -66,6 +66,9 @@ export class Input implements ComponentInterface {
         this.onInput.emit()
       }
       this.inputRef.addEventListener('change', this.fileListener)
+    } else {
+      this.inputRef.addEventListener('compositionstart', this.handleComposition)
+      this.inputRef.addEventListener('compositionend', this.handleComposition)
     }
   }
 
@@ -79,7 +82,7 @@ export class Input implements ComponentInterface {
     e.stopPropagation()
     const {
       type,
-      maxLength,
+      maxlength,
       confirmType,
       password
     } = this
@@ -87,9 +90,9 @@ export class Input implements ComponentInterface {
       let value = e.target.value
       const inputType = getTrueType(type, confirmType, password)
       this.onInputExcuted = true
-      /* 修复 number 类型 maxLength 无效 */
-      if (inputType === 'number' && value && maxLength <= value.length) {
-        value = value.substring(0, maxLength)
+      /* 修复 number 类型 maxlength 无效 */
+      if (inputType === 'number' && value && maxlength <= value.length) {
+        value = value.substring(0, maxlength)
         e.target.value = value
       }
 
@@ -104,12 +107,9 @@ export class Input implements ComponentInterface {
         )
       }
 
-      this.onChange.emit({
-        value
-      })
-
       this.onInput.emit({
-        value
+        value,
+        cursor: value.length
       })
     }
   }
@@ -127,20 +127,21 @@ export class Input implements ComponentInterface {
     })
   }
 
+  handleChange = (e: TaroEvent<HTMLInputElement>) => {
+    e.stopPropagation()
+    this.onChange.emit({
+      value: e.target.value
+    })
+  }
+
   handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
-    const value = e.target.value
+    const { value } = e.target
     this.onInputExcuted = false
     e.stopPropagation()
 
-    this.onKeyDown.emit({
-      value
-    })
+    this.onKeyDown.emit({ value })
 
-    if (e.keyCode === 13) {
-      this.onConfirm.emit({
-        value
-      })
-    }
+    e.keyCode === 13 && this.onConfirm.emit({ value })
   }
 
   handleComposition = (e) => {
@@ -148,7 +149,7 @@ export class Input implements ComponentInterface {
 
     if (e.type === 'compositionend') {
       this.isOnComposition = false
-      this.onInput.emit()
+      this.onInput.emit({ value: e.target.value })
     } else {
       this.isOnComposition = true
     }
@@ -156,34 +157,34 @@ export class Input implements ComponentInterface {
 
   render () {
     const {
-      placeholder,
-      type = 'text',
+      value,
+      type,
       password,
+      placeholder,
       disabled,
-      maxLength,
-      confirmType = '',
-      value
+      maxlength,
+      focus,
+      confirmType
     } = this
 
     return (
       <input
         ref={input => {
           this.inputRef = input!
-          input && this.autoFocus && input.focus()
+          this.focus && input?.focus()
         }}
         class='weui-input'
         value={fixControlledValue(value)}
+        type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
         disabled={disabled}
-        maxlength={maxLength}
+        maxlength={maxlength}
+        autofocus={focus}
         onInput={this.hanldeInput}
         onFocus={this.handleFocus}
-        autofocus={this.autoFocus}
         onBlur={this.handleBlur}
+        onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
-        type={getTrueType(type, confirmType, password)}
-        onCompositionStart={this.handleComposition}
-        onCompositionEnd={this.handleComposition}
       />
     )
   }
