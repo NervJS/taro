@@ -3,8 +3,8 @@ import { DocEntry } from "../"
 
 const SymbolFlags = Object.values(ts.SymbolFlags)
 
-export function childrenMerge (d: DocEntry[] = [], o: DocEntry[] = []) {
-  d.forEach(e => {
+export async function childrenMerge (d: DocEntry[] = [], o: DocEntry[] = []) {
+  for (const e of d) {
     const name = e.name || 'undefined'
     if (!o.find(v => v.name === name)) o.push(e)
     const target = o.find(v => v.name === name) || {}
@@ -13,30 +13,31 @@ export function childrenMerge (d: DocEntry[] = [], o: DocEntry[] = []) {
         if (key === 'flags') {
           if (!target.flags || !isFunction(e.flags)) target.flags = e.flags
         } if (key === 'children') {
-          target.children = childrenMerge(e.children, target.children)
+          target.children = await childrenMerge(e.children, target.children)
         } if (key === 'exports') {
-          target.exports = childrenMerge(e.exports, target.exports)
+          target.exports = await childrenMerge(e.exports, target.exports)
         } else {
           target[key] = e[key]
         }
       }
     }
-  })
+  }
 
   return o.map(e => {
     if (e.children) {
-      if (!e.exports) e.exports = [];
-      e.children.forEach(k => {
+      if (!e.exports) e.exports = []
+      for (const k of e.children) {
         const kk = e.exports!.find(kk => kk.name === k.name)
-        if (!kk) e.exports!.push(k)
-        else {
+        if (!kk) {
+          e.exports!.push(k)
+        } else {
           for (const key in k) {
             if (k.hasOwnProperty(key) && !kk[key]) {
               kk[key] = k[key]
             }
           }
         }
-      })
+      }
       delete e.children
     }
     return e

@@ -1,8 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-export interface SwiperProps extends StandardProps {
-
+interface SwiperProps extends StandardProps {
   /** 是否显示面板指示点
    * @default false
    * @supported weapp, swan, alipay, tt, h5, rn
@@ -90,7 +89,7 @@ export interface SwiperProps extends StandardProps {
    * @default "default"
    * @supported weapp
    */
-  easingFunction?: keyof TEasingFunction
+  easingFunction?: keyof SwiperProps.TEasingFunction
 
   /** current 改变时会触发 change 事件
    * @supported weapp, swan, alipay, tt, h5, rn
@@ -99,7 +98,7 @@ export interface SwiperProps extends StandardProps {
     /** 当前所在滑块的索引 */
     current: number
     /** 导致变更的原因 */
-    source: keyof TChangeSource
+    source: keyof SwiperProps.TChangeSource
   }>
 
   /** swiper-item 的位置发生改变时会触发 transition 事件
@@ -113,28 +112,30 @@ export interface SwiperProps extends StandardProps {
   onAnimationFinish?: SwiperProps['onChange']
 }
 
-/** 导致变更的原因 */
-interface TChangeSource {
-  /** 自动播放 */
-  autoplay
-  /** 用户划动 */
-  touch
-  /** 其它原因 */
-  ''
-}
-
-/** 指定 swiper 切换缓动动画类型 */
-interface TEasingFunction {
-  /** 默认缓动函数 */
-  default
-  /** 线性动画 */
-  linear
-  /** 缓入动画 */
-  easeInCubic
-  /** 缓出动画 */
-  easeOutCubic
-  /** 缓入缓出动画 */
-  easeInOutCubic
+declare namespace SwiperProps {
+  /** 导致变更的原因 */
+  interface TChangeSource {
+    /** 自动播放 */
+    autoplay
+    /** 用户划动 */
+    touch
+    /** 其它原因 */
+    ''
+  }
+  
+  /** 指定 swiper 切换缓动动画类型 */
+  interface TEasingFunction {
+    /** 默认缓动函数 */
+    default
+    /** 线性动画 */
+    linear
+    /** 缓入动画 */
+    easeInCubic
+    /** 缓出动画 */
+    easeOutCubic
+    /** 缓入缓出动画 */
+    easeInOutCubic
+  }
 }
 
 /** 滑块视图容器。其中只可放置 swiper-item 组件，否则会导致未定义的行为。
@@ -171,4 +172,4 @@ interface TEasingFunction {
  */
 declare const Swiper: ComponentType<SwiperProps>
 
-export { Swiper }
+export { Swiper, SwiperProps }

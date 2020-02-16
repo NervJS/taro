@@ -87,7 +87,7 @@ class App extends Component {
 | SwiperProps.onTransition | ✔️ |  |  |  |  |  |
 | SwiperProps.onAnimationFinish | ✔️ | ✔️ |  |  | ✔️ | ✔️ |
 
-## TChangeSource
+### TChangeSource
 
 导致变更的原因
 
@@ -97,17 +97,17 @@ class App extends Component {
 | touch | 用户划动 |
 |  | 其它原因 |
 
-## TEasingFunction
+### TEasingFunction
 
 指定 swiper 切换缓动动画类型
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| default | `default` | 默认缓动函数 |
-| linear | `any` | 线性动画 |
-| easeInCubic | `any` | 缓入动画 |
-| easeOutCubic | `any` | 缓出动画 |
-| easeInOutCubic | `any` | 缓入缓出动画 |
+| 参数 | 说明 |
+| --- | --- |
+| default | 默认缓动函数 |
+| linear | 线性动画 |
+| easeInCubic | 缓入动画 |
+| easeOutCubic | 缓出动画 |
+| easeInOutCubic | 缓入缓出动画 |
 
 ## API 支持度
 

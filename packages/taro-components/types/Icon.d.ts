@@ -1,11 +1,11 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-export interface IconProps extends StandardProps {
+interface IconProps extends StandardProps {
   /** icon 的类型
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  type: keyof TIconType
+  type: keyof IconProps.TIconType
 
   /** icon 的大小，单位px
    * @default 23
@@ -19,26 +19,28 @@ export interface IconProps extends StandardProps {
   color?: string
 }
 
-/** icon 的类型 */
-interface TIconType {
-  /** 成功图标 */
-  success
-  /** 成功图标（不带外圈） */
-  success_no_circle
-  /** 信息图标 */
-  info
-  /** 警告图标 */
-  warn
-  /** 等待图标 */
-  waiting
-  /** 取消图标 */
-  cancel
-  /** 下载图标 */
-  download
-  /** 搜索图标 */
-  search
-  /** 清楚图标 */
-  clear
+declare namespace IconProps {
+  /** icon 的类型 */
+  interface TIconType {
+    /** 成功图标 */
+    success
+    /** 成功图标（不带外圈） */
+    success_no_circle
+    /** 信息图标 */
+    info
+    /** 警告图标 */
+    warn
+    /** 等待图标 */
+    waiting
+    /** 取消图标 */
+    cancel
+    /** 下载图标 */
+    download
+    /** 搜索图标 */
+    search
+    /** 清楚图标 */
+    clear
+  }
 }
 
 /** 图标。组件属性的长度单位默认为 px
@@ -74,4 +76,4 @@ interface TIconType {
  */
 declare const Icon: ComponentType<IconProps>
 
-export { Icon }
+export { Icon, IconProps }

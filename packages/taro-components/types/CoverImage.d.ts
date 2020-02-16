@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-export interface CoverImageProps extends StandardProps {
+interface CoverImageProps extends StandardProps {
   /** 图标路径，支持临时路径、网络地址、云文件ID。暂不支持base64格式。
    * @supported weapp
    */
@@ -41,4 +41,4 @@ export interface CoverImageProps extends StandardProps {
  */
 declare const CoverImage: ComponentType<CoverImageProps>
 
-export { CoverImage }
+export { CoverImage, CoverImageProps }

@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-export interface ProgressProps extends StandardProps {
+interface ProgressProps extends StandardProps {
   /** 百分比 0~100
    * @supported weapp, swan, alipay, tt, h5, rn
    */
@@ -99,4 +99,4 @@ export interface ProgressProps extends StandardProps {
  */
 declare const Progress: ComponentType<ProgressProps>
 
-export { Progress }
+export { Progress, ProgressProps }

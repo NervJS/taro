@@ -1,35 +1,31 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-export interface WebViewProps extends StandardProps {
+interface WebViewProps extends StandardProps {
 
-  /**
-   * webview 指向网页的链接。可打开关联的公众号的文章，其它网页需登录小程序管理后台配置业务域名。
+  /** webview 指向网页的链接。可打开关联的公众号的文章，其它网页需登录小程序管理后台配置业务域名。
    */
-  src: string,
+  src: string
 
-  /**
-   * 网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = { data }
+  /** 网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = { data }
    */
   onMessage?: CommonEventFunction<{
     /** 消息数据，是多次 postMessage 的参数组成的数组 */
-    data: any[],
-  }>,
+    data: any[]
+  }>
 
-  /**
-   * 网页加载成功时候触发此事件。e.detail = { src }
+  /** 网页加载成功时候触发此事件。e.detail = { src }
    */
   onLoad?: CommonEventFunction<{
     /** 网页链接 */
-    src: string,
-  }>,
+    src: string
+  }>
 
-  /**
-   * 网页加载失败的时候触发此事件。e.detail = { src }
+  /** 网页加载失败的时候触发此事件。e.detail = { src }
    */
   onError?: CommonEventFunction<{
     /** 网页链接 */
-    src: string,
+    src: string
   }>
 }
 
@@ -39,4 +35,4 @@ export interface WebViewProps extends StandardProps {
  */
 declare const WebView: ComponentType<WebViewProps>
 
-export { WebView }
+export { WebView, WebViewProps }

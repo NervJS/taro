@@ -3,7 +3,7 @@ title: SwiperItem
 sidebar_label: SwiperItem
 ---
 
-仅可放置在 swiper 组件中，宽高自动设置为100%。
+仅可放置在 swiper 组件中，宽高自动设置为100%
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/swiper-item.html)
 

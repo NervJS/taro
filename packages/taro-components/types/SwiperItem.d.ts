@@ -1,14 +1,14 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-export interface SwiperItemProps extends StandardProps {
+interface SwiperItemProps extends StandardProps {
   /** 该 swiper-item 的标识符
    * @supported weapp
    */
   itemId?: string
 }
 
-/** 仅可放置在 swiper 组件中，宽高自动设置为100%。
+/** 仅可放置在 swiper 组件中，宽高自动设置为100%
  * @classification viewContainer
  * @supported weapp
  * @example
@@ -42,4 +42,4 @@ export interface SwiperItemProps extends StandardProps {
  */
 declare const SwiperItem: ComponentType<SwiperItemProps>
 
-export { SwiperItem }
+export { SwiperItem, SwiperItemProps }

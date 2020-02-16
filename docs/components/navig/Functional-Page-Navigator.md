@@ -3,6 +3,8 @@ title: FunctionalPageNavigator
 sidebar_label: FunctionalPageNavigator
 ---
 
+仅在插件中有效，用于跳转到插件功能页
+
 ## 类型
 
 ```tsx

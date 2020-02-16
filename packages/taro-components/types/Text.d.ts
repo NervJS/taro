@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-export interface TextProps extends StandardProps {
+interface TextProps extends StandardProps {
   /** 文本是否可选
    * @default false
    * @supported weapp, swan, alipay, tt, h5, rn
@@ -11,7 +11,7 @@ export interface TextProps extends StandardProps {
   /** 显示连续空格
    * @supported weapp, swan, tt
    */
-  space?: keyof TSpace
+  space?: keyof TextProps.TSpace
 
   /** 是否解码
    * @default false
@@ -20,17 +20,19 @@ export interface TextProps extends StandardProps {
   decode?: boolean
 }
 
-/** space 的合法值 */
-interface TSpace {
-  /** 中文字符空格一半大小 */
-  ensp
-  /** 中文字符空格大小 */
-  emsp
-  /** 根据字体设置的空格大小 */
-  nbsp
+declare namespace TextProps {
+  /** space 的合法值 */
+  interface TSpace {
+    /** 中文字符空格一半大小 */
+    ensp
+    /** 中文字符空格大小 */
+    emsp
+    /** 根据字体设置的空格大小 */
+    nbsp
+  }
 }
 
-/** 文本。
+/** 文本
  * @classification base
  * @supported weapp, swan, alipay, tt, h5, rn
  * @example
@@ -80,4 +82,4 @@ interface TSpace {
  */
 declare const Text: ComponentType<TextProps>
 
-export { Text }
+export { Text, TextProps }

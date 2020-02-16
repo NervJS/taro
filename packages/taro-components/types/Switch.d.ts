@@ -1,45 +1,36 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-export interface SwitchProps extends StandardProps, FormItemProps {
-
-  /**
-   * 是否选中
-   *
-   * 默认值：`false`
+interface SwitchProps extends StandardProps, FormItemProps {
+  /** 是否选中
+   * @default false
    */
-  checked?: boolean,
+  checked?: boolean
 
-  /**
-   * 是否禁用
-   *
-   * 默认值：`false`
+  /** 是否禁用
+   * @default false
    */
-  disabled?: boolean,
+  disabled?: boolean
 
-  /**
-   * 样式，有效值：switch, checkbox
-   *
-   * 默认值：`switch`
+  /** 样式，有效值：switch, checkbox
+   * @default "switch"
    */
-  type?: 'switch' | 'checkbox',
+  type?: 'switch' | 'checkbox'
 
-  /**
-   * checked 改变时触发 change 事件，
+  /** checked 改变时触发 change 事件，
    *
-   * event.detail={ value:checked}
+   * event.detail={ value: checked }
    */
-  onChange?: CommonEventFunction,
+  onChange?: CommonEventFunction<{ value: boolean }>
 
-  /**
-   * switch 的颜色，同 css 的 color
+  /** switch 的颜色，同 css 的 color
    */
   color?: string
 }
 
-/**
+/** 开关选择器
  * @classification forms
  */
 declare const Switch: ComponentType<SwitchProps>
 
-export { Switch }
+export { Switch, SwitchProps }

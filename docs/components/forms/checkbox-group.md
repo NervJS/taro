@@ -1,16 +1,16 @@
 ---
-title: Checkbox
-sidebar_label: Checkbox
+title: CheckboxGroup
+sidebar_label: CheckboxGroup
 ---
 
-多选项目
+多项选择器，内部由多个checkbox组成
 
-> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html)
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox-group.html)
 
 ## 类型
 
 ```tsx
-ComponentType<CheckboxProps>
+ComponentType<CheckboxGroupProps>
 ```
 
 ## 示例代码
@@ -75,28 +75,22 @@ export default class PageCheckbox extends Component {
 }
 ```
 
-## CheckboxProps
+## CheckboxGroupProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| value | `string` |  | 是 | `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value |
-| disabled | `boolean` | `false` | 否 | 是否禁用 |
-| checked | `boolean` | `false` | 否 | 当前是否选中，可用来设置默认选中 |
-| color | `string` |  | 否 | checkbox的颜色，同 css 的 color |
-| onChange | `BaseEventOrigFunction<{ value: string[]; }>` |  | 否 | 选中项发生变化时触发 change 事件，小程序无此 API |
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| name | `string` | 否 | 表单组件中加上 name 来作为 key |
+| onChange | `BaseEventOrigFunction<{ value: string[]; }>` | 否 | `<CheckboxGroup/>` 中选中项发生改变是触发 change 事件<br /><br />event.detail = { value: [选中的checkbox的 value 的数组] } |
 
 ### API 支持度
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| CheckboxProps.value | ✔️ |  | ✔️ |
-| CheckboxProps.disabled | ✔️ | ✔️ | ✔️ |
-| CheckboxProps.checked | ✔️ | ✔️ | ✔️ |
-| CheckboxProps.color | ✔️ | ✔️ | ✔️ |
-| CheckboxProps.onChange |  | ✔️ | ✔️ |
+| CheckboxGroupProps.name |  | ✔️ |  |
+| CheckboxGroupProps.onChange | ✔️ | ✔️ | ✔️ |
 
 ## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Checkbox | ✔️ | ✔️ | ✔️ |
+| CheckboxGroup | ✔️ | ✔️ | ✔️ |
