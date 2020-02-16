@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, TouchEventFunction, Omit } from './common'
 
-export interface MovableViewProps extends Omit<StandardProps, 'animation'> {
+interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   /** movable-view 的移动方向，属性值有`all`、`vertical`、`horizontal`、`none`
    * @default none
    * @supported weapp
@@ -81,12 +81,12 @@ export interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   /** 拖动过程中触发的事件
    * @supported weapp
    */
-  onChange?: CommonEventFunction<{x: number, y: number, source: keyof TChangeSource}>
+  onChange?: CommonEventFunction<{ x: number, y: number, source: keyof MovableViewProps.TChangeSource }>
 
   /** 缩放过程中触发的事件
    * @supported weapp
    */
-  onScale?: CommonEventFunction<{x: number, y: number, scale: number}>
+  onScale?: CommonEventFunction<{ x: number, y: number, scale: number }>
 
   /** 初次手指触摸后移动为横向的移动，如果 catch 此事件，则意味着 touchmove 事件也被 catch
    * @supported weapp
@@ -99,18 +99,20 @@ export interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   onVTouchMove?: TouchEventFunction
 }
 
-/** 拖动过程中触发的事件 */
-interface TChangeSource {
-  /** 拖动 */
-  touch
-  /** 超出移动范围 */
-  'touch-out-of-bounds'
-  /** 超出移动范围后的回弹 */
-  'out-of-bounds'
-  /** 惯性 */
-  'friction'
-  /** setData */
-  ''
+declare namespace MovableViewProps {
+  /** 拖动过程中触发的事件 */
+  interface TChangeSource {
+    /** 拖动 */
+    touch
+    /** 超出移动范围 */
+    'touch-out-of-bounds'
+    /** 超出移动范围后的回弹 */
+    'out-of-bounds'
+    /** 惯性 */
+    'friction'
+    /** setData */
+    ''
+  }
 }
 
 /** 可移动的视图容器，在页面中可以拖拽滑动。movable-view 必须在 movable-area 组件中，并且必须是直接子节点，否则不能移动。
@@ -132,4 +134,4 @@ interface TChangeSource {
  */
 declare const MovableView: ComponentType<MovableViewProps>
 
-export { MovableView }
+export { MovableView, MovableViewProps }

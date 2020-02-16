@@ -1,37 +1,21 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-interface CheckboxProps extends StandardProps {
-
-  /** `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value
-   * @supported weapp, rn
+interface CheckboxGroupProps extends StandardProps, FormItemProps {
+  /** 表单组件中加上 name 来作为 key
+   * @supported h5
    */
-  value: string
+  name?: string
 
-  /** 是否禁用
+  /** `<CheckboxGroup/>` 中选中项发生改变是触发 change 事件
+   * 
+   * event.detail = { value: [选中的checkbox的 value 的数组] }
    * @supported weapp, h5, rn
-   * @default false
-   */
-  disabled?: boolean
-
-  /** 当前是否选中，可用来设置默认选中
-   * @supported weapp, h5, rn
-   * @default false
-   */
-  checked?: boolean
-
-  /** checkbox的颜色，同 css 的 color
-   * @supported weapp, h5, rn
-   */
-  color?: string
-
-  /** 选中项发生变化时触发 change 事件，小程序无此 API
-   * @supported h5, rn
    */
   onChange?: CommonEventFunction<{ value: string[] }>
 }
 
-/** 多选项目
+/** 多项选择器，内部由多个checkbox组成
  * @classification forms
  * @supported weapp, h5, rn
  * @example
@@ -94,9 +78,8 @@ interface CheckboxProps extends StandardProps {
  *   }
  * }
  * ```
- * @see https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html
+ * @see https://developers.weixin.qq.com/miniprogram/dev/component/checkbox-group.html
  */
-declare const Checkbox: ComponentType<CheckboxProps>
+declare const CheckboxGroup: ComponentType<CheckboxGroupProps>
 
-
-export { Checkbox, CheckboxProps }
+export { CheckboxGroup, CheckboxGroupProps }

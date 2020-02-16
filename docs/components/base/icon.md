@@ -57,7 +57,7 @@ export default class PageView extends Component {
 | IconProps.size | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | IconProps.color | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
-## TIconType
+### TIconType
 
 icon 的类型
 

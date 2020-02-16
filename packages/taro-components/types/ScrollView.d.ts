@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
-export interface ScrollViewProps extends StandardProps {
+interface ScrollViewProps extends StandardProps {
   /** 允许横向滚动
    * @default fasle
    * @supported weapp, swan, alipay, tt, h5, rn
@@ -102,8 +102,7 @@ export interface ScrollViewProps extends StandardProps {
    */
   onScrollToUpper?: (event: CommonEventFunction) => any
 
-  /**
-   * 滚动到底部/右边，会触发 scrolltolower 事件
+  /** 滚动到底部/右边，会触发 scrolltolower 事件
    * @supported weapp, swan, alipay, tt, h5, rn
    */
   onScrollToLower?: (event: CommonEventFunction) => any
@@ -200,6 +199,4 @@ export interface ScrollViewProps extends StandardProps {
  */
 declare const ScrollView: ComponentType<ScrollViewProps>
 
-export {
-  ScrollView
-}
+export { ScrollView, ScrollViewProps }

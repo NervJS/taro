@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-export interface MovableAreaProps extends StandardProps {
+interface MovableAreaProps extends StandardProps {
   /** 当里面的 movable-view 设置为支持双指缩放时，设置此值可将缩放手势生效区域修改为整个 movable-area
    * @default false
    * @supported weapp
@@ -9,7 +9,7 @@ export interface MovableAreaProps extends StandardProps {
   scaleArea?: boolean
 }
 
-/** movable-view 的可移动区域。
+/** movable-view 的可移动区域
  * @classification viewContainer
  * @supported weapp
  * @example
@@ -28,4 +28,4 @@ export interface MovableAreaProps extends StandardProps {
  */
 declare const MovableArea: ComponentType<MovableAreaProps>
 
-export { MovableArea }
+export { MovableArea, MovableAreaProps }

@@ -3,7 +3,7 @@ title: MovableArea
 sidebar_label: MovableArea
 ---
 
-movable-view 的可移动区域。
+movable-view 的可移动区域
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/movable-area.html)
 

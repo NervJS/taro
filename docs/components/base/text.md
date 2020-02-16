@@ -3,7 +3,7 @@ title: Text
 sidebar_label: Text
 ---
 
-文本。
+文本
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/text.html)
 
@@ -74,7 +74,7 @@ export default class PageView extends Component {
 | TextProps.space | ✔️ | ✔️ |  | ✔️ |  |  |
 | TextProps.decode | ✔️ |  |  | ✔️ |  |  |
 
-## TSpace
+### TSpace
 
 space 的合法值
 

@@ -1,110 +1,96 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
-export interface SliderProps extends StandardProps, FormItemProps {
+interface SliderProps extends StandardProps, FormItemProps {
 
-  /**
-   * 最小值
+  /** 最小值
    *
    * 默认值：`0`
    */
-  min?: number,
+  min?: number
 
-  /**
-   * 最大值
+  /** 最大值
    *
    * 默认值：`100`
    */
-  max?: number,
+  max?: number
 
-  /**
-   * 步长，取值必须大于 0，并且可被(max - min)整除
+  /** 步长，取值必须大于 0，并且可被(max - min)整除
    *
    * 默认值：`1`
    */
-  step?: number,
+  step?: number
 
-  /**
-   * 是否禁用
+  /** 是否禁用
    *
    * 默认值：`false`
    */
-  disabled?: boolean,
+  disabled?: boolean
 
-  /**
-   * 当前取值
+  /** 当前取值
    *
    * 默认值：`0`
    */
-  value?: number,
+  value?: number
 
-  /**
-   * 背景条的颜色（请使用 backgroundColor）
+  /** 背景条的颜色（请使用 backgroundColor）
    *
    * 默认值：`#e9e9e9`
    */
-  color?: string,
+  color?: string
 
-  /**
-   * 已选择的颜色（请使用 activeColor）
+  /** 已选择的颜色（请使用 activeColor）
    *
    * 默认值：`#1aad19`
    */
-  selectedColor?: string,
+  selectedColor?: string
 
-  /**
-   * 已选择的颜色
+  /** 已选择的颜色
    *
    * 默认值：`#1aad19`
    */
-  activeColor?: string,
+  activeColor?: string
 
-  /**
-   * 背景条的颜色
+  /** 背景条的颜色
    *
    * 默认值：`#e9e9e9`
    */
-  backgroundColor?: string,
+  backgroundColor?: string
 
-  /**
-   * 滑块的大小，取值范围为 12 - 28
+  /** 滑块的大小，取值范围为 12 - 28
    *
    * 默认值：`28`
    */
-  blockSize?: number,
+  blockSize?: number
 
-  /**
-   * 滑块的颜色
+  /** 滑块的颜色
    *
    * 默认值：`#ffffff`
    */
-  blockColor?: string,
+  blockColor?: string
 
-  /**
-   * 是否显示当前 value
+  /** 是否显示当前 value
    *
    * 默认值：`false`
    */
-  showValue?: boolean,
+  showValue?: boolean
 
-  /**
-   * 完成一次拖动后触发的事件
+  /** 完成一次拖动后触发的事件
    *
    * event.detail = {value: value}
    */
-  onChange?: CommonEventFunction,
+  onChange?: CommonEventFunction
 
-  /**
-   * 拖动过程中触发的事件
+  /** 拖动过程中触发的事件
    *
    * event.detail = {value: value}
    */
   onChanging?: CommonEventFunction
 }
 
-/**
+/** 滑动选择器
  * @classification forms
  */
 declare const Slider: ComponentType<SliderProps>
 
-export { Slider }
+export { Slider, SliderProps }

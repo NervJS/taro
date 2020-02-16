@@ -62,15 +62,15 @@ const get = {
     if (!data) return undefined
     const methods: (string | undefined)[] = [level === 2 ? `## ${title}\n` : undefined]
     const paramTabs: DocEntry[] = []
-    data.forEach(v => {
+    for (const v of data) {
       v.name !== ts.InternalSymbolName.Call &&
       v.flags !== ts.SymbolFlags.TypeParameter &&
       !isShowMembers(v.flags) && (v.jsTags || []).every(tag => tag.name !== 'ignore') && paramTabs.push(v)
-    })
+    }
 
     if (paramTabs.length > 0) {
       const hasName = paramTabs.some(v => !!v.name)
-      const hasType = paramTabs.some(v => !!v.type && !isntShowType.includes(v.type) || needLessDeclarationsName.includes(v.name || ''))
+      const hasType = paramTabs.some(v => !!v.type && !isntShowType.includes(v.type) || (v.name !== 'default' && needLessDeclarationsName.includes(v.name || '')))
       const hasDef = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'default'))
       const hasReadonly = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'readonly'))
       const hasOptional = paramTabs.some(v => isOptional(v.flags))
@@ -107,14 +107,23 @@ const get = {
             type = tag_type.text ? tag_type.text.trim() : type === 'any' && v.name || ''
           }
           return `| ${name} |${
-            hasType? ` ${type ? `\`${type}\`` : ''} |` :''}${
-            hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''}${
-            hasReadonly? ` ${readonly ? '是' : '否'} |` :''}${
-            hasOptional? ` ${!isOptional(v.flags) ? '是' : '否'} |` :''}${
-            hasAbnormal? ` ${abnormal.text ? `\`${abnormal.text}\`` : ''} |` :''}${
-            hasReason? ` ${reason.text ? `\`${reason.text}\`` : ''} |` :''}${
-            hasSolution? ` ${solution.text ? `\`${solution.text}\`` : ''} |` :''}${
-            hasDes? ` ${parseLineFeed(v.documentation)}${
+            hasType? ` ${type ? `\`${type}\`` : ''} |` :''
+          }${
+            hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''
+          }${
+            hasReadonly? ` ${readonly ? '是' : '否'} |` :''
+          }${
+            hasOptional? ` ${!isOptional(v.flags) ? '是' : '否'} |` :''
+          }${
+            hasAbnormal? ` ${abnormal.text ? `\`${abnormal.text}\`` : ''} |` :''
+          }${
+            hasReason? ` ${reason.text ? `\`${reason.text}\`` : ''} |` :''
+          }${
+            hasSolution? ` ${solution.text ? `\`${solution.text}\`` : ''} |` :''
+          }${
+            hasDes? ` ${
+              parseLineFeed(v.documentation)
+            }${
               vtags.length > 0 ? `${vtags
                 .filter(arrs => !descTags.includes(arrs.name) || !isMethod && arrs.name === 'supported')
                 .map(arrs => {
@@ -129,7 +138,8 @@ const get = {
                   }
                 }).join('')
             }` : ''
-          } |` :''}${
+          } |` :''
+        }${
             hasCodeRate? ` ${codeRate.text ? `\`${codeRate.text}\`` : ''} |` :''
           }${
             hasRemarks? ` ${remarks.text ? `\`${remarks.text}\`` : ''} |` :''
@@ -155,15 +165,17 @@ const get = {
       }
       if (isShowMembers(param.flags) && !needLessDeclarationsName.includes(param.name || '')) {
         const declaration: DocEntry = {}
-        param.declarations && param.declarations.forEach(decla => {
-          for (const key in decla) {
-            if (decla.hasOwnProperty(key) && decla[key]) {
-              if (!declaration[key] || declaration[key].length < decla[key].length) {
-                declaration[key] = decla[key]
+        if (param.declarations) {
+          for (const decla of param.declarations) {
+            for (const key in decla) {
+              if (decla.hasOwnProperty(key) && decla[key]) {
+                if (!declaration[key] || declaration[key].length < decla[key].length) {
+                  declaration[key] = decla[key]
+                }
               }
             }
           }
-        })
+        }
 
         if (!isFunction(param.flags) && !TaroMethod.includes(param.flags || -1) && !isntTaroMethod.includes(param.flags || -1)) {
           console.warn(`WARN: Symbol flags ${param.flags} is missing parse! Watch symbol name:${param.name}.`)
@@ -171,13 +183,13 @@ const get = {
 
         const members = param.members || []
         const apis = { [`${TaroMethod.includes(param.flags || -1) ? `${name}.` : ''}${param.name}`]: tags }
-        members.forEach(member => {
+        for (const member of members) {
           if (isShowAPI(member.flags)) {
             if (member.name && member.jsTags) apis[`${param.name}.${member.name}`] = member.jsTags || []
           } else if (!isNotAPI(member.flags)) {
             console.warn(`WARN: Symbol flags ${member.flags} for members is missing parse! Watch member name:${member.name}.`)
           }
-        })
+        }
 
         return splicing([
           `${'#'.repeat(level === 2 ? level + 1 : level)} ${param.name}\n`,
@@ -220,17 +232,29 @@ const get = {
   },
   api: (data: {[name: string]: ts.JSDocTagInfo[]}, level: number = 2) => {
     const hasSupporteds = [true, undefined, undefined, undefined, undefined, undefined, true, true, undefined]
+    for (const name of Object.keys(data)) {
+      const tags = data[name]
+      const supported = tags.find(tag => tag.name === 'supported')
+      const apis = (supported && supported.text || '').split(',').map(e => e.trim().toLowerCase())
+
+      for (let i = 0; i < envMap.length; i++) {
+        if (hasSupporteds[i]) continue
+        const apiDesc = tags.find(e => e.name === envMap[i].name)
+        const hasSupported = !!(apiDesc && apiDesc.text || apis.find(e => e === envMap[i].name))
+        if (!hasSupporteds[i] && hasSupported) hasSupporteds[i] = true
+      }
+    }
     const rows = Object.keys(data).map(name => {
       const tags = data[name]
       const supported = tags.find(tag => tag.name === 'supported')
       const apis = (supported && supported.text || '').split(',').map(e => e.trim().toLowerCase())
 
       return supported ? `| ${name} |${envMap.map((env, i) => {
-        const apiName = apis.find(e => e === env.name)
+        if (!hasSupporteds[i]) return undefined
         const apiDesc = tags.find(e => e.name === env.name)
-        const hasSupported = !!(apiName || apiDesc && apiDesc.text)
-        if (!hasSupporteds[i] && hasSupported) hasSupporteds[i] = true
-        return hasSupporteds[i] ? ` ${apiName ? '✔️': ''}${apiDesc && apiDesc.text ? `(${apiDesc.text})` : ''} |` : undefined
+        return ` ${
+          apis.find(e => e === env.name) ? '✔️': ''
+        }${apiDesc && apiDesc.text ? `(${apiDesc.text})` : ''} |`
       }).join('')}` : undefined
     })
 
@@ -260,109 +284,112 @@ export default function docsAPI (
 
     canges.stdout.on('data', (data) => {
       const ss = data.toString().trim().split(/\u0000|\s+/ig)
-      ss.forEach(s => {
+      for (const s of ss) {
         const route = path.resolve(cwd, s)
         const output = route
           .replace(path.resolve(cwd, base), path.resolve(cwd, out))
           .replace(/(\.[a-z]+)$|(\.d\.ts)$/ig, '')
-        files.forEach(e => {
+        for (const e of files) {
           const pe = path.resolve(cwd, e)
           if (route.indexOf(pe) > -1) {
-            compile(cwd, s, [generalParh], (route, doc) => {
+            compile(cwd, s, [generalParh], async (route, doc) => {
               withLog && console.log(route)
               if (doc.length < 1) return
-              callback(output, doc, route === generalParh)
+              await callback(output, doc, route === generalParh)
             })
           }
-        })
-      })
+        }
+      }
     })
     canges.stderr.on('data', (data) => {
       console.error(`stderr: ${data}`)
     })
   } else {
-    files.forEach(s => {
-      compile(cwd, s, [generalParh], (route, doc) => {
+    for (const s of files) {
+      compile(cwd, s, [generalParh], async (route, doc) => {
         const output = route
           .replace(path.resolve(cwd, base), path.resolve(cwd, out))
           .replace(/(\.[a-z]+)$|\.d\.ts$/ig, '')
         withLog && console.log(route)
         if (doc.length < 1) return
-        callback(output, doc, route === generalParh)
+        await callback(output, doc, route === generalParh)
       })
-    })
+    }
   }
 }
 
-export function writeJson (routepath: string, doc: DocEntry[]) {
-  const Taro = childrenMerge(doc, []).find(e => e.name === 'Taro')
+export async function writeJson (routepath: string, doc: DocEntry[]) {
+  const merge = await childrenMerge(doc, [])
+  const Taro = merge.find(e => e.name === 'Taro')
 
   writeFile(`${routepath}.json`, JSON.stringify(Taro, undefined, 2))
 }
 
-export function writeApiDoc (routepath: string, doc: DocEntry[], withGeneral = false) {
+export async function writeApiDoc (routepath: string, doc: DocEntry[], withGeneral = false) {
   const _p = path.parse(routepath)
-  const Taro = childrenMerge(doc, []).find(e => e.name === 'Taro')
+  const merge = await childrenMerge(doc, [])
+  const Taro = merge.find(e => e.name === 'Taro')
 
-  Taro && (Taro.exports || []).forEach(e => {
-    const name = e.name || 'undefined'
-    const tags = e.jsTags || []
-    const params = e.parameters || []
-    const members = e.members || []
-    const md: (string | undefined)[] = []
-
-    if (name === 'General' && !withGeneral) {
-      return
-    }
-
-    if (!isFunction(e.flags) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
-      console.warn(`WARN: Symbol flags ${e.flags} is missing parse! Watch symbol name:${name}.`)
-    }
-
-    const apis = { [`${TaroMethod.includes(e.flags || -1) ? 'Taro.' : ''}${name}`]: tags }
-
-    members.forEach(member => {
-      if (isShowAPI(member.flags)) {
-        if (member.name && member.jsTags) apis[`${name}.${member.name}`] = member.jsTags || []
-      } else if (!isNotAPI(member.flags)) {
-        console.warn(`WARN: Symbol flags ${member.flags} for members is missing parse! Watch member name:${member.name}.`)
+  if (Taro) {
+    for (const e of Taro.exports || []) {
+      const name = e.name || 'undefined'
+      const tags = e.jsTags || []
+      const params = e.parameters || []
+      const members = e.members || []
+      const md: (string | undefined)[] = []
+  
+      if (name === 'General' && !withGeneral) continue
+  
+      if (!isFunction(e.flags) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
+        console.warn(`WARN: Symbol flags ${e.flags} is missing parse! Watch symbol name:${name}.`)
       }
-    })
-
-    md.push(
-      get.header({ title: get.title(name, params, e.flags), sidebar_label: name }),
-      get.since(tags.find(tag => tag.name === 'since')),
-      get.document(e.documentation),
-      get.see(tags.find(tag => tag.name === 'see')),
-      get.type(e.type, 2),
-      get.members(e.members, undefined, 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
-      get.members(e.exports || e.parameters, '参数', 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
-      get.example(tags),
-      get.api(apis),
-    )
-
-    writeFile(
-      path.resolve(_p.name === 'index' ? _p.dir : routepath, `${name}.md`),
-      splicing(md),
-    )
-  })
+  
+      const apis = { [`${TaroMethod.includes(e.flags || -1) ? 'Taro.' : ''}${name}`]: tags }
+  
+      for (const member of members) {
+        if (isShowAPI(member.flags)) {
+          if (member.name && member.jsTags) apis[`${name}.${member.name}`] = member.jsTags || []
+        } else if (!isNotAPI(member.flags)) {
+          console.warn(`WARN: Symbol flags ${member.flags} for members is missing parse! Watch member name:${member.name}.`)
+        }
+      }
+  
+      md.push(
+        get.header({ title: get.title(name, params, e.flags), sidebar_label: name }),
+        get.since(tags.find(tag => tag.name === 'since')),
+        get.document(e.documentation),
+        get.see(tags.find(tag => tag.name === 'see')),
+        get.type(e.type, 2),
+        get.members(e.members, undefined, 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
+        get.members(e.exports || e.parameters, '参数', 2, TaroMethod.includes(e.flags || -1) ? 'Taro' : name),
+        get.example(tags),
+        get.api(apis),
+      )
+  
+      writeFile(
+        path.resolve(_p.name === 'index' ? _p.dir : routepath, `${name}.md`),
+        splicing(md),
+      )
+    }
+  }
 }
 
-export function writeDoc (routepath: string, doc: DocEntry[]) {
+export async function writeDoc (routepath: string, doc: DocEntry[]) {
   const isComp = true
   const _p = path.parse(routepath)
-  const Component = childrenMerge(doc, []).find(e => e.name === _p.name) || {}
+  const merge = await childrenMerge(doc, [])
+  const Component = merge.find(e => e.name === _p.name) || {}
   const ComponentTags = Component.jsTags || []
 
   const apis = { [`${_p.name}`]: ComponentTags }
 
-  Component && (Component.members || []).forEach(member => {
+  for (const member of Component && (Component.members || [])) {
     if (isShowAPI(member.flags)) {
       if (member.name && member.jsTags) apis[`${_p.name}.${member.name}`] = member.jsTags || []
     } else if (!isNotAPI(member.flags)) {
       console.warn(`WARN: Symbol flags ${member.flags} for members is missing parse! Watch member name:${member.name}.`)
     }
-  })
+  }
 
   const name = (_p.name && _p.name.split(/(?<!^)(?=[A-Z])/).join('-') || 'undefined').toLocaleLowerCase()
   const classification = ComponentTags.find(tag => tag.name === 'classification') || { text: '' }
@@ -378,7 +405,7 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
       get.members(Component.members, undefined, 2, name, isComp),
       get.members(Component.exports || Component.parameters, '参数', 2, name, isComp),
       get.example(ComponentTags),
-      ...doc.map(e => {
+      ...merge.map(e => {
         const name = e.name || 'undefined'
         if (name === _p.name) return undefined
         const tags = e.jsTags || []
@@ -406,23 +433,27 @@ export function writeDoc (routepath: string, doc: DocEntry[]) {
   )
 }
 
-// docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeJson)
-// docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeApiDoc)
-docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeApiDoc,
-  process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
-  process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
-// docsAPI('packages/taro-components/types', 'docs/components', ['packages/taro-components/types'], writeJson,
-//   process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
-//   process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
-docsAPI('packages/taro-components/types', 'docs/components', ['packages/taro-components/types'], writeDoc,
-  process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
-  process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
+function main() {
+  // docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeJson)
+  // docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeApiDoc)
+   docsAPI('packages/taro/types/api', 'docs/apis', ['packages/taro/types/api'], writeApiDoc,
+    process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
+    process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
+  // docsAPI('packages/taro-components/types', 'docs/components', ['packages/taro-components/types'], writeJson,
+  //   process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
+  //   process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
+  docsAPI('packages/taro-components/types', 'docs/components', ['packages/taro-components/types'], writeDoc,
+    process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
+    process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
+  
+  // writeFile(
+  //   path.resolve(__dirname, `taro-apis.md`),
+  //   splicing([
+  //     envMap.reduce((p, env) => `${p} ${env.label} |`, '| API |'),
+  //     envMap.reduce((p) => `${p} :---: |`, '| :---: |'),
+  //     ...taro_apis, ''
+  //   ]),
+  // )
+}
 
-// writeFile(
-//   path.resolve(__dirname, `taro-apis.md`),
-//   splicing([
-//     envMap.reduce((p, env) => `${p} ${env.label} |`, '| API |'),
-//     envMap.reduce((p) => `${p} :---: |`, '| :---: |'),
-//     ...taro_apis, ''
-//   ]),
-// )
+main()

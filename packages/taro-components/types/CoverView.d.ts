@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { ViewProps } from './View'
 
-export interface CoverViewProps extends ViewProps {
+interface CoverViewProps extends ViewProps {
   /** 设置顶部滚动偏移量，仅在设置了 overflow-y: scroll 成为滚动元素后生效
    * @supported weapp
    */
@@ -31,4 +31,4 @@ export interface CoverViewProps extends ViewProps {
  */
 declare const CoverView: ComponentType<CoverViewProps>
 
-export { CoverView }
+export { CoverView, CoverViewProps }

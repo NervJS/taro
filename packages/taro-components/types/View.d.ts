@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
-export interface ViewProps extends StandardProps {
+interface ViewProps extends StandardProps {
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default none
    * @supported weapp, swan, alipay, tt, h5
@@ -68,4 +68,4 @@ export interface ViewProps extends StandardProps {
  */
 declare const View: ComponentType<ViewProps>
 
-export { View }
+export { View, ViewProps }
