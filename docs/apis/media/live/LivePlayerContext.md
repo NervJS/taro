@@ -209,7 +209,7 @@ sidebar_label: LivePlayerContext
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| direction | `0 | 90 | -90` | 否 | 设置全屏时的方向<br /><br />可选值：<br />- 0: 正常竖向;<br />- 90: 屏幕逆时针90度;<br />- -90: 屏幕顺时针90度; |
+| direction | 0 or 90 or -90 | 否 | 设置全屏时的方向<br /><br />可选值：<br />- 0: 正常竖向;<br />- 90: 屏幕逆时针90度;<br />- -90: 屏幕顺时针90度; |
 | fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 

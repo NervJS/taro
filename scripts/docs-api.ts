@@ -107,19 +107,19 @@ const get = {
             type = tag_type.text ? tag_type.text.trim() : type === 'any' && v.name || ''
           }
           return `| ${name} |${
-            hasType? ` ${type ? `\`${type}\`` : ''} |` :''
+            hasType? ` ${parseLineFeed(type, true)} |` :''
           }${
-            hasDef? ` ${def.text ? `\`${def.text}\`` : ''} |` :''
+            hasDef? ` ${parseLineFeed(def.text, true)} |` :''
           }${
             hasReadonly? ` ${readonly ? '是' : '否'} |` :''
           }${
             hasOptional? ` ${!isOptional(v.flags) ? '是' : '否'} |` :''
           }${
-            hasAbnormal? ` ${abnormal.text ? `\`${abnormal.text}\`` : ''} |` :''
+            hasAbnormal? ` ${parseLineFeed(abnormal.text, true)} |` :''
           }${
-            hasReason? ` ${reason.text ? `\`${reason.text}\`` : ''} |` :''
+            hasReason? ` ${parseLineFeed(reason.text, true)} |` :''
           }${
-            hasSolution? ` ${solution.text ? `\`${solution.text}\`` : ''} |` :''
+            hasSolution? ` ${parseLineFeed(solution.text, true)} |` :''
           }${
             hasDes? ` ${
               parseLineFeed(v.documentation)
@@ -140,9 +140,9 @@ const get = {
             }` : ''
           } |` :''
         }${
-            hasCodeRate? ` ${codeRate.text ? `\`${codeRate.text}\`` : ''} |` :''
+            hasCodeRate? ` ${parseLineFeed(codeRate.text, true)} |` :''
           }${
-            hasRemarks? ` ${remarks.text ? `\`${remarks.text}\`` : ''} |` :''
+            hasRemarks? ` ${parseLineFeed(remarks.text, true)} |` :''
           }`
         }),
       '']))

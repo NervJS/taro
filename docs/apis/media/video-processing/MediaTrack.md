@@ -13,7 +13,7 @@ sidebar_label: MediaTrack
 | 参数 | 类型 | 只读 | 说明 |
 | --- | --- | :---: | --- |
 | duration | `number` | 是 | 轨道长度 |
-| kind | `"audio" | "video"` | 是 | 轨道类型 |
+| kind | "audio" or "video" | 是 | 轨道类型 |
 | volume | `number` | 否 | 音量，音频轨道下有效，可写 |
 
 ## 参数

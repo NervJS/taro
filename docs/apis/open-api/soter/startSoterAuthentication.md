@@ -34,7 +34,7 @@ sidebar_label: startSoterAuthentication
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
 | challenge | `string` | 是 | 挑战因子。挑战因子为调用者为此次生物鉴权准备的用于签名的字符串关键识别信息，将作为 `resultJSON` 的一部分，供调用者识别本次请求。例如：如果场景为请求用户对某订单进行授权确认，则可以将订单号填入此参数。 |
-| requestAuthModes | `("fingerPrint" | "facial" | "speech")[]` | 是 | 请求使用的可接受的生物认证方式 |
+| requestAuthModes | ("fingerPrint" or "facial" or "speech")[] | 是 | 请求使用的可接受的生物认证方式 |
 | authContent | `string` | 否 | 验证描述，即识别过程中显示在界面上的对话框提示内容 |
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |

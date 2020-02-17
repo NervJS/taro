@@ -37,7 +37,7 @@ sidebar_label: requestSubscribeMessage
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| [TEMPLATE_ID] | `"accept" | "reject" | "ban"` | 动态的键，即模板id |
+| [TEMPLATE_ID] | "accept" or "reject" or "ban" | 动态的键，即模板id |
 | errMsg | `string` | 接口调用成功时errMsg值为'requestSubscribeMessage:ok' |
 
 #### 示例代码

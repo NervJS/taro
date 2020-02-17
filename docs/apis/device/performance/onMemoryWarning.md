@@ -33,7 +33,7 @@ sidebar_label: onMemoryWarning
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| level | `5 | 10 | 15` | 内存告警等级，只有 Android 才有，对应系统宏定义 |
+| level | 5 or 10 or 15 | 内存告警等级，只有 Android 才有，对应系统宏定义 |
 
 ### level
 

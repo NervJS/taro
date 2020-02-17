@@ -19,7 +19,7 @@ sidebar_label: getLogManager
 
 | 参数 | 类型 | 默认值 | 必填 |
 | --- | --- | :---: | :---: |
-| level | `0 | 1` | `0` | 否 |
+| level | 0 or 1 | `0` | 否 |
 
 ### level
 

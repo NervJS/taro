@@ -28,20 +28,20 @@ sidebar_label: request
 | url | `string` |  | 是 | 开发者服务器接口地址 |
 | complete | `(res: CallbackResult) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | data | `U` |  | 否 | 请求的参数 |
-| dataType | `"json" | "其他"` |  | 否 | 返回的数据格式 |
+| dataType | "json" or "其他" |  | 否 | 返回的数据格式 |
 | fail | `(res: CallbackResult) => void` |  | 否 | 接口调用失败的回调函数 |
 | header | `Record<string, any>` |  | 否 | 设置请求的 header，header 中不能设置 Referer。<br /><br />`content-type` 默认为 `application/json` |
-| method | `"OPTIONS" | "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "TRACE" | "CONNECT"` |  | 否 | HTTP 请求方法 |
-| responseType | `"text" | "arraybuffer"` |  | 否 | 响应的数据类型 |
+| method | "OPTIONS" or "GET" or "HEAD" or "POST" or "PUT" or "DELETE" or "TRACE" or "CONNECT" |  | 否 | HTTP 请求方法 |
+| responseType | "text" or "arraybuffer" |  | 否 | 响应的数据类型 |
 | success | `(result: SuccessCallbackResult<any>) => void` |  | 否 | 接口调用成功的回调函数 |
 | jsonp | `boolean` | `false` | 否 | 设置 H5 端是否使用jsonp方式获取数据 |
 | jsonpCache | `boolean` | `false` | 否 | 设置 H5 端 jsonp 请求 url 是否需要被缓存 |
-| mode | `"no-cors" | "cors" | "same-origin"` | `same-origin` | 否 | 设置 H5 端是否允许跨域请求 |
-| credentials | `"same-origin" | "include" | "omit"` | `omit` | 否 | 设置 H5 端是否携带 Cookie |
-| cache | `"default" | "no-cache" | "reload" | "force-cache" | "only-if-cached"` | `default` | 否 | 设置 H5 端缓存模式 |
+| mode | "no-cors" or "cors" or "same-origin" | `same-origin` | 否 | 设置 H5 端是否允许跨域请求 |
+| credentials | "same-origin" or "include" or "omit" | `omit` | 否 | 设置 H5 端是否携带 Cookie |
+| cache | "default" or "no-cache" or "reload" or "force-cache" or "only-if-cached" | `default` | 否 | 设置 H5 端缓存模式 |
 | timeout | `number` | `2000` | 否 | 设置 H5 端请求响应超时时间 |
 | retryTimes | `number` | `2` | 否 | 设置 H5 端请求重试次数 |
-| backup | `string | string[]` |  | 否 | 设置 H5 端请求的兜底接口 |
+| backup | string or string[] |  | 否 | 设置 H5 端请求的兜底接口 |
 | dataCheck | `() => boolean` |  | 否 | 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败 |
 | useStore | `boolean` | `false` | 否 | 设置 H5 端请求是否使用缓存 |
 | storeCheckKey | `string` |  | 否 | 设置 H5 端请求缓存校验的 key |

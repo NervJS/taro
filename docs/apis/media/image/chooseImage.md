@@ -22,8 +22,8 @@ sidebar_label: chooseImage
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | count | `number` | 否 | 最多可以选择的图片张数 |
 | fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| sizeType | `("original" | "compressed")[]` | 否 | 所选的图片的尺寸 |
-| sourceType | `("album" | "camera")[]` | 否 | 选择图片的来源 |
+| sizeType | ("original" or "compressed")[] | 否 | 所选的图片的尺寸 |
+| sourceType | ("album" or "camera")[] | 否 | 选择图片的来源 |
 | success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### sizeType

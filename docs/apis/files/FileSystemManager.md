@@ -100,8 +100,8 @@ FileSystemManager.appendFile 的同步版本
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | filePath | `string` | 要追加内容的文件路径 |
-| data | `string | ArrayBuffer` | 要追加的文本或二进制数据 |
-| encoding | `"ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1"` | 指定写入文件的字符编码 |
+| data | string or ArrayBuffer | 要追加的文本或二进制数据 |
+| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 指定写入文件的字符编码 |
 
 #### API 支持度
 
@@ -504,8 +504,8 @@ FileSystemManager.writeFile 的同步版本
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | filePath | `string` | 要写入的文件路径 |
-| data | `string | ArrayBuffer` | 要写入的文本或二进制数据 |
-| encoding | `"ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1"` | 指定写入文件的字符编码 |
+| data | string or ArrayBuffer | 要写入的文本或二进制数据 |
+| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 指定写入文件的字符编码 |
 
 #### API 支持度
 
@@ -568,7 +568,7 @@ FileSystemManager.readFile 的同步版本
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | filePath | `string` | 要读取的文件的路径 |
-| encoding | `"ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1"` | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
+| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
 
 #### API 支持度
 
@@ -615,10 +615,10 @@ FileSystemManager.readFile 的同步版本
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| data | `string | ArrayBuffer` | 是 | 要追加的文本或二进制数据 |
+| data | string or ArrayBuffer | 是 | 要追加的文本或二进制数据 |
 | filePath | `string` | 是 | 要追加内容的文件路径 |
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| encoding | `"ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1"` | 否 | 指定写入文件的字符编码 |
+| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 否 | 指定写入文件的字符编码 |
 | fail | `(result: AppendFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
@@ -713,7 +713,7 @@ FileSystemManager.readFile 的同步版本
 | --- | --- | :---: | --- |
 | filePath | `string` | 是 | 要读取的文件的路径 |
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| encoding | `"ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1"` | 否 | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
+| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 否 | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
 | fail | `(result: ReadFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
@@ -835,7 +835,7 @@ FileSystemManager.readFile 的同步版本
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| stats | `Stats | Record<string, any>` | [Stats](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html)|Object<br /><br />当 recursive 为 false 时，res.stats 是一个 Stats 对象。当 recursive 为 true 且 path 是一个目录的路径时，res.stats 是一个 Object，key 以 path 为根路径的相对路径，value 是该路径对应的 Stats 对象。 |
+| stats | Stats or Record<string, any> | [Stats](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html)orObject<br /><br />当 recursive 为 false 时，res.stats 是一个 Stats 对象。当 recursive 为 true 且 path 是一个目录的路径时，res.stats 是一个 Object，key 以 path 为根路径的相对路径，value 是该路径对应的 Stats 对象。 |
 | errMsg | `string` | 调用结果 |
 
 ### UnlinkOption
@@ -873,10 +873,10 @@ FileSystemManager.readFile 的同步版本
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| data | `string | ArrayBuffer` | 是 | 要写入的文本或二进制数据 |
+| data | string or ArrayBuffer | 是 | 要写入的文本或二进制数据 |
 | filePath | `string` | 是 | 要写入的文件路径 |
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| encoding | `"ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1"` | 否 | 指定写入文件的字符编码 |
+| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 否 | 指定写入文件的字符编码 |
 | fail | `(result: WriteFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 

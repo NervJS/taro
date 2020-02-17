@@ -372,7 +372,7 @@ ctx.draw()
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
 | image | `string` | 重复的图像源，仅支持包内路径和临时路径 |
-| repetition | `"repeat" | "repeat-x" | "repeat-y" | "no-repeat"` | 如何重复图像 |
+| repetition | "repeat" or "repeat-x" or "repeat-y" or "no-repeat" | 如何重复图像 |
 
 #### API 支持度
 
@@ -933,7 +933,7 @@ ctx.draw()
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| color | `string | CanvasGradient` | 填充的颜色，默认颜色为 black。 |
+| color | string or CanvasGradient | 填充的颜色，默认颜色为 black。 |
 
 #### 示例代码
 
@@ -1031,7 +1031,7 @@ ctx.draw()
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| lineCap | `"butt" | "round" | "square"` | 线条的结束端点样式 |
+| lineCap | "butt" or "round" or "square" | 线条的结束端点样式 |
 
 #### 示例代码
 
@@ -1113,7 +1113,7 @@ ctx.draw()
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| lineJoin | `"round" | "bevel" | "miter"` | 线条的结束交点样式 |
+| lineJoin | "round" or "bevel" or "miter" | 线条的结束交点样式 |
 
 #### 示例代码
 
@@ -1304,7 +1304,7 @@ ctx.draw()
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| color | `string | CanvasGradient` | 描边的颜色，默认颜色为 black。 |
+| color | string or CanvasGradient | 描边的颜色，默认颜色为 black。 |
 
 #### 示例代码
 
@@ -1333,7 +1333,7 @@ ctx.draw()
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| align | `"left" | "center" | "right"` | 文字的对齐方式 |
+| align | "left" or "center" or "right" | 文字的对齐方式 |
 
 #### 示例代码
 
@@ -1371,7 +1371,7 @@ ctx.draw()
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| textBaseline | `"top" | "bottom" | "middle" | "normal"` | 文字的竖直对齐方式 |
+| textBaseline | "top" or "bottom" or "middle" or "normal" | 文字的竖直对齐方式 |
 
 #### 示例代码
 

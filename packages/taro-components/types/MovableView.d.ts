@@ -81,12 +81,12 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   /** 拖动过程中触发的事件
    * @supported weapp
    */
-  onChange?: CommonEventFunction<{ x: number, y: number, source: keyof MovableViewProps.TChangeSource }>
+  onChange?: CommonEventFunction<MovableViewProps.onChangeEventDeatil>
 
   /** 缩放过程中触发的事件
    * @supported weapp
    */
-  onScale?: CommonEventFunction<{ x: number, y: number, scale: number }>
+  onScale?: CommonEventFunction<MovableViewProps.onScaleEventDeatil>
 
   /** 初次手指触摸后移动为横向的移动，如果 catch 此事件，则意味着 touchmove 事件也被 catch
    * @supported weapp
@@ -112,6 +112,24 @@ declare namespace MovableViewProps {
     'friction'
     /** setData */
     ''
+  }
+
+  interface onChangeEventDeatil {
+    /** X 坐标 */
+    x: number
+    /** Y 坐标 */
+    y: number
+    /** 触发事件 */
+    source: keyof MovableViewProps.TChangeSource
+  }
+
+  interface onScaleEventDeatil {
+    /** X 坐标 */
+    x: number
+    /** Y 坐标 */
+    y: number
+    /** 缩放比例 */
+    scale: number
   }
 }
 

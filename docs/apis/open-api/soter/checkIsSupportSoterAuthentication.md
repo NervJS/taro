@@ -27,7 +27,7 @@ sidebar_label: checkIsSupportSoterAuthentication
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| supportMode | `("fingerPrint" | "facial" | "speech")[]` | 该设备支持的可被SOTER识别的生物识别方式 |
+| supportMode | ("fingerPrint" or "facial" or "speech")[] | 该设备支持的可被SOTER识别的生物识别方式 |
 | errMsg | `string` | 调用信息 |
 
 ### requestAuthModes

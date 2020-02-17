@@ -300,13 +300,13 @@ sidebar_label: RecorderManager
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| audioSource | `"auto" | "buildInMic" | "headsetMic" | "mic" | "camcorder" | "voice_communication" | "voice_recognition"` | 否 | 指定录音的音频输入源，可通过 [wx.getAvailableAudioSources()](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html) 获取当前可用的音频源 |
+| audioSource | "auto" or "buildInMic" or "headsetMic" or "mic" or "camcorder" or "voice_communication" or "voice_recognition" | 否 | 指定录音的音频输入源，可通过 [wx.getAvailableAudioSources()](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html) 获取当前可用的音频源 |
 | duration | `number` | 否 | 录音的时长，单位 ms，最大值 600000（10 分钟） |
 | encodeBitRate | `number` | 否 | 编码码率，有效值见下表格 |
-| format | `"mp3" | "aac"` | 否 | 音频格式 |
+| format | "mp3" or "aac" | 否 | 音频格式 |
 | frameSize | `number` | 否 | 指定帧大小，单位 KB。传入 frameSize 后，每录制指定帧大小的内容后，会回调录制的文件内容，不指定则不会回调。暂仅支持 mp3 格式。 |
-| numberOfChannels | `1 | 2` | 否 | 录音通道数 |
-| sampleRate | `8000 | 11025 | 12000 | 16000 | 22050 | 24000 | 32000 | 44100 | 48000` | 否 | 采样率 |
+| numberOfChannels | 1 or 2 | 否 | 录音通道数 |
+| sampleRate | 8000 or 11025 or 12000 or 16000 or 22050 or 24000 or 32000 or 44100 or 48000 | 否 | 采样率 |
 
 ### audioSource
 

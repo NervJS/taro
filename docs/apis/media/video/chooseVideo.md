@@ -19,12 +19,12 @@ sidebar_label: chooseVideo
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| camera | `"back" | "front"` | 否 | 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效 |
+| camera | "back" or "front" | 否 | 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效 |
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | compressed | `boolean` | 否 | 是否压缩所选择的视频文件 |
 | fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | maxDuration | `number` | 否 | 拍摄视频最长拍摄时间，单位秒 |
-| sourceType | `("album" | "camera")[]` | 否 | 视频选择的来源 |
+| sourceType | ("album" or "camera")[] | 否 | 视频选择的来源 |
 | success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### SuccessCallbackResult

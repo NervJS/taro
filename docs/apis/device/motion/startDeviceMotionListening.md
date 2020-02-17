@@ -21,7 +21,7 @@ sidebar_label: startDeviceMotionListening
 | --- | --- | :---: | :---: | --- |
 | complete | `(res: CallbackResult) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: CallbackResult) => void` |  | 否 | 接口调用失败的回调函数 |
-| interval | `"game" | "ui" | "normal"` | `"normal"` | 否 | 监听设备方向的变化回调函数的执行频率 |
+| interval | "game" or "ui" or "normal" | `"normal"` | 否 | 监听设备方向的变化回调函数的执行频率 |
 | success | `(res: CallbackResult) => void` |  | 否 | 接口调用成功的回调函数 |
 
 ### interval

@@ -33,7 +33,7 @@ sidebar_label: setNavigationBarColor
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
 | duration | `number` | 否 | 动画变化时间，单位 ms |
-| timingFunc | `"linear" | "easeIn" | "easeOut" | "easeInOut"` | 否 | 动画变化方式<br /><br />可选值：<br />- 'linear': 动画从头到尾的速度是相同的;<br />- 'easeIn': 动画以低速开始;<br />- 'easeOut': 动画以低速结束;<br />- 'easeInOut': 动画以低速开始和结束; |
+| timingFunc | "linear" or "easeIn" or "easeOut" or "easeInOut" | 否 | 动画变化方式<br /><br />可选值：<br />- 'linear': 动画从头到尾的速度是相同的;<br />- 'easeIn': 动画以低速开始;<br />- 'easeOut': 动画以低速结束;<br />- 'easeInOut': 动画以低速开始和结束; |
 
 ## 示例代码
 
