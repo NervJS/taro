@@ -158,7 +158,7 @@ export default class MiniPlugin {
       sourceDir: '',
       outputDir: '',
       designWidth: 750,
-      commonChunks: ['runtime', 'vendors'],
+      commonChunks: ['runtime', 'vendors', 'taro'],
       isBuildPlugin: false,
       alias: {}
     })

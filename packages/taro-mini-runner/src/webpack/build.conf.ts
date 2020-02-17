@@ -85,7 +85,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     isBuildPlugin: config.isBuildPlugin
   })
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
-  const customCommonChunks = commonChunks && commonChunks.length ? commonChunks : !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors']
+  const customCommonChunks = commonChunks && commonChunks.length ? commonChunks : !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro'] : ['runtime', 'vendors', 'taro']
   plugin.miniPlugin = getMiniPlugin({
     sourceDir,
     outputDir,
@@ -126,6 +126,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
     }
   }
+  const taroBaseReg = new RegExp(`@tarojs[\\/]taro|@tarojs[\\/]${buildAdapter}`)
   chain.merge({
     mode,
     devtool: getDevtool(enableSourceMap),
@@ -174,9 +175,19 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
         cacheGroups: {
           vendors: {
-            test (module) {
+            name: 'vendors',
+            minChunks: 2,
+            test: module => {
               return /[\\/]node_modules[\\/]/.test(module.resource) && module.miniType !== PARSE_AST_TYPE.COMPONENT
-            }
+            },
+            priority: 1
+          },
+          taro: {
+            name: 'taro',
+            test: module => {
+              return taroBaseReg.test(module.context)
+            },
+            priority: 10
           }
         }
       }
