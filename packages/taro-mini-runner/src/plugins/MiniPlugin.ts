@@ -87,49 +87,53 @@ export function isFileToBeTaroComponent (
   sourcePath: string,
   buildAdapter: BUILD_TYPES
 ) {
-  const transformResult = wxTransformer({
-    code,
-    sourcePath: sourcePath,
-    isTyped: REG_TYPESCRIPT.test(sourcePath),
-    adapter: buildAdapter,
-    isNormal: true
-  })
-  const { ast } = transformResult
-  let isTaroComponent = false
+  try {
+    const transformResult = wxTransformer({
+      code,
+      sourcePath: sourcePath,
+      isTyped: REG_TYPESCRIPT.test(sourcePath),
+      adapter: buildAdapter,
+      isNormal: true
+    })
+    const { ast } = transformResult
+    let isTaroComponent = false
 
-  traverse(ast, {
-    ClassDeclaration (astPath) {
-      astPath.traverse({
-        ClassMethod (astPath) {
-          if (astPath.get('key').isIdentifier({ name: 'render' })) {
-            astPath.traverse({
-              JSXElement () {
-                isTaroComponent = true
-              }
-            })
+    traverse(ast, {
+      ClassDeclaration (astPath) {
+        astPath.traverse({
+          ClassMethod (astPath) {
+            if (astPath.get('key').isIdentifier({ name: 'render' })) {
+              astPath.traverse({
+                JSXElement () {
+                  isTaroComponent = true
+                }
+              })
+            }
           }
-        }
-      })
-    },
+        })
+      },
 
-    ClassExpression (astPath) {
-      astPath.traverse({
-        ClassMethod (astPath) {
-          if (astPath.get('key').isIdentifier({ name: 'render' })) {
-            astPath.traverse({
-              JSXElement () {
-                isTaroComponent = true
-              }
-            })
+      ClassExpression (astPath) {
+        astPath.traverse({
+          ClassMethod (astPath) {
+            if (astPath.get('key').isIdentifier({ name: 'render' })) {
+              astPath.traverse({
+                JSXElement () {
+                  isTaroComponent = true
+                }
+              })
+            }
           }
-        }
-      })
+        })
+      }
+    })
+
+    return {
+      isTaroComponent,
+      transformResult
     }
-  })
-
-  return {
-    isTaroComponent,
-    transformResult
+  } catch (error) {
+    return error
   }
 }
 
@@ -269,7 +273,11 @@ export default class MiniPlugin {
   getNpmComponentRealPath (code: string, component: IComponentObj, adapter: BUILD_TYPES): string | null {
     let componentRealPath: string | null = null
     let importExportName
-    const { isTaroComponent, transformResult } = isFileToBeTaroComponent(code, component.path as string, adapter)
+    const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, component.path as string, adapter)
+    if (isTaroComponentRes == null) {
+      return null
+    }
+    const { isTaroComponent, transformResult } = isTaroComponentRes
     const isNativePageOrComponent = this.isNativePageOrComponent(this.getTemplatePath(component.path), fs.readFileSync(component.path).toString())
     if (isTaroComponent || isNativePageOrComponent) {
       return component.path
@@ -502,7 +510,11 @@ export default class MiniPlugin {
     Object.keys(this.appEntry).forEach(key => {
       const filePath = this.appEntry[key][0]
       const code = fs.readFileSync(filePath).toString()
-      if (isFileToBeTaroComponent(code, filePath, buildAdapter)) {
+      const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, filePath, buildAdapter)
+      if (isTaroComponentRes == null) {
+        return null
+      }
+      if (isTaroComponentRes.isTaroComponent) {
         if (pluginConfig) {
           fileList.add({
             name: key,
@@ -899,6 +911,23 @@ export default class MiniPlugin {
     })
   }
 
+  judgeFileToBeTaroComponent (
+    code: string,
+    sourcePath: string,
+    buildAdapter: BUILD_TYPES
+  ) {
+    const isTaroComponentRes = isFileToBeTaroComponent(code, sourcePath, buildAdapter)
+    if (isTaroComponentRes instanceof Error) {
+      if ((isTaroComponentRes as any).codeFrame) {
+        this.errors.push(isTaroComponentRes)
+      } else {
+        this.errors.push(isTaroComponentRes)
+      }
+      return null
+    }
+    return isTaroComponentRes
+  }
+
   run (compiler: webpack.Compiler) {
     this.errors = []
     if (!this.options.isBuildPlugin) {
@@ -917,9 +946,13 @@ export default class MiniPlugin {
     if (REG_SCRIPTS.test(changedFile)) {
       this.changedFile = changedFile
       let { type, obj } = this.getChangedFileInfo(changedFile)
+      this.errors = []
       if (!type) {
         const code = fs.readFileSync(changedFile).toString()
-        const isTaroComponentRes = isFileToBeTaroComponent(code, changedFile, this.options.buildAdapter)
+        const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, changedFile, this.options.buildAdapter)
+        if (isTaroComponentRes == null) {
+          return
+        }
         if (isTaroComponentRes.isTaroComponent) {
           type = PARSE_AST_TYPE.COMPONENT
           obj = {
@@ -938,7 +971,6 @@ export default class MiniPlugin {
             this.components.delete(component)
           }
         })
-        this.errors = []
         if (this.changedFileType === PARSE_AST_TYPE.ENTRY) {
           this.run(compiler)
         } else {
