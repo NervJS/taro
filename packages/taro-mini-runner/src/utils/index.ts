@@ -13,7 +13,8 @@ import {
   NODE_MODULES_REG,
   processTypeMap,
   processTypeEnum,
-  BUILD_TYPES
+  BUILD_TYPES,
+  GLOBAL_PROPS
 } from './constants'
 import { IOption, IComponentObj } from './types'
 
@@ -244,17 +245,15 @@ export function removeHeadSlash (str: string) {
 }
 
 export function npmCodeHack (filePath: string, content: string, buildAdapter: BUILD_TYPES): string {
+  // 修正core-js目录 _global.js
+  // 修正所有用到过lodash的第三方包
+  // 注：@tarojs/taro-alipay/dist/index.js,@tarojs/taro/dist/index.esm.js里面也有lodash相关的代码
+  content = content && content.replace(/(\|\||:)\s*Function\(['"]return this['"]\)\(\)/g, function (match, first, second) {
+    return `${first} ${GLOBAL_PROPS}`
+  })
+
   const basename = path.basename(filePath)
   switch (basename) {
-    case 'lodash.js':
-    case '_global.js':
-    case 'lodash.min.js':
-      if (buildAdapter === BUILD_TYPES.ALIPAY || buildAdapter === BUILD_TYPES.SWAN || buildAdapter === BUILD_TYPES.JD) {
-        content = content.replace(/Function\(['"]return this['"]\)\(\)/, '{}')
-      } else {
-        content = content.replace(/Function\(['"]return this['"]\)\(\)/, 'this')
-      }
-      break
     case 'mobx.js':
       // 解决支付宝小程序全局window或global不存在的问题
       content = content.replace(
