@@ -8,6 +8,12 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
+  Type,
+} from './components/icon/icon';
+import {
+  Mode,
+} from './components/image/image';
+import {
   Conf,
 } from './components/tabbar/tabbar';
 
@@ -45,9 +51,9 @@ export namespace Components {
     'src': string;
   }
   interface TaroInput {
+    'autoFocus': boolean;
     'confirmType': string;
     'disabled': boolean;
-    'focus': boolean;
     'maxlength': number;
     'password': boolean;
     'placeholder': string;
@@ -270,9 +276,9 @@ declare namespace LocalJSX {
     'src'?: string;
   }
   interface TaroInput {
+    'autoFocus'?: boolean;
     'confirmType'?: string;
     'disabled'?: boolean;
-    'focus'?: boolean;
     'maxlength'?: number;
     'onBlur'?: (event: CustomEvent<any>) => void;
     'onChange'?: (event: CustomEvent<any>) => void;

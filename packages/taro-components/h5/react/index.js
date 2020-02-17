@@ -1,4 +1,5 @@
-import reactifyWc from './reactify-wc'
+import reactifyWc from './utils/reactify-wc'
+import ReactInput from './components/input'
 
 export const View = reactifyWc('taro-view')
 export const Icon = reactifyWc('taro-icon')
@@ -10,7 +11,7 @@ export const Checkbox = reactifyWc('taro-checkbox')
 export const CheckboxGroup = reactifyWc('taro-checkbox-group')
 export const Editor = reactifyWc('taro-editor')
 export const Form = reactifyWc('taro-form')
-export const Input = reactifyWc('taro-input')
+export const Input = ReactInput
 export const Label = reactifyWc('taro-label')
 export const Picker = reactifyWc('taro-picker')
 export const PickerView = reactifyWc('taro-picker-view')

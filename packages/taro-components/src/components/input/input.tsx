@@ -33,7 +33,7 @@ export class Input implements ComponentInterface {
   @Prop() placeholder: string
   @Prop() disabled = false
   @Prop() maxlength = 140
-  @Prop() focus = false
+  @Prop() autoFocus = false
   @Prop() confirmType = 'done'
 
   @Event({
@@ -163,7 +163,7 @@ export class Input implements ComponentInterface {
       placeholder,
       disabled,
       maxlength,
-      focus,
+      autoFocus,
       confirmType
     } = this
 
@@ -171,7 +171,7 @@ export class Input implements ComponentInterface {
       <input
         ref={input => {
           this.inputRef = input!
-          this.focus && input?.focus()
+          autoFocus && input?.focus()
         }}
         class='weui-input'
         value={fixControlledValue(value)}
@@ -179,7 +179,7 @@ export class Input implements ComponentInterface {
         placeholder={placeholder}
         disabled={disabled}
         maxlength={maxlength}
-        autofocus={focus}
+        autofocus={autoFocus}
         onInput={this.hanldeInput}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}

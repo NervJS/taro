@@ -1,3 +1,5 @@
+import VueInput from './components/input'
+
 export const View = 'taro-view'
 export const Icon = 'taro-icon'
 export const Progress = 'taro-progress'
@@ -8,7 +10,7 @@ export const Checkbox = 'taro-checkbox'
 export const CheckboxGroup = 'taro-checkbox-group'
 export const Editor = 'taro-editor'
 export const Form = 'taro-form'
-export const Input = 'taro-input'
+export const Input = VueInput
 export const Label = 'taro-label'
 export const Picker = 'taro-picker'
 export const PickerView = 'taro-picker-view'

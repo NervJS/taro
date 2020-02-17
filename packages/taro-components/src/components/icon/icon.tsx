@@ -1,7 +1,7 @@
 import { Component, h, ComponentInterface, Prop } from '@stencil/core'
 import classNames from 'classnames'
 
-type Type = 'success' | 'success_no_circle' | 'info'| 'warn'| 'waiting'| 'cancel'| 'download'| 'search'| 'clear'
+export type Type = 'success' | 'success_no_circle' | 'info'| 'warn'| 'waiting'| 'cancel'| 'download'| 'search'| 'clear'
 type IconType = Exclude<Type, 'success_no_circle'> | 'success-no-circle'
 
 @Component({

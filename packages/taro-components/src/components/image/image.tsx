@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import('intersection-observer')
 
-type Mode =
+export type Mode =
   'scaleToFill'
   | 'aspectFit'
   | 'aspectFill'
