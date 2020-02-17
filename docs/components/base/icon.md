@@ -45,7 +45,7 @@ export default class PageView extends Component {
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
-| type | `"success" | "success_no_circle" | "info" | "warn" | "waiting" | "cancel" | "download" | "search" | "clear"` |  | 是 | icon 的类型 |
+| type | `success` \| `success_no_circle` \| `info` \| `warn` \| `waiting` \| `cancel` \| `download` \| `search` \| `clear` |  | 是 | icon 的类型 |
 | size | `string` | `23` | 否 | icon 的大小，单位px |
 | color | `string` |  | 否 | icon 的颜色，同 css 的 color |
 
