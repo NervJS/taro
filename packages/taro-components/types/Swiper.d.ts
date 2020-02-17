@@ -94,17 +94,12 @@ interface SwiperProps extends StandardProps {
   /** current 改变时会触发 change 事件
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  onChange?: CommonEventFunction<{
-    /** 当前所在滑块的索引 */
-    current: number
-    /** 导致变更的原因 */
-    source: keyof SwiperProps.TChangeSource
-  }>
+  onChange?: CommonEventFunction<SwiperProps.onChangeEventDeatil>
 
   /** swiper-item 的位置发生改变时会触发 transition 事件
    * @supported weapp
    */
-  onTransition?: CommonEventFunction<{dx: number, dy: number}>
+  onTransition?: CommonEventFunction<SwiperProps.onTransitionEventDetail>
 
   /** 动画结束时会触发 animationfinish 事件
    * @supported weapp, swan, h5, rn
@@ -135,6 +130,20 @@ declare namespace SwiperProps {
     easeOutCubic
     /** 缓入缓出动画 */
     easeInOutCubic
+  }
+
+  interface onChangeEventDeatil {
+    /** 当前所在滑块的索引 */
+    current: number
+    /** 导致变更的原因 */
+    source: keyof SwiperProps.TChangeSource
+  }
+
+  interface onTransitionEventDetail {
+    /** X 坐标 */
+    dx: number
+    /** Y 坐标 */
+    dy: number
   }
 }
 

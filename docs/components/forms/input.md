@@ -46,7 +46,7 @@ class App extends Component {
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
 | value | `string` |  | 否 | 输入框的初始内容 |
-| type | `"number" | "text" | "idcard" | "digit"` | `"text"` | 否 | input 的类型 |
+| type | "number" or "text" or "idcard" or "digit" | `"text"` | 否 | input 的类型 |
 | password | `boolean` |  | 否 | 是否是密码类型 |
 | placeholder | `string` |  | 否 | 输入框为空时占位符 |
 | placeholderStyle | `string` |  | 否 | 指定 placeholder 的样式 |
@@ -56,7 +56,7 @@ class App extends Component {
 | cursorSpacing | `number` | `0` | 否 | 指定光标与键盘的距离，单位 px 。取 input 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离 |
 | autoFocus | `boolean` | `false` | 否 | (即将废弃，请直接使用 focus )自动聚焦，拉起键盘 |
 | focus | `boolean` |  | 否 | 获取焦点 |
-| confirmType | `"send" | "search" | "next" | "go" | "done"` | `done` | 否 | 设置键盘右下角按钮的文字 |
+| confirmType | "send" or "search" or "next" or "go" or "done" | `done` | 否 | 设置键盘右下角按钮的文字 |
 | confirmHold | `boolean` | `false` | 否 | 点击键盘右下角按钮时是否保持键盘不收起 |
 | cursor | `number` |  | 否 | 指定focus时的光标位置 |
 | selectionStart | `number` | `-1` | 否 | 光标起始位置，自动聚集时有效，需与selection-end搭配使用 |

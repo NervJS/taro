@@ -63,7 +63,7 @@ export default class PageView extends Component {
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
 | selectable | `boolean` | `false` | 否 | 文本是否可选 |
-| space | `ensp` \| `emsp` \| `nbsp` |  | 否 | 显示连续空格 |
+| space | "ensp" or "emsp" or "nbsp" |  | 否 | 显示连续空格 |
 | decode | `boolean` | `false` | 否 | 是否解码 |
 
 ### API 支持度

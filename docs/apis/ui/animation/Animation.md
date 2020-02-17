@@ -53,7 +53,7 @@ sidebar_label: Animation
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| value | `string | number` | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 #### API 支持度
 
@@ -73,7 +73,7 @@ sidebar_label: Animation
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| value | `string | number` | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 #### API 支持度
 
@@ -93,7 +93,7 @@ sidebar_label: Animation
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| value | `string | number` | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 #### API 支持度
 
@@ -165,7 +165,7 @@ sidebar_label: Animation
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| value | `string | number` | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 #### API 支持度
 
@@ -472,7 +472,7 @@ sidebar_label: Animation
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| value | `string | number` | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 #### API 支持度
 
@@ -595,7 +595,7 @@ sidebar_label: Animation
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| value | `string | number` | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
 
 #### API 支持度
 
@@ -611,7 +611,7 @@ sidebar_label: Animation
 | --- | --- | :---: | --- |
 | delay | `number` | 否 | 动画延迟时间，单位 ms |
 | duration | `number` | 否 | 动画持续时间，单位 ms |
-| timingFunction | `"linear" | "ease" | "ease-in" | "ease-in-out" | "ease-out" | "step-start" | "step-end"` | 否 | 动画的效果 |
+| timingFunction | "linear" or "ease" or "ease-in" or "ease-in-out" or "ease-out" or "step-start" or "step-end" | 否 | 动画的效果 |
 | transformOrigin | `string` | 否 |  |
 
 ### timingFunction

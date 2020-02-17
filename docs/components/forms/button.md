@@ -92,25 +92,25 @@ export default class PageButton extends Component {
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
-| size | `"default" | "mini"` | `default` | 否 | 按钮的大小 |
-| type | `"default" | "primary" | "warn"` | `default` | 否 | 按钮的样式类型 |
+| size | "default" or "mini" | `default` | 否 | 按钮的大小 |
+| type | "default" or "primary" or "warn" | `default` | 否 | 按钮的样式类型 |
 | plain | `boolean` | `false` | 否 | 按钮是否镂空，背景色透明 |
 | disabled | `boolean` | `false` | 否 | 是否禁用 |
 | loading | `boolean` | `false` | 否 | 名称前是否带 loading 图标 |
-| formType | `"submit" | "reset"` |  | 否 | 用于 `<form/>` 组件，点击分别会触发 `<form/>` 组件的 submit/reset 事件 |
-| openType | `"contact" | "contactShare" | "share" | "getRealnameAuthInfo" | "getAuthorize" | "getPhoneNumber" | "getUserInfo" | "lifestyle" | "launchApp" | "openSetting" | "feedback"` |  | 否 | 微信开放能力 |
+| formType | "submit" or "reset" |  | 否 | 用于 `<form/>` 组件，点击分别会触发 `<form/>` 组件的 submit/reset 事件 |
+| openType | "contact" or "contactShare" or "share" or "getRealnameAuthInfo" or "getAuthorize" or "getPhoneNumber" or "getUserInfo" or "lifestyle" or "launchApp" or "openSetting" or "feedback" |  | 否 | 微信开放能力 |
 | hoverClass | `string` | `button-hover` | 否 | 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果 |
 | hoverStyle | `string` | `none` | 否 | 由于 RN 不支持 Class，故 RN 端的 Button 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。 |
 | hoverStopPropagation | `boolean` | `false` | 否 | 指定是否阻止本节点的祖先节点出现点击态 |
 | hoverStartTime | `number` | `20` | 否 | 按住后多久出现点击态，单位毫秒 |
 | hoverStayTime | `number` | `70` | 否 | 手指松开后点击态保留时间，单位毫秒 |
-| lang | `"en" | "zh_CN" | "zh_TW"` |  | 否 | 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。<br /><br />生效时机: `open-type="getUserInfo"` |
+| lang | "en" or "zh_CN" or "zh_TW" |  | 否 | 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。<br /><br />生效时机: `open-type="getUserInfo"` |
 | sessionFrom | `string` |  | 否 | 会话来源<br /><br />生效时机：`open-type="contact"` |
 | sendMessageTitle | `string` | `当前标题` | 否 | 会话内消息卡片标题<br /><br />生效时机：`open-type="contact"` |
 | sendMessagePath | `string` | `当前标题` | 否 | 会话内消息卡片点击跳转小程序路径<br /><br />生效时机：`open-type="contact"` |
 | sendMessageImg | `string` | `截图` | 否 | 会话内消息卡片图片<br /><br />生效时机：`open-type="contact"` |
 | appParameter | `string` |  | 否 | 打开 APP 时，向 APP 传递的参数<br /><br />生效时机：`open-type="launchApp"` |
-| scope | `"userInfo" | "phoneNumber"` |  | 否 | 支付宝小程序 scope<br /><br />生效时机：`open-type="getAuthorize"` |
+| scope | "userInfo" or "phoneNumber" |  | 否 | 支付宝小程序 scope<br /><br />生效时机：`open-type="getAuthorize"` |
 | showMessageCard | `boolean` | `false` | 否 | 显示会话内消息卡片<br /><br />生效时机：`open-type="contact"` |
 | onGetUserInfo | `BaseEventOrigFunction<onGetUserInfoEventDetail>` |  | 否 | 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致<br /><br />生效时机: `open-type="getUserInfo"` |
 | onGetAuthorize | `BaseEventOrigFunction<any>` |  | 否 | 支付宝获取会员基础信息授权回调<br /><br />生效时机：`open-type="getAuthorize"` |
@@ -213,7 +213,7 @@ lang 的合法值
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| userInfo | `{ nickName: string; avatarUrl: string; gender: 0 | 1 | 2; province: string; city: string; country: string; }` |  |
+| userInfo | { nickName: string; avatarUrl: string; gender: 0 or 1 or 2; province: string; city: string; country: string; } |  |
 | rawData | `string` | 不包括敏感信息的原始数据 `JSON` 字符串，用于计算签名 |
 | signature | `string` | 使用 `sha1(rawData + sessionkey)` 得到字符串，用于校验用户信息 |
 | encryptedData | `string` | 包括敏感数据在内的完整用户信息的加密数据 |

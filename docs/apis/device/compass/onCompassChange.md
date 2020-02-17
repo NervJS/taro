@@ -31,7 +31,7 @@ sidebar_label: onCompassChange
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| accuracy | `string | number` | 精度<br /><br />由于平台差异，accuracy 在 iOS/Android 的值不同。<br /><br />- iOS：accuracy 是一个 number 类型的值，表示相对于磁北极的偏差。0 表示设备指向磁北，90 表示指向东，180 表示指向南，依此类推。<br />- Android：accuracy 是一个 string 类型的枚举值。 |
+| accuracy | string or number | 精度<br /><br />由于平台差异，accuracy 在 iOS/Android 的值不同。<br /><br />- iOS：accuracy 是一个 number 类型的值，表示相对于磁北极的偏差。0 表示设备指向磁北，90 表示指向东，180 表示指向南，依此类推。<br />- Android：accuracy 是一个 string 类型的枚举值。 |
 | direction | `number` | 面对的方向度数 |
 
 ### accuracy

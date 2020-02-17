@@ -91,7 +91,7 @@ export default class PageView extends Component {
 | scrollAnchoring | `boolean` | `fasle` | 否 | 开启 scroll anchoring 特性，即控制滚动位置不随内容变化而抖动，仅在 iOS 下生效，安卓下可参考 CSS `overflow-anchor` 属性。 |
 | refresherEnabled | `boolean` | `fasle` | 否 | 开启自定义下拉刷新 |
 | refresherThreshold | `number` | `45` | 否 | 设置自定义下拉刷新阈值 |
-| refresherDefaultStyle | `string` | `'black'` | 否 | 设置自定义下拉刷新默认样式，支持设置 `black | white | none`， none 表示不使用默认样式 |
+| refresherDefaultStyle | `string` | `'black'` | 否 | 设置自定义下拉刷新默认样式，支持设置 `black or white or none`， none 表示不使用默认样式 |
 | refresherBackground | `string` | `'#FFF'` | 否 | 设置自定义下拉刷新区域背景颜色 |
 | refresherTriggered | `boolean` | `fasle` | 否 | 设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发 |
 | onScrollToUpper | `(event: BaseEventOrigFunction<any>) => any` |  | 否 | 滚动到顶部/左边，会触发 scrolltoupper 事件 |

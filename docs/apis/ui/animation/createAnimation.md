@@ -21,7 +21,7 @@ sidebar_label: createAnimation
 | --- | --- | :---: | --- |
 | delay | `number` | 否 | 动画延迟时间，单位 ms |
 | duration | `number` | 否 | 动画持续时间，单位 ms |
-| timingFunction | `"linear" | "ease" | "ease-in" | "ease-in-out" | "ease-out" | "step-start" | "step-end"` | 否 | 动画的效果 |
+| timingFunction | "linear" or "ease" or "ease-in" or "ease-in-out" or "ease-out" or "step-start" or "step-end" | 否 | 动画的效果 |
 | transformOrigin | `string` | 否 |  |
 
 ### timingFunction

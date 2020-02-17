@@ -183,7 +183,7 @@ sidebar_label: RewardedVideoAd
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| errCode | `1000 | 1001 | 1002 | 1003 | 1004 | 1005 | 1006 | 1007 | 1008` | 错误码<br />[参考地址](https://nervjs.github.io/taro/docs/apis/General#AdErrCode) |
+| errCode | 1000 or 1001 or 1002 or 1003 or 1004 or 1005 or 1006 or 1007 or 1008 | 错误码<br />[参考地址](https://nervjs.github.io/taro/docs/apis/General#AdErrCode) |
 | errMsg | `string` | 错误信息 |
 
 ### OnCloseCallbackResult

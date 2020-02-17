@@ -19,7 +19,7 @@ sidebar_label: setBackgroundTextStyle
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| textStyle | `"dark" | "light"` | 是 | 下拉背景字体、loading 图的样式。<br /><br />可选值：<br />- 'dark': dark 样式;<br />- 'light': light 样式; |
+| textStyle | "dark" or "light" | 是 | 下拉背景字体、loading 图的样式。<br /><br />可选值：<br />- 'dark': dark 样式;<br />- 'light': light 样式; |
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |

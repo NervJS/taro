@@ -47,7 +47,7 @@ export default class PageView extends Component {
 | activeColor | `string` |  | 否 | 已选择的进度条的颜色 |
 | backgroundColor | `string` |  | 否 | 未选择的进度条的颜色 |
 | active | `boolean` | `false` | 否 | 进度条从左往右的动画 |
-| activeMode | `backwards` \| `forwards` | `backwards` | 否 | backwards: 动画从头播<br /><br />forwards: 动画从上次结束点接着播 |
+| activeMode | "backwards" or "forwards" | `backwards` | 否 | backwards: 动画从头播<br /><br />forwards: 动画从上次结束点接着播 |
 | duration | `number` | `30` | 否 | 进度增加 1% 所需毫秒数 |
 | onActiveEnd | `BaseEventOrigFunction<any>` |  | 否 | 动画完成事件 |
 

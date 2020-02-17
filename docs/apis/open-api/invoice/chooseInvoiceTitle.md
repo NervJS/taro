@@ -34,7 +34,7 @@ sidebar_label: chooseInvoiceTitle
 | taxNumber | `string` | 抬头税号 |
 | telephone | `string` | 手机号码 |
 | title | `string` | 抬头名称 |
-| type | `0 | 1` | 抬头类型 |
+| type | 0 or 1 | 抬头类型 |
 
 ### invoice_type
 

@@ -315,7 +315,7 @@ sidebar_label: UDPSocket
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| data | `string | ArrayBuffer` | 是 | 需要发送的内容 |
+| data | string or ArrayBuffer | 是 | 需要发送的内容 |
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |

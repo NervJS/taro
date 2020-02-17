@@ -60,10 +60,10 @@ class App extends Component {
 | nextMargin | `string` | `"0px"` | 否 | 后边距，可用于露出后一项的一小部分，接受 px 和 rpx 值 |
 | displayMultipleItems | `number` | `1` | 否 | 同时显示的滑块数量 |
 | skipHiddenItemLayout | `boolean` | `false` | 否 | 是否跳过未显示的滑块布局，设为 true 可优化复杂情况下的滑动性能，但会丢失隐藏状态滑块的布局信息 |
-| easingFunction | `default` \| `linear` \| `easeInCubic` \| `easeOutCubic` \| `easeInOutCubic` | `default` | 否 | 指定 swiper 切换缓动动画类型 |
-| onChange | `BaseEventOrigFunction<{ current: number; source: "" \| "autoplay" \| "touch"; }>` |  | 否 | current 改变时会触发 change 事件 |
-| onTransition | `BaseEventOrigFunction<{ dx: number; dy: number; }>` |  | 否 | swiper-item 的位置发生改变时会触发 transition 事件 |
-| onAnimationFinish | `BaseEventOrigFunction<{ current: number; source: "" \| "autoplay" \| "touch"; }>` |  | 否 | 动画结束时会触发 animationFinish 事件 |
+| easingFunction | "default" or "linear" or "easeInCubic" or "easeOutCubic" or "easeInOutCubic" | `"default"` | 否 | 指定 swiper 切换缓动动画类型 |
+| onChange | `BaseEventOrigFunction<onChangeEventDeatil>` |  | 否 | current 改变时会触发 change 事件 |
+| onTransition | `BaseEventOrigFunction<onTransitionEventDetail>` |  | 否 | swiper-item 的位置发生改变时会触发 transition 事件 |
+| onAnimationFinish | `BaseEventOrigFunction<onChangeEventDeatil>` |  | 否 | 动画结束时会触发 animationfinish 事件 |
 
 ### API 支持度
 
@@ -108,6 +108,20 @@ class App extends Component {
 | easeInCubic | 缓入动画 |
 | easeOutCubic | 缓出动画 |
 | easeInOutCubic | 缓入缓出动画 |
+
+### onChangeEventDeatil
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| current | `number` | 当前所在滑块的索引 |
+| source | "" or "autoplay" or "touch" | 导致变更的原因 |
+
+### onTransitionEventDetail
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| dx | `number` | X 坐标 |
+| dy | `number` | Y 坐标 |
 
 ## API 支持度
 

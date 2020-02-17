@@ -32,7 +32,7 @@ sidebar_label: getBackgroundAudioPlayerState
 | dataUrl | `string` | 歌曲数据链接，只有在音乐播放中时返回 |
 | downloadPercent | `number` | 音频的下载进度百分比，只有在音乐播放中时返回 |
 | duration | `number` | 选定音频的长度（单位：s），只有在音乐播放中时返回 |
-| status | `0 | 1 | 2` | 播放状态 |
+| status | 0 or 1 or 2 | 播放状态 |
 | errMsg | `string` | 调用结果 |
 
 ### status

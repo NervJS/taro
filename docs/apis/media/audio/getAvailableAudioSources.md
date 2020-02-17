@@ -27,7 +27,7 @@ sidebar_label: getAvailableAudioSources
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| audioSources | `("auto" | "buildInMic" | "headsetMic" | "mic" | "camcorder" | "voice_communication" | "voice_recognition")[]` | 支持的音频输入源列表，可在 [RecorderManager.start()](https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.start.html) 接口中使用。返回值定义参考 https://developer.android.com/reference/kotlin/android/media/MediaRecorder.AudioSource |
+| audioSources | ("auto" or "buildInMic" or "headsetMic" or "mic" or "camcorder" or "voice_communication" or "voice_recognition")[] | 支持的音频输入源列表，可在 [RecorderManager.start()](https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.start.html) 接口中使用。返回值定义参考 https://developer.android.com/reference/kotlin/android/media/MediaRecorder.AudioSource |
 | errMsg | `string` | 调用结果 |
 
 ### audioSources

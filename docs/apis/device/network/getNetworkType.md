@@ -27,7 +27,7 @@ sidebar_label: getNetworkType
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| networkType | `"wifi" | "2g" | "3g" | "4g" | "unknown" | "none"` | 网络类型 |
+| networkType | "wifi" or "2g" or "3g" or "4g" or "unknown" or "none" | 网络类型 |
 | errMsg | `string` | 调用结果 |
 
 ### networkType

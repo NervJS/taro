@@ -153,7 +153,7 @@ listener.start()
 | --- | --- | :---: | --- |
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| quality | `"high" | "normal" | "low"` | 否 | 成像质量 |
+| quality | "high" or "normal" or "low" | 否 | 成像质量 |
 | success | `(result: TakePhotoSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### TakePhotoSuccessCallbackResult
