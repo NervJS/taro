@@ -65,7 +65,7 @@
     "cross-spawn": "^6.0.5",
     "download-git-repo": "^2.0.0",
     "envinfo": "^6.0.1",
-    "eslint": "^6.1.0",
+    "eslint": "^6.8.0",
     "eslint-config-taro": "2.0.3",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",
