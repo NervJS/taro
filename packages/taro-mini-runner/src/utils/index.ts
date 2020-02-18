@@ -269,12 +269,6 @@ export function npmCodeHack (filePath: string, content: string, buildAdapter: BU
       // IOS 1.10.2 Promise BUG
       content = content.replace('Promise && Promise.resolve', 'false && Promise && Promise.resolve')
       break
-    case '_freeGlobal.js':
-      content = content.replace('module.exports = freeGlobal;', 'module.exports = freeGlobal || this || global || {};')
-      break
-    case 'now.js':
-      content = content.replace('root.Date', 'Date')
-      break
   }
   if (buildAdapter === BUILD_TYPES.ALIPAY && content.replace(/\s\r\n/g, '').length <= 0) {
     content = '// Empty file'
