@@ -78,6 +78,13 @@ const defaultCssModuleOption: PostcssOption.cssModules = {
   }
 }
 
+const defaultUrlOption: PostcssOption.url = {
+  enable: true,
+  config: {
+    limit: 10240 // limit 10k base on document
+  }
+}
+
 const staticDirectory = 'static'
 
 const getLoader = (loaderName: string, options: IOption) => {
@@ -287,6 +294,12 @@ export const getModule = (appPath: string, {
     })
   }
 
+  const urlOptions: PostcssOption.url = recursiveMerge({}, defaultUrlOption, postcssOption.url)
+  let postcssUrlOption;
+  if (urlOptions.enable) {
+    postcssUrlOption = urlOptions.config;
+  }
+
   function addCssLoader (cssLoaders, loader) {
     const cssLoadersCopy = cloneDeep(cssLoaders)
     cssLoadersCopy.forEach(item => {
@@ -356,6 +369,7 @@ export const getModule = (appPath: string, {
       use: {
         urlLoader: getUrlLoader([defaultMediaUrlLoaderOption, {
           name: `${staticDirectory}/media/[name].[ext]`,
+          ...(postcssUrlOption || {}),
           ...mediaUrlLoaderOption
         }])
       }
@@ -365,6 +379,7 @@ export const getModule = (appPath: string, {
       use: {
         urlLoader: getUrlLoader([defaultFontUrlLoaderOption, {
           name: `${staticDirectory}/fonts/[name].[ext]`,
+          ...(postcssUrlOption || {}),
           ...fontUrlLoaderOption
         }])
       }
@@ -374,6 +389,7 @@ export const getModule = (appPath: string, {
       use: {
         urlLoader: getUrlLoader([defaultImageUrlLoaderOption, {
           name: `${staticDirectory}/images/[name].[ext]`,
+          ...(postcssUrlOption || {}),
           ...imageUrlLoaderOption
         }])
       }
