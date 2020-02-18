@@ -85,7 +85,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     isBuildPlugin: config.isBuildPlugin
   })
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
-  const customCommonChunks = commonChunks && commonChunks.length ? commonChunks : !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro'] : ['runtime', 'vendors', 'taro']
+  const defaultCommonChunks = !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro'] : ['runtime', 'vendors', 'taro']
+  let customCommonChunks = defaultCommonChunks
+  if (typeof commonChunks === 'function') {
+    customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks
+  } else if (Array.isArray(commonChunks) && commonChunks.length) {
+    customCommonChunks = commonChunks
+  }
   plugin.miniPlugin = getMiniPlugin({
     sourceDir,
     outputDir,
