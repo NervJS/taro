@@ -85,7 +85,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     isBuildPlugin: config.isBuildPlugin
   })
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
-  const defaultCommonChunks = !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro'] : ['runtime', 'vendors', 'taro']
+  const defaultCommonChunks = !!config.isBuildPlugin
+    ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
+    : ['runtime', 'vendors', 'taro', 'common']
   let customCommonChunks = defaultCommonChunks
   if (typeof commonChunks === 'function') {
     customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks
@@ -178,22 +180,26 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         chunks: 'all',
         maxInitialRequests: Infinity,
         minSize: 0,
-        name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
         cacheGroups: {
+          common: {
+            name: !!config.isBuildPlugin ? 'plugin/common' : 'common',
+            minChunks: 2,
+            priority: 1
+          },
           vendors: {
-            name: 'vendors',
+            name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
             minChunks: 2,
             test: module => {
               return /[\\/]node_modules[\\/]/.test(module.resource) && module.miniType !== PARSE_AST_TYPE.COMPONENT
             },
-            priority: 1
+            priority: 10
           },
           taro: {
-            name: 'taro',
+            name: !!config.isBuildPlugin ? 'plugin/taro' : 'taro',
             test: module => {
               return taroBaseReg.test(module.context)
             },
-            priority: 10
+            priority: 100
           }
         }
       }

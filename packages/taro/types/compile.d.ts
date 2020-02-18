@@ -131,7 +131,7 @@ export interface IMiniAppConfig {
   miniCssExtractPluginOption?: IOption,
 
   customFilesTypes?: IMINI_APP_FILE_TYPE,
-  commonChunks?: string[],
+  commonChunks?: string[] | ((commonChunks: string[]) => string[]),
 
   compile?: {
     exclude?: any[],
