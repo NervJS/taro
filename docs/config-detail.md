@@ -320,7 +320,7 @@ const config = {
 
 自定义 Webpack 配置，接受函数形式的配置。
 
-这个函数会收到两个参数，第一个参数是 webpackChain 对象，可参考 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 的 api 进行修改；第二个参数是 `webpack` 实例。例如：
+这个函数会收到三个参数，第一个参数是 webpackChain 对象，可参考 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 的 api 进行修改；第二个参数是 `webpack` 实例；第三个参数 `PARSE_AST_TYPE` 是小程序编译时的文件类型集合。例如：
 
 ```jsx
 // 这是一个添加 raw-loader 的例子，用于在项目中直接引用 md 文件
@@ -368,9 +368,54 @@ const config = {
 }
 ```
 
+注意：第三个参数的取值如下
+
+```typescript
+export enum PARSE_AST_TYPE {
+  ENTRY = 'ENTRY',
+  PAGE = 'PAGE',
+  COMPONENT = 'COMPONENT',
+  NORMAL = 'NORMAL',
+  STATIC = 'STATIC'
+}
+```
+
 #### mini.commonChunks
 
-配置打包时抽离的公共文件，如果是普通编译，则默认值为 `['runtime', 'vendors']`，如果是编译为微信小程序插件，则默认值为 `['plugin/runtime', 'plugin/vendors']`。
+> `type commonChunks = string[] | ((commonChunks: string[]) => string[])`
+
+配置打包时抽离的公共文件
+
+支持两种配置方式，其一是字符串数组，给定抽离公共文件名，在 Taro 编译中，如果是普通编译，则 commonChunks 默认值为 `['runtime', 'vendors', 'taro', 'common']`，如果是编译为微信小程序插件，则 commonChunks 默认值为 `['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']`，普通编译时默认配置
+
+```js
+const config = {
+  mini: {
+    commonChunks: ['runtime', 'vendors', 'taro', 'common']
+  }
+}
+```
+
+这几个公共文件分别表示：
+
+* `runtime`: webpack 运行时入口
+* `vendors`: node_modules 中文件抽离
+* `taro`: node_modules 中 Taro 相关依赖抽离
+* `common`: 项目中业务代码公共文件抽离
+
+其二是函数，通过对入参的默认公共文件数组进行操作，返回新的数组来进行配置，如下
+
+```js
+const config = {
+  mini: {
+    commonChunks (commonChunks) {
+      // commonChunks 的取值即为默认的公共文件名数组
+      commonChunks.push('yourCustomCommonChunkName')
+      return commonChunks
+    }
+  }
+}
+```
 
 `commonChunks` 的配置值主要依据 webpack 配置 [`optimization.runtimeChunk`](https://webpack.js.org/configuration/optimization/#optimizationruntimechunk) 和 [`optimization.splitChunks`](https://webpack.js.org/plugins/split-chunks-plugin/)，Taro 中默认的配置分别为
 
@@ -386,10 +431,28 @@ optimization: {
     minSize: 0,
     name: 'vendors',
     cacheGroups: {
+      common: {
+        name: !!config.isBuildPlugin ? 'plugin/common' : 'common',
+        minChunks: 2,
+        priority: 1
+      },
       vendors: {
-        test (module) {
+        name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
+        minChunks: 2,
+        test: module => {
+          // 如果需要自定义配置，PARSE_AST_TYPE 可以从 webpackChain 第三个参数获得
           return /[\\/]node_modules[\\/]/.test(module.resource) && module.miniType !== PARSE_AST_TYPE.COMPONENT
-        }
+        },
+        priority: 10
+      },
+      taro: {
+        name: !!config.isBuildPlugin ? 'plugin/taro' : 'taro',
+        test: module => {
+          // buildAdapter 为当前编译的端，在配置文件中可以通过 process.env.TARO_ENV 来获取
+          const taroBaseReg = new RegExp(`@tarojs[\\/]taro|@tarojs[\\/]${buildAdapter}`)
+          return taroBaseReg.test(module.context)
+        },
+        priority: 100
       }
     }
   }
