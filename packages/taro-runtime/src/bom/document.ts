@@ -5,6 +5,7 @@ import { FormElement } from '../dom/form'
 import { NodeType } from '../dom/node_types'
 import { TaroRootElement } from '../dom/root'
 import { eventSource } from '../dom/event'
+import { isBrowser, doc } from '../env'
 
 export class TaroDocument extends TaroElement {
   public constructor () {
@@ -59,4 +60,4 @@ export function createDocument () {
   return doc
 }
 
-export const document = createDocument()
+export const document = (isBrowser ? doc : createDocument()) as TaroDocumentInstance

@@ -9,6 +9,7 @@ import { Instance, PageInstance, PageProps } from './instance'
 import { incrementId } from '../utils'
 import { perf } from '../perf'
 import { PAGE_INIT } from '../constants'
+import { isBrowser } from '../env'
 
 const instances = new Map<string, Instance>()
 
@@ -74,8 +75,10 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
 
         ensure(pageElement !== null, '没有找到页面实例。')
         safeExecute('onLoad', options)
-        pageElement.ctx = this
-        pageElement.performUpdate(true, cb)
+        if (!isBrowser) {
+          pageElement.ctx = this
+          pageElement.performUpdate(true, cb)
+        }
       })
     },
     onUnload () {
