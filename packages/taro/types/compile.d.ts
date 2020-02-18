@@ -117,7 +117,7 @@ export interface IMiniAppConfig {
   appOutput?: boolean,
   enableSourceMap: boolean,
 
-  webpackChain: (chain: any, webpack: any) => void,
+  webpackChain: (chain: any, webpack: any, PARSE_AST_TYPE: any) => void,
   entry: webpack.Entry,
   output: webpack.Output,
   postcss?: IPostcssOption,

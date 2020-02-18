@@ -2,13 +2,13 @@ import * as webpack from 'webpack'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 
 import { IBuildConfig, IOption } from './utils/types'
-import { BUILD_TYPES } from './utils/constants'
+import { BUILD_TYPES, PARSE_AST_TYPE } from './utils/constants'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import buildConf from './webpack/build.conf'
 
 const customizeChain = (chain, customizeFunc: Function) => {
   if (customizeFunc instanceof Function) {
-    customizeFunc(chain, webpack)
+    customizeFunc(chain, webpack, PARSE_AST_TYPE)
   }
 }
 
