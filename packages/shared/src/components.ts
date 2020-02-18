@@ -41,6 +41,41 @@ const Icon = {
   color: ''
 }
 
+const Map = {
+  longitude: '',
+  latitude: '',
+  scale: '16',
+  markers: '',
+  covers: '',
+  polyline: '',
+  circles: '',
+  controls: '',
+  'include-point': 'false',
+  'show-location': '',
+  polygons: '',
+  subkey: '',
+  'layer-style': '1',
+  rotate: '0',
+  skew: 'skew',
+  'enable-3D': 'false',
+  'show-compass': 'false',
+  'show-scale': 'false',
+  'enable-overlooking': 'false',
+  'enable-zoom': 'true',
+  'enable-scroll': 'true',
+  'enable-rotate': 'false',
+  'enable-satellite': 'false',
+  'enable-traffic': 'false',
+  setting: '',
+  bindMarkerTap: '',
+  bindLabelTap: '',
+  bindControlTap: '',
+  bindCalloutTap: '',
+  bindUpdated: '',
+  bindRegionChange: '',
+  bindPoiTap: ''
+}
+
 const Progress = {
   percent: '',
   'show-info': 'fasle',
@@ -51,7 +86,7 @@ const Progress = {
   activeColor: singleQuote('#09BB07'),
   backgroundColor: singleQuote('#EBEBEB'),
   active: 'false',
-  'active-mode': 'backwards',
+  'active-mode': singleQuote('backwards'),
   duration: '30',
   bindActiveEnd: ''
 }
@@ -599,7 +634,8 @@ export const internalComponents = {
   WebView,
   NavigationBar,
   PageMeta,
-  Block
+  Block,
+  Map
 }
 
 export const controlledComponent = new Set([
