@@ -31,7 +31,7 @@ const willPreventDefault = supportsPassive ? { passive: false } : false
 
 @Component({
   tag: 'taro-pull-to-refresh',
-  styleUrl: './index.css'
+  styleUrl: './style/index.css'
 })
 export class PullToRefresh implements ComponentInterface {
   @Prop() prefixCls = 'rmc-pull-to-refresh'
@@ -212,11 +212,10 @@ export class PullToRefresh implements ComponentInterface {
   }
 
   render () {
-    const renderRefresh = (cls: string, isHost: boolean) => {
+    const renderRefresh = (cls: string) => {
       const { currSt, dragOnEdge, prefixCls } = this
       const cla = classNames(cls, !dragOnEdge && `${prefixCls}-transition`)
       const showIndicator = currSt === 'activate' || currSt === 'release'
-      const Comp = isHost ? Host : 'div'
       return (
         <div class={`${prefixCls}-content-wrapper`}>
           <div
@@ -238,13 +237,13 @@ export class PullToRefresh implements ComponentInterface {
     }
 
     if (this.scrollContainer) {
-      return renderRefresh(`${this.prefixCls}-content ${this.prefixCls}-down`, true)
+      return renderRefresh(`${this.prefixCls}-content ${this.prefixCls}-down`)
     }
     return (
       <Host
         class={classNames(this.prefixCls, `${this.prefixCls}-down`)}
       >
-        {renderRefresh(`${this.prefixCls}-content`, false)}
+        {renderRefresh(`${this.prefixCls}-content`)}
       </Host>
     )
   }

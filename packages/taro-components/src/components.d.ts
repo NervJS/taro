@@ -73,6 +73,13 @@ export namespace Components {
     'url': string;
   }
   interface TaroPickerViewColumn {}
+  interface TaroPullToRefresh {
+    'damping': number;
+    'distanceToRefresh': number;
+    'indicator': { activate: string; deactivate: string; release: string; finish: string; };
+    'prefixCls': string;
+    'refreshing': string;
+  }
   interface TaroTabbar {
     'conf': Conf;
   }
@@ -186,6 +193,12 @@ declare global {
     new (): HTMLTaroPickerViewColumnElement;
   };
 
+  interface HTMLTaroPullToRefreshElement extends Components.TaroPullToRefresh, HTMLStencilElement {}
+  var HTMLTaroPullToRefreshElement: {
+    prototype: HTMLTaroPullToRefreshElement;
+    new (): HTMLTaroPullToRefreshElement;
+  };
+
   interface HTMLTaroTabbarElement extends Components.TaroTabbar, HTMLStencilElement {}
   var HTMLTaroTabbarElement: {
     prototype: HTMLTaroTabbarElement;
@@ -225,6 +238,7 @@ declare global {
     'taro-moveable-view': HTMLTaroMoveableViewElement;
     'taro-navigator': HTMLTaroNavigatorElement;
     'taro-picker-view-column': HTMLTaroPickerViewColumnElement;
+    'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
     'taro-tabbar': HTMLTaroTabbarElement;
     'taro-text': HTMLTaroTextElement;
     'taro-textarea': HTMLTaroTextareaElement;
@@ -307,6 +321,14 @@ declare namespace LocalJSX {
     'url'?: string;
   }
   interface TaroPickerViewColumn {}
+  interface TaroPullToRefresh {
+    'damping'?: number;
+    'distanceToRefresh'?: number;
+    'indicator'?: { activate: string; deactivate: string; release: string; finish: string; };
+    'onRefresh'?: (event: CustomEvent<any>) => void;
+    'prefixCls'?: string;
+    'refreshing'?: string;
+  }
   interface TaroTabbar {
     'conf'?: Conf;
     'onLongpress'?: (event: CustomEvent<any>) => void;
@@ -348,6 +370,7 @@ declare namespace LocalJSX {
     'taro-moveable-view': TaroMoveableView;
     'taro-navigator': TaroNavigator;
     'taro-picker-view-column': TaroPickerViewColumn;
+    'taro-pull-to-refresh': TaroPullToRefresh;
     'taro-tabbar': TaroTabbar;
     'taro-text': TaroText;
     'taro-textarea': TaroTextarea;
@@ -376,6 +399,7 @@ declare module "@stencil/core" {
       'taro-moveable-view': LocalJSX.TaroMoveableView & JSXBase.HTMLAttributes<HTMLTaroMoveableViewElement>;
       'taro-navigator': LocalJSX.TaroNavigator & JSXBase.HTMLAttributes<HTMLTaroNavigatorElement>;
       'taro-picker-view-column': LocalJSX.TaroPickerViewColumn & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnElement>;
+      'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
       'taro-text': LocalJSX.TaroText & JSXBase.HTMLAttributes<HTMLTaroTextElement>;
       'taro-textarea': LocalJSX.TaroTextarea & JSXBase.HTMLAttributes<HTMLTaroTextareaElement>;
