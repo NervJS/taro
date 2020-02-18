@@ -1,5 +1,32 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.3...v) (2020-02-09)
+# [](https://github.com/NervJS/taro/compare/v2.0.4...v) (2020-02-18)
+
+
+
+<a name="2.0.4"></a>
+## [2.0.4](https://github.com/NervJS/taro/compare/v2.0.3...v2.0.4) (2020-02-18)
+
+
+### Bug Fixes
+
+* docusaurus wrong parse ([04c914f](https://github.com/NervJS/taro/commit/04c914f))
+* **cli:** 完善 taro dotor 对 config 的检测 ([67140d9](https://github.com/NervJS/taro/commit/67140d9))
+* **mini-runner:** webpackChain 暴露 PARSE_AST_TYPE 参数 ([8f6617f](https://github.com/NervJS/taro/commit/8f6617f))
+* **mini-runner:** 修复 watch 时修改 js 文件报错后不再编译的问题，close [#5486](https://github.com/NervJS/taro/issues/5486) ([fe5a46a](https://github.com/NervJS/taro/commit/fe5a46a))
+* **mini-runner:** 修复压缩报错 ([259254b](https://github.com/NervJS/taro/commit/259254b))
+* **mini-runner:** 修复对 lodash 的支持 ([16a3532](https://github.com/NervJS/taro/commit/16a3532))
+* **mini-runner:** 增加抽离业务公共代码 common ([986eb76](https://github.com/NervJS/taro/commit/986eb76))
+* **taro-mini-runner:** 修复引入lodash.xxx时候报错的问题 ([#5457](https://github.com/NervJS/taro/issues/5457)) ([99e9a9a](https://github.com/NervJS/taro/commit/99e9a9a))
+* **transformer-wx:** 修复 npm 中组件编译时 componentPath 不正确的问题 ([a5d519e](https://github.com/NervJS/taro/commit/a5d519e))
+
+
+### Features
+
+* input typing with docs upload ([d2f4aea](https://github.com/NervJS/taro/commit/d2f4aea))
+* **mini-runner:** mini.commonChunks 配置支持通过函数形式进行配置 ([66222ad](https://github.com/NervJS/taro/commit/66222ad))
+* **mini-runner:** 优化公共文件抽离 ([e4132e0](https://github.com/NervJS/taro/commit/e4132e0))
+* **network:** upload typing ([3a52b22](https://github.com/NervJS/taro/commit/3a52b22))
+* **types:** upload components typing with docs ([b7f9fdf](https://github.com/NervJS/taro/commit/b7f9fdf))
 
 
 
