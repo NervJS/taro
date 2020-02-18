@@ -1,5 +1,6 @@
-import * as React from 'nervjs'
-import { Input } from '../h5'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Input } from '../h5/react'
 import { waitForChange } from './utils'
 import * as assert from 'assert'
 import $ from 'jquery'
@@ -86,7 +87,7 @@ describe('Input', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     /**
      * @type {HTMLElement}
@@ -154,7 +155,7 @@ describe('Input', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     /**
      * @type {HTMLElement}

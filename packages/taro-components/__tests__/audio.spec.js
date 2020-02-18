@@ -1,6 +1,7 @@
 import './polyfill'
-import * as React from 'nervjs'
-import { Audio } from '../h5'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Audio } from '../h5/react'
 import { waitForChange } from './utils'
 import * as assert from 'assert'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -61,7 +62,7 @@ xdescribe('Audio', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     /**
      * @type {HTMLElement}

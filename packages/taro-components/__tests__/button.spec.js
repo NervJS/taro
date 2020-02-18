@@ -1,5 +1,6 @@
-import * as React from 'nervjs'
-import { Button } from '../h5'
+import * as React from 'react'
+import ReactDOM from 'react-dom'
+import { Button } from '../h5/react'
 import { waitForChange, delay } from './utils'
 import * as assert from 'assert'
 import * as sinon from 'sinon'
@@ -81,7 +82,7 @@ describe('Button', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     /**
      * @type {HTMLElement}
@@ -171,7 +172,7 @@ describe('Button', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     /**
      * @type {HTMLElement}

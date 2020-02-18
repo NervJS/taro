@@ -1,5 +1,6 @@
-import * as React from 'nervjs'
-import { CoverImage, CoverView, MoveableArea, MoveableView, PickerViewColumn } from '../h5'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { CoverImage, CoverView, MoveableArea, MoveableView, PickerViewColumn } from '../h5/react'
 import * as assert from 'assert'
 import { waitForChange } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -63,7 +64,7 @@ describe('unimplemented', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     await waitForChange(ref.current)
 
@@ -78,7 +79,7 @@ describe('unimplemented', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     await waitForChange(ref.current)
 
@@ -93,7 +94,7 @@ describe('unimplemented', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     await waitForChange(ref.current)
 
@@ -108,7 +109,7 @@ describe('unimplemented', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     await waitForChange(ref.current)
 
@@ -123,7 +124,7 @@ describe('unimplemented', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     await waitForChange(ref.current)
 

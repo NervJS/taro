@@ -1,9 +1,12 @@
 import React from 'react'
 import reactifyWc from '../utils/reactify-wc'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const h = React.createElement
+
 const Input = reactifyWc('taro-input')
 
-export default function Index (props) {
+export default React.forwardRef((props, ref) => {
   const args = { ...props }
 
   if (args.hasOwnProperty('focus')) {
@@ -12,6 +15,6 @@ export default function Index (props) {
   }
 
   return (
-    <Input {...args} />
+    <Input {...args} ref={ref} />
   )
-}
+})

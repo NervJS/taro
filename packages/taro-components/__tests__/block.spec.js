@@ -1,5 +1,6 @@
-import * as React from 'nervjs'
-import { Block } from '../h5'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Block } from '../h5/react'
 import { waitForChange } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
@@ -37,7 +38,7 @@ describe('Block', () => {
       }
     }
 
-    React.render(<App />, scratch)
+    ReactDOM.render(<App />, scratch)
 
     /**
      * @type {HTMLElement}

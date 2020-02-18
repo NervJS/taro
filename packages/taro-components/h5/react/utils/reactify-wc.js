@@ -2,10 +2,13 @@
  * https://github.com/BBKolton/reactify-wc/
  * modified event naming
  **/
-import { Component, createRef, createElement } from 'react'
+import React, { createRef, createElement } from 'react'
 
-const reactifyWebComponent = (WC) => {
-  return class extends Component {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const h = React.createElement
+
+const reactifyWebComponent = WC => {
+  class Index extends React.Component {
     constructor (props) {
       super(props)
       this.eventHandlers = []
@@ -56,6 +59,14 @@ const reactifyWebComponent = (WC) => {
     }
 
     componentDidMount () {
+      const { forwardRef } = this.props
+      if (typeof forwardRef === 'function') {
+        forwardRef(this.ref.current)
+      } else if (forwardRef && typeof forwardRef === 'object' && forwardRef.hasOwnProperty('current')) {
+        forwardRef.current = this.ref.current
+      } else if (typeof forwardRef === 'string') {
+        console.warn('内置组件不支持字符串 ref')
+      }
       this.update()
     }
 
@@ -76,6 +87,9 @@ const reactifyWebComponent = (WC) => {
       return createElement(WC, { ref: this.ref }, children)
     }
   }
+  return React.forwardRef((props, ref) => (
+    <Index {...props} forwardRef={ref} />
+  ))
 }
 
 export default reactifyWebComponent
