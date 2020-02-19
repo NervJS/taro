@@ -81,6 +81,11 @@ export namespace Components {
     'prefixCls': string;
     'refreshing': string;
   }
+  interface TaroSwitch {
+    'checked': boolean;
+    'color': string;
+    'type': string;
+  }
   interface TaroTabbar {
     'conf': Conf;
   }
@@ -206,6 +211,12 @@ declare global {
     new (): HTMLTaroPullToRefreshElement;
   };
 
+  interface HTMLTaroSwitchElement extends Components.TaroSwitch, HTMLStencilElement {}
+  var HTMLTaroSwitchElement: {
+    prototype: HTMLTaroSwitchElement;
+    new (): HTMLTaroSwitchElement;
+  };
+
   interface HTMLTaroTabbarElement extends Components.TaroTabbar, HTMLStencilElement {}
   var HTMLTaroTabbarElement: {
     prototype: HTMLTaroTabbarElement;
@@ -246,7 +257,12 @@ declare global {
     'taro-navigator': HTMLTaroNavigatorElement;
     'taro-open-data': HTMLTaroOpenDataElement;
     'taro-picker-view-column': HTMLTaroPickerViewColumnElement;
+<<<<<<< HEAD
     'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
+=======
+    'taro-progress': HTMLTaroProgressElement;
+    'taro-switch': HTMLTaroSwitchElement;
+>>>>>>> feat(h5): 增加 switch 组件
     'taro-tabbar': HTMLTaroTabbarElement;
     'taro-text': HTMLTaroTextElement;
     'taro-textarea': HTMLTaroTextareaElement;
@@ -338,6 +354,12 @@ declare namespace LocalJSX {
     'prefixCls'?: string;
     'refreshing'?: string;
   }
+  interface TaroSwitch {
+    'checked'?: boolean;
+    'color'?: string;
+    'onChange'?: (event: CustomEvent<any>) => void;
+    'type'?: string;
+  }
   interface TaroTabbar {
     'conf'?: Conf;
     'onLongpress'?: (event: CustomEvent<any>) => void;
@@ -380,7 +402,12 @@ declare namespace LocalJSX {
     'taro-navigator': TaroNavigator;
     'taro-open-data': TaroOpenData;
     'taro-picker-view-column': TaroPickerViewColumn;
+<<<<<<< HEAD
     'taro-pull-to-refresh': TaroPullToRefresh;
+=======
+    'taro-progress': TaroProgress;
+    'taro-switch': TaroSwitch;
+>>>>>>> feat(h5): 增加 switch 组件
     'taro-tabbar': TaroTabbar;
     'taro-text': TaroText;
     'taro-textarea': TaroTextarea;
@@ -410,7 +437,12 @@ declare module "@stencil/core" {
       'taro-navigator': LocalJSX.TaroNavigator & JSXBase.HTMLAttributes<HTMLTaroNavigatorElement>;
       'taro-open-data': LocalJSX.TaroOpenData & JSXBase.HTMLAttributes<HTMLTaroOpenDataElement>;
       'taro-picker-view-column': LocalJSX.TaroPickerViewColumn & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnElement>;
+<<<<<<< HEAD
       'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
+=======
+      'taro-progress': LocalJSX.TaroProgress & JSXBase.HTMLAttributes<HTMLTaroProgressElement>;
+      'taro-switch': LocalJSX.TaroSwitch & JSXBase.HTMLAttributes<HTMLTaroSwitchElement>;
+>>>>>>> feat(h5): 增加 switch 组件
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
       'taro-text': LocalJSX.TaroText & JSXBase.HTMLAttributes<HTMLTaroTextElement>;
       'taro-textarea': LocalJSX.TaroTextarea & JSXBase.HTMLAttributes<HTMLTaroTextareaElement>;
