@@ -83,7 +83,9 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       Current.router = null
 
       Current.app!.unmount(id, () => {
-        pageElement!.ctx = null
+        if (pageElement) {
+          pageElement.ctx = null
+        }
       })
     },
     onShow () {
