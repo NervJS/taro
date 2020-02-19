@@ -1,10 +1,11 @@
 {
   "name": "@tarojs/router",
-  "version": "1.3.22",
+  "version": "3.0.0-alpha.4",
   "description": "Taro-router",
   "main:h5": "dist/index.esm.js",
-  "main": "index.js",
-  "typings": "types/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/runtime.esm.js",
+  "typings": "src/index.ts",
   "files": [
     "dist",
     "types",
@@ -26,11 +27,12 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "invariant": "2.2.4",
-    "lodash": "4.17.13",
-    "resolve-pathname": "2.2.0",
-    "rollup-plugin-alias": "1.4.0",
-    "value-equal": "0.4.0",
-    "warning": "4.0.2"
+    "@tarojs/runtime": "^3.0.0-alpha.4",
+    "history": "^4.10.1",
+    "universal-router": "^8.3.0",
+    "url-parse": "^1.4.7"
+  },
+  "devDependencies": {
+    "@types/history": "^4.7.5"
   }
 }

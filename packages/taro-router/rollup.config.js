@@ -1,48 +1,51 @@
-import babel from 'rollup-plugin-babel'
-import commonjs from 'rollup-plugin-commonjs'
-import resolve from 'rollup-plugin-node-resolve'
-import typescript from 'rollup-plugin-typescript'
+const { join } = require('path')
+const buble = require('rollup-plugin-buble')
+// const alias = require('rollup-plugin-alias')
+const typescript = require('rollup-plugin-typescript2')
+const cwd = __dirname
 
-export default {
-  input: 'src/index.tsx',
-  external: ['nervjs', '@tarojs/taro-h5'],
-  output: [{
-    file: 'dist/index.js',
-    format: 'cjs',
-    sourcemap: false,
-    exports: 'named'
-  }, {
-    file: 'dist/index.esm.js',
-    format: 'esm',
-    sourcemap: false,
-    exports: 'named'
-  }],
-  plugins: [
-    resolve({
-      preferBuiltins: false
-    }),
-    typescript(),
-    babel({
-      babelrc: false,
-      extensions: ['.ts', '.tsx', '.es6', '.es', '.mjs'],
-      presets: [
-        ['@babel/preset-env', {
-          modules: false
-        }]
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-object-rest-spread',
-        '@babel/plugin-syntax-dynamic-import',
-        ['@babel/plugin-transform-react-jsx', {
-          pragma: 'Nerv.createElement'
-        }]
-      ]
-    }),
-    commonjs()
+const baseConfig = {
+  input: join(cwd, 'src/index.ts'),
+  external: ['@tarojs/runtime'],
+  output: [
+    {
+      file: join(cwd, 'dist/index.js'),
+      format: 'cjs',
+      sourcemap: true,
+      exports: 'named'
+    }
   ],
-  watch: {
-    include: 'src/**',
-    clearScreen: true
+  plugins: [
+    // alias({
+    //   entries: [
+    //     {
+    //       find: '@tarojs/shared',
+    //       replacement: join(cwd, '../shared/dist/shared.esm')
+    //     }
+    //   ]
+    // }),
+    typescript(),
+    buble({ transforms: { asyncAwait: false } })
+  ]
+}
+const esmConfig = Object.assign({}, baseConfig, {
+  output: Object.assign({}, baseConfig.output, {
+    sourcemap: true,
+    format: 'es',
+    file: join(cwd, 'dist/router.esm.js')
+  }),
+  plugins: baseConfig.plugins.slice(0, baseConfig.plugins.length - 1)
+})
+
+function rollup () {
+  const target = process.env.TARGET
+
+  if (target === 'umd') {
+    return baseConfig
+  } else if (target === 'esm') {
+    return esmConfig
+  } else {
+    return [baseConfig, esmConfig]
   }
 }
+module.exports = rollup()
