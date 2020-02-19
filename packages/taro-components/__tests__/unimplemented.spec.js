@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { CoverImage, CoverView, MoveableArea, MoveableView, PickerViewColumn } from '../h5/react'
+import { CoverImage, CoverView, MoveableArea, MoveableView, PickerViewColumn, OpenData, Camera } from '../h5/react'
 import * as assert from 'assert'
 import { waitForChange } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,6 +37,21 @@ describe('unimplemented', () => {
     return `H5 暂不支持 ${capitalize(toCamelCase(ref.current.nodeName.slice(5).toLowerCase()))} 组件！`
   }
 
+  async function testComponent (Comp) {
+    const ref = React.createRef()
+    class App extends React.Component {
+      render () {
+        return <Comp ref={ref} />
+      }
+    }
+
+    ReactDOM.render(<App />, scratch)
+
+    await waitForChange(ref.current)
+
+    assert(warning === buildWarning(ref))
+  }
+
   beforeAll(async () => {
     scratch = document.createElement('div')
     document.body.appendChild(scratch)
@@ -57,77 +72,30 @@ describe('unimplemented', () => {
   })
 
   it('CoverView', async () => {
-    const ref = React.createRef()
-    class App extends React.Component {
-      render () {
-        return <CoverView ref={ref} />
-      }
-    }
-
-    ReactDOM.render(<App />, scratch)
-
-    await waitForChange(ref.current)
-
-    assert(warning === buildWarning(ref))
+    await testComponent(CoverView)
   })
 
   it('CoverImage', async () => {
-    const ref = React.createRef()
-    class App extends React.Component {
-      render () {
-        return <CoverImage ref={ref} />
-      }
-    }
-
-    ReactDOM.render(<App />, scratch)
-
-    await waitForChange(ref.current)
-
-    assert(warning === buildWarning(ref))
+    await testComponent(CoverImage)
   })
 
   it('MoveableArea', async () => {
-    const ref = React.createRef()
-    class App extends React.Component {
-      render () {
-        return <MoveableArea ref={ref} />
-      }
-    }
-
-    ReactDOM.render(<App />, scratch)
-
-    await waitForChange(ref.current)
-
-    assert(warning === buildWarning(ref))
+    await testComponent(MoveableArea)
   })
 
   it('MoveableView', async () => {
-    const ref = React.createRef()
-    class App extends React.Component {
-      render () {
-        return <MoveableView ref={ref} />
-      }
-    }
-
-    ReactDOM.render(<App />, scratch)
-
-    await waitForChange(ref.current)
-
-    assert(warning === buildWarning(ref))
+    await testComponent(MoveableView)
   })
 
   it('PickerViewColumn', async () => {
-    const ref = React.createRef()
-    class App extends React.Component {
-      render () {
-        return <PickerViewColumn ref={ref} />
-      }
-    }
+    await testComponent(PickerViewColumn)
+  })
 
-    ReactDOM.render(<App />, scratch)
+  it('OpenData', async () => {
+    await testComponent(OpenData)
+  })
 
-    await waitForChange(ref.current)
-
-    assert(warning === buildWarning(ref))
+  it('Camera', async () => {
+    await testComponent(Camera)
   })
 })

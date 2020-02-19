@@ -72,6 +72,7 @@ export namespace Components {
     'openType': string;
     'url': string;
   }
+  interface TaroOpenData {}
   interface TaroPickerViewColumn {}
   interface TaroPullToRefresh {
     'damping': number;
@@ -187,6 +188,12 @@ declare global {
     new (): HTMLTaroNavigatorElement;
   };
 
+  interface HTMLTaroOpenDataElement extends Components.TaroOpenData, HTMLStencilElement {}
+  var HTMLTaroOpenDataElement: {
+    prototype: HTMLTaroOpenDataElement;
+    new (): HTMLTaroOpenDataElement;
+  };
+
   interface HTMLTaroPickerViewColumnElement extends Components.TaroPickerViewColumn, HTMLStencilElement {}
   var HTMLTaroPickerViewColumnElement: {
     prototype: HTMLTaroPickerViewColumnElement;
@@ -237,6 +244,7 @@ declare global {
     'taro-moveable-area': HTMLTaroMoveableAreaElement;
     'taro-moveable-view': HTMLTaroMoveableViewElement;
     'taro-navigator': HTMLTaroNavigatorElement;
+    'taro-open-data': HTMLTaroOpenDataElement;
     'taro-picker-view-column': HTMLTaroPickerViewColumnElement;
     'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
     'taro-tabbar': HTMLTaroTabbarElement;
@@ -320,6 +328,7 @@ declare namespace LocalJSX {
     'openType'?: string;
     'url'?: string;
   }
+  interface TaroOpenData {}
   interface TaroPickerViewColumn {}
   interface TaroPullToRefresh {
     'damping'?: number;
@@ -369,6 +378,7 @@ declare namespace LocalJSX {
     'taro-moveable-area': TaroMoveableArea;
     'taro-moveable-view': TaroMoveableView;
     'taro-navigator': TaroNavigator;
+    'taro-open-data': TaroOpenData;
     'taro-picker-view-column': TaroPickerViewColumn;
     'taro-pull-to-refresh': TaroPullToRefresh;
     'taro-tabbar': TaroTabbar;
@@ -398,6 +408,7 @@ declare module "@stencil/core" {
       'taro-moveable-area': LocalJSX.TaroMoveableArea & JSXBase.HTMLAttributes<HTMLTaroMoveableAreaElement>;
       'taro-moveable-view': LocalJSX.TaroMoveableView & JSXBase.HTMLAttributes<HTMLTaroMoveableViewElement>;
       'taro-navigator': LocalJSX.TaroNavigator & JSXBase.HTMLAttributes<HTMLTaroNavigatorElement>;
+      'taro-open-data': LocalJSX.TaroOpenData & JSXBase.HTMLAttributes<HTMLTaroOpenDataElement>;
       'taro-picker-view-column': LocalJSX.TaroPickerViewColumn & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnElement>;
       'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
