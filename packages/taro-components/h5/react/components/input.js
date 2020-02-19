@@ -1,7 +1,7 @@
 import React from 'react'
 import reactifyWc from '../utils/reactify-wc'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line
 const h = React.createElement
 
 const Input = reactifyWc('taro-input')

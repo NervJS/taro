@@ -4,8 +4,29 @@
  **/
 import React, { createRef, createElement } from 'react'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line
 const h = React.createElement
+
+// 为了不要覆盖 wc 中 host 内置的 class 和 stencil 加入的 class
+function getClassName (wc, prevProps, props) {
+  const classList = Array.from(wc.classList)
+  const oldClassNames = (prevProps.className || prevProps.class || []).split(' ')
+  let incomingClassNames = (props.className || props.class || []).split(' ')
+  let finalClassNames = []
+
+  classList.forEach(classname => {
+    if (incomingClassNames.indexOf(classname) > -1) {
+      finalClassNames.push(classname)
+      incomingClassNames = incomingClassNames.filter(name => name !== classname)
+    } else if (oldClassNames.indexOf(classname) === -1) {
+      finalClassNames.push(classname)
+    }
+  })
+
+  finalClassNames = [...finalClassNames, ...incomingClassNames]
+
+  return finalClassNames.join(' ')
+}
 
 const reactifyWebComponent = WC => {
   class Index extends React.Component {
@@ -15,7 +36,7 @@ const reactifyWebComponent = WC => {
       this.ref = createRef()
     }
 
-    update () {
+    update (prevProps) {
       this.clearEventHandlers()
       Object.entries(this.props).forEach(([prop, val]) => {
         if (!this.ref.current) return
@@ -23,14 +44,17 @@ const reactifyWebComponent = WC => {
           return
         }
         if (prop.toLowerCase() === 'classname') {
-          return (this.ref.current.className = val)
+          this.ref.current.className = prevProps
+            ? getClassName(this.ref.current, prevProps, this.props)
+            : val
+          return
         }
         if (typeof val === 'function' && prop.match(/^on[A-Z]/)) {
           const event = prop.substr(2).toLowerCase()
           this.eventHandlers.push([event, val])
           return this.ref.current.addEventListener(event, val)
         }
-        if (typeof val === 'function' && prop.match(/^on\-[a-z]/)) {
+        if (typeof val === 'function' && prop.match(/^on-[a-z]/)) {
           const event = prop.substr(3)
           this.eventHandlers.push([event, val])
           return this.ref.current.addEventListener(event, val)
@@ -54,8 +78,8 @@ const reactifyWebComponent = WC => {
       })
     }
 
-    componentDidUpdate () {
-      this.update()
+    componentDidUpdate (prevProps) {
+      this.update(prevProps)
     }
 
     componentDidMount () {
