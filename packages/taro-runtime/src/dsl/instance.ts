@@ -53,6 +53,7 @@ export interface PageLifeCycle extends Show {
 
 export interface PageInstance extends PageLifeCycle {
   data?: Record<string, unknown>
+  path?: string
 }
 
 interface Show {
@@ -63,7 +64,7 @@ interface Show {
 }
 
 export interface AppInstance extends Show {
-  onLaunch (options: string): void
+  onLaunch (options?: string): void
   mount (component: React.ComponentClass | ComponentOptions<VueCtor>, id: string, cb: () => void): void
   unmount (id: string, cb: () => void): void
 }

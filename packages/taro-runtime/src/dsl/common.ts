@@ -65,8 +65,6 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
         path: addLeadingSlash(this.route || this.__route__)
       }
 
-      Current.page = this as any
-
       perf.start(PAGE_INIT)
 
       Current.app!.mount(component, id, () => {
@@ -83,16 +81,17 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
     },
     onUnload () {
       Current.router = null
-      Current.page = null
 
       Current.app!.unmount(id, () => {
         pageElement!.ctx = null
       })
     },
     onShow () {
+      Current.page = this as any
       safeExecute('onShow')
     },
     onHide () {
+      Current.page = null
       safeExecute('onHide')
     },
     onPullDownRefresh () {
@@ -136,6 +135,10 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
 
   if (!isUndefined(data)) {
     config.data = data
+  }
+
+  if (isBrowser) {
+    config.path = id
   }
 
   return config
