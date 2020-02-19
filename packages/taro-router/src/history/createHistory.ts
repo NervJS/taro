@@ -6,6 +6,7 @@ import { Action, History, HistoryState, Location, CustomRoutes } from '../utils/
 import createTransitionManager from './createTransitionManager';
 import { createLocation } from './LocationUtils';
 import { addLeadingSlash, createPath, hasBasename, stripBasename, stripTrailingSlash } from './PathUtils';
+import { tryToCall } from '../utils'
 
 const PopStateEvent = 'popstate'
 const defaultStoreKey = 'taroRouterStore'
@@ -80,6 +81,7 @@ const createHistorySerializer = (storeObj: HistoryState) => {
 
 const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "multi", firstPagePath: string, customRoutes: CustomRoutes }) => {
   const transitionManager = createTransitionManager()
+  transitionManager.setPrompt('')
   const basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : ''
   const customRoutes = props.customRoutes || {}
   let listenerCount = 0
@@ -146,6 +148,27 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
     transitionManager.notifyListeners({...params})
   }
 
+  function getCurrentRoute() {
+    if (Taro && typeof Taro.getCurrentPages === 'function') {
+      const currentPageStack = Taro.getCurrentPages()
+      const stackTop = currentPageStack.length - 1
+      return currentPageStack[stackTop]
+    }
+    
+    return {}
+  }
+
+  function getUserConfirmation(next, fromLocation, toLocation) {
+    const currentRoute = getCurrentRoute()
+    const leaveHook = currentRoute.beforeRouteLeave
+
+    if (typeof leaveHook === 'function') {
+      tryToCall(leaveHook, currentRoute, fromLocation, toLocation, next)
+    } else {
+      next(true)
+    }
+  }
+
   const push = (path: string) => {
     const action = 'PUSH'
     const key = createKey()
@@ -155,13 +178,27 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
       location.path = customRoutes[originalPath]
     }
 
-    const href = createHref(location)
+    transitionManager.confirmTransitionTo(
+      location,
+      action,
+      (result, callback) => {
+        getUserConfirmation(callback, lastLocation, location)
+      },
+      ok => {
+        if (!ok) {
+          stateKey--
+          return
+        }
 
-    globalHistory.pushState({ key }, '', href)
+        const href = createHref(location)
 
-    store.key = key!
-
-    setState({ action, location })
+        globalHistory.pushState({ key }, '', href)
+    
+        store.key = key!
+    
+        setState({ action, location })
+      }
+    )
   }
 
   const replace = (path: string) => {
@@ -173,11 +210,22 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
       location.path = customRoutes[originalPath]
     }
 
-    const href = createHref(location)
+    transitionManager.confirmTransitionTo(
+      location,
+      action,
+      (result, callback) => {
+        getUserConfirmation(callback, lastLocation, location)
+      },
+      ok => {
+        if (!ok) return
 
-    globalHistory.replaceState({ key }, '', href)
+        const href = createHref(location)
 
-    setState({ action, location })
+        globalHistory.replaceState({ key }, '', href)
+    
+        setState({ action, location })
+      }
+    )
   }
 
   const go = (num: number) => {
@@ -212,7 +260,36 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
     }
 
     store.key = String(nextKey)
-    setState({ action, location: nextLocation })
+
+    transitionManager.confirmTransitionTo(
+      nextLocation,
+      action,
+      (result, callback) => {
+        getUserConfirmation(callback, lastLocation, nextLocation)
+      },
+      ok => {
+        if (ok) {
+          setState({
+            action,
+            location: nextLocation
+          })
+        } else {
+          revertPop(nextLocation)
+        }
+      }
+    )
+  }
+
+  const revertPop = fromLocation => {
+    const toLocation = history.location
+
+    const key = toLocation.state.key
+
+    const location = createLocation(toLocation.path, key, fromLocation)
+
+    const href = createHref(location)
+
+    globalHistory.pushState({ key }, '', href)
   }
 
   const checkDOMListeners = delta => {

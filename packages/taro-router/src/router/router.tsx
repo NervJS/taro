@@ -147,8 +147,8 @@ class Router extends Taro.Component<Props, State> {
     }
   }
 
-  componentWillUpdate () {
-    this.currentPages.length = this.state.routeStack.length
+  componentWillUpdate (nextProps, nextState) {
+    this.currentPages.length = nextState.routeStack.length
   }
 
   componentWillUnmount () {
