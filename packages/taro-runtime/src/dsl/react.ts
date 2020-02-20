@@ -126,7 +126,7 @@ export function createReactApp (App: React.ComponentClass, react?: typeof React)
       return R.createElement(
         App,
         { ref },
-        this.elements.slice()
+        isBrowser ? R.createElement('div', null, this.elements.slice()) : this.elements.slice()
       )
     }
   }
