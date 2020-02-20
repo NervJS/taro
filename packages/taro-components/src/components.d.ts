@@ -81,6 +81,19 @@ export namespace Components {
     'prefixCls': string;
     'refreshing': string;
   }
+  interface TaroSlider {
+    'activeColor': string;
+    'backgroundColor': string;
+    'blockColor': string;
+    'blockSize': number;
+    'disabled': boolean;
+    'max': number;
+    'min': number;
+    'name': string;
+    'showValue': boolean;
+    'step': number;
+    'value': number;
+  }
   interface TaroSwitch {
     'checked': boolean;
     'color': string;
@@ -211,6 +224,12 @@ declare global {
     new (): HTMLTaroPullToRefreshElement;
   };
 
+  interface HTMLTaroSliderElement extends Components.TaroSlider, HTMLStencilElement {}
+  var HTMLTaroSliderElement: {
+    prototype: HTMLTaroSliderElement;
+    new (): HTMLTaroSliderElement;
+  };
+
   interface HTMLTaroSwitchElement extends Components.TaroSwitch, HTMLStencilElement {}
   var HTMLTaroSwitchElement: {
     prototype: HTMLTaroSwitchElement;
@@ -261,6 +280,7 @@ declare global {
     'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
 =======
     'taro-progress': HTMLTaroProgressElement;
+    'taro-slider': HTMLTaroSliderElement;
     'taro-switch': HTMLTaroSwitchElement;
 >>>>>>> feat(h5): 增加 switch 组件
     'taro-tabbar': HTMLTaroTabbarElement;
@@ -354,6 +374,21 @@ declare namespace LocalJSX {
     'prefixCls'?: string;
     'refreshing'?: string;
   }
+  interface TaroSlider {
+    'activeColor'?: string;
+    'backgroundColor'?: string;
+    'blockColor'?: string;
+    'blockSize'?: number;
+    'disabled'?: boolean;
+    'max'?: number;
+    'min'?: number;
+    'name'?: string;
+    'onChange'?: (event: CustomEvent<any>) => void;
+    'onChanging'?: (event: CustomEvent<any>) => void;
+    'showValue'?: boolean;
+    'step'?: number;
+    'value'?: number;
+  }
   interface TaroSwitch {
     'checked'?: boolean;
     'color'?: string;
@@ -406,6 +441,7 @@ declare namespace LocalJSX {
     'taro-pull-to-refresh': TaroPullToRefresh;
 =======
     'taro-progress': TaroProgress;
+    'taro-slider': TaroSlider;
     'taro-switch': TaroSwitch;
 >>>>>>> feat(h5): 增加 switch 组件
     'taro-tabbar': TaroTabbar;
@@ -441,6 +477,7 @@ declare module "@stencil/core" {
       'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
 =======
       'taro-progress': LocalJSX.TaroProgress & JSXBase.HTMLAttributes<HTMLTaroProgressElement>;
+      'taro-slider': LocalJSX.TaroSlider & JSXBase.HTMLAttributes<HTMLTaroSliderElement>;
       'taro-switch': LocalJSX.TaroSwitch & JSXBase.HTMLAttributes<HTMLTaroSwitchElement>;
 >>>>>>> feat(h5): 增加 switch 组件
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
