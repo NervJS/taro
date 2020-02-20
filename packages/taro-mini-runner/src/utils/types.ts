@@ -1,7 +1,7 @@
 import * as webpack from 'webpack'
 import { IProjectBaseConfig, IMiniAppConfig } from '@tarojs/taro/types/compile'
-import { BUILD_TYPES } from './constants'
 import { PrerenderConfig } from '../prerender/prerender'
+import { BUILD_TYPES } from '@tarojs/runner-utils'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 

@@ -34,6 +34,7 @@
     "@babel/core": "7.6.4",
     "@babel/plugin-proposal-class-properties": "7.5.5",
     "@babel/preset-env": "7.6.3",
+    "@tarojs/runner-utils": "3.0.0-alpha.4",
     "@tarojs/runtime": "^3.0.0-alpha.4",
     "@tarojs/shared": "^3.0.0-alpha.4",
     "@tarojs/taro": "^3.0.0-alpha.4",

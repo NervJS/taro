@@ -1,11 +1,12 @@
 import { Shortcuts, noop, isString, isObject, isFunction } from '@tarojs/shared'
+import { MINI_APP_FILES } from '@tarojs/runner-utils'
+
 import { NodeVM } from 'vm2'
 import { omitBy } from 'lodash'
 import * as webpack from 'webpack'
 import * as fs from 'fs'
 import { join } from 'path'
 import { IBuildConfig } from '../utils/types'
-import { MINI_APP_FILES } from '../utils/constants'
 import { Adapter } from '../template/adapters'
 import { printPrerenderSuccess, printPrerenderFail } from '../utils/logHelper'
 import { buildAttribute, Attributes } from '../template'

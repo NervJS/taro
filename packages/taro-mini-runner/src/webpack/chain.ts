@@ -9,15 +9,12 @@ import { partial, cloneDeep } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
-import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import chalk from 'chalk'
-
-import { getPostcssPlugins } from './postcss.conf'
-
-import MiniPlugin from '../plugins/MiniPlugin'
-import { IOption } from '../utils/types'
-import { recursiveMerge, isNodeModule, resolveMainFilePath } from '../utils'
+import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
+  recursiveMerge,
+  isNodeModule,
+  resolveMainFilePath,
   REG_SASS,
   REG_LESS,
   REG_STYLUS,
@@ -29,7 +26,12 @@ import {
   REG_SCRIPTS,
   REG_VUE,
   REG_CSS
-} from '../utils/constants'
+} from '@tarojs/runner-utils'
+
+import { getPostcssPlugins } from './postcss.conf'
+
+import MiniPlugin from '../plugins/MiniPlugin'
+import { IOption } from '../utils/types'
 import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
 

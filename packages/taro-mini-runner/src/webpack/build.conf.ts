@@ -1,4 +1,5 @@
 import * as path from 'path'
+import { BUILD_TYPES, MINI_APP_FILES, FRAMEWORK_MAP, taroJsComponents } from '@tarojs/runner-utils'
 
 import { IBuildConfig } from '../utils/types'
 import {
@@ -17,7 +18,6 @@ import {
   getEntry
 } from './chain'
 import getBaseConf from './base.conf'
-import { BUILD_TYPES, MINI_APP_FILES, FRAMEWORK_MAP, taroJsComponents } from '../utils/constants'
 import { Targets } from '../plugins/MiniPlugin'
 
 const emptyObj: Record<string, string> = {}

@@ -3,9 +3,8 @@ import * as path from 'path'
 import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
+import { promoteRelativePath, META_TYPE, REG_STYLE, BUILD_TYPES, taroJsComponents } from '@tarojs/runner-utils'
 
-import { META_TYPE, REG_STYLE, BUILD_TYPES, taroJsComponents } from '../utils/constants'
-import { promoteRelativePath } from '../utils'
 import { componentConfig } from '../template/component'
 import { toDashed } from '@tarojs/shared'
 

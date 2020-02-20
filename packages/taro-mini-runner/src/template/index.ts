@@ -13,8 +13,9 @@
 */
 
 import { internalComponents, Shortcuts, createMiniComponents, focusComponents, isArray, capitalize } from '@tarojs/shared'
+import { BUILD_TYPES } from '@tarojs/runner-utils'
+
 import { Adapter, supportXS } from './adapters'
-import { BUILD_TYPES } from '../utils/constants'
 import { componentConfig } from './component'
 
 interface Component {

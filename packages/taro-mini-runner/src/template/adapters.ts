@@ -1,4 +1,4 @@
-import { BUILD_TYPES } from '../utils/constants'
+import { BUILD_TYPES } from '@tarojs/runner-utils'
 
 interface Adapter {
   if: string;

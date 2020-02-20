@@ -8,9 +8,21 @@ import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 import { AppConfig } from '@tarojs/taro'
+import {
+  resolveMainFilePath,
+  readConfig,
+  isEmptyObject,
+  promoteRelativePath,
+  BUILD_TYPES,
+  MINI_APP_FILES,
+  CONFIG_MAP,
+  META_TYPE,
+  NODE_MODULES_REG,
+  FRAMEWORK_MAP,
+  VUE_EXT,
+  SCRIPT_EXT
+} from '@tarojs/runner-utils'
 
-import { BUILD_TYPES, MINI_APP_FILES, CONFIG_MAP, META_TYPE, NODE_MODULES_REG, FRAMEWORK_MAP, VUE_EXT, SCRIPT_EXT } from '../utils/constants'
-import { resolveMainFilePath, readConfig, isEmptyObject, promoteRelativePath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { buildBaseTemplate, buildPageTemplate, buildXScript, buildBaseComponentTemplate } from '../template'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'

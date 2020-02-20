@@ -1,7 +1,7 @@
 import * as webpack from 'webpack'
+import { BUILD_TYPES } from '@tarojs/runner-utils'
 
 import { IBuildConfig } from './utils/types'
-import { BUILD_TYPES } from './utils/constants'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import buildConf from './webpack/build.conf'
 import { Prerender } from './prerender/prerender'
