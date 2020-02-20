@@ -8,6 +8,9 @@ import { createLocation } from './LocationUtils';
 import { addLeadingSlash, createPath, hasBasename, stripBasename, stripTrailingSlash } from './PathUtils';
 import { tryToCall } from '../utils'
 
+type Callback = (ok: boolean) => void
+type CurrentRoute = Taro.Page | { beforeRouteLeave?: Function }
+
 const PopStateEvent = 'popstate'
 const defaultStoreKey = 'taroRouterStore'
 
@@ -148,7 +151,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
     transitionManager.notifyListeners({...params})
   }
 
-  function getCurrentRoute() {
+  function getCurrentRoute(): CurrentRoute {
     if (Taro && typeof Taro.getCurrentPages === 'function') {
       const currentPageStack = Taro.getCurrentPages()
       const stackTop = currentPageStack.length - 1
@@ -158,7 +161,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
     return {}
   }
 
-  function getUserConfirmation(next, fromLocation, toLocation) {
+  function getUserConfirmation(next: Callback, fromLocation: Location, toLocation: Location): void {
     const currentRoute = getCurrentRoute()
     const leaveHook = currentRoute.beforeRouteLeave
 
@@ -280,7 +283,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
     )
   }
 
-  const revertPop = fromLocation => {
+  const revertPop = (fromLocation: Location): void => {
     const toLocation = history.location
 
     const key = toLocation.state.key
