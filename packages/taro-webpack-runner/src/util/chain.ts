@@ -1,5 +1,4 @@
-import * as apis from '@tarojs/taro-h5/dist/taroApis'
-import * as Bundler from '@tarojs/plugin-sass/bundler'
+import { getSassLoaderOption, recursiveMerge, REG_SCRIPTS, REG_SASS, REG_LESS, REG_STYLUS, REG_CSS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, REG_VUE } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as sass from 'sass'
@@ -8,66 +7,15 @@ import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { join, resolve } from 'path'
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, IPostcssOption, ICopyOptions } from '@tarojs/taro/types/compile'
 
-import { recursiveMerge } from '.'
+import MainPlugin from '../plugins/MainPlugin'
 import { getPostcssPlugins } from '../config/postcss.conf'
 import { Option, BuildConfig } from './types'
 
-const getSassLoaderOption = async ({ sass, sassLoaderOption }: BuildConfig) => {
-  let bundledContent = ''
-  if (!sass) {
-    return sassLoaderOption
-  }
-  if (sass.resource && !sass.projectDirectory) {
-    const { resource } = sass
-    try {
-      if (typeof resource === 'string') {
-        const res = await Bundler(resource)
-        bundledContent += res.bundledContent
-        if (Array.isArray(resource)) {
-          for (const url of resource) {
-            const res = await Bundler(url)
-            bundledContent += res.bundledContent
-          }
-        }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  // check resource & projectDirectory property
-  // projectDirectory used for resolving tilde imports
-  if (sass.resource && sass.projectDirectory) {
-    const { resource, projectDirectory } = sass
-    try {
-      if (typeof resource === 'string') {
-        const res = await Bundler(resource, projectDirectory)
-        bundledContent += res.bundledContent
-      }
-      if (Array.isArray(resource)) {
-        for (const url of resource) {
-          const res = await Bundler(url, projectDirectory)
-          bundledContent += res.bundledContent
-        }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  if (sass.data) {
-    bundledContent += sass.data
-  }
-  return {
-    ...sassLoaderOption,
-    data: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
-  }
-}
-
-const makeConfig = async (buildConfig: BuildConfig) => {
+export const makeConfig = async (buildConfig: BuildConfig) => {
   const sassLoaderOption = await getSassLoaderOption(buildConfig)
   return {
     ...buildConfig,
@@ -75,7 +23,7 @@ const makeConfig = async (buildConfig: BuildConfig) => {
   }
 }
 
-const defaultUglifyJsOption = {
+const defaultTerserOption = {
   keep_fnames: true,
   output: {
     comments: false,
@@ -91,25 +39,6 @@ const defaultCSSCompressOption = {
   reduceIdents: false,
   discardUnused: false,
   minifySelectors: false
-}
-const defaultBabelLoaderOption = {
-  babelrc: false,
-  plugins: [
-    require.resolve('babel-plugin-syntax-dynamic-import'),
-    [
-      require.resolve('babel-plugin-transform-react-jsx'),
-      {
-        pragma: 'Nerv.createElement'
-      }
-    ],
-    [
-      require.resolve('babel-plugin-transform-taroapi'),
-      {
-        apis,
-        packageName: '@tarojs/taro-h5'
-      }
-    ]
-  ]
 }
 const defaultMediaUrlLoaderOption = {
   limit: 10240
@@ -149,11 +78,12 @@ const getPlugin = (plugin: any, args: Option[]) => {
   }
 }
 
+
 const mergeOption = ([...options]: Option[]): Option => {
   return recursiveMerge({}, ...options)
 }
 
-const processEnvOption = partial(mapKeys as any, key => `process.env.${key}`) as any
+export const processEnvOption = partial(mapKeys as any, key => `process.env.${key}`) as any
 
 const getStyleLoader = pipe(
   mergeOption,
@@ -187,6 +117,11 @@ const getBabelLoader = pipe(
   mergeOption,
   partial(getLoader, 'babel-loader')
 )
+const getVueLoader = pipe(
+  mergeOption,
+  partial(getLoader, 'vue-loader')
+)
+
 const getUrlLoader = pipe(
   mergeOption,
   partial(getLoader, 'url-loader')
@@ -197,38 +132,38 @@ const getExtractCssLoader = () => {
   }
 }
 
-const getMiniCssExtractPlugin = pipe(
+export const getMiniCssExtractPlugin = pipe(
   mergeOption,
   listify,
   partial(getPlugin, MiniCssExtractPlugin)
 )
-const getHtmlWebpackPlugin = pipe(
+export const getHtmlWebpackPlugin = pipe(
   mergeOption,
   listify,
   partial(getPlugin, HtmlWebpackPlugin)
 )
-const getDefinePlugin = pipe(
+export const getDefinePlugin = pipe(
   mergeOption,
   listify,
   partial(getPlugin, webpack.DefinePlugin)
 )
-const getHotModuleReplacementPlugin = partial(getPlugin, webpack.HotModuleReplacementPlugin, [])
-const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
-  return new UglifyJsPlugin({
+export const getHotModuleReplacementPlugin = partial(getPlugin, webpack.HotModuleReplacementPlugin, [])
+export const getTerserPlugin = ([enableSourceMap, terserOptions]) => {
+  return new TerserPlugin({
     cache: true,
     parallel: true,
     sourceMap: enableSourceMap,
-    uglifyOptions: recursiveMerge({}, defaultUglifyJsOption, uglifyOptions)
+    terserOptions: recursiveMerge({}, defaultTerserOption, terserOptions)
   })
 }
-const getCssoWebpackPlugin = ([cssoOption]) => {
+export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(
     mergeOption,
     listify,
     partial(getPlugin, CssoWebpackPlugin)
   )([defaultCSSCompressOption, cssoOption])
 }
-const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; appPath: string }) => {
+export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; appPath: string }) => {
   const args = [
     copy.patterns.map(({ from, to }) => {
       return {
@@ -242,16 +177,12 @@ const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; appPath: 
   return partial(getPlugin, CopyWebpackPlugin)(args)
 }
 
-const sassReg = /\.(s[ac]ss)\b/
-const lessReg = /\.less\b/
-const stylReg = /\.styl\b/
-const styleReg = /\.(css|s[ac]ss|less|styl)\b/
+export const getMainPlugin = args => {
+  return partial(getPlugin, MainPlugin)([args])
+}
+
 const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
 const styleGlobalReg = /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/
-const jsxReg = /\.jsx?$/
-const mediaReg = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
-const fontReg = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
-const imageReg = /\.(png|jpe?g|gif|bpm|svg)(\?.*)?$/
 
 const isNodeModule = (filename: string) => /\bnode_modules\b/.test(filename)
 const taroModuleRegs = [/@tarojs[/\\_]components/, /\btaro-components\b/]
@@ -273,7 +204,7 @@ const getEsnextModuleRules = esnextModules => {
   return [...defaultEsnextModuleRegs, ...esnextModules]
 }
 
-const getModule = (appPath: string, {
+export const getModule = (appPath: string, {
   staticDirectory,
   designWidth,
   deviceRatio,
@@ -290,8 +221,7 @@ const getModule = (appPath: string, {
   mediaUrlLoaderOption,
   esnextModules = [] as (string | RegExp)[],
 
-  postcss,
-  babel
+  postcss
 }) => {
   const postcssOption: IPostcssOption = postcss || {}
 
@@ -332,10 +262,6 @@ const getModule = (appPath: string, {
     ),
     cssLoaderOption
   ]
-  const additionalBabelOptions = {
-    ...babel,
-    sourceMap: enableSourceMap
-  }
   const esnextModuleRules = getEsnextModuleRules(esnextModules)
 
   /**
@@ -405,7 +331,7 @@ const getModule = (appPath: string, {
     }
   ])
 
-  const resolveUrlLoader = getResolveUrlLoader([])
+  const resolveUrlLoader = getResolveUrlLoader([{}])
 
   const sassLoader = getSassLoader([
     {
@@ -424,26 +350,26 @@ const getModule = (appPath: string, {
   } = {}
 
   rule.sass = {
-    test: sassReg,
+    test: REG_SASS,
     enforce: 'pre',
     use: [resolveUrlLoader, sassLoader]
   }
   rule.less = {
-    test: lessReg,
+    test: REG_LESS,
     enforce: 'pre',
     use: [lessLoader]
   }
   rule.styl = {
-    test: stylReg,
+    test: REG_STYLUS,
     enforce: 'pre',
     use: [stylusLoader]
   }
   rule.css = {
-    test: styleReg,
+    test: REG_STYLE,
     oneOf: cssLoaders
   }
   rule.postcss = {
-    test: styleReg,
+    test: REG_STYLE,
     use: [postcssLoader],
     exclude: [
       filename => {
@@ -458,25 +384,31 @@ const getModule = (appPath: string, {
     ]
   }
   rule.taroStyle = {
-    test: styleReg,
+    test: REG_STYLE,
     enforce: 'post',
     use: [topStyleLoader],
     include: [(filename: string) => isTaroModule(filename)]
   }
   rule.customStyle = {
-    test: styleReg,
+    test: REG_STYLE,
     enforce: 'post',
     use: [lastStyleLoader],
     exclude: [(filename: string) => isTaroModule(filename)]
   }
-  rule.jsx = {
-    test: jsxReg,
+  rule.vue = {
+    test: REG_VUE,
     use: {
-      babelLoader: getBabelLoader([defaultBabelLoaderOption, additionalBabelOptions])
+      vueLoader: getVueLoader([{}])
+    }
+  }
+  rule.script = {
+    test: REG_SCRIPTS,
+    use: {
+      babelLoader: getBabelLoader([{}])
     }
   }
   rule.media = {
-    test: mediaReg,
+    test: REG_MEDIA,
     use: {
       urlLoader: getUrlLoader([
         defaultMediaUrlLoaderOption,
@@ -488,7 +420,7 @@ const getModule = (appPath: string, {
     }
   }
   rule.font = {
-    test: fontReg,
+    test: REG_FONT,
     use: {
       urlLoader: getUrlLoader([
         defaultFontUrlLoaderOption,
@@ -500,7 +432,7 @@ const getModule = (appPath: string, {
     }
   }
   rule.image = {
-    test: imageReg,
+    test: REG_IMAGE,
     use: {
       urlLoader: getUrlLoader([
         defaultImageUrlLoaderOption,
@@ -515,7 +447,7 @@ const getModule = (appPath: string, {
   return { rule }
 }
 
-const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {
+export const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {
   return {
     path: join(appPath, outputRoot),
     filename: 'js/[name].js',
@@ -525,15 +457,6 @@ const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory },
   }
 }
 
-const getDevtool = enableSourceMap => {
+export const getDevtool = enableSourceMap => {
   return enableSourceMap ? 'cheap-module-eval-source-map' : 'none'
 }
-
-export {
-  isNodeModule,
-  isTaroModule,
-  getEsnextModuleRules,
-  makeConfig
-}
-
-export { getOutput, getMiniCssExtractPlugin, getHtmlWebpackPlugin, getDefinePlugin, processEnvOption, getHotModuleReplacementPlugin, getModule, getUglifyPlugin, getDevtool, getCssoWebpackPlugin, getCopyWebpackPlugin }

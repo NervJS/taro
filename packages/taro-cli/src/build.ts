@@ -58,7 +58,7 @@ export default class Builder {
 
   build (buildOptions: IBuildOptions) {
     this.hooks.beforeBuild.call(this.config)
-    const { type, watch, platform, port, uiIndex } = buildOptions
+    const { type, watch, port } = buildOptions
     this.emptyFirst({ type, watch })
     switch (type) {
       case BUILD_TYPES.H5:
@@ -73,20 +73,8 @@ export default class Builder {
       case BUILD_TYPES.JD:
         this.buildForMini(this.appPath, buildOptions)
         break
-      case BUILD_TYPES.RN:
-        this.buildForRN(this.appPath, { watch })
-        break
-      case BUILD_TYPES.UI:
-        this.buildForUILibrary(this.appPath, { watch, uiIndex })
-        break
-      case BUILD_TYPES.PLUGIN:
-        this.buildForPlugin(this.appPath, {
-          watch,
-          platform
-        })
-        break
       default:
-        console.log(chalk.red('输入类型错误，目前只支持 weapp/swan/alipay/tt/qq/h5/quickapp/rn 八端类型'))
+        console.log(chalk.red('输入类型错误，目前只支持 weapp/swan/alipay/tt/qq/h5 六端类型'))
     }
   }
 
@@ -96,26 +84,5 @@ export default class Builder {
 
   buildForMini (appPath: string, buildOptions: IBuildOptions) {
     require('./mini').build(appPath, buildOptions, null, this)
-  }
-
-  buildForRN (appPath: string, { watch }) {
-    require('./rn').build(appPath, { watch })
-  }
-
-  buildForUILibrary (appPath: string, { watch, uiIndex }) {
-    require('./ui/index').build(appPath, { watch, uiIndex })
-  }
-
-  buildForPlugin (appPath: string, { watch, platform }) {
-    const typeMap = {
-      [BUILD_TYPES.WEAPP]: '微信',
-      [BUILD_TYPES.ALIPAY]: '支付宝'
-    }
-    if (platform !== BUILD_TYPES.WEAPP && platform !== BUILD_TYPES.ALIPAY) {
-      console.log(chalk.red('目前插件编译仅支持 微信/支付宝 小程序！'))
-      return
-    }
-    console.log(chalk.green(`开始编译${typeMap[platform]}小程序插件`))
-    require('./plugin').build(appPath, { watch, platform }, this)
   }
 }

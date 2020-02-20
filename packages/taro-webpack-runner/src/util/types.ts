@@ -16,5 +16,5 @@ export interface Chain {
 export interface BuildConfig extends IProjectBaseConfig, IH5Config {
   isWatch: boolean;
   port?: number;
-  homePage?: [string, string]
-};
+  entryFileName?: string;
+}

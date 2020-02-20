@@ -11,7 +11,7 @@ import {
   getMiniCssExtractPlugin,
   getModule,
   getOutput,
-  getUglifyPlugin,
+  getTerserPlugin,
   processEnvOption
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
@@ -51,9 +51,9 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     esnextModules = [],
 
     postcss,
-    babel,
     csso,
-    uglify
+    uglify,
+    terser
   } = config
 
   const isMultiRouterMode = get(router, 'mode') === 'multi'
@@ -102,14 +102,15 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   const mode = 'production'
 
   const minimizer: any[] = []
-  const isUglifyEnabled = (uglify && uglify.enable === false)
+  const uglifyConfig = uglify || terser
+  const isUglifyEnabled = (uglifyConfig && uglifyConfig.enable === false)
     ? false
     : true
 
   if (isUglifyEnabled) {
-    minimizer.push(getUglifyPlugin([
+    minimizer.push(getTerserPlugin([
       enableSourceMap,
-      uglify ? uglify.config : {}
+      uglifyConfig ? uglifyConfig.config : {}
     ]))
   }
 
@@ -140,7 +141,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       esnextModules,
 
       postcss,
-      babel,
       staticDirectory
     }),
     plugin,

@@ -4,6 +4,9 @@
     "packages/babel-preset-taro",
     "packages/eslint-config-taro",
     "packages/eslint-plugin-taro",
+    "packages/postcss-pxtransform",
+    "packages/postcss-plugin-constparse",
+    "packages/babel-plugin-transform-taroapi",
     "packages/shared",
     "packages/taro",
     "packages/taro-cli",
@@ -11,6 +14,8 @@
     "packages/taro-h5",
     "packages/taro-loader",
     "packages/taro-mini-runner",
+    "packages/taro-webpack-runner",
+    "packages/taro-runner-utils",
     "packages/taro-react",
     "packages/taro-runtime",
     "packages/taro-router"

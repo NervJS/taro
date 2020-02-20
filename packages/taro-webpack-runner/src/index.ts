@@ -1,29 +1,19 @@
-import detectPort = require('detect-port')
-import * as opn from 'opn'
+import * as detectPort from 'detect-port'
+import * as open from 'open'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
+import { recursiveMerge } from '@tarojs/runner-utils'
+
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
-import { addLeadingSlash, addTrailingSlash, recursiveMerge, formatOpenHost } from './util'
+import { addLeadingSlash, addTrailingSlash, formatOpenHost } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
-import { makeConfig } from './util/chain';
-
-const stripTrailingSlash = (path: string): string =>
-  path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
-
-const stripLeadingSlash = (path: string): string =>
-  path.charAt(0) === '/' ? path.substr(1) : path
-
-const addHtmlExtname = (str: string) => {
-  return /\.html\b/.test(str)
-    ? str
-    : `${str}.html`
-}
+import { makeConfig } from './util/chain'
 
 const customizeChain = (chain, customizeFunc: Function) => {
   if (customizeFunc instanceof Function) {
@@ -60,8 +50,6 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const outputPath = path.join(appPath, conf.outputRoot as string)
   const customDevServerOption = config.devServer || {}
   const webpackChain = devConf(appPath, config)
-  const homePage = config.homePage || []
-
   customizeChain(webpackChain, config.webpackChain)
 
   const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
@@ -91,7 +79,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   let pathname
 
   if (routerMode === 'multi') {
-    pathname = `${stripTrailingSlash(routerBasename)}/${addHtmlExtname(stripLeadingSlash(homePage[1] || ''))}`
+    pathname = '/'
   } else if (routerMode === 'browser') {
     pathname = routerBasename
   } else {
@@ -127,7 +115,8 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
           port: devServerOptions.port,
           pathname
         })
-        opn(openUrl)
+        console.log(openUrl)
+        open(openUrl)
       }
     })
   })
