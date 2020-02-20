@@ -38,6 +38,11 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
   const isReact = process.env.FRAMEWORK !== 'vue' // isReact means all kind of react-like library
 
   function safeExecute (lifecycle: keyof PageInstance, ...args: unknown[]) {
+    // 为了兼容 react-dom
+    if (instance === EMPTY_OBJ) {
+      instance = instances.get(id)!
+    }
+
     if (instance == null) {
       return
     }

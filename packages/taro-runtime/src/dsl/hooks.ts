@@ -6,8 +6,8 @@ import { Current } from '../current'
 const taroHooks = (lifecycle: keyof PageLifeCycle) => {
   return (fn: Function) => {
     const id = React.useContext(PageContext)
-    let inst = getPageInstance(id)
     React.useLayoutEffect(() => {
+      let inst = getPageInstance(id)
       let first = false
       if (inst == null) {
         first = true

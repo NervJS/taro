@@ -4,6 +4,7 @@ import { Current } from '../current'
 import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps, Instance } from './instance'
 import { document } from '../bom/document'
 import { injectPageInstance, getPageInstance } from './common'
+import { isBrowser } from '../env'
 
 export function connectReactPage (
   R: typeof React,
@@ -24,6 +25,17 @@ export function connectReactPage (
     }
 
     return (props: PageProps) => {
+      if (isBrowser) {
+        return h(
+          'div',
+          { id, className: 'taro_page' },
+          h(PageContext.Provider, { value: id }, h(component, {
+            ...props,
+            ...refs
+          }))
+        )
+      }
+
       return h(
         'root',
         { id },
