@@ -11,7 +11,7 @@ export class Slider implements ComponentInterface {
   @Prop() max = 100
   @Prop() step = 1
   @Prop() disabled = false
-  @Prop() value = 0
+  @Prop({ mutable: true }) value: number | null = 0
   @Prop() activeColor = '#1aad19'
   @Prop() backgroundColor = '#e9e9e9'
   @Prop() blockSize = 28
@@ -28,15 +28,19 @@ export class Slider implements ComponentInterface {
   @State() ogPercent: number
 
   @Watch('value')
-  function (newVal, oldVal) {
+  function (newVal) {
     const { max, min } = this
-    if (newVal !== oldVal) {
+    if (newVal !== null && newVal !== this.val) {
       const val = newVal > max ? max : newVal < min ? min : newVal
       const percent = val / (max - min) * 100
       this.val = val
       this.percent = percent
       this.updateValue()
     }
+  }
+
+  componentDidUpdate () {
+    this.value = null
   }
 
   @Event({
@@ -51,6 +55,7 @@ export class Slider implements ComponentInterface {
 
   componentWillLoad () {
     const { value, max, min } = this
+    if (value === null) return
     const val = value > max ? max : value
 
     this.val = val

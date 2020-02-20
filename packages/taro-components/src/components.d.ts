@@ -74,6 +74,16 @@ export namespace Components {
   }
   interface TaroOpenData {}
   interface TaroPickerViewColumn {}
+  interface TaroProgress {
+    'active': boolean;
+    'activeColor': string;
+    'backgroundColor': string;
+    'borderRadius': number | string;
+    'fontSize': number | string;
+    'percent': number;
+    'showInfo': boolean;
+    'strokeWidth': number | string;
+  }
   interface TaroPullToRefresh {
     'damping': number;
     'distanceToRefresh': number;
@@ -92,7 +102,7 @@ export namespace Components {
     'name': string;
     'showValue': boolean;
     'step': number;
-    'value': number;
+    'value': number | null;
   }
   interface TaroSwitch {
     'checked': boolean;
@@ -218,6 +228,12 @@ declare global {
     new (): HTMLTaroPickerViewColumnElement;
   };
 
+  interface HTMLTaroProgressElement extends Components.TaroProgress, HTMLStencilElement {}
+  var HTMLTaroProgressElement: {
+    prototype: HTMLTaroProgressElement;
+    new (): HTMLTaroProgressElement;
+  };
+
   interface HTMLTaroPullToRefreshElement extends Components.TaroPullToRefresh, HTMLStencilElement {}
   var HTMLTaroPullToRefreshElement: {
     prototype: HTMLTaroPullToRefreshElement;
@@ -276,13 +292,10 @@ declare global {
     'taro-navigator': HTMLTaroNavigatorElement;
     'taro-open-data': HTMLTaroOpenDataElement;
     'taro-picker-view-column': HTMLTaroPickerViewColumnElement;
-<<<<<<< HEAD
-    'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
-=======
     'taro-progress': HTMLTaroProgressElement;
+    'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
     'taro-slider': HTMLTaroSliderElement;
     'taro-switch': HTMLTaroSwitchElement;
->>>>>>> feat(h5): 增加 switch 组件
     'taro-tabbar': HTMLTaroTabbarElement;
     'taro-text': HTMLTaroTextElement;
     'taro-textarea': HTMLTaroTextareaElement;
@@ -366,6 +379,16 @@ declare namespace LocalJSX {
   }
   interface TaroOpenData {}
   interface TaroPickerViewColumn {}
+  interface TaroProgress {
+    'active'?: boolean;
+    'activeColor'?: string;
+    'backgroundColor'?: string;
+    'borderRadius'?: number | string;
+    'fontSize'?: number | string;
+    'percent'?: number;
+    'showInfo'?: boolean;
+    'strokeWidth'?: number | string;
+  }
   interface TaroPullToRefresh {
     'damping'?: number;
     'distanceToRefresh'?: number;
@@ -387,7 +410,7 @@ declare namespace LocalJSX {
     'onChanging'?: (event: CustomEvent<any>) => void;
     'showValue'?: boolean;
     'step'?: number;
-    'value'?: number;
+    'value'?: number | null;
   }
   interface TaroSwitch {
     'checked'?: boolean;
@@ -437,13 +460,10 @@ declare namespace LocalJSX {
     'taro-navigator': TaroNavigator;
     'taro-open-data': TaroOpenData;
     'taro-picker-view-column': TaroPickerViewColumn;
-<<<<<<< HEAD
-    'taro-pull-to-refresh': TaroPullToRefresh;
-=======
     'taro-progress': TaroProgress;
+    'taro-pull-to-refresh': TaroPullToRefresh;
     'taro-slider': TaroSlider;
     'taro-switch': TaroSwitch;
->>>>>>> feat(h5): 增加 switch 组件
     'taro-tabbar': TaroTabbar;
     'taro-text': TaroText;
     'taro-textarea': TaroTextarea;
@@ -473,13 +493,10 @@ declare module "@stencil/core" {
       'taro-navigator': LocalJSX.TaroNavigator & JSXBase.HTMLAttributes<HTMLTaroNavigatorElement>;
       'taro-open-data': LocalJSX.TaroOpenData & JSXBase.HTMLAttributes<HTMLTaroOpenDataElement>;
       'taro-picker-view-column': LocalJSX.TaroPickerViewColumn & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnElement>;
-<<<<<<< HEAD
-      'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
-=======
       'taro-progress': LocalJSX.TaroProgress & JSXBase.HTMLAttributes<HTMLTaroProgressElement>;
+      'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
       'taro-slider': LocalJSX.TaroSlider & JSXBase.HTMLAttributes<HTMLTaroSliderElement>;
       'taro-switch': LocalJSX.TaroSwitch & JSXBase.HTMLAttributes<HTMLTaroSwitchElement>;
->>>>>>> feat(h5): 增加 switch 组件
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
       'taro-text': LocalJSX.TaroText & JSXBase.HTMLAttributes<HTMLTaroTextElement>;
       'taro-textarea': LocalJSX.TaroTextarea & JSXBase.HTMLAttributes<HTMLTaroTextareaElement>;
