@@ -8,6 +8,7 @@ interface Option {
   complete?: Function
 }
 
+// TODO: 传递 success, fail, complete
 export function navigateTo (option: Option) {
   const { url } = option
   history.push(url)
