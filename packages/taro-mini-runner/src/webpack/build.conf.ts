@@ -54,7 +54,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     babel,
     csso,
     uglify,
-    commonChunks
+    commonChunks,
+    addChunkPages
   } = config
 
   let { copy } = config
@@ -105,6 +106,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     pluginConfig: entryRes!.pluginConfig,
     isBuildPlugin: !!config.isBuildPlugin,
     commonChunks: customCommonChunks,
+    addChunkPages,
     alias
   })
 

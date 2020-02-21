@@ -6,27 +6,36 @@ import { urlToRequest } from 'loader-utils'
 
 import { PARSE_AST_TYPE, REG_STYLE, BUILD_TYPES } from '../utils/constants'
 import { promoteRelativePath } from '../utils'
+import { AddPageChunks } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 
 interface IOptions {
   commonChunks: string[],
   buildAdapter: BUILD_TYPES,
-  isBuildPlugin: boolean
+  isBuildPlugin: boolean,
+  addChunkPages?: AddPageChunks
 }
 
 export default class TaroLoadChunksPlugin {
   commonChunks: string[]
   buildAdapter: BUILD_TYPES
   isBuildPlugin: boolean
+  addChunkPages?: AddPageChunks
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
     this.buildAdapter = options.buildAdapter
     this.isBuildPlugin = options.isBuildPlugin
+    this.addChunkPages = options.addChunkPages
   }
 
   apply (compiler: webpack.Compiler) {
+    let pagesList
+    const addChunkPagesList = new Map<string, string[]>();
+    (compiler.hooks as any).getPages.tap(PLUGIN_NAME, pages => {
+      pagesList = pages
+    })
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: any) => {
       let commonChunks
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: compilation.Chunk[]) => {
@@ -67,6 +76,17 @@ export default class TaroLoadChunksPlugin {
             (entryModule.miniType === PARSE_AST_TYPE.PAGE ||
             entryModule.miniType === PARSE_AST_TYPE.COMPONENT)) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
+          }
+          if (typeof this.addChunkPages === 'function' && entryModule.miniType === PARSE_AST_TYPE.PAGE) {
+            const id = getIdOrName(chunk)
+            let source
+            this.addChunkPages(addChunkPagesList, Array.from(pagesList).map((item: any) => item.name))
+            addChunkPagesList.forEach((v, k) => {
+              if (k === id) {
+                source = addRequireToSource(id, modules, v.map(v => ({ name: v })))
+              }
+            })
+            return source
           }
         }
       })

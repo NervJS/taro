@@ -28,3 +28,5 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   quickappJSON: any,
   isBuildPlugin: boolean
 }
+
+export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)

@@ -14,9 +14,10 @@ import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
+import { SyncHook } from 'tapable'
 
 import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsQuickAppComponents, REG_SCRIPTS, processTypeEnum } from '../utils/constants'
-import { IComponentObj } from '../utils/types'
+import { IComponentObj, AddPageChunks } from '../utils/types'
 import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog, isAliasPath, replaceAliasPath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, getImportCustomComponents, generateQuickAppManifest } from '../utils/helper'
@@ -39,6 +40,7 @@ interface IMiniPluginOptions {
   pluginConfig?: object,
   isBuildPlugin: boolean,
   alias: object
+  addChunkPages?: AddPageChunks
 }
 
 export interface ITaroFileInfo {
@@ -191,6 +193,7 @@ export default class MiniPlugin {
   apply (compiler) {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
+    compiler.hooks.getPages = new SyncHook(['pages'])
     compiler.hooks.run.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
@@ -234,7 +237,8 @@ export default class MiniPlugin {
     new TaroLoadChunksPlugin({
       commonChunks: this.options.commonChunks,
       buildAdapter: this.options.buildAdapter,
-      isBuildPlugin: this.options.isBuildPlugin
+      isBuildPlugin: this.options.isBuildPlugin,
+      addChunkPages: this.options.addChunkPages
     }).apply(compiler)
 
     new TaroNormalModulesPlugin().apply(compiler)
@@ -494,6 +498,7 @@ export default class MiniPlugin {
           return { name: item, path: pagePath, isNative }
         })
       ])
+      ;(compiler.hooks as any).getPages.call(this.pages)
     } catch (error) {
       if (error.codeFrame) {
         this.errors.push(new Error(error.message + '\n' + error.codeFrame))
