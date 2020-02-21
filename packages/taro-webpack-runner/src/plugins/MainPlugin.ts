@@ -72,6 +72,22 @@ export default class MainPlugin {
 				this.run()
 			})
     )
+
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
+      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
+        const { framework } = this.options
+        if (module.resource === this.appEntry) {
+          module.loaders.unshift({
+            loader: '@tarojs/taro-loader/lib/h5',
+            options: {
+              framework,
+              pages: this.pagesConfigList,
+              config: this.appConfig
+            }
+          })
+        }
+      })
+    })
   }
 
   getAppEntry (compiler) {
@@ -92,7 +108,6 @@ export default class MainPlugin {
     this.getAppConfig()
     this.getPages()
     this.getPagesConfigList()
-    console.log(this.pagesConfigList)
   }
 
   getPages () {

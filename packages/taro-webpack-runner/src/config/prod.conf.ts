@@ -9,6 +9,7 @@ import {
   getDevtool,
   getHtmlWebpackPlugin,
   getMiniCssExtractPlugin,
+  getMainPlugin,
   getModule,
   getOutput,
   getTerserPlugin,
@@ -23,6 +24,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     alias = emptyObj,
     copy,
     entry = emptyObj,
+    entryFileName = 'app',
     output = emptyObj,
     sourceRoot = '',
     outputRoot = 'dist',
@@ -55,10 +57,18 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     uglify,
     terser
   } = config
-
+  const sourceDir = path.join(appPath, sourceRoot)
+  const outputDir = path.join(appPath, outputRoot)
   const isMultiRouterMode = get(router, 'mode') === 'multi'
 
   const plugin: any = {}
+
+  plugin.mainPlugin = getMainPlugin({
+    entryFileName,
+    sourceDir,
+    outputDir,
+    routerConfig: router
+  })
 
   if (enableExtract) {
     plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([

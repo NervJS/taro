@@ -226,7 +226,6 @@ export const getModule = (appPath: string, {
   const postcssOption: IPostcssOption = postcss || {}
 
   const defaultStyleLoaderOption = {
-    sourceMap: enableSourceMap
     /**
      * 移除singleton设置，会导致样式库优先级发生错误
      * singleton: true
@@ -280,7 +279,22 @@ export const getModule = (appPath: string, {
     })
 
   const styleLoader = getStyleLoader([defaultStyleLoaderOption, styleLoaderOption])
-  const topStyleLoader = getStyleLoader([defaultStyleLoaderOption, { insertAt: 'top' }, styleLoaderOption])
+  const topStyleLoader = getStyleLoader([defaultStyleLoaderOption, {
+    insert: function insertAtTop (element) {
+      const parent = document.querySelector('head')
+      if (parent) {
+        const lastInsertedElement = (window as any)._lastElementInsertedByStyleLoader
+        if (!lastInsertedElement) {
+          parent.insertBefore(element, parent.firstChild)
+        } else if (lastInsertedElement.nextSibling) {
+          parent.insertBefore(element, lastInsertedElement.nextSibling)
+        } else {
+          parent.appendChild(element)
+        }
+        (window as any)._lastElementInsertedByStyleLoader = element
+      }
+    }
+  }, styleLoaderOption])
 
   const extractCssLoader = getExtractCssLoader()
 

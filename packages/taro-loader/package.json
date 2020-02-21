@@ -32,6 +32,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@tarojs/taro": "^3.0.0-alpha.4"
+    "@tarojs/taro": "3.0.0-alpha.4"
   }
 }

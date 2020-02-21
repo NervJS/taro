@@ -4,7 +4,7 @@
     "allowJs": true,
     "baseUrl": ".",
     "experimentalDecorators": true,
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
