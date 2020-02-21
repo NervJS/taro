@@ -211,6 +211,14 @@ export default function connectAdvanced(
         tryToCall(this.wrappedInstance.componentDidHide, this.wrappedInstance)
       }
 
+      beforeRouteLeave (from, to, next) {
+        if (this.wrappedInstance && typeof this.wrappedInstance.beforeRouteLeave === 'function') {
+          tryToCall(this.wrappedInstance.beforeRouteLeave, this.wrappedInstance, ...arguments)
+        } else {
+          next(true)
+        }
+      }
+
       getWrappedInstance() {
         invariant(withRef,
           `To access the wrapped instance, you need to specify ` +
