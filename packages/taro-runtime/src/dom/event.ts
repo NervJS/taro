@@ -83,7 +83,11 @@ export function createEvent (event: MpEvent, _?: TaroElement) {
 }
 
 export function eventHandler (event: MpEvent) {
-  const node = document.getElementById(event.currentTarget == null ? event.target.id : event.currentTarget.id)
+  if (event.currentTarget == null) {
+    event.currentTarget = event.target
+  }
+
+  const node = document.getElementById(event.currentTarget.id)
   if (node != null) {
     node.dispatchEvent(createEvent(event, node))
   }
