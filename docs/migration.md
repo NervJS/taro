@@ -222,7 +222,7 @@ class App extends Component {
 
 在 Taro Next 中，没有 [组件的外部样式和全局样式](https://nervjs.github.io/taro/docs/component-style.html) 的概念，组件的配置（`config.js`）是无效的，页面和入口文件引入的 CSS 都会变成全局 CSS ，没有了 `externalClasses` 和 `addGlobalClass` 这两个概念。
 
-如果你需要带作用域的 CSS，可以考虑使用 [CSS Modules](https://github.com/css-modules/css-modules) 或 [Styled Component](https://www.styled-components.com/)。
+如果你需要带作用域的 CSS，可以考虑使用 [CSS Modules](https://github.com/css-modules/css-modules)。
 
 ## 编译配置
 

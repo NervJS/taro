@@ -400,3 +400,5 @@ export default {
 ## 其它限制
 
 由于小程序访问元素位置为异步 API，因此小程序中无法使用内置的 `transition-group` 组件。
+
+由于 Taro 编译时目前依赖 `vue-loader` 的一些特性，目前无法使用 JSX 或字符串 `template` 声明组件。
