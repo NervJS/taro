@@ -35,6 +35,15 @@ function createStoreInjector (grabStoresFn, injectNames, sourceComponent) {
         componentDidHide.call(this.__observeInstance)
       }
     }
+
+    beforeRouteLeave (from, to, next) {
+      const { beforeRouteLeave } = sourceComponent.prototype
+      if (typeof beforeRouteLeave === 'function') {
+        beforeRouteLeave.call(this.__observeInstance, ...arguments)
+      } else {
+        next(true)
+      }
+    }
   }
 
   return Injector
