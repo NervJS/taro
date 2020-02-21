@@ -27,7 +27,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runtime": "^3.0.0-alpha.4",
+    "@tarojs/runtime": "3.0.0-alpha.4",
     "history": "^4.10.1",
     "universal-router": "^8.3.0",
     "url-parse": "^1.4.7"

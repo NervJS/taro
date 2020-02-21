@@ -69,11 +69,11 @@
     "ejs": "^2.6.1",
     "envinfo": "^6.0.1",
     "eslint": "^6.1.0",
-    "eslint-config-taro": "^3.0.0-alpha.4",
+    "eslint-config-taro": "3.0.0-alpha.4",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-react-hooks": "^1.6.1",
-    "eslint-plugin-taro": "^3.0.0-alpha.4",
+    "eslint-plugin-taro": "3.0.0-alpha.4",
     "fbjs": "^1.0.0",
     "find-yarn-workspace-root": "1.2.1",
     "fs-extra": "^5.0.0",
@@ -116,6 +116,6 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
-    "@tarojs/taro": "^3.0.0-alpha.4"
+    "@tarojs/taro": "3.0.0-alpha.4"
   }
 }
