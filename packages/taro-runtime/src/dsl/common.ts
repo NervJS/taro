@@ -85,8 +85,6 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       })
     },
     onUnload () {
-      Current.router = null
-
       Current.app!.unmount(id, () => {
         if (pageElement) {
           pageElement.ctx = null
@@ -99,6 +97,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
     },
     onHide () {
       Current.page = null
+      Current.router = null
       safeExecute('onHide')
     },
     onPullDownRefresh () {

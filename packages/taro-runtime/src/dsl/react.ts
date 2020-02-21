@@ -136,8 +136,12 @@ export function createReactApp (App: React.ComponentClass, react?: typeof React)
       wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
     }
 
-    onShow (options: unknown) {
+    onShow (options) {
       const app = ref.current
+      Current.router = {
+        params: options?.query,
+        ...options
+      }
       if (app != null && isFunction(app.componentDidShow)) {
         app.componentDidShow(options)
       }

@@ -96,7 +96,11 @@ export function createVueApp (App: VueInstance, vue?) {
       appInstance = wrapper.$refs.app as VueAppInstance
     }
 
-    onShow (options: unknown) {
+    onShow (options) {
+      Current.router = {
+        params: options?.query,
+        ...options
+      }
       if (appInstance != null && isFunction(appInstance.$options.onShow)) {
         appInstance.$options.onShow.call(appInstance, options)
       }
