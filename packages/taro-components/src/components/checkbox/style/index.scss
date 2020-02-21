@@ -1,6 +1,7 @@
 .taro-checkbox {
   position: relative;
   display: inline-block;
+
   &_checked {
     display: inline-block;
     min-height: 0;
@@ -17,6 +18,7 @@
     position: relative;
     vertical-align: 0;
     top: 5px;
+
     &:checked::before {
       font-family: "weui";
       font-style: normal;

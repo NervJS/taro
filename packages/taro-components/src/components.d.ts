@@ -37,6 +37,16 @@ export namespace Components {
     'type': string;
   }
   interface TaroCamera {}
+  interface TaroCheckbox {
+    'checked': boolean;
+    'color': string;
+    'id': string;
+    'name': string;
+    'value': string;
+  }
+  interface TaroCheckboxGroup {
+    'name': any;
+  }
   interface TaroCoverImage {}
   interface TaroCoverView {}
   interface TaroForm {}
@@ -163,6 +173,18 @@ declare global {
   var HTMLTaroCameraElement: {
     prototype: HTMLTaroCameraElement;
     new (): HTMLTaroCameraElement;
+  };
+
+  interface HTMLTaroCheckboxElement extends Components.TaroCheckbox, HTMLStencilElement {}
+  var HTMLTaroCheckboxElement: {
+    prototype: HTMLTaroCheckboxElement;
+    new (): HTMLTaroCheckboxElement;
+  };
+
+  interface HTMLTaroCheckboxGroupElement extends Components.TaroCheckboxGroup, HTMLStencilElement {}
+  var HTMLTaroCheckboxGroupElement: {
+    prototype: HTMLTaroCheckboxGroupElement;
+    new (): HTMLTaroCheckboxGroupElement;
   };
 
   interface HTMLTaroCoverImageElement extends Components.TaroCoverImage, HTMLStencilElement {}
@@ -301,6 +323,8 @@ declare global {
     'taro-block': HTMLTaroBlockElement;
     'taro-button': HTMLTaroButtonElement;
     'taro-camera': HTMLTaroCameraElement;
+    'taro-checkbox': HTMLTaroCheckboxElement;
+    'taro-checkbox-group': HTMLTaroCheckboxGroupElement;
     'taro-cover-image': HTMLTaroCoverImageElement;
     'taro-cover-view': HTMLTaroCoverViewElement;
     'taro-form': HTMLTaroFormElement;
@@ -351,6 +375,18 @@ declare namespace LocalJSX {
     'type'?: string;
   }
   interface TaroCamera {}
+  interface TaroCheckbox {
+    'checked'?: boolean;
+    'color'?: string;
+    'id'?: string;
+    'name'?: string;
+    'onCheckboxchange'?: (event: CustomEvent<any>) => void;
+    'value'?: string;
+  }
+  interface TaroCheckboxGroup {
+    'name'?: any;
+    'onChange'?: (event: CustomEvent<any>) => void;
+  }
   interface TaroCoverImage {}
   interface TaroCoverView {}
   interface TaroForm {
@@ -482,6 +518,8 @@ declare namespace LocalJSX {
     'taro-block': TaroBlock;
     'taro-button': TaroButton;
     'taro-camera': TaroCamera;
+    'taro-checkbox': TaroCheckbox;
+    'taro-checkbox-group': TaroCheckboxGroup;
     'taro-cover-image': TaroCoverImage;
     'taro-cover-view': TaroCoverView;
     'taro-form': TaroForm;
@@ -517,6 +555,8 @@ declare module "@stencil/core" {
       'taro-block': LocalJSX.TaroBlock & JSXBase.HTMLAttributes<HTMLTaroBlockElement>;
       'taro-button': LocalJSX.TaroButton & JSXBase.HTMLAttributes<HTMLTaroButtonElement>;
       'taro-camera': LocalJSX.TaroCamera & JSXBase.HTMLAttributes<HTMLTaroCameraElement>;
+      'taro-checkbox': LocalJSX.TaroCheckbox & JSXBase.HTMLAttributes<HTMLTaroCheckboxElement>;
+      'taro-checkbox-group': LocalJSX.TaroCheckboxGroup & JSXBase.HTMLAttributes<HTMLTaroCheckboxGroupElement>;
       'taro-cover-image': LocalJSX.TaroCoverImage & JSXBase.HTMLAttributes<HTMLTaroCoverImageElement>;
       'taro-cover-view': LocalJSX.TaroCoverView & JSXBase.HTMLAttributes<HTMLTaroCoverViewElement>;
       'taro-form': LocalJSX.TaroForm & JSXBase.HTMLAttributes<HTMLTaroFormElement>;
