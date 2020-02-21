@@ -5,13 +5,14 @@ import { createReactApp, createPageConfig, Current, createVueApp, PageInstance }
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
+import { initTabbar } from './tabbar'
 
-interface Route extends PageConfig {
+export interface Route extends PageConfig {
   path: string
   load: () => Promise<any>
 }
 
-interface RouterConfig extends AppConfig {
+export interface RouterConfig extends AppConfig {
   routes: Route[]
 }
 
@@ -68,6 +69,8 @@ function loadPage (page: PageInstance | null) {
 }
 
 export function createRouter (App, config: RouterConfig, framework: 'react' | 'vue' | 'nerv') {
+  initTabbar(config)
+
   const routes: Routes = []
 
   for (let i = 0; i < config.routes.length; i++) {

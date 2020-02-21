@@ -1,9 +1,9 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
-import * as Taro from '@tarojs/taro-h5'
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
+const Taro = require('@tarojs/taro')
 
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
 // const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
@@ -123,7 +123,7 @@ export class Tabbar implements ComponentInterface {
   }
 
   getOriginUrl = (url: string) => {
-    const customRoute = this.customRoutes.filter(([_, customUrl]) => {
+    const customRoute = this.customRoutes.filter(([, customUrl]) => {
       const patha = splitUrl(customUrl).path
       const pathb = splitUrl(url).path
       return patha === pathb
@@ -145,7 +145,7 @@ export class Tabbar implements ComponentInterface {
 
   switchTab = (index: number) => {
     this.selectedIndex = index
-    Taro.redirectTo && Taro.redirectTo({
+    Taro.switchTab({
       url: this.list[index].pagePath
     })
   }
