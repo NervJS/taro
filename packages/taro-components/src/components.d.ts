@@ -91,6 +91,15 @@ export namespace Components {
     'prefixCls': string;
     'refreshing': string;
   }
+  interface TaroRadio {
+    'checked': boolean;
+    'id': string;
+    'name': string;
+    'value': string;
+  }
+  interface TaroRadioGroup {
+    'name': any;
+  }
   interface TaroSlider {
     'activeColor': string;
     'backgroundColor': string;
@@ -240,6 +249,18 @@ declare global {
     new (): HTMLTaroPullToRefreshElement;
   };
 
+  interface HTMLTaroRadioElement extends Components.TaroRadio, HTMLStencilElement {}
+  var HTMLTaroRadioElement: {
+    prototype: HTMLTaroRadioElement;
+    new (): HTMLTaroRadioElement;
+  };
+
+  interface HTMLTaroRadioGroupElement extends Components.TaroRadioGroup, HTMLStencilElement {}
+  var HTMLTaroRadioGroupElement: {
+    prototype: HTMLTaroRadioGroupElement;
+    new (): HTMLTaroRadioGroupElement;
+  };
+
   interface HTMLTaroSliderElement extends Components.TaroSlider, HTMLStencilElement {}
   var HTMLTaroSliderElement: {
     prototype: HTMLTaroSliderElement;
@@ -294,6 +315,8 @@ declare global {
     'taro-picker-view-column': HTMLTaroPickerViewColumnElement;
     'taro-progress': HTMLTaroProgressElement;
     'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
+    'taro-radio': HTMLTaroRadioElement;
+    'taro-radio-group': HTMLTaroRadioGroupElement;
     'taro-slider': HTMLTaroSliderElement;
     'taro-switch': HTMLTaroSwitchElement;
     'taro-tabbar': HTMLTaroTabbarElement;
@@ -397,6 +420,17 @@ declare namespace LocalJSX {
     'prefixCls'?: string;
     'refreshing'?: string;
   }
+  interface TaroRadio {
+    'checked'?: boolean;
+    'id'?: string;
+    'name'?: string;
+    'onRadiochange'?: (event: CustomEvent<any>) => void;
+    'value'?: string;
+  }
+  interface TaroRadioGroup {
+    'name'?: any;
+    'onChange'?: (event: CustomEvent<any>) => void;
+  }
   interface TaroSlider {
     'activeColor'?: string;
     'backgroundColor'?: string;
@@ -462,6 +496,8 @@ declare namespace LocalJSX {
     'taro-picker-view-column': TaroPickerViewColumn;
     'taro-progress': TaroProgress;
     'taro-pull-to-refresh': TaroPullToRefresh;
+    'taro-radio': TaroRadio;
+    'taro-radio-group': TaroRadioGroup;
     'taro-slider': TaroSlider;
     'taro-switch': TaroSwitch;
     'taro-tabbar': TaroTabbar;
@@ -495,6 +531,8 @@ declare module "@stencil/core" {
       'taro-picker-view-column': LocalJSX.TaroPickerViewColumn & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnElement>;
       'taro-progress': LocalJSX.TaroProgress & JSXBase.HTMLAttributes<HTMLTaroProgressElement>;
       'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
+      'taro-radio': LocalJSX.TaroRadio & JSXBase.HTMLAttributes<HTMLTaroRadioElement>;
+      'taro-radio-group': LocalJSX.TaroRadioGroup & JSXBase.HTMLAttributes<HTMLTaroRadioGroupElement>;
       'taro-slider': LocalJSX.TaroSlider & JSXBase.HTMLAttributes<HTMLTaroSliderElement>;
       'taro-switch': LocalJSX.TaroSwitch & JSXBase.HTMLAttributes<HTMLTaroSwitchElement>;
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
