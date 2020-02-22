@@ -11,11 +11,11 @@ import { IBuildData, IH5BuildConfig } from './ui.types'
 import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME } from './common'
 
 async function buildForH5 (uiIndex = 'index', buildData: IBuildData) {
-  const {appPath} = buildData
+  const { appPath } = buildData
   const compiler = new Compiler(appPath, uiIndex)
   console.log()
   console.log(chalk.green('开始编译 H5 端组件库！'))
-  await compiler.buildTemp()
+  await (compiler as any).buildTemp()
   if (process.env.TARO_BUILD_TYPE === 'script') {
     await buildH5Script(buildData)
   } else {
@@ -48,7 +48,7 @@ async function buildH5Script (buildData: IBuildData) {
 
 async function buildH5Lib (uiIndex, buildData: IBuildData) {
   try {
-    const {appPath, outputDirName, tempPath} = buildData
+    const { appPath, outputDirName, tempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, H5_OUTPUT_NAME)
     const tempEntryFilePath = resolveScriptPath(path.join(tempPath, uiIndex))
     const outputEntryFilePath = path.join(outputDir, path.basename(tempEntryFilePath))
@@ -59,7 +59,7 @@ async function buildH5Lib (uiIndex, buildData: IBuildData) {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(tempEntryFilePath)
     })
-    const {styleFiles, components, code: generateCode} = parseEntryAst(transformResult.ast, tempEntryFilePath)
+    const { styleFiles, components, code: generateCode } = parseEntryAst(transformResult.ast, tempEntryFilePath)
     const relativePath = path.relative(appPath, tempEntryFilePath)
     printLog(processTypeEnum.COPY, '发现文件', relativePath)
     fs.ensureDirSync(path.dirname(outputEntryFilePath))

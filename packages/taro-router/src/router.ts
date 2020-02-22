@@ -1,7 +1,7 @@
 import UniversalRouter, { Routes } from 'universal-router'
 import { AppConfig, PageConfig } from '@tarojs/taro'
 import { LocationListener, LocationState } from 'history'
-import { createReactApp, createPageConfig, Current, createVueApp, PageInstance } from '@tarojs/runtime'
+import { createReactApp, createPageConfig, Current, createVueApp, PageInstance, eventCenter } from '@tarojs/runtime'
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
@@ -88,6 +88,12 @@ export function createRouter (App, config: RouterConfig, framework: 'react' | 'v
   const render: LocationListener<LocationState> = async (location, action) => {
     const element = await router.resolve(location.pathname)
     const pageConfig = config.routes.find(r => addLeadingSlash(r.path) === location.pathname)
+
+    eventCenter.trigger('__taroRouterChange', {
+      toLocation: {
+        path: location.pathname
+      }
+    })
 
     if (pageConfig) {
       document.title = pageConfig.navigationBarTitleText ?? document.title

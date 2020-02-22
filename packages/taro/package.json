@@ -27,6 +27,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+    "@tarojs/router": "^3.0.0-alpha.4",
     "@tarojs/runtime": "3.0.0-alpha.4"
   }
 }

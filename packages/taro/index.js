@@ -15,6 +15,13 @@ if (process.env.TARO_ENV === 'alipay') {
   api = require('./lib/tt')
 } else if (process.env.TARO_ENV === 'weapp') {
   api = require('./lib/wx')
+} else if (process.env.TARO_ENV === 'h5') {
+  api = require('@tarojs/router')
+  for (const key in api) {
+    if (api.hasOwnProperty(key)) {
+      Taro[key] = api[key]
+    }
+  }
 }
 
 // 兼容不同工具的 import 机制，如 Jest, rollup
