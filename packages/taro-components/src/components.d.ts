@@ -37,16 +37,6 @@ export namespace Components {
     'type': string;
   }
   interface TaroCamera {}
-  interface TaroCheckbox {
-    'checked': boolean;
-    'color': string;
-    'id': string;
-    'name': string;
-    'value': string;
-  }
-  interface TaroCheckboxGroup {
-    'name': any;
-  }
   interface TaroCoverImage {}
   interface TaroCoverView {}
   interface TaroForm {}
@@ -101,15 +91,6 @@ export namespace Components {
     'prefixCls': string;
     'refreshing': string;
   }
-  interface TaroRadio {
-    'checked': boolean;
-    'id': string;
-    'name': string;
-    'value': string;
-  }
-  interface TaroRadioGroup {
-    'name': any;
-  }
   interface TaroSlider {
     'activeColor': string;
     'backgroundColor': string;
@@ -146,6 +127,9 @@ export namespace Components {
     'hoverStartTime': number;
     'hoverStayTime': number;
   }
+  interface TaroWebView {
+    'src': string;
+  }
 }
 
 declare global {
@@ -173,18 +157,6 @@ declare global {
   var HTMLTaroCameraElement: {
     prototype: HTMLTaroCameraElement;
     new (): HTMLTaroCameraElement;
-  };
-
-  interface HTMLTaroCheckboxElement extends Components.TaroCheckbox, HTMLStencilElement {}
-  var HTMLTaroCheckboxElement: {
-    prototype: HTMLTaroCheckboxElement;
-    new (): HTMLTaroCheckboxElement;
-  };
-
-  interface HTMLTaroCheckboxGroupElement extends Components.TaroCheckboxGroup, HTMLStencilElement {}
-  var HTMLTaroCheckboxGroupElement: {
-    prototype: HTMLTaroCheckboxGroupElement;
-    new (): HTMLTaroCheckboxGroupElement;
   };
 
   interface HTMLTaroCoverImageElement extends Components.TaroCoverImage, HTMLStencilElement {}
@@ -271,18 +243,6 @@ declare global {
     new (): HTMLTaroPullToRefreshElement;
   };
 
-  interface HTMLTaroRadioElement extends Components.TaroRadio, HTMLStencilElement {}
-  var HTMLTaroRadioElement: {
-    prototype: HTMLTaroRadioElement;
-    new (): HTMLTaroRadioElement;
-  };
-
-  interface HTMLTaroRadioGroupElement extends Components.TaroRadioGroup, HTMLStencilElement {}
-  var HTMLTaroRadioGroupElement: {
-    prototype: HTMLTaroRadioGroupElement;
-    new (): HTMLTaroRadioGroupElement;
-  };
-
   interface HTMLTaroSliderElement extends Components.TaroSlider, HTMLStencilElement {}
   var HTMLTaroSliderElement: {
     prototype: HTMLTaroSliderElement;
@@ -318,13 +278,17 @@ declare global {
     prototype: HTMLTaroViewElement;
     new (): HTMLTaroViewElement;
   };
+
+  interface HTMLTaroWebViewElement extends Components.TaroWebView, HTMLStencilElement {}
+  var HTMLTaroWebViewElement: {
+    prototype: HTMLTaroWebViewElement;
+    new (): HTMLTaroWebViewElement;
+  };
   interface HTMLElementTagNameMap {
     'taro-audio': HTMLTaroAudioElement;
     'taro-block': HTMLTaroBlockElement;
     'taro-button': HTMLTaroButtonElement;
     'taro-camera': HTMLTaroCameraElement;
-    'taro-checkbox': HTMLTaroCheckboxElement;
-    'taro-checkbox-group': HTMLTaroCheckboxGroupElement;
     'taro-cover-image': HTMLTaroCoverImageElement;
     'taro-cover-view': HTMLTaroCoverViewElement;
     'taro-form': HTMLTaroFormElement;
@@ -339,14 +303,13 @@ declare global {
     'taro-picker-view-column': HTMLTaroPickerViewColumnElement;
     'taro-progress': HTMLTaroProgressElement;
     'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
-    'taro-radio': HTMLTaroRadioElement;
-    'taro-radio-group': HTMLTaroRadioGroupElement;
     'taro-slider': HTMLTaroSliderElement;
     'taro-switch': HTMLTaroSwitchElement;
     'taro-tabbar': HTMLTaroTabbarElement;
     'taro-text': HTMLTaroTextElement;
     'taro-textarea': HTMLTaroTextareaElement;
     'taro-view': HTMLTaroViewElement;
+    'taro-web-view': HTMLTaroWebViewElement;
   }
 }
 
@@ -375,18 +338,6 @@ declare namespace LocalJSX {
     'type'?: string;
   }
   interface TaroCamera {}
-  interface TaroCheckbox {
-    'checked'?: boolean;
-    'color'?: string;
-    'id'?: string;
-    'name'?: string;
-    'onCheckboxchange'?: (event: CustomEvent<any>) => void;
-    'value'?: string;
-  }
-  interface TaroCheckboxGroup {
-    'name'?: any;
-    'onChange'?: (event: CustomEvent<any>) => void;
-  }
   interface TaroCoverImage {}
   interface TaroCoverView {}
   interface TaroForm {
@@ -456,17 +407,6 @@ declare namespace LocalJSX {
     'prefixCls'?: string;
     'refreshing'?: string;
   }
-  interface TaroRadio {
-    'checked'?: boolean;
-    'id'?: string;
-    'name'?: string;
-    'onRadiochange'?: (event: CustomEvent<any>) => void;
-    'value'?: string;
-  }
-  interface TaroRadioGroup {
-    'name'?: any;
-    'onChange'?: (event: CustomEvent<any>) => void;
-  }
   interface TaroSlider {
     'activeColor'?: string;
     'backgroundColor'?: string;
@@ -512,14 +452,17 @@ declare namespace LocalJSX {
     'hoverStayTime'?: number;
     'onLongpress'?: (event: CustomEvent<any>) => void;
   }
+  interface TaroWebView {
+    'onError'?: (event: CustomEvent<any>) => void;
+    'onLoad'?: (event: CustomEvent<any>) => void;
+    'src'?: string;
+  }
 
   interface IntrinsicElements {
     'taro-audio': TaroAudio;
     'taro-block': TaroBlock;
     'taro-button': TaroButton;
     'taro-camera': TaroCamera;
-    'taro-checkbox': TaroCheckbox;
-    'taro-checkbox-group': TaroCheckboxGroup;
     'taro-cover-image': TaroCoverImage;
     'taro-cover-view': TaroCoverView;
     'taro-form': TaroForm;
@@ -534,14 +477,13 @@ declare namespace LocalJSX {
     'taro-picker-view-column': TaroPickerViewColumn;
     'taro-progress': TaroProgress;
     'taro-pull-to-refresh': TaroPullToRefresh;
-    'taro-radio': TaroRadio;
-    'taro-radio-group': TaroRadioGroup;
     'taro-slider': TaroSlider;
     'taro-switch': TaroSwitch;
     'taro-tabbar': TaroTabbar;
     'taro-text': TaroText;
     'taro-textarea': TaroTextarea;
     'taro-view': TaroView;
+    'taro-web-view': TaroWebView;
   }
 }
 
@@ -555,8 +497,6 @@ declare module "@stencil/core" {
       'taro-block': LocalJSX.TaroBlock & JSXBase.HTMLAttributes<HTMLTaroBlockElement>;
       'taro-button': LocalJSX.TaroButton & JSXBase.HTMLAttributes<HTMLTaroButtonElement>;
       'taro-camera': LocalJSX.TaroCamera & JSXBase.HTMLAttributes<HTMLTaroCameraElement>;
-      'taro-checkbox': LocalJSX.TaroCheckbox & JSXBase.HTMLAttributes<HTMLTaroCheckboxElement>;
-      'taro-checkbox-group': LocalJSX.TaroCheckboxGroup & JSXBase.HTMLAttributes<HTMLTaroCheckboxGroupElement>;
       'taro-cover-image': LocalJSX.TaroCoverImage & JSXBase.HTMLAttributes<HTMLTaroCoverImageElement>;
       'taro-cover-view': LocalJSX.TaroCoverView & JSXBase.HTMLAttributes<HTMLTaroCoverViewElement>;
       'taro-form': LocalJSX.TaroForm & JSXBase.HTMLAttributes<HTMLTaroFormElement>;
@@ -571,14 +511,13 @@ declare module "@stencil/core" {
       'taro-picker-view-column': LocalJSX.TaroPickerViewColumn & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnElement>;
       'taro-progress': LocalJSX.TaroProgress & JSXBase.HTMLAttributes<HTMLTaroProgressElement>;
       'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
-      'taro-radio': LocalJSX.TaroRadio & JSXBase.HTMLAttributes<HTMLTaroRadioElement>;
-      'taro-radio-group': LocalJSX.TaroRadioGroup & JSXBase.HTMLAttributes<HTMLTaroRadioGroupElement>;
       'taro-slider': LocalJSX.TaroSlider & JSXBase.HTMLAttributes<HTMLTaroSliderElement>;
       'taro-switch': LocalJSX.TaroSwitch & JSXBase.HTMLAttributes<HTMLTaroSwitchElement>;
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
       'taro-text': LocalJSX.TaroText & JSXBase.HTMLAttributes<HTMLTaroTextElement>;
       'taro-textarea': LocalJSX.TaroTextarea & JSXBase.HTMLAttributes<HTMLTaroTextareaElement>;
       'taro-view': LocalJSX.TaroView & JSXBase.HTMLAttributes<HTMLTaroViewElement>;
+      'taro-web-view': LocalJSX.TaroWebView & JSXBase.HTMLAttributes<HTMLTaroWebViewElement>;
     }
   }
 }
