@@ -16,8 +16,6 @@ export interface RouterConfig extends AppConfig {
   routes: Route[]
 }
 
-let prevPage: PageInstance | null = null
-
 function addLeadingSlash (path?: string) {
   if (path == null) {
     return ''
@@ -28,7 +26,6 @@ function addLeadingSlash (path?: string) {
 function hidePage (page: PageInstance | null) {
   if (page != null) {
     page.onHide!()
-    prevPage = stacks.pop()!
     const pageEl = document.getElementById(page.path!)
     if (pageEl) {
       pageEl.style.display = 'none'
@@ -43,6 +40,8 @@ function showPage (page: PageInstance | null) {
     const pageEl = document.getElementById(page.path!)
     if (pageEl) {
       pageEl.style.display = 'block'
+    } else {
+      page.onLoad(qs())
     }
   }
 }
@@ -50,7 +49,7 @@ function showPage (page: PageInstance | null) {
 function unloadPage (page: PageInstance | null) {
   if (page != null) {
     page.onHide!()
-    prevPage = stacks.pop()!
+    stacks.pop()
     page.onUnload()
   }
 }
@@ -99,16 +98,25 @@ export function createRouter (App, config: RouterConfig, framework: 'react' | 'v
       document.title = pageConfig.navigationBarTitleText ?? document.title
     }
 
+    let shouldLoad = false
+
     if (action === 'POP') {
-      const prev = prevPage
       unloadPage(Current.page)
-      showPage(prev)
+      const prev = stacks.find(s => s.path === location.pathname)
+      if (prev) {
+        showPage(prev)
+      } else {
+        shouldLoad = true
+      }
     } else if (action === 'PUSH') {
       hidePage(Current.page)
-      const page = createPageConfig(element.default ?? element, location.pathname)
-      loadPage(page)
+      shouldLoad = true
     } else if (action === 'REPLACE') {
       unloadPage(Current.page)
+      shouldLoad = true
+    }
+
+    if (shouldLoad) {
       const page = createPageConfig(element.default ?? element, location.pathname)
       loadPage(page)
     }
