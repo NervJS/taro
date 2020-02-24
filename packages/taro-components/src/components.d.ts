@@ -14,6 +14,9 @@ import {
   Mode,
 } from './components/image/image';
 import {
+  Nodes,
+} from './components/rich-text/rich-text';
+import {
   Conf,
 } from './components/tabbar/tabbar';
 
@@ -109,6 +112,9 @@ export namespace Components {
   }
   interface TaroRadioGroup {
     'name': any;
+  }
+  interface TaroRichText {
+    'nodes': Nodes;
   }
   interface TaroSlider {
     'activeColor': string;
@@ -286,6 +292,12 @@ declare global {
     new (): HTMLTaroRadioGroupElement;
   };
 
+  interface HTMLTaroRichTextElement extends Components.TaroRichText, HTMLStencilElement {}
+  var HTMLTaroRichTextElement: {
+    prototype: HTMLTaroRichTextElement;
+    new (): HTMLTaroRichTextElement;
+  };
+
   interface HTMLTaroSliderElement extends Components.TaroSlider, HTMLStencilElement {}
   var HTMLTaroSliderElement: {
     prototype: HTMLTaroSliderElement;
@@ -350,6 +362,7 @@ declare global {
     'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
     'taro-radio': HTMLTaroRadioElement;
     'taro-radio-group': HTMLTaroRadioGroupElement;
+    'taro-rich-text': HTMLTaroRichTextElement;
     'taro-slider': HTMLTaroSliderElement;
     'taro-switch': HTMLTaroSwitchElement;
     'taro-tabbar': HTMLTaroTabbarElement;
@@ -477,6 +490,9 @@ declare namespace LocalJSX {
     'name'?: any;
     'onChange'?: (event: CustomEvent<any>) => void;
   }
+  interface TaroRichText {
+    'nodes'?: Nodes;
+  }
   interface TaroSlider {
     'activeColor'?: string;
     'backgroundColor'?: string;
@@ -551,6 +567,7 @@ declare namespace LocalJSX {
     'taro-pull-to-refresh': TaroPullToRefresh;
     'taro-radio': TaroRadio;
     'taro-radio-group': TaroRadioGroup;
+    'taro-rich-text': TaroRichText;
     'taro-slider': TaroSlider;
     'taro-switch': TaroSwitch;
     'taro-tabbar': TaroTabbar;
@@ -589,6 +606,7 @@ declare module "@stencil/core" {
       'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
       'taro-radio': LocalJSX.TaroRadio & JSXBase.HTMLAttributes<HTMLTaroRadioElement>;
       'taro-radio-group': LocalJSX.TaroRadioGroup & JSXBase.HTMLAttributes<HTMLTaroRadioGroupElement>;
+      'taro-rich-text': LocalJSX.TaroRichText & JSXBase.HTMLAttributes<HTMLTaroRichTextElement>;
       'taro-slider': LocalJSX.TaroSlider & JSXBase.HTMLAttributes<HTMLTaroSliderElement>;
       'taro-switch': LocalJSX.TaroSwitch & JSXBase.HTMLAttributes<HTMLTaroSwitchElement>;
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
