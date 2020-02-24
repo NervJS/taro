@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.5",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -31,7 +31,7 @@
   "license": "MIT",
   "dependencies": {
     "@stencil/core": "^1.8.1",
-    "@tarojs/taro": "3.0.0-alpha.4",
+    "@tarojs/taro": "^3.0.0-alpha.5",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@stencil/sass": "^1.1.1",
-    "@tarojs/taro-h5": "3.0.0-alpha.4",
+    "@tarojs/taro-h5": "^3.0.0-alpha.5",
     "jquery": "^3.4.1",
     "simulant": "^0.2.2",
     "workbox-build": "4.3.1"

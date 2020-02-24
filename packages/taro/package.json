@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.5",
   "description": "Taro framework",
   "main": "index.js",
   "typings": "types/index.d.ts",
@@ -27,7 +27,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/router": "^3.0.0-alpha.4",
-    "@tarojs/runtime": "3.0.0-alpha.4"
+    "@tarojs/router": "^3.0.0-alpha.5",
+    "@tarojs/runtime": "^3.0.0-alpha.5"
   }
 }
