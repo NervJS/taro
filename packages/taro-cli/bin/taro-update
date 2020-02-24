@@ -3,13 +3,13 @@ const path = require('path')
 const fs = require('fs-extra')
 const program = require('commander')
 const chalk = require('chalk')
-const { getPkgItemByKey, shouldUseYarn, shouldUseCnpm } = require(
+const {getPkgItemByKey, shouldUseYarn, shouldUseCnpm} = require(
   '../dist/util')
 const ora = require('ora')
 const exec = require('child_process').exec
 const getLatestVersion = require('latest-version')
 const semver = require('semver')
-const { PROJECT_CONFIG, UPDATE_PACKAGE_LIST } = require(
+const {PROJECT_CONFIG, UPDATE_PACKAGE_LIST} = require(
   '../dist/util/constants')
 const projectConfPath = path.join(process.cwd(), PROJECT_CONFIG)
 const pkgPath = path.join(process.cwd(), 'package.json')
@@ -108,6 +108,9 @@ async function updateProject () {
     if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
       if (key.includes('nerv')) {
         packageMap.dependencies[key] = nervJSVersion
+      } else if (key.includes('react-native')) {
+        // delete old version react-native,and will update when run taro build
+        delete packageMap.dependencies[key]
       } else {
         packageMap.dependencies[key] = version
       }
@@ -125,7 +128,7 @@ async function updateProject () {
 
   // 写入package.json
   try {
-    await fs.writeJson(pkgPath, packageMap, { spaces: '\t' })
+    await fs.writeJson(pkgPath, packageMap, {spaces: '\t'})
     console.log(chalk.green('更新项目 package.json 成功！'))
     console.log()
   } catch (err) {
