@@ -106,7 +106,7 @@ export class Prerender {
     const pages = validatePrerenderPages(Object.keys(this.stat.entrypoints!), this.prerenderConfig)
 
     if (!this.prerenderConfig.console && !this.appLoaded) {
-      process.on('unhandledRejection', noop);
+      process.on('unhandledRejection', noop)
     }
 
     await this.writeScript('app')
@@ -162,7 +162,8 @@ export class Prerender {
       return data[Shortcuts.Text]
     }
 
-    if (data['disablePrerender' ]|| data['disable-prerender']) {
+    // eslint-disable-next-line dot-notation
+    if (data['disablePrerender'] || data['disable-prerender']) {
       return ''
     }
 

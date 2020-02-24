@@ -293,11 +293,11 @@ const CoverView = {
   'scroll-top': 'false'
 }
 
-const MoveableArea = {
+const MovableArea = {
   'scale-area': 'false'
 }
 
-const MoveableView = {
+const MovableView = {
   direction: 'none',
   inertia: 'false',
   'out-of-bounds': 'false',
@@ -615,8 +615,8 @@ export const internalComponents = {
   CoverImage,
   Textarea,
   CoverView,
-  MoveableArea,
-  MoveableView,
+  MovableArea,
+  MovableView,
   ScrollView,
   Swiper,
   SwiperItem,
