@@ -14,6 +14,6 @@ export default React.forwardRef((props, ref) => {
   }
 
   return (
-    React.createElement(Index, { ...args, ref: ref })
+    React.createElement(Input, { ...args, ref: ref })
   )
 })
