@@ -49,6 +49,17 @@ const reactifyWebComponent = WC => {
             : val
           return
         }
+        if (prop === 'style') {
+          if (typeof val === 'string') {
+            return this.ref.current.setAttribute(prop, val)
+          } else if (val && typeof val === 'object') {
+            for (const key in val) {
+              this.ref.current.style[key] = val[key]
+            }
+            return
+          }
+          return
+        }
         if (typeof val === 'function' && prop.match(/^on[A-Z]/)) {
           const event = prop.substr(2).toLowerCase()
           this.eventHandlers.push([event, val])

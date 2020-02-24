@@ -40,6 +40,10 @@ export namespace Components {
     'type': string;
   }
   interface TaroCamera {}
+  interface TaroCanvas {
+    'canvasId': string;
+    'type': string;
+  }
   interface TaroCheckbox {
     'checked': boolean;
     'color': string;
@@ -182,6 +186,12 @@ declare global {
   var HTMLTaroCameraElement: {
     prototype: HTMLTaroCameraElement;
     new (): HTMLTaroCameraElement;
+  };
+
+  interface HTMLTaroCanvasElement extends Components.TaroCanvas, HTMLStencilElement {}
+  var HTMLTaroCanvasElement: {
+    prototype: HTMLTaroCanvasElement;
+    new (): HTMLTaroCanvasElement;
   };
 
   interface HTMLTaroCheckboxElement extends Components.TaroCheckbox, HTMLStencilElement {}
@@ -344,6 +354,7 @@ declare global {
     'taro-block': HTMLTaroBlockElement;
     'taro-button': HTMLTaroButtonElement;
     'taro-camera': HTMLTaroCameraElement;
+    'taro-canvas': HTMLTaroCanvasElement;
     'taro-checkbox': HTMLTaroCheckboxElement;
     'taro-checkbox-group': HTMLTaroCheckboxGroupElement;
     'taro-cover-image': HTMLTaroCoverImageElement;
@@ -398,6 +409,11 @@ declare namespace LocalJSX {
     'type'?: string;
   }
   interface TaroCamera {}
+  interface TaroCanvas {
+    'canvasId'?: string;
+    'onLongtap'?: (event: CustomEvent<any>) => void;
+    'type'?: string;
+  }
   interface TaroCheckbox {
     'checked'?: boolean;
     'color'?: string;
@@ -549,6 +565,7 @@ declare namespace LocalJSX {
     'taro-block': TaroBlock;
     'taro-button': TaroButton;
     'taro-camera': TaroCamera;
+    'taro-canvas': TaroCanvas;
     'taro-checkbox': TaroCheckbox;
     'taro-checkbox-group': TaroCheckboxGroup;
     'taro-cover-image': TaroCoverImage;
@@ -588,6 +605,7 @@ declare module "@stencil/core" {
       'taro-block': LocalJSX.TaroBlock & JSXBase.HTMLAttributes<HTMLTaroBlockElement>;
       'taro-button': LocalJSX.TaroButton & JSXBase.HTMLAttributes<HTMLTaroButtonElement>;
       'taro-camera': LocalJSX.TaroCamera & JSXBase.HTMLAttributes<HTMLTaroCameraElement>;
+      'taro-canvas': LocalJSX.TaroCanvas & JSXBase.HTMLAttributes<HTMLTaroCanvasElement>;
       'taro-checkbox': LocalJSX.TaroCheckbox & JSXBase.HTMLAttributes<HTMLTaroCheckboxElement>;
       'taro-checkbox-group': LocalJSX.TaroCheckboxGroup & JSXBase.HTMLAttributes<HTMLTaroCheckboxGroupElement>;
       'taro-cover-image': LocalJSX.TaroCoverImage & JSXBase.HTMLAttributes<HTMLTaroCoverImageElement>;
