@@ -49,7 +49,7 @@ function Versions (props) {
               </tr>
             </tbody>
           </table>
-          <h3 id='latest'>Taro Next</h3>
+          <h3 id='next'>Taro Next</h3>
           <p>Taro 3.0 的文档和源码</p>
           <table className='versions'>
             <tbody>
@@ -57,7 +57,7 @@ function Versions (props) {
                 <th>next</th>
                 <td>
                   <a
-                    href='https://nervjs.github.io/taro/next/docs/README.html'
+                    href='https://taro-docs.jd.com/taro/next/docs/README.html'
                   >
                   文档
                   </a>
