@@ -1,10 +1,9 @@
 import React from 'react'
 import reactifyWc from '../utils/reactify-wc'
+const Input = reactifyWc('taro-input')
 
 // eslint-disable-next-line
 const h = React.createElement
-
-const Input = reactifyWc('taro-input')
 
 export default React.forwardRef((props, ref) => {
   const args = { ...props }
@@ -15,6 +14,6 @@ export default React.forwardRef((props, ref) => {
   }
 
   return (
-    <Input {...args} ref={ref} />
+    React.createElement(Index, { ...args, ref: ref })
   )
 })

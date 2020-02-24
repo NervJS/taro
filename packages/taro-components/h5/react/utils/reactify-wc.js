@@ -112,7 +112,7 @@ const reactifyWebComponent = WC => {
     }
   }
   return React.forwardRef((props, ref) => (
-    <Index {...props} forwardRef={ref} />
+    React.createElement(Index, { ...props, forwardRef: ref })
   ))
 }
 
