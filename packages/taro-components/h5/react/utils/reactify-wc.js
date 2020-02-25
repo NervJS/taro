@@ -7,6 +7,8 @@ import React, { createRef, createElement } from 'react'
 // eslint-disable-next-line
 const h = React.createElement
 
+const SCROLL_VIEW = 'taro-scroll-view'
+
 // 为了不要覆盖 wc 中 host 内置的 class 和 stencil 加入的 class
 function getClassName (wc, prevProps, props) {
   const classList = Array.from(wc.classList)
@@ -59,6 +61,20 @@ const reactifyWebComponent = WC => {
             return
           }
           return
+        }
+        if (WC === SCROLL_VIEW) {
+          if (prop === 'scrollTop') {
+            this.ref.current.mpScrollTop = val
+            return
+          }
+          if (prop === 'scrollLeft') {
+            this.ref.current.mpScrollLeft = val
+            return
+          }
+          if (prop === 'scrollIntoView') {
+            this.ref.current.mpScrollIntoView = val
+            return
+          }
         }
         if (typeof val === 'function' && prop.match(/^on[A-Z]/)) {
           const event = prop.substr(2).toLowerCase()

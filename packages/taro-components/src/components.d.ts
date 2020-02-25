@@ -120,6 +120,16 @@ export namespace Components {
   interface TaroRichText {
     'nodes': Nodes;
   }
+  interface TaroScrollView {
+    'lowerThreshold': number | string;
+    'mpScrollIntoView': string;
+    'mpScrollLeft': number | string;
+    'mpScrollTop': number | string;
+    'scrollWithAnimation': boolean;
+    'scrollX': boolean;
+    'scrollY': boolean;
+    'upperThreshold': number | string;
+  }
   interface TaroSlider {
     'activeColor': string;
     'backgroundColor': string;
@@ -308,6 +318,12 @@ declare global {
     new (): HTMLTaroRichTextElement;
   };
 
+  interface HTMLTaroScrollViewElement extends Components.TaroScrollView, HTMLStencilElement {}
+  var HTMLTaroScrollViewElement: {
+    prototype: HTMLTaroScrollViewElement;
+    new (): HTMLTaroScrollViewElement;
+  };
+
   interface HTMLTaroSliderElement extends Components.TaroSlider, HTMLStencilElement {}
   var HTMLTaroSliderElement: {
     prototype: HTMLTaroSliderElement;
@@ -374,6 +390,7 @@ declare global {
     'taro-radio': HTMLTaroRadioElement;
     'taro-radio-group': HTMLTaroRadioGroupElement;
     'taro-rich-text': HTMLTaroRichTextElement;
+    'taro-scroll-view': HTMLTaroScrollViewElement;
     'taro-slider': HTMLTaroSliderElement;
     'taro-switch': HTMLTaroSwitchElement;
     'taro-tabbar': HTMLTaroTabbarElement;
@@ -509,6 +526,19 @@ declare namespace LocalJSX {
   interface TaroRichText {
     'nodes'?: Nodes;
   }
+  interface TaroScrollView {
+    'lowerThreshold'?: number | string;
+    'mpScrollIntoView'?: string;
+    'mpScrollLeft'?: number | string;
+    'mpScrollTop'?: number | string;
+    'onScroll'?: (event: CustomEvent<any>) => void;
+    'onScrolltolower'?: (event: CustomEvent<any>) => void;
+    'onScrolltoupper'?: (event: CustomEvent<any>) => void;
+    'scrollWithAnimation'?: boolean;
+    'scrollX'?: boolean;
+    'scrollY'?: boolean;
+    'upperThreshold'?: number | string;
+  }
   interface TaroSlider {
     'activeColor'?: string;
     'backgroundColor'?: string;
@@ -585,6 +615,7 @@ declare namespace LocalJSX {
     'taro-radio': TaroRadio;
     'taro-radio-group': TaroRadioGroup;
     'taro-rich-text': TaroRichText;
+    'taro-scroll-view': TaroScrollView;
     'taro-slider': TaroSlider;
     'taro-switch': TaroSwitch;
     'taro-tabbar': TaroTabbar;
@@ -625,6 +656,7 @@ declare module "@stencil/core" {
       'taro-radio': LocalJSX.TaroRadio & JSXBase.HTMLAttributes<HTMLTaroRadioElement>;
       'taro-radio-group': LocalJSX.TaroRadioGroup & JSXBase.HTMLAttributes<HTMLTaroRadioGroupElement>;
       'taro-rich-text': LocalJSX.TaroRichText & JSXBase.HTMLAttributes<HTMLTaroRichTextElement>;
+      'taro-scroll-view': LocalJSX.TaroScrollView & JSXBase.HTMLAttributes<HTMLTaroScrollViewElement>;
       'taro-slider': LocalJSX.TaroSlider & JSXBase.HTMLAttributes<HTMLTaroSliderElement>;
       'taro-switch': LocalJSX.TaroSwitch & JSXBase.HTMLAttributes<HTMLTaroSwitchElement>;
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
