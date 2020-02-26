@@ -10,48 +10,48 @@ interface LivePlayerProps extends StandardProps {
 
   /** 音视频地址。目前仅支持 flv, rtmp 格式
    */
-  src: string
+  src?: string
 
   /** live（直播），RTC（实时通话）
    * 默认值：`live`
    */
-  mode: 'live' | 'RTC'
+  mode?: 'live' | 'RTC'
 
   /** 自动播放
    * 默认值：`false`
    */
-  autoplay: boolean
+  autoplay?: boolean
 
   /** 是否静音
    * 默认值：`false`
    */
-  muted: boolean
+  muted?: boolean
 
   /** 画面方向，可选值有 vertical，horizontal
    * 默认值：`vertical`
    */
-  orientation: 'vertical' | 'horizontal'
+  orientation?: 'vertical' | 'horizontal'
 
   /** 填充模式，可选值有 contain，fillCrop
    * 默认值：`contain`
    */
-  objectFit: 'contain' | 'fillCrop'
+  objectFit?: 'contain' | 'fillCrop'
 
   /** @deprecated
    * 进入后台时是否静音（已废弃，默认退台静音）
    * 默认值：`false`
    */
-  backgroundMute: boolean
+  backgroundMute?: boolean
 
   /** 进最小缓冲区，单位s
    * 默认值：`1`
    */
-  minCache: number
+  minCache?: number
 
   /** 进最小缓冲区，单位s
    * 默认值：`3`
    */
-  maxCache: number
+  maxCache?: number
 
   /** 播放状态变化事件，detail = {code}
    */
