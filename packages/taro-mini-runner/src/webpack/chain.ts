@@ -350,7 +350,9 @@ export const getModule = (appPath: string, {
 
                 const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)
                 if (usingComponent != null) {
-                  el.attrsList.filter(a => !a.dynamic).map(a => usingComponent.add(a.name))
+                  el.attrsList
+                    .filter(a => !a.dynamic)
+                    .forEach(a => usingComponent.add(a.name.startsWith(':') ? a.name.slice(1) : a.name))
                 }
 
                 return el
