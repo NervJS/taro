@@ -32,6 +32,8 @@ const stopPropagationExpr = require('babel-template')(`typeof e === 'object' && 
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
+const NODE_MODULES = 'node_modules'
+
 function buildConstructor () {
   const ctor = t.classMethod(
     'constructor',
@@ -211,7 +213,13 @@ class Transformer {
   }
 
   setComponentPath () {
-    let componentPath = this.sourcePath.replace(this.sourceDir, '')
+    let componentPath
+    const nodeModulesIndex = this.sourcePath.indexOf(NODE_MODULES)
+    if (nodeModulesIndex >= 0) {
+      componentPath = this.sourcePath.substring(nodeModulesIndex)
+    } else {
+      componentPath = this.sourcePath.replace(this.sourceDir, '')
+    }
     componentPath = componentPath.replace(extname(componentPath), '')
     componentPath = componentPath.split(sep).join('/')
     if (componentPath.startsWith('/')) {

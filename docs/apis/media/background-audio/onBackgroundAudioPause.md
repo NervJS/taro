@@ -1,16 +1,26 @@
 ---
-title: Taro.onBackgroundAudioPause(CALLBACK)
+title: Taro.onBackgroundAudioPause(callback)
 sidebar_label: onBackgroundAudioPause
 ---
 
-
 监听音乐暂停。
 
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.onBackgroundAudioPause.html)
 
+## 类型
 
-## API支持度
+```tsx
+(callback: (res: CallbackResult) => void) => void
+```
 
+## 参数
 
-| API | 微信小程序 | H5 | React Native | 支付宝小程序 | 百度小程序 |
-| :-: | :-: | :-: | :-: | :-: | :-: |
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| callback | `(res: CallbackResult) => void` | 音乐暂停事件的回调函数 |
+
+## API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
 | Taro.onBackgroundAudioPause | ✔️ |  |  |

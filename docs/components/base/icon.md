@@ -3,30 +3,19 @@ title: Icon
 sidebar_label: Icon
 ---
 
-##### 图标
+图标。组件属性的长度单位默认为 px
 
-> 属性
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/icon.html)
 
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| type | String |    | icon 的类型，有效值：success, success_no_circle, info, warn, waiting, cancel, download, search, clear |
-| size | Number | 23 | icon 的大小，单位 px |
-| color | Color  |    | icon 的颜色，同 css 的 color |
+## 类型
 
->各端支持度
+```tsx
+ComponentType<IconProps>
+```
 
-| 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
-| :-: | :-: | :-: | :- | :- | :- | :- |
-| type | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| size | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| color | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+## 示例代码
 
-
-###### 示例：
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-import { View, Icon } from '@tarojs/components'
-
+```tsx
 export default class PageView extends Component {
   constructor() {
     super(...arguments)
@@ -50,3 +39,42 @@ export default class PageView extends Component {
     )
   }
 }
+```
+
+## IconProps
+
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| type | "success" or "success_no_circle" or "info" or "warn" or "waiting" or "cancel" or "download" or "search" or "clear" |  | 是 | icon 的类型 |
+| size | `string` | `23` | 否 | icon 的大小，单位px |
+| color | `string` |  | 否 | icon 的颜色，同 css 的 color |
+
+### API 支持度
+
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| IconProps.type | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| IconProps.size | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| IconProps.color | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+### TIconType
+
+icon 的类型
+
+| 参数 | 说明 |
+| --- | --- |
+| success | 成功图标 |
+| success_no_circle | 成功图标（不带外圈） |
+| info | 信息图标 |
+| warn | 警告图标 |
+| waiting | 等待图标 |
+| cancel | 取消图标 |
+| download | 下载图标 |
+| search | 搜索图标 |
+| clear | 清楚图标 |
+
+## API 支持度
+
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Icon | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

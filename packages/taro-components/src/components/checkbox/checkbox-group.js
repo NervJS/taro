@@ -40,7 +40,7 @@ class CheckboxGroup extends Nerv.Component {
       (item, i) => {
         let _key = item.props.for
         const chd = Nerv.Children.toArray(item.props.children).map(ch => {
-          if (ch.name === 'Checkbox') {
+          if (ch && ch.name === 'Checkbox') {
             if (ch.props.checked) {
               this.state.value[i] = {
                 name: ch.props.name,

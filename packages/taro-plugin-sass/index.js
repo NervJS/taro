@@ -50,7 +50,7 @@ module.exports = function compileSass (content, file, config) {
 
     const opts = Object.assign({}, config, {
       file,
-      data: bundledContent ? bundledContent + content : content
+      data: bundledContent ? bundledContent + (content ? content : '') : content
     })
 
     let result

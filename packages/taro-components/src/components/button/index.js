@@ -34,7 +34,7 @@ class Button extends Nerv.Component {
     const cls = className || classNames(
       'weui-btn',
       {
-        [`${hoverClass}`]: this.state.hover && !disabled,
+        [`${hoverClass}`]: this.state.hover && !disabled && hoverClass !== 'none',
         [`weui-btn_plain-${type}`]: plain,
         [`weui-btn_${type}`]: !plain && type,
         'weui-btn_mini': size === 'mini',
@@ -47,7 +47,7 @@ class Button extends Nerv.Component {
       this.setState(() => ({
         touch: true
       }))
-      if (hoverClass && !disabled) {
+      if (hoverClass && hoverClass !== 'none' && !disabled) {
         setTimeout(() => {
           if (this.state.touch) {
             this.setState(() => ({
@@ -62,7 +62,7 @@ class Button extends Nerv.Component {
       this.setState(() => ({
         touch: false
       }))
-      if (hoverClass && !disabled) {
+      if (hoverClass && hoverClass !== 'none' && !disabled) {
         setTimeout(() => {
           if (!this.state.touch) {
             this.setState(() => ({
