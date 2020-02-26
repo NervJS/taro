@@ -31,7 +31,7 @@ export const functionalComponent: () => {
         if (arrowFuncExpr && arrowFuncExpr.isArrowFunctionExpression()) {
           if (arrowFuncExpr.parentPath.isVariableDeclarator()) {
             const valDecl = arrowFuncExpr.parentPath.parentPath
-            if (!valDecl.isVariableDeclaration() && !valDecl.isFunctionDeclaration()) {
+            if (!valDecl.isVariableDeclaration() && !valDecl.isFunctionDeclaration() && !valDecl.isFunctionExpression()) {
               throw codeFrameError(valDecl.node, '函数式组件不能同时定义多个值')
             }
             const id = arrowFuncExpr.parentPath.node.id

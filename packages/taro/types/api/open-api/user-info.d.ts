@@ -67,7 +67,7 @@ declare namespace Taro {
    *   "unionId": "UNIONID",
    *   "watermark": {
    *     "appid":"APPID",
-   *     "timestamp":TIMESTAMP
+   *     "timestamp": TIMESTAMP
    *   }
    * }
    * ```

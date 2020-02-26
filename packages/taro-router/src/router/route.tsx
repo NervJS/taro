@@ -61,8 +61,10 @@ class Route extends Taro.Component<RouteProps, {}> {
   }
 
   getRef = ref => {
-    if (ref) this.componentRef = ref
-    this.props.collectComponent(ref, this.props.k)
+    if (ref) {
+      this.componentRef = ref
+      this.props.collectComponent(ref, this.props.k)
+    }
   }
 
   updateComponent (props = this.props) {

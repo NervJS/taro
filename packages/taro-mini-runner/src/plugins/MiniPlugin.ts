@@ -14,9 +14,10 @@ import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
+import { SyncHook } from 'tapable'
 
 import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsQuickAppComponents, REG_SCRIPTS, processTypeEnum } from '../utils/constants'
-import { IComponentObj } from '../utils/types'
+import { IComponentObj, AddPageChunks } from '../utils/types'
 import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog, isAliasPath, replaceAliasPath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, getImportCustomComponents, generateQuickAppManifest } from '../utils/helper'
@@ -39,6 +40,7 @@ interface IMiniPluginOptions {
   pluginConfig?: object,
   isBuildPlugin: boolean,
   alias: object
+  addChunkPages?: AddPageChunks
 }
 
 export interface ITaroFileInfo {
@@ -47,7 +49,6 @@ export interface ITaroFileInfo {
     config: IConfig,
     template?: string,
     code?: string,
-    style?: string,
     taroSelfComponents?: Set<{
       name: string,
       path: string
@@ -55,11 +56,16 @@ export interface ITaroFileInfo {
   }
 }
 
-interface IComponent { name: string, path: string, isNative: boolean }
+interface IComponent {
+  name: string,
+  path: string,
+  isNative: boolean,
+  stylePath?: string
+}
 
 const PLUGIN_NAME = 'MiniPlugin'
 
-const taroFileTypeMap: ITaroFileInfo = {}
+let taroFileTypeMap: ITaroFileInfo = {}
 
 const quickappCommonStyle = 'common'
 
@@ -87,49 +93,53 @@ export function isFileToBeTaroComponent (
   sourcePath: string,
   buildAdapter: BUILD_TYPES
 ) {
-  const transformResult = wxTransformer({
-    code,
-    sourcePath: sourcePath,
-    isTyped: REG_TYPESCRIPT.test(sourcePath),
-    adapter: buildAdapter,
-    isNormal: true
-  })
-  const { ast } = transformResult
-  let isTaroComponent = false
+  try {
+    const transformResult = wxTransformer({
+      code,
+      sourcePath: sourcePath,
+      isTyped: REG_TYPESCRIPT.test(sourcePath),
+      adapter: buildAdapter,
+      isNormal: true
+    })
+    const { ast } = transformResult
+    let isTaroComponent = false
 
-  traverse(ast, {
-    ClassDeclaration (astPath) {
-      astPath.traverse({
-        ClassMethod (astPath) {
-          if (astPath.get('key').isIdentifier({ name: 'render' })) {
-            astPath.traverse({
-              JSXElement () {
-                isTaroComponent = true
-              }
-            })
+    traverse(ast, {
+      ClassDeclaration (astPath) {
+        astPath.traverse({
+          ClassMethod (astPath) {
+            if (astPath.get('key').isIdentifier({ name: 'render' })) {
+              astPath.traverse({
+                JSXElement () {
+                  isTaroComponent = true
+                }
+              })
+            }
           }
-        }
-      })
-    },
+        })
+      },
 
-    ClassExpression (astPath) {
-      astPath.traverse({
-        ClassMethod (astPath) {
-          if (astPath.get('key').isIdentifier({ name: 'render' })) {
-            astPath.traverse({
-              JSXElement () {
-                isTaroComponent = true
-              }
-            })
+      ClassExpression (astPath) {
+        astPath.traverse({
+          ClassMethod (astPath) {
+            if (astPath.get('key').isIdentifier({ name: 'render' })) {
+              astPath.traverse({
+                JSXElement () {
+                  isTaroComponent = true
+                }
+              })
+            }
           }
-        }
-      })
+        })
+      }
+    })
+
+    return {
+      isTaroComponent,
+      transformResult
     }
-  })
-
-  return {
-    isTaroComponent,
-    transformResult
+  } catch (error) {
+    return error
   }
 }
 
@@ -158,7 +168,7 @@ export default class MiniPlugin {
       sourceDir: '',
       outputDir: '',
       designWidth: 750,
-      commonChunks: ['runtime', 'vendors'],
+      commonChunks: ['runtime', 'vendors', 'taro', 'common'],
       isBuildPlugin: false,
       alias: {}
     })
@@ -187,6 +197,7 @@ export default class MiniPlugin {
   apply (compiler) {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
+    compiler.hooks.getPages = new SyncHook(['pages'])
     compiler.hooks.run.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
@@ -209,6 +220,20 @@ export default class MiniPlugin {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, { normalModuleFactory }) => {
       compilation.dependencyFactories.set(SingleEntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency, normalModuleFactory)
+
+      compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, (assets) => {
+        Object.keys(assets).forEach(assetPath => {
+          const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
+          if (new RegExp(`${styleExt}.js$`).test(assetPath)) {
+            delete assets[assetPath]
+          } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
+            const assetObj = assets[assetPath]
+            const newAssetPath = assetPath.replace(styleExt, '')
+            assets[newAssetPath] = assetObj
+            delete assets[assetPath]
+          }
+        })
+      })
     })
 
     compiler.hooks.emit.tapAsync(
@@ -230,7 +255,8 @@ export default class MiniPlugin {
     new TaroLoadChunksPlugin({
       commonChunks: this.options.commonChunks,
       buildAdapter: this.options.buildAdapter,
-      isBuildPlugin: this.options.isBuildPlugin
+      isBuildPlugin: this.options.isBuildPlugin,
+      addChunkPages: this.options.addChunkPages
     }).apply(compiler)
 
     new TaroNormalModulesPlugin().apply(compiler)
@@ -269,7 +295,11 @@ export default class MiniPlugin {
   getNpmComponentRealPath (code: string, component: IComponentObj, adapter: BUILD_TYPES): string | null {
     let componentRealPath: string | null = null
     let importExportName
-    const { isTaroComponent, transformResult } = isFileToBeTaroComponent(code, component.path as string, adapter)
+    const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, component.path as string, adapter)
+    if (isTaroComponentRes == null) {
+      return null
+    }
+    const { isTaroComponent, transformResult } = isTaroComponentRes
     const isNativePageOrComponent = this.isNativePageOrComponent(this.getTemplatePath(component.path), fs.readFileSync(component.path).toString())
     if (isTaroComponent || isNativePageOrComponent) {
       return component.path
@@ -402,7 +432,8 @@ export default class MiniPlugin {
           const componentObj = {
             name: 'custom-tab-bar/index',
             path: customTabBarComponentPath,
-            isNative
+            isNative,
+            stylePath: isNative ? this.getStylePath(customTabBarComponentPath) : null
           }
           this.components.add(componentObj)
           this.getComponents(compiler, new Set([componentObj]), false)
@@ -433,7 +464,8 @@ export default class MiniPlugin {
               this.pages.add({
                 name: pageItem,
                 path: pagePath,
-                isNative
+                isNative,
+                stylePath: isNative ? this.getStylePath(pagePath) : null
               })
             }
           })
@@ -483,9 +515,15 @@ export default class MiniPlugin {
           const pagePath = resolveScriptPath(path.join(this.sourceDir, item))
           const pageTemplatePath = this.getTemplatePath(pagePath)
           const isNative = this.isNativePageOrComponent(pageTemplatePath, fs.readFileSync(pagePath).toString())
-          return { name: item, path: pagePath, isNative }
+          return {
+            name: item,
+            path: pagePath,
+            isNative,
+            stylePath: isNative ? this.getStylePath(pagePath) : null
+          }
         })
       ])
+      ;(compiler.hooks as any).getPages.call(this.pages)
     } catch (error) {
       if (error.codeFrame) {
         this.errors.push(new Error(error.message + '\n' + error.codeFrame))
@@ -502,7 +540,11 @@ export default class MiniPlugin {
     Object.keys(this.appEntry).forEach(key => {
       const filePath = this.appEntry[key][0]
       const code = fs.readFileSync(filePath).toString()
-      if (isFileToBeTaroComponent(code, filePath, buildAdapter)) {
+      const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, filePath, buildAdapter)
+      if (isTaroComponentRes == null) {
+        return null
+      }
+      if (isTaroComponentRes.isTaroComponent) {
         if (pluginConfig) {
           fileList.add({
             name: key,
@@ -557,6 +599,9 @@ export default class MiniPlugin {
     this.pages.forEach(item => {
       if (item.isNative) {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+        if (item.stylePath && fs.existsSync(item.stylePath)) {
+          this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), PARSE_AST_TYPE.NORMAL)
+        }
       } else {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.PAGE)
       }
@@ -564,6 +609,9 @@ export default class MiniPlugin {
     this.components.forEach(item => {
       if (item.isNative) {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+        if (item.stylePath && fs.existsSync(item.stylePath)) {
+          this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), PARSE_AST_TYPE.NORMAL)
+        }
       } else {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
       }
@@ -702,10 +750,6 @@ export default class MiniPlugin {
           template,
           code
         }
-        if (isNative) {
-          const stylePath = this.getStylePath(file.path)
-          if (fs.existsSync(stylePath)) taroFileTypeMap[file.path]['style'] = fs.readFileSync(stylePath).toString()
-        }
         if (isQuickApp && taroSelfComponents) {
           taroFileTypeMap[file.path].taroSelfComponents = new Set(Array.from(taroSelfComponents).map(item => {
             const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath(this.options.nodeModulesPath)
@@ -723,7 +767,12 @@ export default class MiniPlugin {
               const componentName = this.getComponentName(componentPath)
               const componentTempPath = this.getTemplatePath(componentPath)
               const isNative = this.isNativePageOrComponent(componentTempPath, fs.readFileSync(componentPath).toString())
-              const componentObj = { name: componentName, path: componentPath, isNative }
+              const componentObj = {
+                name: componentName,
+                path: componentPath,
+                isNative,
+                stylePath: isNative ? this.getStylePath(componentPath) : null
+              }
               this.components.add(componentObj)
               this.addedComponents.add(componentObj)
               this.getComponents(compiler, new Set([componentObj]), false)
@@ -752,6 +801,9 @@ export default class MiniPlugin {
     this.pages.forEach(item => {
       if (item.isNative) {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+        if (item.stylePath && fs.existsSync(item.stylePath)) {
+          this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), PARSE_AST_TYPE.NORMAL)
+        }
       } else {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.PAGE)
       }
@@ -759,6 +811,9 @@ export default class MiniPlugin {
     this.components.forEach(item => {
       if (item.isNative) {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+        if (item.stylePath && fs.existsSync(item.stylePath)) {
+          this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), PARSE_AST_TYPE.NORMAL)
+        }
       } else {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
       }
@@ -822,12 +877,6 @@ export default class MiniPlugin {
         compilation.assets[templatePath] = {
           size: () => template!.length,
           source: () => template
-        }
-      }
-      if (itemInfo.style) {
-        compilation.assets[stylePath] = {
-          size: () => itemInfo.style!.length,
-          source: () => itemInfo.style
         }
       }
       if (itemInfo.taroSelfComponents) {
@@ -899,6 +948,23 @@ export default class MiniPlugin {
     })
   }
 
+  judgeFileToBeTaroComponent (
+    code: string,
+    sourcePath: string,
+    buildAdapter: BUILD_TYPES
+  ) {
+    const isTaroComponentRes = isFileToBeTaroComponent(code, sourcePath, buildAdapter)
+    if (isTaroComponentRes instanceof Error) {
+      if ((isTaroComponentRes as any).codeFrame) {
+        this.errors.push(isTaroComponentRes)
+      } else {
+        this.errors.push(isTaroComponentRes)
+      }
+      return null
+    }
+    return isTaroComponentRes
+  }
+
   run (compiler: webpack.Compiler) {
     this.errors = []
     if (!this.options.isBuildPlugin) {
@@ -917,15 +983,21 @@ export default class MiniPlugin {
     if (REG_SCRIPTS.test(changedFile)) {
       this.changedFile = changedFile
       let { type, obj } = this.getChangedFileInfo(changedFile)
+      this.errors = []
       if (!type) {
         const code = fs.readFileSync(changedFile).toString()
-        const isTaroComponentRes = isFileToBeTaroComponent(code, changedFile, this.options.buildAdapter)
+        const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, changedFile, this.options.buildAdapter)
+        if (isTaroComponentRes == null) {
+          return
+        }
         if (isTaroComponentRes.isTaroComponent) {
+          const isNative = this.isNativePageOrComponent(this.getTemplatePath(changedFile), code)
           type = PARSE_AST_TYPE.COMPONENT
           obj = {
             name: changedFile.replace(this.sourceDir, '').replace(path.extname(changedFile), ''),
             path: changedFile,
-            isNative: this.isNativePageOrComponent(this.getTemplatePath(changedFile), code)
+            isNative,
+            stylePath: isNative ? this.getStylePath(changedFile) : null
           }
         }
       }
@@ -938,7 +1010,6 @@ export default class MiniPlugin {
             this.components.delete(component)
           }
         })
-        this.errors = []
         if (this.changedFileType === PARSE_AST_TYPE.ENTRY) {
           this.run(compiler)
         } else {
@@ -948,6 +1019,9 @@ export default class MiniPlugin {
               this.addedComponents.forEach(item => {
                 if (item.isNative) {
                   this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+                  if (item.stylePath && fs.existsSync(item.stylePath)) {
+                    this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), PARSE_AST_TYPE.NORMAL)
+                  }
                 } else {
                   this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
                 }
@@ -1011,5 +1085,9 @@ export default class MiniPlugin {
 
   static getTaroFileTypeMap () {
     return taroFileTypeMap
+  }
+
+  static init () {
+    taroFileTypeMap = {}
   }
 }

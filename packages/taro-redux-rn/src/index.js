@@ -10,7 +10,7 @@ import {
 import React from 'react'
 
 function connect (mapStateToProps = null, mapDispatchToProps = null, mergeProps = null, options = {}) {
-  options.withRef = true
+  options.forwardRef = true
   let connectAdvanced = originConnect(mapStateToProps, mapDispatchToProps,
     mergeProps, options)
 
@@ -35,8 +35,7 @@ function connect (mapStateToProps = null, mapDispatchToProps = null, mergeProps 
        * @returns {*}
        */
       getWrappedInstance () {
-        return this.connectRef.current &&
-          this.connectRef.current.getWrappedInstance()
+        return this.connectRef.current
       }
 
       render () {

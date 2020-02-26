@@ -121,7 +121,7 @@ export async function build (appPath: string, { watch, type = BUILD_TYPES.WEAPP,
 
   await buildWithWebpack({
     appPath,
-    watch,
+    watch
   }, builder)
   if (isQuickApp) {
     const isReady = await prepareQuickAppEnvironment(buildData)

@@ -115,6 +115,7 @@ export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getFileParseLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/fileParseLoader')))
 export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/wxTransformerLoader')))
+
 const getExtractCssLoader = () => {
   return {
     loader: MiniCssExtractPlugin.loader
@@ -156,6 +157,7 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
 }
 
 export const getMiniPlugin = args => {
+  MiniPlugin.init()
   return partial(getPlugin, MiniPlugin)([args])
 }
 

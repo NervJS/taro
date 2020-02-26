@@ -15,7 +15,7 @@ docs.stderr.on('data', data => {
 
 docs.on('close', code => {
   if (code === 0) {
-    ghPages.publish('./website/build/taro', err => {
+    ghPages.publish('./website/build/taro', { add: true }, err => {
       if (!err) {
         spinner.succeed('Publish successfully.')
       } else {

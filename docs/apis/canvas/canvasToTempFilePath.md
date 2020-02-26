@@ -1,36 +1,75 @@
 ---
-title: Taro.canvasToTempFilePath(param, componentInstance)
+title: Taro.canvasToTempFilePath(option, component)
 sidebar_label: canvasToTempFilePath
 ---
 
-把当前画布指定区域的内容导出生成指定大小的图片。在 draw() 回调里调用该方法才能保证图片导出成功。
+把当前画布指定区域的内容导出生成指定大小的图片。在 `draw()` 回调里调用该方法才能保证图片导出成功。
+
+**Bug & Tip：**
+
+1.  `tip`: 在 `draw` 回调里调用该方法才能保证图片导出成功。
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html)
+
+## 类型
+
+```tsx
+(option: Option, component?: Record<string, any>) => Promise<SuccessCallbackResult>
+```
 
 ## 参数
 
-### object param
+### Option
 
-| Name | Type | Description |
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| canvas | `string` |  | 否 | 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 |
+| canvasId | `string` |  | 是 | 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id |
+| quality | `number` |  | 否 | 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 |
+| complete | `(res: CallbackResult) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| destHeight | `number` |  | 否 | 输出的图片的高度 |
+| destWidth | `number` |  | 否 | 输出的图片的宽度 |
+| fail | `(res: CallbackResult) => void` |  | 否 | 接口调用失败的回调函数 |
+| fileType | "jpg" or "png" | `"png"` | 否 | 目标文件的类型 |
+| height | `number` |  | 否 | 指定的画布区域的高度 |
+| success | `(result: SuccessCallbackResult) => void` |  | 否 | 接口调用成功的回调函数 |
+| width | `number` |  | 否 | 指定的画布区域的宽度 |
+| x | `number` |  | 否 | 指定的画布区域的左上角横坐标 |
+| y | `number` |  | 否 | 指定的画布区域的左上角纵坐标 |
+
+### SuccessCallbackResult
+
+| 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| [x] | <code>Number</code> | 指定的画布区域的左上角横坐标，默认值 0 |
-| [y] | <code>Number</code> | 指定的画布区域的左上角纵坐标，默认值 0 |
-| [width] | <code>Number</code> | 指定的画布区域的宽度，默认值 canvas宽度-x |
-| [height] | <code>Number</code> | 指定的画布区域的高度，默认值 canvas宽度-y |
-| [destWidth] | <code>Number</code> | 输出的图片的宽度，默认值 width*屏幕像素密度 |
-| [destHeight] | <code>Number</code> | 输出的图片的高度，默认值 height*屏幕像素密度 |
-| canvasId | <code>String</code> | 画布标识，传入 &lt;Canvas&gt; 组件的 canvasId |
-| [fileType] | <code>String</code> | 目标文件的类型，默认值 png |
-| quality | <code>Number</code> | 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 |
-| [success] | <code>function</code> | 接口调用成功的回调函数 |
-| [fail] | <code>function</code> | 接口调用失败的回调函数 |
-| [complete] | <code>function</code> | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| tempFilePath | `string` | 生成文件的临时路径 |
+| errMsg | `string` | 调用结果 |
 
-### Component componentInstance
+### fileType
 
-在自定义组件下，当前组件实例的this，以操作组件内 &lt;Canvas&gt; 组件
+| 参数 | 说明 |
+| --- | --- |
+| jpg | jpg 图片 |
+| png | png 图片 |
 
-## API支持度
+## 示例代码
+
+```tsx
+Taro.canvasToTempFilePath({
+  x: 100,
+  y: 200,
+  width: 50,
+  height: 50,
+  destWidth: 100,
+  destHeight: 100,
+  canvasId: 'myCanvas',
+  success: function (res) {
+    console.log(res.tempFilePath)
+  }
+})
+```
+
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
+| :---: | :---: | :---: | :---: |
 | Taro.canvasToTempFilePath | ✔️ | ✔️ |  |
-

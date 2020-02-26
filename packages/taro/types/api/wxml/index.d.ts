@@ -71,6 +71,7 @@ declare namespace Taro {
     /** 指定页面显示区域作为参照区域之一
      * @example
      * 下面的示例代码中，如果目标节点（用选择器 .target-class 指定）进入显示区域以下 100px 时，就会触发回调函数。
+     * 
      * ```tsx
      * Taro.createIntersectionObserver().relativeToViewport({bottom: 100}).observe('.target-class', (res) => {
      *   res.intersectionRatio // 相交区域占目标节点的布局区域的比例

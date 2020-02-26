@@ -3,25 +3,32 @@ title: Taro.offWindowResize(callback)
 sidebar_label: offWindowResize
 ---
 
-取消监听窗口尺寸变化事件。
+取消监听窗口尺寸变化事件
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.offWindowResize.html)
+
+## 类型
+
+```tsx
+(callback: Callback) => void
+```
 
 ## 参数
 
-### callback(res)
+### Callback
 
-窗口尺寸变化事件的回调函数。
+窗口尺寸变化事件的回调函数
 
-#### 参数
+```tsx
+(res: CallbackResult) => void
+```
 
-##### object res
+| 参数 | 类型 |
+| --- | --- |
+| res | `CallbackResult` |
 
-| Name | Type | Description |
-| --- | --- | --- |
-| windowWidth | <code>number</code> | 变化后的窗口宽度，单位 px |
-| windowHeight | <code>number</code> | 变化后的窗口高度，单位 px |
-
-## API支持度
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
+| :---: | :---: | :---: | :---: |
 | Taro.offWindowResize | ✔️ | ✔️ |  |
