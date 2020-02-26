@@ -967,6 +967,12 @@ export default class MiniPlugin {
 
   run (compiler: webpack.Compiler) {
     this.errors = []
+    this.pages = new Set()
+    this.components = new Set()
+    this.pageConfigs = new Map()
+    this.tabBarIcons = new Set()
+    this.quickappStyleFiles = new Set()
+    this.addedComponents = new Set()
     if (!this.options.isBuildPlugin) {
       this.getPages(compiler)
       this.getComponents(compiler, this.pages, true)
@@ -1032,7 +1038,8 @@ export default class MiniPlugin {
           }
           this.transferFileContent(compiler)
         }
-        if (obj && type === PARSE_AST_TYPE.COMPONENT && !this.components.has(obj)) {
+        if (obj && type === PARSE_AST_TYPE.COMPONENT
+            && !Array.from(this.components).some(item => item.path === obj.path)) {
           this.components.add(obj)
         }
       }
