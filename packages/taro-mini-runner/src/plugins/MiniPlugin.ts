@@ -734,7 +734,7 @@ export default class MiniPlugin {
           const scriptPath = file.path
           const outputScriptPath = scriptPath.replace(this.sourceDir, this.outputDir).replace(path.extname(scriptPath), MINI_APP_FILES[buildAdapter].SCRIPT)
           const importTaroSelfComponents = getImportTaroSelfComponents(outputScriptPath, this.options.nodeModulesPath, this.outputDir, taroSelfComponents)
-          const importCustomComponents = getImportCustomComponents(this.outputDir, depComponents)
+          const importCustomComponents = getImportCustomComponents(file.path, depComponents)
           const usingComponents = configObj.usingComponents
           let importUsingComponent: any = new Set([])
           if (usingComponents) {
