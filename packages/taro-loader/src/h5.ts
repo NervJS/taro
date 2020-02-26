@@ -33,8 +33,17 @@ const tabbarSelectedIconPath = []
       }
     }
   }
+
+  const webComponents = `import { defineCustomElements, applyPolyfills } from '@tarojs/components/dist/loader'
+import '@tarojs/components/dist/taro-components/taro-components.css'
+applyPolyfills().then(() => {
+  defineCustomElements(window)
+})
+`
+
   const code = `import { createRouter } from '@tarojs/router'
 import component from '${join(dirname(this.resourcePath), options.filename)}'
+${webComponents}
 const config = ${JSON.stringify(config)}
 ${config.tabBar ? tabBarCode : ''}
 if (config.tabBar) {
