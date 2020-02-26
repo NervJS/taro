@@ -60,7 +60,8 @@ interface IComponent {
   name: string,
   path: string,
   isNative: boolean,
-  stylePath?: string
+  stylePath?: string,
+  templatePath?: string
 }
 
 const PLUGIN_NAME = 'MiniPlugin'
@@ -224,12 +225,15 @@ export default class MiniPlugin {
       compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, (assets) => {
         Object.keys(assets).forEach(assetPath => {
           const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
+          const templateExt = MINI_APP_FILES[this.options.buildAdapter].TEMPL
           if (new RegExp(`${styleExt}.js$`).test(assetPath)) {
             delete assets[assetPath]
           } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
             const assetObj = assets[assetPath]
             const newAssetPath = assetPath.replace(styleExt, '')
             assets[newAssetPath] = assetObj
+            delete assets[assetPath]
+          } else if (new RegExp(`${templateExt}.js$`).test(assetPath)) {
             delete assets[assetPath]
           }
         })
@@ -433,7 +437,8 @@ export default class MiniPlugin {
             name: 'custom-tab-bar/index',
             path: customTabBarComponentPath,
             isNative,
-            stylePath: isNative ? this.getStylePath(customTabBarComponentPath) : null
+            stylePath: isNative ? this.getStylePath(customTabBarComponentPath) : null,
+            templatePath: isNative ? this.getTemplatePath(customTabBarComponentPath) : null
           }
           this.components.add(componentObj)
           this.getComponents(compiler, new Set([componentObj]), false)
@@ -465,7 +470,8 @@ export default class MiniPlugin {
                 name: pageItem,
                 path: pagePath,
                 isNative,
-                stylePath: isNative ? this.getStylePath(pagePath) : null
+                stylePath: isNative ? this.getStylePath(pagePath) : null,
+                templatePath: isNative ? this.getTemplatePath(pagePath) : null
               })
             }
           })
@@ -519,7 +525,8 @@ export default class MiniPlugin {
             name: item,
             path: pagePath,
             isNative,
-            stylePath: isNative ? this.getStylePath(pagePath) : null
+            stylePath: isNative ? this.getStylePath(pagePath) : null,
+            templatePath: isNative ? this.getTemplatePath(pagePath) : null
           }
         })
       ])
@@ -602,6 +609,9 @@ export default class MiniPlugin {
         if (item.stylePath && fs.existsSync(item.stylePath)) {
           this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), PARSE_AST_TYPE.NORMAL)
         }
+        if (item.templatePath && fs.existsSync(item.templatePath)) {
+          this.addEntry(compiler, item.templatePath, this.getTemplatePath(item.name), PARSE_AST_TYPE.NORMAL)
+        }
       } else {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.PAGE)
       }
@@ -611,6 +621,9 @@ export default class MiniPlugin {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
         if (item.stylePath && fs.existsSync(item.stylePath)) {
           this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), PARSE_AST_TYPE.NORMAL)
+        }
+        if (item.templatePath && fs.existsSync(item.templatePath)) {
+          this.addEntry(compiler, item.templatePath, this.getTemplatePath(item.name), PARSE_AST_TYPE.NORMAL)
         }
       } else {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
@@ -643,11 +656,7 @@ export default class MiniPlugin {
         let template
         let code = fs.readFileSync(file.path).toString()
         if (isNative) {
-          const templatePath = this.getTemplatePath(file.path)
           const configPath = this.getConfigPath(file.path)
-          if (fs.existsSync(templatePath)) {
-            template = fs.readFileSync(templatePath).toString()
-          }
           if (fs.existsSync(configPath)) {
             configObj = JSON.parse(fs.readFileSync(configPath).toString())
             const usingComponents = configObj.usingComponents
@@ -771,7 +780,8 @@ export default class MiniPlugin {
                 name: componentName,
                 path: componentPath,
                 isNative,
-                stylePath: isNative ? this.getStylePath(componentPath) : null
+                stylePath: isNative ? this.getStylePath(componentPath) : null,
+                templatePath: isNative ? this.getTemplatePath(componentPath) : null
               }
               this.components.add(componentObj)
               this.addedComponents.add(componentObj)
@@ -804,6 +814,9 @@ export default class MiniPlugin {
         if (item.stylePath && fs.existsSync(item.stylePath)) {
           this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), PARSE_AST_TYPE.NORMAL)
         }
+        if (item.templatePath && fs.existsSync(item.templatePath)) {
+          this.addEntry(compiler, item.templatePath, this.getTemplatePath(item.name), PARSE_AST_TYPE.NORMAL)
+        }
       } else {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.PAGE)
       }
@@ -813,6 +826,9 @@ export default class MiniPlugin {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
         if (item.stylePath && fs.existsSync(item.stylePath)) {
           this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), PARSE_AST_TYPE.NORMAL)
+        }
+        if (item.templatePath && fs.existsSync(item.templatePath)) {
+          this.addEntry(compiler, item.templatePath, this.getTemplatePath(item.name), PARSE_AST_TYPE.NORMAL)
         }
       } else {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
@@ -1003,7 +1019,8 @@ export default class MiniPlugin {
             name: changedFile.replace(this.sourceDir, '').replace(path.extname(changedFile), ''),
             path: changedFile,
             isNative,
-            stylePath: isNative ? this.getStylePath(changedFile) : null
+            stylePath: isNative ? this.getStylePath(changedFile) : null,
+            templatePath: isNative ? this.getTemplatePath(changedFile) : null
           }
         }
       }
@@ -1027,6 +1044,9 @@ export default class MiniPlugin {
                   this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
                   if (item.stylePath && fs.existsSync(item.stylePath)) {
                     this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), PARSE_AST_TYPE.NORMAL)
+                  }
+                  if (item.templatePath && fs.existsSync(item.templatePath)) {
+                    this.addEntry(compiler, item.templatePath, this.getTemplatePath(item.name), PARSE_AST_TYPE.NORMAL)
                   }
                 } else {
                   this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)

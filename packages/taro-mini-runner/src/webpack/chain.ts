@@ -26,7 +26,9 @@ import {
   REG_FONT,
   REG_IMAGE,
   BUILD_TYPES,
-  REG_SCRIPTS
+  REG_SCRIPTS,
+  REG_TEMPLATE,
+  MINI_APP_FILES
 } from '../utils/constants'
 
 const globalObjectMap = {
@@ -115,6 +117,7 @@ export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getFileParseLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/fileParseLoader')))
 export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/wxTransformerLoader')))
+export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
 
 const getExtractCssLoader = () => {
   return {
@@ -270,12 +273,6 @@ export const getModule = (appPath: string, {
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
-  // const fileLoader = getFileLoader([{
-  //   useRelativePath: true,
-  //   name: `[path][name]${MINI_APP_FILES[buildAdapter].STYLE}`,
-  //   context: sourceDir
-  // }])
-
   const fileParseLoader = getFileParseLoader([{
     babel,
     alias,
@@ -287,6 +284,10 @@ export const getModule = (appPath: string, {
   }])
 
   const wxTransformerLoader = getWxTransformerLoader([{
+    buildAdapter
+  }])
+
+  const miniTemplateLoader = getMiniTemplateLoader([{
     buildAdapter
   }])
 
@@ -341,6 +342,14 @@ export const getModule = (appPath: string, {
       use: [extractCssLoader]
     },
     script: scriptsLoaderConf,
+    template: {
+      test: REG_TEMPLATE,
+      use: [getFileLoader([{
+        useRelativePath: true,
+        name: `[path][name]${MINI_APP_FILES[buildAdapter].TEMPL}`,
+        context: sourceDir
+      }]), miniTemplateLoader]
+    },
     media: {
       test: REG_MEDIA,
       use: {
