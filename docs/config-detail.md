@@ -461,6 +461,30 @@ optimization: {
 
 如果有自行拆分公共文件的需求，请先通过 `webpackChain` 配置覆盖 `optimization.runtimeChunk` 与 `optimization.splitChunks` 配置，再通过 `commonChunks` 配置指定的公共入口文件。
 
+### mini.addChunkPages
+
+> 2.0.5 开始支持
+> `type addChunkPages = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)`
+
+在某些情况下，我们可能需要为某些页面单独指定需要引用的公共文件，例如，使用小程序分包的时候，为了减少主包大小，分包的页面希望引入自己的公共文件，而不希望直接放在主包内，那么我们首先可以通过配置 `mini.webpackChain` 来单独抽离分包的公共文件，然后通过 `mini.addChunkPages` 为分包页面配置引入子包公共文件，其使用方式如下：
+
+`mini.addChunkPages` 配置为一个函数，接受两个参数
+
+* `pages` 参数为 Map 类型，用于为页面添加公共文件
+* `pagesNames` 参数为当前应用的所有页面标识列表，可以通过打印的方式进行查看页面的标识
+
+例如，为 `pages/index/index` 页面添加 `eating` 和 `morning` 两个抽离的公共文件
+
+```js
+const config = {
+  mini: {
+    addChunkPages (pages, pagesNames) {
+      pages.set('pages/index/index', ['eating', 'morning'])
+    }
+  }
+}
+```
+
 ### mini.cssLoaderOption
 
 css-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/css-loader)，例如：
