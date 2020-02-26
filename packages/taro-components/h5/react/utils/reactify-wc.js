@@ -12,8 +12,8 @@ const SCROLL_VIEW = 'taro-scroll-view'
 // 为了不要覆盖 wc 中 host 内置的 class 和 stencil 加入的 class
 function getClassName (wc, prevProps, props) {
   const classList = Array.from(wc.classList)
-  const oldClassNames = (prevProps.className || prevProps.class || []).split(' ')
-  let incomingClassNames = (props.className || props.class || []).split(' ')
+  const oldClassNames = (prevProps.className || prevProps.class || '').split(' ')
+  let incomingClassNames = (props.className || props.class || '').split(' ')
   let finalClassNames = []
 
   classList.forEach(classname => {
