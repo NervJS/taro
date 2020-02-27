@@ -1,5 +1,28 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.4...v) (2020-02-18)
+# [](https://github.com/NervJS/taro/compare/v2.0.5...v) (2020-02-27)
+
+
+
+<a name="2.0.5"></a>
+## [2.0.5](https://github.com/NervJS/taro/compare/v2.0.4...v2.0.5) (2020-02-27)
+
+
+### Bug Fixes
+
+* **cli:** 旧项目升级未自动更新RN版本 ([cd224a4](https://github.com/NervJS/taro/commit/cd224a4))
+* **cli:** 模板引用错误导致模板生成失败，进而必然导致转换失败 ([#5554](https://github.com/NervJS/taro/issues/5554)) ([9404423](https://github.com/NervJS/taro/commit/9404423))
+* **components:** 修复：当Checkbox想要条件渲染时，并且Checkbox占位符为null时引发的异常 ([#5507](https://github.com/NervJS/taro/issues/5507)) ([049d0ae](https://github.com/NervJS/taro/commit/049d0ae))
+* **mini-runner:** 与原生小程序混写时支持解析样式 ([8de0f55](https://github.com/NervJS/taro/commit/8de0f55))
+* **mini-runner:** 与原生小程序混写时支持解析模板 ([2494fff](https://github.com/NervJS/taro/commit/2494fff))
+* **mini-runner:** 修复快应用引入自定义组件时路径问题，close [#5555](https://github.com/NervJS/taro/issues/5555) ([894ca13](https://github.com/NervJS/taro/commit/894ca13))
+* **mini-runner:** 尝试修复监听报错的问题 ([b64192b](https://github.com/NervJS/taro/commit/b64192b))
+* **taro:** append QQ,JD ENV_TYPEs for ts type definition ([#5515](https://github.com/NervJS/taro/issues/5515)) ([c376cfd](https://github.com/NervJS/taro/commit/c376cfd))
+
+
+### Features
+
+* **mini-runner:** 增加 addChunkPages 配置，允许为分包单独配置自己公共文件，close [#5511](https://github.com/NervJS/taro/issues/5511) ([06f23b5](https://github.com/NervJS/taro/commit/06f23b5))
+* **taro-router:** 新增路由拦截功能beforeRouteLeave ([b492d3d](https://github.com/NervJS/taro/commit/b492d3d))
 
 
 
