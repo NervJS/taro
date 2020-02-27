@@ -81,6 +81,7 @@ export default class MainPlugin {
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
               framework,
+              filename: this.options.entryFileName,
               pages: this.pagesConfigList,
               config: this.appConfig
             }

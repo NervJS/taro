@@ -34,7 +34,7 @@ const tabbarSelectedIconPath = []
     }
   }
   const code = `import { createRouter } from '@tarojs/router'
-import component from '${join(dirname(this.resourcePath), 'app')}'
+import component from '${join(dirname(this.resourcePath), options.filename)}'
 const config = ${JSON.stringify(config)}
 ${config.tabBar ? tabBarCode : ''}
 if (config.tabBar) {

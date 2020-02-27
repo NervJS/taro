@@ -54,8 +54,8 @@ class Compiler {
     this.h5Config = get(projectConfig, 'h5')
     this.sourcePath = path.join(appPath, sourceDir)
     this.outputPath = path.join(appPath, outputDir)
+    this.entryFileName = `${entryFile || CONFIG.ENTRY}.config`
     this.entryFilePath = resolveScriptPath(path.join(this.sourcePath, entryFile || CONFIG.ENTRY))
-    this.entryFileName = path.basename(this.entryFilePath)
     this.pathAlias = projectConfig.alias || {}
     this.isUi = !!isUi
   }
@@ -71,7 +71,6 @@ class Compiler {
 
   async buildDist ({ watch, port }: IBuildOptions) {
     const isMultiRouterMode = get(this.h5Config, 'router.mode') === 'multi'
-    const entryFileName = this.entryFileName
     const projectConfig = this.projectConfig
     /** 不是真正意义上的IH5Config对象 */
     const h5Config: IH5Config & {
@@ -86,13 +85,14 @@ class Compiler {
       return path.join(this.sourcePath, filename)
     }
 
-    const entryFile = path.basename(entryFileName)
+    const entryFile = path.basename(this.entryFileName)
+    const entryFileName = path.basename(this.entryFileName, path.extname(this.entryFileName))
     const defaultEntry = isMultiRouterMode
       ? fromPairs(this.pages.map(([pagename, filePath]) => {
         return [filePath, [getEntryFile(filePath)]]
       }))
       : {
-        app: [getEntryFile(entryFile)]
+        [entryFileName]: [getEntryFile(entryFile)]
       }
     if (projectConfig.deviceRatio) {
       h5Config.deviceRatio = projectConfig.deviceRatio
@@ -106,7 +106,7 @@ class Compiler {
       defineConstants: projectConfig.defineConstants,
       designWidth: projectConfig.designWidth,
       entry: merge(defaultEntry, h5Config.entry),
-      entryFileName: path.basename(entryFileName, path.extname(entryFileName)),
+      entryFileName,
       env: {
         TARO_ENV: JSON.stringify(BUILD_TYPES.H5)
       },
