@@ -1,7 +1,7 @@
 import { isText } from './utils'
 import { TaroElement } from './dom/element'
 import { TaroText } from './dom/text'
-import { Shortcuts } from '@tarojs/shared'
+import { Shortcuts, toCamelCase } from '@tarojs/shared'
 
 export interface MpInstance {
   setData: (data: unknown, cb: () => void) => void;
@@ -54,7 +54,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
       prop !== 'style' &&
       prop !== 'id'
     ) {
-      data[prop] = props[prop]
+      data[process.env.FRAMEWORK === 'vue' ? toCamelCase(prop) : prop] = props[prop]
     }
   }
 
