@@ -5,7 +5,7 @@ import { createReactApp, createPageConfig, Current, createVueApp, PageInstance, 
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
-import { initTabbar } from './tabbar'
+import { init } from './init'
 
 export interface Route extends PageConfig {
   path: string
@@ -68,7 +68,7 @@ function loadPage (page: PageInstance | null) {
 }
 
 export function createRouter (App, config: RouterConfig, framework: 'react' | 'vue' | 'nerv') {
-  initTabbar(config)
+  init(config)
 
   const routes: Routes = []
 
