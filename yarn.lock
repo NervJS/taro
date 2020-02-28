@@ -2763,9 +2763,10 @@
     typescript "3.7.2"
 
 "@tarojs/components@file:packages/taro-components":
-  version "3.0.0-experimental.0"
+  version "3.0.0-alpha.5"
   dependencies:
     "@stencil/core" "^1.8.1"
+    "@tarojs/taro" "^3.0.0-alpha.5"
     better-scroll "^1.14.1"
     classnames "^2.2.5"
     intersection-observer "^0.7.0"
@@ -2773,6 +2774,18 @@
     resolve-pathname "^3.0.0"
     swiper "4.4.2"
     weui "^1.1.2"
+
+"@tarojs/runtime@^3.0.0-experimental.5":
+  version "3.0.0-experimental.5"
+  resolved "https://registry.yarnpkg.com/@tarojs/runtime/-/runtime-3.0.0-experimental.5.tgz#2a4c7e3ab8f0b21abf818742fb52949cc9f0e17f"
+  integrity sha512-kEtoAHD074bqco4ZEV7HCV2tSG2gVSayl3FqPV8mBNNmRPtA7yC/ULiY0hZ0N2t8/EvDxFpNx77PcheS9pC21A==
+
+"@tarojs/taro@^3.0.0-alpha.5":
+  version "3.0.0-experimental.5"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-3.0.0-experimental.5.tgz#5fef7aaecb597f7cf5845abfd11ca419e182ecdd"
+  integrity sha512-vk9Wvbrqin1Yna203PAltbV+R+5Ww56SXxDs2BV5/b7V6RcxGDsrBCNXMBoBrxsQ1WNVMAF5RcMnKFjtAaNC9A==
+  dependencies:
+    "@tarojs/runtime" "^3.0.0-experimental.5"
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -4229,7 +4242,7 @@ babel-plugin-transform-class-properties@^6.24.1:
     babel-template "^6.24.1"
 
 "babel-plugin-transform-taroapi@file:packages/babel-plugin-transform-taroapi":
-  version "1.3.22"
+  version "3.0.0-alpha.5"
 
 babel-polyfill@6.26.0:
   version "6.26.0"
@@ -19788,10 +19801,10 @@ void-elements@^2.0.0:
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
   integrity sha1-wGavtYK7HLQSjWDqkjkulNXp2+w=
 
-vue@^2.6.10:
-  version "2.6.10"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
-  integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
+vue@^2.6.11:
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
+  integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

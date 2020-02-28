@@ -41,7 +41,7 @@ applyPolyfills().then(() => {
 })
 `
 
-  const code = `import { createRouter } from '@tarojs/router'
+  const code = `import Taro from '@tarojs/taro'
 import component from '${join(dirname(this.resourcePath), options.filename)}'
 ${webComponents}
 const config = ${JSON.stringify(config)}
@@ -61,7 +61,7 @@ if (config.tabBar) {
 config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join('')}
 ]
-createRouter(component, config, '${options.framework}')
+Taro.createRouter(component, config, '${options.framework}')
 `
 
   return code

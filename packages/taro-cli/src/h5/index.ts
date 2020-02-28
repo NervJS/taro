@@ -108,7 +108,8 @@ class Compiler {
       entry: merge(defaultEntry, h5Config.entry),
       entryFileName,
       env: {
-        TARO_ENV: JSON.stringify(BUILD_TYPES.H5)
+        TARO_ENV: JSON.stringify(BUILD_TYPES.H5),
+        FRAMEWORK: JSON.stringify(projectConfig.framework)
       },
       isWatch: !!watch,
       outputRoot: outputDir,
@@ -119,7 +120,8 @@ class Compiler {
       sass: projectConfig.sass,
       plugins: projectConfig.plugins,
       port,
-      sourceRoot
+      sourceRoot,
+      framework: projectConfig.framework
     })
     const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', this.appPath)
     webpackRunner(this.appPath, h5Config)

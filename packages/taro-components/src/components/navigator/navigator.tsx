@@ -1,6 +1,7 @@
 import { Component, Prop, h, ComponentInterface, Host, Listen, Event, EventEmitter } from '@stencil/core'
 import classNames from 'classnames'
-import * as Taro from '@tarojs/taro-h5'
+const Taro = require('@tarojs/taro')
+
 
 /**
  * Navigator组件参数

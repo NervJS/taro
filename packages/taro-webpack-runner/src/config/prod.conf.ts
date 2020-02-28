@@ -64,6 +64,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   const plugin: any = {}
 
   plugin.mainPlugin = getMainPlugin({
+    framework: config.framework,
     entryFileName,
     sourceDir,
     outputDir,
@@ -123,6 +124,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       uglifyConfig ? uglifyConfig.config : {}
     ]))
   }
+
+  alias['@tarojs/components$'] = `@tarojs/components/h5/${config.framework === 'vue' ? 'vue' : 'react'}`
 
   chain.merge({
     mode,

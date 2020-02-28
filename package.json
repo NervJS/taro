@@ -149,7 +149,7 @@
     "stylelint-taro-rn": "file:packages/stylelint-taro-rn",
     "ts-jest": "23",
     "typescript": "^3.7.2",
-    "vue": "^2.6.10",
+    "vue": "^2.6.11",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2"

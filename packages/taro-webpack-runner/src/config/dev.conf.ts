@@ -22,7 +22,7 @@ const emptyObj = {}
 export default function (appPath: string, config: Partial<BuildConfig>): any {
   const chain = getBaseChain(appPath)
   const {
-    alias = emptyObj,
+    alias = {},
     copy,
     entry = emptyObj,
     entryFileName = 'app',
@@ -62,6 +62,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   const isMultiRouterMode = get(router, 'mode') === 'multi'
 
   plugin.mainPlugin = getMainPlugin({
+    framework: config.framework,
     entryFileName,
     sourceDir,
     outputDir,
@@ -100,6 +101,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   plugin.hotModuleReplacementPlugin = getHotModuleReplacementPlugin()
 
   const mode = 'development'
+
+  alias['@tarojs/components$'] = `@tarojs/components/h5/${config.framework === 'vue' ? 'vue' : 'react'}`
 
   chain.merge({
     mode,

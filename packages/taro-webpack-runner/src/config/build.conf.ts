@@ -6,7 +6,8 @@ export default ({
   publicPath = '/',
   staticDirectory = 'static',
   chunkDirectory = 'chunk',
-  designWidth = 750
+  designWidth = 750,
+  ...rest
 }: BuildConfig): Partial<BuildConfig> => {
   return {
     sourceRoot,
@@ -14,6 +15,7 @@ export default ({
     publicPath,
     staticDirectory,
     chunkDirectory,
-    designWidth
+    designWidth,
+    ...rest
   }
 }

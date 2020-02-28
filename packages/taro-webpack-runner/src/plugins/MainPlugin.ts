@@ -50,33 +50,34 @@ export default class MainPlugin {
   }
 
   tryAsync = fn => async (arg, callback) => {
-		try {
-			await fn(arg)
-			callback()
-		} catch (err) {
-			callback(err)
-		}
-	}
+    try {
+      await fn(arg)
+      callback()
+    } catch (err) {
+      callback(err)
+    }
+  }
 
   apply (compiler) {
     this.appEntry = this.getAppEntry(compiler)
     compiler.hooks.run.tapAsync(
-			PLUGIN_NAME,
-			this.tryAsync(() => {
-				this.run()
-			})
+      PLUGIN_NAME,
+      this.tryAsync(() => {
+        this.run()
+      })
     )
     compiler.hooks.watchRun.tapAsync(
-			PLUGIN_NAME,
-			this.tryAsync(() => {
-				this.run()
-			})
+      PLUGIN_NAME,
+      this.tryAsync(() => {
+        this.run()
+      })
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
         const { framework } = this.options
-        if (module.resource === this.appEntry) {
+        const { dir, name } = path.parse(module.resource)
+        if (path.join(dir, name) === this.appEntry) {
           module.loaders.unshift({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
