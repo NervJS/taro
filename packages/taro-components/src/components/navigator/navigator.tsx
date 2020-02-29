@@ -1,7 +1,6 @@
 import { Component, Prop, h, ComponentInterface, Host, Listen, Event, EventEmitter } from '@stencil/core'
-import classNames from 'classnames'
+// import classNames from 'classnames'
 const Taro = require('@tarojs/taro')
-
 
 /**
  * Navigator组件参数
@@ -95,13 +94,8 @@ export class Navigator implements ComponentInterface {
   }
 
   render () {
-    const { isHover, hoverClass } = this
-
     return (
       <Host
-        className={classNames({
-          [hoverClass]: isHover
-        })}
       />
     )
   }

@@ -1,4 +1,4 @@
-import Taro from '../dist/index'
+import Taro from '@tarojs/api'
 
 const {
   noPromiseApis,

@@ -30,7 +30,7 @@ import {
   Events
 } from '@tarojs/runtime'
 
-export const Taro = {
+const Taro = {
   Events,
   eventCenter,
   getEnv,

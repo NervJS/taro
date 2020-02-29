@@ -1,4 +1,5 @@
-import Taro from '@tarojs/taro'
+import Taro from '@tarojs/api'
+import * as Router from '@tarojs/router'
 import { permanentlyNotSupport } from '../api/utils'
 import { onPageScroll } from '../api/privateApis/onPageScroll'
 import { onReachBottom } from '../api/privateApis/onReachBottom'
@@ -10,16 +11,20 @@ const {
   getEnv,
   initPxTransform: originalInitPxTransform,
   render,
-  interceptors
+  interceptors,
+  ...rest
 } = Taro
 
 const taro = {
+  ...rest,
+  ...Router,
   getEnv,
   ENV_TYPE,
   Events,
   eventCenter,
   render
 }
+
 const initPxTransform = originalInitPxTransform.bind(taro)
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 const getApp = function () {
