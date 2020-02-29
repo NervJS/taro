@@ -19,6 +19,9 @@ import {
 import {
   Conf,
 } from './components/tabbar/tabbar';
+import {
+  Danmu,
+} from './components/video/video-danmu';
 
 export namespace Components {
   interface TaroAudio {
@@ -90,6 +93,7 @@ export namespace Components {
     'url': string;
   }
   interface TaroOpenData {}
+  interface TaroPickerView {}
   interface TaroPickerViewColumn {}
   interface TaroProgress {
     'active': boolean;
@@ -160,6 +164,109 @@ export namespace Components {
     'maxlength': number;
     'placeholder': string;
     'value': string;
+  }
+  interface TaroVideo {
+    /**
+    * 是否自动播放
+    */
+    'autoplay': boolean;
+    /**
+    * 是否显示默认播放控件（播放/暂停按钮、播放进度、时间）
+    */
+    'controls': boolean;
+    /**
+    * 是否显示弹幕按钮
+    */
+    'danmuBtn': boolean;
+    /**
+    * 弹幕列表
+    */
+    'danmuList': [];
+    /**
+    * 指定视频时长
+    */
+    'duration': number;
+    /**
+    * 是否展示弹幕
+    */
+    'enableDanmu': boolean;
+    /**
+    * 是否开启播放手势，即双击切换播放/暂停
+    */
+    'enablePlayGesture': boolean;
+    /**
+    * 是否开启控制进度的手势
+    */
+    'enableProgressGesture': boolean;
+    /**
+    * 指定视频初始播放位置
+    */
+    'initialTime': number;
+    /**
+    * 是否循环播放
+    */
+    'loop': boolean;
+    /**
+    * 是否静音播放
+    */
+    'muted': boolean;
+    /**
+    * 当视频大小与 video 容器大小不一致时，视频的表现形式
+    */
+    'objectFit': 'contain' | 'fill' | 'cover';
+    /**
+    * 视频封面的图片网络资源地址或云文件ID（2.3.0）。若 controls 属性值为 false 则设置 poster 无效
+    */
+    'poster': string;
+    /**
+    * 是否显示视频中间的播放按钮
+    */
+    'showCenterPlayBtn': boolean;
+    /**
+    * 是否显示全屏按钮
+    */
+    'showFullscreenBtn': boolean;
+    /**
+    * 是否显示静音按钮
+    */
+    'showMuteBtn': boolean;
+    /**
+    * 是否显示视频底部控制栏的播放按钮
+    */
+    'showPlayBtn': boolean;
+    'showProgress': boolean;
+    /**
+    * 要播放视频的资源地址
+    */
+    'src': string;
+    /**
+    * 在非全屏模式下，是否开启亮度与音量调节手势
+    */
+    'vslideGesture': boolean;
+    /**
+    * 在全屏模式下，是否开启亮度与音量调节手势
+    */
+    'vslideGestureInFullscreen': boolean;
+  }
+  interface TaroVideoControl {
+    'controls': boolean;
+    'currentTime': number;
+    'duration': number;
+    'getIsDraggingProgressBall': () => Promise<boolean>;
+    'isPlaying': boolean;
+    'pauseFunc': () => void;
+    'playFunc': () => void;
+    'seekFunc': (position: number) => void;
+    'setCurrentTime': (time: number) => Promise<void>;
+    'setProgressBall': (percentage: number) => Promise<void>;
+    'showPlayBtn': boolean;
+    'showProgress': boolean;
+    'toggleVisibility': (nextVisible?: boolean | undefined) => Promise<void>;
+  }
+  interface TaroVideoDanmu {
+    'enable': boolean;
+    'sendDanmu': (danmuList?: Partial<Danmu> | Partial<Danmu>[]) => Promise<void>;
+    'tick': (currentTime: number) => Promise<void>;
   }
   interface TaroView {
     'hoverClass': string;
@@ -282,6 +389,12 @@ declare global {
     new (): HTMLTaroOpenDataElement;
   };
 
+  interface HTMLTaroPickerViewElement extends Components.TaroPickerView, HTMLStencilElement {}
+  var HTMLTaroPickerViewElement: {
+    prototype: HTMLTaroPickerViewElement;
+    new (): HTMLTaroPickerViewElement;
+  };
+
   interface HTMLTaroPickerViewColumnElement extends Components.TaroPickerViewColumn, HTMLStencilElement {}
   var HTMLTaroPickerViewColumnElement: {
     prototype: HTMLTaroPickerViewColumnElement;
@@ -354,6 +467,24 @@ declare global {
     new (): HTMLTaroTextareaElement;
   };
 
+  interface HTMLTaroVideoElement extends Components.TaroVideo, HTMLStencilElement {}
+  var HTMLTaroVideoElement: {
+    prototype: HTMLTaroVideoElement;
+    new (): HTMLTaroVideoElement;
+  };
+
+  interface HTMLTaroVideoControlElement extends Components.TaroVideoControl, HTMLStencilElement {}
+  var HTMLTaroVideoControlElement: {
+    prototype: HTMLTaroVideoControlElement;
+    new (): HTMLTaroVideoControlElement;
+  };
+
+  interface HTMLTaroVideoDanmuElement extends Components.TaroVideoDanmu, HTMLStencilElement {}
+  var HTMLTaroVideoDanmuElement: {
+    prototype: HTMLTaroVideoDanmuElement;
+    new (): HTMLTaroVideoDanmuElement;
+  };
+
   interface HTMLTaroViewElement extends Components.TaroView, HTMLStencilElement {}
   var HTMLTaroViewElement: {
     prototype: HTMLTaroViewElement;
@@ -384,6 +515,7 @@ declare global {
     'taro-moveable-view': HTMLTaroMoveableViewElement;
     'taro-navigator': HTMLTaroNavigatorElement;
     'taro-open-data': HTMLTaroOpenDataElement;
+    'taro-picker-view': HTMLTaroPickerViewElement;
     'taro-picker-view-column': HTMLTaroPickerViewColumnElement;
     'taro-progress': HTMLTaroProgressElement;
     'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
@@ -396,6 +528,9 @@ declare global {
     'taro-tabbar': HTMLTaroTabbarElement;
     'taro-text': HTMLTaroTextElement;
     'taro-textarea': HTMLTaroTextareaElement;
+    'taro-video': HTMLTaroVideoElement;
+    'taro-video-control': HTMLTaroVideoControlElement;
+    'taro-video-danmu': HTMLTaroVideoDanmuElement;
     'taro-view': HTMLTaroViewElement;
     'taro-web-view': HTMLTaroWebViewElement;
   }
@@ -493,6 +628,7 @@ declare namespace LocalJSX {
     'url'?: string;
   }
   interface TaroOpenData {}
+  interface TaroPickerView {}
   interface TaroPickerViewColumn {}
   interface TaroProgress {
     'active'?: boolean;
@@ -578,6 +714,111 @@ declare namespace LocalJSX {
     'placeholder'?: string;
     'value'?: string;
   }
+  interface TaroVideo {
+    /**
+    * 是否自动播放
+    */
+    'autoplay'?: boolean;
+    /**
+    * 是否显示默认播放控件（播放/暂停按钮、播放进度、时间）
+    */
+    'controls'?: boolean;
+    /**
+    * 是否显示弹幕按钮
+    */
+    'danmuBtn'?: boolean;
+    /**
+    * 弹幕列表
+    */
+    'danmuList'?: [];
+    /**
+    * 指定视频时长
+    */
+    'duration'?: number;
+    /**
+    * 是否展示弹幕
+    */
+    'enableDanmu'?: boolean;
+    /**
+    * 是否开启播放手势，即双击切换播放/暂停
+    */
+    'enablePlayGesture'?: boolean;
+    /**
+    * 是否开启控制进度的手势
+    */
+    'enableProgressGesture'?: boolean;
+    /**
+    * 指定视频初始播放位置
+    */
+    'initialTime'?: number;
+    /**
+    * 是否循环播放
+    */
+    'loop'?: boolean;
+    /**
+    * 是否静音播放
+    */
+    'muted'?: boolean;
+    /**
+    * 当视频大小与 video 容器大小不一致时，视频的表现形式
+    */
+    'objectFit'?: 'contain' | 'fill' | 'cover';
+    'onEnded'?: (event: CustomEvent<any>) => void;
+    'onError'?: (event: CustomEvent<any>) => void;
+    'onFullscreenchange'?: (event: CustomEvent<any>) => void;
+    'onLoadedmetadata'?: (event: CustomEvent<any>) => void;
+    'onPause'?: (event: CustomEvent<any>) => void;
+    'onPlay'?: (event: CustomEvent<any>) => void;
+    'onProgress'?: (event: CustomEvent<any>) => void;
+    'onTimeupdate'?: (event: CustomEvent<any>) => void;
+    /**
+    * 视频封面的图片网络资源地址或云文件ID（2.3.0）。若 controls 属性值为 false 则设置 poster 无效
+    */
+    'poster'?: string;
+    /**
+    * 是否显示视频中间的播放按钮
+    */
+    'showCenterPlayBtn'?: boolean;
+    /**
+    * 是否显示全屏按钮
+    */
+    'showFullscreenBtn'?: boolean;
+    /**
+    * 是否显示静音按钮
+    */
+    'showMuteBtn'?: boolean;
+    /**
+    * 是否显示视频底部控制栏的播放按钮
+    */
+    'showPlayBtn'?: boolean;
+    'showProgress'?: boolean;
+    /**
+    * 要播放视频的资源地址
+    */
+    'src'?: string;
+    /**
+    * 在非全屏模式下，是否开启亮度与音量调节手势
+    */
+    'vslideGesture'?: boolean;
+    /**
+    * 在全屏模式下，是否开启亮度与音量调节手势
+    */
+    'vslideGestureInFullscreen'?: boolean;
+  }
+  interface TaroVideoControl {
+    'controls'?: boolean;
+    'currentTime'?: number;
+    'duration'?: number;
+    'isPlaying'?: boolean;
+    'pauseFunc'?: () => void;
+    'playFunc'?: () => void;
+    'seekFunc'?: (position: number) => void;
+    'showPlayBtn'?: boolean;
+    'showProgress'?: boolean;
+  }
+  interface TaroVideoDanmu {
+    'enable'?: boolean;
+  }
   interface TaroView {
     'hoverClass'?: string;
     'hoverStartTime'?: number;
@@ -609,6 +850,7 @@ declare namespace LocalJSX {
     'taro-moveable-view': TaroMoveableView;
     'taro-navigator': TaroNavigator;
     'taro-open-data': TaroOpenData;
+    'taro-picker-view': TaroPickerView;
     'taro-picker-view-column': TaroPickerViewColumn;
     'taro-progress': TaroProgress;
     'taro-pull-to-refresh': TaroPullToRefresh;
@@ -621,6 +863,9 @@ declare namespace LocalJSX {
     'taro-tabbar': TaroTabbar;
     'taro-text': TaroText;
     'taro-textarea': TaroTextarea;
+    'taro-video': TaroVideo;
+    'taro-video-control': TaroVideoControl;
+    'taro-video-danmu': TaroVideoDanmu;
     'taro-view': TaroView;
     'taro-web-view': TaroWebView;
   }
@@ -650,6 +895,7 @@ declare module "@stencil/core" {
       'taro-moveable-view': LocalJSX.TaroMoveableView & JSXBase.HTMLAttributes<HTMLTaroMoveableViewElement>;
       'taro-navigator': LocalJSX.TaroNavigator & JSXBase.HTMLAttributes<HTMLTaroNavigatorElement>;
       'taro-open-data': LocalJSX.TaroOpenData & JSXBase.HTMLAttributes<HTMLTaroOpenDataElement>;
+      'taro-picker-view': LocalJSX.TaroPickerView & JSXBase.HTMLAttributes<HTMLTaroPickerViewElement>;
       'taro-picker-view-column': LocalJSX.TaroPickerViewColumn & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnElement>;
       'taro-progress': LocalJSX.TaroProgress & JSXBase.HTMLAttributes<HTMLTaroProgressElement>;
       'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
@@ -662,6 +908,9 @@ declare module "@stencil/core" {
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
       'taro-text': LocalJSX.TaroText & JSXBase.HTMLAttributes<HTMLTaroTextElement>;
       'taro-textarea': LocalJSX.TaroTextarea & JSXBase.HTMLAttributes<HTMLTaroTextareaElement>;
+      'taro-video': LocalJSX.TaroVideo & JSXBase.HTMLAttributes<HTMLTaroVideoElement>;
+      'taro-video-control': LocalJSX.TaroVideoControl & JSXBase.HTMLAttributes<HTMLTaroVideoControlElement>;
+      'taro-video-danmu': LocalJSX.TaroVideoDanmu & JSXBase.HTMLAttributes<HTMLTaroVideoDanmuElement>;
       'taro-view': LocalJSX.TaroView & JSXBase.HTMLAttributes<HTMLTaroViewElement>;
       'taro-web-view': LocalJSX.TaroWebView & JSXBase.HTMLAttributes<HTMLTaroWebViewElement>;
     }

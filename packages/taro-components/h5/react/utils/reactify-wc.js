@@ -98,7 +98,7 @@ const reactifyWebComponent = WC => {
               val
             )
           }
-          delete this.ref.current[prop]
+          this.ref.current[prop] = false
           return this.ref.current.removeAttribute(prop)
         }
         this.ref.current[prop] = val

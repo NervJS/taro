@@ -12,3 +12,14 @@ export const calcDist = (x, y) => {
 export const normalizeNumber = number => {
   return Math.max(-1, Math.min(number, 1))
 }
+
+export const throttle = (fn, threshhold) => {
+  let lastTime = 0
+  return function () {
+    const now = Date.now()
+    if (now - lastTime > threshhold) {
+      fn.apply(this, arguments)
+      lastTime = now
+    }
+  }
+}
