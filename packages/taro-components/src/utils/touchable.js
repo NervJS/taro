@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro-h5'
 import omit from 'omit.js'
-import Nerv from 'nervjs'
+import Nerv, { findDOMNode } from 'nervjs'
 
 function getOffset (el) {
   const rect = el.getBoundingClientRect()
@@ -40,6 +40,7 @@ const touchable = (opt = {
         onTouchCancel: null,
         onLongTap: null
       }
+      touchableRef
       timer = null
       offset = {
         offsetX: 0,
@@ -72,8 +73,15 @@ const touchable = (opt = {
         Object.defineProperty(e, 'touches', { value: transformTouches(e.touches, this.offset) })
         onTouchCancel && onTouchCancel(e)
       }
+      getTouchableRef = ref => {
+        if (ref) {
+          this.touchableRef = ref
+        }
+      }
       updatePos = () => {
-        const { offsetX, offsetY } = getOffset(this.vnode.dom)
+        if (!this.touchableRef) return
+
+        const { offsetX, offsetY } = getOffset(findDOMNode(this.touchableRef))
         this.offset.offsetX = offsetX
         this.offset.offsetY = offsetY
       }
@@ -97,7 +105,7 @@ const touchable = (opt = {
             'onLongTap'
           ])
         }
-        return <ComponentClass {...props} />
+        return <ComponentClass {...props} ref={this.getTouchableRef} />
       }
     }
   }
