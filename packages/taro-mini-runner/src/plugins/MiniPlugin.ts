@@ -163,6 +163,15 @@ export default class TaroMiniPlugin {
               prerender: this.prerenderPages.has(module.name)
             }
           })
+        } else if (module.miniType === META_TYPE.COMPONENT) {
+          module.loaders.unshift({
+            loader: '@tarojs/taro-loader/lib/component',
+            options: {
+              framework,
+              name: module.name,
+              prerender: this.prerenderPages.has(module.name)
+            }
+          })
         }
       })
     })
@@ -319,7 +328,7 @@ export default class TaroMiniPlugin {
 
   getTabBarFiles (appConfig) {
     const tabBar = appConfig.tabBar
-    const { buildAdapter } = this.options
+    const { buildAdapter, sourceDir } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
       const {
         list: listConfig,
@@ -332,6 +341,21 @@ export default class TaroMiniPlugin {
         item[pathConfig] && this.tabBarIcons.add(item[pathConfig])
         item[selectedPathConfig] && this.tabBarIcons.add(item[selectedPathConfig])
       })
+      if (tabBar.custom) {
+        const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
+        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath)
+        if (fs.existsSync(customTabBarComponentPath)) {
+          const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
+          const isNative = this.isNativePageORComponent(customTabBarComponentTemplPath)
+          const componentObj = {
+            name: 'custom-tab-bar/index',
+            path: customTabBarComponentPath,
+            isNative
+          }
+          this.compileFile(componentObj)
+          this.components.add(componentObj)
+        }
+      }
     }
   }
 

@@ -1,3 +1,3 @@
-import { createComponentConfig } from '@tarojs/runtime'
+import { createRecursiveComponentConfig } from '@tarojs/runtime'
 // @ts-ignore
-Component(createComponentConfig())
+Component(createRecursiveComponentConfig())
