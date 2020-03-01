@@ -36,17 +36,19 @@ export default class TaroLoadChunksPlugin {
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: webpack.compilation.Chunk[]) => {
         commonChunks = chunks.filter(chunk => this.commonChunks.includes(chunk.name)).reverse()
 
-        const vendor = chunks.find(c => c.name === 'vendors')
-        if (vendor == null) {
-          return
-        }
-
-        (vendor.modulesIterable as Set<unknown>).forEach((m: { rawRequest: string, usedExports: string[] }) => {
-          if (m.rawRequest === taroJsComponents) {
-            const includes = componentConfig.includes
-            m.usedExports.map(toDashed).map(includes.add.bind(includes))
+        for (const chunk of commonChunks) {
+          let needBreak = false;
+          (chunk.modulesIterable as Set<unknown>).forEach((m: { rawRequest: string, usedExports: string[] }) => {
+            if (m.rawRequest === taroJsComponents) {
+              const includes = componentConfig.includes
+              m.usedExports.map(toDashed).map(includes.add.bind(includes))
+              needBreak = true
+            }
+          })
+          if (needBreak) {
+            break
           }
-        })
+        }
       })
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
         if (chunk.entryModule) {
@@ -60,14 +62,18 @@ export default class TaroLoadChunksPlugin {
               files.forEach(item => {
                 if (REG_STYLE.test(item)) {
                   const source = new ConcatSource()
-                  const _source = assets[item]._source
+                  const _source = assets[item]._source || assets[item]._value
                   Object.keys(assets).forEach(assetName => {
                     const fileName = path.basename(assetName, path.extname(assetName))
                     if (REG_STYLE.test(assetName) && this.commonChunks.includes(fileName)) {
                       source.add(`@import ${JSON.stringify(urlToRequest(assetName))}`)
                       source.add('\n')
                       source.add(_source)
-                      assets[item]._source = source
+                      if (assets[item]._source) {
+                        assets[item]._source = source
+                      } else {
+                        assets[item]._value = source.source()
+                      }
                     }
                   })
                 }
