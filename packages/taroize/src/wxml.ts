@@ -516,6 +516,9 @@ function transformIf (
   if (name !== WX_IF) {
     return
   }
+  if (jsx.node.openingElement.attributes.some(a => a.name.name === 'slot')) {
+    return
+  }
   const conditions: Condition[] = []
   let siblings: NodePath<t.Node>[] = []
   try {
