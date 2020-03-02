@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { parse } from 'himalaya-wxml'
 import * as t from 'babel-types'
 import { camelCase, cloneDeep } from 'lodash'
@@ -140,7 +141,7 @@ export const createWxmlVistor = (
         path.replaceWith(t.jSXIdentifier('key'))
       }
       if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
-        // tslint:disable-next-line
+        // eslint-disable-next-line no-console
         console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
         path.parentPath.remove()
       }
@@ -396,8 +397,16 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
       throw new Error('wxs 如果没有 src 属性，标签内部必须有 wxs 代码。')
     }
     src = './wxs__' + moduleName
+    const ast = parseCode(script.value)
+    traverse(ast, {
+      CallExpression (path) {
+        if (t.isIdentifier(path.node.callee, { name: 'getRegExp' })) {
+          console.warn(codeFrameError(path.node, '请使用 JavaScript 标准正则表达式把这个 getRegExp 函数重构。'))
+        }
+      }
+    })
     imports.push({
-      ast: parseCode(script.value),
+      ast,
       name: moduleName as string,
       wxs: true
     })
@@ -741,13 +750,13 @@ function parseAttribute (attr: Attribute) {
   if (value) {
     if (key === 'class' && value.startsWith('[') && value.endsWith(']')) {
       value = value.slice(1, value.length - 1).replace(',', '')
-      // tslint:disable-next-line
+      // eslint-disable-next-line no-console
       console.log(codeFrameError(attr, 'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class'))
     }
     const { type, content } = parseContent(value)
 
     if (type === 'raw') {
-      jsxValue = t.stringLiteral(content.replace(/\"/g, '\''))
+      jsxValue = t.stringLiteral(content.replace(/"/g, '\''))
     } else {
       let expr: t.Expression
       try {

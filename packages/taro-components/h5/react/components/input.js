@@ -13,6 +13,8 @@ export default React.forwardRef((props, ref) => {
     delete args.focus
   }
 
+  console.log('fuck')
+
   return (
     React.createElement(Input, { ...args, ref: ref })
   )

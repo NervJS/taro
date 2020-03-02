@@ -1,11 +1,10 @@
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import { buildRender, buildBlockElement, pascalName } from './utils'
+import { buildRender, buildBlockElement, pascalName, setting } from './utils'
 import { resolve, relative } from 'path'
 import * as fs from 'fs'
 import { parseWXML, createWxmlVistor } from './wxml'
 import { errors } from './global'
-import { setting } from './utils'
 
 function isNumeric (n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
@@ -180,12 +179,12 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   let srcValue = value.node.value
   if (srcValue.startsWith('/')) {
     const vpath = resolve(setting.rootPath, srcValue.substr(1))
-    if(!fs.existsSync(vpath)) {
+    if (!fs.existsSync(vpath)) {
       throw new Error(`import/include 的 src 请填入相对路径再进行转换：src="${srcValue}"`)
     }
     let relativePath = relative(dirPath, vpath)
     relativePath = relativePath.replace(/\\/g, '/')
-    if(relativePath.indexOf('.') !== 0) {
+    if (relativePath.indexOf('.') !== 0) {
       srcValue = './' + relativePath
     }
     srcValue = relativePath
