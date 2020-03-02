@@ -58,7 +58,7 @@ export class View implements ComponentInterface {
   }
 
   render () {
-    const cls = classNames('taro-view', {
+    const cls = classNames({
       [`${this.hoverClass}`]: this.hover
     })
     return (
