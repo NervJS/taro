@@ -147,6 +147,55 @@ export namespace Components {
     'step': number;
     'value': number | null;
   }
+  interface TaroSwiper {
+    /**
+    * 是否自动切换
+    */
+    'autoplay': boolean;
+    /**
+    * 是否采用衔接滑动
+    */
+    'circular': boolean;
+    /**
+    * 当前所在滑块的 index
+    */
+    'current': number;
+    /**
+    * 同时显示的滑块数量
+    */
+    'displayMultipleItems': number;
+    /**
+    * 滑动动画时长
+    */
+    'duration': number;
+    /**
+    * 当前选中的指示点颜色
+    */
+    'indicatorActiveColor': string;
+    /**
+    * 指示点颜色
+    */
+    'indicatorColor': string;
+    /**
+    * 是否显示面板指示点
+    */
+    'indicatorDots': boolean;
+    /**
+    * 自动切换时间间隔
+    */
+    'interval': number;
+    /**
+    * 前边距，可用于露出前一项的一小部分，接受 px 值
+    */
+    'previousMargin': string;
+    /**
+    * 滑动方向是否为纵向
+    */
+    'vertical': boolean;
+  }
+  interface TaroSwiperItem {
+    'itemId': string;
+  }
   interface TaroSwitch {
     'checked': boolean;
     'color': string;
@@ -443,6 +492,18 @@ declare global {
     new (): HTMLTaroSliderElement;
   };
 
+  interface HTMLTaroSwiperElement extends Components.TaroSwiper, HTMLStencilElement {}
+  var HTMLTaroSwiperElement: {
+    prototype: HTMLTaroSwiperElement;
+    new (): HTMLTaroSwiperElement;
+  };
+
+  interface HTMLTaroSwiperItemElement extends Components.TaroSwiperItem, HTMLStencilElement {}
+  var HTMLTaroSwiperItemElement: {
+    prototype: HTMLTaroSwiperItemElement;
+    new (): HTMLTaroSwiperItemElement;
+  };
+
   interface HTMLTaroSwitchElement extends Components.TaroSwitch, HTMLStencilElement {}
   var HTMLTaroSwitchElement: {
     prototype: HTMLTaroSwitchElement;
@@ -524,6 +585,8 @@ declare global {
     'taro-rich-text': HTMLTaroRichTextElement;
     'taro-scroll-view': HTMLTaroScrollViewElement;
     'taro-slider': HTMLTaroSliderElement;
+    'taro-swiper': HTMLTaroSwiperElement;
+    'taro-swiper-item': HTMLTaroSwiperItemElement;
     'taro-switch': HTMLTaroSwitchElement;
     'taro-tabbar': HTMLTaroTabbarElement;
     'taro-text': HTMLTaroTextElement;
@@ -689,6 +752,57 @@ declare namespace LocalJSX {
     'showValue'?: boolean;
     'step'?: number;
     'value'?: number | null;
+  }
+  interface TaroSwiper {
+    /**
+    * 是否自动切换
+    */
+    'autoplay'?: boolean;
+    /**
+    * 是否采用衔接滑动
+    */
+    'circular'?: boolean;
+    /**
+    * 当前所在滑块的 index
+    */
+    'current'?: number;
+    /**
+    * 同时显示的滑块数量
+    */
+    'displayMultipleItems'?: number;
+    /**
+    * 滑动动画时长
+    */
+    'duration'?: number;
+    /**
+    * 当前选中的指示点颜色
+    */
+    'indicatorActiveColor'?: string;
+    /**
+    * 指示点颜色
+    */
+    'indicatorColor'?: string;
+    /**
+    * 是否显示面板指示点
+    */
+    'indicatorDots'?: boolean;
+    /**
+    * 自动切换时间间隔
+    */
+    'interval'?: number;
+    'onAnimationfinish'?: (event: CustomEvent<any>) => void;
+    'onChange'?: (event: CustomEvent<any>) => void;
+    /**
+    * 前边距，可用于露出前一项的一小部分，接受 px 值
+    */
+    'previousMargin'?: string;
+    /**
+    * 滑动方向是否为纵向
+    */
+    'vertical'?: boolean;
+  }
+  interface TaroSwiperItem {
+    'itemId'?: string;
   }
   interface TaroSwitch {
     'checked'?: boolean;
@@ -859,6 +973,8 @@ declare namespace LocalJSX {
     'taro-rich-text': TaroRichText;
     'taro-scroll-view': TaroScrollView;
     'taro-slider': TaroSlider;
+    'taro-swiper': TaroSwiper;
+    'taro-swiper-item': TaroSwiperItem;
     'taro-switch': TaroSwitch;
     'taro-tabbar': TaroTabbar;
     'taro-text': TaroText;
@@ -904,6 +1020,8 @@ declare module "@stencil/core" {
       'taro-rich-text': LocalJSX.TaroRichText & JSXBase.HTMLAttributes<HTMLTaroRichTextElement>;
       'taro-scroll-view': LocalJSX.TaroScrollView & JSXBase.HTMLAttributes<HTMLTaroScrollViewElement>;
       'taro-slider': LocalJSX.TaroSlider & JSXBase.HTMLAttributes<HTMLTaroSliderElement>;
+      'taro-swiper': LocalJSX.TaroSwiper & JSXBase.HTMLAttributes<HTMLTaroSwiperElement>;
+      'taro-swiper-item': LocalJSX.TaroSwiperItem & JSXBase.HTMLAttributes<HTMLTaroSwiperItemElement>;
       'taro-switch': LocalJSX.TaroSwitch & JSXBase.HTMLAttributes<HTMLTaroSwitchElement>;
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
       'taro-text': LocalJSX.TaroText & JSXBase.HTMLAttributes<HTMLTaroTextElement>;

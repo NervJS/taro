@@ -31,11 +31,8 @@ export class Slider implements ComponentInterface {
   function (newVal) {
     const { max, min } = this
     if (newVal !== null && newVal !== this.val) {
-      const val = newVal > max ? max : newVal < min ? min : newVal
-      const percent = val / (max - min) * 100
-      this.val = val
-      this.percent = percent
-      this.updateValue()
+      const val = Math.max(min, Math.min(newVal, max))
+      this.updateByStep(val)
     }
   }
 
@@ -56,17 +53,13 @@ export class Slider implements ComponentInterface {
   componentWillLoad () {
     const { value, max, min } = this
     if (value === null) return
-    const val = value > max ? max : value
 
-    this.val = val
-    this.percent = val / (max - min) * 100
-
-    this.updateValue()
+    const val = Math.max(min, Math.min(value, max))
+    this.updateByStep(val)
   }
 
   handleTouchStart = (e: TouchEvent) => {
-    const { touching, disabled } = this
-    if (touching || disabled) return
+    if (this.touching || this.disabled) return
 
     this.touching = true
     this.touchId = e.targetTouches[0].identifier
@@ -79,10 +72,12 @@ export class Slider implements ComponentInterface {
     const {
       disabled,
       touching,
-      ogX,
-      ogPercent,
+      touchId,
       totalWidth,
-      touchId
+      max,
+      min,
+      ogX,
+      ogPercent
     } = this
     if (!touching || disabled) return
     if (e.targetTouches[0].identifier !== touchId) return
@@ -94,11 +89,10 @@ export class Slider implements ComponentInterface {
     const diffX = pageX - ogX
 
     let percent = diffX / totalWidth * 100 + ogPercent
-    percent = percent < 0 ? 0 : percent > 100 ? 100 : percent
+    percent = Math.max(0, Math.min(percent, 100))
+    const val = min + percent * 0.01 * (max - min)
 
-    this.percent = percent
-
-    this.updateValue()
+    this.updateByStep(val)
 
     this.onChanging.emit({
       detail: e.detail,
@@ -118,37 +112,40 @@ export class Slider implements ComponentInterface {
     }
 
     this.touching = false
-    this.ogX = 0
     this.touchId = null
+    this.ogX = 0
     this.ogPercent = 0
   }
 
   // 根据步长 step 修改 value
-  updateValue = () => {
-    const { min, max, step, percent } = this
-    const steps = (max - min) / step // 总步数
-    const per = 100 / steps
-    const perPercent = per < 1 ? 1 : per // 每步所占 slider 宽度的百分比
-    let _value = 0
+  updateByStep (value: number) {
+    const { max, min, step } = this
+    const steps = Math.floor((max - min) / step)
+    for (let i = 0; i <= steps; i++) {
+      const current = min + step * i
+      const next = i === steps ? null : min + step * (i + 1)
 
-    if (percent === 100) {
-      _value = max
-    } else if (percent === 0) {
-      _value = min
-    } else {
-      for (let i = 0; i < steps; i++) {
-        if (percent > i * perPercent && percent <= (i + 1) * perPercent) {
-          const higherThenMiddle = percent - i * perPercent > perPercent / 2
-          _value = higherThenMiddle
-            ? (i + 1) * step + min
-            : i * step + min
-          this.percent = higherThenMiddle ? (i + 1) * perPercent : i * perPercent
+      if (value === current) break
+
+      if (!next && value > current) {
+        // step 不能被 max - min 整除
+        value = current
+      }
+
+      if (next && value > current && value < next) {
+        if (value - current < step / 2) {
+          value = current
+        } else {
+          value = next
         }
+        break
       }
     }
-    if (_value !== this.val) {
-      this.val = _value
-    }
+
+    const percent = (value - min) / (max - min) * 100
+
+    this.val = value
+    this.percent = percent
   }
 
   render () {
