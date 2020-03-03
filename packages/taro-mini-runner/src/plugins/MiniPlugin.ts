@@ -20,7 +20,9 @@ import {
   NODE_MODULES_REG,
   FRAMEWORK_MAP,
   VUE_EXT,
-  SCRIPT_EXT
+  SCRIPT_EXT,
+  printLog,
+  processTypeEnum
 } from '@tarojs/runner-utils'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -80,6 +82,7 @@ export default class TaroMiniPlugin {
   appEntry: string
   appConfig: AppConfig
   filesConfig: object
+  isWatch: boolean
   pages: Set<IComponent>
   components: Set<IComponent>
   tabBarIcons: Set<string>
@@ -94,6 +97,7 @@ export default class TaroMiniPlugin {
       baseLevel: 16
     }, options)
     setAdapter(this.options.buildAdapter)
+    this.isWatch = false
     this.pages = new Set()
     this.components = new Set()
     this.filesConfig = {}
@@ -122,6 +126,10 @@ export default class TaroMiniPlugin {
     compiler.hooks.watchRun.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(async (compiler: webpack.Compiler) => {
+        const changedFiles = this.getChangedFiles(compiler)
+        if (changedFiles.length) {
+          this.isWatch = true
+        }
         await this.run(compiler)
       })
     )
@@ -208,6 +216,9 @@ export default class TaroMiniPlugin {
 
   getPagesConfig () {
     this.pages.forEach(page => {
+      if (!this.isWatch) {
+        printLog(processTypeEnum.COMPILE, '发现页面', this.getShowPath(page.path))
+      }
       this.compileFile(page)
     })
   }
@@ -259,6 +270,10 @@ export default class TaroMiniPlugin {
     const appPages = this.appConfig.pages
     if (!appPages || !appPages.length) {
       throw new Error('全局配置缺少 pages 字段，请检查！')
+    }
+
+    if (!this.isWatch) {
+      printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
     }
     const { framework, prerender } = this.options
     this.prerenderPages = new Set(validatePrerenderPages(appPages, prerender).map(p => p.path))
@@ -347,6 +362,9 @@ export default class TaroMiniPlugin {
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
           const isNative = this.isNativePageORComponent(customTabBarComponentTemplPath)
+          if (!this.isWatch) {
+            printLog(processTypeEnum.COMPILE, '自定义 tabBar', this.getShowPath(customTabBarComponentPath))
+          }
           const componentObj = {
             name: 'custom-tab-bar/index',
             path: customTabBarComponentPath,
@@ -509,8 +527,19 @@ export default class TaroMiniPlugin {
     return componentName.replace(/^(\/|\\)/, '')
   }
 
+  getChangedFiles (compiler) {
+    const { watchFileSystem } = compiler
+    const watcher = watchFileSystem.watcher || watchFileSystem.wfs.watcher
+
+    return Object.keys(watcher.mtimes)
+  }
+
   isNativePageORComponent (templatePath) {
     return fs.existsSync(templatePath)
+  }
+
+  getShowPath (filePath) {
+    return filePath.replace(this.context, '').replace(/\\/g, '/').replace(/^\//, '')
   }
 
   getConfigFilePath (filePath) {

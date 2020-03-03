@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs-extra'
 
 import { mergeWith } from 'lodash'
-import chalk from 'chalk'
+import * as chalk from 'chalk'
 import * as babel from '@babel/core'
 
 import {
