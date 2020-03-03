@@ -110,6 +110,15 @@ export interface InputProps extends StandardProps, FormItemProps {
   adjustPosition?: boolean,
 
   /**
+   * focus时，点击页面的时候不收起键盘
+   *
+   * 默认值：`false`
+   *
+   * @since 2.8.2
+   */
+  holdKeyboard?: boolean,
+
+  /**
    * 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。
    */
   onInput?: CommonEventFunction<{

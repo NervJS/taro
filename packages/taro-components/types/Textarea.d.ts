@@ -109,6 +109,15 @@ export interface TextareaProps extends StandardProps, FormItemProps {
   adjustPosition?: boolean,
 
   /**
+   * focus时，点击页面的时候不收起键盘
+   *
+   * 默认值：`false`
+   *
+   * @since 2.8.2
+   */
+  holdKeyboard?: boolean,
+
+  /**
    * 输入框聚焦时触发
    *
    * event.detail = { value, height }
