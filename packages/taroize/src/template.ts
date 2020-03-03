@@ -79,7 +79,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
     classProp.static = true
     const classDecl = t.classDeclaration(
       t.identifier(className),
-      t.memberExpression(t.identifier('Taro'), t.identifier('Component')),
+      t.memberExpression(t.identifier('React'), t.identifier('Component')),
       t.classBody([render, classProp]),
       []
     )

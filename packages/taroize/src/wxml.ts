@@ -236,6 +236,7 @@ export const createWxmlVistor = (
               ...usedComponents
             ])
             const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
+            const reactImport = buildImportStatement('react', [], 'React')
             // const withWeappImport = buildImportStatement(
             //   '@tarojs/with-weapp',
             //   [],
@@ -244,6 +245,7 @@ export const createWxmlVistor = (
             const ast = t.file(t.program([]))
             ast.program.body.unshift(
               taroComponentsImport,
+              reactImport,
               taroImport,
               // withWeappImport,
               t.exportDefaultDeclaration(classDecl)

@@ -9,9 +9,9 @@ import { processTypeEnum, REG_SCRIPT, REG_TYPESCRIPT } from '../util/constants'
 function getRelativePath (
   rootPath: string,
   sourceFilePath: string,
-  oriPath: string,
+  oriPath: string
 ) {
-  //处理以/开头的绝对路径，比如 /a/b
+  // 处理以/开头的绝对路径，比如 /a/b
   if (path.isAbsolute(oriPath)) {
     if (oriPath.indexOf('/') !== 0) {
       return ''
@@ -27,7 +27,7 @@ function getRelativePath (
     }
     return relativePath
   }
-  //处理非正常路径，比如 a/b
+  // 处理非正常路径，比如 a/b
   if (oriPath.indexOf('.') !== 0) {
     const vpath = path.resolve(sourceFilePath, '..', oriPath)
     if (fs.existsSync(vpath)) {

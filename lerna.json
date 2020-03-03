@@ -19,7 +19,8 @@
     "packages/taro-router",
     "packages/taro-runner-utils",
     "packages/taro-runtime",
-    "packages/taro-webpack-runner"
+    "packages/taro-webpack-runner",
+    "packages/taroize"
   ],
   "command": {
     "publish": {

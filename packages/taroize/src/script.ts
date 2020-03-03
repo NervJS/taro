@@ -33,7 +33,6 @@ function replaceMemberExpression (callee: NodePath<t.Node>) {
 export function parseScript (
   script?: string,
   returned?: t.Expression,
-  json?: t.ObjectExpression,
   wxses: WXS[] = [],
   refId?: Set<string>
 ) {
@@ -69,7 +68,6 @@ export function parseScript (
         classDecl = parsePage(
           path,
           returned || t.nullLiteral(),
-          json,
           componentType,
           refId,
           wxses
@@ -95,6 +93,7 @@ export function parseScript (
     ...usedComponents
   ])
   const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
+  const reactImport = buildImportStatement('react', [], 'React')
   const withWeappImport = buildImportStatement(
     '@tarojs/with-weapp',
     [],
@@ -102,6 +101,7 @@ export function parseScript (
   )
   ast.program.body.unshift(
     taroComponentsImport,
+    reactImport,
     taroImport,
     withWeappImport,
     ...wxses.filter(wxs => !wxs.src.startsWith('./wxs__')).map(wxs => buildImportStatement(wxs.src, [], wxs.module))
@@ -113,7 +113,6 @@ export function parseScript (
 function parsePage (
   pagePath: NodePath<t.CallExpression>,
   returned: t.Expression,
-  json?: t.ObjectExpression,
   componentType?: string,
   refId?: Set<string>,
   wxses?: WXS[]
@@ -143,17 +142,22 @@ function parsePage (
     throw codeFrameError(arg.node, `${componentType || '组件'} 的第一个参数必须是一个对象或变量才能转换。`)
   }
 
-  if (json && t.isObjectExpression(json)) {
-    classBody.push(t.classProperty(t.identifier('config'), json))
-  }
-
   const wxsNames = new Set(wxses ? wxses.map(w => w.module) : [])
 
-  const renderFunc = buildRender(returned, stateKeys.filter(s => !wxsNames.has(s)), propsKeys)
+  const renderFunc = buildRender(
+    componentType === 'App'
+      ? t.memberExpression(
+        t.memberExpression(t.thisExpression(), t.identifier('props')),
+        t.identifier('children')
+      )
+      : returned
+    ,
+    stateKeys.filter(s => !wxsNames.has(s)), propsKeys
+  )
 
   const classDecl = t.classDeclaration(
     t.identifier(componentType === 'App' ? 'App' : defaultClassName),
-    t.memberExpression(t.identifier('Taro'), t.identifier('Component')),
+    t.memberExpression(t.identifier('React'), t.identifier('Component')),
     t.classBody(
       classBody.concat(renderFunc)
     ),

@@ -24,8 +24,8 @@ module.exports = {
     'prefer-spread': 0,
     'prefer-rest-params': 0,
     'no-prototype-builtins': 0,
-    'react/jsx-uses-vars': 'warn',
-    'camelcase': ['error', {allow: ['^internal_', '^unstable_']}]
+    'react/jsx-uses-vars': 'warn'
+    // 'camelcase': ['error', {allow: ['^internal_', '^unstable_']}]
   },
   'env': {
     'jest/globals': true,

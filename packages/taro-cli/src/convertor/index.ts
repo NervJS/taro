@@ -132,8 +132,7 @@ export default class Convertor {
     outputFilePath,
     importStylePath,
     depComponents,
-    imports = [],
-    isApp = false
+    imports = []
   }: IParseAstOptions): { ast: t.File; scriptFiles: Set<string> } {
     const scriptFiles = new Set<string>()
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -328,12 +327,6 @@ export default class Convertor {
                 )
               })
             }
-
-            if (isApp) {
-              ;(astPath.node as t.Program).body.push(
-                template("Taro.render(<App />, document.getElementById('app'))", babylonConfig)()
-              )
-            }
           }
         }
       }
@@ -391,6 +384,7 @@ export default class Convertor {
   }
 
   getSitemapLocation () {
+    // eslint-disable-next-line dot-notation
     const sitemapLocation = this.entryJSON['sitemapLocation']
     if (sitemapLocation) {
       const sitemapFilePath = path.join(this.root, sitemapLocation)
@@ -456,6 +450,17 @@ export default class Convertor {
     return src.replace(this.root, this.convertDir).replace(path.extname(src), extname)
   }
 
+  getConfigFilePath (src: string) {
+    const { dir, name } = path.parse(src)
+    return path.join(dir, name + '.config.js')
+  }
+
+  writeFileToConfig (src: string, json = '{}') {
+    const configSrc = this.getConfigFilePath(src)
+    const code = `export default ${json}`
+    this.writeFileToTaro(configSrc, prettier.format(code, prettierJSConfig))
+  }
+
   generateShowPath (filePath: string): string {
     return filePath
       .replace(path.join(this.root, '/'), '')
@@ -485,6 +490,7 @@ export default class Convertor {
       })
       const jsCode = generateMinimalEscapeCode(ast)
       this.writeFileToTaro(entryDistJSPath, prettier.format(jsCode, prettierJSConfig))
+      this.writeFileToConfig(entryDistJSPath, entryJSON)
       printLog(processTypeEnum.GENERATE, '入口文件', this.generateShowPath(entryDistJSPath))
       if (this.entryStyle) {
         this.traverseStyle(this.entryStylePath, this.entryStyle)
@@ -526,6 +532,7 @@ export default class Convertor {
       const pageConfigPath = pagePath + this.fileTypes.CONFIG
       const pageStylePath = pagePath + this.fileTypes.STYLE
       const pageTemplPath = pagePath + this.fileTypes.TEMPL
+      let pageConfigStr = '{}'
 
       try {
         const depComponents = new Set<IComponent>()
@@ -537,7 +544,7 @@ export default class Convertor {
 
         if (fs.existsSync(pageConfigPath)) {
           printLog(processTypeEnum.CONVERT, '页面配置', this.generateShowPath(pageConfigPath))
-          const pageConfigStr = String(fs.readFileSync(pageConfigPath))
+          pageConfigStr = String(fs.readFileSync(pageConfigPath))
           const pageConfig = JSON.parse(pageConfigStr)
           const pageUsingComponnets = pageConfig.usingComponents
           if (pageUsingComponnets) {
@@ -590,6 +597,7 @@ export default class Convertor {
         })
         const jsCode = generateMinimalEscapeCode(ast)
         this.writeFileToTaro(pageDistJSPath, prettier.format(jsCode, prettierJSConfig))
+        this.writeFileToConfig(pageDistJSPath, pageConfigStr)
         printLog(processTypeEnum.GENERATE, '页面文件', this.generateShowPath(pageDistJSPath))
         if (pageStyle) {
           this.traverseStyle(pageStylePath, pageStyle)
@@ -726,28 +734,40 @@ export default class Convertor {
     const version = getPkgVersion()
     const dateObj = new Date()
     const date = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`
-    creator.template(templateName, 'package.json', pkgPath, {
+    creator.template(templateName, 'package.json.tmpl', pkgPath, {
       description,
       projectName,
       version,
       css: 'sass',
       typescript: false,
-      template: templateName
+      template: templateName,
+      framework: 'react'
     })
     creator.template(templateName, path.join('config', 'index.js'), path.join(configDir, 'index.js'), {
       date,
-      projectName
+      projectName,
+      framework: 'react'
     })
-    creator.template(templateName, path.join('config', 'dev.js'), path.join(configDir, 'dev.js'))
-    creator.template(templateName, path.join('config', 'prod.js'), path.join(configDir, 'prod.js'))
+    creator.template(templateName, path.join('config', 'dev.js'), path.join(configDir, 'dev.js'), {
+      framework: 'react'
+    })
+    creator.template(templateName, path.join('config', 'prod.js'), path.join(configDir, 'prod.js'), {
+      framework: 'react'
+    })
     creator.template(templateName, 'project.config.json', path.join(this.convertRoot, 'project.config.json'), {
       description,
-      projectName
+      projectName,
+      framework: 'react'
     })
     creator.template(templateName, '.gitignore', path.join(this.convertRoot, '.gitignore'))
     creator.template(templateName, '.editorconfig', path.join(this.convertRoot, '.editorconfig'))
-    creator.template(templateName, '.eslintrc', path.join(this.convertRoot, '.eslintrc'), {
-      typescript: false
+    creator.template(templateName, '.eslintrc.js', path.join(this.convertRoot, '.eslintrc.js'), {
+      typescript: false,
+      framework: 'react'
+    })
+    creator.template(templateName, 'babel.config.js', path.join(this.convertRoot, 'babel.config.js'), {
+      typescript: false,
+      framework: 'react'
     })
     creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'))
     creator.fs.commit(() => {
