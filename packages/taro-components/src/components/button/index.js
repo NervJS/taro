@@ -13,6 +13,11 @@ class Button extends Nerv.Component {
       touch: false
     }
   }
+  
+  componentWillUnmount() {
+    this.startTimer && clearTimeout(this.startTimer)
+    this.endTimer && clearTimeout(this.endTimer)
+  }
 
   render () {
     const {
@@ -48,7 +53,7 @@ class Button extends Nerv.Component {
         touch: true
       }))
       if (hoverClass && hoverClass !== 'none' && !disabled) {
-        setTimeout(() => {
+        this.startTimer = setTimeout(() => {
           if (this.state.touch) {
             this.setState(() => ({
               hover: true
@@ -63,7 +68,7 @@ class Button extends Nerv.Component {
         touch: false
       }))
       if (hoverClass && hoverClass !== 'none' && !disabled) {
-        setTimeout(() => {
+        this.endTimer = setTimeout(() => {
           if (!this.state.touch) {
             this.setState(() => ({
               hover: false
