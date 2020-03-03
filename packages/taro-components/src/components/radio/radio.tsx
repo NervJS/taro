@@ -37,7 +37,7 @@ export class Radio implements ComponentInterface {
   }
 
   render () {
-    const { checked, name } = this
+    const { checked, name, value } = this
 
     return (
       <Host
@@ -52,6 +52,7 @@ export class Radio implements ComponentInterface {
           }}
           type='radio'
           name={name}
+          value={value}
           class='weui-check'
           checked={checked}
           onChange={e => e.stopPropagation()}

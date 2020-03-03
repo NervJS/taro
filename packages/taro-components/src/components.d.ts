@@ -34,6 +34,7 @@ export namespace Components {
   interface TaroBlock {}
   interface TaroButton {
     'disabled': boolean;
+    'formType': 'submit' | 'reset' | null;
     'hoverClass': string;
     'hoverStartTime': number;
     'hoverStayTime': number;
@@ -75,6 +76,7 @@ export namespace Components {
     'confirmType': string;
     'disabled': boolean;
     'maxlength': number;
+    'name': string;
     'password': boolean;
     'placeholder': string;
     'type': string;
@@ -199,6 +201,7 @@ export namespace Components {
   interface TaroSwitch {
     'checked': boolean;
     'color': string;
+    'name': string;
     'type': string;
   }
   interface TaroTabbar {
@@ -211,6 +214,7 @@ export namespace Components {
     'autoFocus': boolean;
     'disabled': boolean;
     'maxlength': number;
+    'name': string;
     'placeholder': string;
     'value': string;
   }
@@ -615,10 +619,13 @@ declare namespace LocalJSX {
   interface TaroBlock {}
   interface TaroButton {
     'disabled'?: boolean;
+    'formType'?: 'submit' | 'reset' | null;
     'hoverClass'?: string;
     'hoverStartTime'?: number;
     'hoverStayTime'?: number;
     'loading'?: boolean;
+    'onTarobuttonreset'?: (event: CustomEvent<any>) => void;
+    'onTarobuttonsubmit'?: (event: CustomEvent<any>) => void;
     'plain'?: boolean;
     'size'?: string;
     'type'?: string;
@@ -644,7 +651,6 @@ declare namespace LocalJSX {
   interface TaroCoverImage {}
   interface TaroCoverView {}
   interface TaroForm {
-    'onReset'?: (event: CustomEvent<any>) => void;
     'onSubmit'?: (event: CustomEvent<any>) => void;
   }
   interface TaroIcon {
@@ -664,6 +670,7 @@ declare namespace LocalJSX {
     'confirmType'?: string;
     'disabled'?: boolean;
     'maxlength'?: number;
+    'name'?: string;
     'onBlur'?: (event: CustomEvent<any>) => void;
     'onChange'?: (event: CustomEvent<any>) => void;
     'onConfirm'?: (event: CustomEvent<any>) => void;
@@ -807,6 +814,7 @@ declare namespace LocalJSX {
   interface TaroSwitch {
     'checked'?: boolean;
     'color'?: string;
+    'name'?: string;
     'onChange'?: (event: CustomEvent<any>) => void;
     'type'?: string;
   }
@@ -821,6 +829,7 @@ declare namespace LocalJSX {
     'autoFocus'?: boolean;
     'disabled'?: boolean;
     'maxlength'?: number;
+    'name'?: string;
     'onBlur'?: (event: CustomEvent<any>) => void;
     'onChange'?: (event: CustomEvent<any>) => void;
     'onFocus'?: (event: CustomEvent<any>) => void;

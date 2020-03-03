@@ -37,7 +37,7 @@ export class Checkbox implements ComponentInterface {
   }
 
   render () {
-    const { checked, name, color } = this
+    const { checked, name, color, value } = this
 
     return (
       <Host
@@ -50,6 +50,7 @@ export class Checkbox implements ComponentInterface {
             if (this.id) dom.setAttribute('id', this.id)
           }}
           type='checkbox'
+          value={value}
           name={name}
           class='taro-checkbox_checked'
           style={{ color }}

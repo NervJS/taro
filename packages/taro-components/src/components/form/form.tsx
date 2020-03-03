@@ -1,21 +1,22 @@
-import { Component, h, ComponentInterface, Event, EventEmitter, Element } from '@stencil/core'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Component, h, ComponentInterface, Event, EventEmitter, Element, Listen } from '@stencil/core'
 
 @Component({
   tag: 'taro-form'
 })
 export class Form implements ComponentInterface {
+  private form: HTMLFormElement
+
+  @Element() el: HTMLElement
+
   @Event({
     eventName: 'submit'
   }) onSubmit: EventEmitter
 
-  @Event({
-    eventName: 'reset'
-  }) onReset: EventEmitter
+  @Listen('tarobuttonsubmit')
+  onButtonSubmit (e: Event) {
+    e.stopPropagation()
 
-  @Element() el: HTMLElement
-
-  submit (e: CustomEvent) {
-    e.preventDefault()
     const el = this.el
     const elements: HTMLInputElement[] = []
     const tagElements = el.getElementsByTagName('input')
@@ -73,12 +74,20 @@ export class Form implements ComponentInterface {
     })
   }
 
+  @Listen('tarobuttonreset')
+  onButtonReset (e: Event) {
+    e.stopPropagation()
+    this.form.reset()
+  }
 
   render () {
     return (
       <form
-        onSubmit={this.submit}
-        onReset={() => this.onReset.emit()}
+        ref={dom => {
+          if (dom) {
+            this.form = dom
+          }
+        }}
       >
         <slot />
       </form>

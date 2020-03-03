@@ -35,6 +35,7 @@ export class Input implements ComponentInterface {
   @Prop() maxlength = 140
   @Prop() autoFocus = false
   @Prop() confirmType = 'done'
+  @Prop() name: string
 
   @Event({
     eventName: 'input'
@@ -164,7 +165,8 @@ export class Input implements ComponentInterface {
       disabled,
       maxlength,
       autoFocus,
-      confirmType
+      confirmType,
+      name
     } = this
 
     return (
@@ -180,6 +182,7 @@ export class Input implements ComponentInterface {
         disabled={disabled}
         maxlength={maxlength}
         autofocus={autoFocus}
+        name={name}
         onInput={this.hanldeInput}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}

@@ -9,6 +9,7 @@ export class Switch implements ComponentInterface {
   @Prop() checked = false
   @Prop() color = '#04BE02'
   @State() isChecked: boolean
+  @Prop() name: string
 
   @Watch('checked')
   function (newVal: boolean, oldVal: boolean) {
@@ -37,7 +38,8 @@ export class Switch implements ComponentInterface {
     const {
       type,
       color,
-      isChecked
+      isChecked,
+      name
     } = this
 
     const style = isChecked
@@ -53,6 +55,7 @@ export class Switch implements ComponentInterface {
         class={`weui-${type}`}
         style={style}
         checked={isChecked}
+        name={name}
         onChange={this.switchChange}
       />
     )

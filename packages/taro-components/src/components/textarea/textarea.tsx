@@ -16,6 +16,7 @@ export class Textarea implements ComponentInterface {
   @Prop() disabled = false
   @Prop() maxlength = 140
   @Prop() autoFocus = false
+  @Prop() name: string
 
   @Event({
     eventName: 'input'
@@ -60,7 +61,6 @@ export class Textarea implements ComponentInterface {
     })
   }
 
-
   render () {
     const {
       value,
@@ -68,6 +68,7 @@ export class Textarea implements ComponentInterface {
       disabled,
       maxlength,
       autoFocus,
+      name,
       hanldeInput,
       handleFocus,
       handleBlur,
@@ -80,6 +81,7 @@ export class Textarea implements ComponentInterface {
         class='taro-textarea'
         value={fixControlledValue(value)}
         placeholder={placeholder}
+        name={name}
         disabled={disabled}
         maxlength={maxlength}
         autofocus={autoFocus}

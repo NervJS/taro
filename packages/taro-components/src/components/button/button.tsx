@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, Prop, State, ComponentInterface } from '@stencil/core'
+import { Component, h, Prop, State, ComponentInterface, Event, EventEmitter } from '@stencil/core'
 import classNames from 'classnames'
 
 @Component({
@@ -15,16 +15,55 @@ export class Button implements ComponentInterface {
   @Prop() size: string
   @Prop() plain: boolean
   @Prop() loading = false
+  @Prop() formType: 'submit' | 'reset' | null = null
+
   @State() hover = false
   @State() touch = false
+
+  @Event({
+    eventName: 'tarobuttonsubmit'
+  }) onSubmit: EventEmitter
+
+  @Event({
+    eventName: 'tarobuttonreset'
+  }) onReset: EventEmitter
+
+  onTouchStart = (e: Event) => {
+    // 取消 form 内 button 跳转
+    e.preventDefault()
+
+    this.touch = true
+    if (this.hoverClass && !this.disabled) {
+      setTimeout(() => {
+        if (this.touch) {
+          this.hover = true
+        }
+      }, this.hoverStartTime)
+    }
+  }
+
+  onTouchEnd = () => {
+    this.touch = false
+    if (this.hoverClass && !this.disabled) {
+      setTimeout(() => {
+        if (!this.touch) {
+          this.hover = false
+        }
+      }, this.hoverStayTime)
+    }
+
+    if (this.formType === 'submit') {
+      this.onSubmit.emit()
+    } else if (this.formType === 'reset') {
+      this.onReset.emit()
+    }
+  }
 
   render () {
     const {
       disabled,
       hoverClass,
       type,
-      hoverStartTime,
-      hoverStayTime,
       size,
       plain,
       loading,
@@ -44,28 +83,6 @@ export class Button implements ComponentInterface {
       }
     )
 
-    const _onTouchStart = () => {
-      this.touch = true
-      if (hoverClass && !disabled) {
-        setTimeout(() => {
-          if (this.touch) {
-            this.hover = true
-          }
-        }, hoverStartTime)
-      }
-    }
-
-    const _onTouchEnd = () => {
-      this.touch = false
-      if (hoverClass && !disabled) {
-        setTimeout(() => {
-          if (!this.touch) {
-            this.hover = false
-          }
-        }, hoverStayTime)
-      }
-    }
-
     return (
       <button
         class={cls}
@@ -73,8 +90,8 @@ export class Button implements ComponentInterface {
         // @ts-ignore: weui need plain for css selector
         plain={plain}
         disabled={disabled}
-        onTouchStart={_onTouchStart}
-        onTouchEnd={_onTouchEnd}
+        onTouchStart={this.onTouchStart}
+        onTouchEnd={this.onTouchEnd}
       >
         {loading && <i class='weui-loading' />}
         <slot />
