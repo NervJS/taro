@@ -19,25 +19,25 @@ function buildSlotName (slotName: string) {
   return `render${slotName[0].toUpperCase() + slotName.replace('-', '').slice(1)}`
 }
 
-enum NodeType {
+export enum NodeType {
   Element = 'element',
   Comment = 'comment',
   Text = 'text'
 }
 
-interface Element {
+export interface Element {
   type: NodeType.Element
   tagName: string
-  children: Node[]
+  children: AllKindNode[]
   attributes: Attribute[]
 }
 
-interface Attribute {
+export interface Attribute {
   key: string
   value: string | null
 }
 
-interface Comment {
+export interface Comment {
   type: NodeType.Comment
   content: string
 }
@@ -52,15 +52,15 @@ export interface WXS {
   src: string
 }
 
-type AllKindNode = Element | Comment | Text
-type Node = Element | Text
+export type AllKindNode = Element | Comment | Text
+export type Node = Element | Text
 interface Condition {
   condition: string
   path: NodePath<t.JSXElement>
   tester: t.JSXExpressionContainer
 }
 
-type AttrValue =
+export type AttrValue =
   | t.StringLiteral
   | t.JSXElement
   | t.JSXExpressionContainer
@@ -79,12 +79,13 @@ export interface Wxml {
   refIds: Set<string>
 }
 
-const WX_IF = 'wx:if'
-const WX_ELSE_IF = 'wx:elif'
-const WX_FOR = 'wx:for'
-const WX_FOR_ITEM = 'wx:for-item'
-const WX_FOR_INDEX = 'wx:for-index'
-const WX_KEY = 'wx:key'
+export const WX_IF = 'wx:if'
+export const WX_ELSE_IF = 'wx:elif'
+export const WX_FOR = 'wx:for'
+export const WX_FOR_ITEM = 'wx:for-item'
+export const WX_FOR_INDEX = 'wx:for-index'
+export const WX_KEY = 'wx:key'
+export const WX_ELSE = 'wx:else'
 
 export const wxTemplateCommand = [
   WX_IF,
@@ -689,7 +690,7 @@ function parseElement (element: Element): t.JSXElement {
   )
 }
 
-function removEmptyTextAndComment (nodes: AllKindNode[]) {
+export function removEmptyTextAndComment (nodes: AllKindNode[]) {
   return nodes.filter(node => {
     return node.type === NodeType.Element ||
       (node.type === NodeType.Text && node.content.trim().length !== 0) ||
@@ -711,7 +712,11 @@ function parseText (node: Text, tagName?: string) {
 
 const handlebarsRE = /\{\{((?:.|\n)+?)\}\}/g
 
-function parseContent (content: string) {
+function singleQuote (s: string) {
+  return `'${s}'`
+}
+
+export function parseContent (content: string, single = false): { type: 'raw' | 'expression', content: string } {
   content = content.trim()
   if (!handlebarsRE.test(content)) {
     return {
@@ -730,7 +735,7 @@ function parseContent (content: string) {
     // push text token
     if (index > lastIndex) {
       tokenValue = content.slice(lastIndex, index)
-      tokens.push(JSON.stringify(tokenValue))
+      tokens.push(single ? singleQuote(tokenValue) : JSON.stringify(tokenValue))
     }
     // tag token
     const exp = match[1].trim()
@@ -739,7 +744,7 @@ function parseContent (content: string) {
   }
   if (lastIndex < content.length) {
     tokenValue = content.slice(lastIndex)
-    tokens.push(JSON.stringify(tokenValue))
+    tokens.push(single ? singleQuote(tokenValue) : JSON.stringify(tokenValue))
   }
   return {
     type: 'expression',
@@ -766,7 +771,7 @@ function parseAttribute (attr: Attribute) {
         expr = buildTemplate(content)
       } catch (error) {
         const pureContent = content.slice(1, content.length - 1)
-        if (reserveKeyWords.has(pureContent) && type !== 'raw') {
+        if (reserveKeyWords.has(pureContent)) {
           const err = `转换模板参数： \`${key}: ${value}\` 报错: \`${pureContent}\` 是 JavaScript 保留字，请不要使用它作为值。`
           if (key === WX_KEY) {
             expr = t.stringLiteral('')
