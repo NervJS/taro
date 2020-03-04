@@ -21,6 +21,7 @@ export declare const REG_IMAGE: RegExp;
 export declare const REG_FONT: RegExp;
 export declare const REG_JSON: RegExp;
 export declare const REG_UX: RegExp;
+export declare const REG_TEMPLATE: RegExp;
 export declare const REG_WXML_IMPORT: RegExp;
 export declare const REG_URL: RegExp;
 export declare const CSS_IMPORT_REG: RegExp;

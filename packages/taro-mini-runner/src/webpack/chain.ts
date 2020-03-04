@@ -25,7 +25,9 @@ import {
   BUILD_TYPES,
   REG_SCRIPTS,
   REG_VUE,
-  REG_CSS
+  REG_CSS,
+  REG_TEMPLATE,
+  MINI_APP_FILES
 } from '@tarojs/runner-utils'
 
 import { getPostcssPlugins } from './postcss.conf'
@@ -128,6 +130,7 @@ export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
 export const getVueLoader = pipe(mergeOption, partial(getLoader, 'vue-loader'))
+export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
 
 const getExtractCssLoader = () => {
   return {
@@ -178,7 +181,7 @@ export const getProviderPlugin = args => {
 }
 
 export const getModule = (appPath: string, {
-  // sourceDir,
+  sourceDir,
 
   designWidth,
   deviceRatio,
@@ -231,6 +234,9 @@ export const getModule = (appPath: string, {
   ]
   const extractCssLoader = getExtractCssLoader()
   const quickappStyleLoader = getQuickappStyleLoader()
+  const miniTemplateLoader = getMiniTemplateLoader([{
+    buildAdapter
+  }])
 
   const cssLoader = getCssLoader(cssOptions)
   const sassLoader = getSassLoader([{
@@ -367,6 +373,14 @@ export const getModule = (appPath: string, {
       use: {
         babelLoader: getBabelLoader([])
       }
+    },
+    template: {
+      test: REG_TEMPLATE,
+      use: [getFileLoader([{
+        useRelativePath: true,
+        name: `[path][name]${MINI_APP_FILES[buildAdapter].TEMPL}`,
+        context: sourceDir
+      }]), miniTemplateLoader]
     },
     media: {
       test: REG_MEDIA,

@@ -172,7 +172,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     target: Targets[buildAdapter],
     resolve: { alias },
     module: getModule(appPath, {
-      // sourceDir,
+      sourceDir,
 
       buildAdapter,
       // constantsReplaceList,
