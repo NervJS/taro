@@ -127,7 +127,9 @@ export interface IMiniAppConfig {
   imageUrlLoaderOption: IOption,
   miniCssExtractPluginOption: IOption,
 
-  customFilesTypes: IMINI_APP_FILE_TYPE
+  customFilesTypes: IMINI_APP_FILE_TYPE,
+  commonChunks?: string[] | ((commonChunks: string[]) => string[]),
+  addChunkPages?: ((pages: Map<string, string[]>, pagesNames?: string[]) => void),
 }
 
 export type TogglableOptions<T = IOption> = {
