@@ -59,6 +59,7 @@
     "miniprogram-simulate": "^1.1.5",
     "node-sass": "^4.12.0",
     "ora": "^3.4.0",
+    "postcss-import": "12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-pxtransform": "^1.3.2",
     "request": "^2.88.0",

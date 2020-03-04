@@ -49,7 +49,7 @@ export const getPostcssPlugins = function (appPath: string, {
   if (pxtransformOption.enable && !isQuickapp) {
     plugins.push(pxtransform(pxtransformOption.config))
   }
-
+  plugins.unshift(require('postcss-import'))
   Object.entries(postcssOption).forEach(([pluginName, pluginOption]) => {
     if (optionsWithDefaults.indexOf(pluginName) > -1) return
     if (!pluginOption || !pluginOption.enable) return
