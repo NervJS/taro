@@ -3,7 +3,7 @@ import { shouleBeObject, getParameterError } from '../utils'
 /**
  * 从本地相册选择图片或使用相机拍照。
  * @param {Object} object 参数
- * @param {string[]} [object.sourceType=['album', 'camera']] 选择图片的来源，h5允许传入 `user`
+ * @param {string[]} [object.sourceType=['album', 'camera']] 选择图片的来源，h5允许传入 `user/environment/camera/`
  * @param {string[]} [object.sizeType=['original', 'compressed']] 所选的图片的尺寸（h5端未实现）
  * @param {number} [object.count=9] 最多可以选择的图片张数
  * @param {function} [object.success] 接口调用成功的回调函数
