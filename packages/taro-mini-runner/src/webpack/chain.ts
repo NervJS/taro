@@ -386,7 +386,9 @@ export const getModule = (appPath: string, {
       test: REG_MEDIA,
       use: {
         urlLoader: getUrlLoader([defaultMediaUrlLoaderOption, {
-          name: `${staticDirectory}/media/[name].[ext]`,
+          name: `[path][name].[ext]`,
+          useRelativePath: true,
+          context: sourceDir,
           ...(postcssUrlOption || {}),
           ...mediaUrlLoaderOption
         }])
@@ -396,7 +398,9 @@ export const getModule = (appPath: string, {
       test: REG_FONT,
       use: {
         urlLoader: getUrlLoader([defaultFontUrlLoaderOption, {
-          name: `${staticDirectory}/fonts/[name].[ext]`,
+          name: `[path][name].[ext]`,
+          useRelativePath: true,
+          context: sourceDir,
           ...(postcssUrlOption || {}),
           ...fontUrlLoaderOption
         }])
@@ -406,7 +410,9 @@ export const getModule = (appPath: string, {
       test: REG_IMAGE,
       use: {
         urlLoader: getUrlLoader([defaultImageUrlLoaderOption, {
-          name: `${staticDirectory}/images/[name].[ext]`,
+          name: `[path][name].[ext]`,
+          useRelativePath: true,
+          context: sourceDir,
           ...(postcssUrlOption || {}),
           ...imageUrlLoaderOption
         }])
