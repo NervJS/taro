@@ -32,6 +32,7 @@ import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import { setAdapter } from '../template/adapters'
 import { componentConfig } from '../template/component'
 import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
+import { AddPageChunks } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -48,6 +49,7 @@ interface ITaroMiniPluginOptions {
   framework: string
   baseLevel: number
   prerender?: PrerenderConfig
+  addChunkPages?: AddPageChunks
 }
 
 export interface IComponentObj {
@@ -190,7 +192,8 @@ export default class TaroMiniPlugin {
       commonChunks: this.options.commonChunks,
       buildAdapter: this.options.buildAdapter,
       framework: this.options.framework,
-      isBuildPlugin: false
+      isBuildPlugin: false,
+      addChunkPages: this.options.addChunkPages
     }).apply(compiler)
   }
 
@@ -263,7 +266,7 @@ export default class TaroMiniPlugin {
     }
   }
 
-  getPages () {
+  getPages (compiler) {
     if (isEmptyObject(this.appConfig)) {
       throw new Error('缺少 app 全局配置，请检查！')
     }
@@ -288,6 +291,7 @@ export default class TaroMiniPlugin {
         return { name: item, path: pagePath, isNative }
       })
     ])
+    ;(compiler.hooks as any).getPages.call(this.pages)
   }
 
   getSubPackages (appConfig) {
@@ -509,7 +513,7 @@ export default class TaroMiniPlugin {
 
   run (compiler) {
     this.appConfig = this.getAppConfig()
-    this.getPages()
+    this.getPages(compiler)
     this.getPagesConfig()
     this.getConfigFiles(compiler)
     this.addEntries(compiler)

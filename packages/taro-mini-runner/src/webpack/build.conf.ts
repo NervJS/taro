@@ -56,7 +56,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
     csso,
     uglify,
-    commonChunks
+    commonChunks,
+    addChunkPages
   } = config
 
   let { copy } = config
@@ -127,7 +128,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks: customCommonChunks,
     baseLevel,
     framework,
-    prerender
+    prerender,
+    addChunkPages
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{

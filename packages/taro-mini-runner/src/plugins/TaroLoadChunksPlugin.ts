@@ -3,10 +3,11 @@ import * as path from 'path'
 import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
+import { toDashed } from '@tarojs/shared'
 import { promoteRelativePath, META_TYPE, REG_STYLE, BUILD_TYPES, taroJsComponents } from '@tarojs/runner-utils'
 
 import { componentConfig } from '../template/component'
-import { toDashed } from '@tarojs/shared'
+import { AddPageChunks } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 
@@ -14,7 +15,8 @@ interface IOptions {
   commonChunks: string[],
   buildAdapter: BUILD_TYPES,
   isBuildPlugin: boolean,
-  framework: string
+  framework: string,
+  addChunkPages?: AddPageChunks
 }
 
 export default class TaroLoadChunksPlugin {
@@ -22,15 +24,22 @@ export default class TaroLoadChunksPlugin {
   buildAdapter: BUILD_TYPES
   isBuildPlugin: boolean
   framework: string
+  addChunkPages?: AddPageChunks
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
     this.buildAdapter = options.buildAdapter
     this.isBuildPlugin = options.isBuildPlugin
     this.framework = options.framework
+    this.addChunkPages = options.addChunkPages
   }
 
   apply (compiler: webpack.Compiler) {
+    let pagesList
+    const addChunkPagesList = new Map<string, string[]>();
+    (compiler.hooks as any).getPages.tap(PLUGIN_NAME, pages => {
+      pagesList = pages
+    })
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: any) => {
       let commonChunks
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: webpack.compilation.Chunk[]) => {
@@ -85,6 +94,17 @@ export default class TaroLoadChunksPlugin {
             (entryModule.miniType === META_TYPE.PAGE ||
             entryModule.miniType === META_TYPE.COMPONENT)) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
+          }
+          if (typeof this.addChunkPages === 'function' && entryModule.miniType === META_TYPE.PAGE) {
+            const id = getIdOrName(chunk)
+            let source
+            this.addChunkPages(addChunkPagesList, Array.from(pagesList).map((item: any) => item.name))
+            addChunkPagesList.forEach((v, k) => {
+              if (k === id) {
+                source = addRequireToSource(id, modules, v.map(v => ({ name: v })))
+              }
+            })
+            return source
           }
         }
       })

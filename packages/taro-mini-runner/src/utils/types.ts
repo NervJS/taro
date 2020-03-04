@@ -31,3 +31,5 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   baseLevel: number,
   prerender?: PrerenderConfig
 }
+
+export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)
