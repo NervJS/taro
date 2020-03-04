@@ -8,44 +8,43 @@ import { StandardProps, CommonEventFunction } from './common'
  * @see {@link https://developers.weixin.qq.com/miniprogram/dev/component/audio.html}
  */
 export interface AudioProps extends StandardProps {
-
   /**
    * audio 组件的唯一标识符
    */
-  id: string,
+  id?: string,
 
   /**
    * 要播放音频的资源地址
    */
-  src: string,
+  src?: string,
 
   /**
    * 是否循环播放
    * 默认值：`false`
    */
-  loop: boolean,
+  loop?: boolean,
 
   /**
    * 是否显示默认控件
    */
-  controls: boolean,
+  controls?: boolean,
 
   /**
    * 默认控件上的音频封面的图片资源地址，如果 controls 属性值为 false 则设置 poster 无效
    */
-  poster: string,
+  poster?: string,
 
   /**
    * 默认控件上的音频名字，如果 controls 属性值为 false 则设置 name 无效
    * 默认值：`未知音频`
    */
-  name: string,
+  name?: string,
 
   /**
    * 默认控件上的作者名字，如果 controls 属性值为 false 则设置 author 无效
    * 默认值：`未知作者`
    */
-  author: string,
+  author?: string,
 
   /**
    * 当发生错误时触发 error 事件，detail = {errMsg: MediaError.code}
