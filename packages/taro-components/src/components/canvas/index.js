@@ -27,8 +27,6 @@ class Canvas extends Taro.PureComponent {
     onError: null
   }
 
-  /** @type {CanvasProps} */
-  props
   width = 300
   height = 150
   getWrapRef = ref => {
