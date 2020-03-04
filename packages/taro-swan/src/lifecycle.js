@@ -220,6 +220,11 @@ function doUpdate (component, prevProps, prevState) {
       }
     }
 
+    if (!__mounted) {
+      component.__mounted = true
+      componentTrigger(component, 'componentDidMount')
+    }
+
     if (cbs.length) {
       let i = cbs.length
       while (--i >= 0) {

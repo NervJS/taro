@@ -645,10 +645,11 @@ export default class MiniPlugin {
   getComponents (compiler: webpack.Compiler, fileList: Set<IComponent>, isRoot: boolean) {
     const { buildAdapter, alias } = this.options
     const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
+    const isSwanApp = buildAdapter === BUILD_TYPES.SWAN
     fileList.forEach(file => {
       try {
         const isNative = file.isNative
-        const isComponentConfig = isRoot ? {} : { component: true }
+        const isComponentConfig = isRoot && !isSwanApp ? {} : { component: true }
 
         let configObj
         let taroSelfComponents

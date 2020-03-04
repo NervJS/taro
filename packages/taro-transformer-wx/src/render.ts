@@ -686,7 +686,7 @@ export class RenderParser {
 
         const blockAttrs: t.JSXAttribute[] = []
         if ((isNewPropsSystem()) && !this.finalReturnElement && process.env.NODE_ENV !== 'test') {
-          if (this.isDefaultRender) {
+          if (this.isDefaultRender && Adapter.type !== Adapters.swan) {
             blockAttrs.push(t.jSXAttribute(
               t.jSXIdentifier(Adapter.if),
               t.jSXExpressionContainer(t.jSXIdentifier(IS_TARO_READY))
@@ -1041,7 +1041,7 @@ export class RenderParser {
       return
     }
     if (this.isInternalComponent(openingElement)) {
-      if (this.isEmptyProps(openingElement.attributes)) {
+      if (this.isEmptyProps(openingElement.attributes) && Adapter.type !== Adapters.swan) {
         return
       }
       const compId = genCompid()
