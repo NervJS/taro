@@ -53,8 +53,6 @@ class Navigator extends Taro.Component {
     onComplete: null,
     isHover: false
   }
-  /** @type {NavigationProps}  */
-  props
   onClick = () => {
     const { openType, onSuccess, onFail, onComplete } = this.props
     let promise

@@ -84,9 +84,6 @@ class Video extends Component {
     vslideGestureInFullscreen: true
   }
 
-  /** @type {VideoProps} */
-  props
-
   /** @type {HTMLVideoElement} */
   videoRef
 
