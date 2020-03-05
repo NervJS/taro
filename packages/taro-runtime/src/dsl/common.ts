@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import * as React from 'react'
 import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined } from '@tarojs/shared'
 import { eventHandler } from '../dom/event'
@@ -30,7 +31,7 @@ function addLeadingSlash (path?: string) {
 
 const pageId = incrementId()
 
-function safeExecute (instance, lifecycle: keyof PageInstance, ...args: unknown[]) {
+function safeExecute (instance: Instance, lifecycle: keyof PageInstance, ...args: unknown[]) {
   const isReact = process.env.FRAMEWORK !== 'vue' // isReact means all kind of react-like library
 
   if (instance == null) {
@@ -129,7 +130,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       return safeExecute(instance, 'onPopMenuClick')
     },
     onPullIntercept () {
-      return safeExecute(instance ,'onPullIntercept')
+      return safeExecute(instance, 'onPullIntercept')
     }
   }
 
@@ -187,9 +188,10 @@ export function createComponentConfig (component: React.ComponentClass, componen
   if (!isUndefined(data)) {
     config.data = data
   }
-  (component as any).options && (config.options = (component as any).options)
-  (component as any).externalClasses && (config.externalClasses = (component as any).externalClasses)
-  (component as any).behaviors && (config.behaviors = (component as any).behaviors)
+
+  config['options'] = component?.['options'] ?? EMPTY_OBJ
+  config['externalClasses'] = component?.['externalClasses'] ?? EMPTY_OBJ
+  config['behaviors'] = component?.['behaviors'] ?? EMPTY_OBJ
   return config
 }
 

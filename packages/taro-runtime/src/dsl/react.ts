@@ -11,7 +11,7 @@ export function connectReactPage (
   id: string
 ) {
   const h = R.createElement
-  return (component: ReactPageComponent): React.FunctionComponent<PageProps> => {
+  return (component: ReactPageComponent): React.ComponentClass<PageProps> => {
     // eslint-disable-next-line dot-notation
     const isReactComponent = isFunction(component['render']) ||
       !!component.prototype?.isReactComponent ||
@@ -24,26 +24,45 @@ export function connectReactPage (
       PageContext = R.createContext('')
     }
 
-    return (props: PageProps) => {
-      if (isBrowser) {
-        return h(
-          'div',
-          { id, className: 'taro_page' },
-          h(PageContext.Provider, { value: id }, h(component, {
-            ...props,
-            ...refs
-          }))
-        )
+    return class Page extends R.Component<PageProps, { hasError: boolean }> {
+      state = {
+        hasError: false
       }
 
-      return h(
-        'root',
-        { id },
-        h(PageContext.Provider, { value: id }, h(component, {
-          ...props,
-          ...refs
-        }))
-      )
+      static getDerivedStateFromError (error: Error) {
+        console.warn(error)
+        return { hasError: true }
+      }
+
+      // React 16 uncaught error 会导致整个应用 crash，
+      // 目前把错误缩小到页面
+      componentDidCatch (error: Error, info: React.ErrorInfo) {
+        console.warn(error)
+        console.error(info.componentStack)
+      }
+
+      render () {
+        const children = this.state.hasError
+          ? []
+          : h(PageContext.Provider, { value: id }, h(component, {
+            ...this.props,
+            ...refs
+          }))
+
+        if (isBrowser) {
+          return h(
+            'div',
+            { id, className: 'taro_page' },
+            children
+          )
+        }
+
+        return h(
+          'root',
+          { id },
+          children
+        )
+      }
     }
   }
 }
@@ -83,6 +102,8 @@ export const taroHooks = (lifecycle: string) => {
   }
 }
 
+type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
+
 export function createReactApp (App: React.ComponentClass, react?: typeof React) {
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
 
@@ -96,10 +117,10 @@ export function createReactApp (App: React.ComponentClass, react?: typeof React)
 
   class AppWrapper extends R.Component {
     // run createElement() inside the render function to make sure that owner is right
-    private pages: Array<() => React.FunctionComponentElement<PageProps>> = []
-    private elements: Array<React.FunctionComponentElement<PageProps>> = []
+    private pages: Array<() => PageComponent> = []
+    private elements: Array<PageComponent> = []
 
-    public mount (component: React.FunctionComponent<PageProps>, id: string, cb: () => void) {
+    public mount (component: React.ComponentClass<PageProps>, id: string, cb: () => void) {
       const page = () => R.createElement(component, { key: id, tid: id })
       this.pages.push(page)
       this.forceUpdate(cb)

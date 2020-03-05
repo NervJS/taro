@@ -156,7 +156,7 @@ function createElement (tagName: string): Element {
   }
 }
 
-function generateVueFile (children: AllKindNode[], code: string): string {
+export function generateVueFile (children: AllKindNode[], jsCode: string): string {
   const template = createElement('template')
   const container = createElement('block')
   container.children = children
@@ -165,7 +165,7 @@ function generateVueFile (children: AllKindNode[], code: string): string {
   const script = createElement('script')
   script.children = [{
     type: NodeType.Text,
-    content: code
+    content: jsCode
   }]
 
   return stringify([template, script])
