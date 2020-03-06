@@ -431,7 +431,7 @@ class Compiler {
             )
 
             node.body = toAst(buildFuncBody(pages), { preserveComments: true })
-
+          } else {
             node.body.body = compact([
               hasComponentDidHide && isComponentWillUnmount && callComponentDidHideNode,
               ...node.body.body,
@@ -809,7 +809,7 @@ class Compiler {
                 )
 
                 node.body = toAst(buildFuncBody(pages), { preserveComments: true })
-
+              } else {
                 node.body.body = compact([
                   hasComponentDidHide && isComponentWillUnmount && callComponentDidHideNode,
                   ...node.body.body,
