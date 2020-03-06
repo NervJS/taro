@@ -6,7 +6,7 @@ import { urlToRequest } from 'loader-utils'
 
 import { PARSE_AST_TYPE, REG_STYLE, BUILD_TYPES } from '../utils/constants'
 import { promoteRelativePath } from '../utils'
-import { AddPageChunks } from '../utils/types'
+import { AddPageChunks, IComponent, IComponentObj } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 
@@ -14,7 +14,10 @@ interface IOptions {
   commonChunks: string[],
   buildAdapter: BUILD_TYPES,
   isBuildPlugin: boolean,
-  addChunkPages?: AddPageChunks
+  addChunkPages?: AddPageChunks,
+  pages: Set<IComponent>,
+  depsMap: Map<string, Set<IComponentObj>>
+  sourceDir: string
 }
 
 export default class TaroLoadChunksPlugin {
@@ -22,24 +25,49 @@ export default class TaroLoadChunksPlugin {
   buildAdapter: BUILD_TYPES
   isBuildPlugin: boolean
   addChunkPages?: AddPageChunks
+  pages: Set<IComponent>,
+  depsMap: Map<string, Set<IComponentObj>>
+  sourceDir: string
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
     this.buildAdapter = options.buildAdapter
     this.isBuildPlugin = options.isBuildPlugin
     this.addChunkPages = options.addChunkPages
+    this.pages = options.pages
+    this.depsMap = options.depsMap
+    this.sourceDir = options.sourceDir
   }
 
   apply (compiler: webpack.Compiler) {
-    let pagesList
-    const addChunkPagesList = new Map<string, string[]>();
-    (compiler.hooks as any).getPages.tap(PLUGIN_NAME, pages => {
-      pagesList = pages
-    })
+    const pagesList = this.pages
+    const addChunkPagesList = new Map<string, string[]>()
+    const depsMap = this.depsMap
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: any) => {
       let commonChunks
+      let fileChunks = new Map()
+      let allDepsComponents = new Set()
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: compilation.Chunk[]) => {
         commonChunks = chunks.filter(chunk => this.commonChunks.includes(chunk.name)).reverse()
+        this.addChunkPages(addChunkPagesList, Array.from(pagesList).map((item: any) => item.name))
+        chunks.forEach(chunk => {
+          const id = getIdOrName(chunk)
+          addChunkPagesList.forEach((v, k) => {
+            if (k === id) {
+              const depChunks = v.map(v => ({ name: v }))
+              fileChunks.set(id, depChunks)
+              let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
+              if (entryModule) {
+                const depsComponents = getAllDepComponents(entryModule.resource, depsMap)
+                depsComponents.forEach(component => {
+                  const id = component.path.replace(this.sourceDir + path.sep, '').replace(path.extname(component.path), '').replace(/\\{1,}/g, '/')
+                  const oriDep = fileChunks.get(id) || []
+                  fileChunks.set(id, Array.from(new Set([...oriDep, ...depChunks])))
+                })
+              }
+            }
+          })
+        })
       })
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
         if (chunk.entryModule) {
@@ -77,13 +105,14 @@ export default class TaroLoadChunksPlugin {
             entryModule.miniType === PARSE_AST_TYPE.COMPONENT)) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
-          if (typeof this.addChunkPages === 'function' && entryModule.miniType === PARSE_AST_TYPE.PAGE) {
-            const id = getIdOrName(chunk)
+          if (fileChunks.size
+            && (entryModule.miniType === PARSE_AST_TYPE.PAGE
+            || entryModule.miniType === PARSE_AST_TYPE.COMPONENT)) {
             let source
-            this.addChunkPages(addChunkPagesList, Array.from(pagesList).map((item: any) => item.name))
-            addChunkPagesList.forEach((v, k) => {
+            const id = getIdOrName(chunk)
+            fileChunks.forEach((v, k) => {
               if (k === id) {
-                source = addRequireToSource(id, modules, v.map(v => ({ name: v })))
+                source = addRequireToSource(id, modules, v)
               }
             })
             return source
@@ -99,6 +128,19 @@ function getIdOrName (chunk) {
     return chunk.id
   }
   return chunk.name
+}
+
+function getAllDepComponents (filePath, depsMap) {
+  let componentsList = new Set<IComponentObj>()
+  depsMap.forEach((value, key) => {
+    if (filePath === key) {
+      componentsList = new Set<IComponentObj>([...componentsList, ...value])
+      value.forEach(item => {
+        componentsList = new Set<IComponentObj>([...componentsList, ...getAllDepComponents(item.path, depsMap)])
+      })
+    }
+  })
+  return componentsList
 }
 
 function addRequireToSource (id, modules, commonChunks) {

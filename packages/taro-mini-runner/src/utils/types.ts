@@ -15,6 +15,14 @@ export interface IComponentObj {
   type?: string
 }
 
+export interface IComponent {
+  name: string,
+  path: string,
+  isNative: boolean,
+  stylePath?: string,
+  templatePath?: string
+}
+
 export interface IChain {
   [key: string]: any
 }

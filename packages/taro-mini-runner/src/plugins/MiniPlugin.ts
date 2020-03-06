@@ -14,10 +14,9 @@ import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
-import { SyncHook } from 'tapable'
 
 import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsQuickAppComponents, REG_SCRIPTS, processTypeEnum } from '../utils/constants'
-import { IComponentObj, AddPageChunks } from '../utils/types'
+import { IComponentObj, AddPageChunks, IComponent } from '../utils/types'
 import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog, isAliasPath, replaceAliasPath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, getImportCustomComponents, generateQuickAppManifest } from '../utils/helper'
@@ -54,14 +53,6 @@ export interface ITaroFileInfo {
       path: string
     }>
   }
-}
-
-interface IComponent {
-  name: string,
-  path: string,
-  isNative: boolean,
-  stylePath?: string,
-  templatePath?: string
 }
 
 const PLUGIN_NAME = 'MiniPlugin'
@@ -161,6 +152,7 @@ export default class MiniPlugin {
   errors: any[]
   changedFileType: PARSE_AST_TYPE | undefined
   addedComponents: Set<IComponent>
+  pageComponentsDependenciesMap: Map<string, Set<IComponentObj>>
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -184,6 +176,7 @@ export default class MiniPlugin {
     this.isWatch = false
     this.errors = []
     this.addedComponents = new Set()
+    this.pageComponentsDependenciesMap = new Map()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -198,11 +191,19 @@ export default class MiniPlugin {
   apply (compiler) {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
-    compiler.hooks.getPages = new SyncHook(['pages'])
     compiler.hooks.run.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
-				await this.run(compiler)
+        await this.run(compiler)
+        new TaroLoadChunksPlugin({
+          commonChunks: this.options.commonChunks,
+          buildAdapter: this.options.buildAdapter,
+          isBuildPlugin: this.options.isBuildPlugin,
+          addChunkPages: this.options.addChunkPages,
+          pages: this.pages,
+          depsMap: this.pageComponentsDependenciesMap,
+          sourceDir: this.sourceDir
+        }).apply(compiler)
 			})
     )
 
@@ -215,6 +216,15 @@ export default class MiniPlugin {
         } else {
           await this.watchRun(compiler, changedFiles)
         }
+        new TaroLoadChunksPlugin({
+          commonChunks: this.options.commonChunks,
+          buildAdapter: this.options.buildAdapter,
+          isBuildPlugin: this.options.isBuildPlugin,
+          addChunkPages: this.options.addChunkPages,
+          pages: this.pages,
+          depsMap: this.pageComponentsDependenciesMap,
+          sourceDir: this.sourceDir
+        }).apply(compiler)
 			})
     )
 
@@ -255,13 +265,6 @@ export default class MiniPlugin {
         await this.addTarBarFilesToDependencies(compilation)
       })
     )
-
-    new TaroLoadChunksPlugin({
-      commonChunks: this.options.commonChunks,
-      buildAdapter: this.options.buildAdapter,
-      isBuildPlugin: this.options.isBuildPlugin,
-      addChunkPages: this.options.addChunkPages
-    }).apply(compiler)
 
     new TaroNormalModulesPlugin().apply(compiler)
   }
@@ -530,7 +533,6 @@ export default class MiniPlugin {
           }
         })
       ])
-      ;(compiler.hooks as any).getPages.call(this.pages)
     } catch (error) {
       if (error.codeFrame) {
         this.errors.push(new Error(error.message + '\n' + error.codeFrame))
@@ -771,6 +773,7 @@ export default class MiniPlugin {
           }))
         }
         if (depComponents && depComponents.length) {
+          const componentsList = new Set<IComponentObj>()
           depComponents.forEach(item => {
             const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
             if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
@@ -786,6 +789,8 @@ export default class MiniPlugin {
               }
               this.components.add(componentObj)
               this.addedComponents.add(componentObj)
+              componentsList.add(componentObj)
+              this.pageComponentsDependenciesMap.set(file.path, componentsList)
               this.getComponents(compiler, new Set([componentObj]), false)
             }
           })
