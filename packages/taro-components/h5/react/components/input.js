@@ -1,6 +1,6 @@
 import React from 'react'
 import reactifyWc from '../utils/reactify-wc'
-const Input = reactifyWc('taro-input')
+const Input = reactifyWc('taro-input-core')
 
 // eslint-disable-next-line
 const h = React.createElement
@@ -12,8 +12,6 @@ export default React.forwardRef((props, ref) => {
     args.autoFocus = Boolean(args.focus)
     delete args.focus
   }
-
-  console.log('fuck')
 
   return (
     React.createElement(Input, { ...args, ref: ref })

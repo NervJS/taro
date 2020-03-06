@@ -18,7 +18,7 @@ function fixControlledValue (value?: string) {
 }
 
 @Component({
-  tag: 'taro-input',
+  tag: 'taro-input-core',
   styleUrl: 'index.scss'
 })
 export class Input implements ComponentInterface {

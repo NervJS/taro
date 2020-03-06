@@ -88,7 +88,7 @@ const reactifyWebComponent = WC => {
         }
         if (typeof val === 'string' || typeof val === 'number') {
           this.ref.current[prop] = val
-          return this.ref.current.setAttribute(prop, val)
+          return
         }
         if (typeof val === 'boolean') {
           if (val) {

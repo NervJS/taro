@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'Input',
+  name: 'taro-input',
   props: [
     'value',
     'type',
@@ -20,7 +20,7 @@ export default {
   render () {
     const noop = function () {}
     return (
-      <taro-input
+      <taro-input-core
           value={this.value}
           type={this.type}
           password={this.password}

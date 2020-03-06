@@ -14,6 +14,10 @@ import {
   Mode,
 } from './components/image/image';
 import {
+  Fields,
+  Mode as Mode1,
+} from './components/picker/picker';
+import {
   Nodes,
 } from './components/rich-text/rich-text';
 import {
@@ -71,7 +75,7 @@ export namespace Components {
     'mode': Mode;
     'src': string;
   }
-  interface TaroInput {
+  interface TaroInputCore {
     'autoFocus': boolean;
     'confirmType': string;
     'disabled': boolean;
@@ -95,6 +99,27 @@ export namespace Components {
     'url': string;
   }
   interface TaroOpenData {}
+  interface TaroPickerCore {
+    'disabled': boolean;
+    'end': string;
+    'fields': Fields;
+    'mode': Mode;
+    'name': string;
+    'range': any[];
+    'rangeKey': string;
+    'start': string;
+    'value': number | number[] | string;
+  }
+  interface TaroPickerGroup {
+    'columnId': string;
+    'height': number;
+    'mode': 'time' | 'date';
+    'onColumnChange': (height: number, columnId: string) => void;
+    'range': any[];
+    'rangeKey': string;
+    'updateDay': (value: number, fields: number) => void;
+    'updateHeight': (height: number, columnId: string, needRevise?: boolean) => void;
+  }
   interface TaroPickerView {}
   interface TaroPickerViewColumn {}
   interface TaroProgress {
@@ -406,10 +431,10 @@ declare global {
     new (): HTMLTaroImageElement;
   };
 
-  interface HTMLTaroInputElement extends Components.TaroInput, HTMLStencilElement {}
-  var HTMLTaroInputElement: {
-    prototype: HTMLTaroInputElement;
-    new (): HTMLTaroInputElement;
+  interface HTMLTaroInputCoreElement extends Components.TaroInputCore, HTMLStencilElement {}
+  var HTMLTaroInputCoreElement: {
+    prototype: HTMLTaroInputCoreElement;
+    new (): HTMLTaroInputCoreElement;
   };
 
   interface HTMLTaroLabelElement extends Components.TaroLabel, HTMLStencilElement {}
@@ -440,6 +465,18 @@ declare global {
   var HTMLTaroOpenDataElement: {
     prototype: HTMLTaroOpenDataElement;
     new (): HTMLTaroOpenDataElement;
+  };
+
+  interface HTMLTaroPickerCoreElement extends Components.TaroPickerCore, HTMLStencilElement {}
+  var HTMLTaroPickerCoreElement: {
+    prototype: HTMLTaroPickerCoreElement;
+    new (): HTMLTaroPickerCoreElement;
+  };
+
+  interface HTMLTaroPickerGroupElement extends Components.TaroPickerGroup, HTMLStencilElement {}
+  var HTMLTaroPickerGroupElement: {
+    prototype: HTMLTaroPickerGroupElement;
+    new (): HTMLTaroPickerGroupElement;
   };
 
   interface HTMLTaroPickerViewElement extends Components.TaroPickerView, HTMLStencilElement {}
@@ -574,12 +611,14 @@ declare global {
     'taro-form': HTMLTaroFormElement;
     'taro-icon': HTMLTaroIconElement;
     'taro-image': HTMLTaroImageElement;
-    'taro-input': HTMLTaroInputElement;
+    'taro-input-core': HTMLTaroInputCoreElement;
     'taro-label': HTMLTaroLabelElement;
     'taro-moveable-area': HTMLTaroMoveableAreaElement;
     'taro-moveable-view': HTMLTaroMoveableViewElement;
     'taro-navigator': HTMLTaroNavigatorElement;
     'taro-open-data': HTMLTaroOpenDataElement;
+    'taro-picker-core': HTMLTaroPickerCoreElement;
+    'taro-picker-group': HTMLTaroPickerGroupElement;
     'taro-picker-view': HTMLTaroPickerViewElement;
     'taro-picker-view-column': HTMLTaroPickerViewColumnElement;
     'taro-progress': HTMLTaroProgressElement;
@@ -665,7 +704,7 @@ declare namespace LocalJSX {
     'onLoad'?: (event: CustomEvent<any>) => void;
     'src'?: string;
   }
-  interface TaroInput {
+  interface TaroInputCore {
     'autoFocus'?: boolean;
     'confirmType'?: string;
     'disabled'?: boolean;
@@ -698,6 +737,30 @@ declare namespace LocalJSX {
     'url'?: string;
   }
   interface TaroOpenData {}
+  interface TaroPickerCore {
+    'disabled'?: boolean;
+    'end'?: string;
+    'fields'?: Fields;
+    'mode'?: Mode;
+    'name'?: string;
+    'onCancel'?: (event: CustomEvent<any>) => void;
+    'onChange'?: (event: CustomEvent<any>) => void;
+    'onColumnchange'?: (event: CustomEvent<any>) => void;
+    'range'?: any[];
+    'rangeKey'?: string;
+    'start'?: string;
+    'value'?: number | number[] | string;
+  }
+  interface TaroPickerGroup {
+    'columnId'?: string;
+    'height'?: number;
+    'mode'?: 'time' | 'date';
+    'onColumnChange'?: (height: number, columnId: string) => void;
+    'range'?: any[];
+    'rangeKey'?: string;
+    'updateDay'?: (value: number, fields: number) => void;
+    'updateHeight'?: (height: number, columnId: string, needRevise?: boolean) => void;
+  }
   interface TaroPickerView {}
   interface TaroPickerViewColumn {}
   interface TaroProgress {
@@ -967,12 +1030,14 @@ declare namespace LocalJSX {
     'taro-form': TaroForm;
     'taro-icon': TaroIcon;
     'taro-image': TaroImage;
-    'taro-input': TaroInput;
+    'taro-input-core': TaroInputCore;
     'taro-label': TaroLabel;
     'taro-moveable-area': TaroMoveableArea;
     'taro-moveable-view': TaroMoveableView;
     'taro-navigator': TaroNavigator;
     'taro-open-data': TaroOpenData;
+    'taro-picker-core': TaroPickerCore;
+    'taro-picker-group': TaroPickerGroup;
     'taro-picker-view': TaroPickerView;
     'taro-picker-view-column': TaroPickerViewColumn;
     'taro-progress': TaroProgress;
@@ -1014,12 +1079,14 @@ declare module "@stencil/core" {
       'taro-form': LocalJSX.TaroForm & JSXBase.HTMLAttributes<HTMLTaroFormElement>;
       'taro-icon': LocalJSX.TaroIcon & JSXBase.HTMLAttributes<HTMLTaroIconElement>;
       'taro-image': LocalJSX.TaroImage & JSXBase.HTMLAttributes<HTMLTaroImageElement>;
-      'taro-input': LocalJSX.TaroInput & JSXBase.HTMLAttributes<HTMLTaroInputElement>;
+      'taro-input-core': LocalJSX.TaroInputCore & JSXBase.HTMLAttributes<HTMLTaroInputCoreElement>;
       'taro-label': LocalJSX.TaroLabel & JSXBase.HTMLAttributes<HTMLTaroLabelElement>;
       'taro-moveable-area': LocalJSX.TaroMoveableArea & JSXBase.HTMLAttributes<HTMLTaroMoveableAreaElement>;
       'taro-moveable-view': LocalJSX.TaroMoveableView & JSXBase.HTMLAttributes<HTMLTaroMoveableViewElement>;
       'taro-navigator': LocalJSX.TaroNavigator & JSXBase.HTMLAttributes<HTMLTaroNavigatorElement>;
       'taro-open-data': LocalJSX.TaroOpenData & JSXBase.HTMLAttributes<HTMLTaroOpenDataElement>;
+      'taro-picker-core': LocalJSX.TaroPickerCore & JSXBase.HTMLAttributes<HTMLTaroPickerCoreElement>;
+      'taro-picker-group': LocalJSX.TaroPickerGroup & JSXBase.HTMLAttributes<HTMLTaroPickerGroupElement>;
       'taro-picker-view': LocalJSX.TaroPickerView & JSXBase.HTMLAttributes<HTMLTaroPickerViewElement>;
       'taro-picker-view-column': LocalJSX.TaroPickerViewColumn & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnElement>;
       'taro-progress': LocalJSX.TaroProgress & JSXBase.HTMLAttributes<HTMLTaroProgressElement>;
