@@ -100,6 +100,9 @@ class _Input extends React.Component<InputProps, InputState> {
   onFocus = () => {
     const { onFocus = noop } = this.props
     // event.detail = { value, height }
+    const { returnValue } = this.state
+    this.tmpValue = returnValue || ''
+    
     onFocus({
       target: { value: this.tmpValue || '' },
       detail: { value: this.tmpValue || '' }
@@ -156,8 +159,8 @@ class _Input extends React.Component<InputProps, InputState> {
     const { width, height } = event.nativeEvent.contentSize
     // One of width and height may be 0.
     if (width && height) {
-      const { _autoHeight, _onLineChange = noop } = this.props
-      if (!_autoHeight || height === this.state.height) return
+      const { _multiline, _autoHeight, _onLineChange = noop } = this.props
+      if (!_multiline || !_autoHeight || height === this.state.height) return
       this.lineCount += height > this.state.height ? 1 : -1
       _onLineChange({ detail: { height, lineCount: this.lineCount } })
       this.setState({ height })
@@ -180,6 +183,7 @@ class _Input extends React.Component<InputProps, InputState> {
       selectionStart,
       selectionEnd,
       _multiline,
+      _autoHeight
     } = this.props
 
     const keyboardType: KeyboardTypeOptions = (keyboardTypeMap[type] as KeyboardTypeOptions)
@@ -216,7 +220,7 @@ class _Input extends React.Component<InputProps, InputState> {
         multiline={!!_multiline}
         onContentSizeChange={this.onContentSizeChange}
         underlineColorAndroid="rgba(0,0,0,0)"
-        style={[style, _multiline && { height: Math.max(35, this.state.height) }]}
+        style={[style, _multiline && _autoHeight && { height: Math.max(35, this.state.height) }]}
         {...omit(this.props, [
           'style',
           'value',
