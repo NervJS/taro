@@ -12,7 +12,7 @@ function isNumeric (n) {
 
 const NumberWords = ['z', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
 
-function buildTemplateName (name: string) {
+export function buildTemplateName (name: string): string {
   if (/wx/i.test(name)) {
     return buildTemplateName('taro-' + name.slice(2, name.length))
   }
@@ -156,7 +156,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
   throw new Error('template 标签必须指名 `is` 或 `name` 任意一个标签')
 }
 
-function getWXMLsource (dirPath: string, src: string, type: string) {
+export function getWXMLsource (dirPath: string, src: string, type: string) {
   try {
     return fs.readFileSync(resolve(dirPath, src), 'utf-8')
   } catch (e) {
@@ -191,12 +191,14 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   }
   if (type === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, type)
+    console.log(dirPath, srcValue)
     const { imports } = parseWXML(resolve(dirPath, srcValue), wxml, true)
     try {
       jsx.remove()
     } catch (error) {
       //
     }
+    console.log(imports)
     return imports
   } else {
     const wxmlStr = getWXMLsource(dirPath, srcValue, type)

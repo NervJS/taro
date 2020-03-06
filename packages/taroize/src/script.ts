@@ -10,7 +10,7 @@ const buildDecorator = (id: t.Identifier | t.ObjectExpression) => t.decorator(
   t.callExpression(t.identifier('withWeapp'), [id])
 )
 
-function replaceIdentifier (callee: NodePath<t.Node>) {
+export function replaceIdentifier (callee: NodePath<t.Node>) {
   if (callee.isIdentifier()) {
     const name = callee.node.name
     if (name === 'getApp' || name === 'getCurrentPages') {
@@ -21,7 +21,7 @@ function replaceIdentifier (callee: NodePath<t.Node>) {
   }
 }
 
-function replaceMemberExpression (callee: NodePath<t.Node>) {
+export function replaceMemberExpression (callee: NodePath<t.Node>) {
   if (callee.isMemberExpression()) {
     const object = callee.get('object')
     if (object.isIdentifier({ name: 'wx' })) {
