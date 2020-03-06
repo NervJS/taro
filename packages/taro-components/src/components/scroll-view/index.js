@@ -81,10 +81,10 @@ class ScrollView extends Nerv.Component {
     ) {
       if ('scrollWithAnimation' in nextProps) {
         easeOutScroll(this._scrollTop, nextProps.scrollTop, pos => {
-          this.container.scrollTop = pos
+          if (this.container) this.container.scrollTop = pos
         })
       } else {
-        this.container.scrollTop = nextProps.scrollTop
+        if (this.container) this.container.scrollTop = nextProps.scrollTop
       }
       this._scrollTop = nextProps.scrollTop
     }
@@ -96,10 +96,10 @@ class ScrollView extends Nerv.Component {
     ) {
       if ('scrollWithAnimation' in nextProps) {
         easeOutScroll(this._scrollLeft, nextProps.scrollLeft, pos => {
-          this.container.scrollLeft = pos
+          if (this.container) this.container.scrollLeft = pos
         })
       } else {
-        this.container.scrollLeft = nextProps.scrollLeft
+        if (this.container) this.container.scrollLeft = nextProps.scrollLeft
       }
       this._scrollLeft = nextProps.scrollLeft
     }
