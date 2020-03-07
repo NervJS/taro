@@ -3,25 +3,21 @@ title: Label
 sidebar_label: Label
 ---
 
-##### 用来改进表单组件的可用性，使用 for 属性找到对应的 id，或者将控件放在该标签下，当点击时，就会触发对应的控件。for 优先级高于内部控件，内部有多个控件的时候默认触发第一个控件。
+用来改进表单组件的可用性。
 
-> 属性
+使用for属性找到对应的id，或者将控件放在该标签下，当点击时，就会触发对应的控件。 for优先级高于内部控件，内部有多个控件的时候默认触发第一个控件。 目前可以绑定的控件有：button, checkbox, radio, switch。
 
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| for | String | 绑定控件的 id |
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/label.html)
 
->各端支持度
+## 类型
 
-| 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
-| :-: | :-: | :-: | :- | :- | :- | :- |
-| for | ✔ | ✔ | x | ✔ | ✔ | ✔ |
+```tsx
+ComponentType<LabelProps>
+```
 
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-// 引入 Label 组件
-import { RadioGroup, Radio, Label } from '@tarojs/components'
+## 示例代码
 
+```tsx
 class App extends Components {
 
   render () {
@@ -40,3 +36,15 @@ class App extends Components {
   }
 }
 ```
+
+## LabelProps
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| for | `string` | 否 | 绑定控件的 id |
+
+## API 支持度
+
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Label | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |

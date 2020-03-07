@@ -3,37 +3,21 @@ title: WebView
 sidebar_label: WebView
 ---
 
-##### WebView 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用
+web-view 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用。
 
-> 组件 支持度
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html)
 
-| H5 | ReactNative |
-| :-: | :-: |
-| ✔ | ✔ |
+## 类型
 
-
->其他相关属性请看各小程序官方文档
-
-[微信小程序 WebView](https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html)。
-
-[百度小程序 WebView](https://smartprogram.baidu.com/docs/develop/component/open/#web-view)。
-
-[支付宝小程序 WebView](https://docs.alipay.com/mini/component/web-view)。
-
-[字节跳动小程序 WebView](https://developer.toutiao.com/docs/comp/web-view.html)。
-
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-// 引入 WebView 组件
-import { WebView } from '@tarojs/components'
-
-class App extends Component {
-  handleMessage () {}
-  
-  render () {
-    return (
-      <WebView src='https://mp.weixin.qq.com/' onMessage={this.handleMessage} />
-    )
-  }
-}
+```tsx
+ComponentType<WebViewProps>
 ```
+
+## WebViewProps
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| src | `string` | 是 | webview 指向网页的链接。可打开关联的公众号的文章，其它网页需登录小程序管理后台配置业务域名。 |
+| onMessage | `BaseEventOrigFunction<{ data: any[]; }>` | 否 | 网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = { data } |
+| onLoad | `BaseEventOrigFunction<{ src: string; }>` | 否 | 网页加载成功时候触发此事件。e.detail = { src } |
+| onError | `BaseEventOrigFunction<{ src: string; }>` | 否 | 网页加载失败的时候触发此事件。e.detail = { src } |

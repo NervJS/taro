@@ -3,43 +3,20 @@ title: PickerView
 sidebar_label: PickerView
 ---
 
-##### 嵌入页面的滚动选择器
+嵌入页面的滚动选择器
+其中只可放置 picker-view-column 组件，其它节点不会显示
 
-> 属性
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/picker-view.html)
 
-| 属性名 | 类型 | 说明 |
-| :- | :- | :- |
-| value      | NumberArray |  数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。    |
-| indicatorStyle  | String    | 设置选择器中间选中框的样式 |
-| indicatorClass      | String   | 设置选择器中间选中框的类名   |
-| maskStyle | String  | 设置蒙层的样式  |
-| maskClass | String| 设置蒙层的类名     |
-| onChange   | EventHandle | 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value 为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始） |
+## 类型
 
-> 各端支持度
+```tsx
+ComponentType<PickerViewProps>
+```
 
-| 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
-| :-: | :-: | :-: | :- | :- | :- | :- |
-| value | ✔ |  | x | ✔ | ✔ | ✔ |
-| indicatorStyle | ✔ |  | x | ✔ | ✔ | ✔ |
-| indicatorClass | ✔ |  | x | ✔ | ✔ |  |
-| maskStyle | ✔ |  | x | ✔ | ✔ | ✔ |
-| maskClass | ✔ |  | x | ✔ | ✔ |  |
-| onChange | ✔ |  | x | ✔ | ✔ | ✔ |
+## 示例代码
 
-
-
-##### PickerViewColumn
-
-##### 仅可放置于 PickerView 中，其孩子节点的高度会自动设置成与 PickerView 的选中框的高度一致
-
-
-###### 示例：
-
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-import { View, PickerView, PickerViewColumn } from '@tarojs/components'
-
+```tsx
 export default class Picks extends Component {
 
   constructor () {
@@ -111,3 +88,41 @@ export default class Picks extends Component {
 }
 
 ```
+
+## PickerViewProps
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| value | `number[]` | 否 | 数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。 |
+| indicatorStyle | `string` | 否 | 设置选择器中间选中框的样式 |
+| indicatorClass | `string` | 否 | 设置选择器中间选中框的类名 |
+| maskStyle | `string` | 否 | 设置蒙层的样式 |
+| maskClass | `string` | 否 | 设置蒙层的类名 |
+| onChange | `BaseEventOrigFunction<onChangeEventDetail>` | 否 | 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始） |
+| onPickStart | `BaseEventOrigFunction<any>` | 否 | 当滚动选择开始时候触发事件 |
+| onPickEnd | `BaseEventOrigFunction<any>` | 否 | 当滚动选择结束时候触发事件 |
+
+### API 支持度
+
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| PickerViewProps.value | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
+| PickerViewProps.indicatorStyle | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
+| PickerViewProps.indicatorClass | ✔️ | ✔️ | ✔️ |  |  |  |
+| PickerViewProps.maskStyle | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
+| PickerViewProps.maskClass | ✔️ | ✔️ | ✔️ |  |  |  |
+| PickerViewProps.onChange | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
+| PickerViewProps.onPickStart | ✔️ |  |  |  |  |  |
+| PickerViewProps.onPickEnd | ✔️ |  |  |  |  |  |
+
+### onChangeEventDetail
+
+| 参数 | 类型 |
+| --- | --- |
+| value | `number[]` |
+
+## API 支持度
+
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| PickerView | ✔️ | ✔️ | ✔️ | ✔️ |  |  |
