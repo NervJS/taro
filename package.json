@@ -32,7 +32,8 @@
       "git add"
     ],
     "packages/**/*.{ts,d.ts}": [
-      "npm run build:docs-api"
+      "npm run build:docs-api",
+      "git add docs"
     ]
   },
   "husky": {
