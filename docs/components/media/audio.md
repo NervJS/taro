@@ -3,47 +3,19 @@ title: Audio
 sidebar_label: Audio
 ---
 
-##### 音频
+音频。1.6.0版本开始，该组件不再维护。建议使用能力更强的 Taro.createInnerAudioContext 接口
 
-> 属性
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html)
 
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| src            | String      |        | 要播放音频的资源地址                                         |
-| controls       | Boolean     | true   | 是否显示默认播放控件（播放/暂停按钮、播放进度、时间）        |
-| autoplay       | Boolean     | false  | 是否自动播放                                                 |
-| poster         | String      |        | 音频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效 |
-| initialTime   | Number      |        | 指定音频初始播放位置                                         |
-| loop           | Boolean     | false  | 是否循环播放                                                 |
-| muted          | Boolean     | false  | 是否静音播放                                                 |
-| onPlay       | EventHandle |        | 当开始/继续播放时触发 play 事件                                |
-| onPause      | EventHandle |        | 当暂停播放时触发 pause 事件                                  |
-| onEnded      | EventHandle |        | 当播放到末尾时触发 ended 事件                                |
-| onTimeUpdate | EventHandle |        | 播放进度变化时触发，触发频率 250ms 一次 |
-| onError      | EventHandle |        | 音频播放出错时触发                                           |
+## 类型
 
->各端支持度
+```tsx
+ComponentType<AudioProps>
+```
 
-| 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
-| :-: | :-: | :-: | :- | :- | :- | :- |
-| src          | ✔ | ✔ | x | ✔ |  |  |
-| controls     | ✔ | ✔ | x | ✔ |  |  |
-| autoplay     | ✔ | ✔ | x |  | |  |
-| poster       | ✔ |  | x | ✔ | |  |
-| initialTime  | ✔ |  | x |  |  |  |
-| loop         | ✔ | ✔ | x | ✔ |  |  |
-| muted        | ✔ | ✔ | x |  |  |  |
-| onPlay       | ✔ | ✔ | x | ✔ |  |  |
-| onPause      | ✔ | ✔ | x | ✔ |  |  |
-| onEnded      | ✔ | ✔ | x | ✔ |  |  |
-| onTimeUpdate | ✔ | ✔ | x | ✔ |  |  |
-| onError      | ✔ | ✔ | x | ✔ |  |  |
+## 示例代码
 
-###### 示例：
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-import { View, Audio } from '@tarojs/components'
-
+```tsx
 export default class PageView extends Component {
   constructor() {
     super(...arguments)
@@ -66,3 +38,69 @@ export default class PageView extends Component {
   }
 }
 ```
+
+## AudioProps
+
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| id | `string` |  | 是 | audio 组件的唯一标识符 |
+| src | `string` |  | 是 | 要播放音频的资源地址 |
+| loop | `boolean` | `false` | 是 | 是否循环播放 |
+| muted | `boolean` | `false` | 否 | 是否静音播放<br />**不推荐使用** |
+| controls | `boolean` | `false` | 是 | 是否显示默认控件 |
+| poster | `string` |  | 是 | 默认控件上的音频封面的图片资源地址，如果 controls 属性值为 false 则设置 poster 无效 |
+| name | `string` | `"未知音频"` | 是 | 默认控件上的音频名字，如果 controls 属性值为 false 则设置 name 无效 |
+| author | `string` | `"未知作者"` | 是 | 默认控件上的作者名字，如果 controls 属性值为 false 则设置 author 无效 |
+| onError | `BaseEventOrigFunction<onErrorEventDetail>` |  | 否 | 当发生错误时触发 error 事件，detail = {errMsg: MediaError.code} |
+| onPlay | `BaseEventOrigFunction<any>` |  | 否 | 当开始/继续播放时触发play事件 |
+| onPause | `BaseEventOrigFunction<any>` |  | 否 | 当暂停播放时触发 pause 事件 |
+| onTimeUpdate | `BaseEventOrigFunction<onTimeUpdateEventDetail>` |  | 否 | 当播放进度改变时触发 timeupdate 事件，detail = {currentTime, duration} |
+| onEnded | `BaseEventOrigFunction<any>` |  | 否 | 当播放到末尾时触发 ended 事件 |
+
+### API 支持度
+
+| API | 微信小程序 | 百度小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: |
+| AudioProps.id | ✔️ |  |  |  |
+| AudioProps.src | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.loop | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.muted |  |  | ✔️ |  |
+| AudioProps.controls | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.poster | ✔️ | ✔️ |  |  |
+| AudioProps.name | ✔️ |  |  |  |
+| AudioProps.author | ✔️ |  |  |  |
+| AudioProps.onError | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.onPlay | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.onPause | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.onTimeUpdate | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.onEnded | ✔️ | ✔️ | ✔️ |  |
+
+### onErrorEventDetail
+
+| 参数 | 类型 |
+| --- | --- |
+| errMsg | 1 or 2 or 3 or 4 |
+
+### onTimeUpdateEventDetail
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| currentTime | `number` | 当前时间 |
+| duration | `number` | 持续时间 |
+
+### MediaError
+
+#### code
+
+| 参数 | 说明 |
+| --- | --- |
+| 1 | 获取资源被用户禁止 |
+| 2 | 网络错误 |
+| 3 | 解码错误 |
+| 4 | 不合适资源 |
+
+## API 支持度
+
+| API | 微信小程序 | 百度小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: |
+| Audio | ✔️ | ✔️ | ✔️ |  |

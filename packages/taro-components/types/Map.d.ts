@@ -187,7 +187,7 @@ interface MapProps extends StandardProps {
   latitude: number
 
   /** 缩放级别，取值范围为5-18 (baidu: 4-21)
-   * 默认值：`16`
+   * @default 16
    */
   scale?: number
 
@@ -218,7 +218,7 @@ interface MapProps extends StandardProps {
   includePoints?: any[]
 
   /** 显示带有方向的当前定位点
-   * 默认值：`false`
+   * @default false
    */
   showLocation?: boolean
 
@@ -234,82 +234,82 @@ interface MapProps extends StandardProps {
   subkey?: string
 
   /** 个性化地图配置的 style，不支持动态修改
-   * 默认值：`1`
+   * @default 1
    * @from wechat
    */
   layerStyle?: number
 
   /** 旋转角度，范围 0 ~ 360, 地图正北和设备 y 轴角度的夹角
-   * 默认值：`0`
+   * @default 0
    * @since 2.5.0
    * @from wechat
    */
   rotate?: number
 
   /** 倾斜角度，范围 0 ~ 40 , 关于 z 轴的倾角
-   * 默认值：`0`
+   * @default 0
    * @since 2.5.0
    * @from wechat
    */
   skew?: number
 
   /** 展示 3D 楼块
-   * 默认值：`false`
+   * @default false
    * @since 2.3.0
    * @from wechat
    */
   enable3D?: boolean
 
   /** 显示指南针
-   * 默认值：`false`
+   * @default false
    * @since 2.3.0
    * @absence alipay
    */
   showCompass?: boolean
 
   /** 显示比例尺
-   * 默认值：`false`
+   * @default false
    * @since 2.8.0
    */
   showScale?: boolean
 
   /** 开启俯视
-   * 默认值：`false`
+   * @default false
    * @since 2.3.0
    * @absence alipay
    */
   enableOverlooking?: boolean
 
   /** 是否支持缩放
-   * 默认值：`true`
+   * @default true
    * @since 2.3.0
    * @absence alipay
    */
   enableZoom?: boolean
 
   /** 是否支持拖动
-   * 默认值：`true`
+   * @default true
    * @since 2.3.0
    * @absence alipay
    */
   enableScroll?: boolean
 
   /** 是否支持旋转
-   * 默认值：`false`
+   * @default false
    * @since 2.3.0
    * @absence alipay
    */
   enableRotate?: boolean
 
   /** 是否开启卫星图
-   * 默认值：`false`
+   * @default false
    * @since 2.7.0
    * @from wechat
    */
   enableSatellite?: boolean
 
   /** 是否开启实时路况
-   * 默认值：`false`
+   * @default false
    * @since 2.7.0
    * @from wechat
    */

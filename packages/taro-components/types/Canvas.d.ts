@@ -11,8 +11,7 @@ interface CanvasProps extends StandardProps {
   type?: string
 
   /** 当在 canvas 中移动时且有绑定手势事件时，禁止屏幕滚动以及下拉刷新
-   *
-   * 默认值：`false`
+   * @default false
    */
   disableScroll?: boolean
 
