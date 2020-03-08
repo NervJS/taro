@@ -25,7 +25,7 @@ export default class TaroLoadChunksPlugin {
   buildAdapter: BUILD_TYPES
   isBuildPlugin: boolean
   addChunkPages?: AddPageChunks
-  pages: Set<IComponent>,
+  pages: Set<IComponent>
   depsMap: Map<string, Set<IComponentObj>>
   sourceDir: string
 
