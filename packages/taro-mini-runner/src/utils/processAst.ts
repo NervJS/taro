@@ -1,10 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 
-import { getOptions } from 'loader-utils'
-import { transform, transformFromAst } from 'babel-core'
 import * as t from 'babel-types'
-import generate from 'better-babel-generator'
 import traverse, { NodePath } from 'babel-traverse'
 import * as _ from 'lodash'
 
@@ -16,24 +13,20 @@ import {
   QUICKAPP_SPECIAL_COMPONENTS,
   PARSE_AST_TYPE,
   excludeReplaceTaroFrameworkPkgs,
-  REG_SCRIPTS,
-  NODE_MODULES_REG
-} from '../utils/constants'
+  REG_SCRIPTS
+} from './constants'
 import {
   isNpmPkg,
   isQuickAppPkg,
   isAliasPath,
   replaceAliasPath,
   resolveScriptPath,
-  promoteRelativePath,
-  npmCodeHack
-} from '../utils'
-import { convertSourceStringToAstExpression } from '../utils/astConvert'
+  promoteRelativePath
+} from '.'
+import { convertSourceStringToAstExpression } from './astConvert'
 import babylonConfig from '../config/babylon'
 
 const template = require('babel-template')
-
-const cannotRemoves = ['@tarojs/taro', 'react', 'nervjs']
 
 const NON_WEBPACK_REQUIRE = '__non_webpack_require__'
 
@@ -48,7 +41,7 @@ interface IProcessAstArgs {
   alias: object
 }
 
-function processAst ({
+export default function processAst ({
   ast,
   buildAdapter,
   type,
@@ -613,39 +606,4 @@ function processAst ({
   })
 
   return ast
-}
-
-export default function fileParseLoader (source, ast) {
-  const {
-    babel: babelConfig,
-    alias,
-    buildAdapter,
-    designWidth,
-    deviceRatio,
-    sourceDir
-  } = getOptions(this)
-  const filePath = this.resourcePath
-  const newAst = transformFromAst(ast, '', {
-    plugins: [
-      [require('babel-plugin-preval')],
-      [require('babel-plugin-danger-remove-unused-import'), { ignore: cannotRemoves }]
-    ]
-  }).ast as t.File
-  const miniType = this._module.miniType || PARSE_AST_TYPE.NORMAL
-  const result = processAst({
-    ast: newAst,
-    buildAdapter,
-    type: miniType,
-    designWidth,
-    deviceRatio,
-    sourceFilePath: filePath,
-    sourceDir,
-    alias
-  })
-  const code = generate(result).code
-  const res = transform(code, babelConfig)
-  if (NODE_MODULES_REG.test(filePath) && res.code) {
-    res.code = npmCodeHack(filePath, res.code, buildAdapter)
-  }
-  return res.code
 }

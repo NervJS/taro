@@ -1,6 +1,6 @@
 import * as path from 'path'
 
-import webpack, { compilation } from 'webpack'
+import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 

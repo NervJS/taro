@@ -76,8 +76,6 @@ const defaultCssModuleOption: PostcssOption.cssModules = {
   }
 }
 
-const staticDirectory = 'static'
-
 const getLoader = (loaderName: string, options: IOption) => {
   return {
     loader: require.resolve(loaderName),
@@ -115,7 +113,6 @@ export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader')
 export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
-export const getFileParseLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/fileParseLoader')))
 export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/wxTransformerLoader')))
 export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
 
@@ -273,7 +270,7 @@ export const getModule = (appPath: string, {
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
-  const fileParseLoader = getFileParseLoader([{
+  const wxTransformerLoader = getWxTransformerLoader([{
     babel,
     alias,
     designWidth,
@@ -283,17 +280,13 @@ export const getModule = (appPath: string, {
     sourceDir
   }])
 
-  const wxTransformerLoader = getWxTransformerLoader([{
-    buildAdapter
-  }])
-
   const miniTemplateLoader = getMiniTemplateLoader([{
     buildAdapter
   }])
 
   let scriptsLoaderConf = {
     test: REG_SCRIPTS,
-    use: [fileParseLoader, wxTransformerLoader],
+    use: [wxTransformerLoader],
   }
 
   if (compileExclude && compileExclude.length) {
