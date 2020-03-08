@@ -46,28 +46,31 @@ export default class TaroLoadChunksPlugin {
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: any) => {
       let commonChunks
       let fileChunks = new Map()
-      let allDepsComponents = new Set()
-      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: compilation.Chunk[]) => {
+      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks) => {
         commonChunks = chunks.filter(chunk => this.commonChunks.includes(chunk.name)).reverse()
-        this.addChunkPages(addChunkPagesList, Array.from(pagesList).map((item: any) => item.name))
-        chunks.forEach(chunk => {
-          const id = getIdOrName(chunk)
-          addChunkPagesList.forEach((v, k) => {
-            if (k === id) {
-              const depChunks = v.map(v => ({ name: v }))
-              fileChunks.set(id, depChunks)
-              let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
-              if (entryModule) {
-                const depsComponents = getAllDepComponents(entryModule.resource, depsMap)
-                depsComponents.forEach(component => {
-                  const id = component.path.replace(this.sourceDir + path.sep, '').replace(path.extname(component.path), '').replace(/\\{1,}/g, '/')
-                  const oriDep = fileChunks.get(id) || []
-                  fileChunks.set(id, Array.from(new Set([...oriDep, ...depChunks])))
-                })
+        if (typeof this.addChunkPages === 'function') {
+          this.addChunkPages(addChunkPagesList, Array.from(pagesList).map((item: any) => item.name))
+          chunks.forEach(chunk => {
+            const id = getIdOrName(chunk)
+            addChunkPagesList.forEach((v, k) => {
+              if (k === id) {
+                const depChunks = v.map(v => ({ name: v }))
+                fileChunks.set(id, depChunks)
+                if (chunk.entryModule) {
+                  let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
+                  if (entryModule) {
+                    const depsComponents = getAllDepComponents(entryModule.resource, depsMap)
+                    depsComponents.forEach(component => {
+                      const id = (component.path as string).replace(this.sourceDir + path.sep, '').replace(path.extname((component.path as string)), '').replace(/\\{1,}/g, '/')
+                      const oriDep = fileChunks.get(id) || []
+                      fileChunks.set(id, Array.from(new Set([...oriDep, ...depChunks])))
+                    })
+                  }
+                }
               }
-            }
+            })
           })
-        })
+        }
       })
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
         if (chunk.entryModule) {
