@@ -49,7 +49,7 @@ declare namespace Taro {
   namespace canvasToTempFilePath {
     interface Option {
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 */
-      canvas?: string
+      canvas?: object
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id */
       canvasId: string
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
@@ -1401,11 +1401,11 @@ declare namespace Taro {
      * - iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity */
     globalCompositeOperation: string
     /** 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 */
-    lineCap: number
+    lineCap: keyof CanvasContext.lineCap
     /** 虚线偏移量，初始值为0 */
     lineDashOffset: number
     /** 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 */
-    lineJoin: number
+    lineJoin: keyof CanvasContext.lineJoin
     /** 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 */
     lineWidth: number
     /** 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 */
