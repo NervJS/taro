@@ -30,7 +30,8 @@ export interface PickerDate {
 }
 
 @Component({
-  tag: 'taro-picker-core'
+  tag: 'taro-picker-core',
+  styleUrl: './style/index.scss'
 })
 export class Picker implements ComponentInterface {
   private index: number[] = []
@@ -145,6 +146,9 @@ export class Picker implements ComponentInterface {
 
     // Prop 变化时，无论是否正在显示弹层，都更新 height 值
     this.height = this.getHeightByIndex()
+
+    // 同步表单 value 值，用于 form submit
+    this.pickerValue = this.value
   }
 
   // 展示 Picker
