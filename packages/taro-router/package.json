@@ -2,7 +2,7 @@
   "name": "@tarojs/router",
   "version": "3.0.0-alpha.5",
   "description": "Taro-router",
-  "main:h5": "dist/index.esm.js",
+  "main:h5": "dist/runtime.esm.js",
   "main": "dist/index.js",
   "module": "dist/runtime.esm.js",
   "typings": "src/index.ts",

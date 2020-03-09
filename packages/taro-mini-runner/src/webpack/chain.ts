@@ -292,9 +292,9 @@ export const getModule = (appPath: string, {
   }
 
   const urlOptions: PostcssOption.url = recursiveMerge({}, defaultUrlOption, postcssOption.url)
-  let postcssUrlOption;
+  let postcssUrlOption
   if (urlOptions.enable) {
-    postcssUrlOption = urlOptions.config;
+    postcssUrlOption = urlOptions.config
   }
 
   function addCssLoader (cssLoaders, loader) {
@@ -375,7 +375,7 @@ export const getModule = (appPath: string, {
       test: REG_MEDIA,
       use: {
         urlLoader: getUrlLoader([defaultMediaUrlLoaderOption, {
-          name: `[path][name].[ext]`,
+          name: '[path][name].[ext]',
           useRelativePath: true,
           context: sourceDir,
           ...(postcssUrlOption || {}),
@@ -387,7 +387,7 @@ export const getModule = (appPath: string, {
       test: REG_FONT,
       use: {
         urlLoader: getUrlLoader([defaultFontUrlLoaderOption, {
-          name: `[path][name].[ext]`,
+          name: '[path][name].[ext]',
           useRelativePath: true,
           context: sourceDir,
           ...(postcssUrlOption || {}),
@@ -399,7 +399,7 @@ export const getModule = (appPath: string, {
       test: REG_IMAGE,
       use: {
         urlLoader: getUrlLoader([defaultImageUrlLoaderOption, {
-          name: `[path][name].[ext]`,
+          name: '[path][name].[ext]',
           useRelativePath: true,
           context: sourceDir,
           ...(postcssUrlOption || {}),

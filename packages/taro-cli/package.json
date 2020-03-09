@@ -40,7 +40,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/taro": "^3.0.0-alpha.5",
-    "@tarojs/taroize": "^3.0.0-alpha.5",
+    "@tarojs/taroize": "^2.0.4",
     "@tarojs/transformer-wx": "^2.0.4",
     "@types/request": "^2.48.1",
     "@typescript-eslint/parser": "^2.0.0",

@@ -2,6 +2,7 @@ import { AppConfig } from '@tarojs/taro'
 import { initTabbar } from './tabbar'
 
 export function init (config: AppConfig) {
+  // eslint-disable-next-line no-unused-expressions
   document.getElementById('app')?.remove()
 
   const container = document.createElement('div')
