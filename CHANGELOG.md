@@ -1,5 +1,41 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.5...v) (2020-02-27)
+# [](https://github.com/NervJS/taro/compare/v2.0.6...v) (2020-03-09)
+
+
+
+<a name="2.0.6"></a>
+## [2.0.6](https://github.com/NervJS/taro/compare/v2.0.5...v2.0.6) (2020-03-09)
+
+
+### Bug Fixes
+
+* **taro component:** 1.3.9版本误删,导致无法衔接滚动 ([7425462](https://github.com/NervJS/taro/commit/7425462))
+* get app for h5 fix [#4763](https://github.com/NervJS/taro/issues/4763) ([529f4dc](https://github.com/NervJS/taro/commit/529f4dc))
+* rem in h5 component fix [#5309](https://github.com/NervJS/taro/issues/5309) ([458bb21](https://github.com/NervJS/taro/commit/458bb21))
+* **components:** 修复canvas可能取不到props的问题 ([c5697cb](https://github.com/NervJS/taro/commit/c5697cb))
+* **components:** 修复navigator、controls、video组件可能取不到props的问题 ([10762b0](https://github.com/NervJS/taro/commit/10762b0))
+* **components:** 去除canvas、tabbar内一些比较hacky的写法 ([d7fb5a9](https://github.com/NervJS/taro/commit/d7fb5a9))
+* **mini-runner:** 使用 addChunkPages 时，页面引入的组件也需要引用抽离的 chunks，close [#5580](https://github.com/NervJS/taro/issues/5580) ([fcaefce](https://github.com/NervJS/taro/commit/fcaefce))
+* **mini-runner:** 修复 watch 时文件过多爆栈的问题 && 修改 app.js 时出错的问题，closes [#5630](https://github.com/NervJS/taro/issues/5630)，closes [#5433](https://github.com/NervJS/taro/issues/5433) ([7480ff7](https://github.com/NervJS/taro/commit/7480ff7))
+* **mini-runner:** 修复图片等静态资源编译路径，close [#5605](https://github.com/NervJS/taro/issues/5605) ([edb84ba](https://github.com/NervJS/taro/commit/edb84ba))
+* **mini-runner:** 缺少 addChunkPages 不存在判断 ([c2d4c3c](https://github.com/NervJS/taro/commit/c2d4c3c))
+* **swan:** 修复百度小程序 ref ([e4ec6a2](https://github.com/NervJS/taro/commit/e4ec6a2))
+* **taro-cli:** 修复基于taro第三方ui 组件循环依赖时打包失败， close [#5620](https://github.com/NervJS/taro/issues/5620) ([#5623](https://github.com/NervJS/taro/issues/5623)) ([77e11cd](https://github.com/NervJS/taro/commit/77e11cd))
+* **taro-components:** 修复 scroll-view 内不太严谨的写法 ([11b0026](https://github.com/NervJS/taro/commit/11b0026))
+* **taro-components-rn:** 修复Input组件 ([54b2a78](https://github.com/NervJS/taro/commit/54b2a78))
+* fix unexpected comma ([3c1f507](https://github.com/NervJS/taro/commit/3c1f507))
+* **taro-components:** 修复定时器在组件更新时未取消问题 ([291feae](https://github.com/NervJS/taro/commit/291feae))
+* **taro-h5:** 修复chooseVideo生成的blob对象缺少类型的问题 ([f8d1929](https://github.com/NervJS/taro/commit/f8d1929))
+* **types:** LivePlayerProps ([#5559](https://github.com/NervJS/taro/issues/5559)) ([58a9a2d](https://github.com/NervJS/taro/commit/58a9a2d))
+* ignore spec-files under sourceRoot fix [#3307](https://github.com/NervJS/taro/issues/3307) ([a5e8a1b](https://github.com/NervJS/taro/commit/a5e8a1b))
+
+
+### Features
+
+* **taro-h5:** add capture attribute support for chooseImage api when… ([#5608](https://github.com/NervJS/taro/issues/5608)) ([2da3c2b](https://github.com/NervJS/taro/commit/2da3c2b))
+* complete navig、form、media typing with docs ([eab3a52](https://github.com/NervJS/taro/commit/eab3a52))
+* complete Open typing with docs ([0acb787](https://github.com/NervJS/taro/commit/0acb787))
+* upload all components types with docs ([1af2607](https://github.com/NervJS/taro/commit/1af2607))
 
 
 
