@@ -81,6 +81,10 @@ export const Targets = {
   [BUILD_TYPES.QUICKAPP]: createTarget(BUILD_TYPES.QUICKAPP)
 }
 
+function isLoaderExist (loaders, loaderName) {
+  return loaders.some(item => item.loader === loaderName)
+}
+
 export default class TaroMiniPlugin {
   options: ITaroMiniPluginOptions
   context: string
@@ -92,6 +96,7 @@ export default class TaroMiniPlugin {
   components: Set<IComponent>
   tabBarIcons: Set<string>
   prerenderPages: Set<string>
+  dependencies: Map<string, TaroSingleEntryDependency>
 
   constructor (options = {}) {
     this.options = Object.assign({
@@ -107,6 +112,7 @@ export default class TaroMiniPlugin {
     this.components = new Set()
     this.filesConfig = {}
     this.tabBarIcons = new Set()
+    this.dependencies = new Map()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -140,6 +146,20 @@ export default class TaroMiniPlugin {
       })
     )
 
+    compiler.hooks.make.tapAsync(
+      PLUGIN_NAME,
+      this.tryAsync(async (compilation: webpack.compilation.Compilation) => {
+        const dependencies = this.dependencies
+        const promises: any[] = []
+        dependencies.forEach(dep => {
+          promises.push(new Promise((resolve, reject) => {
+            compilation.addEntry(this.options.sourceDir, dep, dep.name, err => err ? reject(err) : resolve())
+          }))
+        })
+        await Promise.all(promises)
+      })
+    )
+
     compiler.hooks.emit.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(async compilation => {
@@ -161,31 +181,40 @@ export default class TaroMiniPlugin {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
         const { framework } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
-          module.loaders.unshift({
-            loader: '@tarojs/taro-loader',
-            options: {
-              framework,
-              prerender: this.prerenderPages.size > 0
-            }
-          })
+          const loaderName = '@tarojs/taro-loader'
+          if (!isLoaderExist(module.loaders, loaderName)) {
+            module.loaders.unshift({
+              loader: loaderName,
+              options: {
+                framework,
+                prerender: this.prerenderPages.size > 0
+              }
+            })
+          }
         } else if (module.miniType === META_TYPE.PAGE) {
-          module.loaders.unshift({
-            loader: '@tarojs/taro-loader/lib/page',
-            options: {
-              framework,
-              name: module.name,
-              prerender: this.prerenderPages.has(module.name)
-            }
-          })
+          const loaderName = '@tarojs/taro-loader/lib/page'
+          if (!isLoaderExist(module.loaders, loaderName)) {
+            module.loaders.unshift({
+              loader: loaderName,
+              options: {
+                framework,
+                name: module.name,
+                prerender: this.prerenderPages.has(module.name)
+              }
+            })
+          }
         } else if (module.miniType === META_TYPE.COMPONENT) {
-          module.loaders.unshift({
-            loader: '@tarojs/taro-loader/lib/component',
-            options: {
-              framework,
-              name: module.name,
-              prerender: this.prerenderPages.has(module.name)
-            }
-          })
+          const loaderName = '@tarojs/taro-loader/lib/component'
+          if (!isLoaderExist(module.loaders, loaderName)) {
+            module.loaders.unshift({
+              loader: loaderName,
+              options: {
+                framework,
+                name: module.name,
+                prerender: this.prerenderPages.has(module.name)
+              }
+            })
+          }
         }
       })
 
@@ -365,7 +394,7 @@ export default class TaroMiniPlugin {
     const filesConfig = this.filesConfig
     Object.keys(filesConfig).forEach(item => {
       if (fs.existsSync(filesConfig[item].path)) {
-        this.addEntry(compiler, filesConfig[item].path, item, META_TYPE.CONFIG)
+        this.addEntry(filesConfig[item].path, item, META_TYPE.CONFIG)
       }
     })
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
@@ -441,40 +470,47 @@ export default class TaroMiniPlugin {
     })
   }
 
-  addEntry (compiler: webpack.Compiler, entryPath, entryName, entryType) {
-    compiler.hooks.make.tapAsync(PLUGIN_NAME, (compilation: webpack.compilation.Compilation, callback) => {
-      const dep = new TaroSingleEntryDependency(entryPath, entryName, { name: entryName }, entryType)
-      compilation.addEntry(this.options.sourceDir, dep, entryName, callback)
-    })
+  addEntry (entryPath, entryName, entryType) {
+    let dep
+    if (this.dependencies.has(entryPath)) {
+      dep = this.dependencies.get(entryPath)
+      dep.name = entryName
+      dep.loc = { name: entryName }
+      dep.entryPath = entryPath
+      dep.entryType = entryType
+    } else {
+      dep = new TaroSingleEntryDependency(entryPath, entryName, { name: entryName }, entryType)
+    }
+    this.dependencies.set(entryPath, dep)
   }
 
-  addEntries (compiler: webpack.Compiler) {
-    this.addEntry(compiler, this.appEntry, 'app', META_TYPE.ENTRY)
-    this.addEntry(compiler, path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+  addEntries () {
+    this.addEntry(this.appEntry, 'app', META_TYPE.ENTRY)
+    this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
     this.pages.forEach(item => {
       if (item.isNative) {
-        this.addEntry(compiler, item.path, item.name, META_TYPE.NORMAL)
+        this.addEntry(item.path, item.name, META_TYPE.NORMAL)
         if (item.stylePath && fs.existsSync(item.stylePath)) {
-          this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), META_TYPE.NORMAL)
+          this.addEntry(item.stylePath, this.getStylePath(item.name), META_TYPE.NORMAL)
         }
         if (item.templatePath && fs.existsSync(item.templatePath)) {
-          this.addEntry(compiler, item.templatePath, this.getTemplatePath(item.name), META_TYPE.NORMAL)
+          this.addEntry(item.templatePath, this.getTemplatePath(item.name), META_TYPE.NORMAL)
         }
       } else {
-        this.addEntry(compiler, item.path, item.name, META_TYPE.PAGE)
+        this.addEntry(item.path, item.name, META_TYPE.PAGE)
       }
     })
     this.components.forEach(item => {
       if (item.isNative) {
-        this.addEntry(compiler, item.path, item.name, META_TYPE.NORMAL)
+        this.addEntry(item.path, item.name, META_TYPE.NORMAL)
         if (item.stylePath && fs.existsSync(item.stylePath)) {
-          this.addEntry(compiler, item.stylePath, this.getStylePath(item.name), META_TYPE.NORMAL)
+          this.addEntry(item.stylePath, this.getStylePath(item.name), META_TYPE.NORMAL)
         }
         if (item.templatePath && fs.existsSync(item.templatePath)) {
-          this.addEntry(compiler, item.templatePath, this.getTemplatePath(item.name), META_TYPE.NORMAL)
+          this.addEntry(item.templatePath, this.getTemplatePath(item.name), META_TYPE.NORMAL)
         }
       } else {
-        this.addEntry(compiler, item.path, item.name, META_TYPE.COMPONENT)
+        this.addEntry(item.path, item.name, META_TYPE.COMPONENT)
       }
     })
   }
@@ -566,7 +602,7 @@ export default class TaroMiniPlugin {
     this.getPages(compiler)
     this.getPagesConfig()
     this.getConfigFiles(compiler)
-    this.addEntries(compiler)
+    this.addEntries()
   }
 
   getComponentName (componentPath) {
