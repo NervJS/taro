@@ -51,6 +51,7 @@ export default class PageView extends Component {
 | showMenuByLongpress | `boolean` | `false` | 否 | 开启长按图片显示识别小程序码菜单 |
 | onError | `BaseEventOrigFunction<onErrorEventDetail>` |  | 否 | 当错误发生时，发布到 AppService 的事件名，事件对象 |
 | onLoad | `BaseEventOrigFunction<onLoadEventDetail>` |  | 否 | 当图片载入完毕时，发布到 AppService 的事件名，事件对象 |
+| imgProps | `ImgHTMLAttributes<HTMLImageElement>` |  | 否 | 为 img 标签额外增加的属性 |
 
 ### API 支持度
 
@@ -63,6 +64,7 @@ export default class PageView extends Component {
 | ImageProps.showMenuByLongpress | ✔️ |  |  |  |  |  |
 | ImageProps.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | ImageProps.onLoad | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ImageProps.imgProps |  |  |  |  | ✔️ |  |
 
 ### mode
 
