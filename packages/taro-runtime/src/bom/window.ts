@@ -6,3 +6,10 @@ export const window = isBrowser ? win : {
   navigator,
   document
 }
+
+if (process.env.TARO_ENV === 'tt') {
+  (window as any).requestAnimationFrame = requestAnimationFrame;
+  (window as any).cancelAnimationFrame = cancelAnimationFrame;
+  (window as any).Date = Date;
+  (window as any).setTimeout = setTimeout
+}
