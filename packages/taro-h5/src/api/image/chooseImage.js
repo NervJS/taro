@@ -3,7 +3,7 @@ import { shouleBeObject, getParameterError } from '../utils'
 /**
  * 从本地相册选择图片或使用相机拍照。
  * @param {Object} object 参数
- * @param {string[]} [object.sourceType=['album', 'camera']] 选择图片的来源（h5端未实现）
+ * @param {string[]} [object.sourceType=['album', 'camera']] 选择图片的来源，h5允许传入 `user/environment/camera/`
  * @param {string[]} [object.sizeType=['original', 'compressed']] 所选的图片的尺寸（h5端未实现）
  * @param {number} [object.count=9] 最多可以选择的图片张数
  * @param {function} [object.success] 接口调用成功的回调函数
@@ -20,7 +20,7 @@ const chooseImage = function (options) {
     return Promise.reject(res)
   }
 
-  const { count = 1, success, fail, complete, imageId = 'taroChooseImage' } = options
+  const { count = 1, success, fail, complete, imageId = 'taroChooseImage', sourceType = ['album', 'camera'] } = options
   const res = {
     errMsg: 'chooseImage:ok',
     tempFilePaths: [],
@@ -43,10 +43,15 @@ const chooseImage = function (options) {
   let taroChooseImageId = document.getElementById(imageId)
   if (!taroChooseImageId) {
     let obj = document.createElement('input')
+    const sourceTypeString = sourceType && sourceType.toString()
+    const acceptableSourceType = ['user', 'environment', 'camera']
     obj.setAttribute('type', 'file')
     obj.setAttribute('id', imageId)
     if (count > 1) {
       obj.setAttribute('multiple', 'multiple')
+    }
+    if (acceptableSourceType.indexOf(sourceTypeString) > -1) {
+      obj.setAttribute('capture', sourceTypeString)
     }
     obj.setAttribute('accept', 'image/*')
     obj.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
