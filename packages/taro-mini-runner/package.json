@@ -69,7 +69,7 @@
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
     "tapable": "1.1.3",
-    "uglifyjs-webpack-plugin": "^2.1.3",
+    "terser-webpack-plugin": "2.3.5",
     "url-loader": "^2.0.0",
     "vm2": "^3.8.4",
     "vue-loader": "^15.7.2",

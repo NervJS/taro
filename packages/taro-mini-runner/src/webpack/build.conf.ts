@@ -7,7 +7,7 @@ import {
   getDefinePlugin,
   processEnvOption,
   getCssoWebpackPlugin,
-  getUglifyPlugin,
+  getTerserPlugin,
   getDevtool,
   getOutput,
   getModule,
@@ -55,7 +55,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     quickappJSON,
 
     csso,
-    uglify,
+    terser,
     commonChunks,
     addChunkPages
   } = config
@@ -144,13 +144,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   const isCssoEnabled = !((csso && csso.enable === false))
 
-  const isUglifyEnabled = !((uglify && uglify.enable === false))
+  const isTerserEnabled = !((terser && terser.enable === false))
 
   if (mode === 'production') {
-    if (isUglifyEnabled) {
-      minimizer.push(getUglifyPlugin([
+    if (isTerserEnabled) {
+      minimizer.push(getTerserPlugin([
         enableSourceMap,
-        uglify ? uglify.config : {}
+        terser ? terser.config : {}
       ]))
     }
 

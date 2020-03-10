@@ -68,15 +68,15 @@ babel: {
 }
 ```
 
-## uglify
+## terser
 
-用来配置 `UgligyJS` 工具，设置打包过程中的 JS 代码压缩。可以通过 `uglify.enable` 来设置是否开启压缩，若设置开启，则可以通过 `uglify.config` 来设置 `UgligyJS` 的配置项，具体配置方式如下：
+用来配置 `terser` 工具，设置打包过程中的 JS 代码压缩。可以通过 `terser.enable` 来设置是否开启压缩，若设置开启，则可以通过 `terser.config` 来设置 `terser` 的配置项，具体配置方式如下：
 
 ```jsx
-uglify: {
+terser: {
   enable: true,
   config: {
-    // 配置项同 https://github.com/mishoo/UglifyJS2#minify-options
+    // 配置项同 https://github.com/terser/terser#minify-options
   }
 }
 ```

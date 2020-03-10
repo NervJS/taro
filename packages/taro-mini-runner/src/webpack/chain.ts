@@ -7,7 +7,7 @@ import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as sass from 'node-sass'
 import { partial, cloneDeep } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 import chalk from 'chalk'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
@@ -36,6 +36,7 @@ import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption } from '../utils/types'
 import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
+import defaultTerserOptions from '../config/terserOptions'
 
 const globalObjectMap = {
   [BUILD_TYPES.WEAPP]: 'wx',
@@ -47,16 +48,6 @@ const globalObjectMap = {
   [BUILD_TYPES.QUICKAPP]: 'global'
 }
 
-const defaultUglifyJsOption = {
-  keep_fnames: true,
-  output: {
-    comments: false,
-    keep_quoted_props: true,
-    quote_keys: true,
-    beautify: false
-  },
-  warnings: false
-}
 const defaultCSSCompressOption = {
   mergeRules: false,
   mergeIdents: false,
@@ -88,8 +79,6 @@ const defaultUrlOption: PostcssOption.url = {
     limit: 10240 // limit 10k base on document
   }
 }
-
-const staticDirectory = 'static'
 
 const getLoader = (loaderName: string, options: IOption) => {
   return {
@@ -144,12 +133,12 @@ const getQuickappStyleLoader = () => {
 }
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
 export const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
-export const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
-  return new UglifyJsPlugin({
+export const getTerserPlugin = ([enableSourceMap, terserOptions]) => {
+  return new TerserPlugin({
     cache: true,
     parallel: true,
     sourceMap: enableSourceMap,
-    uglifyOptions: recursiveMerge({}, defaultUglifyJsOption, uglifyOptions)
+    terserOptions: recursiveMerge({}, defaultTerserOptions, terserOptions)
   })
 }
 export const getCssoWebpackPlugin = ([cssoOption]) => {
