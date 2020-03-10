@@ -35,7 +35,6 @@
     "nervjs": "^1.5.0"
   },
   "dependencies": {
-    "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
     "omit.js": "^1.0.0",
