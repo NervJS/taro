@@ -64,7 +64,7 @@ export const setClipboardData = ({ data, success, fail, complete }) => {
         document.execCommand('copy')
         document.body.removeChild(input)
       } else {
-        throw new Error(`Unsupported Function: 'document.execCommand'.`)
+        throw new Error('Unsupported Function: \'document.execCommand\'.')
       }
       const res = {
         errMsg: 'setClipboardData:ok',

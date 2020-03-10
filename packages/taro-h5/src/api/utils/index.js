@@ -1,3 +1,5 @@
+import { Current } from '@tarojs/runtime'
+
 function shouleBeObject (target) {
   if (target && typeof target === 'object') return { res: true }
   return {
@@ -7,6 +9,43 @@ function shouleBeObject (target) {
       wrong: target
     })
   }
+}
+
+let ReactDOM
+
+if (process.env.FRAMEWORK === 'nerv') {
+  ReactDOM = require('nervjs')
+}
+
+// 其它 react-like 框架走 react 模式，在 webpack.resolve.alias 设置 react/react-dom 到对应包
+if (process.env.FRAMEWORK === 'react') {
+  ReactDOM = require('react-dom')
+}
+
+export function findDOM (inst) {
+  if (inst) {
+    if (process.env.FRAMEWORK === 'vue') {
+      return inst.$el
+    }
+
+    if (ReactDOM) {
+      return ReactDOM.findDOMNode(inst)
+    }
+  }
+
+  const page = Current.page
+  const path = page.path
+  const msg = '没有找到已经加载了的页面，请在页面加载完成后时候此 API。'
+  if (path == null) {
+    throw new Error(msg)
+  }
+
+  const el = document.getElementById(path)
+  if (el == null) {
+    throw new Error('在已加载页面中没有找到对应的容器元素。')
+  }
+
+  return el
 }
 
 function getParameterError ({ name = '', para, correct, wrong }) {

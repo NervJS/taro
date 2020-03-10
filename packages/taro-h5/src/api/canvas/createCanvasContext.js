@@ -1,16 +1,13 @@
-import { findRef } from '../utils/index'
+import { findDOM } from '../utils/index'
 
 /**
 * 创建 canvas 的绘图上下文 CanvasContext 对象
 * @param {string} canvasId 要获取上下文的 <canvas> 组件 canvas-id 属性
 * @param {Object} componentInstance 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 <canvas> ，如果省略则不在任何自定义组件内查找
 */
-const createCanvasContext = (canvasId, componentInstance) => {
-  const refId = `__taroref_${canvasId}`
-  const component = findRef(refId, componentInstance)
-
+const createCanvasContext = (canvasId, inst) => {
   /** @type {HTMLCanvasElement} */
-  const canvas = component.vnode.dom.querySelector(`canvas[canvas-id=${canvasId}]`)
+  const canvas = findDOM(inst).querySelector(`canvas[canvas-id=${canvasId}]`)
 
   /** @type {CanvasRenderingContext2D} */
   const ctx = canvas.getContext('2d')

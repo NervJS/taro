@@ -1,4 +1,4 @@
-import { findRef } from '../utils/index'
+import { findDOM } from '../utils/index'
 
 /**
  * @typedef {Object} Param
@@ -19,12 +19,12 @@ import { findRef } from '../utils/index'
  * @param {Object} componentInstance 在自定义组件下，当前组件实例的this，以操作组件内 <canvas> 组件
  * @todo 暂未支持尺寸相关功能
  */
-const canvasPutImageData = ({ canvasId, data, x, y, success, fail, complete }, componentInstance) => {
-  const refId = `__taroref_${canvasId}`
-  const component = findRef(refId, componentInstance)
+const canvasPutImageData = ({ canvasId, data, x, y, success, fail, complete }, inst) => {
+  // const refId = `__taroref_${canvasId}`
+  // const component = findRef(refId, componentInstance)
 
   /** @type {HTMLCanvasElement} */
-  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`)
+  const canvas = findDOM(inst).querySelector(`[canvasId=${canvasId}]`)
 
   try {
     const ctx = canvas.getContext('2d')

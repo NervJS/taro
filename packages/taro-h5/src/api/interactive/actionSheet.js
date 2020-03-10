@@ -192,7 +192,6 @@ export default class ActionSheet {
 
   onCellClick (e) {
     this.hide()
-    console.log('click')
     const res = {
       errMsg: 'showActionSheet:ok',
       tapIndex: +e.currentTarget.dataset.tapIndex

@@ -1,4 +1,4 @@
-import Nerv from 'nervjs'
+import { findDOM } from '../utils'
 
 /**
  * WXML节点信息API
@@ -13,7 +13,7 @@ function queryBat (queue, cb) {
     /* eslint-disable */
     const container = (
       component !== null ?
-        (Nerv.findDOMNode(component) || document) :
+        (findDOM(component) || document) :
         document
     )
     /* eslint-enable */
