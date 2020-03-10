@@ -15,6 +15,14 @@ export interface IComponentObj {
   type?: string
 }
 
+export interface IComponent {
+  name: string,
+  path: string,
+  isNative: boolean,
+  stylePath?: string,
+  templatePath?: string
+}
+
 export interface IChain {
   [key: string]: any
 }
@@ -26,6 +34,7 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   buildAdapter: BUILD_TYPES,
   nodeModulesPath: string,
   quickappJSON: any,
-  isBuildPlugin: boolean,
-  commonChunks: string[]
+  isBuildPlugin: boolean
 }
+
+export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)

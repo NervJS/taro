@@ -1,25 +1,37 @@
 ---
-title: Taro.getBeacons(OBJECT)
+title: Taro.getBeacons(option)
 sidebar_label: getBeacons
 ---
 
+获取所有已搜索到的 iBeacon 设备
 
-使用方式同 [`wx.getBeacons`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.getBeacons.html)，支持 `Promise` 化使用。
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/ibeacon/wx.getBeacons.html)
 
-## 示例代码
+## 类型
 
-```jsx
-import Taro from '@tarojs/taro'
-
-Taro.getBeacons(params).then(...)
+```tsx
+(option?: Option) => Promise<CallbackResult>
 ```
 
+## 参数
 
+### Option
 
-## API支持度
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| complete | `(res: IBeaconError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| fail | `(res: IBeaconError) => void` | 否 | 接口调用失败的回调函数 |
+| success | `(result: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
+### CallbackResult
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| beacons | `IBeaconInfo[]` | iBeacon 设备列表 |
+| errMsg | `string` | 调用结果 |
+
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
+| :---: | :---: | :---: | :---: |
 | Taro.getBeacons | ✔️ |  |  |
-

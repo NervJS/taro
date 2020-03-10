@@ -44,6 +44,7 @@ const schema = Joi.object().keys({
       'CONFIG': Joi.string()
     }),
     'webpackChain': Joi.func(),
+    'commonChunks': Joi.alternatives(Joi.func(), Joi.array().items(Joi.string())),
     'output': Joi.object(),
     'postcss': Joi.object(), // 第三方配置
     'cssLoaderOption': Joi.object(), // 第三方配置

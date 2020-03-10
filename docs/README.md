@@ -10,7 +10,7 @@ title: Taro 介绍
 
 现如今市面上端的形态多种多样，Web、React-Native、微信小程序等各种端大行其道，当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。
 
-使用 **Taro**，我们可以只书写一套代码，再通过 **Taro** 的编译工具，将源代码分别编译出可以在不同端（微信/百度/支付宝/字节跳动/QQ小程序、快应用、H5、React-Native 等）运行的代码。
+使用 **Taro**，我们可以只书写一套代码，再通过 **Taro** 的编译工具，将源代码分别编译出可以在不同端（微信/百度/支付宝/字节跳动/QQ/京东小程序、快应用、H5、React-Native 等）运行的代码。
 
 ## 特性
 
@@ -21,48 +21,48 @@ title: Taro 介绍
 代码示例
 
 ```jsx
-import Taro, { Component } from '@tarojs/taro'
-import { View, Button } from '@tarojs/components'
+import Taro, { Component } from "@tarojs/taro";
+import { View, Button } from "@tarojs/components";
 
 export default class Index extends Component {
-  constructor () {
-    super(...arguments)
+  constructor() {
+    super(...arguments);
     this.state = {
-      title: '首页',
+      title: "首页",
       list: [1, 2, 3]
-    }
+    };
   }
 
-  componentWillMount () {}
+  componentWillMount() {}
 
-  componentDidMount () {}
+  componentDidMount() {}
 
-  componentWillUpdate (nextProps, nextState) {}
+  componentWillUpdate(nextProps, nextState) {}
 
-  componentDidUpdate (prevProps, prevState) {}
+  componentDidUpdate(prevProps, prevState) {}
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return true
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
   }
 
-  add = (e) => {
+  add = e => {
     // dosth
-  }
+  };
 
-  render () {
+  render() {
     return (
-      <View className='index'>
-        <View className='title'>{this.state.title}</View>
-        <View className='content'>
+      <View className="index">
+        <View className="title">{this.state.title}</View>
+        <View className="content">
           {this.state.list.map(item => {
-            return (
-              <View className='item'>{item}</View>
-            )
+            return <View className="item">{item}</View>;
           })}
-          <Button className='add' onClick={this.add}>添加</Button>
+          <Button className="add" onClick={this.add}>
+            添加
+          </Button>
         </View>
       </View>
-    )
+    );
   }
 }
 ```
@@ -87,7 +87,7 @@ Taro 立足于微信小程序开发，众所周知小程序的开发体验并不
 
 #### 支持多端开发转化
 
-Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝/字节跳动/QQ小程序** 、**快应用**、 **H5 端** 以及 **移动端（React Native）**。
+Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝/字节跳动/QQ/京东小程序** 、**快应用**、 **H5 端** 以及 **移动端（React Native）**。
 
 <div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg"/></div>
 
@@ -118,25 +118,29 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 ## 学习资源
 
 ### 官方文章精选
+
 - [使用 React Hooks 重构你的小程序](https://aotu.io/notes/2019/07/10/taro-hooks/)
 - [Taro 1.3 震撼发布：全面支持 JSX 语法和 HOOKS](https://aotu.io/notes/2019/06/13/taro-1-3/)
 - [小程序框架全面测评](https://aotu.io/notes/2019/03/12/mini-program-framework-full-review/)
 - [Taro 在京东购物小程序上的实践](https://aotu.io/notes/2018/09/11/taro-in-jd/)
 - [用 React 开发小程序的探索之路 （演讲内容整理）| 掘金开发者大会](https://juejin.im/post/5ba346a7f265da0ad13b78bd)
 - [为何我们要用 React 来写小程序 - Taro 诞生记](https://aotu.io/notes/2018/06/25/the-birth-of-taro/)
-- [多端统一开发框架 - Taro介绍](https://aotu.io/notes/2018/06/07/Taro/)
+- [多端统一开发框架 - Taro 介绍](https://aotu.io/notes/2018/06/07/Taro/)
 
 ### 分享交流
+
 - [第十三届 D2 前端技术论坛——使用 Taro 快速构建多端应用](https://www.yuque.com/d2forum/content/d213#6a1363f4)
-- [WeGeek直播课：从0到1快速开发电商小程序](https://link.juejin.im/?target=https%3A%2F%2Fcloud.tencent.com%2Fedu%2Flearning%2Flive-1497)
-- [掘金开发者大会——用React开发小程序的探索之路](https://www.itdks.com/Course/detail?id=16289)
+- [WeGeek 直播课：从 0 到 1 快速开发电商小程序](https://link.juejin.im/?target=https%3A%2F%2Fcloud.tencent.com%2Fedu%2Flearning%2Flive-1497)
+- [掘金开发者大会——用 React 开发小程序的探索之路](https://www.itdks.com/Course/detail?id=16289)
 
 ### 其他
+
 更多文章教程、开源项目等，请参考：[awesome-taro](https://github.com/NervJS/awesome-taro)
 
 掘金小册：[Taro 多端开发实现原理与实战](https://juejin.im/book/5b73a131f265da28065fb1cd?referrer=5ba228f16fb9a05d3251492d)
 
 ## 开发交流
-扫码添加 `凹凸实验室-小助手` ，回复 `Taro` 即可进群。（Taro 开发交流15群 已满）
+
+扫码添加 `凹凸实验室-小助手` ，回复 `Taro` 即可进群。（Taro 开发交流 15 群 已满）
 
 ![image](https://user-images.githubusercontent.com/9441951/63744620-7994e800-c8d2-11e9-9e66-ab43d1d75fe8.png)

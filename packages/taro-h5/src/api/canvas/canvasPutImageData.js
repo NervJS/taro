@@ -1,4 +1,6 @@
-import { findRef } from '../utils/index'
+import { findDOMNode } from 'nervjs'
+
+import { findRef } from '../utils'
 
 /**
  * @typedef {Object} Param
@@ -22,11 +24,12 @@ import { findRef } from '../utils/index'
 const canvasPutImageData = ({ canvasId, data, x, y, success, fail, complete }, componentInstance) => {
   const refId = `__taroref_${canvasId}`
   const component = findRef(refId, componentInstance)
-
-  /** @type {HTMLCanvasElement} */
-  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`)
+  const canvasDom = findDOMNode(component)
 
   try {
+    /** @type {HTMLCanvasElement} */
+    const canvas = canvasDom.querySelector(`[canvasId=${canvasId}]`)
+
     const ctx = canvas.getContext('2d')
 
     ctx.putImageData(data, x, y)

@@ -22,7 +22,7 @@ declare namespace Taro {
   function getCurrentPages(): Page[]
 
   /** 获取到小程序全局唯一的 App 实例。
-   * @supported weapp
+   * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/getApp.html
    */
   function getApp<T = General.IAnyObject>(opts?: getApp.Option): getApp.Instance<T>

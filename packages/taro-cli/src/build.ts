@@ -19,6 +19,7 @@ export default class Builder {
   hooks: IBuilderHooks
   appPath: string
   config: IProjectConfig
+
   constructor (appPath: string) {
     this.hooks = {
       beforeBuild: new SyncHook(['config']),
@@ -47,7 +48,7 @@ export default class Builder {
     }
   }
 
-  emptyFirst ({ watch, type }) {
+  emptyFirst ({watch, type}) {
     const outputPath = path.join(this.appPath, `${this.config.outputRoot || CONFIG.OUTPUT_DIR}`)
     if (!fs.existsSync(outputPath)) {
       fs.ensureDirSync(outputPath)
@@ -58,11 +59,11 @@ export default class Builder {
 
   build (buildOptions: IBuildOptions) {
     this.hooks.beforeBuild.call(this.config)
-    const { type, watch, platform, port, uiIndex } = buildOptions
-    this.emptyFirst({ type, watch })
+    const {type, watch, platform, port, uiIndex} = buildOptions
+    this.emptyFirst({type, watch})
     switch (type) {
       case BUILD_TYPES.H5:
-        this.buildForH5(this.appPath, { watch, port })
+        this.buildForH5(this.appPath, {watch, port})
         break
       case BUILD_TYPES.WEAPP:
       case BUILD_TYPES.SWAN:
@@ -74,10 +75,10 @@ export default class Builder {
         this.buildForMini(this.appPath, buildOptions)
         break
       case BUILD_TYPES.RN:
-        this.buildForRN(this.appPath, { watch })
+        this.buildForRN(this.appPath, {watch, port})
         break
       case BUILD_TYPES.UI:
-        this.buildForUILibrary(this.appPath, { watch, uiIndex })
+        this.buildForUILibrary(this.appPath, {watch, uiIndex})
         break
       case BUILD_TYPES.PLUGIN:
         this.buildForPlugin(this.appPath, {
@@ -86,7 +87,8 @@ export default class Builder {
         })
         break
       default:
-        console.log(chalk.red('输入类型错误，目前只支持 weapp/swan/alipay/tt/qq/h5/quickapp/rn 八端类型'))
+        console.log(
+          chalk.red('输入类型错误，目前只支持 weapp/swan/alipay/tt/qq/h5/quickapp/rn 八端类型'))
     }
   }
 
@@ -98,15 +100,15 @@ export default class Builder {
     require('./mini').build(appPath, buildOptions, null, this)
   }
 
-  buildForRN (appPath: string, { watch }) {
-    require('./rn').build(appPath, { watch })
+  buildForRN (appPath: string, {watch, port}) {
+    require('./rn').build(appPath, {watch, port})
   }
 
-  buildForUILibrary (appPath: string, { watch, uiIndex }) {
-    require('./ui/index').build(appPath, { watch, uiIndex })
+  buildForUILibrary (appPath: string, {watch, uiIndex}) {
+    require('./ui/index').build(appPath, {watch, uiIndex})
   }
 
-  buildForPlugin (appPath: string, { watch, platform }) {
+  buildForPlugin (appPath: string, {watch, platform}) {
     const typeMap = {
       [BUILD_TYPES.WEAPP]: '微信',
       [BUILD_TYPES.ALIPAY]: '支付宝'
@@ -116,6 +118,6 @@ export default class Builder {
       return
     }
     console.log(chalk.green(`开始编译${typeMap[platform]}小程序插件`))
-    require('./plugin').build(appPath, { watch, platform }, this)
+    require('./plugin').build(appPath, {watch, platform}, this)
   }
 }

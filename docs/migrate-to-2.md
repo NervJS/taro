@@ -92,7 +92,7 @@ const config = {
   // babel、csso、uglify 等配置从 plugins 配置中移出来
   babel: {
     sourceMap: true,
-    presets: [['env', { modules: false }]],,
+    presets: [['env', { modules: false }]],
     plugins: [
       'transform-decorators-legacy',
       'transform-class-properties',
@@ -216,3 +216,119 @@ babel: {
 - React 16.8.0 是第一个支持 Hook 的版本，React Native 从 0.59 版本开始支持 Hook，此前社区一直在呼吁对 RN 0.55.4 进行升级以直接支持 Hook 的写法
 
 本次 RN 端属于无缝升级，原有的写法和配置均不变，如果使用 [taro-native-shell](https://github.com/NervJS/taro-native-shell) 的，选择 0.59.9 分支即可；在原生应用集成 RN 的，需要自行升级 React Native 依赖到 0.59.9。
+
+## 升级常见问题整理
+
+### 小程序
+
+#### 使用 async/await 时出现报错 `Function(...) is not a function`
+
+在升级到 2.x 后使用 async/await 语法时可能会出现如下报错
+
+![error image](https://user-images.githubusercontent.com/31717528/72597788-75cd3500-3949-11ea-953c-a34f618e20ec.png)
+
+这是因为 `@tarojs/mini-runner` 使用的 `postcss-loader` 依赖了新版本的 `regenerator-runtime` 包，可能会与 `babel-runtime` 中依赖的 `regenerator-runtime` 版本冲突，而新版本的包无法在小程序中使用，所以导致了如上错误，解决办法是在本地自行安装 `0.11.1` 版本的 `regenerator-runtime` 包。
+
+```bash
+$ npm i --save regenerator-runtime@0.11.1
+```
+
+#### 拆分的公共文件 `vendors.js` 过大
+
+在 2.x 中默认会抽离 4 个公共文件，分别为
+
+* `runtime`: webpack 运行时入口
+* `vendors`: node_modules 中文件抽离
+* `taro`: node_modules 中 Taro 相关依赖抽离
+* `common`: 项目中业务代码公共文件抽离
+
+由于 `vendors` 默认是除 Taro 相关依赖之外的所有引用的 node_modules 文件的抽离公共文件，所以如果开发人员自己引入了过多的 npm 包就会导致 `vendors.js` 过大，解决办法可以是尽量少用 npm 包，其二是可以自己配置更细的拆分
+
+例如，如果引入了 lodash，由于 lodash 本身比较大，可以再自行配置 [`mini.webpackChain`](./config-detail.md#miniwebpackchain) 来将 lodash 单独拆分出来，示例配置如下
+
+```js
+const config = {
+  mini: {
+    webpackChain (chain, webpack) {
+      chain.merge({
+        optimization: {
+          splitChunks: {
+            cacheGroups: {
+              lodash: {
+                name: 'lodash',
+                priority: 1000,
+                test (module) {
+                  return /node_modules[\\/]lodash/.test(module.context)
+                }
+              }
+            }
+          }
+        }
+      })
+    }
+  }
+}
+```
+
+随后需要再通过 [`mini.commonChunks`](./config-detail.md#minicommonchunks) 配置来添加 `lodash` 公共文件
+
+```js
+const config = {
+  mini: {
+    commonChunks (commonChunks) {
+      commonChunks.push('lodash')
+      return commonChunks
+    }
+  }
+}
+```
+
+这样就能将 lodash 相关依赖单独抽离到 `lodash.js` 中，以实现对 `vendors` 的拆分
+
+#### 发觉升级之后文件更大
+
+如果觉得升级到 2.x 文件更大，可以通过使用 [webpack-bundle-analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) 插件对打包体积进行分析。
+
+首先安装 `webpack-bundle-analyzer` 依赖。
+
+```bash
+$ npm install webpack-bundle-analyzer -D
+$ yarn add --dev webpack-bundle-analyzer
+```
+
+随后在  [`mini.webpackChain`](./config-detail.md#minicommonchunks)  中添加如下配置。
+
+```js
+const config = {
+  mini: {
+    webpackChain (chain, webpack) {
+      chain.plugin('analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
+    }
+  }
+}
+```
+
+在运行之后，我们就能在浏览器里看到如下分析效果。
+
+![webpack-bundle-analyzer](https://storage.360buyimg.com/2.0/webpack-bundle-analyzer.jpg)
+
+并且可以通过点击左侧导航中 `Treemap sizes:` 的 `Stat` 按钮，来查看每一个文件的具体依赖关系及依赖文件的大小。
+
+#### 某些组件样式失效了
+
+在升级到 2.x 后可能会遇到某些组件的样式失效了，这是因为 2.x 中默认将所有被超过 1 个文件引用的公共样式抽离到了 `common` 文件中，该文件默认会被 `app` 引入，而由于小程序组件默认不能接受公共，所以会导致样式失效，可以通过为组件配置 [`addGlobalClass`](./component-style.md#全局样式类) 来解决，或者也可以通过自己配置 Webpack 禁止抽离公共样式。
+
+#### 在 JS 中引入的图片突然变成 base64 格式
+
+在升级到 2.x 后可能会遇到在 JS 中引入的图片突然变成 base64 格式了，是因为 2.x 小程序改用 Webpack 编译后图片都会经过 `url-loader` 进行处理，默认 10kb 大小以下的图片（包含以下格式，png | jpg | jpeg | gif | bmp）都会被转为 base64，如果不想这么做，可以通过配置 [mini.imageUrlLoaderOption](./config-detail.mdminiimageurlloaderoption) 来解决
+
+```js
+const config = {
+  mini: {
+    imageUrlLoaderOption: {
+      limit: 10240 // 大小限制，单位为 b
+    }
+  }
+}
+```

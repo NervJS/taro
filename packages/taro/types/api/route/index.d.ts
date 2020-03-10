@@ -147,11 +147,11 @@ declare namespace Taro {
    * @example
    * ```tsx
    * // 注意：调用 navigateTo 跳转时，调用该方法的页面会被加入堆栈，而 redirectTo 方法则不会。见下方示例代码
-   *       // 此处是A页面
+   * // 此处是A页面
    * Taro.navigateTo({
    *   url: 'B?id=1'
    * })
-   *       // 此处是B页面
+   * // 此处是B页面
    * Taro.navigateTo({
    *   url: 'C?id=1'
    * })

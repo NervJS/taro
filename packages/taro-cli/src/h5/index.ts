@@ -169,6 +169,7 @@ class Compiler {
       readPromises.push(new Promise((resolve, reject) => {
         klaw(sourcePath)
           .on('data', file => {
+            const REG_IGNORE = /(\\|\/)\.(svn|git)\1/i;
             const relativePath = path.relative(appPath, file.path)
             if (file.stats.isSymbolicLink()) {
               let linkFile = fs.readlinkSync(file.path)
@@ -176,7 +177,7 @@ class Compiler {
                 linkFile = path.resolve(file.path, '..', linkFile)
               }
               readFiles.call(this, linkFile, file.path)
-            } else if (!file.stats.isDirectory()) {
+            } else if (!file.stats.isDirectory() && !REG_IGNORE.test(relativePath)) {
               printLog(processTypeEnum.CREATE, '发现文件', relativePath)
               this.processFiles(file.path, originalFilePath)
             }
@@ -430,7 +431,7 @@ class Compiler {
             )
 
             node.body = toAst(buildFuncBody(pages), { preserveComments: true })
-
+          } else {
             node.body.body = compact([
               hasComponentDidHide && isComponentWillUnmount && callComponentDidHideNode,
               ...node.body.body,
@@ -808,7 +809,7 @@ class Compiler {
                 )
 
                 node.body = toAst(buildFuncBody(pages), { preserveComments: true })
-
+              } else {
                 node.body.body = compact([
                   hasComponentDidHide && isComponentWillUnmount && callComponentDidHideNode,
                   ...node.body.body,

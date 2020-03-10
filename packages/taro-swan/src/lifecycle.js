@@ -3,7 +3,8 @@ import {
   internal_safe_set as safeSet,
   commitAttachRef,
   Current,
-  invokeEffects
+  invokeEffects,
+  getIsUsingDiff
 } from '@tarojs/taro'
 import { componentTrigger } from './create-component'
 import { shakeFnFromObject, isEmptyObject, diffObjToPath, isFunction, isUndefined, isArray } from './util'
@@ -173,7 +174,7 @@ function doUpdate (component, prevProps, prevState) {
   }
   data['$taroCompReady'] = true
 
-  const dataDiff = diffObjToPath(data, component.$scope.data)
+  const dataDiff = getIsUsingDiff() ? diffObjToPath(data, component.$scope.data) : data
   const __mounted = component.__mounted
   let snapshot
   if (__mounted) {
@@ -217,6 +218,11 @@ function doUpdate (component, prevProps, prevState) {
       if (typeof component.componentDidUpdate === 'function') {
         component.componentDidUpdate(prevProps, prevState, snapshot)
       }
+    }
+
+    if (!__mounted) {
+      component.__mounted = true
+      componentTrigger(component, 'componentDidMount')
     }
 
     if (cbs.length) {

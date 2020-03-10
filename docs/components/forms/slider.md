@@ -3,53 +3,19 @@ title: Slider
 sidebar_label: Slider
 ---
 
-##### 滑动选择器
+滑动选择器
 
-> 属性
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/slider.html)
 
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| min             | Number      | 0       | 最小值 |
-| max             | Number      | 100     | 最大值 |
-| step            | Number      | 1       | 步长，取值必须大于 0，并且可被(max - min)整除 |
-| disabled        | Boolean     | false   | 是否禁用   |
-| value           | Number      | 0       | 当前取值   |
-| color           | Color       | #e9e9e9 | 背景条的颜色（请使用 backgroundColor）        |
-| selectedColor  | Color       | #1aad19 | 已选择的颜色（请使用 activeColor）            |
-| activeColor     | Color       | #1aad19 | 已选择的颜色    |
-| backgroundColor | Color       | #e9e9e9 | 背景条的颜色    |
-| blockSize      | Number      | 28      | 滑块的大小，取值范围为 12 - 28 |
-| blockColor     | Color       | #ffffff | 滑块的颜色 |
-| showValue      | Boolean     | false   | 是否显示当前 value  |
-| onChange       | EventHandle |         | 完成一次拖动后触发的事件 |
-| onChanging     | EventHandle |         | 拖动过程中触发的事件|
+## 类型
 
->各端支持度
+```tsx
+ComponentType<SliderProps>
+```
 
-| 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
-| :-: | :-: | :-: | :- | :- | :- | :- |
-| min            | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| max            | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| step           | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| disabled       | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| value          | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| color          | ✔ |  | x | |  | ✔ |
-| selectedColor  | ✔ |  | x |  |  | ✔ |
-| activeColor    | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| backgroundColor| ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| blockSize      | ✔ | ✔ | x | ✔ | ✔ | ✔ |
-| blockColor     | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| showValue      | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| onChange       | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| onChanging     | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+## 示例代码
 
-
-
-###### 示例：
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Slider } from '@tarojs/components'
-
+```tsx
 export default class PageView extends Component {
   constructor() {
     super(...arguments)
@@ -69,3 +35,49 @@ export default class PageView extends Component {
   }
 }
 ```
+
+## SliderProps
+
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| min | `number` | `0` | 否 | 最小值 |
+| max | `number` | `100` | 否 | 最大值 |
+| step | `number` | `1` | 否 | 步长，取值必须大于 0，并且可被(max - min)整除 |
+| disabled | `boolean` | `false` | 否 | 是否禁用 |
+| value | `number` | `0` | 否 | 当前取值 |
+| color | `string` | `"#e9e9e9"` | 否 | 背景条的颜色（请使用 backgroundColor） |
+| selectedColor | `string` | `"#1aad19"` | 否 | 已选择的颜色（请使用 activeColor） |
+| activeColor | `string` | `"#1aad19"` | 否 | 已选择的颜色 |
+| backgroundColor | `string` | `"#e9e9e9"` | 否 | 背景条的颜色 |
+| blockSize | `number` | `28` | 否 | 滑块的大小，取值范围为 12 - 28 |
+| blockColor | `string` | `"#ffffff"` | 否 | 滑块的颜色 |
+| showValue | `boolean` | `false` | 否 | 是否显示当前 value |
+| onChange | `BaseEventOrigFunction<onChangeEventDetail>` |  | 否 | 完成一次拖动后触发的事件 |
+| onChanging | `BaseEventOrigFunction<onChangeEventDetail>` |  | 否 | 拖动过程中触发的事件 |
+
+### API 支持度
+
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| SliderProps.min | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SliderProps.max | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SliderProps.step | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SliderProps.disabled | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SliderProps.value | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SliderProps.color | ✔️ |  |  | ✔️ |  |  |
+| SliderProps.selectedColor | ✔️ |  |  | ✔️ |  |  |
+| SliderProps.activeColor | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SliderProps.backgroundColor | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SliderProps.blockSize | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| SliderProps.blockColor | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SliderProps.showValue | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SliderProps.onChange | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| SliderProps.onChanging | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+### onChangeEventDetail
+
+## API 支持度
+
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Slider | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

@@ -54,7 +54,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     babel,
     csso,
     uglify,
-    commonChunks
+    commonChunks,
+    addChunkPages
   } = config
 
   let { copy } = config
@@ -85,7 +86,15 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     isBuildPlugin: config.isBuildPlugin
   })
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
-  const customCommonChunks = commonChunks && commonChunks.length ? commonChunks : !!config.isBuildPlugin ? ['plugin/runtime', 'plugin/vendors'] : ['runtime', 'vendors']
+  const defaultCommonChunks = !!config.isBuildPlugin
+    ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
+    : ['runtime', 'vendors', 'taro', 'common']
+  let customCommonChunks = defaultCommonChunks
+  if (typeof commonChunks === 'function') {
+    customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks
+  } else if (Array.isArray(commonChunks) && commonChunks.length) {
+    customCommonChunks = commonChunks
+  }
   plugin.miniPlugin = getMiniPlugin({
     sourceDir,
     outputDir,
@@ -97,6 +106,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     pluginConfig: entryRes!.pluginConfig,
     isBuildPlugin: !!config.isBuildPlugin,
     commonChunks: customCommonChunks,
+    addChunkPages,
     alias
   })
 
@@ -126,6 +136,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
     }
   }
+  const taroBaseReg = new RegExp(`@tarojs[\\/]taro|@tarojs[\\/]${buildAdapter}`)
   chain.merge({
     mode,
     devtool: getDevtool(enableSourceMap),
@@ -171,12 +182,26 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         chunks: 'all',
         maxInitialRequests: Infinity,
         minSize: 0,
-        name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
         cacheGroups: {
+          common: {
+            name: !!config.isBuildPlugin ? 'plugin/common' : 'common',
+            minChunks: 2,
+            priority: 1
+          },
           vendors: {
-            test (module) {
+            name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
+            minChunks: 2,
+            test: module => {
               return /[\\/]node_modules[\\/]/.test(module.resource) && module.miniType !== PARSE_AST_TYPE.COMPONENT
-            }
+            },
+            priority: 10
+          },
+          taro: {
+            name: !!config.isBuildPlugin ? 'plugin/taro' : 'taro',
+            test: module => {
+              return taroBaseReg.test(module.context)
+            },
+            priority: 100
           }
         }
       }

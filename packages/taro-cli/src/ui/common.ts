@@ -216,7 +216,7 @@ export function copyFileToDist (filePath: string, sourceDir: string, outputDir: 
   }))
 }
 
-export function analyzeFiles (files: string[], sourceDir: string, outputDir: string, buildData: IBuildData) {
+function _analyzeFiles(files: string[], sourceDir: string, outputDir: string, buildData: IBuildData){
   files.forEach(file => {
     if (fs.existsSync(file)) {
       if (processedScriptFiles.has(file)) {
@@ -246,13 +246,17 @@ export function analyzeFiles (files: string[], sourceDir: string, outputDir: str
         })
       }
       if (scriptFiles.length) {
-        analyzeFiles(scriptFiles, sourceDir, outputDir, buildData)
+        _analyzeFiles(scriptFiles, sourceDir, outputDir, buildData)
       }
       if (styleFiles.length) {
         analyzeStyleFilesImport(styleFiles, sourceDir, outputDir, buildData)
       }
     }
   })
+}
+
+export function analyzeFiles (files: string[], sourceDir: string, outputDir: string, buildData: IBuildData) {
+  _analyzeFiles(files, sourceDir, outputDir, buildData)
   processedScriptFiles = new Set()
 }
 

@@ -2,6 +2,7 @@
  * Video组件的样式参考了[uni-app](https://github.com/dcloudio/uni-app/tree/master/packages/uni-h5)的实现
  */
 
+import Taro from '@tarojs/taro-h5'
 import Nerv, { Component, createPortal } from 'nervjs'
 import classnames from 'classnames'
 import Danmu from './danmu'
@@ -82,9 +83,6 @@ class Video extends Component {
     vslideGesture: false,
     vslideGestureInFullscreen: true
   }
-
-  /** @type {VideoProps} */
-  props
 
   /** @type {HTMLVideoElement} */
   videoRef
@@ -412,6 +410,12 @@ class Video extends Component {
   componentDidMount () {
     this.unbindTouchEvents = this.bindTouchEvents()
     this.sendDanmu(this.props.danmuList)
+
+    Taro.eventCenter.on('__taroRouterChange', () => {
+      if (this.state.isPlaying) {
+        this.stop()
+      }
+    })
   }
 
   componentWillReceiveProps (nProps) {

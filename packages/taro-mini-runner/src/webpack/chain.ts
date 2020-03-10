@@ -26,7 +26,9 @@ import {
   REG_FONT,
   REG_IMAGE,
   BUILD_TYPES,
-  REG_SCRIPTS
+  REG_SCRIPTS,
+  REG_TEMPLATE,
+  MINI_APP_FILES
 } from '../utils/constants'
 
 const globalObjectMap = {
@@ -74,8 +76,6 @@ const defaultCssModuleOption: PostcssOption.cssModules = {
   }
 }
 
-const staticDirectory = 'static'
-
 const getLoader = (loaderName: string, options: IOption) => {
   return {
     loader: require.resolve(loaderName),
@@ -113,8 +113,9 @@ export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader')
 export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
-export const getFileParseLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/fileParseLoader')))
 export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/wxTransformerLoader')))
+export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
+
 const getExtractCssLoader = () => {
   return {
     loader: MiniCssExtractPlugin.loader
@@ -156,6 +157,7 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
 }
 
 export const getMiniPlugin = args => {
+  MiniPlugin.init()
   return partial(getPlugin, MiniPlugin)([args])
 }
 
@@ -268,13 +270,7 @@ export const getModule = (appPath: string, {
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
-  // const fileLoader = getFileLoader([{
-  //   useRelativePath: true,
-  //   name: `[path][name]${MINI_APP_FILES[buildAdapter].STYLE}`,
-  //   context: sourceDir
-  // }])
-
-  const fileParseLoader = getFileParseLoader([{
+  const wxTransformerLoader = getWxTransformerLoader([{
     babel,
     alias,
     designWidth,
@@ -284,13 +280,13 @@ export const getModule = (appPath: string, {
     sourceDir
   }])
 
-  const wxTransformerLoader = getWxTransformerLoader([{
+  const miniTemplateLoader = getMiniTemplateLoader([{
     buildAdapter
   }])
 
   let scriptsLoaderConf = {
     test: REG_SCRIPTS,
-    use: [fileParseLoader, wxTransformerLoader],
+    use: [wxTransformerLoader],
   }
 
   if (compileExclude && compileExclude.length) {
@@ -339,11 +335,21 @@ export const getModule = (appPath: string, {
       use: [extractCssLoader]
     },
     script: scriptsLoaderConf,
+    template: {
+      test: REG_TEMPLATE,
+      use: [getFileLoader([{
+        useRelativePath: true,
+        name: `[path][name]${MINI_APP_FILES[buildAdapter].TEMPL}`,
+        context: sourceDir
+      }]), miniTemplateLoader]
+    },
     media: {
       test: REG_MEDIA,
       use: {
         urlLoader: getUrlLoader([defaultMediaUrlLoaderOption, {
-          name: `${staticDirectory}/media/[name].[ext]`,
+          name: `[path][name].[ext]`,
+          useRelativePath: true,
+          context: sourceDir,
           ...mediaUrlLoaderOption,
           limit: isQuickapp ? false : mediaUrlLoaderOption.limit
         }])
@@ -353,7 +359,9 @@ export const getModule = (appPath: string, {
       test: REG_FONT,
       use: {
         urlLoader: getUrlLoader([defaultFontUrlLoaderOption, {
-          name: `${staticDirectory}/fonts/[name].[ext]`,
+          name: `[path][name].[ext]`,
+          useRelativePath: true,
+          context: sourceDir,
           ...fontUrlLoaderOption,
           limit: isQuickapp ? false : fontUrlLoaderOption.limit
         }])
@@ -363,7 +371,9 @@ export const getModule = (appPath: string, {
       test: REG_IMAGE,
       use: {
         urlLoader: getUrlLoader([defaultImageUrlLoaderOption, {
-          name: `${staticDirectory}/images/[name].[ext]`,
+          name: `[path][name].[ext]`,
+          useRelativePath: true,
+          context: sourceDir,
           ...imageUrlLoaderOption,
           limit: isQuickapp ? false : imageUrlLoaderOption.limit
         }])

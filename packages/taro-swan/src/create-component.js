@@ -169,6 +169,32 @@ export function filterProps (defaultProps = {}, propsFromPropsManager = {}, curA
 }
 
 export function componentTrigger (component, key, args) {
+  if (key === 'componentDidMount') {
+    if (component['$$refs'] && component['$$refs'].length > 0) {
+      let refs = {}
+      component['$$refs'].forEach(ref => {
+        let target
+        const query = swan.createSelectorQuery().in(component.$scope)
+        if (ref.type === 'component') {
+          target = component.$scope.selectComponent(`#${ref.id}`)
+          target = (target && target.$component) || target
+        } else {
+          target = query.select(`#${ref.id}`)
+        }
+        commitAttachRef(ref, target, component, refs, true)
+        ref.target = target
+      })
+      component.refs = Object.assign({}, component.refs || {}, refs)
+    }
+    if (component['$$hasLoopRef']) {
+      Current.current = component
+      component._disableEffect = true
+      component._createData(component.state, component.props, true)
+      component._disableEffect = false
+      Current.current = null
+    }
+  }
+
   if (key === 'componentWillUnmount') {
     const compid = component.$scope.data.compid
     if (compid) propsManager.delete(compid)
@@ -253,49 +279,9 @@ function createComponent (ComponentClass, isPage) {
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
       Object.assign(this.$component.$router.params, options)
-      if (isPage) {
-        if (cacheDataHas(PRELOAD_DATA_KEY)) {
-          const data = cacheDataGet(PRELOAD_DATA_KEY, true)
-          this.$component.$router.preload = data
-        }
-        this.$component.$router.path = getCurrentPageUrl()
-        initComponent.apply(this, [ComponentClass, isPage])
-      }
     },
-    attached () {
-      initComponent.apply(this, [ComponentClass, isPage])
-    },
-    ready () {
-      const component = this.$component
-      if (component['$$refs'] && component['$$refs'].length > 0) {
-        let refs = {}
-        component['$$refs'].forEach(ref => {
-          let target
-          const query = swan.createSelectorQuery().in(this)
-          if (ref.type === 'component') {
-            target = this.selectComponent(`#${ref.id}`)
-            target = (target && target.$component) || target
-          } else {
-            target = query.select(`#${ref.id}`)
-          }
-          commitAttachRef(ref, target, component, refs, true)
-          ref.target = target
-        })
-        component.refs = Object.assign({}, component.refs || {}, refs)
-      }
-      if (component['$$hasLoopRef']) {
-        Current.current = component
-        Current.index = 0
-        component._disableEffect = true
-        component._createData(component.state, component.props, true)
-        component._disableEffect = false
-        Current.current = null
-      }
-      if (!component.__mounted) {
-        component.__mounted = true
-        componentTrigger(component, 'componentDidMount')
-      }
-    },
+    attached () {},
+    ready () {},
     detached () {
       const component = this.$component
       componentTrigger(component, 'componentWillUnmount')
@@ -311,18 +297,26 @@ function createComponent (ComponentClass, isPage) {
     }
   }
   if (isPage) {
-    weappComponentConf['onLoad'] = weappComponentConf['created']
-    weappComponentConf['onReady'] = weappComponentConf['ready']
-    weappComponentConf['onUnload'] = weappComponentConf['detached']
-    weappComponentConf['onShow'] = function () {
+    weappComponentConf.methods = weappComponentConf.methods || {}
+    weappComponentConf.methods['onLoad'] = function (options = {}) {
+      if (cacheDataHas(PRELOAD_DATA_KEY)) {
+        const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+        this.$component.$router.preload = data
+      }
+      Object.assign(this.$component.$router.params, options)
+      this.$component.$router.path = getCurrentPageUrl()
+      initComponent.apply(this, [ComponentClass, isPage])
+    }
+    weappComponentConf.methods['onReady'] = weappComponentConf['ready']
+    weappComponentConf.methods['onShow'] = function () {
       componentTrigger(this.$component, 'componentDidShow')
     }
-    weappComponentConf['onHide'] = function () {
+    weappComponentConf.methods['onHide'] = function () {
       componentTrigger(this.$component, 'componentDidHide')
     }
     pageExtraFns.forEach(fn => {
       if (componentInstance[fn] && typeof componentInstance[fn] === 'function') {
-        weappComponentConf[fn] = function () {
+        weappComponentConf.methods[fn] = function () {
           const component = this.$component
           if (component && component[fn] && typeof component[fn] === 'function') {
             return component[fn](...arguments)

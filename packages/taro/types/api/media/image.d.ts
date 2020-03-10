@@ -152,6 +152,10 @@ declare namespace Taro {
       album
       /** 使用相机 */
       camera
+      /** 使用前置摄像头(仅H5纯浏览器使用) */
+      user
+      /** 使用后置摄像头(仅H5纯浏览器) */
+      environment
     }
     interface SuccessCallbackResult extends General.CallbackResult {
       /** 图片的本地临时文件路径列表 */
@@ -185,7 +189,7 @@ declare namespace Taro {
    * Taro.chooseImage({
    *   count: 1, // 默认9
    *   sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-   *   sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+   *   sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有，在H5浏览器端支持使用 `user` 和 `environment`分别指定为前后摄像头
    *   success: function (res) {
    *     // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
    *     var tempFilePaths = res.tempFilePaths
