@@ -1,13 +1,6 @@
 <template>
   <taro-picker-core
-    :mode='mode'
-    :disabled='disabled'
     :range.prop="range"
-    :range-key="rangeKey"
-    :start="start"
-    :end="end"
-    :fields="fields"
-    :name="name"
     @change="onChange"
     @columnchange="onColumnChange"
     @cancel="onCancel"
@@ -20,15 +13,8 @@
 export default {
   name: 'taro-picker',
   props: {
-    'mode': String,
-    'disabled': Boolean,
     'range': Array,
-    'rangeKey': String,
-    'value': [Number, String, Array],
-    'start': String,
-    'end': String,
-    'fields': String,
-    'name': String
+    'value': [Number, String, Array]
   },
   mounted () {
     this.$el.value = this.value

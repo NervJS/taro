@@ -6,6 +6,7 @@ import { Component, h, ComponentInterface, Event, EventEmitter, Element, Listen 
 })
 export class Form implements ComponentInterface {
   private form: HTMLFormElement
+  private value: {[propName: string]: any} = {}
 
   @Element() el: HTMLElement
 
@@ -17,6 +18,29 @@ export class Form implements ComponentInterface {
   onButtonSubmit (e: Event) {
     e.stopPropagation()
 
+    this.value = this.getFormValue()
+
+    this.onSubmit.emit({
+      value: this.value
+    })
+  }
+
+  @Listen('tarobuttonreset')
+  onButtonReset (e: Event) {
+    e.stopPropagation()
+    this.form.reset()
+  }
+
+  componentDidLoad () {
+    this.value = this.getFormValue()
+
+    Object.defineProperty(this.el, 'value', {
+      get: () => this.value,
+      configurable: true
+    })
+  }
+
+  getFormValue () {
     const el = this.el
     const elements: HTMLInputElement[] = []
     const tagElements = el.getElementsByTagName('input')
@@ -69,15 +93,7 @@ export class Form implements ComponentInterface {
     textareaEleArr.forEach(v => {
       formItem[v.name] = v.value
     })
-    this.onSubmit.emit({
-      value: formItem
-    })
-  }
-
-  @Listen('tarobuttonreset')
-  onButtonReset (e: Event) {
-    e.stopPropagation()
-    this.form.reset()
+    return formItem
   }
 
   render () {

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element } from '@stencil/core'
 import { EventHandler, TaroEvent } from '@tarojs/components'
 
 function getTrueType (type: string, confirmType: string, password: boolean) {
@@ -37,6 +37,8 @@ export class Input implements ComponentInterface {
   @Prop() confirmType = 'done'
   @Prop() name: string
 
+  @Element() el: HTMLElement
+
   @Event({
     eventName: 'input'
   }) onInput: EventEmitter
@@ -71,6 +73,12 @@ export class Input implements ComponentInterface {
       this.inputRef.addEventListener('compositionstart', this.handleComposition)
       this.inputRef.addEventListener('compositionend', this.handleComposition)
     }
+
+    Object.defineProperty(this.el, 'value', {
+      get: () => this.inputRef.value,
+      set: value => (this.value = value),
+      configurable: true
+    })
   }
 
   componentDidUnload () {

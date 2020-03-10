@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Watch } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Watch, Element } from '@stencil/core'
 
 @Component({
   tag: 'taro-switch'
@@ -8,8 +8,10 @@ export class Switch implements ComponentInterface {
   @Prop() type = 'switch'
   @Prop() checked = false
   @Prop() color = '#04BE02'
-  @State() isChecked: boolean
   @Prop() name: string
+  @State() isChecked: boolean
+
+  @Element() el: HTMLElement
 
   @Watch('checked')
   function (newVal: boolean, oldVal: boolean) {
@@ -25,13 +27,20 @@ export class Switch implements ComponentInterface {
     this.isChecked = this.checked
   }
 
+  componentDidLoad () {
+    Object.defineProperty(this.el, 'value', {
+      get: () => this.isChecked,
+      configurable: true
+    })
+  }
+
   switchChange = e => {
     e.stopPropagation()
     const value = e.target.checked
+    this.isChecked = value
     this.onChange.emit({
       value
     })
-    this.isChecked = value
   }
 
   render () {

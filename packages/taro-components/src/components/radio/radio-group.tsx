@@ -6,6 +6,7 @@ import { Component, h, ComponentInterface, Host, Prop, Event, EventEmitter, List
 })
 export class RadioGroup implements ComponentInterface {
   private uniqueName = Date.now().toString(36)
+  private value: string
 
   @Prop() name
 
@@ -31,8 +32,10 @@ export class RadioGroup implements ComponentInterface {
         }
       })
 
+      this.value = e.detail.value
+
       this.onChange.emit({
-        value: e.detail.value
+        value: this.value
       })
     }
   }
@@ -42,6 +45,11 @@ export class RadioGroup implements ComponentInterface {
 
     childList.forEach((element) => {
       element.setAttribute('name', this.name || this.uniqueName)
+    })
+
+    Object.defineProperty(this.el, 'value', {
+      get: () => this.value,
+      configurable: true
     })
   }
 

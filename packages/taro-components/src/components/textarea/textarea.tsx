@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element } from '@stencil/core'
 import { TaroEvent } from '@tarojs/components'
 
 function fixControlledValue (value?: string) {
@@ -11,6 +11,10 @@ function fixControlledValue (value?: string) {
   styleUrl: './style/index.scss'
 })
 export class Textarea implements ComponentInterface {
+  private textareaRef: HTMLTextAreaElement
+
+  @Element() el: HTMLElement
+
   @Prop() value: string
   @Prop() placeholder: string
   @Prop() disabled = false
@@ -33,6 +37,14 @@ export class Textarea implements ComponentInterface {
   @Event({
     eventName: 'change'
   }) onChange: EventEmitter
+
+  componentDidLoad () {
+    Object.defineProperty(this.el, 'value', {
+      get: () => this.textareaRef.value,
+      set: value => (this.value = value),
+      configurable: true
+    })
+  }
 
   hanldeInput = (e: TaroEvent<HTMLInputElement>) => {
     e.stopPropagation()
@@ -77,7 +89,12 @@ export class Textarea implements ComponentInterface {
 
     return (
       <textarea
-        ref={input => autoFocus && input?.focus()}
+        ref={input => {
+          if (input) {
+            this.textareaRef = input
+            autoFocus && input.focus()
+          }
+        }}
         class='taro-textarea'
         value={fixControlledValue(value)}
         placeholder={placeholder}

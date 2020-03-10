@@ -1,11 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, State, Watch, Host } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, State, Watch, Host, Element } from '@stencil/core'
 
 @Component({
   tag: 'taro-slider'
 })
 export class Slider implements ComponentInterface {
   private sliderInsRef: HTMLDivElement
+
+  @Element() el: HTMLElement
 
   @Prop() min = 0
   @Prop() max = 100
@@ -34,6 +36,14 @@ export class Slider implements ComponentInterface {
       const val = Math.max(min, Math.min(newVal, max))
       this.updateByStep(val)
     }
+  }
+
+  componentDidLoad () {
+    Object.defineProperty(this.el, 'value', {
+      get: () => this.val,
+      set: value => (this.value = value),
+      configurable: true
+    })
   }
 
   componentDidUpdate () {

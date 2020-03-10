@@ -1,42 +1,36 @@
 <script>
 export default {
   name: 'taro-input',
-  props: [
-    'value',
-    'type',
-    'password',
-    'placeholder',
-    'disabled',
-    'maxlength',
-    'focus',
-    'confirmType',
-    'onInput',
-    'onFocus',
-    'onBlur',
-    'onConfirm',
-    'onChange',
-    'onKeyDown'
-  ],
-  render () {
-    const noop = function () {}
-    return (
-      <taro-input-core
-          value={this.value}
-          type={this.type}
-          password={this.password}
-          placeholder={this.placeholder}
-          disabled={this.disabled}
-          maxlength={this.maxlength}
-          auto-focus={this.focus}
-          confirm-type={this.confirmType}
-          onInput={this.onInput || noop}
-          onFocus={this.onFocus || noop}
-          onBlur={this.onBlur || noop}
-          onConfirm={this.onConfirm || noop}
-          onChange={this.onChange || noop}
-          onKeydown={this.onKeyDown || noop}
-        />
-    )
+  props: {
+    focus: Boolean
+  },
+  render (createElement) {
+    const self = this
+    return createElement('taro-input-core', {
+        'attrs': {
+          'auto-focus': self.focus
+        },
+        'on': {
+          input (e) {
+            self.$emit('input', e)
+          },
+          focus (e) {
+            self.$emit('focus', e)
+          },
+          blur (e) {
+            self.$emit('blur', e)
+          },
+          confirm (e) {
+            self.$emit('confirm', e)
+          },
+          change (e) {
+            self.$emit('change', e)
+          },
+          keydown (e) {
+            self.$emit('keydown', e)
+          }
+        }
+      }, this.$slots.default)
   }
 }
 </script>

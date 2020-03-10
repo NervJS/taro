@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, State, Watch } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, State, Watch, Element } from '@stencil/core'
 import classNames from 'classnames'
 import {
   hoursRange,
@@ -37,6 +37,8 @@ export class Picker implements ComponentInterface {
   private index: number[] = []
   private pickerDate: PickerDate
 
+  @Element() el: HTMLElement
+
   @Prop() mode: Mode = 'selector'
   @Prop() disabled = false
   @Prop() range: any[] = []
@@ -66,6 +68,14 @@ export class Picker implements ComponentInterface {
 
   componentWillLoad () {
     this.handleProps()
+  }
+
+  componentDidLoad () {
+    Object.defineProperty(this.el, 'value', {
+      get: () => this.pickerValue,
+      set: val => (this.value = val),
+      configurable: true
+    })
   }
 
   @Watch('mode')
