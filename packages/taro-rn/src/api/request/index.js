@@ -15,7 +15,7 @@ function generateRequestUrlWithParams (url, params) {
   return url
 }
 
-function request (options) {
+function _request (options) {
   options = options || {}
   if (typeof options === 'string') {
     options = {
@@ -76,11 +76,12 @@ function request (options) {
 }
 
 function taroInterceptor (chain) {
-  return request(chain.requestParams)
+  return _request(chain.requestParams)
 }
 
 const link = new Link(taroInterceptor)
 
+const request = link.request.bind(link)
 const addInterceptor = link.addInterceptor.bind(link)
 
 export default {
