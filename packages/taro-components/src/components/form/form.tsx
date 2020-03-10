@@ -2,7 +2,7 @@
 import { Component, h, ComponentInterface, Event, EventEmitter, Element, Listen } from '@stencil/core'
 
 @Component({
-  tag: 'taro-form'
+  tag: 'taro-form-core'
 })
 export class Form implements ComponentInterface {
   private form: HTMLFormElement

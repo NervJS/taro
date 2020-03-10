@@ -2,7 +2,7 @@
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Watch, Element } from '@stencil/core'
 
 @Component({
-  tag: 'taro-checkbox',
+  tag: 'taro-checkbox-core',
   styleUrl: './style/index.scss'
 })
 export class Checkbox implements ComponentInterface {

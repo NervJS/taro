@@ -3,7 +3,7 @@ import { Component, h, ComponentInterface, Prop, Host } from '@stencil/core'
 import classNames from 'classnames'
 
 @Component({
-  tag: 'taro-progress'
+  tag: 'taro-progress-core'
 })
 export class Index implements ComponentInterface {
   @Prop() percent: number

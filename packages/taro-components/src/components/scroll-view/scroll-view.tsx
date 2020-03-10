@@ -41,7 +41,7 @@ function debounce (fn, delay: number) {
 }
 
 @Component({
-  tag: 'taro-scroll-view',
+  tag: 'taro-scroll-view-core',
   styleUrl: './style/index.scss'
 })
 export class ScrollView implements ComponentInterface {

@@ -2,7 +2,7 @@
 import { Component, h, Host } from '@stencil/core'
 
 @Component({
-  tag: 'taro-camera'
+  tag: 'taro-camera-core'
 })
 export class Camera {
   componentDidLoad () {

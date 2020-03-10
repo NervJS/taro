@@ -9,7 +9,7 @@ import {
 } from './utils'
 
 @Component({
-  tag: 'taro-video',
+  tag: 'taro-video-core',
   styleUrl: './style/index.scss'
 })
 export class Video implements ComponentInterface {
@@ -31,7 +31,7 @@ export class Video implements ComponentInterface {
   private gestureType = 'none'
   private wrapperElement: HTMLElement
 
-  @Element() el: HTMLTaroVideoElement
+  @Element() el: HTMLTaroVideoCoreElement
 
   /**
    * 要播放视频的资源地址

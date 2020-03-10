@@ -2,7 +2,7 @@
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Watch, Element } from '@stencil/core'
 
 @Component({
-  tag: 'taro-radio'
+  tag: 'taro-radio-core'
 })
 export class Radio implements ComponentInterface {
   private inputEl: HTMLInputElement

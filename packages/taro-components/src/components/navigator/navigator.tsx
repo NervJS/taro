@@ -26,7 +26,7 @@ const Taro = require('@tarojs/taro')
  **/
 
 @Component({
-  tag: 'taro-navigator',
+  tag: 'taro-navigator-core',
   styleUrl: 'navigator.css'
 })
 export class Navigator implements ComponentInterface {

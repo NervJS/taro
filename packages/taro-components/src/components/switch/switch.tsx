@@ -2,7 +2,7 @@
 import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Watch, Element } from '@stencil/core'
 
 @Component({
-  tag: 'taro-switch'
+  tag: 'taro-switch-core'
 })
 export class Switch implements ComponentInterface {
   @Prop() type = 'switch'

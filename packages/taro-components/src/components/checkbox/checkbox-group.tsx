@@ -2,7 +2,7 @@
 import { Component, h, ComponentInterface, Host, Prop, Event, EventEmitter, Listen, Element } from '@stencil/core'
 
 @Component({
-  tag: 'taro-checkbox-group'
+  tag: 'taro-checkbox-group-core'
 })
 export class CheckboxGroup implements ComponentInterface {
   private uniqueName = Date.now().toString(36)
@@ -22,7 +22,7 @@ export class CheckboxGroup implements ComponentInterface {
     e.stopPropagation()
     if ((e.target as Element).tagName !== 'TARO-CHECKBOX') return
 
-    const childList = this.el.querySelectorAll('taro-checkbox')
+    const childList = this.el.querySelectorAll('taro-checkbox-core')
 
     this.value = Array.from(childList)
       .filter(element => {
@@ -37,7 +37,7 @@ export class CheckboxGroup implements ComponentInterface {
   }
 
   componentDidLoad () {
-    const childList = this.el.querySelectorAll('taro-checkbox')
+    const childList = this.el.querySelectorAll('taro-checkbox-core')
 
     childList.forEach((element) => {
       element.setAttribute('name', this.name || this.uniqueName)

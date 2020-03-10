@@ -2,7 +2,7 @@
 import { Component, h, ComponentInterface, Host, Prop, Event, EventEmitter, Listen, Element } from '@stencil/core'
 
 @Component({
-  tag: 'taro-radio-group'
+  tag: 'taro-radio-group-core'
 })
 export class RadioGroup implements ComponentInterface {
   private uniqueName = Date.now().toString(36)
@@ -22,9 +22,9 @@ export class RadioGroup implements ComponentInterface {
     e.stopPropagation()
     if ((e.target as Element).tagName !== 'TARO-RADIO') return
 
-    const target = e.target as HTMLTaroRadioElement
+    const target = e.target as HTMLTaroRadioCoreElement
     if (target.checked) {
-      const childList = this.el.querySelectorAll('taro-radio')
+      const childList = this.el.querySelectorAll('taro-radio-core')
 
       childList.forEach(element => {
         if (element !== target) {
@@ -41,7 +41,7 @@ export class RadioGroup implements ComponentInterface {
   }
 
   componentDidLoad () {
-    const childList = this.el.querySelectorAll('taro-radio')
+    const childList = this.el.querySelectorAll('taro-radio-core')
 
     childList.forEach((element) => {
       element.setAttribute('name', this.name || this.uniqueName)

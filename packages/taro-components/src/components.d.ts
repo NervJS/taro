@@ -28,15 +28,15 @@ import {
 } from './components/video/video-danmu';
 
 export namespace Components {
-  interface TaroAudio {
+  interface TaroAudioCore {
     'autoplay': boolean;
     'controls': boolean;
     'loop': boolean;
     'muted': boolean;
     'src': string;
   }
-  interface TaroBlock {}
-  interface TaroButton {
+  interface TaroBlockCore {}
+  interface TaroButtonCore {
     'disabled': boolean;
     'formType': 'submit' | 'reset' | null;
     'hoverClass': string;
@@ -47,30 +47,30 @@ export namespace Components {
     'size': string;
     'type': string;
   }
-  interface TaroCamera {}
-  interface TaroCanvas {
+  interface TaroCameraCore {}
+  interface TaroCanvasCore {
     'canvasId': string;
     'type': string;
   }
-  interface TaroCheckbox {
+  interface TaroCheckboxCore {
     'checked': boolean;
     'color': string;
     'id': string;
     'name': string;
     'value': string;
   }
-  interface TaroCheckboxGroup {
+  interface TaroCheckboxGroupCore {
     'name': any;
   }
-  interface TaroCoverImage {}
-  interface TaroCoverView {}
-  interface TaroForm {}
-  interface TaroIcon {
+  interface TaroCoverImageCore {}
+  interface TaroCoverViewCore {}
+  interface TaroFormCore {}
+  interface TaroIconCore {
     'color': string;
     'size': string | number;
     'type': Type;
   }
-  interface TaroImage {
+  interface TaroImageCore {
     'lazyLoad': boolean;
     'mode': Mode;
     'src': string;
@@ -86,19 +86,19 @@ export namespace Components {
     'type': string;
     'value': string;
   }
-  interface TaroLabel {
+  interface TaroLabelCore {
     'for': string;
   }
-  interface TaroMoveableArea {}
-  interface TaroMoveableView {}
-  interface TaroNavigator {
+  interface TaroMoveableAreaCore {}
+  interface TaroMoveableViewCore {}
+  interface TaroNavigatorCore {
     'delta': number;
     'hoverClass': string;
     'isHover': boolean;
     'openType': string;
     'url': string;
   }
-  interface TaroOpenData {}
+  interface TaroOpenDataCore {}
   interface TaroPickerCore {
     'disabled': boolean;
     'end': string;
@@ -120,9 +120,9 @@ export namespace Components {
     'updateDay': (value: number, fields: number) => void;
     'updateHeight': (height: number, columnId: string, needRevise?: boolean) => void;
   }
-  interface TaroPickerView {}
-  interface TaroPickerViewColumn {}
-  interface TaroProgress {
+  interface TaroPickerViewColumnCore {}
+  interface TaroPickerViewCore {}
+  interface TaroProgressCore {
     'active': boolean;
     'activeColor': string;
     'backgroundColor': string;
@@ -139,19 +139,19 @@ export namespace Components {
     'prefixCls': string;
     'refreshing': string;
   }
-  interface TaroRadio {
+  interface TaroRadioCore {
     'checked': boolean;
     'id': string;
     'name': string;
     'value': string;
   }
-  interface TaroRadioGroup {
+  interface TaroRadioGroupCore {
     'name': any;
   }
-  interface TaroRichText {
+  interface TaroRichTextCore {
     'nodes': Nodes;
   }
-  interface TaroScrollView {
+  interface TaroScrollViewCore {
     'lowerThreshold': number | string;
     'mpScrollIntoView': string;
     'mpScrollLeft': number | string;
@@ -161,7 +161,7 @@ export namespace Components {
     'scrollY': boolean;
     'upperThreshold': number | string;
   }
-  interface TaroSlider {
+  interface TaroSliderCore {
     'activeColor': string;
     'backgroundColor': string;
     'blockColor': string;
@@ -174,7 +174,7 @@ export namespace Components {
     'step': number;
     'value': number | null;
   }
-  interface TaroSwiper {
+  interface TaroSwiperCore {
     /**
     * 是否自动切换
     */
@@ -220,10 +220,10 @@ export namespace Components {
     */
     'vertical': boolean;
   }
-  interface TaroSwiperItem {
+  interface TaroSwiperItemCore {
     'itemId': string;
   }
-  interface TaroSwitch {
+  interface TaroSwitchCore {
     'checked': boolean;
     'color': string;
     'name': string;
@@ -232,10 +232,10 @@ export namespace Components {
   interface TaroTabbar {
     'conf': Conf;
   }
-  interface TaroText {
+  interface TaroTextCore {
     'selectable': boolean;
   }
-  interface TaroTextarea {
+  interface TaroTextareaCore {
     'autoFocus': boolean;
     'disabled': boolean;
     'maxlength': number;
@@ -243,7 +243,22 @@ export namespace Components {
     'placeholder': string;
     'value': string;
   }
-  interface TaroVideo {
+  interface TaroVideoControl {
+    'controls': boolean;
+    'currentTime': number;
+    'duration': number;
+    'getIsDraggingProgressBall': () => Promise<boolean>;
+    'isPlaying': boolean;
+    'pauseFunc': () => void;
+    'playFunc': () => void;
+    'seekFunc': (position: number) => void;
+    'setCurrentTime': (time: number) => Promise<void>;
+    'setProgressBall': (percentage: number) => Promise<void>;
+    'showPlayBtn': boolean;
+    'showProgress': boolean;
+    'toggleVisibility': (nextVisible?: boolean | undefined) => Promise<void>;
+  }
+  interface TaroVideoCore {
     /**
     * 是否自动播放
     */
@@ -326,32 +341,17 @@ export namespace Components {
     */
     'vslideGestureInFullscreen': boolean;
   }
-  interface TaroVideoControl {
-    'controls': boolean;
-    'currentTime': number;
-    'duration': number;
-    'getIsDraggingProgressBall': () => Promise<boolean>;
-    'isPlaying': boolean;
-    'pauseFunc': () => void;
-    'playFunc': () => void;
-    'seekFunc': (position: number) => void;
-    'setCurrentTime': (time: number) => Promise<void>;
-    'setProgressBall': (percentage: number) => Promise<void>;
-    'showPlayBtn': boolean;
-    'showProgress': boolean;
-    'toggleVisibility': (nextVisible?: boolean | undefined) => Promise<void>;
-  }
   interface TaroVideoDanmu {
     'enable': boolean;
     'sendDanmu': (danmuList?: Partial<Danmu> | Partial<Danmu>[]) => Promise<void>;
     'tick': (currentTime: number) => Promise<void>;
   }
-  interface TaroView {
+  interface TaroViewCore {
     'hoverClass': string;
     'hoverStartTime': number;
     'hoverStayTime': number;
   }
-  interface TaroWebView {
+  interface TaroWebViewCore {
     'src': string;
   }
 }
@@ -359,76 +359,76 @@ export namespace Components {
 declare global {
 
 
-  interface HTMLTaroAudioElement extends Components.TaroAudio, HTMLStencilElement {}
-  var HTMLTaroAudioElement: {
-    prototype: HTMLTaroAudioElement;
-    new (): HTMLTaroAudioElement;
+  interface HTMLTaroAudioCoreElement extends Components.TaroAudioCore, HTMLStencilElement {}
+  var HTMLTaroAudioCoreElement: {
+    prototype: HTMLTaroAudioCoreElement;
+    new (): HTMLTaroAudioCoreElement;
   };
 
-  interface HTMLTaroBlockElement extends Components.TaroBlock, HTMLStencilElement {}
-  var HTMLTaroBlockElement: {
-    prototype: HTMLTaroBlockElement;
-    new (): HTMLTaroBlockElement;
+  interface HTMLTaroBlockCoreElement extends Components.TaroBlockCore, HTMLStencilElement {}
+  var HTMLTaroBlockCoreElement: {
+    prototype: HTMLTaroBlockCoreElement;
+    new (): HTMLTaroBlockCoreElement;
   };
 
-  interface HTMLTaroButtonElement extends Components.TaroButton, HTMLStencilElement {}
-  var HTMLTaroButtonElement: {
-    prototype: HTMLTaroButtonElement;
-    new (): HTMLTaroButtonElement;
+  interface HTMLTaroButtonCoreElement extends Components.TaroButtonCore, HTMLStencilElement {}
+  var HTMLTaroButtonCoreElement: {
+    prototype: HTMLTaroButtonCoreElement;
+    new (): HTMLTaroButtonCoreElement;
   };
 
-  interface HTMLTaroCameraElement extends Components.TaroCamera, HTMLStencilElement {}
-  var HTMLTaroCameraElement: {
-    prototype: HTMLTaroCameraElement;
-    new (): HTMLTaroCameraElement;
+  interface HTMLTaroCameraCoreElement extends Components.TaroCameraCore, HTMLStencilElement {}
+  var HTMLTaroCameraCoreElement: {
+    prototype: HTMLTaroCameraCoreElement;
+    new (): HTMLTaroCameraCoreElement;
   };
 
-  interface HTMLTaroCanvasElement extends Components.TaroCanvas, HTMLStencilElement {}
-  var HTMLTaroCanvasElement: {
-    prototype: HTMLTaroCanvasElement;
-    new (): HTMLTaroCanvasElement;
+  interface HTMLTaroCanvasCoreElement extends Components.TaroCanvasCore, HTMLStencilElement {}
+  var HTMLTaroCanvasCoreElement: {
+    prototype: HTMLTaroCanvasCoreElement;
+    new (): HTMLTaroCanvasCoreElement;
   };
 
-  interface HTMLTaroCheckboxElement extends Components.TaroCheckbox, HTMLStencilElement {}
-  var HTMLTaroCheckboxElement: {
-    prototype: HTMLTaroCheckboxElement;
-    new (): HTMLTaroCheckboxElement;
+  interface HTMLTaroCheckboxCoreElement extends Components.TaroCheckboxCore, HTMLStencilElement {}
+  var HTMLTaroCheckboxCoreElement: {
+    prototype: HTMLTaroCheckboxCoreElement;
+    new (): HTMLTaroCheckboxCoreElement;
   };
 
-  interface HTMLTaroCheckboxGroupElement extends Components.TaroCheckboxGroup, HTMLStencilElement {}
-  var HTMLTaroCheckboxGroupElement: {
-    prototype: HTMLTaroCheckboxGroupElement;
-    new (): HTMLTaroCheckboxGroupElement;
+  interface HTMLTaroCheckboxGroupCoreElement extends Components.TaroCheckboxGroupCore, HTMLStencilElement {}
+  var HTMLTaroCheckboxGroupCoreElement: {
+    prototype: HTMLTaroCheckboxGroupCoreElement;
+    new (): HTMLTaroCheckboxGroupCoreElement;
   };
 
-  interface HTMLTaroCoverImageElement extends Components.TaroCoverImage, HTMLStencilElement {}
-  var HTMLTaroCoverImageElement: {
-    prototype: HTMLTaroCoverImageElement;
-    new (): HTMLTaroCoverImageElement;
+  interface HTMLTaroCoverImageCoreElement extends Components.TaroCoverImageCore, HTMLStencilElement {}
+  var HTMLTaroCoverImageCoreElement: {
+    prototype: HTMLTaroCoverImageCoreElement;
+    new (): HTMLTaroCoverImageCoreElement;
   };
 
-  interface HTMLTaroCoverViewElement extends Components.TaroCoverView, HTMLStencilElement {}
-  var HTMLTaroCoverViewElement: {
-    prototype: HTMLTaroCoverViewElement;
-    new (): HTMLTaroCoverViewElement;
+  interface HTMLTaroCoverViewCoreElement extends Components.TaroCoverViewCore, HTMLStencilElement {}
+  var HTMLTaroCoverViewCoreElement: {
+    prototype: HTMLTaroCoverViewCoreElement;
+    new (): HTMLTaroCoverViewCoreElement;
   };
 
-  interface HTMLTaroFormElement extends Components.TaroForm, HTMLStencilElement {}
-  var HTMLTaroFormElement: {
-    prototype: HTMLTaroFormElement;
-    new (): HTMLTaroFormElement;
+  interface HTMLTaroFormCoreElement extends Components.TaroFormCore, HTMLStencilElement {}
+  var HTMLTaroFormCoreElement: {
+    prototype: HTMLTaroFormCoreElement;
+    new (): HTMLTaroFormCoreElement;
   };
 
-  interface HTMLTaroIconElement extends Components.TaroIcon, HTMLStencilElement {}
-  var HTMLTaroIconElement: {
-    prototype: HTMLTaroIconElement;
-    new (): HTMLTaroIconElement;
+  interface HTMLTaroIconCoreElement extends Components.TaroIconCore, HTMLStencilElement {}
+  var HTMLTaroIconCoreElement: {
+    prototype: HTMLTaroIconCoreElement;
+    new (): HTMLTaroIconCoreElement;
   };
 
-  interface HTMLTaroImageElement extends Components.TaroImage, HTMLStencilElement {}
-  var HTMLTaroImageElement: {
-    prototype: HTMLTaroImageElement;
-    new (): HTMLTaroImageElement;
+  interface HTMLTaroImageCoreElement extends Components.TaroImageCore, HTMLStencilElement {}
+  var HTMLTaroImageCoreElement: {
+    prototype: HTMLTaroImageCoreElement;
+    new (): HTMLTaroImageCoreElement;
   };
 
   interface HTMLTaroInputCoreElement extends Components.TaroInputCore, HTMLStencilElement {}
@@ -437,34 +437,34 @@ declare global {
     new (): HTMLTaroInputCoreElement;
   };
 
-  interface HTMLTaroLabelElement extends Components.TaroLabel, HTMLStencilElement {}
-  var HTMLTaroLabelElement: {
-    prototype: HTMLTaroLabelElement;
-    new (): HTMLTaroLabelElement;
+  interface HTMLTaroLabelCoreElement extends Components.TaroLabelCore, HTMLStencilElement {}
+  var HTMLTaroLabelCoreElement: {
+    prototype: HTMLTaroLabelCoreElement;
+    new (): HTMLTaroLabelCoreElement;
   };
 
-  interface HTMLTaroMoveableAreaElement extends Components.TaroMoveableArea, HTMLStencilElement {}
-  var HTMLTaroMoveableAreaElement: {
-    prototype: HTMLTaroMoveableAreaElement;
-    new (): HTMLTaroMoveableAreaElement;
+  interface HTMLTaroMoveableAreaCoreElement extends Components.TaroMoveableAreaCore, HTMLStencilElement {}
+  var HTMLTaroMoveableAreaCoreElement: {
+    prototype: HTMLTaroMoveableAreaCoreElement;
+    new (): HTMLTaroMoveableAreaCoreElement;
   };
 
-  interface HTMLTaroMoveableViewElement extends Components.TaroMoveableView, HTMLStencilElement {}
-  var HTMLTaroMoveableViewElement: {
-    prototype: HTMLTaroMoveableViewElement;
-    new (): HTMLTaroMoveableViewElement;
+  interface HTMLTaroMoveableViewCoreElement extends Components.TaroMoveableViewCore, HTMLStencilElement {}
+  var HTMLTaroMoveableViewCoreElement: {
+    prototype: HTMLTaroMoveableViewCoreElement;
+    new (): HTMLTaroMoveableViewCoreElement;
   };
 
-  interface HTMLTaroNavigatorElement extends Components.TaroNavigator, HTMLStencilElement {}
-  var HTMLTaroNavigatorElement: {
-    prototype: HTMLTaroNavigatorElement;
-    new (): HTMLTaroNavigatorElement;
+  interface HTMLTaroNavigatorCoreElement extends Components.TaroNavigatorCore, HTMLStencilElement {}
+  var HTMLTaroNavigatorCoreElement: {
+    prototype: HTMLTaroNavigatorCoreElement;
+    new (): HTMLTaroNavigatorCoreElement;
   };
 
-  interface HTMLTaroOpenDataElement extends Components.TaroOpenData, HTMLStencilElement {}
-  var HTMLTaroOpenDataElement: {
-    prototype: HTMLTaroOpenDataElement;
-    new (): HTMLTaroOpenDataElement;
+  interface HTMLTaroOpenDataCoreElement extends Components.TaroOpenDataCore, HTMLStencilElement {}
+  var HTMLTaroOpenDataCoreElement: {
+    prototype: HTMLTaroOpenDataCoreElement;
+    new (): HTMLTaroOpenDataCoreElement;
   };
 
   interface HTMLTaroPickerCoreElement extends Components.TaroPickerCore, HTMLStencilElement {}
@@ -479,22 +479,22 @@ declare global {
     new (): HTMLTaroPickerGroupElement;
   };
 
-  interface HTMLTaroPickerViewElement extends Components.TaroPickerView, HTMLStencilElement {}
-  var HTMLTaroPickerViewElement: {
-    prototype: HTMLTaroPickerViewElement;
-    new (): HTMLTaroPickerViewElement;
+  interface HTMLTaroPickerViewColumnCoreElement extends Components.TaroPickerViewColumnCore, HTMLStencilElement {}
+  var HTMLTaroPickerViewColumnCoreElement: {
+    prototype: HTMLTaroPickerViewColumnCoreElement;
+    new (): HTMLTaroPickerViewColumnCoreElement;
   };
 
-  interface HTMLTaroPickerViewColumnElement extends Components.TaroPickerViewColumn, HTMLStencilElement {}
-  var HTMLTaroPickerViewColumnElement: {
-    prototype: HTMLTaroPickerViewColumnElement;
-    new (): HTMLTaroPickerViewColumnElement;
+  interface HTMLTaroPickerViewCoreElement extends Components.TaroPickerViewCore, HTMLStencilElement {}
+  var HTMLTaroPickerViewCoreElement: {
+    prototype: HTMLTaroPickerViewCoreElement;
+    new (): HTMLTaroPickerViewCoreElement;
   };
 
-  interface HTMLTaroProgressElement extends Components.TaroProgress, HTMLStencilElement {}
-  var HTMLTaroProgressElement: {
-    prototype: HTMLTaroProgressElement;
-    new (): HTMLTaroProgressElement;
+  interface HTMLTaroProgressCoreElement extends Components.TaroProgressCore, HTMLStencilElement {}
+  var HTMLTaroProgressCoreElement: {
+    prototype: HTMLTaroProgressCoreElement;
+    new (): HTMLTaroProgressCoreElement;
   };
 
   interface HTMLTaroPullToRefreshElement extends Components.TaroPullToRefresh, HTMLStencilElement {}
@@ -503,52 +503,52 @@ declare global {
     new (): HTMLTaroPullToRefreshElement;
   };
 
-  interface HTMLTaroRadioElement extends Components.TaroRadio, HTMLStencilElement {}
-  var HTMLTaroRadioElement: {
-    prototype: HTMLTaroRadioElement;
-    new (): HTMLTaroRadioElement;
+  interface HTMLTaroRadioCoreElement extends Components.TaroRadioCore, HTMLStencilElement {}
+  var HTMLTaroRadioCoreElement: {
+    prototype: HTMLTaroRadioCoreElement;
+    new (): HTMLTaroRadioCoreElement;
   };
 
-  interface HTMLTaroRadioGroupElement extends Components.TaroRadioGroup, HTMLStencilElement {}
-  var HTMLTaroRadioGroupElement: {
-    prototype: HTMLTaroRadioGroupElement;
-    new (): HTMLTaroRadioGroupElement;
+  interface HTMLTaroRadioGroupCoreElement extends Components.TaroRadioGroupCore, HTMLStencilElement {}
+  var HTMLTaroRadioGroupCoreElement: {
+    prototype: HTMLTaroRadioGroupCoreElement;
+    new (): HTMLTaroRadioGroupCoreElement;
   };
 
-  interface HTMLTaroRichTextElement extends Components.TaroRichText, HTMLStencilElement {}
-  var HTMLTaroRichTextElement: {
-    prototype: HTMLTaroRichTextElement;
-    new (): HTMLTaroRichTextElement;
+  interface HTMLTaroRichTextCoreElement extends Components.TaroRichTextCore, HTMLStencilElement {}
+  var HTMLTaroRichTextCoreElement: {
+    prototype: HTMLTaroRichTextCoreElement;
+    new (): HTMLTaroRichTextCoreElement;
   };
 
-  interface HTMLTaroScrollViewElement extends Components.TaroScrollView, HTMLStencilElement {}
-  var HTMLTaroScrollViewElement: {
-    prototype: HTMLTaroScrollViewElement;
-    new (): HTMLTaroScrollViewElement;
+  interface HTMLTaroScrollViewCoreElement extends Components.TaroScrollViewCore, HTMLStencilElement {}
+  var HTMLTaroScrollViewCoreElement: {
+    prototype: HTMLTaroScrollViewCoreElement;
+    new (): HTMLTaroScrollViewCoreElement;
   };
 
-  interface HTMLTaroSliderElement extends Components.TaroSlider, HTMLStencilElement {}
-  var HTMLTaroSliderElement: {
-    prototype: HTMLTaroSliderElement;
-    new (): HTMLTaroSliderElement;
+  interface HTMLTaroSliderCoreElement extends Components.TaroSliderCore, HTMLStencilElement {}
+  var HTMLTaroSliderCoreElement: {
+    prototype: HTMLTaroSliderCoreElement;
+    new (): HTMLTaroSliderCoreElement;
   };
 
-  interface HTMLTaroSwiperElement extends Components.TaroSwiper, HTMLStencilElement {}
-  var HTMLTaroSwiperElement: {
-    prototype: HTMLTaroSwiperElement;
-    new (): HTMLTaroSwiperElement;
+  interface HTMLTaroSwiperCoreElement extends Components.TaroSwiperCore, HTMLStencilElement {}
+  var HTMLTaroSwiperCoreElement: {
+    prototype: HTMLTaroSwiperCoreElement;
+    new (): HTMLTaroSwiperCoreElement;
   };
 
-  interface HTMLTaroSwiperItemElement extends Components.TaroSwiperItem, HTMLStencilElement {}
-  var HTMLTaroSwiperItemElement: {
-    prototype: HTMLTaroSwiperItemElement;
-    new (): HTMLTaroSwiperItemElement;
+  interface HTMLTaroSwiperItemCoreElement extends Components.TaroSwiperItemCore, HTMLStencilElement {}
+  var HTMLTaroSwiperItemCoreElement: {
+    prototype: HTMLTaroSwiperItemCoreElement;
+    new (): HTMLTaroSwiperItemCoreElement;
   };
 
-  interface HTMLTaroSwitchElement extends Components.TaroSwitch, HTMLStencilElement {}
-  var HTMLTaroSwitchElement: {
-    prototype: HTMLTaroSwitchElement;
-    new (): HTMLTaroSwitchElement;
+  interface HTMLTaroSwitchCoreElement extends Components.TaroSwitchCore, HTMLStencilElement {}
+  var HTMLTaroSwitchCoreElement: {
+    prototype: HTMLTaroSwitchCoreElement;
+    new (): HTMLTaroSwitchCoreElement;
   };
 
   interface HTMLTaroTabbarElement extends Components.TaroTabbar, HTMLStencilElement {}
@@ -557,22 +557,16 @@ declare global {
     new (): HTMLTaroTabbarElement;
   };
 
-  interface HTMLTaroTextElement extends Components.TaroText, HTMLStencilElement {}
-  var HTMLTaroTextElement: {
-    prototype: HTMLTaroTextElement;
-    new (): HTMLTaroTextElement;
+  interface HTMLTaroTextCoreElement extends Components.TaroTextCore, HTMLStencilElement {}
+  var HTMLTaroTextCoreElement: {
+    prototype: HTMLTaroTextCoreElement;
+    new (): HTMLTaroTextCoreElement;
   };
 
-  interface HTMLTaroTextareaElement extends Components.TaroTextarea, HTMLStencilElement {}
-  var HTMLTaroTextareaElement: {
-    prototype: HTMLTaroTextareaElement;
-    new (): HTMLTaroTextareaElement;
-  };
-
-  interface HTMLTaroVideoElement extends Components.TaroVideo, HTMLStencilElement {}
-  var HTMLTaroVideoElement: {
-    prototype: HTMLTaroVideoElement;
-    new (): HTMLTaroVideoElement;
+  interface HTMLTaroTextareaCoreElement extends Components.TaroTextareaCore, HTMLStencilElement {}
+  var HTMLTaroTextareaCoreElement: {
+    prototype: HTMLTaroTextareaCoreElement;
+    new (): HTMLTaroTextareaCoreElement;
   };
 
   interface HTMLTaroVideoControlElement extends Components.TaroVideoControl, HTMLStencilElement {}
@@ -581,69 +575,75 @@ declare global {
     new (): HTMLTaroVideoControlElement;
   };
 
+  interface HTMLTaroVideoCoreElement extends Components.TaroVideoCore, HTMLStencilElement {}
+  var HTMLTaroVideoCoreElement: {
+    prototype: HTMLTaroVideoCoreElement;
+    new (): HTMLTaroVideoCoreElement;
+  };
+
   interface HTMLTaroVideoDanmuElement extends Components.TaroVideoDanmu, HTMLStencilElement {}
   var HTMLTaroVideoDanmuElement: {
     prototype: HTMLTaroVideoDanmuElement;
     new (): HTMLTaroVideoDanmuElement;
   };
 
-  interface HTMLTaroViewElement extends Components.TaroView, HTMLStencilElement {}
-  var HTMLTaroViewElement: {
-    prototype: HTMLTaroViewElement;
-    new (): HTMLTaroViewElement;
+  interface HTMLTaroViewCoreElement extends Components.TaroViewCore, HTMLStencilElement {}
+  var HTMLTaroViewCoreElement: {
+    prototype: HTMLTaroViewCoreElement;
+    new (): HTMLTaroViewCoreElement;
   };
 
-  interface HTMLTaroWebViewElement extends Components.TaroWebView, HTMLStencilElement {}
-  var HTMLTaroWebViewElement: {
-    prototype: HTMLTaroWebViewElement;
-    new (): HTMLTaroWebViewElement;
+  interface HTMLTaroWebViewCoreElement extends Components.TaroWebViewCore, HTMLStencilElement {}
+  var HTMLTaroWebViewCoreElement: {
+    prototype: HTMLTaroWebViewCoreElement;
+    new (): HTMLTaroWebViewCoreElement;
   };
   interface HTMLElementTagNameMap {
-    'taro-audio': HTMLTaroAudioElement;
-    'taro-block': HTMLTaroBlockElement;
-    'taro-button': HTMLTaroButtonElement;
-    'taro-camera': HTMLTaroCameraElement;
-    'taro-canvas': HTMLTaroCanvasElement;
-    'taro-checkbox': HTMLTaroCheckboxElement;
-    'taro-checkbox-group': HTMLTaroCheckboxGroupElement;
-    'taro-cover-image': HTMLTaroCoverImageElement;
-    'taro-cover-view': HTMLTaroCoverViewElement;
-    'taro-form': HTMLTaroFormElement;
-    'taro-icon': HTMLTaroIconElement;
-    'taro-image': HTMLTaroImageElement;
+    'taro-audio-core': HTMLTaroAudioCoreElement;
+    'taro-block-core': HTMLTaroBlockCoreElement;
+    'taro-button-core': HTMLTaroButtonCoreElement;
+    'taro-camera-core': HTMLTaroCameraCoreElement;
+    'taro-canvas-core': HTMLTaroCanvasCoreElement;
+    'taro-checkbox-core': HTMLTaroCheckboxCoreElement;
+    'taro-checkbox-group-core': HTMLTaroCheckboxGroupCoreElement;
+    'taro-cover-image-core': HTMLTaroCoverImageCoreElement;
+    'taro-cover-view-core': HTMLTaroCoverViewCoreElement;
+    'taro-form-core': HTMLTaroFormCoreElement;
+    'taro-icon-core': HTMLTaroIconCoreElement;
+    'taro-image-core': HTMLTaroImageCoreElement;
     'taro-input-core': HTMLTaroInputCoreElement;
-    'taro-label': HTMLTaroLabelElement;
-    'taro-moveable-area': HTMLTaroMoveableAreaElement;
-    'taro-moveable-view': HTMLTaroMoveableViewElement;
-    'taro-navigator': HTMLTaroNavigatorElement;
-    'taro-open-data': HTMLTaroOpenDataElement;
+    'taro-label-core': HTMLTaroLabelCoreElement;
+    'taro-moveable-area-core': HTMLTaroMoveableAreaCoreElement;
+    'taro-moveable-view-core': HTMLTaroMoveableViewCoreElement;
+    'taro-navigator-core': HTMLTaroNavigatorCoreElement;
+    'taro-open-data-core': HTMLTaroOpenDataCoreElement;
     'taro-picker-core': HTMLTaroPickerCoreElement;
     'taro-picker-group': HTMLTaroPickerGroupElement;
-    'taro-picker-view': HTMLTaroPickerViewElement;
-    'taro-picker-view-column': HTMLTaroPickerViewColumnElement;
-    'taro-progress': HTMLTaroProgressElement;
+    'taro-picker-view-column-core': HTMLTaroPickerViewColumnCoreElement;
+    'taro-picker-view-core': HTMLTaroPickerViewCoreElement;
+    'taro-progress-core': HTMLTaroProgressCoreElement;
     'taro-pull-to-refresh': HTMLTaroPullToRefreshElement;
-    'taro-radio': HTMLTaroRadioElement;
-    'taro-radio-group': HTMLTaroRadioGroupElement;
-    'taro-rich-text': HTMLTaroRichTextElement;
-    'taro-scroll-view': HTMLTaroScrollViewElement;
-    'taro-slider': HTMLTaroSliderElement;
-    'taro-swiper': HTMLTaroSwiperElement;
-    'taro-swiper-item': HTMLTaroSwiperItemElement;
-    'taro-switch': HTMLTaroSwitchElement;
+    'taro-radio-core': HTMLTaroRadioCoreElement;
+    'taro-radio-group-core': HTMLTaroRadioGroupCoreElement;
+    'taro-rich-text-core': HTMLTaroRichTextCoreElement;
+    'taro-scroll-view-core': HTMLTaroScrollViewCoreElement;
+    'taro-slider-core': HTMLTaroSliderCoreElement;
+    'taro-swiper-core': HTMLTaroSwiperCoreElement;
+    'taro-swiper-item-core': HTMLTaroSwiperItemCoreElement;
+    'taro-switch-core': HTMLTaroSwitchCoreElement;
     'taro-tabbar': HTMLTaroTabbarElement;
-    'taro-text': HTMLTaroTextElement;
-    'taro-textarea': HTMLTaroTextareaElement;
-    'taro-video': HTMLTaroVideoElement;
+    'taro-text-core': HTMLTaroTextCoreElement;
+    'taro-textarea-core': HTMLTaroTextareaCoreElement;
     'taro-video-control': HTMLTaroVideoControlElement;
+    'taro-video-core': HTMLTaroVideoCoreElement;
     'taro-video-danmu': HTMLTaroVideoDanmuElement;
-    'taro-view': HTMLTaroViewElement;
-    'taro-web-view': HTMLTaroWebViewElement;
+    'taro-view-core': HTMLTaroViewCoreElement;
+    'taro-web-view-core': HTMLTaroWebViewCoreElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface TaroAudio {
+  interface TaroAudioCore {
     'autoplay'?: boolean;
     'controls'?: boolean;
     'loop'?: boolean;
@@ -655,8 +655,8 @@ declare namespace LocalJSX {
     'onTimeupdate'?: (event: CustomEvent<any>) => void;
     'src'?: string;
   }
-  interface TaroBlock {}
-  interface TaroButton {
+  interface TaroBlockCore {}
+  interface TaroButtonCore {
     'disabled'?: boolean;
     'formType'?: 'submit' | 'reset' | null;
     'hoverClass'?: string;
@@ -669,13 +669,13 @@ declare namespace LocalJSX {
     'size'?: string;
     'type'?: string;
   }
-  interface TaroCamera {}
-  interface TaroCanvas {
+  interface TaroCameraCore {}
+  interface TaroCanvasCore {
     'canvasId'?: string;
     'onLongtap'?: (event: CustomEvent<any>) => void;
     'type'?: string;
   }
-  interface TaroCheckbox {
+  interface TaroCheckboxCore {
     'checked'?: boolean;
     'color'?: string;
     'id'?: string;
@@ -683,21 +683,21 @@ declare namespace LocalJSX {
     'onCheckboxchange'?: (event: CustomEvent<any>) => void;
     'value'?: string;
   }
-  interface TaroCheckboxGroup {
+  interface TaroCheckboxGroupCore {
     'name'?: any;
     'onChange'?: (event: CustomEvent<any>) => void;
   }
-  interface TaroCoverImage {}
-  interface TaroCoverView {}
-  interface TaroForm {
+  interface TaroCoverImageCore {}
+  interface TaroCoverViewCore {}
+  interface TaroFormCore {
     'onSubmit'?: (event: CustomEvent<any>) => void;
   }
-  interface TaroIcon {
+  interface TaroIconCore {
     'color'?: string;
     'size'?: string | number;
     'type'?: Type;
   }
-  interface TaroImage {
+  interface TaroImageCore {
     'lazyLoad'?: boolean;
     'mode'?: Mode;
     'onError'?: (event: CustomEvent<any>) => void;
@@ -721,12 +721,12 @@ declare namespace LocalJSX {
     'type'?: string;
     'value'?: string;
   }
-  interface TaroLabel {
+  interface TaroLabelCore {
     'for'?: string;
   }
-  interface TaroMoveableArea {}
-  interface TaroMoveableView {}
-  interface TaroNavigator {
+  interface TaroMoveableAreaCore {}
+  interface TaroMoveableViewCore {}
+  interface TaroNavigatorCore {
     'delta'?: number;
     'hoverClass'?: string;
     'isHover'?: boolean;
@@ -736,7 +736,7 @@ declare namespace LocalJSX {
     'openType'?: string;
     'url'?: string;
   }
-  interface TaroOpenData {}
+  interface TaroOpenDataCore {}
   interface TaroPickerCore {
     'disabled'?: boolean;
     'end'?: string;
@@ -761,9 +761,9 @@ declare namespace LocalJSX {
     'updateDay'?: (value: number, fields: number) => void;
     'updateHeight'?: (height: number, columnId: string, needRevise?: boolean) => void;
   }
-  interface TaroPickerView {}
-  interface TaroPickerViewColumn {}
-  interface TaroProgress {
+  interface TaroPickerViewColumnCore {}
+  interface TaroPickerViewCore {}
+  interface TaroProgressCore {
     'active'?: boolean;
     'activeColor'?: string;
     'backgroundColor'?: string;
@@ -781,21 +781,21 @@ declare namespace LocalJSX {
     'prefixCls'?: string;
     'refreshing'?: string;
   }
-  interface TaroRadio {
+  interface TaroRadioCore {
     'checked'?: boolean;
     'id'?: string;
     'name'?: string;
     'onRadiochange'?: (event: CustomEvent<any>) => void;
     'value'?: string;
   }
-  interface TaroRadioGroup {
+  interface TaroRadioGroupCore {
     'name'?: any;
     'onChange'?: (event: CustomEvent<any>) => void;
   }
-  interface TaroRichText {
+  interface TaroRichTextCore {
     'nodes'?: Nodes;
   }
-  interface TaroScrollView {
+  interface TaroScrollViewCore {
     'lowerThreshold'?: number | string;
     'mpScrollIntoView'?: string;
     'mpScrollLeft'?: number | string;
@@ -808,7 +808,7 @@ declare namespace LocalJSX {
     'scrollY'?: boolean;
     'upperThreshold'?: number | string;
   }
-  interface TaroSlider {
+  interface TaroSliderCore {
     'activeColor'?: string;
     'backgroundColor'?: string;
     'blockColor'?: string;
@@ -823,7 +823,7 @@ declare namespace LocalJSX {
     'step'?: number;
     'value'?: number | null;
   }
-  interface TaroSwiper {
+  interface TaroSwiperCore {
     /**
     * 是否自动切换
     */
@@ -871,10 +871,10 @@ declare namespace LocalJSX {
     */
     'vertical'?: boolean;
   }
-  interface TaroSwiperItem {
+  interface TaroSwiperItemCore {
     'itemId'?: string;
   }
-  interface TaroSwitch {
+  interface TaroSwitchCore {
     'checked'?: boolean;
     'color'?: string;
     'name'?: string;
@@ -885,10 +885,10 @@ declare namespace LocalJSX {
     'conf'?: Conf;
     'onLongpress'?: (event: CustomEvent<any>) => void;
   }
-  interface TaroText {
+  interface TaroTextCore {
     'selectable'?: boolean;
   }
-  interface TaroTextarea {
+  interface TaroTextareaCore {
     'autoFocus'?: boolean;
     'disabled'?: boolean;
     'maxlength'?: number;
@@ -900,7 +900,18 @@ declare namespace LocalJSX {
     'placeholder'?: string;
     'value'?: string;
   }
-  interface TaroVideo {
+  interface TaroVideoControl {
+    'controls'?: boolean;
+    'currentTime'?: number;
+    'duration'?: number;
+    'isPlaying'?: boolean;
+    'pauseFunc'?: () => void;
+    'playFunc'?: () => void;
+    'seekFunc'?: (position: number) => void;
+    'showPlayBtn'?: boolean;
+    'showProgress'?: boolean;
+  }
+  interface TaroVideoCore {
     /**
     * 是否自动播放
     */
@@ -991,73 +1002,62 @@ declare namespace LocalJSX {
     */
     'vslideGestureInFullscreen'?: boolean;
   }
-  interface TaroVideoControl {
-    'controls'?: boolean;
-    'currentTime'?: number;
-    'duration'?: number;
-    'isPlaying'?: boolean;
-    'pauseFunc'?: () => void;
-    'playFunc'?: () => void;
-    'seekFunc'?: (position: number) => void;
-    'showPlayBtn'?: boolean;
-    'showProgress'?: boolean;
-  }
   interface TaroVideoDanmu {
     'enable'?: boolean;
   }
-  interface TaroView {
+  interface TaroViewCore {
     'hoverClass'?: string;
     'hoverStartTime'?: number;
     'hoverStayTime'?: number;
     'onLongpress'?: (event: CustomEvent<any>) => void;
   }
-  interface TaroWebView {
+  interface TaroWebViewCore {
     'onError'?: (event: CustomEvent<any>) => void;
     'onLoad'?: (event: CustomEvent<any>) => void;
     'src'?: string;
   }
 
   interface IntrinsicElements {
-    'taro-audio': TaroAudio;
-    'taro-block': TaroBlock;
-    'taro-button': TaroButton;
-    'taro-camera': TaroCamera;
-    'taro-canvas': TaroCanvas;
-    'taro-checkbox': TaroCheckbox;
-    'taro-checkbox-group': TaroCheckboxGroup;
-    'taro-cover-image': TaroCoverImage;
-    'taro-cover-view': TaroCoverView;
-    'taro-form': TaroForm;
-    'taro-icon': TaroIcon;
-    'taro-image': TaroImage;
+    'taro-audio-core': TaroAudioCore;
+    'taro-block-core': TaroBlockCore;
+    'taro-button-core': TaroButtonCore;
+    'taro-camera-core': TaroCameraCore;
+    'taro-canvas-core': TaroCanvasCore;
+    'taro-checkbox-core': TaroCheckboxCore;
+    'taro-checkbox-group-core': TaroCheckboxGroupCore;
+    'taro-cover-image-core': TaroCoverImageCore;
+    'taro-cover-view-core': TaroCoverViewCore;
+    'taro-form-core': TaroFormCore;
+    'taro-icon-core': TaroIconCore;
+    'taro-image-core': TaroImageCore;
     'taro-input-core': TaroInputCore;
-    'taro-label': TaroLabel;
-    'taro-moveable-area': TaroMoveableArea;
-    'taro-moveable-view': TaroMoveableView;
-    'taro-navigator': TaroNavigator;
-    'taro-open-data': TaroOpenData;
+    'taro-label-core': TaroLabelCore;
+    'taro-moveable-area-core': TaroMoveableAreaCore;
+    'taro-moveable-view-core': TaroMoveableViewCore;
+    'taro-navigator-core': TaroNavigatorCore;
+    'taro-open-data-core': TaroOpenDataCore;
     'taro-picker-core': TaroPickerCore;
     'taro-picker-group': TaroPickerGroup;
-    'taro-picker-view': TaroPickerView;
-    'taro-picker-view-column': TaroPickerViewColumn;
-    'taro-progress': TaroProgress;
+    'taro-picker-view-column-core': TaroPickerViewColumnCore;
+    'taro-picker-view-core': TaroPickerViewCore;
+    'taro-progress-core': TaroProgressCore;
     'taro-pull-to-refresh': TaroPullToRefresh;
-    'taro-radio': TaroRadio;
-    'taro-radio-group': TaroRadioGroup;
-    'taro-rich-text': TaroRichText;
-    'taro-scroll-view': TaroScrollView;
-    'taro-slider': TaroSlider;
-    'taro-swiper': TaroSwiper;
-    'taro-swiper-item': TaroSwiperItem;
-    'taro-switch': TaroSwitch;
+    'taro-radio-core': TaroRadioCore;
+    'taro-radio-group-core': TaroRadioGroupCore;
+    'taro-rich-text-core': TaroRichTextCore;
+    'taro-scroll-view-core': TaroScrollViewCore;
+    'taro-slider-core': TaroSliderCore;
+    'taro-swiper-core': TaroSwiperCore;
+    'taro-swiper-item-core': TaroSwiperItemCore;
+    'taro-switch-core': TaroSwitchCore;
     'taro-tabbar': TaroTabbar;
-    'taro-text': TaroText;
-    'taro-textarea': TaroTextarea;
-    'taro-video': TaroVideo;
+    'taro-text-core': TaroTextCore;
+    'taro-textarea-core': TaroTextareaCore;
     'taro-video-control': TaroVideoControl;
+    'taro-video-core': TaroVideoCore;
     'taro-video-danmu': TaroVideoDanmu;
-    'taro-view': TaroView;
-    'taro-web-view': TaroWebView;
+    'taro-view-core': TaroViewCore;
+    'taro-web-view-core': TaroWebViewCore;
   }
 }
 
@@ -1067,46 +1067,46 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-      'taro-audio': LocalJSX.TaroAudio & JSXBase.HTMLAttributes<HTMLTaroAudioElement>;
-      'taro-block': LocalJSX.TaroBlock & JSXBase.HTMLAttributes<HTMLTaroBlockElement>;
-      'taro-button': LocalJSX.TaroButton & JSXBase.HTMLAttributes<HTMLTaroButtonElement>;
-      'taro-camera': LocalJSX.TaroCamera & JSXBase.HTMLAttributes<HTMLTaroCameraElement>;
-      'taro-canvas': LocalJSX.TaroCanvas & JSXBase.HTMLAttributes<HTMLTaroCanvasElement>;
-      'taro-checkbox': LocalJSX.TaroCheckbox & JSXBase.HTMLAttributes<HTMLTaroCheckboxElement>;
-      'taro-checkbox-group': LocalJSX.TaroCheckboxGroup & JSXBase.HTMLAttributes<HTMLTaroCheckboxGroupElement>;
-      'taro-cover-image': LocalJSX.TaroCoverImage & JSXBase.HTMLAttributes<HTMLTaroCoverImageElement>;
-      'taro-cover-view': LocalJSX.TaroCoverView & JSXBase.HTMLAttributes<HTMLTaroCoverViewElement>;
-      'taro-form': LocalJSX.TaroForm & JSXBase.HTMLAttributes<HTMLTaroFormElement>;
-      'taro-icon': LocalJSX.TaroIcon & JSXBase.HTMLAttributes<HTMLTaroIconElement>;
-      'taro-image': LocalJSX.TaroImage & JSXBase.HTMLAttributes<HTMLTaroImageElement>;
+      'taro-audio-core': LocalJSX.TaroAudioCore & JSXBase.HTMLAttributes<HTMLTaroAudioCoreElement>;
+      'taro-block-core': LocalJSX.TaroBlockCore & JSXBase.HTMLAttributes<HTMLTaroBlockCoreElement>;
+      'taro-button-core': LocalJSX.TaroButtonCore & JSXBase.HTMLAttributes<HTMLTaroButtonCoreElement>;
+      'taro-camera-core': LocalJSX.TaroCameraCore & JSXBase.HTMLAttributes<HTMLTaroCameraCoreElement>;
+      'taro-canvas-core': LocalJSX.TaroCanvasCore & JSXBase.HTMLAttributes<HTMLTaroCanvasCoreElement>;
+      'taro-checkbox-core': LocalJSX.TaroCheckboxCore & JSXBase.HTMLAttributes<HTMLTaroCheckboxCoreElement>;
+      'taro-checkbox-group-core': LocalJSX.TaroCheckboxGroupCore & JSXBase.HTMLAttributes<HTMLTaroCheckboxGroupCoreElement>;
+      'taro-cover-image-core': LocalJSX.TaroCoverImageCore & JSXBase.HTMLAttributes<HTMLTaroCoverImageCoreElement>;
+      'taro-cover-view-core': LocalJSX.TaroCoverViewCore & JSXBase.HTMLAttributes<HTMLTaroCoverViewCoreElement>;
+      'taro-form-core': LocalJSX.TaroFormCore & JSXBase.HTMLAttributes<HTMLTaroFormCoreElement>;
+      'taro-icon-core': LocalJSX.TaroIconCore & JSXBase.HTMLAttributes<HTMLTaroIconCoreElement>;
+      'taro-image-core': LocalJSX.TaroImageCore & JSXBase.HTMLAttributes<HTMLTaroImageCoreElement>;
       'taro-input-core': LocalJSX.TaroInputCore & JSXBase.HTMLAttributes<HTMLTaroInputCoreElement>;
-      'taro-label': LocalJSX.TaroLabel & JSXBase.HTMLAttributes<HTMLTaroLabelElement>;
-      'taro-moveable-area': LocalJSX.TaroMoveableArea & JSXBase.HTMLAttributes<HTMLTaroMoveableAreaElement>;
-      'taro-moveable-view': LocalJSX.TaroMoveableView & JSXBase.HTMLAttributes<HTMLTaroMoveableViewElement>;
-      'taro-navigator': LocalJSX.TaroNavigator & JSXBase.HTMLAttributes<HTMLTaroNavigatorElement>;
-      'taro-open-data': LocalJSX.TaroOpenData & JSXBase.HTMLAttributes<HTMLTaroOpenDataElement>;
+      'taro-label-core': LocalJSX.TaroLabelCore & JSXBase.HTMLAttributes<HTMLTaroLabelCoreElement>;
+      'taro-moveable-area-core': LocalJSX.TaroMoveableAreaCore & JSXBase.HTMLAttributes<HTMLTaroMoveableAreaCoreElement>;
+      'taro-moveable-view-core': LocalJSX.TaroMoveableViewCore & JSXBase.HTMLAttributes<HTMLTaroMoveableViewCoreElement>;
+      'taro-navigator-core': LocalJSX.TaroNavigatorCore & JSXBase.HTMLAttributes<HTMLTaroNavigatorCoreElement>;
+      'taro-open-data-core': LocalJSX.TaroOpenDataCore & JSXBase.HTMLAttributes<HTMLTaroOpenDataCoreElement>;
       'taro-picker-core': LocalJSX.TaroPickerCore & JSXBase.HTMLAttributes<HTMLTaroPickerCoreElement>;
       'taro-picker-group': LocalJSX.TaroPickerGroup & JSXBase.HTMLAttributes<HTMLTaroPickerGroupElement>;
-      'taro-picker-view': LocalJSX.TaroPickerView & JSXBase.HTMLAttributes<HTMLTaroPickerViewElement>;
-      'taro-picker-view-column': LocalJSX.TaroPickerViewColumn & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnElement>;
-      'taro-progress': LocalJSX.TaroProgress & JSXBase.HTMLAttributes<HTMLTaroProgressElement>;
+      'taro-picker-view-column-core': LocalJSX.TaroPickerViewColumnCore & JSXBase.HTMLAttributes<HTMLTaroPickerViewColumnCoreElement>;
+      'taro-picker-view-core': LocalJSX.TaroPickerViewCore & JSXBase.HTMLAttributes<HTMLTaroPickerViewCoreElement>;
+      'taro-progress-core': LocalJSX.TaroProgressCore & JSXBase.HTMLAttributes<HTMLTaroProgressCoreElement>;
       'taro-pull-to-refresh': LocalJSX.TaroPullToRefresh & JSXBase.HTMLAttributes<HTMLTaroPullToRefreshElement>;
-      'taro-radio': LocalJSX.TaroRadio & JSXBase.HTMLAttributes<HTMLTaroRadioElement>;
-      'taro-radio-group': LocalJSX.TaroRadioGroup & JSXBase.HTMLAttributes<HTMLTaroRadioGroupElement>;
-      'taro-rich-text': LocalJSX.TaroRichText & JSXBase.HTMLAttributes<HTMLTaroRichTextElement>;
-      'taro-scroll-view': LocalJSX.TaroScrollView & JSXBase.HTMLAttributes<HTMLTaroScrollViewElement>;
-      'taro-slider': LocalJSX.TaroSlider & JSXBase.HTMLAttributes<HTMLTaroSliderElement>;
-      'taro-swiper': LocalJSX.TaroSwiper & JSXBase.HTMLAttributes<HTMLTaroSwiperElement>;
-      'taro-swiper-item': LocalJSX.TaroSwiperItem & JSXBase.HTMLAttributes<HTMLTaroSwiperItemElement>;
-      'taro-switch': LocalJSX.TaroSwitch & JSXBase.HTMLAttributes<HTMLTaroSwitchElement>;
+      'taro-radio-core': LocalJSX.TaroRadioCore & JSXBase.HTMLAttributes<HTMLTaroRadioCoreElement>;
+      'taro-radio-group-core': LocalJSX.TaroRadioGroupCore & JSXBase.HTMLAttributes<HTMLTaroRadioGroupCoreElement>;
+      'taro-rich-text-core': LocalJSX.TaroRichTextCore & JSXBase.HTMLAttributes<HTMLTaroRichTextCoreElement>;
+      'taro-scroll-view-core': LocalJSX.TaroScrollViewCore & JSXBase.HTMLAttributes<HTMLTaroScrollViewCoreElement>;
+      'taro-slider-core': LocalJSX.TaroSliderCore & JSXBase.HTMLAttributes<HTMLTaroSliderCoreElement>;
+      'taro-swiper-core': LocalJSX.TaroSwiperCore & JSXBase.HTMLAttributes<HTMLTaroSwiperCoreElement>;
+      'taro-swiper-item-core': LocalJSX.TaroSwiperItemCore & JSXBase.HTMLAttributes<HTMLTaroSwiperItemCoreElement>;
+      'taro-switch-core': LocalJSX.TaroSwitchCore & JSXBase.HTMLAttributes<HTMLTaroSwitchCoreElement>;
       'taro-tabbar': LocalJSX.TaroTabbar & JSXBase.HTMLAttributes<HTMLTaroTabbarElement>;
-      'taro-text': LocalJSX.TaroText & JSXBase.HTMLAttributes<HTMLTaroTextElement>;
-      'taro-textarea': LocalJSX.TaroTextarea & JSXBase.HTMLAttributes<HTMLTaroTextareaElement>;
-      'taro-video': LocalJSX.TaroVideo & JSXBase.HTMLAttributes<HTMLTaroVideoElement>;
+      'taro-text-core': LocalJSX.TaroTextCore & JSXBase.HTMLAttributes<HTMLTaroTextCoreElement>;
+      'taro-textarea-core': LocalJSX.TaroTextareaCore & JSXBase.HTMLAttributes<HTMLTaroTextareaCoreElement>;
       'taro-video-control': LocalJSX.TaroVideoControl & JSXBase.HTMLAttributes<HTMLTaroVideoControlElement>;
+      'taro-video-core': LocalJSX.TaroVideoCore & JSXBase.HTMLAttributes<HTMLTaroVideoCoreElement>;
       'taro-video-danmu': LocalJSX.TaroVideoDanmu & JSXBase.HTMLAttributes<HTMLTaroVideoDanmuElement>;
-      'taro-view': LocalJSX.TaroView & JSXBase.HTMLAttributes<HTMLTaroViewElement>;
-      'taro-web-view': LocalJSX.TaroWebView & JSXBase.HTMLAttributes<HTMLTaroWebViewElement>;
+      'taro-view-core': LocalJSX.TaroViewCore & JSXBase.HTMLAttributes<HTMLTaroViewCoreElement>;
+      'taro-web-view-core': LocalJSX.TaroWebViewCore & JSXBase.HTMLAttributes<HTMLTaroWebViewCoreElement>;
     }
   }
 }

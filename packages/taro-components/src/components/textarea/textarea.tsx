@@ -7,7 +7,7 @@ function fixControlledValue (value?: string) {
 }
 
 @Component({
-  tag: 'taro-textarea',
+  tag: 'taro-textarea-core',
   styleUrl: './style/index.scss'
 })
 export class Textarea implements ComponentInterface {

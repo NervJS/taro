@@ -2,7 +2,7 @@
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, State, Watch, Host, Element } from '@stencil/core'
 
 @Component({
-  tag: 'taro-slider'
+  tag: 'taro-slider-core'
 })
 export class Slider implements ComponentInterface {
   private sliderInsRef: HTMLDivElement

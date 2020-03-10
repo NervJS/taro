@@ -2,7 +2,7 @@
 import { Component, h, Host } from '@stencil/core'
 
 @Component({
-  tag: 'taro-moveable-view'
+  tag: 'taro-moveable-view-core'
 })
 export class MoveableView {
   componentDidLoad () {

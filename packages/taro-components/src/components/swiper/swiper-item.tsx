@@ -2,7 +2,7 @@
 import { Component, h, ComponentInterface, Prop, Host } from '@stencil/core'
 
 @Component({
-  tag: 'taro-swiper-item'
+  tag: 'taro-swiper-item-core'
 })
 export class SwiperItem implements ComponentInterface {
   @Prop() itemId: string

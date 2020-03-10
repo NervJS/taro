@@ -2,7 +2,7 @@ import { Component, Prop, h, ComponentInterface, Host, Listen, State, Event, Eve
 import classNames from 'classnames'
 
 @Component({
-  tag: 'taro-view',
+  tag: 'taro-view-core',
   styleUrl: './style/index.scss'
 })
 export class View implements ComponentInterface {

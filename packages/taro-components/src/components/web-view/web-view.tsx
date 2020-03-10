@@ -2,7 +2,7 @@
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter } from '@stencil/core'
 
 @Component({
-  tag: 'taro-web-view',
+  tag: 'taro-web-view-core',
   styleUrl: './style/index.scss'
 })
 export class WebView implements ComponentInterface {

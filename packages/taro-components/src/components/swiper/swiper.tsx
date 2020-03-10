@@ -6,7 +6,7 @@ import classNames from 'classnames'
 let INSTANCE_ID = 0
 
 @Component({
-  tag: 'taro-swiper',
+  tag: 'taro-swiper-core',
   styleUrls: [
     '../../../node_modules/swiper/dist/css/swiper.min.css',
     './style/index.scss'

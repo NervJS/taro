@@ -2,7 +2,7 @@
 import { Component, h, Host } from '@stencil/core'
 
 @Component({
-  tag: 'taro-cover-image'
+  tag: 'taro-cover-image-core'
 })
 export class CoverImage {
   componentDidLoad () {

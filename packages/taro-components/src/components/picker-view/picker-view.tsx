@@ -2,7 +2,7 @@
 import { Component, h, Host } from '@stencil/core'
 
 @Component({
-  tag: 'taro-picker-view'
+  tag: 'taro-picker-view-core'
 })
 export class PickerView {
   componentDidLoad () {

@@ -19,7 +19,7 @@ export type Mode =
   | 'bottom right'
 
 @Component({
-  tag: 'taro-image',
+  tag: 'taro-image-core',
   styleUrl: './style/index.scss'
 })
 export class Image implements ComponentInterface {

@@ -4,7 +4,7 @@ import { Component, h, ComponentInterface, Prop, Host, State, Element, Event } f
 const LONG_TAP_DELAY = 500
 
 @Component({
-  tag: 'taro-canvas',
+  tag: 'taro-canvas-core',
   styleUrl: './style/index.css'
 })
 export class Canvas implements ComponentInterface {

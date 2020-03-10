@@ -2,7 +2,7 @@
 import { Component, h, Host } from '@stencil/core'
 
 @Component({
-  tag: 'taro-open-data'
+  tag: 'taro-open-data-core'
 })
 export class OpenData {
   componentDidLoad () {

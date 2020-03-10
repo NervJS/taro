@@ -22,7 +22,7 @@ type StringType = string
 export type Nodes = ElementType[] | StringType
 
 @Component({
-  tag: 'taro-rich-text'
+  tag: 'taro-rich-text-core'
 })
 export class RichText implements ComponentInterface {
   @Prop() nodes: Nodes

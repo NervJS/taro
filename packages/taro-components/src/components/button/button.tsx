@@ -3,7 +3,7 @@ import { Component, h, Prop, State, ComponentInterface, Event, EventEmitter } fr
 import classNames from 'classnames'
 
 @Component({
-  tag: 'taro-button',
+  tag: 'taro-button-core',
   styleUrl: './style/index.scss'
 })
 export class Button implements ComponentInterface {

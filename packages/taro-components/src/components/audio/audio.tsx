@@ -3,7 +3,7 @@ import { Component, Prop, h, ComponentInterface, Event, EventEmitter } from '@st
 import { TaroEvent } from '@tarojs/components'
 
 @Component({
-  tag: 'taro-audio',
+  tag: 'taro-audio-core',
   styleUrl: './style/index.scss'
 })
 export class Audio implements ComponentInterface {
