@@ -1,5 +1,5 @@
+import Taro from '@tarojs/api'
 import { shouleBeObject, getParameterError, isValidColor, successHandler, errorHandler } from '../utils'
-import Taro from '../../taro'
 
 let tabConf
 let App

@@ -1,8 +1,8 @@
+import Taro from '@tarojs/api'
 import { errorHandler, getParameterError } from '../utils'
 import Toast from './toast'
 import Modal from './modal'
 import ActionSheet from './actionSheet'
-import Taro from '../../taro'
 
 let status = 'default'
 
