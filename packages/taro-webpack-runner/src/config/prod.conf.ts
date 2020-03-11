@@ -102,9 +102,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
-  const isCssoEnabled = (csso && csso.enable === false)
-    ? false
-    : true
+  const isCssoEnabled = !(csso && csso.enable === false)
 
   if (isCssoEnabled) {
     plugin.cssoWebpackPlugin = getCssoWebpackPlugin([csso ? csso.config : {}])
@@ -114,9 +112,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
   const minimizer: any[] = []
   const uglifyConfig = uglify || terser
-  const isUglifyEnabled = (uglifyConfig && uglifyConfig.enable === false)
-    ? false
-    : true
+  const isUglifyEnabled = !(uglifyConfig && uglifyConfig.enable === false)
 
   if (isUglifyEnabled) {
     minimizer.push(getTerserPlugin([

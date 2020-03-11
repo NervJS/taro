@@ -353,10 +353,12 @@ export interface IProjectBaseConfig {
   babel?: IBabelOptions,
   csso?: TogglableOptions,
   terser?: TogglableOptions,
+  uglify?: TogglableOptions,
   sass?: ISassOptions,
   plugins?: ICommonPlugin[],
   baseLevel?: number,
   framework?: string
+
 }
 
 export interface IProjectConfig extends IProjectBaseConfig {

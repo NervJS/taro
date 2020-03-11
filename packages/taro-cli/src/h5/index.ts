@@ -1,7 +1,7 @@
 import * as path from 'path'
 import { promisify } from 'util'
 import { IProjectConfig, IH5Config, IDeviceRatio } from '@tarojs/taro/types/compile'
-import _, { fromPairs, get, merge } from 'lodash'
+import { fromPairs, get, merge } from 'lodash'
 import * as rimraf from 'rimraf'
 
 import CONFIG from '../config'
@@ -39,7 +39,9 @@ class Compiler {
   pathAlias: {
     [key: string]: string
   }
+
   pages: [PageName, FilePath][] = []
+
   isUi: boolean
 
   constructor (public appPath: string, entryFile?: string, isUi?: boolean) {
@@ -88,7 +90,7 @@ class Compiler {
     const entryFile = path.basename(this.entryFileName)
     const entryFileName = path.basename(this.entryFileName, path.extname(this.entryFileName))
     const defaultEntry = isMultiRouterMode
-      ? fromPairs(this.pages.map(([pagename, filePath]) => {
+      ? fromPairs(this.pages.map(([_, filePath]) => {
         return [filePath, [getEntryFile(filePath)]]
       }))
       : {
@@ -130,7 +132,7 @@ class Compiler {
 
 export { Compiler }
 
-export async function build (appPath: string, buildConfig: IBuildOptions, builder: Builder) {
+export async function build (appPath: string, buildConfig: IBuildOptions, _: Builder) {
   process.env.TARO_ENV = BUILD_TYPES.H5
   const compiler = new Compiler(appPath)
   await compiler.clean()

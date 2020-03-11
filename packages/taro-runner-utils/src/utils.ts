@@ -137,9 +137,9 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
   const padding = ''
   filePath = filePath || ''
   if (typeof typeShow.color === 'string') {
-    console.log(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
+    console.warn(chalk[typeShow.color](typeShow.name), padding, tag, padding, filePath)
   } else {
-    console.log(typeShow.color(typeShow.name), padding, tag, padding, filePath)
+    console.warn(typeShow.color(typeShow.name), padding, tag, padding, filePath)
   }
 }
 
@@ -158,6 +158,7 @@ export function readConfig (configPath: string) {
         presets: [['@babel/env']],
         plugins: ['@babel/plugin-proposal-class-properties']
       })
+      // eslint-disable-next-line no-eval
       return eval(res!.code as string)
     }
   }

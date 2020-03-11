@@ -4,4 +4,4 @@
 
 export { default as chooseImage } from './chooseImage'
 export { default as getImageInfo } from './getImageInfo'
-export { default as previewImage } from './previewImage'
+// export { default as previewImage } from './previewImage'

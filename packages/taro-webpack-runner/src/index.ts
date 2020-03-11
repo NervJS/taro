@@ -1,5 +1,4 @@
 import * as detectPort from 'detect-port'
-import * as open from 'open'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
@@ -26,7 +25,6 @@ const buildProd = (appPath: string, config: BuildConfig): Promise<void> => {
     const webpackChain = prodConf(appPath, config)
 
     customizeChain(webpackChain, config.webpackChain)
-
     const webpackConfig = webpackChain.toConfig()
     const compiler = webpack(webpackConfig)
     bindProdLogger(compiler)
@@ -116,7 +114,6 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
           pathname
         })
         console.log(openUrl)
-        open(openUrl)
       }
     })
   })

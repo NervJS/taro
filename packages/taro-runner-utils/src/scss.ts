@@ -16,15 +16,15 @@ interface BuildConfig {
 
 /**
  * Return bundled sass content.
- * 
+ *
  * @param {string} url Absolute file path.
  * @param {(string | undefined)} projectDirectory Absolute project location, where node_modules are located.
  * Used for resolving tilde imports.
  * @returns Bundle result.
  */
-export async function getBundleResult(url: string, 
-    projectDirectory: string | undefined = undefined
-  ): Promise<BundleResult> {
+export async function getBundleResult (url: string,
+  projectDirectory: string | undefined = undefined
+): Promise<BundleResult> {
   let bundler: Bundler = new Bundler()
   if (projectDirectory) {
     bundler = new Bundler(undefined, projectDirectory)
@@ -40,7 +40,7 @@ export async function getBundleResult(url: string,
  * Used for resolving tilde imports.
  * @returns Bundle result.
  */
-export async function getBundleContent(resource: string | string[],
+export async function getBundleContent (resource: string | string[],
   projectDirectory: string | undefined = undefined
 ): Promise<string | undefined> {
   let result: string | undefined = ''
@@ -69,12 +69,12 @@ export async function getBundleContent(resource: string | string[],
  * @param {BuildConfig} param0 Build config.
  * @returns Merged sass loader option.
  */
-export async function getSassLoaderOption(
+export async function getSassLoaderOption (
   { sass, sassLoaderOption }: BuildConfig
 ): Promise<LoaderOption> {
   sassLoaderOption = sassLoaderOption || {}
 
-  let bundledContent: string = ''
+  let bundledContent = ''
 
   if (!sass) {
     return sassLoaderOption

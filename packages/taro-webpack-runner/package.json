@@ -62,6 +62,7 @@
     "terser-webpack-plugin": "2.3.5",
     "url-loader": "3.0.0",
     "vue-loader": "15.9.0",
+    "vue-template-compiler": "^2.6.11",
     "webpack": "4.41.6",
     "webpack-chain": "4.9.0",
     "webpack-dev-server": "3.10.3",
