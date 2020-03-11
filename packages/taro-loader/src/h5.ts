@@ -34,15 +34,23 @@ const tabbarSelectedIconPath = []
     }
   }
 
-  const webComponents = `import { defineCustomElements, applyPolyfills } from '@tarojs/components/dist/loader'
-import '@tarojs/components/dist/taro-components/taro-components.css'
-applyPolyfills().then(() => {
+  const webComponents = `applyPolyfills().then(() => {
   defineCustomElements(window)
 })
+`
+  const vue = `import Vue from 'vue'
+Vue.config.ignoredElements = [
+  'root',
+  'block',
+  /^taro-/
+]
 `
 
   const code = `import Taro from '@tarojs/taro'
 import component from '${join(dirname(this.resourcePath), options.filename)}'
+import { defineCustomElements, applyPolyfills } from '@tarojs/components/dist/loader'
+import '@tarojs/components/dist/taro-components/taro-components.css'
+${options.framework === 'vue' ? vue : ''}
 ${webComponents}
 const config = ${JSON.stringify(config)}
 ${config.tabBar ? tabBarCode : ''}
