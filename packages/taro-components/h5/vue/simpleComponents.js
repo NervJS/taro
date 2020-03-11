@@ -64,5 +64,9 @@ export const simpleComponents = [
   {
     name: 'taro-swiper-item',
     classNames: ['swiper-slide']
+  },
+  {
+    name: 'taro-video',
+    classNames: ['taro-video-container']
   }
 ]
