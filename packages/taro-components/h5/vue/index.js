@@ -22,3 +22,9 @@ Vue.component('taro-input', Input)
 Vue.component('taro-picker', Picker)
 Vue.component('taro-image', Image)
 Vue.component('taro-video', Video)
+
+Vue.config.ignoredElements = [
+  'root',
+  'block',
+  /^taro-/
+]

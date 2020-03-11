@@ -38,12 +38,8 @@ const tabbarSelectedIconPath = []
   defineCustomElements(window)
 })
 `
-  const vue = `import Vue from 'vue'
-Vue.config.ignoredElements = [
-  'root',
-  'block',
-  /^taro-/
-]
+  const vue = `
+import '@tarojs/components/h5/vue'
 `
 
   const code = `import Taro from '@tarojs/taro'
