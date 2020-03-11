@@ -38,7 +38,7 @@ export interface PageLifeCycle extends Show {
   onPullDownRefresh?(): void
   onReachBottom?(): void
   onPageScroll?(obj: { scrollTop: number }): void
-  onShareAppMessage?(obj: { from: string, target: TaroElement, webViewUrl: string }): void
+  onShareAppMessage?(obj: { from: string, target?: TaroElement, webViewUrl: string }): void
   onResize?(options: unknown): void
   onTabItemTap?(obj: { index: string, pagePath: string, text: string }): void
   componentWillPreload?(): void

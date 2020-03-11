@@ -107,10 +107,13 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       return safeExecute(instance, 'onPageScroll', options)
     },
     onShareAppMessage (options) {
-      const id = options.target.id
-      const element = document.getElementById(id)
-      if (element) {
-        options.target.dataset = element.dataset
+      const target = options.target
+      if (target != null) {
+        const id = target.id
+        const element = document.getElementById(id)
+        if (element != null) {
+          options.target!.dataset = element.dataset
+        }
       }
       return safeExecute(instance, 'onShareAppMessage', options)
     },
