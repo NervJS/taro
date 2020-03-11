@@ -290,7 +290,8 @@ const Textarea = {
 }
 
 const CoverView = {
-  'scroll-top': 'false'
+  'scroll-top': 'false',
+  ...touchEvents
 }
 
 const MovableArea = {
@@ -316,7 +317,8 @@ const MovableView = {
   htouchmove: '',
   vtouchmove: '',
   width: singleQuote('10px'),
-  height: singleQuote('10px')
+  height: singleQuote('10px'),
+  ...touchEvents
 }
 
 const ScrollView = {
@@ -333,7 +335,8 @@ const ScrollView = {
   'scroll-anchoring': ' false',
   bindScrolltoUpper: '',
   bindScrolltoLower: '',
-  bindScroll: ''
+  bindScroll: '',
+  ...touchEvents
 }
 
 function singleQuote (s: string) {
