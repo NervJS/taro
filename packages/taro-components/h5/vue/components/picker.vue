@@ -12,6 +12,7 @@
 <script>
 export default {
   name: 'taro-picker',
+  'class': 'hydrated',
   props: {
     'range': Array,
     'value': [Number, String, Array]

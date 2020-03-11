@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, Prop, h, ComponentInterface, Host } from '@stencil/core'
 import classNames from 'classnames'
 
@@ -6,7 +7,7 @@ import classNames from 'classnames'
   styleUrl: './style/index.scss'
 })
 export class Text implements ComponentInterface {
-  @Prop() selectable: boolean = false
+  @Prop() selectable = false
 
   render () {
     const cls = classNames(

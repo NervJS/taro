@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Host } from '@stencil/core'
-import classNames from 'classnames'
 
 @Component({
   tag: 'taro-progress-core'

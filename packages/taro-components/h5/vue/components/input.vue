@@ -7,7 +7,7 @@ export default {
   render (createElement) {
     const self = this
     return createElement('taro-input-core', {
-        'class': 'hydrate',
+        'class': 'hydrated',
         'attrs': {
           'auto-focus': self.focus
         },
