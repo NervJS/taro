@@ -1,6 +1,8 @@
 <script>
+import { listeners } from '../mixins/listeners'
 export default {
   name: 'taro-video',
+  mixins: [listeners],
   props: {
     isFullScreen: Boolean
   },
@@ -12,7 +14,7 @@ export default {
       attrs: {
         'is-full-screen': this.isFullScreen
       },
-      'on': this.$listeners
+      'on': this.listeners
     }, this.$slots.default)
   }
 }

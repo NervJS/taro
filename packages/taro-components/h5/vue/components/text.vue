@@ -1,6 +1,8 @@
 <script>
+import { listeners } from '../mixins/listeners'
 export default {
   name: 'taro-text',
+  mixins: [listeners],
   props: {
     selectable: Boolean
   },
@@ -12,7 +14,7 @@ export default {
       attrs: {
         selectable: this.selectable
       },
-      'on': this.$listeners
+      'on': this.listeners
     }, this.$slots.default)
   }
 }

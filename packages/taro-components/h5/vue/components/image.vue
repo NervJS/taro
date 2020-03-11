@@ -1,6 +1,8 @@
 <script>
+import { listeners } from '../mixins/listeners'
 export default {
   name: 'taro-image',
+  mixins: [listeners],
   props: {
     mode: String
   },
@@ -12,7 +14,7 @@ export default {
       attrs: {
         mode: this.mode
       },
-      'on': this.$listeners
+      'on': this.listeners
     }, this.$slots.default)
   }
 }
