@@ -55,7 +55,7 @@ export class RadioGroup implements ComponentInterface {
 
   render () {
     return (
-      <Host className='weui-cells_radiogroup' />
+      <Host class='weui-cells_radiogroup' />
     )
   }
 }

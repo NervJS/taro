@@ -27,7 +27,6 @@ export class Index implements ComponentInterface {
       active
     } = this
 
-    const cls = classNames('weui-progress')
     const pgPercent = percent > 100 ? 100 : percent < 0 ? 0 : percent
     const pgHeight = {
       height: strokeWidth + 'px',
@@ -43,7 +42,7 @@ export class Index implements ComponentInterface {
     }
 
     return (
-      <Host class={cls}>
+      <Host class='weui-progress'>
         <div class='weui-progress__bar' style={pgHeight}>
           <div class='weui-progress__inner-bar' style={pgWdith} />
         </div>
