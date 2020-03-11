@@ -115,7 +115,7 @@ class Compiler {
       outputRoot: outputDir,
       babel: projectConfig.babel,
       csso: projectConfig.csso,
-      uglify: projectConfig.uglify,
+      // uglify: projectConfig.uglify,
       terser: projectConfig.terser,
       sass: projectConfig.sass,
       plugins: projectConfig.plugins,
