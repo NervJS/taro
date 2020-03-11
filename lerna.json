@@ -8,8 +8,8 @@
     "packages/postcss-plugin-constparse",
     "packages/postcss-pxtransform",
     "packages/shared",
-    "packages/taro-api",
     "packages/taro",
+    "packages/taro-api",
     "packages/taro-cli",
     "packages/taro-components",
     "packages/taro-h5",
@@ -30,6 +30,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.0.0-alpha.5",
+  "version": "3.0.0-alpha.6",
   "npmClient": "yarn"
 }
