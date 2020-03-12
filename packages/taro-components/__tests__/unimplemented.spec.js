@@ -43,7 +43,7 @@ describe('unimplemented', () => {
   }
 
   function buildWarning (ref) {
-    return `H5 暂不支持 ${capitalize(toCamelCase(ref.current.nodeName.slice(5).replace('-core', '').toLowerCase()))} 组件！`
+    return `H5 暂不支持 ${capitalize(toCamelCase(ref.current.nodeName.slice(5).replace('-CORE', '').toLowerCase()))} 组件！`
   }
 
   async function testComponent (Comp) {
