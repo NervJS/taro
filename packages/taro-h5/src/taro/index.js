@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import * as Router from '@tarojs/router'
+import { history, navigateBack, navigateTo, createRouter, reLaunch, redirectTo, getCurrentPages, switchTab } from '@tarojs/router'
 import { permanentlyNotSupport } from '../api/utils'
 import { onPageScroll } from '../api/privateApis/onPageScroll'
 import { onReachBottom } from '../api/privateApis/onReachBottom'
@@ -18,13 +18,20 @@ const {
 
 const taro = {
   ...rest,
-  ...Router,
   getEnv,
   ENV_TYPE,
   Events,
   eventCenter,
   Current,
-  render
+  render,
+  history,
+  navigateBack,
+  navigateTo,
+  createRouter,
+  reLaunch,
+  redirectTo,
+  getCurrentPages,
+  switchTab
 }
 
 const initPxTransform = originalInitPxTransform.bind(taro)
@@ -74,5 +81,5 @@ export {
   pxTransform,
   canIUseWebp,
   interceptors,
-  Current
+  history, navigateBack, navigateTo, createRouter, reLaunch, redirectTo, getCurrentPages, switchTab
 }
