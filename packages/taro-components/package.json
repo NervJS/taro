@@ -10,6 +10,12 @@
     "*.scss",
     "*.css"
   ],
+  "files": [
+    "dist",
+    "loader",
+    "mini",
+    "types"
+  ],
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "scripts": {

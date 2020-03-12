@@ -44,7 +44,7 @@ import '@tarojs/components/h5/vue'
 
   const code = `import Taro from '@tarojs/taro'
 import component from '${join(dirname(this.resourcePath), options.filename)}'
-import { defineCustomElements, applyPolyfills } from '@tarojs/components/dist/loader'
+import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
 import '@tarojs/components/dist/taro-components/taro-components.css'
 ${options.framework === 'vue' ? vue : ''}
 ${webComponents}

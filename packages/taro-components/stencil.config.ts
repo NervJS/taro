@@ -10,7 +10,8 @@ export const config: Config = {
   ],
   outputTargets: [
     {
-      type: 'dist'
+      type: 'dist',
+      esmLoaderPath: '../loader'
     }
   ],
   excludeSrc: ['/test/', '**/.spec.', '/types/', '*.d.ts'],
