@@ -73,7 +73,7 @@ describe('Input', () => {
         return (
           <Input
             ref={ref}
-            maxLength={maxLength}
+            maxlength={maxLength}
             disabled={disabled}
             value={value}
             placeholder={placeholder}
