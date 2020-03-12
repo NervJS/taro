@@ -3,6 +3,7 @@
   "version": "3.0.0-alpha.7",
   "description": "Taro framework",
   "main": "index.js",
+  "main:h5": "h5.js",
   "typings": "types/index.d.ts",
   "files": [
     "dist",
@@ -10,7 +11,8 @@
     "index.js",
     "types",
     "package.json",
-    "lib"
+    "lib",
+    "h5.js"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

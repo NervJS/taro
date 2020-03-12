@@ -14,7 +14,8 @@
     "dist",
     "loader",
     "mini",
-    "types"
+    "types",
+    "h5"
   ],
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",

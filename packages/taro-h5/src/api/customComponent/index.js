@@ -1,1 +1,1 @@
-export { nextTick } from 'nervjs'
+export const nextTick = Promise.resolve()

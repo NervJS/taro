@@ -1,4 +1,4 @@
-const Taro = process.env.TARO_ENV === 'h5' ? require('@tarojs/taro-h5').default : require('@tarojs/api').default
+const Taro = require('@tarojs/api').default
 
 let api
 

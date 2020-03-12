@@ -12,6 +12,7 @@ const {
   initPxTransform: originalInitPxTransform,
   render,
   interceptors,
+  Current,
   ...rest
 } = Taro
 
@@ -22,6 +23,7 @@ const taro = {
   ENV_TYPE,
   Events,
   eventCenter,
+  Current,
   render
 }
 
@@ -71,5 +73,6 @@ export {
   getApp,
   pxTransform,
   canIUseWebp,
-  interceptors
+  interceptors,
+  Current
 }
