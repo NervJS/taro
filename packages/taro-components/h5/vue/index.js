@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import createComponent from './createComponent'
-import Text from './components/text.vue'
-import Input from './components/input.vue'
+import createFormsComponent from './createFormsComponent'
 import Picker from './components/picker.vue'
+import Text from './components/text.vue'
 import Image from './components/image.vue'
 
 import { simpleComponents } from './simpleComponents'
@@ -16,8 +16,16 @@ simpleComponents.map(component => {
   }
 })
 
-Vue.component('taro-text', Text)
+const Input = createFormsComponent('taro-input', 'input')
+const Textarea = createFormsComponent('taro-textarea', 'input')
+const Switch = createFormsComponent('taro-switch', 'change', 'checked')
+const Slider = createFormsComponent('taro-slider', 'change', 'value', ['weui-slider-box'])
+
 Vue.component('taro-input', Input)
+Vue.component('taro-textarea', Textarea)
+Vue.component('taro-switch', Switch)
+Vue.component('taro-slider', Slider)
+Vue.component('taro-text', Text)
 Vue.component('taro-picker', Picker)
 Vue.component('taro-image', Image)
 

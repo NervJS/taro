@@ -1,21 +1,14 @@
-<template>
-  <taro-picker-core
-    :range.prop="range"
-    @change="onChange"
-    @columnchange="onColumnChange"
-    @cancel="onCancel"
-  >
-    <slot />
-  </taro-picker-core>
-</template>
-
 <script>
+import { listeners } from '../mixins/listeners'
 export default {
   name: 'taro-picker',
-  'class': 'hydrated',
+  mixins: [listeners],
+  model: {
+    event: 'model'
+  },
   props: {
-    'range': Array,
-    'value': [Number, String, Array]
+    range: Array,
+    value: [Number, String, Array]
   },
   mounted () {
     this.$el.value = this.value
@@ -25,16 +18,22 @@ export default {
       this.$el.value = newVal
     }
   },
-  methods: {
-    onChange (e) {
-      this.$emit('change', e)
-    },
-    onColumnChange (e) {
-      this.$emit('columnchange', e)
-    },
-    onCancel (e) {
-      this.$emit('cancel', e)
-    }
+  render (createElement) {
+    const self = this
+
+    return createElement('taro-picker-core', {
+      class: 'hydrated',
+      domProps: {
+        range: self.range
+      },
+      on: {
+        ...self.listeners,
+        change (e) {
+          self.$emit('change', e)
+          self.$emit('model', e.target.value)
+        }
+      }
+    }, self.$slots.default)
   }
 }
 </script>

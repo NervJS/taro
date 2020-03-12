@@ -1,0 +1,44 @@
+import { listeners } from './mixins/listeners'
+export default function createFormsComponent (name, event, modelValue = 'value', classNames = []) {
+  const props = {}
+  if (name === 'taro-input') {
+    props.focus = Boolean
+  }
+
+  return {
+    name,
+    mixins: [listeners],
+    model: {
+      prop: modelValue,
+      event: 'model'
+    },
+    props,
+    methods: {
+      input (e) {
+        this.$emit('input', e)
+        this.$emit('model', e.target.value)
+      },
+      change (e) {
+        this.$emit('change', e)
+        this.$emit('model', e.target.value)
+      }
+    },
+    render (createElement) {
+      const self = this
+
+      const attrs = {}
+      if (name === 'taro-input') {
+        attrs['auto-focus'] = self.focus
+      }
+
+      const on = { ...self.listeners }
+      on[event] = self[event]
+
+      return createElement(`${name}-core`, {
+        class: ['hydrated', ...classNames],
+        attrs,
+        on,
+      }, self.$slots.default)
+    }
+  }
+}
