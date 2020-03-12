@@ -32,6 +32,11 @@ export class TaroDocument extends TaroElement {
     const el = eventSource.get(id)
     return isUndefined(el) ? null : el as T
   }
+
+  // @TODO: @PERF: 在 hydrate 移除掉空的 node
+  public createComment () {
+    return new TaroText('')
+  }
 }
 
 interface TaroDocumentInstance extends TaroDocument {
