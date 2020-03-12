@@ -1,4 +1,5 @@
 import { listeners } from './mixins/listeners'
+import { refs } from './mixins/refs'
 export default function createFormsComponent (name, event, modelValue = 'value', classNames = []) {
   const props = {}
   if (name === 'taro-input') {
@@ -7,7 +8,7 @@ export default function createFormsComponent (name, event, modelValue = 'value',
 
   return {
     name,
-    mixins: [listeners],
+    mixins: [listeners, refs],
     model: {
       prop: modelValue,
       event: 'model'

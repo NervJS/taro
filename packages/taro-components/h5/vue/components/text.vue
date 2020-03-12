@@ -1,8 +1,9 @@
 <script>
 import { listeners } from '../mixins/listeners'
+import { refs } from '../mixins/refs'
 export default {
   name: 'taro-text',
-  mixins: [listeners],
+  mixins: [listeners, refs],
   props: {
     selectable: Boolean
   },

@@ -1,8 +1,9 @@
 <script>
 import { listeners } from '../mixins/listeners'
+import { refs } from '../mixins/refs'
 export default {
   name: 'taro-picker',
-  mixins: [listeners],
+  mixins: [listeners, refs],
   model: {
     event: 'model'
   },
