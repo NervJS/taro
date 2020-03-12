@@ -12,7 +12,7 @@ jobs:
   include:
     - stage: test
       script:
-        - npm install
+        - yarn
         - travis_wait 30 npm run bootstrap
         - npm run build
         - npm run test
