@@ -15,7 +15,7 @@ if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
 }`
   return `import { createPageConfig } from '@tarojs/runtime'
-import component from '${stringify(componentPath)}'
+import component from ${stringify(componentPath)}
 var inst = Page(createPageConfig(component, '${options.name}'))
 ${options.prerender ? prerender : ''}
 `
