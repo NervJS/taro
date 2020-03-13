@@ -44,6 +44,7 @@ export class Textarea implements ComponentInterface {
       set: value => (this.value = value),
       configurable: true
     })
+    this.autoFocus && this.textareaRef.focus()
   }
 
   hanldeInput = (e: TaroEvent<HTMLInputElement>) => {
@@ -92,7 +93,6 @@ export class Textarea implements ComponentInterface {
         ref={input => {
           if (input) {
             this.textareaRef = input
-            autoFocus && input.focus()
           }
         }}
         class='taro-textarea'
