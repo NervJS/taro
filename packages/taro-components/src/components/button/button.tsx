@@ -28,10 +28,7 @@ export class Button implements ComponentInterface {
     eventName: 'tarobuttonreset'
   }) onReset: EventEmitter
 
-  onTouchStart = (e: Event) => {
-    // 取消 form 内 button 跳转
-    e.preventDefault()
-
+  onTouchStart = () => {
     this.touch = true
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
@@ -57,6 +54,11 @@ export class Button implements ComponentInterface {
     } else if (this.formType === 'reset') {
       this.onReset.emit()
     }
+  }
+
+  onClick = (e: MouseEvent) => {
+    // 取消 form 内 button 跳转
+    e.preventDefault()
   }
 
   render () {
@@ -92,6 +94,7 @@ export class Button implements ComponentInterface {
         disabled={disabled}
         onTouchStart={this.onTouchStart}
         onTouchEnd={this.onTouchEnd}
+        onClick={this.onClick}
       >
         {loading && <i class='weui-loading' />}
         <slot />
