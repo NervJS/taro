@@ -4,7 +4,7 @@ import * as wxTransformer from '@tarojs/transformer-wx'
 import chalk from 'chalk'
 
 import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
-import { Compiler as RNCompiler } from '../rn'
+import { Compiler as RNCompiler } from '../rn_bak'
 import { analyzeFiles, analyzeStyleFilesImport, copyFileToDist, RN_OUTPUT_NAME, parseEntryAst } from './common'
 import { printLog, resolveScriptPath } from '../util'
 import { IBuildData } from './ui.types'

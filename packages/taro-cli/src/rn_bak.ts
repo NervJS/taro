@@ -10,15 +10,16 @@ import { TogglableOptions, ICommonPlugin, IOption } from '@tarojs/taro/types/com
 
 import * as Util from './util'
 import CONFIG from './config'
-import * as StyleProcess from './rn/styleProcess'
+// import * as StyleProcess from './rn/styleProcess'
 import { parseJSCode as transformJSCode } from './rn/transformJS'
 import { PROJECT_CONFIG, processTypeEnum, REG_STYLE, REG_SCRIPTS, REG_TYPESCRIPT, BUILD_TYPES } from './util/constants'
 import { convertToJDReact } from './jdreact/convert_to_jdreact'
 import { IBuildOptions } from './util/types'
 // import { Error } from 'tslint/lib/error'
 
+// @ts-ignore
 let isBuildingStyles = {}
-const styleDenpendencyTree = {}
+// const styleDenpendencyTree = {}
 
 const depTree: {
   [key: string]: string[]
@@ -93,54 +94,54 @@ class Compiler {
     return path.basename(filePath) === this.entryFileName
   }
 
-  compileDepStyles (filePath, styleFiles) {
-    if (isBuildingStyles[filePath] || styleFiles.length === 0) {
-      return Promise.resolve({})
-    }
-    isBuildingStyles[filePath] = true
-    return Promise.all(styleFiles.map(async p => { // to css string
-      const filePath = path.join(p)
-      const fileExt = path.extname(filePath)
-      Util.printLog(processTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
-      return StyleProcess.loadStyle({
-        filePath,
-        pluginsConfig: {
-          sass: this.sass,
-          less: this.less,
-          stylus: this.stylus
-        }
-      }, this.appPath)
-    })).then(resList => { // postcss
-      return Promise.all(resList.map(item => {
-        return StyleProcess.postCSS({...item as { css: string, filePath: string }, projectConfig: this.projectConfig})
-      }))
-    }).then(resList => {
-      const styleObjectEntire = {}
-      resList.forEach(item => {
-        const styleObject = StyleProcess.getStyleObject({css: item.css, filePath: item.filePath})
-        // validate styleObject
-        StyleProcess.validateStyle({styleObject, filePath: item.filePath})
-
-        Object.assign(styleObjectEntire, styleObject)
-        if (filePath !== this.entryFilePath) { // 非入口文件，合并全局样式
-          Object.assign(styleObjectEntire, _.get(styleDenpendencyTree, [this.entryFilePath, 'styleObjectEntire'], {}))
-        }
-        styleDenpendencyTree[filePath] = {
-          styleFiles,
-          styleObjectEntire
-        }
-      })
-      return JSON.stringify(styleObjectEntire, null, 2)
-    }).then(css => {
-      let tempFilePath = filePath.replace(this.sourceDir, this.tempPath)
-      const basename = path.basename(tempFilePath, path.extname(tempFilePath))
-      tempFilePath = path.join(path.dirname(tempFilePath), `${basename}_styles.js`)
-
-      StyleProcess.writeStyleFile({css, tempFilePath})
-    }).catch((e) => {
-      throw new Error(e)
-    })
-  }
+  // compileDepStyles (filePath, styleFiles) {
+  //   if (isBuildingStyles[filePath] || styleFiles.length === 0) {
+  //     return Promise.resolve({})
+  //   }
+  //   isBuildingStyles[filePath] = true
+  //   return Promise.all(styleFiles.map(async p => { // to css string
+  //     const filePath = path.join(p)
+  //     const fileExt = path.extname(filePath)
+  //     Util.printLog(processTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
+  //     return StyleProcess.loadStyle({
+  //       filePath,
+  //       pluginsConfig: {
+  //         sass: this.sass,
+  //         less: this.less,
+  //         stylus: this.stylus
+  //       }
+  //     }, this.appPath)
+  //   })).then(resList => { // postcss
+  //     return Promise.all(resList.map(item => {
+  //       return StyleProcess.postCSS({...item as { css: string, filePath: string }, projectConfig: this.projectConfig})
+  //     }))
+  //   }).then(resList => {
+  //     const styleObjectEntire = {}
+  //     resList.forEach(item => {
+  //       const styleObject = StyleProcess.getStyleObject({css: item.css, filePath: item.filePath})
+  //       // validate styleObject
+  //       StyleProcess.validateStyle({styleObject, filePath: item.filePath})
+  //
+  //       Object.assign(styleObjectEntire, styleObject)
+  //       if (filePath !== this.entryFilePath) { // 非入口文件，合并全局样式
+  //         Object.assign(styleObjectEntire, _.get(styleDenpendencyTree, [this.entryFilePath, 'styleObjectEntire'], {}))
+  //       }
+  //       styleDenpendencyTree[filePath] = {
+  //         styleFiles,
+  //         styleObjectEntire
+  //       }
+  //     })
+  //     return JSON.stringify(styleObjectEntire, null, 2)
+  //   }).then(css => {
+  //     let tempFilePath = filePath.replace(this.sourceDir, this.tempPath)
+  //     const basename = path.basename(tempFilePath, path.extname(tempFilePath))
+  //     tempFilePath = path.join(path.dirname(tempFilePath), `${basename}_styles.js`)
+  //
+  //     StyleProcess.writeStyleFile({css, tempFilePath})
+  //   }).catch((e) => {
+  //     throw new Error(e)
+  //   })
+  // }
 
   initProjectFile () {
     // generator app.json
@@ -191,7 +192,7 @@ class Compiler {
       // compileDepStyles
       const styleFiles = transformResult.styleFiles
       depTree[filePath] = styleFiles
-      await this.compileDepStyles(filePath, styleFiles)
+      // await this.compileDepStyles(filePath, styleFiles)
     } else {
       fs.ensureDirSync(distDirname)
       Util.printLog(processTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)

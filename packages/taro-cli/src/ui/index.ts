@@ -31,7 +31,7 @@ import {
   analyzeStyleFilesImport,
   analyzeFiles
 } from './common'
-import { Compiler as RNCompiler } from '../rn'
+import { Compiler as RNCompiler } from '../rn_bak'
 
 let buildData: IBuildData
 let platforms: BUILD_TYPES[]

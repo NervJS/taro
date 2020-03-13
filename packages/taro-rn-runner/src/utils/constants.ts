@@ -1,78 +1,6 @@
 import * as os from 'os'
+
 import chalk, { Chalk } from 'chalk'
-
-export const enum processTypeEnum {
-  START = 'start',
-  CREATE = 'create',
-  COMPILE = 'compile',
-  CONVERT = 'convert',
-  COPY = 'copy',
-  GENERATE = 'generate',
-  MODIFY = 'modify',
-  ERROR = 'error',
-  WARNING = 'warning',
-  UNLINK = 'unlink',
-  REFERENCE = 'reference',
-  REMIND = 'remind'
-}
-
-export interface IProcessTypeMap {
-  [key: string] : {
-    name: string,
-    color: string | Chalk
-  }
-}
-
-export const processTypeMap: IProcessTypeMap = {
-  [processTypeEnum.CREATE]: {
-    name: '创建',
-    color: 'cyan'
-  },
-  [processTypeEnum.COMPILE]: {
-    name: '编译',
-    color: 'green'
-  },
-  [processTypeEnum.CONVERT]: {
-    name: '转换',
-    color: chalk.rgb(255, 136, 0)
-  },
-  [processTypeEnum.COPY]: {
-    name: '拷贝',
-    color: 'magenta'
-  },
-  [processTypeEnum.GENERATE]: {
-    name: '生成',
-    color: 'blue'
-  },
-  [processTypeEnum.MODIFY]: {
-    name: '修改',
-    color: 'yellow'
-  },
-  [processTypeEnum.ERROR]: {
-    name: '错误',
-    color: 'red'
-  },
-  [processTypeEnum.WARNING]: {
-    name: '警告',
-    color: 'yellowBright'
-  },
-  [processTypeEnum.UNLINK]: {
-    name: '删除',
-    color: 'magenta'
-  },
-  [processTypeEnum.START]: {
-    name: '启动',
-    color: 'green'
-  },
-  [processTypeEnum.REFERENCE]: {
-    name: '引用',
-    color: 'blue'
-  },
-  [processTypeEnum.REMIND]: {
-    name: '提示',
-    color: 'green'
-  }
-}
 
 export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss']
 export const SCSS_EXT: string[] = ['.scss']
@@ -84,7 +12,10 @@ export const REG_JS: RegExp = /\.js(\?.*)?$/
 export const REG_SCRIPT: RegExp = /\.(js|jsx)(\?.*)?$/
 export const REG_TYPESCRIPT: RegExp = /\.(tsx|ts)(\?.*)?$/
 export const REG_SCRIPTS: RegExp = /\.[tj]sx?$/i
-export const REG_STYLE: RegExp = /\.(css|scss|sass|less|styl|wxss)(\?.*)?$/
+export const REG_SASS: RegExp = /\.(s[ac]ss)$/
+export const REG_LESS: RegExp = /\.less$/
+export const REG_STYLUS: RegExp = /\.styl$/
+export const REG_STYLE: RegExp = /\.(css|scss|sass|less|styl|wxss|acss)(\?.*)?$/
 export const REG_MEDIA: RegExp = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
 export const REG_IMAGE: RegExp = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
 export const REG_FONT: RegExp = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
@@ -99,16 +30,15 @@ export const NODE_MODULES_REG = /(.*)node_modules/
 
 export const enum BUILD_TYPES {
   WEAPP = 'weapp',
-  H5 ='h5',
-  RN ='rn',
-  SWAN ='swan',
-  ALIPAY ='alipay',
-  TT ='tt',
-  UI ='ui',
+  SWAN = 'swan',
+  ALIPAY = 'alipay',
+  TT = 'tt',
+  UI = 'ui',
   PLUGIN = 'plugin',
   QUICKAPP = 'quickapp',
   QQ = 'qq',
-  JD = 'jd'
+  JD = 'jd',
+  RN = 'rn',
 }
 
 export const enum TEMPLATE_TYPES {
@@ -118,7 +48,8 @@ export const enum TEMPLATE_TYPES {
   TT = '.ttml',
   QUICKAPP = '.ux',
   QQ = '.qml',
-  JD = '.jxml'
+  JD = '.jxml',
+  RN = '.xml'
 }
 
 export const enum STYLE_TYPES {
@@ -128,7 +59,8 @@ export const enum STYLE_TYPES {
   TT = '.ttss',
   QUICKAPP = '.css',
   QQ = '.qss',
-  JD = '.jxss'
+  JD = '.jxss',
+  RN = '.js'
 }
 
 export const enum SCRIPT_TYPES {
@@ -138,7 +70,8 @@ export const enum SCRIPT_TYPES {
   TT = '.js',
   QUICKAPP = '.js',
   QQ = '.js',
-  JD = '.js'
+  JD = '.js',
+  RN = '.js'
 }
 
 export const enum CONFIG_TYPES {
@@ -148,10 +81,11 @@ export const enum CONFIG_TYPES {
   TT = '.json',
   QUICKAPP = '.json',
   QQ = '.json',
-  JD = '.json'
+  JD = '.json',
+  RN = '.json'
 }
 
-export type   IMINI_APP_FILE_TYPE = {
+export type IMINI_APP_FILE_TYPE = {
   TEMPL: TEMPLATE_TYPES,
   STYLE: STYLE_TYPES,
   SCRIPT: SCRIPT_TYPES,
@@ -203,6 +137,12 @@ export const MINI_APP_FILES: IMINI_APP_FILES = {
     STYLE: STYLE_TYPES.JD,
     SCRIPT: SCRIPT_TYPES.JD,
     CONFIG: CONFIG_TYPES.JD
+  },
+  [BUILD_TYPES.RN]: {
+    TEMPL: TEMPLATE_TYPES.RN,
+    STYLE: STYLE_TYPES.RN,
+    SCRIPT: SCRIPT_TYPES.RN,
+    CONFIG: CONFIG_TYPES.RN
   }
 }
 
@@ -260,7 +200,6 @@ export const CONFIG_MAP = {
     onReachBottomDistance: false,
     backgroundColorBottom: false,
     backgroundColorTop: false,
-    enablePullDownRefresh: false,
     navigationStyle: 'navigationStyle'
   },
   [BUILD_TYPES.QQ]: {
@@ -282,76 +221,17 @@ export const CONFIG_MAP = {
     iconPath: 'iconPath',
     selectedIconPath: 'selectedIconPath',
     color: 'color'
+  },
+  [BUILD_TYPES.RN]: {
+    navigationBarTitleText: 'navigationBarTitleText',
+    navigationBarBackgroundColor: 'navigationBarBackgroundColor',
+    enablePullDownRefresh: 'enablePullDownRefresh',
+    list: 'list',
+    text: 'text',
+    iconPath: 'iconPath',
+    selectedIconPath: 'selectedIconPath',
+    color: 'color'
   }
-}
-
-export const PROJECT_CONFIG = 'config/index.js'
-
-export const DEVICE_RATIO = {
-  '640': 2.34 / 2,
-  '750': 1,
-  '828': 1.81 / 2
-}
-
-export const FILE_PROCESSOR_MAP = {
-  '.js': 'babel',
-  '.scss': 'sass',
-  '.sass': 'sass',
-  '.less': 'less',
-  '.styl': 'stylus'
-}
-
-export const UPDATE_PACKAGE_LIST = [
-  '@tarojs/async-await',
-  '@tarojs/cli',
-  '@tarojs/components-qa',
-  '@tarojs/components-rn',
-  '@tarojs/components',
-  '@tarojs/mini-runner',
-  '@tarojs/mobx-common',
-  '@tarojs/mobx-h5',
-  '@tarojs/mobx-rn',
-  '@tarojs/mobx',
-  '@tarojs/plugin-babel',
-  '@tarojs/plugin-csso',
-  '@tarojs/plugin-less',
-  '@tarojs/plugin-sass',
-  '@tarojs/plugin-stylus',
-  '@tarojs/plugin-uglifyjs',
-  '@tarojs/redux-h5',
-  '@tarojs/redux',
-  '@tarojs/rn-runner',
-  '@tarojs/router',
-  '@tarojs/taro-alipay',
-  '@tarojs/taro-h5',
-  '@tarojs/taro-jd',
-  '@tarojs/taro-qq',
-  '@tarojs/taro-quickapp',
-  '@tarojs/taro-redux-rn',
-  '@tarojs/taro-rn',
-  '@tarojs/taro-router-rn',
-  '@tarojs/taro-swan',
-  '@tarojs/taro-tt',
-  '@tarojs/taro-weapp',
-  '@tarojs/taro',
-  '@tarojs/webpack-runner',
-  'babel-plugin-transform-jsx-to-stylesheet',
-  'eslint-config-taro',
-  'eslint-plugin-taro',
-  'nerv-devtools',
-  'nervjs',
-  'postcss-plugin-constparse',
-  'postcss-pxtransform',
-  'stylelint-config-taro-rn',
-  'stylelint-taro-rn',
-  'taro-transformer-wx'
-]
-
-export enum PARSE_AST_TYPE {
-  ENTRY = 'ENTRY',
-  PAGE = 'PAGE',
-  COMPONENT = 'COMPONENT',
-  NORMAL = 'NORMAL'
 }
 
 export const taroJsComponents = '@tarojs/components'
@@ -364,6 +244,87 @@ export const taroJsMobxCommon = '@tarojs/mobx-common'
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
 
-export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#2.0'
-export const TARO_CONFIG_FLODER = '.taro2'
-export const TARO_BASE_CONFIG = 'index.json'
+export const QUICKAPP_SPECIAL_COMPONENTS = new Set<string>([
+  'View',
+  'Text'
+])
+
+export enum PARSE_AST_TYPE {
+  ENTRY = 'ENTRY',
+  PAGE = 'PAGE',
+  COMPONENT = 'COMPONENT',
+  NORMAL = 'NORMAL',
+  STATIC = 'STATIC'
+}
+
+export const enum processTypeEnum {
+  START = 'start',
+  CREATE = 'create',
+  COMPILE = 'compile',
+  CONVERT = 'convert',
+  COPY = 'copy',
+  GENERATE = 'generate',
+  MODIFY = 'modify',
+  ERROR = 'error',
+  WARNING = 'warning',
+  UNLINK = 'unlink',
+  REFERENCE = 'reference'
+}
+
+export interface IProcessTypeMap {
+  [key: string] : {
+    name: string,
+    color: string | Chalk
+  }
+}
+
+export const processTypeMap: IProcessTypeMap = {
+  [processTypeEnum.CREATE]: {
+    name: '创建',
+    color: 'cyan'
+  },
+  [processTypeEnum.COMPILE]: {
+    name: '编译',
+    color: 'green'
+  },
+  [processTypeEnum.CONVERT]: {
+    name: '转换',
+    color: chalk.rgb(255, 136, 0)
+  },
+  [processTypeEnum.COPY]: {
+    name: '拷贝',
+    color: 'magenta'
+  },
+  [processTypeEnum.GENERATE]: {
+    name: '生成',
+    color: 'blue'
+  },
+  [processTypeEnum.MODIFY]: {
+    name: '修改',
+    color: 'yellow'
+  },
+  [processTypeEnum.ERROR]: {
+    name: '错误',
+    color: 'red'
+  },
+  [processTypeEnum.WARNING]: {
+    name: '警告',
+    color: 'yellowBright'
+  },
+  [processTypeEnum.UNLINK]: {
+    name: '删除',
+    color: 'magenta'
+  },
+  [processTypeEnum.START]: {
+    name: '启动',
+    color: 'green'
+  },
+  [processTypeEnum.REFERENCE]: {
+    name: '引用',
+    color: 'blue'
+  }
+}
+
+export const excludeReplaceTaroFrameworkPkgs = new Set([taroJsRedux, taroJsMobx, taroJsMobxCommon])
+
+export const GLOBAL_PROPS = '{Function: Function,Boolean: Boolean,Object: Object,Number: Number,Array: Array,Date: Date,String: String,Symbol: Symbol,Error: Error,TypeError: TypeError,Map: Map,Set: Set,WeakMap: WeakMap,WeakSet: WeakSet,ArrayBuffer: ArrayBuffer,Math: Math,Promise: Promise,RegExp: RegExp,DataView: DataView,isFinite: isFinite,parseInt: parseInt,parseFloat: parseFloat,Float32Array: Float32Array,Float64Array: Float64Array,Int8Array: Int8Array,Int16Array: Int16Array,Int32Array: Int32Array,Uint8Array: Uint8Array,Uint16Array: Uint16Array,Uint32Array: Uint32Array,Uint8ClampedArray: Uint8ClampedArray,setTimeout: setTimeout,clearTimeout: clearTimeout,setInterval: setInterval,clearInterval: clearInterval}'
