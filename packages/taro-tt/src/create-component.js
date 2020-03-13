@@ -379,7 +379,7 @@ function createComponent (ComponentClass, isPage) {
         }
       }
     })
-    globPageRegistPath && cacheDataSet(globPageRegistPath, ComponentClass)
+    ComponentClass.$$componentPath && cacheDataSet(ComponentClass.$$componentPath, ComponentClass)
   }
   bindProperties(weappComponentConf, ComponentClass, isPage)
   bindBehaviors(weappComponentConf, ComponentClass)
