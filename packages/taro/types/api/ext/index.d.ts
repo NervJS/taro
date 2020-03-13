@@ -28,7 +28,7 @@ declare namespace Taro {
       /** 接口调用失败的回调函数 */
       fail?: (res: General.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (result: General.IAnyObject) => void
+      success?: (result: SuccessCallbackResult) => void
     }
 
     interface SuccessCallbackResult extends General.CallbackResult {
