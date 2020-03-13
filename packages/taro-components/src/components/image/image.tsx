@@ -84,7 +84,7 @@ export class Image implements ComponentInterface {
       imageOnError
     } = this
 
-    const cls = classNames('taro-img', {
+    const cls = classNames({
       'taro-img__widthfix': mode === 'widthFix'
     })
     const imgCls = classNames(

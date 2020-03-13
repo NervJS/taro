@@ -9,7 +9,7 @@ export default {
   },
   render (createElement) {
     return createElement('taro-image-core', {
-      'class': ['hydrated taro-img', {
+      'class': ['hydrated', {
         'taro-img__widthfix': this.mode === 'widthFix'
       }],
       attrs: {
