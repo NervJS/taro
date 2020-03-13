@@ -195,6 +195,7 @@ export namespace Components {
     * 滑动动画时长
     */
     'duration': number;
+    'full': boolean;
     /**
     * 当前选中的指示点颜色
     */
@@ -844,6 +845,7 @@ declare namespace LocalJSX {
     * 滑动动画时长
     */
     'duration'?: number;
+    'full'?: boolean;
     /**
     * 当前选中的指示点颜色
     */

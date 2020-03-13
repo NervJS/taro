@@ -71,6 +71,11 @@ export class Swiper implements ComponentInterface {
    */
   @Prop() displayMultipleItems = 1
 
+  /**
+   * 给 prewviewImage API 使用，全屏显示 swiper
+   */
+  @Prop() full = false
+
   @Event({
     eventName: 'change'
   }) onChange: EventEmitter
@@ -126,6 +131,7 @@ export class Swiper implements ComponentInterface {
       displayMultipleItems
     } = this
 
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
 
     const options: any = {
@@ -184,8 +190,14 @@ export class Swiper implements ComponentInterface {
         'swiper-pagination-bullets': indicatorDots
       }
     )
+
+    const style: Record<string, string> = {}
+    if (this.full) {
+      style.height = '100%'
+    }
+
     return (
-      <div class={cls}>
+      <div class={cls} style={style}>
         <style type='text/css'>
           {`
             .taro-swiper-${this._id} .swiper-pagination-bullet { background: ${indicatorColor} }
