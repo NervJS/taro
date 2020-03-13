@@ -250,15 +250,12 @@ export default class MiniPlugin {
       compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, (assets) => {
         Object.keys(assets).forEach(assetPath => {
           const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
-          const templateExt = MINI_APP_FILES[this.options.buildAdapter].TEMPL
           if (new RegExp(`${styleExt}.js$`).test(assetPath)) {
             delete assets[assetPath]
           } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
             const assetObj = assets[assetPath]
             const newAssetPath = assetPath.replace(styleExt, '')
             assets[newAssetPath] = assetObj
-            delete assets[assetPath]
-          } else if (new RegExp(`${templateExt}.js$`).test(assetPath)) {
             delete assets[assetPath]
           }
         })
