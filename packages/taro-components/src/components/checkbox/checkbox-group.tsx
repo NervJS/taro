@@ -20,7 +20,7 @@ export class CheckboxGroup implements ComponentInterface {
   @Listen('checkboxchange')
   function (e: CustomEvent<{ value: string }>) {
     e.stopPropagation()
-    if ((e.target as Element).tagName !== 'TARO-CHECKBOX') return
+    if ((e.target as Element).tagName !== 'TARO-CHECKBOX-CORE') return
 
     const childList = this.el.querySelectorAll('taro-checkbox-core')
 

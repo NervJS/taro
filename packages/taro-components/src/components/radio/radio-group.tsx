@@ -20,7 +20,7 @@ export class RadioGroup implements ComponentInterface {
   @Listen('radiochange')
   function (e: CustomEvent<{ value: string }>) {
     e.stopPropagation()
-    if ((e.target as Element).tagName !== 'TARO-RADIO') return
+    if ((e.target as Element).tagName !== 'TARO-RADIO-CORE') return
 
     const target = e.target as HTMLTaroRadioCoreElement
     if (target.checked) {
