@@ -7,13 +7,12 @@ import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
 import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
-import { merge, defaults, kebabCase } from 'lodash'
+import {defaults, kebabCase } from 'lodash'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import { SyncHook } from 'tapable'
 import * as _ from 'lodash'
-import { isNpmPkg } from '../utils'
 import { compileStyle } from '../style'
 
 import {
@@ -31,7 +30,6 @@ import {
 import { IComponentObj, AddPageChunks } from '../utils/types'
 import {
   resolveScriptPath,
-  buildUsingComponents,
   isNpmPkg,
   resolveNpmSync,
   isEmptyObject,
@@ -325,15 +323,18 @@ export default class RNPlugin {
   getNpmComponentRealPath (code: string, component: IComponentObj, adapter: BUILD_TYPES): string | null {
     let componentRealPath: string | null = null
     let importExportName
-    const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, component.path as string, adapter)
+    // @ts-ignore
+    const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, component.path, adapter)
     if (isTaroComponentRes == null) {
       return null
     }
     const {isTaroComponent, transformResult} = isTaroComponentRes
+    // @ts-ignore
     const isNativePageOrComponent = this.isNativePageOrComponent(this.getTemplatePath(component.path), fs.readFileSync(component.path).toString())
     if (isTaroComponent || isNativePageOrComponent) {
       return component.path
     }
+    // @ts-ignore
     const componentName = component.name!.split('|')[1] || component.name
     const {ast} = transformResult
     traverse(ast, {
@@ -404,7 +405,7 @@ export default class RNPlugin {
   }
 
   transformComponentsPath (filePath, components: IComponentObj[]) {
-    const {buildAdapter, alias} = this.options
+    const {alias} = this.options
     components.forEach(component => {
       try {
         let componentPath = component.path
@@ -651,12 +652,12 @@ export default class RNPlugin {
   }
 
   getComponents (compiler: webpack.Compiler, fileList: Set<IComponent>, isRoot: boolean) {
-    const {buildAdapter, alias} = this.options
+    const {buildAdapter} = this.options
     // const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     fileList.forEach(file => {
       try {
         // const isNative = file.isNative
-        const isComponentConfig = isRoot ? {} : {component: true}
+        // const isComponentConfig = isRoot ? {} : {component: true}
 
         let configObj
         let taroSelfComponents
@@ -702,7 +703,6 @@ export default class RNPlugin {
         if (!this.isWatch) {
           printLog(processTypeEnum.COMPILE, isRoot ? '发现页面' : '发现组件', this.getShowPath(file.path))
         }
-        console.log('transformComponentsPath after', transformResult.components)
         taroFileTypeMap[file.path] = {
           type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
           // config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, alias, depComponents), configObj),
@@ -710,7 +710,6 @@ export default class RNPlugin {
           code
         }
         if (depComponents && depComponents.length) {
-          console.log('##depComponents', depComponents)
           depComponents.forEach(item => {
             const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
             if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
