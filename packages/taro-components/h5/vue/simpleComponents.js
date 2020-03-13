@@ -1,6 +1,5 @@
 export const simpleComponents = [
   'taro-view',
-  'taro-icon',
   'taro-rich-text',
   'taro-button',
   'taro-checkbox-group',

@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Host } from '@stencil/core'
 import classNames from 'classnames'
 
 export type Type = 'success' | 'success_no_circle' | 'info'| 'warn'| 'waiting'| 'cancel'| 'download'| 'search'| 'clear'
@@ -13,7 +13,7 @@ export class Icon implements ComponentInterface {
   @Prop() color: string
 
   render () {
-    let {
+    const {
       type,
       size,
       color
@@ -31,7 +31,7 @@ export class Icon implements ComponentInterface {
     }
 
     return (
-      <i class={cls} style={style} />
+      <Host class={cls} style={style} />
     )
   }
 }

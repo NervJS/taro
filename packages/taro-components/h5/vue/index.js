@@ -4,6 +4,7 @@ import createFormsComponent from './createFormsComponent'
 import Picker from './components/picker.vue'
 import Text from './components/text.vue'
 import Image from './components/image.vue'
+import Icon from './components/icon.vue'
 
 import { simpleComponents } from './simpleComponents'
 
@@ -28,6 +29,7 @@ Vue.component('taro-slider', Slider)
 Vue.component('taro-text', Text)
 Vue.component('taro-picker', Picker)
 Vue.component('taro-image', Image)
+Vue.component('taro-icon', Icon)
 
 Vue.config.ignoredElements = [
   'root',
