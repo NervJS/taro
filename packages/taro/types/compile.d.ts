@@ -343,9 +343,7 @@ export interface IManifestConfig extends ITaroManifestConfig {
   display?: IDisplayConfig
 }
 
-export interface ICommonPlugin {
-  apply: (obj: object) => any
-}
+export type PluginItem = string | [string, object]
 
 export interface IProjectBaseConfig {
   projectName?: string,
@@ -363,7 +361,8 @@ export interface IProjectBaseConfig {
   csso?: TogglableOptions,
   uglify?: TogglableOptions,
   sass?: ISassOptions,
-  plugins?: ICommonPlugin[],
+  plugins?: PluginItem[],
+  presets?: PluginItem[]
 }
 
 export interface IProjectConfig extends IProjectBaseConfig {
