@@ -571,7 +571,7 @@ export class Video implements ComponentInterface {
               }
             }}>
               <div class='taro-video-toast-volume-grids'>
-                {[...Array(10).keys()].map(() => (
+                {Array(10).fill(1).map(() => (
                   <div class='taro-video-toast-volume-grids-item' />
                 ))}
               </div>
