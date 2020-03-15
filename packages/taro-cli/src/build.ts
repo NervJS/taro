@@ -3,12 +3,15 @@ import * as fs from 'fs-extra'
 import { SyncHook, Hook } from 'tapable'
 import * as _ from 'lodash'
 import chalk from 'chalk'
-import { IProjectConfig, ICommonPlugin } from '@tarojs/taro/types/compile'
+import { IProjectConfig } from '@tarojs/taro/types/compile'
+import { Kernel } from '@tarojs/service'
 
 import { BUILD_TYPES, PROJECT_CONFIG } from './util/constants'
 import { IBuildOptions } from './util/types'
 import { emptyDirectory } from './util'
 import CONFIG from './config'
+
+console.log(Kernel)
 
 interface IBuilderHooks {
   beforeBuild: Hook,
@@ -42,7 +45,7 @@ export default class Builder {
   applyPlugins () {
     const plugins = this.config.plugins || []
     if (plugins.length) {
-      plugins.forEach((plugin: ICommonPlugin) => {
+      plugins.forEach((plugin) => {
         plugin.apply(this)
       })
     }

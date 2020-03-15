@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
-import * as EventEmitter from 'events'
+import { EventEmitter } from 'events'
 
 import { merge } from 'lodash'
 
@@ -55,7 +55,7 @@ export default class Kernel extends EventEmitter {
   initPresetsAndPlugins (options: IKernelOptions) {
     const allConfigPresets = mergePlugins(options.presets, this.config.presets || [])(PluginType.Preset)
     const allConfigPlugins = mergePlugins(options.plugins, this.config.plugins || [])(PluginType.Plugin)
-
+    
   }
 
   resolvePresets () {
