@@ -40,6 +40,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+    "@tarojs/service": "2.1.5",
     "@tarojs/taroize": "2.1.5",
     "@tarojs/transformer-wx": "2.1.5",
     "@types/request": "^2.48.1",
