@@ -7,7 +7,7 @@ import * as assert from 'assert'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
 
-xdescribe('Audio', () => {
+describe('Audio', () => {
   /**
    * @type {HTMLElement}
    */
