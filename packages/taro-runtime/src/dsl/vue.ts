@@ -4,6 +4,7 @@ import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
 import { isFunction, noop, ensure } from '@tarojs/shared'
+import { isBrowser } from '../env'
 
 export function connectVuePage (Vue: VueConstructor, id: string) {
   return (component: ComponentOptions<VueCtor>) => {
@@ -21,10 +22,11 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
     const options: ComponentOptions<VueCtor> = {
       render (h) {
         return h(
-          'root',
+          isBrowser ? 'div' : 'root',
           {
             attrs: {
-              id
+              id,
+              class: isBrowser ? 'taro_page' : ''
             }
           },
           [

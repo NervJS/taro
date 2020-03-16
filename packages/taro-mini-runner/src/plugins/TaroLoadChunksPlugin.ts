@@ -68,7 +68,7 @@ export default class TaroLoadChunksPlugin {
           if (this.isBuildPlugin) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
-          let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
+          const entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
           if (entryModule.miniType === META_TYPE.ENTRY) {
             compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
               const files = chunk.files
