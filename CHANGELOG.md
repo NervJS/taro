@@ -1,5 +1,23 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.38...v) (2020-03-09)
+# [](https://github.com/NervJS/taro/compare/v1.3.39...v) (2020-03-16)
+
+
+
+<a name="1.3.39"></a>
+## [1.3.39](https://github.com/NervJS/taro/compare/v1.3.38...v1.3.39) (2020-03-16)
+
+
+### Bug Fixes
+
+* **cli:** 修复对 lodash 等库的支持，close [#5614](https://github.com/NervJS/taro/issues/5614) ([c8ed86b](https://github.com/NervJS/taro/commit/c8ed86b))
+* **swan:** 修复Taro 1.3.x，百度小程序component shouldComponentUpdate不生效 ([4080659](https://github.com/NervJS/taro/commit/4080659))
+* **tt:** 修复头条真机调试报错，fix [#5688](https://github.com/NervJS/taro/issues/5688) ([cb4257c](https://github.com/NervJS/taro/commit/cb4257c))
+
+
+### Features
+
+* **components:** 为image组件添加了imgProps属性 ([cef40b3](https://github.com/NervJS/taro/commit/cef40b3))
+* **plugin-uglify:** 强力压缩 ([#1294](https://github.com/NervJS/taro/issues/1294)) ([6bf75fc](https://github.com/NervJS/taro/commit/6bf75fc))
 
 
 
