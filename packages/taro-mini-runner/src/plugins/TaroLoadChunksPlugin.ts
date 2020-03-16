@@ -17,7 +17,8 @@ interface IOptions {
   addChunkPages?: AddPageChunks,
   pages: Set<IComponent>,
   depsMap: Map<string, Set<IComponentObj>>
-  sourceDir: string
+  sourceDir: string,
+  subPackages: Set<string>
 }
 
 export default class TaroLoadChunksPlugin {
@@ -28,6 +29,7 @@ export default class TaroLoadChunksPlugin {
   pages: Set<IComponent>
   depsMap: Map<string, Set<IComponentObj>>
   sourceDir: string
+  subPackages: Set<string>
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
@@ -37,6 +39,7 @@ export default class TaroLoadChunksPlugin {
     this.pages = options.pages
     this.depsMap = options.depsMap
     this.sourceDir = options.sourceDir
+    this.subPackages = options.subPackages || new Set<string>()
   }
 
   apply (compiler: webpack.Compiler) {
@@ -62,8 +65,16 @@ export default class TaroLoadChunksPlugin {
                     const depsComponents = getAllDepComponents(entryModule.resource, depsMap)
                     depsComponents.forEach(component => {
                       const id = (component.path as string).replace(this.sourceDir + path.sep, '').replace(path.extname((component.path as string)), '').replace(/\\{1,}/g, '/')
-                      const oriDep = fileChunks.get(id) || []
-                      fileChunks.set(id, Array.from(new Set([...oriDep, ...depChunks])))
+                      let needAddChunks = false
+                      this.subPackages.forEach(item => {
+                        if ((component.path as string).indexOf(path.join(this.sourceDir, item)) >= 0) {
+                          needAddChunks = true
+                        }
+                      })
+                      if (needAddChunks) {
+                        const oriDep = fileChunks.get(id) || []
+                        fileChunks.set(id, Array.from(new Set([...oriDep, ...depChunks])))
+                      }
                     })
                   }
                 }
@@ -148,10 +159,17 @@ function getAllDepComponents (filePath, depsMap) {
 
 function addRequireToSource (id, modules, commonChunks) {
   const source = new ConcatSource()
+  let hasAdd = false
   commonChunks.forEach(chunkItem => {
-    source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)
+    const val = `require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`
+    if (!modules.children.some(item => typeof item === 'string' && item.indexOf(val) >= 0)) {
+      source.add(val)
+      hasAdd = true
+    }
   })
-  source.add('\n')
+  if (hasAdd) {
+    source.add('\n')
+  }
   source.add(modules)
   source.add(';')
   return source

@@ -155,6 +155,7 @@ export default class MiniPlugin {
   pageComponentsDependenciesMap: Map<string, Set<IComponentObj>>
   dependencies: Map<string, TaroSingleEntryDependency>
   quickappImports: Map<string, Set<{ path: string, name: string }>>
+  subPackages: Set<string>
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -181,6 +182,7 @@ export default class MiniPlugin {
     this.pageComponentsDependenciesMap = new Map()
     this.dependencies = new Map()
     this.quickappImports = new Map()
+    this.subPackages = new Set()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -206,7 +208,8 @@ export default class MiniPlugin {
           addChunkPages: this.options.addChunkPages,
           pages: this.pages,
           depsMap: this.pageComponentsDependenciesMap,
-          sourceDir: this.sourceDir
+          sourceDir: this.sourceDir,
+          subPackages: this.subPackages
         }).apply(compiler)
 			})
     )
@@ -227,7 +230,8 @@ export default class MiniPlugin {
           addChunkPages: this.options.addChunkPages,
           pages: this.pages,
           depsMap: this.pageComponentsDependenciesMap,
-          sourceDir: this.sourceDir
+          sourceDir: this.sourceDir,
+          subPackages: this.subPackages
         }).apply(compiler)
 			})
     )
@@ -472,6 +476,7 @@ export default class MiniPlugin {
       subPackages.forEach(item => {
         if (item.pages && item.pages.length) {
           const root = item.root
+          this.subPackages.add(root)
           item.pages.forEach(page => {
             let pageItem = `${root}/${page}`
             pageItem = pageItem.replace(/\/{2,}/g, '/')
