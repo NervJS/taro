@@ -62,6 +62,15 @@ function safeExecute (instance: Instance, lifecycle: keyof PageInstance, ...args
   return func.apply(instance, args)
 }
 
+function stringify (obj?: Record<string, unknown>) {
+  if (obj == null) {
+    return ''
+  }
+  return '?' + Object.keys(obj).map((key) => {
+    return key + '=' + obj[key]
+  }).join('&')
+}
+
 export function createPageConfig (component: React.ComponentClass, pageName?: string, data?: Record<string, unknown>) {
   const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
@@ -77,9 +86,15 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
 
       perf.start(PAGE_INIT)
 
-      Current.app!.mount(component, id, () => {
-        pageElement = document.getElementById<TaroRootElement>(id)
-        instance = instances.get(id) || EMPTY_OBJ
+      let path = id
+
+      if (!isBrowser) {
+        path = id + stringify(options)
+      }
+
+      Current.app!.mount(component, path, () => {
+        pageElement = document.getElementById<TaroRootElement>(path)
+        instance = instances.get(path) || EMPTY_OBJ
 
         ensure(pageElement !== null, '没有找到页面实例。')
         safeExecute(instance, 'onLoad', options)
