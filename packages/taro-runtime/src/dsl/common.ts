@@ -1,6 +1,6 @@
 /* eslint-disable dot-notation */
 import * as React from 'react'
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray } from '@tarojs/shared'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
@@ -47,6 +47,14 @@ function safeExecute (instance: Instance, lifecycle: keyof PageInstance, ...args
   }
 
   const func = isReact ? instance[lifecycle] : instance.$options[lifecycle]
+
+  if (isArray(func)) {
+    for (let i = 0; i < func.length; i++) {
+      func[i].apply(instance, args)
+    }
+    return
+  }
+
   if (!isFunction(func)) {
     return
   }

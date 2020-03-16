@@ -13,7 +13,14 @@ const taroHooks = (lifecycle: keyof PageLifeCycle) => {
         first = true
         inst = Object.create(null)
       }
-      inst![lifecycle] = fn.bind(null)
+      if (lifecycle !== 'onShareAppMessage') {
+        (inst![lifecycle] as any) = [
+          ...((inst![lifecycle] as any) || []),
+          fn.bind(null)
+        ]
+      } else {
+        inst![lifecycle] = fn.bind(null)
+      }
       if (first) {
         injectPageInstance(inst!, id)
       }

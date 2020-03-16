@@ -3,7 +3,7 @@ import { isFunction, ensure, EMPTY_OBJ } from '@tarojs/shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps, Instance } from './instance'
 import { document } from '../bom/document'
-import { injectPageInstance, getPageInstance } from './common'
+import { injectPageInstance } from './common'
 import { isBrowser } from '../env'
 
 export function connectReactPage (
@@ -82,24 +82,6 @@ if (process.env.FRAMEWORK === 'nerv') {
 if (process.env.FRAMEWORK === 'react') {
   R = require('react')
   ReactDOM = require('react-dom')
-}
-
-export const taroHooks = (lifecycle: string) => {
-  return (fn: Function) => {
-    const id = R.useContext(PageContext)
-    let inst = getPageInstance(id)
-    R.useLayoutEffect(() => {
-      let first = false
-      if (inst == null) {
-        first = true
-        inst = Object.create(null)
-      }
-      inst![lifecycle] = fn.bind(null)
-      if (first) {
-        injectPageInstance(inst!, id)
-      }
-    }, [])
-  }
 }
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
