@@ -159,7 +159,7 @@ function buildContainerTemplate (level: number, restart = false) {
 
 function buildTemplate (level: number, supportRecursive: boolean, restart = false) {
   const miniComponents = createMiniComponents(internalComponents, Adapter.type === BUILD_TYPES.ALIPAY)
-  const components = Object.keys(miniComponents).filter(c => componentConfig.includes.size ? componentConfig.includes.has(c) : true)
+  const components = Object.keys(miniComponents).filter(c => componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true)
   let template = ''
 
   for (const nodeName of components) {

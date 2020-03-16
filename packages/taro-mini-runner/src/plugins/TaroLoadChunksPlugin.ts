@@ -50,7 +50,11 @@ export default class TaroLoadChunksPlugin {
           (chunk.modulesIterable as Set<unknown>).forEach((m: { rawRequest: string, usedExports: string[] }) => {
             if (m.rawRequest === taroJsComponents) {
               const includes = componentConfig.includes
-              m.usedExports && m.usedExports.map(toDashed).map(includes.add.bind(includes))
+              if (Array.isArray(m.usedExports)) {
+                m.usedExports.map(toDashed).map(includes.add.bind(includes))
+              } else {
+                componentConfig.includeAll = true
+              }
               needBreak = true
             }
           })
