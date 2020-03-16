@@ -14,12 +14,12 @@ declare namespace Taro {
    * @example
    * ```tsx
    * let extConfig = Taro.getExtConfigSync? Taro.getExtConfigSync(): {}
-   * 
+   *
    * console.log(extConfig)
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ext/wx.getExtConfigSync.html
    */
-  function getExtConfigSync(): getExtConfigSync.ExtInfo
+  function getExtConfigSync(): General.IAnyObject
 
   namespace getExtConfig {
     interface Option {
@@ -30,6 +30,7 @@ declare namespace Taro {
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
+
     interface SuccessCallbackResult extends General.CallbackResult {
       /** 第三方平台自定义的数据 */
       extConfig: General.IAnyObject
