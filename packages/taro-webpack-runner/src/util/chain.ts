@@ -464,7 +464,13 @@ export const getModule = (appPath: string, {
           audio: 'src',
           source: 'src',
           image: 'src',
-          'cover-image': 'src'
+          'cover-image': 'src',
+          'taro-video': ['src', 'poster'],
+          'taro-live-player': 'src',
+          'taro-audio': 'src',
+          'taro-source': 'src',
+          'taro-image': 'src',
+          'taro-cover-image': 'src'
         },
         compilerOptions: {
           modules: [{
