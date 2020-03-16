@@ -1,5 +1,20 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.6...v) (2020-03-09)
+# [](https://github.com/NervJS/taro/compare/v2.0.7...v) (2020-03-16)
+
+
+
+<a name="2.0.7"></a>
+## [2.0.7](https://github.com/NervJS/taro/compare/v2.0.6...v2.0.7) (2020-03-16)
+
+
+### Bug Fixes
+
+* **mini-runner:** 修复多端文件编译时 js 丢失的问题，close [#5687](https://github.com/NervJS/taro/issues/5687) ([e5236d8](https://github.com/NervJS/taro/commit/e5236d8))
+* **mini-runner:** 解决使用 addChunkPages 时子包组件插入公共引用的问题 ([0cbce17](https://github.com/NervJS/taro/commit/0cbce17))
+* **swan:** 修复百度小程序component shouldComponentUpdate不生效 ([9167bb8](https://github.com/NervJS/taro/commit/9167bb8))
+* **tt:** 修复头条真机调试报错，fix [#5688](https://github.com/NervJS/taro/issues/5688) ([d2b4dde](https://github.com/NervJS/taro/commit/d2b4dde))
+* **types:** 修复 CanvasContext 的部分属性类型。 ([#5647](https://github.com/NervJS/taro/issues/5647)) ([4af1ca1](https://github.com/NervJS/taro/commit/4af1ca1))
+* **types:** 修复 getExtConfigSync 的部分属性类型。 ([#5695](https://github.com/NervJS/taro/issues/5695)) ([cef8b46](https://github.com/NervJS/taro/commit/cef8b46))
 
 
 
