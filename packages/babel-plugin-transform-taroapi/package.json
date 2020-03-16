@@ -15,7 +15,7 @@
     "@types/babel-traverse": "^6.25.4",
     "@types/babel-types": "^7.0.4",
     "@types/jest": "^23.3.13",
-    "@types/node": "^10.12.18",
+    "@types/node": "^13.9.1",
     "babel-core": "^6.26.3",
     "babel-types": "^6.26.0",
     "jest": "23.6.0",

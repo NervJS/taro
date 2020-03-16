@@ -78,7 +78,7 @@
     "@types/eslint": "^4.16.5",
     "@types/jest": "^22.2.3",
     "@types/lodash": "^4.14.105",
-    "@types/node": "^9.6.2",
+    "@types/node": "^13.9.1",
     "jest": "^23.0.1",
     "jest-cli": "^22.1.4",
     "ts-jest": "^22.4.6",

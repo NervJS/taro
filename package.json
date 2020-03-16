@@ -62,7 +62,7 @@
     "@babel/preset-react": "^7.0.0",
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^7.1.2",
-    "@types/node": "^12.12.3",
+    "@types/node": "^13.9.1",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.0-beta.0",
     "babel-preset-es2015": "^6.24.1",

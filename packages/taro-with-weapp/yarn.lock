@@ -45,17 +45,17 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tarojs/taro@2.0.6":
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.0.6.tgz#42eb4f9e706ad3b6c30e520f3bfdb662a811a76a"
-  integrity sha512-PQXJy4ttNRuPO5LePiBY5UhpZ7gzKGuAp/h+X8PmFIQkUJcQL6rgksLhzA9xcLcbYrTL03XLrv4xdhhtbN6wmA==
+"@tarojs/taro@2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.0.7.tgz#eeb8d998fbc66c5b55eec371bc3506a22aad0e43"
+  integrity sha512-W/l7LdyNCX/JE9o4y3O2XgM1RYlG2M8h0bqsd7R7pLIN+yL8EKmaG6Ok8xJqN8g9/QcwPI85T04VbLVg/Gebbg==
   dependencies:
-    "@tarojs/utils" "2.0.6"
+    "@tarojs/utils" "2.0.7"
 
-"@tarojs/utils@2.0.6":
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.0.6.tgz#1c1aabf8d3c33ebbeb431fe9f98c3d2909829212"
-  integrity sha512-J1K3pKlHW/IrER8kefeaqo7G7GK2OYip9PBPnX2L8Nhj7YDISss2aYVc+ZanAheR5CXsH1ouh18KYExyRvR4Jg==
+"@tarojs/utils@2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.0.7.tgz#f6d916e2346bef62dee1e9f1340849ec30828834"
+  integrity sha512-G1bTxpGLIXaEI/zfJWKOk8cFFtQC0jxTWQsbT/iUtPrv9gltC/VvOHg/pCRMqY+7lCM0wmmA6a1x+q7/7Fd22w==
 
 "@types/estree@0.0.39":
   version "0.0.39"
@@ -69,13 +69,10 @@
   version "4.14.116"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.116.tgz#5ccf215653e3e8c786a58390751033a9adca0eb9"
 
-"@types/node@*":
-  version "10.11.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.0.tgz#ddd0d67a3b6c3810dd1a59e36675fa82de5e19ae"
-
-"@types/node@^9.6.2":
-  version "9.6.32"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.32.tgz#1b64134f630b30c9cda4810aa4a94fc2d4141dbd"
+"@types/node@*", "@types/node@^13.9.1":
+  version "13.9.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.1.tgz#96f606f8cd67fb018847d9b61e93997dabdefc72"
+  integrity sha512-E6M6N0blf/jiZx8Q3nb0vNaswQeEyn0XlupO+xN6DtJ6r6IT4nXrTry7zhIfYvFCl3/8Cu6WIysmUBKiqV0bqQ==
 
 "@types/sinon@^7.0.13":
   version "7.5.0"

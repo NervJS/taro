@@ -81,7 +81,7 @@
     "@types/detect-port": "^1.1.0",
     "@types/jest": "24.0.11",
     "@types/lodash": "4.14.116",
-    "@types/node": "10.3.5",
+    "@types/node": "13.9.1",
     "@types/resolve": "0.0.8",
     "@types/webpack": "^4.39.5",
     "@types/webpack-chain": "5.0.0",
