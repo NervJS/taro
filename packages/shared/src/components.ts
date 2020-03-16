@@ -562,8 +562,9 @@ interface Components {
   [key: string]: Record<string, string>;
 }
 
-export function createMiniComponents (components: Components, isAlipay = false) {
+export function createMiniComponents (components: Components, buildType: string) {
   const result: Components = Object.create(null)
+  const isAlipay = buildType === 'alipay'
 
   for (const key in components) {
     if (hasOwn(components, key)) {
@@ -575,6 +576,9 @@ export function createMiniComponents (components: Components, isAlipay = false) 
           let propValue = component[prop]
           if (prop.startsWith('bind') || specialEvents.has(prop)) {
             prop = isAlipay ? prop.replace('bind', 'on') : prop.toLowerCase()
+            if (buildType === 'weapp' && prop === 'bindlongtap') {
+              prop = 'bindlongpress'
+            }
             propValue = 'eh'
           } else if (propValue === '') {
             propValue = `i.${toCamelCase(prop)}`
