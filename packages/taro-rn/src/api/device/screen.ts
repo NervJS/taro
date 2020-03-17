@@ -1,6 +1,5 @@
 import * as Brightness from 'expo-brightness'
 import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake'
-import { Permissions } from 'react-native-unimodules'
 import { errorHandler, shouleBeObject, successHandler } from '../utils'
 
 /**
@@ -19,17 +18,12 @@ export async function setScreenBrightness (opts = {}) {
   }
 
   const {value, success, fail, complete}: any = opts
-  await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS)
-  const {status} = await Permissions.getAsync(Permissions.SYSTEM_BRIGHTNESS)
-
-  if (status === 'granted') {
-    try {
-      await (Brightness as any).setSystemBrightnessAsync(value)
-      return successHandler(success, complete)(res)
-    } catch (e) {
-      res.errMsg = `setScreenBrightness:fail invalid ${e}`
-      return errorHandler(fail, complete)(res)
-    }
+  try {
+    await (Brightness as any).setBrightnessAsync(value)
+    return successHandler(success, complete)(res)
+  } catch (e) {
+    res.errMsg = `setScreenBrightness:fail invalid ${e}`
+    return errorHandler(fail, complete)(res)
   }
 }
 
@@ -48,17 +42,12 @@ export async function getScreenBrightness (opts = {}) {
   }
 
   const {success, fail, complete}: any = opts
-  await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS)
-  const {status} = await Permissions.getAsync(Permissions.SYSTEM_BRIGHTNESS)
-
-  if (status === 'granted') {
-    try {
-      res.num = await (Brightness as any).getBrightnessAsync()
-      return successHandler(success, complete)(res)
-    } catch (e) {
-      res.errMsg = `getScreenBrightness:fail invalid ${e}`
-      return errorHandler(fail, complete)(res)
-    }
+  try {
+    res.num = await (Brightness as any).getBrightnessAsync()
+    return successHandler(success, complete)(res)
+  } catch (e) {
+    res.errMsg = `getScreenBrightness:fail invalid ${e}`
+    return errorHandler(fail, complete)(res)
   }
 }
 
@@ -69,30 +58,17 @@ export async function getScreenBrightness (opts = {}) {
  */
 export async function setKeepScreenOn (opts = {}) {
   let res = {errMsg: 'setKeepScreenOn:ok'} as any
-
-  const isObject = shouleBeObject(opts)
-  if (!isObject.res) {
-    res = {errMsg: `setKeepScreenOn${isObject.msg}`}
-    console.error(res.errMsg)
-    return Promise.reject(res)
-  }
-
   const {keepScreenOn, success, fail, complete}: any = opts
-  await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS)
-  const {status} = await Permissions.getAsync(Permissions.SYSTEM_BRIGHTNESS)
-
-  if (status === 'granted') {
-    try {
-      if (keepScreenOn) {
-        // activateKeepAwake()
-      } else {
-        // deactivateKeepAwake()
-      }
-      return successHandler(success, complete)(res)
-    } catch (e) {
-      res.errMsg = `setKeepScreenOn:fail invalid ${e}`
-      return errorHandler(fail, complete)(res)
+  try {
+    if (keepScreenOn) {
+      activateKeepAwake()
+    } else {
+      deactivateKeepAwake()
     }
+    return successHandler(success, complete)(res)
+  } catch (e) {
+    res.errMsg = `setKeepScreenOn:fail invalid ${e}`
+    return errorHandler(fail, complete)(res)
   }
 }
 
