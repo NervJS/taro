@@ -24,7 +24,6 @@ import {
   printLog,
   processTypeEnum
 } from '@tarojs/runner-utils'
-import { SyncHook } from 'tapable'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { buildBaseTemplate, buildPageTemplate, buildXScript, buildBaseComponentTemplate } from '../template'
@@ -33,17 +32,9 @@ import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import { setAdapter } from '../template/adapters'
 import { componentConfig } from '../template/component'
 import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
-import { AddPageChunks } from '../utils/types'
+import { AddPageChunks, IComponent } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
-
-interface IComponent {
-  name: string,
-  path: string,
-  isNative: boolean,
-  stylePath?: string,
-  templatePath?: string
-}
 
 interface ITaroMiniPluginOptions {
   buildAdapter: BUILD_TYPES
@@ -127,11 +118,18 @@ export default class TaroMiniPlugin {
   apply (compiler) {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
-    compiler.hooks.getPages = new SyncHook(['pages'])
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(async (compiler: webpack.Compiler) => {
         await this.run(compiler)
+        new TaroLoadChunksPlugin({
+          commonChunks: this.options.commonChunks,
+          buildAdapter: this.options.buildAdapter,
+          isBuildPlugin: false,
+          addChunkPages: this.options.addChunkPages,
+          pages: this.pages,
+          framework: this.options.framework
+        }).apply(compiler)
       })
     )
 
@@ -143,6 +141,14 @@ export default class TaroMiniPlugin {
           this.isWatch = true
         }
         await this.run(compiler)
+        new TaroLoadChunksPlugin({
+          commonChunks: this.options.commonChunks,
+          buildAdapter: this.options.buildAdapter,
+          isBuildPlugin: false,
+          addChunkPages: this.options.addChunkPages,
+          pages: this.pages,
+          framework: this.options.framework
+        }).apply(compiler)
       })
     )
 
@@ -221,7 +227,6 @@ export default class TaroMiniPlugin {
       compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, (assets) => {
         Object.keys(assets).forEach(assetPath => {
           const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
-          const templateExt = MINI_APP_FILES[this.options.buildAdapter].TEMPL
           if (new RegExp(`${styleExt}.js$`).test(assetPath)) {
             delete assets[assetPath]
           } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
@@ -229,22 +234,12 @@ export default class TaroMiniPlugin {
             const newAssetPath = assetPath.replace(styleExt, '')
             assets[newAssetPath] = assetObj
             delete assets[assetPath]
-          } else if (new RegExp(`${templateExt}.js$`).test(assetPath)) {
-            delete assets[assetPath]
           }
         })
       })
     })
 
     new TaroNormalModulesPlugin().apply(compiler)
-
-    new TaroLoadChunksPlugin({
-      commonChunks: this.options.commonChunks,
-      buildAdapter: this.options.buildAdapter,
-      framework: this.options.framework,
-      isBuildPlugin: false,
-      addChunkPages: this.options.addChunkPages
-    }).apply(compiler)
   }
 
   getAppEntry (compiler) {
@@ -353,7 +348,6 @@ export default class TaroMiniPlugin {
         }
       })
     ])
-    ;(compiler.hooks as any).getPages.call(this.pages)
   }
 
   getSubPackages (appConfig) {

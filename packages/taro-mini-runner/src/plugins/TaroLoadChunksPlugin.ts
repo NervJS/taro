@@ -7,7 +7,7 @@ import { toDashed } from '@tarojs/shared'
 import { promoteRelativePath, META_TYPE, REG_STYLE, BUILD_TYPES, taroJsComponents } from '@tarojs/runner-utils'
 
 import { componentConfig } from '../template/component'
-import { AddPageChunks } from '../utils/types'
+import { AddPageChunks, IComponent } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 
@@ -16,7 +16,8 @@ interface IOptions {
   buildAdapter: BUILD_TYPES,
   isBuildPlugin: boolean,
   framework: string,
-  addChunkPages?: AddPageChunks
+  addChunkPages?: AddPageChunks,
+  pages: Set<IComponent>
 }
 
 export default class TaroLoadChunksPlugin {
@@ -25,6 +26,7 @@ export default class TaroLoadChunksPlugin {
   isBuildPlugin: boolean
   framework: string
   addChunkPages?: AddPageChunks
+  pages: Set<IComponent>
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
@@ -32,17 +34,16 @@ export default class TaroLoadChunksPlugin {
     this.isBuildPlugin = options.isBuildPlugin
     this.framework = options.framework
     this.addChunkPages = options.addChunkPages
+    this.pages = options.pages
   }
 
   apply (compiler: webpack.Compiler) {
-    let pagesList
-    const addChunkPagesList = new Map<string, string[]>();
-    (compiler.hooks as any).getPages.tap(PLUGIN_NAME, pages => {
-      pagesList = pages
-    })
+    const pagesList = this.pages
+    const addChunkPagesList = new Map<string, string[]>()
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: any) => {
       let commonChunks
-      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: webpack.compilation.Chunk[]) => {
+      let fileChunks = new Map()
+      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, chunks => {
         commonChunks = chunks.filter(chunk => this.commonChunks.includes(chunk.name)).reverse()
 
         for (const chunk of commonChunks) {
@@ -61,6 +62,19 @@ export default class TaroLoadChunksPlugin {
           if (needBreak) {
             break
           }
+        }
+
+        if (typeof this.addChunkPages === 'function') {
+          this.addChunkPages(addChunkPagesList, Array.from(pagesList).map((item: any) => item.name))
+          chunks.forEach(chunk => {
+            const id = getIdOrName(chunk)
+            addChunkPagesList.forEach((v, k) => {
+              if (k === id) {
+                const depChunks = v.map(v => ({ name: v }))
+                fileChunks.set(id, depChunks)
+              }
+            })
+          })
         }
       })
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
@@ -99,13 +113,14 @@ export default class TaroLoadChunksPlugin {
             entryModule.miniType === META_TYPE.COMPONENT)) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
-          if (typeof this.addChunkPages === 'function' && entryModule.miniType === META_TYPE.PAGE) {
-            const id = getIdOrName(chunk)
+          if (fileChunks.size
+            && (entryModule.miniType === META_TYPE.PAGE
+            || entryModule.miniType === META_TYPE.COMPONENT)) {
             let source
-            this.addChunkPages(addChunkPagesList, Array.from(pagesList).map((item: any) => item.name))
-            addChunkPagesList.forEach((v, k) => {
+            const id = getIdOrName(chunk)
+            fileChunks.forEach((v, k) => {
               if (k === id) {
-                source = addRequireToSource(id, modules, v.map(v => ({ name: v })))
+                source = addRequireToSource(id, modules, v)
               }
             })
             return source

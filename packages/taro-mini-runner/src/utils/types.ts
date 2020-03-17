@@ -10,6 +10,14 @@ export interface IOption {
   [key: string]: any
 }
 
+export interface IComponent {
+  name: string,
+  path: string,
+  isNative: boolean,
+  stylePath?: string,
+  templatePath?: string
+}
+
 export interface IComponentObj {
   name?: string,
   path: string | null,
