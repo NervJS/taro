@@ -1,3 +1,5 @@
+import { PluginType } from './constants'
+
 export interface IPaths {
   appPath: string
   sourcePath: string
@@ -8,12 +10,9 @@ export interface IPaths {
 export interface IPlugin {
   id: string
   path: string
-  args: any
+  opts: any
+  type: PluginType
   apply: () => any
 }
 
-export interface IPreset {
-  id: string
-  path: string
-  plugins: IPlugin[]
-}
+export interface IPreset extends IPlugin {}
