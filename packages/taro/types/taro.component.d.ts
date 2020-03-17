@@ -28,12 +28,6 @@ declare namespace Taro {
     $scope?: any
   }
 
-  interface Current {
-    router: RouterInfo | null
-    app: any
-    page: any
-  }
-
   interface ComponentOptions {
     addGlobalClass?: boolean
   }
