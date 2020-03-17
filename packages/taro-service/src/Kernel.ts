@@ -16,7 +16,8 @@ import {
   DEFAULT_CONFIG_FILE,
   PluginType
 } from './utils/constants'
-import { mergePlugins } from './utils'
+import { mergePlugins, resolvePresetsOrPlugins, convertPluginsToObject } from './utils'
+import createBabelRegister from './utils/babelRegister'
 
 interface IKernelOptions {
   appPath: string
@@ -31,6 +32,7 @@ export default class Kernel extends EventEmitter {
   paths: IPaths
   config: IProjectConfig
   configPath: string
+  extraPlugins: IPlugin[]
 
   constructor (options: IKernelOptions) {
     super()
@@ -45,20 +47,67 @@ export default class Kernel extends EventEmitter {
 
   initConfig () {
     this.configPath = path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE)
-    if (!fs.exsits(this.configPath)) {
-      // todo log
+    if (!fs.existsSync(this.configPath)) {
+      // TD log
       process.exit(0)
     }
     this.config = require(this.configPath)(merge)
   }
 
   initPresetsAndPlugins (options: IKernelOptions) {
-    const allConfigPresets = mergePlugins(options.presets, this.config.presets || [])(PluginType.Preset)
-    const allConfigPlugins = mergePlugins(options.plugins, this.config.plugins || [])(PluginType.Plugin)
-    
+    const allConfigPresets = mergePlugins(options.presets || [], this.config.presets || [])(PluginType.Preset)
+    const allConfigPlugins = mergePlugins(options.plugins || [], this.config.plugins || [])(PluginType.Plugin)
+    createBabelRegister({
+      only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)],
+      babelConfig: this.config.babel
+    })
+    this.plugins = []
+    this.extraPlugins = []
+    this.resolvePresets(allConfigPresets)
+    this.resolvePlugins(allConfigPlugins)
   }
 
-  resolvePresets () {
+  resolvePresets (presets) {
+    const allPresets = resolvePresetsOrPlugins(presets, PluginType.Preset)
+    while (allPresets.length) {
+      this.initPreset(allPresets.shift()!)
+    }
+  }
 
+  resolvePlugins (plugins) {
+    const allPlugins = resolvePresetsOrPlugins(plugins, PluginType.Plugin)
+    const _plugins = [...this.extraPlugins, ...allPlugins]
+    while (_plugins.length) {
+      this.initPlugin(_plugins.shift()!)
+    }
+    this.extraPlugins = []
+  }
+
+  initPreset (preset: IPreset) {
+    const { id, path, opts, apply } = preset
+    const { presets, plugins } = apply()(this, opts) || {}
+    this.registerPlugin(preset)
+    if (Array.isArray(presets)) {
+      const _presets = resolvePresetsOrPlugins(convertPluginsToObject(presets)(PluginType.Preset), PluginType.Preset)
+      while (_presets.length) {
+        this.initPreset(_presets.shift()!)
+      }
+    }
+    if (Array.isArray(plugins)) {
+      this.extraPlugins.push(...resolvePresetsOrPlugins(convertPluginsToObject(plugins)(PluginType.Plugin), PluginType.Plugin))
+    }
+  }
+
+  initPlugin (plugin: IPlugin) {
+    const { id, path, opts, apply } = plugin
+    this.registerPlugin(plugin)
+    apply()(this, opts)
+  }
+
+  registerPlugin (plugin: IPlugin) {
+    if (this.plugins[plugin.id]) {
+      throw new Error('插件已被注册')
+    }
+    this.plugins[plugin.id] = plugin
   }
 }
