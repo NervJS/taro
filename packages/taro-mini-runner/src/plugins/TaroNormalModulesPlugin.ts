@@ -13,7 +13,13 @@ export default class TaroNormalModulesPlugin {
       normalModuleFactory.hooks.createModule.tap(PLUGIN_NAME, data => {
         const dependency = data.dependencies[0]
         if (dependency.constructor === TaroSingleEntryDependency) {
-          return new TaroNormalModule(Object.assign(data, { miniType: dependency.miniType, name: dependency.name }))
+          return new TaroNormalModule(
+            Object.assign(data, {
+              miniType: dependency.miniType,
+              name: dependency.name,
+              oriFile: dependency.oriFile
+            })
+          )
         }
       })
 
