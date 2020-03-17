@@ -266,7 +266,8 @@ export const getModule = (appPath: string, {
   mediaUrlLoaderOption,
   esnextModules = [] as (string | RegExp)[],
 
-  postcss
+  postcss,
+  framework
 }) => {
   const postcssOption: IPostcssOption = postcss || {}
 
@@ -343,7 +344,7 @@ export const getModule = (appPath: string, {
 
   const extractCssLoader = getExtractCssLoader()
 
-  const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
+  const lastStyleLoader = enableExtract && framework !== 'vue' ? extractCssLoader : styleLoader
 
   /**
    * css-loader 1.0.0版本移除了minimize选项...升级需谨慎

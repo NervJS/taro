@@ -123,6 +123,13 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
   alias['@tarojs/components$'] = `@tarojs/components/h5/${config.framework === 'vue' ? 'vue' : 'react'}`
 
+  if (config.framework === 'vue') {
+    const VueLoaderPlugin = require('vue-loader/lib/plugin')
+    plugin.vueLoaderPlugin = {
+      plugin: new VueLoaderPlugin()
+    }
+  }
+
   chain.merge({
     mode,
     devtool: getDevtool(enableSourceMap),
@@ -150,7 +157,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       esnextModules,
 
       postcss,
-      staticDirectory
+      staticDirectory,
+      framework: config.framework
     }),
     plugin,
     optimization: {

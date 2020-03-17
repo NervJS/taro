@@ -138,7 +138,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       esnextModules,
 
       postcss,
-      staticDirectory
+      staticDirectory,
+      framework: config.framework
     }),
     plugin,
     optimization: {
