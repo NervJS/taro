@@ -8,8 +8,9 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false      
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [10.x, 12.x, 13.x]
 
     steps:
     - uses: actions/checkout@v1
@@ -17,12 +18,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: npm install -g yarn
     - name: npm install, build, and test
       run: |
-        npm i -g yarn
         yarn
-        npm run bootstrap
-        npm run build
-        npm test
+        yarn bootstrap
+        yarn build
+        yarn test
       env:
         CI: true
