@@ -31,8 +31,10 @@ function addLeadingSlash (path?: string) {
 
 const pageId = incrementId()
 
-function safeExecute (instance: Instance, lifecycle: keyof PageInstance, ...args: unknown[]) {
+function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unknown[]) {
   const isReact = process.env.FRAMEWORK !== 'vue' // isReact means all kind of react-like library
+
+  const instance = instances.get(path)
 
   if (instance == null) {
     return
@@ -71,11 +73,18 @@ function stringify (obj?: Record<string, unknown>) {
   }).join('&')
 }
 
+function getPath(id:string, options?: Record<string, unknown>): string {
+  let path = id
+  if (!isBrowser) {
+    path = id + stringify(options)
+  }
+  return path
+}
+
 export function createPageConfig (component: React.ComponentClass, pageName?: string, data?: Record<string, unknown>) {
   const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let pageElement: TaroRootElement | null = null
-  let instance: Instance = instances.get(id)!
 
   const config: PageInstance = {
     onLoad (this: MpInstance, options, cb?: Function) {
@@ -86,18 +95,13 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
 
       perf.start(PAGE_INIT)
 
-      let path = id
-
-      if (!isBrowser) {
-        path = id + stringify(options)
-      }
+      const path = getPath(id, options)
 
       Current.app!.mount(component, path, () => {
         pageElement = document.getElementById<TaroRootElement>(path)
-        instance = instances.get(path) || EMPTY_OBJ
 
         ensure(pageElement !== null, '没有找到页面实例。')
-        safeExecute(instance, 'onLoad', options)
+        safeExecute(path, 'onLoad', options)
         if (!isBrowser) {
           pageElement.ctx = this
           pageElement.performUpdate(true, cb)
@@ -113,21 +117,26 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
     },
     onShow () {
       Current.page = this as any
-      safeExecute(instance, 'onShow')
+      const path = getPath(id, this.options)
+      safeExecute(path, 'onShow')
     },
     onHide () {
       Current.page = null
       Current.router = null
-      safeExecute(instance, 'onHide')
+      const path = getPath(id, this.options)
+      safeExecute(path, 'onHide')
     },
     onPullDownRefresh () {
-      return safeExecute(instance, 'onPullDownRefresh')
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onPullDownRefresh')
     },
     onReachBottom () {
-      return safeExecute(instance, 'onReachBottom')
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onReachBottom')
     },
     onPageScroll (options) {
-      return safeExecute(instance, 'onPageScroll', options)
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onPageScroll', options)
     },
     onShareAppMessage (options) {
       const target = options.target
@@ -138,25 +147,32 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
           options.target!.dataset = element.dataset
         }
       }
-      return safeExecute(instance, 'onShareAppMessage', options)
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onShareAppMessage', options)
     },
     onResize (options) {
-      return safeExecute(instance, 'onResize', options)
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onResize', options)
     },
     onTabItemTap (options) {
-      return safeExecute(instance, 'onTabItemTap', options)
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onTabItemTap', options)
     },
     onTitleClick () {
-      return safeExecute(instance, 'onTitleClick')
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onTitleClick')
     },
     onOptionMenuClick () {
-      return safeExecute(instance, 'onOptionMenuClick')
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onOptionMenuClick')
     },
     onPopMenuClick () {
-      return safeExecute(instance, 'onPopMenuClick')
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onPopMenuClick')
     },
     onPullIntercept () {
-      return safeExecute(instance, 'onPullIntercept')
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onPullIntercept')
     }
   }
 
@@ -176,16 +192,14 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
 export function createComponentConfig (component: React.ComponentClass, componentName?: string, data?: Record<string, unknown>) {
   const id = componentName ?? `taro_component_${pageId()}`
   let componentElement: TaroRootElement | null = null
-  let instance: Instance = instances.get(id)!
 
   const config: any = {
     attached () {
       perf.start(PAGE_INIT)
       Current.app!.mount(component, id, () => {
         componentElement = document.getElementById<TaroRootElement>(id)
-        instance = instances.get(id) || EMPTY_OBJ
         ensure(componentElement !== null, '没有找到组件实例。')
-        safeExecute(instance, 'onLoad')
+        safeExecute(id, 'onLoad')
         if (!isBrowser) {
           componentElement.ctx = this
           componentElement.performUpdate(true)
@@ -201,10 +215,10 @@ export function createComponentConfig (component: React.ComponentClass, componen
     },
     pageLifetimes: {
       show () {
-        safeExecute(instance, 'onShow')
+        safeExecute(id, 'onShow')
       },
       hide () {
-        safeExecute(instance, 'onHide')
+        safeExecute(id, 'onHide')
       }
     },
     methods: {
