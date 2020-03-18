@@ -20,7 +20,7 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm i -g yarn
-        yarn install
+        yarn
         npm run bootstrap
         npm run build
         npm test
