@@ -54,6 +54,7 @@ export interface PageLifeCycle extends Show {
 export interface PageInstance extends PageLifeCycle {
   data?: Record<string, unknown>
   path?: string
+  options?: Record<string, unknown>
 }
 
 interface Show {
