@@ -3,21 +3,21 @@ import { getOptions } from 'loader-utils'
 import { AppConfig, PageConfig } from '@tarojs/taro'
 import { join, dirname } from 'path'
 
-function genResource (path: string, pages: Record<string, PageConfig>, { context }: webpack.loader.LoaderContext) {
+function genResource (path: string, pages: Map<string, PageConfig>, { context }: webpack.loader.LoaderContext) {
   return `
   Object.assign({
       path: '${path}',
       load: () => {
           return import('${join(context, path)}')
       }
-  }, ${JSON.stringify(pages[path])} || {}),
+  }, ${JSON.stringify(pages.get(path))} || {}),
 `
 }
 
 export default function (this: webpack.loader.LoaderContext) {
   const options = getOptions(this)
   const config: AppConfig = options.config
-  const pages: Record<string, PageConfig> = options.pages
+  const pages: Map<string, PageConfig> = options.pages
   let tabBarCode = `const tabbarIconPath = []
 const tabbarSelectedIconPath = []
 `

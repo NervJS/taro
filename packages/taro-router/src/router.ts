@@ -124,7 +124,7 @@ export function createRouter (App, config: RouterConfig, framework: 'react' | 'v
     if (shouldLoad) {
       const el = element.default ?? element
       const page = createPageConfig(
-        enablePullDownRefresh ? createPullDownRefresh(el, framework) : el,
+        enablePullDownRefresh ? createPullDownRefresh(el, framework, location.pathname) : el,
         location.pathname
       )
       loadPage(page)
