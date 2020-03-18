@@ -7,7 +7,7 @@ export function waitForChange (dom) {
 
     setTimeout(() => {
       resolve()
-    }, 500)
+    }, 1000)
 
     observer.observe(dom, { attributes: true, childList: true, subtree: true })
   })

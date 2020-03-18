@@ -61,22 +61,23 @@ describe('unimplemented', () => {
     assert(warning === buildWarning(ref))
   }
 
-  beforeAll(async () => {
-    scratch = document.createElement('div')
-    document.body.appendChild(scratch)
+  beforeAll(() => {
     console.error = function () {
       warning = arguments[0]
     }
   })
 
-  beforeEach(async () => {
+  beforeEach(() => {
     scratch = document.createElement('div')
     document.body.appendChild(scratch)
   })
 
-  afterAll(async () => {
+  afterEach(() => {
     scratch.parentNode.removeChild(scratch)
     scratch = null
+  })
+
+  afterAll(() => {
     console.error = oldWarn
   })
 

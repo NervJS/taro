@@ -13,17 +13,12 @@ describe('Audio', () => {
    */
   let scratch
 
-  beforeAll(async () => {
+  beforeEach(() => {
     scratch = document.createElement('div')
     document.body.appendChild(scratch)
   })
 
-  beforeEach(async () => {
-    scratch = document.createElement('div')
-    document.body.appendChild(scratch)
-  })
-
-  afterAll(async () => {
+  afterEach(() => {
     scratch.parentNode.removeChild(scratch)
     scratch = null
   })
@@ -31,7 +26,7 @@ describe('Audio', () => {
   it('props', async () => {
     const ref = React.createRef()
 
-    const src = 'src'
+    const src = 'http://storage.jd.com/cjj-pub-images/horse.ogv'
     const controls = true
     const loop = true
 
@@ -76,7 +71,7 @@ describe('Audio', () => {
      */
     const audio = node.childNodes[0]
     assert(audio instanceof HTMLAudioElement)
-    assert(audio.src === location.origin + '/' + src)
+    assert(audio.src === src)
     assert(audio.controls === controls)
     assert(audio.loop === loop)
 

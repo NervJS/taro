@@ -11,17 +11,12 @@ describe('Block', () => {
    */
   let scratch
 
-  beforeAll(async () => {
+  beforeEach(() => {
     scratch = document.createElement('div')
     document.body.appendChild(scratch)
   })
 
-  beforeEach(async () => {
-    scratch = document.createElement('div')
-    document.body.appendChild(scratch)
-  })
-
-  afterAll(async () => {
+  afterEach(() => {
     scratch.parentNode.removeChild(scratch)
     scratch = null
   })
