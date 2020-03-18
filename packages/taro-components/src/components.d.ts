@@ -195,6 +195,9 @@ export namespace Components {
     * 滑动动画时长
     */
     'duration': number;
+    /**
+    * 给 prewviewImage API 使用，全屏显示 swiper
+    */
     'full': boolean;
     /**
     * 当前选中的指示点颜色
@@ -845,6 +848,9 @@ declare namespace LocalJSX {
     * 滑动动画时长
     */
     'duration'?: number;
+    /**
+    * 给 prewviewImage API 使用，全屏显示 swiper
+    */
     'full'?: boolean;
     /**
     * 当前选中的指示点颜色

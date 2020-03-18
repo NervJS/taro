@@ -5,7 +5,7 @@ import { Component, h, ComponentInterface, Prop, Host } from '@stencil/core'
   tag: 'taro-progress-core'
 })
 export class Index implements ComponentInterface {
-  @Prop() percent: number
+  @Prop() percent = 0
   @Prop() showInfo = false
   @Prop() borderRadius: number | string = 0
   @Prop() fontSize: number | string = 16
