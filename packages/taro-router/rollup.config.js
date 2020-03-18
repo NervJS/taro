@@ -6,7 +6,7 @@ const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.ts'),
-  external: ['@tarojs/runtime'],
+  external: ['@tarojs/runtime', 'react', 'nervjs', 'vue'],
   output: [
     {
       file: join(cwd, 'dist/index.js'),

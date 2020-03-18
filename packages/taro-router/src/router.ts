@@ -6,6 +6,7 @@ import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
 import { init } from './init'
+import { createPullDownRefresh } from './pull-down'
 
 export interface Route extends PageConfig {
   path: string
@@ -56,11 +57,13 @@ function unloadPage (page: PageInstance | null) {
 
 function loadPage (page: PageInstance | null) {
   if (page !== null) {
-    const pageEl = document.getElementById(page.path!)
+    let pageEl = document.getElementById(page.path!)
     if (pageEl) {
       pageEl.style.display = 'block'
     } else {
       page.onLoad(qs())
+      pageEl = document.getElementById(page.path!);
+      pageEl && (pageEl['__page'] = page)
     }
     page.onShow!()
     stacks.push(page)
@@ -87,6 +90,7 @@ export function createRouter (App, config: RouterConfig, framework: 'react' | 'v
   const render: LocationListener<LocationState> = async (location, action) => {
     const element = await router.resolve(location.pathname)
     const pageConfig = config.routes.find(r => addLeadingSlash(r.path) === location.pathname)
+    let enablePullDownRefresh = false
 
     eventCenter.trigger('__taroRouterChange', {
       toLocation: {
@@ -96,6 +100,7 @@ export function createRouter (App, config: RouterConfig, framework: 'react' | 'v
 
     if (pageConfig) {
       document.title = pageConfig.navigationBarTitleText ?? document.title
+      enablePullDownRefresh = pageConfig.enablePullDownRefresh!
     }
 
     let shouldLoad = false
@@ -117,7 +122,11 @@ export function createRouter (App, config: RouterConfig, framework: 'react' | 'v
     }
 
     if (shouldLoad) {
-      const page = createPageConfig(element.default ?? element, location.pathname)
+      const el = element.default ?? element
+      const page = createPageConfig(
+        enablePullDownRefresh ? createPullDownRefresh(el, framework) : el,
+        location.pathname
+      )
       loadPage(page)
     }
   }

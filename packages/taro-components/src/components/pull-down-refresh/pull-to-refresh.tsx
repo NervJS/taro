@@ -1,5 +1,6 @@
-import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Watch } from '@stencil/core'
+import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Watch, Element } from '@stencil/core'
 import classNames from 'classnames'
+const Taro = require('@tarojs/taro')
 
 function setTransform (nodeStyle, value) {
   nodeStyle.transform = value
@@ -38,10 +39,12 @@ export class PullToRefresh implements ComponentInterface {
   @Prop() distanceToRefresh = 50
   @Prop() damping = 100
   @Prop() indicator = INDICATOR
-  @Prop() refreshing: string
+  @Prop() refreshing: boolean
 
   @State() currSt = 'deactivate'
   @State() dragOnEdge = false
+  @Element() el: HTMLElement;
+
 
   @Event({
     eventName: 'refresh'
@@ -62,6 +65,16 @@ export class PullToRefresh implements ComponentInterface {
     this.triggerPullDownRefresh()
   }
 
+  @Watch('currSt')
+  statusChange () {
+    if (this.currSt === 'release') {
+      const pageEl: any = this.el.closest('.taro_page')
+      if (pageEl && pageEl.__page) {
+        pageEl.__page.onPullDownRefresh()
+      }
+    }
+  }
+
   componentDidUnload () {
     this.destroy()
   }
@@ -70,6 +83,31 @@ export class PullToRefresh implements ComponentInterface {
     this.init()
     this.triggerPullDownRefresh()
     this._isMounted = true
+    Taro.eventCenter.on('__taroStartPullDownRefresh', ({ successHandler, errorHandler }) => {
+      try {
+        this.refreshing = true
+        successHandler({
+          errMsg: 'startPullDownRefresh: ok'
+        })
+      } catch (e) {
+        errorHandler({
+          errMsg: 'startPullDownRefresh: fail'
+        })
+      }
+    })
+
+    Taro.eventCenter.on('__taroStopPullDownRefresh', ({ successHandler, errorHandler }) => {
+      try {
+        this.refreshing = false
+        successHandler({
+          errMsg: 'stopPullDownRefresh: ok'
+        })
+      } catch (e) {
+        errorHandler({
+          errMsg: 'stopPullDownRefresh: fail'
+        })
+      }
+    })
   }
 
   triggerPullDownRefresh = () => {
