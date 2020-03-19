@@ -129,6 +129,12 @@ const Button = {
   bindLaunchApp: ''
 }
 
+if (process.env.TARO_ENV === 'qq') {
+  Button['app-packagename'] = ''
+  Button['app-bundleid'] = ''
+  Button['app-connect-id'] = ''
+}
+
 const Checkbox = {
   value: '',
   disabled: '',
