@@ -45,7 +45,7 @@ class Swiper extends Nerv.Component {
       onChange,
       circular,
       vertical,
-      onAnimationfinish,
+      onAnimationFinish,
       spaceBetween
     } = this.props
 
@@ -83,7 +83,7 @@ class Swiper extends Nerv.Component {
               }
             })
           } catch (err) {}
-          onAnimationfinish && onAnimationfinish(e)
+          onAnimationFinish && onAnimationFinish(e)
         }
       }
     }
