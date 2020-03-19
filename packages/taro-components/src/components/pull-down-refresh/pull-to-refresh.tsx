@@ -39,12 +39,10 @@ export class PullToRefresh implements ComponentInterface {
   @Prop() distanceToRefresh = 50
   @Prop() damping = 100
   @Prop() indicator = INDICATOR
-  @Prop() refreshing: boolean
 
-  @State() currSt = 'deactivate'
+  @State() currSt: 'activate' | 'deactivate' | 'release' | 'finish' = 'deactivate'
   @State() dragOnEdge = false
   @Element() el: HTMLElement;
-
 
   @Event({
     eventName: 'refresh'
@@ -59,11 +57,6 @@ export class PullToRefresh implements ComponentInterface {
   private _isMounted = false;
 
   private scrollContainer = document.querySelector('.taro-tabbar__panel') || document.body
-
-  @Watch('refreshing')
-  onRefreshing () {
-    this.triggerPullDownRefresh()
-  }
 
   @Watch('currSt')
   statusChange () {
@@ -81,11 +74,10 @@ export class PullToRefresh implements ComponentInterface {
 
   componentDidLoad () {
     this.init()
-    this.triggerPullDownRefresh()
     this._isMounted = true
     Taro.eventCenter.on('__taroStartPullDownRefresh', ({ successHandler, errorHandler }) => {
       try {
-        this.refreshing = true
+        this.triggerPullDownRefresh(true)
         successHandler({
           errMsg: 'startPullDownRefresh: ok'
         })
@@ -98,7 +90,7 @@ export class PullToRefresh implements ComponentInterface {
 
     Taro.eventCenter.on('__taroStopPullDownRefresh', ({ successHandler, errorHandler }) => {
       try {
-        this.refreshing = false
+        this.triggerPullDownRefresh(false)
         successHandler({
           errMsg: 'stopPullDownRefresh: ok'
         })
@@ -110,11 +102,11 @@ export class PullToRefresh implements ComponentInterface {
     })
   }
 
-  triggerPullDownRefresh = () => {
+  triggerPullDownRefresh = (flag: boolean) => {
     // 在初始化时、用代码 自动 触发 pullDownRefresh
     // 添加this._isMounted的判断，否则组建一实例化，currSt就会是finish
     if (!this.dragOnEdge && this._isMounted) {
-      if (this.refreshing) {
+      if (flag) {
         this._lastScreenY = this.distanceToRefresh + 1
         // change dom need after setState
         this.currSt = 'release'
@@ -229,6 +221,8 @@ export class PullToRefresh implements ComponentInterface {
     if (this.currSt === 'activate') {
       this.currSt = 'release'
       this.onRefresh.emit(this)
+      this._lastScreenY = this.distanceToRefresh + 1
+      this.setContentStyle(this._lastScreenY)
     } else if (this.currSt === 'release') {
       this._lastScreenY = this.distanceToRefresh + 1
       this.setContentStyle(this._lastScreenY)

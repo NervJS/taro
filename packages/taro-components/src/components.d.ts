@@ -137,7 +137,6 @@ export namespace Components {
     'distanceToRefresh': number;
     'indicator': { activate: string; deactivate: string; release: string; finish: string; };
     'prefixCls': string;
-    'refreshing': boolean;
   }
   interface TaroRadioCore {
     'checked': boolean;
@@ -783,7 +782,6 @@ declare namespace LocalJSX {
     'indicator'?: { activate: string; deactivate: string; release: string; finish: string; };
     'onRefresh'?: (event: CustomEvent<any>) => void;
     'prefixCls'?: string;
-    'refreshing'?: boolean;
   }
   interface TaroRadioCore {
     'checked'?: boolean;
