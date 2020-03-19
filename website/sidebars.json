@@ -45,7 +45,7 @@
           "envs",
           "envs-debug",
           "relations",
-          "wxcloud",
+          "wxcloudbase",
           "miniprogram-plugin",
           "quick-app",
           "react-native"
