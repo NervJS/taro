@@ -120,9 +120,6 @@ const Button = {
   'send-message-path': '',
   'send-message-img': '',
   'app-parameter': '',
-  'app-packagename': '',
-  'app-bundleid': '',
-  'app-connect-id': '',
   'show-message-card': 'false',
   bindGetUserInfo: '',
   bindContact: '',
@@ -130,6 +127,12 @@ const Button = {
   bindError: '',
   bindOpenSetting: '',
   bindLaunchApp: ''
+}
+
+if (process.env.TARO_ENV === 'qq') {
+  Button['app-packagename'] = ''
+  Button['app-bundleid'] = ''
+  Button['app-connect-id'] = ''
 }
 
 const Checkbox = {
