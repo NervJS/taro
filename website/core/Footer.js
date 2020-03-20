@@ -38,7 +38,7 @@ class Footer extends React.Component {
                   </svg>
                 </span></span>
                 <span className='footer_link_wechat_img'>
-                  <img src='https://camo.githubusercontent.com/10834a234b99a5880b5dff7c0ca7235e2a0772e7/687474703a2f2f696d6732302e333630627579696d672e636f6d2f7562612f6a66732f7432303139372f3238332f313638373136383837342f3133363034322f32623464383131662f35623330613635634e39643166303366312e706e67' />
+                  <img src='https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png' />
                 </span>
               </p>
             </div>
