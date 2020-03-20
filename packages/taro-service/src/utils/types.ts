@@ -25,3 +25,7 @@ export interface IHook {
   before?: string
   stage?: number
 }
+
+export interface ICommand extends IHook {
+  alias?: string
+}

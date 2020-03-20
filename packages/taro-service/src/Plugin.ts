@@ -1,5 +1,5 @@
 import Kernel from './Kernel'
-import { IHook } from './utils/types'
+import { IHook, ICommand } from './utils/types'
 
 export default class Plugin {
   id: string
@@ -20,6 +20,14 @@ export default class Plugin {
     }
     const hooks = this.ctx.hooks[hook.name] || []
     this.ctx.hooks[hook.name] = hooks.concat(hook)
+  }
+
+  registerCommand (command: ICommand) {
+    if (this.ctx.commands[command.name]) {
+      throw new Error(`${command.name} 命令已存在`)
+    }
+    this.ctx.commands[command.name] = command
+    this.register(command)
   }
 
   registerMethod (args: string | { name: string, fn?: Function }) {

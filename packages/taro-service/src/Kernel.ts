@@ -10,7 +10,8 @@ import {
   IPreset,
   IPlugin,
   IPaths,
-  IHook
+  IHook,
+  ICommand
 } from './utils/types'
 import {
   CONFIG_DIR_NAME,
@@ -43,6 +44,9 @@ export default class Kernel extends EventEmitter {
   methods: {
     [name: string]: Function
   }
+  commands: {
+    [name: string]: ICommand
+  }
 
   constructor (options: IKernelOptions) {
     super()
@@ -53,6 +57,7 @@ export default class Kernel extends EventEmitter {
     this.appPath = options.appPath || process.cwd()
     this.hooks = {}
     this.methods = {}
+    this.commands = {}
     this.initConfig()
     this.initPaths()
     this.initPresetsAndPlugins(options)
@@ -138,7 +143,7 @@ export default class Kernel extends EventEmitter {
   initPluginCtx ({ id, path, ctx }: { id: string, path: string, ctx: Kernel }) {
     const pluginCtx = new Plugin({ id, path, ctx })
     const internalMethods = ['onReady', 'onStart']
-    const kernelApis = ['appPath', 'plugins', 'paths', 'apply']
+    const kernelApis = ['appPath', 'plugins', 'paths', 'applyPlugins']
     internalMethods.forEach(name => {
       pluginCtx.registerMethod(name)
     })
@@ -193,5 +198,24 @@ export default class Kernel extends EventEmitter {
       }
     }
     await waterfall.promise(initialVal)
+  }
+
+  async run (args: string | { name: string, opts?: any }) {
+    let name
+    let opts
+    if (typeof args === 'string') {
+      name = args
+    } else {
+      name = opts.name
+      opts = args.opts
+    }
+    await this.applyPlugins('onStart')
+    if (!this.commands[name]) {
+      throw new Error(`${name} 命令不存在`)
+    }
+    await this.applyPlugins({
+      name,
+      opts
+    })
   }
 }
