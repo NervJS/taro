@@ -92,8 +92,7 @@ const siteConfig = {
 
   // Add custom scripts here that would be placed in <script> tags
   scripts: [
-    'http://storage.jd.com/taro-docs/buttons.js',
-    'https://jdc.jd.com/demo/talenttest/js/url.js',
+    'https://storage.jd.com/taro-docs/buttons.js',
     {
       src: 'https://storage.jd.com/taro-resource/tongji.js',
       async: true
