@@ -85,7 +85,7 @@ const siteConfig = {
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
     // theme: 'tomorrow-night',
-    theme: 'Vs'
+    theme: 'vs'
   },
 
   usePrism: true,
