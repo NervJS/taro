@@ -8,7 +8,7 @@ import { hasRNDep, updatePkgJson } from './helper'
 import * as path from 'path'
 import { execSync, spawn, spawnSync, SpawnSyncOptions } from 'child_process'
 import chalk from 'chalk'
-import { convertToJDReact } from '../jdreact/convert_to_jdreact'
+// import { convertToJDReact } from '../jdreact/convert_to_jdreact'
 
 const tcpPortUsed = require('tcp-port-used')
 
@@ -35,7 +35,7 @@ export async function build (
     watch
   }, builder)
   if (!watch) {
-    buildBundle(buildData.outputDir, buildData.rnConfig)
+    buildBundle(buildData.outputDir)
     return
   }
   tcpPortUsed.check(port, '127.0.0.1').then((inUse) => {
