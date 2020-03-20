@@ -6,6 +6,7 @@ import { TaroRootElement } from './root'
 import { Shortcuts, ensure } from '@tarojs/shared'
 import { hydrate, HydratedData } from '../hydrate'
 import { TaroElement } from './element'
+import { setInnerHTML } from './html/html'
 
 const nodeId = incrementId()
 
@@ -168,6 +169,14 @@ export class TaroNode extends TaroEventTarget {
         this.childNodes[0].remove()
       }
     }
+  }
+
+  public set innerHTML (html: string) {
+    setInnerHTML(this, html)
+  }
+
+  public get innerHTML () {
+    return ''
   }
 
   protected findIndex (childeNodes: TaroNode[], refChild: TaroNode) {
