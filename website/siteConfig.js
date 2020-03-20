@@ -85,7 +85,9 @@ const siteConfig = {
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
     // theme: 'tomorrow-night',
-    theme: 'vs'
+    defaultLang: 'javascript',
+    theme: 'vs',
+    themeUrl: 'https://storage.jd.com/taro-resource/vs.min.css'
   },
 
   usePrism: true,
