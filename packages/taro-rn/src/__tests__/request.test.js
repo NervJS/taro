@@ -57,6 +57,23 @@ describe('request', () => {
       expect(res.data).toMatch(expectData)
     })
 
+    it('RN请求入参同于微信小程序', () => {
+      const url = 'https://test.taro.com/v1'
+      const expectData = JSON.stringify({ data: 'calorie' })
+      const options = {
+        url,
+        responseType: 'json',
+        complete: (res) => {
+        },
+        success: (res) => {
+          expect(JSON.stringify(res.data)).toMatch(expectData)
+        },
+        fail: (res) => {
+        }
+      }
+      Taro.request(options)
+    })
+
     test('数据被序列化', async () => {
       const fetch = jest.fn((url, params) => {
         return new Promise((resolve, reject) => {
