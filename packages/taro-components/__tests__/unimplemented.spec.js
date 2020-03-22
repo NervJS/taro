@@ -11,6 +11,7 @@ import {
   Camera
 } from '../h5/react'
 import * as assert from 'assert'
+import * as sinon from 'sinon'
 import { waitForChange } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
@@ -22,7 +23,6 @@ describe('unimplemented', () => {
   let scratch
 
   let warning = ''
-  const oldWarn = console.error
 
   function toCamelCase (s) {
     let camel = ''
@@ -62,9 +62,9 @@ describe('unimplemented', () => {
   }
 
   beforeAll(() => {
-    console.error = function () {
-      warning = arguments[0]
-    }
+    sinon.stub(console, 'error').callsFake(msg => {
+      warning = msg
+    })
   })
 
   beforeEach(() => {
@@ -78,7 +78,7 @@ describe('unimplemented', () => {
   })
 
   afterAll(() => {
-    console.error = oldWarn
+    console.error.restore()
   })
 
   it('CoverView', async () => {
