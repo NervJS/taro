@@ -19,6 +19,7 @@ export default class Plugin {
       throw new Error(`插件 ${this.id} 中注册 hook 失败， hook.fn 必须是 function 类型`)
     }
     const hooks = this.ctx.hooks[hook.name] || []
+    hook.plugin = this.id
     this.ctx.hooks[hook.name] = hooks.concat(hook)
   }
 
