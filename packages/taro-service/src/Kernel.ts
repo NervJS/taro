@@ -11,7 +11,8 @@ import {
   IPlugin,
   IPaths,
   IHook,
-  ICommand
+  ICommand,
+  IPlatform
 } from './utils/types'
 import {
   CONFIG_DIR_NAME,
@@ -46,6 +47,9 @@ export default class Kernel extends EventEmitter {
   commands: {
     [name: string]: ICommand
   }
+  platforms: {
+    [name: string]: IPlatform
+  }
 
   constructor (options: IKernelOptions) {
     super()
@@ -57,6 +61,7 @@ export default class Kernel extends EventEmitter {
     this.hooks = {}
     this.methods = {}
     this.commands = {}
+    this.platforms = {}
     this.initConfig()
     this.initPaths()
     this.initPresetsAndPlugins(options)
@@ -85,7 +90,8 @@ export default class Kernel extends EventEmitter {
     const allConfigPlugins = mergePlugins(options.plugins || [], this.config.plugins || [])(PluginType.Plugin)
     createBabelRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)],
-      babelConfig: this.config.babel
+      babelConfig: this.config.babel,
+      appPath: this.appPath
     })
     this.plugins = []
     this.extraPlugins = []
