@@ -267,9 +267,4 @@ declare namespace Taro {
    * 获取页面传入路由相关参数
    */
   function useRouter (): RouterInfo
-  /**
-   * 获取小程序原生作用域
-   * 等同于类组件时 this.$scope
-   */
-  function useScope (): any
 }
