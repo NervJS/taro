@@ -18,8 +18,7 @@ import {
   DEFAULT_CONFIG_FILE,
   PluginType,
   DEFAULT_SOURCE_ROOT,
-  DEFAULT_OUTPUT_ROOT,
-  IS_EVENT_HOOK
+  DEFAULT_OUTPUT_ROOT
 } from './utils/constants'
 import { mergePlugins, resolvePresetsOrPlugins, convertPluginsToObject } from './utils'
 import createBabelRegister from './utils/babelRegister'
@@ -112,7 +111,7 @@ export default class Kernel extends EventEmitter {
 
   initPreset (preset: IPreset) {
     const { id, path, opts, apply } = preset
-    const pluginCtx = this.initPluginCtx({id, path, ctx: this})
+    const pluginCtx = this.initPluginCtx({ id, path, ctx: this })
     const { presets, plugins } = apply()(pluginCtx, opts) || {}
     this.registerPlugin(preset)
     if (Array.isArray(presets)) {
@@ -128,8 +127,7 @@ export default class Kernel extends EventEmitter {
 
   initPlugin (plugin: IPlugin) {
     const { id, path, opts, apply } = plugin
-    this.registerPlugin(plugin)
-    const pluginCtx = this.initPluginCtx({id, path, ctx: this})
+    const pluginCtx = this.initPluginCtx({ id, path, ctx: this })
     apply()(pluginCtx, opts)
   }
 
@@ -145,13 +143,15 @@ export default class Kernel extends EventEmitter {
     const internalMethods = ['onReady', 'onStart']
     const kernelApis = ['appPath', 'plugins', 'paths', 'applyPlugins']
     internalMethods.forEach(name => {
-      pluginCtx.registerMethod(name)
+      if (!this.methods[name]) {
+        pluginCtx.registerMethod(name)
+      }
     })
     kernelApis.forEach(name => {
       pluginCtx[name] = typeof this[name] === 'function' ? this[name].bind(this) : this[name]
     })
     Object.keys(this.methods).forEach(name => {
-      if (typeof this.methods[name] === 'function') {
+      if (this.methods[name]) {
         pluginCtx[name] = this.methods[name]
       }
     })
@@ -165,7 +165,7 @@ export default class Kernel extends EventEmitter {
     if (typeof args === 'string') {
       name = args
     } else {
-      name = opts.name
+      name = args.name
       initialVal = args.initialVal
       opts = args.opts
     }
@@ -175,29 +175,20 @@ export default class Kernel extends EventEmitter {
     const hooks = this.hooks[name] || []
     const waterfall = new AsyncSeriesWaterfallHook(['arg'])
     if (hooks.length) {
-      if (IS_EVENT_HOOK.test(name)) {
-        for (const hook of hooks) {
-          waterfall.tapPromise({
-            name,
-            stage: hook.stage || 0,
-            before: hook.before
-          }, async () => {
-            await hook.fn(opts)
-          })
-        }
-      } else {
-        for (const hook of hooks) {
-          waterfall.tapPromise({
-            name,
-            stage: hook.stage || 0,
-            before: hook.before
-          }, async (arg) => {
-            return await hook.fn(arg, opts)
-          })
-        }
+      const resArr:any[] = []
+      for (const hook of hooks) {
+        waterfall.tapPromise({
+          name: hook.plugin,
+          stage: hook.stage || 0,
+          before: hook.before
+        }, async arg => {
+          const res = await hook.fn(arg, opts)
+          resArr.push(res)
+          return resArr
+        })
       }
     }
-    await waterfall.promise(initialVal)
+    return await waterfall.promise(initialVal)
   }
 
   async run (args: string | { name: string, opts?: any }) {
@@ -206,7 +197,7 @@ export default class Kernel extends EventEmitter {
     if (typeof args === 'string') {
       name = args
     } else {
-      name = opts.name
+      name = args.name
       opts = args.opts
     }
     await this.applyPlugins('onStart')
