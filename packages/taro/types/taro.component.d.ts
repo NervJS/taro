@@ -185,5 +185,43 @@ declare namespace Taro {
     data?: Record<string, unknown>
     path?: string
     options?: Record<string, unknown>
+    /**
+     * 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
+     *
+     * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     **/
+    animate?(
+      selector: string,
+      keyFrames: KeyFrame[],
+      duration: number,
+      callback: () => void,
+    ): void
+    /**
+     * 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
+     *
+     * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     **/
+    animate?(
+      selector: string,
+      keyFrames: ScrollTimelineKeyframe[],
+      duration: number,
+      scrollTimeline: ScrollTimelineOption,
+    ): void
+    /**
+     * 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
+     *
+     * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     **/
+    clearAnimation?(selector: string, callback: () => void): void
+    /**
+     * 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
+     *
+     * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     **/
+    clearAnimation?(
+      selector: string,
+      options: ClearAnimationOptions,
+      callback: () => void,
+    ): void
   }
 }
