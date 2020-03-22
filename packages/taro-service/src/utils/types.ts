@@ -29,3 +29,6 @@ export interface IHook {
 export interface ICommand extends IHook {
   alias?: string
 }
+
+export interface IPlatform extends IHook {
+}
