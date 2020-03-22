@@ -69,13 +69,13 @@ if (!fs.existsSync(projectConfPath)) {
 }
 
 const projectConf = require(projectConfPath)(_.merge)
-if (typeof page === 'string') {
-  console.log(chalk.green(`开始编译页面 ${chalk.bold(page)}`))
-} else if (typeof component === 'string') {
-  console.log(chalk.green(`开始编译组件 ${chalk.bold(component)}`))
-} else {
-  console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
-}
+// if (typeof page === 'string') {
+//   console.log(chalk.green(`开始编译页面 ${chalk.bold(page)}`))
+// } else if (typeof component === 'string') {
+//   console.log(chalk.green(`开始编译组件 ${chalk.bold(component)}`))
+// } else {
+//   console.log(chalk.green(`开始编译项目 ${chalk.bold(projectConf.projectName)}`))
+// }
 
 builder.build({
   type,
