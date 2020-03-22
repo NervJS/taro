@@ -1,5 +1,5 @@
 import Kernel from './Kernel'
-import { IHook, ICommand } from './utils/types'
+import { IHook, ICommand, IPlatform } from './utils/types'
 
 export default class Plugin {
   id: string
@@ -25,10 +25,18 @@ export default class Plugin {
 
   registerCommand (command: ICommand) {
     if (this.ctx.commands[command.name]) {
-      throw new Error(`${command.name} 命令已存在`)
+      throw new Error(`命令 ${command.name} 已存在`)
     }
     this.ctx.commands[command.name] = command
     this.register(command)
+  }
+
+  registerPlatform (platform: IPlatform) {
+    if (this.ctx.platforms[platform.name]) {
+      throw new Error(`适配平台 ${platform.name} 已存在`)
+    }
+    this.ctx.platforms[platform.name] = platform
+    this.register(platform)
   }
 
   registerMethod (args: string | { name: string, fn?: Function }) {
