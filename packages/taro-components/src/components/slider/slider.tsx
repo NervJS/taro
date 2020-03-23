@@ -6,6 +6,7 @@ import { Component, h, ComponentInterface, Prop, Event, EventEmitter, State, Wat
 })
 export class Slider implements ComponentInterface {
   private sliderInsRef: HTMLDivElement
+  private handler: HTMLDivElement
 
   @Element() el: HTMLElement
 
@@ -44,6 +45,13 @@ export class Slider implements ComponentInterface {
       set: value => (this.value = value),
       configurable: true
     })
+
+    // 在自动化测试时，如果通过 JSX 绑定 touch 事件，
+    // 模拟的 touch 事件只会在浏览器的 device mode 下触发，Karma 跑的测试就会跪。
+    // 因此改为 didLoad 后 addEventListener 的形式。
+    this.handler.addEventListener('touchstart', this.handleTouchStart)
+    this.handler.addEventListener('touchmove', this.handleTouchMove)
+    this.handler.addEventListener('touchend', this.handleTouchEnd)
   }
 
   componentDidUpdate () {
@@ -199,10 +207,10 @@ export class Slider implements ComponentInterface {
             <div style={trackStyles} class='weui-slider__track' />
             <div
               class='weui-slider__handler'
+              ref={dom => {
+                if (dom) this.handler = dom
+              }}
               style={handlerStyles}
-              onTouchStart={this.handleTouchStart}
-              onTouchMove={this.handleTouchMove}
-              onTouchEnd={this.handleTouchEnd}
             />
             <input type='hidden' name={name} value={val} />
           </div>
