@@ -72,20 +72,18 @@ function unquote (str: string) {
 
 function format (children: ChildNode[]) {
   return children.filter(child => {
-    let match = false
     if (child.type === 'comment') {
-      match = true
+      return false
     } else if (child.type === 'text') {
-      match = child.content === ''
+      return child.content !== ''
     }
-
-    return match
+    return true
   }).map((child: Text | Element) => {
     if (child.type === 'text') {
       return document.createTextNode(child.content)
     }
 
-    const el = document.createElement(child.tagName)
+    const el = document.createElement(child.tagName.toLowerCase())
     for (let i = 0; i < child.attributes.length; i++) {
       const attr = child.attributes[i]
       const [key, value] = attr.split('=')
