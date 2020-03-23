@@ -1,3 +1,7 @@
+import { TaroText } from './dom/text'
+import { Text, Element } from './dom/html/parser'
+import { TaroElement } from './dom/element'
+
 interface Options {
   prerender: boolean
   debug: boolean
@@ -5,6 +9,8 @@ interface Options {
     skipElements: (string | RegExp)[]
     voidElements: Set<string>
     closingElements: Set<string>
+    transformText?: (taroText: TaroText, text: Text) => TaroText
+    transformElement?: (taroElement: TaroElement, element: Element) => TaroElement
   }
 }
 

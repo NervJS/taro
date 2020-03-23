@@ -1,6 +1,8 @@
 import { Scaner, Token } from './scaner'
 import { options } from '../../options'
 import { document } from '../../bom/document'
+import { specialMiniElements, isMiniElements, isBlockElements, isInlineElements } from './tags'
+import { isFunction } from '@tarojs/shared'
 
 interface State {
   tokens: Token[]
@@ -28,12 +30,12 @@ interface Comment extends Node {
   content: string
 }
 
-interface Text extends Node {
+export interface Text extends Node {
   type: 'text'
   content: string
 }
 
-interface Element extends Node {
+export interface Element extends Node {
   type: 'element'
   tagName: string
   children: ChildNode[]
@@ -70,6 +72,20 @@ function unquote (str: string) {
   return str
 }
 
+function getTagName (tag: string) {
+  if (specialMiniElements[tag]) {
+    return specialMiniElements[tag]
+  } else if (isMiniElements(tag)) {
+    return tag
+  } else if (isBlockElements(tag)) {
+    return 'view'
+  } else if (isInlineElements(tag)) {
+    return 'text'
+  }
+
+  return 'view'
+}
+
 function format (children: ChildNode[]) {
   return children.filter(child => {
     if (child.type === 'comment') {
@@ -80,19 +96,34 @@ function format (children: ChildNode[]) {
     return true
   }).map((child: Text | Element) => {
     if (child.type === 'text') {
-      return document.createTextNode(child.content)
+      const text = document.createTextNode(child.content)
+      if (isFunction(options.html.transformText)) {
+        return options.html.transformText(text, child)
+      }
+      return text
     }
 
-    const el = document.createElement(child.tagName.toLowerCase())
+    const el = document.createElement(getTagName(child.tagName))
+    el.className = child.tagName
     for (let i = 0; i < child.attributes.length; i++) {
       const attr = child.attributes[i]
       const [key, value] = attr.split('=')
-      el.setAttribute(key, value == null ? true : unquote(value))
+      if (key === 'class') {
+        el.className += el.className
+      } else if (key[0] === 'o' && key[1] === 'n') {
+        continue
+      } else {
+        el.setAttribute(key, value == null ? true : unquote(value))
+      }
     }
 
     const ch = format(child.children)
     for (let i = 0; i < ch.length; i++) {
       el.appendChild(ch[i])
+    }
+
+    if (isFunction(options.html.transformElement)) {
+      return options.html.transformElement(el, child)
     }
 
     return el
