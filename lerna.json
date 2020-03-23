@@ -31,6 +31,7 @@
     "packages/taro-qq",
     "packages/taro-jd",
     "packages/taro-service",
+    "packages/taro-helper",
     "packages/taro-runner-utils",
     "packages/taro-webpack-runner",
     "packages/taro-mini-runner",
