@@ -14,7 +14,7 @@ describe('Image', () => {
    */
   let scratch
 
-  const IMAGE = 'http://storage.jd.com/cjj-pub-images/cat.jpg'
+  const IMAGE = 'https://www.baidu.com/img/bd_logo1.png'
 
   beforeEach(() => {
     scratch = document.createElement('div')
