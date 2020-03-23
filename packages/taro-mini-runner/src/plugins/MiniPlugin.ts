@@ -37,7 +37,6 @@ import { AddPageChunks, IComponent } from '../utils/types'
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
 interface ITaroMiniPluginOptions {
-  entryName: string,
   buildAdapter: BUILD_TYPES
   sourceDir: string
   commonChunks: string[]
@@ -82,7 +81,7 @@ export default class TaroMiniPlugin {
   context: string
   appEntry: string
   appConfig: AppConfig
-  filesConfig: Map<string, { path: string, content: any }>
+  filesConfig: object
   isWatch: boolean
   pages: Set<IComponent>
   components: Set<IComponent>
@@ -92,7 +91,6 @@ export default class TaroMiniPlugin {
 
   constructor (options = {}) {
     this.options = Object.assign({
-      entryName: 'app',
       buildAdapter: BUILD_TYPES.WEAPP,
       sourceDir: '',
       framework: 'nerv',
@@ -103,7 +101,7 @@ export default class TaroMiniPlugin {
     this.isWatch = false
     this.pages = new Set()
     this.components = new Set()
-    this.filesConfig = new Map()
+    this.filesConfig = {}
     this.tabBarIcons = new Set()
     this.dependencies = new Map()
   }
@@ -123,7 +121,7 @@ export default class TaroMiniPlugin {
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(async (compiler: webpack.Compiler) => {
-        await this.run()
+        await this.run(compiler)
         new TaroLoadChunksPlugin({
           commonChunks: this.options.commonChunks,
           buildAdapter: this.options.buildAdapter,
@@ -142,7 +140,7 @@ export default class TaroMiniPlugin {
         if (changedFiles.length) {
           this.isWatch = true
         }
-        await this.run()
+        await this.run(compiler)
         new TaroLoadChunksPlugin({
           commonChunks: this.options.commonChunks,
           buildAdapter: this.options.buildAdapter,
@@ -195,8 +193,7 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
-                prerender: this.prerenderPages.size > 0,
-                oriFile: module.oriFile
+                prerender: this.prerenderPages.size > 0
               }
             })
           }
@@ -208,8 +205,7 @@ export default class TaroMiniPlugin {
               options: {
                 framework,
                 name: module.name,
-                prerender: this.prerenderPages.has(module.name),
-                oriFile: module.oriFile
+                prerender: this.prerenderPages.has(module.name)
               }
             })
           }
@@ -221,8 +217,7 @@ export default class TaroMiniPlugin {
               options: {
                 framework,
                 name: module.name,
-                prerender: this.prerenderPages.has(module.name),
-                oriFile: module.oriFile
+                prerender: this.prerenderPages.has(module.name)
               }
             })
           }
@@ -250,16 +245,17 @@ export default class TaroMiniPlugin {
   getAppEntry (compiler) {
     const originalEntry = compiler.options.entry
     compiler.options.entry = {}
-    return path.resolve(this.context, originalEntry[this.options.entryName][0])
+    return path.resolve(this.context, originalEntry.app[0])
   }
 
   getAppConfig () {
     const appConfigPath = this.getConfigFilePath(this.appEntry)
     const appConfig = readConfig(appConfigPath)
-    this.filesConfig.set(this.appEntry, {
+    const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
+    this.filesConfig[appConfigName] = {
       content: appConfig,
       path: appConfigPath
-    })
+    }
     if (isEmptyObject(appConfig)) {
       throw new Error('缺少 app 全局配置，请检查！')
     }
@@ -284,10 +280,10 @@ export default class TaroMiniPlugin {
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
     const usingComponents = fileConfig.usingComponents
-    this.filesConfig.set(filePath, {
+    this.filesConfig[this.getConfigFilePath(file.name)] = {
       content: fileConfig,
       path: fileConfigPath
-    })
+    }
     if (usingComponents) {
       const componentNames = Object.keys(usingComponents)
       const depComponents: Array<{ name: string, path: string }> = []
@@ -321,7 +317,7 @@ export default class TaroMiniPlugin {
     }
   }
 
-  getPages () {
+  getPages (compiler) {
     if (isEmptyObject(this.appConfig)) {
       throw new Error('缺少 app 全局配置，请检查！')
     }
@@ -388,6 +384,25 @@ export default class TaroMiniPlugin {
     }
   }
 
+  getConfigFiles (compiler: webpack.Compiler) {
+    const filesConfig = this.filesConfig
+    Object.keys(filesConfig).forEach(item => {
+      if (fs.existsSync(filesConfig[item].path)) {
+        this.addEntry(filesConfig[item].path, item, META_TYPE.CONFIG)
+      }
+    })
+    compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
+      compilation.hooks.beforeChunkAssets.tap(PLUGIN_NAME, () => {
+        Object.keys(filesConfig).forEach(item => {
+          const assetsChunkIndex = compilation.chunks.findIndex(({ name }) => name === item)
+          if (assetsChunkIndex > -1) {
+            compilation.chunks.splice(assetsChunkIndex, 1)
+          }
+        })
+      })
+    })
+  }
+
   getTabBarFiles (appConfig) {
     const tabBar = appConfig.tabBar
     const { buildAdapter, sourceDir } = this.options
@@ -449,7 +464,7 @@ export default class TaroMiniPlugin {
     })
   }
 
-  addEntry (entryPath, entryName, entryType, entryOriFile?) {
+  addEntry (entryPath, entryName, entryType) {
     let dep
     if (this.dependencies.has(entryPath)) {
       dep = this.dependencies.get(entryPath)
@@ -457,15 +472,14 @@ export default class TaroMiniPlugin {
       dep.loc = { name: entryName }
       dep.entryPath = entryPath
       dep.entryType = entryType
-      dep.oriFile = entryOriFile
     } else {
-      dep = new TaroSingleEntryDependency(entryPath, entryName, { name: entryName }, entryType, entryOriFile)
+      dep = new TaroSingleEntryDependency(entryPath, entryName, { name: entryName }, entryType)
     }
     this.dependencies.set(entryPath, dep)
   }
 
   addEntries () {
-    this.addEntry(this.filesConfig.get(this.appEntry)?.path, this.options.entryName, META_TYPE.ENTRY, path.basename(this.appEntry))
+    this.addEntry(this.appEntry, 'app', META_TYPE.ENTRY)
     this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
     this.pages.forEach(item => {
       if (item.isNative) {
@@ -477,7 +491,7 @@ export default class TaroMiniPlugin {
           this.addEntry(item.templatePath, this.getTemplatePath(item.name), META_TYPE.NORMAL)
         }
       } else {
-        this.addEntry(this.filesConfig.get(item.path)?.path, item.name, META_TYPE.PAGE, path.basename(item.path))
+        this.addEntry(item.path, item.name, META_TYPE.PAGE)
       }
     })
     this.components.forEach(item => {
@@ -490,7 +504,7 @@ export default class TaroMiniPlugin {
           this.addEntry(item.templatePath, this.getTemplatePath(item.name), META_TYPE.NORMAL)
         }
       } else {
-        this.addEntry(this.filesConfig.get(item.path)?.path, item.name, META_TYPE.COMPONENT, path.basename(item.path))
+        this.addEntry(item.path, item.name, META_TYPE.COMPONENT)
       }
     })
   }
@@ -549,7 +563,7 @@ export default class TaroMiniPlugin {
     this.generateXSFile(compilation)
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
-      const config = this.filesConfig.get(component.path)
+      const config = this.filesConfig[this.getConfigFilePath(component.name)]
       if (config) {
         this.generateConfigFile(compilation, component.path, config.content)
       }
@@ -559,7 +573,7 @@ export default class TaroMiniPlugin {
     })
     this.pages.forEach(page => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
-      const config = this.filesConfig.get(page.path)
+      const config = this.filesConfig[this.getConfigFilePath(page.name)]
       if (config) {
         if (!this.supportRecursive) {
           const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(baseCompName, ''))))
@@ -577,10 +591,11 @@ export default class TaroMiniPlugin {
     this.generateTabBarFiles(compilation)
   }
 
-  run () {
+  run (compiler) {
     this.appConfig = this.getAppConfig()
-    this.getPages()
+    this.getPages(compiler)
     this.getPagesConfig()
+    this.getConfigFiles(compiler)
     this.addEntries()
   }
 

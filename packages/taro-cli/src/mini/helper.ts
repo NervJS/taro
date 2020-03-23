@@ -70,8 +70,8 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES, options?: P
   const outputDirName = projectConfig.outputRoot || CONFIG.OUTPUT_DIR
   const sourceDir = path.join(appPath, sourceDirName)
   const outputDir = path.join(appPath, outputDirName)
-  const entryFileName = `${CONFIG.ENTRY}`
-  const entryFilePath = resolveScriptPath(path.join(sourceDir, entryFileName))
+  const entryFilePath = resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
+  const entryFileName = path.basename(entryFilePath)
 
   const pathAlias = projectConfig.alias || {}
   const weappConf = projectConfig.weapp || {}

@@ -29,7 +29,6 @@ export interface IChain {
 }
 
 export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
-  entryName: string,
   isWatch: boolean,
   port?: number,
   buildAdapter: BUILD_TYPES,

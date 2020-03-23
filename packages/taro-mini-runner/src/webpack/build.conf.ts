@@ -25,7 +25,6 @@ const emptyObj: Record<string, string> = {}
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
   const {
-    entryName = 'app',
     buildAdapter = BUILD_TYPES.WEAPP,
     alias = emptyObj,
     entry = emptyObj,
@@ -117,7 +116,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   }
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
   plugin.miniPlugin = getMiniPlugin({
-    entryName,
     sourceDir,
     outputDir,
     buildAdapter,

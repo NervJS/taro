@@ -5,13 +5,11 @@ export default class TaroSingleEntryDependency extends ModuleDependency {
   name: string
   miniType: META_TYPE
   loc: any
-  oriFile: string
-  constructor (request, name, loc, miniType, oriFile) {
+  constructor (request, name, loc, miniType) {
     super(request)
     this.name = name
     this.loc = loc
     this.miniType = miniType
-    this.oriFile = oriFile
   }
 
   get type () {
