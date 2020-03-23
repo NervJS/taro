@@ -1,0 +1,50 @@
+{
+  "name": "@tarojs/helper",
+  "version": "2.0.6",
+  "description": "Taro Helper",
+  "main": "index.js",
+  "scripts": {
+    "build": "run-s clean prod",
+    "dev": "tsc -w",
+    "prod": "tsc",
+    "clean": "rimraf dist",
+    "lint": "tslint src/**/*.ts --fix",
+    "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
+    "prepack": "npm run build",
+    "test": "jest",
+    "test:dev": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "keywords": [
+    "taro"
+  ],
+  "author": "luckyadam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "dependencies": {
+    "@tarojs/taro": "2.0.6",
+    "babel-register": "6.26.0",
+    "chalk": "3.0.0",
+    "find-yarn-workspace-root": "1.2.1",
+    "fs-extra": "8.1.0",
+    "lodash": "4.17.15",
+    "resolve": "1.15.1",
+    "yauzl": "2.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "13.9.0",
+    "jest": "25.1.0",
+    "ts-jest": "25.2.1",
+    "typescript": "^3.4.5"
+  }
+}
