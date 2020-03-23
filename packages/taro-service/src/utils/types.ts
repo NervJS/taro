@@ -30,5 +30,14 @@ export interface ICommand extends IHook {
   alias?: string
 }
 
+export interface IFileType {
+  templ: string,
+  style: string,
+  script: string,
+  config: string
+}
+
 export interface IPlatform extends IHook {
+  fileType: IFileType,
+  useConfigName: String
 }
