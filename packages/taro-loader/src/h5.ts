@@ -1,14 +1,15 @@
 import * as webpack from 'webpack'
-import { getOptions } from 'loader-utils'
+import { getOptions, stringifyRequest } from 'loader-utils'
 import { AppConfig, PageConfig } from '@tarojs/taro'
 import { join, dirname } from 'path'
 
-function genResource (path: string, pages: Map<string, PageConfig>, { context }: webpack.loader.LoaderContext) {
+function genResource (path: string, pages: Map<string, PageConfig>, loaderContext: webpack.loader.LoaderContext) {
+  const stringify = (s: string): string => stringifyRequest(loaderContext, s)
   return `
   Object.assign({
       path: '${path}',
       load: () => {
-          return import('${join(context, path)}')
+          return import(${stringify(join(loaderContext.context, path))})
       }
   }, ${JSON.stringify(pages.get(path))} || {}),
 `
@@ -16,6 +17,7 @@ function genResource (path: string, pages: Map<string, PageConfig>, { context }:
 
 export default function (this: webpack.loader.LoaderContext) {
   const options = getOptions(this)
+  const stringify = (s: string): string => stringifyRequest(this, s)
   const config: AppConfig = options.config
   const pages: Map<string, PageConfig> = options.pages
   let tabBarCode = `const tabbarIconPath = []
@@ -26,10 +28,10 @@ const tabbarSelectedIconPath = []
     for (let i = 0; i < tabbarList.length; i++) {
       const t = tabbarList[i]
       if (t.iconPath) {
-        tabBarCode += `tabbarIconPath[${i}] = require('${join(dirname(this.resourcePath), t.iconPath)}').default\n`
+        tabBarCode += `tabbarIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.iconPath))}).default\n`
       }
       if (t.selectedIconPath) {
-        tabBarCode += `tabbarSelectedIconPath[${i}] = require('${join(dirname(this.resourcePath), t.selectedIconPath)}').default\n`
+        tabBarCode += `tabbarSelectedIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.selectedIconPath))}).default\n`
       }
     }
   }
@@ -43,7 +45,7 @@ import '@tarojs/components/h5/vue'
 `
 
   const code = `import Taro from '@tarojs/taro'
-import component from '${join(dirname(this.resourcePath), options.filename)}'
+import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
 import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
 import '@tarojs/components/dist/taro-components/taro-components.css'
 ${options.framework === 'vue' ? vue : ''}
