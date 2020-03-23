@@ -72,6 +72,9 @@ function setStyle (style: Style, key: string, value: string | number) {
 }
 
 type StyleValue = Record<string, string | number>
+interface DangerouslySetInnerHTML {
+  __html?: string
+}
 
 function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
   name = name === 'className' ? 'class' : name
@@ -110,10 +113,15 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
     }
   } else if (isEventName(name)) {
     setEvent(dom, name, value, oldValue)
-  } else if (
-    !isFunction(value) &&
-    name !== 'dangerouslySetInnerHTML' // TODO: 实现 innerHTML
-  ) {
+  } else if (name === 'dangerouslySetInnerHTML') {
+    const newHtml = (value as DangerouslySetInnerHTML)?.__html ?? ''
+    const oldHtml = (oldValue as DangerouslySetInnerHTML)?.__html ?? ''
+    if (newHtml || oldHtml) {
+      if (oldHtml !== newHtml) {
+        dom.innerHTML = newHtml
+      }
+    }
+  } else if (!isFunction(value)) {
     if (value == null) {
       dom.removeAttribute(name)
     } else {
