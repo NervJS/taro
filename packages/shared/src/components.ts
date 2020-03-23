@@ -32,6 +32,7 @@ const View = {
   'hover-start-time': '50',
   'hover-stay-time': '400',
   animation: '',
+  bindAnimationEnd: '',
   ...touchEvents
 }
 
@@ -318,6 +319,7 @@ const MovableView = {
   'scale-max': '10',
   'scale-value': '1',
   animation: 'true',
+  bindAnimationEnd: '',
   bindChange: '',
   bindScale: '',
   htouchmove: '',
