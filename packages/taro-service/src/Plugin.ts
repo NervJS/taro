@@ -39,14 +39,8 @@ export default class Plugin {
     this.register(platform)
   }
 
-  registerMethod (args: string | { name: string, fn?: Function }) {
-    let name, fn
-    if (typeof args === 'string') {
-      name = args
-    } else {
-      name = args.name
-      fn = args.fn
-    }
+  registerMethod (...args) {
+    const { name, fn } = processArgs(args)
     if (this.ctx.methods[name]) {
       throw `已存在方法 ${name}`
     }
@@ -57,4 +51,22 @@ export default class Plugin {
       })
     }.bind(this)
   }
+}
+
+function processArgs (args) {
+  let name, fn
+  if (!args.length) {
+    throw '参数为空'
+  } else if (args.length === 1) {
+    if (typeof args[0] === 'string') {
+      name = args[0]
+    } else {
+      name = args[0].name
+      fn = args[0].fn
+    }
+  } else {
+    name = args[0]
+    fn = args[1]
+  }
+  return { name, fn }
 }

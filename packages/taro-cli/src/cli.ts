@@ -1,7 +1,6 @@
-import * as path from 'path'
-
 import * as minimist from 'minimist'
-import { Kernel } from '@tarojs/service'
+
+import build from './build'
 
 export default class CLI {
   appPath: string
@@ -67,29 +66,14 @@ export default class CLI {
           if (typeof args.type !== 'string') {
             return
           }
-          this.build({
-            platform: args.type
+          build({
+            platform: args.type,
+            appPath: this.appPath
           })
           break
         default:
           break
       }
     }
-  }
-
-  build ({ platform }: { platform: string }) {
-    const kernel = new Kernel({
-      appPath: this.appPath,
-      presets: [
-        path.resolve(__dirname, 'presets', 'index.js')
-      ]
-    })
-    console.log(kernel.platforms)
-    kernel.run({
-      name: 'build',
-      opts: {
-        platform
-      }
-    })
   }
 }
