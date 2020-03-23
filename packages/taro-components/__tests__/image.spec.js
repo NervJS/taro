@@ -14,7 +14,7 @@ describe('Image', () => {
    */
   let scratch
 
-  const IMAGE = 'https://www.google.com.hk/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
+  const IMAGE = 'http://storage.jd.com/cjj-pub-images/cat.jpg'
 
   beforeEach(() => {
     scratch = document.createElement('div')
@@ -142,7 +142,7 @@ describe('Image', () => {
     // 触发相交
     observe([{ isIntersecting: true }])
 
-    await delay(200)
+    await delay(2000)
     assert(img.src === IMAGE)
     assert(onLoad.callCount === 1)
   })
@@ -169,7 +169,7 @@ describe('Image', () => {
 
     wrapper.setProps({ src: IMAGE })
 
-    await delay(200)
+    await delay(2000)
     assert(onLoad.callCount === 1)
     const { width, height } = onLoad.firstCall.args[0].detail
     const image = wrapper.find('img')
