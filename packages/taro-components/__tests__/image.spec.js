@@ -14,7 +14,7 @@ describe('Image', () => {
    */
   let scratch
 
-  const IMAGE = 'https://www.baidu.com/img/bd_logo1.png'
+  const IMAGE = 'https://www.google.com.hk/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
 
   beforeEach(() => {
     scratch = document.createElement('div')
