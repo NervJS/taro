@@ -7,8 +7,10 @@ import {
   SOURCE_DIR,
   OUTPUT_DIR,
   ENTRY,
+  NODE_MODULES,
   resolveScriptPath,
-  getBabelConfig
+  getBabelConfig,
+  recursiveFindNodeModules
 } from '@tarojs/helper'
 
 import {
@@ -16,14 +18,23 @@ import {
   DEFAULT_CONFIG_FILE
 } from './utils/constants'
 
+interface IConfigOptions {
+  appPath: string,
+  isWatch: boolean,
+  isProduction: boolean
+}
+
 export default class Config {
   appPath: string
   configPath: string
   initialConfig: IProjectConfig
   isWatch: boolean
-  constructor (opts) {
+  isProduction: boolean
+  constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
     this.isWatch = opts.isWatch
+    this.isProduction = opts.isProduction
+    this.init()
   }
 
   init () {
@@ -40,10 +51,8 @@ export default class Config {
     const sourceDirName = initialConfig.sourceRoot || SOURCE_DIR
     const outputDirName = initialConfig.outputRoot || OUTPUT_DIR
     const sourceDir = path.join(this.appPath, sourceDirName)
-    const outputDir = path.join(this.appPath, outputDirName)
     const entryName = ENTRY
     const entryFilePath = resolveScriptPath(path.join(sourceDir, entryName))
-    const entryFileName = path.basename(entryFilePath)
 
     const entry = {
       [entryName]: [entryFilePath]
@@ -62,7 +71,14 @@ export default class Config {
       uglify: initialConfig.uglify,
       plugins: initialConfig.plugins,
       projectName: initialConfig.projectName,
-      isWatch: watch
+      isWatch: this.isWatch,
+      mode: this.isProduction ? 'production': 'development',
+      env: initialConfig.env,
+      defineConstants: initialConfig.defineConstants,
+      designWidth: initialConfig.designWidth,
+      deviceRatio: initialConfig.deviceRatio,
+      nodeModulesPath: recursiveFindNodeModules(path.join(this.appPath, NODE_MODULES)),
+      ...initialConfig[useConfigName]
     }
   }
 }
