@@ -1,3 +1,5 @@
+import { Link } from '@tarojs/taro'
+
 function serializeParams (params) {
   if (!params) {
     return ''
@@ -13,7 +15,7 @@ function generateRequestUrlWithParams (url, params) {
   return url
 }
 
-function request (options) {
+function _request (options) {
   options = options || {}
   if (typeof options === 'string') {
     options = {
@@ -91,6 +93,16 @@ function request (options) {
   return p
 }
 
+function taroInterceptor (chain) {
+  return _request(chain.requestParams)
+}
+
+const link = new Link(taroInterceptor)
+
+const request = link.request.bind(link)
+const addInterceptor = link.addInterceptor.bind(link)
+
 export default {
-  request
+  request,
+  addInterceptor
 }

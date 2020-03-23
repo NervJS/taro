@@ -157,7 +157,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
         return flattenStyle.height || 225
       }
     })()
-    const restImageProps = omit(this.props, ['source', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
+    const restImageProps = omit(this.props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
 
     return (
       <Image
