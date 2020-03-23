@@ -74,7 +74,8 @@ const Map = {
   bindCalloutTap: '',
   bindUpdated: '',
   bindRegionChange: '',
-  bindPoiTap: ''
+  bindPoiTap: '',
+  ...touchEvents
 }
 
 const Progress = {
