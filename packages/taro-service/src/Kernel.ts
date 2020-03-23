@@ -1,8 +1,6 @@
 import * as path from 'path'
-import * as fs from 'fs-extra'
 import { EventEmitter } from 'events'
 
-import { merge } from 'lodash'
 import { AsyncSeriesWaterfallHook } from 'tapable'
 import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 
@@ -15,85 +13,91 @@ import {
   IPlatform
 } from './utils/types'
 import {
-  CONFIG_DIR_NAME,
-  DEFAULT_CONFIG_FILE,
   PluginType,
-  DEFAULT_SOURCE_ROOT,
-  DEFAULT_OUTPUT_ROOT
 } from './utils/constants'
 import { mergePlugins, resolvePresetsOrPlugins, convertPluginsToObject } from './utils'
 import createBabelRegister from './utils/babelRegister'
 import Plugin from './Plugin'
+import Config from './Config'
 
 interface IKernelOptions {
   appPath: string
+  isWatch: boolean
+  isProduction: boolean
   presets: PluginItem[]
   plugins: PluginItem[]
 }
 
 export default class Kernel extends EventEmitter {
   appPath: string
-  plugins: IPlugin[]
+  isWatch: boolean
+  isProduction: boolean
+  optsPresets: PluginItem[]
+  optsPlugins: PluginItem[]
+  plugins: Map<string, IPlugin>
   paths: IPaths
-  config: IProjectConfig
-  configPath: string
   extraPlugins: IPlugin[]
-  hooks: {
-    [name: string]: IHook[]
-  }
-  methods: {
-    [name: string]: Function
-  }
-  commands: {
-    [name: string]: ICommand
-  }
-  platforms: {
-    [name: string]: IPlatform
-  }
+  config: Config
+  initialConfig: IProjectConfig
+  hooks: Map<string, IHook[]>
+  methods: Map<string, Function>
+  commands: Map<string, ICommand>
+  platforms: Map<string, IPlatform>
 
   constructor (options: IKernelOptions) {
     super()
-    this.init(options)
+    this.appPath = options.appPath || process.cwd()
+    this.isProduction = options.isProduction
+    this.isWatch = options.isWatch
+    this.optsPresets = options.presets
+    this.optsPlugins = options.plugins
+    this.hooks = new Map()
+    this.methods = new Map()
+    this.commands = new Map()
+    this.platforms = new Map()
   }
 
-  async init (options: IKernelOptions) {
-    this.appPath = options.appPath || process.cwd()
-    this.hooks = {}
-    this.methods = {}
-    this.commands = {}
-    this.platforms = {}
-    this.initConfig()
-    this.initPaths()
-    this.initPresetsAndPlugins(options)
+  async init () {
+    await this.initConfig()
+    await this.initPaths()
+    this.initPresetsAndPlugins()
     await this.applyPlugins('onReady')
   }
 
-  initConfig () {
-    this.configPath = path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE)
-    if (!fs.existsSync(this.configPath)) {
-      // TD log
-      process.exit(0)
-    }
-    this.config = require(this.configPath)(merge)
+  async initConfig () {
+    this.config = new Config({
+      appPath: this.appPath,
+      isWatch: this.isWatch,
+      isProduction: this.isProduction
+    })
+    this.initialConfig = await this.applyPlugins({
+      name: 'modifyConfig',
+      initialVal: this.config.initialConfig
+    })
   }
 
-  initPaths () {
-    this.paths = {} as IPaths
-    this.paths.appPath = this.appPath
-    this.paths.configPath = this.configPath
-    this.paths.sourcePath = path.join(this.appPath, this.config.sourceRoot || DEFAULT_SOURCE_ROOT)
-    this.paths.outputPath = path.join(this.appPath, this.config.outputRoot || DEFAULT_OUTPUT_ROOT)
+  async initPaths () {
+    this.paths = await this.applyPlugins({
+      name: 'modifyPaths',
+      initialVal: {
+        appPath: this.appPath,
+        configPath: this.config.configPath,
+        sourcePath: path.join(this.appPath, this.initialConfig.sourceRoot as string),
+        outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string)
+      }
+    })
   }
 
-  initPresetsAndPlugins (options: IKernelOptions) {
-    const allConfigPresets = mergePlugins(options.presets || [], this.config.presets || [])(PluginType.Preset)
-    const allConfigPlugins = mergePlugins(options.plugins || [], this.config.plugins || [])(PluginType.Plugin)
+  initPresetsAndPlugins () {
+    const initialConfig = this.initialConfig
+    const allConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])(PluginType.Preset)
+    const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])(PluginType.Plugin)
     createBabelRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)],
-      babelConfig: this.config.babel,
+      babelConfig: initialConfig.babel,
       appPath: this.appPath
     })
-    this.plugins = []
+    this.plugins = new Map()
     this.extraPlugins = []
     this.resolvePresets(allConfigPresets)
     this.resolvePlugins(allConfigPlugins)
@@ -134,14 +138,15 @@ export default class Kernel extends EventEmitter {
   initPlugin (plugin: IPlugin) {
     const { id, path, opts, apply } = plugin
     const pluginCtx = this.initPluginCtx({ id, path, ctx: this })
+    this.registerPlugin(plugin)
     apply()(pluginCtx, opts)
   }
 
   registerPlugin (plugin: IPlugin) {
-    if (this.plugins[plugin.id]) {
+    if (this.plugins.has(plugin.id)) {
       throw new Error(`插件 ${plugin.id} 已被注册`)
     }
-    this.plugins[plugin.id] = plugin
+    this.plugins.set(plugin.id, plugin)
   }
 
   initPluginCtx ({ id, path, ctx }: { id: string, path: string, ctx: Kernel }) {
@@ -149,17 +154,15 @@ export default class Kernel extends EventEmitter {
     const internalMethods = ['onReady', 'onStart']
     const kernelApis = ['appPath', 'plugins', 'paths', 'applyPlugins']
     internalMethods.forEach(name => {
-      if (!this.methods[name]) {
+      if (!this.methods.has(name)) {
         pluginCtx.registerMethod(name)
       }
     })
     kernelApis.forEach(name => {
       pluginCtx[name] = typeof this[name] === 'function' ? this[name].bind(this) : this[name]
     })
-    Object.keys(this.methods).forEach(name => {
-      if (this.methods[name]) {
-        pluginCtx[name] = this.methods[name]
-      }
+    this.methods.forEach((val, name) => {
+      pluginCtx[name] = val
     })
     return pluginCtx
   }
@@ -178,7 +181,7 @@ export default class Kernel extends EventEmitter {
     if (typeof name !== 'string') {
       throw new Error(`调用失败，未传入正确的名称！`)
     }
-    const hooks = this.hooks[name] || []
+    const hooks = this.hooks.get(name) || []
     const waterfall = new AsyncSeriesWaterfallHook(['arg'])
     if (hooks.length) {
       const resArr:any[] = []
@@ -197,6 +200,14 @@ export default class Kernel extends EventEmitter {
     return await waterfall.promise(initialVal)
   }
 
+  runWithPlatform (platform) {
+    if (!this.platforms.has(platform)) {
+      throw `不存在编译平台 ${platform}`
+    }
+    const withNameConfig = this.config.getConfigWithNamed(platform, this.platforms.get(platform)!.useConfigName)
+    return withNameConfig
+  }
+
   async run (args: string | { name: string, opts?: any }) {
     let name
     let opts
@@ -206,9 +217,13 @@ export default class Kernel extends EventEmitter {
       name = args.name
       opts = args.opts
     }
+    await this.init()
     await this.applyPlugins('onStart')
-    if (!this.commands[name]) {
+    if (!this.commands.has(name)) {
       throw new Error(`${name} 命令不存在`)
+    }
+    if (opts.platform) {
+      opts.config = this.runWithPlatform(opts.platform)
     }
     await this.applyPlugins({
       name,

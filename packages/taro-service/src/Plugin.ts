@@ -18,38 +18,38 @@ export default class Plugin {
     if (typeof hook.fn !== 'function') {
       throw new Error(`插件 ${this.id} 中注册 hook 失败， hook.fn 必须是 function 类型`)
     }
-    const hooks = this.ctx.hooks[hook.name] || []
+    const hooks = this.ctx.hooks.get(hook.name) || []
     hook.plugin = this.id
-    this.ctx.hooks[hook.name] = hooks.concat(hook)
+    this.ctx.hooks.set(hook.name, hooks.concat(hook))
   }
 
   registerCommand (command: ICommand) {
-    if (this.ctx.commands[command.name]) {
+    if (this.ctx.commands.has(command.name)) {
       throw new Error(`命令 ${command.name} 已存在`)
     }
-    this.ctx.commands[command.name] = command
+    this.ctx.commands.set(command.name, command)
     this.register(command)
   }
 
   registerPlatform (platform: IPlatform) {
-    if (this.ctx.platforms[platform.name]) {
+    if (this.ctx.platforms.has(platform.name)) {
       throw new Error(`适配平台 ${platform.name} 已存在`)
     }
-    this.ctx.platforms[platform.name] = platform
+    this.ctx.platforms.set(platform.name, platform)
     this.register(platform)
   }
 
   registerMethod (...args) {
     const { name, fn } = processArgs(args)
-    if (this.ctx.methods[name]) {
+    if (this.ctx.methods.has(name)) {
       throw `已存在方法 ${name}`
     }
-    this.ctx.methods[name] = fn || function (fn: Function) {
+    this.ctx.methods.set(name, fn || function (fn: Function) {
       this.register({
         name,
         fn
       })
-    }.bind(this)
+    }.bind(this))
   }
 }
 

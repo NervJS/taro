@@ -2,9 +2,12 @@ export default (ctx) => {
   ctx.registerCommand({
     name: 'build',
     async fn (passed, opts) {
-      const { platform } = opts
+      const { platform, config } = opts
       await ctx.applyPlugins({
-        name: platform
+        name: platform,
+        opts: {
+          config
+        }
       })
     }
   })
