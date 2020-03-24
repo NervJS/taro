@@ -3,7 +3,7 @@ import * as path from 'path'
 import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
 
-import { PARSE_AST_TYPE, BUILD_TYPES } from '../utils/constants'
+import { PARSE_AST_TYPE } from '../utils/constants'
 import { promoteRelativePath } from '../utils'
 import { AddPageChunks, IComponent, IComponentObj } from '../utils/types'
 
@@ -11,18 +11,17 @@ const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 
 interface IOptions {
   commonChunks: string[],
-  buildAdapter: BUILD_TYPES,
   isBuildPlugin: boolean,
   addChunkPages?: AddPageChunks,
   pages: Set<IComponent>,
   depsMap: Map<string, Set<IComponentObj>>
   sourceDir: string,
-  subPackages: Set<string>
+  subPackages: Set<string>,
+  isBuildQuickapp: boolean
 }
 
 export default class TaroLoadChunksPlugin {
   commonChunks: string[]
-  buildAdapter: BUILD_TYPES
   isBuildPlugin: boolean
   addChunkPages?: AddPageChunks
   pages: Set<IComponent>
@@ -30,10 +29,10 @@ export default class TaroLoadChunksPlugin {
   sourceDir: string
   subPackages: Set<string>
   destroyed: boolean
+  isBuildQuickapp: boolean
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
-    this.buildAdapter = options.buildAdapter
     this.isBuildPlugin = options.isBuildPlugin
     this.addChunkPages = options.addChunkPages
     this.pages = options.pages
@@ -105,7 +104,7 @@ export default class TaroLoadChunksPlugin {
           if (entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
-          if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&
+          if (this.isBuildQuickapp &&
             (entryModule.miniType === PARSE_AST_TYPE.PAGE ||
             entryModule.miniType === PARSE_AST_TYPE.COMPONENT)) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
@@ -128,7 +127,7 @@ export default class TaroLoadChunksPlugin {
   }
 
   destroy() {
-    this.destroyed = true;
+    this.destroyed = true
   }
 }
 

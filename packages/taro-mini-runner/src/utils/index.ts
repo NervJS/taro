@@ -13,7 +13,6 @@ import {
   NODE_MODULES_REG,
   processTypeMap,
   processTypeEnum,
-  BUILD_TYPES,
   GLOBAL_PROPS
 } from './constants'
 import { IOption, IComponentObj } from './types'
@@ -244,7 +243,7 @@ export function removeHeadSlash (str: string) {
   return str.replace(/^(\/|\\)/, '')
 }
 
-export function npmCodeHack (filePath: string, content: string, buildAdapter: BUILD_TYPES): string {
+export function npmCodeHack (filePath: string, content: string): string {
   // 修正core-js目录 _global.js
   // 修正所有用到过lodash的第三方包
   // 注：@tarojs/taro-alipay/dist/index.js,@tarojs/taro/dist/index.esm.js里面也有lodash相关的代码
@@ -269,9 +268,6 @@ export function npmCodeHack (filePath: string, content: string, buildAdapter: BU
       // IOS 1.10.2 Promise BUG
       content = content.replace('Promise && Promise.resolve', 'false && Promise && Promise.resolve')
       break
-  }
-  if (buildAdapter === BUILD_TYPES.ALIPAY && content.replace(/\s\r\n/g, '').length <= 0) {
-    content = '// Empty file'
   }
   return content
 }
