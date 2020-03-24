@@ -2,9 +2,11 @@ import * as path from 'path'
 
 import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
+import {
+  promoteRelativePath
+} from '@tarojs/helper'
 
 import { PARSE_AST_TYPE } from '../utils/constants'
-import { promoteRelativePath } from '../utils'
 import { AddPageChunks, IComponent, IComponentObj } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'

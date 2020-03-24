@@ -14,7 +14,8 @@ import {
   processTypeMap,
   TARO_CONFIG_FLODER,
   JS_EXT,
-  TS_EXT
+  TS_EXT,
+  NODE_MODULES_REG
 } from './constants'
 import defaultBabelConfig from './babel'
 
@@ -24,11 +25,17 @@ export function normalizePath (path: string) {
   return path.replace(/\\/g, '/').replace(/\/{2,}/g, '/')
 }
 
+export const isNodeModule = (filename: string) => NODE_MODULES_REG.test(filename)
+
 export function isNpmPkg (name: string): boolean {
   if (/^(\.|\/)/.test(name)) {
     return false
   }
   return true
+}
+
+export function isQuickAppPkg (name: string): boolean {
+  return /^@(system|service)\.[a-zA-Z]{1,}/.test(name)
 }
 
 export function isAliasPath (name: string, pathAlias: object = {}): boolean {

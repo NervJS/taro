@@ -1,8 +1,17 @@
 import * as path from 'path'
 import * as _ from 'lodash'
 
-import { getInstalledNpmPkgPath, promoteRelativePath, removeHeadSlash, printLog } from '.'
-import { taroJsQuickAppComponents, REG_STYLE, REG_SCRIPT, processTypeEnum } from './constants'
+import {
+  getInstalledNpmPkgPath,
+  promoteRelativePath,
+  printLog,
+  taroJsQuickAppComponents,
+  REG_STYLE,
+  REG_SCRIPT,
+  processTypeEnum
+} from '@tarojs/helper'
+
+import { removeHeadSlash } from '.'
 
 export function getTaroJsQuickAppComponentsPath (nodeModulesPath: string): string {
   const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, nodeModulesPath)
