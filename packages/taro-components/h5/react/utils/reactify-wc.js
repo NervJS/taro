@@ -134,8 +134,12 @@ const reactifyWebComponent = WC => {
     }
 
     render () {
-      const { children } = this.props
-      return createElement(WC, { ref: this.ref }, children)
+      const { children, dangerouslySetInnerHTML } = this.props
+      const props = {
+        ref: this.ref
+      }
+      if (dangerouslySetInnerHTML) props.dangerouslySetInnerHTML = dangerouslySetInnerHTML
+      return createElement(WC, props, children)
     }
   }
   return React.forwardRef((props, ref) => (
