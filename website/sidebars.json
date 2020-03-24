@@ -33,6 +33,7 @@
       "config",
       "config-detail",
       "hooks",
+      "html",
       "prerender",
       "mini-third-party",
       "hybrid",

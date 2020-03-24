@@ -6,7 +6,7 @@ interface Options {
   prerender: boolean
   debug: boolean
   html: {
-    skipElements: (string | RegExp)[]
+    skipElements: Set<string>
     voidElements: Set<string>
     closingElements: Set<string>
     transformText?: (taroText: TaroText, text: Text) => TaroText
@@ -19,7 +19,7 @@ export const options: Options = {
   debug: false,
   // html 只影响 Element#innerHTML API
   html: {
-    skipElements: ['style', 'script'],
+    skipElements: new Set(['style', 'script']),
     voidElements: new Set([
       '!doctype', 'area', 'base', 'br', 'col', 'command',
       'embed', 'hr', 'img', 'input', 'keygen', 'link',

@@ -968,6 +968,9 @@
       "hooks": {
         "title": "Hooks"
       },
+      "html": {
+        "title": "渲染 HTML"
+      },
       "hybrid": {
         "title": "Taro 代码与小程序代码混写"
       },
@@ -2282,6 +2285,18 @@
         "title": "框架"
       },
       "version-3.0.0.alpha.0/version-3.0.0.alpha.0-vue": {
+        "title": "Vue"
+      },
+      "version-3.0.0.beta.1/version-3.0.0.beta.1-config-detail": {
+        "title": "编译配置详情"
+      },
+      "version-3.0.0.beta.1/version-3.0.0.beta.1-html": {
+        "title": "渲染 HTML"
+      },
+      "version-3.0.0.beta.1/version-3.0.0.beta.1-migration": {
+        "title": "从旧版本迁移到 Taro Next"
+      },
+      "version-3.0.0.beta.1/version-3.0.0.beta.1-vue": {
         "title": "Vue"
       }
     },

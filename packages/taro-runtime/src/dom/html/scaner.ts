@@ -1,4 +1,3 @@
-import { isString } from '@tarojs/shared'
 import { options } from '../../options'
 
 interface Position {
@@ -64,18 +63,11 @@ function isWhitespaceChar (char: string) {
 }
 
 function shouldBeIgnore (tagName: string) {
-  let match = false
   const name = tagName.toLowerCase()
-  for (let i = 0; i < options.html.skipElements.length; i++) {
-    const element = options.html.skipElements[i]
-    if (isString(element)) {
-      match = element === name
-    } else {
-      match = element.test(name)
-    }
+  if (options.html.skipElements.has(name)) {
+    return true
   }
-
-  return match
+  return false
 }
 
 const alphanumeric = /[A-Za-z0-9]/

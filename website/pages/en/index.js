@@ -5,42 +5,42 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require('react');
+const React = require('react')
 
-const CompLibrary = require('../../core/CompLibrary.js');
-const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
-const Container = CompLibrary.Container;
-const GridBlock = CompLibrary.GridBlock;
+const CompLibrary = require('../../core/CompLibrary.js')
+const MarkdownBlock = CompLibrary.MarkdownBlock /* Used to read markdown */
+const Container = CompLibrary.Container
+const GridBlock = CompLibrary.GridBlock
 
-const siteConfig = require(`${process.cwd()}/siteConfig.js`);
+const siteConfig = require(`${process.cwd()}/siteConfig.js`)
 
-function imgUrl(img) {
-  return `${siteConfig.baseUrl}img/${img}`;
+function imgUrl (img) {
+  return `${siteConfig.baseUrl}img/${img}`
 }
 
-function docUrl(doc, language) {
-  return `${siteConfig.baseUrl}docs/${(language ? language + '/' : '')}${doc}`;
+function docUrl (doc, language) {
+  return `${siteConfig.baseUrl}docs/${(language ? language + '/' : '')}${doc}`
 }
 
-function pageUrl(page, language) {
-  return `${siteConfig.baseUrl}${(language ? language + '/' : '')}${page}}`;
+function pageUrl (page, language) {
+  return `${siteConfig.baseUrl}${(language ? language + '/' : '')}${page}}`
 }
 
 class Button extends React.Component {
-  render() {
+  render () {
     return (
       <div className="pluginWrapper buttonWrapper">
         <a className="button" href={this.props.href} target={this.props.target}>
           {this.props.children}
         </a>
       </div>
-    );
+    )
   }
 }
 
 Button.defaultProps = {
-  target: '_self',
-};
+  target: '_self'
+}
 
 const SplashContainer = props => (
   <div className="homeContainer">
@@ -48,20 +48,20 @@ const SplashContainer = props => (
       <div className="wrapper homeWrapper">{props.children}</div>
     </div>
   </div>
-);
+)
 
 const Logo = props => (
   <div className="projectLogo">
     <img src={props.img_src} />
   </div>
-);
+)
 
 const ProjectTitle = props => (
   <h2 className="projectTitle">
     {siteConfig.title}
     <small>{siteConfig.tagline}</small>
   </h2>
-);
+)
 
 const PromoSection = props => (
   <div className="section promoSection">
@@ -69,11 +69,11 @@ const PromoSection = props => (
       <div className="pluginRowBlock">{props.children}</div>
     </div>
   </div>
-);
+)
 
 class HomeSplash extends React.Component {
-  render() {
-    let language = this.props.language || '';
+  render () {
+    const language = this.props.language || ''
     return (
       <SplashContainer>
         <div className="inner">
@@ -85,7 +85,7 @@ class HomeSplash extends React.Component {
           </PromoSection>
         </div>
       </SplashContainer>
-    );
+    )
   }
 }
 
@@ -96,7 +96,7 @@ const Block = props => (
     background={props.background}>
     <GridBlock align="center" contents={props.children} layout={props.layout} />
   </Container>
-);
+)
 
 const Features = props => (
   <Block layout="fourColumn">
@@ -105,26 +105,26 @@ const Features = props => (
         content: 'This is the content of my feature',
         image: imgUrl('logo-taro.png'),
         imageAlign: 'top',
-        title: 'Feature One',
+        title: 'Feature One'
       },
       {
         content: 'The content of my second feature',
         image: imgUrl('logo-taro.png'),
         imageAlign: 'top',
-        title: 'Feature Two',
-      },
+        title: 'Feature Two'
+      }
     ]}
   </Block>
-);
+)
 
 const FeatureCallout = props => (
   <div
     className="productShowcaseSection paddingBottom"
-    style={{textAlign: 'center'}}>
+    style={{ textAlign: 'center' }}>
     <h2>Feature Callout</h2>
     <MarkdownBlock>These are features of this project</MarkdownBlock>
   </div>
-);
+)
 
 const LearnHow = props => (
   <Block background="light">
@@ -133,11 +133,11 @@ const LearnHow = props => (
         content: 'Talk about learning how to use this',
         image: imgUrl('logo-taro.png'),
         imageAlign: 'right',
-        title: 'Learn How',
-      },
+        title: 'Learn How'
+      }
     ]}
   </Block>
-);
+)
 
 const TryOut = props => (
   <Block id="try">
@@ -146,11 +146,11 @@ const TryOut = props => (
         content: 'Talk about trying this out',
         image: imgUrl('logo-taro.png'),
         imageAlign: 'left',
-        title: 'Try it Out',
-      },
+        title: 'Try it Out'
+      }
     ]}
   </Block>
-);
+)
 
 const Description = props => (
   <Block background="dark">
@@ -159,27 +159,27 @@ const Description = props => (
         content: 'This is another description of how this project is useful',
         image: imgUrl('logo-taro.png'),
         imageAlign: 'right',
-        title: 'Description',
-      },
+        title: 'Description'
+      }
     ]}
   </Block>
-);
+)
 
 const Showcase = props => {
   if ((siteConfig.users || []).length === 0) {
-    return null;
+    return null
   }
   const showcase = siteConfig.users
     .filter(user => {
-      return user.pinned;
+      return user.pinned
     })
     .map((user, i) => {
       return (
         <a href={user.infoLink} key={i}>
           <img src={user.image} alt={user.caption} title={user.caption} />
         </a>
-      );
-    });
+      )
+    })
 
   return (
     <div className="productShowcaseSection paddingBottom">
@@ -187,12 +187,12 @@ const Showcase = props => {
       <p>This project is used by all these people</p>
       <div className="logos">{showcase}</div>
     </div>
-  );
-};
+  )
+}
 
 class Index extends React.Component {
-  render() {
-    let language = this.props.language || '';
+  render () {
+    const language = this.props.language || ''
 
     return (
       <div className='home_container flex middle center'>
@@ -206,8 +206,8 @@ class Index extends React.Component {
           <Showcase language={language} />
         </div> */}
       </div>
-    );
+    )
   }
 }
 
-module.exports = Index;
+module.exports = Index
