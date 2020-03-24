@@ -1,7 +1,9 @@
 import { Component, h, ComponentInterface, Prop, Host } from '@stencil/core'
 
 interface Attributes {
-  [propName: string]: string
+  [propName: string]: string | {
+    [propName: string]: string
+  }
 }
 
 interface NodeType {
@@ -43,12 +45,36 @@ export class RichText implements ComponentInterface {
 
       if (attrs && typeof attrs === 'object') {
         for (const key in attrs) {
-          if (key === 'style' && typeof attrs[key] === 'string') {
+          const val = attrs[key]
+          if (key === 'style' && typeof val === 'string') {
             // stencil JSX style props only support object
-            console.warn('[taro] attrs:style should be Object!')
+            const styles = val
+              .split(';')
+              .map(item => item.trim())
+              .filter(item => item)
+
+            const styleObj: {
+              [propName: string]: string
+            } = {}
+
+            styles.forEach(item => {
+              if (!item) return
+
+              const res = /(.+): *(.+)/g.exec(item)
+              if (!res) return
+
+              const [, name, value] = res
+              const styleName = name.replace(/-([a-z])/g, (...args) => args[1].toUpperCase())
+              styleObj[styleName] = value
+            })
+
+            if (Object.keys(styleObj).length) {
+              attributes.style = styleObj
+            }
+
             continue
           }
-          attributes[key] = attrs[key]
+          attributes[key] = val
         }
       }
 

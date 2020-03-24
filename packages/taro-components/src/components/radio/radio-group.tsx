@@ -48,9 +48,27 @@ export class RadioGroup implements ComponentInterface {
     })
 
     Object.defineProperty(this.el, 'value', {
-      get: () => this.value,
+      get: () => {
+        if (!this.value) {
+          const childList = this.el.querySelectorAll('taro-radio-core')
+          this.value = this.getValues(childList)
+        }
+        return this.value
+      },
       configurable: true
     })
+  }
+
+  getValues (childList: NodeListOf<HTMLTaroRadioCoreElement>) {
+    let val = ''
+    Array.from(childList)
+      .forEach(element => {
+        const checkbox: HTMLInputElement | null = element.querySelector('input')
+        if (checkbox?.checked) {
+          val = checkbox.value || ''
+        }
+      })
+    return val
   }
 
   render () {
