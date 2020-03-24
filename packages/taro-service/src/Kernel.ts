@@ -3,6 +3,10 @@ import { EventEmitter } from 'events'
 
 import { AsyncSeriesWaterfallHook } from 'tapable'
 import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import {
+  NODE_MODULES,
+  recursiveFindNodeModules
+} from '@tarojs/helper'
 
 import {
   IPreset,
@@ -14,6 +18,9 @@ import {
 } from './utils/types'
 import {
   PluginType,
+  IS_MODIFY_HOOK,
+  IS_ADD_HOOK,
+  IS_EVENT_HOOK
 } from './utils/constants'
 import { mergePlugins, resolvePresetsOrPlugins, convertPluginsToObject } from './utils'
 import createBabelRegister from './utils/babelRegister'
@@ -58,34 +65,29 @@ export default class Kernel extends EventEmitter {
   }
 
   async init () {
-    await this.initConfig()
-    await this.initPaths()
+    this.initConfig()
+    this.initPaths()
     this.initPresetsAndPlugins()
     await this.applyPlugins('onReady')
   }
 
-  async initConfig () {
+  initConfig () {
     this.config = new Config({
       appPath: this.appPath,
       isWatch: this.isWatch,
       isProduction: this.isProduction
     })
-    this.initialConfig = await this.applyPlugins({
-      name: 'modifyConfig',
-      initialVal: this.config.initialConfig
-    })
+    this.initialConfig = this.config.initialConfig
   }
 
-  async initPaths () {
-    this.paths = await this.applyPlugins({
-      name: 'modifyPaths',
-      initialVal: {
-        appPath: this.appPath,
-        configPath: this.config.configPath,
-        sourcePath: path.join(this.appPath, this.initialConfig.sourceRoot as string),
-        outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string)
-      }
-    })
+  initPaths () {
+    this.paths = {
+      appPath: this.appPath,
+      configPath: this.config.configPath,
+      sourcePath: path.join(this.appPath, this.initialConfig.sourceRoot as string),
+      outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string),
+      nodeModulesPath: recursiveFindNodeModules(path.join(this.appPath, NODE_MODULES))
+    }
   }
 
   initPresetsAndPlugins () {
@@ -152,7 +154,7 @@ export default class Kernel extends EventEmitter {
   initPluginCtx ({ id, path, ctx }: { id: string, path: string, ctx: Kernel }) {
     const pluginCtx = new Plugin({ id, path, ctx })
     const internalMethods = ['onReady', 'onStart']
-    const kernelApis = ['appPath', 'plugins', 'paths', 'applyPlugins']
+    const kernelApis = ['appPath', 'plugins', 'paths', 'initialConfig', 'applyPlugins']
     internalMethods.forEach(name => {
       if (!this.methods.has(name)) {
         pluginCtx.registerMethod(name)
@@ -184,16 +186,22 @@ export default class Kernel extends EventEmitter {
     const hooks = this.hooks.get(name) || []
     const waterfall = new AsyncSeriesWaterfallHook(['arg'])
     if (hooks.length) {
-      const resArr:any[] = []
+      const resArr: any[] = []
       for (const hook of hooks) {
         waterfall.tapPromise({
           name: hook.plugin,
           stage: hook.stage || 0,
           before: hook.before
         }, async arg => {
-          const res = await hook.fn(arg, opts)
-          resArr.push(res)
-          return resArr
+          const res = await hook.fn(opts, arg)
+          if (IS_MODIFY_HOOK.test(name) && IS_EVENT_HOOK.test(name)) {
+            return res
+          }
+          if (IS_ADD_HOOK.test(name)) {
+            resArr.push(res)
+            return resArr
+          }
+          return null
         })
       }
     }

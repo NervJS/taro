@@ -7,10 +7,8 @@ import {
   SOURCE_DIR,
   OUTPUT_DIR,
   ENTRY,
-  NODE_MODULES,
   resolveScriptPath,
-  getBabelConfig,
-  recursiveFindNodeModules
+  getBabelConfig
 } from '@tarojs/helper'
 
 import {
@@ -77,7 +75,6 @@ export default class Config {
       defineConstants: initialConfig.defineConstants,
       designWidth: initialConfig.designWidth,
       deviceRatio: initialConfig.deviceRatio,
-      nodeModulesPath: recursiveFindNodeModules(path.join(this.appPath, NODE_MODULES)),
       ...initialConfig[useConfigName]
     }
   }
