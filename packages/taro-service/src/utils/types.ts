@@ -1,4 +1,6 @@
 import { PluginType } from './constants'
+import { Kernel } from 'src';
+import { IProjectConfig } from '@tarojs/taro/types/compile';
 
 export interface IPaths {
   appPath: string
@@ -31,13 +33,24 @@ export interface ICommand extends IHook {
 }
 
 export interface IFileType {
-  templ: string,
-  style: string,
-  script: string,
+  templ: string
+  style: string
+  script: string
   config: string
 }
 
 export interface IPlatform extends IHook {
-  fileType: IFileType,
+  fileType: IFileType
   useConfigName: String
+}
+
+export interface IPluginContext {
+  ctx: Kernel
+  plugins: Map<string, IPlugin>
+  paths: IPaths
+  initialConfig: IProjectConfig
+  register: (hook: IHook) => void
+  registerMethod: (arg: (string | { name: string, fn?: Function }), fn?: Function) => void,
+  registerCommand: (command: ICommand) => void
+  registerPlatform: (platform: IPlatform) => void
 }
