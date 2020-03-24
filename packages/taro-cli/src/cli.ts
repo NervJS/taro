@@ -68,7 +68,8 @@ export default class CLI {
           }
           build({
             platform: args.type,
-            appPath: this.appPath
+            appPath: this.appPath,
+            isWatch: !!args.watch
           })
           break
         default:
