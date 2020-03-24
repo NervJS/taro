@@ -51,8 +51,10 @@ const getApp = function () {
  * @property {Object} referrerInfo 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}。(参见后文注意)
  */
 
-const pxTransform = function (size) {
-  const { designWidth } = taro.config
+const pxTransform = function (size, designWidth) {
+  if (designWidth == null) {
+    throw new Error('pxTransform 函数在 H5 中运行需要把配置中的 `designWidth` 作为第二个参数传入')
+  }
   return Math.ceil((((parseInt(size, 10) / 40) * 640) / designWidth) * 10000) / 10000 + 'rem'
 }
 const canIUseWebp = function () {
