@@ -2,7 +2,10 @@ import * as path from 'path'
 import * as qs from 'querystring'
 
 import { stringifyRequest, getOptions } from 'loader-utils'
-import { NODE_MODULES_REG, NODE_MODULES } from '../utils/constants'
+import {
+  NODE_MODULES,
+  NODE_MODULES_REG
+} from '@tarojs/helper'
 
 const isPitcher = l => l.path !== __filename
 const isPreLoader = l => !l.pitchExecuted

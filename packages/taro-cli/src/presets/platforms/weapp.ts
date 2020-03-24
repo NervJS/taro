@@ -76,11 +76,35 @@ import * as path from 'path'
 //     color: 'color'
 //   }
 // }
+// const LOG_MAP = {
+//   [BUILD_TYPES.WEAPP]: {
+//     OPEN: '请打开微信小程序开发者工具进行查看'
+//   },
+//   [BUILD_TYPES.ALIPAY]: {
+//     OPEN: '请打开支付宝小程序开发者工具进行查看'
+//   },
+//   [BUILD_TYPES.QQ]: {
+//     OPEN: '请打开 QQ 小程序开发者工具进行查看'
+//   },
+//   [BUILD_TYPES.SWAN]: {
+//     OPEN: '请打开百度智能小程序开发者工具进行查看'
+//   },
+//   [BUILD_TYPES.TT]: {
+//     OPEN: '请打开字节跳动小程序开发者工具进行查看'
+//   },
+//   [BUILD_TYPES.JD]: {
+//     OPEN: '请打开京东小程序开发者工具进行查看'
+//   },
+//   [BUILD_TYPES.QUICKAPP]: {
+//     OPEN: '请按快应用端开发流程 https://taro-docs.jd.com/taro/docs/quick-app.html 进行查看'
+//   }
+// }
+// swan page component true
 export default (ctx, opts) => {
   ctx.registerPlatform({
     name: 'weapp',
     useConfigName: 'mini',
-    async fn (opts) {
+    async fn ({ config }) {
       const { appPath, nodeModulesPath } = ctx.paths
       const { npm } = ctx.helper
       // 生成 project.config.json
@@ -90,16 +114,24 @@ export default (ctx, opts) => {
       })
       // build with webpack
       const miniRunnerOpts = {
-        ...opts,
+        ...config,
         nodeModulesPath,
-        buildAdapter: opts.platform,
+        buildAdapter: config.platform,
         isBuildPlugin: false,
-        global: 'wx',
+        globalObject: 'wx',
         fileType: {
           templ: '.wxml',
           style: '.wxss',
           config: '.json',
           script: '.js'
+        },
+        isUseComponentBuildPage: true,
+        async modifyWebpackChain (chain, webpack) {
+          return await ctx.applyPlugins({
+            name: 'modifyWebpackChain',
+            initialVal: chain,
+            opts: webpack
+          })
         }
       }
       const miniRunner = await npm.getNpmPkg('@tarojs/mini-runner', appPath)

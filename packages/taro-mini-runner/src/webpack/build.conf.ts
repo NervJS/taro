@@ -31,6 +31,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       script: '.js',
       templ: '.wxml'
     },
+    globalObject = 'wx',
     alias = emptyObj,
     entry = emptyObj,
     output = emptyObj,
@@ -57,6 +58,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     nodeModulesPath,
     quickappJSON,
     isBuildQuickapp = false,
+    isUseComponentBuildPage = false,
 
     babel,
     csso,
@@ -64,7 +66,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks,
     addChunkPages
   } = config
-
   let { copy } = config
 
   const plugin: any = {}
@@ -155,13 +156,15 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     output: getOutput(appPath, [{
       outputRoot,
       publicPath: '/',
-      buildAdapter,
-      isBuildPlugin: config.isBuildPlugin
+      globalObject
     }, output]),
     target: createTarget[buildAdapter!],
     resolve: { alias },
     module: getModule(appPath, {
       sourceDir,
+      fileType,
+      isBuildQuickapp,
+      isUseComponentBuildPage,
 
       buildAdapter,
       constantsReplaceList,

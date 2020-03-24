@@ -6,14 +6,17 @@ import wxTransformer from '@tarojs/transformer-wx'
 import { transform, transformFromAst } from 'babel-core'
 import * as t from 'babel-types'
 import generate from 'better-babel-generator'
-
 import {
   REG_TYPESCRIPT,
-  PARSE_AST_TYPE,
-  NODE_MODULES_REG
+  NODE_MODULES_REG,
+  isEmptyObject
+} from '@tarojs/helper'
+
+import {
+  PARSE_AST_TYPE
 } from '../utils/constants'
 import processAst from '../utils/processAst'
-import { npmCodeHack, isEmptyObject } from '../utils'
+import { npmCodeHack } from '../utils'
 import parseAst from '../utils/parseAst'
 
 const cannotRemoves = ['@tarojs/taro', 'react', 'nervjs']
@@ -30,7 +33,8 @@ export default function wxTransformerLoader (source) {
     sourceDir,
     constantsReplaceList,
     nodeModulesPath,
-    isBuildQuickapp
+    isBuildQuickapp,
+    isUseComponentBuildPage
   } = getOptions(this)
   const filePath = this.resourcePath
   const { resourceQuery } = this
@@ -51,7 +55,7 @@ export default function wxTransformerLoader (source) {
         isTyped: REG_TYPESCRIPT.test(filePath),
         adapter: buildAdapter
       })
-      const res = parseAst(aheadTransformResult.ast, buildAdapter, filePath, nodeModulesPath, alias, isBuildQuickapp)
+      const res = parseAst(aheadTransformResult.ast, filePath, nodeModulesPath, alias, isBuildQuickapp)
       const appConfig = this._compiler.appConfig
       if (res.configObj.enablePullDownRefresh || (appConfig.window && appConfig.window.enablePullDownRefresh)) {
         rootProps.enablePullDownRefresh = true
@@ -100,7 +104,9 @@ export default function wxTransformerLoader (source) {
         deviceRatio,
         sourceFilePath: filePath,
         sourceDir,
-        alias
+        alias,
+        isBuildQuickapp,
+        isUseComponentBuildPage
       })
       const code = generate(result).code
       const res = transform(code, babelConfig)
