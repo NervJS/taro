@@ -551,7 +551,7 @@ export default class TaroMiniPlugin {
     const { baseLevel } = this.options
     this.generateConfigFile(compilation, this.appEntry, this.appConfig)
     this.generateConfigFile(compilation, baseCompName, {
-      components: true,
+      component: true,
       usingComponents: {
         [baseCompName]: `./${baseCompName}`
       }
