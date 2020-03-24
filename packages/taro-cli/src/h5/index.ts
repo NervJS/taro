@@ -111,7 +111,8 @@ class Compiler {
       entryFileName,
       env: {
         TARO_ENV: JSON.stringify(BUILD_TYPES.H5),
-        FRAMEWORK: JSON.stringify(projectConfig.framework)
+        FRAMEWORK: JSON.stringify(projectConfig.framework),
+        TARO_VERSION: JSON.stringify(require('../../package.json').version)
       },
       isWatch: !!watch,
       outputRoot: outputDir,

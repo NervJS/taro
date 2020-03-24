@@ -1,4 +1,4 @@
-import { isBrowser, win } from "../env"
+import { isBrowser, win } from '../env'
 
 const machine = 'Macintosh'
 const arch = 'Intel Mac OS X 10_14_5'
@@ -13,7 +13,7 @@ export const navigator = isBrowser ? win.navigator : {
   onLine: true,
   platform: 'MacIntel',
   plugins: [],
-  product: 'Gecko',
+  product: 'Taro',
   productSub: '20030107',
   userAgent: 'Mozilla/5.0 (' + machine + '; ' + arch + ') ' + engine,
   vendor: 'Joyent',
