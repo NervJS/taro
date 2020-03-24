@@ -18,7 +18,8 @@
     "strictNullChecks": true,
     "target": "es2015",
     "traceResolution": false,
-    "types": ["jest"]
+    "types": ["jest"],
+    "declaration": true
   },
   "include": [
     "./src"

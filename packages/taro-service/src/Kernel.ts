@@ -7,6 +7,7 @@ import {
   NODE_MODULES,
   recursiveFindNodeModules
 } from '@tarojs/helper'
+import * as helper from '@tarojs/helper'
 
 import {
   IPreset,
@@ -50,6 +51,7 @@ export default class Kernel extends EventEmitter {
   methods: Map<string, Function>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
+  helper: any
 
   constructor (options: IKernelOptions) {
     super()
@@ -68,6 +70,7 @@ export default class Kernel extends EventEmitter {
     this.initConfig()
     this.initPaths()
     this.initPresetsAndPlugins()
+    this.initHelper()
     await this.applyPlugins('onReady')
   }
 
@@ -88,6 +91,10 @@ export default class Kernel extends EventEmitter {
       outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string),
       nodeModulesPath: recursiveFindNodeModules(path.join(this.appPath, NODE_MODULES))
     }
+  }
+
+  initHelper () {
+    this.helper = helper
   }
 
   initPresetsAndPlugins () {
@@ -154,19 +161,28 @@ export default class Kernel extends EventEmitter {
   initPluginCtx ({ id, path, ctx }: { id: string, path: string, ctx: Kernel }) {
     const pluginCtx = new Plugin({ id, path, ctx })
     const internalMethods = ['onReady', 'onStart']
-    const kernelApis = ['appPath', 'plugins', 'paths', 'initialConfig', 'applyPlugins']
+    const kernelApis = [
+      'appPath',
+      'plugins',
+      'paths',
+      'helper',
+      'initialConfig',
+      'applyPlugins'
+    ]
     internalMethods.forEach(name => {
       if (!this.methods.has(name)) {
         pluginCtx.registerMethod(name)
       }
     })
-    kernelApis.forEach(name => {
-      pluginCtx[name] = typeof this[name] === 'function' ? this[name].bind(this) : this[name]
+    return new Proxy(pluginCtx, {
+      get: (target, name: string) => {
+        if (this.methods.has(name)) return this.methods.get(name)
+        if (kernelApis.includes(name)) {
+          return typeof this[name] === 'function' ? this[name].bind(this) : this[name]
+        }
+        return target[name]
+      }
     })
-    this.methods.forEach((val, name) => {
-      pluginCtx[name] = val
-    })
-    return pluginCtx
   }
 
   async applyPlugins (args: string | { name: string, initialVal?: any, opts?: any }) {
