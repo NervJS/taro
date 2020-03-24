@@ -26,6 +26,7 @@ declare namespace Taro {
 
   interface ComponentOptions {
     addGlobalClass?: boolean
+    styleIsolation?: 'isolated' | 'apply-shared' | 'shared'
   }
 
   interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
