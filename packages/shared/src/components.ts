@@ -106,7 +106,7 @@ const Text = {
 
 const Button = {
   size: singleQuote('default'),
-  type: singleQuote('default'),
+  type: '',
   plain: 'false',
   disabled: '',
   loading: 'false',
