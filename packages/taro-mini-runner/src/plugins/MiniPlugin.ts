@@ -16,10 +16,27 @@ import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
+import {
+  REG_TYPESCRIPT,
+  NODE_MODULES_REG,
+  taroJsFramework,
+  taroJsQuickAppComponents,
+  REG_SCRIPTS,
+  processTypeEnum,
+  resolveScriptPath,
+  isNpmPkg,
+  resolveNpmSync,
+  isEmptyObject,
+  promoteRelativePath,
+  printLog,
+  isAliasPath,
+  replaceAliasPath,
+  REG_STYLE
+} from '@tarojs/helper'
 
-import { REG_TYPESCRIPT, PARSE_AST_TYPE, NODE_MODULES_REG, taroJsFramework, taroJsQuickAppComponents, REG_SCRIPTS, processTypeEnum, REG_STYLE } from '../utils/constants'
+import { PARSE_AST_TYPE } from '../utils/constants'
 import { IComponentObj, AddPageChunks, IComponent, IFileType } from '../utils/types'
-import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog, isAliasPath, replaceAliasPath } from '../utils'
+import { buildUsingComponents } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, getImportCustomComponents, generateQuickAppManifest } from '../utils/helper'
 import parseAst from '../utils/parseAst'
@@ -488,18 +505,11 @@ export default class MiniPlugin {
 
   getTabBarFiles (compiler: webpack.Compiler,appConfig) {
     const tabBar = appConfig.tabBar
-    const { buildAdapter } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
-      const {
-        list: listConfig,
-        iconPath: pathConfig,
-        selectedIconPath: selectedPathConfig
-      } = CONFIG_MAP[buildAdapter]
-
-      const list = tabBar[listConfig] || []
+      const list = tabBar['list'] || []
       list.forEach(item => {
-        item[pathConfig] && this.tabBarIcons.add(item[pathConfig])
-        item[selectedPathConfig] && this.tabBarIcons.add(item[selectedPathConfig])
+        item['iconPath'] && this.tabBarIcons.add(item['iconPath'])
+        item['selectedIconPath'] && this.tabBarIcons.add(item['selectedIconPath'])
       })
       if (tabBar.custom) {
         const customTabBarPath = path.join(this.sourceDir, 'custom-tab-bar')
@@ -576,7 +586,7 @@ export default class MiniPlugin {
         adapter: buildAdapter,
         env: constantsReplaceList
       })
-      const { configObj, importStyles } = parseAst(transformResult.ast, buildAdapter, appEntry, nodeModulesPath, alias, isBuildQuickapp)
+      const { configObj, importStyles } = parseAst(transformResult.ast, appEntry, nodeModulesPath, alias, isBuildQuickapp)
       const appPages = configObj.pages
       this.appConfig = configObj
       compiler.appConfig = configObj
@@ -764,7 +774,7 @@ export default class MiniPlugin {
             adapter: buildAdapter,
             env: constantsReplaceList
           })
-          let parseAstRes = parseAst(transformResult.ast, buildAdapter, file.path, nodeModulesPath, alias, isBuildQuickapp)
+          let parseAstRes = parseAst(transformResult.ast, file.path, nodeModulesPath, alias, isBuildQuickapp)
           configObj = parseAstRes.configObj
           importStyles = parseAstRes.importStyles
           if (isRoot) {

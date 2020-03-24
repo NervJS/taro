@@ -4,25 +4,24 @@ import * as fs from 'fs-extra'
 import * as t from 'babel-types'
 import traverse, { NodePath } from 'babel-traverse'
 import * as _ from 'lodash'
-
 import {
-  BUILD_TYPES,
   taroJsFramework,
   taroJsComponents,
   taroJsRedux,
-  QUICKAPP_SPECIAL_COMPONENTS,
-  PARSE_AST_TYPE,
-  excludeReplaceTaroFrameworkPkgs,
-  REG_SCRIPTS
-} from './constants'
-import {
+  REG_SCRIPTS,
   isNpmPkg,
   isQuickAppPkg,
   isAliasPath,
   replaceAliasPath,
   resolveScriptPath,
   promoteRelativePath
-} from '.'
+} from '@tarojs/helper'
+
+import {
+  QUICKAPP_SPECIAL_COMPONENTS,
+  PARSE_AST_TYPE,
+  excludeReplaceTaroFrameworkPkgs
+} from './constants'
 import { convertSourceStringToAstExpression } from './astConvert'
 import babylonConfig from '../config/babylon'
 
@@ -32,13 +31,15 @@ const NON_WEBPACK_REQUIRE = '__non_webpack_require__'
 
 interface IProcessAstArgs {
   ast: t.File,
-  buildAdapter: BUILD_TYPES,
+  buildAdapter: string,
   type: PARSE_AST_TYPE,
   designWidth: number,
   deviceRatio: number,
   sourceFilePath: string,
   sourceDir: string,
-  alias: object
+  alias: object,
+  isBuildQuickapp: boolean,
+  isUseComponentBuildPage: boolean
 }
 
 export default function processAst ({
@@ -49,7 +50,9 @@ export default function processAst ({
   deviceRatio,
   sourceFilePath,
   sourceDir,
-  alias
+  alias,
+  isBuildQuickapp,
+  isUseComponentBuildPage
 }: IProcessAstArgs) {
   const taroMiniAppFramework = `@tarojs/taro-${buildAdapter}`
   let componentClassName: string = ''
@@ -57,14 +60,13 @@ export default function processAst ({
   let taroImportDefaultName
   let needExportDefault = false
   let exportTaroReduxConnected: string | null = null
-  const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
   const cannotRemoves = [taroJsFramework, 'react', 'nervjs']
   let hasComponentDidHide
   let hasComponentDidShow
   let hasComponentWillMount
   let needSetConfigFromHooks = false
   let configFromHooks
-  if (isQuickApp) {
+  if (isBuildQuickapp) {
     cannotRemoves.push(taroJsComponents)
   }
   const taroSelfComponents = new Set<string>()
@@ -223,7 +225,7 @@ export default function processAst ({
       if (isAliasPath(value, alias)) {
         value = replaceAliasPath(sourceFilePath, value, alias)
       }
-      if (isQuickApp && isQuickAppPkg(value)) {
+      if (isBuildQuickapp && isQuickAppPkg(value)) {
         let defaultSpecifier: string = 'LOCAL'
         specifiers.forEach(item => {
           if (item.type === 'ImportDefaultSpecifier') {
@@ -246,7 +248,7 @@ export default function processAst ({
       }
       if (isNpmPkg(value)) {
         if (value === taroJsComponents) {
-          if (isQuickApp) {
+          if (isBuildQuickapp) {
             specifiers.forEach(specifier => {
               const name = specifier.local.name
               if (!QUICKAPP_SPECIAL_COMPONENTS.has(name)) {
@@ -311,13 +313,13 @@ export default function processAst ({
           value = replaceAliasPath(sourceFilePath, value, alias)
           args[0].value = value
         }
-        if (isQuickApp && isQuickAppPkg(value)) {
+        if (isBuildQuickapp && isQuickAppPkg(value)) {
           callee.name = NON_WEBPACK_REQUIRE
           return
         }
         if (isNpmPkg(value)) {
           if (value === taroJsComponents) {
-            if (isQuickApp) {
+            if (isBuildQuickapp) {
               if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
                 const id = parentNode.declarations[0].id
                 if (id.type === 'ObjectPattern') {
@@ -445,7 +447,7 @@ export default function processAst ({
       exit (astPath) {
         astPath.traverse({
           ClassBody (astPath) {
-            if (isQuickApp) {
+            if (isBuildQuickapp) {
               const node = astPath.node
               if (!hasComponentWillMount) {
                 node.body.push(t.classMethod(
@@ -496,7 +498,7 @@ export default function processAst ({
             }
           },
           ClassMethod (astPath) {
-            if (isQuickApp) {
+            if (isBuildQuickapp) {
               const node = astPath.node
               const keyName = (node.key as t.Identifier).name
               if (keyName === 'componentDidShow' || keyName === 'componentWillMount') {
@@ -544,7 +546,7 @@ export default function processAst ({
         })
         const node = astPath.node as t.Program
         const exportVariableName = exportTaroReduxConnected || componentClassName
-        if (needExportDefault && !isQuickApp) {
+        if (needExportDefault && !isBuildQuickapp) {
           const exportDefault = template(`export default ${exportVariableName}`, babylonConfig as any)()
           node.body.push(exportDefault as any)
         }
@@ -556,7 +558,7 @@ export default function processAst ({
             if (deviceRatio) {
               pxTransformConfig['deviceRatio'] = deviceRatio
             }
-            if (isQuickApp) {
+            if (isBuildQuickapp) {
               if (!taroImportDefaultName) {
                 node.body.unshift(
                   template(`import Taro from '${taroMiniAppFramework}'`, babylonConfig as any)() as any
@@ -570,9 +572,9 @@ export default function processAst ({
             node.body.push(template(`Taro.initPxTransform(${JSON.stringify(pxTransformConfig)})`, babylonConfig as any)() as any)
             break
           case PARSE_AST_TYPE.PAGE:
-            if (buildAdapter === BUILD_TYPES.WEAPP || buildAdapter === BUILD_TYPES.QQ || buildAdapter === BUILD_TYPES.SWAN) {
+            if (isUseComponentBuildPage) {
               node.body.push(template(`Component(require('${taroMiniAppFramework}').default.createComponent(${exportVariableName}, true))`, babylonConfig as any)() as any)
-            } else if (isQuickApp) {
+            } else if (isBuildQuickapp) {
               const pagePath = sourceFilePath.replace(sourceDir, '').replace(/\\/g, '/').replace(path.extname(sourceFilePath), '')
               if (!taroImportDefaultName) {
                 node.body.unshift(
@@ -586,7 +588,7 @@ export default function processAst ({
             }
             break
           case PARSE_AST_TYPE.COMPONENT:
-            if (isQuickApp) {
+            if (isBuildQuickapp) {
               if (!taroImportDefaultName) {
                 node.body.unshift(
                   template(`import Taro from '${taroMiniAppFramework}'`, babylonConfig as any)() as any

@@ -59,7 +59,7 @@ export default class Config {
     return {
       entry,
       alias: initialConfig.alias || {},
-      copy: initialConfig.copy || {},
+      copy: initialConfig.copy,
       sourceRoot: sourceDirName,
       outputRoot: outputDirName,
       platform,
