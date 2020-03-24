@@ -1,4 +1,4 @@
-function shouleBeObject(target) {
+function shouleBeObject (target) {
   if (target && typeof target === 'object') return { res: true }
   return {
     res: false,
@@ -9,19 +9,19 @@ function shouleBeObject(target) {
   }
 }
 
-function getParameterError({ name = '', para, correct, wrong }) {
+function getParameterError ({ name = '', para, correct, wrong }) {
   const parameter = para ? `parameter.${para}` : 'parameter'
   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
   return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
 }
 
-function upperCaseFirstLetter(string) {
+function upperCaseFirstLetter (string) {
   if (typeof string !== 'string') return string
   string = string.replace(/^./, match => match.toUpperCase())
   return string
 }
 
-function inlineStyle(style) {
+function inlineStyle (style) {
   let res = ''
   for (let attr in style) res += `${attr}: ${style[attr]};`
   if (res.indexOf('display: flex;') >= 0) res += 'display: -webkit-box;display: -webkit-flex;'
@@ -30,7 +30,7 @@ function inlineStyle(style) {
   return res
 }
 
-function setTransform(el, val) {
+function setTransform (el, val) {
   el.style.transform = val
   el.style.OTransform = val
   el.style.msTransform = val
@@ -38,11 +38,11 @@ function setTransform(el, val) {
   el.style.WebkitTransform = val
 }
 
-function isFunction(obj) {
+function isFunction (obj) {
   return typeof obj === 'function'
 }
 
-function successHandler(success, complete) {
+function successHandler (success, complete) {
   return function (res) {
     isFunction(success) && success(res)
     isFunction(complete) && complete(res)
@@ -50,7 +50,7 @@ function successHandler(success, complete) {
   }
 }
 
-function errorHandler(fail, complete) {
+function errorHandler (fail, complete) {
   return function (res) {
     isFunction(fail) && fail(res)
     isFunction(complete) && complete(res)
@@ -58,7 +58,7 @@ function errorHandler(fail, complete) {
   }
 }
 
-function serializeParams(params) {
+function serializeParams (params) {
   if (!params) {
     return ''
   }
@@ -70,7 +70,7 @@ function serializeParams(params) {
     .join('&')
 }
 
-function temporarilyNotSupport(apiName) {
+function temporarilyNotSupport (apiName) {
   return () => {
     const errMsg = `暂时不支持 API ${apiName}`
     console.error(errMsg)
@@ -80,7 +80,7 @@ function temporarilyNotSupport(apiName) {
   }
 }
 
-function weixinCorpSupport(apiName) {
+function weixinCorpSupport (apiName) {
   return () => {
     const errMsg = `h5端仅在微信公众号中支持 API ${apiName}`
     console.error(errMsg)
@@ -90,7 +90,7 @@ function weixinCorpSupport(apiName) {
   }
 }
 
-function permanentlyNotSupport(apiName) {
+function permanentlyNotSupport (apiName) {
   return () => {
     const errMsg = `不支持 API ${apiName}`
     console.error(errMsg)
@@ -193,7 +193,7 @@ const createScroller = () => {
   return { listen, unlisten, getPos, isReachBottom }
 }
 
-function processOpenapi(apiName, defaultOptions, formatResult = res => res, formatParams = options => options) {
+function processOpenapi (apiName, defaultOptions, formatResult = res => res, formatParams = options => options) {
   if (!window.wx) {
     return weixinCorpSupport(apiName)
   }
@@ -259,7 +259,7 @@ const bodyStatusClosure = (() => {
  *
  * @returns scrollTop
  */
-function getScrollTop() {
+function getScrollTop () {
   if (document.scrollingElement) {
     return document.scrollingElement.scrollTop
   } else {
@@ -273,7 +273,7 @@ function getScrollTop() {
  * for more info @see: https://www.zhangxinxu.com/wordpress/2019/02/document-scrollingelement/
  * @param scrollTop scrollTop which needs to be reset
  */
-function setScrollTop(scrollTop) {
+function setScrollTop (scrollTop) {
   if (document.scrollingElement) {
     document.scrollingElement.scrollTop = scrollTop
   } else {
