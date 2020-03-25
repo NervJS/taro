@@ -9,6 +9,7 @@ import {
   taroJsComponents,
   taroJsRedux,
   REG_SCRIPTS,
+  PARSE_AST_TYPE,
   isNpmPkg,
   isQuickAppPkg,
   isAliasPath,
@@ -19,7 +20,6 @@ import {
 
 import {
   QUICKAPP_SPECIAL_COMPONENTS,
-  PARSE_AST_TYPE,
   excludeReplaceTaroFrameworkPkgs
 } from './constants'
 import { convertSourceStringToAstExpression } from './astConvert'
