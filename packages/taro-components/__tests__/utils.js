@@ -1,13 +1,18 @@
 export function waitForChange (dom) {
   return new Promise((resolve) => {
+    let timer
+
     const observer = new MutationObserver(() => {
-      observer.disconnect()
-      resolve()
+      timer && clearTimeout(timer)
+      timer = setTimeout(() => {
+        observer.disconnect()
+        resolve()
+      }, 500)
     })
 
     setTimeout(() => {
       resolve()
-    }, 1000)
+    }, 3000)
 
     observer.observe(dom, { attributes: true, childList: true, subtree: true })
   })

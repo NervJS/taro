@@ -6,53 +6,55 @@ import { waitForChange } from './utils'
 const h = React.createElement
 
 export async function mount (node, wrapper) {
-  const app = React.createRef()
-  const ref = React.createRef()
+  return new Promise(resolve => {
+    class App extends React.Component {
+      constructor () {
+        super(...arguments)
+        const { type, props } = node
+        this.ref = React.createRef()
+        this.state = {
+          Component: type,
+          props
+        }
+      }
 
-  class App extends React.Component {
-    constructor () {
-      super(...arguments)
-      const { type, props } = node
-      this.state = {
-        Component: type,
-        props
+      async componentDidMount () {
+        await waitForChange(this.ref.current)
+
+        resolve({
+          node: this.ref.current,
+          setProps: this.setProps,
+          find: this.find,
+          findAll: this.findAll
+        })
+      }
+
+      setProps = async (nextProps) => {
+        this.setState(prev => ({
+          props: {
+            ...prev.props,
+            ...nextProps
+          }
+        }))
+
+        await waitForChange(this.ref.current)
+        return Promise.resolve()
+      }
+
+      find = (selector) => {
+        return this.ref.current.querySelector(selector)
+      }
+
+      findAll = (selector) => {
+        return this.ref.current.querySelectorAll(selector)
+      }
+
+      render () {
+        const { Component, props } = this.state
+        return <Component ref={this.ref} {...props} />
       }
     }
 
-    setProps = async (nextProps) => {
-      this.setState(prev => ({
-        props: {
-          ...prev.props,
-          ...nextProps
-        }
-      }))
-
-      await waitForChange(ref.current)
-      return Promise.resolve()
-    }
-
-    find = (selector) => {
-      return ref.current.querySelector(selector)
-    }
-
-    findAll = (selector) => {
-      return ref.current.querySelectorAll(selector)
-    }
-
-    render () {
-      const { Component, props } = this.state
-      return <Component ref={ref} {...props} />
-    }
-  }
-
-  ReactDOM.render(<App ref={app} />, wrapper)
-
-  await waitForChange(ref.current)
-
-  return Promise.resolve({
-    node: ref.current,
-    setProps: app.current.setProps,
-    find: app.current.find,
-    findAll: app.current.findAll
+    ReactDOM.render(<App />, wrapper)
   })
 }
