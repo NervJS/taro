@@ -1,15 +1,16 @@
-export default (ctx, opts) => {
+export default (ctx) => {
   ctx.registerPlatform({
-    name: 'tt',
+    name: 'qq',
     useConfigName: 'mini',
     async fn ({ config }) {
       const { appPath, nodeModulesPath, outputPath } = ctx.paths
       const { npm, emptyDirectory } = ctx.helper
+
       emptyDirectory(outputPath)
 
       // 生成 project.config.json
       ctx.generateProjectConfig({
-        srcConfigName: 'project.tt.json',
+        srcConfigName: 'project.qq.json',
         distConfigName: 'project.config.json'
       })
 
@@ -19,14 +20,14 @@ export default (ctx, opts) => {
         nodeModulesPath,
         buildAdapter: config.platform,
         isBuildPlugin: false,
-        globalObject: 'tt',
+        globalObject: 'qq',
         fileType: {
-          templ: '.ttml',
-          style: '.ttss',
+          templ: '.qml',
+          style: '.qss',
           config: '.json',
           script: '.js'
         },
-        isUseComponentBuildPage: false
+        isUseComponentBuildPage: true
       }
 
       // build with webpack

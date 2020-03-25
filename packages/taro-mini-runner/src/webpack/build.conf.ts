@@ -1,5 +1,7 @@
 import * as path from 'path'
 
+import { PARSE_AST_TYPE } from '@tarojs/helper'
+
 import { IBuildConfig } from '../utils/types'
 import {
   getCopyWebpackPlugin,
@@ -16,7 +18,6 @@ import {
   getEntry,
 } from './chain'
 import getBaseConf from './base.conf'
-import { PARSE_AST_TYPE } from '../utils/constants'
 import { createTarget } from '../plugins/MiniPlugin'
 
 const emptyObj = {}
@@ -64,7 +65,10 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     csso,
     uglify,
     commonChunks,
-    addChunkPages
+    addChunkPages,
+
+    modifyBuildAssets,
+    modifyBuildTempFileContent
   } = config
   let { copy } = config
 
@@ -118,7 +122,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks: customCommonChunks,
     addChunkPages,
     alias,
-    fileType
+    fileType,
+    modifyBuildAssets,
+    modifyBuildTempFileContent
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{

@@ -19,13 +19,14 @@ import { urlToRequest } from 'loader-utils'
 import {
   REG_TYPESCRIPT,
   NODE_MODULES_REG,
+  PARSE_AST_TYPE,
   taroJsFramework,
   taroJsQuickAppComponents,
   REG_SCRIPTS,
   processTypeEnum,
   resolveScriptPath,
   isNpmPkg,
-  resolveNpmSync,
+  npm as npmUtils,
   isEmptyObject,
   promoteRelativePath,
   printLog,
@@ -34,7 +35,6 @@ import {
   REG_STYLE
 } from '@tarojs/helper'
 
-import { PARSE_AST_TYPE } from '../utils/constants'
 import { IComponentObj, AddPageChunks, IComponent, IFileType } from '../utils/types'
 import { buildUsingComponents } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -63,6 +63,8 @@ interface IMiniPluginOptions {
   addChunkPages?: AddPageChunks,
   constantsReplaceList: object,
   fileType: IFileType,
+  modifyBuildAssets?: Function,
+  modifyBuildTempFileContent?: Function
 }
 
 export interface ITaroFileInfo {
@@ -483,7 +485,7 @@ export default class MiniPlugin {
               componentPath = replaceAliasPath(filePath, componentPath, alias)
               realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
             } else {
-              realComponentPath = resolveNpmSync(componentPath, this.options.nodeModulesPath)
+              realComponentPath = npmUtils.resolveNpmSync(componentPath, this.options.nodeModulesPath)
             }
           } else {
             realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
@@ -912,8 +914,11 @@ export default class MiniPlugin {
     })
   }
 
-  generateMiniFiles (compilation: webpack.compilation.Compilation, commonStyles: Set<string>) {
-    const { isBuildQuickapp, fileType, buildAdapter, commonChunks } = this.options
+  async generateMiniFiles (compilation: webpack.compilation.Compilation, commonStyles: Set<string>) {
+    const { isBuildQuickapp, fileType, buildAdapter, commonChunks, modifyBuildTempFileContent, modifyBuildAssets } = this.options
+    if (typeof modifyBuildTempFileContent === 'function') {
+      await modifyBuildTempFileContent(taroFileTypeMap)
+    }
     Object.keys(taroFileTypeMap).forEach(item => {
       const relativePath = this.getRelativePath(item)
       const extname = path.extname(item)
@@ -1061,6 +1066,9 @@ export default class MiniPlugin {
         }
       }
     })
+    if (typeof modifyBuildAssets === 'function') {
+      await modifyBuildAssets(compilation.assets)
+    }
   }
 
   getRelativePath (filePath) {
