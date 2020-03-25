@@ -86,15 +86,16 @@ const siteConfig = {
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks
     // theme: 'tomorrow-night',
-    theme: 'Vs'
+    defaultLang: 'javascript',
+    theme: 'vs',
+    themeUrl: 'https://storage.jd.com/taro-resource/vs.min.css'
   },
 
   usePrism: true,
 
   // Add custom scripts here that would be placed in <script> tags
   scripts: [
-    'https://buttons.github.io/buttons.js',
-    'https://jdc.jd.com/demo/talenttest/js/url.js',
+    'https://storage.jd.com/taro-docs/buttons.js',
     {
       src: 'https://storage.jd.com/taro-resource/tongji.js',
       async: true
