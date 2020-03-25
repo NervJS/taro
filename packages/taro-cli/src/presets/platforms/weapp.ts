@@ -1,45 +1,6 @@
 import * as path from 'path'
 // export const CONFIG_MAP = {
-//   [BUILD_TYPES.WEAPP]: {
-//     navigationBarTitleText: 'navigationBarTitleText',
-//     navigationBarBackgroundColor: 'navigationBarBackgroundColor',
-//     enablePullDownRefresh: 'enablePullDownRefresh',
-//     list: 'list',
-//     text: 'text',
-//     iconPath: 'iconPath',
-//     selectedIconPath: 'selectedIconPath',
-//     color: 'color'
-//   },
-//   [BUILD_TYPES.SWAN]: {
-//     navigationBarTitleText: 'navigationBarTitleText',
-//     navigationBarBackgroundColor: 'navigationBarBackgroundColor',
-//     enablePullDownRefresh: 'enablePullDownRefresh',
-//     list: 'list',
-//     text: 'text',
-//     iconPath: 'iconPath',
-//     selectedIconPath: 'selectedIconPath',
-//     color: 'color'
-//   },
-//   [BUILD_TYPES.TT]: {
-//     navigationBarTitleText: 'navigationBarTitleText',
-//     navigationBarBackgroundColor: 'navigationBarBackgroundColor',
-//     enablePullDownRefresh: 'enablePullDownRefresh',
-//     list: 'list',
-//     text: 'text',
-//     iconPath: 'iconPath',
-//     selectedIconPath: 'selectedIconPath',
-//     color: 'color'
-//   },
-//   [BUILD_TYPES.ALIPAY]: {
-//     navigationBarTitleText: 'defaultTitle',
-//     navigationBarBackgroundColor: 'titleBarColor',
-//     enablePullDownRefresh: 'pullRefresh',
-//     list: 'items',
-//     text: 'name',
-//     iconPath: 'icon',
-//     selectedIconPath: 'activeIcon',
-//     color: 'textColor'
-//   },
+
 //   [BUILD_TYPES.QUICKAPP]: {
 //     navigationBarTitleText: 'titleBarText',
 //     navigationBarBackgroundColor: 'titleBarBackgroundColor',
@@ -55,26 +16,6 @@ import * as path from 'path'
 //     backgroundColorTop: false,
 //     navigationStyle: 'navigationStyle'
 //   },
-//   [BUILD_TYPES.QQ]: {
-//     navigationBarTitleText: 'navigationBarTitleText',
-//     navigationBarBackgroundColor: 'navigationBarBackgroundColor',
-//     enablePullDownRefresh: 'enablePullDownRefresh',
-//     list: 'list',
-//     text: 'text',
-//     iconPath: 'iconPath',
-//     selectedIconPath: 'selectedIconPath',
-//     color: 'color'
-//   },
-//   [BUILD_TYPES.JD]: {
-//     navigationBarTitleText: 'navigationBarTitleText',
-//     navigationBarBackgroundColor: 'navigationBarBackgroundColor',
-//     enablePullDownRefresh: 'enablePullDownRefresh',
-//     list: 'list',
-//     text: 'text',
-//     iconPath: 'iconPath',
-//     selectedIconPath: 'selectedIconPath',
-//     color: 'color'
-//   }
 // }
 // const LOG_MAP = {
 //   [BUILD_TYPES.WEAPP]: {
@@ -100,19 +41,22 @@ import * as path from 'path'
 //   }
 // }
 // swan page component true
-export default (ctx, opts) => {
+export default (ctx) => {
   ctx.registerPlatform({
     name: 'weapp',
     useConfigName: 'mini',
     async fn ({ config }) {
-      const { appPath, nodeModulesPath } = ctx.paths
-      const { npm } = ctx.helper
+      const { appPath, nodeModulesPath, outputPath } = ctx.paths
+      const { npm, emptyDirectory } = ctx.helper
+      emptyDirectory(outputPath)
+
       // 生成 project.config.json
       ctx.generateProjectConfig({
         srcConfigName: 'project.config.json',
         distConfigName: 'project.config.json'
       })
-      // build with webpack
+
+      // 准备 miniRunner 参数
       const miniRunnerOpts = {
         ...config,
         nodeModulesPath,
@@ -125,15 +69,10 @@ export default (ctx, opts) => {
           config: '.json',
           script: '.js'
         },
-        isUseComponentBuildPage: true,
-        async modifyWebpackChain (chain, webpack) {
-          return await ctx.applyPlugins({
-            name: 'modifyWebpackChain',
-            initialVal: chain,
-            opts: webpack
-          })
-        }
+        isUseComponentBuildPage: true
       }
+
+      // build with webpack
       const miniRunner = await npm.getNpmPkg('@tarojs/mini-runner', appPath)
       await miniRunner(appPath, miniRunnerOpts)
     }

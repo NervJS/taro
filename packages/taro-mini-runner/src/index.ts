@@ -1,8 +1,8 @@
 import * as webpack from 'webpack'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { PARSE_AST_TYPE } from '@tarojs/helper'
 
 import { IBuildConfig, IOption } from './utils/types'
-import { PARSE_AST_TYPE } from './utils/constants'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import buildConf from './webpack/build.conf'
 

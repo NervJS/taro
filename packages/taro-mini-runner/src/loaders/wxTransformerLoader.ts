@@ -9,12 +9,10 @@ import generate from 'better-babel-generator'
 import {
   REG_TYPESCRIPT,
   NODE_MODULES_REG,
+  PARSE_AST_TYPE,
   isEmptyObject
 } from '@tarojs/helper'
 
-import {
-  PARSE_AST_TYPE
-} from '../utils/constants'
 import processAst from '../utils/processAst'
 import { npmCodeHack } from '../utils'
 import parseAst from '../utils/parseAst'

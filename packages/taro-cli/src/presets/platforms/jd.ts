@@ -1,15 +1,16 @@
-export default (ctx, opts) => {
+export default (ctx) => {
   ctx.registerPlatform({
-    name: 'tt',
+    name: 'jd',
     useConfigName: 'mini',
     async fn ({ config }) {
       const { appPath, nodeModulesPath, outputPath } = ctx.paths
       const { npm, emptyDirectory } = ctx.helper
+
       emptyDirectory(outputPath)
 
       // 生成 project.config.json
       ctx.generateProjectConfig({
-        srcConfigName: 'project.tt.json',
+        srcConfigName: 'project.jd.json',
         distConfigName: 'project.config.json'
       })
 
@@ -19,10 +20,10 @@ export default (ctx, opts) => {
         nodeModulesPath,
         buildAdapter: config.platform,
         isBuildPlugin: false,
-        globalObject: 'tt',
+        globalObject: 'jd',
         fileType: {
-          templ: '.ttml',
-          style: '.ttss',
+          templ: '.jxml',
+          style: '.jxss',
           config: '.json',
           script: '.js'
         },
