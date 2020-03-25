@@ -4,11 +4,13 @@ const path = require('path')
 const envinfo = require('envinfo')
 const process = require('process')
 const program = require('commander')
+const chalk = require('chalk')
 
-const { UPDATE_PACKAGE_LIST } = require('../dist/util/constants')
+const { PROJECT_CONFIG, UPDATE_PACKAGE_LIST } = require('../dist/util/constants')
 const { getPkgVersion } = require('../dist/util')
 
-const npmPackages = UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'nervjs', 'expo'])
+const npmPackages = UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'nervjs', 'expo', 'taro-ui'])
+const PROJECT_CONF_PATH = path.join(process.cwd(), PROJECT_CONFIG)
 
 program.parse(process.argv)
 
@@ -34,11 +36,11 @@ function rnInfo (options) {
   const tempPath = path.join(appPath, '.rn_temp')
   if (fs.lstatSync(tempPath).isDirectory()) {
     process.chdir('.rn_temp')
-    info(options)
+    info(options, false)
   }
 }
 
-async function info (options) {
+async function info (options, checkConfig = true) {
   const info = await envinfo.run(Object.assign({}, {
     System: ['OS', 'Shell'],
     Binaries: ['Node', 'Yarn', 'npm'],
@@ -47,5 +49,10 @@ async function info (options) {
   }, options), {
     title: `Taro CLI ${getPkgVersion()} environment info`
   })
+
+  if (checkConfig && !fs.existsSync(PROJECT_CONF_PATH)) {
+    console.log(chalk.yellow(`未找到项目配置文件${PROJECT_CONFIG}，当前目录不是Taro项目根目录，依赖信息已忽略！`))
+  }
+
   console.log(info)
 }
