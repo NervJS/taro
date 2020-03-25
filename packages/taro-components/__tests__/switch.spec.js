@@ -44,8 +44,8 @@ describe('Switch', () => {
     })
 
     assert(input.className === 'weui-checkbox')
-    assert(inputStyle.borderColor === color)
     assert(inputStyle.backgroundColor === color)
+    assert(inputStyle.borderColor === color)
   })
 
   it('events', async () => {

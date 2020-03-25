@@ -52,6 +52,8 @@ export class Switch implements ComponentInterface {
       name
     } = this
 
+    console.log('color: ', color)
+
     const style = isChecked
       ? {
         borderColor: color || '04BE02',
