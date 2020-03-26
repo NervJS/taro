@@ -1,3 +1,5 @@
+import { recursiveReplaceObjectKeys } from '../../util'
+
 export default (ctx) => {
   ctx.registerPlatform({
     name: 'alipay',
@@ -45,20 +47,6 @@ export default (ctx) => {
       // build with webpack
       const miniRunner = await npm.getNpmPkg('@tarojs/mini-runner', appPath)
       await miniRunner(appPath, miniRunnerOpts)
-    }
-  })
-}
-
-function recursiveReplaceObjectKeys (obj, keyMap) {
-  Object.keys(obj).forEach(key => {
-    if (keyMap[key]) {
-      obj[keyMap[key]] = obj[key]
-      if (typeof obj[key] === 'object') {
-        recursiveReplaceObjectKeys(obj[keyMap[key]], keyMap)
-      }
-      delete obj[key]
-    } else if (typeof obj[key] === 'object') {
-      recursiveReplaceObjectKeys(obj[key], keyMap)
     }
   })
 }

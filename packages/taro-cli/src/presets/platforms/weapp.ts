@@ -1,22 +1,3 @@
-import * as path from 'path'
-// export const CONFIG_MAP = {
-
-//   [BUILD_TYPES.QUICKAPP]: {
-//     navigationBarTitleText: 'titleBarText',
-//     navigationBarBackgroundColor: 'titleBarBackgroundColor',
-//     navigationBarTextStyle: 'titleBarTextColor',
-//     pageOrientation: 'orientation',
-//     list: 'list',
-//     text: 'text',
-//     iconPath: 'iconPath',
-//     selectedIconPath: 'selectedIconPath',
-//     backgroundTextStyle: false,
-//     onReachBottomDistance: false,
-//     backgroundColorBottom: false,
-//     backgroundColorTop: false,
-//     navigationStyle: 'navigationStyle'
-//   },
-// }
 // const LOG_MAP = {
 //   [BUILD_TYPES.WEAPP]: {
 //     OPEN: '请打开微信小程序开发者工具进行查看'
