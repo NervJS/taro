@@ -107,19 +107,16 @@ export class Style {
   }
 
   public setProperty (propertyName: string, value?: string | null) {
-    if (propertyName[0] === '-') {
-      this.setCssVariables(propertyName)
-    } else {
-      propertyName = toCamelCase(propertyName)
-      if (isUndefined(value)) {
-        return
-      }
+    this.setCssVariables(propertyName)
+    propertyName = toCamelCase(propertyName)
+    if (isUndefined(value)) {
+      return
+    }
 
-      if (value === null || value === '') {
-        this.removeProperty(propertyName)
-      } else {
-        this[propertyName] = value
-      }
+    if (value === null || value === '') {
+      this.removeProperty(propertyName)
+    } else {
+      this[propertyName] = value
     }
   }
 
