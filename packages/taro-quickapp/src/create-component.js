@@ -88,7 +88,7 @@ function processEvent (eventHandlerName, obj) {
 
   obj[eventHandlerName] = function (event) {
     if (event) {
-      const currentTarget = event.currentTarget
+      let currentTarget = event.currentTarget
       const target = event.target
       Object.defineProperties(event, {
         target: {
@@ -101,6 +101,9 @@ function processEvent (eventHandlerName, obj) {
           configurable: true,
           get () {
             return Object.assign(currentTarget || target || {}, event.detail)
+          },
+          set (target) {
+            currentTarget = target
           }
         }
       })
