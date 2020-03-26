@@ -19,14 +19,23 @@ export async function mount (node, wrapper) {
       }
 
       async componentDidMount () {
-        await waitForChange(this.ref.current)
+        const ref = this.ref.current
+        const dom = ref instanceof HTMLElement ? ref : ReactDOM.findDOMNode(ref)
+
+        await waitForChange(dom)
 
         resolve({
-          node: this.ref.current,
+          node: dom,
+          setState: this.setCompState,
           setProps: this.setProps,
           find: this.find,
           findAll: this.findAll
         })
+      }
+
+      setCompState = async (nextState) => {
+        this.ref.current.setState(nextState)
+        await waitForChange(ReactDOM.findDOMNode(this.ref.current))
       }
 
       setProps = async (nextProps) => {
@@ -38,7 +47,6 @@ export async function mount (node, wrapper) {
         }))
 
         await waitForChange(this.ref.current)
-        return Promise.resolve()
       }
 
       find = (selector) => {

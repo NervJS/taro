@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, Prop, State, ComponentInterface, Event, EventEmitter } from '@stencil/core'
+import { Component, h, Prop, State, ComponentInterface, Event, EventEmitter, Listen } from '@stencil/core'
 import classNames from 'classnames'
 
 @Component({
@@ -28,7 +28,8 @@ export class Button implements ComponentInterface {
     eventName: 'tarobuttonreset'
   }) onReset: EventEmitter
 
-  onTouchStart = () => {
+  @Listen('touchstart')
+  onTouchStart () {
     this.touch = true
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
@@ -39,7 +40,8 @@ export class Button implements ComponentInterface {
     }
   }
 
-  onTouchEnd = () => {
+  @Listen('touchend')
+  onTouchEnd () {
     this.touch = false
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
@@ -56,7 +58,8 @@ export class Button implements ComponentInterface {
     }
   }
 
-  onClick = (e: MouseEvent) => {
+  @Listen('click')
+  onClick (e: MouseEvent) {
     // 取消 form 内 button 跳转
     e.preventDefault()
   }
@@ -92,9 +95,6 @@ export class Button implements ComponentInterface {
         // @ts-ignore: weui need plain for css selector
         plain={plain}
         disabled={disabled}
-        onTouchStart={this.onTouchStart}
-        onTouchEnd={this.onTouchEnd}
-        onClick={this.onClick}
       >
         {loading && <i class='weui-loading' />}
         <slot />
