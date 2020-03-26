@@ -1,6 +1,6 @@
 <template>
   <swiper
-    class="taro_swiper {{class}}"
+    class="taro_swiper {{classname}}"
     style="{{swiperstyle}}"
     id="{{id}}"
     autoplay="{{autoplay}}"
@@ -12,11 +12,11 @@
     <slot></slot>
   </swiper>
 </template>
-  
+
 <script>
   export default {
     props: {
-      class: {
+      classname: {
         type: String,
         required: false,
         default: ''
@@ -50,7 +50,7 @@
         type: String,
         required: false,
         default: 'rgba(0, 0, 0, .3)'
-      }, 
+      },
       indicatoractivecolor: {
         type: String,
         required: false,

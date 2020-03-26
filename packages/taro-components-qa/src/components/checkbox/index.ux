@@ -2,7 +2,7 @@
   <input
     type='checkbox'
     checked="{{ checked }}"
-    class="{{ class }}"
+    class="{{classname}}"
     id="{{ id }}"
     onchange="change"
     style="{{customstyle}}" />
@@ -16,7 +16,7 @@
         default: false,
         required: false,
       },
-      class: {
+      classname: {
         type: String,
         required: false,
       },

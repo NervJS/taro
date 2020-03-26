@@ -2,7 +2,7 @@
   <div class="taro_picker">
     <text class="label">当前选择</text>
     <picker
-      class="picker {{class}}"
+      class="picker {{classname}}"
       style="{{customstyle}}"
       id="{{id}}"
       type="{{type}}"
@@ -17,13 +17,13 @@
     >
     </picker>
   </div>
- 
+
 </template>
 
 <script>
   export default {
     props: {
-      class: {
+      classname: {
         type: String,
         required: false,
         default: ''
@@ -101,7 +101,7 @@
           this.type = 'text'
       }
     },
-    handleChange (e) { 
+    handleChange (e) {
       switch (this.mode) {
         case 'selector':
           let index = this.range.indexOf(e.newValue)
@@ -130,11 +130,11 @@
       if (!this.range && !this.value) {
         console.warn('请传入range和value值')
         return
-      } 
+      }
       if (this.range.length !== this.value.length) {
         console.warn('数据传入有误')
         return
-      } 
+      }
       let newValue = []
       for (let i = 0; i < this.range.length; i++) {
         newValue[i] = this.range[i][`${this.value[i]}`]

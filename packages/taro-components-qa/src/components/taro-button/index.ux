@@ -19,7 +19,7 @@ const LOADING_IMG = 'data:image/gif;base64,R0lGODlhgACAAKIAAP///93d3bu7u5mZmQAA/
 
 export default {
   props: {
-    class: {
+    classname: {
       type: String,
       required: false,
       default: 'default'
@@ -104,12 +104,12 @@ export default {
     text-decoration: none;
     line-height: 46px;
     border-radius: 7px;
-    border: 1px solid #AFAFAF;   
+    border: 1px solid #AFAFAF;
     background-color: #F7F7F7;
   }
   .taro-button:active {
     border-width: 1px;
-    border-color: lightslategray;  
+    border-color: lightslategray;
     background-color: #F6F6E5;
   }
   .taro-button-small {
@@ -143,15 +143,15 @@ export default {
     color: #6190E8;
     border: 1.5px solid #78A4F4;
     background-color: #FFF;
-  }     
+  }
   .taro-button-danger {
     background-color: #EF4F4F;
-    border-color: #EF4F4F;  
+    border-color: #EF4F4F;
     color: #FFF;
   }
   .taro-button-danger:active {
     background-color: #ab2048;
-    border-color: #ab2048; 
+    border-color: #ab2048;
     color: #FFF;
   }
   .taro-button-plain {

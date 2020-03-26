@@ -84,7 +84,7 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
     if (quickappComponentName.has(nameCapitalized)) {
       options.name = `taro-${name}`
       if (options.attributes['className']) {
-        options.attributes['class'] = options.attributes['className']
+        options.attributes['classname'] = options.attributes['className']
         delete options.attributes['className']
       }
     }
