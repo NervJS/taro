@@ -159,6 +159,14 @@ export class Picker implements ComponentInterface {
 
     // 同步表单 value 值，用于 form submit
     this.pickerValue = this.value
+    if (mode === 'date') {
+      const val = this.pickerValue as string
+      if (this.fields === 'month') {
+        this.pickerValue = val.split('-').slice(0, 2).join('-')
+      } else if (this.fields === 'year') {
+        this.pickerValue = val.split('-')[0]
+      }
+    }
   }
 
   // 展示 Picker
@@ -227,7 +235,11 @@ export class Picker implements ComponentInterface {
       } else {
         value = [year, month, day]
       }
-      value = value.join('-')
+      value = value
+        .map(item => {
+          return item < 10 ? `0${item}` : item
+        })
+        .join('-')
     }
 
     this.pickerValue = value
@@ -382,9 +394,9 @@ export class Picker implements ComponentInterface {
     const yearRange = getYearRange(_start.getFullYear(), _end.getFullYear())
       .map(item => `${item}年`)
     const monthRange = getMonthRange(_start, _end, currentYear)
-      .map(item => `${item}月`)
+      .map(item => `${item < 10 ? `0${item}` : item}月`)
     const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
-      .map(item => `${item}日`)
+      .map(item => `${item < 10 ? `0${item}` : item}日`)
 
     const renderView = [
       <taro-picker-group

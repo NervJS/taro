@@ -20,7 +20,7 @@ describe('Textarea', () => {
   })
 
   afterEach(() => {
-    // scratch.parentNode.removeChild(scratch)
+    scratch.parentNode.removeChild(scratch)
     scratch = null
   })
 
