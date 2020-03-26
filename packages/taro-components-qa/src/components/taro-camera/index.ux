@@ -1,5 +1,5 @@
 <template>
-  <div class="camera {{class}}" id="{{id}}" style="{{customstyle}}">
+  <div class="camera {{classname}}" id="{{id}}" style="{{customstyle}}">
     <input type="button" class="camera_btn" onclick="takePhoto" value="拍摄照片"/>
     <image src="{{photoUrl}}" class="image"></image>
   </div>
@@ -16,7 +16,7 @@
         required: false,
         default: ''
       },
-      class: {
+      classname: {
         type: String,
         required: false,
         default: ''

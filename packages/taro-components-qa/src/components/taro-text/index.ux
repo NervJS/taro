@@ -1,6 +1,6 @@
 <template>
   <text
-    class="{{class}}"
+    class="{{classname}}"
     id="{{id}}"
     style="{{customstyle}}"
     onclick="handleClick"
@@ -11,7 +11,7 @@
 <script>
   export default {
     props: {
-      class: {
+      classname: {
         type: String,
         required: false,
         default: 'taro_text'
