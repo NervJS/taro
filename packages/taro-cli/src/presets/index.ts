@@ -11,6 +11,8 @@ export default () => {
       path.resolve(__dirname, 'platforms', 'jd.js'),
       path.resolve(__dirname, 'platforms', 'qq.js'),
       path.resolve(__dirname, 'platforms', 'quickapp.js'),
+      path.resolve(__dirname, 'platforms', 'h5.js'),
+      path.resolve(__dirname, 'platforms', 'rn.js'),
 
       // commands
       path.resolve(__dirname, 'commands', 'build.js'),

@@ -5,6 +5,7 @@ export default (ctx) => {
       const { platform, config } = opts
       const { fs } = ctx.helper
       const { outputPath } = ctx.paths
+      console.log(ctx.runOpts)
       fs.ensureDirSync(outputPath)
       ctx.registerMethod('modifyWebpackChain')
       ctx.registerMethod('modifyBuildAssets')

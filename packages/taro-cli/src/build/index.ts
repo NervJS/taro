@@ -8,6 +8,10 @@ export default function build ({
   isWatch,
   release,
   port,
+  ui,
+  uiIndex,
+  page,
+  component,
   envHasBeenSet = false
 }: {
   platform: string,
@@ -15,6 +19,10 @@ export default function build ({
   isWatch: boolean,
   release?: boolean
   port?: number
+  ui?: boolean
+  uiIndex?: string
+  page?: string
+  component?: string
   envHasBeenSet?: boolean
 }) {
   let isProduction = false
@@ -36,7 +44,11 @@ export default function build ({
       isWatch,
       isProduction,
       release,
-      port
+      port,
+      ui,
+      uiIndex,
+      page,
+      component
     }
   })
 }
