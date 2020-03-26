@@ -71,7 +71,11 @@ export default class CLI {
             appPath: this.appPath,
             isWatch: !!args.watch,
             port: args.port,
-            release: args.release
+            release: args.release,
+            ui: args.ui,
+            uiIndex: args.uiIndex,
+            page: args.page,
+            component: args.component
           })
           break
         default:
