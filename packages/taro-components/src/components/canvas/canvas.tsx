@@ -56,7 +56,7 @@ export class Canvas implements ComponentInterface {
     } = this
 
     return (
-      <Host class='taro-canvas'>
+      <Host>
         <canvas
           canvas-id={canvasId}
           width={width}
