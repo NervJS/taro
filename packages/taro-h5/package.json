@@ -37,7 +37,8 @@
     "jsonp-retry": "^1.0.3",
     "mobile-detect": "^1.4.2",
     "raf": "^3.4.1",
-    "whatwg-fetch": "^2.0.4"
+    "whatwg-fetch": "^2.0.4",
+    "zl-fetch": "^3.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",

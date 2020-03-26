@@ -1,6 +1,7 @@
 import { Link } from '@tarojs/taro'
 import jsonpRetry from 'jsonp-retry'
 import 'whatwg-fetch'
+import zlFetch from 'zl-fetch';
 import { serializeParams } from '../utils'
 
 function generateRequestUrlWithParams (url, params) {
@@ -72,27 +73,7 @@ function _request (options) {
     params.signal = options.signal
   }
   params.credentials = options.credentials
-  return fetch(url, params)
-    .then(response => {
-      res.statusCode = response.status
-      res.header = {}
-      response.headers.forEach((val, key) => {
-        res.header[key] = val
-      })
-      if(!response.ok) {
-        throw response
-      }
-      if (options.responseType === 'arraybuffer') {
-        return response.arrayBuffer()
-      }
-      if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-        return response.json()
-      }
-      if (options.responseType === 'text') {
-        return response.text()
-      }
-      return Promise.resolve(null)
-    })
+  return zlFetch(url, params)
     .then(data => {
       res.data = data
       typeof success === 'function' && success(res)
