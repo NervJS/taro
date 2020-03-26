@@ -1,4 +1,4 @@
-import { ComponentType } from 'react'
+import { ComponentType, ImgHTMLAttributes } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 
 interface ImageProps extends StandardProps {
@@ -41,6 +41,12 @@ interface ImageProps extends StandardProps {
    * @supported weapp, h5, rn, swan, alipay, tt
    */
   onLoad?: CommonEventFunction<ImageProps.onLoadEventDetail>
+
+  /**
+   * 为 img 标签额外增加的属性
+   * @supported h5
+   */
+  imgProps?: ImgHTMLAttributes<HTMLImageElement>
 }
 
 declare namespace ImageProps {

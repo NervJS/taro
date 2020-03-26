@@ -283,7 +283,7 @@ export default function docsAPI (
 
   if (diff) {
     const canges = spawn('git', ['status', '-z'])
-
+  
     canges.stdout.on('data', (data) => {
       const ss = data.toString().trim().split(/\u0000|\s+/ig)
       for (const s of ss) {
@@ -339,16 +339,16 @@ export async function writeApiDoc (routepath: string, doc: DocEntry[], withGener
       const params = e.parameters || []
       const members = e.members || []
       const md: (string | undefined)[] = []
-
+  
       if (name === 'General' && !withGeneral) continue
       if (tags.find(tag => tag.name === 'ignore')) continue
-
+  
       if (!isFunction(e.flags) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
         console.warn(`WARN: Symbol flags ${e.flags} is missing parse! Watch symbol name:${name}.`)
       }
-
+  
       const apis = { [`${TaroMethod.includes(e.flags || -1) ? 'Taro.' : ''}${name}`]: tags }
-
+  
       for (const member of members) {
         if (isShowAPI(member.flags)) {
           if (member.name && member.jsTags) apis[`${name}.${member.name}`] = member.jsTags || []
@@ -356,7 +356,7 @@ export async function writeApiDoc (routepath: string, doc: DocEntry[], withGener
           console.warn(`WARN: Symbol flags ${member.flags} for members is missing parse! Watch member name:${member.name}.`)
         }
       }
-
+  
       md.push(
         get.header({ title: get.title(name, params, e.flags), sidebar_label: name }),
         get.since(tags.find(tag => tag.name === 'since')),
@@ -368,7 +368,7 @@ export async function writeApiDoc (routepath: string, doc: DocEntry[], withGener
         get.example(tags),
         get.api(apis),
       )
-
+  
       writeFile(
         path.resolve(_p.name === 'index' ? _p.dir : routepath, `${name}.md`),
         splicing(md),
@@ -383,7 +383,7 @@ export async function writeDoc (routepath: string, doc: DocEntry[]) {
   const merge = await childrenMerge(doc, [])
   const Component = merge.find(e => e.name === _p.name) || {}
   const ComponentTags = Component.jsTags || []
-
+    
   const apis = { [`${_p.name}`]: ComponentTags }
 
   for (const member of Component && (Component.members || [])) {
@@ -416,11 +416,11 @@ export async function writeDoc (routepath: string, doc: DocEntry[]) {
 
         if (e.flags === ts.SymbolFlags.TypeLiteral) return undefined
         if (tags.find(tag => tag.name === 'ignore')) return undefined
-
+    
         if (!isFunction(e.flags) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
           console.warn(`WARN: Symbol flags ${e.flags} is missing parse! Watch symbol name:${name}.`)
         }
-
+    
         md.push(
           `## ${name}\n`,
           get.since(tags.find(tag => tag.name === 'since')),
@@ -451,7 +451,7 @@ function main() {
   docsAPI('packages/taro-components/types', 'docs/components', ['packages/taro-components/types'], writeDoc,
     process.argv.findIndex(e => /^[-]{2}verbose/ig.test(e)) > -1,
     process.argv.findIndex(e => /^[-]{2}force/ig.test(e)) === -1)
-
+  
   // writeFile(
   //   path.resolve(__dirname, `taro-apis.md`),
   //   splicing([

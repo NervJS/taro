@@ -24,12 +24,12 @@ export default class PageView extends Component {
   constructor() {
     super(...arguments)
   }
-  
+
   onScrollToUpper() {}
-  
+
   // or 使用箭头函数
   // onScrollToUpper = () => {}
-  
+
   onScroll(e){
     console.log(e.detail)
   }
