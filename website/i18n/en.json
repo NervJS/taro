@@ -1391,6 +1391,10 @@
         "title": "Label",
         "sidebar_label": "Label"
       },
+      "components/forms/picker-view-column": {
+        "title": "PickerViewColumn",
+        "sidebar_label": "PickerViewColumn"
+      },
       "components/forms/picker-view": {
         "title": "PickerView",
         "sidebar_label": "PickerView"
@@ -1398,6 +1402,10 @@
       "components/forms/picker": {
         "title": "Picker",
         "sidebar_label": "Picker"
+      },
+      "components/forms/radio-group": {
+        "title": "RadioGroup",
+        "sidebar_label": "RadioGroup"
       },
       "components/forms/radio": {
         "title": "Radio",
@@ -1451,6 +1459,10 @@
         "title": "Navigator",
         "sidebar_label": "Navigator"
       },
+      "components/navigation-bar": {
+        "title": "NavigationBar",
+        "sidebar_label": "NavigationBar"
+      },
       "components/open/ad": {
         "title": "Ad",
         "sidebar_label": "Ad"
@@ -1470,6 +1482,10 @@
       "components/open/web-view": {
         "title": "WebView",
         "sidebar_label": "WebView"
+      },
+      "components/page-meta": {
+        "title": "PageMeta",
+        "sidebar_label": "PageMeta"
       },
       "components/viewContainer/cover-image": {
         "title": "CoverImage",
@@ -4619,6 +4635,379 @@
       },
       "version-1.3.37/version-1.3.37-README": {
         "title": "Taro 介绍"
+      },
+      "version-1.3.38/apis/ad/version-1.3.38-InterstitialAd": {
+        "title": "InterstitialAd",
+        "sidebar_label": "InterstitialAd"
+      },
+      "version-1.3.38/apis/ad/version-1.3.38-RewardedVideoAd": {
+        "title": "RewardedVideoAd",
+        "sidebar_label": "RewardedVideoAd"
+      },
+      "version-1.3.38/apis/base/debug/version-1.3.38-getLogManager": {
+        "title": "Taro.getLogManager(res)",
+        "sidebar_label": "getLogManager"
+      },
+      "version-1.3.38/apis/canvas/version-1.3.38-CanvasContext": {
+        "title": "CanvasContext",
+        "sidebar_label": "CanvasContext"
+      },
+      "version-1.3.38/apis/canvas/version-1.3.38-canvasToTempFilePath": {
+        "title": "Taro.canvasToTempFilePath(option, component)",
+        "sidebar_label": "canvasToTempFilePath"
+      },
+      "version-1.3.38/apis/device/accelerometer/version-1.3.38-startAccelerometer": {
+        "title": "Taro.startAccelerometer(res)",
+        "sidebar_label": "startAccelerometer"
+      },
+      "version-1.3.38/apis/device/compass/version-1.3.38-onCompassChange": {
+        "title": "Taro.onCompassChange(callback)",
+        "sidebar_label": "onCompassChange"
+      },
+      "version-1.3.38/apis/device/gyroscope/version-1.3.38-startGyroscope": {
+        "title": "Taro.startGyroscope(option)",
+        "sidebar_label": "startGyroscope"
+      },
+      "version-1.3.38/apis/device/motion/version-1.3.38-startDeviceMotionListening": {
+        "title": "Taro.startDeviceMotionListening(option)",
+        "sidebar_label": "startDeviceMotionListening"
+      },
+      "version-1.3.38/apis/device/network/version-1.3.38-getNetworkType": {
+        "title": "Taro.getNetworkType(option)",
+        "sidebar_label": "getNetworkType"
+      },
+      "version-1.3.38/apis/device/network/version-1.3.38-onNetworkStatusChange": {
+        "title": "Taro.onNetworkStatusChange(callback)",
+        "sidebar_label": "onNetworkStatusChange"
+      },
+      "version-1.3.38/apis/device/nfc/version-1.3.38-onHCEMessage": {
+        "title": "Taro.onHCEMessage(callback)",
+        "sidebar_label": "onHCEMessage"
+      },
+      "version-1.3.38/apis/device/performance/version-1.3.38-onMemoryWarning": {
+        "title": "Taro.onMemoryWarning(callback)",
+        "sidebar_label": "onMemoryWarning"
+      },
+      "version-1.3.38/apis/device/scan/version-1.3.38-scancode": {
+        "title": "Taro.scanCode(option)",
+        "sidebar_label": "scanCode"
+      },
+      "version-1.3.38/apis/files/version-1.3.38-FileSystemManager": {
+        "title": "FileSystemManager",
+        "sidebar_label": "FileSystemManager"
+      },
+      "version-1.3.38/apis/files/version-1.3.38-openDocument": {
+        "title": "Taro.openDocument(option)",
+        "sidebar_label": "openDocument"
+      },
+      "version-1.3.38/apis/framework/version-1.3.38-getApp": {
+        "title": "Taro.getApp(opts)",
+        "sidebar_label": "getApp"
+      },
+      "version-1.3.38/apis/media/audio/version-1.3.38-getAvailableAudioSources": {
+        "title": "Taro.getAvailableAudioSources(option)",
+        "sidebar_label": "getAvailableAudioSources"
+      },
+      "version-1.3.38/apis/media/background-audio/version-1.3.38-getBackgroundAudioPlayerState": {
+        "title": "Taro.getBackgroundAudioPlayerState(option)",
+        "sidebar_label": "getBackgroundAudioPlayerState"
+      },
+      "version-1.3.38/apis/media/camera/version-1.3.38-CameraContext": {
+        "title": "CameraContext",
+        "sidebar_label": "CameraContext"
+      },
+      "version-1.3.38/apis/media/image/version-1.3.38-chooseImage": {
+        "title": "Taro.chooseImage(option)",
+        "sidebar_label": "chooseImage"
+      },
+      "version-1.3.38/apis/media/image/version-1.3.38-chooseMessageFile": {
+        "title": "Taro.chooseMessageFile(option)",
+        "sidebar_label": "chooseMessageFile"
+      },
+      "version-1.3.38/apis/media/image/version-1.3.38-getImageInfo": {
+        "title": "Taro.getImageInfo(option)",
+        "sidebar_label": "getImageInfo"
+      },
+      "version-1.3.38/apis/media/live/version-1.3.38-LivePlayerContext": {
+        "title": "LivePlayerContext",
+        "sidebar_label": "LivePlayerContext"
+      },
+      "version-1.3.38/apis/media/recorder/version-1.3.38-RecorderManager": {
+        "title": "RecorderManager",
+        "sidebar_label": "RecorderManager"
+      },
+      "version-1.3.38/apis/media/video-processing/version-1.3.38-MediaTrack": {
+        "title": "MediaTrack",
+        "sidebar_label": "MediaTrack"
+      },
+      "version-1.3.38/apis/media/video/version-1.3.38-chooseVideo": {
+        "title": "Taro.chooseVideo(option)",
+        "sidebar_label": "chooseVideo"
+      },
+      "version-1.3.38/apis/media/video/version-1.3.38-VideoContext": {
+        "title": "VideoContext",
+        "sidebar_label": "VideoContext"
+      },
+      "version-1.3.38/apis/network/request/version-1.3.38-request": {
+        "title": "Taro.request(option)",
+        "sidebar_label": "request"
+      },
+      "version-1.3.38/apis/network/udp/version-1.3.38-UDPSocket": {
+        "title": "UDPSocket",
+        "sidebar_label": "UDPSocket"
+      },
+      "version-1.3.38/apis/network/upload/version-1.3.38-UploadTask": {
+        "title": "UploadTask",
+        "sidebar_label": "UploadTask"
+      },
+      "version-1.3.38/apis/network/webSocket/version-1.3.38-sendSocketMessage": {
+        "title": "Taro.sendSocketMessage(option)",
+        "sidebar_label": "sendSocketMessage"
+      },
+      "version-1.3.38/apis/network/webSocket/version-1.3.38-SocketTask": {
+        "title": "SocketTask",
+        "sidebar_label": "SocketTask"
+      },
+      "version-1.3.38/apis/open-api/invoice/version-1.3.38-chooseInvoiceTitle": {
+        "title": "Taro.chooseInvoiceTitle(option)",
+        "sidebar_label": "chooseInvoiceTitle"
+      },
+      "version-1.3.38/apis/open-api/navigate/version-1.3.38-navigateToMiniProgram": {
+        "title": "Taro.navigateToMiniProgram(option)",
+        "sidebar_label": "navigateToMiniProgram"
+      },
+      "version-1.3.38/apis/open-api/payment/version-1.3.38-requestPayment": {
+        "title": "Taro.requestPayment(option)",
+        "sidebar_label": "requestPayment"
+      },
+      "version-1.3.38/apis/open-api/soter/version-1.3.38-checkIsSoterEnrolledInDevice": {
+        "title": "Taro.checkIsSoterEnrolledInDevice(option)",
+        "sidebar_label": "checkIsSoterEnrolledInDevice"
+      },
+      "version-1.3.38/apis/open-api/soter/version-1.3.38-checkIsSupportSoterAuthentication": {
+        "title": "Taro.checkIsSupportSoterAuthentication(option)",
+        "sidebar_label": "checkIsSupportSoterAuthentication"
+      },
+      "version-1.3.38/apis/open-api/soter/version-1.3.38-startSoterAuthentication": {
+        "title": "Taro.startSoterAuthentication(option)",
+        "sidebar_label": "startSoterAuthentication"
+      },
+      "version-1.3.38/apis/open-api/subscribe-message/version-1.3.38-requestSubscribeMessage": {
+        "title": "Taro.requestSubscribeMessage(option)",
+        "sidebar_label": "requestSubscribeMessage"
+      },
+      "version-1.3.38/apis/open-api/user-info/version-1.3.38-getUserInfo": {
+        "title": "Taro.getUserInfo(option)",
+        "sidebar_label": "getUserInfo"
+      },
+      "version-1.3.38/apis/open-api/user-info/version-1.3.38-UserInfo": {
+        "title": "UserInfo",
+        "sidebar_label": "UserInfo"
+      },
+      "version-1.3.38/apis/swan/version-1.3.38-setPageInfo": {
+        "title": "Taro.setPageInfo(option)",
+        "sidebar_label": "setPageInfo"
+      },
+      "version-1.3.38/apis/ui/animation/version-1.3.38-Animation": {
+        "title": "Animation",
+        "sidebar_label": "Animation"
+      },
+      "version-1.3.38/apis/ui/animation/version-1.3.38-createAnimation": {
+        "title": "Taro.createAnimation(option)",
+        "sidebar_label": "createAnimation"
+      },
+      "version-1.3.38/apis/ui/background/version-1.3.38-setBackgroundTextStyle": {
+        "title": "Taro.setBackgroundTextStyle(option)",
+        "sidebar_label": "setBackgroundTextStyle"
+      },
+      "version-1.3.38/apis/ui/interaction/version-1.3.38-showToast": {
+        "title": "Taro.showToast(option)",
+        "sidebar_label": "showToast"
+      },
+      "version-1.3.38/apis/ui/navigation-bar/version-1.3.38-setNavigationBarColor": {
+        "title": "Taro.setNavigationBarColor(option)",
+        "sidebar_label": "setNavigationBarColor"
+      },
+      "version-1.3.38/components/base/version-1.3.38-icon": {
+        "title": "Icon",
+        "sidebar_label": "Icon"
+      },
+      "version-1.3.38/components/base/version-1.3.38-progress": {
+        "title": "Progress",
+        "sidebar_label": "Progress"
+      },
+      "version-1.3.38/components/base/version-1.3.38-rich-text": {
+        "title": "RichText",
+        "sidebar_label": "RichText"
+      },
+      "version-1.3.38/components/base/version-1.3.38-text": {
+        "title": "Text",
+        "sidebar_label": "Text"
+      },
+      "version-1.3.38/components/canvas/version-1.3.38-canvas": {
+        "title": "Canvas",
+        "sidebar_label": "Canvas"
+      },
+      "version-1.3.38/components/version-1.3.38-common": {
+        "title": "common",
+        "sidebar_label": "common"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-button": {
+        "title": "Button",
+        "sidebar_label": "Button"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-checkbox-group": {
+        "title": "CheckboxGroup",
+        "sidebar_label": "CheckboxGroup"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-checkbox": {
+        "title": "Checkbox",
+        "sidebar_label": "Checkbox"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-editor": {
+        "title": "Editor",
+        "sidebar_label": "Editor"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-form": {
+        "title": "Form",
+        "sidebar_label": "Form"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-input": {
+        "title": "Input",
+        "sidebar_label": "Input"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-label": {
+        "title": "Label",
+        "sidebar_label": "Label"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-picker-view-column": {
+        "title": "PickerViewColumn",
+        "sidebar_label": "PickerViewColumn"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-picker-view": {
+        "title": "PickerView",
+        "sidebar_label": "PickerView"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-picker": {
+        "title": "Picker",
+        "sidebar_label": "Picker"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-radio-group": {
+        "title": "RadioGroup",
+        "sidebar_label": "RadioGroup"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-radio": {
+        "title": "Radio",
+        "sidebar_label": "Radio"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-slider": {
+        "title": "Slider",
+        "sidebar_label": "Slider"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-switch": {
+        "title": "Switch",
+        "sidebar_label": "Switch"
+      },
+      "version-1.3.38/components/forms/version-1.3.38-textarea": {
+        "title": "Textarea",
+        "sidebar_label": "Textarea"
+      },
+      "version-1.3.38/components/maps/version-1.3.38-map": {
+        "title": "Map",
+        "sidebar_label": "Map"
+      },
+      "version-1.3.38/components/media/version-1.3.38-audio": {
+        "title": "Audio",
+        "sidebar_label": "Audio"
+      },
+      "version-1.3.38/components/media/version-1.3.38-camera": {
+        "title": "Camera",
+        "sidebar_label": "Camera"
+      },
+      "version-1.3.38/components/media/version-1.3.38-image": {
+        "title": "Image",
+        "sidebar_label": "Image"
+      },
+      "version-1.3.38/components/media/version-1.3.38-live-player": {
+        "title": "LivePlayer",
+        "sidebar_label": "LivePlayer"
+      },
+      "version-1.3.38/components/media/version-1.3.38-live-pusher": {
+        "title": "LivePusher",
+        "sidebar_label": "LivePusher"
+      },
+      "version-1.3.38/components/media/version-1.3.38-video": {
+        "title": "Video",
+        "sidebar_label": "Video"
+      },
+      "version-1.3.38/components/navig/version-1.3.38-Functional-Page-Navigator": {
+        "title": "FunctionalPageNavigator",
+        "sidebar_label": "FunctionalPageNavigator"
+      },
+      "version-1.3.38/components/navig/version-1.3.38-navigator": {
+        "title": "Navigator",
+        "sidebar_label": "Navigator"
+      },
+      "version-1.3.38/components/version-1.3.38-navigation-bar": {
+        "title": "NavigationBar",
+        "sidebar_label": "NavigationBar"
+      },
+      "version-1.3.38/components/open/version-1.3.38-ad": {
+        "title": "Ad",
+        "sidebar_label": "Ad"
+      },
+      "version-1.3.38/components/open/version-1.3.38-official-account": {
+        "title": "OfficialAccount",
+        "sidebar_label": "OfficialAccount"
+      },
+      "version-1.3.38/components/open/version-1.3.38-open-data": {
+        "title": "OpenData",
+        "sidebar_label": "OpenData"
+      },
+      "version-1.3.38/components/open/version-1.3.38-web-view": {
+        "title": "WebView",
+        "sidebar_label": "WebView"
+      },
+      "version-1.3.38/components/version-1.3.38-page-meta": {
+        "title": "PageMeta",
+        "sidebar_label": "PageMeta"
+      },
+      "version-1.3.38/components/viewContainer/version-1.3.38-movable-area": {
+        "title": "MovableArea",
+        "sidebar_label": "MovableArea"
+      },
+      "version-1.3.38/components/viewContainer/version-1.3.38-movable-view": {
+        "title": "MovableView",
+        "sidebar_label": "MovableView"
+      },
+      "version-1.3.38/components/viewContainer/version-1.3.38-scroll-view": {
+        "title": "ScrollView",
+        "sidebar_label": "ScrollView"
+      },
+      "version-1.3.38/components/viewContainer/version-1.3.38-swiper-item": {
+        "title": "SwiperItem",
+        "sidebar_label": "SwiperItem"
+      },
+      "version-1.3.38/components/viewContainer/version-1.3.38-swiper": {
+        "title": "Swiper",
+        "sidebar_label": "Swiper"
+      },
+      "version-1.3.39/apis/about/version-1.3.39-tarocomponent": {
+        "title": "Taro.Component"
+      },
+      "version-1.3.39/components/canvas/version-1.3.39-canvas": {
+        "title": "Canvas",
+        "sidebar_label": "Canvas"
+      },
+      "version-1.3.39/components/media/version-1.3.39-image": {
+        "title": "Image",
+        "sidebar_label": "Image"
+      },
+      "version-1.3.39/version-1.3.39-README": {
+        "title": "Taro 介绍"
+      },
+      "version-1.3.39/version-1.3.39-tutorial": {
+        "title": "框架"
       }
     },
     "links": {
@@ -4627,8 +5016,7 @@
       "API": "API",
       "Taro-UI": "Taro-UI",
       "物料市场": "物料市场",
-      "论坛": "论坛",
-      "GitHub": "GitHub"
+      "论坛": "论坛"
     },
     "categories": {
       "关于Taro": "关于Taro",

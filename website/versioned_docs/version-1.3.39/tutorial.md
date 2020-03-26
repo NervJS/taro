@@ -1,5 +1,7 @@
 ---
 title: 框架
+id: version-1.3.39-tutorial
+original_id: tutorial
 ---
 
 ## 项目目录结构
