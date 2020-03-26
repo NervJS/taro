@@ -52,6 +52,7 @@ export default class Kernel extends EventEmitter {
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
+  runOpts: any
 
   constructor (options: IKernelOptions) {
     super()
@@ -166,6 +167,7 @@ export default class Kernel extends EventEmitter {
       'plugins',
       'paths',
       'helper',
+      'runOpts',
       'initialConfig',
       'applyPlugins'
     ]
@@ -232,6 +234,10 @@ export default class Kernel extends EventEmitter {
     return withNameConfig
   }
 
+  setRunOpts (opts) {
+    this.runOpts = opts
+  }
+
   async run (args: string | { name: string, opts?: any }) {
     let name
     let opts
@@ -241,6 +247,7 @@ export default class Kernel extends EventEmitter {
       name = args.name
       opts = args.opts
     }
+    this.setRunOpts(opts)
     await this.init()
     await this.applyPlugins('onStart')
     if (!this.commands.has(name)) {

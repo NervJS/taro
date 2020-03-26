@@ -6,11 +6,15 @@ export default function build ({
   platform,
   appPath,
   isWatch,
+  release,
+  port,
   envHasBeenSet = false
 }: {
   platform: string,
   appPath: string,
   isWatch: boolean,
+  release?: boolean
+  port?: number
   envHasBeenSet?: boolean
 }) {
   let isProduction = false
@@ -28,7 +32,11 @@ export default function build ({
   kernel.run({
     name: 'build',
     opts: {
-      platform
+      platform,
+      isWatch,
+      isProduction,
+      release,
+      port
     }
   })
 }

@@ -17,7 +17,8 @@ export default () => {
 
       // files
       path.resolve(__dirname, 'files', 'writeFileToDist.js'),
-      path.resolve(__dirname, 'files', 'generateProjectConfig.js')
+      path.resolve(__dirname, 'files', 'generateProjectConfig.js'),
+      path.resolve(__dirname, 'files', 'generateFrameworkInfo.js')
     ]
   }
 }
