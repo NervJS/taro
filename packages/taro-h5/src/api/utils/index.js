@@ -302,7 +302,7 @@ const interactiveHelper = () => {
     },
     handleBeforeDestroy: () => {
       const bodyInlineStyle = bodyStatusClosure.getInlineStyle() || {}
-      document.body.style = bodyInlineStyle
+      document.body.setAttribute('style', bodyInlineStyle)
       setScrollTop(scrollTop)
     }
   }
