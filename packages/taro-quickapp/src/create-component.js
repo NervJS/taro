@@ -298,7 +298,9 @@ export function componentTrigger (component, key, args) {
 }
 
 export default function createComponent (ComponentClass, isPage) {
-  let initData = {}
+  let initData = {
+    priTaroCompReady: false
+  }
   const componentProps = filterProps(ComponentClass.defaultProps)
   const componentInstance = new ComponentClass(componentProps)
   componentInstance._constructor && componentInstance._constructor(componentProps)
