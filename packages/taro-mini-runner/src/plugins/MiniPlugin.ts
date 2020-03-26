@@ -39,7 +39,8 @@ interface IMiniPluginOptions {
   pluginConfig?: object,
   isBuildPlugin: boolean,
   alias: object
-  addChunkPages?: AddPageChunks
+  addChunkPages?: AddPageChunks,
+  constantsReplaceList:object,
 }
 
 export interface ITaroFileInfo {
@@ -83,7 +84,8 @@ export const Targets = {
 export function isFileToBeTaroComponent (
   code: string,
   sourcePath: string,
-  buildAdapter: BUILD_TYPES
+  buildAdapter: BUILD_TYPES,
+  constantsReplaceList:object
 ) {
   try {
     const transformResult = wxTransformer({
@@ -91,7 +93,8 @@ export function isFileToBeTaroComponent (
       sourcePath: sourcePath,
       isTyped: REG_TYPESCRIPT.test(sourcePath),
       adapter: buildAdapter,
-      isNormal: true
+      isNormal: true,
+      env:constantsReplaceList
     })
     const { ast } = transformResult
     let isTaroComponent = false
@@ -166,7 +169,8 @@ export default class MiniPlugin {
       designWidth: 750,
       commonChunks: ['runtime', 'vendors', 'taro', 'common'],
       isBuildPlugin: false,
-      alias: {}
+      alias: {},
+      constantsReplaceList:{}
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
@@ -509,7 +513,7 @@ export default class MiniPlugin {
   }
 
   getPages (compiler) {
-    const { buildAdapter } = this.options
+    const { buildAdapter,constantsReplaceList } = this.options
     const appEntry = this.appEntry
     const code = fs.readFileSync(appEntry).toString()
     try {
@@ -519,7 +523,8 @@ export default class MiniPlugin {
         sourceDir: this.sourceDir,
         isTyped: REG_TYPESCRIPT.test(appEntry),
         isApp: true,
-        adapter: buildAdapter
+        adapter: buildAdapter,
+        env:constantsReplaceList
       })
       const { configObj } = parseAst(transformResult.ast, buildAdapter)
       const appPages = configObj.pages
@@ -665,7 +670,7 @@ export default class MiniPlugin {
   }
 
   getComponents (compiler: webpack.Compiler, fileList: Set<IComponent>, isRoot: boolean) {
-    const { buildAdapter, alias } = this.options
+    const { buildAdapter, alias,constantsReplaceList } = this.options
     const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     const isSwanApp = buildAdapter === BUILD_TYPES.SWAN
     fileList.forEach(file => {
@@ -703,7 +708,8 @@ export default class MiniPlugin {
             sourceDir: this.sourceDir,
             isTyped: REG_TYPESCRIPT.test(file.path),
             isRoot,
-            adapter: buildAdapter
+            adapter: buildAdapter,
+            env:constantsReplaceList
           })
           let parseAstRes = parseAst(transformResult.ast, buildAdapter)
           configObj = parseAstRes.configObj
@@ -960,7 +966,8 @@ export default class MiniPlugin {
     sourcePath: string,
     buildAdapter: BUILD_TYPES
   ) {
-    const isTaroComponentRes = isFileToBeTaroComponent(code, sourcePath, buildAdapter)
+    const { constantsReplaceList } = this.options;
+    const isTaroComponentRes = isFileToBeTaroComponent(code, sourcePath,buildAdapter,constantsReplaceList)
     if (isTaroComponentRes instanceof Error) {
       if ((isTaroComponentRes as any).codeFrame) {
         this.errors.push(isTaroComponentRes)
