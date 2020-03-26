@@ -34,6 +34,7 @@
       "config-detail",
       "hooks",
       "html",
+      "css-in-js",
       "prerender",
       "mini-third-party",
       "hybrid",
