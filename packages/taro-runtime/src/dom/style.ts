@@ -3,7 +3,7 @@ import { styleProperties } from './style_properties'
 import { TaroElement } from './element'
 import { PROPERTY_THRESHOLD } from '../constants'
 
-function setStyle (newVal: string, styleKey: string) {
+function setStyle (this: Style, newVal: string, styleKey: string) {
   const old = this[styleKey]
   if (newVal) {
     this._usedStyleProp.add(styleKey)
@@ -33,7 +33,7 @@ function initStyle (ctor: typeof Style) {
         return this._value[styleKey] || ''
       },
       set (this: Style, newVal: string) {
-        setStyle.apply(this, [newVal, styleKey])
+        setStyle.call(this, newVal, styleKey)
       }
     }
   }
@@ -54,15 +54,15 @@ export class Style {
     this._value = {}
   }
 
-  public setCssVariables (styleKey: string) {
-    Reflect.has(this, styleKey) || Object.defineProperty(this, styleKey, {
+  private setCssVariables (styleKey: string) {
+    this.hasOwnProperty(styleKey) || Object.defineProperty(this, styleKey, {
       enumerable: true,
       configurable: true,
       get: () => {
         return this._value[styleKey] || ''
       },
       set: (newVal: string) => {
-        setStyle.apply(this, [newVal, styleKey])
+        setStyle.call(this, newVal, styleKey)
       }
     })
   }
@@ -107,15 +107,19 @@ export class Style {
   }
 
   public setProperty (propertyName: string, value?: string | null) {
-    propertyName = toCamelCase(propertyName)
-    if (isUndefined(value)) {
-      return
-    }
-
-    if (value === null || value === '') {
-      this.removeProperty(propertyName)
+    if (propertyName[0] === '-') {
+      this.setCssVariables(propertyName)
     } else {
-      this[propertyName] = value
+      propertyName = toCamelCase(propertyName)
+      if (isUndefined(value)) {
+        return
+      }
+
+      if (value === null || value === '') {
+        this.removeProperty(propertyName)
+      } else {
+        this[propertyName] = value
+      }
     }
   }
 
