@@ -7,6 +7,10 @@ export default (ctx) => {
       const { npm, PARSE_AST_TYPE, emptyDirectory } = ctx.helper
       emptyDirectory(outputPath)
 
+      ctx.generateFrameworkInfo({
+        platform: config.platform
+      })
+
       // 生成 project.swan.json
       ctx.generateProjectConfig({
         srcConfigName: 'project.swan.json',

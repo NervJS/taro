@@ -9,10 +9,6 @@ export default (ctx) => {
       return
     }
     const absFilePath = path.join(outputPath, filePath)
-    if (!fs.existsSync(absFilePath)) {
-      printLog(processTypeEnum.ERROR, `ctx.writeFileToDist 传入文件路径不存在`)
-      return
-    }
     fs.ensureDirSync(path.dirname(absFilePath))
     fs.writeFileSync(absFilePath, content)
   })

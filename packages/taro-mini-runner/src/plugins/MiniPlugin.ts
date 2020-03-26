@@ -960,17 +960,6 @@ export default class MiniPlugin {
         if (hitScriptItem) {
           delete compilation.assets[hitScriptItem]
         }
-        const quickappJSON = generateQuickAppManifest({
-          appConfig: this.appConfig,
-          designWidth: this.options.designWidth,
-          pageConfigs: this.pageConfigs,
-          quickappJSON: this.options.quickappJSON
-        })
-        const quickappJSONStr = JSON.stringify(quickappJSON).replace(/\\\\/g, '/')
-        compilation.assets['./manifest.json'] = {
-          size: () => quickappJSONStr.length,
-          source: () => quickappJSONStr
-        }
         compilation.assets[templatePath] = {
           size: () => template.length,
           source: () => template
@@ -1043,6 +1032,20 @@ export default class MiniPlugin {
         }
       }
     })
+
+    if (isBuildQuickapp) {
+      const quickappJSON = generateQuickAppManifest({
+        sourceDir: this.sourceDir,
+        taroFileTypeMap,
+        designWidth: this.options.designWidth,
+        quickappJSON: this.options.quickappJSON
+      })
+      const quickappJSONStr = JSON.stringify(quickappJSON).replace(/\\\\/g, '/')
+      compilation.assets['./manifest.json'] = {
+        size: () => quickappJSONStr.length,
+        source: () => quickappJSONStr
+      }
+    }
 
     this.tabBarIcons.forEach(icon => {
       const iconPath = path.resolve(this.sourceDir, icon)

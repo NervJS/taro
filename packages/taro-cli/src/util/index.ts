@@ -605,3 +605,19 @@ export function printVersionTip () {
     fs.writeFileSync(remindVersionFilePath, JSON.stringify(remindVersion))
   }
 }
+
+export function recursiveReplaceObjectKeys (obj, keyMap) {
+  Object.keys(obj).forEach(key => {
+    if (keyMap[key]) {
+      obj[keyMap[key]] = obj[key]
+      if (typeof obj[key] === 'object') {
+        recursiveReplaceObjectKeys(obj[keyMap[key]], keyMap)
+      }
+      delete obj[key]
+    } else if (keyMap[key] === false) {
+      delete obj[key]
+    } else if (typeof obj[key] === 'object') {
+      recursiveReplaceObjectKeys(obj[key], keyMap)
+    }
+  })
+}
