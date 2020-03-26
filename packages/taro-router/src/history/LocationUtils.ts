@@ -14,7 +14,7 @@ function createLocation (path: string, key: string, currentLocation?: Location):
   location.state = { key }
 
   const params = {}
-  const searchString = location.search! || window.location.search
+  const searchString = location.search!
   if (searchString.length > 0) {
     const queryString = searchString.substring(1)
     queryString.split('&').forEach(pair => {

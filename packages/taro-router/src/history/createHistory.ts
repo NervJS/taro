@@ -105,7 +105,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
     path = stripBasename(path, basename)
 
     if (path === '/') {
-      path = props.firstPagePath
+      path = props.firstPagePath + search + hash
     }
 
     return createLocation(path, key)
