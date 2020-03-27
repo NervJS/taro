@@ -141,6 +141,7 @@ class ScrollView extends Nerv.Component {
     upperThreshold = parseInt(upperThreshold)
     lowerThreshold = parseInt(lowerThreshold)
     const uperAndLower = (e) => {
+      if (!this.container) return
       const {
         offsetWidth,
         offsetHeight,
