@@ -128,7 +128,8 @@ const Button = {
   bindGetPhoneNumber: '',
   bindError: '',
   bindOpenSetting: '',
-  bindLaunchApp: ''
+  bindLaunchApp: '',
+  name: ''
 }
 
 if (process.env.TARO_ENV === 'qq') {
@@ -141,11 +142,13 @@ const Checkbox = {
   value: '',
   disabled: '',
   checked: 'false',
-  color: singleQuote('#09BB07')
+  color: singleQuote('#09BB07'),
+  name: ''
 }
 
 const CheckboxGroup = {
-  bindChange: ''
+  bindChange: '',
+  name: ''
 }
 
 const Editor = {
@@ -159,14 +162,16 @@ const Editor = {
   bindFocus: '',
   bindBlur: '',
   bindInput: '',
-  bindStatusChange: ''
+  bindStatusChange: '',
+  name: ''
 }
 
 const Form = {
   'report-submit': 'false',
   'report-submit-timeout': '0',
   bindSubmit: '',
-  bindReset: ''
+  bindReset: '',
+  name: ''
 }
 
 const Input = {
@@ -192,11 +197,13 @@ const Input = {
   bindFocus: '',
   bindBlur: '',
   bindConfirm: '',
-  bindKeyboardHeightChange: ''
+  bindKeyboardHeightChange: '',
+  name: ''
 }
 
 const Label = {
-  for: ''
+  for: '',
+  name: ''
 }
 
 const Picker = {
@@ -211,7 +218,8 @@ const Picker = {
   start: '',
   end: '',
   fields: singleQuote('day'),
-  'custom-item': ''
+  'custom-item': '',
+  name: ''
 }
 
 const PickerView = {
@@ -222,22 +230,25 @@ const PickerView = {
   'mask-class': '',
   bindChange: '',
   bindPickStart: '',
-  bindPickEnd: ''
+  bindPickEnd: '',
+  name: ''
 }
 
 const PickerViewColumn = {
-  //
+  name: ''
 }
 
 const Radio = {
   value: '',
   checked: 'false',
   disabled: '',
-  color: singleQuote('#09BB07')
+  color: singleQuote('#09BB07'),
+  name: ''
 }
 
 const RadioGroup = {
-  bindChange: ''
+  bindChange: '',
+  name: ''
 }
 
 const Slider = {
@@ -254,7 +265,8 @@ const Slider = {
   'block-color': singleQuote('#ffffff'),
   'show-value': 'false',
   bindChange: '',
-  bindChanging: ''
+  bindChanging: '',
+  name: ''
 }
 
 const Switch = {
@@ -262,7 +274,8 @@ const Switch = {
   disabled: '',
   type: singleQuote('switch'),
   color: singleQuote('#04BE02'),
-  bindChange: ''
+  bindChange: '',
+  name: ''
 }
 
 const CoverImage = {
@@ -294,7 +307,8 @@ const Textarea = {
   bindLineChange: '',
   bindInput: '',
   bindConfirm: '',
-  bindKeyboardHeightChange: ''
+  bindKeyboardHeightChange: '',
+  name: ''
 }
 
 const CoverView = {
