@@ -109,7 +109,8 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       })
     },
     onUnload () {
-      Current.app!.unmount(id, () => {
+      const path = getPath(id, this.options)
+      Current.app!.unmount(path, () => {
         if (pageElement) {
           pageElement.ctx = null
         }
