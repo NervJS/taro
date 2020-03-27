@@ -103,7 +103,7 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES, options?: P
     outputFilesTypes: MINI_APP_FILES[adapter],
     nodeModulesPath: recursiveFindNodeModules(path.join(appPath, NODE_MODULES)),
     jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace || {},
-    constantsReplaceList:Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
+    constantsReplaceList: Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
       'process.env.TARO_ENV': adapter
     })
   }
