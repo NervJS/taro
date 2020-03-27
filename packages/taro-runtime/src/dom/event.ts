@@ -52,7 +52,7 @@ export class TaroEvent {
   }
 
   get currentTarget () {
-    const element = document.getElementById(this.mpEvent.target.id)
+    const element = document.getElementById(this.mpEvent.currentTarget.id)
 
     if (element === null) {
       return this.target
