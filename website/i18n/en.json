@@ -941,6 +941,9 @@
       "CONTRIBUTING": {
         "title": "CONTRIBUTING"
       },
+      "css-in-js": {
+        "title": "使用 CSS-in-JS"
+      },
       "css-modules": {
         "title": "使用 CSS Modules"
       },
@@ -2222,6 +2225,9 @@
       },
       "version-1.3.22/version-1.3.22-ui-lib": {
         "title": "基于 Taro 开发第三方多端 UI 库"
+      },
+      "version-3.0.0-beta.2/version-3.0.0-beta.2-css-in-js": {
+        "title": "使用 CSS-in-JS"
       },
       "version-3.0.0.alpha.0/version-3.0.0.alpha.0-before-dev-remind": {
         "title": "各端开发前注意"
