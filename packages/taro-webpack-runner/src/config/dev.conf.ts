@@ -6,7 +6,7 @@ import {
   getCopyWebpackPlugin,
   getDefinePlugin,
   getDevtool,
-  getHotModuleReplacementPlugin,
+  // getHotModuleReplacementPlugin,
   getHtmlWebpackPlugin,
   getMiniCssExtractPlugin,
   getMainPlugin,
@@ -98,7 +98,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     }])
   }
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
-  plugin.hotModuleReplacementPlugin = getHotModuleReplacementPlugin()
+  // plugin.hotModuleReplacementPlugin = getHotModuleReplacementPlugin()
 
   const mode = 'development'
 
