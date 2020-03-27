@@ -8,6 +8,7 @@ import * as fs from 'fs'
 import { relative, resolve } from 'path'
 import { setting, parseCode, buildImportStatement, codeFrameError } from './utils'
 import { replaceIdentifier, replaceMemberExpression } from './script'
+import { kebabCase } from 'lodash'
 
 const { prettyPrint } = require('html')
 
@@ -240,6 +241,8 @@ function parseAttribute (attr: Attribute, forItem: string, forIndex: string): At
     value = 'emptyHandler'
   }
 
+  key = kebabCase(key)
+
   return {
     key,
     value
@@ -290,7 +293,7 @@ export function parseTemplate (element: Element, imports: VueImport[]) {
     }
 
     const componentName = buildTemplateName(name.key)
-    const component = parseWXML('', stringify(children))!
+    const component = parseWXML('', stringify(children), [])!
     imports.push({
       name: componentName,
       nodes: component.nodes,
@@ -307,11 +310,11 @@ export function parseTemplate (element: Element, imports: VueImport[]) {
       console.warn('template 的属性 is 只能是一个字符串，考虑更改以下源码逻辑：\n', stringify(element))
     }
 
-    element.tagName = buildTemplateName(value!)
+    element.tagName = buildTemplateName(value!, false)
     element.attributes = []
     if (data) {
       element.attributes.push({
-        key: ':data',
+        key: 'data',
         value: data.value
       })
     }
@@ -351,7 +354,7 @@ export function parseModule (element: Element, dirPath: string, imports: VueImpo
 
   if (tagName === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, tagName)
-    const mods = parseWXML(resolve(dirPath, srcValue), wxml)?.imports
+    const mods = parseWXML(resolve(dirPath, srcValue), wxml, [])?.imports
     imports.push(...(mods ?? []))
   } else {
     console.warn(`暂不支持 ${tagName} 标签的转换`, '考虑修改源码使用 import 替代\n' + stringify(element))
