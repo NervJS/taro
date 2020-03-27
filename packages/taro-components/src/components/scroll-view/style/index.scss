@@ -1,11 +1,12 @@
-.taro-scroll {
+taro-scroll-view-core {
+  display: block;
+  width: 100%;
   -webkit-overflow-scrolling: auto;
   &::-webkit-scrollbar {
     display: none;
   }
 }
 .taro-scroll-view {
-  overflow: hidden;
   &__scroll-x {
     overflow-x: scroll;
     overflow-y: hidden;

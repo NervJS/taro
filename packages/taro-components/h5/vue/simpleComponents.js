@@ -12,7 +12,6 @@ export const simpleComponents = [
   'taro-cover-view',
   'taro-moveable-area',
   'taro-moveable-view',
-  'taro-scroll-view',
   'taro-swiper',
   'taro-functional-page-navigator',
   'taro-navigator',
