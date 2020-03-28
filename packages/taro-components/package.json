@@ -27,6 +27,7 @@
     "dev-stencil": "stencil build --config stencil.config.ts --watch",
     "test": "karmatic --files '__tests__/**.spec.js' --coverage false",
     "test:debug": "karmatic debug --files '__tests__/**.spec.js' --coverage false",
+    "test:coverage": "karmatic --files '__tests__/**.spec.js'",
     "test-update": "jest --updateSnapshot"
   },
   "repository": {
