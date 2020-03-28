@@ -190,7 +190,7 @@ declare namespace LivePlayerProps {
 }
 
 /** 实时音视频播放。相关api：Taro.createLivePlayerContext
- *
+ * 
  * 需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
  * @classification media
  * @supported weapp
