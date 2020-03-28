@@ -202,11 +202,13 @@ export default class MiniPlugin {
   apply (compiler) {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
+    let taroLoadChunksPlugin
     compiler.hooks.run.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
         await this.run(compiler)
-        new TaroLoadChunksPlugin({
+        if(taroLoadChunksPlugin) taroLoadChunksPlugin.destroy()
+        taroLoadChunksPlugin = new TaroLoadChunksPlugin({
           commonChunks: this.options.commonChunks,
           buildAdapter: this.options.buildAdapter,
           isBuildPlugin: this.options.isBuildPlugin,
@@ -215,7 +217,8 @@ export default class MiniPlugin {
           depsMap: this.pageComponentsDependenciesMap,
           sourceDir: this.sourceDir,
           subPackages: this.subPackages
-        }).apply(compiler)
+        })
+        taroLoadChunksPlugin.apply(compiler)
 			})
     )
 
@@ -228,7 +231,8 @@ export default class MiniPlugin {
         } else {
           await this.watchRun(compiler, changedFiles)
         }
-        new TaroLoadChunksPlugin({
+        if(taroLoadChunksPlugin) taroLoadChunksPlugin.destroy()
+        taroLoadChunksPlugin = new TaroLoadChunksPlugin({
           commonChunks: this.options.commonChunks,
           buildAdapter: this.options.buildAdapter,
           isBuildPlugin: this.options.isBuildPlugin,
@@ -237,7 +241,8 @@ export default class MiniPlugin {
           depsMap: this.pageComponentsDependenciesMap,
           sourceDir: this.sourceDir,
           subPackages: this.subPackages
-        }).apply(compiler)
+        })
+        taroLoadChunksPlugin.apply(compiler)
 			})
     )
 

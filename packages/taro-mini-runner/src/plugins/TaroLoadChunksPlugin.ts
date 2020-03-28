@@ -30,6 +30,7 @@ export default class TaroLoadChunksPlugin {
   depsMap: Map<string, Set<IComponentObj>>
   sourceDir: string
   subPackages: Set<string>
+  destroyed: boolean
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
@@ -40,6 +41,7 @@ export default class TaroLoadChunksPlugin {
     this.depsMap = options.depsMap
     this.sourceDir = options.sourceDir
     this.subPackages = options.subPackages || new Set<string>()
+    this.destroyed = false
   }
 
   apply (compiler: webpack.Compiler) {
@@ -47,6 +49,7 @@ export default class TaroLoadChunksPlugin {
     const addChunkPagesList = new Map<string, string[]>()
     const depsMap = this.depsMap
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: any) => {
+      if (this.destroyed) return
       let commonChunks
       let fileChunks = new Map()
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks) => {
@@ -146,6 +149,10 @@ export default class TaroLoadChunksPlugin {
       })
     })
   }
+
+  destroy() {
+    this.destroyed = true;
+  }
 }
 
 function getIdOrName (chunk) {
@@ -170,17 +177,11 @@ function getAllDepComponents (filePath, depsMap) {
 
 function addRequireToSource (id, modules, commonChunks) {
   const source = new ConcatSource()
-  let hasAdd = false
   commonChunks.forEach(chunkItem => {
     const val = `require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`
-    if (!modules.children.some(item => typeof item === 'string' && item.indexOf(val) >= 0)) {
-      source.add(val)
-      hasAdd = true
-    }
+    source.add(val)
   })
-  if (hasAdd) {
-    source.add('\n')
-  }
+  source.add('\n')
   source.add(modules)
   source.add(';')
   return source
