@@ -234,7 +234,8 @@ export enum PARSE_AST_TYPE {
   PAGE = 'PAGE',
   COMPONENT = 'COMPONENT',
   NORMAL = 'NORMAL',
-  STATIC = 'STATIC'
+  STATIC = 'STATIC',
+  EXPORTS = 'EXPORTS'
 }
 
 export const enum processTypeEnum {

@@ -37,6 +37,7 @@ interface IMiniPluginOptions {
   designWidth: number,
   commonChunks: string[],
   pluginConfig?: object,
+  pluginMainEntry?: string,
   isBuildPlugin: boolean,
   alias: object
   addChunkPages?: AddPageChunks,
@@ -575,6 +576,9 @@ export default class MiniPlugin {
       const filePath = this.appEntry[key][0]
       const code = fs.readFileSync(filePath).toString()
       const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, filePath, buildAdapter)
+      if (key === this.options.pluginMainEntry) {
+        this.addEntry(compiler, filePath, key, PARSE_AST_TYPE.EXPORTS)
+      }
       if (isTaroComponentRes == null) {
         return null
       }

@@ -85,6 +85,17 @@ export default class TaroLoadChunksPlugin {
       })
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
         if (chunk.entryModule) {
+          let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
+          if (entryModule.miniType === PARSE_AST_TYPE.EXPORTS) {
+            const source = new ConcatSource()
+            source.add('module.exports=')
+            source.add(modules)
+            return source
+          }
+        }
+      })
+      compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
+        if (chunk.entryModule) {
           if (this.isBuildPlugin) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
