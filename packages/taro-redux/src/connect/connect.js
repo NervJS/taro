@@ -41,7 +41,9 @@ export default function connect (mapStateToProps, mapDispatchToProps) {
       }
     })
     if (isChanged) {
-      this.prevProps = prevProps
+      if (!this._dirty) {
+        this.prevProps = prevProps
+      }
       this._unsafeCallUpdate = true
       this.setState({}, () => {
         delete this._unsafeCallUpdate
