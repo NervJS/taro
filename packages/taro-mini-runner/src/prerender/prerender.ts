@@ -139,7 +139,7 @@ export class Prerender {
   }
 
   private getRealPath (path: string, ext = '.js') {
-    return join(this.outputPath, path + ext)
+    return join(this.outputPath, path + ext).replace(/\\/g, '\\\\')
   }
 
   private buildSandbox () {
