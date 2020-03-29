@@ -104,6 +104,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     quickappJSON,
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
+    pluginMainEntry: entryRes!.pluginMainEntry,
     isBuildPlugin: !!config.isBuildPlugin,
     commonChunks: customCommonChunks,
     addChunkPages,
