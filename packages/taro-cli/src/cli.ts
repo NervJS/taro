@@ -1,6 +1,17 @@
-import * as minimist from 'minimist'
+import * as path from 'path'
 
-import build from './build'
+import * as minimist from 'minimist'
+import { Kernel } from '@tarojs/service'
+
+import build from './commands/build'
+import init from './commands/init'
+import create from './commands/create'
+import config from './commands/config'
+import info from './commands/info'
+import doctor from './commands/doctor'
+import convert from './commands/convert'
+import update from './commands/update'
+import customCommand from './commands/customCommand'
 
 export default class CLI {
   appPath: string
@@ -13,44 +24,6 @@ export default class CLI {
   }
 
   parseArgs () {
-    // const args = arg({
-    //   // Common Options Types
-    //   '--help': Boolean,
-    //   '--version': Boolean,
-
-    //   // Create Options Types
-    //   '--name': String,
-    //   '--description': String,
-
-    //   // Init Options Types
-    //   '--typescript': Boolean,
-    //   '--no-typescript': Boolean,
-    //   '--template-source': String,
-    //   '--clone': Boolean,
-    //   '--template': String,
-    //   '--css': String,
-
-    //   // Build Options Types
-    //   '--type': String,
-    //   '--watch': Boolean,
-    //   '--page': String,
-    //   '--component': String,
-    //   '--ui': Boolean,
-    //   '--ui-index': String,
-    //   '--plugin': String,
-    //   '--port': Number,
-    //   '--release': Boolean,
-
-    //   // Config Options Types
-    //   '--json': Boolean,
-
-    //   // Options Alias
-    //   '-h': '--help',
-    //   '-v': '--version',
-    //   '-w': '--watch'
-    // }, {
-    //   argv: process.argv.slice(2)
-    // })
     const args = minimist(process.argv.slice(2), {
       alias: {
         version: ['v']
@@ -59,26 +32,88 @@ export default class CLI {
     })
     const _ = args._
     const command = _[0]
-    console.log(args)
     if (command) {
+      const kernel = new Kernel({
+        appPath: this.appPath,
+        presets: [
+          path.resolve(__dirname, '.', 'presets', 'index.js')
+        ]
+      })
       switch (command) {
         case 'build':
-          if (typeof args.type !== 'string') {
-            return
-          }
-          build({
+          build(kernel, {
             platform: args.type,
-            appPath: this.appPath,
             isWatch: !!args.watch,
             port: args.port,
             release: args.release,
             ui: args.ui,
             uiIndex: args.uiIndex,
             page: args.page,
-            component: args.component
+            component: args.component,
+            plugin: args.plugin
+          })
+          break
+        case 'init':
+          const projectName = _[1]
+          init(kernel, {
+            appPath: this.appPath,
+            projectName,
+            typescript: !!args.typescript,
+            templateSource: args['template-source'],
+            clone: !!args.clone,
+            template: args.template,
+            css: args.css
+          })
+          break
+        case 'create':
+          const type = _[1] || 'page'
+          const name = _[2] || args.name
+          create(kernel, {
+            appPath: this.appPath,
+            type,
+            name,
+            description: args.description
+          })
+          break
+        case 'config':
+          const cmd = _[1]
+          const key = _[2]
+          const value = _[3]
+          config(kernel, {
+            cmd,
+            key,
+            value,
+            json: !!args.json
+          })
+          break
+        case 'info':
+          const rn = _[1]
+          info(kernel, {
+            appPath: this.appPath,
+            rn
+          })
+          break
+        case 'doctor':
+          doctor(kernel, {
+            appPath: this.appPath
+          })
+          break
+        case 'convert':
+          convert(kernel, {
+            appPath: this.appPath
+          })
+          break
+        case 'update':
+          const updateType = _[1]
+          const version = _[2]
+          update(kernel, {
+            appPath: this.appPath,
+            updateType,
+            version
           })
           break
         default:
+          customCommand(command, kernel, args)
           break
       }
     }

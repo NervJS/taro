@@ -1,10 +1,7 @@
-import * as path from 'path'
-
 import { Kernel } from '@tarojs/service'
 
-export default function build ({
+export default function build (kernel: Kernel, {
   platform,
-  appPath,
   isWatch,
   release,
   port,
@@ -12,10 +9,10 @@ export default function build ({
   uiIndex,
   page,
   component,
-  envHasBeenSet = false
+  envHasBeenSet = false,
+  plugin
 }: {
   platform: string,
-  appPath: string,
   isWatch: boolean,
   release?: boolean
   port?: number
@@ -24,31 +21,33 @@ export default function build ({
   page?: string
   component?: string
   envHasBeenSet?: boolean
+  plugin?: string | boolean
 }) {
-  let isProduction = false
-  if (!envHasBeenSet) {
-    isProduction = process.env.NODE_ENV === 'production' || !isWatch
+  if (plugin) {
+    if (typeof plugin === 'boolean') {
+      plugin = 'weapp'
+    }
+    platform = 'plugin'
   }
-  const kernel = new Kernel({
-    appPath,
-    isWatch,
-    isProduction,
-    presets: [
-      path.resolve(__dirname, '..', 'presets', 'index.js')
-    ]
-  })
+  if (platform === 'plugin') {
+    plugin = plugin || 'weapp'
+  }
+  if (ui) {
+    platform = 'ui'
+  }
   kernel.run({
     name: 'build',
     opts: {
       platform,
       isWatch,
-      isProduction,
       release,
       port,
       ui,
       uiIndex,
       page,
-      component
+      component,
+      envHasBeenSet,
+      plugin
     }
   })
 }

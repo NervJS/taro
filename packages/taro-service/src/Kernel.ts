@@ -5,7 +5,8 @@ import { AsyncSeriesWaterfallHook } from 'tapable'
 import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import {
   NODE_MODULES,
-  recursiveFindNodeModules
+  recursiveFindNodeModules,
+  createBabelRegister
 } from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
 
@@ -24,14 +25,11 @@ import {
   IS_EVENT_HOOK
 } from './utils/constants'
 import { mergePlugins, resolvePresetsOrPlugins, convertPluginsToObject } from './utils'
-import createBabelRegister from './utils/babelRegister'
 import Plugin from './Plugin'
 import Config from './Config'
 
 interface IKernelOptions {
   appPath: string
-  isWatch: boolean
-  isProduction: boolean
   presets: PluginItem[]
   plugins: PluginItem[]
 }
@@ -57,8 +55,6 @@ export default class Kernel extends EventEmitter {
   constructor (options: IKernelOptions) {
     super()
     this.appPath = options.appPath || process.cwd()
-    this.isProduction = options.isProduction
-    this.isWatch = options.isWatch
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
     this.hooks = new Map()
@@ -77,9 +73,7 @@ export default class Kernel extends EventEmitter {
 
   initConfig () {
     this.config = new Config({
-      appPath: this.appPath,
-      isWatch: this.isWatch,
-      isProduction: this.isProduction
+      appPath: this.appPath
     })
     this.initialConfig = this.config.initialConfig
   }
@@ -87,10 +81,14 @@ export default class Kernel extends EventEmitter {
   initPaths () {
     this.paths = {
       appPath: this.appPath,
-      configPath: this.config.configPath,
-      sourcePath: path.join(this.appPath, this.initialConfig.sourceRoot as string),
-      outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string),
       nodeModulesPath: recursiveFindNodeModules(path.join(this.appPath, NODE_MODULES))
+    } as IPaths
+    if (this.config.isInitSuccess) {
+      Object.assign(this.paths, {
+        configPath: this.config.configPath,
+        sourcePath: path.join(this.appPath, this.initialConfig.sourceRoot as string),
+        outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string)
+      })
     }
   }
 
@@ -103,9 +101,7 @@ export default class Kernel extends EventEmitter {
     const allConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])(PluginType.Preset)
     const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])(PluginType.Plugin)
     createBabelRegister({
-      only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)],
-      babelConfig: initialConfig.babel,
-      appPath: this.appPath
+      only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })
     this.plugins = new Map()
     this.extraPlugins = []

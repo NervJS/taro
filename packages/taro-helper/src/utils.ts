@@ -100,6 +100,9 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
 }
 
 export function recursiveFindNodeModules (filePath: string): string {
+  if (normalizePath(filePath) === '/') {
+    return filePath
+  }
   const dirname = path.dirname(filePath)
   const workspaceRoot = findWorkspaceRoot(dirname)
   const nodeModules = path.join(workspaceRoot || dirname, 'node_modules')
