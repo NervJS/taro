@@ -112,10 +112,15 @@ export class Prerender {
     await this.writeScript('app')
 
     if (!this.appLoaded) {
-      this.vm.run(`
+      try {
+        this.vm.run(`
         const app = require('${this.getRealPath('app')}')
         app.onLaunch()
       `, this.outputPath)
+      } catch (error) {
+        printPrerenderFail('app')
+        console.error(error)
+      }
       this.appLoaded = true
       await Promise.resolve()
     }
@@ -134,7 +139,7 @@ export class Prerender {
   }
 
   private getRealPath (path: string, ext = '.js') {
-    return join(this.outputPath, path + ext)
+    return join(this.outputPath, path + ext).replace(/\\/g, '\\\\')
   }
 
   private buildSandbox () {
