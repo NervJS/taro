@@ -239,7 +239,8 @@ export default function transform (options: TransformOptions): TransformResult {
       jsx: options.sourcePath.endsWith('.tsx') ? ts.JsxEmit.Preserve : ts.JsxEmit.None,
       target: ts.ScriptTarget.ESNext,
       importHelpers: true,
-      noEmitHelpers: true
+      noEmitHelpers: true,
+      emitDecoratorMetadata: process.env.TS_METADATA === 'true'
     })
     : options.code
   options.env = Object.assign({ 'process.env.TARO_ENV': options.adapter || 'weapp' }, options.env || {})
