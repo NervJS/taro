@@ -1,5 +1,3 @@
-import { build } from '../../rn'
-
 export default (ctx) => {
   ctx.registerPlatform({
     name: 'rn',
@@ -10,7 +8,7 @@ export default (ctx) => {
       const { emptyDirectory } = ctx.helper
 
       emptyDirectory(outputPath)
-      build(appPath, {
+      require('../../rn').build(appPath, {
         watch: isWatch,
         port
       })

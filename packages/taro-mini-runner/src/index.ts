@@ -29,7 +29,7 @@ export default async function build (appPath: string, config: IBuildConfig) {
   const webpackChain = buildConf(appPath, mode, config)
   await customizeChain(webpackChain, newConfig.modifyWebpackChain, newConfig.webpackChain)
   const webpackConfig = webpackChain.toConfig()
-
+  const onBuildFinish = config.onBuildFinish
   const compiler = webpack(webpackConfig)
   return new Promise((resolve, reject) => {
     if (newConfig.isWatch) {
@@ -40,7 +40,13 @@ export default async function build (appPath: string, config: IBuildConfig) {
       }, (err, stats) => {
         if (err) {
           printBuildError(err)
+          if (typeof onBuildFinish === 'function') {
+            onBuildFinish(err, null, true)
+          }
           return reject(err)
+        }
+        if (typeof onBuildFinish === 'function') {
+          onBuildFinish(null, stats, true)
         }
         resolve()
       })
@@ -49,7 +55,13 @@ export default async function build (appPath: string, config: IBuildConfig) {
       compiler.run((err, stats) => {
         if (err) {
           printBuildError(err)
+          if (typeof onBuildFinish === 'function') {
+            onBuildFinish(err, null, false)
+          }
           return reject(err)
+        }
+        if (typeof onBuildFinish === 'function') {
+          onBuildFinish(null, stats, false)
         }
         resolve()
       })

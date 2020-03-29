@@ -18,30 +18,27 @@ import {
 
 interface IConfigOptions {
   appPath: string,
-  isWatch: boolean,
-  isProduction: boolean
 }
 
 export default class Config {
   appPath: string
   configPath: string
   initialConfig: IProjectConfig
-  isWatch: boolean
-  isProduction: boolean
+  isInitSuccess: boolean
   constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
-    this.isWatch = opts.isWatch
-    this.isProduction = opts.isProduction
     this.init()
   }
 
   init () {
     this.configPath = path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE)
     if (!fs.existsSync(this.configPath)) {
-      // TD log
-      process.exit(0)
+      this.initialConfig = {}
+      this.isInitSuccess = false
+    } else {
+      this.initialConfig = require(this.configPath)(merge)
+      this.isInitSuccess = true
     }
-    this.initialConfig = require(this.configPath)(merge)
   }
 
   getConfigWithNamed (platform, useConfigName) {
@@ -69,8 +66,6 @@ export default class Config {
       uglify: initialConfig.uglify,
       plugins: initialConfig.plugins,
       projectName: initialConfig.projectName,
-      isWatch: this.isWatch,
-      mode: this.isProduction ? 'production': 'development',
       env: initialConfig.env,
       defineConstants: initialConfig.defineConstants,
       designWidth: initialConfig.designWidth,
