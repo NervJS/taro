@@ -1,4 +1,4 @@
-import * as React from 'react'
+import type * as React from 'react'
 import { isFunction, ensure, EMPTY_OBJ } from '@tarojs/shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance } from './instance'
@@ -73,25 +73,12 @@ export let PageContext: React.Context<string> = EMPTY_OBJ
 
 let ReactDOM
 
-if (process.env.FRAMEWORK === 'nerv') {
-  R = require('nervjs')
-  ReactDOM = R
-}
-
-// 其它 react-like 框架走 react 模式，在 webpack.resolve.alias 设置 react/react-dom 到对应包
-if (process.env.FRAMEWORK === 'react') {
-  R = require('react')
-  ReactDOM = require('react-dom')
-}
-
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
-export function createReactApp (App: React.ComponentClass, react?: typeof React) {
+export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom) {
+  R = react
+  ReactDOM = reactdom
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
-
-  if (react != null) {
-    R = react
-  }
 
   const ref = R.createRef<ReactAppInstance>()
 

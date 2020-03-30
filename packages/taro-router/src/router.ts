@@ -6,7 +6,7 @@ import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
 import { init } from './init'
-import { createPullDownRefresh } from './pull-down'
+import { createPullDownRefresh, R, V } from './pull-down'
 
 export interface Route extends PageConfig {
   path: string
@@ -62,7 +62,8 @@ function loadPage (page: PageInstance | null) {
       pageEl.style.display = 'block'
     } else {
       page.onLoad(qs())
-      pageEl = document.getElementById(page.path!);
+      pageEl = document.getElementById(page.path!)
+      // eslint-disable-next-line dot-notation
       pageEl && (pageEl['__page'] = page)
     }
     page.onShow!()
@@ -70,7 +71,13 @@ function loadPage (page: PageInstance | null) {
   }
 }
 
-export function createRouter (App, config: RouterConfig, framework: 'react' | 'vue' | 'nerv') {
+export function createRouter (
+  App,
+  config: RouterConfig,
+  type: 'react' | 'vue' | 'nerv',
+  framework: R | V,
+  reactdom
+) {
   init(config)
 
   const routes: Routes = []
@@ -84,8 +91,8 @@ export function createRouter (App, config: RouterConfig, framework: 'react' | 'v
   }
 
   const router = new UniversalRouter(routes)
-  const app = framework === 'react' ? createReactApp(App) : createVueApp(App)
-  app.onLaunch()
+  const app = type === 'react' ? createReactApp(App, framework as R, reactdom) : createVueApp(App, framework as V)
+  app.onLaunch!()
 
   const render: LocationListener<LocationState> = async (location, action) => {
     const element = await router.resolve(location.pathname)
@@ -124,7 +131,7 @@ export function createRouter (App, config: RouterConfig, framework: 'react' | 'v
     if (shouldLoad) {
       const el = element.default ?? element
       const page = createPageConfig(
-        enablePullDownRefresh ? createPullDownRefresh(el, framework, location.pathname) : el,
+        enablePullDownRefresh ? createPullDownRefresh(el, type, location.pathname, framework) : el,
         location.pathname
       )
       loadPage(page)

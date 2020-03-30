@@ -97,7 +97,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
 
       const path = getPath(id, options)
 
-      Current.app!.mount(component, path, () => {
+      Current.app!.mount!(component, path, () => {
         pageElement = document.getElementById<TaroRootElement>(path)
 
         ensure(pageElement !== null, '没有找到页面实例。')
@@ -109,7 +109,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       })
     },
     onUnload () {
-      Current.app!.unmount(id, () => {
+      Current.app!.unmount!(id, () => {
         if (pageElement) {
           pageElement.ctx = null
         }
@@ -196,7 +196,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
   const config: any = {
     attached () {
       perf.start(PAGE_INIT)
-      Current.app!.mount(component, id, () => {
+      Current.app!.mount!(component, id, () => {
         componentElement = document.getElementById<TaroRootElement>(id)
         ensure(componentElement !== null, '没有找到组件实例。')
         safeExecute(id, 'onLoad')
@@ -207,7 +207,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
       })
     },
     detached () {
-      Current.app!.unmount(id, () => {
+      Current.app!.unmount!(id, () => {
         if (componentElement) {
           componentElement.ctx = null
         }

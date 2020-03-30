@@ -1,5 +1,6 @@
 import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
+import { importFramework, getFrameworkArgs } from './utils'
 
 export default function (this: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(this, s)
@@ -12,7 +13,8 @@ if (typeof PRERENDER !== 'undefined') {
 }`
   return `import { ${method} } from '@tarojs/runtime'
 import component from ${stringify(this.request.split('!').slice(1).join('!'))}
-var inst = App(${method}(component))
+${importFramework(options.framework)}
+var inst = App(${method}(component, ${getFrameworkArgs(options.framework)}))
 ${options.prerender ? prerender : ''}
 `
 }

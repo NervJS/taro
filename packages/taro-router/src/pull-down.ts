@@ -1,36 +1,32 @@
-import * as React from 'react'
-import VueCtor, { ComponentOptions } from 'vue'
+import type * as React from 'react'
+// eslint-disable-next-line import/no-duplicates
+import type Vue from 'vue'
+// eslint-disable-next-line import/no-duplicates
+import type { ComponentOptions } from 'vue'
 import { injectPageInstance } from '@tarojs/runtime'
 
-let R: typeof React
+export type R = typeof React
+export type V = typeof Vue
 
-if (process.env.FRAMEWORK === 'nerv') {
-  R = require('nervjs')
+export const createPullDownRefresh = (
+  el,
+  type: 'react' | 'vue' | 'nerv',
+  path: string,
+  framework: R | V
+): any => {
+  return type === 'vue'
+    ? createVuePullDown(el, path, framework as V)
+    : createReactPullDown(el, framework as R)
 }
 
-if (process.env.FRAMEWORK === 'react') {
-  R = require('react')
-}
-
-let Vue
-// webpack 开发模式不会执行 tree-shaking，因此我们需要做此判断
-if (process.env.FRAMEWORK === 'vue') {
-  const v = require('vue')
-  Vue = v.default || v
-}
-
-export const createPullDownRefresh = (el, framework: 'react' | 'vue' | 'nerv', path: string): any => {  
-  return framework === 'vue' ? createVuePullDown(el, path) : createReactPullDown(el)
-}
-
-const createReactPullDown = (el) => {
-  return React.forwardRef((props, ref) => {
+const createReactPullDown = (el, R: R) => {
+  return R.forwardRef((props, ref) => {
     return R.createElement('taro-pull-to-refresh', null, R.createElement(el, { ...props, ref }))
   })
 }
 
-const createVuePullDown = (el, path: string) => {
-  const injectedPage = Vue.extend({
+const createVuePullDown = (el, path: string, vue: V) => {
+  const injectedPage = vue.extend({
     props: {
       tid: String
     },
@@ -41,7 +37,7 @@ const createVuePullDown = (el, path: string) => {
     }]
   })
 
-  const options: ComponentOptions<VueCtor> = {
+  const options: ComponentOptions<Vue> = {
     name: 'PullToRefresh',
     render (h) {
       return h('taro-pull-to-refresh', { class: ['hydrated'] }, [h(injectedPage, this.$slots.default)])
