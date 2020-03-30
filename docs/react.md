@@ -392,7 +392,7 @@ Taro 中使用 React，内置组件遵循小程序组件规范，所有内置组
 ### Taro
 
 ```jsx
-import { View } from '@tarojs/taro'
+import { View } from '@tarojs/components'
 <View hoverClass='test' />
 ```
 
