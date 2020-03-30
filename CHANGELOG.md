@@ -1,5 +1,48 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.0.7...v) (2020-03-16)
+# [](https://github.com/NervJS/taro/compare/v2.1.0...v) (2020-03-30)
+
+
+
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/NervJS/taro/compare/v2.0.7...v2.1.0) (2020-03-30)
+
+
+### Bug Fixes
+
+* **quickapp:** 快应用支持 Block 标签，2.x版本遗漏 ([feddc80](https://github.com/NervJS/taro/commit/feddc80))
+* SwiperItem with restProps fix [#3230](https://github.com/NervJS/taro/issues/3230) ([5f955da](https://github.com/NervJS/taro/commit/5f955da))
+* **mini-runner:** 支持导出微信插件入口文件 ([#5832](https://github.com/NervJS/taro/issues/5832)) ([1f6f625](https://github.com/NervJS/taro/commit/1f6f625))
+* **redux:** 快速dispatch redux actions情况下无法正确记录prevProps ([#5829](https://github.com/NervJS/taro/issues/5829)) ([e0166b5](https://github.com/NervJS/taro/commit/e0166b5))
+* [#5655](https://github.com/NervJS/taro/issues/5655) 2.x中无法在config中使用defineConstants定义的全局变量 ([c7bbcc8](https://github.com/NervJS/taro/commit/c7bbcc8))
+* ci error ([d24e53f](https://github.com/NervJS/taro/commit/d24e53f))
+* class关键字在华为ide报错 ([bcbe9de](https://github.com/NervJS/taro/commit/bcbe9de))
+* code format ([320c411](https://github.com/NervJS/taro/commit/320c411))
+* code format ([2551339](https://github.com/NervJS/taro/commit/2551339))
+* component typing with scripts ([0120346](https://github.com/NervJS/taro/commit/0120346))
+* issue [#5682](https://github.com/NervJS/taro/issues/5682) ,修复ios 10.x系统中，由于不支持document.body.style = bodyInlineStyle写法导致js被中断的问题 ([f282170](https://github.com/NervJS/taro/commit/f282170))
+* js空格格式修改与taro一致 ([badf6fa](https://github.com/NervJS/taro/commit/badf6fa))
+* redundant type fix [#5771](https://github.com/NervJS/taro/issues/5771) ([21ba48a](https://github.com/NervJS/taro/commit/21ba48a))
+* swiper incorrect setting ([b4bb27c](https://github.com/NervJS/taro/commit/b4bb27c))
+* this.container null in scroll-view ([200c1dc](https://github.com/NervJS/taro/commit/200c1dc))
+* 修复初始页面参数问题 [#2055](https://github.com/NervJS/taro/issues/2055) ([32d08c2](https://github.com/NervJS/taro/commit/32d08c2))
+* 初始化时data增加属性priTaroCompReady=false ([ba1c158](https://github.com/NervJS/taro/commit/ba1c158))
+* 初始化链接调整 ([085369d](https://github.com/NervJS/taro/commit/085369d))
+* 华为快应用事件冒泡到根节点会修改currentTarget, 导致报错 ([568712f](https://github.com/NervJS/taro/commit/568712f))
+* 头条,qq,阿里小程序报错 p.setIsUsingDiff is not a function ([7d7161c](https://github.com/NervJS/taro/commit/7d7161c))
+* **components:** 函数名错误 ([#5739](https://github.com/NervJS/taro/issues/5739)) ([6d00f13](https://github.com/NervJS/taro/commit/6d00f13))
+* **h5:** Audio onError 无法捕获错误 [#4378](https://github.com/NervJS/taro/issues/4378) ([#5763](https://github.com/NervJS/taro/issues/5763)) ([acf5720](https://github.com/NervJS/taro/commit/acf5720))
+* **jd:** 修复京东小程序跳转参数、预加载 ([98c9c2a](https://github.com/NervJS/taro/commit/98c9c2a))
+* **mini-runner:** `app.[env].tsx` 支持多端配置文件编译成 `app.json` ([#5714](https://github.com/NervJS/taro/issues/5714)) ([28ba210](https://github.com/NervJS/taro/commit/28ba210))
+* 同步RN与微信的网络请求参数 ([1a9b7f0](https://github.com/NervJS/taro/commit/1a9b7f0))
+* **rn-runner:** const import error ([629d906](https://github.com/NervJS/taro/commit/629d906))
+
+
+### Features
+
+* **cli:** 增加 taro-ui 的版本检测和非项目目录提示 ([905c8a3](https://github.com/NervJS/taro/commit/905c8a3))
+* **rn:** build rn_bundle ([d88948f](https://github.com/NervJS/taro/commit/d88948f))
+* **rn:** rn 端基于 webpack 编译重构 ([2b440b8](https://github.com/NervJS/taro/commit/2b440b8))
+* **transformer:** 添加环境变量支持ts编译配置emitDecoratorMetadata ([#5830](https://github.com/NervJS/taro/issues/5830)) ([2076b37](https://github.com/NervJS/taro/commit/2076b37)), closes [#3132](https://github.com/NervJS/taro/issues/3132)
 
 
 
@@ -13,8 +56,14 @@
 * **mini-runner:** 解决使用 addChunkPages 时子包组件插入公共引用的问题 ([0cbce17](https://github.com/NervJS/taro/commit/0cbce17))
 * **swan:** 修复百度小程序component shouldComponentUpdate不生效 ([9167bb8](https://github.com/NervJS/taro/commit/9167bb8))
 * **tt:** 修复头条真机调试报错，fix [#5688](https://github.com/NervJS/taro/issues/5688) ([d2b4dde](https://github.com/NervJS/taro/commit/d2b4dde))
-* **types:** 修复 CanvasContext 的部分属性类型。 ([#5647](https://github.com/NervJS/taro/issues/5647)) ([4af1ca1](https://github.com/NervJS/taro/commit/4af1ca1))
 * **types:** 修复 getExtConfigSync 的部分属性类型。 ([#5695](https://github.com/NervJS/taro/issues/5695)) ([cef8b46](https://github.com/NervJS/taro/commit/cef8b46))
+* 修复bug ([6a6ad9f](https://github.com/NervJS/taro/commit/6a6ad9f))
+* **types:** 修复 CanvasContext 的部分属性类型。 ([#5647](https://github.com/NervJS/taro/issues/5647)) ([4af1ca1](https://github.com/NervJS/taro/commit/4af1ca1))
+
+
+### Features
+
+* 增加RN中的Taro.addInterceptor ([730aaa6](https://github.com/NervJS/taro/commit/730aaa6))
 
 
 
@@ -51,6 +100,7 @@
 * complete navig、form、media typing with docs ([eab3a52](https://github.com/NervJS/taro/commit/eab3a52))
 * complete Open typing with docs ([0acb787](https://github.com/NervJS/taro/commit/0acb787))
 * upload all components types with docs ([1af2607](https://github.com/NervJS/taro/commit/1af2607))
+* **rn:** RN 端支持setKeepScreenOn & setScreenBrightness & getScreenBrightness ([a5348b4](https://github.com/NervJS/taro/commit/a5348b4))
 
 
 
