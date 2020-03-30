@@ -10,8 +10,15 @@ let INSTANCE_ID = 0
 
 class SwiperItem extends Nerv.Component {
   render () {
-    const cls = classNames('swiper-slide', this.props.className)
-    return <div className={cls} style={this.props.style} item-id={this.props.itemId}>{this.props.children}</div>
+    const { className, style, itemId, children, ...restProps } = this.props
+    const cls = classNames('swiper-slide', className)
+    return <div
+      className={cls}
+      style={style}
+      item-id={itemId}
+      {...restProps}>
+      {children}
+    </div>
   }
 }
 
