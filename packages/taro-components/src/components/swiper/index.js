@@ -40,8 +40,6 @@ class Swiper extends Nerv.Component {
     this._id = INSTANCE_ID + 1
     INSTANCE_ID++
     this._$current = 0
-    this._$width = 0
-    this._$height = 0
   }
 
   componentDidMount () {
@@ -112,6 +110,9 @@ class Swiper extends Nerv.Component {
     }
 
     this.mySwiper = new Swipers(this.$el, opt)
+    setTimeout(() => {
+      this.mySwiper.update()
+    }, 500)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -138,16 +139,6 @@ class Swiper extends Nerv.Component {
 
       this.mySwiper.update() // 更新子元素
     }
-  }
-
-  componentDidUpdate () {
-    if (!this.mySwiper) return
-    if (this._$width !== this.mySwiper.width || this._$height !== this.mySwiper.height) {
-      this.mySwiper.autoplay.stop()
-      this.mySwiper.autoplay.start()
-    }
-    this._$width = this.mySwiper.width
-    this._$height = this.mySwiper.height
   }
 
   componentWillUnmount () {
