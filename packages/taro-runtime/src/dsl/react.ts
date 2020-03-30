@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { isFunction, ensure, EMPTY_OBJ } from '@tarojs/shared'
 import { Current } from '../current'
-import { AppInstance, ReactPageInstance, ReactPageComponent, PageProps, Instance } from './instance'
+import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance } from './instance'
 import { document } from '../bom/document'
 import { injectPageInstance } from './common'
 import { isBrowser } from '../env'
@@ -93,7 +93,7 @@ export function createReactApp (App: React.ComponentClass, react?: typeof React)
     R = react
   }
 
-  const ref = R.createRef<ReactPageInstance>()
+  const ref = R.createRef<ReactAppInstance>()
 
   let wrapper: AppWrapper
 
@@ -135,8 +135,12 @@ export function createReactApp (App: React.ComponentClass, react?: typeof React)
   }
 
   class AppConfig implements AppInstance {
-    onLaunch () {
+    onLaunch (options) {
       wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+      const app = ref.current
+      if (app != null && isFunction(app.onLaunch)) {
+        app.onLaunch(options)
+      }
     }
 
     onShow (options) {

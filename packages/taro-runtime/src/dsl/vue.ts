@@ -93,9 +93,12 @@ export function createVueApp (App: VueInstance, vue?) {
   })
 
   class AppConfig implements AppInstance {
-    onLaunch () {
+    onLaunch (options) {
       wrapper.$mount(document.getElementById('app') as any)
       appInstance = wrapper.$refs.app as VueAppInstance
+      if (appInstance != null && isFunction(appInstance.$options.onLaunch)) {
+        appInstance.$options.onLaunch.call(appInstance, options)
+      }
     }
 
     onShow (options) {

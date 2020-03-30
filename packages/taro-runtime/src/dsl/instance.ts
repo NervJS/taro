@@ -12,7 +12,7 @@ export interface Instance<T = {}> extends Component<T>, Show, PageInstance {
 }
 
 export interface VueAppInstance extends ComponentOptions<VueCtor> {
-  $options: Show
+  $options: AppInstance
 }
 
 export type VueInstance<M = object, P = object> = CombinedVueInstance<VueCtor, object, M, P, Record<never, any>> & VueInternal
@@ -31,6 +31,10 @@ export interface ReactPageComponent<T = PageProps> extends ComponentClass<T>, Sh
 }
 
 export interface ReactPageInstance<T = PageProps> extends Component<T>, Show, PageInstance {
+  //
+}
+
+export interface ReactAppInstance<T = AppInstance> extends Component<T>, Show, AppInstance {
   //
 }
 
@@ -65,7 +69,7 @@ interface Show {
 }
 
 export interface AppInstance extends Show {
-  onLaunch (options?: string): void
-  mount (component: React.ComponentClass | ComponentOptions<VueCtor>, id: string, cb: () => void): void
-  unmount (id: string, cb: () => void): void
+  onLaunch? (options?: string): void
+  mount? (component: React.ComponentClass | ComponentOptions<VueCtor>, id: string, cb: () => void): void
+  unmount? (id: string, cb: () => void): void
 }
