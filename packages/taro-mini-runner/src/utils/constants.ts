@@ -226,7 +226,8 @@ export const isWindows = os.platform() === 'win32'
 
 export const QUICKAPP_SPECIAL_COMPONENTS = new Set<string>([
   'View',
-  'Text'
+  'Text',
+  'Block'
 ])
 
 export enum PARSE_AST_TYPE {
