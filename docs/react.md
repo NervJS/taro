@@ -63,13 +63,16 @@ export default {
 
 ### 组件生命周期
 
-#### componentWillMount()
+## onLaunch(options)
 
 > 在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 app 的 `onLaunch`
 
+在此生命周期中通过 `Current.router.params`，可以访问到程序初始化参数。
+
+#### componentWillMount()
+
 监听程序初始化，初始化完成时触发（全局只触发一次）
 
-在此生命周期中通过 `Current.router.params`，可以访问到程序初始化参数
 
 参数格式如下
 
@@ -93,19 +96,15 @@ export default {
 
 #### componentDidMount()
 
-> 在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 app 的 `onLaunch`，在 `componentWillMount` 后执行
+页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。此生命周期可以无法访问 `Current.router`。此生命周期可以访问 Taro DOM 并且更改 DOM 或添加事件，但无法通过 `Taro.createSelectorQuery` 查找小程序 DOM。
 
-监听程序初始化，初始化完成时触发（全局只触发一次）
-
-在此生命周期中也可以通过 `this.$router.params`，访问到程序初始化参数，与 `componentWillMount` 中一致
-
-#### componentDidShow()
+#### componentDidShow(options)
 
 > 在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 `onShow`，在 H5/RN 中同步实现
 
 程序启动，或从后台进入前台显示时触发，微信小程序中也可以使用 `Taro.onAppShow` 绑定监听
 
-在此生命周期中通过 `this.$router.params`，可以访问到程序初始化参数
+在此生命周期中通过 `Current.router.params`，可以访问到程序初始化参数。
 
 参数与 `componentWillMount` 中获取的基本一致，但**百度小程序**中补充两个参数如下
 
@@ -200,13 +199,17 @@ export default {
 
 ### 生命周期
 
+### onLoad(options)
+
+此生命周期在小程序端对应小程序页面的 `onLoad` 生命周期。此生命周期可以访问 `Current.router`。从此生命周期开始可以通过 `Taro.createSelectorQuery` 查找小程序 DOM。
+
 #### componentWillMount()
 
 页面加载时触发，一个页面只会调用一次，此时页面 DOM 尚未准备好，还不能和视图层进行交互
 
 #### componentDidMount()
 
-页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互
+页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。此生命周期可以无法访问 `Current.router`。此生命周期可以访问 Taro DOM 并且更改 DOM 或添加事件，但无法通过 `Taro.createSelectorQuery` 查找小程序 DOM。
 
 #### shouldComponentUpdate(nextProps, nextState)
 
@@ -232,7 +235,7 @@ export default {
 
 页面隐藏/切入后台时触发， 如 navigateTo 或底部 tab 切换到其他页面，小程序切入后台等
 
-**在以上所有的生命周期方法中，都可以通过 `this.$router.params` 获取打开当前页面路径中的参数**。
+**在以上所有的生命周期方法中，都可以通过 `Current.router.params` 获取打开当前页面路径中的参数**。
 
 ### 页面事件处理函数
 

@@ -138,6 +138,10 @@ export function createReactApp (App: React.ComponentClass, react?: typeof React)
     onLaunch (options) {
       wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
       const app = ref.current
+      Current.router = {
+        params: options?.query,
+        ...options
+      }
       if (app != null && isFunction(app.onLaunch)) {
         app.onLaunch(options)
       }
