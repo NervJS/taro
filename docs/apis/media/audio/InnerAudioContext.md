@@ -160,12 +160,12 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 音频播放错误事件
 
 ```tsx
-(callback?: () => void) => void
+(callback?: (res: onErrorDetail) => void) => void
 ```
 
 | 参数 | 类型 |
 | --- | --- |
-| callback | `() => void` |
+| callback | `(res: onErrorDetail) => void` |
 
 ### onWaiting
 
@@ -322,6 +322,25 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 | 参数 | 类型 |
 | --- | --- |
 | callback | `() => void` |
+
+## 参数
+
+### onErrorDetail
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| errCode | `number` | 错误码 |
+| errMsg | `string` | 错误信息 |
+
+### onErrorDetailErrCode
+
+| 参数 | 说明 |
+| --- | --- |
+| 10001 | 系统错误 |
+| 10002 | 网络错误 |
+| 10003 | 文件错误 |
+| 10004 | 格式错误 |
+| -1 | 未知错误 |
 
 ## 示例代码
 

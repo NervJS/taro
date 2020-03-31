@@ -322,7 +322,7 @@ declare namespace Taro {
     /** 音频播放进度更新事件 */
     onTimeUpdate(callback?: () => void): void
     /** 音频播放错误事件 */
-    onError(callback?: () => void): void
+    onError(callback?: (res: InnerAudioContext.onErrorDetail) => void): void
     /** 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发 */
     onWaiting(callback?: () => void): void
     /** 音频进行 seek 操作事件 */
@@ -349,5 +349,27 @@ declare namespace Taro {
     offSeeking(callback?: () => void): void
     /** 取消监听 onSeeked 事件 */
     offSeeked(callback?: () => void): void
+  }
+
+  namespace InnerAudioContext {
+    interface onErrorDetail extends General.CallbackResult {
+      /** 错误码 */
+      errCode: number
+      /** 错误信息 */
+      errMsg: string
+    }
+
+    interface onErrorDetailErrCode {
+      /** 系统错误 */
+      10001
+      /** 网络错误 */
+      10002
+      /** 文件错误 */
+      10003
+      /** 格式错误 */
+      10004
+      /** 未知错误 */
+      '-1'
+    }
   }
 }
