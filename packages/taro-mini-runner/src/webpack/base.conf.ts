@@ -9,8 +9,8 @@ export default (appPath: string) => {
       mainFields: ['browser', 'module', 'main'],
       symlinks: true,
       modules: [
-        path.join(appPath, 'node_modules'),
-        'node_modules'
+        'node_modules',
+        path.join(appPath, 'node_modules')
       ]
     },
     resolveLoader: {
