@@ -15,7 +15,10 @@ import {
   TARO_CONFIG_FLODER,
   JS_EXT,
   TS_EXT,
-  NODE_MODULES_REG
+  NODE_MODULES_REG,
+  PLATFORMS,
+  CSS_IMPORT_REG,
+  CSS_EXT
 } from './constants'
 import defaultBabelConfig from './babel'
 
@@ -80,6 +83,24 @@ export function promoteRelativePath (fPath: string): string {
     return fPathArr.join('/')
   }
   return normalizePath(fPath)
+}
+
+export function resolveStylePath (p: string): string {
+  const realPath = p
+  const removeExtPath = p.replace(path.extname(p), '')
+  const taroEnv = process.env.TARO_ENV
+  for (let i = 0; i < CSS_EXT.length; i++) {
+    const item = CSS_EXT[i]
+    if (taroEnv) {
+      if (fs.existsSync(`${removeExtPath}.${taroEnv}${item}`)) {
+        return `${removeExtPath}.${taroEnv}${item}`
+      }
+    }
+    if (fs.existsSync(`${p}${item}`)) {
+      return `${p}${item}`
+    }
+  }
+  return realPath
 }
 
 export function printLog (type: processTypeEnum, tag: string, filePath?: string) {
@@ -248,6 +269,16 @@ export function generateConstantsList (constants: object): object {
     }
   }
   return res
+}
+
+export function cssImports (content: string): string[] {
+  let match: RegExpExecArray | null
+  const results: string[] = []
+  content = String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
+  while ((match = CSS_IMPORT_REG.exec(content))) {
+    results.push(match[2])
+  }
+  return results
 }
 
 /*eslint-disable*/
@@ -457,4 +488,10 @@ export function readDirWithFileTypes (floder: string): FileStat[] {
 
 export function extnameExpRegOf (filePath: string): RegExp {
   return new RegExp(`${path.extname(filePath)}$`)
+}
+
+export function addPlatforms (platform: string) {
+  const upperPlatform = platform.toLocaleUpperCase()
+  if (PLATFORMS[upperPlatform]) return
+  PLATFORMS[upperPlatform] = platform
 }

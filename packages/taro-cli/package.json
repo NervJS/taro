@@ -40,6 +40,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+    "@tarojs/helper": "2.1.6",
     "@tarojs/service": "2.1.6",
     "@tarojs/taroize": "2.1.6",
     "@tarojs/transformer-wx": "2.1.6",
@@ -60,7 +61,6 @@
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
     "better-babel-generator": "^6.26.1",
-    "chalk": "2.4.2",
     "chokidar": "^2.0.3",
     "commander": "^2.19.0",
     "cross-spawn": "^6.0.5",

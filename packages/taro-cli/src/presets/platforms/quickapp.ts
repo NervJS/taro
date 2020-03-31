@@ -4,7 +4,6 @@ import { execSync } from 'child_process'
 import * as ora from 'ora'
 
 import {
-  unzip,
   recursiveReplaceObjectKeys
 } from '../../util'
 import { downloadGithubRepoLatestRelease } from '../../util/dowload'
@@ -29,7 +28,8 @@ export default (ctx) => {
         chalk,
         shouldUseYarn,
         isWindows,
-        shouldUseCnpm
+        shouldUseCnpm,
+        unzip
       } = ctx.helper
 
       // 读取 project.quickapp.json
@@ -93,7 +93,8 @@ export default (ctx) => {
         chalk,
         shouldUseYarn,
         isWindows,
-        shouldUseCnpm
+        shouldUseCnpm,
+        unzip
       })
       if (!isReady) {
         console.log()
@@ -117,7 +118,8 @@ async function prepareQuickAppEnvironment ({
   chalk,
   shouldUseYarn,
   isWindows,
-  shouldUseCnpm
+  shouldUseCnpm,
+  unzip
 }) {
   let isReady = false
   let needDownload = false

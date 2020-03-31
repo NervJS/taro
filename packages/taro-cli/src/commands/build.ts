@@ -35,6 +35,7 @@ export default function build (kernel: Kernel, {
   if (ui) {
     platform = 'ui'
   }
+  process.env.TARO_ENV = platform
   kernel.run({
     name: 'build',
     opts: {
