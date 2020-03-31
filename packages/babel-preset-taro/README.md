@@ -1,5 +1,7 @@
 # `babel-preset-taro`
 
+给 Taro 项目使用的 babel preset。
+
 ## Usege
 
 ```javascript
