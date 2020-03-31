@@ -145,9 +145,11 @@ class Swiper extends Nerv.Component {
 
   componentDidUpdate () {
     if (!this.mySwiper) return
-    if (this._$width !== this.mySwiper.width || this._$height !== this.mySwiper.height) {
-      this.mySwiper.autoplay.stop()
-      this.mySwiper.autoplay.start()
+    if (this.props.autoplay) {
+      if (this._$width !== this.mySwiper.width || this._$height !== this.mySwiper.height) {
+        this.mySwiper.autoplay.stop()
+        this.mySwiper.autoplay.start()
+      }
     }
     this._$width = this.mySwiper.width
     this._$height = this.mySwiper.height
