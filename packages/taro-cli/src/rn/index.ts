@@ -41,14 +41,15 @@ export async function build (
   tcpPortUsed.check(port, '127.0.0.1').then((inUse) => {
     if (inUse) {
       console.log(chalk.yellow(`⚠️  端口 ${port} 被占用，启动 Metro Server 失败！`))
+      console.log(chalk.yellow(`如果 Metro Server 已启动，请确保 Metro Server 监听目录为：${appPath}。`))
       console.log('\n\n')
     } else {
       try {
         startServerInNewWindow({port, appPath})
-        console.log(chalk.green(`启动 Metro Server 成功！`))
+        console.log(chalk.green(`启动 Metro Server 成功！监听目录：${appPath}。`))
         console.log('\n\n')
       } catch (e) {
-        console.log(chalk.yellow('🙅 启动 Metro Server 失败，请在项目根目录下运行：react-native start 手动启动。'))
+        console.log(chalk.yellow(`🙅 启动 Metro Server 失败，请在${appPath}目录下运行：react-native start 手动启动。`))
         console.log(chalk.red(e))
         console.log('\n\n')
       }
