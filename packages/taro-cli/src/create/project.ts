@@ -1,14 +1,12 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
-import chalk from 'chalk'
 import * as inquirer from 'inquirer'
 import * as semver from 'semver'
 import { createApp } from './init'
 import fetchTemplate from './fetchTemplate'
 import Creator from './creator'
 import CONFIG from '../config'
-import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } from '../util/constants'
-import { getUserHomeDir } from '../util'
+import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG, getUserHomeDir, chalk } from '@tarojs/helper'
 
 export interface IProjectConf {
   projectName: string,

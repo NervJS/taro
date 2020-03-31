@@ -1,12 +1,18 @@
+import * as path from 'path'
+
 export default (ctx) => {
   registerBuildHooks(ctx)
   ctx.registerCommand({
     name: 'build',
     async fn (opts) {
       const { platform, config } = opts
-      const { fs, chalk } = ctx.helper
-      const { outputPath } = ctx.paths
+      const { fs, chalk, PROJECT_CONFIG } = ctx.helper
+      const { outputPath, appPath } = ctx.paths
       const { isWatch, envHasBeenSet } = ctx.runOpts
+      if (!fs.existsSync(path.join(appPath, PROJECT_CONFIG))) {
+        console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
+        process.exit(1)
+      }
       if (typeof platform !== 'string') {
         console.log(chalk.red('请传入正确的编译类型！'))
         process.exit(0)

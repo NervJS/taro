@@ -1,13 +1,9 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import chalk from 'chalk'
 import * as wxTransformer from '@tarojs/transformer-wx'
+import { printLog, resolveScriptPath, npm as npmProcess, processTypeEnum, REG_TYPESCRIPT, chalk } from '@tarojs/helper'
 
 import { Compiler } from '../h5'
-import * as npmProcess from '../util/npm'
-import { printLog, resolveScriptPath } from '../util'
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
-
 import { IBuildData, IH5BuildConfig } from './ui.types'
 import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME, copyAllInterfaceFiles } from './common'
 
