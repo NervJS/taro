@@ -75,8 +75,13 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
   }
 
   convertObjectUrlToBlob(filePath)
-    .then(fileObj => {
-      form.append(name, fileObj, fileName || fileObj.name || `file-${Date.now()}`)
+    .then(blob => {
+      const tmpFilename = fileName || blob.name || `file-${Date.now()}`
+      // 之前这里文件类型是blob，可能丢失信息 这里转换成 File 对象
+      const file = new File([blob], tmpFilename, {
+        type: blob.type
+      })
+      form.append(name, file, tmpFilename)
       send()
     })
     .catch(e => {
