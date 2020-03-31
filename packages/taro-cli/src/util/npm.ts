@@ -1,8 +1,7 @@
 import * as resolvePath from 'resolve'
 import * as spawn from 'cross-spawn'
-import chalk from 'chalk'
+import { shouldUseYarn, shouldUseCnpm, chalk } from '@tarojs/helper'
 
-import * as Util from './'
 import { IInstallOptions } from './types'
 
 const PEERS = /UNMET PEER DEPENDENCY ([a-z\-0-9.]+)@(.+)/gm
@@ -75,15 +74,15 @@ export function installNpmPkg (pkgList: string[] | string, options: IInstallOpti
   let installer = ''
   let args: string[] = []
 
-  if (Util.shouldUseYarn()) {
+  if (shouldUseYarn()) {
     installer = 'yarn'
-  } else if (Util.shouldUseCnpm()) {
+  } else if (shouldUseCnpm()) {
     installer = 'cnpm'
   } else {
     installer = 'npm'
   }
 
-  if (Util.shouldUseYarn()) {
+  if (shouldUseYarn()) {
     args = ['add'].concat(pkgList).filter(Boolean)
     args.push('--silent', '--no-progress')
     if (options.dev) {

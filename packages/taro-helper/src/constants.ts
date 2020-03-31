@@ -1,6 +1,8 @@
 import * as os from 'os'
 import * as chalk from 'chalk'
 
+export const PLATFORMS = {}
+
 export const enum processTypeEnum {
   START = 'start',
   CREATE = 'create',

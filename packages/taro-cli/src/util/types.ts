@@ -1,5 +1,3 @@
-import { BUILD_TYPES } from './constants'
-
 export interface IInstallOptions {
   dev: boolean,
   peerDependencies?: boolean
@@ -40,7 +38,7 @@ export interface IPrettierConfig {
 }
 
 export interface IBuildOptions {
-  type?: BUILD_TYPES,
+  type?: string,
   watch?: boolean,
   platform?: string,
   port?: number,
@@ -52,7 +50,7 @@ export interface IBuildOptions {
 }
 
 export interface IMiniAppBuildConfig {
-  adapter: BUILD_TYPES,
+  adapter: string,
   watch?: boolean,
   envHasBeenSet?: boolean,
   port?: number,

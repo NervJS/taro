@@ -23,15 +23,18 @@ import {
   recursiveMerge,
   replaceAliasPath,
   resolveScriptPath,
-  checkCliAndFrameworkVersion
-} from '../util'
+  npm as npmProcess,
+  processTypeEnum,
+  PROJECT_CONFIG,
+  REG_SCRIPTS,
+  REG_TYPESCRIPT
+} from '@tarojs/helper'
 import {
   convertAstExpressionToVariable as toVar,
   convertObjectToAstExpression as objToAst,
   convertSourceStringToAstExpression as toAst
 } from '../util/astConvert'
-import { BUILD_TYPES, processTypeEnum, PROJECT_CONFIG, REG_SCRIPTS, REG_TYPESCRIPT } from '../util/constants'
-import * as npmProcess from '../util/npm'
+import { checkCliAndFrameworkVersion } from '../util'
 import { IBuildOptions, IOption } from '../util/types'
 import {
   APIS_NEED_TO_APPEND_THIS,
@@ -231,7 +234,7 @@ class Compiler {
       designWidth: projectConfig.designWidth,
       entry: merge(defaultEntry, h5Config.entry),
       env: {
-        TARO_ENV: JSON.stringify(BUILD_TYPES.H5)
+        TARO_ENV: JSON.stringify('h5')
       },
       isWatch: !!watch,
       outputRoot: outputDir,
@@ -1460,8 +1463,8 @@ class Compiler {
 export { Compiler }
 
 export async function build (appPath: string, buildConfig: IBuildOptions) {
-  process.env.TARO_ENV = BUILD_TYPES.H5
-  await checkCliAndFrameworkVersion(appPath, BUILD_TYPES.H5)
+  process.env.TARO_ENV = 'h5'
+  await checkCliAndFrameworkVersion(appPath, 'h5')
   const compiler = new Compiler(appPath)
   await compiler.clean()
   await compiler.buildTemp()

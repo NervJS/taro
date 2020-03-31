@@ -3,13 +3,12 @@ import * as path from 'path'
 import * as _ from 'lodash/fp'
 import * as ora from 'ora'
 
-import doctor from '../../doctor'
-import abilityXMLValidator from '../../doctor/abilityXMLValidator'
-
 export default (ctx) => {
   ctx.registerCommand({
     name: 'doctor',
     async fn () {
+      const { validators } = require('../../doctor')
+      const { abilityXMLValidator } = require('../../doctor/abilityXMLValidator')
       const { appPath, configPath } = ctx.paths
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
 
@@ -17,7 +16,6 @@ export default (ctx) => {
         console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
         process.exit(1)
       }
-      const { validators } = doctor
       const QUICKAPP_CONF_PATH = path.join(appPath, 'project.quickapp.json')
       if (fs.existsSync(QUICKAPP_CONF_PATH)) {
         validators.push(abilityXMLValidator)
@@ -34,17 +32,17 @@ export default (ctx) => {
       function printReport (reports) {
         _.forEach(report => {
           console.log('\n' + titleChalk(report.desc))
-      
+
           if (report.raw) {
             console.log(report.raw)
             return
           }
-      
+
           if (_.getOr(0, 'lines.length', report) === 0) {
             console.log(`  ${NOTE_ALL_RIGHT}没有发现问题`)
             return
           }
-      
+
           _.forEach(line => {
             console.log(
               '  ' +
