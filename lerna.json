@@ -12,11 +12,11 @@
     "packages/taro-api",
     "packages/taro-cli",
     "packages/taro-components",
-    "packages/taro-router",
     "packages/taro-h5",
     "packages/taro-loader",
     "packages/taro-mini-runner",
     "packages/taro-react",
+    "packages/taro-router",
     "packages/taro-runner-utils",
     "packages/taro-runtime",
     "packages/taro-webpack-runner"
@@ -30,6 +30,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "npmClient": "yarn"
 }
