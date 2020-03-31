@@ -2,7 +2,7 @@ import * as os from 'os'
 
 import * as chalk from 'chalk'
 
-export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss', '.qss']
+export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss', '.qss', '.ttss']
 export const SCSS_EXT: string[] = ['.scss']
 export const JS_EXT: string[] = ['.js', '.jsx']
 export const TS_EXT: string[] = ['.ts', '.tsx']
@@ -18,7 +18,7 @@ export const REG_VUE = /\.vue$/i
 export const REG_SASS = /\.(s[ac]ss)$/
 export const REG_LESS = /\.less$/
 export const REG_STYLUS = /\.styl$/
-export const REG_STYLE = /\.(css|scss|sass|less|styl|wxss|acss|qss)(\?.*)?$/
+export const REG_STYLE = /\.(css|scss|sass|less|styl|wxss|acss|qss|ttss)(\?.*)?$/
 export const REG_CSS = /\.(css|wxss|acss)(\?.*)?$/
 export const REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
 export const REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
