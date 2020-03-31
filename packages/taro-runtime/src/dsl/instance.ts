@@ -1,4 +1,4 @@
-import { Component, ComponentClass } from 'react'
+import type { Component, ComponentClass } from 'react'
 import VueCtor, { ComponentOptions, VNode } from 'vue'
 import { CombinedVueInstance } from 'vue/types/vue'
 import { MpEvent } from '../dom/event'

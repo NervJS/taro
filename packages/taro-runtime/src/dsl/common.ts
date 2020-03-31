@@ -1,5 +1,4 @@
 /* eslint-disable dot-notation */
-import * as React from 'react'
 import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray } from '@tarojs/shared'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
