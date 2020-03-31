@@ -1,12 +1,13 @@
 const { join } = require('path')
 const buble = require('rollup-plugin-buble')
-// const alias = require('rollup-plugin-alias')
+const resolve = require('rollup-plugin-node-resolve')
+const commonjs = require('rollup-plugin-commonjs')
 const typescript = require('rollup-plugin-typescript2')
 const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.ts'),
-  external: ['@tarojs/runtime', 'react', 'nervjs', 'vue'],
+  external: ['@tarojs/runtime'],
   output: [
     {
       file: join(cwd, 'dist/index.js'),
@@ -24,6 +25,8 @@ const baseConfig = {
     //     }
     //   ]
     // }),
+    resolve(),
+    commonjs(),
     typescript(),
     buble({ transforms: { asyncAwait: false } })
   ]
