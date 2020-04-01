@@ -55,6 +55,8 @@ function processEvent (eventHandlerName, obj) {
 
   obj[eventHandlerName] = function (event) {
     const scope = this.$component
+    if (!scope || !scope[eventHandlerName]) return
+
     let callScope = scope
     if (!isToBeEvent(event)) {
       return scope[eventHandlerName].apply(callScope, arguments)
