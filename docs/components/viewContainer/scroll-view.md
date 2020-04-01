@@ -96,7 +96,7 @@ export default class PageView extends Component {
 | refresherTriggered | `boolean` | `fasle` | 否 | 设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发 |
 | onScrollToUpper | `(event: BaseEventOrigFunction<any>) => any` |  | 否 | 滚动到顶部/左边，会触发 scrolltoupper 事件 |
 | onScrollToLower | `(event: BaseEventOrigFunction<any>) => any` |  | 否 | 滚动到底部/右边，会触发 scrolltolower 事件 |
-| onScroll | `(event: BaseEventOrigFunction<any>) => any` |  | 否 | 滚动时触发<br />`event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}` |
+| onScroll | `(event: BaseEventOrigFunction<onScrollDetail>) => any` |  | 否 | 滚动时触发<br />`event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}` |
 | onRefresherPulling | `(event: BaseEventOrigFunction<any>) => any` |  | 否 | 自定义下拉刷新控件被下拉 |
 | onRefresherRefresh | `(event: BaseEventOrigFunction<any>) => any` |  | 否 | 自定义下拉刷新被触发 |
 | onRefresherRestore | `(event: BaseEventOrigFunction<any>) => any` |  | 否 | 自定义下拉刷新被复位 |
@@ -129,3 +129,14 @@ export default class PageView extends Component {
 | ScrollViewProps.onRefresherRefresh | ✔️ |  |  |  |  |  |
 | ScrollViewProps.onRefresherRestore | ✔️ |  |  |  |  |  |
 | ScrollViewProps.onRefresherAbort | ✔️ |  |  |  |  |  |
+
+### onScrollDetail
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| scrollLeft | `number` | 横向滚动条位置 |
+| scrollTop | `number` | 竖向滚动条位置 |
+| scrollHeight | `number` | 滚动条高度 |
+| scrollWidth | `number` | 滚动条宽度 |
+| deltaX | `number` |  |
+| deltaY | `number` |  |
