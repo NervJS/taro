@@ -28,6 +28,34 @@ module.exports = {
 }
 ```
 
+之后配置 `config/index.js`
+
+```js
+const config = {
+  mini: {
+    webpackChain(chain, webpack) {
+      // linaria/loader 选项详见 https://github.com/callstack/linaria/blob/master/docs/BUNDLERS_INTEGRATION.md#webpack
+      chain.module
+        .rule('script')
+        .use('linariaLoader')
+        .loader('linaria/loader')
+        .options({
+          sourceMap: process.env.NODE_ENV !== 'production',
+        })
+    }
+  }
+}
+```
+
+最后在项目根目录新建 `linaria.config.js`
+
+```js
+// linaria 配置详见 https://github.com/callstack/linaria/blob/2eaef3f15b/docs/CONFIGURATION.md#options
+module.exports = {
+    ignore: /node_modules[\/\\](?!@tarojs[\/\\]components)/,
+}
+```
+
 在业务代码中我们可以这样使用：
 
 <!--DOCUSAURUS_CODE_TABS-->
