@@ -255,7 +255,6 @@ export const getModule = (appPath: string, {
     {
       ident: 'postcss',
       plugins: getPostcssPlugins(appPath, {
-        isQuickapp,
         designWidth,
         deviceRatio,
         postcssOption
