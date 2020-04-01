@@ -1,6 +1,6 @@
 # Taro Components for React Native
 
-Alo, alo! Bilibilibilibibili~
+兼容小程序组件规范的 React Native 基础组件。
 
 ## Example
 
