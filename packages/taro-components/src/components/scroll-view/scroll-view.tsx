@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Element } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Element, Host } from '@stencil/core'
 import classNames from 'classnames'
 
 function easeOutScroll (from: number, to: number, callback) {
@@ -45,7 +45,6 @@ function debounce (fn, delay: number) {
   styleUrl: './style/index.scss'
 })
 export class ScrollView implements ComponentInterface {
-  private container: HTMLDivElement
   private _scrollLeft: number
   private _scrollTop: number
 
@@ -84,9 +83,9 @@ export class ScrollView implements ComponentInterface {
       scrollLeft !== this._scrollLeft
     ) {
       if (this.scrollWithAnimation) {
-        easeOutScroll(this._scrollLeft, scrollLeft, pos => (this.container.scrollLeft = pos))
+        easeOutScroll(this._scrollLeft, scrollLeft, pos => (this.el.scrollLeft = pos))
       } else {
-        this.container.scrollLeft = scrollLeft
+        this.el.scrollLeft = scrollLeft
       }
       this._scrollLeft = scrollLeft
     }
@@ -101,9 +100,9 @@ export class ScrollView implements ComponentInterface {
       scrollTop !== this._scrollTop
     ) {
       if (this.scrollWithAnimation) {
-        easeOutScroll(this._scrollTop, scrollTop, pos => (this.container.scrollTop = pos))
+        easeOutScroll(this._scrollTop, scrollTop, pos => (this.el.scrollTop = pos))
       } else {
-        this.container.scrollTop = scrollTop
+        this.el.scrollTop = scrollTop
       }
       this._scrollTop = scrollTop
     }
@@ -132,30 +131,32 @@ export class ScrollView implements ComponentInterface {
 
     if (scrollY && !isNaN(scrollTop)) {
       if (scrollWithAnimation) {
-        easeOutScroll(0, scrollTop, pos => (this.container.scrollTop = pos))
+        easeOutScroll(0, scrollTop, pos => (this.el.scrollTop = pos))
       } else {
-        this.container.scrollTop = scrollTop
+        this.el.scrollTop = scrollTop
       }
       this._scrollTop = scrollTop
     }
 
     if (scrollX && !isNaN(scrollLeft)) {
       if (scrollWithAnimation) {
-        easeOutScroll(0, scrollLeft, pos => (this.container.scrollLeft = pos))
+        easeOutScroll(0, scrollLeft, pos => (this.el.scrollLeft = pos))
       } else {
-        this.container.scrollLeft = scrollLeft
+        this.el.scrollLeft = scrollLeft
       }
       this._scrollLeft = scrollLeft
     }
   }
 
-  handleScroll = () => {
+  handleScroll = (e) => {
+    if (e instanceof CustomEvent) return
+
     const {
       scrollLeft,
       scrollTop,
       scrollHeight,
       scrollWidth
-    } = this.container
+    } = this.el
     this._scrollLeft = scrollLeft
     this._scrollTop = scrollTop
 
@@ -177,7 +178,7 @@ export class ScrollView implements ComponentInterface {
       scrollTop,
       scrollHeight,
       scrollWidth
-    } = this.container
+    } = this.el
 
     const lowerThreshold = Number(this.lowerThreshold)
     const upperThreshold = Number(this.upperThreshold)
@@ -205,22 +206,17 @@ export class ScrollView implements ComponentInterface {
       scrollY
     } = this
 
-    const cls = classNames(
-      'taro-scroll',
-      {
-        'taro-scroll-view__scroll-x': scrollX,
-        'taro-scroll-view__scroll-y': scrollY,
-        [this.el.className]: this.el.className
-      }
-    )
+    const cls = classNames({
+      'taro-scroll-view__scroll-x': scrollX,
+      'taro-scroll-view__scroll-y': scrollY
+    })
     return (
-      <div
+      <Host
         class={cls}
-        ref={dom => (this.container = dom as HTMLDivElement)}
         onScroll={this.handleScroll}
       >
         <slot />
-      </div>
+      </Host>
     )
   }
 }

@@ -7,7 +7,7 @@ import React, { createRef, createElement } from 'react'
 // eslint-disable-next-line
 const h = React.createElement
 
-const SCROLL_VIEW = 'taro-scroll-view'
+const SCROLL_VIEW = 'taro-scroll-view-core'
 
 // 为了不要覆盖 wc 中 host 内置的 class 和 stencil 加入的 class
 function getClassName (wc, prevProps, props) {
@@ -78,14 +78,25 @@ const reactifyWebComponent = WC => {
         }
         if (typeof val === 'function' && prop.match(/^on[A-Z]/)) {
           const event = prop.substr(2).toLowerCase()
-          this.eventHandlers.push([event, val])
-          return this.ref.current.addEventListener(event, val)
+          let fn = val
+
+          // 解决用户监听 ScrollView 的 onScroll 会监听到原生 onScroll 的问题
+          if (WC === SCROLL_VIEW && event === 'scroll') {
+            fn = function (e) {
+              if (e instanceof CustomEvent) {
+                val.apply(null, Array.from(arguments))
+              }
+            }
+          }
+
+          this.eventHandlers.push([event, fn])
+          return this.ref.current.addEventListener(event, fn)
         }
-        if (typeof val === 'function' && prop.match(/^on-[a-z]/)) {
-          const event = prop.substr(3)
-          this.eventHandlers.push([event, val])
-          return this.ref.current.addEventListener(event, val)
-        }
+        // if (typeof val === 'function' && prop.match(/^on-[a-z]/)) {
+        //   const event = prop.substr(3)
+        //   this.eventHandlers.push([event, val])
+        //   return this.ref.current.addEventListener(event, val)
+        // }
         if (typeof val === 'string' || typeof val === 'number') {
           this.ref.current[prop] = val
           return

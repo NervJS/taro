@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Host, State, Element, Event } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, State, Element, Event } from '@stencil/core'
 
 const LONG_TAP_DELAY = 500
 
@@ -9,7 +9,7 @@ const LONG_TAP_DELAY = 500
 })
 export class Canvas implements ComponentInterface {
   private timer: NodeJS.Timeout
-  @Prop() type: string
+  // @Prop() type: '2d' | 'webgl'
   @Prop() canvasId: string
 
   @State() width = 300
@@ -56,16 +56,14 @@ export class Canvas implements ComponentInterface {
     } = this
 
     return (
-      <Host class='taro-canvas'>
-        <canvas
-          canvas-id={canvasId}
-          width={width}
-          height={height}
-          onTouchStart={this.onTouchStart}
-          onTouchMove={this.onTouchMove}
-          onTouchEnd={this.onTouchEnd}
-        />
-      </Host>
+      <canvas
+        canvas-id={canvasId}
+        width={width}
+        height={height}
+        onTouchStart={this.onTouchStart}
+        onTouchMove={this.onTouchMove}
+        onTouchEnd={this.onTouchEnd}
+      />
     )
   }
 }

@@ -1,10 +1,14 @@
-import VueCtor, { ComponentOptions, VueConstructor, VNode } from 'vue'
+/* eslint-disable import/no-duplicates */
+import type { ComponentOptions, VueConstructor, VNode } from 'vue'
+import type VueCtor from 'vue'
 import { AppInstance, VueAppInstance, VueInstance } from './instance'
 import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
 import { isFunction, noop, ensure } from '@tarojs/shared'
 import { isBrowser } from '../env'
+
+export type V = typeof VueCtor
 
 export function connectVuePage (Vue: VueConstructor, id: string) {
   return (component: ComponentOptions<VueCtor>) => {
@@ -41,18 +45,10 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
 }
 
 let Vue
-// webpack 开发模式不会执行 tree-shaking，因此我们需要做此判断
-if (process.env.FRAMEWORK === 'vue') {
-  const v = require('vue')
-  Vue = v.default || v
-}
 
-export function createVueApp (App: VueInstance, vue?) {
+export function createVueApp (App: VueInstance, vue: V) {
+  Vue = vue
   ensure(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
-
-  if (vue != null) {
-    Vue = vue
-  }
 
   Vue.config.getTagNamespace = noop
 
@@ -93,9 +89,16 @@ export function createVueApp (App: VueInstance, vue?) {
   })
 
   class AppConfig implements AppInstance {
-    onLaunch () {
+    onLaunch (options) {
       wrapper.$mount(document.getElementById('app') as any)
       appInstance = wrapper.$refs.app as VueAppInstance
+      Current.router = {
+        params: options?.query,
+        ...options
+      }
+      if (appInstance != null && isFunction(appInstance.$options.onLaunch)) {
+        appInstance.$options.onLaunch.call(appInstance, options)
+      }
     }
 
     onShow (options) {

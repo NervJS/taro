@@ -167,6 +167,11 @@ export default {
 
 ### 生命周期
 
+### onLoad() 
+
+此生命周期在小程序端对应小程序页面的 `onLoad` 生命周期。此生命周期可以访问 `Current.router`。从此生命周期开始可以通过 `Taro.createSelectorQuery` 查找小程序 DOM。
+
+
 #### created()
 
 页面加载时触发，一个页面只会调用一次，此时页面 DOM 尚未准备好，还不能和视图层进行交互

@@ -1,4 +1,5 @@
 /// <reference types="react" />
+/// <reference types="vue" />
 /// <reference path="taro.lifecycle.d.ts" />
 /// <reference path="taro.config.d.ts" />
 
@@ -141,4 +142,86 @@ declare namespace Taro {
     FunctionComponent: FunctionComponent<P>,
     compare?: (oldProps: P, newProps: P) => Boolean
   ): FunctionComponent<P>
+
+  interface Show {
+    componentDidShow?(options?: unknown): void
+    componentDidHide?(options?: unknown): void
+    onShow?(options?: unknown): void
+    onHide?(options?: unknown): void
+  }
+
+  interface AppInstance extends Show {
+    mount(component: React.ComponentClass | Vue.ComponentOptions<Vue>, id: string, cb: () => void): void
+    unmount(id: string, cb: () => void): void
+  }
+
+  type Target = Record<string, unknown> & { dataset: Record<string, unknown>, id: string }
+
+  interface MpEvent {
+    type: string;
+    detail: Record<string, unknown>
+    target: Target
+    currentTarget: Target
+  }
+
+  interface PageLifeCycle extends Show {
+    onPullDownRefresh?(): void
+    onReachBottom?(): void
+    onPageScroll?(obj: { scrollTop: number }): void
+    onShareAppMessage?(obj: { from: string, target?: any, webViewUrl: string }): void
+    onResize?(options: unknown): void
+    onTabItemTap?(obj: { index: string, pagePath: string, text: string }): void
+    componentWillPreload?(): void
+    onTitleClick?(): void
+    onOptionMenuClick?(): void
+    onPopMenuClick?(): void
+    onPullIntercept?(): void
+    eh?(event: MpEvent): void
+    onLoad(options: Record<string, unknown>): void
+    onUnload(): void
+  }
+
+  interface PageInstance extends PageLifeCycle {
+    data?: Record<string, unknown>
+    path?: string
+    options?: Record<string, unknown>
+    /**
+     * 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
+     *
+     * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     **/
+    animate?(
+      selector: string,
+      keyFrames: KeyFrame[],
+      duration: number,
+      callback: () => void,
+    ): void
+    /**
+     * 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
+     *
+     * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     **/
+    animate?(
+      selector: string,
+      keyFrames: ScrollTimelineKeyframe[],
+      duration: number,
+      scrollTimeline: ScrollTimelineOption,
+    ): void
+    /**
+     * 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
+     *
+     * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     **/
+    clearAnimation?(selector: string, callback: () => void): void
+    /**
+     * 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
+     *
+     * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+     **/
+    clearAnimation?(
+      selector: string,
+      options: ClearAnimationOptions,
+      callback: () => void,
+    ): void
+  }
 }

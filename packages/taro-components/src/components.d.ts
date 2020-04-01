@@ -50,7 +50,6 @@ export namespace Components {
   interface TaroCameraCore {}
   interface TaroCanvasCore {
     'canvasId': string;
-    'type': string;
   }
   interface TaroCheckboxCore {
     'checked': boolean;
@@ -676,7 +675,6 @@ declare namespace LocalJSX {
   interface TaroCanvasCore {
     'canvasId'?: string;
     'onLongtap'?: (event: CustomEvent<any>) => void;
-    'type'?: string;
   }
   interface TaroCheckboxCore {
     'checked'?: boolean;

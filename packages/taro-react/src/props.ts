@@ -63,6 +63,10 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 }
 
 function setStyle (style: Style, key: string, value: string | number) {
+  if (key[0] === '-') {
+    style.setProperty(key, value.toString())
+  }
+
   style[key] =
     isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
       ? value + 'px'

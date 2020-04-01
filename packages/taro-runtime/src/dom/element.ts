@@ -99,7 +99,7 @@ export class TaroElement extends TaroNode {
     }
 
     this.enqueueUpdate({
-      path: `${this._path}.${qualifiedName}`,
+      path: `${this._path}.${process.env.FRAMEWORK === 'vue' ? toCamelCase(qualifiedName) : qualifiedName}`,
       value
     })
   }
@@ -111,7 +111,7 @@ export class TaroElement extends TaroNode {
       delete this.props[qualifiedName]
     }
     this.enqueueUpdate({
-      path: `${this._path}.${qualifiedName}`,
+      path: `${this._path}.${process.env.FRAMEWORK === 'vue' ? toCamelCase(qualifiedName) : qualifiedName}`,
       value: ''
     })
   }

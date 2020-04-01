@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -27,6 +27,7 @@
     "dev-stencil": "stencil build --config stencil.config.ts --watch",
     "test": "karmatic --files '__tests__/**.spec.js' --coverage false",
     "test:debug": "karmatic debug --files '__tests__/**.spec.js' --coverage false",
+    "test:coverage": "karmatic --files '__tests__/**.spec.js'",
     "test-update": "jest --updateSnapshot"
   },
   "repository": {
@@ -38,7 +39,7 @@
   "license": "MIT",
   "dependencies": {
     "@stencil/core": "^1.8.1",
-    "@tarojs/taro": "3.0.0-beta.1",
+    "@tarojs/taro": "3.0.0-beta.2",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",

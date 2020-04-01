@@ -5,6 +5,7 @@ import Picker from './components/picker.vue'
 import Text from './components/text.vue'
 import Image from './components/image.vue'
 import Icon from './components/icon.vue'
+import ScrollView from './components/scroll-view.vue'
 
 import { simpleComponents } from './simpleComponents'
 
@@ -30,6 +31,7 @@ Vue.component('taro-text', Text)
 Vue.component('taro-picker', Picker)
 Vue.component('taro-image', Image)
 Vue.component('taro-icon', Icon)
+Vue.component('taro-scroll-view', ScrollView)
 
 Vue.config.ignoredElements = [
   'root',

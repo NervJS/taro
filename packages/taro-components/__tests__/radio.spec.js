@@ -21,7 +21,7 @@ describe('Radio', () => {
   })
 
   afterEach(() => {
-    // scratch.parentNode.removeChild(scratch)
+    scratch.parentNode.removeChild(scratch)
     scratch = null
   })
 

@@ -2,6 +2,7 @@ import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { AppConfig, PageConfig } from '@tarojs/taro'
 import { join, dirname } from 'path'
+import { importFramework, getFrameworkArgs } from './utils'
 
 function genResource (path: string, pages: Map<string, PageConfig>, loaderContext: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
@@ -47,6 +48,7 @@ import '@tarojs/components/h5/vue'
   const code = `import Taro from '@tarojs/taro'
 import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
 import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
+${importFramework(options.framework)}
 import '@tarojs/components/dist/taro-components/taro-components.css'
 ${options.framework === 'vue' ? vue : ''}
 ${webComponents}
@@ -67,7 +69,7 @@ if (config.tabBar) {
 config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join('')}
 ]
-Taro.createRouter(component, config, '${options.framework}')
+Taro.createRouter(component, config, '${options.framework}', ${getFrameworkArgs(options.framework)})
 `
 
   return code

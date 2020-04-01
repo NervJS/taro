@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Host, State } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Host, State, Listen } from '@stencil/core'
 
 import {
   TOP,
@@ -55,14 +55,16 @@ export class TaroPickerGroup implements ComponentInterface {
     })
   }
 
-  onTouchStart = (e: TouchEvent) => {
+  @Listen('touchstart')
+  onTouchStart (e: TouchEvent) {
     // 记录第一次的点击位置
     this.startY = e.changedTouches[0].clientY
     this.preY = e.changedTouches[0].clientY
     this.hadMove = false
   }
 
-  onTouchMove = (e: TouchEvent) => {
+  @Listen('touchmove')
+  onTouchMove (e: TouchEvent) {
     e.preventDefault()
 
     const y = e.changedTouches[0].clientY
@@ -97,7 +99,8 @@ export class TaroPickerGroup implements ComponentInterface {
     this.updateHeight(newPos, this.columnId)
   }
 
-  onTouchEnd = (e: TouchEvent) => {
+  @Listen('touchend')
+  onTouchEnd (e: TouchEvent) {
     const {
       mode,
       range,
@@ -195,12 +198,7 @@ export class TaroPickerGroup implements ComponentInterface {
     })
 
     return (
-      <Host
-        class='weui-picker__group'
-        onTouchStart={this.onTouchStart}
-        onTouchMove={this.onTouchMove}
-        onTouchEnd={this.onTouchEnd}
-      >
+      <Host class='weui-picker__group'>
         <div class='weui-picker__mask' />
         <div class='weui-picker__indicator' />
         <div class='weui-picker__content' style={this.getPosition()}>

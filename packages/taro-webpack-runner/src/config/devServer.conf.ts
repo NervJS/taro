@@ -7,7 +7,7 @@ const devServerConf: WebpackDevServer.Configuration = {
     disableDotRule: true
   },
   host: '0.0.0.0',
-  hot: true,
+  hot: false,
   https: false,
   inline: true,
   open: true,
