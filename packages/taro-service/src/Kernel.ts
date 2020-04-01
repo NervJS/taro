@@ -61,13 +61,13 @@ export default class Kernel extends EventEmitter {
     this.methods = new Map()
     this.commands = new Map()
     this.platforms = new Map()
+    this.initHelper()
   }
 
   async init () {
     this.initConfig()
     this.initPaths()
     this.initPresetsAndPlugins()
-    this.initHelper()
     await this.applyPlugins('onReady')
   }
 
@@ -110,14 +110,14 @@ export default class Kernel extends EventEmitter {
   }
 
   resolvePresets (presets) {
-    const allPresets = resolvePresetsOrPlugins(presets, PluginType.Preset)
+    const allPresets = resolvePresetsOrPlugins(this.appPath, presets, PluginType.Preset)
     while (allPresets.length) {
       this.initPreset(allPresets.shift()!)
     }
   }
 
   resolvePlugins (plugins) {
-    const allPlugins = resolvePresetsOrPlugins(plugins, PluginType.Plugin)
+    const allPlugins = resolvePresetsOrPlugins(this.appPath, plugins, PluginType.Plugin)
     const _plugins = [...this.extraPlugins, ...allPlugins]
     while (_plugins.length) {
       this.initPlugin(_plugins.shift()!)
@@ -131,13 +131,13 @@ export default class Kernel extends EventEmitter {
     const { presets, plugins } = apply()(pluginCtx, opts) || {}
     this.registerPlugin(preset)
     if (Array.isArray(presets)) {
-      const _presets = resolvePresetsOrPlugins(convertPluginsToObject(presets)(PluginType.Preset), PluginType.Preset)
+      const _presets = resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(presets)(PluginType.Preset), PluginType.Preset)
       while (_presets.length) {
         this.initPreset(_presets.shift()!)
       }
     }
     if (Array.isArray(plugins)) {
-      this.extraPlugins.push(...resolvePresetsOrPlugins(convertPluginsToObject(plugins)(PluginType.Plugin), PluginType.Plugin))
+      this.extraPlugins.push(...resolvePresetsOrPlugins(this.appPath,convertPluginsToObject(plugins)(PluginType.Plugin), PluginType.Plugin))
     }
   }
 
