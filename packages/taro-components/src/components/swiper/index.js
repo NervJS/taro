@@ -62,7 +62,7 @@ class Swiper extends Nerv.Component {
       pagination: { el: `.taro-swiper-${this._id} .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
-      slidesPerView: parseInt(displayMultipleItems, 10),
+      slidesPerView: parseFloat(displayMultipleItems, 10),
       initialSlide: parseInt(current, 10),
       speed: parseInt(duration, 10),
       observer: true,
