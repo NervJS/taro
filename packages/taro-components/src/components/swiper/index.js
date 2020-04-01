@@ -67,30 +67,30 @@ class Swiper extends Nerv.Component {
       speed: parseInt(duration, 10),
       observer: true,
       on: {
-        slideChange: () => {
+        slideChange () {
           let e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
               value: {
-                current: this.mySwiper.realIndex
+                current: this.realIndex
               }
             })
           } catch (err) {}
-          that._$current = this.mySwiper.realIndex
-          this.handleOnChange(e)
+          that._$current = this.realIndex
+          that.handleOnChange(e)
         },
-        transitionEnd: () => {
+        transitionEnd () {
           let e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
               value: {
-                current: this.mySwiper.realIndex
+                current: this.realIndex
               }
             })
           } catch (err) {}
-          this.handleOnAnimationFinish(e)
+          that.handleOnAnimationFinish(e)
         }
       }
     }
