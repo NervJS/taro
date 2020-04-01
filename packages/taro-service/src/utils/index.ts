@@ -2,7 +2,7 @@ import * as path from 'path'
 
 import { merge } from 'lodash'
 import * as resolve from 'resolve'
-
+import { getModuleDefaultExport } from '@tarojs/helper'
 import { PluginItem } from '@tarojs/taro/types/compile'
 
 import { presetOrPluginPrefixReg, PluginType, PluginNamePrefix } from './constants'
@@ -40,8 +40,6 @@ export function mergePlugins (dist: PluginItem[], src: PluginItem[]) {
     return merge(srcObj, distObj)
   }
 }
-
-export const getModuleDefaultExport = exports => exports.__esModule ? exports.default : exports
 
 export function resolvePresetsOrPlugins (root: string, args, type: PluginType): IPlugin[] {
   return Object.keys(args).map(item => {

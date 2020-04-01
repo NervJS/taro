@@ -495,3 +495,5 @@ export function addPlatforms (platform: string) {
   if (PLATFORMS[upperPlatform]) return
   PLATFORMS[upperPlatform] = platform
 }
+
+export const getModuleDefaultExport = exports => exports.__esModule ? exports.default : exports
