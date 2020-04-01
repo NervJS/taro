@@ -51,10 +51,8 @@ class Swiper extends Nerv.Component {
       duration = 500,
       current = 0,
       displayMultipleItems = 1,
-      onChange,
       circular,
       vertical,
-      onAnimationFinish,
       spaceBetween
     } = this.props
 
@@ -69,30 +67,30 @@ class Swiper extends Nerv.Component {
       speed: parseInt(duration, 10),
       observer: true,
       on: {
-        slideChange () {
+        slideChange: () => {
           let e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
               value: {
-                current: this.realIndex
+                current: this.mySwiper.realIndex
               }
             })
           } catch (err) {}
-          that._$current = this.realIndex
-          onChange && onChange(e)
+          that._$current = this.mySwiper.realIndex
+          this.handleOnChange(e)
         },
-        transitionEnd () {
+        transitionEnd: () => {
           let e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
               value: {
-                current: this.realIndex
+                current: this.mySwiper.realIndex
               }
             })
           } catch (err) {}
-          onAnimationFinish && onAnimationFinish(e)
+          this.handleOnAnimationFinish(e)
         }
       }
     }
@@ -158,6 +156,16 @@ class Swiper extends Nerv.Component {
   componentWillUnmount () {
     this.$el = null
     if (this.mySwiper) this.mySwiper.destroy()
+  }
+
+  handleOnChange (e) {
+    const func = this.props.onChange
+    typeof func === 'function' && func(e)
+  }
+
+  handleOnAnimationFinish (e) {
+    const func = this.props.onAnimationFinish
+    typeof func === 'function' && func(e)
   }
 
   render () {
