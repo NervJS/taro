@@ -22,13 +22,13 @@ Remax 是一个可以让完整的 React 跑在小程序上的小程序开发框�
 
 在渲染方面，Remax 有一个静态模板列出了所有开发者声明过的组件，静态模板通过遍历渲染器返回的数据（类似于一颗 DOM 树）实现渲染。不过在微信小程序的模板不支持递归，当数据的层级超过了 Remax 设定的阈值（阈值可以自行设定）就会发生爆栈导致无法渲染。而 Kbone 和 Taro 都通过组件的方案来避免这个问题。
 
-Remax 同时 React 进行了强绑定，不支持除 React 之外的 Web 开发框架。Kbone 和 Taro 都支持 React 和类 React 以及 Vue。
+Remax 同 React 进行了强绑定，不支持除 React 之外的 Web 开发框架。Kbone 和 Taro 都支持 React 和类 React 以及 Vue。
 
 ## Kbone
 
-Kbone 内部实现了轻量级的 DOM 和 BOM API，把 DOM 更改的绑定到小程序的视图更改。也就是说，Kbone 并不太关心开发者使用什么框架，只要框架使用的 DOM API 被 Kbone 实现的 DOM API 覆盖到，框架就能通过 Kbone 在小程序运行。Taro Next 也有着同样的思路，但不同的是对 React 的处理。Kbone 通过引入 `react-dom` 实现渲染，但 `react-dom` 包含着和合成事件实现和大量浏览器兼容代码。Taro 团队认为这部分代码对小程序平台意义不大，因此和 Remax 一样，通过 `react-reconciler` 实现了小程序渲染器。
+Kbone 内部实现了轻量级的 DOM 和 BOM API，把 DOM 更改绑定到小程序的视图更改。也就是说，Kbone 并不太关心开发者使用什么框架，只要框架使用的 DOM API 被 Kbone 实现的 DOM API 覆盖到，框架就能通过 Kbone 在小程序运行。Taro Next 也有着同样的思路，但不同的是对 React 的处理。Kbone 通过引入 `react-dom` 实现渲染，但 `react-dom` 包含着合成事件实现和大量浏览器兼容代码。Taro 团队认为这部分代码对小程序平台意义不大，因此和 Remax 一样，通过 `react-reconciler` 实现了小程序渲染器。
 
-在更新方面，Remax 以组件为粒度进行更新，每次视图改变小程序 setData 的数据是组件的 DOM 树。而 Remax 和 Taro 更新 setData 的数据则是 DOM 树中已经改变了的的值和它的路径。对比起 Taro 和 Remax，Kbone 的运行时性能会差一些。
+在更新方面，Kbone 以组件为粒度进行更新，每次视图改变小程序 setData 的数据是组件的 DOM 树。而 Remax 和 Taro 更新 setData 的数据则是 DOM 树中已经改变了的的值和它的路径。对比起 Taro 和 Remax，Kbone 的运行时性能会差一些。
 
 另外 Kbone 更为专注于微信小程序开发和 H5 开发，而本节对比的其它三个小程序框架均支持多种平台的小程序开发。
 
