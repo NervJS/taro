@@ -43,10 +43,10 @@ export function mergePlugins (dist: PluginItem[], src: PluginItem[]) {
 
 export const getModuleDefaultExport = exports => exports.__esModule ? exports.default : exports
 
-export function resolvePresetsOrPlugins (args, type): IPlugin[] {
+export function resolvePresetsOrPlugins (root: string, args, type: PluginType): IPlugin[] {
   return Object.keys(args).map(item => {
     const fPath = resolve.sync(item, {
-      basedir: this.appPath,
+      basedir: root,
       extensions: ['.js', '.ts']
     })
     return {
