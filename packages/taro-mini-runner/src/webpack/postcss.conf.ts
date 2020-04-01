@@ -21,7 +21,7 @@ const defaultPxtransformOption: {
 } = {
   enable: true,
   config: {
-    platform: 'weapp'
+    platform: process.env.TARO_ENV
   }
 }
 
