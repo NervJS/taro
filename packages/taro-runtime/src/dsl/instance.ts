@@ -49,6 +49,7 @@ export interface PageLifeCycle extends Show {
   onTitleClick?(): void
   onOptionMenuClick?(): void
   onPopMenuClick?(): void
+  onReady?(): void
   onPullIntercept?(): void
   eh?(event: MpEvent): void
   onLoad(options: Record<string, unknown>): void

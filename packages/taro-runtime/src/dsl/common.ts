@@ -107,6 +107,10 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
         }
       })
     },
+    onReady () {
+      const path = getPath(id, this.options)
+      safeExecute(path, 'onReady')
+    },
     onUnload () {
       const path = getPath(id, this.options)
       Current.app!.unmount!(path, () => {

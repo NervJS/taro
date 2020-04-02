@@ -50,6 +50,8 @@ export const useOptionMenuClick = taroHooks('onOptionMenuClick')
 
 export const usePullIntercept = taroHooks('onPullIntercept')
 
+export const useReady = taroHooks('onReady')
+
 export const useRouter = (dynamic = false) => {
   return dynamic ? Current.router : React.useMemo(() => Current.router, [])
 }

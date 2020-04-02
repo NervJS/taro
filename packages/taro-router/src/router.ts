@@ -43,6 +43,9 @@ function showPage (page: PageInstance | null) {
       pageEl.style.display = 'block'
     } else {
       page.onLoad(qs())
+      requestAnimationFrame(() => {
+        page.onReady!()
+      })
     }
   }
 }
@@ -62,6 +65,9 @@ function loadPage (page: PageInstance | null) {
       pageEl.style.display = 'block'
     } else {
       page.onLoad(qs())
+      requestAnimationFrame(() => {
+        page.onReady!()
+      })
       pageEl = document.getElementById(page.path!)
       // eslint-disable-next-line dot-notation
       pageEl && (pageEl['__page'] = page)
