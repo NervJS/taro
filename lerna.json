@@ -10,6 +10,8 @@
     "packages/shared",
     "packages/taro",
     "packages/taro-api",
+    "packages/taroize",
+    "packages/taro-with-weapp",
     "packages/taro-cli",
     "packages/taro-components",
     "packages/taro-h5",

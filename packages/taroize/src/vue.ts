@@ -12,7 +12,7 @@ import { kebabCase } from 'lodash'
 
 const { prettyPrint } = require('html')
 
-export function parseVue (dirPath: string, wxml?: string, jsCode = '') {
+export function parseVue (_: string, __?: string, jsCode = '') {
   let ast = parseCode(jsCode)
   let foundWXInstance = false
   const vistor: Visitor = {
@@ -71,7 +71,7 @@ export function parseVue (dirPath: string, wxml?: string, jsCode = '') {
   return ast
 }
 
-export function parseWXML (dirPath: string, wxml?: string, imports?: VueImport[]) {
+export function parseWXML (dirPath: string, wxml: string, imports: VueImport[]) {
   // const parseResult = getCacheWxml(dirPath)
   // if (parseResult) {
   //   return parseResult
