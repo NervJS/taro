@@ -77,11 +77,14 @@ class Slider extends Nerv.Component {
     this.handleTouchStart = this.handleTouchStart.bind(this)
     this.handleTouchMove = this.handleTouchMove.bind(this)
     this.handleTouchEnd = this.handleTouchEnd.bind(this)
-    this.updateValue = this.updateValue.bind(this)
   }
 
   componentDidMount () {
-    if (this.state.value === 0) this.updateValue()
+    if (this.state.value === 0) {
+      this.setState({
+        value: this.countValue()
+      })
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -98,34 +101,18 @@ class Slider extends Nerv.Component {
     }
   }
 
-  updateValue () {
+  countValue (percent = this.state.percent, min = this.props.min, max = this.props.max, step = this.props.step) {
     let value = 0
-    let percent = this.state.percent
-    let { min, max, step } = this.props
-    let steps = parseInt((max - min) / step)
-    let per = 100 / steps
-    if (per < 1) per = 1
-    let perPercent = parseInt(per)
 
     if (percent === 100) {
       value = max
     } else if (percent === 0) {
       value = min
     } else {
-      for (let i = 0; i < steps; i++) {
-        if (percent > i * perPercent && percent <= (i + 1) * perPercent) {
-          value =
-            percent - i * perPercent > perPercent / 2
-              ? (i + 1) * step + min
-              : i * step + min
-        }
-      }
+      value = Math.round(percent * max / 100 / step)
+      value = Math.round(value * step)
     }
-    if (value !== this.state.value) {
-      this.setState({ value })
-      return true
-    }
-    return false
+    return value
   }
 
   handleTouchStart (e) {
@@ -155,23 +142,24 @@ class Slider extends Nerv.Component {
       parseInt(diffX / this.state.totalWidth * 100) + this.state.ogPercent
     percent = percent < 0 ? 0 : percent > 100 ? 100 : percent
 
+    const value = this.countValue(percent)
+
+    if (value === this.state.value) return
+
     this.setState(
       {
-        percent
+        percent,
+        value
       },
       () => {
-        let updateValueFlag = this.updateValue()
-        // 数据变化才更新
-        if (updateValueFlag) {
-          Object.defineProperty(e, 'detail', {
-            enumerable: true,
-            value: {
-              detail: e.detail,
-              value: this.state.value
-            }
-          })
-          if (onChanging) onChanging(e)
-        }
+        Object.defineProperty(e, 'detail', {
+          enumerable: true,
+          value: {
+            detail: e.detail,
+            value: this.state.value
+          }
+        })
+        if (onChanging) onChanging(e)
       }
     )
   }
@@ -201,13 +189,16 @@ class Slider extends Nerv.Component {
 
   render () {
     const {
+      name = '',
       className,
       showValue,
       backgroundColor,
       activeColor,
-      blockColor
+      blockColor,
+      blockSize,
+      ...restProps
     } = this.props
-    let blockSize = this.props.blockSize
+    let _blockSize = blockSize
     let cls = classNames('weui-slider-box', className)
 
     let innerStyles = {
@@ -220,24 +211,23 @@ class Slider extends Nerv.Component {
       backgroundColor: activeColor
     }
 
-    if (blockSize < 12) {
-      blockSize = 28
+    if (_blockSize < 12) {
+      _blockSize = 28
     }
-    if (blockSize > 28) {
-      blockSize = 28
+    if (_blockSize > 28) {
+      _blockSize = 28
     }
 
     let handlerStyles = {
       left: `${percent}%`,
-      width: `${blockSize}px`,
-      height: `${blockSize}px`,
+      width: `${_blockSize}px`,
+      height: `${_blockSize}px`,
       backgroundColor: blockColor,
-      marginTop: `-${Math.floor(blockSize / 2)}px`,
-      marginLeft: `-${Math.floor(blockSize / 2)}px`
+      marginTop: `-${Math.floor(_blockSize / 2)}px`,
+      marginLeft: `-${Math.floor(_blockSize / 2)}px`
     }
-    const { name = '' } = this.props
     return (
-      <div className={cls}>
+      <div className={cls} {...restProps} >
         <div className='weui-slider'>
           <div className='weui-slider__inner' style={innerStyles} ref={c => (this.sliderInsRef = c)}>
             <div style={trackStyles} className='weui-slider__track' />
