@@ -302,5 +302,5 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseMessageFile.html
    */
-  function chooseMessageFile(option: chooseMessageFile.Option): Promise<compressImage.SuccessCallbackResult>
+  function chooseMessageFile(option: chooseMessageFile.Option): Promise<chooseMessageFile.SuccessCallbackResult>
 }

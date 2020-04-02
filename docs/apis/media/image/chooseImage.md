@@ -23,7 +23,7 @@ sidebar_label: chooseImage
 | count | `number` | 否 | 最多可以选择的图片张数 |
 | fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | sizeType | ("original" or "compressed")[] | 否 | 所选的图片的尺寸 |
-| sourceType | ("album" or "camera")[] | 否 | 选择图片的来源 |
+| sourceType | ("album" or "camera" or "user" or "environment")[] | 否 | 选择图片的来源 |
 | success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 ### sizeType
@@ -43,6 +43,8 @@ sidebar_label: chooseImage
 | --- | --- |
 | album | 从相册选图 |
 | camera | 使用相机 |
+| user | 使用前置摄像头(仅H5纯浏览器使用) |
+| environment | 使用后置摄像头(仅H5纯浏览器) |
 
 ### SuccessCallbackResult
 
@@ -76,7 +78,7 @@ sidebar_label: chooseImage
 Taro.chooseImage({
   count: 1, // 默认9
   sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-  sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+  sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有，在H5浏览器端支持使用 `user` 和 `environment`分别指定为前后摄像头
   success: function (res) {
     // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
     var tempFilePaths = res.tempFilePaths
