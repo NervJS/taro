@@ -478,34 +478,15 @@ useTabItemTap(item => {
 const router = useRouter() // { path: '', params: { ... } }
 ```
 
-`useRouter` 是 Taro 专有的 Hook，等同于页面为类时的 `this.$router`
+`useRouter` 是 Taro 专有的 Hook，等同于页面为类时的 `Current.router`
 
-## 页面及组件中相关属性设置
+### `useReady`
 
-在 Taro 中，你可以为页面及组件设置一些属性来达到一些特殊的目的，例如 `config` 设置配置等等，在前面章节你已经学会如何在类中进行相关设置，同样的，使用 Hooks 时你也可以进行相关设置来达到和使用类一样的效果。
-
-不同于使用类的写法，使用 Hooks 时，你需要将 `config` 或 `options` 等配置直接挂载在 Hooks 函数上，即可以达到想要的效果，例如
-
-为页面设置 `config`
-
-```jsx
-export default function Index () {
-  return <View></View>
-}
-
-Index.config = {
-  navigationBarTitleText: '首页'
-}
+```js
+useReady(() => {
+  const query = wx.createSelectorQuery()
+})
 ```
 
-为组件设置 `options`
+`useReady` 是 Taro 专有的 Hook，等同于页面的 `onReady` 生命周期钩子。
 
-```jsx
-export default function Com () {
-  return <View></View>
-}
-
-Com.options = {
-  addGlobalClass: true
-}
-```

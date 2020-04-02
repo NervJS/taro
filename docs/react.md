@@ -199,9 +199,13 @@ export default {
 
 ### 生命周期
 
-### onLoad(options)
+#### onReady()
 
-此生命周期在小程序端对应小程序页面的 `onLoad` 生命周期。此生命周期可以访问 `Current.router`。从此生命周期开始可以通过 `Taro.createSelectorQuery` 查找小程序 DOM。
+页面首次渲染完毕时执行，此生命周期在小程序端对应小程序页面的 `onReady` 生命周期。从此生命周期开始可以使用 `createCanvasContext` 或 `createselectorquery` 等 API 访问真实 DOM。
+
+#### onLoad(options)
+
+页面创建时执行，此生命周期在小程序端对应小程序页面的 `onLoad` 生命周期。此生命周期可以访问 `Current.router`。
 
 #### componentWillMount()
 
