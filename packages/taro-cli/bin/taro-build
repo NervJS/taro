@@ -80,7 +80,8 @@ if (typeof page === 'string') {
 builder.build({
   type,
   watch,
-  port: typeof port === 'string' ? port: undefined,
+  port: typeof port === 'string' ? port : undefined,
   release: !!release,
-  page, component
+  page,
+  component
 })

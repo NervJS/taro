@@ -91,24 +91,29 @@ class Route extends Taro.Component<RouteProps, {}> {
     const lastMatched = this.matched
     const nextMatched = this.computeMatch(nProps.currentLocation)
     const isRedirect = nProps.isRedirect
+    const isTabBar = !!nProps.isTabBar
 
     if (isRedirect) {
       this.updateComponent(nProps)
-    } else if (lastMatched === nextMatched) {
+    } else if (lastMatched === nextMatched && !isTabBar) {
       return
     }
 
     this.matched = nextMatched
 
-    
     if (nextMatched) {
-      if (!isRedirect) {
+      if (isRedirect || !isTabBar) {
         nextTick(() => {
           this.showPage()
           scroller = scroller || getScroller()
           scroller.set(this.scrollPos)
         })
         tryToCall(this.componentRef.componentDidShow, this.componentRef)
+      } else {
+        nextTick(() => {
+          this.hidePage()
+          tryToCall(this.componentRef.componentDidHide, this.componentRef)
+        })
       }
     } else {
       scroller = scroller || getScroller()
