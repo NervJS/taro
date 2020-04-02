@@ -49,7 +49,7 @@ async function buildFrameworkInfo () {
   const { buildAdapter, outputDir, outputDirName, nodeModulesPath, projectConfig } = getBuildData()
   if (buildAdapter === BUILD_TYPES.SWAN) {
     const frameworkInfoFileName = '.frameworkinfo'
-    const frameworkName = `@tarojs/taro-${buildAdapter}`
+    const frameworkName = '@tarojs/taro'
     const frameworkVersion = getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
     if (frameworkVersion) {
       const frameworkinfo = {

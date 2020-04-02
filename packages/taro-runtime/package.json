@@ -17,5 +17,8 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "raf": "^3.4.1"
   }
 }

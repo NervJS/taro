@@ -13,3 +13,10 @@ if (process.env.TARO_ENV === 'tt') {
   (window as any).Date = Date;
   (window as any).setTimeout = setTimeout
 }
+
+if (process.env.TARO_ENV === 'swan') {
+  const { polyfill } = require('raf')
+  polyfill(window);
+  (window as any).Date = Date;
+  (window as any).setTimeout = setTimeout
+}
