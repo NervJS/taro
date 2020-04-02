@@ -62,7 +62,7 @@ class BaseComponent {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
     }
     if (!this._disable) {
-      enqueueRender(this, forceUpdateCallback)
+      enqueueRender(this, callback === forceUpdateCallback)
     }
   }
 

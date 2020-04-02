@@ -1,5 +1,51 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.37...v) (2020-02-09)
+# [](https://github.com/NervJS/taro/compare/v1.3.39...v) (2020-03-16)
+
+
+
+<a name="1.3.39"></a>
+## [1.3.39](https://github.com/NervJS/taro/compare/v1.3.38...v1.3.39) (2020-03-16)
+
+
+### Bug Fixes
+
+* **cli:** 修复对 lodash 等库的支持，close [#5614](https://github.com/NervJS/taro/issues/5614) ([c8ed86b](https://github.com/NervJS/taro/commit/c8ed86b))
+* **swan:** 修复Taro 1.3.x，百度小程序component shouldComponentUpdate不生效 ([4080659](https://github.com/NervJS/taro/commit/4080659))
+* **tt:** 修复头条真机调试报错，fix [#5688](https://github.com/NervJS/taro/issues/5688) ([cb4257c](https://github.com/NervJS/taro/commit/cb4257c))
+
+
+### Features
+
+* **components:** 为image组件添加了imgProps属性 ([cef40b3](https://github.com/NervJS/taro/commit/cef40b3))
+* **plugin-uglify:** 强力压缩 ([#1294](https://github.com/NervJS/taro/issues/1294)) ([6bf75fc](https://github.com/NervJS/taro/commit/6bf75fc))
+
+
+
+<a name="1.3.38"></a>
+## [1.3.38](https://github.com/NervJS/taro/compare/v1.3.37...v1.3.38) (2020-03-09)
+
+
+### Bug Fixes
+
+* get app for h5 fix [#4763](https://github.com/NervJS/taro/issues/4763) ([8c8041e](https://github.com/NervJS/taro/commit/8c8041e))
+* rem in h5 component fix [#5309](https://github.com/NervJS/taro/issues/5309) ([4801038](https://github.com/NervJS/taro/commit/4801038))
+* **components:** 修复canvas可能取不到props的问题 ([a7981f3](https://github.com/NervJS/taro/commit/a7981f3))
+* **components:** 修复navigator、controls、video组件可能取不到props的问题 ([22405fb](https://github.com/NervJS/taro/commit/22405fb))
+* **components:** 去除canvas、tabbar内一些比较hacky的写法 ([4b1bb3f](https://github.com/NervJS/taro/commit/4b1bb3f))
+* **taro-components-rn:** 修复Input组件 ([047d86f](https://github.com/NervJS/taro/commit/047d86f))
+* docusaurus wrong parse ([f62da13](https://github.com/NervJS/taro/commit/f62da13))
+
+
+### Features
+
+* **taro-h5:** add capture attribute support for chooseImage api when… ([#5608](https://github.com/NervJS/taro/issues/5608)) ([880220d](https://github.com/NervJS/taro/commit/880220d))
+* **taro-router:** 新增路由拦截功能beforeRouteLeave ([10c2c53](https://github.com/NervJS/taro/commit/10c2c53))
+* complete navig、form、media typing with docs ([246e131](https://github.com/NervJS/taro/commit/246e131))
+* complete Open typing with docs ([c150dbb](https://github.com/NervJS/taro/commit/c150dbb))
+* input typing with docs upload ([95bd3a6](https://github.com/NervJS/taro/commit/95bd3a6))
+* upload all components types with docs ([ccdb96f](https://github.com/NervJS/taro/commit/ccdb96f))
+* **network:** upload typing ([049a5ee](https://github.com/NervJS/taro/commit/049a5ee))
+* **types:** upload components typing with docs ([432f32c](https://github.com/NervJS/taro/commit/432f32c))
 
 
 
@@ -428,6 +474,7 @@
 * **mobx:** 修复 H5 及 RN 端使用 inject 装饰且具有继承关系中父类 constructor 不被调用的问题([#4507](https://github.com/NervJS/taro/issues/4507)) ([2d06388](https://github.com/NervJS/taro/commit/2d06388))
 * **router:** 修复hash模式下tabbar不展示的问题 ([61dc79a](https://github.com/NervJS/taro/commit/61dc79a))
 * **taro:** 新增支付宝小程序 WindowConfig 属性 ([#4548](https://github.com/NervJS/taro/issues/4548)) ([242e4f7](https://github.com/NervJS/taro/commit/242e4f7))
+* **taro component:** 1.3.9版本误删,导致无法衔接滚动 ([c68da48](https://github.com/NervJS/taro/commit/c68da48))
 * **transformer:** 方法 findJSXAttrByName 需要考虑 JSXSpreadAttribute，fix [#4527](https://github.com/NervJS/taro/issues/4527) ([f9d3f87](https://github.com/NervJS/taro/commit/f9d3f87))
 * **transformer:** 替换属性名前需要先判断，fix [#4511](https://github.com/NervJS/taro/issues/4511) ([642015f](https://github.com/NervJS/taro/commit/642015f))
 * **transformer:** 高阶组件在 h5 被错误处理，close [#4345](https://github.com/NervJS/taro/issues/4345) ([6b4eed7](https://github.com/NervJS/taro/commit/6b4eed7))

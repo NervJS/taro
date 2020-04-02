@@ -1,4 +1,6 @@
-import { findRef } from '../utils/index'
+import { findDOMNode } from 'nervjs'
+
+import { findRef } from '../utils'
 
 /**
 * 创建 canvas 的绘图上下文 CanvasContext 对象
@@ -8,9 +10,10 @@ import { findRef } from '../utils/index'
 const createCanvasContext = (canvasId, componentInstance) => {
   const refId = `__taroref_${canvasId}`
   const component = findRef(refId, componentInstance)
+  const canvasDom = findDOMNode(component)
 
   /** @type {HTMLCanvasElement} */
-  const canvas = component.vnode.dom.querySelector(`[canvasId=${canvasId}]`)
+  const canvas = canvasDom.querySelector(`[canvasId=${canvasId}]`)
 
   /** @type {CanvasRenderingContext2D} */
   const ctx = canvas.getContext('2d')

@@ -65,13 +65,8 @@ export interface EventProps {
 }
 
 export type BaseEventOrigFunction<T> = (event: BaseEventOrig<T>) => any
-/** @deprecated 建议弃用，逐步使用CommonEventFunction替换 */
-export type BaseEventFunction = BaseEventOrigFunction<any>
 
 export type TouchEventFunction = (event: ITouchEvent) => any
-
-/** @deprecated 建议弃用，逐步使用CommonEvent替换 */
-export type BaseEvent = BaseEventOrig<any>
 
 export type CommonEvent = BaseEventOrig<any>
 
@@ -138,4 +133,27 @@ export interface Target {
   }
 }
 
+/**
+ * @ignore
+ */
 export interface currentTarget extends Target {}
+
+/** 网络状态数据 */
+export interface netStatus {
+  /* 当前视频编/码器输出的比特率，单位 kbps */
+  videoBitrate?: number
+  /* 当前音频编/码器输出的比特率，单位 kbps */
+  audioBitrate?: number
+  /* 当前视频帧率 */
+  videoFPS?: number | string
+  /* 当前视频 GOP,也就是每两个关键帧(I帧)间隔时长，单位 s */
+  videoGOP?: number
+  /* 当前的发送/接收速度 */
+  netSpeed?: number
+  /* 网络抖动情况，为 0 时表示没有任何抖动，值越大表明网络抖动越大，网络越不稳定 */
+  netJitter?: number
+  /* 视频画面的宽度 */
+  videoWidth?: number | string
+  /* 视频画面的高度 */
+  videoHeight?: number | string
+}

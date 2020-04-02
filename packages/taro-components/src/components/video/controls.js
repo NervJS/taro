@@ -20,9 +20,6 @@ class Controls extends Component {
   /** @type {number} */
   hideControlsTimer
 
-  /** @type {ControlsProps} */
-  props
-
   progressDimentions = {
     left: 0,
     right: 0,

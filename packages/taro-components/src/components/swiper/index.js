@@ -107,17 +107,15 @@ class Swiper extends Nerv.Component {
 
   componentWillReceiveProps (nextProps) {
     if (this.mySwiper) {
-      let nextCurrent = 0
-      if (nextProps.current === 0) {
-        nextCurrent = this._$current || 0
-      } else {
-        nextCurrent = nextProps.current || this._$current || 0
-      }
+      const nextCurrent = typeof nextProps.current === 'number' ? nextProps.current : this._$current || 0
+
       // 是否衔接滚动模式
       if (nextProps.circular) {
-        if (nextProps.current !== 0) this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
+        this.mySwiper.loopDestroy()
+        this.mySwiper.loopCreate()
+        this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
       } else {
-        if (nextProps.current !== 0) this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
+        this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
       }
 
       // 判断是否需要停止或开始自动轮播

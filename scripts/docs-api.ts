@@ -131,6 +131,8 @@ const get = {
                     return `<br />[参考地址](${arrs.text})`
                   } else if (arrs.name === 'supported') {
                     if (!isComp) return `<br />API 支持度: ${arrs.text}`
+                  } else if (arrs.name === 'deprecated') {
+                    return arrs.text ? `<br />不推荐: ${arrs.text}` : '<br />**不推荐使用**'
                   } else {
                     if (!isComp || !Object.values(envMap).find(env => env.name === arrs.name)) {
                       return `<br />${arrs.name}: ${parseLineFeed(arrs.text)}`
@@ -339,6 +341,7 @@ export async function writeApiDoc (routepath: string, doc: DocEntry[], withGener
       const md: (string | undefined)[] = []
   
       if (name === 'General' && !withGeneral) continue
+      if (tags.find(tag => tag.name === 'ignore')) continue
   
       if (!isFunction(e.flags) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
         console.warn(`WARN: Symbol flags ${e.flags} is missing parse! Watch symbol name:${name}.`)
@@ -410,6 +413,9 @@ export async function writeDoc (routepath: string, doc: DocEntry[]) {
         if (name === _p.name) return undefined
         const tags = e.jsTags || []
         const md: (string | undefined)[] = []
+
+        if (e.flags === ts.SymbolFlags.TypeLiteral) return undefined
+        if (tags.find(tag => tag.name === 'ignore')) return undefined
     
         if (!isFunction(e.flags) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
           console.warn(`WARN: Symbol flags ${e.flags} is missing parse! Watch symbol name:${name}.`)
