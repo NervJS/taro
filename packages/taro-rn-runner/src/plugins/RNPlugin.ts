@@ -7,7 +7,7 @@ import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
 import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
-import {defaults, kebabCase } from 'lodash'
+import { defaults, kebabCase } from 'lodash'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
@@ -675,6 +675,15 @@ export default class RNPlugin {
           // rootProps: isEmptyObject(rootProps) || rootProps,
           adapter: buildAdapter
         })
+        const {alias} = this.options
+        // replace alias to relative path
+        transformResult.components = transformResult.components.map((item => {
+          if (isAliasPath(item.path, alias)) {
+            item.path = replaceAliasPath(file.path, item.path, alias)
+          }
+          return item
+        }))
+        console.log(transformResult.components)
         transformResult.components = transformResult.components.filter((item) => !isNpmPkg(item.path))
         let parseAstRes = parseAst(transformResult.ast, buildAdapter)
         configObj = parseAstRes.configObj

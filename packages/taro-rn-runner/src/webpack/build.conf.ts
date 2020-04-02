@@ -161,6 +161,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     resolve: {alias},
     module: getModule(appPath, {
       sourceDir,
+      entry: entryRes!.entry,
 
       buildAdapter,
       constantsReplaceList,
