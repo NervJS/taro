@@ -10,6 +10,7 @@ import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
 import * as postcss from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
+import * as inquirer from 'inquirer'
 
 import {
   printLog,
@@ -92,6 +93,7 @@ export default class Convertor {
   entryStylePath: string
   entryJSON: AppConfig
   entryStyle: string
+  framework: 'react' | 'vue'
 
   constructor (root) {
     this.root = root
@@ -468,6 +470,23 @@ export default class Convertor {
       .join('/')
   }
 
+  private formatFile (jsCode: string, template = '') {
+    let code = jsCode
+    const config = { ...prettierJSConfig }
+    if (this.framework === 'vue') {
+      code = `
+${template}
+<script>
+${code}
+</script>
+      `
+      config.parser = 'vue'
+      config.semi = false
+      config.htmlWhitespaceSensitivity = 'ignore'
+    }
+    return prettier.format(code, config)
+  }
+
   generateEntry () {
     try {
       const entryJS = String(fs.readFileSync(this.entryJSPath))
@@ -477,7 +496,8 @@ export default class Convertor {
         json: entryJSON,
         script: entryJS,
         path: this.root,
-        rootPath: this.root
+        rootPath: this.root,
+        framework: this.framework
       })
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
@@ -489,7 +509,7 @@ export default class Convertor {
         isApp: true
       })
       const jsCode = generateMinimalEscapeCode(ast)
-      this.writeFileToTaro(entryDistJSPath, prettier.format(jsCode, prettierJSConfig))
+      this.writeFileToTaro(entryDistJSPath, jsCode)
       this.writeFileToConfig(entryDistJSPath, entryJSON)
       printLog(processTypeEnum.GENERATE, '入口文件', this.generateShowPath(entryDistJSPath))
       if (this.entryStyle) {
@@ -522,6 +542,14 @@ export default class Convertor {
           })
       }
     }
+  }
+
+  private getComponentDest (file: string) {
+    if (this.framework === 'react') {
+      return file
+    }
+
+    return path.join(path.dirname(file), path.basename(file, path.extname(file)) + '.vue')
   }
 
   traversePages () {
@@ -586,7 +614,10 @@ export default class Convertor {
         }
         param.path = path.dirname(pageJSPath)
         param.rootPath = this.root
-        const taroizeResult = taroize(param)
+        const taroizeResult = taroize({
+          ...param,
+          framework: this.framework
+        })
         const { ast, scriptFiles } = this.parseAst({
           ast: taroizeResult.ast,
           sourceFilePath: pageJSPath,
@@ -596,7 +627,7 @@ export default class Convertor {
           imports: taroizeResult.imports
         })
         const jsCode = generateMinimalEscapeCode(ast)
-        this.writeFileToTaro(pageDistJSPath, prettier.format(jsCode, prettierJSConfig))
+        this.writeFileToTaro(this.getComponentDest(pageDistJSPath), this.formatFile(jsCode, taroizeResult.template))
         this.writeFileToConfig(pageDistJSPath, pageConfigStr)
         printLog(processTypeEnum.GENERATE, '页面文件', this.generateShowPath(pageDistJSPath))
         if (pageStyle) {
@@ -666,7 +697,10 @@ export default class Convertor {
         }
         param.path = path.dirname(componentJSPath)
         param.rootPath = this.root
-        const taroizeResult = taroize(param)
+        const taroizeResult = taroize({
+          ...param,
+          framework: this.framework
+        })
         const { ast, scriptFiles } = this.parseAst({
           ast: taroizeResult.ast,
           sourceFilePath: componentJSPath,
@@ -678,7 +712,7 @@ export default class Convertor {
           imports: taroizeResult.imports
         })
         const jsCode = generateMinimalEscapeCode(ast)
-        this.writeFileToTaro(componentDistJSPath, prettier.format(jsCode, prettierJSConfig))
+        this.writeFileToTaro(this.getComponentDest(componentDistJSPath), this.formatFile(jsCode, taroizeResult.template))
         printLog(processTypeEnum.GENERATE, '组件文件', this.generateShowPath(componentDistJSPath))
         if (componentStyle) {
           this.traverseStyle(componentStylePath, componentStyle)
@@ -741,33 +775,33 @@ export default class Convertor {
       css: 'sass',
       typescript: false,
       template: templateName,
-      framework: 'react'
+      framework: this.framework
     })
     creator.template(templateName, path.join('config', 'index.js'), path.join(configDir, 'index.js'), {
       date,
       projectName,
-      framework: 'react'
+      framework: this.framework
     })
     creator.template(templateName, path.join('config', 'dev.js'), path.join(configDir, 'dev.js'), {
-      framework: 'react'
+      framework: this.framework
     })
     creator.template(templateName, path.join('config', 'prod.js'), path.join(configDir, 'prod.js'), {
-      framework: 'react'
+      framework: this.framework
     })
     creator.template(templateName, 'project.config.json', path.join(this.convertRoot, 'project.config.json'), {
       description,
       projectName,
-      framework: 'react'
+      framework: this.framework
     })
     creator.template(templateName, '.gitignore', path.join(this.convertRoot, '.gitignore'))
     creator.template(templateName, '.editorconfig', path.join(this.convertRoot, '.editorconfig'))
     creator.template(templateName, '.eslintrc.js', path.join(this.convertRoot, '.eslintrc.js'), {
       typescript: false,
-      framework: 'react'
+      framework: this.framework
     })
     creator.template(templateName, 'babel.config.js', path.join(this.convertRoot, 'babel.config.js'), {
       typescript: false,
-      framework: 'react'
+      framework: this.framework
     })
     creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'))
     creator.fs.commit(() => {
@@ -804,8 +838,17 @@ export default class Convertor {
   }
 
   run () {
-    this.generateEntry()
-    this.traversePages()
-    this.generateConfigFiles()
+    inquirer.prompt([{
+      type: 'list',
+      name: 'framework',
+      message: '你想转换为哪种框架？',
+      choices: ['react', 'vue'],
+      default: 'react'
+    }]).then(({ framework }) => {
+      this.framework = framework
+      this.generateEntry()
+      this.traversePages()
+      this.generateConfigFiles()
+    })
   }
 }

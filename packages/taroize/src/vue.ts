@@ -12,7 +12,13 @@ import { kebabCase } from 'lodash'
 
 const { prettyPrint } = require('html')
 
-export function parseVue (_: string, __?: string, jsCode = '') {
+interface Result {
+  ast: t.File
+  template: string
+  imports: VueImport[]
+}
+
+export function parseVue (dirPath: string, wxml: string, jsCode = ''): Result {
   let ast = parseCode(jsCode)
   let foundWXInstance = false
   const vistor: Visitor = {
@@ -68,7 +74,13 @@ export function parseVue (_: string, __?: string, jsCode = '') {
     // ...wxses.filter(wxs => !wxs.src.startsWith('./wxs__')).map(wxs => buildImportStatement(wxs.src, [], wxs.module))
   )
 
-  return ast
+  const { imports, template } = parseWXML(dirPath, wxml, [])
+
+  return {
+    ast,
+    imports,
+    template
+  }
 }
 
 export function parseWXML (dirPath: string, wxml: string, imports: VueImport[]) {
@@ -87,15 +99,11 @@ export function parseWXML (dirPath: string, wxml: string, imports: VueImport[]) 
     //
   }
 
-  if (wxml == null) {
-    return
-  }
-
   const nodes: AllKindNode[] = parse(wxml.trim()).map(node => parseNode(node, dirPath, imports))
-  const code = generateVueFile(nodes, '')
+  const template = generateVueFile(nodes)
   return {
     nodes,
-    code,
+    template,
     imports
   }
 }
@@ -265,25 +273,20 @@ function createElement (tagName: string): Element {
   }
 }
 
-export function generateVueFile (children: AllKindNode[], jsCode: string): string {
+export function generateVueFile (children: AllKindNode[]): string {
   const template = createElement('template')
   const container = createElement('block')
   container.children = children
   template.children = [container]
 
-  const script = createElement('script')
-  script.children = [{
-    type: NodeType.Text,
-    content: jsCode
-  }]
-
-  return stringify([template, script])
+  return stringify([template])
 }
 
 interface VueImport {
   name?: string
-  nodes: AllKindNode[]
-  code: string
+  template?: string
+  ast?: t.File,
+  wxs?: boolean
 }
 
 export function parseTemplate (element: Element, imports: VueImport[]) {
@@ -300,11 +303,10 @@ export function parseTemplate (element: Element, imports: VueImport[]) {
     }
 
     const componentName = buildTemplateName(name.key)
-    const component = parseWXML('', stringify(children), [])!
+    const component = parseWXML('', stringify(children), imports)!
     imports.push({
       name: componentName,
-      nodes: component.nodes,
-      code: component.code
+      template: component.template
     })
   } else if (is) {
     const value = is.value
