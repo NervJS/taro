@@ -66,6 +66,7 @@ class Swiper extends Nerv.Component {
       initialSlide: parseInt(current, 10),
       speed: parseInt(duration, 10),
       observer: true,
+      observeParents: true,
       on: {
         slideChange () {
           let e = createEvent('touchend')
@@ -91,6 +92,15 @@ class Swiper extends Nerv.Component {
             })
           } catch (err) {}
           that.handleOnAnimationFinish(e)
+        },
+        observerUpdate: (e) => {
+          if (e.target && e.target.className === 'taro_page' && e.target.style.display === 'block' && e.target.contains(this.$el)) {
+            if (this.props.autoplay) {
+              setTimeout(() => {
+                this.mySwiper.slideTo(this._$current)
+              }, 1000)
+            }
+          }
         }
       }
     }
@@ -130,13 +140,18 @@ class Swiper extends Nerv.Component {
         }
       }
 
+      const autoplay = this.mySwiper.autoplay
       // 判断是否需要停止或开始自动轮播
-      if (this.mySwiper.autoplay.running !== nextProps.autoplay) {
+      if (autoplay.running !== nextProps.autoplay) {
         if (nextProps.autoplay) {
-          this.mySwiper.autoplay.start()
+          autoplay.start()
         } else {
-          this.mySwiper.autoplay.stop()
+          autoplay.stop()
         }
+      }
+      if (!autoplay.paused) {
+        autoplay.run()
+        autoplay.paused = false
       }
 
       this.mySwiper.update() // 更新子元素
@@ -147,8 +162,7 @@ class Swiper extends Nerv.Component {
     if (!this.mySwiper) return
     if (this.props.autoplay) {
       if (this._$width !== this.mySwiper.width || this._$height !== this.mySwiper.height) {
-        this.mySwiper.autoplay.stop()
-        this.mySwiper.autoplay.start()
+        this.mySwiper.autoplay.run()
       }
     }
     this._$width = this.mySwiper.width
@@ -186,7 +200,6 @@ class Swiper extends Nerv.Component {
       paddingLeft: vertical ? 0 : this.parsePX(previousMargin),
       overflow: 'hidden'
     }, style)
-    console.log(sty)
     const paginationCls = classNames(
       'swiper-pagination',
       {
