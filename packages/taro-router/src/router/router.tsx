@@ -11,6 +11,7 @@ interface Props {
   history: Types.History;
   mode: 'multi' | 'hash' | 'browser';
   routes: Types.RouteObj[];
+  tabBar?: Types.ITabBar;
   children?: any[];
   customRoutes: Types.CustomRoutes;
 }
@@ -71,13 +72,22 @@ class Router extends Taro.Component<Props, State> {
     }
   }
 
-  push (toLocation: Types.Location) {
+  isTabBar (path: string) {
+    const tabBar = this.props.tabBar
+    if (path && tabBar && tabBar.list && tabBar.list instanceof Array) {
+      return tabBar.list.findIndex(e => e.pagePath === path) !== -1
+    }
+    return false
+  }
+
+  push (toLocation: Types.Location, isTabBar = false) {
     const routeStack: Types.RouteObj[] = [...this.state.routeStack]
     const matchedRoute = this.computeMatch(toLocation)
     routeStack.forEach(v => { v.isRedirect = false })
     routeStack.push(assign({}, matchedRoute, {
       key: toLocation.state.key,
-      isRedirect: false
+      isRedirect: false,
+      isTabBar
     }))
     this.setState({ routeStack, location: toLocation })
   }
@@ -112,6 +122,21 @@ class Router extends Taro.Component<Props, State> {
     this.setState({ routeStack, location: toLocation })
   }
 
+  switch (toLocation: Types.Location, isTabBar = false) {
+    const routeStack: Types.RouteObj[] = [...this.state.routeStack]
+    const matchedRoute = this.computeMatch(toLocation)
+    const index = routeStack.findIndex(e => e.path === toLocation.path)
+    if (index === -1) {
+      routeStack.forEach(v => { v.isRedirect = false })
+      routeStack.push(assign({}, matchedRoute, {
+        key: toLocation.state.key,
+        isRedirect: false,
+        isTabBar
+      }))
+    }
+    this.setState({ routeStack, location: toLocation })
+  }
+
   collectComponent = (comp, k) => {
     this.currentPages[k] = comp
   }
@@ -131,6 +156,8 @@ class Router extends Taro.Component<Props, State> {
         this.push(toLocation);
       } else if (action === "POP") {
         this.pop(toLocation, fromLocation);
+      } else if (this.isTabBar(toLocation.path)) {
+        this.switch(toLocation, true);
       } else {
         this.replace(toLocation);
       }
@@ -141,7 +168,7 @@ class Router extends Taro.Component<Props, State> {
       })
     })
     this.lastLocation = history.location
-    this.push(this.lastLocation)
+    this.push(this.lastLocation, this.isTabBar(this.lastLocation.path))
     if (mode === 'multi') {
       this.unlisten()
     }
@@ -163,7 +190,7 @@ class Router extends Taro.Component<Props, State> {
       <div
         className="taro_router"
         style={{ height: '100%' }}>
-        {this.state.routeStack.map(({ path, componentLoader, isIndex, key, isRedirect }, k) => {
+        {this.state.routeStack.map(({ path, componentLoader, isIndex, isTabBar, key, isRedirect }, k) => {
           return (
             <Route
               path={path}
@@ -172,6 +199,7 @@ class Router extends Taro.Component<Props, State> {
               isIndex={isIndex}
               key={key}
               k={k}
+              isTabBar={isTabBar}
               isRedirect={isRedirect}
               collectComponent={this.collectComponent}
             />
