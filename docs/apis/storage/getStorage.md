@@ -10,7 +10,7 @@ sidebar_label: getStorage
 ## 类型
 
 ```tsx
-(option: Option) => Promise<CallbackResult>
+(option: Option) => Promise<SuccessCallbackResult>
 ```
 
 ## 参数

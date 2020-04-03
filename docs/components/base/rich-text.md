@@ -40,10 +40,10 @@ class App extends Components {
 
 ## RichTextProps
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| nodes | `Nodes` | 节点列表/ HTML String |
-| space | "ensp" or "emsp" or "nbsp" | 显示连续空格 |
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| nodes | `Nodes` | 否 | 节点列表/ HTML String |
+| space | "ensp" or "emsp" or "nbsp" | 否 | 显示连续空格 |
 
 ### API 支持度
 

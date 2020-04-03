@@ -13,7 +13,7 @@ Taro.getExtConfig 的同步版本。
 ## 类型
 
 ```tsx
-() => ExtInfo
+() => Record<string, any>
 ```
 
 ## 参数

@@ -364,17 +364,16 @@ declare namespace Taro {
     }
   }
   /** 拍摄或从手机相册中选择图片或视频。
-   * @supported weapp
-   * @since 2.10.0
+   * @supported weapp, rn
    * @example
    * ```tsx
-   * wx.chooseMedia({
+   * Taro.chooseMedia({
    *   count: 9,
    *   mediaType: ['image','video'],
    *   sourceType: ['album', 'camera'],
    *   maxDuration: 30,
    *   camera: 'back',
-   *   success(res) {
+   *   success: (res) => {
    *     console.log(res.tempFiles)
    *     console.log(res.type)
    *   }

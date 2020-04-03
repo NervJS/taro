@@ -49,7 +49,7 @@ declare namespace Taro {
   namespace canvasToTempFilePath {
     interface Option {
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 */
-      canvas?: object
+      canvas?: CanvasProps
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id */
       canvasId: string
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
@@ -88,6 +88,34 @@ declare namespace Taro {
       jpg
       /** png 图片 */
       png
+    }
+    interface CanvasProps {
+      /** 指定 canvas 类型，支持 2d 和 webgl */
+      type?: string
+      /** canvas 组件的唯一标识符，若指定了 type 则无需再指定该属性 */
+      canvasId?: string
+      /** 当在 canvas 中移动时且有绑定手势事件时，禁止屏幕滚动以及下拉刷新
+       * @default false
+       */
+      disableScroll?: boolean
+      /** 手指触摸动作开始 */
+      onTouchStart?: General.CommonEventFunction
+      /** 手指触摸后移动 */
+      onTouchMove?: General.CommonEventFunction
+      /** 手指触摸动作结束 */
+      onTouchEnd?: General.CommonEventFunction
+      /** 手指触摸动作被打断，如来电提醒，弹窗 */
+      onTouchCancel?: General.CommonEventFunction
+      /** 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动 */
+      onLongTap?: General.CommonEventFunction
+      /** 当发生错误时触发 error 事件，detail = {errMsg: 'something wrong'} */
+      onError?: General.CommonEventFunction<CanvasProps.onErrorEventDetail>
+    }
+
+    namespace CanvasProps {
+      interface onErrorEventDetail {
+        errMsg: string
+      }
     }
   }
 

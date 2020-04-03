@@ -24,14 +24,15 @@ sidebar_label: loadFontFace
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| family | `string` | 是 | 定义的字体名称 |
-| source | `string` | 是 | 字体资源的地址。建议格式为 TTF 和 WOFF，WOFF2 在低版本的iOS上会不兼容。 |
-| complete | `CompleteCallback` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| desc | `DescOption` | 否 | 可选的字体描述符 |
-| fail | `FailCallback` | 否 | 接口调用失败的回调函数 |
-| success | `SuccessCallback` | 否 | 接口调用成功的回调函数 |
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| global | `boolean` | `false` | 否 | 是否全局生效 |
+| family | `string` |  | 是 | 定义的字体名称 |
+| source | `string` |  | 是 | 字体资源的地址。建议格式为 TTF 和 WOFF，WOFF2 在低版本的 iOS 上会不兼容。 |
+| complete | `CompleteCallback` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+| desc | `DescOption` |  | 否 | 可选的字体描述符 |
+| fail | `FailCallback` |  | 否 | 接口调用失败的回调函数 |
+| success | `SuccessCallback` |  | 否 | 接口调用成功的回调函数 |
 
 ### DescOption
 

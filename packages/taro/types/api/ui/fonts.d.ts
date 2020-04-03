@@ -1,11 +1,13 @@
 declare namespace Taro {
   namespace loadFontFace {
     interface Option {
-      /** 是否全局生效（最低版本2.10.0），默认false */
+      /** 是否全局生效
+       * @default false
+       */
       global?: boolean,
       /** 定义的字体名称 */
       family: string
-      /** 字体资源的地址。建议格式为 TTF 和 WOFF，WOFF2 在低版本的iOS上会不兼容。 */
+      /** 字体资源的地址。建议格式为 TTF 和 WOFF，WOFF2 在低版本的 iOS 上会不兼容。 */
       source: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: CompleteCallback

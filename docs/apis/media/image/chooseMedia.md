@@ -3,8 +3,6 @@ title: Taro.chooseMedia(option)
 sidebar_label: chooseMedia
 ---
 
-> 最低 Taro 版本: 2.10.0
-
 拍摄或从手机相册中选择图片或视频。
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseMedia.html)
@@ -74,13 +72,13 @@ sidebar_label: chooseMedia
 ## 示例代码
 
 ```tsx
-wx.chooseMedia({
+Taro.chooseMedia({
   count: 9,
   mediaType: ['image','video'],
   sourceType: ['album', 'camera'],
   maxDuration: 30,
   camera: 'back',
-  success(res) {
+  success: (res) => {
     console.log(res.tempFiles)
     console.log(res.type)
   }
@@ -91,4 +89,4 @@ wx.chooseMedia({
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.chooseMedia | ✔️ |  |  |
+| Taro.chooseMedia | ✔️ |  | ✔️ |

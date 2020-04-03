@@ -15,9 +15,9 @@ canvas 组件的绘图上下文
 | font | `string` | 当前字体样式的属性。符合 [CSS font 语法](https://developer.mozilla.org/zh-CN/docs/Web/CSS/font) 的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif。 |
 | globalAlpha | `number` | 全局画笔透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 |
 | globalCompositeOperation | `string` | 在绘制新形状时应用的合成操作的类型。目前安卓版本只适用于 `fill` 填充块的合成，用于 `stroke` 线段的合成效果都是 `source-over`。<br /><br />目前支持的操作有<br />- 安卓：xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light<br />- iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity |
-| lineCap | `number` | 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 |
+| lineCap | "butt" or "round" or "square" | 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 |
 | lineDashOffset | `number` | 虚线偏移量，初始值为0 |
-| lineJoin | `number` | 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 |
+| lineJoin | "round" or "bevel" or "miter" | 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 |
 | lineWidth | `number` | 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 |
 | miterLimit | `number` | 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 |
 | shadowBlur | `number` | 阴影的模糊级别 |

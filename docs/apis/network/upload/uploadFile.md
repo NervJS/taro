@@ -19,14 +19,15 @@ sidebar_label: uploadFile
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
+| url | `string` | 是 | 开发者服务器地址 |
 | filePath | `string` | 是 | 要上传文件资源的路径 |
 | name | `string` | 是 | 文件对应的 key，开发者在服务端可以通过这个 key 获取文件的二进制内容 |
-| url | `string` | 是 | 开发者服务器地址 |
+| header | `Record<string, any>` | 否 | HTTP 请求 Header，Header 中不能设置 Referer |
+| formData | `Record<string, any>` | 否 | HTTP 请求中其他额外的 form data |
+| timeout | `number` | 否 | 超时时间，单位为毫秒 |
 | fileName | `string` | 否 | 上传的文件名<br />API 支持度: h5 |
 | complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| formData | `Record<string, any>` | 否 | HTTP 请求中其他额外的 form data |
-| header | `Record<string, any>` | 否 | HTTP 请求 Header，Header 中不能设置 Referer |
 | success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
 
 #### API 支持度
@@ -39,11 +40,9 @@ sidebar_label: uploadFile
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| promise.headersReceived(callback) | <code>function</code> | 绑定接收到http header的回调 |
-| promise.progress(callback) | <code>function</code> | 绑定请求进度更新的回调 |
-| promise.abort() | <code>function</code> | 中断请求 |
-| res.statusCode | <code>number</code> | 请求的返回状态码 |
-| res.data | <code>any</code> | 服务器的返回数据 |
+| data | `string` | 开发者服务器返回的数据 |
+| statusCode | `number` | 开发者服务器返回的 HTTP 状态码 |
+| errMsg | `string` | 调用结果 |
 
 ## 示例代码
 

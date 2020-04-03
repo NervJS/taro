@@ -23,7 +23,7 @@ sidebar_label: canvasToTempFilePath
 
 | 参数 | 类型 | 默认值 | 必填 | 说明 |
 | --- | --- | :---: | :---: | --- |
-| canvas | `string` |  | 否 | 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 |
+| canvas | `CanvasProps` |  | 否 | 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 |
 | canvasId | `string` |  | 是 | 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id |
 | quality | `number` |  | 否 | 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 |
 | complete | `(res: CallbackResult) => void` |  | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
@@ -50,6 +50,26 @@ sidebar_label: canvasToTempFilePath
 | --- | --- |
 | jpg | jpg 图片 |
 | png | png 图片 |
+
+### CanvasProps
+
+| 参数 | 类型 | 默认值 | 必填 | 说明 |
+| --- | --- | :---: | :---: | --- |
+| type | `string` |  | 否 | 指定 canvas 类型，支持 2d 和 webgl |
+| canvasId | `string` |  | 否 | canvas 组件的唯一标识符，若指定了 type 则无需再指定该属性 |
+| disableScroll | `boolean` | `false` | 否 | 当在 canvas 中移动时且有绑定手势事件时，禁止屏幕滚动以及下拉刷新 |
+| onTouchStart | `CommonEventFunction<any>` |  | 否 | 手指触摸动作开始 |
+| onTouchMove | `CommonEventFunction<any>` |  | 否 | 手指触摸后移动 |
+| onTouchEnd | `CommonEventFunction<any>` |  | 否 | 手指触摸动作结束 |
+| onTouchCancel | `CommonEventFunction<any>` |  | 否 | 手指触摸动作被打断，如来电提醒，弹窗 |
+| onLongTap | `CommonEventFunction<any>` |  | 否 | 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动 |
+| onError | `CommonEventFunction<onErrorEventDetail>` |  | 否 | 当发生错误时触发 error 事件，detail = {errMsg: 'something wrong'} |
+
+#### onErrorEventDetail
+
+| 参数 | 类型 |
+| --- | --- |
+| errMsg | `string` |
 
 ## 示例代码
 
