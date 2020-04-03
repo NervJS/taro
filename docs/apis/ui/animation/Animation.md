@@ -31,9 +31,22 @@ sidebar_label: Animation
 (value: string) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | `string` | 颜色值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td>颜色值</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -51,9 +64,22 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string | number</code></td>
+      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -71,9 +97,22 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string | number</code></td>
+      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -91,9 +130,22 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string | number</code></td>
+      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -143,9 +195,22 @@ sidebar_label: Animation
 (value: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | `number` | 透明度，范围 0-1 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>number</code></td>
+      <td>透明度，范围 0-1</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -163,9 +228,22 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string | number</code></td>
+      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -183,9 +261,22 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| angle | `number` | 旋转的角度。范围 [-180, 180] |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>angle</td>
+      <td><code>number</code></td>
+      <td>旋转的角度。范围 [-180, 180]</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -203,12 +294,37 @@ sidebar_label: Animation
 (x: number, y: number, z: number, angle: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 旋转轴的 x 坐标 |
-| y | `number` | 旋转轴的 y 坐标 |
-| z | `number` | 旋转轴的 z 坐标 |
-| angle | `number` | 旋转的角度。范围 [-180, 180] |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>旋转轴的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>旋转轴的 y 坐标</td>
+    </tr>
+    <tr>
+      <td>z</td>
+      <td><code>number</code></td>
+      <td>旋转轴的 z 坐标</td>
+    </tr>
+    <tr>
+      <td>angle</td>
+      <td><code>number</code></td>
+      <td>旋转的角度。范围 [-180, 180]</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -226,9 +342,22 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| angle | `number` | 旋转的角度。范围 [-180, 180] |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>angle</td>
+      <td><code>number</code></td>
+      <td>旋转的角度。范围 [-180, 180]</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -246,9 +375,22 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| angle | `number` | 旋转的角度。范围 [-180, 180] |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>angle</td>
+      <td><code>number</code></td>
+      <td>旋转的角度。范围 [-180, 180]</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -266,9 +408,22 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| angle | `number` | 旋转的角度。范围 [-180, 180] |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>angle</td>
+      <td><code>number</code></td>
+      <td>旋转的角度。范围 [-180, 180]</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -286,10 +441,27 @@ sidebar_label: Animation
 (sx: number, sy?: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| sx | `number` | 当仅有 sx 参数时，表示在 X 轴、Y 轴同时缩放sx倍数 |
-| sy | `number` | 在 Y 轴缩放 sy 倍数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>sx</td>
+      <td><code>number</code></td>
+      <td>当仅有 sx 参数时，表示在 X 轴、Y 轴同时缩放sx倍数</td>
+    </tr>
+    <tr>
+      <td>sy</td>
+      <td><code>number</code></td>
+      <td>在 Y 轴缩放 sy 倍数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -307,11 +479,32 @@ sidebar_label: Animation
 (sx: number, sy: number, sz: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| sx | `number` | x 轴的缩放倍数 |
-| sy | `number` | y 轴的缩放倍数 |
-| sz | `number` | z 轴的缩放倍数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>sx</td>
+      <td><code>number</code></td>
+      <td>x 轴的缩放倍数</td>
+    </tr>
+    <tr>
+      <td>sy</td>
+      <td><code>number</code></td>
+      <td>y 轴的缩放倍数</td>
+    </tr>
+    <tr>
+      <td>sz</td>
+      <td><code>number</code></td>
+      <td>z 轴的缩放倍数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -329,9 +522,22 @@ sidebar_label: Animation
 (scale: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| scale | `number` | X 轴的缩放倍数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scale</td>
+      <td><code>number</code></td>
+      <td>X 轴的缩放倍数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -349,9 +555,22 @@ sidebar_label: Animation
 (scale: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| scale | `number` | Y 轴的缩放倍数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scale</td>
+      <td><code>number</code></td>
+      <td>Y 轴的缩放倍数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -369,9 +588,22 @@ sidebar_label: Animation
 (scale: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| scale | `number` | Z 轴的缩放倍数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scale</td>
+      <td><code>number</code></td>
+      <td>Z 轴的缩放倍数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -389,10 +621,27 @@ sidebar_label: Animation
 (ax: number, ay: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| ax | `number` | 对 X 轴坐标倾斜的角度，范围 [-180, 180] |
-| ay | `number` | 对 Y 轴坐标倾斜的角度，范围 [-180, 180] |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ax</td>
+      <td><code>number</code></td>
+      <td>对 X 轴坐标倾斜的角度，范围 [-180, 180]</td>
+    </tr>
+    <tr>
+      <td>ay</td>
+      <td><code>number</code></td>
+      <td>对 Y 轴坐标倾斜的角度，范围 [-180, 180]</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -410,9 +659,22 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| angle | `number` | 倾斜的角度，范围 [-180, 180] |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>angle</td>
+      <td><code>number</code></td>
+      <td>倾斜的角度，范围 [-180, 180]</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -430,9 +692,22 @@ sidebar_label: Animation
 (angle: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| angle | `number` | 倾斜的角度，范围 [-180, 180] |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>angle</td>
+      <td><code>number</code></td>
+      <td>倾斜的角度，范围 [-180, 180]</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -450,9 +725,20 @@ sidebar_label: Animation
 (option?: StepOption) => Animation
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `StepOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>StepOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -470,9 +756,22 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string | number</code></td>
+      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -490,10 +789,27 @@ sidebar_label: Animation
 (tx?: number, ty?: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| tx | `number` | 当仅有该参数时表示在 X 轴偏移 tx，单位 px |
-| ty | `number` | 在 Y 轴平移的距离，单位为 px |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tx</td>
+      <td><code>number</code></td>
+      <td>当仅有该参数时表示在 X 轴偏移 tx，单位 px</td>
+    </tr>
+    <tr>
+      <td>ty</td>
+      <td><code>number</code></td>
+      <td>在 Y 轴平移的距离，单位为 px</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -511,11 +827,32 @@ sidebar_label: Animation
 (tx?: number, ty?: number, tz?: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| tx | `number` | 在 X 轴平移的距离，单位为 px |
-| ty | `number` | 在 Y 轴平移的距离，单位为 px |
-| tz | `number` | 在 Z 轴平移的距离，单位为 px |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tx</td>
+      <td><code>number</code></td>
+      <td>在 X 轴平移的距离，单位为 px</td>
+    </tr>
+    <tr>
+      <td>ty</td>
+      <td><code>number</code></td>
+      <td>在 Y 轴平移的距离，单位为 px</td>
+    </tr>
+    <tr>
+      <td>tz</td>
+      <td><code>number</code></td>
+      <td>在 Z 轴平移的距离，单位为 px</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -533,9 +870,22 @@ sidebar_label: Animation
 (translation: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| translation | `number` | 在 X 轴平移的距离，单位为 px |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>translation</td>
+      <td><code>number</code></td>
+      <td>在 X 轴平移的距离，单位为 px</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -553,9 +903,22 @@ sidebar_label: Animation
 (translation: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| translation | `number` | 在 Y 轴平移的距离，单位为 px |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>translation</td>
+      <td><code>number</code></td>
+      <td>在 Y 轴平移的距离，单位为 px</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -573,9 +936,22 @@ sidebar_label: Animation
 (translation: number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| translation | `number` | 在 Z 轴平移的距离，单位为 px |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>translation</td>
+      <td><code>number</code></td>
+      <td>在 Z 轴平移的距离，单位为 px</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -593,9 +969,22 @@ sidebar_label: Animation
 (value: string | number) => Animation
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | string or number | 长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string | number</code></td>
+      <td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -607,24 +996,83 @@ sidebar_label: Animation
 
 ### StepOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| delay | `number` | 否 | 动画延迟时间，单位 ms |
-| duration | `number` | 否 | 动画持续时间，单位 ms |
-| timingFunction | "linear" or "ease" or "ease-in" or "ease-in-out" or "ease-out" or "step-start" or "step-end" | 否 | 动画的效果 |
-| transformOrigin | `string` | 否 |  |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>delay</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画延迟时间，单位 ms</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画持续时间，单位 ms</td>
+    </tr>
+    <tr>
+      <td>timingFunction</td>
+      <td><code>&quot;linear&quot; | &quot;ease&quot; | &quot;ease-in&quot; | &quot;ease-in-out&quot; | &quot;ease-out&quot; | &quot;step-start&quot; | &quot;step-end&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画的效果</td>
+    </tr>
+    <tr>
+      <td>transformOrigin</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 ### timingFunction
 
-| 参数 | 说明 |
-| --- | --- |
-| linear | 动画从头到尾的速度是相同的 |
-| ease | 动画以低速开始，然后加快，在结束前变慢 |
-| ease-in | 动画以低速开始 |
-| ease-in-out | 动画以低速开始和结束 |
-| ease-out | 动画以低速结束 |
-| step-start | 动画第一帧就跳至结束状态直到结束 |
-| step-end | 动画一直保持开始状态，最后一帧跳到结束状态 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>linear</td>
+      <td>动画从头到尾的速度是相同的</td>
+    </tr>
+    <tr>
+      <td>ease</td>
+      <td>动画以低速开始，然后加快，在结束前变慢</td>
+    </tr>
+    <tr>
+      <td>ease-in</td>
+      <td>动画以低速开始</td>
+    </tr>
+    <tr>
+      <td>ease-in-out</td>
+      <td>动画以低速开始和结束</td>
+    </tr>
+    <tr>
+      <td>ease-out</td>
+      <td>动画以低速结束</td>
+    </tr>
+    <tr>
+      <td>step-start</td>
+      <td>动画第一帧就跳至结束状态直到结束</td>
+    </tr>
+    <tr>
+      <td>step-end</td>
+      <td>动画一直保持开始状态，最后一帧跳到结束状态</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

@@ -17,11 +17,32 @@ Taro.getStorageInfo 的同步版本
 
 ### Option
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| currentSize | `number` | 当前占用的空间大小, 单位 KB |
-| keys | `string[]` | 当前 storage 中所有的 key |
-| limitSize | `number` | 限制的空间大小，单位 KB |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>currentSize</td>
+      <td><code>number</code></td>
+      <td>当前占用的空间大小, 单位 KB</td>
+    </tr>
+    <tr>
+      <td>keys</td>
+      <td><code>string[]</code></td>
+      <td>当前 storage 中所有的 key</td>
+    </tr>
+    <tr>
+      <td>limitSize</td>
+      <td><code>number</code></td>
+      <td>限制的空间大小，单位 KB</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

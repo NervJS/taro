@@ -33,11 +33,36 @@ class App extends Components {
 
 ## CoverImageProps
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| src | `string` | 是 | 图标路径，支持临时路径、网络地址、云文件ID。暂不支持base64格式。 |
-| onLoad | `BaseEventOrigFunction<any>` | 否 | 图片加载成功时触发 |
-| onError | `BaseEventOrigFunction<any>` | 否 | 图片加载失败时触发 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>图标路径，支持临时路径、网络地址、云文件ID。暂不支持base64格式。</td>
+    </tr>
+    <tr>
+      <td>onLoad</td>
+      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>图片加载成功时触发</td>
+    </tr>
+    <tr>
+      <td>onError</td>
+      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>图片加载失败时触发</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 

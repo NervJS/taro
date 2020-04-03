@@ -91,16 +91,66 @@ export default class Picks extends Component {
 
 ## PickerViewProps
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| value | `number[]` | 否 | 数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。 |
-| indicatorStyle | `string` | 否 | 设置选择器中间选中框的样式 |
-| indicatorClass | `string` | 否 | 设置选择器中间选中框的类名 |
-| maskStyle | `string` | 否 | 设置蒙层的样式 |
-| maskClass | `string` | 否 | 设置蒙层的类名 |
-| onChange | `BaseEventOrigFunction<onChangeEventDetail>` | 否 | 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始） |
-| onPickStart | `BaseEventOrigFunction<any>` | 否 | 当滚动选择开始时候触发事件 |
-| onPickEnd | `BaseEventOrigFunction<any>` | 否 | 当滚动选择结束时候触发事件 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>number[]</code></td>
+      <td style="text-align:center">否</td>
+      <td>数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。</td>
+    </tr>
+    <tr>
+      <td>indicatorStyle</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>设置选择器中间选中框的样式</td>
+    </tr>
+    <tr>
+      <td>indicatorClass</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>设置选择器中间选中框的类名</td>
+    </tr>
+    <tr>
+      <td>maskStyle</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>设置蒙层的样式</td>
+    </tr>
+    <tr>
+      <td>maskClass</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>设置蒙层的类名</td>
+    </tr>
+    <tr>
+      <td>onChange</td>
+      <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）</td>
+    </tr>
+    <tr>
+      <td>onPickStart</td>
+      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>当滚动选择开始时候触发事件</td>
+    </tr>
+    <tr>
+      <td>onPickEnd</td>
+      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>当滚动选择结束时候触发事件</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 
@@ -117,9 +167,20 @@ export default class Picks extends Component {
 
 ### onChangeEventDetail
 
-| 参数 | 类型 |
-| --- | --- |
-| value | `number[]` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>number[]</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

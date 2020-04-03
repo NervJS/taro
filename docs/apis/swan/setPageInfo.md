@@ -17,40 +17,176 @@ sidebar_label: setPageInfo
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| title | `string` | 是 | 页面标题 |
-| keywords | `string` | 是 | 页面关键字 |
-| description | `string` | 是 | 页面描述信息 |
-| releaseDate | `string` | 否 | 原始发布时间(年-月-日 时:分:秒 带有前导零） |
-| articleTitle | `string` | 否 | 文章(内容)标题(适用于当前页面是图文、视频类的展示形式，文章标题需要准确标识当前文章的主要信息点；至少6个字，不可以全英文。) |
-| image | string or string[] | 否 | 图片线上地址，用于信息流投放后的封面显示，最多3张，单图片最大2M；封面图建议尺寸：高>=210px & 宽>=375px；最小尺寸：高>=146px & 宽>=218px。多张图时，用数组表示 |
-| video | `Video` | 否 | 视频信息，多个视频时，用数组表示 |
-| visit | `Visit` | 否 | 浏览信息 |
-| likes | `string` | 否 | 点赞量，若页面未统计可为空 |
-| comments | `string` | 否 | 评论量，若页面未统计可为空 |
-| collects | `string` | 否 | 收藏量，若页面未统计可为空 |
-| shares | `string` | 否 | 分享量，若页面未统计可为空 |
-| followers | `string` | 否 | 关注量，若页面未统计可为空 |
-| success | `() => any` | 否 | 接口调用成功的回调函数 |
-| fail | `(err: any) => any` | 否 | 接口调用失败的回调函数 |
-| complete | `() => any` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>title</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>页面标题</td>
+    </tr>
+    <tr>
+      <td>keywords</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>页面关键字</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>页面描述信息</td>
+    </tr>
+    <tr>
+      <td>releaseDate</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>原始发布时间(年-月-日 时:分:秒 带有前导零）</td>
+    </tr>
+    <tr>
+      <td>articleTitle</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>文章(内容)标题(适用于当前页面是图文、视频类的展示形式，文章标题需要准确标识当前文章的主要信息点；至少6个字，不可以全英文。)</td>
+    </tr>
+    <tr>
+      <td>image</td>
+      <td><code>string | string[]</code></td>
+      <td style="text-align:center">否</td>
+      <td>图片线上地址，用于信息流投放后的封面显示，最多3张，单图片最大2M；封面图建议尺寸：高&gt;=210px &amp; 宽&gt;=375px；最小尺寸：高&gt;=146px &amp; 宽&gt;=218px。多张图时，用数组表示</td>
+    </tr>
+    <tr>
+      <td>video</td>
+      <td><code>Video</code></td>
+      <td style="text-align:center">否</td>
+      <td>视频信息，多个视频时，用数组表示</td>
+    </tr>
+    <tr>
+      <td>visit</td>
+      <td><code>Visit</code></td>
+      <td style="text-align:center">否</td>
+      <td>浏览信息</td>
+    </tr>
+    <tr>
+      <td>likes</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>点赞量，若页面未统计可为空</td>
+    </tr>
+    <tr>
+      <td>comments</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>评论量，若页面未统计可为空</td>
+    </tr>
+    <tr>
+      <td>collects</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>收藏量，若页面未统计可为空</td>
+    </tr>
+    <tr>
+      <td>shares</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>分享量，若页面未统计可为空</td>
+    </tr>
+    <tr>
+      <td>followers</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>关注量，若页面未统计可为空</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>() =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(err: any) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>() =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Video
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| url | `string` | 视频地址 |
-| duration | `string` | 视频时长(单位为秒) |
-| image | `string` | 视频封面图 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>url</td>
+      <td><code>string</code></td>
+      <td>视频地址</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>string</code></td>
+      <td>视频时长(单位为秒)</td>
+    </tr>
+    <tr>
+      <td>image</td>
+      <td><code>string</code></td>
+      <td>视频封面图</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Visit
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| pv | `string` | 否 | 页面的浏览量(不去重用户） |
-| uv | `string` | 否 | 页面的点击量（去重用户） |
-| sessionDuration | `string` | 否 | 页面的用户人均停留时长，以秒为单位。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pv</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>页面的浏览量(不去重用户）</td>
+    </tr>
+    <tr>
+      <td>uv</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>页面的点击量（去重用户）</td>
+    </tr>
+    <tr>
+      <td>sessionDuration</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>页面的用户人均停留时长，以秒为单位。</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

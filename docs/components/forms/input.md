@@ -43,31 +43,180 @@ class App extends Component {
 
 ## InputProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| value | `string` |  | 否 | 输入框的初始内容 |
-| type | "number" or "text" or "idcard" or "digit" | `"text"` | 否 | input 的类型 |
-| password | `boolean` |  | 否 | 是否是密码类型 |
-| placeholder | `string` |  | 否 | 输入框为空时占位符 |
-| placeholderStyle | `string` |  | 否 | 指定 placeholder 的样式 |
-| placeholderClass | `string` | `"input-placeholder"` | 否 | 指定 placeholder 的样式类 |
-| disabled | `boolean` |  | 否 | 是否禁用 |
-| maxLength | `number` | `140` | 否 | 最大输入长度，设置为 -1 的时候不限制最大长度 |
-| cursorSpacing | `number` | `0` | 否 | 指定光标与键盘的距离，单位 px 。取 input 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离 |
-| autoFocus | `boolean` | `false` | 否 | (即将废弃，请直接使用 focus )自动聚焦，拉起键盘 |
-| focus | `boolean` |  | 否 | 获取焦点 |
-| confirmType | "send" or "search" or "next" or "go" or "done" | `done` | 否 | 设置键盘右下角按钮的文字 |
-| confirmHold | `boolean` | `false` | 否 | 点击键盘右下角按钮时是否保持键盘不收起 |
-| cursor | `number` |  | 否 | 指定focus时的光标位置 |
-| selectionStart | `number` | `-1` | 否 | 光标起始位置，自动聚集时有效，需与selection-end搭配使用 |
-| selectionEnd | `number` | `-1` | 否 | 光标结束位置，自动聚集时有效，需与selection-start搭配使用 |
-| adjustPosition | `boolean` | `false` | 否 | 键盘弹起时，是否自动上推页面 |
-| holdKeyboard | `boolean` | `false` | 否 | focus 时，点击页面的时候不收起键盘 |
-| onInput | `BaseEventOrigFunction<inputEventDetail>` |  | 否 | 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。 |
-| onFocus | `BaseEventOrigFunction<inputForceEventDetail>` |  | 否 | 输入框聚焦时触发，event.detail = { value, height }，height 为键盘高度 |
-| onBlur | `BaseEventOrigFunction<inputValueEventDetail>` |  | 否 | 输入框失去焦点时触发<br /><br />event.detail = {value: value} |
-| onConfirm | `BaseEventOrigFunction<inputValueEventDetail>` |  | 否 | 点击完成按钮时触发<br /><br />event.detail = {value: value} |
-| onKeyboardHeightChange | `BaseEventOrigFunction<onKeyboardHeightChangeEventDetail>` |  | 否 | 键盘高度发生变化的时候触发此事件<br /><br />event.detail = {height: height, duration: duration} |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>输入框的初始内容</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td><code>&quot;number&quot; | &quot;text&quot; | &quot;idcard&quot; | &quot;digit&quot;</code></td>
+      <td style="text-align:center"><code>&quot;text&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>input 的类型</td>
+    </tr>
+    <tr>
+      <td>password</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>是否是密码类型</td>
+    </tr>
+    <tr>
+      <td>placeholder</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>输入框为空时占位符</td>
+    </tr>
+    <tr>
+      <td>placeholderStyle</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>指定 placeholder 的样式</td>
+    </tr>
+    <tr>
+      <td>placeholderClass</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"><code>&quot;input-placeholder&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定 placeholder 的样式类</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>是否禁用</td>
+    </tr>
+    <tr>
+      <td>maxLength</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"><code>140</code></td>
+      <td style="text-align:center">否</td>
+      <td>最大输入长度，设置为 -1 的时候不限制最大长度</td>
+    </tr>
+    <tr>
+      <td>cursorSpacing</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"><code>0</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定光标与键盘的距离，单位 px 。取 input 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离</td>
+    </tr>
+    <tr>
+      <td>autoFocus</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>(即将废弃，请直接使用 focus )自动聚焦，拉起键盘</td>
+    </tr>
+    <tr>
+      <td>focus</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>获取焦点</td>
+    </tr>
+    <tr>
+      <td>confirmType</td>
+      <td><code>&quot;send&quot; | &quot;search&quot; | &quot;next&quot; | &quot;go&quot; | &quot;done&quot;</code></td>
+      <td style="text-align:center"><code>done</code></td>
+      <td style="text-align:center">否</td>
+      <td>设置键盘右下角按钮的文字</td>
+    </tr>
+    <tr>
+      <td>confirmHold</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>点击键盘右下角按钮时是否保持键盘不收起</td>
+    </tr>
+    <tr>
+      <td>cursor</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>指定focus时的光标位置</td>
+    </tr>
+    <tr>
+      <td>selectionStart</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"><code>-1</code></td>
+      <td style="text-align:center">否</td>
+      <td>光标起始位置，自动聚集时有效，需与selection-end搭配使用</td>
+    </tr>
+    <tr>
+      <td>selectionEnd</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"><code>-1</code></td>
+      <td style="text-align:center">否</td>
+      <td>光标结束位置，自动聚集时有效，需与selection-start搭配使用</td>
+    </tr>
+    <tr>
+      <td>adjustPosition</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>键盘弹起时，是否自动上推页面</td>
+    </tr>
+    <tr>
+      <td>holdKeyboard</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>focus 时，点击页面的时候不收起键盘</td>
+    </tr>
+    <tr>
+      <td>onInput</td>
+      <td><code>BaseEventOrigFunction&lt;inputEventDetail&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。</td>
+    </tr>
+    <tr>
+      <td>onFocus</td>
+      <td><code>BaseEventOrigFunction&lt;inputForceEventDetail&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>输入框聚焦时触发，event.detail = { value, height }，height 为键盘高度</td>
+    </tr>
+    <tr>
+      <td>onBlur</td>
+      <td><code>BaseEventOrigFunction&lt;inputValueEventDetail&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>输入框失去焦点时触发<br /><br />event.detail = {value: value}</td>
+    </tr>
+    <tr>
+      <td>onConfirm</td>
+      <td><code>BaseEventOrigFunction&lt;inputValueEventDetail&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>点击完成按钮时触发<br /><br />event.detail = {value: value}</td>
+    </tr>
+    <tr>
+      <td>onKeyboardHeightChange</td>
+      <td><code>BaseEventOrigFunction&lt;onKeyboardHeightChangeEventDetail&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>键盘高度发生变化的时候触发此事件<br /><br />event.detail = {height: height, duration: duration}</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 
@@ -99,31 +248,99 @@ class App extends Component {
 
 ### inputEventDetail
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | `string` | 输入值 |
-| cursor | `number` | 光标位置 |
-| keyCode | `number` | 键值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td>输入值</td>
+    </tr>
+    <tr>
+      <td>cursor</td>
+      <td><code>number</code></td>
+      <td>光标位置</td>
+    </tr>
+    <tr>
+      <td>keyCode</td>
+      <td><code>number</code></td>
+      <td>键值</td>
+    </tr>
+  </tbody>
+</table>
 
 ### inputForceEventDetail
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | `string` | 输入值 |
-| height | `number` | 键盘高度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td>输入值</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>键盘高度</td>
+    </tr>
+  </tbody>
+</table>
 
 ### inputValueEventDetail
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | `string` | 输入值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td>输入值</td>
+    </tr>
+  </tbody>
+</table>
 
 ### onKeyboardHeightChangeEventDetail
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| height | `number` | 键盘高度 |
-| duration | `number` | 持续时间 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>键盘高度</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td>持续时间</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

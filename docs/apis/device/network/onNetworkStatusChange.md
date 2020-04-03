@@ -23,16 +23,44 @@ sidebar_label: onNetworkStatusChange
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| isConnected | `boolean` | 当前是否有网络连接 |
-| networkType | "wifi" or "2g" or "3g" or "4g" or "unknown" or "none" | 网络类型 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>isConnected</td>
+      <td><code>boolean</code></td>
+      <td>当前是否有网络连接</td>
+    </tr>
+    <tr>
+      <td>networkType</td>
+      <td><code>&quot;wifi&quot; | &quot;2g&quot; | &quot;3g&quot; | &quot;4g&quot; | &quot;unknown&quot; | &quot;none&quot;</code></td>
+      <td>网络类型</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

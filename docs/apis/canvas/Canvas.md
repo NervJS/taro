@@ -19,9 +19,20 @@ Canvas 实例，可通过 SelectorQuery 获取。
 (requestID: number) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| requestID | `number` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>requestID</td>
+      <td><code>number</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -71,9 +82,20 @@ Canvas 实例，可通过 SelectorQuery 获取。
 (contextType: string) => RenderingContext
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| contextType | `string` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>contextType</td>
+      <td><code>string</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -91,9 +113,22 @@ Canvas 实例，可通过 SelectorQuery 获取。
 (callback: (...args: any[]) => any) => number
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(...args: any[]) => any` | 执行的 callback |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(...args: any[]) =&gt; any</code></td>
+      <td>执行的 callback</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 

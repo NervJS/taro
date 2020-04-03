@@ -17,10 +17,27 @@ sidebar_label: createCanvasContext
 
 ## 参数
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| canvasId | `string` | 要获取上下文的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 canvas-id 属性 |
-| component | `Record<string, any>` | 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) ，如果省略则不在任何自定义组件内查找 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>canvasId</td>
+      <td><code>string</code></td>
+      <td>要获取上下文的 <a href="https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html">canvas</a> 组件 canvas-id 属性</td>
+    </tr>
+    <tr>
+      <td>component</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 <a href="https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html">canvas</a> ，如果省略则不在任何自定义组件内查找</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

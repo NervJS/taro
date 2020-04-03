@@ -52,9 +52,22 @@ sidebar_label: AudioContext
 (position: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| position | `number` | 跳转位置，单位 s |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>position</td>
+      <td><code>number</code></td>
+      <td>跳转位置，单位 s</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -72,9 +85,22 @@ sidebar_label: AudioContext
 (src: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| src | `string` | 音频地址 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td>音频地址</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 

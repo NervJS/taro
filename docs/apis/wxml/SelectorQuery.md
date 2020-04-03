@@ -19,9 +19,22 @@ sidebar_label: SelectorQuery
 (callback?: (...args: any[]) => any) => NodesRef
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(...args: any[]) => any` | 回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(...args: any[]) =&gt; any</code></td>
+      <td>回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -51,9 +64,22 @@ selector类似于 CSS 的选择器，但仅支持下列语法。
 (selector: string) => NodesRef
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| selector | `string` | 选择器 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>selector</td>
+      <td><code>string</code></td>
+      <td>选择器</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -101,9 +127,22 @@ selector类似于 CSS 的选择器，但仅支持下列语法。
 (selector: string) => NodesRef
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| selector | `string` | 选择器 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>selector</td>
+      <td><code>string</code></td>
+      <td>选择器</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -148,9 +187,22 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function (res) {
 (component: Record<string, any>) => SelectorQuery
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| component | `Record<string, any>` | 自定义组件实例 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>component</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>自定义组件实例</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 

@@ -19,9 +19,20 @@ sidebar_label: nextTick
 
 ## 参数
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `(...args: any[]) => any` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(...args: any[]) =&gt; any</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

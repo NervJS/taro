@@ -19,10 +19,27 @@ sidebar_label: CanvasGradient
 (stop: number, color: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| stop | `number` | 表示渐变中开始与结束之间的位置，范围 0-1。 |
-| color | `string` | 渐变点的颜色。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>stop</td>
+      <td><code>number</code></td>
+      <td>表示渐变中开始与结束之间的位置，范围 0-1。</td>
+    </tr>
+    <tr>
+      <td>color</td>
+      <td><code>string</code></td>
+      <td>渐变点的颜色。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 

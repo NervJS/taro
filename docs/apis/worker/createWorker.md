@@ -15,9 +15,22 @@ sidebar_label: createWorker
 
 ## 参数
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| scriptPath | `string` | worker 入口文件的**绝对路径** |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scriptPath</td>
+      <td><code>string</code></td>
+      <td>worker 入口文件的<strong>绝对路径</strong></td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

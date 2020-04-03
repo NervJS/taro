@@ -17,14 +17,54 @@ sidebar_label: playBackgroundAudio
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| dataUrl | `string` | 是 | 音乐链接，目前支持的格式有 m4a, aac, mp3, wav |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| coverImgUrl | `string` | 否 | 封面URL |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
-| title | `string` | 否 | 音乐标题 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dataUrl</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>音乐链接，目前支持的格式有 m4a, aac, mp3, wav</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>coverImgUrl</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>封面URL</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+    <tr>
+      <td>title</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>音乐标题</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

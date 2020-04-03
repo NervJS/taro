@@ -79,9 +79,22 @@ sidebar_label: VideoContext
 (rate: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| rate | `number` | 倍率，支持 0.5/0.8/1.0/1.25/1.5，2.6.3 起支持 2.0 倍速 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>rate</td>
+      <td><code>number</code></td>
+      <td>倍率，支持 0.5/0.8/1.0/1.25/1.5，2.6.3 起支持 2.0 倍速</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -99,9 +112,20 @@ sidebar_label: VideoContext
 (option: RequestFullScreenOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `RequestFullScreenOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>RequestFullScreenOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -119,9 +143,22 @@ sidebar_label: VideoContext
 (position: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| position | `number` | 跳转到的位置，单位 s |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>position</td>
+      <td><code>number</code></td>
+      <td>跳转到的位置，单位 s</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -139,9 +176,22 @@ sidebar_label: VideoContext
 (data: Danmu) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| data | `Danmu` | 弹幕内容 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>Danmu</code></td>
+      <td>弹幕内容</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -185,18 +235,53 @@ sidebar_label: VideoContext
 
 ### RequestFullScreenOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| direction | 0 or 90 or -90 | 否 | 设置全屏时视频的方向，不指定则根据宽高比自动判断。<br /><br />可选值：<br />- 0: 正常竖向;<br />- 90: 屏幕逆时针90度;<br />- -90: 屏幕顺时针90度; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>direction</td>
+      <td><code>0 | 90 | -90</code></td>
+      <td style="text-align:center">否</td>
+      <td>设置全屏时视频的方向，不指定则根据宽高比自动判断。<br /><br />可选值：<br />- 0: 正常竖向;<br />- 90: 屏幕逆时针90度;<br />- -90: 屏幕顺时针90度;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Danmu
 
 弹幕内容
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| text | `string` | 是 | 弹幕文字 |
-| color | `string` | 否 | 弹幕颜色 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>text</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>弹幕文字</td>
+    </tr>
+    <tr>
+      <td>color</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>弹幕颜色</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

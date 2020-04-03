@@ -15,9 +15,22 @@ sidebar_label: arrayBufferToBase64
 
 ## 参数
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| buffer | `ArrayBuffer` | 要转换成 Base64 字符串的 ArrayBuffer 对象 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>buffer</td>
+      <td><code>ArrayBuffer</code></td>
+      <td>要转换成 Base64 字符串的 ArrayBuffer 对象</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

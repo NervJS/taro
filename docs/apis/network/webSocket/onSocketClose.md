@@ -23,16 +23,44 @@ WebSocket 连接关闭事件的回调函数
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| code | `number` | 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。 |
-| reason | `string` | 一个可读的字符串，表示连接被关闭的原因。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>code</td>
+      <td><code>number</code></td>
+      <td>一个数字值表示关闭连接的状态号，表示连接被关闭的原因。</td>
+    </tr>
+    <tr>
+      <td>reason</td>
+      <td><code>string</code></td>
+      <td>一个可读的字符串，表示连接被关闭的原因。</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

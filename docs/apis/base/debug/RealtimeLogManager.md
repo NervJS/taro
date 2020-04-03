@@ -21,9 +21,22 @@ sidebar_label: RealtimeLogManager
 (msg: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| msg | `string` | 是 setFilterMsg 的添加接口。用于设置多个过滤关键字。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>msg</td>
+      <td><code>string</code></td>
+      <td>是 setFilterMsg 的添加接口。用于设置多个过滤关键字。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -41,9 +54,22 @@ sidebar_label: RealtimeLogManager
 (...args: any[]) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>args</td>
+      <td><code>any[]</code></td>
+      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -61,9 +87,20 @@ sidebar_label: RealtimeLogManager
 (pageInstance: any) => void
 ```
 
-| 参数 | 说明 |
-| --- | --- |
-| pageInstance | page 实例 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pageInstance</td>
+      <td>page 实例</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -81,9 +118,22 @@ sidebar_label: RealtimeLogManager
 (...args: any[]) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>args</td>
+      <td><code>any[]</code></td>
+      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -101,9 +151,22 @@ sidebar_label: RealtimeLogManager
 (msg: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| msg | `string` | 过滤关键字，最多不超过1Kb，可以在小程序管理后台根据设置的内容搜索得到对应的日志。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>msg</td>
+      <td><code>string</code></td>
+      <td>过滤关键字，最多不超过1Kb，可以在小程序管理后台根据设置的内容搜索得到对应的日志。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -121,9 +184,22 @@ sidebar_label: RealtimeLogManager
 (...args: any[]) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>args</td>
+      <td><code>any[]</code></td>
+      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过5Kb</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 

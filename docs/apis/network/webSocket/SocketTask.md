@@ -9,16 +9,57 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 
 ## 方法
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| socketTaskId | `number` | websocket 当前的连接 ID。 |
-| readyState | `number` | websocket 当前的连接状态。 |
-| errMsg | `string` | websocket 接口调用结果。 |
-| CONNECTING | `number` | websocket 状态值：连接中。 |
-| OPEN | `number` | websocket 状态值：已连接。 |
-| CLOSING | `number` | websocket 状态值：关闭中。 |
-| CLOSED | `number` | websocket 状态值：已关闭。 |
-| ws | `WebSocket` | 浏览器 websocket 实例。（h5 端独有） |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>socketTaskId</td>
+      <td><code>number</code></td>
+      <td>websocket 当前的连接 ID。</td>
+    </tr>
+    <tr>
+      <td>readyState</td>
+      <td><code>number</code></td>
+      <td>websocket 当前的连接状态。</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>websocket 接口调用结果。</td>
+    </tr>
+    <tr>
+      <td>CONNECTING</td>
+      <td><code>number</code></td>
+      <td>websocket 状态值：连接中。</td>
+    </tr>
+    <tr>
+      <td>OPEN</td>
+      <td><code>number</code></td>
+      <td>websocket 状态值：已连接。</td>
+    </tr>
+    <tr>
+      <td>CLOSING</td>
+      <td><code>number</code></td>
+      <td>websocket 状态值：关闭中。</td>
+    </tr>
+    <tr>
+      <td>CLOSED</td>
+      <td><code>number</code></td>
+      <td>websocket 状态值：已关闭。</td>
+    </tr>
+    <tr>
+      <td>ws</td>
+      <td><code>WebSocket</code></td>
+      <td>浏览器 websocket 实例。（h5 端独有）</td>
+    </tr>
+  </tbody>
+</table>
 
 ### close
 
@@ -30,9 +71,20 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 (option: CloseOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `CloseOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>CloseOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -50,9 +102,22 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 (callback: OnCloseCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnCloseCallback` | WebSocket 连接关闭事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnCloseCallback</code></td>
+      <td>WebSocket 连接关闭事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -70,9 +135,22 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 (callback: OnErrorCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnErrorCallback` | WebSocket 错误事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnErrorCallback</code></td>
+      <td>WebSocket 错误事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -90,9 +168,22 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 <T = any>(callback: OnMessageCallback<T>) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `T` | WebSocket 接受到服务器的消息事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>T</code></td>
+      <td>WebSocket 接受到服务器的消息事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -110,9 +201,22 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 (callback: OnOpenCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnOpenCallback` | WebSocket 连接打开事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnOpenCallback</code></td>
+      <td>WebSocket 连接打开事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -130,9 +234,20 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 (option: SendOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `SendOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>SendOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -144,13 +259,48 @@ WebSocket 任务，可通过 [Taro.connectSocket()](https://developers.weixin.qq
 
 ### CloseOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| code | `number` | 否 | 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| reason | `string` | 否 | 一个可读的字符串，表示连接被关闭的原因。这个字符串必须是不长于 123 字节的 UTF-8 文本（不是字符）。 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>code</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>一个数字值表示关闭连接的状态号，表示连接被关闭的原因。</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>reason</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>一个可读的字符串，表示连接被关闭的原因。这个字符串必须是不长于 123 字节的 UTF-8 文本（不是字符）。</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnCloseCallback
 
@@ -160,16 +310,44 @@ WebSocket 连接关闭事件的回调函数
 (result: OnCloseCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnCloseCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnCloseCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnCloseCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| code | `number` | 一个数字值表示关闭连接的状态号，表示连接被关闭的原因。 |
-| reason | `string` | 一个可读的字符串，表示连接被关闭的原因。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>code</td>
+      <td><code>number</code></td>
+      <td>一个数字值表示关闭连接的状态号，表示连接被关闭的原因。</td>
+    </tr>
+    <tr>
+      <td>reason</td>
+      <td><code>string</code></td>
+      <td>一个可读的字符串，表示连接被关闭的原因。</td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnErrorCallback
 
@@ -179,15 +357,39 @@ WebSocket 错误事件的回调函数
 (result: OnErrorCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnErrorCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnErrorCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnErrorCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnMessageCallback
 
@@ -197,15 +399,39 @@ WebSocket 接受到服务器的消息事件的回调函数
 (result: OnMessageCallbackResult<T>) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnMessageCallbackResult<T>` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnMessageCallbackResult&lt;T&gt;</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnMessageCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| data | `T` | 服务器返回的消息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>T</code></td>
+      <td>服务器返回的消息</td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnOpenCallback
 
@@ -215,24 +441,78 @@ WebSocket 连接打开事件的回调函数
 (result: OnOpenCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnOpenCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnOpenCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnOpenCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| header | `Record<string, any>` | 连接成功的 HTTP 响应 Header |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>header</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>连接成功的 HTTP 响应 Header</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SendOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| data | string or ArrayBuffer | 是 | 需要发送的内容 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>string | ArrayBuffer</code></td>
+      <td style="text-align:center">是</td>
+      <td>需要发送的内容</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

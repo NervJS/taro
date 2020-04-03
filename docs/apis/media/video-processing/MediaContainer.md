@@ -19,9 +19,22 @@ sidebar_label: MediaContainer
 (track: MediaTrack) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| track | `MediaTrack` | 要添加的音频或视频轨道 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>track</td>
+      <td><code>MediaTrack</code></td>
+      <td>要添加的音频或视频轨道</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -71,9 +84,20 @@ sidebar_label: MediaContainer
 (option: ExtractDataSourceOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `ExtractDataSourceOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>ExtractDataSourceOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -91,9 +115,22 @@ sidebar_label: MediaContainer
 (track: MediaTrack) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| track | `MediaTrack` | 要移除的音频或视频轨道 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>track</td>
+      <td><code>MediaTrack</code></td>
+      <td>要移除的音频或视频轨道</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -105,9 +142,22 @@ sidebar_label: MediaContainer
 
 ### ExtractDataSourceOption
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| source | `string` | 视频源地址，只支持本地文件 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>source</td>
+      <td><code>string</code></td>
+      <td>视频源地址，只支持本地文件</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

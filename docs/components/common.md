@@ -5,107 +5,436 @@ sidebar_label: common
 
 ## StandardProps
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| id | `string` | 否 | 组件的唯一标示, 保持整个页面唯一 |
-| className | `string` | 否 | 同 `class`，在 React/Nerv 里一般使用 `className` 作为 `class` 的代称 |
-| style | string or CSSProperties | 否 | 组件的内联样式, 可以动态设置的内联样式 |
-| key | string or number | 否 | 如果列表中项目的位置会动态改变或者有新的项目添加到列表中，<br />需要使用 `wx:key` 来指定列表中项目的唯一的标识符。 |
-| hidden | `boolean` | 否 | 组件是否显示, 所有组件默认显示 |
-| animation | `{ actions: object[]; }` | 否 | 动画属性 |
-| ref | string or ((node: any) => any) | 否 | 引用 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>id</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>组件的唯一标示, 保持整个页面唯一</td>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>同 <code>class</code>，在 React/Nerv 里一般使用 <code>className</code> 作为 <code>class</code> 的代称</td>
+    </tr>
+    <tr>
+      <td>style</td>
+      <td><code>string | CSSProperties</code></td>
+      <td style="text-align:center">否</td>
+      <td>组件的内联样式, 可以动态设置的内联样式</td>
+    </tr>
+    <tr>
+      <td>key</td>
+      <td><code>string | number</code></td>
+      <td style="text-align:center">否</td>
+      <td>如果列表中项目的位置会动态改变或者有新的项目添加到列表中，<br />需要使用 <code>wx:key</code> 来指定列表中项目的唯一的标识符。</td>
+    </tr>
+    <tr>
+      <td>hidden</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>组件是否显示, 所有组件默认显示</td>
+    </tr>
+    <tr>
+      <td>animation</td>
+      <td><code>{ actions: object[]; }</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画属性</td>
+    </tr>
+    <tr>
+      <td>ref</td>
+      <td><code>string | ((node: any) =&gt; any)</code></td>
+      <td style="text-align:center">否</td>
+      <td>引用</td>
+    </tr>
+  </tbody>
+</table>
 
 ## FormItemProps
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| name | `string` | 否 | 表单数据标识 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>表单数据标识</td>
+    </tr>
+  </tbody>
+</table>
 
 ## EventProps
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| onTouchStart | `(event: ITouchEvent) => any` | 否 | 手指触摸动作开始 |
-| onTouchMove | `(event: ITouchEvent) => any` | 否 | 手指触摸后移动 |
-| onTouchCancel | `(event: ITouchEvent) => any` | 否 | 手指触摸动作被打断，如来电提醒，弹窗 |
-| onTouchEnd | `(event: ITouchEvent) => any` | 否 | 手指触摸动作结束 |
-| onClick | `(event: ITouchEvent) => any` | 否 | 手指触摸后马上离开 |
-| onLongPress | `(event: CommonEvent) => any` | 否 | 手指触摸后，超过350ms再离开，如果指定了事件回调函数并触发了这个事件，tap事件将不被触发 |
-| onLongClick | `(event: CommonEvent) => any` | 否 | 手指触摸后，超过350ms再离开（推荐使用longpress事件代替） |
-| onTransitionEnd | `(event: CommonEvent) => any` | 否 | 会在 WXSS transition 或 Taro.createAnimation 动画结束后触发 |
-| onAnimationStart | `(event: CommonEvent) => any` | 否 | 会在一个 WXSS animation 动画开始时触发 |
-| onAnimationIteration | `(event: CommonEvent) => any` | 否 | 会在一个 WXSS animation 一次迭代结束时触发 |
-| onAnimationEnd | `(event: CommonEvent) => any` | 否 | 会在一个 WXSS animation 动画完成时触发 |
-| onTouchForceChange | `(event: CommonEvent) => any` | 否 | 在支持 3D Touch 的 iPhone 设备，重按时会触发 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>onTouchStart</td>
+      <td><code>(event: ITouchEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>手指触摸动作开始</td>
+    </tr>
+    <tr>
+      <td>onTouchMove</td>
+      <td><code>(event: ITouchEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>手指触摸后移动</td>
+    </tr>
+    <tr>
+      <td>onTouchCancel</td>
+      <td><code>(event: ITouchEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>手指触摸动作被打断，如来电提醒，弹窗</td>
+    </tr>
+    <tr>
+      <td>onTouchEnd</td>
+      <td><code>(event: ITouchEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>手指触摸动作结束</td>
+    </tr>
+    <tr>
+      <td>onClick</td>
+      <td><code>(event: ITouchEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>手指触摸后马上离开</td>
+    </tr>
+    <tr>
+      <td>onLongPress</td>
+      <td><code>(event: CommonEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>手指触摸后，超过350ms再离开，如果指定了事件回调函数并触发了这个事件，tap事件将不被触发</td>
+    </tr>
+    <tr>
+      <td>onLongClick</td>
+      <td><code>(event: CommonEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>手指触摸后，超过350ms再离开（推荐使用longpress事件代替）</td>
+    </tr>
+    <tr>
+      <td>onTransitionEnd</td>
+      <td><code>(event: CommonEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>会在 WXSS transition 或 Taro.createAnimation 动画结束后触发</td>
+    </tr>
+    <tr>
+      <td>onAnimationStart</td>
+      <td><code>(event: CommonEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>会在一个 WXSS animation 动画开始时触发</td>
+    </tr>
+    <tr>
+      <td>onAnimationIteration</td>
+      <td><code>(event: CommonEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>会在一个 WXSS animation 一次迭代结束时触发</td>
+    </tr>
+    <tr>
+      <td>onAnimationEnd</td>
+      <td><code>(event: CommonEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>会在一个 WXSS animation 动画完成时触发</td>
+    </tr>
+    <tr>
+      <td>onTouchForceChange</td>
+      <td><code>(event: CommonEvent) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>在支持 3D Touch 的 iPhone 设备，重按时会触发</td>
+    </tr>
+  </tbody>
+</table>
 
 ## CommonEvent
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| type | `string` | 事件类型 |
-| timeStamp | `number` | 事件生成时的时间戳 |
-| target | `Target` | 触发事件的组件的一些属性值集合 |
-| currentTarget | `currentTarget` | 当前组件的一些属性值集合 |
-| detail | `T` | 额外的信息 |
-| preventDefault | `() => void` | 阻止元素发生默认的行为 |
-| stopPropagation | `() => void` | 阻止事件冒泡到父元素,阻止任何父事件处理程序被执行 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code>string</code></td>
+      <td>事件类型</td>
+    </tr>
+    <tr>
+      <td>timeStamp</td>
+      <td><code>number</code></td>
+      <td>事件生成时的时间戳</td>
+    </tr>
+    <tr>
+      <td>target</td>
+      <td><code>Target</code></td>
+      <td>触发事件的组件的一些属性值集合</td>
+    </tr>
+    <tr>
+      <td>currentTarget</td>
+      <td><code>currentTarget</code></td>
+      <td>当前组件的一些属性值集合</td>
+    </tr>
+    <tr>
+      <td>detail</td>
+      <td><code>T</code></td>
+      <td>额外的信息</td>
+    </tr>
+    <tr>
+      <td>preventDefault</td>
+      <td><code>() =&gt; void</code></td>
+      <td>阻止元素发生默认的行为</td>
+    </tr>
+    <tr>
+      <td>stopPropagation</td>
+      <td><code>() =&gt; void</code></td>
+      <td>阻止事件冒泡到父元素,阻止任何父事件处理程序被执行</td>
+    </tr>
+  </tbody>
+</table>
 
 ## BaseEventOrig
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| type | `string` | 事件类型 |
-| timeStamp | `number` | 事件生成时的时间戳 |
-| target | `Target` | 触发事件的组件的一些属性值集合 |
-| currentTarget | `currentTarget` | 当前组件的一些属性值集合 |
-| detail | `T` | 额外的信息 |
-| preventDefault | `() => void` | 阻止元素发生默认的行为 |
-| stopPropagation | `() => void` | 阻止事件冒泡到父元素,阻止任何父事件处理程序被执行 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code>string</code></td>
+      <td>事件类型</td>
+    </tr>
+    <tr>
+      <td>timeStamp</td>
+      <td><code>number</code></td>
+      <td>事件生成时的时间戳</td>
+    </tr>
+    <tr>
+      <td>target</td>
+      <td><code>Target</code></td>
+      <td>触发事件的组件的一些属性值集合</td>
+    </tr>
+    <tr>
+      <td>currentTarget</td>
+      <td><code>currentTarget</code></td>
+      <td>当前组件的一些属性值集合</td>
+    </tr>
+    <tr>
+      <td>detail</td>
+      <td><code>T</code></td>
+      <td>额外的信息</td>
+    </tr>
+    <tr>
+      <td>preventDefault</td>
+      <td><code>() =&gt; void</code></td>
+      <td>阻止元素发生默认的行为</td>
+    </tr>
+    <tr>
+      <td>stopPropagation</td>
+      <td><code>() =&gt; void</code></td>
+      <td>阻止事件冒泡到父元素,阻止任何父事件处理程序被执行</td>
+    </tr>
+  </tbody>
+</table>
 
 ## ITouchEvent
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| touches | `ITouch[]` | 触摸事件，当前停留在屏幕中的触摸点信息的数组 |
-| changedTouches | `CanvasTouch[]` | 触摸事件，当前变化的触摸点信息的数组 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>touches</td>
+      <td><code>ITouch[]</code></td>
+      <td>触摸事件，当前停留在屏幕中的触摸点信息的数组</td>
+    </tr>
+    <tr>
+      <td>changedTouches</td>
+      <td><code>CanvasTouch[]</code></td>
+      <td>触摸事件，当前变化的触摸点信息的数组</td>
+    </tr>
+  </tbody>
+</table>
 
 ## CanvasTouch
 
-| 参数 | 类型 |
-| --- | --- |
-| identifier | `number` |
-| x | `number` |
-| y | `number` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>identifier</td>
+      <td><code>number</code></td>
+    </tr>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## ITouch
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| identifier | `number` | 触摸点的标识符 |
-| pageX | `number` | 距离文档左上角的距离，文档的左上角为原点 ，横向为X轴，纵向为Y轴 |
-| pageY | `number` | 距离文档左上角的距离，文档的左上角为原点 ，横向为X轴，纵向为Y轴 |
-| clientX | `number` | 距离页面可显示区域（屏幕除去导航条）左上角距离，横向为X轴，纵向为Y轴 |
-| clientY | `number` | 距离页面可显示区域（屏幕除去导航条）左上角距离，横向为X轴，纵向为Y轴 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>identifier</td>
+      <td><code>number</code></td>
+      <td>触摸点的标识符</td>
+    </tr>
+    <tr>
+      <td>pageX</td>
+      <td><code>number</code></td>
+      <td>距离文档左上角的距离，文档的左上角为原点 ，横向为X轴，纵向为Y轴</td>
+    </tr>
+    <tr>
+      <td>pageY</td>
+      <td><code>number</code></td>
+      <td>距离文档左上角的距离，文档的左上角为原点 ，横向为X轴，纵向为Y轴</td>
+    </tr>
+    <tr>
+      <td>clientX</td>
+      <td><code>number</code></td>
+      <td>距离页面可显示区域（屏幕除去导航条）左上角距离，横向为X轴，纵向为Y轴</td>
+    </tr>
+    <tr>
+      <td>clientY</td>
+      <td><code>number</code></td>
+      <td>距离页面可显示区域（屏幕除去导航条）左上角距离，横向为X轴，纵向为Y轴</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Target
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| id | `string` | 事件源组件的id |
-| tagName | `string` | 当前组件的类型 |
-| dataset | `{ [key: string]: any; }` | 事件源组件上由data-开头的自定义属性组成的集合 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>id</td>
+      <td><code>string</code></td>
+      <td>事件源组件的id</td>
+    </tr>
+    <tr>
+      <td>tagName</td>
+      <td><code>string</code></td>
+      <td>当前组件的类型</td>
+    </tr>
+    <tr>
+      <td>dataset</td>
+      <td><code>{ [key: string]: any; }</code></td>
+      <td>事件源组件上由data-开头的自定义属性组成的集合</td>
+    </tr>
+  </tbody>
+</table>
 
 ## netStatus
 
 网络状态数据
 
-| 参数 | 类型 | 必填 |
-| --- | --- | :---: |
-| videoBitrate | `number` | 否 |
-| audioBitrate | `number` | 否 |
-| videoFPS | string or number | 否 |
-| videoGOP | `number` | 否 |
-| netSpeed | `number` | 否 |
-| netJitter | `number` | 否 |
-| videoWidth | string or number | 否 |
-| videoHeight | string or number | 否 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>videoBitrate</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+    </tr>
+    <tr>
+      <td>audioBitrate</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+    </tr>
+    <tr>
+      <td>videoFPS</td>
+      <td><code>string | number</code></td>
+      <td style="text-align:center">否</td>
+    </tr>
+    <tr>
+      <td>videoGOP</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+    </tr>
+    <tr>
+      <td>netSpeed</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+    </tr>
+    <tr>
+      <td>netJitter</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+    </tr>
+    <tr>
+      <td>videoWidth</td>
+      <td><code>string | number</code></td>
+      <td style="text-align:center">否</td>
+    </tr>
+    <tr>
+      <td>videoHeight</td>
+      <td><code>string | number</code></td>
+      <td style="text-align:center">否</td>
+    </tr>
+  </tbody>
+</table>

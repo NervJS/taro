@@ -18,9 +18,20 @@ sidebar_label: MapContext
 (option?: GetCenterLocationOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `GetCenterLocationOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>GetCenterLocationOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -38,9 +49,20 @@ sidebar_label: MapContext
 (option?: GetRegionOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `GetRegionOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>GetRegionOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -58,9 +80,20 @@ sidebar_label: MapContext
 (option?: GetRotateOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `GetRotateOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>GetRotateOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -78,9 +111,20 @@ sidebar_label: MapContext
 (option?: GetScaleOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `GetScaleOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>GetScaleOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -98,9 +142,20 @@ sidebar_label: MapContext
 (option?: GetSkewOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `GetSkewOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>GetSkewOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -118,9 +173,20 @@ sidebar_label: MapContext
 (option: IncludePointsOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `IncludePointsOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>IncludePointsOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -138,9 +204,20 @@ sidebar_label: MapContext
 (option: MoveToLocationOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `MoveToLocationOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>MoveToLocationOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -158,9 +235,20 @@ sidebar_label: MapContext
 (option: TranslateMarkerOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `TranslateMarkerOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>TranslateMarkerOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -172,11 +260,36 @@ sidebar_label: MapContext
 
 ### GetCenterLocationOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `GetCenterLocationSuccessCallback` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>GetCenterLocationSuccessCallback</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetCenterLocationSuccessCallback
 
@@ -186,25 +299,82 @@ sidebar_label: MapContext
 (result: GetCenterLocationSuccessCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `GetCenterLocationSuccessCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>GetCenterLocationSuccessCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetCenterLocationSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| latitude | `number` | 纬度 |
-| longitude | `number` | 经度 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>latitude</td>
+      <td><code>number</code></td>
+      <td>纬度</td>
+    </tr>
+    <tr>
+      <td>longitude</td>
+      <td><code>number</code></td>
+      <td>经度</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetRegionOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `GetRegionSuccessCallback` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>GetRegionSuccessCallback</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetRegionSuccessCallback
 
@@ -214,25 +384,82 @@ sidebar_label: MapContext
 (result: GetRegionSuccessCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `GetRegionSuccessCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>GetRegionSuccessCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetRegionSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| northeast | `number` | 东北角经纬度 |
-| southwest | `number` | 西南角经纬度 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>northeast</td>
+      <td><code>number</code></td>
+      <td>东北角经纬度</td>
+    </tr>
+    <tr>
+      <td>southwest</td>
+      <td><code>number</code></td>
+      <td>西南角经纬度</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetRotateOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `GetRotateSuccessCallback` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>GetRotateSuccessCallback</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetRotateSuccessCallback
 
@@ -242,24 +469,77 @@ sidebar_label: MapContext
 (result: GetRotateSuccessCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `GetRotateSuccessCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>GetRotateSuccessCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetRotateSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| rotate | `number` | 旋转角 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>rotate</td>
+      <td><code>number</code></td>
+      <td>旋转角</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetScaleOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `GetScaleSuccessCallback` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>GetScaleSuccessCallback</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetScaleSuccessCallback
 
@@ -269,24 +549,77 @@ sidebar_label: MapContext
 (result: GetScaleSuccessCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `GetScaleSuccessCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>GetScaleSuccessCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetScaleSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| scale | `number` | 缩放值 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scale</td>
+      <td><code>number</code></td>
+      <td>缩放值</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetSkewOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `GetSkewSuccessCallback` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>GetSkewSuccessCallback</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetSkewSuccessCallback
 
@@ -296,66 +629,253 @@ sidebar_label: MapContext
 (result: GetSkewSuccessCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `GetSkewSuccessCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>GetSkewSuccessCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetSkewSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| skew | `number` | 倾斜角 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>skew</td>
+      <td><code>number</code></td>
+      <td>倾斜角</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### IncludePointsOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| points | `MapPostion[]` | 是 | 要显示在可视区域内的坐标点列表 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| padding | `number[]` | 否 | 坐标点形成的矩形边缘到地图边缘的距离，单位像素。格式为[上,右,下,左]，安卓上只能识别数组第一项，上下左右的padding一致。开发者工具暂不支持padding参数。 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>points</td>
+      <td><code>MapPostion[]</code></td>
+      <td style="text-align:center">是</td>
+      <td>要显示在可视区域内的坐标点列表</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>padding</td>
+      <td><code>number[]</code></td>
+      <td style="text-align:center">否</td>
+      <td>坐标点形成的矩形边缘到地图边缘的距离，单位像素。格式为[上,右,下,左]，安卓上只能识别数组第一项，上下左右的padding一致。开发者工具暂不支持padding参数。</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### MapPostion
 
 要显示在可视区域内的坐标点列表
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| latitude | `number` | 纬度 |
-| longitude | `number` | 经度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>latitude</td>
+      <td><code>number</code></td>
+      <td>纬度</td>
+    </tr>
+    <tr>
+      <td>longitude</td>
+      <td><code>number</code></td>
+      <td>经度</td>
+    </tr>
+  </tbody>
+</table>
 
 ### MoveToLocationOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| latitude | `number` | 否 | 纬度 |
-| longitude | `number` | 否 | 经度 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>latitude</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>纬度</td>
+    </tr>
+    <tr>
+      <td>longitude</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>经度</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### TranslateMarkerOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| autoRotate | `boolean` | 是 | 移动过程中是否自动旋转 marker |
-| destination | `DestinationOption` | 是 | 指定 marker 移动到的目标点 |
-| markerId | `number` | 是 | 指定 marker |
-| rotate | `number` | 是 | marker 的旋转角度 |
-| animationEnd | `(...args: any[]) => any` | 否 | 动画结束回调函数 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| duration | `number` | 否 | 动画持续时长，平移与旋转分别计算 |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>autoRotate</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">是</td>
+      <td>移动过程中是否自动旋转 marker</td>
+    </tr>
+    <tr>
+      <td>destination</td>
+      <td><code>DestinationOption</code></td>
+      <td style="text-align:center">是</td>
+      <td>指定 marker 移动到的目标点</td>
+    </tr>
+    <tr>
+      <td>markerId</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">是</td>
+      <td>指定 marker</td>
+    </tr>
+    <tr>
+      <td>rotate</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">是</td>
+      <td>marker 的旋转角度</td>
+    </tr>
+    <tr>
+      <td>animationEnd</td>
+      <td><code>(...args: any[]) =&gt; any</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画结束回调函数</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画持续时长，平移与旋转分别计算</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### DestinationOption
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| latitude | `number` | 纬度 |
-| longitude | `number` | 经度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>latitude</td>
+      <td><code>number</code></td>
+      <td>纬度</td>
+    </tr>
+    <tr>
+      <td>longitude</td>
+      <td><code>number</code></td>
+      <td>经度</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

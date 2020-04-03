@@ -43,11 +43,40 @@ export default class PageView extends Component {
 
 ## IconProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| type | "success" or "success_no_circle" or "info" or "warn" or "waiting" or "cancel" or "download" or "search" or "clear" |  | 是 | icon 的类型 |
-| size | `string` | `23` | 否 | icon 的大小，单位px |
-| color | `string` |  | 否 | icon 的颜色，同 css 的 color |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code>&quot;success&quot; | &quot;success_no_circle&quot; | &quot;info&quot; | &quot;warn&quot; | &quot;waiting&quot; | &quot;cancel&quot; | &quot;download&quot; | &quot;search&quot; | &quot;clear&quot;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>icon 的类型</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"><code>23</code></td>
+      <td style="text-align:center">否</td>
+      <td>icon 的大小，单位px</td>
+    </tr>
+    <tr>
+      <td>color</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>icon 的颜色，同 css 的 color</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 
@@ -61,17 +90,52 @@ export default class PageView extends Component {
 
 icon 的类型
 
-| 参数 | 说明 |
-| --- | --- |
-| success | 成功图标 |
-| success_no_circle | 成功图标（不带外圈） |
-| info | 信息图标 |
-| warn | 警告图标 |
-| waiting | 等待图标 |
-| cancel | 取消图标 |
-| download | 下载图标 |
-| search | 搜索图标 |
-| clear | 清楚图标 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>success</td>
+      <td>成功图标</td>
+    </tr>
+    <tr>
+      <td>success_no_circle</td>
+      <td>成功图标（不带外圈）</td>
+    </tr>
+    <tr>
+      <td>info</td>
+      <td>信息图标</td>
+    </tr>
+    <tr>
+      <td>warn</td>
+      <td>警告图标</td>
+    </tr>
+    <tr>
+      <td>waiting</td>
+      <td>等待图标</td>
+    </tr>
+    <tr>
+      <td>cancel</td>
+      <td>取消图标</td>
+    </tr>
+    <tr>
+      <td>download</td>
+      <td>下载图标</td>
+    </tr>
+    <tr>
+      <td>search</td>
+      <td>搜索图标</td>
+    </tr>
+    <tr>
+      <td>clear</td>
+      <td>清楚图标</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

@@ -60,11 +60,40 @@ export default class PageView extends Component {
 
 ## TextProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| selectable | `boolean` | `false` | 否 | 文本是否可选 |
-| space | "ensp" or "emsp" or "nbsp" |  | 否 | 显示连续空格 |
-| decode | `boolean` | `false` | 否 | 是否解码 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>selectable</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>文本是否可选</td>
+    </tr>
+    <tr>
+      <td>space</td>
+      <td><code>&quot;ensp&quot; | &quot;emsp&quot; | &quot;nbsp&quot;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>显示连续空格</td>
+    </tr>
+    <tr>
+      <td>decode</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否解码</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 
@@ -78,11 +107,28 @@ export default class PageView extends Component {
 
 space 的合法值
 
-| 参数 | 说明 |
-| --- | --- |
-| ensp | 中文字符空格一半大小 |
-| emsp | 中文字符空格大小 |
-| nbsp | 根据字体设置的空格大小 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ensp</td>
+      <td>中文字符空格一半大小</td>
+    </tr>
+    <tr>
+      <td>emsp</td>
+      <td>中文字符空格大小</td>
+    </tr>
+    <tr>
+      <td>nbsp</td>
+      <td>根据字体设置的空格大小</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

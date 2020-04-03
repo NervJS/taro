@@ -21,17 +21,49 @@ sidebar_label: onAccelerometerChange
 (res: Result) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `Result` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>Result</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### Result
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | X 轴 |
-| y | `number` | Y 轴 |
-| z | `number` | Z 轴 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>X 轴</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>Y 轴</td>
+    </tr>
+    <tr>
+      <td>z</td>
+      <td><code>number</code></td>
+      <td>Z 轴</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

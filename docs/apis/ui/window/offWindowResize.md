@@ -23,9 +23,20 @@ sidebar_label: offWindowResize
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

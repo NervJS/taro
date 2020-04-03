@@ -19,14 +19,47 @@ sidebar_label: getMenuButtonBoundingClientRect
 
 菜单按钮的布局位置信息
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| bottom | `number` | 下边界坐标，单位：px |
-| height | `number` | 高度，单位：px |
-| left | `number` | 左边界坐标，单位：px |
-| right | `number` | 右边界坐标，单位：px |
-| top | `number` | 上边界坐标，单位：px |
-| width | `number` | 宽度，单位：px |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bottom</td>
+      <td><code>number</code></td>
+      <td>下边界坐标，单位：px</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>高度，单位：px</td>
+    </tr>
+    <tr>
+      <td>left</td>
+      <td><code>number</code></td>
+      <td>左边界坐标，单位：px</td>
+    </tr>
+    <tr>
+      <td>right</td>
+      <td><code>number</code></td>
+      <td>右边界坐标，单位：px</td>
+    </tr>
+    <tr>
+      <td>top</td>
+      <td><code>number</code></td>
+      <td>上边界坐标，单位：px</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>number</code></td>
+      <td>宽度，单位：px</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

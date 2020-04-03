@@ -18,10 +18,27 @@ sidebar_label: reportMonitor
 
 ## 参数
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| name | `string` | 监控ID，在「小程序管理后台」新建数据指标后获得 |
-| value | `number` | 上报数值，经处理后会在「小程序管理后台」上展示每分钟的上报总量 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td><code>string</code></td>
+      <td>监控ID，在「小程序管理后台」新建数据指标后获得</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td><code>number</code></td>
+      <td>上报数值，经处理后会在「小程序管理后台」上展示每分钟的上报总量</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

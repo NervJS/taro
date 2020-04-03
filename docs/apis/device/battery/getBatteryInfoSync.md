@@ -17,10 +17,27 @@ Taro.getBatteryInfo 的同步版本
 
 ### Result
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| isCharging | `boolean` | 是否正在充电中 |
-| level | `string` | 设备电量，范围 1 - 100 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>isCharging</td>
+      <td><code>boolean</code></td>
+      <td>是否正在充电中</td>
+    </tr>
+    <tr>
+      <td>level</td>
+      <td><code>string</code></td>
+      <td>设备电量，范围 1 - 100</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

@@ -17,24 +17,83 @@ sidebar_label: createAnimation
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| delay | `number` | 否 | 动画延迟时间，单位 ms |
-| duration | `number` | 否 | 动画持续时间，单位 ms |
-| timingFunction | "linear" or "ease" or "ease-in" or "ease-in-out" or "ease-out" or "step-start" or "step-end" | 否 | 动画的效果 |
-| transformOrigin | `string` | 否 |  |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>delay</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画延迟时间，单位 ms</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画持续时间，单位 ms</td>
+    </tr>
+    <tr>
+      <td>timingFunction</td>
+      <td><code>&quot;linear&quot; | &quot;ease&quot; | &quot;ease-in&quot; | &quot;ease-in-out&quot; | &quot;ease-out&quot; | &quot;step-start&quot; | &quot;step-end&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画的效果</td>
+    </tr>
+    <tr>
+      <td>transformOrigin</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 ### timingFunction
 
-| 参数 | 说明 |
-| --- | --- |
-| linear | 动画从头到尾的速度是相同的 |
-| ease | 动画以低速开始，然后加快，在结束前变慢 |
-| ease-in | 动画以低速开始 |
-| ease-in-out | 动画以低速开始和结束 |
-| ease-out | 动画以低速结束 |
-| step-start | 动画第一帧就跳至结束状态直到结束 |
-| step-end | 动画一直保持开始状态，最后一帧跳到结束状态 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>linear</td>
+      <td>动画从头到尾的速度是相同的</td>
+    </tr>
+    <tr>
+      <td>ease</td>
+      <td>动画以低速开始，然后加快，在结束前变慢</td>
+    </tr>
+    <tr>
+      <td>ease-in</td>
+      <td>动画以低速开始</td>
+    </tr>
+    <tr>
+      <td>ease-in-out</td>
+      <td>动画以低速开始和结束</td>
+    </tr>
+    <tr>
+      <td>ease-out</td>
+      <td>动画以低速结束</td>
+    </tr>
+    <tr>
+      <td>step-start</td>
+      <td>动画第一帧就跳至结束状态直到结束</td>
+    </tr>
+    <tr>
+      <td>step-end</td>
+      <td>动画一直保持开始状态，最后一帧跳到结束状态</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

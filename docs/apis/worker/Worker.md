@@ -15,9 +15,22 @@ sidebar_label: Worker
 (callback: OnMessageCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnMessageCallback` | 主线程/Worker 线程向当前线程发送的消息的事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnMessageCallback</code></td>
+      <td>主线程/Worker 线程向当前线程发送的消息的事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -35,9 +48,22 @@ sidebar_label: Worker
 (message: Record<string, any>) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| message | `Record<string, any>` | 需要发送的消息，必须是一个可序列化的 JavaScript key-value 形式的对象。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>message</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>需要发送的消息，必须是一个可序列化的 JavaScript key-value 形式的对象。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -88,15 +114,39 @@ worker.postMessage({
 (result: OnMessageCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnMessageCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnMessageCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnMessageCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| message | `Record<string, any>` | 主线程/Worker 线程向当前线程发送的消息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>message</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>主线程/Worker 线程向当前线程发送的消息</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

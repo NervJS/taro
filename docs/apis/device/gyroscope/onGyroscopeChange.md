@@ -23,17 +23,49 @@ sidebar_label: onGyroscopeChange
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | x 轴的角速度 |
-| y | `number` | y 轴的角速度 |
-| z | `number` | z 轴的角速度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>x 轴的角速度</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>y 轴的角速度</td>
+    </tr>
+    <tr>
+      <td>z</td>
+      <td><code>number</code></td>
+      <td>z 轴的角速度</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

@@ -17,25 +17,100 @@ sidebar_label: canvasGetImageData
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| canvasId | `string` | 是 | 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 `canvas-id` 属性。 |
-| height | `number` | 是 | 将要被提取的图像数据矩形区域的高度 |
-| width | `number` | 是 | 将要被提取的图像数据矩形区域的宽度 |
-| x | `number` | 是 | 将要被提取的图像数据矩形区域的左上角横坐标 |
-| y | `number` | 是 | 将要被提取的图像数据矩形区域的左上角纵坐标 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>canvasId</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>画布标识，传入 <a href="https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html">canvas</a> 组件的 <code>canvas-id</code> 属性。</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">是</td>
+      <td>将要被提取的图像数据矩形区域的高度</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">是</td>
+      <td>将要被提取的图像数据矩形区域的宽度</td>
+    </tr>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">是</td>
+      <td>将要被提取的图像数据矩形区域的左上角横坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">是</td>
+      <td>将要被提取的图像数据矩形区域的左上角纵坐标</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| data | `Uint8ClampedArray` | 图像像素点数据，一维数组，每四项表示一个像素点的 rgba |
-| height | `number` | 图像数据矩形的高度 |
-| width | `number` | 图像数据矩形的宽度 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>Uint8ClampedArray</code></td>
+      <td>图像像素点数据，一维数组，每四项表示一个像素点的 rgba</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>图像数据矩形的高度</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>number</code></td>
+      <td>图像数据矩形的宽度</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

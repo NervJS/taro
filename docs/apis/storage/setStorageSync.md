@@ -15,10 +15,27 @@ Taro.setStorage 的同步版本
 
 ## 参数
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| key | `string` | 本地缓存中指定的 key |
-| data | `any` | 需要存储的内容。只支持原生类型、Date、及能够通过`JSON.stringify`序列化的对象。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>key</td>
+      <td><code>string</code></td>
+      <td>本地缓存中指定的 key</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td><code>any</code></td>
+      <td>需要存储的内容。只支持原生类型、Date、及能够通过<code>JSON.stringify</code>序列化的对象。</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

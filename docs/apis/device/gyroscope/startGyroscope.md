@@ -17,22 +17,69 @@ sidebar_label: startGyroscope
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| interval | "game" or "ui" or "normal" | 否 | 监听陀螺仪数据回调函数的执行频率 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>interval</td>
+      <td><code>&quot;game&quot; | &quot;ui&quot; | &quot;normal&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>监听陀螺仪数据回调函数的执行频率</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### interval
 
 监听陀螺仪数据回调函数的执行频率
 
-| 参数 | 说明 |
-| --- | --- |
-| game | 适用于更新游戏的回调频率，在 20ms/次 左右 |
-| ui | 适用于更新 UI 的回调频率，在 60ms/次 左右 |
-| normal | 普通的回调频率，在 200ms/次 左右 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>game</td>
+      <td>适用于更新游戏的回调频率，在 20ms/次 左右</td>
+    </tr>
+    <tr>
+      <td>ui</td>
+      <td>适用于更新 UI 的回调频率，在 60ms/次 左右</td>
+    </tr>
+    <tr>
+      <td>normal</td>
+      <td>普通的回调频率，在 200ms/次 左右</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

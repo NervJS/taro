@@ -21,9 +21,20 @@ sidebar_label: OffscreenCanvas
 (contextType: string) => RenderingContext
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| contextType | `string` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>contextType</td>
+      <td><code>string</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 

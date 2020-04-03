@@ -17,25 +17,95 @@ sidebar_label: chooseAddress
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| cityName | `string` | 国标收货地址第二级地址 |
-| countyName | `string` | 国标收货地址第三级地址 |
-| detailInfo | `string` | 详细收货地址信息 |
-| errMsg | `string` | 错误信息 |
-| nationalCode | `string` | 收货地址国家码 |
-| postalCode | `string` | 邮编 |
-| provinceName | `string` | 国标收货地址第一级地址 |
-| telNumber | `string` | 收货人手机号码 |
-| userName | `string` | 收货人姓名 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cityName</td>
+      <td><code>string</code></td>
+      <td>国标收货地址第二级地址</td>
+    </tr>
+    <tr>
+      <td>countyName</td>
+      <td><code>string</code></td>
+      <td>国标收货地址第三级地址</td>
+    </tr>
+    <tr>
+      <td>detailInfo</td>
+      <td><code>string</code></td>
+      <td>详细收货地址信息</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+    <tr>
+      <td>nationalCode</td>
+      <td><code>string</code></td>
+      <td>收货地址国家码</td>
+    </tr>
+    <tr>
+      <td>postalCode</td>
+      <td><code>string</code></td>
+      <td>邮编</td>
+    </tr>
+    <tr>
+      <td>provinceName</td>
+      <td><code>string</code></td>
+      <td>国标收货地址第一级地址</td>
+    </tr>
+    <tr>
+      <td>telNumber</td>
+      <td><code>string</code></td>
+      <td>收货人手机号码</td>
+    </tr>
+    <tr>
+      <td>userName</td>
+      <td><code>string</code></td>
+      <td>收货人姓名</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

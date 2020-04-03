@@ -29,9 +29,22 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 (callback: OnCheckForUpdateCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnCheckForUpdateCallback` | 向微信后台请求检查更新结果事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnCheckForUpdateCallback</code></td>
+      <td>向微信后台请求检查更新结果事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### onUpdateFailed
 
@@ -43,9 +56,22 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 (callback: (res: CallbackResult) => void) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(res: CallbackResult) => void` | 小程序更新失败事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>小程序更新失败事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### onUpdateReady
 
@@ -57,9 +83,22 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 (callback: (res: CallbackResult) => void) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(res: CallbackResult) => void` | 小程序有版本更新事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>小程序有版本更新事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 参数
 
@@ -71,12 +110,36 @@ UpdateManager 对象，用来管理更新，可通过 Taro.getUpdateManager 接�
 (result: OnCheckForUpdateResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnCheckForUpdateResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnCheckForUpdateResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnCheckForUpdateResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| hasUpdate | `boolean` | 是否有新版本 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>hasUpdate</td>
+      <td><code>boolean</code></td>
+      <td>是否有新版本</td>
+    </tr>
+  </tbody>
+</table>

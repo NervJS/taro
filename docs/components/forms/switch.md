@@ -38,13 +38,54 @@ export default class PageView extends Component {
 
 ## SwitchProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| checked | `boolean` | `false` | 否 | 是否选中 |
-| disabled | `boolean` | `false` | 否 | 是否禁用 |
-| type | "switch" or "checkbox" | `"switch"` | 否 | 样式，有效值：switch, checkbox |
-| color | `string` | `"#04BE02"` | 否 | switch 的颜色，同 css 的 color |
-| onChange | `BaseEventOrigFunction<onChangeEventDetail>` |  | 否 | checked 改变时触发 change 事件 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>checked</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否选中</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否禁用</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td><code>&quot;switch&quot; | &quot;checkbox&quot;</code></td>
+      <td style="text-align:center"><code>&quot;switch&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>样式，有效值：switch, checkbox</td>
+    </tr>
+    <tr>
+      <td>color</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"><code>&quot;#04BE02&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>switch 的颜色，同 css 的 color</td>
+    </tr>
+    <tr>
+      <td>onChange</td>
+      <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>checked 改变时触发 change 事件</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 
@@ -58,9 +99,20 @@ export default class PageView extends Component {
 
 ### onChangeEventDetail
 
-| 参数 | 类型 |
-| --- | --- |
-| value | `boolean` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>boolean</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

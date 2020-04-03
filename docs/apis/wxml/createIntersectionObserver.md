@@ -19,11 +19,36 @@ sidebar_label: createIntersectionObserver
 
 选项
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| initialRatio | `number` | 否 | 初始的相交比例，如果调用时检测到的相交比例与这个值不相等且达到阈值，则会触发一次监听器的回调函数。 |
-| observeAll | `boolean` | 否 | 是否同时观测多个目标节点（而非一个），如果设为 true ，observe 的 targetSelector 将选中多个节点（注意：同时选中过多节点将影响渲染性能） |
-| thresholds | `number[]` | 否 | 一个数值数组，包含所有阈值。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>initialRatio</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>初始的相交比例，如果调用时检测到的相交比例与这个值不相等且达到阈值，则会触发一次监听器的回调函数。</td>
+    </tr>
+    <tr>
+      <td>observeAll</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否同时观测多个目标节点（而非一个），如果设为 true ，observe 的 targetSelector 将选中多个节点（注意：同时选中过多节点将影响渲染性能）</td>
+    </tr>
+    <tr>
+      <td>thresholds</td>
+      <td><code>number[]</code></td>
+      <td style="text-align:center">否</td>
+      <td>一个数值数组，包含所有阈值。</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

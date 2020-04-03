@@ -15,10 +15,27 @@ sidebar_label: reportAnalytics
 
 ## 参数
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| eventName | `string` | 事件名 |
-| data | `Record<string, any>` | 上报的自定义数据，key 为配置中的字段名，value 为上报的数据。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>eventName</td>
+      <td><code>string</code></td>
+      <td>事件名</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>上报的自定义数据，key 为配置中的字段名，value 为上报的数据。</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

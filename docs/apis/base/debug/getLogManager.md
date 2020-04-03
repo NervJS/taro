@@ -17,16 +17,45 @@ sidebar_label: getLogManager
 
 ### Option
 
-| 参数 | 类型 | 默认值 | 必填 |
-| --- | --- | :---: | :---: |
-| level | 0 or 1 | `0` | 否 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>level</td>
+      <td><code>0 | 1</code></td>
+      <td style="text-align:center"><code>0</code></td>
+      <td style="text-align:center">否</td>
+    </tr>
+  </tbody>
+</table>
 
 ### level
 
-| 参数 | 说明 |
-| --- | --- |
-| 0 | 表示会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志 |
-| 1 | 表示不会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>表示会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>表示不会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

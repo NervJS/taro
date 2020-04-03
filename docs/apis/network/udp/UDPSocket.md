@@ -35,9 +35,22 @@ sidebar_label: UDPSocket
 (callback: OffCloseCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OffCloseCallback` | 关闭事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OffCloseCallback</code></td>
+      <td>关闭事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -55,9 +68,22 @@ sidebar_label: UDPSocket
 (callback: OffErrorCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OffErrorCallback` | 错误事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OffErrorCallback</code></td>
+      <td>错误事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -75,9 +101,22 @@ sidebar_label: UDPSocket
 (callback: (res: CallbackResult) => void) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(res: CallbackResult) => void` | 开始监听数据包消息的事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>开始监听数据包消息的事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -95,9 +134,22 @@ sidebar_label: UDPSocket
 (callback: (res: CallbackResult) => void) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(res: CallbackResult) => void` | 收到消息的事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>收到消息的事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -115,9 +167,22 @@ sidebar_label: UDPSocket
 (callback: OnCloseCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnCloseCallback` | 关闭事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnCloseCallback</code></td>
+      <td>关闭事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -135,9 +200,22 @@ sidebar_label: UDPSocket
 (callback: OnErrorCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnErrorCallback` | 错误事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnErrorCallback</code></td>
+      <td>错误事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -155,9 +233,22 @@ sidebar_label: UDPSocket
 (callback: (res: CallbackResult) => void) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(res: CallbackResult) => void` | 开始监听数据包消息的事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>开始监听数据包消息的事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -175,9 +266,22 @@ sidebar_label: UDPSocket
 (callback: OnMessageCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnMessageCallback` | 收到消息的事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnMessageCallback</code></td>
+      <td>收到消息的事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -195,9 +299,20 @@ sidebar_label: UDPSocket
 (option: SendOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `SendOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>SendOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -215,9 +330,22 @@ sidebar_label: UDPSocket
 (port: number) => number
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| port | `number` | 指定要绑定的端口号 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>port</td>
+      <td><code>number</code></td>
+      <td>指定要绑定的端口号</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -235,9 +363,20 @@ sidebar_label: UDPSocket
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OffErrorCallback
 
@@ -247,9 +386,20 @@ sidebar_label: UDPSocket
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnCloseCallback
 
@@ -259,9 +409,20 @@ sidebar_label: UDPSocket
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnErrorCallback
 
@@ -271,9 +432,20 @@ sidebar_label: UDPSocket
 (result: OnErrorCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnErrorCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnErrorCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnMessageCallback
 
@@ -283,42 +455,138 @@ sidebar_label: UDPSocket
 (result: OnMessageCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnMessageCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnMessageCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnErrorCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnMessageCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| message | `ArrayBuffer` | 收到的消息 |
-| remoteInfo | `RemoteInfo` | 消息来源的结构化信息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>message</td>
+      <td><code>ArrayBuffer</code></td>
+      <td>收到的消息</td>
+    </tr>
+    <tr>
+      <td>remoteInfo</td>
+      <td><code>RemoteInfo</code></td>
+      <td>消息来源的结构化信息</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RemoteInfo
 
 消息来源的结构化信息
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| address | `string` | 发送消息的 socket 的地址 |
-| family | `string` | 使用的协议族，为 IPv4 或者 IPv6 |
-| port | `number` | 端口号 |
-| size | `number` | message 的大小，单位：字节 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>address</td>
+      <td><code>string</code></td>
+      <td>发送消息的 socket 的地址</td>
+    </tr>
+    <tr>
+      <td>family</td>
+      <td><code>string</code></td>
+      <td>使用的协议族，为 IPv4 或者 IPv6</td>
+    </tr>
+    <tr>
+      <td>port</td>
+      <td><code>number</code></td>
+      <td>端口号</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td><code>number</code></td>
+      <td>message 的大小，单位：字节</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SendOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| data | string or ArrayBuffer | 是 | 需要发送的内容 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>string | ArrayBuffer</code></td>
+      <td style="text-align:center">是</td>
+      <td>需要发送的内容</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

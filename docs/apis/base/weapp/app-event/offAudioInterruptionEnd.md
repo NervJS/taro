@@ -15,9 +15,22 @@ sidebar_label: offAudioInterruptionEnd
 
 ## 参数
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(res: CallbackResult) => void` | 音频中断结束事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>音频中断结束事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

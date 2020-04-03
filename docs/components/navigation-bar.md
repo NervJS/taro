@@ -16,14 +16,61 @@ ComponentType<NavigationBarProps>
 
 ## NavigationBarProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| title | `string` |  | 否 | 导航条标题 |
-| loading | `boolean` |  | 否 | 是否在导航条显示 loading 加载提示 |
-| frontColor | `string` |  | 否 | 导航条前景颜色值，包括按钮、标题、状态栏的颜色，仅支持 #ffffff 和 #000000 |
-| backgroundColor | `string` |  | 否 | 导航条背景颜色值，有效值为十六进制颜色 |
-| colorAnimationDuration | `string` | `0` | 否 | 改变导航栏颜色时的动画时长，默认为 0 （即没有动画效果） |
-| colorAnimationTimingFunc | "linear" or "easeIn" or "easeOut" or "easeInOut" | `"linear"` | 否 | 改变导航栏颜色时的动画方式，支持 linear 、 easeIn 、 easeOut 和 easeInOut |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>title</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>导航条标题</td>
+    </tr>
+    <tr>
+      <td>loading</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>是否在导航条显示 loading 加载提示</td>
+    </tr>
+    <tr>
+      <td>frontColor</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>导航条前景颜色值，包括按钮、标题、状态栏的颜色，仅支持 #ffffff 和 #000000</td>
+    </tr>
+    <tr>
+      <td>backgroundColor</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>导航条背景颜色值，有效值为十六进制颜色</td>
+    </tr>
+    <tr>
+      <td>colorAnimationDuration</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"><code>0</code></td>
+      <td style="text-align:center">否</td>
+      <td>改变导航栏颜色时的动画时长，默认为 0 （即没有动画效果）</td>
+    </tr>
+    <tr>
+      <td>colorAnimationTimingFunc</td>
+      <td><code>&quot;linear&quot; | &quot;easeIn&quot; | &quot;easeOut&quot; | &quot;easeInOut&quot;</code></td>
+      <td style="text-align:center"><code>&quot;linear&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>改变导航栏颜色时的动画方式，支持 linear 、 easeIn 、 easeOut 和 easeInOut</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 

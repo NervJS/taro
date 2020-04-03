@@ -25,9 +25,22 @@ sidebar_label: LogManager
 (...args: any[]) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>args</td>
+      <td><code>any[]</code></td>
+      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -45,9 +58,22 @@ sidebar_label: LogManager
 (...args: any[]) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>args</td>
+      <td><code>any[]</code></td>
+      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -65,9 +91,22 @@ sidebar_label: LogManager
 (...args: any[]) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>args</td>
+      <td><code>any[]</code></td>
+      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -85,9 +124,22 @@ sidebar_label: LogManager
 (...args: any[]) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| args | `any[]` | 日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>args</td>
+      <td><code>any[]</code></td>
+      <td>日志内容，可以有任意多个。每次调用的参数的总大小不超过100Kb</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 

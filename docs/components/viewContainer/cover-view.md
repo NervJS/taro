@@ -33,9 +33,24 @@ class App extends Components {
 
 ## CoverViewProps
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| scrollTop | `number` | 否 | 设置顶部滚动偏移量，仅在设置了 overflow-y: scroll 成为滚动元素后生效 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scrollTop</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>设置顶部滚动偏移量，仅在设置了 overflow-y: scroll 成为滚动元素后生效</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 

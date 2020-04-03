@@ -19,27 +19,74 @@ sidebar_label: getAccountInfoSync
 
 帐号信息
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| miniProgram | `MiniProgram` | 小程序帐号信息 |
-| plugin | `Plugin` | 插件帐号信息（仅在插件中调用时包含这一项） |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>miniProgram</td>
+      <td><code>MiniProgram</code></td>
+      <td>小程序帐号信息</td>
+    </tr>
+    <tr>
+      <td>plugin</td>
+      <td><code>Plugin</code></td>
+      <td>插件帐号信息（仅在插件中调用时包含这一项）</td>
+    </tr>
+  </tbody>
+</table>
 
 ### MiniProgram
 
 小程序帐号信息
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| appId | `string` | 小程序 appId |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>appId</td>
+      <td><code>string</code></td>
+      <td>小程序 appId</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Plugin
 
 插件帐号信息（仅在插件中调用时包含这一项）
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| appId | `string` | 插件 appId |
-| version | `string` | 插件版本号 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>appId</td>
+      <td><code>string</code></td>
+      <td>插件 appId</td>
+    </tr>
+    <tr>
+      <td>version</td>
+      <td><code>string</code></td>
+      <td>插件版本号</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

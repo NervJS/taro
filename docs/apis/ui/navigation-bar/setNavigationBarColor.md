@@ -17,23 +17,83 @@ sidebar_label: setNavigationBarColor
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| backgroundColor | `string` | 是 | 背景颜色值，有效值为十六进制颜色 |
-| frontColor | `string` | 是 | 前景颜色值，包括按钮、标题、状态栏的颜色，仅支持 #ffffff 和 #000000 |
-| animation | `AnimationOption` | 否 | 动画效果 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>backgroundColor</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>背景颜色值，有效值为十六进制颜色</td>
+    </tr>
+    <tr>
+      <td>frontColor</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>前景颜色值，包括按钮、标题、状态栏的颜色，仅支持 #ffffff 和 #000000</td>
+    </tr>
+    <tr>
+      <td>animation</td>
+      <td><code>AnimationOption</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画效果</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### AnimationOption
 
 动画效果
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| duration | `number` | 否 | 动画变化时间，单位 ms |
-| timingFunc | "linear" or "easeIn" or "easeOut" or "easeInOut" | 否 | 动画变化方式<br /><br />可选值：<br />- 'linear': 动画从头到尾的速度是相同的;<br />- 'easeIn': 动画以低速开始;<br />- 'easeOut': 动画以低速结束;<br />- 'easeInOut': 动画以低速开始和结束; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画变化时间，单位 ms</td>
+    </tr>
+    <tr>
+      <td>timingFunc</td>
+      <td><code>&quot;linear&quot; | &quot;easeIn&quot; | &quot;easeOut&quot; | &quot;easeInOut&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>动画变化方式<br /><br />可选值：<br />- 'linear': 动画从头到尾的速度是相同的;<br />- 'easeIn': 动画以低速开始;<br />- 'easeOut': 动画以低速结束;<br />- 'easeInOut': 动画以低速开始和结束;</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

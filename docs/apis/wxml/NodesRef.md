@@ -19,9 +19,22 @@ sidebar_label: NodesRef
 (callback?: BoundingClientRectCallback) => SelectorQuery
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `BoundingClientRectCallback` | 回调函数，在执行 `SelectorQuery.exec` 方法后，节点信息会在 `callback` 中返回。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>BoundingClientRectCallback</code></td>
+      <td>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，节点信息会在 <code>callback</code> 中返回。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -73,9 +86,22 @@ Taro.createSelectorQuery().selectAll('.a-class').boundingClientRect(function(rec
 (callback?: ContextCallback) => SelectorQuery
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `ContextCallback` | 回调函数，在执行 `SelectorQuery.exec` 方法后，返回节点信息。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>ContextCallback</code></td>
+      <td>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，返回节点信息。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -104,10 +130,27 @@ computedStyle 的优先级高于 size，当同时在 computedStyle 里指定了 
 (fields: Fields, callback?: FieldsCallback) => SelectorQuery
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| fields | `Fields` |  |
-| callback | `FieldsCallback` | 回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>fields</td>
+      <td><code>Fields</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>callback</td>
+      <td><code>FieldsCallback</code></td>
+      <td>回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -150,9 +193,22 @@ Taro.createSelectorQuery().select('#the-id').fields({
 (callback?: NodeCallback) => SelectorQuery
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `NodeCallback` | 回调函数，在执行 `SelectorQuery.exec` 方法后，返回节点信息。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>NodeCallback</code></td>
+      <td>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，返回节点信息。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -178,9 +234,22 @@ Taro.createSelectorQuery().select('.canvas').node(function(res){
 (callback?: ScrollOffsetCallback) => SelectorQuery
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `ScrollOffsetCallback` | 回调函数，在执行 `SelectorQuery.exec` 方法后，节点信息会在 `callback` 中返回。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>ScrollOffsetCallback</code></td>
+      <td>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，节点信息会在 <code>callback</code> 中返回。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -209,22 +278,74 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 (result: BoundingClientRectCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `BoundingClientRectCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>BoundingClientRectCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### BoundingClientRectCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| bottom | `number` | 节点的下边界坐标 |
-| dataset | `Record<string, any>` | 节点的 dataset |
-| height | `number` | 节点的高度 |
-| id | `string` | 节点的 ID |
-| left | `number` | 节点的左边界坐标 |
-| right | `number` | 节点的右边界坐标 |
-| top | `number` | 节点的上边界坐标 |
-| width | `number` | 节点的宽度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bottom</td>
+      <td><code>number</code></td>
+      <td>节点的下边界坐标</td>
+    </tr>
+    <tr>
+      <td>dataset</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>节点的 dataset</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>节点的高度</td>
+    </tr>
+    <tr>
+      <td>id</td>
+      <td><code>string</code></td>
+      <td>节点的 ID</td>
+    </tr>
+    <tr>
+      <td>left</td>
+      <td><code>number</code></td>
+      <td>节点的左边界坐标</td>
+    </tr>
+    <tr>
+      <td>right</td>
+      <td><code>number</code></td>
+      <td>节点的右边界坐标</td>
+    </tr>
+    <tr>
+      <td>top</td>
+      <td><code>number</code></td>
+      <td>节点的上边界坐标</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>number</code></td>
+      <td>节点的宽度</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ContextCallback
 
@@ -234,30 +355,114 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 (result: ContextCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `ContextCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>ContextCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### ContextCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| context | `Record<string, any>` | 节点对应的 Context 对象 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>context</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>节点对应的 Context 对象</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Fields
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| computedStyle | `string[]` | 否 | 指定样式名列表，返回节点对应样式名的当前值 |
-| context | `boolean` | 否 | 是否返回节点对应的 Context 对象 |
-| dataset | `boolean` | 否 | 是否返回节点 dataset |
-| id | `boolean` | 否 | 是否返回节点 id |
-| mark | `boolean` | 否 | 是否返回节点 mark |
-| node | `boolean` | 否 | 是否返回节点对应的 Node 实例 |
-| properties | `string[]` | 否 | 指定属性名列表，返回节点对应属性名的当前属性值（只能获得组件文档中标注的常规属性值，id class style 和事件绑定的属性值不可获取） |
-| rect | `boolean` | 否 | 是否返回节点布局位置（`left` `right` `top` `bottom`） |
-| scrollOffset | `boolean` | 否 | 否 是否返回节点的 `scrollLeft` `scrollTop`，节点必须是 `scroll-view` 或者 `viewport` |
-| size | `boolean` | 否 | 是否返回节点尺寸（`width` `height`） |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>computedStyle</td>
+      <td><code>string[]</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定样式名列表，返回节点对应样式名的当前值</td>
+    </tr>
+    <tr>
+      <td>context</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否返回节点对应的 Context 对象</td>
+    </tr>
+    <tr>
+      <td>dataset</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否返回节点 dataset</td>
+    </tr>
+    <tr>
+      <td>id</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否返回节点 id</td>
+    </tr>
+    <tr>
+      <td>mark</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否返回节点 mark</td>
+    </tr>
+    <tr>
+      <td>node</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否返回节点对应的 Node 实例</td>
+    </tr>
+    <tr>
+      <td>properties</td>
+      <td><code>string[]</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定属性名列表，返回节点对应属性名的当前属性值（只能获得组件文档中标注的常规属性值，id class style 和事件绑定的属性值不可获取）</td>
+    </tr>
+    <tr>
+      <td>rect</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否返回节点布局位置（<code>left</code> <code>right</code> <code>top</code> <code>bottom</code>）</td>
+    </tr>
+    <tr>
+      <td>scrollOffset</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>否 是否返回节点的 <code>scrollLeft</code> <code>scrollTop</code>，节点必须是 <code>scroll-view</code> 或者 <code>viewport</code></td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否返回节点尺寸（<code>width</code> <code>height</code>）</td>
+    </tr>
+  </tbody>
+</table>
 
 ### FieldsCallback
 
@@ -267,9 +472,22 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 (res: Record<string, any>) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| res | `Record<string, any>` | 节点的相关信息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>节点的相关信息</td>
+    </tr>
+  </tbody>
+</table>
 
 ### NodeCallback
 
@@ -279,17 +497,41 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 (result: NodeCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `NodeCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>NodeCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### NodeCallbackResult
 
 回调函数
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| node | `Record<string, any>` | 节点对应的 Node 实例 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>node</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>节点对应的 Node 实例</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ScrollOffsetCallback
 
@@ -299,18 +541,54 @@ Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
 (result: ScrollOffsetCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `ScrollOffsetCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>ScrollOffsetCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### ScrollOffsetCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| dataset | `Record<string, any>` | 节点的 dataset |
-| id | `string` | 节点的 ID |
-| scrollLeft | `number` | 节点的水平滚动位置 |
-| scrollTop | `number` | 节点的竖直滚动位置 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dataset</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>节点的 dataset</td>
+    </tr>
+    <tr>
+      <td>id</td>
+      <td><code>string</code></td>
+      <td>节点的 ID</td>
+    </tr>
+    <tr>
+      <td>scrollLeft</td>
+      <td><code>number</code></td>
+      <td>节点的水平滚动位置</td>
+    </tr>
+    <tr>
+      <td>scrollTop</td>
+      <td><code>number</code></td>
+      <td>节点的竖直滚动位置</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

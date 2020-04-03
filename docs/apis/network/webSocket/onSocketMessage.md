@@ -23,15 +23,39 @@ WebSocket 接受到服务器的消息事件的回调函数
 (result: CallbackResult<T>) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult<T>` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult&lt;T&gt;</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| data | `T` | 服务器返回的消息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>T</code></td>
+      <td>服务器返回的消息</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 
