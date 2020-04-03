@@ -44,14 +44,6 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
   options = Object.assign(DEFAULT_WEAPP_OPTIONS, options || {})
 
   switch (options.platform) {
-    case 'weapp':
-    case 'swan':
-    case 'alipay':
-    case 'tt': {
-      options.rootValue = options.deviceRatio[options.designWidth]
-      targetUnit = 'rpx'
-      break
-    }
     case 'h5': {
       options.rootValue = baseFontSize * options.designWidth / 640
       targetUnit = 'rem'
@@ -66,6 +58,11 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       options.rootValue = options.deviceRatio[options.designWidth]
       targetUnit = 'px'
       break
+    }
+    default: {
+      // mini-program
+      options.rootValue = options.deviceRatio[options.designWidth]
+      targetUnit = 'rpx'
     }
   }
 
