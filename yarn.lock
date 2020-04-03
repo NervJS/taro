@@ -1109,15 +1109,10 @@
   resolved "https://registry.npm.taobao.org/@types/minimatch/download/@types/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha1-PcoOPzOyAPx9ETnAzZbBJoyt/Z0=
 
-"@types/node@*":
+"@types/node@*", "@types/node@^13.11.0":
   version "13.11.0"
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-13.11.0.tgz#390ea202539c61c8fa6ba4428b57e05bc36dc47b"
   integrity sha1-OQ6iAlOcYcj6a6RCi1fgW8NtxHs=
-
-"@types/node@^12.12.3":
-  version "12.12.34"
-  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.12.34.tgz#0a5d6ae5d22612f0cf5f10320e1fc5d2a745dcb8"
-  integrity sha1-Cl1q5dImEvDPXxAyDh/F0qdF3Lg=
 
 "@types/pretty@^2.0.0":
   version "2.0.0"
