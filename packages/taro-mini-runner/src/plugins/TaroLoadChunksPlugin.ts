@@ -2,9 +2,8 @@ import * as path from 'path'
 
 import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
-import { urlToRequest } from 'loader-utils'
 
-import { PARSE_AST_TYPE, REG_STYLE, BUILD_TYPES } from '../utils/constants'
+import { PARSE_AST_TYPE, BUILD_TYPES } from '../utils/constants'
 import { promoteRelativePath } from '../utils'
 import { AddPageChunks, IComponent, IComponentObj } from '../utils/types'
 
@@ -104,28 +103,6 @@ export default class TaroLoadChunksPlugin {
           }
           let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
           if (entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
-            compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
-              const files = chunk.files
-              files.forEach(item => {
-                if (REG_STYLE.test(item)) {
-                  const source = new ConcatSource()
-                  const _source = assets[item]._source || assets[item]._value
-                  Object.keys(assets).forEach(assetName => {
-                    const fileName = path.basename(assetName, path.extname(assetName))
-                    if (REG_STYLE.test(assetName) && this.commonChunks.includes(fileName)) {
-                      source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-                      source.add('\n')
-                      source.add(_source)
-                      if (assets[item]._source) {
-                        assets[item]._source = source
-                      } else {
-                        assets[item]._value = source.source()
-                      }
-                    }
-                  })
-                }
-              })
-            })
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
           if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&

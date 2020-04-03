@@ -14,8 +14,10 @@ import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
+import { ConcatSource } from 'webpack-sources'
+import { urlToRequest } from 'loader-utils'
 
-import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsQuickAppComponents, REG_SCRIPTS, processTypeEnum } from '../utils/constants'
+import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsQuickAppComponents, REG_SCRIPTS, processTypeEnum, REG_STYLE } from '../utils/constants'
 import { IComponentObj, AddPageChunks, IComponent } from '../utils/types'
 import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog, isAliasPath, replaceAliasPath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -50,6 +52,7 @@ export interface ITaroFileInfo {
     config: IConfig,
     template?: string,
     code?: string,
+    importStyles?: Set<string>,
     taroSelfComponents?: Set<{
       name: string,
       path: string
@@ -203,6 +206,7 @@ export default class MiniPlugin {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
     let taroLoadChunksPlugin
+    const commonStyles: Set<string> = new Set()
     compiler.hooks.run.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
@@ -261,6 +265,25 @@ export default class MiniPlugin {
       compilation.dependencyFactories.set(SingleEntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency, normalModuleFactory)
 
+      compilation.hooks.afterOptimizeChunkAssets.tap(PLUGIN_NAME, chunks => {
+        chunks.forEach(chunk => {
+          const id = chunk.id
+          this.options.commonChunks.forEach(commonName => {
+            if (id === commonName) {
+              const _modules = chunk._modules
+              if (_modules) {
+                for (const mod of _modules) {
+                  if (REG_STYLE.test(mod.resource)) {
+                    commonStyles.add(mod.resource)
+                  }
+                }
+              }
+            }
+          })
+        })
+      })
+
+
       compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, (assets) => {
         Object.keys(assets).forEach(assetPath => {
           const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
@@ -280,7 +303,7 @@ export default class MiniPlugin {
       PLUGIN_NAME,
       this.tryAsync(async compilation => {
         compilation.errors = compilation.errors.concat(this.errors)
-        await this.generateMiniFiles(compilation)
+        await this.generateMiniFiles(compilation, commonStyles)
         this.addedComponents.clear()
       })
     )
@@ -519,7 +542,7 @@ export default class MiniPlugin {
   }
 
   getPages (compiler) {
-    const { buildAdapter, constantsReplaceList } = this.options
+    const { buildAdapter, constantsReplaceList, nodeModulesPath, alias } = this.options
     const appEntry = this.appEntry
     const code = fs.readFileSync(appEntry).toString()
     try {
@@ -532,7 +555,7 @@ export default class MiniPlugin {
         adapter: buildAdapter,
         env: constantsReplaceList
       })
-      const { configObj } = parseAst(transformResult.ast, buildAdapter)
+      const { configObj, importStyles } = parseAst(transformResult.ast, buildAdapter, appEntry, nodeModulesPath, alias)
       const appPages = configObj.pages
       this.appConfig = configObj
       compiler.appConfig = configObj
@@ -547,7 +570,8 @@ export default class MiniPlugin {
       taroFileTypeMap[this.appEntry] = {
         type: PARSE_AST_TYPE.ENTRY,
         config: configObj,
-        code: transformResult.code
+        code: transformResult.code,
+        importStyles
       }
       this.pages = new Set([
         ...this.pages,
@@ -679,7 +703,7 @@ export default class MiniPlugin {
   }
 
   getComponents (compiler: webpack.Compiler, fileList: Set<IComponent>, isRoot: boolean) {
-    const { buildAdapter, alias, constantsReplaceList } = this.options
+    const { buildAdapter, alias, constantsReplaceList, nodeModulesPath } = this.options
     const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     const isSwanApp = buildAdapter === BUILD_TYPES.SWAN
     fileList.forEach(file => {
@@ -691,6 +715,7 @@ export default class MiniPlugin {
         let taroSelfComponents
         let depComponents
         let code = fs.readFileSync(file.path).toString()
+        let importStyles
         if (isNative) {
           const configPath = this.getConfigPath(file.path)
           if (fs.existsSync(configPath)) {
@@ -720,8 +745,9 @@ export default class MiniPlugin {
             adapter: buildAdapter,
             env: constantsReplaceList
           })
-          let parseAstRes = parseAst(transformResult.ast, buildAdapter)
+          let parseAstRes = parseAst(transformResult.ast, buildAdapter, file.path, nodeModulesPath, alias)
           configObj = parseAstRes.configObj
+          importStyles = parseAstRes.importStyles
           if (isRoot) {
             const showPath = file.path.replace(this.sourceDir, '').replace(path.extname(file.path), '')
             this.pageConfigs.set(showPath, configObj)
@@ -767,7 +793,8 @@ export default class MiniPlugin {
         taroFileTypeMap[file.path] = {
           type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
           config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, alias, depComponents), configObj),
-          code
+          code,
+          importStyles
         }
         if (isQuickApp && taroSelfComponents) {
           taroFileTypeMap[file.path].taroSelfComponents = new Set(Array.from(taroSelfComponents).map(item => {
@@ -856,8 +883,8 @@ export default class MiniPlugin {
     })
   }
 
-  generateMiniFiles (compilation: webpack.compilation.Compilation) {
-    const { buildAdapter } = this.options
+  generateMiniFiles (compilation: webpack.compilation.Compilation, commonStyles: Set<string>) {
+    const { buildAdapter, commonChunks } = this.options
     const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     Object.keys(taroFileTypeMap).forEach(item => {
       const relativePath = this.getRelativePath(item)
@@ -924,6 +951,60 @@ export default class MiniPlugin {
             }
           }
         })
+      }
+      // 处理公共样式引入
+      // 2.1.1 开始只有引用到公共样式的组件或页面文件里会引入 common 公共样式
+      const importStyles = itemInfo.importStyles
+      let needAddCommon = false
+      if (importStyles && importStyles.size && commonStyles.size) {
+        commonStyles.forEach(val => {
+          if (importStyles.has(val)) {
+            needAddCommon = true
+          }
+        })
+      }
+      const assets = compilation.assets
+      const asset = assets[stylePath]
+      if (needAddCommon) {
+        const source = new ConcatSource()
+        Object.keys(assets).forEach(assetName => {
+          const fileName = path.basename(assetName, path.extname(assetName))
+          if (REG_STYLE.test(assetName) && commonChunks.includes(fileName)) {
+            source.add(`@import ${JSON.stringify(urlToRequest(promoteRelativePath(path.relative(stylePath, assetName))))};`)
+            source.add('\n')
+          }
+        })
+        if (asset) {
+          const _source = asset._source || asset._value
+          source.add(_source)
+        }
+        assets[stylePath] = {
+          size: () => source.source().length,
+          source: () => source.source()
+        }
+      } else {
+        if (asset) {
+          const value = asset._source ? asset._source.source() : asset._value
+          if (value) {
+            let commonStylePath
+            Object.keys(assets).forEach(assetName => {
+              const fileName = path.basename(assetName, path.extname(assetName))
+              if (REG_STYLE.test(assetName) && commonChunks.includes(fileName)) {
+                commonStylePath = promoteRelativePath(path.relative(stylePath, assetName))
+              }
+            })
+            const newValue = value.split('\n').map(item => {
+              if (commonStylePath && item.indexOf(commonStylePath) >= 0) {
+                return
+              }
+              return item
+            }).filter(item => item).join('\n')
+            assets[stylePath] = {
+              size: () => newValue.length,
+              source: () => newValue
+            }
+          }
+        }
       }
     })
 
