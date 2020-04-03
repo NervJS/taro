@@ -56,13 +56,13 @@ interface PickerSelectorProps extends PickerStandardProps {
   /** value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerSelectorProps.onChangeEvnetDetail>
+  onChange: CommonEventFunction<PickerSelectorProps.onChangeEventDetail>
 }
 
 declare namespace PickerSelectorProps {
-  interface onChangeEvnetDetail {
+  interface onChangeEventDetail {
     /** 表示变更值的下标 */
-    value: number
+    value: string | number
   }
 }
 
@@ -87,7 +87,7 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
   /** 当 value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerMultiSelectorProps.onChangeEvnetDetail>
+  onChange: CommonEventFunction<PickerMultiSelectorProps.onChangeEventDetail>
   /** 列改变时触发
    * @supported weapp, h5, rn
    */
@@ -95,9 +95,9 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
 }
 
 declare namespace PickerMultiSelectorProps {
-  interface onChangeEvnetDetail {
+  interface onChangeEventDetail {
     /** 表示变更值的下标 */
-    value: number
+    value: number[]
   }
   interface onColumnChangeEvnetDetail {
     /** 表示改变了第几列（下标从0开始） */
@@ -126,13 +126,13 @@ interface PickerTimeProps extends PickerStandardProps {
   /** value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerTimeProps.onChangeEvnetDetail>
+  onChange: CommonEventFunction<PickerTimeProps.onChangeEventDetail>
 }
 
 declare namespace PickerTimeProps {
-  interface onChangeEvnetDetail {
-    /** 表示变更值的下标 */
-    value: number
+  interface onChangeEventDetail {
+    /** 表示选中的时间 */
+    value: string
   }
 }
 
@@ -161,7 +161,7 @@ interface PickerDateProps extends PickerStandardProps {
   /** value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerDateProps.onChangeEvnetDetail>
+  onChange: CommonEventFunction<PickerDateProps.onChangeEventDetail>
 }
 
 declare namespace PickerDateProps {
@@ -173,9 +173,9 @@ declare namespace PickerDateProps {
     /** 选择器粒度为天 */
     day
   }
-  interface onChangeEvnetDetail {
-    /** 表示变更值的下标 */
-    value: number
+  interface onChangeEventDetail {
+    /** 表示选中的日期 */
+    value: string
   }
 }
 
@@ -195,17 +195,17 @@ interface PickerRegionProps extends PickerStandardProps {
   /** value 改变时触发 change 事件，event.detail = {value, code, postcode}，其中字段 code 是统计用区划代码，postcode 是邮政编码	
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerRegionProps.onChangeEvnetDetail>
+  onChange: CommonEventFunction<PickerRegionProps.onChangeEventDetail>
 }
 
 declare namespace PickerRegionProps {
-  interface onChangeEvnetDetail {
-    /** 表示变更值的下标 */
-    value: number
+  interface onChangeEventDetail {
+    /** 表示选中的省市区 */
+    value: string[]
     /** 统计用区划代码 */
-    code: string | number
+    code: string[]
     /** 邮政编码 */
-    postcode: string | number
+    postcode?: string
   }
 }
 
