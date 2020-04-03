@@ -49,8 +49,14 @@ class Route extends Taro.Component<RouteProps, {}> {
     const path = currentLocation.path;
     const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
+    const isTabBar = this.props.isTabBar;
+
     if (key !== undefined) {
-      return key === this.props.key
+      if (isTabBar) {
+        return key === this.props.key && path === this.props.path
+      } else {
+        return key === this.props.key
+      }
     } else {
       return isIndex && path === '/'
     }
@@ -88,32 +94,26 @@ class Route extends Taro.Component<RouteProps, {}> {
   }
 
   componentWillReceiveProps (nProps, nContext) {
+    const isRedirect = nProps.isRedirect
     const lastMatched = this.matched
     const nextMatched = this.computeMatch(nProps.currentLocation)
-    const isRedirect = nProps.isRedirect
-    const isTabBar = !!nProps.isTabBar
 
     if (isRedirect) {
       this.updateComponent(nProps)
-    } else if (lastMatched === nextMatched && !isTabBar) {
+    } else if (lastMatched === nextMatched) {
       return
     }
 
     this.matched = nextMatched
 
     if (nextMatched) {
-      if (isRedirect || !isTabBar) {
+      if (!isRedirect) {
         nextTick(() => {
           this.showPage()
           scroller = scroller || getScroller()
           scroller.set(this.scrollPos)
         })
         tryToCall(this.componentRef.componentDidShow, this.componentRef)
-      } else {
-        nextTick(() => {
-          this.hidePage()
-          tryToCall(this.componentRef.componentDidHide, this.componentRef)
-        })
       }
     } else {
       scroller = scroller || getScroller()

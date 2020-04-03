@@ -130,18 +130,9 @@ class Router extends Taro.Component<Props, State> {
       routeStack.forEach(v => { v.isRedirect = false })
       routeStack.push(assign({}, matchedRoute, {
         key: toLocation.state.key,
-        isRedirect: true,
+        isRedirect: false,
         isTabBar
       }))
-    } else {
-      routeStack.forEach((v, i) => {
-        if (i === index) {
-          v.isRedirect = true
-          v.isTabBar = isTabBar
-        } else {
-          v.isRedirect = false
-        }
-      })
     }
     this.setState({ routeStack, location: toLocation })
   }
