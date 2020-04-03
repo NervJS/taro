@@ -71,7 +71,7 @@ class HelloWorld extends React.Component {
 * `@tarojs/taro/html.css`: [W3C HTML4 的内置样式](https://www.w3.org/TR/CSS2/sample.html)，只有 HTML4 标签样式，体积较小，兼容性强，能适应大多数情况。
 * `@tarojs/taro/html5.css`: [Chrome(Blink) HTML5 的内置样式](https://chromium.googlesource.com/chromium/blink/+/master/Source/core/css/html.css)，内置样式丰富，包括了大多数 HTML5 标签，体积较大，不一定支持所有小程序容器。
 
-为了让内置的标签样式起作用，我们还需要将 HTML 容器的 CSS 类设置为 `.taro_view`:
+为了让内置的标签样式起作用，我们还需要将 HTML 容器的 CSS 类设置为 `.taro_html`:
 
 <!--DOCUSAURUS_CODE_TABS-->
 
