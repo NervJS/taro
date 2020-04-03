@@ -50,8 +50,10 @@ export function splicing (arr: (string | undefined)[] = []) {
 
 export function parseLineFeed (s?: string, isCode = false) {
   if (!s) return ''
-  const r = s.split('|').join('or').split('\n').join('<br />')
-  return isCode && !s.includes('|') ? `\`${r}\`` : r
+  // const r = s.split('|').join('or').split('\n').join('<br />')
+  // return isCode && !s.includes('|') ? `\`${r}\`` : r
+  const r = s.split('\n').join('<br />')
+  return isCode ? `\`${r}\`` : r
 }
 
 export function isShowMembers (flags?: ts.SymbolFlags, used: ts.SymbolFlags[] = []) {
