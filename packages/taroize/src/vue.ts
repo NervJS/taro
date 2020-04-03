@@ -2,7 +2,7 @@
 import { parse, stringify } from 'himalaya-wxml'
 import * as t from 'babel-types'
 import traverse, { Visitor } from 'babel-traverse'
-import { AllKindNode, Attribute, WX_IF, WX_ELSE_IF, WX_ELSE, WX_FOR, parseContent, WX_KEY, Element, WX_FOR_ITEM, WX_FOR_INDEX, NodeType } from './wxml'
+import { AllKindNode, Attribute, WX_IF, WX_ELSE_IF, WX_ELSE, WX_FOR, parseContent, WX_KEY, Element, WX_FOR_ITEM, WX_FOR_INDEX, NodeType, Text } from './wxml'
 import { buildTemplateName, getWXMLsource } from './template'
 import * as fs from 'fs'
 import { relative, resolve } from 'path'
@@ -100,7 +100,7 @@ export function parseWXML (dirPath: string, wxml: string, imports: VueImport[]) 
   }
 }
 
-function parseElement (element: Element, dirPath: string, imports: VueImport[]): Element {
+function parseElement (element: Element, dirPath: string, imports: VueImport[]): Element | Text {
   let forItem = 'item'
   let forIndex = 'index'
 
@@ -114,7 +114,10 @@ function parseElement (element: Element, dirPath: string, imports: VueImport[]):
     case 'import':
     case 'include':
       parseModule(element, dirPath, imports)
-      break
+      return {
+        type: NodeType.Text,
+        content: ''
+      }
     default:
       break
   }
@@ -241,7 +244,11 @@ function parseAttribute (attr: Attribute, forItem: string, forIndex: string): At
     value = 'emptyHandler'
   }
 
-  key = kebabCase(key)
+  if (key.startsWith(':')) {
+    key = ':' + kebabCase(key.slice(1))
+  } else {
+    key = kebabCase(key)
+  }
 
   return {
     key,
@@ -354,8 +361,8 @@ export function parseModule (element: Element, dirPath: string, imports: VueImpo
 
   if (tagName === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, tagName)
-    const mods = parseWXML(resolve(dirPath, srcValue), wxml, [])?.imports
-    imports.push(...(mods ?? []))
+    const mods = parseWXML(resolve(dirPath, srcValue), wxml, imports || [])?.imports
+    imports.push(...(mods || []))
   } else {
     console.warn(`暂不支持 ${tagName} 标签的转换`, '考虑修改源码使用 import 替代\n' + stringify(element))
   }

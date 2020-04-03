@@ -42,7 +42,7 @@ export interface Comment {
   content: string
 }
 
-interface Text {
+export interface Text {
   type: NodeType.Text
   content: string
 }

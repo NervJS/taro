@@ -159,7 +159,9 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
 
 export function getWXMLsource (dirPath: string, src: string, type: string) {
   try {
-    return fs.readFileSync(resolve(dirPath, src), 'utf-8')
+    const file = fs.readFileSync(resolve(dirPath, src), 'utf-8')
+    debugger
+    return file
   } catch (e) {
     errors.push(`找不到这个路径的 wxml: <${type} src="${src}" />，该标签将会被忽略掉`)
     return ''
