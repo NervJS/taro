@@ -78,9 +78,9 @@ class App extends Component {
 | SwiperProps.duration | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
 | SwiperProps.circular | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | SwiperProps.vertical | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-| SwiperProps.previousMargin | ✔️ |  |  |  |  |  |
-| SwiperProps.nextMargin | ✔️ |  |  |  |  |  |
-| SwiperProps.displayMultipleItems | ✔️ | ✔️ |  | ✔️ |  |  |
+| SwiperProps.previousMargin | ✔️ |  |  |  | ✔️ |  |
+| SwiperProps.nextMargin | ✔️ |  |  |  | ✔️ |  |
+| SwiperProps.displayMultipleItems | ✔️ | ✔️ |  | ✔️ | ✔️ |  |
 | SwiperProps.skipHiddenItemLayout | ✔️ | ✔️ |  |  |  |  |
 | SwiperProps.easingFunction | ✔️ |  |  |  |  |  |
 | SwiperProps.onChange | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
