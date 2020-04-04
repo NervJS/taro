@@ -132,11 +132,7 @@ class ImageContainer extends PureComponent {
      */
     window.history.pushState(null, null, window.location.href)
     window.history.forward(1)
-    window.addEventListener('popstate', (event) => {
-      event.preventDefault()
-      event.stopPropagation()
-      this.context.onClose()
-    })
+    window.addEventListener('popstate', this.handlePopState)
   }
 
   componentWillUnmount () {
@@ -144,6 +140,13 @@ class ImageContainer extends PureComponent {
     if (this.animationID) {
       raf.cancel(this.animationID)
     }
+    window.removeEventListener('popstate', this.handlePopState)
+  }
+
+  handlePopState (event) {
+    event.preventDefault()
+    event.stopPropagation()
+    this.context.onClose()
   }
 
   onLoad = () => {
