@@ -12,6 +12,8 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
     progressUpdate: createCallbackManager()
   }
 
+  xhr.withCredentials = true
+  
   xhr.open('POST', url)
   setHeader(xhr, header)
 
