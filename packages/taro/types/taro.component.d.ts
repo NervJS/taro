@@ -61,6 +61,10 @@ declare namespace Taro {
 
   interface RouterInfo {
     /**
+     * 页面地址
+     */
+    path: string
+    /**
      * 在跳转成功的目标页的生命周期方法里通过 `this.$router.params` 获取到传入的参数
      *
      * @example
