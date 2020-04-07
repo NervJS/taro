@@ -30,6 +30,7 @@ export default function wxTransformerLoader (source) {
     deviceRatio,
     sourceDir,
     constantsReplaceList,
+    nodeModulesPath
   } = getOptions(this)
   const filePath = this.resourcePath
   const { resourceQuery } = this
@@ -51,7 +52,7 @@ export default function wxTransformerLoader (source) {
         isTyped: REG_TYPESCRIPT.test(filePath),
         adapter: buildAdapter
       })
-      const res = parseAst(aheadTransformResult.ast, buildAdapter)
+      const res = parseAst(aheadTransformResult.ast, buildAdapter, filePath, nodeModulesPath, alias)
       const appConfig = this._compiler.appConfig
       if (res.configObj.enablePullDownRefresh || (appConfig.window && appConfig.window.enablePullDownRefresh)) {
         rootProps.enablePullDownRefresh = true

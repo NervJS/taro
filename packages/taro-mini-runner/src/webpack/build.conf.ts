@@ -171,7 +171,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       postcss,
       compile,
       babel,
-      alias
+      alias,
+      nodeModulesPath
     }),
     plugin,
     optimization: {
