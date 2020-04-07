@@ -4629,7 +4629,7 @@ doctrine@^2.1.0:
   dependencies:
     esutils "^2.0.2"
 
-docusaurus@^2.0.0-alpha.50:
+docusaurus@^2.0.0-alpha.23:
   version "2.0.0-alpha.50"
   resolved "https://registry.npm.taobao.org/docusaurus/download/docusaurus-2.0.0-alpha.50.tgz#847bc02b1328b1db6b322c72be5c875c4ad4de9f"
   integrity sha1-hHvAKxMosdtrMixyvlyHXErU3p8=

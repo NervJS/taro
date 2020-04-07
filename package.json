@@ -70,7 +70,7 @@
     "babel-preset-es2015": "^6.24.1",
     "conventional-changelog-cli": "^2.0.1",
     "css-loader": "^0.28.10",
-    "docusaurus": "^2.0.0-alpha.50",
+    "docusaurus": "^2.0.0-alpha.23",
     "eslint": "^4.18.2",
     "eslint-config-standard": "^11.0.0",
     "eslint-config-standard-jsx": "^4.0.2",
