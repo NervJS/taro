@@ -889,11 +889,14 @@ export default class MiniPlugin {
     Object.keys(taroFileTypeMap).forEach(item => {
       const relativePath = this.getRelativePath(item)
       const extname = path.extname(item)
-      const jsonPath = relativePath.replace(RegExp(`(.${buildAdapter})?${extname}$`), MINI_APP_FILES[buildAdapter].CONFIG).replace(/\\/g, '/').replace(/^\//, '')
+      let jsonPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].CONFIG).replace(/\\/g, '/').replace(/^\//, '')
       const scriptPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].SCRIPT).replace(/\\/g, '/').replace(/^\//, '')
       const templatePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].TEMPL).replace(/\\/g, '/').replace(/^\//, '')
       const stylePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].STYLE).replace(/\\/g, '/').replace(/^\//, '')
       const itemInfo = taroFileTypeMap[item]
+      if (itemInfo.type === PARSE_AST_TYPE.ENTRY) {
+        jsonPath = relativePath.replace(RegExp(`(.${buildAdapter})?${extname}$`), MINI_APP_FILES[buildAdapter].CONFIG).replace(/\\/g, '/').replace(/^\//, '')
+      }
       if (!isQuickApp) {
         const jsonStr = JSON.stringify(itemInfo.config)
         compilation.assets[jsonPath] = {
