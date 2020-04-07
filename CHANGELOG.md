@@ -1,5 +1,30 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.39...v) (2020-03-16)
+# [](https://github.com/NervJS/taro/compare/v1.3.40...v) (2020-04-07)
+
+
+
+<a name="1.3.40"></a>
+## [1.3.40](https://github.com/NervJS/taro/compare/v1.3.39...v1.3.40) (2020-04-07)
+
+
+### Bug Fixes
+
+* Taro.uploadFile携带cookie ([#5896](https://github.com/NervJS/taro/issues/5896)) ([107d567](https://github.com/NervJS/taro/commit/107d567))
+* **taro-router:** 修复函数式组件中leave hook的问题 ([#5888](https://github.com/NervJS/taro/issues/5888)) ([de32e54](https://github.com/NervJS/taro/commit/de32e54))
+* **taro-router:** 修复函数式组件中leave hook的问题 ([#5888](https://github.com/NervJS/taro/issues/5888)) ([6873a92](https://github.com/NervJS/taro/commit/6873a92))
+* canvas typing fix [#5790](https://github.com/NervJS/taro/issues/5790) ([8e228be](https://github.com/NervJS/taro/commit/8e228be))
+* issue [#5682](https://github.com/NervJS/taro/issues/5682) ,修复ios 10.x系统中，由于不支持document.body.style = bodyInlineStyle写法导致js被中断的问题 ([59fe68a](https://github.com/NervJS/taro/commit/59fe68a))
+* redundant type fix [#5771](https://github.com/NervJS/taro/issues/5771) ([78af2ae](https://github.com/NervJS/taro/commit/78af2ae))
+* swiper incorrect setting ([0d4cfc6](https://github.com/NervJS/taro/commit/0d4cfc6))
+* this.container null in scroll-view ([5a042ec](https://github.com/NervJS/taro/commit/5a042ec))
+* **docs:** api about links ([6204995](https://github.com/NervJS/taro/commit/6204995))
+* **jd:** 修复京东小程序跳转参数、预加载 ([cac6d22](https://github.com/NervJS/taro/commit/cac6d22))
+
+
+### Features
+
+* **components:** checkout modify from 2.x ([6adca2c](https://github.com/NervJS/taro/commit/6adca2c))
+* **router:** checkout router、cli modify from 2.x ([f476c65](https://github.com/NervJS/taro/commit/f476c65))
 
 
 
