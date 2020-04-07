@@ -55,7 +55,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       break
     }
     case 'quickapp': {
-      options.rootValue = options.deviceRatio[options.designWidth]
+      options.rootValue = 1
       targetUnit = 'px'
       break
     }
