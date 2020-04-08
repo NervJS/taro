@@ -610,6 +610,23 @@ stylus-loader 的附加配置。配置项参考[官方文档](https://github.com
 }
 ```
 
+### h5.miniCssExtractLoaderOption
+
+`mini-css-extract-plugin` 的loader配置，在 `enableExtract` 为 `true` 的情况下生效。与 `miniCssExtractPluginOption` 选项配合使用。
+可以配置对应的loader config，配置项参考[官方文档](https://github.com/webpack-contrib/mini-css-extract-plugin)，例如：
+
+```jsx
+{
+  miniCssExtractPluginOption: {
+    filename: 'css/[name].css',
+    chunkFilename: 'css/[id].css'
+  },
+  miniCssExtractLoaderOption: {
+    publicPath: '../'
+  }
+}
+```
+
 ### h5.module
 
 配置一些 H5 端用到的插件模块配置，暂时只有 `postcss`。

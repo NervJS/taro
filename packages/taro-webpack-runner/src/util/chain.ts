@@ -161,9 +161,10 @@ const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader'))
 const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
 const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
-const getExtractCssLoader = () => {
+const getExtractCssLoader = (options) => {
   return {
-    loader: MiniCssExtractPlugin.loader
+    loader: MiniCssExtractPlugin.loader,
+    options: options || {}
   }
 }
 
@@ -245,6 +246,7 @@ const getModule = (appPath: string, {
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
+  miniCssExtractLoaderOption,
   esnextModules = [] as (string | RegExp)[],
 
   module,
@@ -316,7 +318,7 @@ const getModule = (appPath: string, {
     styleLoaderOption
   ])
 
-  const extractCssLoader = getExtractCssLoader()
+  const extractCssLoader = getExtractCssLoader(miniCssExtractLoaderOption)
 
   const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
 

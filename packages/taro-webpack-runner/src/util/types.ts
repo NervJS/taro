@@ -67,6 +67,7 @@ export interface TaroH5Config {
   fontUrlLoaderOption: Option;
   imageUrlLoaderOption: Option;
   miniCssExtractPluginOption: Option;
+  miniCssExtractLoaderOption: Option;
   esnextModules: string[];
 
   module?: {
