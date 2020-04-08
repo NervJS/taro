@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "run-s clean prod copy",
-    "dev": "tsc -w && copy",
+    "dev": "tsc -w",
     "prod": "tsc",
     "copy": "copyfiles -f src/config/*.json dist/config/",
     "clean": "rimraf dist",
