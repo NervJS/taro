@@ -16,7 +16,7 @@ title: 长列表渲染（虚拟列表）
 
 ## React/Nerv
 
-使用 React/Nerv 我们可以直接从 `@tarojs/components/virtual-list` 引入虚拟列表（VirtualList）组件：
+使用 React/Nerv 我们可以直接从 `@tarojs/components/virtual-list` 引入虚拟列表（VirtualList）组件：
 
 ```js
 import VirtualList from `@tarojs/components/virtual-list`
@@ -182,11 +182,11 @@ export default class Index extends Component {
 初始滚动偏移值，水平滚动影响 `scrollLeft`，垂直滚动影响 `scrollTop`。
 
 
-### `innerElementType: ReactElement = View`
+#### `innerElementType: ReactElement = View`
 
 列表内部容器组件类型，默认值为 `View`。此容器的 `parentNode` 是 `ScrollView`，`childNodes` 是列表。
 
-### `innerRef: Ref | Function`
+#### `innerRef: Ref | Function`
 
 列表内部容器组件的 ref。
 
@@ -204,7 +204,7 @@ export default class Index extends Component {
 
 #### `onScrollNative: Function`
 
-调用平台原生的滚动监听函数。
+调用平台原生的滚动监听函数。
 
 #### `overscanCount: number = 1`
 
@@ -214,7 +214,7 @@ export default class Index extends Component {
 
 是否注入 `isScrolling` 属性到 `children` 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。
 
-### 其它 `ScrollView` 组件的参数
+#### 其它 `ScrollView` 组件的参数
 
 除了以上参数，所有 `ScrollView` 组件的参数都可以传入 `VirtualList` 组件，冲突时优先使用以上文档描述的参数。
 
@@ -243,7 +243,7 @@ export default class Index extends Component {
       <VirtualList
         height={500} /* 列表的高度 */
         width='100%' /* 列表的宽度 */
-        itemData={data} /* 渲染列表的数据 */
+        itemData={data} /* 渲染列表数据 */
         itemCount={dataLen} /*  渲染列表的长度 */
         itemHeight={100} /* 列表单项的高度  */
         ref={this.list}
