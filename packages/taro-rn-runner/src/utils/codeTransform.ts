@@ -51,6 +51,7 @@ export function getTransformResult (options: Options): TransformResult {
       resetTSClassProperty(mainClassNode.body.body)
     }
   }
+  // TODO 暂时废弃
   const components = getComponents(ast, sourcePath)
   return {
     ast,
@@ -70,7 +71,9 @@ function getComponents (ast, sourcePath): ComponentResult[] {
     ClassExpression (path) {
       mainClass = path as any
     },
+    // @ts-ignore
     JSXElement: {
+      // @ts-ignore
       exit (path: NodePath<t.JSXElement>) {
         if (!mainClass) return
         const moduleNames = Object.keys(mainClass.scope.getAllBindings('module'))

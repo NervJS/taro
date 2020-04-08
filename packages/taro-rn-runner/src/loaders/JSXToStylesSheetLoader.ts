@@ -19,7 +19,7 @@ let styleNames = [] // css module 写法中 import 的 Identifier
 let styleNameSet: string[] = []
 
 export default function JSXToStylesSheetLoader (source, ast) {
-  const filePath = this.resourcePath
+  // const filePath = this.resourcePath
   const entryPath = this._module.resource
   // const miniType = this._module.miniType || PARSE_AST_TYPE.NORMAL
   const file = new Map()

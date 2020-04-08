@@ -118,7 +118,7 @@ export function isFileToBeTaroComponent (
     })
     const {ast} = transformResult
     let isTaroComponent = false
-
+    // @ts-ignore
     traverse(ast, {
       ClassDeclaration (astPath) {
         astPath.traverse({
@@ -515,6 +515,7 @@ export default class RNPlugin {
         sourceDir: this.sourceDir
       })
       // get appEntry configObj , inject pages , config
+      // @ts-ignore
       const {configObj} = parseAst(transformResult.ast, buildAdapter)
       const appPages = configObj.pages
       this.appConfig = configObj
@@ -675,6 +676,7 @@ export default class RNPlugin {
         }))
         // console.log('RNPlugin getComponents',transformResult.components)
         transformResult.components = transformResult.components.filter((item) => !isNpmPkg(item.path))
+        // @ts-ignore
         let parseAstRes = parseAst(transformResult.ast, buildAdapter)
         configObj = parseAstRes.configObj
         if (isRoot) {
@@ -685,6 +687,7 @@ export default class RNPlugin {
         const usingComponents = configObj.usingComponents
         if (usingComponents) {
           Object.keys(usingComponents).forEach(item => {
+            // @ts-ignore
             transformResult.components.push({
               name: item,
               path: usingComponents[item]
