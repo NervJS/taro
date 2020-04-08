@@ -567,7 +567,8 @@ export function processAst ({
             const extname = path.extname(absolutePath)
             const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
             const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
-            const resolvedPagePath = promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/')
+            // const resolvedPagePath = promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/')
+            const resolvedPagePath = promoteRelativePath(path.relative(filePath, absolutePath)).replace(/\\/g, '/')
             // 2. Inject import ${screenName} from '.${resolvedPagePath}'
             const screenName = _.camelCase(pagePath)
             const importScreen = template(

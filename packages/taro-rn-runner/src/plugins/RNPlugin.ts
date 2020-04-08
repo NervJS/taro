@@ -625,13 +625,13 @@ export default class RNPlugin {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.PAGE)
       }
     })
-    this.components.forEach(item => {
-      if (item.isNative) {
-        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
-      } else {
-        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
-      }
-    })
+    // this.components.forEach(item => {
+    //   if (item.isNative) {
+    //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+    //   } else {
+    //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
+    //   }
+    // })
   }
 
   isNativePageOrComponent (templatePath, jsContent) {
@@ -708,20 +708,20 @@ export default class RNPlugin {
           // template,
           code
         }
-        if (depComponents && depComponents.length) {
-          depComponents.forEach(item => {
-            const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
-            if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
-              const componentName = this.getComponentName(componentPath)
-              const componentTempPath = this.getTemplatePath(componentPath)
-              const isNative = this.isNativePageOrComponent(componentTempPath, fs.readFileSync(componentPath).toString())
-              const componentObj = {name: componentName, path: componentPath, isNative}
-              this.components.add(componentObj)
-              this.addedComponents.add(componentObj)
-              this.getComponents(compiler, new Set([componentObj]), false)
-            }
-          })
-        }
+        // if (depComponents && depComponents.length) {
+        //   depComponents.forEach(item => {
+        //     const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
+        //     if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
+        //       const componentName = this.getComponentName(componentPath)
+        //       const componentTempPath = this.getTemplatePath(componentPath)
+        //       const isNative = this.isNativePageOrComponent(componentTempPath, fs.readFileSync(componentPath).toString())
+        //       const componentObj = {name: componentName, path: componentPath, isNative}
+        //       this.components.add(componentObj)
+        //       this.addedComponents.add(componentObj)
+        //       this.getComponents(compiler, new Set([componentObj]), false)
+        //     }
+        //   })
+        // }
       } catch (error) {
         console.log(chalk.red(error.stack))
         if (error.codeFrame) {
@@ -749,13 +749,13 @@ export default class RNPlugin {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.PAGE)
       }
     })
-    this.components.forEach(item => {
-      if (item.isNative) {
-        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
-      } else {
-        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
-      }
-    })
+    // this.components.forEach(item => {
+    //   if (item.isNative) {
+    //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+    //   } else {
+    //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
+    //   }
+    // })
   }
 
   generateMiniFiles (compilation: webpack.compilation.Compilation) {
@@ -825,7 +825,7 @@ export default class RNPlugin {
       const fileInfo = compilation.assets[fileName]
       if (!REG_STYLE.test(fileName)) return
       const relativePath = this.getRelativePath(fileName)
-      const extname = path.extname(fileName)
+      // const extname = path.extname(fileName)
       // const styleSheetPath = relativePath.replace(extname, '_styles.js').replace(/\\/g, '/')
       const styleSheetPath = path.join(path.dirname(relativePath), 'index_styles.js')
       delete compilation.assets[fileName]
@@ -928,33 +928,33 @@ export default class RNPlugin {
       if (this.changedFileType === PARSE_AST_TYPE.ENTRY
         || this.changedFileType === PARSE_AST_TYPE.PAGE
         || this.changedFileType === PARSE_AST_TYPE.COMPONENT) {
-        this.components.forEach(component => {
-          if (component.path === changedFile) {
-            this.components.delete(component)
-          }
-        })
+        // this.components.forEach(component => {
+        //   if (component.path === changedFile) {
+        //     this.components.delete(component)
+        //   }
+        // })
         if (this.changedFileType === PARSE_AST_TYPE.ENTRY) {
           this.run(compiler)
         } else {
           if (!this.options.isBuildPlugin) {
             this.getComponents(compiler, new Set([obj]), this.changedFileType === PARSE_AST_TYPE.PAGE)
             if (this.addedComponents.size) {
-              this.addedComponents.forEach(item => {
-                if (item.isNative) {
-                  this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
-                } else {
-                  this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
-                }
-              })
+              // this.addedComponents.forEach(item => {
+              //   if (item.isNative) {
+              //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+              //   } else {
+              //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
+              //   }
+              // })
             }
           } else {
             this.getPluginFiles(compiler)
           }
           this.transferFileContent(compiler)
         }
-        if (obj && type === PARSE_AST_TYPE.COMPONENT && !this.components.has(obj)) {
-          this.components.add(obj)
-        }
+        // if (obj && type === PARSE_AST_TYPE.COMPONENT && !this.components.has(obj)) {
+        //   this.components.add(obj)
+        // }
       }
     }
   }
@@ -968,12 +968,12 @@ export default class RNPlugin {
         obj = page
       }
     })
-    this.components.forEach(component => {
-      if (component.path === filePath) {
-        type = PARSE_AST_TYPE.COMPONENT
-        obj = component
-      }
-    })
+    // this.components.forEach(component => {
+    //   if (component.path === filePath) {
+    //     type = PARSE_AST_TYPE.COMPONENT
+    //     obj = component
+    //   }
+    // })
     if (filePath === this.appEntry) {
       type = PARSE_AST_TYPE.ENTRY
     }

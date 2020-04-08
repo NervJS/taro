@@ -31,7 +31,6 @@ export default function build (appPath: string, config: IBuildConfig, mainBuilde
     makeConfig(config)
       .then(config => {
         const webpackChain = buildConf(appPath, mode, config)
-        console.log(config)
         // config.webpackChain 自定义 Webpack 配置，接受函数形式的配置。
         customizeChain(webpackChain, config.webpackChain)
         const webpackConfig = webpackChain.toConfig()
