@@ -191,6 +191,8 @@ export default class MiniPlugin {
     this.dependencies = new Map()
     this.quickappImports = new Map()
     this.subPackages = new Set()
+
+    this.parseConstantsList()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -200,7 +202,19 @@ export default class MiniPlugin {
 		} catch (err) {
 			callback(err)
 		}
-	}
+  }
+
+  parseConstantsList () {
+    const parsedConstantsReplaceList = {}
+    Object.keys(this.options.constantsReplaceList).forEach(key => {
+      try {
+        parsedConstantsReplaceList[key] = JSON.parse(this.options.constantsReplaceList[key])
+      } catch (error) {
+        parsedConstantsReplaceList[key] = this.options.constantsReplaceList[key]
+      }
+    })
+    this.options.constantsReplaceList = parsedConstantsReplaceList
+  }
 
   apply (compiler) {
     this.context = compiler.context
@@ -1059,7 +1073,7 @@ export default class MiniPlugin {
     sourcePath: string,
     buildAdapter: BUILD_TYPES
   ) {
-    const { constantsReplaceList } = this.options;
+    const { constantsReplaceList } = this.options
     const isTaroComponentRes = isFileToBeTaroComponent(code, sourcePath, buildAdapter, constantsReplaceList)
     if (isTaroComponentRes instanceof Error) {
       if ((isTaroComponentRes as any).codeFrame) {

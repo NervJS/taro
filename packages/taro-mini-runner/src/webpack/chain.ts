@@ -270,13 +270,21 @@ export const getModule = (appPath: string, {
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
+  const parsedConstantsReplaceList = {}
+  Object.keys(constantsReplaceList).forEach(key => {
+    try {
+      parsedConstantsReplaceList[key] = JSON.parse(constantsReplaceList[key])
+    } catch (error) {
+      parsedConstantsReplaceList[key] = constantsReplaceList[key]
+    }
+  })
   const wxTransformerLoader = getWxTransformerLoader([{
     babel,
     alias,
     designWidth,
     deviceRatio,
     buildAdapter,
-    constantsReplaceList,
+    constantsReplaceList: parsedConstantsReplaceList,
     sourceDir,
     nodeModulesPath
   }])
