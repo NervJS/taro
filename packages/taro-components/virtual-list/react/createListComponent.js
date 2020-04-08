@@ -103,7 +103,7 @@ export default function createListComponent ({
       }
 
       this._getItemStyleCache = void 0
-      this._getItemStyleCache = memoizeOne((_, __, ___) => ({}))
+      this._getItemStyleCache = memoizeOne(() => ({}))
 
       this._onScrollHorizontal = event => {
         const {
@@ -328,7 +328,8 @@ export default function createListComponent ({
         outerTagName,
         style,
         useIsScrolling,
-        width
+        width,
+        ...rest
       } = this.props
       const {
         isScrolling
@@ -356,6 +357,7 @@ export default function createListComponent ({
 
       const estimatedTotalSize = getEstimatedTotalSize(this.props, this._instanceProps)
       return createElement(outerElementType || outerTagName || 'div', {
+        ...rest,
         className,
         onScroll,
         ref: this._outerRefSetter,

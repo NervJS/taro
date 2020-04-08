@@ -4,8 +4,7 @@ import { ScrollView, View } from '@tarojs/components'
 
 const OuterScrollView = React.forwardRef(
   (props, ref) => {
-    const { style, onScroll, ...rest } = props
-
+    const { style, onScroll, onScrollNative, ...rest } = props
     const handleScroll = event => {
       onScroll({
         ...event,
@@ -15,6 +14,10 @@ const OuterScrollView = React.forwardRef(
           clientHeight: style.height
         }
       })
+
+      if (typeof onScrollNative === 'function') {
+        onScrollNative(event)
+      }
     }
 
     return React.createElement(ScrollView, {

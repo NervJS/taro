@@ -14,8 +14,7 @@
     "lib",
     "h5.js",
     "html.css",
-    "html5.css",
-    "virtual-list"
+    "html5.css"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

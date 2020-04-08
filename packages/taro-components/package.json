@@ -15,7 +15,8 @@
     "loader",
     "mini",
     "types",
-    "h5"
+    "h5",
+    "virtual-list"
   ],
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",

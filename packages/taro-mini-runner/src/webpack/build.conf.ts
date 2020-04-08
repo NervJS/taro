@@ -86,7 +86,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       plugin: new VueLoaderPlugin()
     }
   }
-  alias[taroJsComponents] = `${taroJsComponents}/mini`
+  alias[taroJsComponents + '$'] = `${taroJsComponents}/mini`
   if (framework === 'react') {
     alias['react-dom'] = '@tarojs/react'
   }
