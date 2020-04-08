@@ -44,6 +44,7 @@ describe('Regs', () => {
       fontUrlLoaderOption: {},
       imageUrlLoaderOption: {},
       mediaUrlLoaderOption: {},
+      miniCssExtractLoaderOption: {},
       esnextModules: [],
 
       module: {
