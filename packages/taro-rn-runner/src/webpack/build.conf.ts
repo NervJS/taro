@@ -20,6 +20,7 @@ import {
 import getBaseConf from './base.conf'
 import { BUILD_TYPES } from '../utils/constants'
 import { Targets } from '../plugins/RNPlugin'
+import chalk from 'chalk'
 
 const nodeExternals = require('webpack-node-externals')
 
@@ -79,6 +80,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     entry,
     isBuildPlugin: config.isBuildPlugin
   })
+  chalk.red(console.log('console.log(constantsReplaceList)', constantsReplaceList))
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
   const defaultCommonChunks = !!config.isBuildPlugin
     ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']

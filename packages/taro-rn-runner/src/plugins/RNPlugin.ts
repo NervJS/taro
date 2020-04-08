@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
-import wxTransformer from '@tarojs/transformer-wx'
+import { getTransformResult } from '../utils/codeTransform'
 import * as webpack from 'webpack'
 import * as SingleEntryDependency from 'webpack/lib/dependencies/SingleEntryDependency'
 import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
@@ -16,7 +16,7 @@ import * as _ from 'lodash'
 import { compileStyle } from '../style'
 
 import {
-  REG_TYPESCRIPT,
+  // REG_TYPESCRIPT,
   BUILD_TYPES,
   PARSE_AST_TYPE,
   MINI_APP_FILES,
@@ -112,12 +112,9 @@ export function isFileToBeTaroComponent (
   buildAdapter: BUILD_TYPES
 ) {
   try {
-    const transformResult = wxTransformer({
+    const transformResult = getTransformResult({
       code,
-      sourcePath: sourcePath,
-      isTyped: REG_TYPESCRIPT.test(sourcePath),
-      adapter: buildAdapter,
-      isNormal: true
+      sourcePath: sourcePath
     })
     const {ast} = transformResult
     let isTaroComponent = false
@@ -512,13 +509,10 @@ export default class RNPlugin {
     const appEntry = this.appEntry
     const code = fs.readFileSync(appEntry).toString()
     try {
-      const transformResult = wxTransformer({
+      const transformResult = getTransformResult({
         code,
         sourcePath: appEntry,
-        sourceDir: this.sourceDir,
-        isTyped: REG_TYPESCRIPT.test(appEntry),
-        isNormal: true,
-        adapter: buildAdapter
+        sourceDir: this.sourceDir
       })
       // get appEntry configObj , inject pages , config
       const {configObj} = parseAst(transformResult.ast, buildAdapter)
@@ -665,15 +659,11 @@ export default class RNPlugin {
         // let template
         let code = fs.readFileSync(file.path).toString()
         // get ast and components
-        const transformResult = wxTransformer({
+        const transformResult = getTransformResult({
           code,
           sourcePath: file.path,
           sourceDir: this.sourceDir,
-          isTyped: REG_TYPESCRIPT.test(file.path),
-          isRoot,
-          // isNormal: true,
-          // rootProps: isEmptyObject(rootProps) || rootProps,
-          adapter: buildAdapter
+          isRoot
         })
         const {alias} = this.options
         // replace alias to relative path
@@ -683,7 +673,7 @@ export default class RNPlugin {
           }
           return item
         }))
-        console.log(transformResult.components)
+        // console.log('RNPlugin getComponents',transformResult.components)
         transformResult.components = transformResult.components.filter((item) => !isNpmPkg(item.path))
         let parseAstRes = parseAst(transformResult.ast, buildAdapter)
         configObj = parseAstRes.configObj
@@ -836,7 +826,8 @@ export default class RNPlugin {
       if (!REG_STYLE.test(fileName)) return
       const relativePath = this.getRelativePath(fileName)
       const extname = path.extname(fileName)
-      const styleSheetPath = relativePath.replace(extname, '_styles.js').replace(/\\/g, '/')
+      // const styleSheetPath = relativePath.replace(extname, '_styles.js').replace(/\\/g, '/')
+      const styleSheetPath = path.join(path.dirname(relativePath), 'index_styles.js')
       delete compilation.assets[fileName]
       const css = fileInfo.source()
       // cache
