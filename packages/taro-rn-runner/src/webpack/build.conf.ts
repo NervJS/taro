@@ -74,13 +74,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({copy, appPath})
   }
-  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
+  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants, {'process.env.TARO_ENV': `"${buildAdapter}"`}])
   const entryRes = getEntry({
     sourceDir,
     entry,
     isBuildPlugin: config.isBuildPlugin
   })
-  chalk.red(console.log('console.log(constantsReplaceList)', constantsReplaceList))
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
   const defaultCommonChunks = !!config.isBuildPlugin
     ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
