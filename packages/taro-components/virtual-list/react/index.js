@@ -4,7 +4,7 @@ import { ScrollView, View } from '@tarojs/components'
 
 const OuterScrollView = React.forwardRef(
   (props, ref) => {
-    const { style, onScroll, onScrollNative, ...rest } = props
+    const { style, onScroll, onScrollNative, layout, ...rest } = props
     const handleScroll = event => {
       onScroll({
         ...event,
@@ -23,8 +23,8 @@ const OuterScrollView = React.forwardRef(
     return React.createElement(ScrollView, {
       ref,
       style,
-      scrollY: style.direction === 'ltr',
-      scrollX: style.direction !== 'ltr',
+      scrollY: layout === 'vertical',
+      scrollX: layout === 'horizontal',
       onScroll: handleScroll,
       ...rest
     })
@@ -36,8 +36,6 @@ const VirtualList = React.forwardRef((props, ref) => {
     direction = 'ltr',
     innerElementType = View,
     initialScrollOffset = 0,
-    itemHeight,
-    layout = 'vertical',
     overscanCount = 1,
     ...rest
   } = props
@@ -47,10 +45,8 @@ const VirtualList = React.forwardRef((props, ref) => {
     ...rest,
     innerElementType,
     outerElementType: OuterScrollView,
-    itemSize: itemHeight,
     direction,
     initialScrollOffset,
-    layout,
     overscanCount
   })
 })

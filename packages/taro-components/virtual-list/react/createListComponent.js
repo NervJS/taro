@@ -361,6 +361,7 @@ export default function createListComponent ({
         className,
         onScroll,
         ref: this._outerRefSetter,
+        layout,
         style: {
           position: 'relative',
           height,
