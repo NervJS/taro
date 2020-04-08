@@ -768,7 +768,7 @@ export default class MiniPlugin {
           depComponents = transformResult.components
           code = transformResult.code
         }
-        depComponents = depComponents.filter(item => !/^plugin:\/\//.test(item.path))
+        depComponents = depComponents.filter(item => !/^(plugin|dynamicLib):\/\//.test(item.path))
         this.transformComponentsPath(file.path, depComponents)
         if (isQuickApp) {
           const scriptPath = file.path
