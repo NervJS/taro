@@ -20,7 +20,6 @@ import {
 import getBaseConf from './base.conf'
 import { BUILD_TYPES } from '../utils/constants'
 import { Targets } from '../plugins/RNPlugin'
-import chalk from 'chalk'
 
 const nodeExternals = require('webpack-node-externals')
 
@@ -184,7 +183,20 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       alias
     }),
     plugin,
-    optimization: {minimizer}
+    optimization: {
+      minimizer,
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          common: {
+            name: 'common',
+            chunks: 'initial',
+            priority: 2,
+            minChunks: 2
+          }
+        }
+      }
+    }
   })
   return chain
 }
