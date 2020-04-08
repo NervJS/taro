@@ -73,7 +73,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({copy, appPath})
   }
-  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
+  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants, {'process.env.TARO_ENV': `"${buildAdapter}"`}])
   const entryRes = getEntry({
     sourceDir,
     entry,
@@ -161,6 +161,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     resolve: {alias},
     module: getModule(appPath, {
       sourceDir,
+      entry: entryRes!.entry,
 
       buildAdapter,
       constantsReplaceList,
@@ -182,7 +183,20 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       alias
     }),
     plugin,
-    optimization: {minimizer}
+    optimization: {
+      minimizer,
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          common: {
+            name: 'common',
+            chunks: 'initial',
+            priority: 2,
+            minChunks: 2
+          }
+        }
+      }
+    }
   })
   return chain
 }

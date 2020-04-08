@@ -170,6 +170,7 @@ export const getRNPlugin = args => {
 
 export const getModule = (appPath: string, {
   sourceDir,
+  entry,
 
   designWidth,
   deviceRatio,
@@ -195,11 +196,21 @@ export const getModule = (appPath: string, {
 
   const {namingPattern, generateScopedName} = cssModuleOptions.config!
 
+  // RN default convert to CSS Modules
   const cssOptions = [
     {
       importLoaders: 1,
       sourceMap: enableSourceMap,
-      modules: false
+      modules: {
+        localIdentName: '[path][name]__[local]--[hash:base64:5]',
+        getLocalIdent: (context, localIdentName, localName, options) => {
+          const parse = path.parse(entry.app[0])
+          // if is enrty style
+          if (context.resourcePath.startsWith(path.join(parse.dir,parse.name))) {
+            return localName
+          }
+        }
+      }
     },
     cssLoaderOption
   ]
@@ -209,7 +220,15 @@ export const getModule = (appPath: string, {
         importLoaders: 1,
         sourceMap: enableSourceMap,
         modules: {
-          mode: namingPattern === 'module' ? 'local' : 'global'
+          localIdentName: '[path][name]__[local]--[hash:base64:5]',
+          mode: namingPattern === 'module' ? 'local' : 'global',
+          getLocalIdent: (context, localIdentName, localName, options) => {
+            const parse = path.parse(entry.app[0])
+            // if is enrty style
+            if (context.resourcePath.startsWith(path.join(parse.dir,parse.name))) {
+              return localName
+            }
+          }
         }
       },
       {
@@ -299,6 +318,7 @@ export const getModule = (appPath: string, {
       buildAdapter
     }])
 
+  // @ts-ignore
   const JSXToStylesSheetLoader = getJSXToStylesSheetLoader([
     {
       buildAdapter
@@ -313,7 +333,12 @@ export const getModule = (appPath: string, {
   // TODO fileParseLoader
   let scriptsLoaderConf = {
     test: REG_SCRIPTS,
-    use: [babelLoader, JSXToStylesSheetLoader, fileParseLoader, wxTransformerLoader]
+    use: [
+      babelLoader,
+      JSXToStylesSheetLoader,
+      fileParseLoader,
+      wxTransformerLoader
+    ]
   }
 
   if (compileExclude && compileExclude.length) {

@@ -13,6 +13,8 @@ ComponentType<FunctionalPageNavigatorProps>
 
 ## FunctionalPageNavigatorProps
 
+> 最低 Taro 版本: 2.1.0
+
 这个组件从小程序基础库版本 2.1.0 开始支持。
 仅在插件的自定义组件中有效，用于跳转到插件功能页。
 
