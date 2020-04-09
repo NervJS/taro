@@ -27,8 +27,5 @@
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
-  },
-  "dependencies": {
-    "@tarojs/runtime": "3.0.0-beta.3"
   }
 }

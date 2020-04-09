@@ -40,7 +40,6 @@
   "license": "MIT",
   "dependencies": {
     "@stencil/core": "^1.8.1",
-    "@tarojs/taro": "3.0.0-beta.3",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
