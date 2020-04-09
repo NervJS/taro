@@ -47,6 +47,13 @@ class Route extends Taro.Component<RouteProps, {}> {
   constructor (props, context) {
     super(props, context)
     this.matched = this.computeMatch(this.props.currentLocation)
+    if (this.matched) {
+      this.setState({ location: this.props.currentLocation }, () => {
+        if (this.componentRef) {
+          this.componentRef.props.location = this.state.location
+        }
+      })
+    }
   }
 
   computeMatch (currentLocation) {
