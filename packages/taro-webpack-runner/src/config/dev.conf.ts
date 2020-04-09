@@ -50,6 +50,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     imageUrlLoaderOption = emptyObj,
 
     miniCssExtractPluginOption = emptyObj,
+    miniCssExtractLoaderOption = emptyObj,
     esnextModules = [],
 
     module = {
@@ -116,6 +117,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
+      miniCssExtractLoaderOption,
       esnextModules,
 
       module,
