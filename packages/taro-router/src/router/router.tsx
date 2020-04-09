@@ -152,14 +152,16 @@ class Router extends Taro.Component<Props, State> {
       toLocation,
       action
     }) => {
-      if (action === "PUSH") {
-        this.push(toLocation);
-      } else if (action === "POP") {
-        this.pop(toLocation, fromLocation);
-      } else if (this.isTabBar(toLocation.path)) {
+      if (this.isTabBar(toLocation.path)) {
         this.switch(toLocation, true);
       } else {
-        this.replace(toLocation);
+        if (action === "PUSH") {
+          this.push(toLocation);
+        } else if (action === "POP") {
+          this.pop(toLocation, fromLocation);
+        } else {
+          this.replace(toLocation);
+        }
       }
 
       this.lastLocation = history.location

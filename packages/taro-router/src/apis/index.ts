@@ -47,6 +47,15 @@ const addHtmlExtname = (str: string) => {
   return /\.html\b/.test(str) ? str : `${str}.html`
 }
 
+const notTabbar = (url: string) => {
+  const path = url.split('?')[0]
+  const config = Taro.getApp().config
+  if (config && config.tabBar && config.tabBar.list && config.tabBar.list instanceof Array) {
+    return config.tabBar.list.findIndex(e => e.pagePath === path) === -1
+  }
+  return true
+}
+
 const getTargetUrl = (url: string, customRoutes: CustomRoutes) => {
   const matched = url.match(/([\s\S]*)(\?[\s\S]*)?/) || []
   const pathname = matched[1] || ''
@@ -72,6 +81,8 @@ const createNavigateTo = (
 
     try {
       invariant(url, 'navigateTo must be called with a url')
+      invariant(notTabbar(url), 'can not navigateTo a tabbar page')
+
       if (/^(https?:)\/\//.test(url)) {
         window.location.assign(url)
       } else if (history) {
@@ -132,6 +143,7 @@ const createRedirectTo = (
 
     try {
       invariant(url, 'redirectTo must be called with a url')
+      invariant(notTabbar(url), 'can not redirectTo a tabbar page')
 
       if (/^(https?:)\/\//.test(url)) {
         window.location.assign(url)
