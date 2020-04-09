@@ -1,5 +1,37 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.1.1...v) (2020-04-07)
+# [](https://github.com/NervJS/taro/compare/v2.1.2...v) (2020-04-09)
+
+
+
+<a name="2.1.2"></a>
+## [2.1.2](https://github.com/NervJS/taro/compare/v2.1.1...v2.1.2) (2020-04-09)
+
+
+### Bug Fixes
+
+* **cli:** 使用 babelMerge 替换 mergeWith ([318d101](https://github.com/NervJS/taro/commit/318d101))
+* **docs:** rebuild ([c9c8188](https://github.com/NervJS/taro/commit/c9c8188))
+* **mini-runner:** 依赖读取顺序调整，close [#5914](https://github.com/NervJS/taro/issues/5914) ([8f2faae](https://github.com/NervJS/taro/commit/8f2faae))
+* **mini-runner:** 修复全局变量解析与 H5 不一致的问题，close [#5917](https://github.com/NervJS/taro/issues/5917) ([fbb74fd](https://github.com/NervJS/taro/commit/fbb74fd))
+* **mini-runner:** 支持百度小程序引入动态库，close [#5884](https://github.com/NervJS/taro/issues/5884) ([0899be7](https://github.com/NervJS/taro/commit/0899be7))
+* **mini-runner:** 样式正则遗漏了京东小程序样式 ([e49ebe8](https://github.com/NervJS/taro/commit/e49ebe8))
+* **rn-runner:**  无效的 npm script ([3d1226b](https://github.com/NervJS/taro/commit/3d1226b))
+* **rn-runner:** ts error ([9ab3e26](https://github.com/NervJS/taro/commit/9ab3e26))
+* **rn-runner:** 删除 components 的检测和编译 ([e0384a7](https://github.com/NervJS/taro/commit/e0384a7))
+* **taro-cli:** rn 端 ui 库编译 ([ae2f20f](https://github.com/NervJS/taro/commit/ae2f20f))
+* docs deploy output log ([4381b4f](https://github.com/NervJS/taro/commit/4381b4f))
+* docusaurus version ([a1c5266](https://github.com/NervJS/taro/commit/a1c5266))
+* qq 样式文件后缀遗漏 ([31e5ade](https://github.com/NervJS/taro/commit/31e5ade))
+* upload i18n ([726e08c](https://github.com/NervJS/taro/commit/726e08c))
+* 样式命名 ([149e138](https://github.com/NervJS/taro/commit/149e138))
+* 遗漏 TARO_ENV ([7bbc3d4](https://github.com/NervJS/taro/commit/7bbc3d4))
+
+
+### Features
+
+* **rn-runner:** 利用 splitChunks 优化打包大小 ([c1f815d](https://github.com/NervJS/taro/commit/c1f815d))
+* ts loader 解耦 trandformer-wx ([779d1c0](https://github.com/NervJS/taro/commit/779d1c0))
+* **rn-runner:** 默认开启 CSS Module，且兼容 CSS Moduels 的写法 ([b805553](https://github.com/NervJS/taro/commit/b805553))
 
 
 
