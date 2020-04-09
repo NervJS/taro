@@ -130,12 +130,12 @@ const downloadFile = ({ url, header, success, fail, complete }) => {
       header,
       success: res => {
         success && success(res)
-        complete && complete()
+        complete && complete(res)
         resolve(res)
       },
       error: res => {
         fail && fail(res)
-        complete && complete()
+        complete && complete(res)
         reject(res)
       }
     })

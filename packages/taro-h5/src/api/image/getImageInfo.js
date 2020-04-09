@@ -46,12 +46,12 @@ const getImageInfo = ({ src, success, fail, complete } = {}) => {
   return new Promise((resolve, reject) => {
     const onSuccess = res => {
       success && success(res)
-      complete && complete()
+      complete && complete(res)
       resolve(res)
     }
     const onError = res => {
       fail && fail(res)
-      complete && complete()
+      complete && complete(res)
       reject(res)
     }
     const image = new Image()

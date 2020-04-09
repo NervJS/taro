@@ -13,7 +13,7 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
   }
 
   xhr.withCredentials = true
-  
+
   xhr.open('POST', url)
   setHeader(xhr, header)
 
@@ -154,12 +154,12 @@ const uploadFile = ({ url, filePath, fileName, name, header, formData, success, 
       fileName,
       success: res => {
         success && success(res)
-        complete && complete()
+        complete && complete(res)
         resolve(res)
       },
       error: res => {
         fail && fail(res)
-        complete && complete()
+        complete && complete(res)
         reject(res)
       }
     })

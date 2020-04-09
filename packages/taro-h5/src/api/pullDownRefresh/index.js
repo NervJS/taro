@@ -10,12 +10,12 @@ const startPullDownRefresh = function (object = {}) {
     Taro.eventCenter.trigger('__taroStartPullDownRefresh', {
       successHandler: () => {
         success && success(res)
-        complete && complete()
+        complete && complete(res)
         resolve(res)
       },
       errorHandler: () => {
         fail && fail(res)
-        complete && complete()
+        complete && complete(res)
         reject(res)
       }
     })
@@ -33,12 +33,12 @@ const stopPullDownRefresh = function (object = {}) {
     Taro.eventCenter.trigger('__taroStopPullDownRefresh', {
       successHandler: () => {
         success && success(res)
-        complete && complete()
+        complete && complete(res)
         resolve(res)
       },
       errorHandler: () => {
         fail && fail(res)
-        complete && complete()
+        complete && complete(res)
         reject(res)
       }
     })

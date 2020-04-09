@@ -278,7 +278,7 @@ export function showTabBar (options = {}) {
   Taro.eventCenter.trigger('__taroShowTabBar', {
     animation,
     successHandler: successHandler(success, complete),
-    errorHandler: errorHandler(success, complete),
+    errorHandler: errorHandler(success, complete)
   })
 
   return successHandler(success, complete)(res)
@@ -332,7 +332,7 @@ export function hideTabBar (options = {}) {
 
 /**
  * 动态设置 tabBar 的整体样式
- * @param {Object} options 
+ * @param {Object} options
  * @param {string} options.color tab 上的文字默认颜色，HexColor
  * @param {string} options.selectedColor tab 上的文字选中时的颜色，HexColor
  * @param {string} options.backgroundColor tab 的背景色，HexColor
@@ -396,7 +396,7 @@ export function setTabBarStyle (options = {}) {
 
 /**
  * 动态设置 tabBar 某一项的内容
- * @param {Object} options 
+ * @param {Object} options
  * @param {number} options.index tabBar 的哪一项，从左边算起
  * @param {string} [options.text] tab 上的按钮文字
  * @param {string} [options.iconPath] 图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片
