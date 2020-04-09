@@ -24,8 +24,6 @@ import {
   TARO_CONFIG_FLODER
 } from './constants'
 
-const babelMerge = require('babel-merge')
-
 const execSync = child_process.execSync
 
 export function isNpmPkg (name: string): boolean {
@@ -494,7 +492,11 @@ let babelConfig
 
 export function getBabelConfig (babel) {
   if (!babelConfig) {
-    babelConfig = babelMerge(defaultBabelConfig, babel)
+    babelConfig = mergeWith({}, defaultBabelConfig, babel, (objValue, srcValue) => {
+      if (Array.isArray(objValue)) {
+        return Array.from(new Set(srcValue.concat(objValue)))
+      }
+    })
   }
   return babelConfig
 }
