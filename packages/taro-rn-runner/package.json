@@ -40,7 +40,7 @@
     "@tarojs/taro": "2.0.4",
     "babel-generator": "^6.26.1",
     "babel-loader": "^8.0.6",
-    "babel-plugin-danger-remove-unused-import": "^1.1.2",
+    "babel-plugin-danger-remove-unused-import": "^2.0.0",
     "babel-plugin-preval": "1.6.2",
     "babel-plugin-transform-jsx-to-stylesheet": "2.0.4",
     "better-babel-generator": "^6.26.1",
