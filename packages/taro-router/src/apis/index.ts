@@ -143,7 +143,7 @@ const createRedirectTo = (
 
     try {
       invariant(url, 'redirectTo must be called with a url')
-      invariant(notTabbar(url), 'can not redirectTo a tabbar page')
+      // invariant(notTabbar(url), 'can not redirectTo a tabbar page')
 
       if (/^(https?:)\/\//.test(url)) {
         window.location.assign(url)
