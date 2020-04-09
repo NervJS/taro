@@ -6436,12 +6436,19 @@
       },
       "version-2.1.1/version-2.1.1-team": {
         "title": "Taro 团队"
+      },
+      "version-2.1.2/version-2.1.2-migrate-to-2": {
+        "title": "迁移至 Taro 2.x"
+      },
+      "version-2.1.3/version-2.1.3-router": {
+        "title": "路由功能"
       }
     },
     "links": {
       "文档": "文档",
       "组件库": "组件库",
       "API": "API",
+      "Blog": "Blog",
       "Taro-UI": "Taro-UI",
       "物料市场": "物料市场",
       "论坛": "论坛"
