@@ -138,7 +138,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   plugin.providerPlugin = getProviderPlugin({
     window: ['@tarojs/runtime', 'window'],
     document: ['@tarojs/runtime', 'document'],
-    navigator: ['@tarojs/runtime', 'navigator']
+    navigator: ['@tarojs/runtime', 'navigator'],
+    requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
+    cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame']
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))
