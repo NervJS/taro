@@ -10,8 +10,6 @@
     "packages/shared",
     "packages/taro",
     "packages/taro-api",
-    "packages/taroize",
-    "packages/taro-with-weapp",
     "packages/taro-cli",
     "packages/taro-components",
     "packages/taro-h5",
@@ -21,7 +19,9 @@
     "packages/taro-router",
     "packages/taro-runner-utils",
     "packages/taro-runtime",
-    "packages/taro-webpack-runner"
+    "packages/taro-webpack-runner",
+    "packages/taro-with-weapp",
+    "packages/taroize"
   ],
   "command": {
     "publish": {
@@ -32,6 +32,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.0.0-beta.2",
+  "version": "3.0.0-beta.3",
   "npmClient": "yarn"
 }
