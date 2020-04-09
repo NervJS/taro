@@ -39,7 +39,7 @@ Taro.navigateTo({
 ```jsx
 class C extends Taro.Component {
   componentWillMount () {
-    console.log(this.$router.params) // 输出 { id: 2, type: 'test' }
+    console.log(this.$router.params) // 输出 { id: '2', type: 'test' }
   }
 }
 ```
