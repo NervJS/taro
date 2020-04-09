@@ -90,7 +90,7 @@ const siteConfig = {
     themeUrl: 'https://storage.jd.com/taro-resource/vs.min.css'
   },
 
-  usePrism: true,
+  usePrism: ['javascript', 'jsx', 'tsx', 'typescript', 'bash'],
 
   // Add custom scripts here that would be placed in <script> tags
   scripts: [
