@@ -1,16 +1,19 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.1.2...v) (2020-04-09)
+# [](https://github.com/NervJS/taro/compare/v2.1.3...v) (2020-04-09)
 
 
 
-<a name="2.1.2"></a>
-## [2.1.2](https://github.com/NervJS/taro/compare/v2.1.1...v2.1.2) (2020-04-09)
+<a name="2.1.3"></a>
+## [2.1.3](https://github.com/NervJS/taro/compare/v2.1.1...v2.1.3) (2020-04-09)
 
 
 ### Bug Fixes
 
 * **cli:** 使用 babelMerge 替换 mergeWith ([318d101](https://github.com/NervJS/taro/commit/318d101))
+* **cli:** 回退 babel 合并操作 ([a7cc412](https://github.com/NervJS/taro/commit/a7cc412))
+* **components:** images upload fix [#5921](https://github.com/NervJS/taro/issues/5921) ([9d2ce9f](https://github.com/NervJS/taro/commit/9d2ce9f))
 * **docs:** rebuild ([c9c8188](https://github.com/NervJS/taro/commit/c9c8188))
+* **docs:** router params ([910c753](https://github.com/NervJS/taro/commit/910c753))
 * **mini-runner:** 依赖读取顺序调整，close [#5914](https://github.com/NervJS/taro/issues/5914) ([8f2faae](https://github.com/NervJS/taro/commit/8f2faae))
 * **mini-runner:** 修复全局变量解析与 H5 不一致的问题，close [#5917](https://github.com/NervJS/taro/issues/5917) ([fbb74fd](https://github.com/NervJS/taro/commit/fbb74fd))
 * **mini-runner:** 支持百度小程序引入动态库，close [#5884](https://github.com/NervJS/taro/issues/5884) ([0899be7](https://github.com/NervJS/taro/commit/0899be7))
@@ -18,6 +21,7 @@
 * **rn-runner:**  无效的 npm script ([3d1226b](https://github.com/NervJS/taro/commit/3d1226b))
 * **rn-runner:** ts error ([9ab3e26](https://github.com/NervJS/taro/commit/9ab3e26))
 * **rn-runner:** 删除 components 的检测和编译 ([e0384a7](https://github.com/NervJS/taro/commit/e0384a7))
+* **router:** h5 getCurrentPages method fix [#5323](https://github.com/NervJS/taro/issues/5323) ([e81e37d](https://github.com/NervJS/taro/commit/e81e37d))
 * **taro-cli:** rn 端 ui 库编译 ([ae2f20f](https://github.com/NervJS/taro/commit/ae2f20f))
 * docs deploy output log ([4381b4f](https://github.com/NervJS/taro/commit/4381b4f))
 * docusaurus version ([a1c5266](https://github.com/NervJS/taro/commit/a1c5266))
