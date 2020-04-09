@@ -60,7 +60,7 @@
     "mock-socket": "^7.1.0",
     "nervjs": "^1.5.0",
     "rollup": "^1.1.2",
-    "rollup-plugin-alias": "^1.5.1",
+    "rollup-plugin-alias": "^2.2.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
