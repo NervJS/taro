@@ -48,11 +48,7 @@ class Route extends Taro.Component<RouteProps, {}> {
     super(props, context)
     this.matched = this.computeMatch(this.props.currentLocation)
     if (this.matched) {
-      this.setState({ location: this.props.currentLocation }, () => {
-        if (this.componentRef) {
-          this.componentRef.props.location = this.state.location
-        }
-      })
+      this.state = { location: this.props.currentLocation }
     }
   }
 
@@ -113,6 +109,9 @@ class Route extends Taro.Component<RouteProps, {}> {
   componentDidMount () {
     scroller = scroller || getScroller()
     scroller.set(0)
+    if (this.matched && this.componentRef) {
+      this.componentRef.props.location = this.state.location
+    }
     this.updateComponent()
   }
 
