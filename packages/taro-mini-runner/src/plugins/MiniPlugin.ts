@@ -88,6 +88,7 @@ export default class TaroMiniPlugin {
   tabBarIcons: Set<string>
   prerenderPages: Set<string>
   dependencies: Map<string, TaroSingleEntryDependency>
+  private loadChunksPlugin: TaroLoadChunksPlugin
 
   constructor (options = {}) {
     this.options = Object.assign({
@@ -141,14 +142,17 @@ export default class TaroMiniPlugin {
           this.isWatch = true
         }
         await this.run(compiler)
-        new TaroLoadChunksPlugin({
-          commonChunks: this.options.commonChunks,
-          buildAdapter: this.options.buildAdapter,
-          isBuildPlugin: false,
-          addChunkPages: this.options.addChunkPages,
-          pages: this.pages,
-          framework: this.options.framework
-        }).apply(compiler)
+        if (!this.loadChunksPlugin) {
+          this.loadChunksPlugin = new TaroLoadChunksPlugin({
+            commonChunks: this.options.commonChunks,
+            buildAdapter: this.options.buildAdapter,
+            isBuildPlugin: false,
+            addChunkPages: this.options.addChunkPages,
+            pages: this.pages,
+            framework: this.options.framework
+          })
+          this.loadChunksPlugin.apply(compiler)
+        }
       })
     )
 
