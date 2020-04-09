@@ -49,9 +49,12 @@ const addHtmlExtname = (str: string) => {
 
 const notTabbar = (url: string) => {
   const path = url.split('?')[0]
-  const config = Taro.getApp().config
-  if (config && config.tabBar && config.tabBar.list && config.tabBar.list instanceof Array) {
-    return config.tabBar.list.findIndex(e => e.pagePath === path) === -1
+  const app = Taro.getApp()
+  if (app && app.config) {
+    const config = app.config
+    if (config.tabBar && config.tabBar.list && config.tabBar.list instanceof Array) {
+      return config.tabBar.list.findIndex(e => e.pagePath === path) === -1
+    }
   }
   return true
 }
