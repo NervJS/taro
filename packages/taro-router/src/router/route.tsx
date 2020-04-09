@@ -40,6 +40,10 @@ class Route extends Taro.Component<RouteProps, {}> {
   isRoute = true;
   scrollPos = 0;
 
+  state = {
+    location: {}
+  }
+
   constructor (props, context) {
     super(props, context)
     this.matched = this.computeMatch(this.props.currentLocation)
@@ -68,6 +72,9 @@ class Route extends Taro.Component<RouteProps, {}> {
 
   getRef = ref => {
     if (ref) {
+      if (ref.props.location !== this.state.location) {
+        ref.props.location = this.state.location
+      }
       this.componentRef = ref
       this.props.collectComponent(ref, this.props.k)
     }
@@ -79,9 +86,18 @@ class Route extends Taro.Component<RouteProps, {}> {
         if (!component) {
           throw Error(`Received a falsy component for route "${props.path}". Forget to export it?`)
         }
+        const path = props.currentLocation.path
+        const key = props.currentLocation.state.key
         const WrappedComponent = createWrappedComponent(component)
         this.wrappedComponent = WrappedComponent
         this.forceUpdate()
+        if (key === props.key && path === props.path) {
+          this.setState({ location: props.currentLocation }, () => {
+            if (this.componentRef) {
+              this.componentRef.props.location = this.state.location
+            }
+          })
+        }
       }).catch((e) => {
         console.error(e)
       })
@@ -150,12 +166,13 @@ class Route extends Taro.Component<RouteProps, {}> {
     if (!this.wrappedComponent) return null
 
     const WrappedComponent = this.wrappedComponent
+
     return (
       <div
         className="taro_page"
         ref={this.getWrapRef}
         style={{ minHeight: '100%' }}>
-        <WrappedComponent ref={this.getRef} />
+        <WrappedComponent ref={this.getRef} location={this.state.location} />
       </div>
     )
   }
