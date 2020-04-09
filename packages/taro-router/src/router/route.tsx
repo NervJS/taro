@@ -93,7 +93,6 @@ class Route extends Taro.Component<RouteProps, {}> {
         const key = props.currentLocation.state.key
         const WrappedComponent = createWrappedComponent(component)
         this.wrappedComponent = WrappedComponent
-        this.forceUpdate()
         if (key === props.key && path === props.path) {
           this.setState({ location: props.currentLocation }, () => {
             if (this.componentRef) {
@@ -101,6 +100,7 @@ class Route extends Taro.Component<RouteProps, {}> {
             }
           })
         }
+        this.forceUpdate()
       }).catch((e) => {
         console.error(e)
       })
