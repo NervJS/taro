@@ -71,14 +71,14 @@ export const setClipboardData = ({ data, success, fail, complete }) => {
         data
       }
       success && success(res)
-      complete && complete()
+      complete && complete(res)
       resolve(res)
     }).catch(e => {
       const res = {
         errMsg: `setClipboardData:fail ${e.message}`
       }
       fail && fail(res)
-      complete && complete()
+      complete && complete(res)
       reject(res)
     })
   })
@@ -99,14 +99,14 @@ export const getClipboardData = ({ success, fail, complete } = {}) => {
         data
       }
       success && success(res)
-      complete && complete()
+      complete && complete(res)
       resolve(res)
     }).catch(e => {
       const res = {
         errMsg: `getClipboardData:fail ${e.message}`
       }
       fail && fail(res)
-      complete && complete()
+      complete && complete(res)
       reject(res)
     })
   })
