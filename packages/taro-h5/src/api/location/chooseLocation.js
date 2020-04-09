@@ -30,7 +30,7 @@ class LocationChooser extends Taro.Component {
     this.wrapRef.style.top = '100%'
   }
   onBack = () => {
-    this.props.handler({ errMsg: 'chooseLOcation:fail cancel' })
+    this.props.handler({ errMsg: 'chooseLocation:fail cancel' })
     this.hide()
   }
   onSubmit = () => {

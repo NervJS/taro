@@ -126,12 +126,6 @@ class ImageContainer extends PureComponent {
 
   componentWillMount () {
     this.loadImg(this.props.src)
-    /**
-     * 点击浏览器返回键关闭预览
-     * TODO: 保留原页面浏览位置
-     */
-    window.history.pushState(null, null, window.location.href)
-    window.history.forward(1)
     window.addEventListener('popstate', this.handlePopState)
   }
 
@@ -143,9 +137,9 @@ class ImageContainer extends PureComponent {
     window.removeEventListener('popstate', this.handlePopState)
   }
 
-  handlePopState (event) {
-    event.preventDefault()
-    event.stopPropagation()
+  handlePopState = () => {
+    window.removeEventListener('popstate', this.handlePopState)
+    this.context.onError({ errMsg: 'previewImage:fail cancel' })
     this.context.onClose()
   }
 

@@ -25,6 +25,7 @@ const previewImage = ({ urls, current, success, fail, complete } = {}) => {
   }
   const props = {
     urls,
+    onError,
     onClose () {
       unmountComponentAtNode(div)
     }
