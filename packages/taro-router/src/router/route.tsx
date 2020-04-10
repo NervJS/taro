@@ -52,7 +52,7 @@ class Route extends Taro.Component<RouteProps, {}> {
     }
   }
 
-  computeMatch (currentLocation) {
+  computeMatch (currentLocation: Location) {
     const path = currentLocation.path;
     const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
@@ -84,22 +84,20 @@ class Route extends Taro.Component<RouteProps, {}> {
   }
 
   updateComponent (props = this.props) {
+    if (this.matched && this.componentRef) {
+      this.setState({
+        location: this.componentRef.props.location
+      }, () => {
+        this.componentRef.props.location = this.state.location
+      })
+    }
     props.componentLoader()
       .then(({ default: component }) => {
         if (!component) {
           throw Error(`Received a falsy component for route "${props.path}". Forget to export it?`)
         }
-        const path = props.currentLocation.path
-        const key = props.currentLocation.state.key
         const WrappedComponent = createWrappedComponent(component)
         this.wrappedComponent = WrappedComponent
-        if (key === props.key && path === props.path) {
-          this.setState({ location: props.currentLocation }, () => {
-            if (this.componentRef) {
-              this.componentRef.props.location = this.state.location
-            }
-          })
-        }
         this.forceUpdate()
       }).catch((e) => {
         console.error(e)
@@ -109,13 +107,10 @@ class Route extends Taro.Component<RouteProps, {}> {
   componentDidMount () {
     scroller = scroller || getScroller()
     scroller.set(0)
-    if (this.matched && this.componentRef) {
-      this.componentRef.props.location = this.state.location
-    }
     this.updateComponent()
   }
 
-  componentWillReceiveProps (nProps, nContext) {
+  componentWillReceiveProps (nProps: RouteProps) {
     const isRedirect = nProps.isRedirect
     const lastMatched = this.matched
     const nextMatched = this.computeMatch(nProps.currentLocation)

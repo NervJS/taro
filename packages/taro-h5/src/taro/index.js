@@ -160,7 +160,7 @@ const getApp = function () {
  *
  * @returns {RouterParams} router router参数
  */
-const getRouter = function (location = {}) {
+const getRouter = function (location = taro._$router) {
   const { path, params } = location
   return {
     path,
