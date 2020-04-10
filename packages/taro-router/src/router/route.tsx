@@ -79,7 +79,7 @@ class Route extends Taro.Component<RouteProps, {}> {
         ref.props.location = this.state.location
       }
       this.componentRef = ref
-      this.props.collectComponent(ref, this.props.k)
+      this.props.collectComponent(ref, this.props.key)
     }
   }
 

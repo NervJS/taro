@@ -137,8 +137,8 @@ class Router extends Taro.Component<Props, State> {
     this.setState({ routeStack, location: toLocation })
   }
 
-  collectComponent = (comp, k) => {
-    this.currentPages[k] = comp
+  collectComponent = (comp, index: string) => {
+    this.currentPages[Number(index) || 0] = comp
   }
 
   componentDidMount () {
@@ -177,7 +177,15 @@ class Router extends Taro.Component<Props, State> {
   }
 
   componentWillUpdate (nextProps, nextState) {
-    this.currentPages.length = nextState.routeStack.length
+    if (Taro._$router) {
+      this.currentPages.length = Number(Taro._$router.state.key) + 1
+    }
+  }
+
+  componentDidShow () {
+    if (Taro._$router) {
+      this.currentPages.length = Number(Taro._$router.state.key) + 1
+    }
   }
 
   componentWillUnmount () {
