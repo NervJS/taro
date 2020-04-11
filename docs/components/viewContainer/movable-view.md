@@ -16,7 +16,14 @@ ComponentType<MovableViewProps>
 ## 示例代码
 
 ```tsx
-class App extends Components {
+import Taro, { Component, } from '@tarojs/taro'
+
+import {
+  MovableView,
+  MovableArea,
+} from '@tarojs/components'
+
+class App extends Component {
   render () {
     return (
       <MovableArea style='height: 200px; width: 200px; background: red;'>
