@@ -51,7 +51,7 @@ export default class Index extends Component {
         width='100%' /* 列表的宽度 */
         itemData={data} /* 渲染列表的数据 */
         itemCount={dataLen} /*  渲染列表的长度 */
-        itemHeight={100} /* 列表单项的高度  */
+        itemSize={100} /* 列表单项的高度  */
       >
         {Row} /* 列表单项组件，这里只能传入一个组件 */
       </VirtualList>
@@ -104,14 +104,14 @@ export default class Index extends Component {
   render() {
     const { data } = this.state
     const dataLen = data.length
-    const itemHeight = 100
+    const itemSize = 100
     return (
       <VirtualList
         className='List'
         height={500}
         itemData={data}
         itemCount={dataLen}
-        itemHeight={itemHeight}
+        itemSize={itemSize}
         width='100%'
         onScroll={({ scrollDirection, scrollOffset }) => {
           if (
@@ -245,7 +245,7 @@ export default class Index extends Component {
         width='100%' /* 列表的宽度 */
         itemData={data} /* 渲染列表数据 */
         itemCount={dataLen} /*  渲染列表的长度 */
-        itemHeight={100} /* 列表单项的高度  */
+        itemSize={100} /* 列表单项的高度  */
         ref={this.list}
       >
         {Row} /* 列表单项组件，这里只能传入一个组件 */
