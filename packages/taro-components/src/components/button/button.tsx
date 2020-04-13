@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, Prop, State, ComponentInterface, Event, EventEmitter, Listen } from '@stencil/core'
+import { Component, h, Prop, State, ComponentInterface, Event, EventEmitter, Listen, Element } from '@stencil/core'
 import classNames from 'classnames'
 
 @Component({
@@ -7,6 +7,10 @@ import classNames from 'classnames'
   styleUrl: './style/index.scss'
 })
 export class Button implements ComponentInterface {
+  private button: HTMLButtonElement
+
+  @Element() el: HTMLElement
+
   @Prop() disabled: boolean
   @Prop() hoverClass = 'button-hover'
   @Prop() type = 'default'
@@ -64,6 +68,20 @@ export class Button implements ComponentInterface {
     e.preventDefault()
   }
 
+  componentDidRender () {
+    if (this.el.classList.length) {
+      this.el.classList.forEach(cls => {
+        if (!this.button.classList.contains(cls)) {
+          this.button.classList.add(cls)
+        }
+      })
+    }
+    if (this.el.style.cssText) {
+      this.button.style.cssText = this.el.style.cssText
+      this.el.style.cssText = ''
+    }
+  }
+
   render () {
     const {
       disabled,
@@ -95,6 +113,10 @@ export class Button implements ComponentInterface {
         // @ts-ignore: weui need plain for css selector
         plain={plain}
         disabled={disabled}
+        ref={dom => {
+          if (!dom) return
+          this.button = dom
+        }}
       >
         {loading && <i class='weui-loading' />}
         <slot />
