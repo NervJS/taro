@@ -185,17 +185,17 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     plugin,
     optimization: {
       minimizer,
-      splitChunks: {
-        chunks: 'all',
-        cacheGroups: {
-          common: {
-            name: 'common',
-            chunks: 'initial',
-            priority: 2,
-            minChunks: 2
-          }
-        }
-      }
+      // splitChunks: {
+      //   chunks: 'all',
+      //   cacheGroups: {
+      //     common: {
+      //       name: 'common',
+      //       chunks: 'initial',
+      //       priority: 2,
+      //       minChunks: 2
+      //     }
+      //   }
+      // }
     }
   })
   return chain
