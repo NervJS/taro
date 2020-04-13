@@ -342,10 +342,16 @@ export default class Picker extends Nerv.Component {
 
     // 统一抛出的事件对象，和小程序对齐
     const getEventObj = (e, type, detail) => {
+      let value = detail;
       Object.defineProperties(e, {
         detail: {
-          value: detail,
-          enumerable: true
+          get: function() {
+            return value;
+          },
+          set: function(v) {
+            value = v;
+          },
+          enumerable: true,
         },
         type: {
           value: type,
