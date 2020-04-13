@@ -14,7 +14,7 @@
     "preserveConstEnums": true,
     "removeComments": false,
     "rootDir": "./src",
-    "sourceMap": false,
+    "sourceMap": true,
     "strictNullChecks": true,
     "target": "es2015",
     "traceResolution": false,
