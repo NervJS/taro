@@ -1,4 +1,23 @@
-import { requestAnimationFrame, cancelAnimationFrame, now } from '@tarojs/runtime'
+let now
+
+(function () {
+  let loadTime
+  if ((typeof performance !== 'undefined' && performance !== null) && performance.now) {
+    now = function () {
+      return performance.now()
+    }
+  } else if (Date.now) {
+    now = function () {
+      return Date.now() - loadTime
+    }
+    loadTime = Date.now()
+  } else {
+    now = function () {
+      return new Date().getTime() - loadTime
+    }
+    loadTime = new Date().getTime()
+  }
+})()
 
 export function cancelTimeout (timeoutID) {
   cancelAnimationFrame(timeoutID.id)
