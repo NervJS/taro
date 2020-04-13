@@ -1,19 +1,31 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.1.3...v) (2020-04-09)
+# [](https://github.com/NervJS/taro/compare/v2.1.4...v) (2020-04-13)
 
 
 
-<a name="2.1.3"></a>
-## [2.1.3](https://github.com/NervJS/taro/compare/v2.1.1...v2.1.3) (2020-04-09)
+<a name="2.1.4"></a>
+## [2.1.4](https://github.com/NervJS/taro/compare/v2.1.1...v2.1.4) (2020-04-13)
 
 
 ### Bug Fixes
 
+* **h5:** Taro.downloadFile携带cookie ([#5941](https://github.com/NervJS/taro/issues/5941)) ([bf3ae7e](https://github.com/NervJS/taro/commit/bf3ae7e))
+* for tabbar current-pages ([95c0562](https://github.com/NervJS/taro/commit/95c0562))
+* **h5:** useRouter ([3deb16b](https://github.com/NervJS/taro/commit/3deb16b))
+* **router:** 去除了router constructor内的setState ([5e99055](https://github.com/NervJS/taro/commit/5e99055))
+* **router:** 避免setState后又forceUpdate ([f918ab9](https://github.com/NervJS/taro/commit/f918ab9))
+* can not redirectTo a tabbar page remove ([65cac9c](https://github.com/NervJS/taro/commit/65cac9c))
+* complete msg defect ([f877409](https://github.com/NervJS/taro/commit/f877409))
+* init location for $router ([5e9caa1](https://github.com/NervJS/taro/commit/5e9caa1))
+* previewImage点击返回键导致页面返回等问题 ([3058b9f](https://github.com/NervJS/taro/commit/3058b9f))
+* previewImage点击返回键导致页面返回等问题 ([442e1a8](https://github.com/NervJS/taro/commit/442e1a8))
+* router test error ([6add42f](https://github.com/NervJS/taro/commit/6add42f))
 * **cli:** 使用 babelMerge 替换 mergeWith ([318d101](https://github.com/NervJS/taro/commit/318d101))
 * **cli:** 回退 babel 合并操作 ([a7cc412](https://github.com/NervJS/taro/commit/a7cc412))
 * **components:** images upload fix [#5921](https://github.com/NervJS/taro/issues/5921) ([9d2ce9f](https://github.com/NervJS/taro/commit/9d2ce9f))
 * **docs:** rebuild ([c9c8188](https://github.com/NervJS/taro/commit/c9c8188))
 * **docs:** router params ([910c753](https://github.com/NervJS/taro/commit/910c753))
+* **h5:** 修复uploadFile上传的是个blob对象的问题 ([2cd230c](https://github.com/NervJS/taro/commit/2cd230c))
 * **mini-runner:** 依赖读取顺序调整，close [#5914](https://github.com/NervJS/taro/issues/5914) ([8f2faae](https://github.com/NervJS/taro/commit/8f2faae))
 * **mini-runner:** 修复全局变量解析与 H5 不一致的问题，close [#5917](https://github.com/NervJS/taro/issues/5917) ([fbb74fd](https://github.com/NervJS/taro/commit/fbb74fd))
 * **mini-runner:** 支持百度小程序引入动态库，close [#5884](https://github.com/NervJS/taro/issues/5884) ([0899be7](https://github.com/NervJS/taro/commit/0899be7))
@@ -33,9 +45,16 @@
 
 ### Features
 
+* 禁用navigateTo、redirectTo跳转tabbar「与小程序保持一致」 ([12f6e87](https://github.com/NervJS/taro/commit/12f6e87))
+* **h5:** previewImage:fail msg ([efe2fb6](https://github.com/NervJS/taro/commit/efe2fb6))
 * **rn-runner:** 利用 splitChunks 优化打包大小 ([c1f815d](https://github.com/NervJS/taro/commit/c1f815d))
 * ts loader 解耦 trandformer-wx ([779d1c0](https://github.com/NervJS/taro/commit/779d1c0))
 * **rn-runner:** 默认开启 CSS Module，且兼容 CSS Moduels 的写法 ([b805553](https://github.com/NervJS/taro/commit/b805553))
+
+
+### Reverts
+
+* **rn-runner:** 关闭 splitChunks ([ac40ad3](https://github.com/NervJS/taro/commit/ac40ad3))
 
 
 
