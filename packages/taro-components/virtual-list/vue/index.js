@@ -18,20 +18,6 @@ function createListComponent ({
   shouldResetStyleCacheOnItemSizeChange
 }) {
   return Vue.component('virtual-list', {
-    _instanceProps: initInstanceProps(this.$props, this),
-
-    _resetIsScrollingTimeoutId: null,
-
-    data: {
-      instance: this,
-      isScrolling: false,
-      scrollDirection: 'forward',
-      scrollOffset:
-        typeof this.$props.initialScrollOffset === 'number'
-          ? this.$props.initialScrollOffset
-          : 0,
-      scrollUpdateWasRequested: false
-    },
     props: {
       direction: {
         type: String,
@@ -46,42 +32,301 @@ function createListComponent ({
         type: Boolean,
         default: false
       },
+      overscanCount: {
+        type: Number,
+        default: 1
+      },
       wclass: String,
       height: {},
       innerRef: String,
-      innerElementType: String,
+      innerElementType: {
+        type: String,
+        default: 'view'
+      },
       itemCount: Number,
       wstyle: String,
-      width: String
-    },
-    scrollTo (scrollOffset) {
-      scrollOffset = Math.max(0, scrollOffset)
-
-      if (this.scrollOffset === scrollOffset) {
-        return
+      width: String,
+      itemSize: {
+        required: true
+      },
+      item: {
+        required: true
       }
-
-      this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
-      this.scrollOffset = scrollOffset
-      this.scrollUpdateWasRequested = true
-
-      Vue.nextTick(this._resetIsScrollingDebounced)
     },
-    scrollToItem (index, align = 'auto') {
-      const { itemCount } = this.$props
-      const { scrollOffset } = this.$data
+    data () {
+      return {
+        instance: this,
+        isScrolling: false,
+        scrollDirection: 'forward',
+        scrollOffset:
+          typeof this.$props.initialScrollOffset === 'number'
+            ? this.$props.initialScrollOffset
+            : 0,
+        scrollUpdateWasRequested: false,
+        resetIsScrollingTimeoutId: null
+      }
+    },
+    methods: {
+      _instanceProps () {
+        initInstanceProps(this.$props, this)
+      },
+      scrollTo (scrollOffset) {
+        scrollOffset = Math.max(0, scrollOffset)
 
-      index = Math.max(0, Math.min(index, itemCount - 1))
+        if (this.scrollOffset === scrollOffset) {
+          return
+        }
 
-      this.scrollTo(
-        getOffsetForIndexAndAlignment(
-          this.$props,
-          index,
-          align,
-          scrollOffset,
-          this._instanceProps
+        this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
+        this.scrollOffset = scrollOffset
+        this.scrollUpdateWasRequested = true
+
+        Vue.nextTick(this._resetIsScrollingDebounced)
+      },
+
+      scrollToItem (index, align = 'auto') {
+        const { itemCount } = this.$props
+        const { scrollOffset } = this.$data
+
+        index = Math.max(0, Math.min(index, itemCount - 1))
+
+        this.scrollTo(
+          getOffsetForIndexAndAlignment(
+            this.$props,
+            index,
+            align,
+            scrollOffset,
+            this._instanceProps()
+          )
         )
-      )
+      },
+
+      _callOnItemsRendered: memoizeOne(
+        (
+          overscanStartIndex,
+          overscanStopIndex,
+          visibleStartIndex,
+          visibleStopIndex
+        ) => {
+          return this.$props.onItemsRendered({
+            overscanStartIndex,
+            overscanStopIndex,
+            visibleStartIndex,
+            visibleStopIndex
+          })
+        }
+      ),
+
+      _callOnScroll: memoizeOne(
+        (
+          scrollDirection,
+          scrollOffset,
+          scrollUpdateWasRequested
+        ) =>
+          this.$props.onScroll({
+            scrollDirection,
+            scrollOffset,
+            scrollUpdateWasRequested
+          })
+      ),
+
+      _callPropsCallbacks () {
+        if (typeof this.$props.onItemsRendered === 'function') {
+          const { itemCount } = this.$props
+          if (itemCount > 0) {
+            const [
+              overscanStartIndex,
+              overscanStopIndex,
+              visibleStartIndex,
+              visibleStopIndex
+            ] = this._getRangeToRender()
+            this._callOnItemsRendered(
+              overscanStartIndex,
+              overscanStopIndex,
+              visibleStartIndex,
+              visibleStopIndex
+            )
+          }
+        }
+
+        if (typeof this.$props.onScroll === 'function') {
+          const {
+            scrollDirection,
+            scrollOffset,
+            scrollUpdateWasRequested
+          } = this.$data
+          this._callOnScroll(
+            scrollDirection,
+            scrollOffset,
+            scrollUpdateWasRequested
+          )
+        }
+      },
+
+      _getStyleValue (value) {
+        return typeof value === 'number'
+          ? value + 'px'
+          : value == null
+            ? ''
+            : value
+      },
+
+      _getItemStyle (index) {
+        const { direction, itemSize, layout } = this.$props
+
+        const itemStyleCache = this._getItemStyleCache(
+          shouldResetStyleCacheOnItemSizeChange && itemSize,
+          shouldResetStyleCacheOnItemSizeChange && layout,
+          shouldResetStyleCacheOnItemSizeChange && direction
+        )
+
+        let style
+        if (itemStyleCache.hasOwnProperty(index)) {
+          style = itemStyleCache[index]
+        } else {
+          const offset = getItemOffset(this.$props, index, this._instanceProps())
+          const size = getItemSize(this.$props, index, this._instanceProps())
+
+          // TODO Deprecate direction "horizontal"
+          const isHorizontal =
+            direction === 'horizontal' || layout === 'horizontal'
+
+          const isRtl = direction === 'rtl'
+          const offsetHorizontal = isHorizontal ? offset : 0
+          itemStyleCache[index] = style = {
+            position: 'absolute',
+            left: isRtl ? undefined : offsetHorizontal,
+            right: isRtl ? offsetHorizontal : undefined,
+            top: !isHorizontal ? offset : 0,
+            height: !isHorizontal ? size : '100%',
+            width: isHorizontal ? size : '100%'
+          }
+        }
+
+        for (const k in style) {
+          if (style.hasOwnProperty(k)) {
+            style[k] = this._getStyleValue(style[k])
+          }
+        }
+
+        return style
+      },
+
+      _getItemStyleCache: memoizeOne(() => ({})),
+
+      _getRangeToRender () {
+        const { itemCount, overscanCount } = this.$props
+        const { isScrolling, scrollDirection, scrollOffset } = this.$data
+
+        if (itemCount === 0) {
+          return [0, 0, 0, 0]
+        }
+
+        const startIndex = getStartIndexForOffset(
+          this.$props,
+          scrollOffset,
+          this._instanceProps()
+        )
+        const stopIndex = getStopIndexForStartIndex(
+          this.$props,
+          startIndex,
+          scrollOffset,
+          this._instanceProps()
+        )
+
+        // Overscan by one item in each direction so that tab/focus works.
+        // If there isn't at least one extra item, tab loops back around.
+        const overscanBackward =
+          !isScrolling || scrollDirection === 'backward'
+            ? Math.max(1, overscanCount)
+            : 1
+        const overscanForward =
+          !isScrolling || scrollDirection === 'forward'
+            ? Math.max(1, overscanCount)
+            : 1
+
+        return [
+          Math.max(0, startIndex - overscanBackward),
+          Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
+          startIndex,
+          stopIndex
+        ]
+      },
+
+      _onScrollHorizontal (event) {
+        const clientWidth = this.$props.width
+        const { scrollLeft, scrollWidth } = event.currentTarget
+        if (this.scrollOffset === scrollLeft) {
+          return
+        }
+        const { direction } = this.$props
+
+        let scrollOffset = scrollLeft
+        if (direction === 'rtl') {
+          // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
+          // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
+          // It's also easier for this component if we convert offsets to the same format as they would be in for ltr.
+          // So the simplest solution is to determine which browser behavior we're dealing with, and convert based on it.
+          switch (getRTLOffsetType()) {
+            case 'negative':
+              scrollOffset = -scrollLeft
+              break
+            case 'positive-descending':
+              scrollOffset = scrollWidth - clientWidth - scrollLeft
+              break
+          }
+        }
+
+        // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
+        scrollOffset = Math.max(
+          0,
+          Math.min(scrollOffset, scrollWidth - clientWidth)
+        )
+        this.isScrolling = true
+        this.scrollDirection = this.scrollOffset < scrollLeft ? 'forward' : 'backward'
+        this.scrollOffset = scrollOffset
+        this.scrollUpdateWasRequested = false
+        Vue.nextTick(this._resetIsScrollingDebounced)
+      },
+
+      _onScrollVertical (event) {
+        const clientHeight = this.$props.height
+        const { scrollHeight, scrollTop } = event.currentTarget
+        if (this.scrollOffset === scrollTop) {
+          return
+        }
+
+        // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
+        const scrollOffset = Math.max(
+          0,
+          Math.min(scrollTop, scrollHeight - clientHeight)
+        )
+
+        this.isScrolling = true
+        this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
+        this.scrollOffset = scrollOffset
+        this.scrollUpdateWasRequested = false
+        Vue.nextTick(this._resetIsScrollingDebounced)
+      },
+
+      _resetIsScrollingDebounced () {
+        if (this.resetIsScrollingTimeoutId !== null) {
+          cancelTimeout(this.resetIsScrollingTimeoutId)
+        }
+
+        this.resetIsScrollingTimeoutId = requestTimeout(
+          this._resetIsScrolling,
+          IS_SCROLLING_DEBOUNCE_INTERVAL
+        )
+      },
+
+      _resetIsScrolling () {
+        this.resetIsScrollingTimeoutId = null
+        this.isScrolling = false
+        Vue.nextTick(() => {
+          this._getItemStyleCache(-1, null)
+        })
+      }
     },
     mounted () {
       const { direction, initialScrollOffset, layout } = this.$props
@@ -136,222 +381,9 @@ function createListComponent ({
     },
 
     beforeDestroy () {
-      if (this._resetIsScrollingTimeoutId !== null) {
-        cancelTimeout(this._resetIsScrollingTimeoutId)
+      if (this.resetIsScrollingTimeoutId !== null) {
+        cancelTimeout(this.resetIsScrollingTimeoutId)
       }
-    },
-
-    _callOnItemsRendered: memoizeOne(
-      (
-        overscanStartIndex,
-        overscanStopIndex,
-        visibleStartIndex,
-        visibleStopIndex
-      ) => {
-        return this.$props.onItemsRendered({
-          overscanStartIndex,
-          overscanStopIndex,
-          visibleStartIndex,
-          visibleStopIndex
-        })
-      }
-    ),
-
-    _callOnScroll: memoizeOne(
-      (
-        scrollDirection,
-        scrollOffset,
-        scrollUpdateWasRequested
-      ) =>
-        this.$props.onScroll({
-          scrollDirection,
-          scrollOffset,
-          scrollUpdateWasRequested
-        })
-    ),
-
-    _callPropsCallbacks () {
-      if (typeof this.$props.onItemsRendered === 'function') {
-        const { itemCount } = this.$props
-        if (itemCount > 0) {
-          const [
-            overscanStartIndex,
-            overscanStopIndex,
-            visibleStartIndex,
-            visibleStopIndex
-          ] = this._getRangeToRender()
-          this._callOnItemsRendered(
-            overscanStartIndex,
-            overscanStopIndex,
-            visibleStartIndex,
-            visibleStopIndex
-          )
-        }
-      }
-
-      if (typeof this.$props.onScroll === 'function') {
-        const {
-          scrollDirection,
-          scrollOffset,
-          scrollUpdateWasRequested
-        } = this.$data
-        this._callOnScroll(
-          scrollDirection,
-          scrollOffset,
-          scrollUpdateWasRequested
-        )
-      }
-    },
-
-    _getItemStyle (index) {
-      const { direction, itemSize, layout } = this.$props
-
-      const itemStyleCache = this._getItemStyleCache(
-        shouldResetStyleCacheOnItemSizeChange && itemSize,
-        shouldResetStyleCacheOnItemSizeChange && layout,
-        shouldResetStyleCacheOnItemSizeChange && direction
-      )
-
-      let style
-      if (itemStyleCache.hasOwnProperty(index)) {
-        style = itemStyleCache[index]
-      } else {
-        const offset = getItemOffset(this.$props, index, this._instanceProps)
-        const size = getItemSize(this.$props, index, this._instanceProps)
-
-        // TODO Deprecate direction "horizontal"
-        const isHorizontal =
-          direction === 'horizontal' || layout === 'horizontal'
-
-        const isRtl = direction === 'rtl'
-        const offsetHorizontal = isHorizontal ? offset : 0
-        itemStyleCache[index] = style = {
-          position: 'absolute',
-          left: isRtl ? undefined : offsetHorizontal,
-          right: isRtl ? offsetHorizontal : undefined,
-          top: !isHorizontal ? offset : 0,
-          height: !isHorizontal ? size : '100%',
-          width: isHorizontal ? size : '100%'
-        }
-      }
-
-      return style
-    },
-
-    _getItemStyleCache: memoizeOne(() => ({})),
-
-    _getRangeToRender () {
-      const { itemCount, overscanCount } = this.$props
-      const { isScrolling, scrollDirection, scrollOffset } = this.$data
-
-      if (itemCount === 0) {
-        return [0, 0, 0, 0]
-      }
-
-      const startIndex = getStartIndexForOffset(
-        this.$props,
-        scrollOffset,
-        this._instanceProps
-      )
-      const stopIndex = getStopIndexForStartIndex(
-        this.$props,
-        startIndex,
-        scrollOffset,
-        this._instanceProps
-      )
-
-      // Overscan by one item in each direction so that tab/focus works.
-      // If there isn't at least one extra item, tab loops back around.
-      const overscanBackward =
-        !isScrolling || scrollDirection === 'backward'
-          ? Math.max(1, overscanCount)
-          : 1
-      const overscanForward =
-        !isScrolling || scrollDirection === 'forward'
-          ? Math.max(1, overscanCount)
-          : 1
-
-      return [
-        Math.max(0, startIndex - overscanBackward),
-        Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
-        startIndex,
-        stopIndex
-      ]
-    },
-
-    _onScrollHorizontal (event) {
-      const clientWidth = this.$props.width
-      const { scrollLeft, scrollWidth } = event.currentTarget
-      if (this.scrollOffset === scrollLeft) {
-        return
-      }
-      const { direction } = this.$props
-
-      let scrollOffset = scrollLeft
-      if (direction === 'rtl') {
-        // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
-        // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
-        // It's also easier for this component if we convert offsets to the same format as they would be in for ltr.
-        // So the simplest solution is to determine which browser behavior we're dealing with, and convert based on it.
-        switch (getRTLOffsetType()) {
-          case 'negative':
-            scrollOffset = -scrollLeft
-            break
-          case 'positive-descending':
-            scrollOffset = scrollWidth - clientWidth - scrollLeft
-            break
-        }
-      }
-
-      // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
-      scrollOffset = Math.max(
-        0,
-        Math.min(scrollOffset, scrollWidth - clientWidth)
-      )
-      this.isScrolling = true
-      this.scrollDirection = this.scrollOffset < scrollLeft ? 'forward' : 'backward'
-      this.scrollOffset = scrollOffset
-      this.scrollUpdateWasRequested = false
-      Vue.nextTick(this._resetIsScrollingDebounced)
-    },
-
-    _onScrollVertical (event) {
-      const clientHeight = this.$props.height
-      const { scrollHeight, scrollTop } = event.currentTarget
-      if (this.scrollOffset === scrollTop) {
-        return
-      }
-
-      // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
-      const scrollOffset = Math.max(
-        0,
-        Math.min(scrollTop, scrollHeight - clientHeight)
-      )
-
-      this.isScrolling = true
-      this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
-      this.scrollOffset = scrollOffset
-      this.scrollUpdateWasRequested = false
-      Vue.nextTick(this._resetIsScrollingDebounced)
-    },
-
-    _resetIsScrollingDebounced () {
-      if (this._resetIsScrollingTimeoutId !== null) {
-        cancelTimeout(this._resetIsScrollingTimeoutId)
-      }
-
-      this._resetIsScrollingTimeoutId = requestTimeout(
-        this._resetIsScrolling,
-        IS_SCROLLING_DEBOUNCE_INTERVAL
-      )
-    },
-
-    _resetIsScrolling () {
-      this._resetIsScrollingTimeoutId = null
-      this.isScrolling = false
-      Vue.nextTick(() => {
-        this._getItemStyleCache(-1, null)
-      })
     },
 
     render (h) {
@@ -392,7 +424,7 @@ function createListComponent ({
                 data: itemData,
                 index,
                 isScrolling: useIsScrolling ? isScrolling : undefined,
-                style: this._getItemStyle(index)
+                css: this._getItemStyle(index)
               }
             })
           )
@@ -403,7 +435,7 @@ function createListComponent ({
       // So their actual sizes (if variable) are taken into consideration.
       const estimatedTotalSize = getEstimatedTotalSize(
         this.$props,
-        this._instanceProps
+        this._instanceProps()
       )
 
       return h(
@@ -413,16 +445,18 @@ function createListComponent ({
           ref: this._outerRefSetter,
           style: {
             position: 'relative',
-            height,
-            width,
+            height: this._getStyleValue(height),
+            width: this._getStyleValue(width),
             overflow: 'auto',
             WebkitOverflowScrolling: 'touch',
             willChange: 'transform',
             direction,
             ...wstyle
           },
-          scrollY: layout === 'vertical',
-          scrollX: layout === 'horizontal',
+          attrs: {
+            scrollY: layout === 'vertical',
+            scrollX: layout === 'horizontal'
+          },
           on: {
             scroll: onScroll
           }
@@ -433,9 +467,9 @@ function createListComponent ({
             {
               ref: innerRef,
               style: {
-                height: isHorizontal ? '100%' : estimatedTotalSize,
+                height: this._getStyleValue(isHorizontal ? '100%' : estimatedTotalSize),
                 pointerEvents: isScrolling ? 'none' : undefined,
-                width: isHorizontal ? estimatedTotalSize : '100%'
+                width: this._getStyleValue(isHorizontal ? estimatedTotalSize : '100%')
               }
             },
             items
@@ -517,9 +551,7 @@ const VirtualList = createListComponent({
     itemCount,
     itemSize
   }, offset) => {
-    const d = Math.max(0, Math.min(itemCount - 1, Math.floor(offset / itemSize)))
-    debugger
-    return d
+    return Math.max(0, Math.min(itemCount - 1, Math.floor(offset / itemSize)))
   },
   getStopIndexForStartIndex: ({
     direction,
