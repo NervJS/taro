@@ -527,26 +527,3 @@ Vue.component('taro-switch', Switch)
 关于胶水层，业界兼容 React 的方案颇多，只是兼容 Web Components 可以使用 [reactify-wc](https://github.com/BBKolton/reactify-wc)，配合 Stencil 则可以使用官方提供的插件 [Stencil DS Plugin](https://github.com/ionic-team/stencil-ds-plugins/blob/master/README.md)。倘若 Vue 需要兼容 Stencil，或需要提高兼容时的灵活性，还是建议手工编写一个胶水层。
 
 本文简单介绍了 Taro Next、Web Components、Stencil 以及基于 Stencil 的组件库改造历程，希望能为读者们带来一些帮助与启迪。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
