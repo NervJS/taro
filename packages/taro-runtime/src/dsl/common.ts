@@ -72,7 +72,7 @@ function stringify (obj?: Record<string, unknown>) {
   }).join('&')
 }
 
-function getPath (id: string, options?: Record<string, unknown>): string {
+export function getPath (id: string, options?: Record<string, unknown>): string {
   let path = id
   if (!isBrowser) {
     path = id + stringify(options)
