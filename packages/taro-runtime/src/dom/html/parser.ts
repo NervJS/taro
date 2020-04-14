@@ -107,13 +107,13 @@ function format (children: ChildNode[]) {
     el.className = child.tagName
     for (let i = 0; i < child.attributes.length; i++) {
       const attr = child.attributes[i]
-      const [key, value] = attr.split('=')
+      const [key, ...value] = attr.split('=')
       if (key === 'class') {
         el.className += el.className
       } else if (key[0] === 'o' && key[1] === 'n') {
         continue
       } else {
-        el.setAttribute(key, value == null ? true : unquote(value))
+        el.setAttribute(key, value == null ? true : unquote(value.join('')))
       }
     }
 
