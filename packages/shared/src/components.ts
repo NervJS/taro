@@ -642,7 +642,11 @@ export function createMiniComponents (components: Components, buildType: string)
           } else if (propValue === '') {
             propValue = `i.${toCamelCase(prop)}`
           } else {
-            propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
+            if (propValue === 'true' || propValue === 'false') {
+              propValue = `i.${toCamelCase(prop)} === undefined ? ${propValue} : i.${toCamelCase(prop)}`
+            } else {
+              propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
+            }
           }
 
           newComp[prop] = propValue
