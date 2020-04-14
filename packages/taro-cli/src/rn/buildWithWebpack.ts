@@ -1,10 +1,17 @@
-import * as npmProcess from '../util/npm'
-import { getBabelConfig, recursiveFindNodeModules, resolveScriptPath } from '../util'
-import { IProjectConfig } from '@tarojs/taro/types/compile'
-import { INpmConfig, IOption } from '../util/types'
-import { BUILD_TYPES, IMINI_APP_FILE_TYPE, NODE_MODULES, PROJECT_CONFIG } from '../util/constants'
 import * as path from 'path'
 import * as _ from 'lodash'
+import {
+  getBabelConfig,
+  recursiveFindNodeModules,
+  resolveScriptPath,
+  npm as npmProcess,
+  NODE_MODULES,
+  PROJECT_CONFIG
+} from '@tarojs/helper'
+
+import { IProjectConfig } from '@tarojs/taro/types/compile'
+import { INpmConfig, IOption } from '../util/types'
+
 import CONFIG from '../config'
 
 export interface IBuildData {
@@ -21,14 +28,14 @@ export interface IBuildData {
   npmConfig: INpmConfig,
   alias: IOption,
   isProduction: boolean,
-  buildAdapter: BUILD_TYPES,
-  outputFilesTypes?: IMINI_APP_FILE_TYPE,
+  buildAdapter: string,
+  outputFilesTypes?: object,
   nodeModulesPath: string,
 }
 
 let BuildData: IBuildData
 
-export async function buildWithWebpack ({appPath, watch}: { appPath: string, watch?: boolean }, builder) {
+export async function buildWithWebpack ({appPath, watch}: { appPath: string, watch?: boolean }) {
   const {
     entryFilePath,
     buildAdapter,
@@ -40,7 +47,6 @@ export async function buildWithWebpack ({appPath, watch}: { appPath: string, wat
     nodeModulesPath
   } = getBuildData()
 
-  console.log(appPath)
   const rnRunner = await npmProcess.getNpmPkg('@tarojs/rn-runner', appPath)
   const babelConfig = getBabelConfig(projectConfig.babel)
   const rnRunnerOpts = {
@@ -68,14 +74,14 @@ export async function buildWithWebpack ({appPath, watch}: { appPath: string, wat
     ...projectConfig.rn
   }
   // console.log('rnRunnerOpts', rnRunnerOpts)
-  await rnRunner(appPath, rnRunnerOpts, builder)
+  await rnRunner(appPath, rnRunnerOpts)
 }
 
 export function setIsProduction (isProduction: boolean) {
   BuildData.isProduction = isProduction
 }
 
-export function setBuildData (appPath: string, adapter: BUILD_TYPES, options?: Partial<IBuildData> | null) {
+export function setBuildData (appPath: string, adapter: string, options?: Partial<IBuildData> | null) {
   const configDir = path.join(appPath, PROJECT_CONFIG)
   const projectConfig = require(configDir)(_.merge)
   const rnConf = projectConfig.rn || {}

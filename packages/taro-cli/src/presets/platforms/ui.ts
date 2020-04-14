@@ -23,7 +23,7 @@ export default (ctx) => {
       const { buildForRN } = require('../../ui/rn')
       const { buildForWeapp } = require('../../ui/weapp')
       const { buildForQuickapp } = require('../../ui/quickapp')
-      const { Compiler: RNCompiler } = require('../../rn')
+      const { Compiler: RNCompiler } = require('../../rn_bak')
 
       const { uiIndex, isWatch } = ctx.runOpts
       const { appPath, sourcePath } = ctx.paths

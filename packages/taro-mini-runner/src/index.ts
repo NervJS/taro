@@ -41,12 +41,20 @@ export default async function build (appPath: string, config: IBuildConfig) {
         if (err) {
           printBuildError(err)
           if (typeof onBuildFinish === 'function') {
-            onBuildFinish(err, null, true)
+            onBuildFinish({
+              error: err,
+              stats: null,
+              isWatch: true
+            })
           }
           return reject(err)
         }
         if (typeof onBuildFinish === 'function') {
-          onBuildFinish(null, stats, true)
+          onBuildFinish({
+            error: null,
+            stats,
+            isWatch: true
+          })
         }
         resolve()
       })
@@ -56,12 +64,20 @@ export default async function build (appPath: string, config: IBuildConfig) {
         if (err) {
           printBuildError(err)
           if (typeof onBuildFinish === 'function') {
-            onBuildFinish(err, null, false)
+            onBuildFinish({
+              error: err,
+              stats: null,
+              isWatch: false
+            })
           }
           return reject(err)
         }
         if (typeof onBuildFinish === 'function') {
-          onBuildFinish(null, stats, false)
+          onBuildFinish({
+            error: null,
+            stats,
+            isWatch: false
+          })
         }
         resolve()
       })

@@ -65,11 +65,11 @@ export default (ctx) => {
                 }
               })
             },
-            async onBuildFinish (err, stats, isWatch) {
+            async onBuildFinish ({ error, stats, isWatch }) {
               await ctx.applyPlugins({
                 name: 'onBuildFinish',
                 opts: {
-                  err,
+                  error,
                   stats,
                   isWatch
                 }

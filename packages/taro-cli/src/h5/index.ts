@@ -35,7 +35,7 @@ import {
   convertSourceStringToAstExpression as toAst
 } from '../util/astConvert'
 import { checkCliAndFrameworkVersion } from '../util'
-import { IBuildOptions, IOption } from '../util/types'
+import { IBuildOptions, IOption, IBuildHooks } from '../util/types'
 import {
   APIS_NEED_TO_APPEND_THIS,
   deviceRatioConfigName,
@@ -194,7 +194,7 @@ class Compiler {
     return Promise.all(readPromises)
   }
 
-  async buildDist ({ watch, port }: IBuildOptions) {
+  async buildDist ({ watch, port }: IBuildOptions, { modifyWebpackChain, modifyBuildAssets, onBuildFinish }: IBuildHooks) {
     const isMultiRouterMode = get(this.h5Config, 'router.mode') === 'multi'
     const entryFileName = this.entryFileName
     const projectConfig = this.projectConfig
@@ -244,7 +244,10 @@ class Compiler {
       sass: projectConfig.sass,
       plugins: projectConfig.plugins,
       port,
-      sourceRoot
+      sourceRoot,
+      modifyWebpackChain,
+      modifyBuildAssets,
+      onBuildFinish
     })
 
     const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', this.appPath)
@@ -1462,14 +1465,14 @@ class Compiler {
 
 export { Compiler }
 
-export async function build (appPath: string, buildConfig: IBuildOptions) {
+export async function build (appPath: string, buildConfig: IBuildOptions, buildHooks: IBuildHooks) {
   process.env.TARO_ENV = 'h5'
   await checkCliAndFrameworkVersion(appPath, 'h5')
   const compiler = new Compiler(appPath)
   await compiler.clean()
   await compiler.buildTemp()
   if (compiler.h5Config.transformOnly !== true) {
-    await compiler.buildDist(buildConfig)
+    await compiler.buildDist(buildConfig, buildHooks)
   }
   if (buildConfig.watch) {
     compiler.watchFiles()
