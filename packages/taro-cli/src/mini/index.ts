@@ -17,7 +17,7 @@ import {
   shouldUseCnpm,
   resolvePureScriptPath
 } from '../util'
-import { processTypeEnum, BUILD_TYPES } from '../util/constants'
+import { processTypeEnum, BUILD_TYPES, PROJECT_CONFIG } from '../util/constants'
 import { IMiniAppBuildConfig } from '../util/types'
 import * as defaultManifestJSON from '../config/manifest.default.json'
 
@@ -59,6 +59,16 @@ function buildProjectConfig () {
     projectConfigFileName = 'project.config.json'
   }
   fs.ensureDirSync(outputDir)
+
+  if (buildAdapter === BUILD_TYPES.WEAPP) {
+    // 读取config中配置的appId写入到pageage.config.json中
+    const projectConf = require(path.join(appPath, PROJECT_CONFIG))(_.merge);
+    if (projectConf.appId) {
+      printLog(processTypeEnum.REMIND, '项目appId=', ` ${projectConf.appId} `)
+      origProjectConfig.appid = projectConf.appId;
+    }
+  }
+
   fs.writeFileSync(
     path.join(outputDir, projectConfigFileName),
     JSON.stringify(Object.assign({}, origProjectConfig, { miniprogramRoot: './' }), null, 2)
