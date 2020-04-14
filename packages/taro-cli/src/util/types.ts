@@ -62,3 +62,10 @@ export interface IMiniAppBuildConfig {
 export interface IOption {
   [key: string]: any
 }
+
+export interface IBuildHooks {
+  onBuildStart?: Function,
+  modifyWebpackChain?: Function,
+  modifyBuildAssets?: Function,
+  onBuildFinish?: Function
+}
