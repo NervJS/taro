@@ -266,7 +266,7 @@ class Transformer {
       const indexKeyDecl = t.variableDeclaration('const', [t.variableDeclarator(
         t.identifier(indexKey),
         indices.length === 0
-          ? t.binaryExpression('+', t.stringLiteral(createRandomLetters(5)), index)
+          ? t.binaryExpression('+', t.identifier(CLASS_COMPONENT_UID), index)
           : t.templateLiteral(
             [
               t.templateElement({ raw: createRandomLetters(5) }),
