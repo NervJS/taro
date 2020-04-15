@@ -6,7 +6,8 @@ import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import {
   NODE_MODULES,
   recursiveFindNodeModules,
-  createBabelRegister
+  createBabelRegister,
+  createDebug
 } from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
 
@@ -51,9 +52,11 @@ export default class Kernel extends EventEmitter {
   platforms: Map<string, IPlatform>
   helper: any
   runOpts: any
+  debugger: any
 
   constructor (options: IKernelOptions) {
     super()
+    this.debugger = createDebug('Taro:Kernel')
     this.appPath = options.appPath || process.cwd()
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
@@ -65,6 +68,7 @@ export default class Kernel extends EventEmitter {
   }
 
   async init () {
+    this.debugger('init')
     this.initConfig()
     this.initPaths()
     this.initPresetsAndPlugins()
@@ -76,6 +80,7 @@ export default class Kernel extends EventEmitter {
       appPath: this.appPath
     })
     this.initialConfig = this.config.initialConfig
+    this.debugger(`initConfig:${JSON.stringify(this.initialConfig, null, 2)}`)
   }
 
   initPaths () {
@@ -90,10 +95,12 @@ export default class Kernel extends EventEmitter {
         outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string)
       })
     }
+    this.debugger(`initPaths:${JSON.stringify(this.paths, null, 2)}`)
   }
 
   initHelper () {
     this.helper = helper
+    this.debugger('initHelper')
   }
 
   initPresetsAndPlugins () {
@@ -194,6 +201,10 @@ export default class Kernel extends EventEmitter {
       initialVal = args.initialVal
       opts = args.opts
     }
+    this.debugger(`applyPlugins`)
+    this.debugger(`applyPlugins:name:${name}`)
+    this.debugger(`applyPlugins:initialVal:${initialVal}`)
+    this.debugger(`applyPlugins:opts:${JSON.stringify(opts, null, 2)}`)
     if (typeof name !== 'string') {
       throw new Error(`调用失败，未传入正确的名称！`)
     }
@@ -243,8 +254,13 @@ export default class Kernel extends EventEmitter {
       name = args.name
       opts = args.opts
     }
+    this.debugger('command:run')
+    this.debugger(`command:run:name:${name}`)
+    this.debugger('command:runOpts')
+    this.debugger(`command:runOpts:${JSON.stringify(opts, null, 2)}`)
     this.setRunOpts(opts)
     await this.init()
+    this.debugger('command:onStart')
     await this.applyPlugins('onStart')
     if (!this.commands.has(name)) {
       throw new Error(`${name} 命令不存在`)
