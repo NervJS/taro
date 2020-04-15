@@ -86,7 +86,7 @@ class Route extends Taro.Component<RouteProps, {}> {
   updateComponent (props = this.props) {
     if (this.matched && this.componentRef) {
       this.setState({
-        location: this.componentRef.props.location
+        location: props.currentLocation
       }, () => {
         this.componentRef.props.location = this.state.location
       })
