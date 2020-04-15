@@ -1,5 +1,5 @@
 /* eslint-disable no-dupe-class-members */
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, internalComponents, capitalize, hasOwn } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, internalComponents, capitalize, hasOwn, isBooleanStringLiteral } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'
@@ -105,19 +105,21 @@ export class TaroElement extends TaroNode {
   }
 
   public removeAttribute (qualifiedName: string) {
-    const isVue = process.env.FRAMEWORK === 'vue'
-    const internalComponent = internalComponents[toCamelCase(capitalize(this.tagName.toLowerCase()))]
-    const isBooleanType = val => val === 'true' || val === 'false'
     if (qualifiedName === 'style') {
       this.style.cssText = ''
-    } else if (isVue && internalComponent && hasOwn(internalComponent, qualifiedName) && isBooleanType(internalComponent[qualifiedName])) {
-      // avoid attribute being removed because set false value in vue
-      this.setAttribute(qualifiedName, false)
+    } else if (process.env.FRAMEWORK === 'vue') {
+      const compName = capitalize(toCamelCase(this.tagName.toLowerCase()))
+      if (compName in internalComponents && hasOwn(internalComponents[compName], qualifiedName) && isBooleanStringLiteral(internalComponents[compName][qualifiedName])) {
+        // avoid attribute being removed because set false value in vue
+        this.setAttribute(qualifiedName, false)
+      } else {
+        delete this.props[qualifiedName]
+      }
     } else {
       delete this.props[qualifiedName]
     }
     this.enqueueUpdate({
-      path: `${this._path}.${isVue ? toCamelCase(qualifiedName) : qualifiedName}`,
+      path: `${this._path}.${process.env.FRAMEWORK === 'vue' ? toCamelCase(qualifiedName) : qualifiedName}`,
       value: ''
     })
   }
