@@ -12,7 +12,8 @@ class WxImageViewer extends Component {
     urls: PropTypes.array.isRequired, // 需要预览的图片http链接列表
     gap: PropTypes.number, // 间隙
     speed: PropTypes.number, // Duration of transition between slides (in ms)
-    onClose: PropTypes.func.isRequired // 关闭组件回调
+    onClose: PropTypes.func.isRequired, // 关闭组件回调
+    onError: PropTypes.func.isRequired
   }
 
   static childContextTypes = {
@@ -28,7 +29,8 @@ class WxImageViewer extends Component {
   }
 
   getChildContext () {
-    return { onClose: this.props.onClose }
+    const { onClose, onError } = this.props
+    return { onClose, onError }
   }
 
   render () {

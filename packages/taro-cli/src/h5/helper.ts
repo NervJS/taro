@@ -7,7 +7,6 @@ import { promisify } from 'util'
 
 export const pRimraf = promisify(rimraf)
 
-
 /**
  * 判断是否为子页面
  * @param parentPath

@@ -63,19 +63,19 @@ interface SwiperProps extends StandardProps {
 
   /** 前边距，可用于露出前一项的一小部分，接受 px 和 rpx 值
    * @default "0px"
-   * @supported weapp
+   * @supported weapp, h5
    */
   previousMargin?: string
 
   /** 后边距，可用于露出后一项的一小部分，接受 px 和 rpx 值
    * @default "0px"
-   * @supported weapp
+   * @supported weapp, h5
    */
   nextMargin?: string
 
   /** 同时显示的滑块数量
    * @default 1
-   * @supported weapp, swan, tt
+   * @supported weapp, swan, tt, h5
    */
   displayMultipleItems?: number
 

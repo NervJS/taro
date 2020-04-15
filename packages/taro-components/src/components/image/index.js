@@ -90,6 +90,7 @@ class Image extends Nerv.Component {
             data-src={src}
             onLoad={this.imageOnLoad}
             onError={onError}
+            {...imgProps}
           />
         ) : (
           <img

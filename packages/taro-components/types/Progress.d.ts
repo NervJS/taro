@@ -5,7 +5,7 @@ interface ProgressProps extends StandardProps {
   /** 百分比 0~100
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  percent: number
+  percent?: number
 
   /** 在进度条右侧显示百分比
    * @default false
@@ -15,34 +15,36 @@ interface ProgressProps extends StandardProps {
 
   /** 圆角大小
    * @default 0
-   * @supported weapp
+   * @supported weapp, h5
    */
-  borderRadius?: number
+  borderRadius?: number | string
 
-  /** 右侧百分比字体大小，单位 px
+  /** 右侧百分比字体大小
    * @default 16
-   * @supported weapp
+   * @supported weapp, h5
    */
-  fontSize?: number
+  fontSize?: number | string
 
-  /** 进度条线的宽度，单位 px
+  /** 进度条线的宽度
    * @default 6
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  strokeWidth?: number
+  strokeWidth?: number | string
 
   /** 进度条颜色 (请使用 activeColor)
    * @default "#09BB07"
-   * @supported weapp, swan, alipay, tt
+   * @supported weapp, swan, alipay, h5, tt
    */
   color?: string
 
   /** 已选择的进度条的颜色
+   * @default "#09BB07"
    * @supported weapp, swan, alipay, tt, h5, rn
    */
   activeColor?: string
 
   /** 未选择的进度条的颜色
+   * @default "#EBEBEB"
    * @supported weapp, swan, alipay, tt, h5, rn
    */
   backgroundColor?: string
@@ -57,18 +59,18 @@ interface ProgressProps extends StandardProps {
    *
    * forwards: 动画从上次结束点接着播
    * @default backwards
-   * @supported weapp, swan, tt, rn
+   * @supported weapp, swan, tt, rn, h5
    */
   activeMode?: 'backwards' | 'forwards'
 
   /** 进度增加 1% 所需毫秒数
    * @default 30
-   * @supported weapp
+   * @supported weapp, h5
    */
   duration?: number
 
   /** 动画完成事件
-   * @supported weapp
+   * @supported weapp, h5
    */
   onActiveEnd?: CommonEventFunction
 }

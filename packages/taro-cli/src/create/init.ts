@@ -10,7 +10,7 @@ import * as helper from '../util'
 
 const CONFIG_DIR_NAME = 'config'
 const TEMPLATE_CREATOR = 'template_creator.js'
-const PACKAGE_JSON_ALIAS = '/pkg'
+const PACKAGE_JSON_ALIAS_REG = /\/pkg$/
 
 const styleExtMap = {
   sass: 'scss',
@@ -108,8 +108,8 @@ function createFiles (
     let dest = path.join(projectPath, destRePath)
 
     // 兼容 Nodejs 13+ 调用 require 时 package.json 格式不能非法
-    if (fileRePath === PACKAGE_JSON_ALIAS) {
-      dest = path.join(projectPath, 'package.json')
+    if (PACKAGE_JSON_ALIAS_REG.test(fileRePath)) {
+      dest = path.join(projectPath, fileRePath.replace(PACKAGE_JSON_ALIAS_REG, '/package.json'))
     }
 
     // 创建

@@ -122,7 +122,7 @@ export default class PagePicker extends Component {
 | range | string[] or number[] or Object[] | `[]` | 是 | mode为 selector 或 multiSelector 时，range 有效 |
 | rangeKey | `string` |  | 否 | 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容 |
 | value | `number` | `0` | 是 | 表示选择了 range 中的第几个（下标从 0 开始） |
-| onChange | `BaseEventOrigFunction<onChangeEvnetDetail>` |  | 是 | value 改变时触发 change 事件，event.detail = {value} |
+| onChange | `BaseEventOrigFunction<onChangeEventDetail>` |  | 是 | value 改变时触发 change 事件，event.detail = {value} |
 
 ### API 支持度
 
@@ -133,11 +133,11 @@ export default class PagePicker extends Component {
 | PickerSelectorProps.value | ✔️ | ✔️ | ✔️ |
 | PickerSelectorProps.onChange | ✔️ | ✔️ | ✔️ |
 
-### onChangeEvnetDetail
+### onChangeEventDetail
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| value | `number` | 表示变更值的下标 |
+| value | string or number | 表示变更值的下标 |
 
 ## PickerMultiSelectorProps
 
@@ -149,7 +149,7 @@ export default class PagePicker extends Component {
 | range | string[][] or number[][] or Object[][] | `[]` | 是 | mode为 selector 或 multiSelector 时，range 有效 |
 | rangeKey | `string` |  | 否 | 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容 |
 | value | string[] or number[] or Object[] | `[]` | 是 | 表示选择了 range 中的第几个（下标从 0 开始） |
-| onChange | `BaseEventOrigFunction<onChangeEvnetDetail>` |  | 是 | 当 value 改变时触发 change 事件，event.detail = {value} |
+| onChange | `BaseEventOrigFunction<onChangeEventDetail>` |  | 是 | 当 value 改变时触发 change 事件，event.detail = {value} |
 | onColumnChange | `BaseEventOrigFunction<onColumnChangeEvnetDetail>` |  | 否 | 列改变时触发 |
 
 ### API 支持度
@@ -162,11 +162,11 @@ export default class PagePicker extends Component {
 | PickerMultiSelectorProps.onChange | ✔️ | ✔️ | ✔️ |
 | PickerMultiSelectorProps.onColumnChange | ✔️ | ✔️ | ✔️ |
 
-### onChangeEvnetDetail
+### onChangeEventDetail
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| value | `number` | 表示变更值的下标 |
+| value | `number[]` | 表示变更值的下标 |
 
 ### onColumnChangeEvnetDetail
 
@@ -185,7 +185,7 @@ export default class PagePicker extends Component {
 | value | `string` | 是 | value 的值表示选择了 range 中的第几个（下标从 0 开始） |
 | start | `string` | 否 | 仅当 mode = timeordate 时有效，表示有效时间范围的开始，字符串格式为"hh:mm" |
 | end | `string` | 否 | 仅当 mode = timeordate 时有效，表示有效时间范围的结束，字符串格式为"hh:mm" |
-| onChange | `BaseEventOrigFunction<onChangeEvnetDetail>` | 是 | value 改变时触发 change 事件，event.detail = {value} |
+| onChange | `BaseEventOrigFunction<onChangeEventDetail>` | 是 | value 改变时触发 change 事件，event.detail = {value} |
 
 ### API 支持度
 
@@ -196,11 +196,11 @@ export default class PagePicker extends Component {
 | PickerTimeProps.end | ✔️ | ✔️ | ✔️ |
 | PickerTimeProps.onChange | ✔️ | ✔️ | ✔️ |
 
-### onChangeEvnetDetail
+### onChangeEventDetail
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| value | `number` | 表示变更值的下标 |
+| value | `string` | 表示选中的时间 |
 
 ## PickerDateProps
 
@@ -213,7 +213,7 @@ export default class PagePicker extends Component {
 | start | `string` |  | 否 | 仅当 mode = timeordate 时有效，表示有效时间范围的开始，字符串格式为"hh:mm" |
 | end | `string` |  | 否 | 仅当 mode = timeordate 时有效，表示有效时间范围的结束，字符串格式为"hh:mm" |
 | fields | "year" or "month" or "day" | `"day"` | 否 | 有效值 year, month, day，表示选择器的粒度 |
-| onChange | `BaseEventOrigFunction<onChangeEvnetDetail>` |  | 是 | value 改变时触发 change 事件，event.detail = {value} |
+| onChange | `BaseEventOrigFunction<onChangeEventDetail>` |  | 是 | value 改变时触发 change 事件，event.detail = {value} |
 
 ### API 支持度
 
@@ -233,11 +233,11 @@ export default class PagePicker extends Component {
 | month | 选择器粒度为月份 |
 | day | 选择器粒度为天 |
 
-### onChangeEvnetDetail
+### onChangeEventDetail
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| value | `number` | 表示变更值的下标 |
+| value | `string` | 表示选中的日期 |
 
 ## PickerRegionProps
 
@@ -248,7 +248,7 @@ export default class PagePicker extends Component {
 | mode | `"region"` |  | 是 | 选择器类型 |
 | value | `string[]` | `[]` | 是 | 表示选中的省市区，默认选中每一列的第一个值 |
 | customItem | `string` |  | 否 | 可为每一列的顶部添加一个自定义的项 |
-| onChange | `BaseEventOrigFunction<onChangeEvnetDetail>` |  | 是 | value 改变时触发 change 事件，event.detail = {value, code, postcode}，其中字段 code 是统计用区划代码，postcode 是邮政编码 |
+| onChange | `BaseEventOrigFunction<onChangeEventDetail>` |  | 是 | value 改变时触发 change 事件，event.detail = {value, code, postcode}，其中字段 code 是统计用区划代码，postcode 是邮政编码 |
 
 ### API 支持度
 
@@ -258,13 +258,13 @@ export default class PagePicker extends Component {
 | PickerRegionProps.customItem | ✔️ | ✔️ | ✔️ |
 | PickerRegionProps.onChange | ✔️ | ✔️ | ✔️ |
 
-### onChangeEvnetDetail
+### onChangeEventDetail
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| value | `number` | 表示变更值的下标 |
-| code | string or number | 统计用区划代码 |
-| postcode | string or number | 邮政编码 |
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | :---: | --- |
+| value | `string[]` | 是 | 表示选中的省市区 |
+| code | `string[]` | 是 | 统计用区划代码 |
+| postcode | `string` | 否 | 邮政编码 |
 
 ## API 支持度
 

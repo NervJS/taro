@@ -49,8 +49,14 @@ class Route extends Taro.Component<RouteProps, {}> {
     const path = currentLocation.path;
     const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
+    const isTabBar = this.props.isTabBar;
+
     if (key !== undefined) {
-      return key === this.props.key
+      if (isTabBar) {
+        return key === this.props.key && path === this.props.path
+      } else {
+        return key === this.props.key
+      }
     } else {
       return isIndex && path === '/'
     }
@@ -88,9 +94,9 @@ class Route extends Taro.Component<RouteProps, {}> {
   }
 
   componentWillReceiveProps (nProps, nContext) {
+    const isRedirect = nProps.isRedirect
     const lastMatched = this.matched
     const nextMatched = this.computeMatch(nProps.currentLocation)
-    const isRedirect = nProps.isRedirect
 
     if (isRedirect) {
       this.updateComponent(nProps)
@@ -100,7 +106,6 @@ class Route extends Taro.Component<RouteProps, {}> {
 
     this.matched = nextMatched
 
-    
     if (nextMatched) {
       if (!isRedirect) {
         nextTick(() => {
