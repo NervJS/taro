@@ -5,6 +5,7 @@ import { IBuildConfig } from './utils/types'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import buildConf from './webpack/build.conf'
 import { Prerender } from './prerender/prerender'
+import { isEmpty } from 'lodash'
 
 const customizeChain = (chain, customizeFunc: Function) => {
   if (customizeFunc instanceof Function) {
@@ -38,7 +39,7 @@ export default function build (appPath: string, config: IBuildConfig, mainBuilde
           return reject(err)
         }
 
-        if (config.prerender) {
+        if (!isEmpty(config.prerender)) {
           if (prerender == null) {
             prerender = new Prerender(config, webpackConfig, stats)
           }
