@@ -1,6 +1,7 @@
 import * as fs from 'fs-extra'
 import * as chalk from 'chalk'
 import * as chokidar from 'chokidar'
+import * as createDebug from 'debug'
 
 import * as constants from './constants'
 import * as utils from './utils'
@@ -14,7 +15,8 @@ export const helper = {
   createBabelRegister,
   fs,
   chalk,
-  chokidar
+  chokidar,
+  createDebug
 }
 
 export default helper
