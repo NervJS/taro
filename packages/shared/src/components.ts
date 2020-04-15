@@ -624,7 +624,6 @@ interface Components {
 export function createMiniComponents (components: Components, buildType: string) {
   const result: Components = Object.create(null)
   const isAlipay = buildType === 'alipay'
-  const isSupportXS = ['alipay', 'weapp', 'qq', 'swan'].includes(buildType)
 
   for (const key in components) {
     if (hasOwn(components, key)) {
@@ -642,8 +641,8 @@ export function createMiniComponents (components: Components, buildType: string)
             propValue = 'eh'
           } else if (propValue === '') {
             propValue = `i.${toCamelCase(prop)}`
-          } else if (isSupportXS && propValue === 'true') {
-            propValue = `xs.d(i.${toCamelCase(prop)}, ${propValue || singleQuote('')})`
+          } else if (propValue === 'true' || propValue === 'false') {
+            propValue = `i.${toCamelCase(prop)} === undefined ? ${propValue} : i.${toCamelCase(prop)}`
           } else {
             propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
           }
