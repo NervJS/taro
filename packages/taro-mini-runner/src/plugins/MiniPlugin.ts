@@ -281,7 +281,7 @@ export default class MiniPlugin {
 
       compilation.hooks.afterOptimizeChunkAssets.tap(PLUGIN_NAME, chunks => {
         chunks.forEach(chunk => {
-          const id = chunk.id
+          const id = typeof chunk.id === 'string' ? chunk.id : chunk.name
           this.options.commonChunks.forEach(commonName => {
             if (id === commonName) {
               const _modules = chunk._modules
