@@ -462,13 +462,28 @@ export default {
 * `scrollOffset`，滚动距离
 * `scrollUpdateWasRequested`, 当滚动是由 `scrollTo()` 或 `scrollToItem()` 调用时返回 `true`，否则返回 `false`
 
-#### `v-on:scroll-native: Function`
+#### `scrollNative: Function`
 
-调用平台原生的滚动监听函数。
+调用平台原生的滚动监听函数。注意调用传递此函数时使用的是 `v-bind` 而不是 `v-on`：
+
+```html
+<virtual-list
+  wclass="List"
+  :height="500"
+  :item-data="list"
+  :item-count="list.length"
+  :item-size="100"
+  :item="Row"
+  width="100%"
+  @scroll="onScroll"
+  :scroll-native="onScrollNative"
+/>
+```
 
 #### `overscanCount: number = 1`
 
 在可视区域之外渲染的列表单项数量，值设置得越高，快速滚动时出现白屏的概率就越小，相应地，每次滚动的性能会变得越差。
+
 
 #### `useIsScrolling: boolean`
 

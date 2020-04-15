@@ -55,7 +55,8 @@ function createListComponent ({
       initialScrollOffset: {
         type: String,
         defalt: 0
-      }
+      },
+      scrollNative: Function
     },
     data () {
       return {
@@ -127,7 +128,7 @@ function createListComponent ({
           scrollOffset,
           scrollUpdateWasRequested
         ) =>
-          this.$props.onScroll({
+          this.$emit('scroll', {
             scrollDirection,
             scrollOffset,
             scrollUpdateWasRequested
@@ -153,18 +154,11 @@ function createListComponent ({
           }
         }
 
-        if (typeof this.$props.onScroll === 'function') {
-          const {
-            scrollDirection,
-            scrollOffset,
-            scrollUpdateWasRequested
-          } = this.$data
-          this._callOnScroll(
-            scrollDirection,
-            scrollOffset,
-            scrollUpdateWasRequested
-          )
-        }
+        this._callOnScroll(
+          scrollDirection,
+          scrollOffset,
+          scrollUpdateWasRequested
+        )
       },
 
       _getStyleValue (value) {
@@ -260,6 +254,9 @@ function createListComponent ({
       _onScrollHorizontal (event) {
         const clientWidth = this.$props.width
         const { scrollLeft, scrollWidth } = event.currentTarget
+        if (this.$props.scrollNative) {
+          this.$props.scrollNative(event)
+        }
         if (this.scrollOffset === scrollLeft) {
           return
         }
@@ -296,6 +293,9 @@ function createListComponent ({
       _onScrollVertical (event) {
         const clientHeight = this.$props.height
         const { scrollHeight, scrollTop } = event.currentTarget
+        if (this.$props.scrollNative) {
+          this.$props.scrollNative(event)
+        }
         if (this.scrollOffset === scrollTop) {
           return
         }
