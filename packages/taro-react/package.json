@@ -7,6 +7,9 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/react.esm.js",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
