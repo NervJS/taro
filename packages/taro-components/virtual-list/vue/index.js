@@ -51,6 +51,10 @@ function createListComponent ({
       },
       item: {
         required: true
+      },
+      initialScrollOffset: {
+        type: String,
+        defalt: 0
       }
     },
     data () {
