@@ -11,6 +11,10 @@ authorImageURL: http://storage.jd.com/cjj-pub-images/11807297.png
 
 > [Taro Next](http://taro-docs-in.jd.com/taro/next/docs/next/README.html) 近期已发布 beta 版本，全面完善对小程序以及 H5 的支持，欢迎体验！
 
+本文将重点介绍对 **Taro H5 端组件库**的改造工作。
+
+<!--truncate-->
+
 ## 背景
 
 ### Taro Next 将支持使用多框架开发
