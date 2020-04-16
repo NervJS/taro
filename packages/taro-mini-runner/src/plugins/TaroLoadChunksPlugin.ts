@@ -102,7 +102,7 @@ export default class TaroLoadChunksPlugin {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
           let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
-          if (entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
+          if (entryModule.miniType === PARSE_AST_TYPE.ENTRY || entryModule.miniType === PARSE_AST_TYPE.EXPORTS) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
           if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&

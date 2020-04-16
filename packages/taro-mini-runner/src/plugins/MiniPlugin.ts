@@ -46,6 +46,10 @@ interface IMiniPluginOptions {
   constantsReplaceList: object,
 }
 
+interface IEntryPoints {
+  [key:string]: string | [string]
+}
+
 export interface ITaroFileInfo {
   [key: string]: {
     type: PARSE_AST_TYPE,
@@ -163,6 +167,7 @@ export default class MiniPlugin {
   dependencies: Map<string, TaroSingleEntryDependency>
   quickappImports: Map<string, Set<{ path: string, name: string }>>
   subPackages: Set<string>
+  entryExports: IEntryPoints
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -218,6 +223,7 @@ export default class MiniPlugin {
 
   apply (compiler) {
     this.context = compiler.context
+    this.entryExports = compiler.options.entry
     this.appEntry = this.getAppEntry(compiler)
     let taroLoadChunksPlugin
     const commonStyles: Set<string> = new Set()
@@ -869,6 +875,11 @@ export default class MiniPlugin {
 
   addEntries (compiler: webpack.Compiler) {
     this.addEntry(compiler, this.appEntry, 'app', PARSE_AST_TYPE.ENTRY)
+    Object.keys(this.entryExports).filter(k => k!=='app').map(key => {
+      const entry = this.entryExports[key];
+      const entryPath = Array.isArray(entry) ? entry[0] : entry;
+      this.addEntry(compiler, entryPath, key, PARSE_AST_TYPE.EXPORTS);
+    })
     this.pages.forEach(item => {
       if (item.isNative) {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
