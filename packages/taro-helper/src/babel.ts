@@ -4,6 +4,7 @@ const babelOptions: IBabelOptions = {
     'env'
   ],
   plugins: [
+    require('babel-plugin-transform-react-jsx'), // rn need
     'transform-decorators-legacy',
     'transform-class-properties',
     'transform-object-rest-spread'
