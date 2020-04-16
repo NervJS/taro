@@ -10,7 +10,7 @@ import {
 } from '@tarojs/helper'
 
 import { IProjectConfig } from '@tarojs/taro/types/compile'
-import { INpmConfig, IOption } from '../util/types'
+import { IBuildHooks, INpmConfig, IOption } from '../util/types'
 
 import CONFIG from '../config'
 
@@ -35,7 +35,7 @@ export interface IBuildData {
 
 let BuildData: IBuildData
 
-export async function buildWithWebpack ({appPath, watch}: { appPath: string, watch?: boolean }) {
+export async function buildWithWebpack ({appPath, watch, buildHooks}: { appPath: string, watch?: boolean, buildHooks: IBuildHooks }) {
   const {
     entryFilePath,
     buildAdapter,
@@ -71,7 +71,8 @@ export async function buildWithWebpack ({appPath, watch}: { appPath: string, wat
     designWidth: projectConfig.designWidth,
     deviceRatio: projectConfig.deviceRatio,
     nodeModulesPath,
-    ...projectConfig.rn
+    ...projectConfig.rn,
+    ...buildHooks
   }
   // console.log('rnRunnerOpts', rnRunnerOpts)
   await rnRunner(appPath, rnRunnerOpts)
