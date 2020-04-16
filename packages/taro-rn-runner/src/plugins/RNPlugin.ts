@@ -58,7 +58,11 @@ interface IRNPluginOptions {
   isBuildPlugin: boolean,
   alias: object,
   addChunkPages?: AddPageChunks,
-  appJson?: object
+  appJson?: object,
+
+  // custome plugin hooks
+  modifyBuildAssets?: Function,
+  modifyBuildTempFileContent?: Function
 }
 
 export interface ITaroFileInfo {
@@ -761,8 +765,14 @@ export default class RNPlugin {
     // })
   }
 
-  generateMiniFiles (compilation: webpack.compilation.Compilation) {
+  async generateMiniFiles (compilation: webpack.compilation.Compilation) {
     // const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
+    const { modifyBuildTempFileContent, modifyBuildAssets } = this.options
+
+    if (typeof modifyBuildTempFileContent === 'function') {
+      await modifyBuildTempFileContent(taroFileTypeMap)
+    }
+
     Object.keys(taroFileTypeMap).forEach(item => {
       // console.log('generateMiniFiles', taroFileTypeMap)
       const itemInfo = taroFileTypeMap[item]
@@ -791,6 +801,10 @@ export default class RNPlugin {
         }
       }
     })
+
+    if (typeof modifyBuildAssets === 'function') {
+      await modifyBuildAssets(compilation.assets)
+    }
   }
 
   generateRNEntry (compilation: webpack.compilation.Compilation) {
