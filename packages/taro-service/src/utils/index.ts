@@ -41,6 +41,7 @@ export function mergePlugins (dist: PluginItem[], src: PluginItem[]) {
   }
 }
 
+// getModuleDefaultExport
 export function resolvePresetsOrPlugins (root: string, args, type: PluginType): IPlugin[] {
   return Object.keys(args).map(item => {
     const fPath = resolve.sync(item, {

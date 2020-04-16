@@ -4,9 +4,9 @@ import { execSync, spawn, spawnSync, SpawnSyncOptions } from 'child_process'
 
 import { chalk } from '@tarojs/helper'
 
-import { IBuildOptions } from '../util/types'
+import { IBuildHooks, IBuildOptions } from '../util/types'
 import { checkCliAndFrameworkVersion } from '../util'
-import { setBuildData, setIsProduction, buildWithWebpack, IBuildData } from './buildWithWebpack'
+import { setBuildData, setIsProduction, buildWithWebpack } from './buildWithWebpack'
 import { hasRNDep, updatePkgJson } from './helper'
 // import { convertToJDReact } from '../jdreact/convert_to_jdreact'
 
@@ -20,13 +20,13 @@ const buildType = 'rn'
 // 兼容 jdreact
 export async function build (
   appPath: string, {watch, type = buildType, envHasBeenSet = false, port = 8081, release}: IBuildOptions,
-  customBuildData: Partial<IBuildData> | null | undefined) {
+  buildHooks: IBuildHooks) {
   process.env.TARO_ENV = buildType
   await checkCliAndFrameworkVersion(appPath, buildType)
   if (!hasRNDep(appPath)) {
     await updatePkgJson(appPath)
   }
-  const buildData = setBuildData(appPath, type, customBuildData)
+  const buildData = setBuildData(appPath, type)
   process.env.TARO_ENV = type
   if (!envHasBeenSet) {
     setIsProduction(process.env.NODE_ENV === 'production' || !watch)
@@ -34,7 +34,8 @@ export async function build (
   fs.ensureDirSync(buildData.outputDir)
   await buildWithWebpack({
     appPath,
-    watch
+    watch,
+    buildHooks
   })
   if (!watch) {
     buildBundle(buildData.outputDir)
