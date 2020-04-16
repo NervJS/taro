@@ -10,7 +10,7 @@ import {
   isNpmPkg,
   isAliasPath,
   replaceAliasPath,
-  resolveNpmSync
+  npm as npmUtils
 } from '@tarojs/helper'
 
 import { QUICKAPP_SPECIAL_COMPONENTS } from './constants'
@@ -207,7 +207,7 @@ function getAbsPath ({ rPath, source, alias, nodeModulesPath }) {
     rPath = replaceAliasPath(source, rPath, alias)
   }
   if (isNpmPkg(rPath)) {
-    return resolveNpmSync(rPath, nodeModulesPath) || ''
+    return npmUtils.resolveNpmSync(rPath, nodeModulesPath) || ''
   }
   return path.resolve(source, '..', rPath)
 }
