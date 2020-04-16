@@ -9,7 +9,7 @@ import classNames from 'classnames'
 export class Button implements ComponentInterface {
   @Prop() disabled: boolean
   @Prop() hoverClass = 'button-hover'
-  @Prop() type = 'default'
+  @Prop() type = ''
   @Prop() hoverStartTime = 20
   @Prop() hoverStayTime = 70
   @Prop() size: string
