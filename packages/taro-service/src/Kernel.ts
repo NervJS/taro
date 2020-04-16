@@ -134,6 +134,7 @@ export default class Kernel extends EventEmitter {
   }
 
   initPreset (preset: IPreset) {
+    this.debugger('initPreset', preset)
     const {id, path, opts, apply} = preset
     const pluginCtx = this.initPluginCtx({id, path, ctx: this})
     const {presets, plugins} = apply()(pluginCtx, opts) || {}
@@ -152,6 +153,7 @@ export default class Kernel extends EventEmitter {
   initPlugin (plugin: IPlugin) {
     const {id, path, opts, apply} = plugin
     const pluginCtx = this.initPluginCtx({id, path, ctx: this})
+    this.debugger('initPlugin', plugin)
     this.registerPlugin(plugin)
     apply()(pluginCtx, opts)
   }
