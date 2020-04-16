@@ -1,5 +1,22 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.1.4...v) (2020-04-13)
+# [](https://github.com/NervJS/taro/compare/v2.1.5...v) (2020-04-16)
+
+
+
+<a name="2.1.5"></a>
+## [2.1.5](https://github.com/NervJS/taro/compare/v2.1.4...v2.1.5) (2020-04-16)
+
+
+### Bug Fixes
+
+* 恢复源码 ([0d90fe8](https://github.com/NervJS/taro/commit/0d90fe8))
+* **docs:** 修复配置 webpackChain 的 example 小错误 ([#5787](https://github.com/NervJS/taro/issues/5787)) ([511a9ce](https://github.com/NervJS/taro/commit/511a9ce))
+* **jd:** 修复京东小程序转 taro 报错 ([e3f6306](https://github.com/NervJS/taro/commit/e3f6306))
+* **mini-runner:** 修复 build 后文件不引入公共样式的问题，close [#5965](https://github.com/NervJS/taro/issues/5965) ([cefe198](https://github.com/NervJS/taro/commit/cefe198))
+* **mini-runner:** 修复对小程序直播组件的支持，close [#5936](https://github.com/NervJS/taro/issues/5936) ([eaa2fa9](https://github.com/NervJS/taro/commit/eaa2fa9))
+* **router:** h5 tabbar pop router fix [#6000](https://github.com/NervJS/taro/issues/6000) ([30f1d98](https://github.com/NervJS/taro/commit/30f1d98))
+* **router:** redirectTo not update $router [#5943](https://github.com/NervJS/taro/issues/5943) ([5d7b04b](https://github.com/NervJS/taro/commit/5d7b04b))
+* **taro-router:** 修复页面拦截成功后，url参数丢失的问题 ([8b6eeba](https://github.com/NervJS/taro/commit/8b6eeba))
 
 
 
