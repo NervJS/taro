@@ -1,5 +1,21 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.41...v) (2020-04-13)
+# [](https://github.com/NervJS/taro/compare/v1.3.42...v) (2020-04-16)
+
+
+
+<a name="1.3.42"></a>
+## [1.3.42](https://github.com/NervJS/taro/compare/v1.3.41...v1.3.42) (2020-04-16)
+
+
+### Bug Fixes
+
+* 恢复源码 ([51c2676](https://github.com/NervJS/taro/commit/51c2676))
+* **taro-router:** 修复页面拦截成功后，url参数丢失的问题 ([7f2b037](https://github.com/NervJS/taro/commit/7f2b037))
+
+
+### Features
+
+* **cli:** 在config中支持添加appId配置 编译时读取并写入到pageage.config.json中 ([#5985](https://github.com/NervJS/taro/issues/5985)) ([4f52e72](https://github.com/NervJS/taro/commit/4f52e72))
 
 
 
