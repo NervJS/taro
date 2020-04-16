@@ -89,7 +89,7 @@ describe('Button', () => {
      * @type {HTMLButtonElement}
      */
     const button = node
-    assert(button.type === 'default')
+    assert(button.type === '')
     assert(button.plain === true)
     assert(button.loading === true)
     assert(button.size === 'mini')
