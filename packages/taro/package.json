@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "1.3.41",
+  "version": "1.3.42",
   "description": "Taro framework",
   "module": "dist/index.esm.js",
   "main": "index.js",
@@ -29,7 +29,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/utils": "1.3.41"
+    "@tarojs/utils": "1.3.42"
   },
   "devDependencies": {
     "@types/react": "^16.9.4"
