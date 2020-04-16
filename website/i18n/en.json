@@ -1076,6 +1076,9 @@
       "ui-lib": {
         "title": "基于 Taro 开发第三方多端 UI 库"
       },
+      "virtual-list": {
+        "title": "长列表渲染（虚拟列表）"
+      },
       "vue": {
         "title": "Vue"
       },
@@ -2228,6 +2231,27 @@
       },
       "version-3.0.0-beta.2/version-3.0.0-beta.2-css-in-js": {
         "title": "使用 CSS-in-JS"
+      },
+      "version-3.0.0-beta.3/version-3.0.0-beta.3-css-in-js": {
+        "title": "使用 CSS-in-JS"
+      },
+      "version-3.0.0-beta.3/version-3.0.0-beta.3-difference-to-others": {
+        "title": "与其它新型小程序框架的异同"
+      },
+      "version-3.0.0-beta.3/version-3.0.0-beta.3-hooks": {
+        "title": "Hooks"
+      },
+      "version-3.0.0-beta.3/version-3.0.0-beta.3-html": {
+        "title": "渲染 HTML"
+      },
+      "version-3.0.0-beta.3/version-3.0.0-beta.3-react": {
+        "title": "React"
+      },
+      "version-3.0.0-beta.3/version-3.0.0-beta.3-virtual-list": {
+        "title": "长列表渲染（虚拟列表）"
+      },
+      "version-3.0.0-beta.3/version-3.0.0-beta.3-vue": {
+        "title": "Vue"
       },
       "version-3.0.0.alpha.0/version-3.0.0.alpha.0-before-dev-remind": {
         "title": "各端开发前注意"

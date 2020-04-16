@@ -7,6 +7,7 @@ import { promoteRelativePath, META_TYPE, BUILD_TYPES, taroJsComponents } from '@
 
 import { componentConfig } from '../template/component'
 import { AddPageChunks, IComponent } from '../utils/types'
+import TaroNormalModule from './TaroNormalModule'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 
@@ -17,6 +18,11 @@ interface IOptions {
   framework: string,
   addChunkPages?: AddPageChunks,
   pages: Set<IComponent>
+}
+
+interface NormalModule {
+  rawRequest: string
+  usedExports: string[]
 }
 
 export default class TaroLoadChunksPlugin {
@@ -41,13 +47,15 @@ export default class TaroLoadChunksPlugin {
     const addChunkPagesList = new Map<string, string[]>()
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: any) => {
       let commonChunks
-      let fileChunks = new Map()
-      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, chunks => {
-        commonChunks = chunks.filter(chunk => this.commonChunks.includes(chunk.name)).reverse()
+      const fileChunks = new Map<string, { name: string }[]>()
 
+      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: webpack.compilation.Chunk[]) => {
+        /**
+         * 收集 common chunks 中使用到 @tarojs/components 中的组件
+         */
+        commonChunks = chunks.filter(chunk => this.commonChunks.includes(chunk.name)).reverse()
         for (const chunk of commonChunks) {
-          let needBreak = false;
-          (chunk.modulesIterable as Set<unknown>).forEach((m: { rawRequest: string, usedExports: string[] }) => {
+          Array.from((chunk.modulesIterable as Set<NormalModule>)).some(m => {
             if (m.rawRequest === taroJsComponents) {
               const includes = componentConfig.includes
               if (Array.isArray(m.usedExports)) {
@@ -55,44 +63,54 @@ export default class TaroLoadChunksPlugin {
               } else {
                 componentConfig.includeAll = true
               }
-              needBreak = true
+              return true
             }
           })
-          if (needBreak) {
-            break
-          }
         }
 
+        /**
+         * 收集开发者在 addChunkPages 中配置的页面及其需要引用的公共文件
+         */
         if (typeof this.addChunkPages === 'function') {
-          this.addChunkPages(addChunkPagesList, Array.from(pagesList).map((item: any) => item.name))
+          this.addChunkPages(addChunkPagesList, Array.from(pagesList).map(item => item.name))
           chunks.forEach(chunk => {
             const id = getIdOrName(chunk)
-            addChunkPagesList.forEach((v, k) => {
-              if (k === id) {
-                const depChunks = v.map(v => ({ name: v }))
+            addChunkPagesList.forEach((deps, pageName) => {
+              if (pageName === id) {
+                const depChunks = deps.map(dep => ({ name: dep }))
                 fileChunks.set(id, depChunks)
               }
             })
           })
         }
       })
-      compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
+
+      /**
+       * 在每个 chunk 文本刚生成后，按判断条件在文本头部插入 require 语句
+       */
+      compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules: ConcatSource, chunk) => {
         if (chunk.entryModule) {
           if (this.isBuildPlugin) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
-          const entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
-          if (entryModule.miniType === META_TYPE.ENTRY) {
+
+          const entryModule: TaroNormalModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
+          const { miniType } = entryModule
+
+          if (miniType === META_TYPE.ENTRY) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
+
           if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&
-            (entryModule.miniType === META_TYPE.PAGE ||
-            entryModule.miniType === META_TYPE.COMPONENT)) {
+            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
+          ) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
-          if (fileChunks.size
-            && (entryModule.miniType === META_TYPE.PAGE
-            || entryModule.miniType === META_TYPE.COMPONENT)) {
+
+          // addChunkPages
+          if (fileChunks.size &&
+            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
+          ) {
             let source
             const id = getIdOrName(chunk)
             fileChunks.forEach((v, k) => {
@@ -108,6 +126,9 @@ export default class TaroLoadChunksPlugin {
   }
 }
 
+/**
+ * @returns chunk.id || chunk.name
+ */
 function getIdOrName (chunk: webpack.compilation.Chunk) {
   if (typeof chunk.id === 'string') {
     return chunk.id
@@ -115,7 +136,10 @@ function getIdOrName (chunk: webpack.compilation.Chunk) {
   return chunk.name
 }
 
-function addRequireToSource (id, modules, commonChunks) {
+/**
+ * 在文本头部加入一些 require 语句
+ */
+function addRequireToSource (id: string, modules: ConcatSource, commonChunks: (webpack.compilation.Chunk | { name: string })[]) {
   const source = new ConcatSource()
   commonChunks.forEach(chunkItem => {
     source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)

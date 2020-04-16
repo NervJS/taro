@@ -86,6 +86,13 @@ function getTagName (tag: string) {
   return 'view'
 }
 
+function splitEqual (str: string) {
+  const sep = '='
+  const idx = str.indexOf(sep)
+  if (idx === -1) return [str]
+  return [str.slice(0, idx), str.slice(idx + sep.length)]
+}
+
 function format (children: ChildNode[]) {
   return children.filter(child => {
     if (child.type === 'comment') {
@@ -107,7 +114,7 @@ function format (children: ChildNode[]) {
     el.className = child.tagName
     for (let i = 0; i < child.attributes.length; i++) {
       const attr = child.attributes[i]
-      const [key, value] = attr.split('=')
+      const [key, value] = splitEqual(attr)
       if (key === 'class') {
         el.className += el.className
       } else if (key[0] === 'o' && key[1] === 'n') {

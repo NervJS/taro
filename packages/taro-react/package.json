@@ -1,12 +1,15 @@
 {
   "name": "@tarojs/react",
-  "version": "3.0.0-beta.3",
+  "version": "3.0.0-beta.4",
   "description": "like react-dom, but for mini apps.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/react.esm.js",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
@@ -20,7 +23,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.0.0-beta.3",
+    "@tarojs/runtime": "3.0.0-beta.4",
     "react-reconciler": "^0.23.0",
     "scheduler": "^0.17.0"
   },

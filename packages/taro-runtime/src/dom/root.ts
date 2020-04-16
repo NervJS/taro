@@ -11,6 +11,10 @@ export class TaroRootElement extends TaroElement {
 
   private updatePayloads: UpdatePayload[] = []
 
+  private pendingFlush = false
+
+  private updateCallbacks: Function[]= []
+
   public ctx: null | MpInstance = null
 
   public constructor () {
@@ -76,11 +80,29 @@ export class TaroRootElement extends TaroElement {
         this.pendingUpdate = false
         ctx.setData(data, () => {
           perf.stop(SET_DATA)
+          if (!this.pendingFlush) {
+            this.flushUpdateCallback()
+          }
           if (initRender) {
             perf.stop(PAGE_INIT)
           }
         })
       }
     }, 0)
+  }
+
+  public enqueueUpdateCallbak (cb: Function, ctx?: Record<string, any>) {
+    this.updateCallbacks.push(() => {
+      ctx ? cb.call(ctx) : cb()
+    })
+  }
+
+  public flushUpdateCallback () {
+    this.pendingFlush = false
+    const copies = this.updateCallbacks.slice(0)
+    this.updateCallbacks.length = 0
+    for (let i = 0; i < copies.length; i++) {
+      copies[i]()
+    }
   }
 }

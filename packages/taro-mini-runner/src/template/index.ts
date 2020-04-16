@@ -104,6 +104,9 @@ export function buildXScript () {
   c: function(i, prefix) {
     var s = i.focus !== undefined ? 'focus' : 'blur'
     return prefix + i.${Shortcuts.NodeName} + '_' + s
+  },
+  d: function (i, v) {
+    return i === undefined ? v : i
   }
 }`
 }

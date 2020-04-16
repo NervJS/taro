@@ -1,4 +1,4 @@
-import { requestAnimationFrame, cancelAnimationFrame, now } from '@tarojs/runtime'
+import { now, requestAnimationFrame, cancelAnimationFrame } from '@tarojs/runtime'
 
 export function cancelTimeout (timeoutID) {
   cancelAnimationFrame(timeoutID.id)

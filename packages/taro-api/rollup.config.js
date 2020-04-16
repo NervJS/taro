@@ -60,7 +60,7 @@ function rollup () {
   } else if (target === 'esm') {
     return esmConfig
   } else {
-    return esmConfig
+    return [baseConfig, esmConfig]
   }
 }
 module.exports = rollup()

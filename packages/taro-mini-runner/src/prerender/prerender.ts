@@ -9,11 +9,29 @@ import { join } from 'path'
 import { IBuildConfig } from '../utils/types'
 import { Adapter } from '../template/adapters'
 import { printPrerenderSuccess, printPrerenderFail } from '../utils/logHelper'
-import { buildAttribute, Attributes } from '../template'
+import { Attributes } from '../template'
 
 const { JSDOM } = require('jsdom')
 const wx = require('miniprogram-simulate/src/api')
 const micromatch = require('micromatch')
+
+function unquote (str: string) {
+  const car = str.charAt(0)
+  const end = str.length - 1
+  const isQuoteStart = car === '"' || car === "'"
+  if (isQuoteStart && car === str.charAt(end)) {
+    return str.slice(1, end)
+  }
+  return str
+}
+
+function getAttrValue (value: string) {
+  if (value === 'true' || value === 'false') {
+    return `{{${value}}}`
+  }
+
+  return unquote(value)
+}
 
 interface MiniData {
   [Shortcuts.Childnodes]?: MiniData[]
@@ -160,6 +178,14 @@ export class Prerender {
     }
   }
 
+  private buildAttributes = (attrs: Attributes) => {
+    return Object.keys(attrs)
+      .filter(Boolean)
+      .filter(k => !k.startsWith('bind') || !k.startsWith('on'))
+      .map(k => `${k}="${getAttrValue(attrs[k])}" `)
+      .join('')
+  }
+
   private renderToXML = (data: MiniData) => {
     const nodeName = data[Shortcuts.NodeName]
 
@@ -181,7 +207,7 @@ export class Prerender {
       return internal.includes(key) || key.startsWith('data-')
     })
 
-    return `<${nodeName}${style ? ` style="${style}"` : ''}${klass ? ` class="${klass}"` : ''} ${buildAttribute(attrs as Attributes, nodeName)}>${children.map(this.renderToXML).join('')}</${nodeName}>`
+    return `<${nodeName}${style ? ` style="${style}"` : ''}${klass ? ` class="${klass}"` : ''} ${this.buildAttributes(attrs as Attributes)}>${children.map(this.renderToXML).join('')}</${nodeName}>`
   }
 
   private async writeXML (config: PageConfig): Promise<void> {

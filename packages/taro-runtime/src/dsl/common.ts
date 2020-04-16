@@ -72,7 +72,7 @@ function stringify (obj?: Record<string, unknown>) {
   }).join('&')
 }
 
-function getPath (id: string, options?: Record<string, unknown>): string {
+export function getPath (id: string, options?: Record<string, unknown>): string {
   let path = id
   if (!isBrowser) {
     path = id + stringify(options)
@@ -120,6 +120,10 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       })
     },
     onShow () {
+      Current.router = {
+        params: this.options,
+        path: addLeadingSlash(this.route || this.__route__)
+      }
       Current.page = this as any
       const path = getPath(id, this.options)
       safeExecute(path, 'onShow')

@@ -116,8 +116,8 @@ describe('Form', () => {
       }
     }
     const wrapper = await mount(<App />, scratch)
-    const submitBtn = submitRef.current.querySelector('button')
-    const resetBtn = resetRef.current.querySelector('button')
+    const submitBtn = submitRef.current
+    const resetBtn = resetRef.current
 
     simulant.fire(submitBtn, 'touchend')
 

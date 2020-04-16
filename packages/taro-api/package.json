@@ -1,18 +1,18 @@
 {
   "name": "@tarojs/api",
-  "version": "3.0.0-beta.3",
+  "version": "3.0.0-beta.4",
   "description": "Taro common API",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
   "license": "MIT",
-  "main": "dist/index.esm.js",
-  "module": "src/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -29,6 +29,6 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.0.0-beta.3"
+    "@tarojs/runtime": "3.0.0-beta.4"
   }
 }

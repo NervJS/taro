@@ -88,41 +88,40 @@ describe('Button', () => {
     /**
      * @type {HTMLButtonElement}
      */
-    const button = node.children[0]
-    assert(button.classList.contains('weui-btn_plain-default'))
-    assert(button.classList.contains('weui-btn-default') === false)
-    assert(button.classList.contains('weui-btn_mini'))
-    assert(button.classList.contains('weui-btn_loading'))
-    assert(button.classList.contains('weui-btn_disabled') === false)
+    const button = node
+    assert(button.type === 'default')
+    assert(button.plain === true)
+    assert(button.loading === true)
+    assert(button.size === 'mini')
+    assert(button.disabled === false)
     const icon = button.getElementsByTagName('i')[0]
     assert(icon.className === 'weui-loading')
-    assert(button.innerHTML.includes('button'))
+    assert(button.textContent === 'button')
 
     instance.setState({
       plain: false
     })
     await waitForChange(button)
-    assert(!button.classList.contains('weui-btn_plain-default'))
-    assert(button.classList.contains('weui-btn_default'))
+    assert(button.plain === false)
 
     instance.setState({
       loading: false
     })
     await waitForChange(button)
-    assert(!button.classList.contains('weui-btn_loading'))
+    assert(button.loading === false)
     assert(icon.parentNode === null)
 
     instance.setState({
       disabled: true
     })
     await waitForChange(button)
-    assert(button.classList.contains('weui-btn_disabled'))
+    assert(button.disabled === true)
 
     instance.setState({
       size: 'big'
     })
     await waitForChange(button)
-    assert(button.classList.contains('weui-btn_mini') === false)
+    assert(button.size === 'big')
   })
 
   it('event', async () => {
@@ -180,7 +179,7 @@ describe('Button', () => {
     /**
      * @type {HTMLButtonElement}
      */
-    const button = node.children[0]
+    const button = node
     button.click()
     assert(clickSpy.callCount === 1)
 

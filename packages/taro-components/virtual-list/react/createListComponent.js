@@ -2,10 +2,10 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-void */
 /* eslint-disable no-return-assign */
-import { memoizeOne } from './memoize'
+import { memoizeOne } from '../memoize'
 import { createElement, PureComponent } from 'react'
-import { cancelTimeout, requestTimeout } from './timer'
-import { getRTLOffsetType } from './domHelpers'
+import { cancelTimeout, requestTimeout } from '../timer'
+import { getRTLOffsetType } from '../domHelpers'
 const IS_SCROLLING_DEBOUNCE_INTERVAL = 150
 
 const defaultItemKey = (index) => index // In DEV mode, this Set helps us only log a warning once per component instance.

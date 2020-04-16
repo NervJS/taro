@@ -27,6 +27,8 @@ const schema = Joi.object().keys({
       ignore: Joi.array().items(Joi.string())
     })
   }),
+  
+  framework: Joi.any().allow('nerv', 'react', 'vue'),
 
   mini: Joi.object().keys({
     compile: Joi.object().keys({
