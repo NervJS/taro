@@ -80,6 +80,7 @@ export default class Kernel extends EventEmitter {
       appPath: this.appPath
     })
     this.initialConfig = this.config.initialConfig
+    this.debugger('initConfig', this.initialConfig)
   }
 
   initPaths () {
@@ -106,6 +107,7 @@ export default class Kernel extends EventEmitter {
     const initialConfig = this.initialConfig
     const allConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])(PluginType.Preset)
     const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])(PluginType.Plugin)
+    this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
     createBabelRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })
@@ -132,9 +134,9 @@ export default class Kernel extends EventEmitter {
   }
 
   initPreset (preset: IPreset) {
-    const { id, path, opts, apply } = preset
-    const pluginCtx = this.initPluginCtx({ id, path, ctx: this })
-    const { presets, plugins } = apply()(pluginCtx, opts) || {}
+    const {id, path, opts, apply} = preset
+    const pluginCtx = this.initPluginCtx({id, path, ctx: this})
+    const {presets, plugins} = apply()(pluginCtx, opts) || {}
     this.registerPlugin(preset)
     if (Array.isArray(presets)) {
       const _presets = resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(presets)(PluginType.Preset), PluginType.Preset)
@@ -143,13 +145,13 @@ export default class Kernel extends EventEmitter {
       }
     }
     if (Array.isArray(plugins)) {
-      this.extraPlugins.push(...resolvePresetsOrPlugins(this.appPath,convertPluginsToObject(plugins)(PluginType.Plugin), PluginType.Plugin))
+      this.extraPlugins.push(...resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(plugins)(PluginType.Plugin), PluginType.Plugin))
     }
   }
 
   initPlugin (plugin: IPlugin) {
-    const { id, path, opts, apply } = plugin
-    const pluginCtx = this.initPluginCtx({ id, path, ctx: this })
+    const {id, path, opts, apply} = plugin
+    const pluginCtx = this.initPluginCtx({id, path, ctx: this})
     this.registerPlugin(plugin)
     apply()(pluginCtx, opts)
   }
@@ -161,8 +163,8 @@ export default class Kernel extends EventEmitter {
     this.plugins.set(plugin.id, plugin)
   }
 
-  initPluginCtx ({ id, path, ctx }: { id: string, path: string, ctx: Kernel }) {
-    const pluginCtx = new Plugin({ id, path, ctx })
+  initPluginCtx ({id, path, ctx}: { id: string, path: string, ctx: Kernel }) {
+    const pluginCtx = new Plugin({id, path, ctx})
     const internalMethods = ['onReady', 'onStart']
     const kernelApis = [
       'appPath',
