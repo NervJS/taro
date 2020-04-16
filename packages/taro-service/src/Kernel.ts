@@ -80,7 +80,6 @@ export default class Kernel extends EventEmitter {
       appPath: this.appPath
     })
     this.initialConfig = this.config.initialConfig
-    this.debugger(`initConfig:${JSON.stringify(this.initialConfig, null, 2)}`)
   }
 
   initPaths () {
@@ -204,7 +203,7 @@ export default class Kernel extends EventEmitter {
     this.debugger(`applyPlugins`)
     this.debugger(`applyPlugins:name:${name}`)
     this.debugger(`applyPlugins:initialVal:${initialVal}`)
-    this.debugger(`applyPlugins:opts:${JSON.stringify(opts, null, 2)}`)
+    this.debugger(`applyPlugins:opts:${opts}`)
     if (typeof name !== 'string') {
       throw new Error(`调用失败，未传入正确的名称！`)
     }
