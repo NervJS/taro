@@ -1,5 +1,6 @@
 import { Shortcuts } from './shortcuts'
 import { toDashed, hasOwn, toCamelCase } from './utils'
+import { isBooleanStringLiteral } from './is'
 
 const styles = {
   style: `i.${Shortcuts.Style}`,
@@ -641,7 +642,7 @@ export function createMiniComponents (components: Components, buildType: string)
             propValue = 'eh'
           } else if (propValue === '') {
             propValue = `i.${toCamelCase(prop)}`
-          } else if (propValue === 'true' || propValue === 'false') {
+          } else if (isBooleanStringLiteral(propValue)) {
             propValue = `i.${toCamelCase(prop)} === undefined ? ${propValue} : i.${toCamelCase(prop)}`
           } else {
             propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`

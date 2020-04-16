@@ -26,4 +26,8 @@ export function isNumber (o: unknown): o is number {
   return typeof o === 'number'
 }
 
+export function isBooleanStringLiteral (o: unknown): o is string {
+  return o === 'true' || o === 'false'
+}
+
 export const isArray = Array.isArray
