@@ -43,7 +43,7 @@ describe('babel-preset-taro', () => {
     expect(preset).toBeUndefined()
   })
 
-  it('typescript', () => {
+  it('typescript react', () => {
     const config = babelPresetTaro({}, {
       framework: 'react',
       ts: true
@@ -53,8 +53,34 @@ describe('babel-preset-taro', () => {
 
     const [override] = config.overrides
 
-    const [, , ts] = override.presets
+    const [, , [ts, tsConfig]] = override.presets
     expect(typeof ts.default === 'function').toBeTruthy()
+    expect(tsConfig.jsxPragma === 'React').toBeTruthy()
+  })
+
+  it('typescript nerv', () => {
+    const config = babelPresetTaro({}, {
+      framework: 'nerv',
+      ts: true
+    })
+
+    const [override] = config.overrides
+
+    const [, , [ts, tsConfig]] = override.presets
+    expect(typeof ts.default === 'function').toBeTruthy()
+    expect(tsConfig.jsxPragma === 'Nerv').toBeTruthy()
+  })
+
+  it('typescript vue', () => {
+    const config = babelPresetTaro({}, {
+      framework: 'vue',
+      ts: true
+    })
+
+    const [override] = config.overrides
+    const [, [ts, tsConfig]] = override.presets
+    expect(typeof ts.default === 'function').toBeTruthy()
+    expect(tsConfig.hasOwnProperty('jsxPragma') === false).toBeTruthy()
   })
 
   it('can change env options', () => {
