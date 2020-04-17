@@ -54,7 +54,7 @@ const superNode = t.expressionStatement(
   )
 )
 
-function getInitRouterAst(pages){
+function getInitRouterAst (pages, configAst) {
   const routerPages = pages
     .map(item => {
       const pagePath = item.startsWith('/') ? item : `/${item}`
@@ -62,14 +62,29 @@ function getInitRouterAst(pages){
       return `['${item}',${screenName}]`
     })
     .join(',')
-  return template(
-    `this.RootStack = ${routerImportDefaultName}.initRouter(
-            [${routerPages}],
-            ${taroImportDefaultName},
-            App.config
-            )`,
-    babylonConfig as any
-  )() as any
+
+  return t.expressionStatement(
+    t.assignmentExpression(
+      '=',
+      t.memberExpression(
+        t.thisExpression(),
+        t.identifier('RootStack'),
+        false
+      ),
+      t.callExpression(
+        t.memberExpression(
+          t.identifier('TaroRouter'),
+          t.identifier('initRouter'),
+          false
+        ),
+        [
+          template(`[${routerPages}]`)().expression,
+          template(`${taroImportDefaultName}`)().expression,
+          configAst[0]
+        ]
+      )
+    )
+  )
 }
 
 function getInitPxTransformNode ({designWidth, deviceRatio}) {
@@ -82,7 +97,7 @@ function getInitPxTransformNode ({designWidth, deviceRatio}) {
   return initPxTransformNode
 }
 
-function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
+function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile, configAst}) {
   return (astPath) => {
     const node = astPath.node
     const key = node.key
@@ -141,10 +156,21 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
               }
             })
           }
+        },
+        MemberExpression (astPath) {
+          const node = astPath.node
+          // if has this.XXX in config
+          if (t.isThisExpression(node.object)) {
+            // replace this
+            astPath.replaceWith(node.property)
+          }
         }
       })
+      configAst.push(value)
+      astPath.remove()
+    } else {
+      astPath.node.static = 'true'
     }
-    astPath.node.static = 'true'
   }
 }
 
@@ -248,19 +274,20 @@ interface IProcessAstArgs {
  * @param alias
  */
 export function processAst ({
-                               ast,
-                               buildAdapter,
-                               type,
-                               designWidth,
-                               deviceRatio,
-                               sourceFilePath: filePath,
-                               sourceDir,
-                               alias
-                             }: IProcessAstArgs) {
+                              ast,
+                              buildAdapter,
+                              type,
+                              designWidth,
+                              deviceRatio,
+                              sourceFilePath: filePath,
+                              sourceDir,
+                              alias
+                            }: IProcessAstArgs) {
   const isEntryFile = type === PARSE_AST_TYPE.ENTRY
   const styleFiles: string[] = []
   const pages: string[] = [] // app.js 里面的config 配置里面的 pages
   const iconPaths: string[] = [] // app.js 里面的config 配置里面的需要引入的 iconPath
+  const configAst = []
   let hasAddReactImportDefaultName = false
   let providorImportName
   let storeName
@@ -387,7 +414,7 @@ export function processAst ({
         source.value = PACKAGES['@tarojs/components-rn']
       }
     },
-    ClassProperty: getClassPropertyVisitor({filePath, pages, iconPaths, isEntryFile}),
+    ClassProperty: getClassPropertyVisitor({filePath, pages, iconPaths, isEntryFile, configAst}),
     ClassMethod: {
       enter (astPath: NodePath<t.ClassMethod>) {
         const node = astPath.node
@@ -533,7 +560,7 @@ export function processAst ({
                     t.blockStatement([
                       superNode,
                       additionalConstructorNode,
-                      getInitRouterAst(pages)
+                      getInitRouterAst(pages, configAst)
                     ] as t.Statement[]),
                     false,
                     false
