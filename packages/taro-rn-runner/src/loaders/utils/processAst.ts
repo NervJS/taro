@@ -54,6 +54,24 @@ const superNode = t.expressionStatement(
   )
 )
 
+function getInitRouterAst(pages){
+  const routerPages = pages
+    .map(item => {
+      const pagePath = item.startsWith('/') ? item : `/${item}`
+      const screenName = _.camelCase(pagePath)
+      return `['${item}',${screenName}]`
+    })
+    .join(',')
+  return template(
+    `this.RootStack = ${routerImportDefaultName}.initRouter(
+            [${routerPages}],
+            ${taroImportDefaultName},
+            App.config
+            )`,
+    babylonConfig as any
+  )() as any
+}
+
 function getInitPxTransformNode ({designWidth, deviceRatio}) {
   const pxTransformConfig = {designWidth: designWidth || 750}
 
@@ -484,7 +502,7 @@ export function processAst ({
                   ${funcBody}
                 </${providorImportName}>`
               }
-              node.body = template(`{return (${funcBody});}`, babylonConfig as any)() as any
+              node.body = template(`{const RootStack = this.RootStack;return (${funcBody});}`, babylonConfig as any)() as any
             }
           },
 
@@ -512,7 +530,11 @@ export function processAst ({
                     'constructor',
                     t.identifier('constructor'),
                     [t.identifier('props'), t.identifier('context')],
-                    t.blockStatement([superNode, additionalConstructorNode] as t.Statement[]),
+                    t.blockStatement([
+                      superNode,
+                      additionalConstructorNode,
+                      getInitRouterAst(pages)
+                    ] as t.Statement[]),
                     false,
                     false
                   )
@@ -591,21 +613,7 @@ export function processAst ({
           })
 
           // TODO Taro.initRouter  生成 RootStack
-          const routerPages = pages
-            .map(item => {
-              const pagePath = item.startsWith('/') ? item : `/${item}`
-              const screenName = _.camelCase(pagePath)
-              return `['${item}',${screenName}]`
-            })
-            .join(',')
-          node.body.push(template(
-            `const RootStack = ${routerImportDefaultName}.initRouter(
-            [${routerPages}],
-            ${taroImportDefaultName},
-            App.config
-            )`,
-            babylonConfig as any
-          )() as any)
+
           // initNativeApi
           const initNativeApi = template(
             `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,
