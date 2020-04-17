@@ -409,20 +409,15 @@ export const getModule = (appPath: string, {
     [key: string]: any
   } = {}
 
-  rule.sass = {
-    test: REG_SASS,
-    enforce: 'pre',
-    use: [resolveUrlLoader, sassLoader]
+  rule.taroStyle = {
+    test: REG_STYLE,
+    use: [topStyleLoader],
+    include: [(filename: string) => isTaroModule(filename)]
   }
-  rule.less = {
-    test: REG_LESS,
-    enforce: 'pre',
-    use: [lessLoader]
-  }
-  rule.styl = {
-    test: REG_STYLUS,
-    enforce: 'pre',
-    use: [stylusLoader]
+  rule.customStyle = {
+    test: REG_STYLE,
+    use: [lastStyleLoader],
+    exclude: [(filename: string) => isTaroModule(filename)]
   }
   rule.css = {
     test: REG_STYLE,
@@ -443,17 +438,17 @@ export const getModule = (appPath: string, {
       }
     ]
   }
-  rule.taroStyle = {
-    test: REG_STYLE,
-    enforce: 'post',
-    use: [topStyleLoader],
-    include: [(filename: string) => isTaroModule(filename)]
+  rule.sass = {
+    test: REG_SASS,
+    use: [resolveUrlLoader, sassLoader]
   }
-  rule.customStyle = {
-    test: REG_STYLE,
-    enforce: 'post',
-    use: [lastStyleLoader],
-    exclude: [(filename: string) => isTaroModule(filename)]
+  rule.less = {
+    test: REG_LESS,
+    use: [lessLoader]
+  }
+  rule.styl = {
+    test: REG_STYLUS,
+    use: [stylusLoader]
   }
   rule.vue = {
     test: REG_VUE,
