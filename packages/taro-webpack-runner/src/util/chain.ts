@@ -299,11 +299,15 @@ export const getModule = (appPath: string, {
       {
         importLoaders: 1,
         sourceMap: enableSourceMap,
-        modules: namingPattern === 'module' ? true : 'global'
+        modules: {
+          mode: namingPattern === 'module' ? 'local' : 'global'
+        }
       },
-      typeof generateScopedName === 'function'
-        ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
-        : { localIdentName: generateScopedName }
+      {
+        modules: typeof generateScopedName === 'function'
+          ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
+          : { localIdentName: generateScopedName }
+      }
     ),
     cssLoaderOption
   ]
