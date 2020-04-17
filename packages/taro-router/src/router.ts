@@ -97,7 +97,7 @@ export function createRouter (
   }
 
   const router = new UniversalRouter(routes)
-  const app = type === 'react' ? createReactApp(App, framework as R, reactdom) : createVueApp(App, framework as V)
+  const app = type === 'vue' ? createVueApp(App, framework as V) : createReactApp(App, framework as R, reactdom)
   app.onLaunch!()
 
   const render: LocationListener<LocationState> = async (location, action) => {
