@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/redux",
-  "version": "2.0.6",
+  "version": "2.1.5",
   "description": "Redux for Taro",
   "main": "index.js",
   "typings": "types/index.d.ts",
@@ -32,7 +32,7 @@
     "jest": "^23.1.0"
   },
   "dependencies": {
-    "@tarojs/taro": "2.0.6",
-    "@tarojs/utils": "2.0.6"
+    "@tarojs/taro": "2.1.5",
+    "@tarojs/utils": "2.1.5"
   }
 }

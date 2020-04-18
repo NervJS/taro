@@ -1,12 +1,12 @@
 <template>
   <div class="taro_progress">
-    <progress 
-      class="taro_progress_info {{class}}" 
+    <progress
+      class="taro_progress_info {{classname}}"
       style="{{progressStyle}}"
       id="{{id}}"
-      type="{{type}}" 
-      percent="{{percent}}" 
-      onclick="handleClick" 
+      type="{{type}}"
+      percent="{{percent}}"
+      onclick="handleClick"
       disabled="{{disabled}}"
       stroke-width="{{strokewidth}}"
     >
@@ -23,7 +23,7 @@
         required: false,
         default: 'horizontal'
       },
-      class: {
+      classname: {
         type: String,
         required: false,
         default: ''
@@ -97,7 +97,7 @@
 
   .taro_progress_info {
     flex: 1;
-    stroke-width: 6px; 
+    stroke-width: 6px;
   }
 
   .taro_progress_text {

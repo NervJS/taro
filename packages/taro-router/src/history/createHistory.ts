@@ -105,7 +105,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
     path = stripBasename(path, basename)
 
     if (path === '/') {
-      path = props.firstPagePath
+      path = props.firstPagePath + search + hash
     }
 
     return createLocation(path, key)
@@ -162,7 +162,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
   }
 
   function getUserConfirmation(next: Callback, fromLocation: Location, toLocation: Location): void {
-    const currentRoute = getCurrentRoute()
+    const currentRoute = getCurrentRoute() || {}
     const leaveHook = currentRoute.beforeRouteLeave
 
     if (typeof leaveHook === 'function') {
@@ -277,20 +277,18 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
             location: nextLocation
           })
         } else {
-          revertPop(nextLocation)
+          revertPop()
         }
       }
     )
   }
 
-  const revertPop = (fromLocation: Location): void => {
+  const revertPop = (): void => {
     const toLocation = history.location
 
     const key = toLocation.state.key
 
-    const location = createLocation(toLocation.path, key, fromLocation)
-
-    const href = createHref(location)
+    const href = createHref(toLocation)
 
     globalHistory.pushState({ key }, '', href)
   }

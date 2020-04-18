@@ -3,7 +3,7 @@
     src="{{src}}"
     alt="{{alt}}"
     id="{{id}}"
-    class="taro_image {{class}}"
+    class="taro_image {{classname}}"
     style="{{imageStyle}}"
     onclick="handleClick"
   >
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  export default {  
+  export default {
     props: {
       src: {
         type: String,
@@ -23,7 +23,7 @@
         required: false,
         default: 'taro-img'
       },
-      class: {
+      classname: {
         type: String,
         required: false,
         default: ''

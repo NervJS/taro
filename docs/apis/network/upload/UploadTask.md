@@ -35,9 +35,22 @@ sidebar_label: UploadTask
 (callback: OffHeadersReceivedCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OffHeadersReceivedCallback` | HTTP Response Header 事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OffHeadersReceivedCallback</code></td>
+      <td>HTTP Response Header 事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -55,9 +68,22 @@ sidebar_label: UploadTask
 (callback: OffProgressUpdateCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OffProgressUpdateCallback` | 上传进度变化事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OffProgressUpdateCallback</code></td>
+      <td>上传进度变化事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -75,9 +101,22 @@ sidebar_label: UploadTask
 (callback: OnHeadersReceivedCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnHeadersReceivedCallback` | HTTP Response Header 事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnHeadersReceivedCallback</code></td>
+      <td>HTTP Response Header 事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -91,9 +130,22 @@ sidebar_label: UploadTask
 (callback: OnHeadersReceivedCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnHeadersReceivedCallback` | HTTP Response Header 事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnHeadersReceivedCallback</code></td>
+      <td>HTTP Response Header 事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### onProgressUpdate
 
@@ -105,9 +157,22 @@ sidebar_label: UploadTask
 (callback: OnProgressUpdateCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnProgressUpdateCallback` | 上传进度变化事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnProgressUpdateCallback</code></td>
+      <td>上传进度变化事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -121,9 +186,22 @@ sidebar_label: UploadTask
 (callback: OnProgressUpdateCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnProgressUpdateCallback` | 上传进度变化事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnProgressUpdateCallback</code></td>
+      <td>上传进度变化事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 参数
 
@@ -135,9 +213,20 @@ HTTP Response Header 事件的回调函数
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OffProgressUpdateCallback
 
@@ -147,9 +236,20 @@ HTTP Response Header 事件的回调函数
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnHeadersReceivedCallback
 
@@ -159,9 +259,20 @@ HTTP Response Header 事件的回调函数
 (result: OnHeadersReceivedCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnHeadersReceivedCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnHeadersReceivedCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnProgressUpdateCallback
 
@@ -171,23 +282,68 @@ HTTP Response Header 事件的回调函数
 (result: OnProgressUpdateCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnProgressUpdateCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnProgressUpdateCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnHeadersReceivedCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| header | `Record<string, any>` | 开发者服务器返回的 HTTP Response Header |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>header</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>开发者服务器返回的 HTTP Response Header</td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnProgressUpdateCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| progress | `number` | 上传进度百分比 |
-| totalBytesExpectedToSend | `number` | 预期需要上传的数据总长度，单位 Bytes |
-| totalBytesSent | `number` | 已经上传的数据长度，单位 Bytes |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>progress</td>
+      <td><code>number</code></td>
+      <td>上传进度百分比</td>
+    </tr>
+    <tr>
+      <td>totalBytesExpectedToSend</td>
+      <td><code>number</code></td>
+      <td>预期需要上传的数据总长度，单位 Bytes</td>
+    </tr>
+    <tr>
+      <td>totalBytesSent</td>
+      <td><code>number</code></td>
+      <td>已经上传的数据长度，单位 Bytes</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

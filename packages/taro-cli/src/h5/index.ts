@@ -417,6 +417,7 @@ class Compiler {
                   mode={${JSON.stringify(routerMode)}}
                   history={_taroHistory}
                   routes={[${routes.join(',')}]}
+                  ${tabBar ? `tabBar={this.state.${tabBarConfigName}}` : ''}
                   customRoutes={${JSON.stringify(customRoutes)}} />
                 `
             }
@@ -782,6 +783,7 @@ class Compiler {
               mode={${JSON.stringify(routerMode)}}
               history={_taroHistory}
               routes={[${route}]}
+              ${tabBar ? `tabBar={this.state.${tabBarConfigName}}` : ''}
               customRoutes={${JSON.stringify(customRoutes)}} />
             `
         }

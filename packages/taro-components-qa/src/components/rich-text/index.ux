@@ -1,9 +1,9 @@
 <template>
-  <richtext 
-    class="taro_rich_text {{class}}" 
-    style="{{customstyle}}" 
+  <richtext
+    class="taro_rich_text {{classname}}"
+    style="{{customstyle}}"
     id="{{id}}"
-    type="html" 
+    type="html"
     onclick="handleClick"
   >
     {{nodes}}
@@ -18,7 +18,7 @@
         required: false,
         default: 'html'
       },
-      class: {
+      classname: {
         type: String,
         required: false,
         default: ''

@@ -40,17 +40,30 @@ class Route extends Taro.Component<RouteProps, {}> {
   isRoute = true;
   scrollPos = 0;
 
+  state = {
+    location: {}
+  }
+
   constructor (props, context) {
     super(props, context)
     this.matched = this.computeMatch(this.props.currentLocation)
+    if (this.matched) {
+      this.state = { location: this.props.currentLocation }
+    }
   }
 
-  computeMatch (currentLocation) {
+  computeMatch (currentLocation: Location) {
     const path = currentLocation.path;
     const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
+    const isTabBar = this.props.isTabBar;
+
     if (key !== undefined) {
-      return key === this.props.key
+      if (isTabBar) {
+        return key === this.props.key && path === this.props.path
+      } else {
+        return key === this.props.key
+      }
     } else {
       return isIndex && path === '/'
     }
@@ -62,12 +75,22 @@ class Route extends Taro.Component<RouteProps, {}> {
 
   getRef = ref => {
     if (ref) {
+      if (ref.props.location !== this.state.location) {
+        ref.props.location = this.state.location
+      }
       this.componentRef = ref
-      this.props.collectComponent(ref, this.props.k)
+      this.props.collectComponent(ref, this.props.key)
     }
   }
 
   updateComponent (props = this.props) {
+    if (this.matched && this.componentRef) {
+      this.setState({
+        location: props.currentLocation
+      }, () => {
+        this.componentRef.props.location = this.state.location
+      })
+    }
     props.componentLoader()
       .then(({ default: component }) => {
         if (!component) {
@@ -87,10 +110,10 @@ class Route extends Taro.Component<RouteProps, {}> {
     this.updateComponent()
   }
 
-  componentWillReceiveProps (nProps, nContext) {
+  componentWillReceiveProps (nProps: RouteProps) {
+    const isRedirect = nProps.isRedirect
     const lastMatched = this.matched
     const nextMatched = this.computeMatch(nProps.currentLocation)
-    const isRedirect = nProps.isRedirect
 
     if (isRedirect) {
       this.updateComponent(nProps)
@@ -100,7 +123,6 @@ class Route extends Taro.Component<RouteProps, {}> {
 
     this.matched = nextMatched
 
-    
     if (nextMatched) {
       if (!isRedirect) {
         nextTick(() => {
@@ -145,12 +167,13 @@ class Route extends Taro.Component<RouteProps, {}> {
     if (!this.wrappedComponent) return null
 
     const WrappedComponent = this.wrappedComponent
+
     return (
       <div
         className="taro_page"
         ref={this.getWrapRef}
         style={{ minHeight: '100%' }}>
-        <WrappedComponent ref={this.getRef} />
+        <WrappedComponent ref={this.getRef} location={this.state.location} />
       </div>
     )
   }

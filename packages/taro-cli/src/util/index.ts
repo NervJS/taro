@@ -126,7 +126,7 @@ export function printPkgVersion () {
 
 export function shouldUseYarn (): boolean {
   try {
-    execSync('yarn --version', { stdio: 'ignore' })
+    execSync('yarn --version', {stdio: 'ignore'})
     return true
   } catch (e) {
     return false
@@ -135,7 +135,7 @@ export function shouldUseYarn (): boolean {
 
 export function shouldUseCnpm (): boolean {
   try {
-    execSync('cnpm --version', { stdio: 'ignore' })
+    execSync('cnpm --version', {stdio: 'ignore'})
     return true
   } catch (e) {
     return false
@@ -217,7 +217,7 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
 }
 
 export function generateEnvList (env: object): object {
-  const res = { }
+  const res = {}
   if (env && !isEmptyObject(env)) {
     for (const key in env) {
       try {
@@ -231,7 +231,7 @@ export function generateEnvList (env: object): object {
 }
 
 export function generateConstantsList (constants: object): object {
-  const res = { }
+  const res = {}
   if (constants && !isEmptyObject(constants)) {
     for (const key in constants) {
       if (isPlainObject(constants[key])) {
@@ -282,9 +282,11 @@ export function processStyleImports (content: string, adapter: BUILD_TYPES, proc
     imports
   }
 }
+
 /*eslint-disable*/
 const retries = (process.platform === 'win32') ? 100 : 1
-export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = { excludes: [] }) {
+
+export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = {excludes: []}) {
   if (fs.existsSync(dirPath)) {
     fs.readdirSync(dirPath).forEach(file => {
       const curPath = path.join(dirPath, file)
@@ -311,6 +313,7 @@ export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = 
     })
   }
 }
+
 /* eslint-enable */
 
 export function recursiveFindNodeModules (filePath: string): string {
@@ -333,7 +336,7 @@ export const pascalCase: (str: string) => string
 export function getInstalledNpmPkgPath (pkgName: string, basedir: string): string | null {
   const resolvePath = require('resolve')
   try {
-    return resolvePath.sync(`${pkgName}/package.json`, { basedir })
+    return resolvePath.sync(`${pkgName}/package.json`, {basedir})
   } catch (err) {
     return null
   }
@@ -349,8 +352,8 @@ export async function checkCliAndFrameworkVersion (appPath, buildAdapter) {
       const taroCliPath = path.join(getRootPath(), 'package.json')
       const frameworkPath = path.join(nodeModulesPath, frameworkName, 'package.json')
       printLog(processTypeEnum.ERROR, '版本问题', `Taro CLI 与本地安装运行时框架 ${frameworkName} 版本不一致, 请确保版本一致！`)
-      printLog(processTypeEnum.REMIND, '升级命令', `升级到最新CLI：taro update self   升级到最新依赖库：taro update project`);
-      printLog(processTypeEnum.REMIND, '升级文档', `请参考 "常用 CLI 命令"中"更新" 章节：https://taro-docs.jd.com/taro/docs/GETTING-STARTED.html`);
+      printLog(processTypeEnum.REMIND, '升级命令', `升级到最新CLI：taro update self   升级到最新依赖库：taro update project`)
+      printLog(processTypeEnum.REMIND, '升级文档', `请参考 "常用 CLI 命令"中"更新" 章节：https://taro-docs.jd.com/taro/docs/GETTING-STARTED.html`)
       console.log(``)
       console.log(`Taro CLI：${getPkgVersion()}             路径：${taroCliPath}`)
       console.log(`${frameworkName}：${frameworkVersion}   路径：${frameworkPath}`)
@@ -442,7 +445,7 @@ export const applyArrayedVisitors = obj => {
 
 export function unzip (zipPath) {
   return new Promise((resolve, reject) => {
-    yauzl.open(zipPath, { lazyEntries: true }, (err, zipfile) => {
+    yauzl.open(zipPath, {lazyEntries: true}, (err, zipfile) => {
       if (err) throw err
       zipfile.on('close', () => {
         fs.removeSync(zipPath)
@@ -521,7 +524,7 @@ export const getAllFilesInFloder = async (
 }
 
 export function getUserHomeDir (): string {
-  function homedir(): string {
+  function homedir (): string {
     const env = process.env
     const home = env.HOME
     const user = env.LOGNAME || env.USER || env.LNAME || env.USERNAME
@@ -540,6 +543,7 @@ export function getUserHomeDir (): string {
 
     return home || ''
   }
+
   return typeof (os.homedir as (() => string) | undefined) === 'function' ? os.homedir() : homedir()
 }
 
@@ -562,7 +566,7 @@ interface FileStat {
 export function readDirWithFileTypes (floder: string): FileStat[] {
   const list = fs.readdirSync(floder)
   const res = list.map(name => {
-    const stat =fs.statSync(path.join(floder, name))
+    const stat = fs.statSync(path.join(floder, name))
     return {
       name,
       isDirectory: stat.isDirectory(),
@@ -583,9 +587,10 @@ export function generateAlipayPath (filePath) {
 interface IRemindVersion {
   remindTimes: number
 }
+
 export function printVersionTip () {
   const taroPath = getTaroPath()
-  let remindVersion: IRemindVersion = { remindTimes: 0 }
+  let remindVersion: IRemindVersion = {remindTimes: 0}
   const remindVersionFilePath = path.join(taroPath, '.remind_version.json')
   if (!fs.existsSync(remindVersionFilePath)) {
     fs.ensureDirSync(taroPath)

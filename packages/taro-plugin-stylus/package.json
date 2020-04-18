@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-stylus",
-  "version": "2.0.6",
+  "version": "2.1.5",
   "description": "Taro 编译 stylus 文件",
   "main": "index.js",
   "scripts": {

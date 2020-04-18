@@ -126,6 +126,7 @@ const otherApis = {
   // 媒体
   chooseImage: true,
   chooseMessageFile: true,
+  chooseMedia: true,
   previewImage: true,
   getImageInfo: true,
   compressImage: true,

@@ -17,21 +17,68 @@ sidebar_label: openCard
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| cardList | `RequestInfo[]` | 是 | 需要打开的卡券列表 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cardList</td>
+      <td><code>RequestInfo[]</code></td>
+      <td style="text-align:center">是</td>
+      <td>需要打开的卡券列表</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RequestInfo
 
 需要打开的卡券列表
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| cardId | `string` | 卡券 ID |
-| code | `string` | 由 Taro.addCard 的返回对象中的加密 code 通过解密后得到，解密请参照：[code 解码接口](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1499332673_Unm7V) |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cardId</td>
+      <td><code>string</code></td>
+      <td>卡券 ID</td>
+    </tr>
+    <tr>
+      <td>code</td>
+      <td><code>string</code></td>
+      <td>由 Taro.addCard 的返回对象中的加密 code 通过解密后得到，解密请参照：<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1499332673_Unm7V">code 解码接口</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

@@ -259,29 +259,25 @@ rn_temp
 ├── app_styles.js
 ├── index.html
 ├── index.js
-├── package-lock.json
-├── package.json
 ├── pages
 │   └── index
 │       ├── component.js
 │       ├── index.js
 │       └── index_styles.js
-├── bundle
-│   ├── assets
-│   ├── index.bundle
-│   └── index.bundle.meta
 └── yarn.lock
 ```
 其中关键文件及目录如下：
 
-- app.json React Native 应用的配置，从 `config.rn.appJson` 中获取
-- bundle:实时编译的 jsbundle 临时文件
+- index.js：React Native 入口文件
+- app.json：React Native 应用的配置，从 `config.rn.appJson` 中获取
 
 如果编译没有报错，会自动打开一个终端，并在 8081 端口启动 [Metro](https://github.com/facebook/metro) Bundler 负责打包 jsbundle：
 
 ![image](https://user-images.githubusercontent.com/9441951/59322399-85780180-8d08-11e9-9ea7-b3e4b23c077c.png)
 
-> 注意：少数电脑上，可能不会 `自动打开一个终端`，这时你可以在项目根目录下运行：`react-native start` 手动启动。
+> 注意：少数电脑上，可能不会 `自动打开一个终端`，这时你可以在项目根目录下运行：`node ./node_modules/react-native/local-cli/cli.js start --reset-cache` 手动启动。
+>
+>  碰到 `react native haste module map` 相关的错误，也可以选择这种方式手动清缓存启动 。
 
 这时，在浏览器输入 http://127.0.0.1:8081，可以看到如下页面：
 ![image](https://user-images.githubusercontent.com/9441951/55865494-13245d00-5bb1-11e9-9a97-8a785a83b584.png)
@@ -673,41 +669,52 @@ React Native 参考文档：[集成到现有原生应用](https://reactnative.cn
 
 构建 iOS 独立应用程序需要 Apple Developer 帐户，但构建 Android 独立应用程序不需要 Google Play Developer 帐户。如果您想要提交到任一应用商店，您将需要该商店的开发者帐户。
 
-### 编译 RN 代码
+### 生成 React Native 离线包（jsbundle）
 
-在打包发布步骤之前，我们先对开发者的源代码进行预处理，将 Taro 代码转成 React Native 代码：
+在打包成 ipa 或 apk 应用包之前，我们先要得到 React Native 离线包：
+
+* 方式一：
 
 ``` bash
 taro build --type rn
 ```
+然后会生成 `rn_bundle` 目录，目录下会生成的 React Native 离线包，也就是打包后的 js。
 
-然后 `rn_temp` 目录（如果你没有修改）下会生成转换后的 React Native 代码。
+└── rn_bundle
+    ├── assets
+    ├── index.bundle
+    └── index.bundle.meta
+
+* 方式二：
 
 
-### 生成 jsbundle
-
-首先使用 React Native 的 bundle 命令将 rn_temp 目录下的 RN 代码及资源打包成 jsbundle，命令如下：
+使用 React Native 的 bundle 命令将 rn_temp 目录下的 RN 代码及资源打包成 jsbundle，命令如下：
 
 ```sh
-node ../node_modules/react-native/local-cli/cli.js bundle --entry-file ./rn_temp/index.js --bundle-output ./bundle/index.bundle --assets-dest ./${BUNDLE_DIR_NAME} --dev false
+node ./node_modules/react-native/local-cli/cli.js bundle --entry-file ./rn_temp/index.js --bundle-output ./rn_bundle/index.bundle --assets-dest ./rn_bundle --dev false
 ```
 
 其中参数可以自行调整，`--bundle-output` 可以制定任意目录，然后将 bundle 目录下的文件 copy 到 `taro-native-shell`目录即可。
 
 当然，也可以通过指定 `--bundle-output` 直接输出到 `taro-native-shell`目录。
 
-接下来，按照 React Native 的文档按照不同的端分别打包对应的应用即可。
 
-### 构建 APP
+### 通过 React Native 离线包构建 APP
 
-#### iOS
+一般来说，主要就三步：
 
-参考文档：[在设备上运行](https://reactnative.cn/docs/0.55/running-on-device/)
+1. copy 生成的 jsbundle 到 React Native 工程对应目录下，如：taro-native-shell 工程或自己的 React Native 工程
+2. 修改对应的入口文件的 Bundle 名称，如 iOS 的 `AppDelegate.m` 文件，Android 的 `MainApplication` 文件
+3. 通过 React Native 命令或者对应的 IDE （Xcode/Android Studio） 打包 APP。
 
-#### Android
-参考文档：[打包APK](https://reactnative.cn/docs/0.55/signed-apk-android/)
+搜索 React Native 离线包 ，可以得到很多操作指引和教程，这里不再赘述，以下两篇可以借鉴：
+
+* iOS 可以参考：[ReactNative - 打离线包 (一) 原生RN命令打包](https://www.jianshu.com/p/bb7c5f1d304e)
+* Android 可以参考：[ReactNative打离线包-android篇](https://www.jianshu.com/p/ba6cbbe9c677)
+
 
 ## 发布
+
 打包好的应用发布到 App Store 或各大应用商店可以查看官方文档。
 
 - [Overview of publishing an app](https://help.apple.com/app-store-connect/#/dev34e9bbb5a)

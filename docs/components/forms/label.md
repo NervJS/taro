@@ -39,9 +39,24 @@ class App extends Components {
 
 ## LabelProps
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| for | `string` | 否 | 绑定控件的 id |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>for</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>绑定控件的 id</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

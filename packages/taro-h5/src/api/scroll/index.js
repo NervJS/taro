@@ -17,7 +17,7 @@ const FRAME_DURATION = 17
  * 将页面滚动到目标位置
  * @param {PageScrollToParam} object 参数
  */
-export const pageScrollTo = ({ scrollTop, duration=300, success, fail, complete }) => {
+export const pageScrollTo = ({ scrollTop, duration = 300, success, fail, complete }) => {
   return new Promise((resolve, reject) => {
     try {
       if (scrollTop === undefined) {
@@ -44,7 +44,7 @@ export const pageScrollTo = ({ scrollTop, duration=300, success, fail, complete 
           }
         }
       }
-      
+
       const from = scrollFunc()
       const to = scrollTop
       const delta = to - from
@@ -65,7 +65,7 @@ export const pageScrollTo = ({ scrollTop, duration=300, success, fail, complete 
             errMsg: 'pageScrollTo:ok'
           }
           success && success(res)
-          complete && complete()
+          complete && complete(res)
           resolve(res)
         }
       }
@@ -75,7 +75,7 @@ export const pageScrollTo = ({ scrollTop, duration=300, success, fail, complete 
         errMsg: `pageScrollTo:fail ${e.message}`
       }
       fail && fail(res)
-      complete && complete()
+      complete && complete(res)
       reject(res)
     }
   })

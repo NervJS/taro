@@ -125,6 +125,8 @@ function processEvent (eventHandlerName, obj) {
     }
 
     const scope = this.$component
+    if (!scope || !scope[eventHandlerName]) return
+
     let callScope = scope
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
@@ -344,21 +346,16 @@ function createComponent (ComponentClass, isPage) {
       this.$component.__propTypes = ComponentClass.propTypes
       Object.assign(this.$component.$router.params, options)
 
-      if (isPage) {
-        initComponent.apply(this, [ComponentClass, isPage])
-      }
-    },
-    attached () {
       let hasParamsCache
       if (isPage) {
         // params
         let params = {}
-        hasParamsCache = cacheDataHas(this.data[routerParamsPrivateKey])
+        hasParamsCache = cacheDataHas(options[routerParamsPrivateKey])
         if (hasParamsCache) {
-          params = Object.assign({}, ComponentClass.defaultParams, cacheDataGet(this.data[routerParamsPrivateKey], true))
+          params = Object.assign({}, ComponentClass.defaultParams, cacheDataGet(options[routerParamsPrivateKey], true))
         } else {
           // 直接启动，非内部跳转
-          params = filterParams(this.data, ComponentClass.defaultParams)
+          params = filterParams(options, ComponentClass.defaultParams)
         }
         if (cacheDataHas(PRELOAD_DATA_KEY)) {
           const data = cacheDataGet(PRELOAD_DATA_KEY, true)
@@ -366,15 +363,17 @@ function createComponent (ComponentClass, isPage) {
         }
         Object.assign(this.$component.$router.params, params)
         // preload
-        if (cacheDataHas(this.data[preloadPrivateKey])) {
-          this.$component.$preloadData = cacheDataGet(this.data[preloadPrivateKey], true)
+        if (cacheDataHas(options[preloadPrivateKey])) {
+          this.$component.$preloadData = cacheDataGet(options[preloadPrivateKey], true)
         } else {
-          this.$component.$preloadData = null
+          this.$component.$preloadData = {}
         }
-      }
-      if (hasParamsCache || !isPage) {
+
         initComponent.apply(this, [ComponentClass, isPage])
       }
+    },
+    attached () {
+      initComponent.apply(this, [ComponentClass, isPage])
     },
     ready () {
       if (!this.$component.__mounted) {

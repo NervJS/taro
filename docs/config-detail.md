@@ -328,7 +328,7 @@ const config = {
   webpackChain (chain, webpack) {
     chain.merge({
       module: {
-        rule: {
+        rules: {
           myloader: {
             test: /\.md$/,
             use: [{
@@ -932,6 +932,244 @@ postcss: {
     enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
     config: {
       namingPattern: 'module',
+      generateScopedName: '[name]__[local]___[hash:base64:5]'
+    }
+  }
+}
+```
+
+## rn
+
+专属于 RN 的配置。
+
+### rn.appJSON
+
+React Native 的 app.json 配置。
+
+### rn.compile
+
+RN 编译过程的相关配置。
+
+#### rn.compile.exclude
+
+配置 RN 编译过程中排除不需要经过 Taro 编译的文件，数组类型，数组里面可以包含具体文件路径，也可以是判断函数，同 [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude)
+
+例如，想要排除某个文件，可以如下配置要排除的文件具体路径：
+
+```js
+const config = {
+  rn: {
+    compile: {
+      exclude: [
+        path.resolve(__dirname, '..', 'src/pages/index/vod-wx-sdk-v2.js')
+      ]
+    }
+  }
+}
+```
+
+也可以配置判断函数，如下
+
+```js
+const config = {
+  rn: {
+    compile: {
+      exclude: [
+        function (modulePath) {
+          return modulePath.indexOf('vod-wx-sdk-v2') >= 0
+        }
+      ]
+    }
+  }
+}
+```
+
+#### rn.compile.include
+
+配置额外需要经过 Taro 编译的文件，例如 Taro 默认不编译 `node_modules` 包中文件，可以通过这个配置让 Taro 编译  `node_modules` 包中文件，使用方式与 `rn.compile.exclude` 一致，同 [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude)。
+
+### mini.webpackChain
+
+自定义 Webpack 配置，接受函数形式的配置。
+
+这个函数会收到三个参数，第一个参数是 webpackChain 对象，可参考 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 的 api 进行修改；第二个参数是 `webpack` 实例；第三个参数 `PARSE_AST_TYPE` 是小程序编译时的文件类型集合。例如：
+
+```jsx
+// 这是一个添加 raw-loader 的例子，用于在项目中直接引用 md 文件
+{
+  webpackChain (chain, webpack) {
+    chain.merge({
+      module: {
+        rule: {
+          myloader: {
+            test: /\.md$/,
+            use: [{
+              loader: 'raw-loader',
+              options: {}
+            }]
+          }
+        }
+      }
+    })
+  }
+}
+```
+
+```jsx
+// 这是一个添加插件的例子
+{
+  webpackChain (chain, webpack) {
+    chain.merge({
+      plugin: {
+        install: {
+          plugin: require('npm-install-webpack-plugin'),
+          args: [{
+            // Use --save or --save-dev
+            dev: false,
+            // Install missing peerDependencies
+            peerDependencies: true,
+            // Reduce amount of console logging
+            quiet: false,
+            // npm command used inside company, yarn is not supported yet
+            npm: 'cnpm'
+          }]
+        }
+      }
+    })
+  }
+}
+```
+
+注意：第三个参数的取值如下
+
+```typescript
+export enum PARSE_AST_TYPE {
+  ENTRY = 'ENTRY',
+  PAGE = 'PAGE',
+  COMPONENT = 'COMPONENT',
+  NORMAL = 'NORMAL',
+  STATIC = 'STATIC'
+}
+```
+
+### mini.cssLoaderOption
+
+css-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/css-loader)，例如：
+
+```jsx
+{
+  cssLoaderOption: {
+    localIdentName: '[hash:base64]'
+  }
+}
+```
+
+### mini.styleLoaderOption
+
+style-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/style-loader)，例如：
+
+```jsx
+{
+  styleLoaderOption: {
+    insertAt: 'top'
+  }
+}
+```
+
+### mini.sassLoaderOption
+
+sass-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/sass-loader)，例如：
+
+```jsx
+{
+  sassLoaderOption: {
+    implementation: require("dart-sass")
+  }
+}
+```
+
+### mini.lessLoaderOption
+
+less-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
+
+```jsx
+{
+  lessLoaderOption: {
+    strictMath: true,
+    noIeCompat: true
+  }
+}
+```
+
+### mini.stylusLoaderOption
+
+stylus-loader 的附加配置。配置项参考[官方文档](https://github.com/shama/stylus-loader)。
+
+### mini.mediaUrlLoaderOption
+
+针对 `mp4 | webm | ogg | mp3 | wav | flac | aac` 文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)，例如：
+
+```jsx
+{
+  mediaUrlLoaderOption: {
+    limit: 8192
+  }
+}
+```
+
+### mini.fontUrlLoaderOption
+
+针对 `woff | woff2 | eot | ttf | otf` 文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+
+### mini.imageUrlLoaderOption
+
+针对 `png | jpg | jpeg | gif | bpm | svg` 文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+
+### mini.miniCssExtractPluginOption
+
+`mini-css-extract-plugin` 的附加配置，在 `enableExtract` 为 `true` 的情况下生效。
+配置项参考[官方文档](https://github.com/webpack-contrib/mini-css-extract-plugin)，例如：
+
+```jsx
+{
+  miniCssExtractPluginOption: {
+    filename: '[name].css',
+    chunkFilename: '[name].css'
+  }
+}
+```
+
+### mini.postcss
+
+配置 `postcss` 相关插件：
+
+```jsx
+postcss: {
+  // 可以进行 autoprefixer 的配置。配置项参考官方文档 https://github.com/postcss/autoprefixer
+  autoprefixer: {
+    enable: true,
+    config: {
+      // autoprefixer 配置项
+    }
+  },
+  pxtransform: {
+    enable: true,
+    config: {
+      // pxtransform 配置项，参考尺寸章节
+      selectorBlackList: ['body']
+    }
+  },
+  // 小程序端样式引用本地资源内联
+  url: {
+    enable: true,
+    config: {
+      limit: 10240 // 设定转换尺寸上限
+    }
+  },
+  // css modules 功能开关与相关配置
+  cssModules: {
+    enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+    config: {
       generateScopedName: '[name]__[local]___[hash:base64:5]'
     }
   }

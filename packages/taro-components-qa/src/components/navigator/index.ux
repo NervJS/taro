@@ -1,6 +1,6 @@
 <template>
   <div
-    class="{{class}}"
+    class="{{classname}}"
     style="{{customstyle}}"
     id="{{id}}"
     onclick="handleClick"
@@ -11,10 +11,10 @@
 
 <script>
   import router from '@system.router'
-  
+
   export default {
     props: {
-      class: {
+      classname: {
         type: String,
         required: false,
         default: 'taro_navigator'
@@ -58,10 +58,10 @@
         case 'navigateBack':
           router.back()
           break
-        default: 
+        default:
           router.push({uri: this.url, params})
 
-      } 
+      }
       this.$emit('click', e)
     },
     getUrlParams (url = '') {

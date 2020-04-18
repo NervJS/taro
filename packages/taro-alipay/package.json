@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-alipay",
-  "version": "2.0.6",
+  "version": "2.1.5",
   "description": "Taro alipay framework",
   "main": "index.js",
   "files": [
@@ -24,8 +24,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "2.0.6",
-    "@tarojs/utils": "2.0.6",
+    "@tarojs/taro": "2.1.5",
+    "@tarojs/utils": "2.1.5",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.1"
   }

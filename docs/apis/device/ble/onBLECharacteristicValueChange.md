@@ -23,18 +23,54 @@ sidebar_label: onBLECharacteristicValueChange
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| characteristicId | `string` | 蓝牙特征值的 uuid |
-| deviceId | `string` | 蓝牙设备 id |
-| serviceId | `string` | 蓝牙特征值对应服务的 uuid |
-| value | `ArrayBuffer` | 特征值最新的值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>characteristicId</td>
+      <td><code>string</code></td>
+      <td>蓝牙特征值的 uuid</td>
+    </tr>
+    <tr>
+      <td>deviceId</td>
+      <td><code>string</code></td>
+      <td>蓝牙设备 id</td>
+    </tr>
+    <tr>
+      <td>serviceId</td>
+      <td><code>string</code></td>
+      <td>蓝牙特征值对应服务的 uuid</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td><code>ArrayBuffer</code></td>
+      <td>特征值最新的值</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

@@ -7,6 +7,19 @@ sidebar_label: Page
 
 ## 方法
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| route | `string` | 当前页面的路径 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>route</td>
+      <td><code>string</code></td>
+      <td>当前页面的路径</td>
+    </tr>
+  </tbody>
+</table>

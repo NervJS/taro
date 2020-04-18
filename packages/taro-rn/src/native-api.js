@@ -6,6 +6,7 @@ import system from './api/system'
 import network from './api/device/network'
 import clipboard from './api/device/clipboard'
 import phone from './api/device/phone'
+import screen from './api/device/screen'
 import vibrate from './api/device/vibrate'
 import * as accelerometer from './api/accelerometer'
 import deviceMotion from './api/device/deviceMotion'
@@ -55,6 +56,7 @@ export default function initNativeApi (taro) {
     network,
     clipboard,
     phone,
+    screen,
     web,
     vibrate,
     accelerometer,

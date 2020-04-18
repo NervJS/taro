@@ -1,17 +1,17 @@
 <template>
     <div
-      class="{{class}}"
+      class="{{classname}}"
       style="{{customstyle}}"
       itemId="{{itemid}}"
       onclick="handleClick">
       <slot></slot>
     </div>
   </template>
-    
+
   <script>
     export default {
       props: {
-        class: {
+        classname: {
           type: String,
           required: false,
           default: ''
@@ -27,7 +27,7 @@
           default: ''
         }
       },
-  
+
       onInit () {
       },
       handleClick (e) {
@@ -35,8 +35,7 @@
       }
     }
   </script>
-  
+
   <style>
 
   </style>
-  

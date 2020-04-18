@@ -3,7 +3,8 @@
     "关于Taro": [
       "README",
       "taroize",
-      "team"
+      "team",
+      "join-us"
     ],
     "快速开始": [
       "GETTING-STARTED",
@@ -44,7 +45,7 @@
           "envs",
           "envs-debug",
           "relations",
-          "wxcloud",
+          "wxcloudbase",
           "miniprogram-plugin",
           "quick-app",
           "react-native"

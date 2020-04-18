@@ -6,11 +6,11 @@ const spinner = ora('Publishing gitbooks...').start()
 const docs = cp.spawn('npm', ['run', 'docs'])
 
 docs.stdout.on('data', data => {
-  console.log(data)
+  console.log(Buffer.isBuffer(data) ? data.toString() : data)
 })
 
 docs.stderr.on('data', data => {
-  console.error(data)
+  console.error(Buffer.isBuffer(data) ? data.toString() : data)
 })
 
 docs.on('close', code => {

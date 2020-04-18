@@ -1,7 +1,7 @@
 <template>
   <div class="taro_slider ">
     <slider
-      class="taro_slider_info {{class}}"
+      class="taro_slider_info {{classname}}"
       style="{{sliderStyle}}"
       disabled="{{disabled}}"
       min="{{min}}"
@@ -15,7 +15,7 @@
 <script>
   export default {
     props: {
-      class: {
+      classname: {
         type: String,
         required: false,
         default: ''
@@ -112,4 +112,3 @@
     font-size: 24px;
   }
 </style>
-  

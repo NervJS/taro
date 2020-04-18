@@ -14,8 +14,10 @@ import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
+import { ConcatSource } from 'webpack-sources'
+import { urlToRequest } from 'loader-utils'
 
-import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsQuickAppComponents, REG_SCRIPTS, processTypeEnum } from '../utils/constants'
+import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsQuickAppComponents, REG_SCRIPTS, processTypeEnum, REG_STYLE } from '../utils/constants'
 import { IComponentObj, AddPageChunks, IComponent } from '../utils/types'
 import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog, isAliasPath, replaceAliasPath } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -37,9 +39,11 @@ interface IMiniPluginOptions {
   designWidth: number,
   commonChunks: string[],
   pluginConfig?: object,
+  pluginMainEntry?: string,
   isBuildPlugin: boolean,
   alias: object
-  addChunkPages?: AddPageChunks
+  addChunkPages?: AddPageChunks,
+  constantsReplaceList: object,
 }
 
 export interface ITaroFileInfo {
@@ -48,6 +52,7 @@ export interface ITaroFileInfo {
     config: IConfig,
     template?: string,
     code?: string,
+    importStyles?: Set<string>,
     taroSelfComponents?: Set<{
       name: string,
       path: string
@@ -83,7 +88,8 @@ export const Targets = {
 export function isFileToBeTaroComponent (
   code: string,
   sourcePath: string,
-  buildAdapter: BUILD_TYPES
+  buildAdapter: BUILD_TYPES,
+  constantsReplaceList: object
 ) {
   try {
     const transformResult = wxTransformer({
@@ -91,7 +97,8 @@ export function isFileToBeTaroComponent (
       sourcePath: sourcePath,
       isTyped: REG_TYPESCRIPT.test(sourcePath),
       adapter: buildAdapter,
-      isNormal: true
+      isNormal: true,
+      env: constantsReplaceList
     })
     const { ast } = transformResult
     let isTaroComponent = false
@@ -155,6 +162,7 @@ export default class MiniPlugin {
   pageComponentsDependenciesMap: Map<string, Set<IComponentObj>>
   dependencies: Map<string, TaroSingleEntryDependency>
   quickappImports: Map<string, Set<{ path: string, name: string }>>
+  subPackages: Set<string>
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -165,7 +173,8 @@ export default class MiniPlugin {
       designWidth: 750,
       commonChunks: ['runtime', 'vendors', 'taro', 'common'],
       isBuildPlugin: false,
-      alias: {}
+      alias: {},
+      constantsReplaceList:{}
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
@@ -181,6 +190,9 @@ export default class MiniPlugin {
     this.pageComponentsDependenciesMap = new Map()
     this.dependencies = new Map()
     this.quickappImports = new Map()
+    this.subPackages = new Set()
+
+    this.parseConstantsList()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -190,24 +202,41 @@ export default class MiniPlugin {
 		} catch (err) {
 			callback(err)
 		}
-	}
+  }
+
+  parseConstantsList () {
+    const parsedConstantsReplaceList = {}
+    Object.keys(this.options.constantsReplaceList).forEach(key => {
+      try {
+        parsedConstantsReplaceList[key] = JSON.parse(this.options.constantsReplaceList[key])
+      } catch (error) {
+        parsedConstantsReplaceList[key] = this.options.constantsReplaceList[key]
+      }
+    })
+    this.options.constantsReplaceList = parsedConstantsReplaceList
+  }
 
   apply (compiler) {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
+    let taroLoadChunksPlugin
+    const commonStyles: Set<string> = new Set()
     compiler.hooks.run.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
         await this.run(compiler)
-        new TaroLoadChunksPlugin({
+        if(taroLoadChunksPlugin) taroLoadChunksPlugin.destroy()
+        taroLoadChunksPlugin = new TaroLoadChunksPlugin({
           commonChunks: this.options.commonChunks,
           buildAdapter: this.options.buildAdapter,
           isBuildPlugin: this.options.isBuildPlugin,
           addChunkPages: this.options.addChunkPages,
           pages: this.pages,
           depsMap: this.pageComponentsDependenciesMap,
-          sourceDir: this.sourceDir
-        }).apply(compiler)
+          sourceDir: this.sourceDir,
+          subPackages: this.subPackages
+        })
+        taroLoadChunksPlugin.apply(compiler)
 			})
     )
 
@@ -220,15 +249,18 @@ export default class MiniPlugin {
         } else {
           await this.watchRun(compiler, changedFiles)
         }
-        new TaroLoadChunksPlugin({
+        if(taroLoadChunksPlugin) taroLoadChunksPlugin.destroy()
+        taroLoadChunksPlugin = new TaroLoadChunksPlugin({
           commonChunks: this.options.commonChunks,
           buildAdapter: this.options.buildAdapter,
           isBuildPlugin: this.options.isBuildPlugin,
           addChunkPages: this.options.addChunkPages,
           pages: this.pages,
           depsMap: this.pageComponentsDependenciesMap,
-          sourceDir: this.sourceDir
-        }).apply(compiler)
+          sourceDir: this.sourceDir,
+          subPackages: this.subPackages
+        })
+        taroLoadChunksPlugin.apply(compiler)
 			})
     )
 
@@ -247,18 +279,34 @@ export default class MiniPlugin {
       compilation.dependencyFactories.set(SingleEntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency, normalModuleFactory)
 
+      compilation.hooks.afterOptimizeChunkAssets.tap(PLUGIN_NAME, chunks => {
+        chunks.forEach(chunk => {
+          const id = typeof chunk.id === 'string' ? chunk.id : chunk.name
+          this.options.commonChunks.forEach(commonName => {
+            if (id === commonName) {
+              const _modules = chunk._modules
+              if (_modules) {
+                for (const mod of _modules) {
+                  if (REG_STYLE.test(mod.resource)) {
+                    commonStyles.add(mod.resource)
+                  }
+                }
+              }
+            }
+          })
+        })
+      })
+
+
       compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, (assets) => {
         Object.keys(assets).forEach(assetPath => {
           const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
-          const templateExt = MINI_APP_FILES[this.options.buildAdapter].TEMPL
           if (new RegExp(`${styleExt}.js$`).test(assetPath)) {
             delete assets[assetPath]
           } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
             const assetObj = assets[assetPath]
             const newAssetPath = assetPath.replace(styleExt, '')
             assets[newAssetPath] = assetObj
-            delete assets[assetPath]
-          } else if (new RegExp(`${templateExt}.js$`).test(assetPath)) {
             delete assets[assetPath]
           }
         })
@@ -269,7 +317,7 @@ export default class MiniPlugin {
       PLUGIN_NAME,
       this.tryAsync(async compilation => {
         compilation.errors = compilation.errors.concat(this.errors)
-        await this.generateMiniFiles(compilation)
+        await this.generateMiniFiles(compilation, commonStyles)
         this.addedComponents.clear()
       })
     )
@@ -475,6 +523,7 @@ export default class MiniPlugin {
       subPackages.forEach(item => {
         if (item.pages && item.pages.length) {
           const root = item.root
+          this.subPackages.add(root)
           item.pages.forEach(page => {
             let pageItem = `${root}/${page}`
             pageItem = pageItem.replace(/\/{2,}/g, '/')
@@ -507,7 +556,7 @@ export default class MiniPlugin {
   }
 
   getPages (compiler) {
-    const { buildAdapter } = this.options
+    const { buildAdapter, constantsReplaceList, nodeModulesPath, alias } = this.options
     const appEntry = this.appEntry
     const code = fs.readFileSync(appEntry).toString()
     try {
@@ -517,9 +566,10 @@ export default class MiniPlugin {
         sourceDir: this.sourceDir,
         isTyped: REG_TYPESCRIPT.test(appEntry),
         isApp: true,
-        adapter: buildAdapter
+        adapter: buildAdapter,
+        env: constantsReplaceList
       })
-      const { configObj } = parseAst(transformResult.ast, buildAdapter)
+      const { configObj, importStyles } = parseAst(transformResult.ast, buildAdapter, appEntry, nodeModulesPath, alias)
       const appPages = configObj.pages
       this.appConfig = configObj
       compiler.appConfig = configObj
@@ -534,7 +584,8 @@ export default class MiniPlugin {
       taroFileTypeMap[this.appEntry] = {
         type: PARSE_AST_TYPE.ENTRY,
         config: configObj,
-        code: transformResult.code
+        code: transformResult.code,
+        importStyles
       }
       this.pages = new Set([
         ...this.pages,
@@ -568,6 +619,9 @@ export default class MiniPlugin {
       const filePath = this.appEntry[key][0]
       const code = fs.readFileSync(filePath).toString()
       const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, filePath, buildAdapter)
+      if (key === this.options.pluginMainEntry) {
+        this.addEntry(compiler, filePath, key, PARSE_AST_TYPE.EXPORTS)
+      }
       if (isTaroComponentRes == null) {
         return null
       }
@@ -663,7 +717,7 @@ export default class MiniPlugin {
   }
 
   getComponents (compiler: webpack.Compiler, fileList: Set<IComponent>, isRoot: boolean) {
-    const { buildAdapter, alias } = this.options
+    const { buildAdapter, alias, constantsReplaceList, nodeModulesPath } = this.options
     const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     const isSwanApp = buildAdapter === BUILD_TYPES.SWAN
     fileList.forEach(file => {
@@ -675,6 +729,7 @@ export default class MiniPlugin {
         let taroSelfComponents
         let depComponents
         let code = fs.readFileSync(file.path).toString()
+        let importStyles
         if (isNative) {
           const configPath = this.getConfigPath(file.path)
           if (fs.existsSync(configPath)) {
@@ -701,10 +756,12 @@ export default class MiniPlugin {
             sourceDir: this.sourceDir,
             isTyped: REG_TYPESCRIPT.test(file.path),
             isRoot,
-            adapter: buildAdapter
+            adapter: buildAdapter,
+            env: constantsReplaceList
           })
-          let parseAstRes = parseAst(transformResult.ast, buildAdapter)
+          let parseAstRes = parseAst(transformResult.ast, buildAdapter, file.path, nodeModulesPath, alias)
           configObj = parseAstRes.configObj
+          importStyles = parseAstRes.importStyles
           if (isRoot) {
             const showPath = file.path.replace(this.sourceDir, '').replace(path.extname(file.path), '')
             this.pageConfigs.set(showPath, configObj)
@@ -725,7 +782,7 @@ export default class MiniPlugin {
           depComponents = transformResult.components
           code = transformResult.code
         }
-        depComponents = depComponents.filter(item => !/^plugin:\/\//.test(item.path))
+        depComponents = depComponents.filter(item => !/^(plugin|dynamicLib|plugin-private):\/\//.test(item.path))
         this.transformComponentsPath(file.path, depComponents)
         if (isQuickApp) {
           const scriptPath = file.path
@@ -750,7 +807,8 @@ export default class MiniPlugin {
         taroFileTypeMap[file.path] = {
           type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
           config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, alias, depComponents), configObj),
-          code
+          code,
+          importStyles
         }
         if (isQuickApp && taroSelfComponents) {
           taroFileTypeMap[file.path].taroSelfComponents = new Set(Array.from(taroSelfComponents).map(item => {
@@ -839,17 +897,20 @@ export default class MiniPlugin {
     })
   }
 
-  generateMiniFiles (compilation: webpack.compilation.Compilation) {
-    const { buildAdapter } = this.options
+  generateMiniFiles (compilation: webpack.compilation.Compilation, commonStyles: Set<string>) {
+    const { buildAdapter, commonChunks } = this.options
     const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
     Object.keys(taroFileTypeMap).forEach(item => {
       const relativePath = this.getRelativePath(item)
       const extname = path.extname(item)
-      const jsonPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].CONFIG).replace(/\\/g, '/').replace(/^\//, '')
+      let jsonPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].CONFIG).replace(/\\/g, '/').replace(/^\//, '')
       const scriptPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].SCRIPT).replace(/\\/g, '/').replace(/^\//, '')
       const templatePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].TEMPL).replace(/\\/g, '/').replace(/^\//, '')
       const stylePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].STYLE).replace(/\\/g, '/').replace(/^\//, '')
       const itemInfo = taroFileTypeMap[item]
+      if (itemInfo.type === PARSE_AST_TYPE.ENTRY) {
+        jsonPath = relativePath.replace(RegExp(`(.${buildAdapter})?${extname}$`), MINI_APP_FILES[buildAdapter].CONFIG).replace(/\\/g, '/').replace(/^\//, '')
+      }
       if (!isQuickApp) {
         const jsonStr = JSON.stringify(itemInfo.config)
         compilation.assets[jsonPath] = {
@@ -908,6 +969,60 @@ export default class MiniPlugin {
           }
         })
       }
+      // 处理公共样式引入
+      // 2.1.1 开始只有引用到公共样式的组件或页面文件里会引入 common 公共样式
+      const importStyles = itemInfo.importStyles
+      let needAddCommon = false
+      if (importStyles && importStyles.size && commonStyles.size) {
+        commonStyles.forEach(val => {
+          if (importStyles.has(val)) {
+            needAddCommon = true
+          }
+        })
+      }
+      const assets = compilation.assets
+      const asset = assets[stylePath]
+      if (needAddCommon) {
+        const source = new ConcatSource()
+        Object.keys(assets).forEach(assetName => {
+          const fileName = path.basename(assetName, path.extname(assetName))
+          if (REG_STYLE.test(assetName) && commonChunks.includes(fileName)) {
+            source.add(`@import ${JSON.stringify(urlToRequest(promoteRelativePath(path.relative(stylePath, assetName))))};`)
+            source.add('\n')
+          }
+        })
+        if (asset) {
+          const _source = asset._source || asset._value
+          source.add(_source)
+        }
+        assets[stylePath] = {
+          size: () => source.source().length,
+          source: () => source.source()
+        }
+      } else {
+        if (asset) {
+          const value = asset._source ? asset._source.source() : asset._value
+          if (value) {
+            let commonStylePath
+            Object.keys(assets).forEach(assetName => {
+              const fileName = path.basename(assetName, path.extname(assetName))
+              if (REG_STYLE.test(assetName) && commonChunks.includes(fileName)) {
+                commonStylePath = promoteRelativePath(path.relative(stylePath, assetName))
+              }
+            })
+            const newValue = value.split('\n').map(item => {
+              if (commonStylePath && item.indexOf(commonStylePath) >= 0) {
+                return
+              }
+              return item
+            }).filter(item => item).join('\n')
+            assets[stylePath] = {
+              size: () => newValue.length,
+              source: () => newValue
+            }
+          }
+        }
+      }
     })
 
     this.tabBarIcons.forEach(icon => {
@@ -958,7 +1073,8 @@ export default class MiniPlugin {
     sourcePath: string,
     buildAdapter: BUILD_TYPES
   ) {
-    const isTaroComponentRes = isFileToBeTaroComponent(code, sourcePath, buildAdapter)
+    const { constantsReplaceList } = this.options
+    const isTaroComponentRes = isFileToBeTaroComponent(code, sourcePath, buildAdapter, constantsReplaceList)
     if (isTaroComponentRes instanceof Error) {
       if ((isTaroComponentRes as any).codeFrame) {
         this.errors.push(isTaroComponentRes)

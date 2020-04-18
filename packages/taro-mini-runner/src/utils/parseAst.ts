@@ -1,17 +1,23 @@
+import * as path from 'path'
+
 import { Config as IConfig } from '@tarojs/taro'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { transformFromAst } from 'babel-core'
 
-import { BUILD_TYPES, taroJsComponents, QUICKAPP_SPECIAL_COMPONENTS } from './constants'
-import { traverseObjectNode, isNpmPkg } from '../utils'
+import { BUILD_TYPES, taroJsComponents, QUICKAPP_SPECIAL_COMPONENTS, REG_STYLE } from './constants'
+import { traverseObjectNode, isNpmPkg, isAliasPath, replaceAliasPath, resolveNpmSync } from '../utils'
 import * as _ from 'lodash'
 
 export default function parseAst (
   ast: t.File,
-  buildAdapter: BUILD_TYPES
+  buildAdapter: BUILD_TYPES,
+  sourceFilePath: string,
+  nodeModulesPath: string,
+  alias: object,
 ): {
   configObj: IConfig,
+  importStyles: Set<string>,
   hasEnablePageScroll: boolean,
   taroSelfComponents: Set<string>,
 } {
@@ -19,6 +25,7 @@ export default function parseAst (
   let hasEnablePageScroll
   const taroSelfComponents = new Set<string>()
   const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
+  const importStyles: Set<string> = new Set<string>()
   let componentClassName: string = ''
 
   const newAst = transformFromAst(ast, '', {
@@ -118,6 +125,14 @@ export default function parseAst (
       const source = node.source
       let value = source.value
       const specifiers = node.specifiers
+      if (REG_STYLE.test(value)) {
+        importStyles.add(getAbsPath({
+          rPath: value,
+          source: sourceFilePath,
+          nodeModulesPath,
+          alias
+        }))
+      }
       if (isNpmPkg(value) && isQuickApp && value === taroJsComponents) {
         specifiers.forEach(specifier => {
           const name = specifier.local.name
@@ -135,6 +150,14 @@ export default function parseAst (
         const args = node.arguments as t.StringLiteral[]
         let value = args[0].value
         const parentNode = astPath.parentPath.parentPath.node as t.VariableDeclaration
+        if (REG_STYLE.test(value)) {
+          importStyles.add(getAbsPath({
+            rPath: value,
+            source: sourceFilePath,
+            nodeModulesPath,
+            alias
+          }))
+        }
         if (isNpmPkg(value) && isQuickApp && value === taroJsComponents) {
           if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
             const id = parentNode.declarations[0].id
@@ -166,7 +189,18 @@ export default function parseAst (
 
   return {
     configObj,
+    importStyles,
     hasEnablePageScroll,
     taroSelfComponents
   }
+}
+
+function getAbsPath ({ rPath, source, alias, nodeModulesPath }) {
+  if (isAliasPath(rPath, alias)) {
+    rPath = replaceAliasPath(source, rPath, alias)
+  }
+  if (isNpmPkg(rPath)) {
+    return resolveNpmSync(rPath, nodeModulesPath) || ''
+  }
+  return path.resolve(source, '..', rPath)
 }

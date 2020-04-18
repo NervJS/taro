@@ -45,6 +45,7 @@ const schema = Joi.object().keys({
     }),
     'webpackChain': Joi.func(),
     'commonChunks': Joi.alternatives(Joi.func(), Joi.array().items(Joi.string())),
+    'addChunkPages': Joi.func(),
     'output': Joi.object(),
     'postcss': Joi.object(), // 第三方配置
     'cssLoaderOption': Joi.object(), // 第三方配置
@@ -75,8 +76,9 @@ const schema = Joi.object().keys({
     'config': Joi.object()
   }),
   'sass': Joi.object().keys({
-    'enable': Joi.bool(),
-    'config': Joi.object()
+    'resource': Joi.alternatives(Joi.array(), Joi.string()),
+    'projectDirectory': Joi.string(),
+    'data': Joi.string()
   }),
 
   'h5': Joi.object().keys({

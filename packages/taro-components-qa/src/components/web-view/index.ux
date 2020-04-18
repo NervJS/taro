@@ -1,6 +1,6 @@
 <template>
     <web
-      class="{{class}}"
+      class="{{classname}}"
       style="{{customstyle}}"
       src="{{src}}"
       onclick="handleClick"
@@ -9,11 +9,11 @@
     >
     </web>
   </template>
-  
+
   <script>
     export default {
       props: {
-        class: {
+        classname: {
           type: String,
           required: false,
         },
@@ -38,21 +38,20 @@
           default: {}
         }
       },
-  
+
       data: () => ({
-  
+
       }),
-  
+
       onInit () {
-  
+
       },
-  
+
       handleClick (e) {
         this.$emit('click', e)
       }
     }
   </script>
-  
+
   <style>
   </style>
-  

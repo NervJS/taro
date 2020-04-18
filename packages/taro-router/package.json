@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "2.0.6",
+  "version": "2.1.5",
   "description": "Taro-router",
   "main:h5": "dist/index.esm.js",
   "main": "index.js",
@@ -41,7 +41,7 @@
     "@babel/plugin-syntax-dynamic-import": "7.0.0",
     "@babel/plugin-transform-react-jsx": "7.0.0",
     "@babel/preset-env": "7.1.5",
-    "@tarojs/taro-h5": "2.0.6",
+    "@tarojs/taro-h5": "2.1.5",
     "@types/history": "4.7.2",
     "@types/jasmine": "2.8.11",
     "@types/jest": "23.3.9",

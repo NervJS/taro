@@ -88,7 +88,7 @@ function processEvent (eventHandlerName, obj) {
 
   obj[eventHandlerName] = function (event) {
     if (event) {
-      const currentTarget = event.currentTarget
+      let currentTarget = event.currentTarget
       const target = event.target
       Object.defineProperties(event, {
         target: {
@@ -101,6 +101,9 @@ function processEvent (eventHandlerName, obj) {
           configurable: true,
           get () {
             return Object.assign(currentTarget || target || {}, event.detail)
+          },
+          set (target) {
+            currentTarget = target
           }
         }
       })
@@ -295,7 +298,9 @@ export function componentTrigger (component, key, args) {
 }
 
 export default function createComponent (ComponentClass, isPage) {
-  let initData = {}
+  let initData = {
+    priTaroCompReady: false
+  }
   const componentProps = filterProps(ComponentClass.defaultProps)
   const componentInstance = new ComponentClass(componentProps)
   componentInstance._constructor && componentInstance._constructor(componentProps)
@@ -388,6 +393,7 @@ export default function createComponent (ComponentClass, isPage) {
         }
       }
     })
+    appGlobal.componentPath = isPage
     addLeadingSlash(isPage) && cacheDataSet(addLeadingSlash(isPage), ComponentClass)
   }
   bindStaticFns(componentConf, ComponentClass)

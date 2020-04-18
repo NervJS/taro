@@ -2,9 +2,8 @@ import * as path from 'path'
 
 import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
-import { urlToRequest } from 'loader-utils'
 
-import { PARSE_AST_TYPE, REG_STYLE, BUILD_TYPES } from '../utils/constants'
+import { PARSE_AST_TYPE, BUILD_TYPES } from '../utils/constants'
 import { promoteRelativePath } from '../utils'
 import { AddPageChunks, IComponent, IComponentObj } from '../utils/types'
 
@@ -17,7 +16,8 @@ interface IOptions {
   addChunkPages?: AddPageChunks,
   pages: Set<IComponent>,
   depsMap: Map<string, Set<IComponentObj>>
-  sourceDir: string
+  sourceDir: string,
+  subPackages: Set<string>
 }
 
 export default class TaroLoadChunksPlugin {
@@ -28,6 +28,8 @@ export default class TaroLoadChunksPlugin {
   pages: Set<IComponent>
   depsMap: Map<string, Set<IComponentObj>>
   sourceDir: string
+  subPackages: Set<string>
+  destroyed: boolean
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
@@ -37,6 +39,8 @@ export default class TaroLoadChunksPlugin {
     this.pages = options.pages
     this.depsMap = options.depsMap
     this.sourceDir = options.sourceDir
+    this.subPackages = options.subPackages || new Set<string>()
+    this.destroyed = false
   }
 
   apply (compiler: webpack.Compiler) {
@@ -44,6 +48,7 @@ export default class TaroLoadChunksPlugin {
     const addChunkPagesList = new Map<string, string[]>()
     const depsMap = this.depsMap
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: any) => {
+      if (this.destroyed) return
       let commonChunks
       let fileChunks = new Map()
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks) => {
@@ -62,8 +67,16 @@ export default class TaroLoadChunksPlugin {
                     const depsComponents = getAllDepComponents(entryModule.resource, depsMap)
                     depsComponents.forEach(component => {
                       const id = (component.path as string).replace(this.sourceDir + path.sep, '').replace(path.extname((component.path as string)), '').replace(/\\{1,}/g, '/')
-                      const oriDep = fileChunks.get(id) || []
-                      fileChunks.set(id, Array.from(new Set([...oriDep, ...depChunks])))
+                      let needAddChunks = false
+                      this.subPackages.forEach(item => {
+                        if ((component.path as string).indexOf(path.join(this.sourceDir, item)) >= 0) {
+                          needAddChunks = true
+                        }
+                      })
+                      if (needAddChunks) {
+                        const oriDep = fileChunks.get(id) || []
+                        fileChunks.set(id, Array.from(new Set([...oriDep, ...depChunks])))
+                      }
                     })
                   }
                 }
@@ -74,33 +87,22 @@ export default class TaroLoadChunksPlugin {
       })
       compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
         if (chunk.entryModule) {
+          let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
+          if (entryModule.miniType === PARSE_AST_TYPE.EXPORTS) {
+            const source = new ConcatSource()
+            source.add('module.exports=')
+            source.add(modules)
+            return source
+          }
+        }
+      })
+      compilation.chunkTemplate.hooks.renderWithEntry.tap(PLUGIN_NAME, (modules, chunk) => {
+        if (chunk.entryModule) {
           if (this.isBuildPlugin) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
           let entryModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
           if (entryModule.miniType === PARSE_AST_TYPE.ENTRY) {
-            compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
-              const files = chunk.files
-              files.forEach(item => {
-                if (REG_STYLE.test(item)) {
-                  const source = new ConcatSource()
-                  const _source = assets[item]._source || assets[item]._value
-                  Object.keys(assets).forEach(assetName => {
-                    const fileName = path.basename(assetName, path.extname(assetName))
-                    if (REG_STYLE.test(assetName) && this.commonChunks.includes(fileName)) {
-                      source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-                      source.add('\n')
-                      source.add(_source)
-                      if (assets[item]._source) {
-                        assets[item]._source = source
-                      } else {
-                        assets[item]._value = source.source()
-                      }
-                    }
-                  })
-                }
-              })
-            })
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
           if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&
@@ -123,6 +125,10 @@ export default class TaroLoadChunksPlugin {
         }
       })
     })
+  }
+
+  destroy() {
+    this.destroyed = true;
   }
 }
 
@@ -149,7 +155,8 @@ function getAllDepComponents (filePath, depsMap) {
 function addRequireToSource (id, modules, commonChunks) {
   const source = new ConcatSource()
   commonChunks.forEach(chunkItem => {
-    source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)
+    const val = `require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`
+    source.add(val)
   })
   source.add('\n')
   source.add(modules)

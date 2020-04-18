@@ -23,16 +23,44 @@ mDNS 服务离开的事件的回调函数
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| serviceName | `string` | 服务的名称 |
-| serviceType | `string` | 服务的类型 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>serviceName</td>
+      <td><code>string</code></td>
+      <td>服务的名称</td>
+    </tr>
+    <tr>
+      <td>serviceType</td>
+      <td><code>string</code></td>
+      <td>服务的类型</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

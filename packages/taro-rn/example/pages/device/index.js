@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, Slider } from 'react-native'
 import { styles } from '../styles'
 import { onAccelerometerChange, startAccelerometer, stopAccelerometer } from '../../../dist/api/accelerometer'
 import { onDeviceMotionChange, startDeviceMotionListening, stopDeviceMotionListening } from '../../../dist/api/device/deviceMotion'
@@ -43,9 +43,9 @@ function handleOnDeviceMotionChange () {
   })
 }
 
-function handleSetScreenBrightness () {
-  console.log('setScreenBrightness')
-  setScreenBrightness({value: 1}).then(res => console.log(res)).catch(res => console.log(res))
+function handleSetScreenBrightness (brightness) {
+  console.log('setScreenBrightness', brightness)
+  setScreenBrightness({value: brightness}).then(res => console.log(res)).catch(res => console.log(res))
 }
 
 function handleGetScreenBrightness () {
@@ -85,7 +85,7 @@ export function Device () {
       </View>
       <Text style={styles.index}>屏幕</Text>
       <View style={{flexDirection: 'row'}}>
-        <Button onPress={handleSetScreenBrightness} title='setScreenBrightness' color='#19AD1A' />
+        <Slider style={{ width: '100%', marginVertical: 16 }} onSlidingComplete={handleSetScreenBrightness} />
       </View>
       <View style={{flexDirection: 'row'}}>
         <Button onPress={handleGetScreenBrightness} title='getScreenBrightness' color='#19AD1A' />

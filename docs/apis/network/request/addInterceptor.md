@@ -20,9 +20,20 @@ Taro 提供了两个内置拦截器 `logInterceptor` 与 `timeoutInterceptor`，
 
 ## 参数
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `Function` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>Function</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

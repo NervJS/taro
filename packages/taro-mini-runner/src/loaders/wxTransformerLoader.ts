@@ -28,7 +28,9 @@ export default function wxTransformerLoader (source) {
     buildAdapter,
     designWidth,
     deviceRatio,
-    sourceDir
+    sourceDir,
+    constantsReplaceList,
+    nodeModulesPath
   } = getOptions(this)
   const filePath = this.resourcePath
   const { resourceQuery } = this
@@ -50,7 +52,7 @@ export default function wxTransformerLoader (source) {
         isTyped: REG_TYPESCRIPT.test(filePath),
         adapter: buildAdapter
       })
-      const res = parseAst(aheadTransformResult.ast, buildAdapter)
+      const res = parseAst(aheadTransformResult.ast, buildAdapter, filePath, nodeModulesPath, alias)
       const appConfig = this._compiler.appConfig
       if (res.configObj.enablePullDownRefresh || (appConfig.window && appConfig.window.enablePullDownRefresh)) {
         rootProps.enablePullDownRefresh = true
@@ -69,7 +71,8 @@ export default function wxTransformerLoader (source) {
       sourcePath: filePath,
       isTyped: REG_TYPESCRIPT.test(filePath),
       adapter: buildAdapter,
-      rootProps: isEmptyObject(rootProps) || rootProps
+      rootProps: isEmptyObject(rootProps) || rootProps,
+      env: constantsReplaceList
     }
     if (miniType === PARSE_AST_TYPE.ENTRY) {
       wxTransformerParams.isApp = true
@@ -86,7 +89,8 @@ export default function wxTransformerLoader (source) {
       const newAst = transformFromAst(ast, '', {
         plugins: [
           [require('babel-plugin-preval')],
-          [require('babel-plugin-danger-remove-unused-import'), { ignore: cannotRemoves }]
+          [require('babel-plugin-danger-remove-unused-import'), { ignore: cannotRemoves }],
+          [require('babel-plugin-transform-define').default,constantsReplaceList]
         ]
       }).ast as t.File
       const result = processAst({

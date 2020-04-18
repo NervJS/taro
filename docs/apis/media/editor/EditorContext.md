@@ -20,9 +20,20 @@ sidebar_label: EditorContext
 (option?: BlurOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `BlurOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>BlurOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -40,9 +51,20 @@ sidebar_label: EditorContext
 (option?: ClearOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `ClearOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>ClearOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -88,10 +110,27 @@ sidebar_label: EditorContext
 (name: string, value?: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| name | `string` | 属性 |
-| value | `string` | 值 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td><code>string</code></td>
+      <td>属性</td>
+    </tr>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td>值</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -109,9 +148,20 @@ sidebar_label: EditorContext
 (option?: GetContentsOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `GetContentsOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>GetContentsOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -129,9 +179,20 @@ sidebar_label: EditorContext
 (option?: InsertDividerOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `InsertDividerOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>InsertDividerOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -153,9 +214,20 @@ sidebar_label: EditorContext
 (option: InsertImageOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `InsertImageOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>InsertImageOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -184,9 +256,20 @@ this.editorCtx.insertImage({
 (option: InsertTextOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `InsertTextOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>InsertTextOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -204,9 +287,20 @@ this.editorCtx.insertImage({
 (option?: RedoOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `RedoOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>RedoOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -224,9 +318,20 @@ this.editorCtx.insertImage({
 (option?: RemoveFormatOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `RemoveFormatOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>RemoveFormatOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -260,9 +365,20 @@ this.editorCtx.insertImage({
 (option: SetContentsOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `SetContentsOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>SetContentsOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -280,9 +396,20 @@ this.editorCtx.insertImage({
 (option?: UndoOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `UndoOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>UndoOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -294,92 +421,387 @@ this.editorCtx.insertImage({
 
 ### BlurOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ClearOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetContentsOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### InsertDividerOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### InsertImageOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| src | `string` | 是 | 图片地址，仅支持 http(s)、base64、云图片(2.8.0)、临时文件(2.8.3)。 |
-| alt | `string` | 否 | 图像无法显示时的替代文本 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| data | `Record<string, any>` | 否 | data 被序列化为 name=value;name1=value2 的格式挂在属性 data-custom 上 |
-| extClass | `string` | 否 | 添加到图片 img 标签上的类名 |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| height | `string` | 否 | 图片高度 (pixels/百分比) |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
-| width | `string` | 否 | 图片宽度（pixels/百分比) |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>图片地址，仅支持 http(s)、base64、云图片(2.8.0)、临时文件(2.8.3)。</td>
+    </tr>
+    <tr>
+      <td>alt</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>图像无法显示时的替代文本</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>data 被序列化为 name=value;name1=value2 的格式挂在属性 data-custom 上</td>
+    </tr>
+    <tr>
+      <td>extClass</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>添加到图片 img 标签上的类名</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>图片高度 (pixels/百分比)</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>图片宽度（pixels/百分比)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### InsertTextOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
-| text | `string` | 否 | 文本内容 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+    <tr>
+      <td>text</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>文本内容</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RedoOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RemoveFormatOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SetContentsOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| delta | `Record<string, any>` | 否 | 表示内容的delta对象 |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| html | `string` | 否 | 带标签的HTML内容 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>delta</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>表示内容的delta对象</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>html</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>带标签的HTML内容</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### UndoOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

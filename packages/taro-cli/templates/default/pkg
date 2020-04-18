@@ -41,6 +41,8 @@
     "@tarojs/taro-tt": "<%= version %>",
     "@tarojs/taro-weapp": "<%= version %>",
     "@tarojs/taro-rn": "<%= version %>",
+    "babel-runtime": "^6.26.0",
+    "regenerator-runtime": "0.11.1",
     "nervjs": "^1.5.5",
     "nerv-devtools": "^1.5.5"
   },
@@ -53,6 +55,7 @@
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-jsx-stylesheet": "^0.6.5",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-eslint": "^8.2.3",
     "eslint": "^5.16.0",

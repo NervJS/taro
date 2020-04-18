@@ -2,7 +2,7 @@ import * as os from 'os'
 
 import chalk, { Chalk } from 'chalk'
 
-export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss']
+export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss', '.ttss', '.qss', 'jxss']
 export const SCSS_EXT: string[] = ['.scss']
 export const JS_EXT: string[] = ['.js', '.jsx']
 export const TS_EXT: string[] = ['.ts', '.tsx']
@@ -15,7 +15,7 @@ export const REG_SCRIPTS: RegExp = /\.[tj]sx?$/i
 export const REG_SASS: RegExp = /\.(s[ac]ss)$/
 export const REG_LESS: RegExp = /\.less$/
 export const REG_STYLUS: RegExp = /\.styl$/
-export const REG_STYLE: RegExp = /\.(css|scss|sass|less|styl|wxss|acss)(\?.*)?$/
+export const REG_STYLE: RegExp = /\.(css|scss|sass|less|styl|wxss|acss|ttss|jxss|qss)(\?.*)?$/
 export const REG_MEDIA: RegExp = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
 export const REG_IMAGE: RegExp = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
 export const REG_FONT: RegExp = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
@@ -226,7 +226,8 @@ export const isWindows = os.platform() === 'win32'
 
 export const QUICKAPP_SPECIAL_COMPONENTS = new Set<string>([
   'View',
-  'Text'
+  'Text',
+  'Block'
 ])
 
 export enum PARSE_AST_TYPE {
@@ -234,7 +235,8 @@ export enum PARSE_AST_TYPE {
   PAGE = 'PAGE',
   COMPONENT = 'COMPONENT',
   NORMAL = 'NORMAL',
-  STATIC = 'STATIC'
+  STATIC = 'STATIC',
+  EXPORTS = 'EXPORTS'
 }
 
 export const enum processTypeEnum {

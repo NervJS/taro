@@ -21,15 +21,60 @@ sidebar_label: connectSocket
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| url | `string` | 是 | 开发者服务器 wss 接口地址 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| header | `Record<string, any>` | 否 | HTTP Header，Header 中不能设置 Referer |
-| protocols | `string[]` | 否 | 子协议数组 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
-| tcpNoDelay | `boolean` | 否 | 建立 TCP 连接的时候的 TCP_NODELAY 设置 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>url</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>开发者服务器 wss 接口地址</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>header</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>HTTP Header，Header 中不能设置 Referer</td>
+    </tr>
+    <tr>
+      <td>protocols</td>
+      <td><code>string[]</code></td>
+      <td style="text-align:center">否</td>
+      <td>子协议数组</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+    <tr>
+      <td>tcpNoDelay</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>建立 TCP 连接的时候的 TCP_NODELAY 设置</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

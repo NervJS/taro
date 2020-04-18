@@ -35,9 +35,20 @@ sidebar_label: InterstitialAd
 (callback: OffCloseCallback) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `OffCloseCallback` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OffCloseCallback</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -55,9 +66,20 @@ sidebar_label: InterstitialAd
 (callback: OffErrorCallback) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `OffErrorCallback` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OffErrorCallback</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -75,9 +97,20 @@ sidebar_label: InterstitialAd
 (callback: OffLoadCallback) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `OffLoadCallback` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OffLoadCallback</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -95,9 +128,20 @@ sidebar_label: InterstitialAd
 (callback: OnCloseCallback) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `OnCloseCallback` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnCloseCallback</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -115,9 +159,20 @@ sidebar_label: InterstitialAd
 (callback: OnErrorCallback) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `OnErrorCallback` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnErrorCallback</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -135,9 +190,20 @@ sidebar_label: InterstitialAd
 (callback: OnLoadCallback) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `OnLoadCallback` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnLoadCallback</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -199,9 +265,20 @@ sidebar_label: InterstitialAd
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OffErrorCallback
 
@@ -211,9 +288,20 @@ sidebar_label: InterstitialAd
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OffLoadCallback
 
@@ -223,9 +311,20 @@ sidebar_label: InterstitialAd
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnCloseCallback
 
@@ -235,9 +334,20 @@ sidebar_label: InterstitialAd
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnErrorCallback
 
@@ -247,9 +357,20 @@ sidebar_label: InterstitialAd
 (result: OnErrorCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnErrorCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnErrorCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnLoadCallback
 
@@ -259,16 +380,44 @@ sidebar_label: InterstitialAd
 (res: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnErrorCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errCode | 1000 or 1001 or 1002 or 1003 or 1004 or 1005 or 1006 or 1007 or 1008 | 错误码<br />[参考地址](https://nervjs.github.io/taro/docs/apis/General#AdErrCode) |
-| errMsg | `string` | 错误信息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errCode</td>
+      <td><code>1000 | 1001 | 1002 | 1003 | 1004 | 1005 | 1006 | 1007 | 1008</code></td>
+      <td>错误码<br /><a href="https://nervjs.github.io/taro/docs/apis/General#AdErrCode">参考地址</a></td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

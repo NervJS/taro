@@ -21,7 +21,9 @@ import {
   recursiveFindNodeModules,
   shouldUseCnpm,
   shouldUseYarn,
-  unzip
+  unzip,
+  generateEnvList,
+  generateConstantsList
 } from '../util'
 import {
   IOption,
@@ -51,7 +53,8 @@ export interface IBuildData {
   jsxAttributeNameReplace?: {
     [key: string]: any
   },
-  quickappManifest?: ITaroManifestConfig
+  quickappManifest?: ITaroManifestConfig,
+  constantsReplaceList: IOption,
 }
 
 let BuildData: IBuildData
@@ -99,7 +102,10 @@ export function setBuildData (appPath: string, adapter: BUILD_TYPES, options?: P
     buildAdapter: adapter,
     outputFilesTypes: MINI_APP_FILES[adapter],
     nodeModulesPath: recursiveFindNodeModules(path.join(appPath, NODE_MODULES)),
-    jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace || {}
+    jsxAttributeNameReplace: weappConf.jsxAttributeNameReplace || {},
+    constantsReplaceList: Object.assign({}, generateEnvList(projectConfig.env || {}), generateConstantsList(projectConfig.defineConstants || {}), {
+      'process.env.TARO_ENV': adapter
+    })
   }
   // 可以自定义输出文件类型
   if (weappConf!.customFilesTypes && !isEmptyObject(weappConf!.customFilesTypes)) {

@@ -10,17 +10,56 @@ sidebar_label: MediaTrack
 
 ## 方法
 
-| 参数 | 类型 | 只读 | 说明 |
-| --- | --- | :---: | --- |
-| duration | `number` | 是 | 轨道长度 |
-| kind | "audio" or "video" | 是 | 轨道类型 |
-| volume | `number` | 否 | 音量，音频轨道下有效，可写 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">只读</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">是</td>
+      <td>轨道长度</td>
+    </tr>
+    <tr>
+      <td>kind</td>
+      <td><code>&quot;audio&quot; | &quot;video&quot;</code></td>
+      <td style="text-align:center">是</td>
+      <td>轨道类型</td>
+    </tr>
+    <tr>
+      <td>volume</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>音量，音频轨道下有效，可写</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 参数
 
 ### kind
 
-| 参数 | 说明 |
-| --- | --- |
-| audio | 音频轨道 |
-| video | 视频轨道 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>audio</td>
+      <td>音频轨道</td>
+    </tr>
+    <tr>
+      <td>video</td>
+      <td>视频轨道</td>
+    </tr>
+  </tbody>
+</table>

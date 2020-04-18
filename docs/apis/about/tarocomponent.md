@@ -284,7 +284,7 @@ render() {
 
 ### props
 
-`this.props` 包含了组件该调用者定义的属性。查看 [组件 & Props](./props.md) 关于属性的介绍。
+`this.props` 包含了组件该调用者定义的属性。查看 [组件 & Props](../../render-props.md) 关于属性的介绍。
 
 ### state
 
@@ -292,7 +292,7 @@ render() {
 
 若你不在 `render()` 方法中使用它，那它就不应该被放在 state 中。例如，你可直接将 timer IDs 放在实例上。
 
-查看 [生命周期 & State](./state.md) 了解更多关于状态的信息。
+查看 [生命周期 & State](../../state.md) 了解更多关于状态的信息。
 
 永远不要直接改变 `this.state`，因为调用 `setState()` 会替换你之前做的改变。将 `this.state` 当成不可变的。
 

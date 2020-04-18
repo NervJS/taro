@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/redux-h5",
-  "version": "2.0.6",
+  "version": "2.1.5",
   "description": "Forked react-redux for taro",
   "keywords": [
     "react",
@@ -46,7 +46,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.49",
     "@babel/plugin-transform-react-jsx": "^7.0.0-beta.49",
     "@babel/preset-env": "^7.0.0-beta.49",
-    "@tarojs/taro-h5": "2.0.6",
+    "@tarojs/taro-h5": "2.1.5",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "redux": "^4.0.0",
     "rimraf": "^2.6.2",

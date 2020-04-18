@@ -180,7 +180,8 @@ export const getModule = (appPath: string, {
   postcss,
   compile,
   babel,
-  alias
+  alias,
+  nodeModulesPath
 }) => {
   const isQuickapp = buildAdapter === BUILD_TYPES.QUICKAPP
   const postcssOption: IPostcssOption = postcss || {}
@@ -255,7 +256,6 @@ export const getModule = (appPath: string, {
     {
       ident: 'postcss',
       plugins: getPostcssPlugins(appPath, {
-        isQuickapp,
         designWidth,
         deviceRatio,
         postcssOption
@@ -270,14 +270,23 @@ export const getModule = (appPath: string, {
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
+  const parsedConstantsReplaceList = {}
+  Object.keys(constantsReplaceList).forEach(key => {
+    try {
+      parsedConstantsReplaceList[key] = JSON.parse(constantsReplaceList[key])
+    } catch (error) {
+      parsedConstantsReplaceList[key] = constantsReplaceList[key]
+    }
+  })
   const wxTransformerLoader = getWxTransformerLoader([{
     babel,
     alias,
     designWidth,
     deviceRatio,
     buildAdapter,
-    constantsReplaceList,
-    sourceDir
+    constantsReplaceList: parsedConstantsReplaceList,
+    sourceDir,
+    nodeModulesPath
   }])
 
   const miniTemplateLoader = getMiniTemplateLoader([{
@@ -406,11 +415,13 @@ export const getEntry = ({
   }
   const pluginConfig = fs.readJSONSync(pluginConfigPath)
   const entryObj = {}
+  let pluginMainEntry
   Object.keys(pluginConfig).forEach(key => {
     if (key === 'main') {
       const filePath = path.join(pluginDir, pluginConfig[key])
       const fileName = path.basename(filePath).replace(path.extname(filePath), '')
-      entryObj[`plugin/${fileName}`] = [resolveScriptPath(filePath.replace(path.extname(filePath), ''))]
+      pluginMainEntry = `plugin/${fileName}`
+      entryObj[pluginMainEntry] = [resolveScriptPath(filePath.replace(path.extname(filePath), ''))]
     } else if (key === 'publicComponents' || key === 'pages') {
       Object.keys(pluginConfig[key]).forEach(subKey => {
         const filePath = path.join(pluginDir, pluginConfig[key][subKey])
@@ -420,7 +431,8 @@ export const getEntry = ({
   })
   return {
     entry: entryObj,
-    pluginConfig
+    pluginConfig,
+    pluginMainEntry,
   }
 }
 

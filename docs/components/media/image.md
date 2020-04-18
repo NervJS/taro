@@ -42,15 +42,75 @@ export default class PageView extends Component {
 
 ## ImageProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| src | `string` |  | 是 | 图片资源地址 |
-| mode | "scaleToFill" or "aspectFit" or "aspectFill" or "widthFix" or "top" or "bottom" or "center" or "left" or "right" or "top left" or "top right" or "bottom left" or "bottom right" | `"scaleToFill"` | 否 | 图片裁剪、缩放的模式 |
-| webp | `boolean` | `false` | 否 | 默认不解析 webP 格式，只支持网络资源 |
-| lazyLoad | `boolean` | `false` | 否 | 图片懒加载。只针对 page 与 scroll-view 下的 image 有效 |
-| showMenuByLongpress | `boolean` | `false` | 否 | 开启长按图片显示识别小程序码菜单 |
-| onError | `BaseEventOrigFunction<onErrorEventDetail>` |  | 否 | 当错误发生时，发布到 AppService 的事件名，事件对象 |
-| onLoad | `BaseEventOrigFunction<onLoadEventDetail>` |  | 否 | 当图片载入完毕时，发布到 AppService 的事件名，事件对象 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>图片资源地址</td>
+    </tr>
+    <tr>
+      <td>mode</td>
+      <td><code>&quot;scaleToFill&quot; | &quot;aspectFit&quot; | &quot;aspectFill&quot; | &quot;widthFix&quot; | &quot;top&quot; | &quot;bottom&quot; | &quot;center&quot; | &quot;left&quot; | &quot;right&quot; | &quot;top left&quot; | &quot;top right&quot; | &quot;bottom left&quot; | &quot;bottom right&quot;</code></td>
+      <td style="text-align:center"><code>&quot;scaleToFill&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>图片裁剪、缩放的模式</td>
+    </tr>
+    <tr>
+      <td>webp</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>默认不解析 webP 格式，只支持网络资源</td>
+    </tr>
+    <tr>
+      <td>lazyLoad</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>图片懒加载。只针对 page 与 scroll-view 下的 image 有效</td>
+    </tr>
+    <tr>
+      <td>showMenuByLongpress</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>开启长按图片显示识别小程序码菜单</td>
+    </tr>
+    <tr>
+      <td>onError</td>
+      <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>当错误发生时，发布到 AppService 的事件名，事件对象</td>
+    </tr>
+    <tr>
+      <td>onLoad</td>
+      <td><code>BaseEventOrigFunction&lt;onLoadEventDetail&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>当图片载入完毕时，发布到 AppService 的事件名，事件对象</td>
+    </tr>
+    <tr>
+      <td>imgProps</td>
+      <td><code>ImgHTMLAttributes&lt;HTMLImageElement&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>为 img 标签额外增加的属性</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 
@@ -63,39 +123,117 @@ export default class PageView extends Component {
 | ImageProps.showMenuByLongpress | ✔️ |  |  |  |  |  |
 | ImageProps.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | ImageProps.onLoad | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ImageProps.imgProps |  |  |  |  | ✔️ |  |
 
 ### mode
 
 mode 的合法值
 
-| 参数 | 说明 |
-| --- | --- |
-| scaleToFill | 缩放模式，不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素 |
-| aspectFit | 缩放模式，保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。 |
-| aspectFill | 缩放模式，保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。 |
-| widthFix | 缩放模式，宽度不变，高度自动变化，保持原图宽高比不变 |
-| top | 裁剪模式，不缩放图片，只显示图片的顶部区域 |
-| bottom | 裁剪模式，不缩放图片，只显示图片的底部区域 |
-| center | 裁剪模式，不缩放图片，只显示图片的中间区域 |
-| left | 裁剪模式，不缩放图片，只显示图片的左边区域 |
-| right | 裁剪模式，不缩放图片，只显示图片的右边区域 |
-| top left | 裁剪模式，不缩放图片，只显示图片的左上边区域 |
-| top right | 裁剪模式，不缩放图片，只显示图片的右上边区域 |
-| bottom left | 裁剪模式，不缩放图片，只显示图片的左下边区域 |
-| bottom right | 裁剪模式，不缩放图片，只显示图片的右下边区域 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scaleToFill</td>
+      <td>缩放模式，不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素</td>
+    </tr>
+    <tr>
+      <td>aspectFit</td>
+      <td>缩放模式，保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。</td>
+    </tr>
+    <tr>
+      <td>aspectFill</td>
+      <td>缩放模式，保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。</td>
+    </tr>
+    <tr>
+      <td>widthFix</td>
+      <td>缩放模式，宽度不变，高度自动变化，保持原图宽高比不变</td>
+    </tr>
+    <tr>
+      <td>top</td>
+      <td>裁剪模式，不缩放图片，只显示图片的顶部区域</td>
+    </tr>
+    <tr>
+      <td>bottom</td>
+      <td>裁剪模式，不缩放图片，只显示图片的底部区域</td>
+    </tr>
+    <tr>
+      <td>center</td>
+      <td>裁剪模式，不缩放图片，只显示图片的中间区域</td>
+    </tr>
+    <tr>
+      <td>left</td>
+      <td>裁剪模式，不缩放图片，只显示图片的左边区域</td>
+    </tr>
+    <tr>
+      <td>right</td>
+      <td>裁剪模式，不缩放图片，只显示图片的右边区域</td>
+    </tr>
+    <tr>
+      <td>top left</td>
+      <td>裁剪模式，不缩放图片，只显示图片的左上边区域</td>
+    </tr>
+    <tr>
+      <td>top right</td>
+      <td>裁剪模式，不缩放图片，只显示图片的右上边区域</td>
+    </tr>
+    <tr>
+      <td>bottom left</td>
+      <td>裁剪模式，不缩放图片，只显示图片的左下边区域</td>
+    </tr>
+    <tr>
+      <td>bottom right</td>
+      <td>裁剪模式，不缩放图片，只显示图片的右下边区域</td>
+    </tr>
+  </tbody>
+</table>
 
 ### onErrorEventDetail
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+  </tbody>
+</table>
 
 ### onLoadEventDetail
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| height | string or number | 图片高度 |
-| width | string or number | 图片宽度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>height</td>
+      <td><code>string | number</code></td>
+      <td>图片高度</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>string | number</code></td>
+      <td>图片宽度</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

@@ -24,24 +24,103 @@ sidebar_label: loadFontFace
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| family | `string` | 是 | 定义的字体名称 |
-| source | `string` | 是 | 字体资源的地址。建议格式为 TTF 和 WOFF，WOFF2 在低版本的iOS上会不兼容。 |
-| complete | `CompleteCallback` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| desc | `DescOption` | 否 | 可选的字体描述符 |
-| fail | `FailCallback` | 否 | 接口调用失败的回调函数 |
-| success | `SuccessCallback` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>global</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否全局生效</td>
+    </tr>
+    <tr>
+      <td>family</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>定义的字体名称</td>
+    </tr>
+    <tr>
+      <td>source</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>字体资源的地址。建议格式为 TTF 和 WOFF，WOFF2 在低版本的 iOS 上会不兼容。</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>CompleteCallback</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>desc</td>
+      <td><code>DescOption</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>可选的字体描述符</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>FailCallback</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>SuccessCallback</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### DescOption
 
 可选的字体描述符
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| style | `string` | 否 | 字体样式，可选值为 normal / italic / oblique |
-| variant | `string` | 否 | 设置小型大写字母的字体显示文本，可选值为 normal / small-caps / inherit |
-| weight | `string` | 否 | 字体粗细，可选值为 normal / bold / 100 / 200../ 900 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>style</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>字体样式，可选值为 normal / italic / oblique</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>设置小型大写字母的字体显示文本，可选值为 normal / small-caps / inherit</td>
+    </tr>
+    <tr>
+      <td>weight</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>字体粗细，可选值为 normal / bold / 100 / 200../ 900</td>
+    </tr>
+  </tbody>
+</table>
 
 ### CompleteCallback
 
@@ -51,9 +130,20 @@ sidebar_label: loadFontFace
 (result: CompleteCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CompleteCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CompleteCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### FailCallback
 
@@ -63,9 +153,20 @@ sidebar_label: loadFontFace
 (result: FailCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `FailCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>FailCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### SuccessCallback
 
@@ -75,27 +176,77 @@ sidebar_label: loadFontFace
 (result: SuccessCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `SuccessCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>SuccessCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CompleteCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| status | `string` | 加载字体结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>status</td>
+      <td><code>string</code></td>
+      <td>加载字体结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### FailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| status | `string` | 加载字体结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>status</td>
+      <td><code>string</code></td>
+      <td>加载字体结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| status | `string` | 加载字体结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>status</td>
+      <td><code>string</code></td>
+      <td>加载字体结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

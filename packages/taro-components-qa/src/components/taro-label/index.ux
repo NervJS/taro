@@ -1,6 +1,6 @@
 <template>
   <label
-    class="{{class}}"
+    class="{{classname}}"
     style="{{customstyle}}"
     id="{{id}}"
   >
@@ -10,7 +10,7 @@
 <script>
   export default {
     props: {
-      class: {
+      classname: {
         type: String,
         required: false,
         default: 'taro_label'

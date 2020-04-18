@@ -53,7 +53,6 @@ export const createInnerAudioContext = () => {
   const iac = {}
 
   const callbackManagers = {
-    error: createCallbackManager(),
     stop: createCallbackManager()
   }
 
@@ -76,7 +75,7 @@ export const createInnerAudioContext = () => {
     audioEl = null
   }
 
-  const simpleProperties = [ 'src', 'autoplay', 'loop', 'volume', 'duration', 'currentTime', 'buffered', 'paused' ]
+  const simpleProperties = ['src', 'autoplay', 'loop', 'volume', 'duration', 'currentTime', 'buffered', 'paused']
   simpleProperties.forEach(propertyName => {
     Object.defineProperty(iac, propertyName, {
       get: () => audioEl[propertyName],
@@ -99,7 +98,8 @@ export const createInnerAudioContext = () => {
     'Seeked',
     'Seeking',
     'TimeUpdate',
-    'Waiting'
+    'Waiting',
+    'Error'
   ]
   const simpleListenerTuples = [
     ['on', audioEl.addEventListener],
@@ -116,7 +116,7 @@ export const createInnerAudioContext = () => {
     })
   })
 
-  const customEvents = [ 'Stop', 'Error' ]
+  const customEvents = ['Stop']
   const customListenerTuples = [
     ['on', 'add'],
     ['off', 'remove']

@@ -74,7 +74,7 @@ export const processTypeMap: IProcessTypeMap = {
   }
 }
 
-export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss']
+export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.wxss', '.acss', '.ttss', '.qss']
 export const SCSS_EXT: string[] = ['.scss']
 export const JS_EXT: string[] = ['.js', '.jsx']
 export const TS_EXT: string[] = ['.ts', '.tsx']
@@ -151,7 +151,7 @@ export const enum CONFIG_TYPES {
   JD = '.json'
 }
 
-export type IMINI_APP_FILE_TYPE = {
+export type   IMINI_APP_FILE_TYPE = {
   TEMPL: TEMPLATE_TYPES,
   STYLE: STYLE_TYPES,
   SCRIPT: SCRIPT_TYPES,

@@ -12,6 +12,8 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
     progressUpdate: createCallbackManager()
   }
 
+  xhr.withCredentials = true
+
   xhr.open('POST', url)
   setHeader(xhr, header)
 
@@ -73,8 +75,13 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
   }
 
   convertObjectUrlToBlob(filePath)
-    .then(fileObj => {
-      form.append(name, fileObj, fileName || fileObj.name || `file-${Date.now()}`)
+    .then(blob => {
+      const tmpFilename = fileName || blob.name || `file-${Date.now()}`
+      // 之前这里文件类型是blob，可能丢失信息 这里转换成 File 对象
+      const file = new File([blob], tmpFilename, {
+        type: blob.type
+      })
+      form.append(name, file, tmpFilename)
       send()
     })
     .catch(e => {
@@ -147,12 +154,12 @@ const uploadFile = ({ url, filePath, fileName, name, header, formData, success, 
       fileName,
       success: res => {
         success && success(res)
-        complete && complete()
+        complete && complete(res)
         resolve(res)
       },
       error: res => {
         fail && fail(res)
-        complete && complete()
+        complete && complete(res)
         reject(res)
       }
     })

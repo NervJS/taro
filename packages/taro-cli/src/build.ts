@@ -75,7 +75,7 @@ export default class Builder {
         this.buildForMini(this.appPath, buildOptions)
         break
       case BUILD_TYPES.RN:
-        this.buildForRN(this.appPath, {watch, port})
+        this.buildForRN(this.appPath, buildOptions)
         break
       case BUILD_TYPES.UI:
         this.buildForUILibrary(this.appPath, {watch, uiIndex})
@@ -100,8 +100,8 @@ export default class Builder {
     require('./mini').build(appPath, buildOptions, null, this)
   }
 
-  buildForRN (appPath: string, {watch, port}) {
-    require('./rn').build(appPath, {watch, port})
+  buildForRN (appPath: string, buildOptions: IBuildOptions) {
+    require('./rn').build(appPath, buildOptions, null, this)
   }
 
   buildForUILibrary (appPath: string, {watch, uiIndex}) {

@@ -52,27 +52,45 @@ function _request (options) {
   params.credentials = options.credentials
   params.cache = options.cache
   params.method = method
-  return fetch(url, params)
-    .then(response => {
-      res.statusCode = response.status
-      res.header = response.headers
-      if (options.dataType === 'json') {
-        return response.json()
-      }
-      if (options.responseType === 'arraybuffer') {
-        return response.arrayBuffer()
-      }
-      if (options.responseType === 'text') {
-        return response.text()
-      }
-      if (typeof options.dataType === 'undefined') {
-        return response.json()
-      }
-      return Promise.resolve(null)
-    }).then(data => {
-      res.data = data
-      return res
-    })
+  const originSuccess = options.success
+  const originFail = options.fail
+  const originComplete = options.complete
+  let completeRes
+  const p = new Promise((resolve, reject) => {
+    fetch(url, params)
+      .then(response => {
+        res.statusCode = response.status
+        res.header = response.headers
+        if (options.dataType === 'json') {
+          return response.json()
+        }
+        if (options.responseType === 'arraybuffer') {
+          return response.arrayBuffer()
+        }
+        if (options.responseType === 'text') {
+          return response.text()
+        }
+        if (typeof options.dataType === 'undefined') {
+          return response.json()
+        }
+        return Promise.resolve(null)
+      })
+      .then(resData => {
+        res.data = resData
+        completeRes = Object.assign({}, res)
+        originSuccess && originSuccess(res)
+        resolve(res)
+      })
+      .catch(error => {
+        completeRes = Object.assign({}, error)
+        originFail && originFail(error)
+        reject(error)
+      })
+      .finally(() => {
+        originComplete && originComplete(completeRes)
+      })
+  })
+  return p
 }
 
 function taroInterceptor (chain) {

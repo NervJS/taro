@@ -86,6 +86,8 @@ function processEvent (eventHandlerName, obj) {
     }
 
     const scope = this.$component
+    if (!scope || !scope[eventHandlerName]) return
+
     let callScope = scope
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
@@ -379,7 +381,7 @@ function createComponent (ComponentClass, isPage) {
         }
       }
     })
-    globPageRegistPath && cacheDataSet(globPageRegistPath, ComponentClass)
+    ComponentClass.$$componentPath && cacheDataSet(ComponentClass.$$componentPath, ComponentClass)
   }
   bindProperties(weappComponentConf, ComponentClass, isPage)
   bindBehaviors(weappComponentConf, ComponentClass)

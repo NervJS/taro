@@ -1,5 +1,5 @@
 <template>
-    <div class="audio {{class}}" id="{{id}}" style="{{customstyle}}">
+    <div class="audio {{classname}}" id="{{id}}" style="{{customstyle}}">
       <div class="audio_content">
         <div
           class="player_ontent"
@@ -35,7 +35,7 @@
           required: false,
           default: ''
         },
-        class: {
+        classname: {
           type: String,
           required: false,
           default: ''

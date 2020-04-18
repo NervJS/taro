@@ -89,7 +89,7 @@ Taro 立足于微信小程序开发，众所周知小程序的开发体验并不
 
 Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝/字节跳动/QQ/京东小程序** 、**快应用**、 **H5 端** 以及 **移动端（React Native）**。
 
-<div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg"/></div>
+<div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.min.jpg"/></div>
 
 ## 社区共享
 
@@ -113,7 +113,10 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 > 社区案例仅收纳了开发者主动提交的案例
 
-![image](https://raw.githubusercontent.com/NervJS/taro-user-cases/master/user-cases.jpg)
+[去提交案例](https://github.com/nervjs/taro-user-cases)
+
+[去查看案例](https://nervjs.github.io/taro-user-cases/)
+
 
 ## 学习资源
 
@@ -143,4 +146,4 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 扫码添加 `凹凸实验室-小助手` ，回复 `Taro` 即可进群。（Taro 开发交流 15 群 已满）
 
-![image](https://user-images.githubusercontent.com/9441951/63744620-7994e800-c8d2-11e9-9e66-ab43d1d75fe8.png)
+![image](http://storage.jd.com/taro-resource/qrcode-into-wechat.png)

@@ -123,7 +123,7 @@ Taro 立足于微信小程序开发，众所周知小程序的开发体验并不
 
 Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝/字节跳动小程序** 、**快应用**、 **H5 端** 以及 **移动端（React-Native）**。
 
-<div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg?v=1"/></div>
+<div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg?v=2"/></div>
 
 ## 更多功能
 如果你还想 Taro 支持新的特性，请使用 [FeatHub](https://feathub.com/NervJS/taro) 进行投票，我们将综合考虑投票结果等因素来确定开发的优先级。

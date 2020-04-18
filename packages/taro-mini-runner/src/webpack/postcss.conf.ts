@@ -21,7 +21,7 @@ const defaultPxtransformOption: {
 } = {
   enable: true,
   config: {
-    platform: 'weapp'
+    platform: process.env.TARO_ENV
   }
 }
 
@@ -38,7 +38,6 @@ const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules', 'url']
 const plugins = [] as any[]
 
 export const getPostcssPlugins = function (appPath: string, {
-  isQuickapp = false,
   designWidth,
   deviceRatio,
   postcssOption = {} as IPostcssOption
@@ -59,7 +58,7 @@ export const getPostcssPlugins = function (appPath: string, {
     plugins.push(autoprefixer(autoprefixerOption.config))
   }
 
-  if (pxtransformOption.enable && !isQuickapp) {
+  if (pxtransformOption.enable) {
     plugins.push(pxtransform(pxtransformOption.config))
   }
   if (urlOption.enable) {
