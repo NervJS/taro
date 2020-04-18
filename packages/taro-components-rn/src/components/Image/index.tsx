@@ -104,7 +104,7 @@ class _Image extends React.Component<ImageProps, ImageState> {
     } else {
       const source = typeof props.src === 'string' ? { uri: props.src } : props.src
       const { width, height }: { width: number, height: number } = Image.resolveAssetSource(source) || {}
-      if (this.hasLayout) return
+      if (this.hasLayout && !!this.state.ratio) return
       this.setState({
         ratio: height / width
       })
