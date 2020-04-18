@@ -16,7 +16,7 @@ export interface StandardProps extends EventProps {
   /** 组件是否显示, 所有组件默认显示 */
   hidden?: boolean
   /** 动画属性 */
-  animation?: object[]
+  animation?: { actions: object[] }
   /** 引用 */
   ref?: string | ((node: any) => any)
 }

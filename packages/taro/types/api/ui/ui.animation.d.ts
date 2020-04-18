@@ -63,7 +63,7 @@ declare namespace Taro {
      * 导出动画队列
      * export 方法每次调用后会清掉之前的动画操作
      */
-    export(): object[]
+    export(): { actions: object[] }
     /**
      * 表示一组动画完成
      * 可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画
