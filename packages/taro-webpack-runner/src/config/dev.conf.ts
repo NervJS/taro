@@ -20,7 +20,7 @@ import getBaseChain from './base.conf'
 const emptyObj = {}
 
 export default function (appPath: string, config: Partial<BuildConfig>): any {
-  const chain = getBaseChain(appPath)
+  const chain = getBaseChain(appPath, config)
   const {
     alias = {},
     copy,

@@ -19,7 +19,7 @@ import { BuildConfig } from '../util/types'
 import getBaseChain from './base.conf'
 
 export default function (appPath: string, config: Partial<BuildConfig>): any {
-  const chain = getBaseChain(appPath)
+  const chain = getBaseChain(appPath, config)
   const {
     alias = emptyObj,
     copy,
