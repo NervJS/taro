@@ -16,7 +16,7 @@ let componentClassName // get app.js class name
 const providerComponentName = 'Provider'
 const taroComponentsRNProviderName = 'TCRNProvider'
 const setStoreFuncName = 'setStore'
-const routerImportDefaultName = 'TaroRouter'
+// const routerImportDefaultName = 'TaroRouter'
 const DEVICE_RATIO = 'deviceRatio'
 
 const taroApis = [
