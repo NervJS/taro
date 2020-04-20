@@ -1,3 +1,5 @@
+import * as path from 'path'
+
 export default function createBabelRegister ({ only }) {
   require('@babel/register')({
     only: Array.from(new Set([...only])),
@@ -15,7 +17,8 @@ export default function createBabelRegister ({ only }) {
         corejs: false,
         helpers: true,
         regenerator: true,
-        useESModules: false
+        useESModules: false,
+        absoluteRuntime: path.resolve(__dirname, '..', 'node_modules/@babel/runtime')
       }]
     ],
     extensions: ['.jsx', '.js', '.ts', '.tsx'],
