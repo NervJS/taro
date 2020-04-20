@@ -1,30 +1,64 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.1.6...v) (2020-04-26)
-
-
-
-<a name="2.1.6"></a>
-## [2.1.6](https://github.com/NervJS/taro/compare/v2.1.5...v2.1.6) (2020-04-26)
+# [](https://github.com/NervJS/taro/compare/v2.1.5...v) (2020-04-28)
 
 
 ### Bug Fixes
 
 * **cli:** 修复 ui 库编译中 h5 script 模式编译报错的问题 ([#6089](https://github.com/NervJS/taro/issues/6089)) ([9e2b894](https://github.com/NervJS/taro/commit/9e2b894))
-* **quickapp:** 快应用图片组件mode不生效与font-family能编译，支持iconfont ([#6063](https://github.com/NervJS/taro/issues/6063)) ([5c2606a](https://github.com/NervJS/taro/commit/5c2606a))
-* **type:**  修复 ScrollView 监听函数类型 ([#6075](https://github.com/NervJS/taro/issues/6075)) ([3b60d1e](https://github.com/NervJS/taro/commit/3b60d1e))
-* remove console.log, fix [#6081](https://github.com/NervJS/taro/issues/6081) ([#6085](https://github.com/NervJS/taro/issues/6085)) ([dcafea1](https://github.com/NervJS/taro/commit/dcafea1))
 * **components:** swiper circular limit ([8ffc5ac](https://github.com/NervJS/taro/commit/8ffc5ac))
 * **components:** swiper slideTo useless in no circular mode ([1f6d09f](https://github.com/NervJS/taro/commit/1f6d09f))
-* value is never read ([c643bcc](https://github.com/NervJS/taro/commit/c643bcc))
 * **docs:** invalid link ([1fee95c](https://github.com/NervJS/taro/commit/1fee95c))
-* autoplay 非中断条件下，自动重启 ([43bc091](https://github.com/NervJS/taro/commit/43bc091))
-* 修复 Animation.export() 方法的类型, close [#6025](https://github.com/NervJS/taro/issues/6025) ([973d1cd](https://github.com/NervJS/taro/commit/973d1cd))
+* **helper:** 修正 createBabelRegister 引入 [@babel](https://github.com/babel)/runtime 问题 ([3861876](https://github.com/NervJS/taro/commit/3861876))
+* **helper:** 补充 babel-plugin-transform-react-jsx ([b4e8825](https://github.com/NervJS/taro/commit/b4e8825))
+* **mini-runner:** 修复快应用动态class不支持三目运算符问题 ([#5556](https://github.com/NervJS/taro/issues/5556)) ([#6118](https://github.com/NervJS/taro/issues/6118)) ([506818d](https://github.com/NervJS/taro/commit/506818d))
+* **service:** 修复从 npm 包中引入插件的问题 ([b1c9b65](https://github.com/NervJS/taro/commit/b1c9b65))
+* 修复编译问题 ([5fe92c6](https://github.com/NervJS/taro/commit/5fe92c6))
+* **taro:** 修复合并引发的问题 ([e6da961](https://github.com/NervJS/taro/commit/e6da961))
+* 抽离 getModuleDefaultExport 到 helper 中 ([3abff66](https://github.com/NervJS/taro/commit/3abff66))
+* **components:** radio-group onchange error ([dadf940](https://github.com/NervJS/taro/commit/dadf940))
+* **quickapp:** 快应用图片组件mode不生效与font-family能编译，支持iconfont ([#6063](https://github.com/NervJS/taro/issues/6063)) ([5c2606a](https://github.com/NervJS/taro/commit/5c2606a))
+* **rn:** 2.1.x在编译同名sass文件时会产生报错  close [#5945](https://github.com/NervJS/taro/issues/5945) ([3a9762e](https://github.com/NervJS/taro/commit/3a9762e))
 * **rn-runner:**  app 配置中找不到 props ([3ea2ff6](https://github.com/NervJS/taro/commit/3ea2ff6))
+* **taro-h5:** 修复h5的chooseImage API无法动态设置souceType的问题，对齐小程序端 ([d71d968](https://github.com/NervJS/taro/commit/d71d968))
+* **taro-service:** 修复 npm 包中插件解析 ([8c10b84](https://github.com/NervJS/taro/commit/8c10b84))
+* **taro-service:** 增加命令快速注册执行方法 ([b082582](https://github.com/NervJS/taro/commit/b082582))
+* **taro-service:** 增加插件初试架构 ([24f5115](https://github.com/NervJS/taro/commit/24f5115))
+* **transformer:** 修复函数式组件 render props 不能正确解析的问题 ([54840c6](https://github.com/NervJS/taro/commit/54840c6))
+* **type:**  修复 ScrollView 监听函数类型 ([#6075](https://github.com/NervJS/taro/issues/6075)) ([3b60d1e](https://github.com/NervJS/taro/commit/3b60d1e))
+* **types:** 补充类型 ([eba7370](https://github.com/NervJS/taro/commit/eba7370))
+* autoplay 非中断条件下，自动重启 ([43bc091](https://github.com/NervJS/taro/commit/43bc091))
+* remove console.log, fix [#6081](https://github.com/NervJS/taro/issues/6081) ([#6085](https://github.com/NervJS/taro/issues/6085)) ([dcafea1](https://github.com/NervJS/taro/commit/dcafea1))
+* value is never read ([c643bcc](https://github.com/NervJS/taro/commit/c643bcc))
+* 修复 Animation.export() 方法的类型, close [#6025](https://github.com/NervJS/taro/issues/6025) ([973d1cd](https://github.com/NervJS/taro/commit/973d1cd))
 
 
 ### Features
 
+* **helper:** 封装 watch ([76c68c5](https://github.com/NervJS/taro/commit/76c68c5))
+* **rn:** rn 端插件化改造 ([f65183a](https://github.com/NervJS/taro/commit/f65183a))
+* **rn:** 完成 hooks 传递和执行 ([91d56ec](https://github.com/NervJS/taro/commit/91d56ec))
+* **service:** 增加 debug ([f5d42d6](https://github.com/NervJS/taro/commit/f5d42d6))
+* 增加 rn 和 h5 编译 ([50dc3e9](https://github.com/NervJS/taro/commit/50dc3e9))
+* 增加 ui 编译 && 优化代码 ([d0fd800](https://github.com/NervJS/taro/commit/d0fd800))
+* 完善命令行拆分 ([0e47369](https://github.com/NervJS/taro/commit/0e47369))
+* 完善小程序编译流程 ([f7c7f4a](https://github.com/NervJS/taro/commit/f7c7f4a))
+* 完善快应用编译流程 ([1f26dbb](https://github.com/NervJS/taro/commit/1f26dbb))
+* 小程序编译流程拆分 ([4ebb53c](https://github.com/NervJS/taro/commit/4ebb53c))
+* 跑通小程序流程 ([4c07968](https://github.com/NervJS/taro/commit/4c07968))
+* 输出 taro 版本号 ([eee74fc](https://github.com/NervJS/taro/commit/eee74fc))
+* **cli:** 初始化注册平台编译方法的参数 ([eedc492](https://github.com/NervJS/taro/commit/eedc492))
+* **cli:** 尝试拆分命令行 ([ddecfa8](https://github.com/NervJS/taro/commit/ddecfa8))
+* **cli:** 尝试拆分编译流程 ([e963062](https://github.com/NervJS/taro/commit/e963062))
+* **helper:** 增加辅助模块包 ([1aa7dc3](https://github.com/NervJS/taro/commit/1aa7dc3))
+* **mini-runner:** 小程序编译改造 ([7d2b696](https://github.com/NervJS/taro/commit/7d2b696))
 * **rn_runner:** 将app.js 里的 TaroRouter.initRouter 移入构造函数，方便通过 props 配置路由 ([84aaf97](https://github.com/NervJS/taro/commit/84aaf97))
+* **service:** 优化 pluginContext 上 api 挂载 ([477cc07](https://github.com/NervJS/taro/commit/477cc07))
+* **service:** 增加 Hooks 执行类型 ([74655bd](https://github.com/NervJS/taro/commit/74655bd))
+* **service:** 增加 platforms 快捷注册方法 ([932cfec](https://github.com/NervJS/taro/commit/932cfec))
+* **service:** 增加presets 和 plugins 解析 ([7c12972](https://github.com/NervJS/taro/commit/7c12972))
+* **service:** 实现注入/执行插件方法 ([28632f6](https://github.com/NervJS/taro/commit/28632f6))
+* **service:** 调整执行 hooks 方法 ([f312f77](https://github.com/NervJS/taro/commit/f312f77))
+* **taro-service:** 调整 service 依赖 ([7285329](https://github.com/NervJS/taro/commit/7285329))
 
 
 
