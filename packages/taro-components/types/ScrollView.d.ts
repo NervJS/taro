@@ -111,7 +111,7 @@ interface ScrollViewProps extends StandardProps {
    * `event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}`
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  onScroll?: (event: CommonEventFunction) => any
+  onScroll?: (event: CommonEventFunction<ScrollViewProps.onScrollDetail>) => any
 
   /** 自定义下拉刷新控件被下拉
    * @supported weapp
@@ -132,6 +132,21 @@ interface ScrollViewProps extends StandardProps {
    * @supported weapp
    */
   onRefresherAbort?: (event: CommonEventFunction) => any
+}
+
+declare namespace ScrollViewProps {
+  interface onScrollDetail {
+    /** 横向滚动条位置 */
+    scrollLeft: number
+    /** 竖向滚动条位置 */
+    scrollTop: number
+    /** 滚动条高度 */
+    scrollHeight: number
+    /** 滚动条宽度 */
+    scrollWidth: number
+    deltaX: number
+    deltaY: number
+  }
 }
 
 /** 可滚动视图区域。使用竖向滚动时，需要给scroll-view一个固定高度，通过 WXSS 设置 height。组件属性的长度单位默认为 px
