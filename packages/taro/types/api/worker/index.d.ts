@@ -1,60 +1,71 @@
 declare namespace Taro {
-  /**
-   * @since 1.9.90
-   *
-   * 在使用 createWorker 前，请查阅 [多线程](https://developers.weixin.qq.com/miniprogram/dev/framework/workers.html) 文档了解基础知识和配置方法。
-   *
-   * 创建一个 Worker 线程，并返回 Worker 实例，目前限制最多只能创建一个 Worker，创建下一个 Worker 前请调用 Worker.terminate。
-   *
-   * `scriptPath` 为 worker 的入口文件路径，需填写绝对路径。
-   *
-   * **示例代码：**
-   *
-   ```javascript
-   const worker = Taro.createWorker('workers/request/index.js') // 文件名指定 worker 的入口文件路径，绝对路径
-         worker.onMessage(function (res) {
-     console.log(res)
-   })
-         worker.postMessage({
-     msg: 'hello worker'
-   })
-         worker.terminate()
-   ```
+  /** 创建一个 Worker 线程。目前限制最多只能创建一个 Worker，创建下一个 Worker 前请先调用 [Worker.terminate](https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.terminate.html)
+   * @supported weapp
+   * @example
+   * ```tsx
+   * const worker = Taro.createWorker('workers/request/index.js') // 文件名指定 worker 的入口文件路径，绝对路径
+   *   worker.onMessage(function (res) {
+   *   console.log(res)
+   * })
+   * worker.postMessage({
+   *   msg: 'hello worker'
+   * })
+   * worker.terminate()
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/wx.createWorker.html
    */
-  function createWorker(scriptPath: any): Worker
+  function createWorker(
+    /** worker 入口文件的**绝对路径** */
+    scriptPath: string,
+  ): Worker
 
   namespace Worker {
-    namespace onMessage {
-      type Param = (res: ParamParam) => any
-      type ParamParam = {
-        /**
-         * Worker 线程向当前线程发送的消息
-         */
-        message: any
-      }
+    type OnMessageCallback = (
+      result: OnMessageCallbackResult,
+    ) => void
+    interface OnMessageCallbackResult {
+      /** 主线程/Worker 线程向当前线程发送的消息 */
+      message: General.IAnyObject
     }
   }
-  class Worker {
-    /**
-     * 向 Worker 线程发送的消息。
-     *
-     * **postMessage(message) 说明：**
-     *
-     * 向 Worker 线程发送消息，`message` 参数为需要发送的消息，必须是一个可序列化的 JavaScript 对象。
+  interface Worker {
+    /** 监听主线程/Worker 线程向当前线程发送的消息的事件。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.onMessage.html
      */
-    postMessage(Object: any): any
-    /**
-     * 监听 Worker 线程向当前线程发送的消息
-     */
-    onMessage(callback: Worker.onMessage.Param): any
-    /**
-     * 结束当前 Worker 线程，仅限在主线程 Worker 实例上调用。
+    onMessage(
+      /** 主线程/Worker 线程向当前线程发送的消息的事件的回调函数 */
+      callback: Worker.OnMessageCallback,
+    ): void
+    /** 向主线程/Worker 线程发送的消息。
+     * @supported weapp
+     * @example
+     * worker 线程中
+     * 
+     * ```tsx
+     * worker.postMessage({
+     *   msg: 'hello from worker'
+     * })
+     * ```
      *
-     * **terminate() 说明：**
-     *
-     * 结束当前 worker 线程，仅限在主线程 Worker 对象上调用。
+     * 主线程中
+     * 
+     * ```tsx
+     * const worker = Taro.createWorker('workers/request/index.js')
+     * worker.postMessage({
+     *   msg: 'hello from main'
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.postMessage.html
      */
-    terminate(): any
+    postMessage(
+      /** 需要发送的消息，必须是一个可序列化的 JavaScript key-value 形式的对象。 */
+      message: General.IAnyObject,
+    ): void
+    /** 结束当前 Worker 线程。仅限在主线程 worker 对象上调用。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.terminate.html
+     */
+    terminate(): void
   }
 }

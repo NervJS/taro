@@ -55,7 +55,8 @@ export interface ICopyOptions {
   patterns: {
     from: string,
     to: string,
-    ignore?: string[]
+    ignore?: string[],
+    watch?: boolean
   }[],
   options: {
     ignore?: string[]
@@ -115,22 +116,27 @@ export interface IMiniAppConfig {
   appOutput?: boolean,
   enableSourceMap: boolean,
 
-  webpackChain: (chain: any, webpack: any) => void,
+  webpackChain: (chain: any, webpack: any, PARSE_AST_TYPE: any) => void,
   entry: webpack.Entry,
   output: webpack.Output,
   postcss?: IPostcssOption,
-  cssLoaderOption: IOption,
-  sassLoaderOption: IOption,
-  lessLoaderOption: IOption,
-  stylusLoaderOption: IOption,
-  mediaUrlLoaderOption: IOption,
-  fontUrlLoaderOption: IOption,
-  imageUrlLoaderOption: IOption,
-  miniCssExtractPluginOption: IOption,
+  cssLoaderOption?: IOption,
+  sassLoaderOption?: IOption,
+  lessLoaderOption?: IOption,
+  stylusLoaderOption?: IOption,
+  mediaUrlLoaderOption?: IOption,
+  fontUrlLoaderOption?: IOption,
+  imageUrlLoaderOption?: IOption,
+  miniCssExtractPluginOption?: IOption,
 
-  customFilesTypes: IMINI_APP_FILE_TYPE,
+  customFilesTypes?: IMINI_APP_FILE_TYPE,
   commonChunks?: string[] | ((commonChunks: string[]) => string[]),
   addChunkPages?: ((pages: Map<string, string[]>, pagesNames?: string[]) => void),
+
+  compile?: {
+    exclude?: any[],
+    include?: any[]
+  }
 }
 
 export type TogglableOptions<T = IOption> = {
@@ -160,6 +166,7 @@ export interface IH5Config {
   router?: IH5RouterConfig,
   devServer: webpackDevServer.Configuration,
   enableSourceMap: boolean,
+  sourceMapType?: 'none' | 'eval' | 'cheap-eval-source-map' | 'cheap-module-eval-source-map' | 'eval-source-map' | 'cheap-source-map' | 'cheap-module-source-map' | 'inline-cheap-source-map' | 'inline-cheap-module-source-map' | 'source-map' | 'inline-source-map' | 'hidden-source-map' | 'nosources-source-map',
   enableExtract: boolean,
   transformOnly: boolean,
 
@@ -359,7 +366,6 @@ export interface IProjectBaseConfig {
   plugins?: ICommonPlugin[],
   baseLevel?: number,
   framework?: string
-
 }
 
 export interface IProjectConfig extends IProjectBaseConfig {
@@ -368,4 +374,5 @@ export interface IProjectConfig extends IProjectBaseConfig {
   },
   mini?: IMiniAppConfig,
   h5?: IH5Config
+  rn?: IH5Config
 }

@@ -65,10 +65,10 @@ declare namespace Taro {
     /**
      * 禁止页面右滑手势返回
      * default: false
-     * @since 微信客户端 7.0.0
      *
      * **注意** 自微信客户端 7.0.5 开始，页面配置中的 disableSwipeBack 属性将不再生效，
      * 详情见[右滑手势返回能力调整](https://developers.weixin.qq.com/community/develop/doc/000868190489286620a8b27f156c01)公告
+     * @since 微信客户端 7.0.0
      */
     disableSwipeBack?: boolean
   }
@@ -298,6 +298,11 @@ declare namespace Taro {
      * @since 微信客户端 7.0.0
      */
     permission?: Permission
+    /**
+     * 指定使用升级后的weui样式
+     * @since 2.8.0
+     */
+    style?: 'v2'
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -306,5 +311,6 @@ declare namespace Taro {
     }
     window?: WindowConfig
     cloud?: boolean
+    pageOrientation?: 'auto' | 'portrait' | 'landscape'
   }
 }

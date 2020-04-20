@@ -1,253 +1,191 @@
 declare namespace Taro {
   namespace saveVideoToPhotosAlbum {
-    type Promised = {
-      /**
-       * 调用结果
-       */
-      errMsg: string
-    }
-    type Param = {
-      /**
-       * 视频文件路径，可以是临时文件路径也可以是永久文件路径
-       */
+    interface Option {
+      /** 视频文件路径，可以是临时文件路径也可以是永久文件路径 */
       filePath: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
     }
   }
   /**
-   * @since 1.2.0
-   *
-   * 保存视频到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
+   * 保存视频到系统相册。支持mp4视频格式。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
    *
    * **Bug & Tip：**
    *
    * 1.  `tip`: camera 参数在部分 Android 手机下由于系统 ROM 不支持无法生效
-   *
-   * **示例代码：**
-   *
-   ```javascript
-   Taro.saveVideoToPhotosAlbum({
-     filePath: 'wxfile://xxx'
-     success(res) {
-       console.log(res.errMsg)
-     }
-   })
-   ```
+   * @supported weapp, rn
+   * @example
+   ```tsx
+   * Taro.saveVideoToPhotosAlbum({
+   *   filePath: 'wxfile://xxx'
+   *   success: function (res) {
+   *     console.log(res.errMsg)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.saveVideoToPhotosAlbum.html
    */
-  function saveVideoToPhotosAlbum(OBJECT: saveVideoToPhotosAlbum.Param): Promise<saveVideoToPhotosAlbum.Promised>
+  function saveVideoToPhotosAlbum(option: saveVideoToPhotosAlbum.Option): Promise<General.CallbackResult>
 
-  class VideoContext {
-    /**
-     * 播放
-     */
-    play(): void
-    /**
-     * 暂停
-     */
-    pause(): void
-    /**
-     * 停止
-     *
-     * @since 1.7.0
-     */
-    stop(): void
-    /**
-     * 跳转到指定位置，单位 s
-     */
-    seek(position: number): void
-    /**
-     * 发送弹幕，danmu 包含两个属性 text, color。
-     */
-    sendDanmu(danmu: { text: string; color: string }): void
-    /**
-     * 设置倍速播放，支持的倍率有 0.5/0.8/1.0/1.25/1.5
-     *
-     * @since 1.4.0
-     */
-    playbackRate(rate: number): void
-    /**
-     * 进入全屏，可传入{direction}参数（1.7.0起支持），详见video组件文档
-     *
-     * @since 1.4.0
-     */
-    requestFullScreen(param: { direction: 0 | 90 | -90 }): void
-    /**
-     * 退出全屏
-     *
-     * @since 1.4.0
-     */
-    exitFullScreen(): void
-    /**
-     * 显示状态栏，仅在iOS全屏下有效
-     *
-     * @since 2.1.0
-     */
-    showStatusBar(): void
-    /**
-     * 隐藏状态栏，仅在iOS全屏下有效
-     *
-     * @since 2.1.0
-     */
-    hideStatusBar(): void
-  }
-  /**
-   * 创建并返回 video 上下文 `videoContext` 对象。在自定义组件下，第二个参数传入组件实例this，以操作组件内 `<video/>` 组件
-   *
-   * **videoContext：**
-   *
-   * `videoContext` 通过 videoId 跟一个 video 组件绑定，通过它可以操作一个 video 组件。
-   *
-   * **示例代码：**
-   *
-   ```html
-   <view class="section tc">
-     <video id="myVideo" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"   enable-danmu danmu-btn controls></video>
-     <view class="btn-area">
-       <input bindblur="bindInputBlur"/>
-       <button bindtap="bindSendDanmu">发送弹幕</button>
-     </view>
-   </view>
-   ```
-   *
-   * **示例代码：**
-   *
-   ```javascript
-   function getRandomColor () {
-     let rgb = []
-     for (let i = 0 ; i < 3; ++i){
-       let color = Math.floor(Math.random()   256).toString(16)
-       color = color.length == 1 ? '0' + color : color
-       rgb.push(color)
-     }
-     return '#' + rgb.join('')
-   }
-         Page({
-     onReady: function (res) {
-       this.videoContext = Taro.createVideoContext('myVideo')
-     },
-     inputValue: '',
-     bindInputBlur: function(e) {
-       this.inputValue = e.detail.value
-     },
-     bindSendDanmu: function () {
-       this.videoContext.sendDanmu({
-         text: this.inputValue,
-         color: getRandomColor()
-       })
-     }
-   })
-   ```
+  /** 创建 video 上下文 VideoContext 对象。
+   * @supported weapp, h5
+   * @example
+   * ```tsx
+   * videoContext = Taro.createVideoContext('myVideo')
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.createVideoContext.html
    */
-  function createVideoContext(videoId: any, instance?: any): VideoContext
+  function createVideoContext(
+    /** video 组件的 id */
+    id: string,
+    /** 在自定义组件下，当前组件实例的this，以操作组件内 video 组件 */
+    component?: General.IAnyObject,
+  ): VideoContext
 
-  namespace chooseVideo {
-    type Promised = {
-      /**
-       * 选定视频的临时文件路径
-       */
-      tempFilePath: string
-      /**
-       * 选定视频的时间长度
-       */
-      duration: number
-      /**
-       * 选定视频的数据量大小
-       */
-      size: number
-      /**
-       * 返回选定视频的长
-       */
-      height: number
-      /**
-       * 返回选定视频的宽
-       */
-      width: number
-    }
-    type Param = {
-      /**
-       * album 从相册选视频，camera 使用相机拍摄，默认为：['album', 'camera']
-       */
-      sourceType?: string[]
-      /**
-       * 是否压缩所选的视频源文件，默认值为true，需要压缩
-       *
-       * @since 1.6.0
-       */
-      compressed?: boolean
-      /**
-       * 拍摄视频最长拍摄时间，单位秒。最长支持 60 秒
-       */
-      maxDuration?: number
-      /**
-       * 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效, 默认值 'back'
-       * 合法值: 'back', 'front'
-       */
-      camera?: string
-      /**
-       * 接口调用成功的回调函数
-       */
-      success?: ParamPropSuccess
-      /**
-       * 接口调用失败的回调函数
-       */
-      fail?: ParamPropFail
-      /**
-       * 接口调用结束的回调函数（调用成功、失败都会执行）
-       */
-      complete?: ParamPropComplete
-    }
-    type GeneralCallbackResult = {
-      /**
-       * 错误信息
-       */
-      errMsg: string
-    }
-    /**
-     * 接口调用成功的回调函数
-     */
-    type ParamPropSuccess = (res: Promised) => void
-    /**
-     * 接口调用失败的回调函数
-     */
-    type ParamPropFail = (err: GeneralCallbackResult) => void
-    /**
-     * 接口调用结束的回调函数（调用成功、失败都会执行）
-     */
-    type ParamPropComplete = (res: GeneralCallbackResult) => void
-  }
-  /**
-   * 拍摄视频或从手机相册中选视频，返回视频的临时文件路径。
-   *
-   * **示例代码：**
-   *
-   ```html
-   <view class="container">
-       <video src="{{src}}"></video>
-       <button bindtap="bindButtonTap">获取视频</button>
-   </view>
-   ```
-   *
-   * **示例代码：**
-   *
-   ```javascript
-   Page({
-       bindButtonTap: function() {
-           var that = this
-           Taro.chooseVideo({
-               sourceType: ['album','camera'],
-               maxDuration: 60,
-         camera: 'back',
-               success: function(res) {
-                   that.setData({
-                       src: res.tempFilePath
-                   })
-               }
-           })
-       }
-   })
-   ```
+  /** 拍摄视频或从手机相册中选视频。
+   * @supported weapp, rn
+   * @example
+   * ```tsx
+   * Taro.chooseVideo({
+   *   sourceType: ['album','camera'],
+   *   maxDuration: 60,
+   *   camera: 'back',
+   *   success: function (res) {
+   *     console.log(res.tempFilePath)
+   *   }
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html
    */
-  function chooseVideo(OBJECT?: chooseVideo.Param): Promise<chooseVideo.Promised>
+  function chooseVideo(option: chooseVideo.Option): Promise<void>
+
+  namespace chooseVideo {
+    interface Option {
+      /** 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效 */
+      camera?: keyof camera
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 是否压缩所选择的视频文件 */
+      compressed?: boolean
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 拍摄视频最长拍摄时间，单位秒 */
+      maxDuration?: number
+      /** 视频选择的来源 */
+      sourceType?: Array<keyof sourceType>
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends General.CallbackResult {
+      /** 选定视频的时间长度 */
+      duration: number
+      /** 返回选定视频的高度 */
+      height: number
+      /** 选定视频的数据量大小 */
+      size: number
+      /** 选定视频的临时文件路径 */
+      tempFilePath: string
+      /** 返回选定视频的宽度 */
+      width: number
+      /** 调用结果 */
+      errMsg: string
+    }
+    interface camera {
+      /** 默认拉起后置摄像头 */
+      back
+      /** 默认拉起前置摄像头 */
+      front
+    }
+    interface sourceType {
+      /** 从相册选择视频 */
+      album
+      /** 使用相机拍摄视频 */
+      camera
+    }
+  }
+
+  interface VideoContext {
+    /** 退出全屏
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitFullScreen.html
+     */
+    exitFullScreen(): void
+    /** 隐藏状态栏，仅在iOS全屏下有效
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.hideStatusBar.html
+     */
+    hideStatusBar(): void
+    /** 暂停视频
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.pause.html
+     */
+    pause(): void
+    /** 播放视频
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.play.html
+     */
+    play(): void
+    /** 设置倍速播放
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.playbackRate.html
+     */
+    playbackRate(
+      /** 倍率，支持 0.5/0.8/1.0/1.25/1.5，2.6.3 起支持 2.0 倍速 */
+      rate: number,
+    ): void
+    /** 进入全屏
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.requestFullScreen.html
+     */
+    requestFullScreen(option: VideoContext.RequestFullScreenOption): void
+    /** 跳转到指定位置
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.seek.html
+     */
+    seek(
+      /** 跳转到的位置，单位 s */
+      position: number,
+    ): void
+    /** 发送弹幕
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.sendDanmu.html
+     */
+    sendDanmu(
+      /** 弹幕内容 */
+      data: VideoContext.Danmu,
+    ): void
+    /** 显示状态栏，仅在iOS全屏下有效
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.showStatusBar.html
+     */
+    showStatusBar(): void
+    /** 停止视频
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.stop.html
+     */
+    stop(): void
+  }
+
+  namespace VideoContext {
+    interface RequestFullScreenOption {
+      /** 设置全屏时视频的方向，不指定则根据宽高比自动判断。
+       *
+       * 可选值：
+       * - 0: 正常竖向;
+       * - 90: 屏幕逆时针90度;
+       * - -90: 屏幕顺时针90度; */
+      direction?: 0 | 90 | -90
+    }
+    /** 弹幕内容 */
+    interface Danmu {
+      /** 弹幕文字 */
+      text: string
+      /** 弹幕颜色 */
+      color?: string
+    }
+  }
 }

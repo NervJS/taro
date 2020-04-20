@@ -1,188 +1,192 @@
 declare namespace Taro {
   namespace showTabBarRedDot {
-    type Param = {
-      /**
-       * tabBar的哪一项，从左边算起
-       */
+    interface Option {
+      /** tabBar 的哪一项，从左边算起 */
       index: number
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
     }
   }
-  /**
-   * @since 1.9.0
-   *
-   * 显示 tabBar 某一项的右上角的红点
+
+  /** 显示 tabBar 某一项的右上角的红点
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBarRedDot.html
    */
-  function showTabBarRedDot(OBJECT: showTabBarRedDot.Param): Promise<any>
+  function showTabBarRedDot(option: showTabBarRedDot.Option): Promise<General.CallbackResult>
 
   namespace showTabBar {
-    type Param = {
-      /**
-       * 是否需要动画效果，默认无
-       */
+    interface Option {
+      /** 是否需要动画效果 */
       animation?: boolean
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
     }
   }
-  /**
-   * @since 1.9.0
-   *
-   * 显示 tabBar
+
+  /** 显示 tabBar
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBar.html
    */
-  function showTabBar(OBJECT?: showTabBar.Param): Promise<any>
+  function showTabBar(option: showTabBar.Option): Promise<General.CallbackResult>
 
   namespace setTabBarStyle {
-    type Param = {
-      /**
-       * tab 上的文字默认颜色
-       */
-      color?: string
-      /**
-       * tab 上的文字选中时的颜色
-       */
-      selectedColor?: string
-      /**
-       * tab 的背景色
-       */
+    interface Option {
+      /** tab 的背景色，HexColor */
       backgroundColor?: string
-      /**
-       * tabbar上边框的颜色， 仅支持 black/white
-       */
+      /** tabBar上边框的颜色， 仅支持 black/white */
       borderStyle?: string
+      /** tab 上的文字默认颜色，HexColor */
+      color?: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** tab 上的文字选中时的颜色，HexColor */
+      selectedColor?: string
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
     }
   }
-  /**
-   * @since 1.9.0
-   *
-   * 动态设置 tabBar 的整体样式
-   *
-   * **示例代码：**
-   *
-   ```javascript
-   Taro.setTabBarStyle({
-       color: '#FF0000',
-       selectedColor: '#00FF00',
-       backgroundColor: '#0000FF',
-       borderStyle: 'white'
-   })
-   ```
+  
+  /** 动态设置 tabBar 的整体样式
+   * @supported weapp, h5
+   * @example
+   * ```tsx
+   * Taro.setTabBarStyle({
+   *   color: '#FF0000',
+   *   selectedColor: '#00FF00',
+   *   backgroundColor: '#0000FF',
+   *   borderStyle: 'white'
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarStyle.html
    */
-  function setTabBarStyle(OBJECT?: setTabBarStyle.Param): Promise<any>
+  function setTabBarStyle(option?: setTabBarStyle.Option): Promise<General.CallbackResult>
 
   namespace setTabBarItem {
-    type Param = {
-      /**
-       * tabBar 的哪一项，从左边算起
-       */
+    interface Option {
+      /** tabBar 的哪一项，从左边算起 */
       index: number
-      /**
-       * tab 上按钮文字
-       */
-      text?: string
-      /**
-       * 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片
-       */
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效 */
       iconPath?: string
-      /**
-       * 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效
-       */
+      /** 选中时的图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效 */
       selectedIconPath?: string
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
+      /** tab 上的按钮文字 */
+      text?: string
     }
   }
-  /**
-   * @since 1.9.0
-   *
-   * 动态设置 tabBar 某一项的内容
-   *
-   * **示例代码：**
-   *
-   ```javascript
-   Taro.setTabBarItem({
-       index: 0,
-       text: 'text',
-       iconPath: '/path/to/iconPath',
-       selectedIconPath: '/path/to/selectedIconPath'
-   })
-   ```
+
+  /** 动态设置 tabBar 某一项的内容，`2.7.0` 起图片支持临时文件和网络文件。
+   * @supported weapp, h5, rn
+   * @example
+   * ```tsx
+   * Taro.setTabBarItem({
+   *   index: 0,
+   *   text: 'text',
+   *   iconPath: '/path/to/iconPath',
+   *   selectedIconPath: '/path/to/selectedIconPath'
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarItem.html
    */
-  function setTabBarItem(OBJECT: setTabBarItem.Param): Promise<any>
+  function setTabBarItem(option: setTabBarItem.Option): Promise<General.CallbackResult>
 
   namespace setTabBarBadge {
-    type Param = {
-      /**
-       * tabBar的哪一项，从左边算起
-       */
+    interface Option {
+      /** tabBar 的哪一项，从左边算起 */
       index: number
-      /**
-       * 显示的文本，超过 3 个字符则显示成“…”
-       */
+      /** 显示的文本，超过 4 个字符则显示成 ... */
       text: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
     }
   }
-  /**
-   * @since 1.9.0
-   *
-   * 为 tabBar 某一项的右上角添加文本
-   *
-   * **示例代码：**
-   *
-   ```javascript
-   Taro.setTabBarBadge({
-     index: 0,
-     text: '1'
-   })
-   ```
+
+  /** 为 tabBar 某一项的右上角添加文本
+   * @supported weapp, h5
+   * @example
+   * ```tsx
+   * Taro.setTabBarBadge({
+   *   index: 0,
+   *   text: '1'
+   * })
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.setTabBarBadge.html
    */
-  function setTabBarBadge(OBJECT: setTabBarBadge.Param): Promise<any>
+  function setTabBarBadge(option: setTabBarBadge.Option): Promise<General.CallbackResult>
 
   namespace removeTabBarBadge {
-    type Param = {
-      /**
-       * tabBar的哪一项，从左边算起
-       */
+    interface Option {
+      /** tabBar 的哪一项，从左边算起 */
       index: number
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
     }
   }
-  /**
-   * @since 1.9.0
-   *
-   * 移除 tabBar 某一项右上角的文本
+
+  /** 移除 tabBar 某一项右上角的文本
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.removeTabBarBadge.html
    */
-  function removeTabBarBadge(OBJECT: removeTabBarBadge.Param): Promise<any>
+  function removeTabBarBadge(option: removeTabBarBadge.Option): Promise<General.CallbackResult>
 
   namespace hideTabBarRedDot {
-    type Param = {
-      /**
-       * tabBar的哪一项，从左边算起
-       */
+    interface Option {
+      /** tabBar 的哪一项，从左边算起 */
       index: number
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
     }
   }
-  /**
-   * @since 1.9.0
-   *
-   * 隐藏 tabBar 某一项的右上角的红点
+
+  /** 隐藏 tabBar 某一项的右上角的红点
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBarRedDot.html
    */
-  function hideTabBarRedDot(OBJECT: hideTabBarRedDot.Param): Promise<any>
+  function hideTabBarRedDot(option: hideTabBarRedDot.Option): Promise<General.CallbackResult>
 
   namespace hideTabBar {
-    type Param = {
-      /**
-       * 是否需要动画效果，默认无
-       */
+    interface Option {
+      /** 是否需要动画效果 */
       animation?: boolean
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: General.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: General.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: General.CallbackResult) => void
     }
   }
-  /**
-   * @since 1.9.0
-   *
-   * 隐藏 tabBar
+
+  /** 隐藏 tabBar
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBar.html
    */
-  function hideTabBar(OBJECT?: hideTabBar.Param): Promise<any>
+  function hideTabBar(option: hideTabBar.Option): Promise<General.CallbackResult>
 }
