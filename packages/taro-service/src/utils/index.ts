@@ -5,27 +5,25 @@ import * as resolve from 'resolve'
 import { getModuleDefaultExport } from '@tarojs/helper'
 import { PluginItem } from '@tarojs/taro/types/compile'
 
-import { presetOrPluginPrefixReg, PluginType, PluginNamePrefix } from './constants'
+import { PluginType } from './constants'
 import { IPlugin } from './types'
 
 export const isNpmPkg: (name: string) => boolean = name => !(/^(\.|\/)/.test(name))
 
-export function getPluginPath (pluginPath: string, type: PluginType) {
-  if (isNpmPkg(pluginPath))
-    return presetOrPluginPrefixReg.test(pluginPath) ? pluginPath : `${PluginNamePrefix[type]}${pluginPath}`
-  if (path.isAbsolute(pluginPath)) return pluginPath
+export function getPluginPath (pluginPath: string) {
+  if (isNpmPkg(pluginPath) || path.isAbsolute(pluginPath)) return pluginPath
   throw new Error('plugin 和 preset 配置必须为绝对路径或者包名')
 }
 
 export function convertPluginsToObject (items: PluginItem[]) {
-  return (type: PluginType) => {
+  return () => {
     const obj = {}
     items.forEach(item => {
       if (typeof item === 'string') {
-        const name = getPluginPath(item, type)
+        const name = getPluginPath(item)
         obj[name] = null
       } else if (Array.isArray(item)) {
-        const name = getPluginPath(item[0], type)
+        const name = getPluginPath(item[0])
         obj[name] = item[1]
       }
     })
@@ -34,9 +32,9 @@ export function convertPluginsToObject (items: PluginItem[]) {
 }
 
 export function mergePlugins (dist: PluginItem[], src: PluginItem[]) {
-  return (type: PluginType) => {
-    const srcObj = convertPluginsToObject(src)(type)
-    const distObj = convertPluginsToObject(dist)(type)
+  return () => {
+    const srcObj = convertPluginsToObject(src)()
+    const distObj = convertPluginsToObject(dist)()
     return merge(srcObj, distObj)
   }
 }
