@@ -105,8 +105,8 @@ export default class Kernel extends EventEmitter {
 
   initPresetsAndPlugins () {
     const initialConfig = this.initialConfig
-    const allConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])(PluginType.Preset)
-    const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])(PluginType.Plugin)
+    const allConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])()
+    const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
     this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
     createBabelRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
@@ -140,13 +140,13 @@ export default class Kernel extends EventEmitter {
     const {presets, plugins} = apply()(pluginCtx, opts) || {}
     this.registerPlugin(preset)
     if (Array.isArray(presets)) {
-      const _presets = resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(presets)(PluginType.Preset), PluginType.Preset)
+      const _presets = resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(presets)(), PluginType.Preset)
       while (_presets.length) {
         this.initPreset(_presets.shift()!)
       }
     }
     if (Array.isArray(plugins)) {
-      this.extraPlugins.push(...resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(plugins)(PluginType.Plugin), PluginType.Plugin))
+      this.extraPlugins.push(...resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(plugins)(), PluginType.Plugin))
     }
   }
 
