@@ -81,7 +81,7 @@ const Map = {
 
 const Progress = {
   percent: '',
-  'show-info': 'fasle',
+  'show-info': 'false',
   'border-radius': '0',
   'font-size': '16',
   'stroke-width': '6',
@@ -371,12 +371,12 @@ const Swiper = {
   'indicator-dots': 'false',
   'indicator-color': singleQuote('rgba(0, 0, 0, .3)'),
   'indicator-active-color': singleQuote('#000000'),
-  autoplay: 'fasle',
+  autoplay: 'false',
   current: '0',
   interval: '5000',
   duration: '500',
   circular: 'false',
-  vertical: 'fasle',
+  vertical: 'false',
   'previous-margin': '\'0px\'',
   'next-margin': '\'0px\'',
   'display-multiple-items': '1',
