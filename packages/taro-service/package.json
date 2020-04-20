@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "2.1.5",
+  "version": "2.2.0-beta.0",
   "description": "Taro Service",
   "main": "index.js",
   "scripts": {
@@ -32,8 +32,8 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
-    "@tarojs/taro": "2.1.5",
-    "@tarojs/helper": "2.1.5",
+    "@tarojs/helper": "2.2.0-beta.0",
+    "@tarojs/taro": "2.2.0-beta.0",
     "babel-register": "6.26.0",
     "fs-extra": "8.1.0",
     "lodash": "4.17.15",
