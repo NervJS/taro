@@ -16,7 +16,7 @@
 
 ## 版本
 
-[1.x 版本文档](https://nervjs.github.io/taro/docs/1.3.35/README.html)
+[1.x 版本文档](https://nervjs.github.io/taro/docs/1.3.34/README.html)
 
 ## 简介
 
