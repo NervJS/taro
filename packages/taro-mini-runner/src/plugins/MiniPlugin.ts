@@ -737,6 +737,9 @@ export default class TaroMiniPlugin {
   injectCommonStyles ({ assets }: webpack.compilation.Compilation) {
     const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
     const appStyle = `app${styleExt}`
+
+    if (!assets[appStyle]) return
+
     const originSource: string = assets[appStyle].source()
     const source = new ConcatSource()
 
