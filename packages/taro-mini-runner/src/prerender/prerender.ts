@@ -26,7 +26,7 @@ function unquote (str: string) {
 }
 
 function getAttrValue (value: string) {
-  if (value === 'true' || value === 'false') {
+  if (value === 'true' || value === 'false' || !isString(value)) {
     return `{{${value}}}`
   }
 
@@ -67,7 +67,9 @@ export function validatePrerenderPages (pages: string[], config?: PrerenderConfi
   const { include = [], exclude = [], match } = config
 
   if (match) {
-    pageConfigs = micromatch(pages, match).map((p: string) => ({ path: p, params: {} }))
+    pageConfigs = micromatch(pages, match)
+      .filter((p: string) => !p.includes('.config'))
+      .map((p: string) => ({ path: p, params: {} }))
   }
 
   for (const page of pages) {
