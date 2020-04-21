@@ -196,14 +196,14 @@ declare namespace Taro {
    *
    * Usage note: if calling `useMemo` with a referentially stable function, also give it as the input in
    * the second argument.
-   *
-  ```ts
-  function expensive () { ... }
-  function Component () {
-    const expensiveResult = useMemo(expensive, [expensive])
-    return ...
-  }
-  ```
+   * @example
+   * ```ts
+   * function expensive () { ... }
+   * function Component () {
+   *   const expensiveResult = useMemo(expensive, [expensive])
+   *   return ...
+   * }
+   * ```
    *
    * @version 16.8.0
    * @see https://reactjs.org/docs/hooks-reference.html#usememo
@@ -267,4 +267,9 @@ declare namespace Taro {
    * 获取页面传入路由相关参数
    */
   function useRouter (): RouterInfo
+  /**
+   * 获取小程序原生作用域
+   * 等同于类组件时 this.$scope
+   */
+  function useScope (): any
 }

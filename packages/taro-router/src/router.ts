@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import UniversalRouter, { Routes } from 'universal-router'
 import { AppConfig, PageConfig } from '@tarojs/taro'
 import { LocationListener, LocationState } from 'history'
@@ -43,9 +44,7 @@ function showPage (page: PageInstance | null) {
       pageEl.style.display = 'block'
     } else {
       page.onLoad(qs())
-      requestAnimationFrame(() => {
-        page.onReady!()
-      })
+      pageOnReady(pageEl, page, false)
     }
   }
 }
@@ -55,6 +54,20 @@ function unloadPage (page: PageInstance | null) {
     page.onHide!()
     stacks.pop()
     page.onUnload()
+  }
+}
+
+function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = false) {
+  if (pageEl && !pageEl?.['__isReady']) {
+    const el = pageEl.firstElementChild
+    // eslint-disable-next-line no-unused-expressions
+    el?.['componentOnReady']?.().then(() => {
+      requestAnimationFrame(() => {
+        page.onReady!()
+        pageEl!['__isReady'] = true
+      })
+    })
+    onLoad && (pageEl['__page'] = page)
   }
 }
 
@@ -69,8 +82,7 @@ function loadPage (page: PageInstance | null) {
         page.onReady!()
       })
       pageEl = document.getElementById(page.path!)
-      // eslint-disable-next-line dot-notation
-      pageEl && (pageEl['__page'] = page)
+      pageOnReady(pageEl, page)
     }
     page.onShow!()
     stacks.push(page)
@@ -97,7 +109,7 @@ export function createRouter (
   }
 
   const router = new UniversalRouter(routes)
-  const app = type === 'react' ? createReactApp(App, framework as R, reactdom) : createVueApp(App, framework as V)
+  const app = type === 'vue' ? createVueApp(App, framework as V) : createReactApp(App, framework as R, reactdom)
   app.onLaunch!()
 
   const render: LocationListener<LocationState> = async (location, action) => {

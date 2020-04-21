@@ -14,24 +14,35 @@ export class Canvas implements ComponentInterface {
 
   @State() width = 300
   @State() height = 150
+  @State() klass: string
+  @State() css: string
 
   @Element() el: HTMLElement
 
   @Event({
     eventName: 'longtap'
   })
+
   onLongTap
+
+  private canvas?: HTMLCanvasElement
 
   componentDidLoad () {
     const { width, height } = this.el.getBoundingClientRect()
     this.width = width
     this.height = height
+    this.klass = this.el.className
+    this.css = this.el.style.cssText
   }
 
   componentDidUpdate () {
     const { width, height } = this.el.getBoundingClientRect()
     if (this.width !== width) this.width = width
     if (this.height !== height) this.height = height
+    if (this.canvas) {
+      this.canvas.className = this.el.className
+      this.canvas.style.cssText = this.el.style.cssText
+    }
   }
 
   onTouchStart = () => {
@@ -58,6 +69,7 @@ export class Canvas implements ComponentInterface {
     return (
       <canvas
         canvas-id={canvasId}
+        ref={node => (this.canvas = node!)}
         width={width}
         height={height}
         onTouchStart={this.onTouchStart}

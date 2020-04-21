@@ -121,7 +121,7 @@ export default class Index extends Component {
             scrollDirection === 'forward' &&
             // 5 = (列表高度 / 单项列表高度)
             // 100 = 滚动提前加载量，可根据样式情况调整
-            scrollOffset > ((dataLen - 5) * itemHeight + 100)
+            scrollOffset > ((dataLen - 5) * itemSize + 100)
           ) {
             this.listReachBottom()
           }
@@ -344,8 +344,8 @@ export default {
     wclass="List"
     :height="500"
     :item-data="list"
-    :item-count="list.length"
-    :item-size="100"
+    :item-count="dataLen"
+    :item-size="itemHeight"
     :item="Row"
     width="100%"
     @scroll="onScroll"
@@ -364,7 +364,13 @@ export default {
     return {
       Row,
       list: buildData(0),
-      loading: false
+      loading: false,
+      itemHeight: 100
+    }
+  },
+  computed: {
+    dataLen () {
+      return this.list.length
     }
   },
   methods: {
@@ -389,7 +395,7 @@ export default {
         scrollDirection === 'forward' &&
         // 5 = (列表高度 / 单项列表高度)
         // 100 = 滚动提前加载量，可根据样式情况调整
-        scrollOffset > ((dataLen - 5) * itemHeight + 100)
+        scrollOffset > ((this.dataLen - 5) * this.itemHeight + 100)
       ) {
         this.listReachBottom()
       }

@@ -1,5 +1,6 @@
 import { Shortcuts } from './shortcuts'
 import { toDashed, hasOwn, toCamelCase } from './utils'
+import { isBooleanStringLiteral, isNumber } from './is'
 
 const styles = {
   style: `i.${Shortcuts.Style}`,
@@ -80,7 +81,7 @@ const Map = {
 
 const Progress = {
   percent: '',
-  'show-info': 'fasle',
+  'show-info': 'false',
   'border-radius': '0',
   'font-size': '16',
   'stroke-width': '6',
@@ -370,12 +371,12 @@ const Swiper = {
   'indicator-dots': 'false',
   'indicator-color': singleQuote('rgba(0, 0, 0, .3)'),
   'indicator-active-color': singleQuote('#000000'),
-  autoplay: 'fasle',
+  autoplay: 'false',
   current: '0',
   interval: '5000',
   duration: '500',
   circular: 'false',
-  vertical: 'fasle',
+  vertical: 'false',
   'previous-margin': '\'0px\'',
   'next-margin': '\'0px\'',
   'display-multiple-items': '1',
@@ -641,7 +642,7 @@ export function createMiniComponents (components: Components, buildType: string)
             propValue = 'eh'
           } else if (propValue === '') {
             propValue = `i.${toCamelCase(prop)}`
-          } else if (propValue === 'true' || propValue === 'false' || typeof +propValue === 'number') {
+          } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
             propValue = `i.${toCamelCase(prop)} === undefined ? ${propValue} : i.${toCamelCase(prop)}`
           } else {
             propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`

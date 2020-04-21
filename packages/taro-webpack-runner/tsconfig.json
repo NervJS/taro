@@ -14,7 +14,7 @@
     "removeComments": false,
     "rootDir": "./src",
     "skipLibCheck": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "strictNullChecks": true,
     "target": "es2015",
     "traceResolution": false,

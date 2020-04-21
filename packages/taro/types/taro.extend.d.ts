@@ -1,6 +1,6 @@
 /// <reference types="react" />
 /// <reference path="taro.component.d.ts" />
-/// <reference path="api/network/network.request.d.ts" />
+/// <reference path="api/network/request.d.ts" />
 
 declare namespace Taro {
   // Events
@@ -53,10 +53,12 @@ declare namespace Taro {
     RN = 'RN',
     SWAN = 'SWAN',
     ALIPAY = 'ALIPAY',
-    TT = 'TT'
+    TT = 'TT',
+    QQ = 'QQ',
+    JD = 'JD'
   }
 
-  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN
+  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN | ENV_TYPE.QQ | ENV_TYPE.JD
 
   function render(component: Component | JSX.Element, element: Element | null): any
 
@@ -76,7 +78,7 @@ declare namespace Taro {
   function pxTransform(size: number): string
   function initPxTransform(config: { designWidth: number; deviceRatio: object })
 
-  interface RequestParams extends request.Param<any> {
+  interface RequestParams extends request.Option<any> {
     [propName: string]: any
   }
 
@@ -102,9 +104,11 @@ declare namespace Taro {
    */
   function requirePlugin(pluginName: string): any
 
+  function setIsUsingDiff (flag: boolean)
+
   const Current: {
     app: AppInstance | null,
     router: RouterInfo | null,
     page: PageInstance | null
-  };
+  }
 }

@@ -16,7 +16,11 @@ module.exports = (_, options = {}) => {
   }
 
   if (options.ts) {
-    presets.push(require('@babel/preset-typescript'))
+    const config = {}
+    if (isNerv || isReact) {
+      config.jsxPragma = moduleName
+    }
+    presets.push([require('@babel/preset-typescript'), config])
   }
 
   const runtimePath = path.dirname(require.resolve('@babel/runtime/package.json'))
