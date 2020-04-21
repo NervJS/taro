@@ -15,6 +15,7 @@ import {
   recursiveMerge,
   isNodeModule,
   resolveMainFilePath,
+  getSassLoaderOption,
   REG_SASS,
   REG_LESS,
   REG_STYLUS,
@@ -33,10 +34,18 @@ import {
 import { getPostcssPlugins } from './postcss.conf'
 
 import MiniPlugin from '../plugins/MiniPlugin'
-import { IOption } from '../utils/types'
+import { IOption, IBuildConfig } from '../utils/types'
 import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
 import defaultTerserOptions from '../config/terserOptions'
+
+export const makeConfig = async (buildConfig: IBuildConfig) => {
+  const sassLoaderOption = await getSassLoaderOption(buildConfig)
+  return {
+    ...buildConfig,
+    sassLoaderOption
+  }
+}
 
 const globalObjectMap = {
   [BUILD_TYPES.WEAPP]: 'wx',

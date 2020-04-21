@@ -91,7 +91,7 @@ export async function getSassLoaderOption (
   }
   return {
     ...sassLoaderOption,
-    data: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
+    prependData: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
   }
 }
 
