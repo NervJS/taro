@@ -18,6 +18,6 @@ export default {
     }
   },
   'font-style': '',
-  'font-family': 'I:',
+  'font-family': '',
   'font-variant': 'I:'
 }
