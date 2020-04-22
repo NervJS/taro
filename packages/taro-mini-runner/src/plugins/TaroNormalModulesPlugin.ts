@@ -37,7 +37,7 @@ export default class TaroNormalModulesPlugin {
               const [type, prop] = node.arguments
               const attrs = componentConfig.thirdPartyComponents.get(type.value)
 
-              if (attrs == null || prop.type !== 'ObjectExpression') {
+              if (attrs == null || !prop || prop.type !== 'ObjectExpression') {
                 return
               }
 

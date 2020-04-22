@@ -246,7 +246,8 @@ export default class TaroMiniPlugin {
       compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
         Object.keys(assets).forEach(assetPath => {
           const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
-          if (new RegExp(`${styleExt}.js$`).test(assetPath)) {
+          const templExt = MINI_APP_FILES[this.options.buildAdapter].TEMPL
+          if (new RegExp(`(\\${styleExt}|\\${templExt})\\.js(\\.map){0,1}$`).test(assetPath)) {
             delete assets[assetPath]
           } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
             const assetObj = assets[assetPath]
