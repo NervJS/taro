@@ -146,6 +146,9 @@ const _printWhenDone = ({
     if (stats.hasErrors()) {
       printFailed()
       errors.forEach(e => console.log(e + '\n'))
+      stats.compilation.errors.forEach(error => {
+        console.log(`${error.stack}\n`)
+      })
       verbose && process.exit(1)
       return
     }
