@@ -8,7 +8,6 @@ export interface Option {
   [key: string]: any
 }
 
-
 export interface Chain {
   [key: string]: any
 }

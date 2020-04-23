@@ -6,7 +6,7 @@ export const refs = {
       Object.keys(this.$parent.$refs).length
     ) {
       const refs = this.$parent.$refs
-      
+
       if (this._refCacheKey) {
         refs[this._refCacheKey] = this.$el
       } else {

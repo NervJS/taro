@@ -4,7 +4,7 @@ import simulant from 'simulant'
 import * as sinon from 'sinon'
 import { Picker } from '../h5/react'
 import { mount } from './test-tools'
-import { waitForChange, delay } from './utils'
+import { waitForChange } from './utils'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement

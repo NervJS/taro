@@ -2,10 +2,6 @@ import React from 'react'
 import { View } from 'react-native'
 
 class HomeScreen extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
   static config = {
     navigationBarTitleText: '首页',
     navigationBarBackgroundColor: 'white',

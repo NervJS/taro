@@ -1,7 +1,5 @@
 import {
-  StyleSheet,
-  StyleProp,
-  ViewStyle
+  StyleSheet
 } from 'react-native'
 
 // @see https://facebook.github.io/react-native/docs/layout-props.html

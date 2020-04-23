@@ -155,9 +155,9 @@ function createListComponent ({
         }
 
         this._callOnScroll(
-          scrollDirection,
-          scrollOffset,
-          scrollUpdateWasRequested
+          this.scrollDirection,
+          this.scrollOffset,
+          this.scrollUpdateWasRequested
         )
       },
 

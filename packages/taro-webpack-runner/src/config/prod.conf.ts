@@ -1,4 +1,4 @@
-import * as path from 'path';
+import * as path from 'path'
 import { get, mapValues, merge } from 'lodash'
 
 import { addTrailingSlash, emptyObj } from '../util'

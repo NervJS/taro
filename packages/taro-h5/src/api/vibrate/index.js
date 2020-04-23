@@ -4,7 +4,7 @@ const vibrator = function vibrator (mm) {
   try {
     return window.navigator.vibrate(mm)
   } catch (e) {
-    console.log('当前浏览器不支持vibrate')
+    console.warn('当前浏览器不支持vibrate')
   }
 }
 

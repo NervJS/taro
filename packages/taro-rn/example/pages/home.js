@@ -1,5 +1,5 @@
 import React from 'react'
-import Taro, { Component } from '@tarojs/taro-rn'
+import { Component } from '@tarojs/taro-rn'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Device } from './device'
 import { Media } from './media'
@@ -98,8 +98,6 @@ export default class Home extends Component {
     }
   }
 
-  componentWillMount () { }
-
   componentDidMount () { }
 
   componentWillUnmount () { }
@@ -116,7 +114,7 @@ export default class Home extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.left}>
-          {Object.keys(tabMap).map((key, index) => {
+          {Object.keys(tabMap).map((key) => {
             const tabStyle = this.state.tabKey === key ? [styles.left_tab, styles.left_tab_selected] : styles.left_tab
             return (
               <TouchableOpacity key={key} onPress={this.onPressButton.bind(this, key)}>

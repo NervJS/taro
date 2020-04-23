@@ -20,7 +20,7 @@ class MapContext {
    * 获取当前地图的视野范围
    * @param opts
    */
-  getRegion (opts) {
+  getRegion () {
 
   }
 
@@ -58,7 +58,7 @@ class MapContext {
  * {string} @param - id map 组件的 id
  * {object} @param t - 在自定义组件下，当前组件实例的this，以操作组件内 map 组件
  */
-export function createMapContext (id: string, t: object) {
+export function createMapContext (id: string) {
   const ref = globalAny._taroMapMap[id]
   if (ref) {
     return new MapContext(ref)

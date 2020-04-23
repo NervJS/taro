@@ -12,8 +12,7 @@ export default function miniTemplateLoader (source) {
       this.loadModule(request, (err, src) => {
         if (err) {
           reject(err)
-        }
-        else {
+        } else {
           resolve(src)
         }
       })

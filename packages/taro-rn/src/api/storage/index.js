@@ -16,7 +16,7 @@ export function setStorage (opts = {}) {
 
   return new Promise((resolve, reject) => {
     AsyncStorage.setItem(key, JSON.stringify(data))
-      .then((e) => {
+      .then(() => {
         success && success(res)
         complete && complete(res)
 

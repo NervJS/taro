@@ -15,10 +15,10 @@ import * as React from 'react'
 import {
   View,
   TouchableWithoutFeedback,
-  GestureResponderEvent
+  // GestureResponderEvent
 } from 'react-native'
 import { omit, noop } from '../../utils'
-import { ClickableProps } from './PropsType'
+// import { ClickableProps } from './PropsType'
 
 const getWxAppEvent = (event: GestureResponderEvent) => {
   event.persist()

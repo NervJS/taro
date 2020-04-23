@@ -146,12 +146,13 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       this.setState({ appState: nextAppState })
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillMount () {
       this.navigationMethodInit()
       // didFocus
       this.didFocusSubscription = this.props.navigation.addListener(
         'didFocus',
-        payload => {
+        () => {
           // 页面进入后回退并不会调用 React 生命周期，需要在路由生命周期中绑定 this
           this.navigationMethodInit()
           // 页面聚焦时，调用 componentDidShow
@@ -162,7 +163,7 @@ function getWrappedScreen (Screen, Taro, globalNavigationOptions = {}) {
       // willBlur
       this.willBlurSubscription = this.props.navigation.addListener(
         'willBlur',
-        payload => {
+        () => {
           // 页面将失去焦点，调用 componentDidHide
           this.getScreenInstance().componentDidHide && this.getScreenInstance().componentDidHide()
         }

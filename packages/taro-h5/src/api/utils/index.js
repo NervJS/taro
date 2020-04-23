@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 import { Current } from '@tarojs/runtime'
 
 function shouleBeObject (target) {

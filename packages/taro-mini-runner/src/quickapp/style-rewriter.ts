@@ -26,7 +26,7 @@ export default function rewriter (code, isProduction?) {
   if (ast && ast.type === 'stylesheet' && ast.stylesheet &&
         ast.stylesheet.rules && ast.stylesheet.rules.length) {
     const rules: any = []
-    ast.stylesheet.rules.forEach(function (rule, index) {
+    ast.stylesheet.rules.forEach(function (rule) {
       const type = rule.type
       if (type === 'rule') {
         const newRule = rewriteRule(rule, {

@@ -168,7 +168,7 @@ export async function prepareQuickAppEnvironment (buildData: IBuildData) {
     } else {
       command = 'NODE_ENV=development npm install'
     }
-    const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
+    const installSpinner = ora('安装快应用依赖环境, 需要一会儿...').start()
     try {
       const stdout = execSync(command)
       installSpinner.color = 'green'

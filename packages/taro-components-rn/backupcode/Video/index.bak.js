@@ -78,6 +78,7 @@ class _Video extends React.Component<Props> {
       return
     }
 
+    // eslint-disable-next-line no-undef
     this.props.onTimeupdate(positionMillis)
 
     if (playbackStatus.isPlaying) {

@@ -79,11 +79,11 @@ function buildEntry (uiIndex) {
     module.exports.default = module.exports
   }`
   const outputDir = path.join(appPath, outputDirName)
-  fs.writeFileSync(path.join(outputDir, `index.js`), content)
+  fs.writeFileSync(path.join(outputDir, 'index.js'), content)
 }
 
 function watchFiles () {
-  const {sourceDir, projectConfig, appPath, outputDirName, tempPath} = buildData
+  const { sourceDir, projectConfig, appPath, outputDirName, tempPath } = buildData
   console.log('\n', chalk.gray('监听文件修改中...'), '\n')
 
   const watchList = [sourceDir]
@@ -94,7 +94,7 @@ function watchFiles () {
     extraWatchFiles = uiConfig.extraWatchFiles
     extraWatchFiles.forEach(item => {
       watchList.push(path.join(appPath, item.path))
-      if (typeof item.handler === 'function') item.callback = item.handler({buildH5Script})
+      if (typeof item.handler === 'function') item.callback = item.handler({ buildH5Script })
     })
   }
 
@@ -116,7 +116,7 @@ function watchFiles () {
   }
 
   function syncH5File (filePath, compiler) {
-    const {sourceDir, appPath, outputDirName, tempPath} = buildData
+    const { sourceDir, appPath, outputDirName, tempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, H5_OUTPUT_NAME)
     const fileTempPath = filePath.replace(sourceDir, tempPath)
     compiler.processFiles(filePath)
@@ -136,7 +136,7 @@ function watchFiles () {
   }
 
   function syncRNFile (filePath, compiler) {
-    const {sourceDir, appPath, outputDirName, rnTempPath} = buildData
+    const { sourceDir, appPath, outputDirName, rnTempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, RN_OUTPUT_NAME)
     const fileTempPath = filePath.replace(sourceDir, rnTempPath)
     compiler.processFiles(filePath)
@@ -197,7 +197,7 @@ function watchFiles () {
     })
 }
 
-export async function build (appPath, {watch, uiIndex}: IBuildOptions) {
+export async function build (appPath, { watch, uiIndex }: IBuildOptions) {
   setBuildData(appPath, uiIndex)
   setMiniBuildData(appPath, BUILD_TYPES.WEAPP)
   buildEntry(uiIndex)

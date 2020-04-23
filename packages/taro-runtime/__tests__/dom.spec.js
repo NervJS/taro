@@ -246,6 +246,7 @@ describe('DOM', () => {
       }
 
       const div = document.createElement('div')
+      // eslint-disable-next-line react/no-deprecated
       React.render(<App />, div)
       expect(div.textContent).toBe(' a bc')
     })

@@ -1,5 +1,5 @@
 export default {
-  padding: (value, declaration, addDeclaration) => {
+  padding: (value, _, __) => {
     if (~value.indexOf('auto')) {
       return 'I:'
     }

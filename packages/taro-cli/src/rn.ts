@@ -206,7 +206,7 @@ class Compiler {
    * @returns {Promise}
    */
   buildTemp () {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const filePaths: string[] = []
       klaw(this.sourceDir)
         .on('data', file => {
@@ -321,7 +321,7 @@ function updatePkgJson (appPath) {
     "tslib": "^1.8.0"
   }
   `
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const pkgJson = require(path.join(appPath, 'package.json'))
     // 未安装 RN 依赖,则更新 pkgjson,并重新安装依赖
     if (!hasRNDep(appPath)) {
@@ -351,7 +351,7 @@ function installDep (path: string) {
       command = 'npm install'
     }
     exec(command, (err, stdout, stderr) => {
-      if (err) reject()
+      if (err) reject(err)
       else {
         console.log(stdout)
         console.log(stderr)
@@ -373,11 +373,7 @@ export async function build (appPath: string, buildConfig: IBuildOptions) {
   if (!hasRNDep(appPath)) {
     await updatePkgJson(appPath)
   }
-  try {
-    await compiler.buildTemp()
-  } catch (e) {
-    throw e
-  }
+  await compiler.buildTemp()
   const t1 = performance.now()
   Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
 

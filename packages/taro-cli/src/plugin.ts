@@ -1,7 +1,6 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import chalk from 'chalk'
-import * as _ from 'lodash'
 
 import {
   BUILD_TYPES
@@ -40,7 +39,7 @@ async function buildWxPlugin (appPath, { watch, type }, builder) {
 }
 
 async function buildAlipayPlugin (appPath, { watch, type }, builder) {
-  await buildMini(appPath, { watch, type }, null,  builder)
+  await buildMini(appPath, { watch, type }, null, builder)
   const {
     sourceDir,
     outputDir

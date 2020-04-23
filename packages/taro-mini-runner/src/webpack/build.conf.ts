@@ -64,7 +64,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const minimizer: any[] = []
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
-  const taroBaseReg = /@tarojs[\/][a-z]+/
+  const taroBaseReg = /@tarojs[\\/][a-z]+/
   if (config.isBuildPlugin) {
     const patterns = copy ? copy.patterns : []
     patterns.push({
@@ -103,7 +103,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     entry,
     isBuildPlugin: config.isBuildPlugin
   })
-  const defaultCommonChunks = !!config.isBuildPlugin
+  const defaultCommonChunks = config.isBuildPlugin
     ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
     : ['runtime', 'vendors', 'taro', 'common']
   let customCommonChunks = defaultCommonChunks
@@ -205,12 +205,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         minSize: 0,
         cacheGroups: {
           common: {
-            name: !!config.isBuildPlugin ? 'plugin/common' : 'common',
+            name: config.isBuildPlugin ? 'plugin/common' : 'common',
             minChunks: 2,
             priority: 1
           },
           vendors: {
-            name: !!config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
+            name: config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
             minChunks: 2,
             test: module => {
               return /[\\/]node_modules[\\/]/.test(module.resource)
@@ -218,7 +218,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
             priority: 10
           },
           taro: {
-            name: !!config.isBuildPlugin ? 'plugin/taro' : 'taro',
+            name: config.isBuildPlugin ? 'plugin/taro' : 'taro',
             test: module => {
               return taroBaseReg.test(module.context)
             },

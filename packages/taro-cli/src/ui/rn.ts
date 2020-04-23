@@ -10,7 +10,7 @@ import { printLog, resolveScriptPath } from '../util'
 import { IBuildData } from './ui.types'
 
 export async function buildForRN (uiIndex = 'index', buildData) {
-  const {appPath} = buildData
+  const { appPath } = buildData
   const compiler = new RNCompiler(appPath)
   console.log()
   console.log(chalk.green('开始编译 RN 端组件库！'))
@@ -32,7 +32,7 @@ export async function buildRNLib (uiIndex, buildData: IBuildData) {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(tempEntryFilePath)
     })
-    const {styleFiles, components, code: generateCode} = parseEntryAst(transformResult.ast, tempEntryFilePath)
+    const { styleFiles, components, code: generateCode } = parseEntryAst(transformResult.ast, tempEntryFilePath)
     const relativePath = path.relative(appPath, tempEntryFilePath)
     printLog(processTypeEnum.COPY, '发现文件', relativePath)
     fs.ensureDirSync(path.dirname(outputEntryFilePath))

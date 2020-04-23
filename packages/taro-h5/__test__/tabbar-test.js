@@ -1,4 +1,5 @@
-import Nerv, { nextTick } from 'nervjs'
+/* eslint-disable react/react-in-jsx-scope */
+import Nerv from 'nervjs'
 import {
   hideTabBar,
   hideTabBarRedDot,
@@ -141,7 +142,7 @@ describe('tabbar', () => {
       state: { __tabs: tabbarConfig }
     }
     let state
-    App.setState = jest.fn().mockImplementation(_state => state = _state)
+    App.setState = jest.fn().mockImplementation(_state => (state = _state))
     initTabBarApis(App)
 
     setTabBarItem({

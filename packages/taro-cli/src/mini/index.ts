@@ -112,7 +112,6 @@ export async function build (appPath: string, { watch, type = BUILD_TYPES.WEAPP,
       console.log()
       console.log(chalk.red('快应用环境准备失败，请重试！'))
       process.exit(0)
-      return
     }
     await runQuickApp(watch, buildData, port, release)
   }

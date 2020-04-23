@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
 import { View, Label, Text, Button } from '../../dist'

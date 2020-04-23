@@ -14,7 +14,8 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
   const tempPath = path.join(templateRootPath, TEMP_DOWNLOAD_FLODER)
   let name: string
 
-  return new Promise(async (resolve, reject) => {
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve) => {
     // 下载文件的缓存目录
     if (fs.existsSync(tempPath)) await fs.remove(tempPath)
     await fs.mkdir(tempPath)

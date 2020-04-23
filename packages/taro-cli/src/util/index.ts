@@ -364,7 +364,7 @@ export function isQuickappPkg (name: string, quickappPkgs: any[] = []): boolean 
 }
 
 export const recursiveMerge = (src, ...args) => {
-  return mergeWith(src, ...args, (value, srcValue, key, obj, source) => {
+  return mergeWith(src, ...args, (value, srcValue) => {
     const typeValue = typeof value
     const typeSrcValue = typeof srcValue
     if (typeValue !== typeSrcValue) return

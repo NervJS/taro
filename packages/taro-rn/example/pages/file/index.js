@@ -10,10 +10,10 @@ function handleDownloadFile () {
   console.log('downloadFile')
   downloadFile({
     url: 'https://nervjs.github.io/taro/img/logo-taro.png',
-    success (res) {
+    success () {
       console.log('success')
     },
-    fail (res) {
+    fail () {
       console.log('fail')
     }
   }).then(res => console.log(res)).catch(e => console.log(e))

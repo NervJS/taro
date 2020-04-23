@@ -1,5 +1,5 @@
 export default {
-  'font-size': (value, declaration, addDeclaration) => {
+  'font-size': (value, declaration, _) => {
     if (~value.indexOf('inherit')) {
       return 'I:'
     }
@@ -8,7 +8,7 @@ export default {
       declaration.value = declaration.value.replace('pt', 'px')
     }
   },
-  'font-weight': (value, declaration, addDeclaration) => {
+  'font-weight': (value, declaration, _) => {
     if (value === 400) {
       declaration.value = 'normal'
     } else if (value > 400) {

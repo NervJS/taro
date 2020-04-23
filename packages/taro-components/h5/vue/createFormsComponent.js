@@ -25,7 +25,8 @@ export default function createFormsComponent (name, event, modelValue = 'value',
       }
     },
     render (createElement) {
-      const self = this
+      // eslint-disable-next-line
+      const self = this;
 
       const attrs = {}
       if (name === 'taro-input') {
@@ -38,7 +39,7 @@ export default function createFormsComponent (name, event, modelValue = 'value',
       return createElement(`${name}-core`, {
         class: ['hydrated', ...classNames],
         attrs,
-        on,
+        on
       }, self.$slots.default)
     }
   }

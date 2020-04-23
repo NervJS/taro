@@ -9,7 +9,7 @@ function typescripts () {
     .src()
     .pipe(tsProject())
     .on('error', (err) => {
-      console.log(err)
+      console.warn(err)
     })
     .pipe(dest(distPath))
 }

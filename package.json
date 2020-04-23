@@ -4,7 +4,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "lint": "eslint packages/  --ext .js --ext .ts --fix",
+    "lint": "eslint packages/  --ext .js --ext .ts",
     "docs": "cd website && docusaurus-build",
     "docs:serve": "cd website && docusaurus-start",
     "docs:version": "cd website && docusaurus-version",

@@ -3,7 +3,8 @@ module.exports = {
   'plugins': ['@typescript-eslint', 'jest', 'react'],
   'extends': [
     'standard',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended'
   ],
   'rules': {
     'no-unused-vars': 'off',
@@ -24,7 +25,9 @@ module.exports = {
     'prefer-spread': 0,
     'prefer-rest-params': 0,
     'no-prototype-builtins': 0,
-    'react/jsx-uses-vars': 'warn'
+    'react/jsx-uses-vars': 'warn',
+    'react/prop-types': 0,
+    'react/no-find-dom-node': 0
     // 'camelcase': ['error', {allow: ['^internal_', '^unstable_']}]
   },
   'env': {
@@ -43,7 +46,8 @@ module.exports = {
     'getCurrentPages': 'readonly',
     'getApp': 'readonly',
     'requirePlugin': 'readonly',
-    'jd': 'readonly'
+    'jd': 'readonly',
+    'LOCATION_APIKEY': 'readonly'
   },
   'parserOptions': {
     'ecmaFeatures': {

@@ -1,6 +1,6 @@
 import { getDeclarationValue } from '../../util'
 
-function setValue (value, declaration) {
+function setValue (value, _) {
   const valueList = ['inherit', 'auto']
   if (~valueList.indexOf(value)) {
     return 'I:'
@@ -9,7 +9,7 @@ function setValue (value, declaration) {
 }
 
 export default {
-  bottom: (value, declaration, addDeclaration) => {
+  bottom: (value, declaration, _) => {
     return setValue(value, declaration)
   },
   // 'display': '',
@@ -24,10 +24,10 @@ export default {
       }
     }
   },
-  left: (value, declaration, addDeclaration) => {
+  left: (value, declaration, _) => {
     return setValue(value, declaration)
   },
-  position: (value, declaration, addDeclaration) => {
+  position: (value, declaration, _) => {
     if (value === 'static') {
       declaration.value = 'none'
     } else if (value === 'absolute' || value === 'relative') {
@@ -37,10 +37,10 @@ export default {
       return 'I:'
     }
   },
-  right: (value, declaration, addDeclaration) => {
+  right: (value, declaration, _) => {
     return setValue(value, declaration)
   },
-  top: (value, declaration, addDeclaration) => {
+  top: (value, declaration, _) => {
     return setValue(value, declaration)
   },
   overflow: 'I:',

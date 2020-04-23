@@ -1,5 +1,4 @@
 import * as Brightness from 'expo-brightness'
-import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake'
 import { Permissions } from 'react-native-unimodules'
 import { errorHandler, shouleBeObject, successHandler } from '../utils'
 
@@ -100,6 +99,6 @@ export async function setKeepScreenOn (opts = {}) {
  * @todo
  * 监听用户主动截屏事件。用户使用系统截屏按键截屏时触发
  */
-export function onUserCaptureScreen (callback) {
+export function onUserCaptureScreen () {
   console.log('onUserCaptureScreen has not finished')
 }

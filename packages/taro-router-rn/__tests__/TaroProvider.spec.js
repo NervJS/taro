@@ -6,10 +6,6 @@ import toJson from 'enzyme-to-json'
 import RefreshProvider from '../src/RefreshProvider'
 
 class HomeScreen extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
   render () {
     return <View>Test</View>
   }

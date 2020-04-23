@@ -101,14 +101,14 @@ const printFailed = () => {
 }
 
 const printWhenBeforeCompile = compiler => {
-  compiler.hooks.beforeCompile.tap('taroBeforeCompile', filepath => {
+  compiler.hooks.beforeCompile.tap('taroBeforeCompile', () => {
     printCompiling()
   })
   return compiler
 }
 
 const printWhenInvalid = compiler => {
-  compiler.hooks.invalid.tap('taroInvalid', filepath => {
+  compiler.hooks.invalid.tap('taroInvalid', () => {
     printCompiling()
   })
   return compiler
@@ -123,7 +123,7 @@ const printWhenFailed = compiler => {
 
 let isFirst = true
 const printWhenFirstDone = (compiler) => {
-  compiler.hooks.done.tap('taroDone', stats => {
+  compiler.hooks.done.tap('taroDone', () => {
     if (isFirst) {
       isFirst = false
       getServeSpinner().clear()

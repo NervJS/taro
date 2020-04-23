@@ -42,7 +42,7 @@ function setWidth (value, declaration) {
 }
 
 export default {
-  border: (value, declaration, addDeclaration) => {
+  border: (value, declaration, _) => {
     if (value === 'none') {
       declaration.value = 0
     }
@@ -50,10 +50,10 @@ export default {
   },
   'border-color': '',
   'border-style': '',
-  'border-width': (value, declaration, addDeclaration) => { // width也不支持百分数，后期在转换
+  'border-width': (value, declaration, _) => { // width也不支持百分数，后期在转换
     setWidth(value, declaration)
   },
-  'border-radius': (value, declaration, addDeclaration) => { // width也不支持百分数，后期在转换
+  'border-radius': (value, declaration, _) => { // width也不支持百分数，后期在转换
     if (~value.indexOf('%')) {
       // 其实应当按照当前组件的宽高为基准计算，但这里拿不到，暂时这样处理下。
       value = 750 / 100 * parseInt(value, 10) + 'px'
@@ -72,16 +72,16 @@ export default {
   'border-right': (value, declaration, addDeclaration) => {
     return setStyle('right', value, addDeclaration)
   },
-  'border-left-width': (value, declaration, addDeclaration) => {
+  'border-left-width': (value, declaration, _) => {
     setWidth(value, declaration)
   },
-  'border-right-width': (value, declaration, addDeclaration) => {
+  'border-right-width': (value, declaration, _) => {
     setWidth(value, declaration)
   },
-  'border-top-width': (value, declaration, addDeclaration) => {
+  'border-top-width': (value, declaration, _) => {
     setWidth(value, declaration)
   },
-  'border-bottom-width': (value, declaration, addDeclaration) => {
+  'border-bottom-width': (value, declaration, _) => {
     setWidth(value, declaration)
   },
   'border-left-color': '',

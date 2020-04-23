@@ -220,7 +220,7 @@ change to take effect.`
   }
 }
 
-exports.buildProd = function (config) {
+exports.buildProd = function () {
   console.log()
   console.log(`Run ${chalk.cyan('expo build:android ')} or ${chalk.cyan('expo build:ios ')} in .rn_temp/ to building standalone apps`)
   console.log(`you can visite ${chalk.underline(chalk.cyan('https://docs.expo.io/versions/latest/distribution/building-standalone-apps'))} for more info`)

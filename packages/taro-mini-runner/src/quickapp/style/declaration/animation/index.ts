@@ -31,7 +31,7 @@ export default {
   },
   'animation-name': '',
   'animation-duration': '',
-  'animation-timing-function': (value, declaration, addDeclaration) => {
+  'animation-timing-function': (value, _declaration, _addDeclaration) => {
     const cont = ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out']
     if (~cont.indexOf(value)) {
       return ''
@@ -39,14 +39,14 @@ export default {
     return 'I:'
   },
   'animation-delay': '',
-  'animation-iteration-count': (value, declaration, addDeclaration) => {
+  'animation-iteration-count': (value, _declaration, _addDeclaration) => {
     if (value === 'infinite') {
       return 'I:'
     }
     return ''
   },
   'animation-direction': 'I:',
-  'animation-fill-mode': (value, declaration, addDeclaration) => {
+  'animation-fill-mode': (value, _declaration, _addDeclaration) => {
     const list = ['none', 'forwards']
     if (~list.indexOf(value)) {
       return ''

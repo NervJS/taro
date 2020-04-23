@@ -10,7 +10,6 @@ import { IBuildData } from './ui.types'
 import { cssImports, printLog, resolveScriptPath, resolveStylePath } from '../util'
 import { processTypeEnum, REG_STYLE, REG_TYPESCRIPT, REG_SCRIPT, REG_JSON, REG_FONT, REG_IMAGE, REG_MEDIA } from '../util/constants'
 
-
 const processedScriptFiles: Set<string> = new Set()
 
 export const WEAPP_OUTPUT_NAME = 'weapp'
@@ -51,8 +50,8 @@ function parseAst (
             const value = source.value
             const valueExtname = path.extname(value)
             if (value.indexOf('.') === 0) {
-              let importPath = path.resolve(path.dirname(sourceFilePath), value)
-              importPath = resolveScriptPath(importPath)
+              const importPath = path.resolve(path.dirname(sourceFilePath), value)
+              resolveScriptPath(importPath)
               if (REG_SCRIPT.test(valueExtname) || REG_TYPESCRIPT.test(valueExtname)) {
                 const vpath = path.resolve(sourceFilePath, '..', value)
                 let fPath = value
@@ -191,7 +190,7 @@ export function copyFileToDist (filePath: string, sourceDir: string, outputDir: 
   if (!filePath && !path.isAbsolute(filePath)) {
     return
   }
-  const {appPath} = buildData
+  const { appPath } = buildData
   const dirname = path.dirname(filePath)
   const distDirname = dirname.replace(sourceDir, outputDir)
   const relativePath = path.relative(appPath, filePath)
@@ -225,7 +224,7 @@ export function analyzeFiles (files: string[], sourceDir: string, outputDir: str
         mediaFiles
       } = parseAst(transformResult.ast, file)
 
-      const resFiles = styleFiles.concat(scriptFiles,jsonFiles, mediaFiles)
+      const resFiles = styleFiles.concat(scriptFiles, jsonFiles, mediaFiles)
 
       if (resFiles.length) {
         resFiles.forEach(item => {

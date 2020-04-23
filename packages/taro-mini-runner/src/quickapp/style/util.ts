@@ -21,5 +21,5 @@ export const addComment = (property, value, rule) => rule.declarations.push({
 
 export const getDeclarationValue = (property, rule) => {
   const declarations = rule.declarations.filter(declaration => declaration.property === property)
-  return declarations.length && declarations[0] || false
+  return (declarations.length && declarations[0]) || false
 }

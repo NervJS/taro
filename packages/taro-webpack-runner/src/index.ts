@@ -100,7 +100,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   return new Promise((resolve, reject) => {
     server.listen(devServerOptions.port, (devServerOptions.host as string), err => {
       if (err) {
-        reject()
+        reject(err)
         return console.log(err)
       }
       resolve()

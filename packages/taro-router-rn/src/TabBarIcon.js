@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
 import { View, Text, Image } from 'react-native'
 import { isUrl } from './utils'

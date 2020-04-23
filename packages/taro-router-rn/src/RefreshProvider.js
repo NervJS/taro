@@ -63,7 +63,6 @@ class RefreshProvider extends React.Component {
     }
 
     try {
-      console.log(this._scrollView)
       this._scrollView.current.scrollTo({ x: 0, y: Number(scrollTop), animated: true })
     } catch (e) {
       return errorHandler(fail, complete)({ errMsg: e })

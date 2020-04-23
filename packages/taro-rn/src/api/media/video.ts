@@ -1,5 +1,3 @@
-import { Video } from 'expo-av'
-
 const globalAny: any = global
 
 globalAny._taroVideoMap = {}
@@ -78,7 +76,7 @@ class VideoContext {
    * @package {object} [object]
    * @package {number} [object.direction] - 设置全屏时视频的方向，不指定则根据宽高比自动判断。
    */
-  async requestFullScreen (object: FullScreenObject) {
+  async requestFullScreen () {
     try {
       await this.videoRef.presentFullscreenPlayer()
     } catch (e) {
@@ -107,7 +105,7 @@ class VideoContext {
    * @param {string} data.text 弹幕文字
    * @param {string} data.color 弹幕颜色
    */
-  sendDanmu (data: DanmuData) {
+  sendDanmu () {
 
   }
 
@@ -136,7 +134,7 @@ class VideoContext {
  * {string} @param - id video 组件的 id
  * {object} @param t - 在自定义组件下，当前组件实例的this，以操作组件内 video 组件
  */
-export function createVideoContext (id: string, t: object) {
+export function createVideoContext (id: string) {
   const ref = globalAny._taroVideoMap[id]
   if (ref) {
     return new VideoContext(ref)

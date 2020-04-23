@@ -1,6 +1,6 @@
 export default {
   parse: {
-    ecma: 8,
+    ecma: 8
   },
   compress: {
     ecma: 5,

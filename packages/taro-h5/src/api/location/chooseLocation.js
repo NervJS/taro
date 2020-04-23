@@ -91,6 +91,7 @@ const chooseLocation = ({ success, fail, complete } = {}) => {
       reject(res)
     }
 
+    // eslint-disable-next-line
     if (!LOCATION_APIKEY) {
       const errMsg = 'chooseLocation:fail LOCATION_APIKEY needed'
       console.warn('chooseLocation api 依赖腾讯地图定位api，需要在defineConstants中配置LOCATION_APIKEY')

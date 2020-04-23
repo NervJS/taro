@@ -12,8 +12,6 @@ class RecorderManager {
   private onErrorCallback
   private preStatus
 
-  private constructor () { }
-
   private static RecordingOptions = {
     android: {
       extension: '.m4a',
@@ -62,13 +60,13 @@ class RecorderManager {
     }
 
     const {
-      duration = 60000,
+      // duration = 60000,
       sampleRate = 8000,
       numberOfChannels = 2,
-      encodeBitRate = 48000,
-      format = 'aac',
-      frameSize,
-      audioSource = 'auto'
+      encodeBitRate = 48000
+      // format = 'aac',
+      // frameSize,
+      // audioSource = 'auto'
     }: any = opts
     const options = {
       android: Object.assign({}, RecorderManager.RecordingOptions.android, { sampleRate, numberOfChannels, bitRate: encodeBitRate }),
@@ -189,7 +187,7 @@ class RecorderManager {
    * 监听已录制完指定帧大小的文件事件。如果设置了 frameSize，则会回调此事件。
    * @param callback
    */
-  onFrameRecorded (callback) {
+  onFrameRecorded () {
     // console.log('not achieve')
   }
 
@@ -198,7 +196,7 @@ class RecorderManager {
    * 监听录音因为受到系统占用而被中断开始事件。以下场景会触发此事件：微信语音聊天、微信视频聊天。此事件触发后，录音会被暂停。pause 事件在此事件后触发
    * @param callback
    */
-  onInterruptionBegin (callback) {
+  onInterruptionBegin () {
     // console.log('not achieve')
   }
 
@@ -207,7 +205,7 @@ class RecorderManager {
    * 监听录音中断结束事件。在收到 interruptionBegin 事件之后，小程序内所有录音会暂停，收到此事件之后才可再次录音成功。
    * @param callback
    */
-  onInterruptionEnd (callback) {
+  onInterruptionEnd () {
     // console.log('not achieve')
   }
 }
