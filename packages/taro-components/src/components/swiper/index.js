@@ -130,10 +130,12 @@ class Swiper extends Nerv.Component {
       const nextCurrent = typeof nextProps.current === 'number' ? nextProps.current : this._$current || 0
 
       // 是否衔接滚动模式
-      if (nextProps.circular && !this.mySwiper.isBeginning && !this.mySwiper.isEnd) {
-        this.mySwiper.loopDestroy()
-        this.mySwiper.loopCreate()
-        this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
+      if (nextProps.circular) {
+        if (!this.mySwiper.isBeginning && !this.mySwiper.isEnd) {
+          this.mySwiper.loopDestroy()
+          this.mySwiper.loopCreate()
+          this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
+        }
       } else {
         this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
       }
