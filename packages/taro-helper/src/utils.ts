@@ -467,7 +467,7 @@ export const getAllFilesInFloder = async (
   return files
 }
 
-interface FileStat {
+export interface FileStat {
   name: string
   isDirectory: boolean
   isFile: boolean

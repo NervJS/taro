@@ -3,6 +3,7 @@
   "version": "2.2.0-beta.0",
   "description": "Taro Service",
   "main": "index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "build": "run-s clean prod",
     "dev": "tsc -w",

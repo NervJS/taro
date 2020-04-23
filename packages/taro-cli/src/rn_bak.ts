@@ -12,7 +12,6 @@ import {
   REG_STYLE,
   REG_SCRIPTS,
   REG_TYPESCRIPT,
-  BUILD_TYPES,
   resolveScriptPath,
   printLog,
   shouldUseYarn,
@@ -377,8 +376,8 @@ export { Compiler }
 
 export async function build (appPath: string, buildConfig: IBuildOptions) {
   const {watch, port} = buildConfig
-  process.env.TARO_ENV = BUILD_TYPES.RN
-  await checkCliAndFrameworkVersion(appPath, BUILD_TYPES.RN)
+  process.env.TARO_ENV = 'rn'
+  await checkCliAndFrameworkVersion(appPath, 'rn')
   const compiler = new Compiler(appPath)
   fs.ensureDirSync(compiler.tempPath)
   const t0 = performance.now()
