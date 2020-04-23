@@ -9,13 +9,10 @@ import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
 import * as postcss from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
-
 import {
   printLog,
   promoteRelativePath,
   resolveScriptPath,
-  processStyleImports,
-  getPkgVersion,
   pascalCase,
   emptyDirectory,
   processTypeEnum,
@@ -31,6 +28,7 @@ import Creator from '../create/creator'
 import babylonConfig from '../config/babylon'
 import { IPrettierConfig } from '../util/types'
 import { analyzeImportUrl, incrementId } from './helper'
+import { getPkgVersion } from '../util'
 
 const template = require('babel-template')
 

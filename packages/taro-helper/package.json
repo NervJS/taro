@@ -3,6 +3,7 @@
   "version": "2.2.0-beta.0",
   "description": "Taro Helper",
   "main": "index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "build": "run-s clean prod",
     "dev": "tsc -w",
@@ -53,6 +54,8 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
+    "@types/debug": "4.1.5",
+    "@types/fs-extra": "8.1.0",
     "@types/node": "13.9.0",
     "jest": "25.1.0",
     "ts-jest": "25.2.1",

@@ -3,6 +3,7 @@ import * as path from 'path'
 import { merge } from 'lodash'
 import * as resolve from 'resolve'
 import { getModuleDefaultExport } from '@tarojs/helper'
+
 import { PluginItem } from '@tarojs/taro/types/compile'
 
 import { PluginType } from './constants'

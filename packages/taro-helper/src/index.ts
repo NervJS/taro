@@ -1,7 +1,7 @@
-import * as fs from 'fs-extra'
-import * as chalk from 'chalk'
+import fs from 'fs-extra'
+import chalk from 'chalk'
 import * as chokidar from 'chokidar'
-import * as createDebug from 'debug'
+import createDebug from 'debug'
 
 import * as constants from './constants'
 import * as utils from './utils'
