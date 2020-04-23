@@ -10,6 +10,7 @@ import {
   createDebug
 } from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
+import * as joi from '@hapi/joi'
 
 import {
   IPreset,
@@ -135,9 +136,9 @@ export default class Kernel extends EventEmitter {
 
   initPreset (preset: IPreset) {
     this.debugger('initPreset', preset)
-    const {id, path, opts, apply} = preset
+    const { id, path, opts, apply } = preset
     const pluginCtx = this.initPluginCtx({id, path, ctx: this})
-    const {presets, plugins} = apply()(pluginCtx, opts) || {}
+    const { presets, plugins } = apply()(pluginCtx, opts) || {}
     this.registerPlugin(preset)
     if (Array.isArray(presets)) {
       const _presets = resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(presets)(), PluginType.Preset)
@@ -151,11 +152,27 @@ export default class Kernel extends EventEmitter {
   }
 
   initPlugin (plugin: IPlugin) {
-    const {id, path, opts, apply} = plugin
-    const pluginCtx = this.initPluginCtx({id, path, ctx: this})
+    const { id, path, opts, apply } = plugin
+    const pluginCtx = this.initPluginCtx({ id, path, ctx: this })
     this.debugger('initPlugin', plugin)
     this.registerPlugin(plugin)
     apply()(pluginCtx, opts)
+    this.checkPluginOpts(pluginCtx, opts)
+  }
+
+  checkPluginOpts (pluginCtx, opts) {
+    if (typeof pluginCtx.optsSchema !== 'function') {
+      return
+    }
+    const schema = pluginCtx.optsSchema(joi)
+    if (!joi.isSchema(schema)) {
+      throw `插件${pluginCtx.id}中设置参数检查 schema 有误，请检查！`
+    }
+    const { error } = schema.validate(opts)
+    if (error) {
+      error.message = `插件${pluginCtx.id}获得的参数不符合要求，请检查！`
+      throw error
+    }
   }
 
   registerPlugin (plugin: IPlugin) {
@@ -165,8 +182,8 @@ export default class Kernel extends EventEmitter {
     this.plugins.set(plugin.id, plugin)
   }
 
-  initPluginCtx ({id, path, ctx}: { id: string, path: string, ctx: Kernel }) {
-    const pluginCtx = new Plugin({id, path, ctx})
+  initPluginCtx ({ id, path, ctx }: { id: string, path: string, ctx: Kernel }) {
+    const pluginCtx = new Plugin({ id, path, ctx })
     const internalMethods = ['onReady', 'onStart']
     const kernelApis = [
       'appPath',

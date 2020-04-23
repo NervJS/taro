@@ -1,5 +1,6 @@
 import helper from '@tarojs/helper'
 import { IProjectConfig } from '@tarojs/taro/types/compile'
+import joi from '@hapi/joi'
 
 import { IPlugin, IPaths, IHook, ICommand, IPlatform } from '../src/utils/types'
 
@@ -42,6 +43,10 @@ export declare interface IPluginContext {
    * 注册一个自定义编译平台
    */
   registerPlatform: (platform: IPlatform) => void
+  /**
+   * 为插件添加入参校验
+   */
+  addPluginOptsSchema: (fn: (joi: joi.Root) => void) => void
 
   [key: string]: any
 }
