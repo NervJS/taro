@@ -25,7 +25,7 @@
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "//lint-staged": {
+  "lint-staged": {
     "*.{js,jsx}": [
       "eslint --fix",
       "git add"
@@ -34,7 +34,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "//pre-commit": "lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "keywords": [
