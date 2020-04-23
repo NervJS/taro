@@ -7,6 +7,8 @@ export default class Plugin {
   id: string
   path: string
   ctx: Kernel
+  optsSchema: Function
+
   constructor (opts) {
     this.id = opts.id
     this.path = opts.path
@@ -53,6 +55,10 @@ export default class Plugin {
         fn
       })
     }.bind(this))
+  }
+
+  addPluginOptsSchema (schema) {
+    this.optsSchema = schema
   }
 }
 

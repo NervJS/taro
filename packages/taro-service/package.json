@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
+    "@hapi/joi": "17.1.1",
     "@tarojs/helper": "2.2.0-beta.0",
     "@tarojs/taro": "2.2.0-beta.0",
     "babel-register": "6.26.0",
@@ -42,6 +43,7 @@
     "tapable": "1.1.3"
   },
   "devDependencies": {
+    "@types/hapi__joi": "16.0.12",
     "@types/node": "13.9.0",
     "jest": "25.1.0",
     "ts-jest": "25.2.1",
