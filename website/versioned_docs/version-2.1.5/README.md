@@ -1,5 +1,7 @@
 ---
 title: Taro 介绍
+id: version-2.1.5-README
+original_id: README
 ---
 
 > 这是 Taro 2.x 版本的文档，若要查看 1.x 版本的文档，请[点击这里选择版本](/taro/versions.md)。
