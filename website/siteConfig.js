@@ -39,14 +39,14 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'README', label: '文档'},
-    {doc: 'components-desc', label: '组件库'},
-    {doc: 'apis/about/desc', label: 'API'},
-    {search: true},
-    {href: 'https://taro-ui.jd.com', label: 'Taro-UI'},
-    {href: 'https://taro-ext.jd.com', label: '物料市场'},
-    {href: 'https://taro-club.jd.com', label: '论坛'},
-    {href: 'https://github.com/NervJS/taro', label: 'GitHub'}
+    { doc: 'README', label: '文档' },
+    { doc: 'components-desc', label: '组件库' },
+    { doc: 'apis/about/desc', label: 'API' },
+    { search: true },
+    { href: 'https://taro-ui.jd.com', label: 'Taro-UI' },
+    { href: 'https://taro-ext.jd.com', label: '物料市场' },
+    { href: 'https://taro-club.jd.com', label: '论坛' },
+    { href: 'https://github.com/NervJS/taro', label: 'GitHub' }
   ],
 
   algolia: {

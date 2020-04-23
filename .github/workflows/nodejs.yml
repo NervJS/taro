@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false      
       matrix:
-        node-version: [10.x, 12.x, 13.x]
+        node-version: [10.x, 12.x, 13.x, 14.x]
 
     steps:
     - uses: actions/checkout@v1
@@ -30,11 +30,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
     - run: npm install -g yarn
-    - name: npm install, build, and test
-      run: |
-        yarn
-        yarn bootstrap
-        yarn build
-        yarn test
+    - name: install
+      - run: yarn
+    - name: bootstrap
+      run: yarn run bootstrap:lerna
+    - name: build
+      run: yarn build
+    - name: test
+      run: yarn test
       env:
         CI: true
