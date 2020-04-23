@@ -34,6 +34,8 @@ jobs:
       - run: yarn
     - name: bootstrap
       run: yarn run bootstrap:lerna
+    - name: lint
+      run: yarn run lint
     - name: build
       run: yarn build
     - name: test
