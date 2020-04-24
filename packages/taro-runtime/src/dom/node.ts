@@ -129,6 +129,7 @@ export class TaroNode extends TaroEventTarget {
     }
     child.parentNode = null
     eventSource.delete(child.uid)
+    child._empty()
     return child
   }
 
@@ -160,14 +161,29 @@ export class TaroNode extends TaroEventTarget {
   }
 
   /**
+   * like jQuery's $.empty()
+   */
+  private _empty () {
+    while (this.childNodes.length > 0) {
+      const child = this.childNodes[0]
+      child.parentNode = null
+      eventSource.delete(child.uid)
+      this.childNodes.shift()
+    }
+  }
+
+  /**
    * @textContent 目前只能置空子元素
    * @TODO 等待完整 innerHTML 实现
    */
   public set textContent (text: string) {
     if (text === '') {
-      while (this.childNodes.length > 0) {
-        this.childNodes[0].remove()
-      }
+      this._empty()
+
+      this.enqueueUpdate({
+        path: `${this._path}.${Shortcuts.Childnodes}`,
+        value: () => []
+      })
     }
   }
 

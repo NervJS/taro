@@ -14,7 +14,7 @@ export interface EventHandler extends Function {
 }
 
 export class TaroEventTarget {
-  protected __handlers: Record<string, EventHandler[]> = {}
+  public __handlers: Record<string, EventHandler[]> = {}
 
   public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
     warn(type === 'regionchange', 'map 组件的 regionchange 事件非常特殊，请使用 begin/end 事件替代。详情：https://github.com/NervJS/taro/issues/5766')
