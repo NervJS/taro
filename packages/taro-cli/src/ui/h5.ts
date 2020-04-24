@@ -33,6 +33,10 @@ async function buildH5Script (buildData: IBuildData) {
   h5Config.env = projectConfig.env
   h5Config.defineConstants = projectConfig.defineConstants
   h5Config.plugins = projectConfig.plugins
+  h5Config.babel = projectConfig.babel
+  h5Config.csso = projectConfig.csso
+  h5Config.uglify = projectConfig.uglify
+  h5Config.sass = projectConfig.sass
   h5Config.designWidth = projectConfig.designWidth
   if (projectConfig.deviceRatio) {
     h5Config.deviceRatio = projectConfig.deviceRatio
