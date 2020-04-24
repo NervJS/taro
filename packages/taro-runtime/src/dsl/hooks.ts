@@ -1,10 +1,11 @@
+import type { DependencyList } from 'react'
 import { PageContext, R as React } from './react'
 import { getPageInstance, injectPageInstance } from './common'
 import { PageLifeCycle } from './instance'
 import { Current } from '../current'
 
 const taroHooks = (lifecycle: keyof PageLifeCycle) => {
-  return (fn: Function) => {
+  return (fn: Function, deps: DependencyList = []) => {
     const id = React.useContext(PageContext)
     React.useLayoutEffect(() => {
       let inst = getPageInstance(id)
@@ -24,7 +25,7 @@ const taroHooks = (lifecycle: keyof PageLifeCycle) => {
       if (first) {
         injectPageInstance(inst!, id)
       }
-    }, [])
+    }, deps)
   }
 }
 
