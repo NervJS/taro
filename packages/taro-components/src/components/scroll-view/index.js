@@ -46,7 +46,6 @@ function scrollIntoView (id) {
 function scrollVertical (top, isAnimation) {
   if (isAnimation) {
     easeOutScroll(this._scrollTop, top, pos => {
-      console.log('props.scrollY', this.container, this._scrollTop)
       if (this.container) this.container.scrollTop = pos
     })
   } else {
