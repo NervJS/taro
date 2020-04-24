@@ -1,5 +1,5 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, warn } from '@tarojs/shared'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
@@ -251,6 +251,14 @@ export function createRecursiveComponentConfig () {
         value: {
           [Shortcuts.NodeName]: 'view'
         }
+      }
+    },
+    observers: {
+      i (val: Record<string, unknown>) {
+        warn(
+          val[Shortcuts.NodeName] === '#text',
+          `请在此元素外再套一层非 Text 元素：<text>${val[Shortcuts.Text]}</text>，详情：https://github.com/NervJS/taro/issues/6054`
+        )
       }
     },
     options: {
