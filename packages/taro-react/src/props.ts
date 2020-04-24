@@ -26,11 +26,10 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
   }
 }
 
-const listeners: WeakMap<TaroElement, Record<string, Function>> = new WeakMap()
-
 function eventProxy (e: CommonEvent) {
   const el = document.getElementById(e.currentTarget.id)
-  listeners.get(el!)![e.type](e)
+  const handlers = el!.__handlers[e.type]
+  handlers[0](e)
 }
 
 function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
@@ -48,17 +47,9 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
     if (!oldValue) {
       dom.addEventListener(eventName, eventProxy, isCapture)
     }
-    let events = listeners.get(dom)
-    if (!events) {
-      listeners.set(dom, events = {})
-    }
-    events[eventName] = value
+    dom.__handlers[eventName][0] = value
   } else {
     dom.removeEventListener(eventName, eventProxy)
-    const events = listeners.get(dom)
-    if (events) {
-      delete events[eventName]
-    }
   }
 }
 
