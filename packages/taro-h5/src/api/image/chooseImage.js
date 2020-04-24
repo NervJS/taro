@@ -26,6 +26,8 @@ const chooseImage = function (options) {
     tempFilePaths: [],
     tempFiles: []
   }
+  const sourceTypeString = sourceType && sourceType.toString()
+  const acceptableSourceType = ['user', 'environment', 'camera']
 
   if (count && typeof count !== 'number') {
     res.errMsg = getParameterError({
@@ -43,8 +45,6 @@ const chooseImage = function (options) {
   let taroChooseImageId = document.getElementById(imageId)
   if (!taroChooseImageId) {
     let obj = document.createElement('input')
-    const sourceTypeString = sourceType && sourceType.toString()
-    const acceptableSourceType = ['user', 'environment', 'camera']
     obj.setAttribute('type', 'file')
     obj.setAttribute('id', imageId)
     if (count > 1) {
@@ -57,6 +57,12 @@ const chooseImage = function (options) {
     obj.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
     document.body.appendChild(obj)
     taroChooseImageId = document.getElementById(imageId)
+  } else {
+    if (acceptableSourceType.indexOf(sourceTypeString) > -1) {
+      taroChooseImageId.setAttribute('capture', sourceTypeString)
+    } else {
+      taroChooseImageId.removeAttribute('capture')
+    }
   }
   let taroChooseImageCallback
   const taroChooseImagePromise = new Promise(resolve => {
@@ -67,7 +73,7 @@ const chooseImage = function (options) {
   taroChooseImageId.dispatchEvent(TaroMouseEvents)
   taroChooseImageId.onchange = function (e) {
     let arr = [...e.target.files]
-	  arr=arr.splice(0,count)
+    arr = arr.splice(0, count)
     arr && arr.forEach(item => {
       let blob = new Blob([item], {
         type: item.type
