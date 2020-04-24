@@ -54,6 +54,12 @@ const variesConfig = [{
   output: {
     file: 'dist/index.cjs.js'
   }
+}, {
+  input: 'src/index.js',
+  output: {
+    format: 'es',
+    file: 'dist/index.mjs.js'
+  }
 }]
 
 export default variesConfig.map(v => {

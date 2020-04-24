@@ -487,8 +487,11 @@ export const getModule = (appPath: string, {
   }
   rule.script = {
     test: REG_SCRIPTS,
+    exclude: [filename => /node_modules/.test(filename)],
     use: {
-      babelLoader: getBabelLoader([{}])
+      babelLoader: getBabelLoader([{
+        compact: false
+      }])
     }
   }
   rule.media = {
