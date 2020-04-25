@@ -201,7 +201,7 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
   }
 
   getSnapshotBeforeUpdate (prevProps: ScrollViewProps<any>, prevState: ScrollViewState) {
-    return prevState.snapScrollTop !== this.state.snapScrollTop || prevState.snapScrollLeft !== this.state.snapScrollLeft
+    return this._scrollMetrics.offsetY !== this.state.snapScrollTop || this._scrollMetrics.offsetX !== this.state.snapScrollLeft
   }
 
   componentDidUpdate (prevProps: ScrollViewProps<any>, prevState: ScrollViewState, snapshot: boolean) {
