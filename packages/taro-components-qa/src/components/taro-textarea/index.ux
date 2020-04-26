@@ -1,6 +1,6 @@
 <template>
   <textarea
-    class="{{classname}}"
+    class="{{class}}"
     style="{{style}}"
     id="{{id}}"
     disabled="{{disabled}}"
@@ -16,7 +16,7 @@
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''
@@ -54,7 +54,7 @@
     },
 
     data: () => ({
-
+   
     }),
 
     onInit () {
