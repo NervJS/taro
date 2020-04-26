@@ -962,7 +962,7 @@ class Compiler {
       return t.arrowFunctionExpression(
         [t.identifier('ref')],
         t.blockStatement([
-          toAst(`this['__taroref_${componentId}'] = ref`) as t.Statement
+          toAst(`this[\`__taroref_\${${componentId}}\`] = ref`) as t.Statement
         ])
       )
     }
