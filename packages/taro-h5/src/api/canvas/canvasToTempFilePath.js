@@ -31,7 +31,7 @@ const canvasToTempFilePath = ({ canvasId, fileType, quality, success, fail, comp
 
   try {
     /** @type {HTMLCanvasElement} */
-    const canvas = canvasDom.querySelector(`[canvasId=${canvasId}]`)
+    const canvas = canvasDom.querySelector(`[canvasid=${canvasId}]`)
 
     // /** @type {CanvasRenderingContext2D} */
     const dataURL = canvas.toDataURL(`image/${fileType || 'png'}`, quality)
