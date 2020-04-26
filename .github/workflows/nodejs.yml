@@ -37,9 +37,7 @@ jobs:
           ${{ runner.os }}-yarn-
     - run: npm install -g yarn
     - name: install
-      run: yarn
-    - name: bootstrap
-      run: yarn run bootstrap:lerna
+      run: yarn install
     - name: lint
       run: yarn run lint
     - name: build
