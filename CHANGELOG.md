@@ -1,5 +1,30 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.1.5...v) (2020-04-16)
+# [](https://github.com/NervJS/taro/compare/v2.1.6...v) (2020-04-26)
+
+
+
+<a name="2.1.6"></a>
+## [2.1.6](https://github.com/NervJS/taro/compare/v2.1.5...v2.1.6) (2020-04-26)
+
+
+### Bug Fixes
+
+* **cli:** 修复 ui 库编译中 h5 script 模式编译报错的问题 ([#6089](https://github.com/NervJS/taro/issues/6089)) ([9e2b894](https://github.com/NervJS/taro/commit/9e2b894))
+* **quickapp:** 快应用图片组件mode不生效与font-family能编译，支持iconfont ([#6063](https://github.com/NervJS/taro/issues/6063)) ([5c2606a](https://github.com/NervJS/taro/commit/5c2606a))
+* **type:**  修复 ScrollView 监听函数类型 ([#6075](https://github.com/NervJS/taro/issues/6075)) ([3b60d1e](https://github.com/NervJS/taro/commit/3b60d1e))
+* remove console.log, fix [#6081](https://github.com/NervJS/taro/issues/6081) ([#6085](https://github.com/NervJS/taro/issues/6085)) ([dcafea1](https://github.com/NervJS/taro/commit/dcafea1))
+* **components:** swiper circular limit ([8ffc5ac](https://github.com/NervJS/taro/commit/8ffc5ac))
+* **components:** swiper slideTo useless in no circular mode ([1f6d09f](https://github.com/NervJS/taro/commit/1f6d09f))
+* value is never read ([c643bcc](https://github.com/NervJS/taro/commit/c643bcc))
+* **docs:** invalid link ([1fee95c](https://github.com/NervJS/taro/commit/1fee95c))
+* autoplay 非中断条件下，自动重启 ([43bc091](https://github.com/NervJS/taro/commit/43bc091))
+* 修复 Animation.export() 方法的类型, close [#6025](https://github.com/NervJS/taro/issues/6025) ([973d1cd](https://github.com/NervJS/taro/commit/973d1cd))
+* **rn-runner:**  app 配置中找不到 props ([3ea2ff6](https://github.com/NervJS/taro/commit/3ea2ff6))
+
+
+### Features
+
+* **rn_runner:** 将app.js 里的 TaroRouter.initRouter 移入构造函数，方便通过 props 配置路由 ([84aaf97](https://github.com/NervJS/taro/commit/84aaf97))
 
 
 
