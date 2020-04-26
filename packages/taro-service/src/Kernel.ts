@@ -32,16 +32,16 @@ import Config from './Config'
 
 interface IKernelOptions {
   appPath: string
-  presets: PluginItem[]
-  plugins: PluginItem[]
+  presets?: PluginItem[]
+  plugins?: PluginItem[]
 }
 
 export default class Kernel extends EventEmitter {
   appPath: string
   isWatch: boolean
   isProduction: boolean
-  optsPresets: PluginItem[]
-  optsPlugins: PluginItem[]
+  optsPresets: PluginItem[] | void
+  optsPlugins: PluginItem[] | void
   plugins: Map<string, IPlugin>
   paths: IPaths
   extraPlugins: IPlugin[]
@@ -285,7 +285,7 @@ export default class Kernel extends EventEmitter {
     if (!this.commands.has(name)) {
       throw new Error(`${name} 命令不存在`)
     }
-    if (opts.platform) {
+    if (opts && opts.platform) {
       opts.config = this.runWithPlatform(opts.platform)
     }
     await this.applyPlugins({
