@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -32,9 +32,9 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
-    "@tarojs/runner-utils": "2.1.5",
-    "@tarojs/taro": "2.1.5",
-    "@tarojs/transformer-wx": "2.1.5",
+    "@tarojs/runner-utils": "2.1.6",
+    "@tarojs/taro": "2.1.6",
+    "@tarojs/transformer-wx": "2.1.6",
     "babel-core": "^6.26.3",
     "babel-generator": "^6.26.1",
     "babel-loader": "^8.0.6",
@@ -61,7 +61,7 @@
     "ora": "^3.4.0",
     "postcss-import": "12.0.1",
     "postcss-loader": "^3.0.0",
-    "postcss-pxtransform": "2.1.5",
+    "postcss-pxtransform": "2.1.6",
     "postcss-url": "^8.0.0",
     "request": "^2.88.0",
     "resolve": "^2.0.0-next.0",
