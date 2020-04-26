@@ -1,9 +1,0 @@
-import React from 'react'
-
-class A extends Component {
-  render () {
-    return React.createElement('div')
-  }
-}
-
-export default A

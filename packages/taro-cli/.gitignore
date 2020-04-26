@@ -1,3 +1,0 @@
-templates/*
-!templates/default
-templates/default/.*
