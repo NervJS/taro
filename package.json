@@ -21,6 +21,29 @@
     "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
     "test": "lerna run --scope babel-preset-taro  --scope @tarojs/components --scope @tarojs/loader --scope @tarojs/react  test"
   },
+  "packages": [
+    "packages/babel-plugin-transform-taroapi",
+    "packages/babel-preset-taro",
+    "packages/eslint-config-taro",
+    "packages/eslint-plugin-taro",
+    "packages/postcss-plugin-constparse",
+    "packages/postcss-pxtransform",
+    "packages/shared",
+    "packages/taro",
+    "packages/taro-api",
+    "packages/taro-cli",
+    "packages/taro-components",
+    "packages/taro-h5",
+    "packages/taro-loader",
+    "packages/taro-mini-runner",
+    "packages/taro-react",
+    "packages/taro-router",
+    "packages/taro-runner-utils",
+    "packages/taro-runtime",
+    "packages/taro-webpack-runner",
+    "packages/taro-with-weapp",
+    "packages/taroize"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
