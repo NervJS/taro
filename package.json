@@ -2,7 +2,7 @@
   "name": "taro-docs",
   "private": true,
   "scripts": {
-    "start": "docusaurus start",
+    "start": "cd website && docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy"

@@ -20,8 +20,8 @@
       "static-reference",
       {
         "label": "多端开发",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "envs",
           "envs-debug",
           "wxcloud",
@@ -115,8 +115,8 @@
     "设备": [
       {
         "label": "加速度计",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/accelerometer/startAccelerometer",
           "apis/device/accelerometer/stopAccelerometer",
           "apis/device/accelerometer/onAccelerometerChange"
@@ -124,8 +124,8 @@
       },
       {
         "label": "设备方向",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/deviceMotion/startDeviceMotionListening",
           "apis/device/deviceMotion/stopDeviceMotionListening",
           "apis/device/deviceMotion/onDeviceMotionChange"
@@ -133,8 +133,8 @@
       },
       {
         "label": "蓝牙",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/bluetooth/closeBluetoothAdapter",
           "apis/device/bluetooth/getBluetoothAdapterState",
           "apis/device/bluetooth/getBluetoothDevices",
@@ -148,8 +148,8 @@
       },
       {
         "label": "低功耗蓝牙",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/ble/closeBLEConnection",
           "apis/device/ble/createBLEConnection",
           "apis/device/ble/getBLEDeviceCharacteristics",
@@ -163,8 +163,8 @@
       },
       {
         "label": "亮度",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/brightness/getScreenBrightness",
           "apis/device/brightness/setKeepScreenOn",
           "apis/device/brightness/setScreenBrightness"
@@ -172,16 +172,16 @@
       },
       {
         "label": "剪贴板",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/clipboard/getClipboardData",
           "apis/device/clipboard/setClipboardData"
         ]
       },
       {
         "label": "罗盘",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/compass/onCompassChange",
           "apis/device/compass/startCompass",
           "apis/device/compass/stopCompass"
@@ -189,15 +189,15 @@
       },
       {
         "label": "联系人",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/contacts/addPhoneContact"
         ]
       },
       {
         "label": "iBeacon",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/ibeacon/getBeacons",
           "apis/device/ibeacon/onBeaconServiceChange",
           "apis/device/ibeacon/onBeaconUpdate",
@@ -207,16 +207,16 @@
       },
       {
         "label": "网络",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/netstat/getNetworkType",
           "apis/device/netstat/onNetworkStatusChange"
         ]
       },
       {
         "label": "NFC",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/nfc/getHCEState",
           "apis/device/nfc/onHCEMessage",
           "apis/device/nfc/sendHCEMessage",
@@ -226,37 +226,37 @@
       },
       {
         "label": "电话",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/phone/makePhoneCall"
         ]
       },
       {
         "label": "扫码",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/scancode/scancode"
         ]
       },
       {
         "label": "屏幕",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/screenshot/onUserCaptureScreen"
         ]
       },
       {
         "label": "振动",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/vibrate/vibrateLong",
           "apis/device/vibrate/vibrateShort"
         ]
       },
       {
         "label": "系统信息",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/systeminfo/canIUse",
           "apis/device/systeminfo/getSystemInfo",
           "apis/device/systeminfo/getSystemInfoSync"
@@ -264,8 +264,8 @@
       },
       {
         "label": "Wi-Fi",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/device/wifi/connectWifi",
           "apis/device/wifi/getConnectedWifi",
           "apis/device/wifi/getWifiList",
@@ -292,15 +292,15 @@
     "界面": [
       {
         "label": "动画",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/animation/createAnimation"
         ]
       },
       {
         "label": "画布",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/canvas/createCanvasContext",
           "apis/interface/canvas/canvasGetImageData",
           "apis/interface/canvas/canvasPutImageData",
@@ -311,8 +311,8 @@
       },
       {
         "label": "交互",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/interactives/showToast",
           "apis/interface/interactives/showLoading",
           "apis/interface/interactives/hideToast",
@@ -323,8 +323,8 @@
       },
       {
         "label": "导航",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/navigation/navigateTo",
           "apis/interface/navigation/redirectTo",
           "apis/interface/navigation/switchTab",
@@ -335,8 +335,8 @@
       },
       {
         "label": "导航栏",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/navigationbar/setNavigationBarTitle",
           "apis/interface/navigationbar/showNavigationBarLoading",
           "apis/interface/navigationbar/hideNavigationBarLoading",
@@ -345,23 +345,23 @@
       },
       {
         "label": "滚动",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/pagescroll/pageScrollTo"
         ]
       },
       {
         "label": "下拉刷新",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/pulldownrefresh/startPullDownRefresh",
           "apis/interface/pulldownrefresh/stopPullDownRefresh"
         ]
       },
       {
         "label": "tabbar",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/tabbar/setTabBarBadge",
           "apis/interface/tabbar/removeTabBarBadge",
           "apis/interface/tabbar/showTabBarRedDot",
@@ -374,23 +374,23 @@
       },
       {
         "label": "顶栏",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/topbar/setTopBarText"
         ]
       },
       {
         "label": "窗口",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/window/onWindowResize",
           "apis/interface/window/offWindowResize"
         ]
       },
       {
         "label": "wxml",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/interface/wxml/createSelectorQuery",
           "apis/interface/wxml/selectorQuery_in",
           "apis/interface/wxml/selectorQuery_select",
@@ -411,8 +411,8 @@
     "媒体": [
       {
         "label": "音频",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/multimedia/audio/playVoice",
           "apis/multimedia/audio/pauseVoice",
           "apis/multimedia/audio/stopVoice",
@@ -422,8 +422,8 @@
       },
       {
         "label": "背景音频",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/multimedia/backgroundaudio/getBackgroundAudioManager",
           "apis/multimedia/backgroundaudio/getBackgroundAudioPlayerState",
           "apis/multimedia/backgroundaudio/playBackgroundAudio",
@@ -437,15 +437,15 @@
       },
       {
         "label": "相机",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/multimedia/camera/createCameraContext"
         ]
       },
       {
         "label": "图片",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/multimedia/images/chooseImage",
           "apis/multimedia/images/previewImage",
           "apis/multimedia/images/getImageInfo",
@@ -454,23 +454,23 @@
       },
       {
         "label": "地图",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/multimedia/map/createMapContext"
         ]
       },
       {
         "label": "录音",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/multimedia/recording/startRecord",
           "apis/multimedia/recording/stopRecord"
         ]
       },
       {
         "label": "视频",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/multimedia/video/chooseVideo",
           "apis/multimedia/video/saveVideoToPhotosAlbum",
           "apis/multimedia/video/createVideoContext"
@@ -480,24 +480,24 @@
     "网络": [
       {
         "label": "文件上传/下载",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/network/fileTransfer/uploadFile",
           "apis/network/fileTransfer/downloadFile"
         ]
       },
       {
         "label": "请求",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/network/request/request",
           "apis/network/request/addInterceptor"
         ]
       },
       {
         "label": "WebSocket",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/network/socket/connectSocket",
           "apis/network/socket/sendSocketMessage",
           "apis/network/socket/closeSocket",
@@ -512,22 +512,22 @@
     "开放接口": [
       {
         "label": "地址",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/address/chooseAddress"
         ]
       },
       {
         "label": "认证",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/auth/authorize"
         ]
       },
       {
         "label": "生物认证",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/bioauth/checkIsSoterEnrolledInDevice",
           "apis/open-api/bioauth/checkIsSupportSoterAuthentication",
           "apis/open-api/bioauth/startSoterAuthentication"
@@ -535,63 +535,63 @@
       },
       {
         "label": "卡券",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/card/addCard",
           "apis/open-api/card/openCard"
         ]
       },
       {
         "label": "发票",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/invoice/chooseInvoice",
           "apis/open-api/invoice/chooseInvoiceTitle"
         ]
       },
       {
         "label": "登录",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/login/login",
           "apis/open-api/login/checkSession"
         ]
       },
       {
         "label": "支付",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/payment/faceVerifyForPay",
           "apis/open-api/payment/requestPayment"
         ]
       },
       {
         "label": "跳转小程序",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/redirect/navigateBackMiniProgram",
           "apis/open-api/redirect/navigateToMiniProgram"
         ]
       },
       {
         "label": "设置",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/settings/getSetting",
           "apis/open-api/settings/openSetting"
         ]
       },
       {
         "label": "用户信息",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/userinfo/getUserInfo"
         ]
       },
       {
         "label": "微信运动",
-        "type": "subcategory",
-        "ids": [
+        "type": "category",
+        "items": [
           "apis/open-api/werun/getWeRunData"
         ]
       }
