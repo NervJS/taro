@@ -15,9 +15,13 @@ export const Status = {
   isSFC: false
 }
 
+const renderFnReg = /^render[A-Z]/
+
 export const functionalComponent: () => {
   visitor: Visitor
 } = () => {
+  let propsIdentifier: t.Identifier | null
+  let propsList: string[] = []
   return {
     visitor: {
       JSXElement (path) {
@@ -72,6 +76,8 @@ export const functionalComponent: () => {
 
         const functionDecl = path.findParent(p => p.isFunctionDeclaration())
         if (functionDecl && functionDecl.isFunctionDeclaration()) {
+          propsIdentifier = null
+          propsList = []
           const hasClassDecl = path.findParent(p => p.isClassDeclaration() || p.isClassExpression())
           if (hasClassDecl) {
             // @TODO: 加上链接
@@ -89,31 +95,34 @@ export const functionalComponent: () => {
           } else if (params.length === 1) {
             arg = params[0]
           }
-          const cloneBody = cloneDeep(body)
           if (!initialIsCapital(id.name)) {
             throw codeFrameError(id, `普通函数式组件命名规则请遵守帕斯卡命名法（Pascal Case), 如果是在函数内声明闭包组件，则需要使用函数表达式的写法。
 形如:
 const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
             `)
           }
+          const insertDecls: t.VariableDeclaration[] = []
           if (arg) {
             if (t.isIdentifier(arg)) {
-              cloneBody.body.unshift(buildConstVariableDeclaration(arg.name, t.memberExpression(t.thisExpression(), t.identifier('props'))))
+              insertDecls.push(buildConstVariableDeclaration(arg.name, t.memberExpression(t.thisExpression(), t.identifier('props'))))
+              propsIdentifier = arg
             } else if (t.isObjectPattern(arg)) {
               let hasChildren = false
               for (const [index, p] of arg.properties.entries()) {
                 if (t.isObjectProperty(p) && t.isIdentifier(p.key, { name: 'children' })) {
                   hasChildren = true
                   arg.properties.splice(index, 1)
+                } else if (t.isObjectProperty(p) && t.isIdentifier(p.key)) {
+                  propsList.push(p.key.name)
                 }
               }
-              cloneBody.body.unshift(
+              insertDecls.push(
                 t.variableDeclaration('const', [
                   t.variableDeclarator(arg, t.memberExpression(t.thisExpression(), t.identifier('props')))
                 ])
               )
               if (hasChildren) {
-                cloneBody.body.unshift(
+                insertDecls.push(
                   t.variableDeclaration('const', [
                     t.variableDeclarator(t.objectPattern([
                       t.objectProperty(t.identifier('children'), t.identifier('children')) as any
@@ -128,6 +137,36 @@ const ${id.name} = ${generate(t.arrowFunctionExpression(params, body)).code}
             }
           }
           Status.isSFC = true
+          path.traverse({
+            JSXExpressionContainer (path) {
+              const expr = path.get('expression').node
+              if (t.isMemberExpression(expr)) {
+                const { object, property } = expr
+                if (
+                  t.isIdentifier(object) &&
+                  t.isIdentifier(property) &&
+                  renderFnReg.test(property.name) &&
+                  propsIdentifier &&
+                  object.name === propsIdentifier.name
+                ) {
+                  path.set('expression', t.memberExpression(
+                    t.memberExpression(t.thisExpression(), t.identifier('props')),
+                    t.identifier(property.name)
+                  ))
+                }
+              } else if (t.isIdentifier(expr)) {
+                if (!renderFnReg.test(expr.name)) return
+                const prop = propsList.find(prop => prop === expr.name)
+                if (!prop) return
+                path.set('expression', t.memberExpression(
+                  t.memberExpression(t.thisExpression(), t.identifier('props')),
+                  t.identifier(expr.name)
+                ))
+              }
+            }
+          })
+          const cloneBody = cloneDeep(body)
+          insertDecls.forEach(decl => cloneBody.body.unshift(decl))
           const classDecl = t.classDeclaration(id, t.memberExpression(t.identifier('Taro'), t.identifier('Component')), t.classBody([
             t.classMethod('method', t.identifier('render'), [], cloneBody)
           ]), [])
