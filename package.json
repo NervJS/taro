@@ -16,7 +16,7 @@
     "build": "lerna run build",
     "build:docs": "node ./build/docs.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "release:lerna": "lerna publish --force-publish=* --exact --skip-temp-tag",
+    "versionup": "lerna version --exact --force-publish --no-git-tag-version",
     "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
     "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
     "test": "lerna run --scope babel-preset-taro  --scope @tarojs/components --scope @tarojs/loader --scope @tarojs/react  test"
