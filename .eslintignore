@@ -11,3 +11,5 @@ packages/taro-transformer-wx/t.js
 packages/taro-cli/src/jdreact/template/*.js
 packages/taro-cli/templates
 /packages/taro-components/loader
+packages/taro-webpack-runner/__tests__/__snapshots__
+packages/taro-webpack-runner/__tests__/fixtures

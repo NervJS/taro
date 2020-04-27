@@ -14,7 +14,7 @@ import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper
 import { BuildConfig } from './util/types'
 import { makeConfig } from './util/chain'
 
-const customizeChain = (chain, customizeFunc: Function) => {
+export const customizeChain = (chain, customizeFunc: Function) => {
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack)
   }

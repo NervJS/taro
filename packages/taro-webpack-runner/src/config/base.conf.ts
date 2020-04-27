@@ -10,8 +10,8 @@ export default (appPath: string, config: Partial<BuildConfig>) => {
 
   if (config.framework === 'nerv') {
     alias = {
-      react$: path.resolve(appPath, 'node_modules', 'nervjs'),
-      'react-dom$': path.resolve(appPath, 'node_modules', 'nervjs')
+      react$: require.resolve('nervjs', { paths: [appPath] }),
+      'react-dom$': require.resolve('nervjs', { paths: [appPath] })
     }
   }
 
