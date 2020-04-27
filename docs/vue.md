@@ -249,7 +249,7 @@ Object 参数说明：
 | - | - | - |
 | from | String | 转发事件来源。<br />button：页面内转发按钮；<br />menu：右上角转发菜单 |
 | target | Object | 如果 `from` 值是 `button`，则 `target` 是触发这次转发事件的 `button`，否则为 `undefined` |
-| webViewUrl | String | 页面中包含 <WebView> 组件时，返回当前 <WebView> 的url |
+| webViewUrl | String | 页面中包含 WebView 组件时，返回当前 WebView 的url |
 
 此事件需要 return 一个 Object，用于自定义转发内容，返回内容如下：
 
