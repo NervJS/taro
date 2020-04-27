@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "0.0.0-experimental.0",
+  "version": "0.0.0-experimental.1",
   "description": "Taro framework",
   "main": "index.js",
   "main:h5": "h5.js",
@@ -31,10 +31,10 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "0.0.0-experimental.0",
-    "@tarojs/taro-h5": "0.0.0-experimental.0"
+    "@tarojs/api": "0.0.0-experimental.1",
+    "@tarojs/taro-h5": "0.0.0-experimental.1"
   },
   "devDependencies": {
-    "@tarojs/runtime": "0.0.0-experimental.0"
+    "@tarojs/runtime": "0.0.0-experimental.1"
   }
 }
