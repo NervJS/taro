@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "0.0.0-experimental.0",
+  "version": "0.0.0-experimental.1",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -40,7 +40,7 @@
   "license": "MIT",
   "dependencies": {
     "@stencil/core": "^1.8.1",
-    "@tarojs/taro": "0.0.0-experimental.0",
+    "@tarojs/taro": "0.0.0-experimental.1",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
