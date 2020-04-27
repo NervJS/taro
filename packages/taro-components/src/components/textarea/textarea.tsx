@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element } from '@stencil/core'
-import { TaroEvent } from '@tarojs/components'
+import { TaroEvent } from '../../../types'
 
 function fixControlledValue (value?: string) {
   return value ?? ''

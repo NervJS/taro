@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, Prop, h, ComponentInterface, Event, EventEmitter } from '@stencil/core'
-import { TaroEvent } from '@tarojs/components'
+import { TaroEvent } from '../../../types'
 
 @Component({
   tag: 'taro-audio-core',
