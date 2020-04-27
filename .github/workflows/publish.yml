@@ -37,23 +37,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: install
-        if: contains( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' )
         run: yarn
       - name: bootstrap
-        if: contains( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' )
         run: yarn run bootstrap:lerna
       - name: build
-        if: contains( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' )
         run: yarn build
       # Define ${CURRENT_VERSION}
       - name: Set Current Version
-        if: contains( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' )
         shell: bash -ex {0}
         run: |
           CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
           echo "::set-env name=CURRENT_VERSION::${CURRENT_VERSION}"
       - name: Tag Check
-        if: contains( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' )
         id: tag_check
         shell: bash -ex {0}
         run: |
@@ -68,7 +68,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Git Tag
-        if: contains( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
         uses: azu/action-package-version-to-git-tag@v1
         with:
           version: ${{ env.CURRENT_VERSION }}
@@ -77,14 +77,14 @@ jobs:
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
       - name: Publish
-        if: steps.tag_check.outputs.exists_tag == 'false' && contains( env.commitmsg , 'chore(release):' )
+        if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' )
         run: |
           yarn lerna publish from-package --dist-tag experimental --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: actions/github-script@0.8.0
-        if: contains( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' )
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
