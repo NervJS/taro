@@ -16,9 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name : GITHUB CONTEXT
-        env: 
-          GITHUB_CONTEXT: ${{ toJson(github) }} 
-        run: echo "$GITHUB_CONTEXT" 
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Get commit message
         run: |
            echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
@@ -37,23 +37,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: install
-        if: startsWith( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
         run: npm install
       - name: bootstrap
-        if: startsWith( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
         run: npm run bootstrap:lerna
       - name: build
-        if: startsWith( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
         run: npm run build
       # Define ${CURRENT_VERSION}
       - name: Set Current Version
-        if: startsWith( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
         shell: bash -ex {0}
         run: |
           CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
           echo "::set-env name=CURRENT_VERSION::${CURRENT_VERSION}"
       - name: Tag Check
-        if: startsWith( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
         id: tag_check
         shell: bash -ex {0}
         run: |
@@ -68,7 +68,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Git Tag
-        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false' && !contains( env.commitmsg , '[skip ci]' )
         uses: azu/action-package-version-to-git-tag@v1
         with:
           version: ${{ env.CURRENT_VERSION }}
@@ -78,7 +78,7 @@ jobs:
           git_tag_prefix: "v"
       - name: Create Release
         id: create_release
-        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false' && github.event.pull_request.merged == true
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false' && github.event.pull_request.merged == true && !contains( env.commitmsg , '[skip ci]' )
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -91,19 +91,19 @@ jobs:
           draft: false
           prerelease: false
       - name: Drop current changes
-        if: startsWith( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
         run: |
           git add .
           git stash
       - name: Publish
-        if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' )
+        if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
         run: |
           npm run release:only
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: actions/github-script@0.8.0
-        if: startsWith( env.commitmsg , 'chore(release):' )
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
