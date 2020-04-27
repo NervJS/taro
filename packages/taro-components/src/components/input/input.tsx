@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element } from '@stencil/core'
-import { EventHandler, TaroEvent } from '@tarojs/components'
+import { EventHandler, TaroEvent } from '../../../types'
 
 function getTrueType (type: string, confirmType: string, password: boolean) {
   if (!type) {
