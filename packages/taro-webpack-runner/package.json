@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack-runner",
-  "version": "3.0.0-beta.5",
+  "version": "0.0.0-experimental.0",
   "description": "webpack runner for taro",
   "main": "index.js",
   "scripts": {
@@ -28,10 +28,10 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@babel/core": "7.6.4",
-    "@tarojs/runner-utils": "3.0.0-beta.5",
-    "@tarojs/runtime": "3.0.0-beta.5",
-    "@tarojs/shared": "3.0.0-beta.5",
-    "@tarojs/taro-loader": "3.0.0-beta.5",
+    "@tarojs/runner-utils": "0.0.0-experimental.0",
+    "@tarojs/runtime": "0.0.0-experimental.0",
+    "@tarojs/shared": "0.0.0-experimental.0",
+    "@tarojs/taro-loader": "0.0.0-experimental.0",
     "autoprefixer": "9.7.4",
     "babel-loader": "8.0.6",
     "chalk": "3.0.0",
@@ -50,8 +50,8 @@
     "open": "7.0.2",
     "ora": "4.0.3",
     "postcss-loader": "3.0.0",
-    "postcss-plugin-constparse": "3.0.0-beta.5",
-    "postcss-pxtransform": "3.0.0-beta.5",
+    "postcss-plugin-constparse": "0.0.0-experimental.0",
+    "postcss-pxtransform": "0.0.0-experimental.0",
     "resolve": "1.15.1",
     "resolve-url-loader": "3.1.1",
     "sass": "^1.25.0",
@@ -69,7 +69,7 @@
     "webpack-format-messages": "2.0.3"
   },
   "devDependencies": {
-    "@tarojs/taro": "3.0.0-beta.5",
+    "@tarojs/taro": "0.0.0-experimental.0",
     "@types/autoprefixer": "9.7.0",
     "@types/detect-port": "1.1.0",
     "@types/lodash": "4.14.149",
