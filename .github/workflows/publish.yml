@@ -76,6 +76,11 @@ jobs:
           github_repo: ${{ github.repository }}
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
+      - name: Drop current changes
+        if: startsWith( env.commitmsg , 'chore(release):' )
+        run: |
+          git add .
+          git stash
       - name: Publish
         if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' )
         run: |
