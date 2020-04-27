@@ -27,7 +27,7 @@ class Cat extends Taro.Component {
   render() {
     const { mouse } = this.props;
     return (
-      <Image src={catImage} style={{ position: 'absolute', left: mouse.x, top: mouse.y }} />
+      <Image src={catImage} style={{ position: 'absolute', left: `${mouse.x}px`, top: `${mouse.y}px` }} />
     );
   }
 }
