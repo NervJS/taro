@@ -152,6 +152,8 @@ export default class MainPlugin {
                 name: pageItem,
                 path: pagePath
               })
+              // eslint-disable-next-line no-unused-expressions
+              this.appConfig.pages?.push(pageItem)
             }
           })
         }
