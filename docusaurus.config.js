@@ -73,8 +73,6 @@ const siteConfig = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          // docs folder path relative to website dir.
-          path: '../docs',
           // sidebars file relative to website dir.
           sidebarPath: require.resolve('./sidebars.js'),
         },
