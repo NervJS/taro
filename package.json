@@ -10,7 +10,10 @@
   "dependencies": {
     "@docusaurus/core": "^2.0.0-alpha.51",
     "@docusaurus/preset-classic": "^2.0.0-alpha.51",
+    "@docusaurus/theme-classic": "^2.0.0-alpha.53",
+    "@docusaurus/theme-live-codeblock": "^2.0.0-alpha.53",
     "classnames": "^2.2.6",
+    "prism-react-renderer": "^1.1.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },

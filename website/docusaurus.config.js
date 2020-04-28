@@ -21,11 +21,53 @@ const users = [
 ]
 
 const siteConfig = {
-  baseUrl: '/taro/next/' /* base url for your project */,
+  baseUrl: '/' /* base url for your project */,
   favicon: './img/favicon.ico',
   tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝/QQ小程序、快应用、H5、React Native 等平台的应用。',
   title: 'Taro' /* title for your website */,
   url: 'https://taro.jd.com' /* your website url */,
+  themes: ['@docusaurus/theme-live-codeblock'],
+  themeConfig: {
+    disableDarkMode: true,
+    algolia: {
+      apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+      indexName: 'taro'
+    },
+    prism: {
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/dracula'),
+    },
+    navbar: {
+      title: 'Taro',
+      logo: {
+        alt: 'Taro logo',
+        src: 'img/logo-taro.png',
+      },
+      links: [
+        {
+          to: 'docs/README',
+          activeBasePath: 'docs',
+          label: '文档',
+          position: 'left',
+        },
+        {
+          to: 'docs/components-desc',
+          activeBasePath: 'docs/components',
+          label: '组件库',
+          position: 'left',
+        },
+        {
+          to: 'docs/apis/about/desc',
+          activeBasePath: 'docs/api',
+          label: 'API',
+          position: 'left',
+        },
+        {href: 'https://taro-ui.jd.com', label: 'Taro-UI', position: 'right'},
+        {href: 'https://taro-ext.jd.com', label: '物料市场', position: 'right'},
+        {href: 'https://taro-club.jd.com', label: '论坛', position: 'right'}
+      ],
+    },
+  },
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -34,39 +76,13 @@ const siteConfig = {
           // docs folder path relative to website dir.
           path: '../docs',
           // sidebars file relative to website dir.
-          sidebarPath: require.resolve('./sidebars.json'),
+          sidebarPath: require.resolve('./sidebars.js'),
         },
         editUrl: 'https://github.com/nervjs/taro/edit/master/docs/',
-        title: 'Taro' /* title for your website */,
-        tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝/QQ小程序、快应用、H5、React Native 等平台的应用。',
-        url: 'https://taro.jd.com' /* your website url */,
-        // For github.io type URLs, you would set the url and baseUrl like:
-        //   url: 'https://facebook.github.io',
-        //   baseUrl: '/test-site/',
-      
-        // Used for publishing and more
-        projectName: 'taro',
-        organizationName: 'NervJS',
         // For top-level user or org sites, the organization is still the same.
         // e.g., for the https://JoelMarcey.github.io site, it would be set like...
         //   organizationName: 'JoelMarcey'
       
-        // For no header links in the top nav bar -> headerLinks: [],
-        headerLinks: [
-          { doc: 'README', label: '文档' },
-          { doc: 'components-desc', label: '组件库' },
-          { doc: 'apis/about/desc', label: 'API' },
-          { search: true },
-          { href: 'https://taro-ui.jd.com', label: 'Taro-UI' },
-          { href: 'https://taro-ext.jd.com', label: '物料市场' },
-          { href: 'https://taro-club.jd.com', label: '论坛' },
-          { href: 'https://github.com/NervJS/taro', label: 'GitHub' }
-        ],
-      
-        algolia: {
-          apiKey: '57b9948bff42bc0dbc6c219556fbae35',
-          indexName: 'taro'
-        },
       
         // If you have users set above, you add it here:
         users,
@@ -97,12 +113,8 @@ const siteConfig = {
         // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
         copyright: 'Copyright © ' + new Date().getFullYear() + ' ltp11',
       
-        highlight: {
-          // Highlight.js theme to use for syntax highlighting in code blocks
-          // theme: 'tomorrow-night',
-          defaultLang: 'javascript',
-          theme: 'vs',
-          themeUrl: 'https://storage.jd.com/taro-resource/vs.min.css'
+        theme: {
+          customCss: require.resolve('./static/css/custom.css'),
         },
       
         usePrism: true,

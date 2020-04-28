@@ -27,10 +27,20 @@
   flex: 1;
 }
 
-.fixedHeaderContainer {
+.navbar {
   background-image: linear-gradient(180deg, #0000c2, #0000c2);
   height: 74px;
-  padding: 0;
+  /* color: white; */
+  /* padding: 0; */
+}
+
+.navbar .navbar__link {
+  color: whitesmoke;
+}
+
+.navbar .navbar__title {
+  color: whitesmoke;
+  font-size: 1.25em;
 }
 
 .headerWrapper, header {
