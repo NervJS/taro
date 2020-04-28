@@ -4,18 +4,19 @@
 
 ### Bug Fixes
 
-* **cli:** 修复 ui 库编译中 h5 script 模式编译报错的问题 ([#6089](https://github.com/NervJS/taro/issues/6089)) ([9e2b894](https://github.com/NervJS/taro/commit/9e2b894))
-* **components:** swiper circular limit ([8ffc5ac](https://github.com/NervJS/taro/commit/8ffc5ac))
-* **components:** swiper slideTo useless in no circular mode ([1f6d09f](https://github.com/NervJS/taro/commit/1f6d09f))
-* **docs:** invalid link ([1fee95c](https://github.com/NervJS/taro/commit/1fee95c))
+* 修正自定义命令的 runOpts 参数 && --help 输出信息 ([5e78fed](https://github.com/NervJS/taro/commit/5e78fed))
 * **helper:** 修正 createBabelRegister 引入 [@babel](https://github.com/babel)/runtime 问题 ([3861876](https://github.com/NervJS/taro/commit/3861876))
 * **helper:** 补充 babel-plugin-transform-react-jsx ([b4e8825](https://github.com/NervJS/taro/commit/b4e8825))
-* **mini-runner:** 修复快应用动态class不支持三目运算符问题 ([#5556](https://github.com/NervJS/taro/issues/5556)) ([#6118](https://github.com/NervJS/taro/issues/6118)) ([506818d](https://github.com/NervJS/taro/commit/506818d))
 * **service:** 修复从 npm 包中引入插件的问题 ([b1c9b65](https://github.com/NervJS/taro/commit/b1c9b65))
 * 修复编译问题 ([5fe92c6](https://github.com/NervJS/taro/commit/5fe92c6))
+* **cli:** 修复 ui 库编译中 h5 script 模式编译报错的问题 ([#6089](https://github.com/NervJS/taro/issues/6089)) ([9e2b894](https://github.com/NervJS/taro/commit/9e2b894))
+* **mini-runner:** 修复快应用动态class不支持三目运算符问题 ([#5556](https://github.com/NervJS/taro/issues/5556)) ([#6118](https://github.com/NervJS/taro/issues/6118)) ([506818d](https://github.com/NervJS/taro/commit/506818d))
 * **taro:** 修复合并引发的问题 ([e6da961](https://github.com/NervJS/taro/commit/e6da961))
 * 抽离 getModuleDefaultExport 到 helper 中 ([3abff66](https://github.com/NervJS/taro/commit/3abff66))
 * **components:** radio-group onchange error ([dadf940](https://github.com/NervJS/taro/commit/dadf940))
+* **components:** swiper circular limit ([8ffc5ac](https://github.com/NervJS/taro/commit/8ffc5ac))
+* **components:** swiper slideTo useless in no circular mode ([1f6d09f](https://github.com/NervJS/taro/commit/1f6d09f))
+* **docs:** invalid link ([1fee95c](https://github.com/NervJS/taro/commit/1fee95c))
 * **quickapp:** 快应用图片组件mode不生效与font-family能编译，支持iconfont ([#6063](https://github.com/NervJS/taro/issues/6063)) ([5c2606a](https://github.com/NervJS/taro/commit/5c2606a))
 * **rn:** 2.1.x在编译同名sass文件时会产生报错  close [#5945](https://github.com/NervJS/taro/issues/5945) ([3a9762e](https://github.com/NervJS/taro/commit/3a9762e))
 * **rn-runner:**  app 配置中找不到 props ([3ea2ff6](https://github.com/NervJS/taro/commit/3ea2ff6))
@@ -34,6 +35,9 @@
 
 ### Features
 
+* taro-helper 和 taro-service 增加 typings ([65fb943](https://github.com/NervJS/taro/commit/65fb943))
+* 完善 taro --help && 命令增加输出 help 信息机制 ([71a4e41](https://github.com/NervJS/taro/commit/71a4e41))
+* 插件增加入参检测机制 ([92c8050](https://github.com/NervJS/taro/commit/92c8050))
 * **helper:** 封装 watch ([76c68c5](https://github.com/NervJS/taro/commit/76c68c5))
 * **rn:** rn 端插件化改造 ([f65183a](https://github.com/NervJS/taro/commit/f65183a))
 * **rn:** 完成 hooks 传递和执行 ([91d56ec](https://github.com/NervJS/taro/commit/91d56ec))
