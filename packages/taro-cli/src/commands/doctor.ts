@@ -1,14 +1,17 @@
 import { Kernel } from '@tarojs/service'
 
 export default function doctor (kernel: Kernel, {
-  appPath
+  appPath,
+  isHelp
 }: {
-  appPath: string
+  appPath: string,
+  isHelp?: boolean
 }) {
   kernel.run({
     name: 'doctor',
     opts: {
-      appPath
+      appPath,
+      isHelp
     }
   })
 }

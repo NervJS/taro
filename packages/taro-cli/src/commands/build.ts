@@ -10,7 +10,8 @@ export default function build (kernel: Kernel, {
   page,
   component,
   envHasBeenSet = false,
-  plugin
+  plugin,
+  isHelp
 }: {
   platform: string,
   isWatch: boolean,
@@ -22,6 +23,7 @@ export default function build (kernel: Kernel, {
   component?: string
   envHasBeenSet?: boolean
   plugin?: string | boolean
+  isHelp?: boolean
 }) {
   if (plugin) {
     if (typeof plugin === 'boolean') {
@@ -48,7 +50,8 @@ export default function build (kernel: Kernel, {
       page,
       component,
       envHasBeenSet,
-      plugin
+      plugin,
+      isHelp
     }
   })
 }

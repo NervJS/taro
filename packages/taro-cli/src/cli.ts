@@ -12,6 +12,7 @@ import doctor from './commands/doctor'
 import convert from './commands/convert'
 import update from './commands/update'
 import customCommand from './commands/customCommand'
+import { getPkgVersion } from './util'
 
 export default class CLI {
   appPath: string
@@ -26,9 +27,10 @@ export default class CLI {
   parseArgs () {
     const args = minimist(process.argv.slice(2), {
       alias: {
-        version: ['v']
+        version: ['v'],
+        help: ['h']
       },
-      boolean: ['version']
+      boolean: ['version', 'help']
     })
     const _ = args._
     const command = _[0]
@@ -50,7 +52,8 @@ export default class CLI {
             uiIndex: args.uiIndex,
             page: args.page,
             component: args.component,
-            plugin: args.plugin
+            plugin: args.plugin,
+            isHelp: args.h
           })
           break
         case 'init':
@@ -62,7 +65,8 @@ export default class CLI {
             templateSource: args['template-source'],
             clone: !!args.clone,
             template: args.template,
-            css: args.css
+            css: args.css,
+            isHelp: args.h
           })
           break
         case 'create':
@@ -72,7 +76,8 @@ export default class CLI {
             appPath: this.appPath,
             type,
             name,
-            description: args.description
+            description: args.description,
+            isHelp: args.h
           })
           break
         case 'config':
@@ -83,24 +88,28 @@ export default class CLI {
             cmd,
             key,
             value,
-            json: !!args.json
+            json: !!args.json,
+            isHelp: args.h
           })
           break
         case 'info':
           const rn = _[1]
           info(kernel, {
             appPath: this.appPath,
-            rn
+            rn,
+            isHelp: args.h
           })
           break
         case 'doctor':
           doctor(kernel, {
-            appPath: this.appPath
+            appPath: this.appPath,
+            isHelp: args.h
           })
           break
         case 'convert':
           convert(kernel, {
-            appPath: this.appPath
+            appPath: this.appPath,
+            isHelp: args.h
           })
           break
         case 'update':
@@ -109,12 +118,33 @@ export default class CLI {
           update(kernel, {
             appPath: this.appPath,
             updateType,
-            version
+            version,
+            isHelp: args.h
           })
           break
         default:
           customCommand(command, kernel, args)
           break
+      }
+    } else {
+      if (args.h) {
+        console.log('Usage: taro <command> [options]')
+        console.log()
+        console.log('Options:')
+        console.log('  -v, --version       output the version number')
+        console.log('  -h, --help          output usage information')
+        console.log()
+        console.log('Commands:')
+        console.log('  init [projectName]  Init a project with default templete')
+        console.log('  config <cmd>        Taro config')
+        console.log('  create              Create page for project')
+        console.log('  build               Build a project with options')
+        console.log('  update              Update packages of taro')
+        console.log('  info                Diagnostics Taro env info')
+        console.log('  doctor              Diagnose taro project')
+        console.log('  help [cmd]          display help for [cmd]')
+      } else if (args.v) {
+        console.log(getPkgVersion())
       }
     }
   }

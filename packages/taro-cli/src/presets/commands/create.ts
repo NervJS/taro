@@ -1,6 +1,10 @@
 export default (ctx) => {
   ctx.registerCommand({
     name: 'create',
+    optionsMap: {
+      '--name [name]': '名称',
+      '--description [description]': '介绍'
+    },
     fn () {
       const {
         type,
@@ -19,7 +23,7 @@ export default (ctx) => {
           projectDir: appPath,
           description
         })
-      
+
         page.create()
       }
     }

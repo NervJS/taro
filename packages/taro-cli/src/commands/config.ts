@@ -4,12 +4,14 @@ export default function config (kernel: Kernel, {
   cmd,
   key,
   value,
-  json
+  json,
+  isHelp
 }: {
   cmd: string,
   key?: string,
   value?: string,
-  json?: boolean
+  json?: boolean,
+  isHelp?: boolean
 }) {
   kernel.run({
     name: 'config',
@@ -17,7 +19,8 @@ export default function config (kernel: Kernel, {
       cmd,
       key,
       value,
-      json
+      json,
+      isHelp
     }
   })
 }

@@ -40,7 +40,7 @@ export default (ctx) => {
         }
         return targetTaroVersion
       }
-      
+
       function info () {
         console.log(chalk.red('命令错误:'))
         console.log(`${chalk.green(
@@ -48,7 +48,7 @@ export default (ctx) => {
         console.log(`${chalk.green(
           'taro update project [version]')} 更新项目所有 Taro 相关依赖到指定版本或当前主版本的最新版本`)
       }
-      
+
       async function updateSelf () {
         let command
         const targetTaroVersion = await getTargetVersion()
@@ -57,11 +57,11 @@ export default (ctx) => {
         } else {
           command = `npm i -g @tarojs/cli@${targetTaroVersion}`
         }
-      
+
         const child = exec(command)
-      
+
         const spinner = ora('即将将 Taro 开发工具 taro-cli 更新到最新版本...').start()
-      
+
         child.stdout.on('data', function (data) {
           console.log(data)
           spinner.stop()
@@ -78,11 +78,11 @@ export default (ctx) => {
           process.exit(1)
         }
         const packageMap = require(pkgPath)
-      
+
         const version = await getTargetVersion()
         // 获取 NervJS 版本
         const nervJSVersion = `^${await getLatestVersion('nervjs')}`
-      
+
         // 更新 @tarojs/* 版本和 NervJS 版本
         Object.keys(packageMap.dependencies).forEach((key) => {
           if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
@@ -105,7 +105,7 @@ export default (ctx) => {
             }
           }
         })
-      
+
         // 写入package.json
         try {
           await fs.writeJson(pkgPath, packageMap, {spaces: '\t'})
@@ -114,7 +114,7 @@ export default (ctx) => {
         } catch (err) {
           console.error(err)
         }
-      
+
         let command
         if (shouldUseYarn()) {
           command = 'yarn'
@@ -123,11 +123,11 @@ export default (ctx) => {
         } else {
           command = 'npm install'
         }
-      
+
         const child = exec(command)
-      
+
         const spinner = ora('即将将项目所有 Taro 相关依赖更新到最新版本...').start()
-      
+
         child.stdout.on('data', function (data) {
           spinner.stop()
           console.log(data)
