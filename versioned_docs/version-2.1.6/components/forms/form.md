@@ -72,7 +72,7 @@ class App extends Component {
       <td><code>BaseEventOrigFunction&lt;onSubmitEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>携带 form 中的数据触发 submit 事件<br />event.detail = &lcub; value : &lcub;'name': 'value'&rcub; , formId: '' &rcub;</td>
+      <td>携带 form 中的数据触发 submit 事件<br />event.detail = {`{ value : { name': 'value'}, formId: '' }`}</td>
     </tr>
     <tr>
       <td>onReset</td>
@@ -107,7 +107,7 @@ class App extends Component {
   <tbody>
     <tr>
       <td>value</td>
-      <td><code>&lcub; [formItemName: string]: any; &rcub;</code></td>
+      <td><code>{`{ [formItemName: string]: any; }`}</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>当点击 <code>&lt;form&gt;</code> 表单中 <code>form-type</code> 为 <code>submit</code> 的 <code>&lt;button&gt;</code> 组件时，<br />会将表单组件中的 <code>value</code> 值进行提交，<br />需要在表单组件中加上 <code>name</code> 来作为 <code>key</code>。</td>
     </tr>

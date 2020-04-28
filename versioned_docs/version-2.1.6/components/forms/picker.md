@@ -212,7 +212,7 @@ export default class PagePicker extends Component {
       <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>是</td>
-      <td>value 改变时触发 change 事件，event.detail = &lcub;value&rcub;</td>
+      <td>value 改变时触发 change 事件，event.detail = {`{value}`}</td>
     </tr>
   </tbody>
 </table>
@@ -293,7 +293,7 @@ export default class PagePicker extends Component {
       <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>是</td>
-      <td>当 value 改变时触发 change 事件，event.detail = &lcub;value&rcub;</td>
+      <td>当 value 改变时触发 change 事件，event.detail = {`{value}`}</td>
     </tr>
     <tr>
       <td>onColumnChange</td>
@@ -400,7 +400,7 @@ export default class PagePicker extends Component {
       <td>onChange</td>
       <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}>是</td>
-      <td>value 改变时触发 change 事件，event.detail = &lcub;value&rcub;</td>
+      <td>value 改变时触发 change 事件，event.detail = {`{value}`}</td>
     </tr>
   </tbody>
 </table>
@@ -488,7 +488,7 @@ export default class PagePicker extends Component {
       <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>是</td>
-      <td>value 改变时触发 change 事件，event.detail = &lcub;value&rcub;</td>
+      <td>value 改变时触发 change 事件，event.detail = {`{value}`}</td>
     </tr>
   </tbody>
 </table>
@@ -588,7 +588,7 @@ export default class PagePicker extends Component {
       <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>是</td>
-      <td>value 改变时触发 change 事件，event.detail = &lcub;value, code, postcode&rcub;，其中字段 code 是统计用区划代码，postcode 是邮政编码</td>
+      <td>value 改变时触发 change 事件，event.detail = {`{value, code, postcode}`}，其中字段 code 是统计用区划代码，postcode 是邮政编码</td>
     </tr>
   </tbody>
 </table>

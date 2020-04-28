@@ -291,21 +291,21 @@ export default class PageView extends Component {
       <td><code>BaseEventOrigFunction&lt;onTimeUpdateEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>播放进度变化时触发, 触发频率 250ms 一次<br /><br />event.detail = &lcub;currentTime, duration&rcub;</td>
+      <td>播放进度变化时触发, 触发频率 250ms 一次<br /><br />event.detail = {`{currentTime, duration}`}</td>
     </tr>
     <tr>
       <td>onFullscreenChange</td>
       <td><code>BaseEventOrigFunction&lt;onFullscreenChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>当视频进入和退出全屏是触发<br /><br />event.detail = &lcub;fullScreen, direction&rcub;，direction取为 vertical 或 horizontal</td>
+      <td>当视频进入和退出全屏是触发<br /><br />event.detail = {`{fullScreen, direction}`}，direction取为 vertical 或 horizontal</td>
     </tr>
     <tr>
       <td>onWaiting</td>
       <td><code>BaseEventOrigFunction&lt;onWaitingEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>当视频进入和退出全屏是触发<br /><br />event.detail = &lcub;fullScreen, direction&rcub;，direction 取为 vertical 或 horizontal</td>
+      <td>当视频进入和退出全屏是触发<br /><br />event.detail = {`{fullScreen, direction}`}，direction 取为 vertical 或 horizontal</td>
     </tr>
     <tr>
       <td>onError</td>
@@ -326,7 +326,7 @@ export default class PageView extends Component {
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>视频元数据加载完成时触发。event.detail = &lcub;width, height, duration&rcub;</td>
+      <td>视频元数据加载完成时触发。event.detail = {`{width, height, duration}`}</td>
     </tr>
   </tbody>
 </table>

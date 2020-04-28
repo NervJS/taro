@@ -226,28 +226,28 @@ class App extends Component {
       <td><code>BaseEventOrigFunction&lt;onMarkerTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击标记点时触发，e.detail = &lcub;markerId&rcub;</td>
+      <td>点击标记点时触发，e.detail = {`{markerId}`}</td>
     </tr>
     <tr>
       <td>onLabelTap</td>
       <td><code>BaseEventOrigFunction&lt;onLabelTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击label时触发，e.detail = &lcub;markerId&rcub;</td>
+      <td>点击label时触发，e.detail = {`{markerId}`}</td>
     </tr>
     <tr>
       <td>onControlTap</td>
       <td><code>BaseEventOrigFunction&lt;onControlTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击控件时触发，e.detail = &lcub;controlId&rcub;</td>
+      <td>点击控件时触发，e.detail = {`{controlId}`}</td>
     </tr>
     <tr>
       <td>onCalloutTap</td>
       <td><code>BaseEventOrigFunction&lt;onCalloutTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击标记点对应的气泡时触发，e.detail = &lcub;markerId&rcub; </td>
+      <td>点击标记点对应的气泡时触发，e.detail = {`{markerId}`} </td>
     </tr>
     <tr>
       <td>onUpdated</td>
@@ -268,11 +268,11 @@ class App extends Component {
       <td><code>BaseEventOrigFunction&lt;onPoiTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击地图poi点时触发，e.detail = &lcub;name, longitude, latitude&rcub; </td>
+      <td>点击地图poi点时触发，e.detail = {`{name, longitude, latitude}`} </td>
     </tr>
     <tr>
       <td>includePadding</td>
-      <td><code>&lcub; left: string | number; right: string | number; top: string | number; bottom: string | number; &rcub;</code></td>
+      <td><code>{`{ left: string | number; right: string | number; top: string | number; bottom: string | number; }`}</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>视野在地图 padding 范围内展示</td>
@@ -444,10 +444,10 @@ class App extends Component {
     </tr>
     <tr>
       <td>anchor</td>
-      <td><code>&lcub; x: number; y: number; &rcub;</code></td>
+      <td><code>{`{ x: number; y: number; }`}</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>经纬度在标注图标的锚点，默认底边中点</td>
-      <td><code>&lcub;x, y&rcub;，x表示横向(0-1)，y表示竖向(0-1)。&lcub;x: .5, y: 1&rcub; 表示底边中点</code></td>
+      <td><code>{`{x, y}`}，x表示横向(0-1)，y表示竖向(0-1)。{`{x: .5, y: 1}`} 表示底边中点</code></td>
     </tr>
     <tr>
       <td>ariaLabel</td>
@@ -626,7 +626,7 @@ marker 上的气泡 label
       <td><code>point[]</code></td>
       <td style={{ textAlign: "center"}}>是</td>
       <td>经纬度数组</td>
-      <td><code>[&lcub;latitude: 0, longitude: 0&rcub;]</code></td>
+      <td><code>[{`{latitude: 0, longitude: 0}`}]</code></td>
     </tr>
     <tr>
       <td>color</td>
@@ -700,7 +700,7 @@ marker 上的气泡 label
       <td><code>point[]</code></td>
       <td style={{ textAlign: "center"}}>是</td>
       <td>经纬度数组</td>
-      <td><code>[&lcub;latitude: 0, longitude: 0&rcub;]</code></td>
+      <td><code>[{`{latitude: 0, longitude: 0}`}]</code></td>
     </tr>
     <tr>
       <td>strokeWidth</td>

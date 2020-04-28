@@ -120,7 +120,7 @@ export default class PageCheckbox extends Component {
     <tr>
       <td>onChange</td>
       <td>
-        `BaseEventOrigFunction&lt;&lcub; value: string[]; &rcub;&gt;
+        `BaseEventOrigFunction&lt;{`{ value: string[]; }`}&gt;
       </td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>

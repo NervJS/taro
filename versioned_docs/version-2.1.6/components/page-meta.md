@@ -88,14 +88,14 @@ ComponentType<PageMetaProps>
       <td><code>BaseEventOrigFunction&lt;onResizeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>页面尺寸变化时会触发 resize 事件，event.detail = &lcub; size: &lcub; windowWidth, windowHeight &rcub; &rcub;</td>
+      <td>页面尺寸变化时会触发 resize 事件，event.detail = {`{ size: { windowWidth, windowHeight } }`}</td>
     </tr>
     <tr>
       <td>onScroll</td>
       <td><code>BaseEventOrigFunction&lt;onScrollEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>页面滚动时会触发 scroll 事件，event.detail = &lcub; scrollTop &rcub;</td>
+      <td>页面滚动时会触发 scroll 事件，event.detail = {`{ scrollTop }`}</td>
     </tr>
     <tr>
       <td>onScrollDone</td>

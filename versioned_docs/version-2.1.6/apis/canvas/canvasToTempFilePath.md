@@ -245,7 +245,7 @@ sidebar_label: canvasToTempFilePath
       <td><code>CommonEventFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>当发生错误时触发 error 事件，detail = &lcub;errMsg: 'something wrong'&rcub; </td>
+      <td>当发生错误时触发 error 事件，detail = {`{errMsg: 'something wrong'}`} </td>
     </tr>
   </tbody>
 </table>

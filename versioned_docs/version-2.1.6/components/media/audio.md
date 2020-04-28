@@ -113,7 +113,7 @@ export default class PageView extends Component {
       <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>当发生错误时触发 error 事件，detail = &lcub;errMsg: MediaError.code&rcub;</td>
+      <td>当发生错误时触发 error 事件，detail = {`{errMsg: MediaError.code}`}</td>
     </tr>
     <tr>
       <td>onPlay</td>
@@ -134,7 +134,7 @@ export default class PageView extends Component {
       <td><code>BaseEventOrigFunction&lt;onTimeUpdateEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>当播放进度改变时触发 timeupdate 事件，detail = &lcub;currentTime, duration&rcub;</td>
+      <td>当播放进度改变时触发 timeupdate 事件，detail = {`{currentTime, duration}`}</td>
     </tr>
     <tr>
       <td>onEnded</td>

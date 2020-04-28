@@ -65,7 +65,7 @@ class App extends Component {
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象event.detail = &lcub;errCode: 1002&rcub;</td>
+      <td>当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象event.detail = {`{errCode: 1002}`}</td>
     </tr>
     <tr>
       <td>onClose</td>

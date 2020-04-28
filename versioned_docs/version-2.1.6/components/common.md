@@ -47,7 +47,7 @@ sidebar_label: common
     </tr>
     <tr>
       <td>animation</td>
-      <td><code>&lcub; actions: object[]; &rcub;</code></td>
+      <td><code>{`{ actions: object[]; }`}</code></td>
       <td style={{ textAlign: "center"}}>否</td>
       <td>动画属性</td>
     </tr>
@@ -377,7 +377,7 @@ sidebar_label: common
     </tr>
     <tr>
       <td>dataset</td>
-      <td><code> &lcub; [key: string]: any; &rcub;</code></td>
+      <td><code> {`{ [key: string]: any; }`}</code></td>
       <td>事件源组件上由data-开头的自定义属性组成的集合</td>
     </tr>
   </tbody>

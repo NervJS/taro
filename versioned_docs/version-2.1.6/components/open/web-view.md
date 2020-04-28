@@ -49,19 +49,19 @@ class App extends Component {
       <td>onMessage</td>
       <td><code>BaseEventOrigFunction&lt;onMessageEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = &lcub; data &rcub;</td>
+      <td>网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = {`{ data }`}</td>
     </tr>
     <tr>
       <td>onLoad</td>
       <td><code>BaseEventOrigFunction&lt;onLoadEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>网页加载成功时候触发此事件。e.detail = &lcub; src &rcub;</td>
+      <td>网页加载成功时候触发此事件。e.detail = {`{ src }`}</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>网页加载失败的时候触发此事件。e.detail = &lcub; src &rcub;</td>
+      <td>网页加载失败的时候触发此事件。e.detail = {`{ src }`}</td>
     </tr>
   </tbody>
 </table>

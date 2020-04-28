@@ -504,7 +504,7 @@ lang 的合法值
   <tbody>
     <tr>
       <td>userInfo</td>
-      <td><code>&lcub; nickName: string; avatarUrl: string; gender: 0 | 1 | 2; province: string; city: string; country: string; &rcub;</code></td>
+      <td><code>{`{ nickName: string; avatarUrl: string; gender: 0 | 1 | 2; province: string; city: string; country: string; }`}</code></td>
       <td></td>
     </tr>
     <tr>

@@ -74,7 +74,7 @@ sidebar_label: saveFile
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open &quot;$&lcub;filePath&rcub;&quot;': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory &quot;$&lcub;dirPath&rcub;&quot;': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open &quot;${`{filePath}`}&quot;': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory &quot;${`{dirPath}`}&quot;': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
     </tr>
   </tbody>
 </table>

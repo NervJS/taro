@@ -29,7 +29,7 @@ ComponentType<RadioGroupProps>
       <td>onChange</td>
       <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>RadioGroup 中选中项发生改变时触发 change 事件，detail =  &lcub;value:[选中的radio的value的数组]&rcub;</td>
+      <td>RadioGroup 中选中项发生改变时触发 change 事件，detail =  {`{value:[选中的radio的value的数组]}`}</td>
     </tr>
   </tbody>
 </table>

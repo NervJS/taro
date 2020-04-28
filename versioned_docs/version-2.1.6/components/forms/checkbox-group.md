@@ -95,9 +95,9 @@ export default class PageCheckbox extends Component {
     </tr>
     <tr>
       <td>onChange</td>
-      <td><code>BaseEventOrigFunction&lt;&lcub; value: string[]; &rcub;&gt;</code></td>
+      <td><code>BaseEventOrigFunction&lt;{`{ value: string[]; }`}&gt;</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td><code>&lt;CheckboxGroup/&gt;</code> 中选中项发生改变是触发 change 事件<br /><br />event.detail = &lcub; value: [选中的checkbox的 value 的数组] &rcub;</td>
+      <td><code>&lt;CheckboxGroup/&gt;</code> 中选中项发生改变是触发 change 事件<br /><br />event.detail = {`{ value: [选中的checkbox的 value 的数组] }`}</td>
     </tr>
   </tbody>
 </table>

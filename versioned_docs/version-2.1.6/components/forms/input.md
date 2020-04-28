@@ -185,35 +185,35 @@ class App extends Component {
       <td><code>BaseEventOrigFunction&lt;inputEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>当键盘输入时，触发input事件，event.detail = &lcub;value, cursor, keyCode&rcub;，处理函数可以直接 return 一个字符串，将替换输入框的内容。</td>
+      <td>当键盘输入时，触发input事件，event.detail = {`{value, cursor, keyCode}`}，处理函数可以直接 return 一个字符串，将替换输入框的内容。</td>
     </tr>
     <tr>
       <td>onFocus</td>
       <td><code>BaseEventOrigFunction&lt;inputForceEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>输入框聚焦时触发，event.detail = &lcub; value, height &rcub;，height 为键盘高度</td>
+      <td>输入框聚焦时触发，event.detail = {`{ value, height }`}，height 为键盘高度</td>
     </tr>
     <tr>
       <td>onBlur</td>
       <td><code>BaseEventOrigFunction&lt;inputValueEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>输入框失去焦点时触发<br /><br />event.detail = &lcub;value: value&rcub;</td>
+      <td>输入框失去焦点时触发<br /><br />event.detail = {`{value: value}`}</td>
     </tr>
     <tr>
       <td>onConfirm</td>
       <td><code>BaseEventOrigFunction&lt;inputValueEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击完成按钮时触发<br /><br />event.detail = &lcub;value: value&rcub;</td>
+      <td>点击完成按钮时触发<br /><br />event.detail = {`{value: value}`}</td>
     </tr>
     <tr>
       <td>onKeyboardHeightChange</td>
       <td><code>BaseEventOrigFunction&lt;onKeyboardHeightChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>键盘高度发生变化的时候触发此事件<br /><br />event.detail = &lcub;height: height, duration: duration&rcub;</td>
+      <td>键盘高度发生变化的时候触发此事件<br /><br />event.detail = {`{height: height, duration: duration}`}</td>
     </tr>
   </tbody>
 </table>
