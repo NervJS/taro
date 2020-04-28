@@ -7,8 +7,9 @@ export default function customCommand (
 ) {
   if (typeof command === 'string') {
     const options: any = {}
+    const excludeKeys = ['_', 'version', 'v', 'help', 'h']
     Object.keys(args).forEach(key => {
-      if (key !== '_') {
+      if (!excludeKeys.includes(key)) {
         options[key] = args[key]
       }
     })
@@ -17,7 +18,7 @@ export default function customCommand (
       opts: {
         _: args._,
         options,
-        isHelp: options.h
+        isHelp: args.h
       }
     })
   }
