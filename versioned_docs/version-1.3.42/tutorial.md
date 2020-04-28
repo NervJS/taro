@@ -165,7 +165,7 @@ class App extends Component {
 |pageOrientation | ✔️2.4.0 (auto) / 2.5.0 (landscape) | ✘|✘| ✘ |✘|✘|
 
 
-:::微信小程序中，关于navigationStyle
+::: 微信小程序中，关于navigationStyle
 - 客户端 7.0.0 以下版本，navigationStyle 只在 app.json 中生效。
 - 客户端 6.7.2 版本开始，navigationStyle: custom 对 `<web-view>` 组件无效
 - 开启 custom 后，低版本客户端需要做好兼容。开发者工具基础库版本切到 1.7.0（不代表最低版本，只供调试用）可方便切到旧视觉
