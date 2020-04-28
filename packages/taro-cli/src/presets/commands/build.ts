@@ -4,6 +4,18 @@ export default (ctx) => {
   registerBuildHooks(ctx)
   ctx.registerCommand({
     name: 'build',
+    optionsMap: {
+      '--type [typeName]': 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq/jd',
+      '--watch': 'Watch mode',
+      '--page [pagePath]': 'Build one page',
+      '--component [pagePath]': 'Build one component',
+      '--env [env]': 'Env type',
+      '--ui': 'Build Taro UI library',
+      '--ui-index [uiIndexPath]': 'Index file for build Taro UI library',
+      '--plugin [typeName]': 'Build Taro plugin project, weapp',
+      '--port [port]': 'Specified port',
+      '--release': 'Release quickapp'
+    },
     async fn (opts) {
       const { platform, config } = opts
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper

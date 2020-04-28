@@ -3,12 +3,20 @@ import * as path from 'path'
 export default (ctx) => {
   ctx.registerCommand({
     name: 'config',
+    optionsMap: {
+      '--json': '以 JSON 形式输出'
+    },
+    synopsisList: [
+      'taro config set <key> <value>',
+      'taro config get <key>',
+      'taro config delete <key>',
+      'taro config list [--json]'
+    ],
     fn () {
       const { cmd, key, value, json } = ctx.runOpts
       const { fs, getUserHomeDir, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } = ctx.helper
       const homedir = getUserHomeDir()
       const configPath = path.join(homedir, `${TARO_CONFIG_FLODER}/${TARO_BASE_CONFIG}`)
-
       if (!homedir) return console.log('找不到用户根目录')
 
       function displayConfigPath (configPath) {
@@ -27,7 +35,7 @@ export default (ctx) => {
           break
         case 'set':
           if (!key || !value) return console.log('Usage: taro config set foo bar')
-          
+
           if (fs.existsSync(configPath)) {
             displayConfigPath(configPath)
             const config = fs.readJSONSync(configPath)

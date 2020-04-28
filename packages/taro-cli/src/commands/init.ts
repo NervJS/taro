@@ -7,7 +7,8 @@ export default function init (kernel: Kernel, {
   templateSource,
   clone,
   template,
-  css
+  css,
+  isHelp
 }: {
   appPath: string,
   projectName?: string,
@@ -15,7 +16,8 @@ export default function init (kernel: Kernel, {
   templateSource?: string,
   clone?: boolean,
   template?: string,
-  css?: string
+  css?: string,
+  isHelp?: boolean
 }) {
   kernel.run({
     name: 'init',
@@ -26,7 +28,8 @@ export default function init (kernel: Kernel, {
       templateSource,
       clone,
       template,
-      css
+      css,
+      isHelp
     }
   })
 }

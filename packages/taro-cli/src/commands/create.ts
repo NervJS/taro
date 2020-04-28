@@ -4,12 +4,14 @@ export default function create (kernel: Kernel, {
   appPath,
   type,
   name,
-  description
+  description,
+  isHelp
 }: {
   appPath: string,
   type: string,
   name: string,
-  description?: string
+  description?: string,
+  isHelp?: boolean
 }) {
   kernel.run({
     name: 'create',
@@ -17,7 +19,8 @@ export default function create (kernel: Kernel, {
       appPath,
       type,
       name,
-      description
+      description,
+      isHelp
     }
   })
 }

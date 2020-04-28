@@ -2,16 +2,19 @@ import { Kernel } from '@tarojs/service'
 
 export default function info (kernel: Kernel, {
   appPath,
-  rn
+  rn,
+  isHelp
 }: {
   appPath: string,
-  rn?: boolean
+  rn?: boolean,
+  isHelp?: boolean
 }) {
   kernel.run({
     name: 'info',
     opts: {
       appPath,
-      rn
+      rn,
+      isHelp
     }
   })
 }

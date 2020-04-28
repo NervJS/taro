@@ -1,14 +1,17 @@
 import { Kernel } from '@tarojs/service'
 
 export default function convert (kernel: Kernel, {
-  appPath
+  appPath,
+  isHelp
 }: {
-  appPath: string
+  appPath: string,
+  isHelp?: boolean
 }) {
   kernel.run({
     name: 'convert',
     opts: {
-      appPath
+      appPath,
+      isHelp
     }
   })
 }

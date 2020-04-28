@@ -26,7 +26,7 @@ import {
   IS_ADD_HOOK,
   IS_EVENT_HOOK
 } from './utils/constants'
-import { mergePlugins, resolvePresetsOrPlugins, convertPluginsToObject } from './utils'
+import { mergePlugins, resolvePresetsOrPlugins, convertPluginsToObject, printHelpLog } from './utils'
 import Plugin from './Plugin'
 import Config from './Config'
 
@@ -284,6 +284,18 @@ export default class Kernel extends EventEmitter {
     await this.applyPlugins('onStart')
     if (!this.commands.has(name)) {
       throw new Error(`${name} 命令不存在`)
+    }
+    if (opts && opts.isHelp) {
+      const command = this.commands.get(name)
+      const defaultOptionsMap = new Map()
+      defaultOptionsMap.set('-h, --help', 'output usage information')
+      let customOptionsMap = new Map()
+      if (command?.optionsMap) {
+        customOptionsMap = new Map(Object.entries(command?.optionsMap))
+      }
+      const optionsMap = new Map([...customOptionsMap, ...defaultOptionsMap])
+      printHelpLog(name, optionsMap, command?.synopsisList ? new Set(...command?.synopsisList) : new Set())
+      return
     }
     if (opts && opts.platform) {
       opts.config = this.runWithPlatform(opts.platform)

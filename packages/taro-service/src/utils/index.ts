@@ -62,3 +62,28 @@ export function resolvePresetsOrPlugins (root: string, args, type: PluginType): 
     }
   })
 }
+
+function supplementBlank (length) {
+  return Array(length).map(() => '').join(' ')
+}
+
+export function printHelpLog (command, optionsList: Map<string, string>, synopsisList?: Set<string>) {
+  console.log(`Usage: taro ${command} [options]`)
+  console.log()
+  console.log('Options:')
+  const keys = Array.from(optionsList.keys())
+  const maxLength = keys.reduce((v1, v2) => {
+    return v1.length > v2.length ? v1 : v2
+  }).length + 3
+  optionsList.forEach((v, k) => {
+    const supplementBlankLength = maxLength - k.length
+    console.log(`  ${k}${supplementBlank(supplementBlankLength)}${v}`)
+  })
+  if (synopsisList && synopsisList.size) {
+    console.log()
+    console.log('Synopsis:')
+    synopsisList.forEach(item => {
+      console.log(`  $ ${item}`)
+    })
+  }
+}
