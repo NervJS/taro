@@ -43,6 +43,10 @@
   font-size: 1.25em;
 }
 
+h1.docTitle_node_modules-\@docusaurus-theme-classic-src-theme-DocItem- {
+  font-size: 2.5rem;
+}
+
 .headerWrapper, header {
   height: 74px;
   align-items: center;
