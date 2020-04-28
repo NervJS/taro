@@ -97,7 +97,16 @@ export default (ctx, options) => {
 ```typescript
 export default (ctx) => {
   ctx.registerCommand({
+    // 命令名
     name: 'upload',
+    // 执行 taro upload --help 时输出的 options 信息
+    optionsMap: {
+      '--remote': '服务器地址'
+    },
+    // 执行 taro upload --help 时输出的使用例子的信息
+    synopsisList: [
+      'taro upload --remote xxx.xxx.xxx.xxx'
+    ],
     async fn () {
       const { remote } = ctx.runOpts
       await uploadDist()
@@ -146,7 +155,17 @@ export default (ctx) => {
 
 #### ctx.runOpts
 
-获取当前执行命令所带的参数，例如命令 `taro upload --remote xxx.xxx.xxx.xxx`，则 `ctx.runOpts` 值为 `{ remote: 'xxx.xxx.xxx.xxx' }`。
+获取当前执行命令所带的参数，例如命令 `taro upload --remote xxx.xxx.xxx.xxx`，则 `ctx.runOpts` 值为：
+
+```js
+{
+  _: ['upload'],
+  options: {
+    remote: 'xxx.xxx.xxx.xxx'
+  },
+  isHelp: false
+}
+```
 
 #### ctx.helper
 
@@ -237,7 +256,13 @@ ctx.registerMethod({
 ```typescript
 interface ICommand {
   // 命令别名
-  alias?: string
+  alias?: string,
+  // 执行 taro <command> --help 时输出的 options 信息
+  optionsMap?: {
+    [key: string]: string
+  },
+  // 执行 taro <command> --help 时输出的使用例子的信息
+  synopsisList?: string[]
 }
 ```
 
@@ -264,7 +289,7 @@ ctx.registerCommand({
         projectDir: appPath,
         description
       })
-    
+
       page.create()
     }
   }

@@ -294,7 +294,7 @@ export default class Kernel extends EventEmitter {
         customOptionsMap = new Map(Object.entries(command?.optionsMap))
       }
       const optionsMap = new Map([...customOptionsMap, ...defaultOptionsMap])
-      printHelpLog(name, optionsMap, command?.synopsisList ? new Set(...command?.synopsisList) : new Set())
+      printHelpLog(name, optionsMap, command?.synopsisList ? new Set(command?.synopsisList) : new Set())
       return
     }
     if (opts && opts.platform) {
