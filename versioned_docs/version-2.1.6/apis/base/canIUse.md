@@ -15,22 +15,17 @@ sidebar_label: canIUse
 
 ## 参数
 
-<table>
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>schema</td>
-      <td><code>string</code></td>
-      <td>使用 <code>${API}.${method}.${param}.${option}</code> 或者 <code>${component}.${attribute}.${option}</code> 方式来调用<br /><br /><strong>参数说明</strong><br /><br />- <code>${API}</code> 代表 API 名字<br />- <code>${method}</code> 代表调用方式，有效值为return, success, object, callback<br />- <code>${param}</code> 代表参数或者返回值<br />- <code>${option}</code> 代表参数的可选值或者返回值的属性<br />- <code>${component}</code> 代表组件名字<br />- <code>${attribute}</code> 代表组件属性<br />- <code>${option}</code> 代表组件属性的可选值</td>
-    </tr>
-  </tbody>
-</table>
+使用 `${API}.${method}.${param}.${option}` 或者 `${component}.${attribute}.${option}` 方式来调用  
+  
+**参数说明**  
+  
+\- `${API}` 代表 API 名字  
+\- `${method}` 代表调用方式，有效值为return, success, object, callback  
+\- `${param}` 代表参数或者返回值  
+\- `${option}` 代表参数的可选值或者返回值的属性  
+\- `${component}` 代表组件名字  
+\- `${attribute}` 代表组件属性  
+\- `${option}` 代表组件属性的可选值
 
 ## 示例代码
 

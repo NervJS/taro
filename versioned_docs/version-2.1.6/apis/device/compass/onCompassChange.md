@@ -93,7 +93,7 @@ sidebar_label: onCompassChange
       <td>不可信，原因未知</td>
     </tr>
     <tr>
-      <td>unknow ${value}</td>
+      <td>unknow &lcub;value&rcub;</td>
       <td>未知的精度枚举值，即该 Android 系统此时返回的表示精度的 value 不是一个标准的精度枚举值</td>
     </tr>
   </tbody>

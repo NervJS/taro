@@ -101,7 +101,7 @@ class App extends Components {
       <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>当发生错误时触发 error 事件，detail = &lcub;errMsg: 'something wrong'&lcub;</td>
+      <td>当发生错误时触发 error 事件，{`detail = {errMsg: 'something wrong'}`}</td>
     </tr>
   </tbody>
 </table>

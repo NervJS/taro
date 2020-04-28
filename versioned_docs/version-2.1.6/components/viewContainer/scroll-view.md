@@ -218,7 +218,7 @@ export default class PageView extends Component {
       <td><code>(event: BaseEventOrigFunction&lt;onScrollDetail&gt;) =&gt; any</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>滚动时触发<br /><code>event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}</code></td>
+      <td>滚动时触发<br /><code>event.detail = &lcub; scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY&rcub;</code></td>
     </tr>
     <tr>
       <td>onRefresherPulling</td>

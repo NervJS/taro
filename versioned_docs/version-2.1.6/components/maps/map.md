@@ -226,21 +226,21 @@ class App extends Component {
       <td><code>BaseEventOrigFunction&lt;onMarkerTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击标记点时触发，e.detail = {markerId}</td>
+      <td>点击标记点时触发，e.detail = &lcub;markerId&rcub;</td>
     </tr>
     <tr>
       <td>onLabelTap</td>
       <td><code>BaseEventOrigFunction&lt;onLabelTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击label时触发，e.detail = {markerId}</td>
+      <td>点击label时触发，e.detail = &lcub;markerId&rcub;</td>
     </tr>
     <tr>
       <td>onControlTap</td>
       <td><code>BaseEventOrigFunction&lt;onControlTapEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>点击控件时触发，e.detail = {controlId}</td>
+      <td>点击控件时触发，e.detail = &lcub;controlId&rcub;</td>
     </tr>
     <tr>
       <td>onCalloutTap</td>

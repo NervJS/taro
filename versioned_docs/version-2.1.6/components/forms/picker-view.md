@@ -135,7 +135,7 @@ export default class Picks extends Component {
       <td>onChange</td>
       <td><code>BaseEventOrigFunction&lt;onChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>当滚动选择，value 改变时触发 change 事件，event.detail = {{value: value}}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）</td>
+      <td>当滚动选择，value 改变时触发 change 事件，event.detail = &lcub;value: value&rcub;；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）</td>
     </tr>
     <tr>
       <td>onPickStart</td>

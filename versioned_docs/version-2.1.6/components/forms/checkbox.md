@@ -77,7 +77,6 @@ export default class PageCheckbox extends Component {
 
 ## CheckboxProps
 
-const onChangeTypes = `BaseEventOrigFunction<{ value: string[]; }>`
 
 <table>
   <thead>
@@ -121,7 +120,7 @@ const onChangeTypes = `BaseEventOrigFunction<{ value: string[]; }>`
     <tr>
       <td>onChange</td>
       <td>
-      {{code}}
+        `BaseEventOrigFunction&lt;&lcub; value: string[]; &rcub;&gt;
       </td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>

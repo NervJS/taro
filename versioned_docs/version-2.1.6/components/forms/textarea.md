@@ -192,14 +192,14 @@ export default class PageView extends Component {
       <td><code>BaseEventOrigFunction&lt;onLineChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>输入框行数变化时调用，event.detail = {{height: 0, heightRpx: 0, lineCount: 0}}</td>
+      <td>输入框行数变化时调用，event.detail = &lcub;height: 0, heightRpx: 0, lineCount: 0&rcub;</td>
     </tr>
     <tr>
       <td>onInput</td>
       <td><code>BaseEventOrigFunction&lt;onInputEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>当键盘输入时，触发 input 事件，event.detail = {{value, cursor, keyCode}}<br /><br /><strong>onInput 处理函数的返回值并不会反映到 textarea 上</strong></td>
+      <td>当键盘输入时，触发 input 事件，event.detail = &lcub;value, cursor, keyCode&rcub;<br /><br /><strong>onInput 处理函数的返回值并不会反映到 textarea 上</strong></td>
     </tr>
     <tr>
       <td>onConfirm</td>
