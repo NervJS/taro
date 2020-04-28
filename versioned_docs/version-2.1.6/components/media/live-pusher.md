@@ -245,21 +245,21 @@ class App extends Components {
       <td><code>BaseEventOrigFunction&lt;onStateChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>状态变化事件，detail = {code}</td>
+      <td>状态变化事件，detail = {`{code}`}</td>
     </tr>
     <tr>
       <td>onNetstatus</td>
       <td><code>BaseEventOrigFunction&lt;onNetstatusEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>网络状态通知，detail = {info}</td>
+      <td>网络状态通知，detail = {`{info}`}</td>
     </tr>
     <tr>
       <td>onError</td>
       <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>渲染错误事件，detail = {errMsg, errCode}</td>
+      <td>渲染错误事件，detail = {`{errMsg, errCode}`}</td>
     </tr>
     <tr>
       <td>onBgmStart</td>
@@ -273,7 +273,7 @@ class App extends Components {
       <td><code>BaseEventOrigFunction&lt;onBgmProgressEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>背景音进度变化时触发，detail = {progress, duration}</td>
+      <td>背景音进度变化时触发，detail = {`{progress, duration}`}</td>
     </tr>
     <tr>
       <td>onBgmComplete</td>

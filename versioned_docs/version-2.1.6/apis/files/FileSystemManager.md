@@ -1066,7 +1066,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${path}': 文件/目录不存在;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory path': 文件/目录不存在;</td>
     </tr>
   </tbody>
 </table>
@@ -1136,7 +1136,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 文件不存在;<br />- 'fail illegal operation on a directory, open &quot;${filePath}&quot;': 指定的 filePath 是一个已经存在的目录;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail sdcard not mounted': 指定的 filePath 是一个已经存在的目录;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open filePath': 指定的 filePath 文件不存在;<br />- 'fail illegal operation on a directory, open &quot;filePath&quot;': 指定的 filePath 是一个已经存在的目录;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有写权限;<br />- 'fail sdcard not mounted': 指定的 filePath 是一个已经存在的目录;</td>
     </tr>
   </tbody>
 </table>
@@ -1200,7 +1200,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, copyFile ${srcPath} -&gt; ${destPath}': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, copyFile ${srcPath} -&gt; ${destPath}': 源文件不存在，或目标文件路径的上层目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, copyFile srcPath -&gt; destPath': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, copyFile srcPath -&gt;destPath': 源文件不存在，或目标文件路径的上层目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
     </tr>
   </tbody>
 </table>
@@ -1434,7 +1434,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 上级目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail file already exists ${dirPath}': 有同名文件或目录;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory dirPath': 上级目录不存在;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有写权限;<br />- 'fail file already exists dirPath': 有同名文件或目录;</td>
     </tr>
   </tbody>
 </table>
@@ -1498,7 +1498,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open filePath': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有读权限;</td>
     </tr>
   </tbody>
 </table>
@@ -1556,7 +1556,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 目录不存在;<br />- 'fail not a directory ${dirPath}': dirPath 不是目录;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory dirPath': 目录不存在;<br />- 'fail not a directory dirPath': dirPath 不是目录;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有读权限;</td>
     </tr>
   </tbody>
 </table>
@@ -1702,7 +1702,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, rename ${oldPath} -&gt; ${newPath}': 指定源文件或目标文件没有写权限;<br />- 'fail no such file or directory, rename ${oldPath} -&gt; ${newPath}': 源文件不存在，或目标文件路径的上层目录不存在;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, rename oldPath -&gt; newPath': 指定源文件或目标文件没有写权限;<br />- 'fail no such file or directory, rename oldPath -&gt; newPath': 源文件不存在，或目标文件路径的上层目录不存在;</td>
     </tr>
   </tbody>
 </table>
@@ -1766,7 +1766,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 目录不存在;<br />- 'fail directory not empty': 目录不为空;<br />- 'fail permission denied, open ${dirPath}': 指定的 dirPath 路径没有写权限;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory dirPath': 目录不存在;<br />- 'fail directory not empty': 目录不为空;<br />- 'fail permission denied, open dirPath': 指定的 dirPath 路径没有写权限;</td>
     </tr>
   </tbody>
 </table>
@@ -1830,7 +1830,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open &quot;${filePath}&quot;': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory &quot;${dirPath}&quot;': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open &quot;filePath&quot;': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory &quot;dirPath&quot;': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
     </tr>
   </tbody>
 </table>
@@ -1918,7 +1918,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open ${path}': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory ${path}': 文件不存在;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open path': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory path': 文件不存在;</td>
     </tr>
   </tbody>
 </table>
@@ -2000,7 +2000,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open ${path}': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory ${path}': 文件不存在;<br />- 'fail operation not permitted, unlink ${filePath}': 传入的 filePath 是一个目录;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open path': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory path': 文件不存在;<br />- 'fail operation not permitted, unlink filePath': 传入的 filePath 是一个目录;</td>
     </tr>
   </tbody>
 </table>
@@ -2064,7 +2064,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, unzip ${zipFilePath} -&gt; ${destPath}': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, unzip ${zipFilePath} -&gt; &quot;${destPath}': 源文件不存在，或目标文件路径的上层目录不存在;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, unzip zipFilePath -&gt; destPath': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, unzip zipFilePath -&gt; &quot;destPath': 源文件不存在，或目标文件路径的上层目录不存在;</td>
     </tr>
   </tbody>
 </table>
@@ -2134,7 +2134,7 @@ FileSystemManager.readFile 的同步版本
     <tr>
       <td>errMsg</td>
       <td><code>string</code></td>
-      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open filePath': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open dirPath': 指定的 filePath 路径没有写权限;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
     </tr>
   </tbody>
 </table>

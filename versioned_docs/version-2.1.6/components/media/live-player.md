@@ -129,28 +129,28 @@ class App extends Components {
       <td><code>BaseEventOrigFunction&lt;onStateChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>播放状态变化事件，detail = {code}</td>
+      <td>播放状态变化事件，detail = {`{code}`}</td>
     </tr>
     <tr>
       <td>onFullScreenChange</td>
       <td><code>BaseEventOrigFunction&lt;onFullScreenChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>全屏变化事件，detail = {direction, fullScreen}</td>
+      <td>全屏变化事件，detail = {`{direction, fullScreen}`}</td>
     </tr>
     <tr>
       <td>onNetstatus</td>
       <td><code>BaseEventOrigFunction&lt;onNetStatusEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>网络状态通知，detail = {info}</td>
+      <td>网络状态通知，detail = {`{info}`}</td>
     </tr>
     <tr>
       <td>onAudioVolumenotify</td>
       <td><code>BaseEventOrigFunction&lt;{}&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>播放音量大小通知，detail = {}</td>
+      <td>播放音量大小通知，detail = {`{}`}</td>
     </tr>
   </tbody>
 </table>

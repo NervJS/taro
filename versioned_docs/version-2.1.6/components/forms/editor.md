@@ -83,21 +83,21 @@ ComponentType<EditorProps>
       <td><code>BaseEventOrigFunction&lt;editorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器聚焦时触发<br />event.detail = { html, text, delta }</td>
+      <td>编辑器聚焦时触发<br />event.detail = {`{ html, text, delta }`}</td>
     </tr>
     <tr>
       <td>onBlur</td>
       <td><code>BaseEventOrigFunction&lt;editorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器失去焦点时触发<br />detail = { html, text, delta }</td>
+      <td>编辑器失去焦点时触发<br />detail = {`{ html, text, delta }`}</td>
     </tr>
     <tr>
       <td>onInput</td>
       <td><code>BaseEventOrigFunction&lt;editorEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>编辑器内容改变时触发<br />detail = { html, text, delta }</td>
+      <td>编辑器内容改变时触发<br />detail = {`{ html, text, delta }`}</td>
     </tr>
     <tr>
       <td>onStatuschange</td>
