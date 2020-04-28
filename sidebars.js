@@ -24,6 +24,7 @@ module.exports = {
       'html',
       'css-in-js',
       'prerender',
+      'virtual-list',
       'mini-third-party',
       'hybrid',
     ],

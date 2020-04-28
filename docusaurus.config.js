@@ -7,6 +7,7 @@
 
 // See https://docusaurus.io/docs/site-config.html for all the possible
 // site configuration options.
+const versions = require('./versions.json');
 
 /* List of projects/orgs using your project for the users page */
 const users = [
@@ -31,7 +32,10 @@ const siteConfig = {
     disableDarkMode: true,
     algolia: {
       apiKey: '57b9948bff42bc0dbc6c219556fbae35',
-      indexName: 'taro'
+      indexName: 'taro',
+      algoliaOptions: {
+        facetFilters: [`version:${versions[0]}`],
+      },
     },
     prism: {
       theme: require('prism-react-renderer/themes/github'),
@@ -44,6 +48,11 @@ const siteConfig = {
         src: 'img/logo-taro.png',
       },
       links: [
+        {
+          to: 'versions',
+          label: `v${versions[0]}`,
+          position: 'left',
+        },
         {
           to: 'docs/README',
           activeBasePath: 'docs',
