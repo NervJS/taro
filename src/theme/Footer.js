@@ -8,8 +8,8 @@
 import React, { useEffect } from "react";
 import { useRouteMatch } from "@docusaurus/router";
 
-import "./hotjar";
-import "./tongji";
+// import "./hotjar";
+// import "./tongji";
 
 function fixNavbar(onlyDocs) {
   if (typeof document === "undefined") {
