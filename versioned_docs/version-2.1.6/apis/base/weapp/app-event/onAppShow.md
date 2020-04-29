@@ -54,7 +54,7 @@ sidebar_label: onAppShow
     <tr>
       <td>referrerInfo</td>
       <td><code>ResultReferrerInfo</code></td>
-      <td>来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 <code>{}</code>。(参见后文注意)</td>
+      <td>来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {`{}`}。(参见后文注意)</td>
     </tr>
     <tr>
       <td>scene</td>
