@@ -120,8 +120,8 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
   }
 }
 
-export function recursiveFindNodeModules (filePath: string): string {
-  if (normalizePath(filePath) === '/') {
+export function recursiveFindNodeModules (filePath: string, lastFindPath?: string): string {
+  if (lastFindPath && (normalizePath(filePath) === normalizePath(lastFindPath))) {
     return filePath
   }
   const dirname = path.dirname(filePath)
@@ -134,7 +134,7 @@ export function recursiveFindNodeModules (filePath: string): string {
     printLog(processTypeEnum.ERROR, `在${dirname}目录下`, `未找到node_modules文件夹，请先安装相关依赖库！`)
     return nodeModules
   }
-  return recursiveFindNodeModules(dirname)
+  return recursiveFindNodeModules(dirname, filePath)
 }
 
 export function getUserHomeDir (): string {
