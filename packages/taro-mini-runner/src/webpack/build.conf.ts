@@ -180,6 +180,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       designWidth,
       deviceRatio,
       enableSourceMap,
+      compile: config.compile || {},
 
       cssLoaderOption,
       lessLoaderOption,

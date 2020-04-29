@@ -186,6 +186,7 @@ export const getModule = (appPath: string, {
   buildAdapter,
   // constantsReplaceList,
   enableSourceMap,
+  compile,
 
   cssLoaderOption,
   lessLoaderOption,
@@ -368,6 +369,8 @@ export const getModule = (appPath: string, {
     },
     script: {
       test: REG_SCRIPTS,
+      exclude: compile.exclude && compile.exclude.length ? compile.exclude : [filename => /node_modules/.test(filename)],
+      include: compile.include && compile.include.length ? compile.include : [],
       use: {
         babelLoader: getBabelLoader([])
       }

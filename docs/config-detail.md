@@ -284,15 +284,41 @@ copy: {
 
 #### mini.compile.exclude
 
-配置小程序编译过程中排除不需要经过 Taro 编译的文件，数组类型，写文件路径，文件路径必须以源码所在 `src` 目录开头：
+配置小程序编译过程中排除不需要经过 Taro 编译的文件，数组类型，数组里面可以包含具体文件路径，也可以是判断函数，同 [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude)
 
-```jsx
-mini: {
-  compile: {
-    exclude: ['src/components/ec-canvas/echarts.js']
+例如，想要排除某个文件，可以如下配置要排除的文件具体路径：
+
+```js
+const config = {
+  mini: {
+    compile: {
+      exclude: [
+        path.resolve(__dirname, '..', 'src/pages/index/vod-wx-sdk-v2.js')
+      ]
+    }
   }
 }
 ```
+
+也可以配置判断函数，如下
+
+```js
+const config = {
+  mini: {
+    compile: {
+      exclude: [
+        function (modulePath) {
+          return modulePath.indexOf('vod-wx-sdk-v2') >= 0
+        }
+      ]
+    }
+  }
+}
+```
+
+#### mini.compile.incldue
+
+配置额外需要经过 Taro 编译的文件，例如 Taro 默认不编译 `node_modules` 包中文件，可以通过这个配置让 Taro 编译  `node_modules` 包中文件，使用方式与 `mini.compile.exclude` 一致，同 [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude)。
 
 ### mini.webpackChain
 
@@ -355,6 +381,30 @@ export enum PARSE_AST_TYPE {
   COMPONENT = 'COMPONENT',
   NORMAL = 'NORMAL',
   STATIC = 'STATIC'
+}
+```
+
+### mini.addChunkPages
+
+> 2.0.5 开始支持
+> `type addChunkPages = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)`
+
+在某些情况下，我们可能需要为某些页面单独指定需要引用的公共文件，例如，使用小程序分包的时候，为了减少主包大小，分包的页面希望引入自己的公共文件，而不希望直接放在主包内，那么我们首先可以通过配置 `mini.webpackChain` 来单独抽离分包的公共文件，然后通过 `mini.addChunkPages` 为分包页面配置引入子包公共文件，其使用方式如下：
+
+`mini.addChunkPages` 配置为一个函数，接受两个参数
+
+* `pages` 参数为 Map 类型，用于为页面添加公共文件
+* `pagesNames` 参数为当前应用的所有页面标识列表，可以通过打印的方式进行查看页面的标识
+
+例如，为 `pages/index/index` 页面添加 `eating` 和 `morning` 两个抽离的公共文件
+
+```js
+const config = {
+  mini: {
+    addChunkPages (pages, pagesNames) {
+      pages.set('pages/index/index', ['eating', 'morning'])
+    }
+  }
 }
 ```
 
