@@ -1,5 +1,5 @@
 import * as webpack from 'webpack'
-import { BUILD_TYPES } from '@tarojs/runner-utils'
+import { BUILD_TYPES, PARSE_AST_TYPE } from '@tarojs/runner-utils'
 
 import { IBuildConfig } from './utils/types'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
@@ -10,7 +10,7 @@ import { makeConfig } from './webpack/chain'
 
 const customizeChain = (chain, customizeFunc: Function) => {
   if (customizeFunc instanceof Function) {
-    customizeFunc(chain, webpack)
+    customizeFunc(chain, webpack, PARSE_AST_TYPE)
   }
 }
 

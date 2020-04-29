@@ -298,7 +298,7 @@ mini: {
 
 自定义 Webpack 配置，接受函数形式的配置。
 
-这个函数会收到两个参数，第一个参数是 webpackChain 对象，可参考 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 的 api 进行修改；第二个参数是 `webpack` 实例。例如：
+这个函数会收到三个参数，第一个参数是 webpackChain 对象，可参考 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 的 api 进行修改；第二个参数是 `webpack` 实例；第三个参数 `PARSE_AST_TYPE` 是小程序编译时的文件类型集合。例如：
 
 ```jsx
 // 这是一个添加 ts-loader 的例子，但事实上 taro 是默认支持 ts 的，并不需要这样做。
@@ -343,6 +343,18 @@ mini: {
       }
     })
   }
+}
+```
+
+注意：第三个参数的取值如下
+
+```typescript
+export enum PARSE_AST_TYPE {
+  ENTRY = 'ENTRY',
+  PAGE = 'PAGE',
+  COMPONENT = 'COMPONENT',
+  NORMAL = 'NORMAL',
+  STATIC = 'STATIC'
 }
 ```
 

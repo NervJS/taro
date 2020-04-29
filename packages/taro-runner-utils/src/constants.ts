@@ -255,6 +255,15 @@ export enum META_TYPE {
   CONFIG = 'CONFIG'
 }
 
+export enum PARSE_AST_TYPE {
+  ENTRY = 'ENTRY',
+  PAGE = 'PAGE',
+  COMPONENT = 'COMPONENT',
+  NORMAL = 'NORMAL',
+  STATIC = 'STATIC',
+  EXPORTS = 'EXPORTS'
+}
+
 export const enum processTypeEnum {
   START = 'start',
   CREATE = 'create',

@@ -186,6 +186,14 @@ export declare enum META_TYPE {
     STATIC = "STATIC",
     CONFIG = "CONFIG"
 }
+export declare enum PARSE_AST_TYPE {
+  ENTRY = 'ENTRY',
+  PAGE = 'PAGE',
+  COMPONENT = 'COMPONENT',
+  NORMAL = 'NORMAL',
+  STATIC = 'STATIC',
+  EXPORTS = 'EXPORTS'
+}
 export declare const enum processTypeEnum {
     START = "start",
     CREATE = "create",
