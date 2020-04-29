@@ -44,7 +44,7 @@
   "devDependencies": {
     "@types/hapi__joi": "16.0.12",
     "@types/jest": "25.2.1",
-    "@types/node": "13.9.0",
+    "@types/node": "13.13.4",
     "jest": "25.1.0",
     "ts-jest": "25.2.1",
     "typescript": "^3.4.5"

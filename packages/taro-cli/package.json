@@ -118,7 +118,7 @@
     "@types/jest": "^23.3.10",
     "@types/klaw": "^3.0.0",
     "@types/lodash": "^4.14.119",
-    "@types/node": "^10.12.18",
+    "@types/node": "^13.13.4",
     "@types/react": "^16.9.14",
     "@types/shelljs": "^0.8.5",
     "@types/tapable": "^1.0.4",

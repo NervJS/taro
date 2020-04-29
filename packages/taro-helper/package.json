@@ -56,7 +56,7 @@
   "devDependencies": {
     "@types/debug": "4.1.5",
     "@types/fs-extra": "8.1.0",
-    "@types/node": "13.9.0",
+    "@types/node": "13.13.4",
     "jest": "25.1.0",
     "ts-jest": "25.2.1",
     "typescript": "^3.4.5"

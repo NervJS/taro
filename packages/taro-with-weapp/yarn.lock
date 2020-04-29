@@ -45,17 +45,17 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tarojs/taro@2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.0.7.tgz#eeb8d998fbc66c5b55eec371bc3506a22aad0e43"
-  integrity sha512-W/l7LdyNCX/JE9o4y3O2XgM1RYlG2M8h0bqsd7R7pLIN+yL8EKmaG6Ok8xJqN8g9/QcwPI85T04VbLVg/Gebbg==
+"@tarojs/taro@2.2.0-beta.0":
+  version "2.2.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.2.0-beta.0.tgz#e4e7c0084fa035fc19f353572201553e528e8e64"
+  integrity sha512-FZwHLxe2ZD0+PhEWAlk7wEJr2L8TJFsj5dY2BcKd5L28QOp2TCJyH+Iz7H/x9Q4ZVRyJhZLTW40TZg/WyMv9xg==
   dependencies:
-    "@tarojs/utils" "2.0.7"
+    "@tarojs/utils" "2.2.0-beta.0"
 
-"@tarojs/utils@2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.0.7.tgz#f6d916e2346bef62dee1e9f1340849ec30828834"
-  integrity sha512-G1bTxpGLIXaEI/zfJWKOk8cFFtQC0jxTWQsbT/iUtPrv9gltC/VvOHg/pCRMqY+7lCM0wmmA6a1x+q7/7Fd22w==
+"@tarojs/utils@2.2.0-beta.0":
+  version "2.2.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.2.0-beta.0.tgz#4ed59d0f952a475258524febca67b596961d6b3f"
+  integrity sha512-A2lx/jN738goybSb+NjJh14n9Es68Oua28RxJ4lIkd2FxI9u+21uGu35aYx4xqEt+k8I59LFoeD6Os+ldmu2Tg==
 
 "@types/estree@0.0.39":
   version "0.0.39"
@@ -69,13 +69,10 @@
   version "4.14.116"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.116.tgz#5ccf215653e3e8c786a58390751033a9adca0eb9"
 
-"@types/node@*":
-  version "10.11.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.11.0.tgz#ddd0d67a3b6c3810dd1a59e36675fa82de5e19ae"
-
-"@types/node@^9.6.2":
-  version "9.6.32"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.32.tgz#1b64134f630b30c9cda4810aa4a94fc2d4141dbd"
+"@types/node@*", "@types/node@^13.13.4":
+  version "13.13.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.4.tgz#1581d6c16e3d4803eb079c87d4ac893ee7501c2c"
+  integrity sha512-x26ur3dSXgv5AwKS0lNfbjpCakGIduWU1DU91Zz58ONRWrIKGunmZBNv4P7N+e27sJkiGDsw/3fT4AtsqQBrBA==
 
 "@types/sinon@^7.0.13":
   version "7.5.0"
