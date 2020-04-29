@@ -120,10 +120,10 @@ export default {
 你可能会倾向于其他浏览器的默认样式：
 
 * [Firefox](https://dxr.mozilla.org/mozilla-central/source/layout/style/res/html.css)
-* [Internet Explorer](http://web.archive.org/web/20170122223926/http://www.iecss.com/)
-* [Safari/Chrome(Webkit)](http://trac.webkit.org/browser/trunk/Source/WebCore/css/html.css)
-* [Opera](http://web.archive.org/web/20161031005401/http://www.iecss.com/opera-10.51.css)
-* [W3C HTML5 Spec](http://www.w3.org/TR/html5/rendering.html)
+* [Internet Explorer](https://web.archive.org/web/20170122223926/https://www.iecss.com/)
+* [Safari/Chrome(Webkit)](https://trac.webkit.org/browser/trunk/Source/WebCore/css/html.css)
+* [Opera](https://web.archive.org/web/20161031005401/https://www.iecss.com/opera-10.51.css)
+* [W3C HTML5 Spec](https://www.w3.org/TR/html5/rendering.html)
 * [normalize.css](https://github.com/necolas/normalize.css/blob/master/normalize.css)
 
 ## HTML 转义

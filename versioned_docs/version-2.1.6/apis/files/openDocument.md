@@ -107,7 +107,7 @@ sidebar_label: openDocument
 
 ```tsx
 Taro.downloadFile({
-  url: 'http://example.com/somefile.pdf',
+  url: 'https://example.com/somefile.pdf',
   success: function (res) {
     var filePath = res.tempFilePath
     Taro.openDocument({

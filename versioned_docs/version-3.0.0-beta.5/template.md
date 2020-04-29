@@ -59,7 +59,7 @@ zip 包解压出单文件夹，文件夹根目录包含 package.json。
 
 模板名为 zip 包解压出的文件夹名。
 
-![template](http://storage.jd.com/cjj-test/QQ20190717-154634.png)
+![template](https://storage.jd.com/cjj-test/QQ20190717-154634.png)
 
 #### 模板组模式
 
@@ -75,7 +75,7 @@ zip 包解压出单文件夹，文件夹内包含若干模板。
 
 模板名对应文件夹内所有文件夹名。
 
-![templates](http://storage.jd.com/cjj-test/QQ20190717-152451.png)
+![templates](https://storage.jd.com/cjj-test/QQ20190717-152451.png)
 
 ### 静态模板
 

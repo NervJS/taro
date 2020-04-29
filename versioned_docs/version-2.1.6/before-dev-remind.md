@@ -23,7 +23,7 @@ title: 各端开发前注意
 
 ### 接入
 
-目前京东小程序还在内测阶段，需要先在[京东小程序官网](http://mp.jd.com/)上**申请入驻**。
+目前京东小程序还在内测阶段，需要先在[京东小程序官网](https://mp.jd.com/)上**申请入驻**。
 
 完成入驻后即可在平台上创建小程序应用。
 
@@ -122,7 +122,7 @@ React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github
 
 我们在 React Native 中使用 Flexbox 规则来指定某个组件的子元素的布局。Flexbox 可以在不同屏幕尺寸上提供一致的布局结构。因此，如果你要考虑 React Native 端，那你的样式布局就得采用 Flex 布局。
 
-Flex 布局入门，可以查看阮一峰的 [Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
+Flex 布局入门，可以查看阮一峰的 [Flex 布局教程：语法篇](https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
 
 #### 是否支持全局样式？
 
@@ -193,7 +193,7 @@ pay.rn.js 文件，这是 Pay 组件的 RN 版本
 
 React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github.com/facebook/yoga) ，样式基本上是实现了 CSS 的一个子集，但是属性名不完全一致，具体的内容及相关差异可以查看文档 [React Native Layout Props](https://facebook.github.io/react-native/docs/layout-props)。Taro React Native 端样式文件的处理，主要可以分为以下几步：
 
-![image](http://on-img.com/chart_image/5b8b8896e4b0d4d65bf1ddc7.png)
+![image](https://on-img.com/chart_image/5b8b8896e4b0d4d65bf1ddc7.png)
 
 我们首先使用于处理器将 Scss/Less 样式文件转换为 CSS，这里我们借助 [css-to-react-native](https://github.com/styled-components/css-to-react-native)将 CSS 样式转换为 React Native Stylesheet objects。
 
@@ -239,24 +239,24 @@ React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github
 
 | 属性名                                       | 取值                                                                                                     | 描述                                                                                                                                                                                                                                                                   |
 | -------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| color                                        | [&lt;color&gt;](#user-content-color)                                                                     | 对应 `CSS` [color](http://css.doyoe.com/properties/color/color.htm) 属性                                                                                                                                                                                               |
-| fontFamily                                   | string                                                                                                   | 对应 `CSS` [font-family](http://css.doyoe.com/properties/font/font-family.htm) 属性                                                                                                                                                                                    |
-| fontSize                                     | [&lt;number&gt;](#user-content-number)                                                                   | 对应 `CSS` [font-size](http://css.doyoe.com/properties/font/font-size.htm) 属性                                                                                                                                                                                        |
-| fontStyle                                    | `normal`, `italic`                                                                                       | 对应 `CSS` [font-style](http://css.doyoe.com/properties/font/font-style.htm) 属性，但阉割了 `oblique` 取值                                                                                                                                                             |
-| fontWeight                                   | `normal`, `bold` `100~900`                                                                               | 对应 `CSS` [font-weight](http://css.doyoe.com/properties/font/font-weight.htm) 属性，但阉割了 `bolder, lighter` 取值                                                                                                                                                   |
-| lineHeight                                   | [&lt;number&gt;](#user-content-number)                                                                   | 对应 `CSS` [line-height](http://css.doyoe.com/properties/text/line-height.htm) 属性                                                                                                                                                                                    |
-| textAlign                                    | `auto`, `left`, `right`, `center`, `justify`<sup>`iOS`</sup>                                             | 对应 `CSS` [text-align](http://css.doyoe.com/properties/text/text-align.htm) 属性，但增加了 `auto` 取值。当取值为 `justify` 时，在 `Android` 上会变为 `left`                                                                                                           |
-| textDecorationLine                           | `none`, `underline`, `line-through`, `underline line-through`                                            | 对应 `CSS` [text-decoration-line](http://css.doyoe.com/properties/text-decoration/text-decoration-line.htm) 属性，但阉割了 `overline`, `blink` 取值                                                                                                                    |
-| textShadowColor                              | [&lt;color&gt;](#user-content-color)                                                                     | 对应 `CSS` [text-shadow](http://css.doyoe.com/properties/text-decoration/text-shadow.htm) 属性中的颜色定义                                                                                                                                                             |
-| textShadowOffset                             | {<br />width:[&lt;number&gt;](#user-content-number),<br />height:[&lt;number&gt;](#user-content-number)<br />} | 对应 `CSS` [text-shadow](http://css.doyoe.com/properties/text-decoration/text-shadow.htm) 属性中的阴影偏移定义                                                                                                                                                         |
+| color                                        | [&lt;color&gt;](#user-content-color)                                                                     | 对应 `CSS` [color](https://css.doyoe.com/properties/color/color.htm) 属性                                                                                                                                                                                               |
+| fontFamily                                   | string                                                                                                   | 对应 `CSS` [font-family](https://css.doyoe.com/properties/font/font-family.htm) 属性                                                                                                                                                                                    |
+| fontSize                                     | [&lt;number&gt;](#user-content-number)                                                                   | 对应 `CSS` [font-size](https://css.doyoe.com/properties/font/font-size.htm) 属性                                                                                                                                                                                        |
+| fontStyle                                    | `normal`, `italic`                                                                                       | 对应 `CSS` [font-style](https://css.doyoe.com/properties/font/font-style.htm) 属性，但阉割了 `oblique` 取值                                                                                                                                                             |
+| fontWeight                                   | `normal`, `bold` `100~900`                                                                               | 对应 `CSS` [font-weight](https://css.doyoe.com/properties/font/font-weight.htm) 属性，但阉割了 `bolder, lighter` 取值                                                                                                                                                   |
+| lineHeight                                   | [&lt;number&gt;](#user-content-number)                                                                   | 对应 `CSS` [line-height](https://css.doyoe.com/properties/text/line-height.htm) 属性                                                                                                                                                                                    |
+| textAlign                                    | `auto`, `left`, `right`, `center`, `justify`<sup>`iOS`</sup>                                             | 对应 `CSS` [text-align](https://css.doyoe.com/properties/text/text-align.htm) 属性，但增加了 `auto` 取值。当取值为 `justify` 时，在 `Android` 上会变为 `left`                                                                                                           |
+| textDecorationLine                           | `none`, `underline`, `line-through`, `underline line-through`                                            | 对应 `CSS` [text-decoration-line](https://css.doyoe.com/properties/text-decoration/text-decoration-line.htm) 属性，但阉割了 `overline`, `blink` 取值                                                                                                                    |
+| textShadowColor                              | [&lt;color&gt;](#user-content-color)                                                                     | 对应 `CSS` [text-shadow](https://css.doyoe.com/properties/text-decoration/text-shadow.htm) 属性中的颜色定义                                                                                                                                                             |
+| textShadowOffset                             | {<br />width:[&lt;number&gt;](#user-content-number),<br />height:[&lt;number&gt;](#user-content-number)<br />} | 对应 `CSS` [text-shadow](https://css.doyoe.com/properties/text-decoration/text-shadow.htm) 属性中的阴影偏移定义                                                                                                                                                         |
 | textShadowRadius                             | [&lt;number&gt;](#user-content-number)                                                                   | 在 `CSS` 中，阴影的圆角大小取决于元素的圆角定义，不需要额外定义                                                                                                                                                                                                        |
 | includeFontPadding<br /><sup>`Android`</sup> | [&lt;bool&gt;](#user-content-bool)                                                                       | Android 在默认情况下会为文字额外保留一些 padding，以便留出空间摆放上标或是下标的文字。对于某些字体来说，这些额外的 padding 可能会导致文字难以垂直居中。如果你把 `textAlignVertical` 设置为 `center` 之后，文字看起来依然不在正中间，那么可以尝试将本属性设置为 `false` |
-| textAlignVertical<br /><sup>`Android`</sup>  | `auto`, `top`, `bottom`, `center`                                                                        | 对应 `CSS` [vertical-align](http://css.doyoe.com/properties/text/vertical-align.htm) 属性，增加了 `auto` 取值，`center` 取代了 `middle`，并阉割了 `baseline, sub` 等值                                                                                                 |
-| fontVariant<br /><sup>`iOS`</sup>            | `small-caps`, `oldstyle-nums`, `lining-nums`, `tabular-nums`, `proportional-nums`                        | 对应 `CSS` [font-variant](http://css.doyoe.com/properties/font/font-variant.htm) 属性，但取值更丰富                                                                                                                                                                    |
-| letterSpacing<br /><sup>`iOS`</sup>          | [&lt;number&gt;](#user-content-number)                                                                   | 对应 `CSS` [letter-spacing](http://css.doyoe.com/properties/text/letter-spacing.htm) 属性                                                                                                                                                                              |
-| textDecorationColor<br /><sup>`iOS`</sup>    | [&lt;color&gt;](#user-content-color)                                                                     | 对应 `CSS` [text-decoration-color](http://css.doyoe.com/properties/text-decoration/text-decoration-color.htm) 属性                                                                                                                                                     |
-| textDecorationStyle<br /><sup>`iOS`</sup>    | `solid`, `double`, `dotted`, `dashed`                                                                    | 对应 `CSS` [text-decoration-style](http://css.doyoe.com/properties/text-decoration/text-decoration-style.htm) 属性，但阉割了 `wavy` 取值                                                                                                                               |
-| writingDirection<br /><sup>`iOS`</sup>       | `auto`, `ltr`, `rtl`                                                                                     | 对应 `CSS` [direction](http://css.doyoe.com/properties/writing-modes/direction.htm) 属性，增加了 `auto` 取值                                                                                                                                                           |
+| textAlignVertical<br /><sup>`Android`</sup>  | `auto`, `top`, `bottom`, `center`                                                                        | 对应 `CSS` [vertical-align](https://css.doyoe.com/properties/text/vertical-align.htm) 属性，增加了 `auto` 取值，`center` 取代了 `middle`，并阉割了 `baseline, sub` 等值                                                                                                 |
+| fontVariant<br /><sup>`iOS`</sup>            | `small-caps`, `oldstyle-nums`, `lining-nums`, `tabular-nums`, `proportional-nums`                        | 对应 `CSS` [font-variant](https://css.doyoe.com/properties/font/font-variant.htm) 属性，但取值更丰富                                                                                                                                                                    |
+| letterSpacing<br /><sup>`iOS`</sup>          | [&lt;number&gt;](#user-content-number)                                                                   | 对应 `CSS` [letter-spacing](https://css.doyoe.com/properties/text/letter-spacing.htm) 属性                                                                                                                                                                              |
+| textDecorationColor<br /><sup>`iOS`</sup>    | [&lt;color&gt;](#user-content-color)                                                                     | 对应 `CSS` [text-decoration-color](https://css.doyoe.com/properties/text-decoration/text-decoration-color.htm) 属性                                                                                                                                                     |
+| textDecorationStyle<br /><sup>`iOS`</sup>    | `solid`, `double`, `dotted`, `dashed`                                                                    | 对应 `CSS` [text-decoration-style](https://css.doyoe.com/properties/text-decoration/text-decoration-style.htm) 属性，但阉割了 `wavy` 取值                                                                                                                               |
+| writingDirection<br /><sup>`iOS`</sup>       | `auto`, `ltr`, `rtl`                                                                                     | 对应 `CSS` [direction](https://css.doyoe.com/properties/writing-modes/direction.htm) 属性，增加了 `auto` 取值                                                                                                                                                           |
 
 <a name="dimension"></a>
 
@@ -264,12 +264,12 @@ React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github
 
 | 属性名    | 取值                                   | 描述                                                                                   |
 | --------- | -------------------------------------- | -------------------------------------------------------------------------------------- |
-| width     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [width](http://css.doyoe.com/properties/dimension/width.htm) 属性           |
-| minWidth  | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [min-width](http://css.doyoe.com/properties/dimension/min-width.htm) 属性   |
-| maxWidth  | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [max-width](http://css.doyoe.com/properties/dimension/max-width.htm) 属性   |
-| height    | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [height](http://css.doyoe.com/properties/dimension/height.htm) 属性         |
-| minHeight | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [min-height](http://css.doyoe.com/properties/dimension/min-height.htm) 属性 |
-| maxHeight | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [max-height](http://css.doyoe.com/properties/dimension/max-height.htm) 属性 |
+| width     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [width](https://css.doyoe.com/properties/dimension/width.htm) 属性           |
+| minWidth  | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [min-width](https://css.doyoe.com/properties/dimension/min-width.htm) 属性   |
+| maxWidth  | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [max-width](https://css.doyoe.com/properties/dimension/max-width.htm) 属性   |
+| height    | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [height](https://css.doyoe.com/properties/dimension/height.htm) 属性         |
+| minHeight | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [min-height](https://css.doyoe.com/properties/dimension/min-height.htm) 属性 |
+| maxHeight | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [max-height](https://css.doyoe.com/properties/dimension/max-height.htm) 属性 |
 
 <a name="positioning"></a>
 
@@ -277,12 +277,12 @@ React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github
 
 | 属性名   | 取值                                   | 描述                                                                                                                |
 | -------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| position | `absolute`, `relative`                 | 对应 `CSS` [position](http://css.doyoe.com/properties/positioning/position.htm) 属性，但阉割了 `static, fixed` 取值 |
-| top      | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [top](http://css.doyoe.com/properties/positioning/top.htm) 属性                                          |
-| right    | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [right](http://css.doyoe.com/properties/positioning/right.htm) 属性                                      |
-| bottom   | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [bottom](http://css.doyoe.com/properties/positioning/bottom.htm) 属性                                    |
-| left     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [left](http://css.doyoe.com/properties/positioning/left.htm) 属性                                        |
-| zIndex   | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [z-index](http://css.doyoe.com/properties/positioning/z-index.htm) 属性                                  |
+| position | `absolute`, `relative`                 | 对应 `CSS` [position](https://css.doyoe.com/properties/positioning/position.htm) 属性，但阉割了 `static, fixed` 取值 |
+| top      | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [top](https://css.doyoe.com/properties/positioning/top.htm) 属性                                          |
+| right    | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [right](https://css.doyoe.com/properties/positioning/right.htm) 属性                                      |
+| bottom   | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [bottom](https://css.doyoe.com/properties/positioning/bottom.htm) 属性                                    |
+| left     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [left](https://css.doyoe.com/properties/positioning/left.htm) 属性                                        |
+| zIndex   | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [z-index](https://css.doyoe.com/properties/positioning/z-index.htm) 属性                                  |
 
 <a name="margin"></a>
 
@@ -290,13 +290,13 @@ React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github
 
 | 属性名           | 取值                                   | 描述                                                                                                                                                                                  |
 | ---------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| margin           | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin](http://css.doyoe.com/properties/margin/margin.htm) 属性，不同的是，它只能定义一个参数，如需分别定义`上、右、下、左`4 个方位的外补白，可以通过下面的单向外部白属性 |
+| margin           | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin](https://css.doyoe.com/properties/margin/margin.htm) 属性，不同的是，它只能定义一个参数，如需分别定义`上、右、下、左`4 个方位的外补白，可以通过下面的单向外部白属性 |
 | marginHorizontal | [&lt;number&gt;](#user-content-number) | 无对应的 `CSS` 属性。其效果相当于同时设置 `marginRight` 和 `marginLeft`                                                                                                               |
 | marginVertical   | [&lt;number&gt;](#user-content-number) | 无对应的 `CSS` 属性。其效果相当于同时设置 `marginTop` 和 `marginBottom`                                                                                                               |
-| marginTop        | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-top](http://css.doyoe.com/properties/margin/margin-top.htm) 属性                                                                                                   |
-| marginRight      | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-right](http://css.doyoe.com/properties/margin/margin-right.htm) 属性                                                                                               |
-| marginBottom     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-bottom](http://css.doyoe.com/properties/margin/margin-bottom.htm) 属性                                                                                             |
-| marginLeft       | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-left](http://css.doyoe.com/properties/margin/margin-left.htm) 属性                                                                                                 |
+| marginTop        | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-top](https://css.doyoe.com/properties/margin/margin-top.htm) 属性                                                                                                   |
+| marginRight      | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-right](https://css.doyoe.com/properties/margin/margin-right.htm) 属性                                                                                               |
+| marginBottom     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-bottom](https://css.doyoe.com/properties/margin/margin-bottom.htm) 属性                                                                                             |
+| marginLeft       | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [margin-left](https://css.doyoe.com/properties/margin/margin-left.htm) 属性                                                                                                 |
 
 <a name="padding"></a>
 
@@ -304,13 +304,13 @@ React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github
 
 | 属性名            | 取值                                   | 描述                                                                                                                                                                                     |
 | ----------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| padding           | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding](http://css.doyoe.com/properties/padding/padding.htm) 属性，不同的是，它只能定义一个参数，如需分别定义`上、右、下、左`4 个方位的内补白，可以通过下面的单向内部白属性 |
+| padding           | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding](https://css.doyoe.com/properties/padding/padding.htm) 属性，不同的是，它只能定义一个参数，如需分别定义`上、右、下、左`4 个方位的内补白，可以通过下面的单向内部白属性 |
 | paddingHorizontal | [&lt;number&gt;](#user-content-number) | 无对应的 `CSS` 属性。其效果相当于同时设置 `paddingRight` 和 `paddingLeft`                                                                                                                |
 | paddingVertical   | [&lt;number&gt;](#user-content-number) | 无对应的 `CSS` 属性。其效果相当于同时设置 `paddingTop` 和 `paddingBottom`                                                                                                                |
-| paddingTop        | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-top](http://css.doyoe.com/properties/padding/padding-top.htm) 属性                                                                                                   |
-| paddingRight      | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-right](http://css.doyoe.com/properties/padding/padding-right.htm) 属性                                                                                               |
-| paddingBottom     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-bottom](http://css.doyoe.com/properties/padding/padding-bottom.htm) 属性                                                                                             |
-| paddingLeft       | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-left](http://css.doyoe.com/properties/padding/padding-left.htm) 属性                                                                                                 |
+| paddingTop        | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-top](https://css.doyoe.com/properties/padding/padding-top.htm) 属性                                                                                                   |
+| paddingRight      | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-right](https://css.doyoe.com/properties/padding/padding-right.htm) 属性                                                                                               |
+| paddingBottom     | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-bottom](https://css.doyoe.com/properties/padding/padding-bottom.htm) 属性                                                                                             |
+| paddingLeft       | [&lt;number&gt;](#user-content-number) | 对应 `CSS` [padding-left](https://css.doyoe.com/properties/padding/padding-left.htm) 属性                                                                                                 |
 
 <a name="border"></a>
 
@@ -334,10 +334,10 @@ React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github
 | borderTopRightRadius    | [&lt;number&gt;](#user-content-number)                                                                      | 对应 `CSS` `border-top-right-radius` 属性                                                                            |
 | borderBottomLeftRadius  | [&lt;number&gt;](#user-content-number)                                                                      | 对应 `CSS` `border-bottom-left-radius` 属性                                                                          |
 | borderBottomRightRadius | [&lt;number&gt;](#user-content-number)                                                                      | 对应 `CSS` `border-bottom-right-radius` 属性                                                                         |
-| shadowColor             | [&lt;color&gt;](#user-content-color)                                                                        | 对应 `CSS` [box-shadow](http://css.doyoe.com/properties/border/box-shadow.htm) 属性中的颜色定义                      |
-| shadowOffset            | {<br />width: [&lt;number&gt;](#user-content-number), <br />height: [&lt;number&gt;](#user-content-number)<br />} | 对应 `CSS` [box-shadow](http://css.doyoe.com/properties/border/box-shadow.htm) 属性中的阴影偏移定义                  |
+| shadowColor             | [&lt;color&gt;](#user-content-color)                                                                        | 对应 `CSS` [box-shadow](https://css.doyoe.com/properties/border/box-shadow.htm) 属性中的颜色定义                      |
+| shadowOffset            | {<br />width: [&lt;number&gt;](#user-content-number), <br />height: [&lt;number&gt;](#user-content-number)<br />} | 对应 `CSS` [box-shadow](https://css.doyoe.com/properties/border/box-shadow.htm) 属性中的阴影偏移定义                  |
 | shadowRadius            | [&lt;number&gt;](#user-content-number)                                                                      | 在 `CSS` 中，阴影的圆角大小取决于元素的圆角定义，不需要额外定义                                                      |
-| shadowOpacity           | [&lt;number&gt;](#user-content-number)                                                                      | 对应 `CSS` [box-shadow](http://css.doyoe.com/properties/border/box-shadow.htm) 属性中的阴影透明度定义                |
+| shadowOpacity           | [&lt;number&gt;](#user-content-number)                                                                      | 对应 `CSS` [box-shadow](https://css.doyoe.com/properties/border/box-shadow.htm) 属性中的阴影透明度定义                |
 
 <a name="background"></a>
 
@@ -424,7 +424,7 @@ React Native 的样式基于开源的跨平台布局引擎 [Yoga](https://github
 - `hsla(360, 100%, 100%, 0.9)`
 - `transparent`
 - `0xff00ff00` (0xrrggbbaa)：`CSS` 中无对应的值
-- `Color Name`：支持了 [基本颜色关键字](http://css.doyoe.com/appendix/color-keywords.htm#basic) 和 [拓展颜色关键字](http://css.doyoe.com/appendix/color-keywords.htm#extended)，但不支持 [28 个系统颜色](http://css.doyoe.com/appendix/color-keywords.htm#system)；
+- `Color Name`：支持了 [基本颜色关键字](https://css.doyoe.com/appendix/color-keywords.htm#basic) 和 [拓展颜色关键字](https://css.doyoe.com/appendix/color-keywords.htm#extended)，但不支持 [28 个系统颜色](https://css.doyoe.com/appendix/color-keywords.htm#system)；
 
 #### 优先级与继承（Specificity and inheritance）
 
@@ -445,4 +445,4 @@ Taro 使用 [PostCSS](https://github.com/ai/postcss) 单位转换插件 [postcss
 ### 参考
 
 - [CSS Flexible Box Layout Module Level 1](https://www.w3.org/TR/css-flexbox-1/)
-- [Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
+- [Flex 布局教程：语法篇](https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)

@@ -358,7 +358,7 @@ class App extends Component {
 }
 ```
 
-![image](http://ww1.sinaimg.cn/large/49320207gy1g0uiageahij20gf08dwer.jpg)
+![image](https://ww1.sinaimg.cn/large/49320207gy1g0uiageahij20gf08dwer.jpg)
 
 ### 生命周期
 
@@ -382,7 +382,7 @@ class App extends Component {
 | shareTicket | string | shareTicket，详见获取更多转发信息 | ✔️| ✔️| ✔️|  ✘ |  ✘ | ✘ |
 | referrerInfo | Object | 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {} | ✔️| ✔️| ✔️| ✔️ |  ✘ | ✘ |
 
-其中，场景值 scene，在微信小程序和百度小程序中存在区别，请分别参考 [微信小程序文档](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) 和 [百度小程序文档](http://smartprogram.baidu.com/docs/data/scene/)
+其中，场景值 scene，在微信小程序和百度小程序中存在区别，请分别参考 [微信小程序文档](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) 和 [百度小程序文档](https://smartprogram.baidu.com/docs/data/scene/)
 
 来源信息 referrerInfo 的数据结构如下
 
