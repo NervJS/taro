@@ -15,9 +15,9 @@ jobs:
           yarn
           yarn build
       - uses: amondnet/now-deployment@v2
+        timeout-minutes: 10
         with:
           zeit-token: ${{ secrets.ZEIT_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          now-args: '--prod'
           now-org-id: ${{ secrets.ORG_ID}}
           now-project-id: ${{ secrets.PROJECT_ID}}
