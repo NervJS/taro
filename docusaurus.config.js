@@ -9,17 +9,6 @@
 // site configuration options.
 const versions = require('./versions.json');
 
-/* List of projects/orgs using your project for the users page */
-const users = [
-  {
-    caption: '',
-    // You will need to prepend the image path with your baseUrl
-    // if it is not '/', like: '/test-site/img/docusaurus.svg'.
-    image: 'img/logo-taro.png',
-    infoLink: 'https://taro.jd.com',
-    pinned: true
-  }
-]
 
 const siteConfig = {
   baseUrl: '/' /* base url for your project */,
@@ -29,12 +18,13 @@ const siteConfig = {
   url: 'https://taro.jd.com' /* your website url */,
   themes: ['@docusaurus/theme-live-codeblock'],
   themeConfig: {
+    scrollToTop: true,
     disableDarkMode: true,
     algolia: {
       apiKey: '57b9948bff42bc0dbc6c219556fbae35',
       indexName: 'taro',
       algoliaOptions: {
-        facetFilters: ['version:VERSION'],
+        // facetFilters: ['version:VERSION'],
       },
     },
     prism: {
@@ -103,9 +93,6 @@ const siteConfig = {
         //   organizationName: 'JoelMarcey'
       
       
-        // If you have users set above, you add it here:
-        users,
-      
         /* path to images for header/footer */
         headerIcon: 'img/logo-taro.png',
         footerIcon: 'img/logo-taro.png',
@@ -135,21 +122,6 @@ const siteConfig = {
         theme: {
           customCss: require.resolve('./static/css/custom.css'),
         },
-      
-        usePrism: true,
-      
-        // Add custom scripts here that would be placed in <script> tags
-        scripts: [
-          'https://storage.jd.com/taro-docs/buttons.js',
-          {
-            src: 'https://storage.jd.com/taro-resource/tongji.js',
-            async: true
-          },
-          {
-            src: 'https://storage.jd.com/taro-docs/taro-doc-hotjar.js',
-            async: true
-          }
-        ],
       
         /* On page navigation for the current documentation page */
         onPageNav: 'separate',

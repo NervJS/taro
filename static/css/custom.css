@@ -38,7 +38,17 @@
   /* padding: 0; */
 }
 
-.navbar .navbar__link {
+.navbar a.navbar__link.navbar__link--active::after {
+  border-bottom: 1px solid #5bc0eb;
+  bottom: -10px;
+  content: " ";
+  /* left: 0;
+  position: absolute;
+  right: 0; */
+  color: whitesmoke;
+}
+
+.navbar a.navbar__link {
   color: whitesmoke;
 }
 
@@ -49,11 +59,6 @@
 
 h1.docTitle_node_modules-\@docusaurus-theme-classic-src-theme-DocItem- {
   font-size: 2.5rem;
-}
-
-.headerWrapper, header {
-  height: 74px;
-  align-items: center;
 }
 
 .fixedHeaderContainer header .logo {
