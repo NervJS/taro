@@ -17,6 +17,8 @@ const siteConfig = {
   title: 'Taro' /* title for your website */,
   url: 'https://taro.jd.com' /* your website url */,
   themes: ['@docusaurus/theme-live-codeblock'],
+  organizationName: 'nervjs',
+  projectName: 'taro',
   themeConfig: {
     scrollToTop: true,
     disableDarkMode: true,
@@ -91,19 +93,19 @@ const siteConfig = {
         // For top-level user or org sites, the organization is still the same.
         // e.g., for the https://JoelMarcey.github.io site, it would be set like...
         //   organizationName: 'JoelMarcey'
-      
-      
+
+
         /* path to images for header/footer */
         headerIcon: 'img/logo-taro.png',
         footerIcon: 'img/logo-taro.png',
         favicon: 'img/favicon.ico',
-      
+
         /* colors for website */
         colors: {
           primaryColor: '#0000c2',
           secondaryColor: '#4a72ea'
         },
-      
+
         /* custom fonts for website */
         /* fonts: {
           myFont: [
@@ -115,21 +117,21 @@ const siteConfig = {
             "system-ui"
           ]
         }, */
-      
+
         // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
         copyright: 'Copyright © ' + new Date().getFullYear() + ' ltp11',
-      
+
         theme: {
           customCss: require.resolve('./static/css/custom.css'),
         },
-      
+
         /* On page navigation for the current documentation page */
         onPageNav: 'separate',
-      
+
         /* Open Graph and Twitter card images */
         ogImage: 'img/logo-taro.png',
         twitterImage: 'img/logo-taro.png',
-      
+
         scrollToTop: true,
         docsSideNavCollapsible: true,
       }
