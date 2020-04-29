@@ -26,7 +26,7 @@ const makeConfig = async (buildConfig: IBuildConfig) => {
 export default async function build (appPath: string, config: IBuildConfig) {
   const mode = config.mode
   const newConfig = await makeConfig(config)
-  const webpackChain = buildConf(appPath, mode, config)
+  const webpackChain = buildConf(appPath, mode, newConfig)
   await customizeChain(webpackChain, newConfig.modifyWebpackChain, newConfig.webpackChain)
   const webpackConfig = webpackChain.toConfig()
   const onBuildFinish = config.onBuildFinish
