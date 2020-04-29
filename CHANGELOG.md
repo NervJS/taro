@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.2.0...v) (2020-04-29)
+# [](https://github.com/NervJS/taro/compare/v2.2.1...v) (2020-04-29)
+
+
+
+<a name="2.2.1"></a>
+## [2.2.1](https://github.com/NervJS/taro/compare/v2.2.0...v2.2.1) (2020-04-29)
+
+
+### Bug Fixes
+
+* **helper:** 遗漏 [@babel](https://github.com/babel)/core ([afd2d14](https://github.com/NervJS/taro/commit/afd2d14))
 
 
 
