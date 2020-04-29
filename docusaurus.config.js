@@ -34,7 +34,7 @@ const siteConfig = {
       apiKey: '57b9948bff42bc0dbc6c219556fbae35',
       indexName: 'taro',
       algoliaOptions: {
-        facetFilters: [`version:${versions[0]}`],
+        facetFilters: ['version:VERSION'],
       },
     },
     prism: {
@@ -52,6 +52,7 @@ const siteConfig = {
           to: 'versions',
           label: `v${versions[0]}`,
           position: 'left',
+          version: 'true'
         },
         {
           to: 'docs/README',
@@ -71,6 +72,11 @@ const siteConfig = {
           label: 'API',
           position: 'left',
         },
+        {
+          to: 'blog',
+          label: '博客',
+          position: 'left',
+        },
         {href: 'https://taro-ui.jd.com', label: 'Taro-UI', position: 'right'},
         {href: 'https://taro-ext.jd.com', label: '物料市场', position: 'right'},
         {href: 'https://taro-club.jd.com', label: '论坛', position: 'right'}
@@ -84,6 +90,12 @@ const siteConfig = {
         docs: {
           // sidebars file relative to website dir.
           sidebarPath: require.resolve('./sidebars.js'),
+        },
+        blog: {
+          showReadingTime: true,
+          // Please change this to your repo.
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/master/website/blog/',
         },
         editUrl: 'https://github.com/nervjs/taro/edit/master/docs/',
         // For top-level user or org sites, the organization is still the same.

@@ -27,6 +27,10 @@
   flex: 1;
 }
 
+.navbar a.navbar__link[version=true] {
+  text-decoration: underline;
+}
+
 .navbar {
   background-image: linear-gradient(180deg, #0000c2, #0000c2);
   height: 74px;
