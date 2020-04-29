@@ -311,7 +311,7 @@ ctx.registerPlatform({
       isBuildPlugin: false,
       globalObject: 'my',
       fileType: {
-        templ: '.awml',
+        templ: '.axml',
         style: '.acss',
         config: '.json',
         script: '.js'
