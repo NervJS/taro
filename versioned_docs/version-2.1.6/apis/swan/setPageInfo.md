@@ -198,7 +198,7 @@ Taro.setPageInfo({
   articleTitle: '晒元宵节活动红包，爱奇艺60张年卡、600张季卡等你拿！',
   releaseDate: '2019-01-02 12:01:30',
   image: [
-      'http://c.hiphotos.baidu.com/forum/w%3D480/sign=73c62dda83b1cb133e693d1bed5456da/f33725109313b07e8dee163d02d7912396dd8cfe.jpg',
+      'https://c.hiphotos.baidu.com/forum/w%3D480/sign=73c62dda83b1cb133e693d1bed5456da/f33725109313b07e8dee163d02d7912396dd8cfe.jpg',
       'https://hiphotos.baidu.com/fex/%70%69%63/item/43a7d933c895d143e7b745607ef082025baf07ab.jpg'
   ],
   video: [{

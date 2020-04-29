@@ -724,7 +724,7 @@ h5: {
 }
 ```
 
-针对上面的配置，调用 `Taro.navigateTo({ url: '/pages/index/index' })` 后，浏览器地址栏将被变为 `http://{{domain}}/#/pages/index/index`（hash 模式）或者 `http://{{domain}}/pages/index/index`（browser 模式）。
+针对上面的配置，调用 `Taro.navigateTo({ url: '/pages/index/index' })` 后，浏览器地址栏将被变为 `https://{{domain}}/#/pages/index/index`（hash 模式）或者 `https://{{domain}}/pages/index/index`（browser 模式）。
 
 #### h5.router.basename
 
@@ -740,7 +740,7 @@ h5: {
 }
 ```
 
-针对上面的配置，调用 `Taro.navigateTo({ url: '/pages/index/index' })` 后，浏览器地址栏将被变为 `http://{{domain}}/#/myapp/pages/index/index`（hash 模式）或者 `http://{{domain}}/myapp/pages/index/index`（browser 模式）。
+针对上面的配置，调用 `Taro.navigateTo({ url: '/pages/index/index' })` 后，浏览器地址栏将被变为 `https://{{domain}}/#/myapp/pages/index/index`（hash 模式）或者 `https://{{domain}}/myapp/pages/index/index`（browser 模式）。
 
 #### h5.router.customRoutes
 
@@ -758,7 +758,7 @@ h5: {
 }
 ```
 
-针对上面的配置，调用 `Taro.navigateTo({ url: '/pages/index/index' })` 后，浏览器地址栏将被变为 `http://{{domain}}/#/index`（hash 模式）或者 `http://{{domain}}/myapp/index`（browser 模式）。
+针对上面的配置，调用 `Taro.navigateTo({ url: '/pages/index/index' })` 后，浏览器地址栏将被变为 `https://{{domain}}/#/index`（hash 模式）或者 `https://{{domain}}/myapp/index`（browser 模式）。
 
 ### h5.entry
 

@@ -14,7 +14,7 @@ Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://gi
 
 整个 RN 端的开发流程如下：
 
-![image](http://assets.processon.com/chart_image/5c988481e4b01e76978bd6ab.png)
+![image](https://assets.processon.com/chart_image/5c988481e4b01e76978bd6ab.png)
 
 首先在 Taro 项目里执行：`taro build --type rn --watch`，这个命令会将 Taro 代码编译为 React Native 代码（默认输出在 rn_temp 目录下），并启动 Metro Server（可以看成是 webpack run devserver --port 8081）打包 rn_temp 下的 js。
 
@@ -27,7 +27,7 @@ Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://gi
 虽然你可以使用任何编辑器来开发应用（编写 js 代码），但你仍然必须安装 Xcode 来获得编译 iOS 应用所需的工具和环境。
 
 ### Node, Watchman
-我们推荐使用 [Homebrew](http://brew.sh/) 来安装 Node 和 Watchman。在命令行中执行下列命令安装：
+我们推荐使用 [Homebrew](https://brew.sh/) 来安装 Node 和 Watchman。在命令行中执行下列命令安装：
 
 ```sh
 brew install node
@@ -50,7 +50,7 @@ npm config set disturl https://npm.taobao.org/dist --global
 $ nrm ls
 
 * npm -----  https://registry.npmjs.org/
-  cnpm ----  http://r.cnpmjs.org/
+  cnpm ----  https://r.cnpmjs.org/
   taobao --  https://registry.npm.taobao.org/
   nj ------  https://registry.nodejitsu.com/
   skimdb -- https://skimdb.npmjs.com/registry
@@ -60,7 +60,7 @@ $ nrm ls
 ```sh
 $ nrm use cnpm  //switch registry to cnpm
 
-    Registry has been set to: http://r.cnpmjs.org/
+    Registry has been set to: https://r.cnpmjs.org/
 ```
 
 [Watchman](https://facebook.github.io/watchman) 则是由 Facebook 提供的监视文件系统变更的工具。安装此工具可以提高开发时的性能（packager 可以快速捕捉文件的变化从而实现实时刷新）。
@@ -169,7 +169,7 @@ React Native 需要通过环境变量来了解你的 Android SDK 装在什么路
 
 具体的做法是把下面的命令加入到 `~/.bash_profile` 文件中：
 
-> ~表示用户目录，即/Users/你的用户名/，而小数点开头的文件在 Finder 中是隐藏的，并且这个文件有可能并不存在。可在终端下使用vi ~/.bash_profile命令创建或编辑。如不熟悉 vi 操作，请点击 [这里](http://www.eepw.com.cn/article/48018.htm) 学习。
+> ~表示用户目录，即/Users/你的用户名/，而小数点开头的文件在 Finder 中是隐藏的，并且这个文件有可能并不存在。可在终端下使用vi ~/.bash_profile命令创建或编辑。如不熟悉 vi 操作，请点击 [这里](https://www.eepw.com.cn/article/48018.htm) 学习。
 
 ```sh
 # 如果你不是通过Android Studio安装的sdk，则其路径可能不同，请自行确定清楚。
@@ -279,10 +279,10 @@ rn_temp
 >
 >  碰到 `react native haste module map` 相关的错误，也可以选择这种方式手动清缓存启动 。
 
-这时，在浏览器输入 http://127.0.0.1:8081，可以看到如下页面：
+这时，在浏览器输入 https://127.0.0.1:8081，可以看到如下页面：
 ![image](https://user-images.githubusercontent.com/9441951/55865494-13245d00-5bb1-11e9-9a97-8a785a83b584.png)
 
-输入 http://127.0.0.1:8081/rn_temp/index.bundle?platform=ios&dev=true 会触发对应终端平台的 js bundle 构建。
+输入 https://127.0.0.1:8081/rn_temp/index.bundle?platform=ios&dev=true 会触发对应终端平台的 js bundle 构建。
 
 ![image](https://user-images.githubusercontent.com/9441951/55865039-37336e80-5bb0-11e9-8aca-c121be4542f6.png)
 
@@ -512,9 +512,9 @@ YellowBox.ignoreWarnings(['Warning: ...']);
 > 红屏错误和黄屏警告在发布版（release/production）中都是自动禁用的。
 
 ### Chrome 开发者工具
-在开发者菜单中选择 "Debug JS Remotely" 选项，即可以开始在 Chrome 中调试 JavaScript 代码。点击这个选项的同时会自动打开调试页面 http://localhost:8081/debugger-ui.(如果地址栏打开的是 ip 地址，则请自行改为 localhost)
+在开发者菜单中选择 "Debug JS Remotely" 选项，即可以开始在 Chrome 中调试 JavaScript 代码。点击这个选项的同时会自动打开调试页面 https://localhost:8081/debugger-ui.(如果地址栏打开的是 ip 地址，则请自行改为 localhost)
 
-在 Chrome 的菜单中选择 `Tools → Developer Tools` 可以打开开发者工具，也可以通过键盘快捷键来打开（Mac 上是 `Command⌘ + Option⌥ + I`，Windows 上是 `Ctrl + Shift + I或是 F12`）。打开有 [异常时暂停（Pause On Caught Exceptions）](http://stackoverflow.com/questions/2233339/javascript-is-there-a-way-to-get-chrome-to-break-on-all-errors/17324511#17324511) 选项，能够获得更好的开发体验。
+在 Chrome 的菜单中选择 `Tools → Developer Tools` 可以打开开发者工具，也可以通过键盘快捷键来打开（Mac 上是 `Command⌘ + Option⌥ + I`，Windows 上是 `Ctrl + Shift + I或是 F12`）。打开有 [异常时暂停（Pause On Caught Exceptions）](https://stackoverflow.com/questions/2233339/javascript-is-there-a-way-to-get-chrome-to-break-on-all-errors/17324511#17324511) 选项，能够获得更好的开发体验。
 
 > 注意：Chrome 中并不能直接看到 App 的用户界面，而只能提供 console 的输出，以及在 sources 项中断点调试 js 脚本。一些老的教程和文章会提到 React 的 Chrome 插件，这一插件目前并不支持 React Native，而且调试本身并不需要这个插件。不过你可以安装独立（非插件）版本的 React Developer Tools 来辅助查看界面布局，下文会讲述具体安装方法。
 
@@ -610,7 +610,7 @@ $ brew update && brew cask install react-native-debugger
 
 在启动 React Native Debugger 之前，请先确认以下内容：
 
-- 所有的 React Native 的 debugger 客户端已关闭，特别是 `http://localhost:<port>/debugger-ui`
+- 所有的 React Native 的 debugger 客户端已关闭，特别是 `https://localhost:<port>/debugger-ui`
 - React Native Debugger 会尝试连接 debugger 代理， React Native 默认使用 `8081` 端口， 你可以新建一个 debugger 窗口 (macOS: `Command + T`，Linux/Windows: `Ctrl + T`) 开定义端口
 - 保证 [developer menu](https://facebook.github.io/react-native/docs/debugging.html#accessing-the-in-app-developer-menu)  的  `Debug JS Remotely` 处于开启状态
 

@@ -26,5 +26,5 @@ title: 接入统计平台
 
 ## 接入阿拉丁统计平台
 
-详细见阿拉丁统计平台文档[《如何将SDK集成至Taro框架构建的小程序中》](http://doc.aldwx.com/aldwx/frame/taro-jie-ru.html)
+详细见阿拉丁统计平台文档[《如何将SDK集成至Taro框架构建的小程序中》](https://doc.aldwx.com/aldwx/frame/taro-jie-ru.html)
 

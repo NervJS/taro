@@ -297,7 +297,7 @@ export default {
 }
 ```
 
-![image](http://ww1.sinaimg.cn/large/49320207gy1g0uiageahij20gf08dwer.jpg)
+![image](https://ww1.sinaimg.cn/large/49320207gy1g0uiageahij20gf08dwer.jpg)
 
 ### Taro.getApp(Object)
 
