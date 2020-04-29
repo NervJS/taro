@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "docusaurus start",
-    "build": "docusaurus build --no-minify",
+    "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy"
   },
