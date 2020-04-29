@@ -21,7 +21,8 @@ function Version() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   const latestVersion = versions[0];
-  const pastVersions = versions.filter((version) => version !== latestVersion);
+  const taroNextVersions = versions.filter(version => version.startsWith('3'))
+  const pastVersions = versions.filter((version) => version !== latestVersion && !taroNextVersions.includes(version));
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${siteConfig.projectName}`;
   return (
     <Layout
@@ -30,7 +31,7 @@ function Version() {
       <div className="container margin-vert--xl">
         <h1>Taro 文档版本</h1>
         <div className="margin-bottom--lg">
-          <h3 id="latest">最新版本</h3>
+          <h3 id="latest">最新稳定版本</h3>
           <p>你可以在这里找到最新的版本</p>
           <table>
             <tbody>
@@ -56,7 +57,7 @@ function Version() {
           <table>
             <tbody>
               <tr>
-                <th>master</th>
+                <th>Latest</th>
                 <td>
                   <Link to={useBaseUrl('/docs/next/README')}>
                     文档
@@ -69,6 +70,33 @@ function Version() {
             </tbody>
           </table>
         </div>
+        {taroNextVersions.length > 0 && (
+          <div className="margin-bottom--lg">
+            <h3 id="archive">Taro Next</h3>
+            <p>
+              Taro Next 版本
+            </p>
+            <table>
+              <tbody>
+                {taroNextVersions.map((version) => (
+                  <tr key={version}>
+                    <th>{version}</th>
+                    <td>
+                      <Link to={useBaseUrl(`/docs/${version}/README`)}>
+                        文档
+                      </Link>
+                    </td>
+                    <td>
+                      <a href={`${repoUrl}/releases/tag/v${version}`}>
+                        更新日志
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
         {pastVersions.length > 0 && (
           <div className="margin-bottom--lg">
             <h3 id="archive">历史版本</h3>
@@ -81,7 +109,7 @@ function Version() {
                   <tr key={version}>
                     <th>{version}</th>
                     <td>
-                      <Link to={useBaseUrl(`/docs/${version}/introduction`)}>
+                      <Link to={useBaseUrl(`/docs/${version}/README`)}>
                         文档
                       </Link>
                     </td>

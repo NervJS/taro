@@ -102,6 +102,11 @@ h3 {
   color: #333;
 }
 
+footer.footer {
+  padding: 0;
+  margin-top: 50px;
+}
+
 .link {
   color: #5c5cff;
 }
