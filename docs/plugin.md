@@ -86,6 +86,20 @@ export default (ctx, options) => {
 
 在插件主体代码部分可以按照自己的需求编写相应代码，通常你可以实现以下功能。
 
+### Typings
+
+建议使用 typescript 来编写插件，这样你就会获得很棒的智能提示，使用方式如下：
+
+```typescript
+import { IPluginContext } from '@tarojs/service'
+export default (ctx: IPluginContext, pluginOpts) => {
+  // 接下来使用 ctx 的时候就能获得智能提示了
+  ctx.onBuildStart(() => {
+    console.log('编译开始！')
+  })
+}
+```
+
 ### 主要功能
 
 #### 命令行扩展
@@ -124,9 +138,9 @@ export default (ctx) => {
 正如前面所述，针对编译过程，有 `onBuildStart`、`onBuildFinish` 两个钩子来分别表示编译开始，编译结束，而除此之外也有更多 API 来对编译过程进行修改，如下：
 
 - `ctx.onBuildStart(() => viod)`，编译开始，接收一个回调函数
-- `ctx.modifyWebpackChain({ webpackChain })`，编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
-- `ctx.modifyBuildAssets({ assets })`，修改编译后的结果
-- `ctx.modifyBuildTempFileContent({ tempFiles })`，修改编译过程中的中间文件，例如修改 app 或页面的 config 配置
+- `ctx.modifyWebpackChain(args: { chain: any }) => void)`，编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
+- `ctx.modifyBuildAssets(args: { assets: any }) => void)`，修改编译后的结果
+- `ctx.modifyBuildTempFileContent(args: { tempFiles: any }) => void)`，修改编译过程中的中间文件，例如修改 app 或页面的 config 配置
 - `ctx.onBuildFinish(() => viod)`，编译结束，接收一个回调函数
 
 #### 编译平台拓展
@@ -387,6 +401,24 @@ const assets = await ctx.applyPlugins({
   opts: {
     assets
   }
+})
+```
+
+#### ctx.addPluginOptsSchema(schema: Function)
+
+为插件入参添加校验，接受一个函数类型参数，函数入参为 joi 对象，返回值为 joi schema。
+
+使用方式：
+
+```typescript
+ctx.addPluginOptsSchema(joi => {
+  return joi.object().keys({
+    mocks: joi.object().pattern(
+      joi.string(), joi.object()
+    ),
+    port: joi.number(),
+    host: joi.string()
+  })
 })
 ```
 
