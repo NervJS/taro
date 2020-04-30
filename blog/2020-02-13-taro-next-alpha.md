@@ -20,7 +20,7 @@ author_image_url: https://static.geekbang.org/ck/5cb53de0e50c0.jpeg?imageView2/0
 
 设微信小程序生命周期为一个 `interface`，不同的框架实例的生命周期虽然不尽相同，但我们可以根据框架生命周期分别新建一个 `class` 去 `implements` 小程序生命周期的 `interface`。相应地，小程序的组件/API/路由规范可以使用同样的思路和模型让不同框架的代码，运行在不同的端上：
 
-![taro](http://storage.jd.com/taro-source/taro-docs/WechatIMG1393.png)
+![taro](https://storage.jd.com/taro-source/taro-docs/WechatIMG1393.png)
 
 ## 不限制语言、语法
 
@@ -86,7 +86,7 @@ export default
 
 正因为 AST 操作的取消，Taro Next 也轻松地实现了 `source-map` 的支持。这对于开发体验是一个巨大的提升：
 
-![source-map](http://storage.jd.com/taro-source/taro-docs/WechatIMG1402.png)
+![source-map](https://storage.jd.com/taro-source/taro-docs/WechatIMG1402.png)
 
 ## 不忘初心
 
