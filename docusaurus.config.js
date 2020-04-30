@@ -82,14 +82,14 @@ const siteConfig = {
         docs: {
           // sidebars file relative to website dir.
           sidebarPath: require.resolve('./sidebars.js'),
+          editUrl: 'https://github.com/nervjs/taro/edit/docs/'
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+            'https://github.com/nervjs/taro/edit/blog/',
         },
-        editUrl: 'https://github.com/nervjs/taro/edit/master/docs/',
         // For top-level user or org sites, the organization is still the same.
         // e.g., for the https://JoelMarcey.github.io site, it would be set like...
         //   organizationName: 'JoelMarcey'
