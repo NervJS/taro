@@ -15,7 +15,7 @@ jobs:
           yarn
           yarn build
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.0
+        uses: nwtgck/actions-netlify@v1.0.12
         with:
           publish-dir: './build'
           production-branch: docs
