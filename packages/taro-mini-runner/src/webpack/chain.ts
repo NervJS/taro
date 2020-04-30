@@ -277,7 +277,7 @@ export const getModule = (appPath: string, {
     designWidth,
     deviceRatio,
     buildAdapter,
-    constantsReplaceList,
+    constantsReplaceList: parsedConstantsReplaceList,
     sourceDir,
     isBuildQuickapp,
     nodeModulesPath,
