@@ -6,13 +6,15 @@
  */
 
 import React, { useEffect } from "react";
-import { useRouteMatch } from "@docusaurus/router";
+import { useRouteMatch, useLocation } from "@docusaurus/router";
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 // import "./hotjar";
 // import "./tongji";
 
 function fixNavbar(onlyDocs) {
-  if (typeof document === "undefined") {
+  if (!ExecutionEnvironment.canUseDOM) {
     return;
   }
 
@@ -35,10 +37,49 @@ function fixNavbar(onlyDocs) {
   });
 }
 
+function fixVersion (siteConfig = {}, location) {
+  if (!ExecutionEnvironment.canUseDOM) {
+    return;
+  }
+  const versions = siteConfig.customFields?.versions ?? []
+  const pathname = location.pathname ?? ''
+  const defaultVerion = versions[0]
+
+  if (!defaultVerion) {
+    return
+  }
+
+  requestAnimationFrame(() => {
+    const el = document.querySelector('a[version]')
+    const navbarItems = Array.from(document.querySelectorAll('.navbar__link'))
+    if (!el) {
+      return
+    }
+    const matchVersion = versions.find(v => pathname.includes(v))
+    const componentItem = navbarItems.find(i => i.textContent === '组件库')
+    const apiItem = navbarItems.find(i => i.textContent === 'API')
+    if (matchVersion) {
+      el.textContent = 'v' + matchVersion
+      apiItem.href = `/docs/${matchVersion}/apis/about/desc`
+      componentItem.href = `/docs/${matchVersion}/components-desc`
+    } else {
+      el.textContent = 'v' + defaultVerion
+      apiItem.href = '/docs/apis/about/desc'
+      componentItem.href = '/docs/components-desc'
+    }
+  })
+}
+
 function Footer() {
   const docsMatch = useRouteMatch("/docs");
-  const apiMatch = useRouteMatch("/docs/api*");
-  const componentMatch = useRouteMatch("/docs/components*");
+  const apiMatch = useRouteMatch("/docs/*api*");
+  const componentMatch = useRouteMatch("/docs/*components*");
+  const versionMatch = useRouteMatch("/versions")
+  const blogMatch = useRouteMatch("/blog")
+
+  const context = useDocusaurusContext()
+  const location = useLocation()
+  fixVersion(context.siteConfig, location)
 
   if (docsMatch && !apiMatch && !componentMatch) {
     fixNavbar(true);
@@ -48,6 +89,10 @@ function Footer() {
     (docsMatch && apiMatch)
     ||
     (docsMatch && componentMatch)
+    ||
+    versionMatch
+    ||
+    blogMatch
   ) {
     fixNavbar();
   }

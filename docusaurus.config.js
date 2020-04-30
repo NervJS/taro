@@ -19,6 +19,9 @@ const siteConfig = {
   themes: ['@docusaurus/theme-live-codeblock'],
   organizationName: 'nervjs',
   projectName: 'taro',
+  customFields: {
+    versions
+  },
   themeConfig: {
     scrollToTop: true,
     disableDarkMode: true,
@@ -26,7 +29,7 @@ const siteConfig = {
       apiKey: '57b9948bff42bc0dbc6c219556fbae35',
       indexName: 'taro',
       algoliaOptions: {
-        // facetFilters: ['version:VERSION'],
+        facetFilters: [`version:${versions[0]}`],
       },
     },
     prism: {
@@ -71,7 +74,14 @@ const siteConfig = {
         },
         {href: 'https://taro-ui.jd.com', label: 'Taro-UI', position: 'right'},
         {href: 'https://taro-ext.jd.com', label: '物料市场', position: 'right'},
-        {href: 'https://taro-club.jd.com', label: '论坛', position: 'right'}
+        {href: 'https://taro-club.jd.com', label: '论坛', position: 'right'},
+        {href: 'https://taro.jd.com/jdmp/index.html', label: '京东小程序', position: 'right'},
+        {
+          href: 'https://github.com/nervjs/taro',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
+        },
       ],
     },
   },
