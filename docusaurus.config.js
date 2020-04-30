@@ -29,7 +29,7 @@ const siteConfig = {
       apiKey: '57b9948bff42bc0dbc6c219556fbae35',
       indexName: 'taro',
       algoliaOptions: {
-        facetFilters: [`version:${versions[0]}`],
+        facetFilters: [`version:VERSIONS`],
       },
     },
     prism: {
@@ -51,7 +51,8 @@ const siteConfig = {
         },
         {
           to: 'docs/README',
-          activeBasePath: 'docs',
+          activeBasePath: `docs\/(?!api|components)`,
+          activeRegxp: true,
           label: '文档',
           position: 'left',
         },
