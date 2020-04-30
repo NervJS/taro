@@ -5,99 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useEffect } from "react";
-import { useRouteMatch, useLocation } from "@docusaurus/router";
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-
-// import "./hotjar";
-// import "./tongji";
-
-function fixNavbar(onlyDocs) {
-  if (!ExecutionEnvironment.canUseDOM) {
-    return;
-  }
-
-  requestAnimationFrame(() => {
-    const items = Array.from(document.querySelectorAll(".navbar__item"));
-    const docsItem = items.find((item) => item.href.endsWith("/docs/README"));
-
-    if (!docsItem) {
-      return;
-    }
-
-    if (onlyDocs) {
-      docsItem.classList.add("navbar__link--active");
-      docsItem.setAttribute("aria-current", "page");
-      return;
-    }
-
-    docsItem.classList.remove("navbar__link--active");
-    docsItem.removeAttribute("aria-current");
-  });
-}
-
-function fixVersion (siteConfig = {}, location) {
-  if (!ExecutionEnvironment.canUseDOM) {
-    return;
-  }
-  const versions = siteConfig.customFields?.versions ?? []
-  const pathname = location.pathname ?? ''
-  const defaultVerion = versions[0]
-
-  if (!defaultVerion) {
-    return
-  }
-
-  requestAnimationFrame(() => {
-    const el = document.querySelector('a[version]')
-    const navbarItems = Array.from(document.querySelectorAll('.navbar__link'))
-    if (!el) {
-      return
-    }
-    const matchVersion = versions.find(v => pathname.includes(v))
-    const componentItem = navbarItems.find(i => i.textContent === '组件库')
-    const apiItem = navbarItems.find(i => i.textContent === 'API')
-    if (matchVersion) {
-      el.textContent = 'v' + matchVersion
-      apiItem.href = `/docs/${matchVersion}/apis/about/desc`
-      componentItem.href = `/docs/${matchVersion}/components-desc`
-    } else {
-      el.textContent = 'v' + defaultVerion
-      apiItem.href = '/docs/apis/about/desc'
-      componentItem.href = '/docs/components-desc'
-    }
-  })
-}
+import React from "react";
 
 function Footer() {
-  const docsMatch = useRouteMatch("/docs");
-  const apiMatch = useRouteMatch("/docs/*api*");
-  const componentMatch = useRouteMatch("/docs/*components*");
-  const versionMatch = useRouteMatch("/versions")
-  const blogMatch = useRouteMatch("/blog")
-
-  const context = useDocusaurusContext()
-  const location = useLocation()
-  fixVersion(context.siteConfig, location)
-
-  if (docsMatch && !apiMatch && !componentMatch) {
-    fixNavbar(true);
-  }
-
-  if (
-    (docsMatch && apiMatch)
-    ||
-    (docsMatch && componentMatch)
-    ||
-    versionMatch
-    ||
-    blogMatch
-  ) {
-    fixNavbar();
-  }
-
-
   return (
     <footer className="footer" id="footer">
       <div className="grid_c1 footer_cont">
@@ -237,7 +147,7 @@ function Footer() {
       </div>
       <div className="copyright">
         <div className="in">
-          Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2
+          Copyright © {new Date().getFullYear()}. All Rights Reserved. 粤ICP备15077732号-2
         </div>
       </div>
     </footer>
