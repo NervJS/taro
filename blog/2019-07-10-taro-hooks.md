@@ -6,7 +6,7 @@ author_url: https://github.com/yuche
 author_image_url: https://static.geekbang.org/ck/5cb53de0e50c0.jpeg?imageView2/0/w/800
 ---
 
-![image](http://storage.360buyimg.com/taro-club-img/b42116392c909d0680788853011c70db)
+![image](https://storage.360buyimg.com/taro-club-img/b42116392c909d0680788853011c70db)
 
 > 本文由余澈在 GMTC 全球大前端技术 2019 的演讲：[《使用 React Hooks 重构你的小程序》](https://gmtc.infoq.cn/2019/beijing/presentation/1706)整理而成。
 

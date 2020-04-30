@@ -10,7 +10,7 @@ author_image_url: https://avatars2.githubusercontent.com/u/1782542?s=400&u=d2051
 
 <!--truncate-->
 
-![image](http://img20.360buyimg.com/uba/jfs/t22954/193/251445690/357583/7232c10b/5b2a15e2N23cf1e55.jpg)
+![image](https://img20.360buyimg.com/uba/jfs/t22954/193/251445690/357583/7232c10b/5b2a15e2N23cf1e55.jpg)
 
 ## 让人又爱又恨的微信小程序
 
@@ -23,7 +23,7 @@ author_image_url: https://avatars2.githubusercontent.com/u/1782542?s=400&u=d2051
 
 在小程序中，一个页面 `page` 可能拥有 `page.js`、`page.wxss`、`page.wxml` 、`page.json` 四个文件
 
-![](http://img13.360buyimg.com/img/jfs/t24499/361/448655041/15273/6552407d/5b307974Nfaccdf2d.jpg)
+![](https://img13.360buyimg.com/img/jfs/t24499/361/448655041/15273/6552407d/5b307974Nfaccdf2d.jpg)
 
 这样在开发的时候就需要来回进行文件切换，尤其是在同时开发模板和逻辑的时候，切来切去会显得尤其麻烦，影响开发效率，但小程序原生只支持这么写，就显得比较尴尬了。
 
@@ -35,15 +35,15 @@ author_image_url: https://avatars2.githubusercontent.com/u/1782542?s=400&u=d2051
 
 例如组件的属性，以最简单的 `<button />` 组件为例，在小程序官方文档中，该组件的属性部分截图如下，大家可以感受下
 
-![](http://img10.360buyimg.com/img/jfs/t23614/365/454746445/128330/71fef006/5b307975Ne1ae5de9.jpg)
+![](https://img10.360buyimg.com/img/jfs/t23614/365/454746445/128330/71fef006/5b307975Ne1ae5de9.jpg)
 
  `<button />` 组件属性名既有以中划线分割多个单词的情况 `session-form`，也有多个单词连写的情况 `bindgetphonenumber`。当然这也不是最严重的，你可以说事件绑定的规范就是 `bind + 事件名` ，而其他属性的规范就是中划线分割单词，我一度以为小程序就是这个作为标准，直到我看到了 `<progress />` 组件
 
-![](http://img12.360buyimg.com/img/jfs/t23056/19/454899133/104795/d15cd017/5b307975Nd43ac751.jpg)
+![](https://img12.360buyimg.com/img/jfs/t23056/19/454899133/104795/d15cd017/5b307975Nd43ac751.jpg)
 
 这和说好的不一样啊喂！
 
-![](http://img11.360buyimg.com/img/jfs/t23071/12/457583038/19273/4ae32c30/5b307974N88af3974.jpg)
+![](https://img11.360buyimg.com/img/jfs/t23071/12/457583038/19273/4ae32c30/5b307974N88af3974.jpg)
 
 同样的情况也出现在 `页面` 与 `组件` 的生命周期方法中，`页面` 的生命周期方法有 `onLoad`、`onReady`、`onUnload` 等，但到了 `组件` 中则是 `created`、`attached` 、`ready` 等，这样规范又不统一了，为啥 `页面` 的生命周期方法是 `on+Xxx` 的格式，但到了 `组件` 里缺不一样了呢，有点费解。
 
@@ -151,7 +151,7 @@ render () {
 
 `Babel` 作为一个 `代码编译器` ，能够将 ES6/7/8 的代码编译成 ES5 的代码，其核心利用的就是计算中非常基础的编译原理知识，将输入语言代码，通过编译器执行，输出目标语言的代码。编译原理的一般过程就是，输入源程序，经过词法分析、语法分析，构造出语法树，再经过语义分析，理解程序正确与否，再对语法树做出需要的操作与优化，最终生成目标代码。
 
-![](http://m.360buyimg.com/img/jfs/t23551/19/471755927/52473/e349bf6c/5b307975N60463097.jpg)
+![](https://m.360buyimg.com/img/jfs/t23551/19/471755927/52473/e349bf6c/5b307975N60463097.jpg)
 
 `Babel` 的编译过程亦是如此，主要包含三个阶段
 
@@ -161,7 +161,7 @@ render () {
 
 为了更好地理解这些过程，大家可以利用 [Ast Explorer](https://astexplorer.net/) 这个网站接一下自己的代码，感受一下每一部分代码所对应的 AST 结构。
 
-![](http://img30.360buyimg.com/img/jfs/t22843/37/455454462/106864/1d96f394/5b307975Nf78e5829.jpg)
+![](https://img30.360buyimg.com/img/jfs/t22843/37/455454462/106864/1d96f394/5b307975Nf78e5829.jpg)
 
 可以看到，一份源码经过编译器解析后，会变成类似如下的结构
 
@@ -241,7 +241,7 @@ render () {
 
 这时候我们回忆一下前文的内容，将一份代码编译成多端代码，这不正是编译原理干的事么，我们可以输入一份源代码，针对不同的端设定好对应的转换规则，再一键转换出对应端的代码。而且由于我们已经遵循 React 语法了，那我们再转成 H5 端（使用 Nerv）与 RN 端（使用 React）也就有了天然的优势。
 
-![](http://img11.360buyimg.com/img/jfs/t23863/65/477773801/39493/d1292897/5b307974Na1febb30.jpg)
+![](https://img11.360buyimg.com/img/jfs/t23863/65/477773801/39493/d1292897/5b307974Na1febb30.jpg)
 
 ### 设计思路补完
 
@@ -251,11 +251,11 @@ render () {
 
 可能有些人会有疑问，既然是为不同的端实现了对应的组件库与端能力 API （小程序除外，因为组件库和 API 的标准都是源自小程序），那么是怎么能够只写一份代码就够了呢？因为我们有编译的操作，在书写代码的时候，只需要引入标准组件库 `@tarojs/components` 与运行时框架 `@tarojs/taro` ，代码经过编译之后，会变成对应端所需要的库。
 
-![](http://img14.360buyimg.com/img/jfs/t21535/241/1645070830/74027/775c8a15/5b307976Nce466138.jpg)
+![](https://img14.360buyimg.com/img/jfs/t21535/241/1645070830/74027/775c8a15/5b307976Nce466138.jpg)
 
 既然组件库以及端能力都是依靠不同的端做不同实现来抹平差异，那么同样的，如果我们想为 Taro 引入更多的功能支持的话，有时候也需要按照这个套路来。例如，为了提升开发便利性，我们为 Taro 加入了 `Redux` 支持，我们的做法就是，在小程序端，我们实现了 `@tarojs/redux` 这个库来作为小程序的 `Redux` 辅助库，并且以他作为基准库，它具有和 `react-redux` 一致的 API，在书写代码的时候，引用的都是  `@tarojs/redux` ，经过编译后，在 H5 端会替换成 `nerv-redux`（`Nerv`的 `Redux` 辅助库），在 RN 端会替换成 `react-redux`。这样就实现了 `Redux` 在 Taro 中的多端支持。
 
-![](http://img30.360buyimg.com/uba/jfs/t22360/120/839096197/151922/229ceba4/5b1a6fcdNed7d4039.jpg)
+![](https://img30.360buyimg.com/uba/jfs/t22360/120/839096197/151922/229ceba4/5b1a6fcdNed7d4039.jpg)
 
 以上就是 Taro 的整体设计思路，里面还有很多细节没有展开去阐述，可能大家会觉得有些意犹未尽，后续我们将会产出一系列的文章来阐述 Taro 的技术细节，例如 《Taro 开发工具原理分析》、《Taro 代码编译的背后》、《深入浅出 JSX 转小程序模板》等等。
 
@@ -269,4 +269,4 @@ Taro 从立项之初到现在已经差不多有了三个月左右的时间，从
 
 **同时，有任何关于 Taro 希望沟通交流的，欢迎~**
 
-![](http://img20.360buyimg.com/uba/jfs/t20197/283/1687168874/136042/2b4d811f/5b30a65cN9d1f03f1.png)
+![](https://img20.360buyimg.com/uba/jfs/t20197/283/1687168874/136042/2b4d811f/5b30a65cN9d1f03f1.png)

@@ -3,14 +3,14 @@ id: 2020-4-13-taro-components
 title: Taro Next H5 跨框架组件库实践 
 author: JJ
 author_url: https://github.com/Chen-jj
-author_image_url: http://storage.jd.com/cjj-pub-images/11807297.png
+author_image_url: https://storage.jd.com/cjj-pub-images/11807297.png
 ---
 
 ![image](https://img30.360buyimg.com/ling/jfs/t1/108543/10/12151/1750297/5e93ef97Ef424d4a7/29cf4e4364e5d3f0.png)
 
 [Taro](https://github.com/NervJS/taro) 是一款多端开发框架。开发者只需编写一份代码，即可生成各小程序端、H5 以及 React Native 的应用。
 
-> [Taro Next](http://taro-docs-in.jd.com/taro/next/docs/next/README.html) 近期已发布 beta 版本，全面完善对小程序以及 H5 的支持，欢迎体验！
+> [Taro Next](https://taro-docs-in.jd.com/taro/next/docs/next/README.html) 近期已发布 beta 版本，全面完善对小程序以及 H5 的支持，欢迎体验！
 
 本文将重点介绍对 **Taro H5 端组件库**的改造工作。
 
@@ -32,7 +32,7 @@ Taro 遵循以微信小程序为主，其他小程序为辅的组件与 API 规�
 
 > Taro H5 架构图：
 
-![](http://storage.jd.com/cjj-pub-images/WX20200402-140148.png)
+![](https://storage.jd.com/cjj-pub-images/WX20200402-140148.png)
 
 在 Taro 1 和 Taro 2 中，Taro H5 的组件库使用了 React 语法进行开发。但如果开发者在 Taro Next 中使用 Vue 开发 H5 应用，则不能和现有的 H5 组件库兼容。
 
@@ -334,7 +334,7 @@ export class TodoList {
 
 然后在使用 `<todo-list>` 元素时会展示我们内置的类名 “todo-list” 和 Stencil 自动加入的类名 “hydrated”：
 
-![](http://storage.jd.com/cjj-pub-images/WX20200401-102833.png)
+![](https://storage.jd.com/cjj-pub-images/WX20200401-102833.png)
 
 但如果我们在使用时设置了动态类名，如： `<todo-list class={this.state.cls}>`。那么在动态类名更新时，则会把内置的类名 “todo-list” 和 “hydrated” 抹除掉。
 
