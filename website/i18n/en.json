@@ -1580,6 +1580,9 @@
       "jsx": {
         "title": "JSX 简介"
       },
+      "learn": {
+        "title": "社区贡献的学习教程"
+      },
       "list": {
         "title": "列表渲染"
       },
@@ -1597,6 +1600,9 @@
       },
       "optimized-practice": {
         "title": "性能优化实践"
+      },
+      "plugin": {
+        "title": "插件功能"
       },
       "project-config": {
         "title": "项目配置"
@@ -6442,6 +6448,57 @@
       },
       "version-2.1.3/version-2.1.3-router": {
         "title": "路由功能"
+      },
+      "version-2.1.4/version-2.1.4-join-in": {
+        "title": "加入社区共建"
+      },
+      "version-2.1.5/version-2.1.5-before-dev-remind": {
+        "title": "各端开发前注意"
+      },
+      "version-2.1.5/components/open/version-2.1.5-web-view": {
+        "title": "WebView",
+        "sidebar_label": "WebView"
+      },
+      "version-2.1.5/version-2.1.5-config-detail": {
+        "title": "编译配置详情"
+      },
+      "version-2.1.5/version-2.1.5-learn": {
+        "title": "社区贡献的学习教程"
+      },
+      "version-2.1.5/version-2.1.5-README": {
+        "title": "Taro 介绍"
+      },
+      "version-2.1.5/version-2.1.5-report": {
+        "title": "接入统计平台"
+      },
+      "version-2.2.0-beta.0/components/open/version-2.2.0-beta.0-web-view": {
+        "title": "WebView",
+        "sidebar_label": "WebView"
+      },
+      "version-2.2.0-beta.0/version-2.2.0-beta.0-config-detail": {
+        "title": "编译配置详情"
+      },
+      "version-2.2.0-beta.0/version-2.2.0-beta.0-plugin": {
+        "title": "插件功能"
+      },
+      "version-2.2.0-beta.0/version-2.2.0-beta.0-README": {
+        "title": "Taro 介绍"
+      },
+      "version-2.2.0-beta.0/version-2.2.0-beta.0-report": {
+        "title": "接入统计平台"
+      },
+      "version-2.2.0/components/media/version-2.2.0-image": {
+        "title": "Image",
+        "sidebar_label": "Image"
+      },
+      "version-2.2.0/version-2.2.0-plugin": {
+        "title": "插件功能"
+      },
+      "version-2.2.0/version-2.2.0-README": {
+        "title": "Taro 介绍"
+      },
+      "version-2.2.0/version-2.2.0-render-props": {
+        "title": "Render Props"
       }
     },
     "links": {
@@ -6451,7 +6508,8 @@
       "Blog": "Blog",
       "Taro-UI": "Taro-UI",
       "物料市场": "物料市场",
-      "论坛": "论坛"
+      "论坛": "论坛",
+      "京东小程序": "京东小程序"
     },
     "categories": {
       "关于Taro": "关于Taro",

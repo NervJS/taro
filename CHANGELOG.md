@@ -1,5 +1,17 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.2.1...v) (2020-04-29)
+# [](https://github.com/NervJS/taro/compare/v2.2.2...v) (2020-04-30)
+
+
+
+<a name="2.2.2"></a>
+## [2.2.2](https://github.com/NervJS/taro/compare/v2.2.1...v2.2.2) (2020-04-30)
+
+
+### Bug Fixes
+
+* **helper:** 修复 node_modules 路径获取方法, close [#6164](https://github.com/NervJS/taro/issues/6164) ([cf0e545](https://github.com/NervJS/taro/commit/cf0e545))
+* **mini-runner:** lose resource ([#6169](https://github.com/NervJS/taro/issues/6169)) ([e6a843f](https://github.com/NervJS/taro/commit/e6a843f))
+* **taro-cli:** templ error ([#6168](https://github.com/NervJS/taro/issues/6168)) ([d551e57](https://github.com/NervJS/taro/commit/d551e57))
 
 
 
