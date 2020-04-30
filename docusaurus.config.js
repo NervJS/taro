@@ -14,7 +14,7 @@ const siteConfig = {
   baseUrl: '/' /* base url for your project */,
   favicon: './img/favicon.ico',
   tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝/QQ小程序、快应用、H5、React Native 等平台的应用。',
-  title: 'Taro' /* title for your website */,
+  title: 'Taro 文档' /* title for your website */,
   url: 'https://taro.jd.com' /* your website url */,
   themes: ['@docusaurus/theme-live-codeblock'],
   organizationName: 'nervjs',
