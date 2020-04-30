@@ -14,10 +14,20 @@ jobs:
         run: |
           yarn
           yarn build
-      - uses: amondnet/now-deployment@v2
-        timeout-minutes: 10
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.0
         with:
-          zeit-token: ${{ secrets.ZEIT_TOKEN }}
+          publish-dir: './build'
+          production-branch: docs
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          now-org-id: ${{ secrets.ORG_ID}}
-          now-project-id: ${{ secrets.PROJECT_ID}}
+          deploy-message: "Deploy from GitHub Actions"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      # - uses: amondnet/now-deployment@v2
+      #   timeout-minutes: 10
+      #   with:
+      #     zeit-token: ${{ secrets.ZEIT_TOKEN }}
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     now-org-id: ${{ secrets.ORG_ID}}
+      #     now-project-id: ${{ secrets.PROJECT_ID}}
