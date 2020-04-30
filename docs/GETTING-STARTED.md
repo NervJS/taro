@@ -85,8 +85,8 @@ $ npm run build:weapp
 $ taro build --type weapp --watch
 $ taro build --type weapp
 # npx 用户也可以使用
-$ npx taro build --type weapp --watch
-$ npx taro build --type weapp
+$ npx @tarojs/cli build --type weapp --watch
+$ npx @tarojs/cli build --type weapp
 ```
 
 ### 百度小程序
@@ -106,8 +106,8 @@ $ npm run build:swan
 $ taro build --type swan --watch
 $ taro build --type swan
 # npx 用户也可以使用
-$ npx taro build --type swan --watch
-$ npx taro build --type swan
+$ npx @tarojs/cli build --type swan --watch
+$ npx @tarojs/cli build --type swan
 ```
 
 ### 支付宝小程序
@@ -127,8 +127,8 @@ $ npm run build:alipay
 $ taro build --type alipay --watch
 $ taro build --type alipay
 # npx 用户也可以使用
-$ npx taro build --type alipay --watch
-$ npx taro build --type alipay
+$ npx @tarojs/cli build --type alipay --watch
+$ npx @tarojs/cli build --type alipay
 ```
 
 ### 字节跳动小程序
@@ -148,8 +148,8 @@ $ npm run build:tt
 $ taro build --type tt --watch
 $ taro build --type tt
 # npx 用户也可以使用
-$ npx taro build --type tt --watch
-$ npx taro build --type tt
+$ npx @tarojs/cli build --type tt --watch
+$ npx @tarojs/cli build --type tt
 ```
 
 ### QQ 小程序
@@ -169,8 +169,8 @@ $ npm run build:qq
 $ taro build --type qq --watch
 $ taro build --type qq
 # npx 用户也可以使用
-$ npx taro build --type qq --watch
-$ npx taro build --type qq
+$ npx @tarojs/cli build --type qq --watch
+$ npx @tarojs/cli build --type qq
 ```
 
 ### 京东小程序
@@ -190,8 +190,8 @@ $ npm run build:jd
 $ taro build --type jd --watch
 $ taro build --type jd
 # npx 用户也可以使用
-$ npx taro build --type jd --watch
-$ npx taro build --type jd
+$ npx @tarojs/cli build --type jd --watch
+$ npx @tarojs/cli build --type jd
 ```
 
 ### 快应用
@@ -211,8 +211,8 @@ $ npm run build:quickapp
 $ taro build --type quickapp --watch
 $ taro build --type quickapp
 # npx 用户也可以使用
-$ npx taro build --type quickapp --watch
-$ npx taro build --type quickapp
+$ npx @tarojs/cli build --type quickapp --watch
+$ npx @tarojs/cli build --type quickapp
 ```
 
 [快应用开发者工具如何使用？点击了解](https://doc.quickapp.cn/tutorial/ide/overview.html)
@@ -233,7 +233,7 @@ $ npm run dev:h5
 # 仅限全局安装
 $ taro build --type h5 --watch
 # npx 用户也可以使用
-$ npx taro build --type h5 --watch
+$ npx @tarojs/cli build --type h5 --watch
 ```
 
 H5 打包项目
@@ -246,7 +246,7 @@ $ npm run build:h5
 # 仅限全局安装
 $ taro build --type h5
 # npx 用户也可以使用
-$ npx taro build --type h5
+$ npx @tarojs/cli build --type h5
 ```
 
 ### React Native
@@ -261,7 +261,7 @@ $ npm run dev:rn
 # 仅限全局安装
 $ taro build --type rn --watch
 # npx 用户也可以使用
-$ npx taro build --type rn --watch
+$ npx @tarojs/cli build --type rn --watch
 ```
 
 > Note：React Native 端和其他端样式兼容性差异较大，如果需要兼容 React Native 端，建议 React Native 端和其他端同步开发。
