@@ -37,6 +37,15 @@ export default function build (kernel: Kernel, {
   if (ui) {
     platform = 'ui'
   }
+  let nodeEnv = process.env.NODE_ENV
+  if (!nodeEnv) {
+    if (isWatch) {
+      nodeEnv = 'development'
+    } else {
+      nodeEnv = 'production'
+    }
+  }
+  process.env.NODE_ENV = nodeEnv
   process.env.TARO_ENV = platform
   kernel.run({
     name: 'build',
