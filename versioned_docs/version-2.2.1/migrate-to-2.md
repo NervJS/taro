@@ -17,7 +17,7 @@ Taro 2.0 整体上与 1.0 是完全兼容的，迁移并不困难，本指南将
 
 $ taro update self 2.0.0
 
-# 如果你使用 MPM
+# 如果你使用 NPM
 
 $ npm update -g @tarojs/cli@2.0.0
 
