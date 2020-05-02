@@ -65,7 +65,7 @@ class Mouse extends Taro.Component {
 class MouseTracker extends Taro.Component {
   render() {
     return (
-      <View>
+      <View style='height: 100%'>
         <View>点击鼠标!</View>
         {/*
           Mouse 如何渲染由 MouseTracker 的状态控制
