@@ -200,7 +200,11 @@ function taroInterceptor (chain) {
   return request(chain.requestParams)
 }
 
-const link = new Link(taroInterceptor)
+let link
+if (!my.taroInterceptorlink) {
+  my.taroInterceptorlink = new Link(taroInterceptor)
+}
+link = my.taroInterceptorlink
 
 function request (options) {
   options = options || {}
