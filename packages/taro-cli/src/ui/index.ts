@@ -256,7 +256,7 @@ function watchFiles (uiIndex) {
    * 根据变动的文件名，判断是否有需要重新编译的平台
    */
   function getRebuildList (filePath: string, platforms): BUILD_TYPES[] {
-    let rebuildPlatformList = [];
+    let rebuildPlatformList: BUILD_TYPES[] = [];
 
     platforms.forEach((type) => {
       let defaultFile = filePath.replace(new RegExp(`\\.${type}\\.`, 'g'), '.');
