@@ -42,7 +42,13 @@ export function parseEntryAst (ast: t.File, relativeFile: string) {
       } else {
         specifiers.forEach(specifier => {
           const exported = specifier.exported
-          importExportName.push(exported.name)
+          const local = specifier.local;
+
+          if (exported.name == local.name) { // export { aa }
+              importExportName.push(exported.name);
+          } else { // export { aa as bb }
+              importExportName.push(local.name)
+          }
         })
       }
     },
