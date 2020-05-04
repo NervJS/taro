@@ -6,12 +6,13 @@ import * as wxTransformer from '@tarojs/transformer-wx'
 import { Compiler } from '../h5'
 import * as npmProcess from '../util/npm'
 import { printLog, resolveScriptPath } from '../util'
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
+import { BUILD_TYPES, processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
 
 import { IBuildData, IH5BuildConfig } from './ui.types'
 import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME, copyAllInterfaceFiles } from './common'
 
 async function buildForH5 (uiIndex = 'index', buildData: IBuildData) {
+  process.env.TARO_ENV = BUILD_TYPES.H5
   const {appPath} = buildData
   const compiler = new Compiler(appPath, uiIndex, true)
   console.log()

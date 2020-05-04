@@ -2,13 +2,14 @@ import chalk from 'chalk'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
+import { processTypeEnum, REG_TYPESCRIPT, BUILD_TYPES } from '../util/constants'
 import * as wxTransformer from '@tarojs/transformer-wx'
 import { printLog } from '../util'
-import { analyzeFiles, parseEntryAst, WEAPP_OUTPUT_NAME, copyFileToDist, copyAllInterfaceFiles } from './common'
+import { analyzeFiles, parseEntryAst, MINI_OUTPUT_NAME_LIST, copyFileToDist, copyAllInterfaceFiles } from './common'
 import { IBuildData } from './ui.types'
 
-export async function buildForWeapp (buildData: IBuildData) {
+export async function buildForMini (adapter: BUILD_TYPES = BUILD_TYPES.WEAPP, buildData: IBuildData) {
+  process.env.TARO_ENV = adapter;
   const { appPath, entryFilePath, outputDirName, entryFileName, sourceDir } = buildData
   console.log()
   console.log(chalk.green('开始编译小程序端组件库！'))
@@ -17,7 +18,7 @@ export async function buildForWeapp (buildData: IBuildData) {
     return
   }
   try {
-    const outputDir = path.join(appPath, outputDirName, WEAPP_OUTPUT_NAME)
+    const outputDir = path.join(appPath, outputDirName, MINI_OUTPUT_NAME_LIST[adapter])
     const outputEntryFilePath = path.join(outputDir, entryFileName)
     const code = fs.readFileSync(entryFilePath).toString()
     const transformResult = wxTransformer({
