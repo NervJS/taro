@@ -84,7 +84,7 @@ function NavLink({ activeBasePath, activeRegxp, to, href, label, position, ...pr
 
 function NavItem({ items, position, ...props }) {
   if (!items) {
-    return <NavLink className="navbar__item navbar__link" {...props} />;
+    return <NavLink {...props} className={classnames(['navbar__item', 'navbar__link', props.className])} />;
   }
 
   return (
