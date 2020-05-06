@@ -26,6 +26,13 @@ function unquote (str: string) {
 }
 
 function getAttrValue (value: string) {
+  if (typeof value === 'object') {
+    try {
+      const res = JSON.stringify(value)
+      return res.replace(/"/g, '\'')
+    } catch (error) {}
+  }
+
   if (value === 'true' || value === 'false' || !isString(value)) {
     return `{{${value}}}`
   }
