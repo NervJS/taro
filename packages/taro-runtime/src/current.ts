@@ -2,7 +2,8 @@ import { AppInstance, PageInstance } from './dsl/instance'
 
 interface Router {
   params: Record<string, unknown>
-  path: string
+  path: string,
+  onReady: string
 }
 
 interface Current {
