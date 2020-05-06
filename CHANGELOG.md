@@ -1,5 +1,13 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.2.2...v) (2020-04-30)
+# [](https://github.com/NervJS/taro/compare/v2.2.2...v) (2020-05-06)
+
+
+### Bug Fixes
+
+* **cli:** 修复创建项目时丢失 typescript 选项的问题，close [#6180](https://github.com/NervJS/taro/issues/6180) ([#6211](https://github.com/NervJS/taro/issues/6211)) ([b7aa602](https://github.com/NervJS/taro/commit/b7aa602))
+* **cli:** 修复编译时对 process.env.NODE_ENV 初始化设置 ([#6182](https://github.com/NervJS/taro/issues/6182)) ([bd72c58](https://github.com/NervJS/taro/commit/bd72c58))
+* **components:** 修复广告组件 Ad 的 typings, fix [#6189](https://github.com/NervJS/taro/issues/6189) ([a926cc5](https://github.com/NervJS/taro/commit/a926cc5))
+* **mini-runner:** 修复全局变量替换问题 ([3f8c6cb](https://github.com/NervJS/taro/commit/3f8c6cb))
 
 
 
