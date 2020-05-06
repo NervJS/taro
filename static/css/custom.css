@@ -1,31 +1,3 @@
-/* your custom css */
-.flex {
-  display: flex !important;
-}
-
-.flex.middle {
-  align-items: center;
-}
-
-.flex.end {
-  align-items: flex-end;
-}
-
-.flex.center {
-  justify-content: center;
-}
-
-.flex.spacebetween {
-  justify-content: space-between;
-}
-
-.flex.vertical {
-  flex-direction: column;
-}
-
-.col {
-  flex: 1;
-}
 
 .navbar a.navbar__link[version=true] {
   text-decoration: underline;
@@ -33,9 +5,10 @@
 
 .navbar {
   background-image: linear-gradient(180deg, #0000c2, #0000c2);
-  height: 74px;
-  /* color: white; */
-  /* padding: 0; */
+}
+
+.html[data-theme="dark"] .navbar {
+  background-image: linear-gradient(180deg, #0000c2, #0000c2)
 }
 
 .navbar a.navbar__link.navbar__link--active::after {
@@ -74,46 +47,6 @@ h1.docTitle_node_modules-\@docusaurus-theme-classic-src-theme-DocItem- {
   font-size: 2.5rem;
 }
 
-.fixedHeaderContainer header .logo {
-  width: 30px;
-  height: auto;
-}
-
-.home_container {
-  background-image: linear-gradient(180deg, #0000c2, #3058e5);
-}
-
-.projectTitle {
-  color: #fff;
-  height: 300px;
-}
-
-.homeSplashFade .projectTitle small {
-  line-height: 1.5em;
-  margin-top: 3em;
-}
-
-.home_container .button {
-  border-color: #fff;
-  color: #fff;
-  margin-right: 12px;
-}
-
-.home_container .button:hover {
-  opacity: 1;
-  color: #fff;
-}
-
-.home_container .buttonWrapper:last-child .button {
-  margin-right: 0;
-}
-
-h3 {
-  padding-bottom: 10px;
-  padding-top: 10px;
-  font-size: 18px;
-  color: #333;
-}
 
 footer.footer {
   padding: 0;
@@ -374,14 +307,4 @@ pre {
 
 #back-to-top{
   opacity: 0.6;
-}
-
-.docsContainer .wrapper .post .postHeader:before,
-.docsContainer .wrapper .post .postHeaderTitle:before {
-  height: 0;
-  margin-top: 0;
-}
-
-.headerWrapper > header > span {
-  margin-left: 10px;
 }
