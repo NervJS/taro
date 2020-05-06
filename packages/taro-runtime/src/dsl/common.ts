@@ -10,6 +10,8 @@ import { incrementId } from '../utils'
 import { perf } from '../perf'
 import { PAGE_INIT } from '../constants'
 import { isBrowser } from '../env'
+import { eventCenter } from '../emitter/emitter'
+import { raf } from '../bom/raf'
 
 const instances = new Map<string, Instance>()
 
@@ -80,6 +82,10 @@ export function getPath (id: string, options?: Record<string, unknown>): string 
   return path
 }
 
+export function getOnReadyEventKey (path: string) {
+  return path + '.' + 'onReady'
+}
+
 export function createPageConfig (component: React.ComponentClass, pageName?: string, data?: Record<string, unknown>) {
   const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
@@ -87,14 +93,15 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
 
   const config: PageInstance = {
     onLoad (this: MpInstance, options, cb?: Function) {
-      Current.router = {
-        params: options,
-        path: addLeadingSlash(this.route || this.__route__)
-      }
-
       perf.start(PAGE_INIT)
 
       const path = getPath(id, options)
+
+      Current.router = {
+        params: options,
+        path: addLeadingSlash(this.route || this.__route__),
+        onReady: getOnReadyEventKey(path)
+      }
 
       Current.app!.mount!(component, path, () => {
         pageElement = document.getElementById<TaroRootElement>(path)
@@ -109,6 +116,11 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
     },
     onReady () {
       const path = getPath(id, this.options)
+
+      raf(() => {
+        eventCenter.trigger(getOnReadyEventKey(path))
+      })
+
       safeExecute(path, 'onReady')
     },
     onUnload () {
@@ -120,12 +132,15 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       })
     },
     onShow () {
-      Current.router = {
-        params: this.options,
-        path: addLeadingSlash(this.route || this.__route__)
-      }
       Current.page = this as any
       const path = getPath(id, this.options)
+
+      Current.router = {
+        params: this.options,
+        path: addLeadingSlash(this.route || this.__route__),
+        onReady: getOnReadyEventKey(path)
+      }
+
       safeExecute(path, 'onShow')
     },
     onHide () {

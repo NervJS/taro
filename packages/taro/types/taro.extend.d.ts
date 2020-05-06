@@ -109,6 +109,7 @@ declare namespace Taro {
   const Current: {
     app: AppInstance | null,
     router: RouterInfo | null,
-    page: PageInstance | null
+    page: PageInstance | null,
+    onReady: string
   }
 }
