@@ -541,18 +541,16 @@ export default class TaroMiniPlugin {
    */
   getTabBarFiles (appConfig: AppConfig) {
     const tabBar = appConfig.tabBar
-    const { buildAdapter, sourceDir } = this.options
+    const { sourceDir } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
-      const {
-        list: listConfig,
-        iconPath: pathConfig,
-        selectedIconPath: selectedPathConfig
-      } = CONFIG_MAP[buildAdapter]
 
-      const list = tabBar[listConfig] || []
+      // eslint-disable-next-line dot-notation
+      const list = tabBar['list'] || []
       list.forEach(item => {
-        item[pathConfig] && this.tabBarIcons.add(item[pathConfig])
-        item[selectedPathConfig] && this.tabBarIcons.add(item[selectedPathConfig])
+        // eslint-disable-next-line dot-notation
+        item['iconPath'] && this.tabBarIcons.add(item['iconPath'])
+        // eslint-disable-next-line dot-notation
+        item['selectedIconPath'] && this.tabBarIcons.add(item['selectedIconPath'])
       })
       if (tabBar.custom) {
         const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
@@ -596,16 +594,20 @@ export default class TaroMiniPlugin {
     const baseCompName = 'comp'
     const { baseLevel } = this.options
     if (this.options.buildAdapter === BUILD_TYPES.ALIPAY && this.appConfig.tabBar) {
-      const tabBarItems = this.appConfig.tabBar.list.map(({ text, ...rest }) => {
+      const tabBarConfig = { ...this.appConfig.tabBar }
+      const tabBarItems = tabBarConfig.list.map(({ text, iconPath, selectedIconPath, ...rest }) => {
         return {
           ...rest,
-          name: text
+          name: text,
+          icon: iconPath,
+          activeIcon: selectedIconPath
         }
       })
+      delete tabBarConfig.list
       this.generateConfigFile(compilation, this.appEntry, {
         ...this.appConfig,
         tabBar: {
-          ...this.appConfig.tabBar,
+          ...tabBarConfig,
           items: tabBarItems
         } as any
       })
