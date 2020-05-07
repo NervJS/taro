@@ -1,0 +1,30 @@
+name: publish
+on:
+  # When Release Pull Request is merged
+  pull_request:
+    docs:
+      - docs
+    types: [closed]
+
+env:
+  CI: true
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: build
+        if: github.event.pull_request.merged == 'true'
+        run: |
+          yarn
+          yarn build:independent
+      - name: Deploy static to Tencent CloudBase
+        if: github.event.pull_request.merged == 'true'
+        id: deployStatic
+        uses: TencentCloudBase/cloudbase-action@v1.1.0
+        with:
+          secretId: ${{ secrets.TCB_SECRET_ID }}
+          secretKey: ${{ secrets.TCB_SECRET_KEY }}
+          envId: ${{ secrets.TCB_TARO_ORG_ENV_ID }}
+          staticSrcPath: dist

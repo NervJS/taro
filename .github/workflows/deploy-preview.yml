@@ -1,4 +1,4 @@
-name: Deploy to Zeit Now
+name: Deploy to Netlify
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ jobs:
       - name: build
         run: |
           yarn
-          yarn build
+          yarn build:github
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.0.12
         with:
