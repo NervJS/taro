@@ -25,12 +25,19 @@ function unquote (str: string) {
   return str
 }
 
-function getAttrValue (value: string) {
-  if (value === 'true' || value === 'false' || !isString(value)) {
-    return `{{${value}}}`
+function getAttrValue (value) {
+  if (typeof value === 'object') {
+    try {
+      const res = JSON.stringify(value)
+      return `'${res}'`
+    } catch (error) {}
   }
 
-  return unquote(value)
+  if (value === 'true' || value === 'false' || !isString(value)) {
+    return `"{{${value}}}"`
+  }
+
+  return `"${unquote(value)}"`
 }
 
 interface MiniData {
@@ -184,7 +191,7 @@ export class Prerender {
     return Object.keys(attrs)
       .filter(Boolean)
       .filter(k => !k.startsWith('bind') || !k.startsWith('on'))
-      .map(k => `${k}="${getAttrValue(attrs[k])}" `)
+      .map(k => `${k}=${getAttrValue(attrs[k])} `)
       .join('')
   }
 
