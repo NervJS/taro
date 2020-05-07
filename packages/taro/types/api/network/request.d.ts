@@ -8,7 +8,7 @@ declare namespace Taro {
       /** 请求的参数 */
       data?: U
       /** 返回的数据格式 */
-      dataType?: keyof dataType
+      dataType?: keyof dataType | string
       /** 接口调用失败的回调函数 */
       fail?: (res: General.CallbackResult) => void
       /** 设置请求的 header，header 中不能设置 Referer。
@@ -78,10 +78,10 @@ declare namespace Taro {
 
     /** 返回的数据格式 */
     interface dataType {
-      /** 返回的数据为 JSON，返回后会对返回的数据进行一次 JSON.parse */
+      /** 返回的数据为 JSON，返回后会对返回的数据进行一次 JSON.parse
+       * 其他: 不对返回的内容进行 JSON.parse
+       */
       json
-      /** 不对返回的内容进行 JSON.parse */
-      '其他'
     }
 
     /** HTTP 请求方法 */
