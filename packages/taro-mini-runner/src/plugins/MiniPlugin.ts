@@ -17,7 +17,6 @@ import {
   promoteRelativePath,
   BUILD_TYPES,
   MINI_APP_FILES,
-  CONFIG_MAP,
   META_TYPE,
   REG_STYLE,
   NODE_MODULES_REG,
@@ -543,7 +542,6 @@ export default class TaroMiniPlugin {
     const tabBar = appConfig.tabBar
     const { sourceDir } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
-
       // eslint-disable-next-line dot-notation
       const list = tabBar['list'] || []
       list.forEach(item => {
