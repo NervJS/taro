@@ -5,18 +5,18 @@ interface AudioProps extends StandardProps {
   /** audio 组件的唯一标识符
    * @supported weapp
    */
-  id: string
+  id?: string
 
   /** 要播放音频的资源地址
    * @supported weapp, h5, swan
    */
-  src: string
+  src?: string
 
   /** 是否循环播放
    * @default false
    * @supported weapp, h5, swan
    */
-  loop: boolean
+  loop?: boolean
 
   /** 是否静音播放
    * @default false
@@ -29,24 +29,24 @@ interface AudioProps extends StandardProps {
    * @default false
    * @supported weapp, h5, swan
    */
-  controls: boolean
+  controls?: boolean
 
   /** 默认控件上的音频封面的图片资源地址，如果 controls 属性值为 false 则设置 poster 无效
    * @supported weapp, swan
    */
-  poster: string
+  poster?: string
 
   /** 默认控件上的音频名字，如果 controls 属性值为 false 则设置 name 无效
    * @default "未知音频"
    * @supported weapp
    */
-  name: string
+  name?: string
 
   /** 默认控件上的作者名字，如果 controls 属性值为 false 则设置 author 无效
    * @default "未知作者"
    * @supported weapp
    */
-  author: string
+  author?: string
 
   /** 当发生错误时触发 error 事件，detail = {errMsg: MediaError.code}
    * @supported weapp, h5, swan
