@@ -32,6 +32,10 @@ export class Button implements ComponentInterface {
 
   @Listen('touchstart')
   onTouchStart () {
+    if (this.disabled) {
+      return
+    }
+
     this.touch = true
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
@@ -44,6 +48,10 @@ export class Button implements ComponentInterface {
 
   @Listen('touchend')
   onTouchEnd () {
+    if (this.disabled) {
+      return
+    }
+
     this.touch = false
     if (this.hoverClass && !this.disabled) {
       setTimeout(() => {
