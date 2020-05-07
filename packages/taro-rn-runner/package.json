@@ -68,7 +68,7 @@
     "resolve": "^2.0.0-next.0",
     "sass-loader": "^7.1.0",
     "sax": "^1.2.4",
-    "scss-bundle": "^2.5.1",
+    "scss-bundle": "^3.1.1",
     "stats-webpack-plugin": "^0.7.0",
     "stylelint": "^9.3.0",
     "stylelint-config-taro-rn": "^2.2.3",

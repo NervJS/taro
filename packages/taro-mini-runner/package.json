@@ -67,7 +67,7 @@
     "resolve": "^2.0.0-next.0",
     "sass-loader": "^7.1.0",
     "sax": "^1.2.4",
-    "scss-bundle": "^2.5.1",
+    "scss-bundle": "^3.1.1",
     "stylus": "0.54.7",
     "stylus-loader": "^3.0.2",
     "tapable": "1.1.3",

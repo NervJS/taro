@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "node-sass": "^4.12.0",
-    "scss-bundle": "^2.5.1"
+    "scss-bundle": "^3.1.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
