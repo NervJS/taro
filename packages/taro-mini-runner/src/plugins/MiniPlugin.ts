@@ -27,6 +27,7 @@ import {
   printLog,
   processTypeEnum
 } from '@tarojs/runner-utils'
+import { cloneDeep } from 'lodash'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { buildBaseTemplate, buildPageTemplate, buildXScript, buildBaseComponentTemplate } from '../template'
@@ -595,7 +596,23 @@ export default class TaroMiniPlugin {
     const baseTemplateName = 'base'
     const baseCompName = 'comp'
     const { baseLevel } = this.options
-    this.generateConfigFile(compilation, this.appEntry, this.appConfig)
+    if (this.options.buildAdapter === BUILD_TYPES.ALIPAY && this.appConfig.tabBar) {
+      const tabBarItems = this.appConfig.tabBar.list.map(({ text, ...rest }) => {
+        return {
+          ...rest,
+          name: text
+        }
+      })
+      this.generateConfigFile(compilation, this.appEntry, {
+        ...this.appConfig,
+        tabBar: {
+          ...this.appConfig.tabBar,
+          items: tabBarItems
+        } as any
+      })
+    } else {
+      this.generateConfigFile(compilation, this.appEntry, this.appConfig)
+    }
     this.generateConfigFile(compilation, baseCompName, {
       component: true,
       usingComponents: {
