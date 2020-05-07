@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Host } from '@stencil/core'
 import Swipers from 'swiper'
 import classNames from 'classnames'
 
@@ -197,18 +197,20 @@ export class Swiper implements ComponentInterface {
     }
 
     return (
-      <div class={cls} style={style}>
-        <style type='text/css'>
-          {`
-            .taro-swiper-${this._id} .swiper-pagination-bullet { background: ${indicatorColor} }
-            .taro-swiper-${this._id} .swiper-pagination-bullet-active { background: ${indicatorActiveColor} }
-          `}
-        </style>
-        <div class='swiper-wrapper'>
-          <slot />
+      <Host>
+        <div class={cls} style={style}>
+          <style type='text/css'>
+            {`
+              .taro-swiper-${this._id} .swiper-pagination-bullet { background: ${indicatorColor} }
+              .taro-swiper-${this._id} .swiper-pagination-bullet-active { background: ${indicatorActiveColor} }
+            `}
+          </style>
+          <div class='swiper-wrapper'>
+            <slot />
+          </div>
+          <div class={paginationCls} />
         </div>
-        <div class={paginationCls} />
-      </div>
+      </Host>
     )
   }
 }
