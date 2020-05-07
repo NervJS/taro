@@ -27,7 +27,6 @@ import {
   printLog,
   processTypeEnum
 } from '@tarojs/runner-utils'
-import { cloneDeep } from 'lodash'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { buildBaseTemplate, buildPageTemplate, buildXScript, buildBaseComponentTemplate } from '../template'
