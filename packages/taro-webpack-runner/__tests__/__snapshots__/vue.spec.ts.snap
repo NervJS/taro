@@ -5,88 +5,535 @@ exports[`vue should build vue app 1`] = `57`;
 exports[`vue should build vue app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
-/*! For license information please see 1.js.LICENSE.txt */
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"30\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"64\\": function(module, exports, __webpack_require__) {
+        var api = __webpack_require__(6);
+        var content = __webpack_require__(67);
+        content = content.__esModule ? content.default : content;
+        if (typeof content === \\"string\\") {
+            content = [ [ module.i, content, \\"\\" ] ];
+        }
+        var options = {};
+        options.insert = \\"head\\";
+        options.singleton = false;
+        var update = api(content, options);
+        var exported = content.locals ? content.locals : {};
+        module.exports = exported;
+    },
+    \\"65\\": function(module, exports, __webpack_require__) {
+        var api = __webpack_require__(6);
+        var content = __webpack_require__(69);
+        content = content.__esModule ? content.default : content;
+        if (typeof content === \\"string\\") {
+            content = [ [ module.i, content, \\"\\" ] ];
+        }
+        var options = {};
+        options.insert = \\"head\\";
+        options.singleton = false;
+        var update = api(content, options);
+        var exported = content.locals ? content.locals : {};
+        module.exports = exported;
+    },
+    \\"66\\": function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(64);
+        var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+        var _unused_webpack_default_export = _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a;
+    },
+    \\"67\\": function(module, exports, __webpack_require__) {
+        var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(7);
+        exports = ___CSS_LOADER_API_IMPORT___(false);
+        exports.push([ module.i, \\".index{color:blue}\\", \\"\\" ]);
+        module.exports = exports;
+    },
+    \\"68\\": function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(65);
+        var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
+        var _unused_webpack_default_export = _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default.a;
+    },
+    \\"69\\": function(module, exports, __webpack_require__) {
+        var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(7);
+        exports = ___CSS_LOADER_API_IMPORT___(false);
+        exports.push([ module.i, \\".detail{color:red}\\", \\"\\" ]);
+        module.exports = exports;
+    },
+    \\"73\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, \\"taro_button_core\\", (function() {
-            return Button;
+        var render = function() {
+            var _vm = this;
+            var _h = _vm.$createElement;
+            var _c = _vm._self._c || _h;
+            return _c(\\"taro-view\\", {
+                \\"staticClass\\": \\"index\\"
+            }, [ _c(\\"taro-text\\", [ _vm._v(_vm._s(_vm.msg)) ]) ], 1);
+        };
+        var staticRenderFns = [];
+        render._withStripped = true;
+        var indexvue_type_script_lang_js_ = {
+            \\"data\\": function data() {
+                return {
+                    \\"msg\\": \\"Hello world!\\"
+                };
+            }
+        };
+        var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
+        var indexvue_type_style_index_0_lang_scss_ = __webpack_require__(66);
+        var indexvue_type_style_index_1_lang_sass_ = __webpack_require__(68);
+        function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
+            var options = typeof scriptExports === \\"function\\" ? scriptExports.options : scriptExports;
+            if (render) {
+                options.render = render;
+                options.staticRenderFns = staticRenderFns;
+                options._compiled = true;
+            }
+            if (functionalTemplate) {
+                options.functional = true;
+            }
+            if (scopeId) {
+                options._scopeId = \\"data-v-\\" + scopeId;
+            }
+            var hook;
+            if (moduleIdentifier) {
+                hook = function(context) {
+                    context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
+                    if (!context && typeof __VUE_SSR_CONTEXT__ !== \\"undefined\\") {
+                        context = __VUE_SSR_CONTEXT__;
+                    }
+                    if (injectStyles) {
+                        injectStyles.call(this, context);
+                    }
+                    if (context && context._registeredComponents) {
+                        context._registeredComponents.add(moduleIdentifier);
+                    }
+                };
+                options._ssrRegister = hook;
+            } else if (injectStyles) {
+                hook = shadowMode ? function() {
+                    injectStyles.call(this, this.$root.$options.shadowRoot);
+                } : injectStyles;
+            }
+            if (hook) {
+                if (options.functional) {
+                    options._injectStyles = hook;
+                    var originalRender = options.render;
+                    options.render = function renderWithStyleInjection(h, context) {
+                        hook.call(context);
+                        return originalRender(h, context);
+                    };
+                } else {
+                    var existing = options.beforeCreate;
+                    options.beforeCreate = existing ? [].concat(existing, hook) : [ hook ];
+                }
+            }
+            return {
+                \\"exports\\": scriptExports,
+                \\"options\\": options
+            };
+        }
+        var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
+        if (false) {
+            var api;
+        }
+        component.options.__file = \\"src/pages/index/index.vue\\";
+        var index = __webpack_exports__[\\"default\\"] = component.exports;
+    }
+} ]);
+
+/** filePath: dist/chunk/10.js **/
+/*! For license information please see 10.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
+    \\"56\\": function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, \\"taro_tabbar\\", (function() {
+            return Tabbar;
         }));
         var _core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
         var _index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(63);
-        var Button = function() {
-            function Button(hostRef) {
-                Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(this, hostRef);
-                this.hoverClass = \\"button-hover\\";
-                this.type = \\"\\";
-                this.hoverStartTime = 20;
-                this.hoverStayTime = 70;
-                this.loading = false;
-                this.formType = null;
-                this.hover = false;
-                this.touch = false;
-                this.onSubmit = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"tarobuttonsubmit\\", 7);
-                this.onReset = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"tarobuttonreset\\", 7);
+        function isAbsolute(pathname) {
+            return pathname.charAt(0) === \\"/\\";
+        }
+        function spliceOne(list, index) {
+            for (var i = index, k = i + 1, n = list.length; k < n; i += 1, k += 1) {
+                list[i] = list[k];
             }
-            Button.prototype.onTouchStart = function() {
-                var _this = this;
-                this.touch = true;
-                if (this.hoverClass && !this.disabled) {
-                    setTimeout((function() {
-                        if (_this.touch) {
-                            _this.hover = true;
-                        }
-                    }), this.hoverStartTime);
+            list.pop();
+        }
+        function resolvePathname(to, from) {
+            if (from === undefined) from = \\"\\";
+            var toParts = to && to.split(\\"/\\") || [];
+            var fromParts = from && from.split(\\"/\\") || [];
+            var isToAbs = to && isAbsolute(to);
+            var isFromAbs = from && isAbsolute(from);
+            var mustEndAbs = isToAbs || isFromAbs;
+            if (to && isAbsolute(to)) {
+                fromParts = toParts;
+            } else if (toParts.length) {
+                fromParts.pop();
+                fromParts = fromParts.concat(toParts);
+            }
+            if (!fromParts.length) return \\"/\\";
+            var hasTrailingSlash;
+            if (fromParts.length) {
+                var last = fromParts[fromParts.length - 1];
+                hasTrailingSlash = last === \\".\\" || last === \\"..\\" || last === \\"\\";
+            } else {
+                hasTrailingSlash = false;
+            }
+            var up = 0;
+            for (var i = fromParts.length; i >= 0; i--) {
+                var part = fromParts[i];
+                if (part === \\".\\") {
+                    spliceOne(fromParts, i);
+                } else if (part === \\"..\\") {
+                    spliceOne(fromParts, i);
+                    up++;
+                } else if (up) {
+                    spliceOne(fromParts, i);
+                    up--;
                 }
+            }
+            if (!mustEndAbs) for (;up--; up) fromParts.unshift(\\"..\\");
+            if (mustEndAbs && fromParts[0] !== \\"\\" && (!fromParts[0] || !isAbsolute(fromParts[0]))) fromParts.unshift(\\"\\");
+            var result = fromParts.join(\\"/\\");
+            if (hasTrailingSlash && result.substr(-1) !== \\"/\\") result += \\"/\\";
+            return result;
+        }
+        var splitUrl = function(_url) {
+            var url = _url || \\"\\";
+            var pos;
+            var res = {
+                \\"path\\": null,
+                \\"query\\": null,
+                \\"fragment\\": null
             };
-            Button.prototype.onTouchEnd = function() {
-                var _this = this;
-                this.touch = false;
-                if (this.hoverClass && !this.disabled) {
-                    setTimeout((function() {
-                        if (!_this.touch) {
-                            _this.hover = false;
-                        }
-                    }), this.hoverStayTime);
-                }
-                if (this.formType === \\"submit\\") {
-                    this.onSubmit.emit();
-                } else if (this.formType === \\"reset\\") {
-                    this.onReset.emit();
-                }
+            pos = url.indexOf(\\"#\\");
+            if (pos > -1) {
+                res.fragment = url.substring(pos + 1);
+                url = url.substring(0, pos);
+            }
+            pos = url.indexOf(\\"?\\");
+            if (pos > -1) {
+                res.query = url.substring(pos + 1);
+                url = url.substring(0, pos);
+            }
+            res.path = url;
+            return res;
+        };
+        var TabbarItem = function(props) {
+            var _a = props.index, index = _a === void 0 ? null : _a, _b = props.isSelected, isSelected = _b === void 0 ? false : _b, _c = props.textColor, textColor = _c === void 0 ? {} : _c, _d = props.iconPath, iconPath = _d === void 0 ? \\"\\" : _d, _e = props.badgeText, badgeText = _e === void 0 ? null : _e, _f = props.showRedDot, showRedDot = _f === void 0 ? false : _f, text = props.text;
+            var className = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(\\"weui-tabbar__item\\", {
+                \\"weui-bar__item_on\\": isSelected
+            });
+            var badgeStyle = {
+                \\"position\\": \\"absolute\\",
+                \\"top\\": \\"-2px\\",
+                \\"right\\": \\"-13px\\"
             };
-            Button.prototype.render = function() {
-                var _a;
-                var _b = this, disabled = _b.disabled, hoverClass = _b.hoverClass, type = _b.type, size = _b.size, plain = _b.plain, loading = _b.loading, hover = _b.hover;
-                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])((_a = {}, 
-                _a[\\"\\" + hoverClass] = hover && !disabled, _a));
+            var dotStyle = {
+                \\"position\\": \\"absolute\\",
+                \\"top\\": \\"0\\",
+                \\"right\\": \\"-6px\\"
+            };
+            function onClick() {
+                props.onSelect(props.index);
+            }
+            return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"a\\", {
+                \\"key\\": index,
+                \\"href\\": \\"javascript:;\\",
+                \\"class\\": className,
+                \\"onClick\\": onClick
+            }, Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"span\\", {
+                \\"style\\": {
+                    \\"display\\": \\"inline-block\\",
+                    \\"position\\": \\"relative\\"
+                }
+            }, Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"img\\", {
+                \\"src\\": iconPath,
+                \\"alt\\": \\"\\",
+                \\"class\\": \\"weui-tabbar__icon\\"
+            }), badgeText && Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"span\\", {
+                \\"class\\": \\"weui-badge taro-tabbar-badge\\",
+                \\"style\\": badgeStyle
+            }, badgeText), showRedDot && Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"span\\", {
+                \\"class\\": \\"weui-badge weui-badge_dot\\",
+                \\"style\\": dotStyle
+            })), Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"p\\", {
+                \\"class\\": \\"weui-tabbar__label\\",
+                \\"style\\": {
+                    \\"color\\": textColor
+                }
+            }, text));
+        };
+        var Taro = __webpack_require__(5);
+        var addLeadingSlash = function(str) {
+            return str[0] === \\"/\\" ? str : \\"/\\" + str;
+        };
+        var hasBasename = function(path, prefix) {
+            return new RegExp(\\"^\\" + prefix + \\"(\\\\\\\\/|\\\\\\\\?|#|$)\\", \\"i\\").test(path);
+        };
+        var stripBasename = function(path, prefix) {
+            return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
+        };
+        var STATUS_SHOW = 0;
+        var STATUS_HIDE = 1;
+        var STATUS_SLIDEOUT = 2;
+        var basicTabBarClassName = \\"taro-tabbar__tabbar\\";
+        var hideTabBarClassName = \\"taro-tabbar__tabbar-hide\\";
+        var hideTabBarWithAnimationClassName = \\"taro-tabbar__tabbar-slideout\\";
+        var Tabbar = function() {
+            function Tabbar(hostRef) {
+                var _this = this;
+                Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(this, hostRef);
+                this.homePage = \\"\\";
+                this.customRoutes = [];
+                this.tabbarPos = \\"bottom\\";
+                this.selectedIndex = -1;
+                this.status = STATUS_SHOW;
+                this.getOriginUrl = function(url) {
+                    var customRoute = _this.customRoutes.filter((function(_a) {
+                        var customUrl = _a[1];
+                        var patha = splitUrl(customUrl).path;
+                        var pathb = splitUrl(url).path;
+                        return patha === pathb;
+                    }));
+                    return customRoute.length ? customRoute[0][0] : url;
+                };
+                this.getSelectedIndex = function(url) {
+                    var foundIndex = -1;
+                    _this.list.forEach((function(_a, idx) {
+                        var pagePath = _a.pagePath;
+                        var patha = splitUrl(url).path;
+                        var pathb = splitUrl(pagePath).path;
+                        if (patha === pathb) {
+                            foundIndex = idx;
+                        }
+                    }));
+                    return foundIndex;
+                };
+                this.switchTab = function(index) {
+                    _this.selectedIndex = index;
+                    Taro.redirectTo({
+                        \\"url\\": _this.list[index].pagePath
+                    });
+                };
+                this.switchTabHandler = function(_a) {
+                    var url = _a.url, successHandler = _a.successHandler, errorHandler = _a.errorHandler;
+                    var currentUrl = _this.getOriginUrl(_this.getCurrentUrl() || _this.homePage);
+                    var nextTab = resolvePathname(url, currentUrl);
+                    var foundIndex = _this.getSelectedIndex(nextTab);
+                    if (foundIndex > -1) {
+                        _this.switchTab(foundIndex);
+                        successHandler({
+                            \\"errMsg\\": \\"switchTab:ok\\"
+                        });
+                    } else {
+                        errorHandler({
+                            \\"errMsg\\": 'switchTab:fail page \\"' + nextTab + '\\" is not found'
+                        });
+                    }
+                };
+                this.routerChangeHandler = function(options) {
+                    var toLocation;
+                    var currentPage;
+                    if (options) {
+                        toLocation = options.toLocation;
+                    }
+                    if (toLocation && toLocation.path) {
+                        var tmpPath = addLeadingSlash(toLocation.path);
+                        currentPage = tmpPath === \\"/\\" ? _this.homePage : tmpPath;
+                    } else {
+                        currentPage = _this.getCurrentUrl();
+                    }
+                    _this.selectedIndex = _this.getSelectedIndex(_this.getOriginUrl(currentPage));
+                };
+                this.setTabBarBadgeHandler = function(_a) {
+                    var index = _a.index, text = _a.text, errorHandler = _a.errorHandler;
+                    var list = _this.list;
+                    if (index in list) {
+                        _this.list[index].showRedDot = false;
+                        _this.list[index].badgeText = text;
+                    } else {
+                        errorHandler({
+                            \\"errMsg\\": \\"setTabBarBadge:fail tabbar item not found\\"
+                        });
+                    }
+                };
+                this.removeTabBarBadgeHandler = function(_a) {
+                    var index = _a.index, successHandler = _a.successHandler, errorHandler = _a.errorHandler;
+                    var list = _this.list;
+                    if (index in list) {
+                        _this.list[index].badgeText = null;
+                        _this.list[index].badgeText = null;
+                        successHandler({
+                            \\"errMsg\\": \\"removeTabBarBadge:ok\\"
+                        });
+                    } else {
+                        errorHandler({
+                            \\"errMsg\\": \\"removeTabBarBadge:fail tabbar item not found\\"
+                        });
+                    }
+                };
+                this.showTabBarRedDotHandler = function(_a) {
+                    var index = _a.index, successHandler = _a.successHandler, errorHandler = _a.errorHandler;
+                    var list = _this.list;
+                    if (index in list) {
+                        list[index].badgeText = null;
+                        list[index].showRedDot = true;
+                        successHandler({
+                            \\"errMsg\\": \\"showTabBarRedDot:ok\\"
+                        });
+                    } else {
+                        errorHandler({
+                            \\"errMsg\\": \\"showTabBarRedDot:fail tabbar item not found\\"
+                        });
+                    }
+                };
+                this.hideTabBarRedDotHandler = function(_a) {
+                    var index = _a.index, successHandler = _a.successHandler, errorHandler = _a.errorHandler;
+                    var list = _this.list;
+                    if (index in list) {
+                        list[index].showRedDot = false;
+                        successHandler({
+                            \\"errMsg\\": \\"hideTabBarRedDot:ok\\"
+                        });
+                    } else {
+                        errorHandler({
+                            \\"errMsg\\": \\"hideTabBarRedDot:fail tabbar item not found\\"
+                        });
+                    }
+                };
+                this.showTabBarHandler = function(_a) {
+                    var successHandler = _a.successHandler;
+                    _this.status = STATUS_SHOW;
+                    successHandler({
+                        \\"errMsg\\": \\"showTabBar:ok\\"
+                    });
+                };
+                this.hideTabBarHandler = function(_a) {
+                    var animation = _a.animation, successHandler = _a.successHandler;
+                    _this.status = animation ? STATUS_SLIDEOUT : STATUS_HIDE;
+                    successHandler({
+                        \\"errMsg\\": \\"hideTabBar:ok\\"
+                    });
+                };
+                var list = this.conf.list;
+                var customRoutes = this.conf.customRoutes;
+                if (Object.prototype.toString.call(list) !== \\"[object Array]\\" || list.length < 2 || list.length > 5) {
+                    throw new Error(\\"tabBar 配置错误\\");
+                }
+                this.homePage = addLeadingSlash(this.homePage);
+                for (var key in customRoutes) {
+                    this.customRoutes.push([ key, customRoutes[key] ]);
+                }
+                list.forEach((function(item) {
+                    if (item.pagePath.indexOf(\\"/\\") !== 0) {
+                        item.pagePath = \\"/\\" + item.pagePath;
+                    }
+                }));
+                this.list = list;
+                this.onLongPress = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"longpress\\", 7);
+            }
+            Tabbar.prototype.getCurrentUrl = function() {
+                var routerMode = this.conf.mode;
+                var routerBasename = this.conf.basename || \\"/\\";
+                var url;
+                if (routerMode === \\"hash\\") {
+                    var href = window.location.href;
+                    var hashIndex = href.indexOf(\\"#\\");
+                    url = hashIndex === -1 ? \\"\\" : href.substring(hashIndex + 1);
+                } else {
+                    url = location.pathname;
+                }
+                var processedUrl = addLeadingSlash(stripBasename(url, routerBasename));
+                return processedUrl === \\"/\\" ? this.homePage : processedUrl;
+            };
+            Tabbar.prototype.bindEvent = function() {
+                Taro.eventCenter.on(\\"__taroRouterChange\\", this.routerChangeHandler);
+                Taro.eventCenter.on(\\"__taroSwitchTab\\", this.switchTabHandler);
+                Taro.eventCenter.on(\\"__taroSetTabBarBadge\\", this.setTabBarBadgeHandler);
+                Taro.eventCenter.on(\\"__taroRemoveTabBarBadge\\", this.removeTabBarBadgeHandler);
+                Taro.eventCenter.on(\\"__taroShowTabBarRedDotHandler\\", this.showTabBarRedDotHandler);
+                Taro.eventCenter.on(\\"__taroHideTabBarRedDotHandler\\", this.hideTabBarRedDotHandler);
+                Taro.eventCenter.on(\\"__taroShowTabBar\\", this.showTabBarHandler);
+                Taro.eventCenter.on(\\"__taroHideTabBar\\", this.hideTabBarHandler);
+            };
+            Tabbar.prototype.removeEvent = function() {
+                Taro.eventCenter.off(\\"__taroRouterChange\\", this.routerChangeHandler);
+                Taro.eventCenter.off(\\"__taroSwitchTab\\", this.switchTabHandler);
+                Taro.eventCenter.off(\\"__taroSetTabBarBadge\\", this.setTabBarBadgeHandler);
+                Taro.eventCenter.off(\\"__taroRemoveTabBarBadge\\", this.removeTabBarBadgeHandler);
+                Taro.eventCenter.off(\\"__taroShowTabBarRedDotHandler\\", this.showTabBarRedDotHandler);
+                Taro.eventCenter.off(\\"__taroHideTabBarRedDotHandler\\", this.hideTabBarRedDotHandler);
+                Taro.eventCenter.off(\\"__taroShowTabBarHandler\\", this.showTabBarHandler);
+                Taro.eventCenter.off(\\"__taroHideTabBarHandler\\", this.hideTabBarHandler);
+            };
+            Tabbar.prototype.componentDidLoad = function() {
+                this.tabbarPos = this.tabbar.nextElementSibling ? \\"top\\" : \\"bottom\\";
+                this.bindEvent();
+                this.routerChangeHandler();
+            };
+            Tabbar.prototype.componentDidUnload = function() {
+                this.removeEvent();
+            };
+            Tabbar.prototype.render = function() {
+                var _a, _b;
+                var _this = this;
+                var _c = this, conf = _c.conf, _d = _c.tabbarPos, tabbarPos = _d === void 0 ? \\"bottom\\" : _d;
+                var status = this.status;
+                var containerCls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(\\"weui-tabbar\\", (_a = {}, 
+                _a[\\"taro-tabbar__border-\\" + (conf.borderStyle || \\"black\\")] = true, _a));
+                var shouldHideTabBar = this.selectedIndex === -1 || status === STATUS_HIDE;
+                var shouldSlideout = status === STATUS_SLIDEOUT;
                 return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], {
-                    \\"class\\": cls,
-                    \\"type\\": type,
-                    \\"plain\\": plain,
-                    \\"loading\\": loading,
-                    \\"size\\": size,
-                    \\"disabled\\": disabled
-                }, loading && Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"i\\", {
-                    \\"class\\": \\"weui-loading\\"
-                }), Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"slot\\", null));
+                    \\"class\\": Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(basicTabBarClassName, basicTabBarClassName + \\"-\\" + tabbarPos, (_b = {}, 
+                    _b[hideTabBarClassName] = shouldHideTabBar, _b[hideTabBarWithAnimationClassName] = shouldSlideout, 
+                    _b))
+                }, Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"div\\", {
+                    \\"class\\": containerCls,
+                    \\"style\\": {
+                        \\"backgroundColor\\": conf.backgroundColor || \\"\\"
+                    }
+                }, this.list.map((function(item, index) {
+                    var isSelected = _this.selectedIndex === index;
+                    var textColor;
+                    var iconPath;
+                    if (isSelected) {
+                        textColor = conf.selectedColor;
+                        iconPath = item.selectedIconPath;
+                    } else {
+                        textColor = conf.color || \\"\\";
+                        iconPath = item.iconPath;
+                    }
+                    return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(TabbarItem, {
+                        \\"index\\": index,
+                        \\"onSelect\\": _this.switchTab.bind(_this),
+                        \\"isSelected\\": isSelected,
+                        \\"textColor\\": textColor,
+                        \\"iconPath\\": iconPath,
+                        \\"text\\": item.text,
+                        \\"badgeText\\": item.badgeText,
+                        \\"showRedDot\\": item.showRedDot
+                    });
+                }))));
             };
-            Object.defineProperty(Button.prototype, \\"el\\", {
+            Object.defineProperty(Tabbar.prototype, \\"tabbar\\", {
                 \\"get\\": function() {
                     return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"e\\"])(this);
                 },
                 \\"enumerable\\": true,
                 \\"configurable\\": true
             });
-            Object.defineProperty(Button, \\"style\\", {
+            Object.defineProperty(Tabbar, \\"style\\", {
                 \\"get\\": function() {
-                    return 'taro-button-core{position:relative;display:block;margin-left:auto;margin-right:auto;padding-left:14px;padding-right:14px;-webkit-box-sizing:border-box;box-sizing:border-box;font-size:18px;text-align:center;text-decoration:none;color:#000;background-color:#f8f8f8;line-height:2.55555556;border-radius:5px;-webkit-tap-highlight-color:rgba(0,0,0,0);overflow:hidden;width:100%;border-width:0;outline:0;-webkit-appearance:none}taro-button-core:not([disabled]):active{color:rgba(0,0,0,.6);background-color:#dedede}taro-button-core:focus{outline:0}taro-button-core:after{content:\\" \\";width:200%;height:200%;position:absolute;top:0;left:0;border:1px solid rgba(0,0,0,.2);-webkit-transform:scale(.5);transform:scale(.5);-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-box-sizing:border-box;box-sizing:border-box;border-radius:10px}taro-button-core+taro-button-core{margin-top:15px}taro-button-core[type=default]{color:#000;background-color:#f8f8f8}taro-button-core[type=default]:not([disabled]):visited{color:#000}taro-button-core[type=default]:not([disabled]):active{color:rgba(0,0,0,.6);background-color:#dedede}taro-button-core[size=mini]{width:auto;display:inline-block;padding:0 1.32em;line-height:2.3;font-size:13px}taro-button-core[plain],taro-button-core[plain][type=default],taro-button-core[plain][type=primary]{border-width:1px;background-color:transparent}taro-button-core[disabled]{color:hsla(0,0%,100%,.6)}taro-button-core[disabled][type=default]{color:rgba(0,0,0,.3);background-color:#f7f7f7}taro-button-core[disabled][type=primary]{background-color:#9ed99d}taro-button-core[disabled][type=warn]{background-color:#ec8b89}taro-button-core[loading] .weui-loading{margin:-.2em .34em 0 0}taro-button-core[loading][type=primary],taro-button-core[loading][type=warn]{color:hsla(0,0%,100%,.6)}taro-button-core[loading][type=primary]{background-color:#179b16}taro-button-core[loading][type=warn]{background-color:#ce3c39}taro-button-core[plain][type=primary]{color:#1aad19;border:1px solid #1aad19}taro-button-core[plain][type=primary]:not([disabled]):active{color:rgba(26,173,25,.6);border-color:rgba(26,173,25,.6);background-color:transparent}taro-button-core[plain][type=primary]:after{border-width:0}taro-button-core[plain],taro-button-core[plain][type=default]{color:#353535;border:1px solid #353535}taro-button-core[plain]:not([disabled]):active,taro-button-core[plain][type=default]:not([disabled]):active{color:rgba(53,53,53,.6);border-color:rgba(53,53,53,.6);background-color:transparent}taro-button-core[plain]:after,taro-button-core[plain][type=default]:after{border-width:0}taro-button-core[type=primary]{color:#fff;background-color:#1aad19}taro-button-core[type=primary]:not([disabled]):visited{color:#fff}taro-button-core[type=primary]:not([disabled]):active{color:hsla(0,0%,100%,.6);background-color:#179b16}taro-button-core[type=warn]{color:#fff;background-color:#e64340}taro-button-core[type=warn]:not([disabled]):visited{color:#fff}taro-button-core[type=warn]:not([disabled]):active{color:hsla(0,0%,100%,.6);background-color:#ce3c39}taro-button-core[plain][disabled],taro-button-core[plain][disabled][type=primary]{color:rgba(0,0,0,.3);border:1px solid rgba(0,0,0,.2);background-color:#f7f7f7}';
+                    return \\"#app,body,html{height:100%}.taro-tabbar__border-white:before{border-top-color:#fff!important}.taro-tabbar__container{display:-ms-flexbox;display:flex;height:100%;-ms-flex-direction:column;flex-direction:column;overflow:hidden}.taro-tabbar__panel{-ms-flex:1;flex:1;position:relative;overflow:auto;-webkit-overflow-scrolling:touch}.taro-tabbar__tabbar{position:relative;height:50px;width:100%;-webkit-transition:bottom .2s,top .2s;transition:bottom .2s,top .2s}.taro-tabbar__tabbar-top{top:0}.taro-tabbar__tabbar-bottom{bottom:0}.taro-tabbar__tabbar-hide{display:none}.taro-tabbar__tabbar-slideout{top:-52px;-ms-flex:0 0;flex:0 0}.taro-tabbar__panel+.taro-tabbar__tabbar-slideout{top:auto;bottom:-52px}\\";
                 },
                 \\"enumerable\\": true,
                 \\"configurable\\": true
             });
-            return Button;
+            return Tabbar;
         }();
     },
     \\"63\\": function(module, __webpack_exports__, __webpack_require__) {
@@ -136,7 +583,7 @@ exports[`vue should build vue app 2`] = `
     }
 } ]);
 
-/** filePath: dist/chunk/1.js.LICENSE.txt **/
+/** filePath: dist/chunk/10.js.LICENSE.txt **/
 /*!
       Copyright (c) 2017 Jed Watson.
       Licensed under the MIT License (MIT), see
@@ -144,9 +591,9 @@ exports[`vue should build vue app 2`] = `
     */
 
 
-/** filePath: dist/chunk/10.js **/
-/*! For license information please see 10.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
+/** filePath: dist/chunk/11.js **/
+/*! For license information please see 11.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 11 ], {
     \\"57\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -225,7 +672,7 @@ exports[`vue should build vue app 2`] = `
     }
 } ]);
 
-/** filePath: dist/chunk/10.js.LICENSE.txt **/
+/** filePath: dist/chunk/11.js.LICENSE.txt **/
 /*!
       Copyright (c) 2017 Jed Watson.
       Licensed under the MIT License (MIT), see
@@ -233,9 +680,9 @@ exports[`vue should build vue app 2`] = `
     */
 
 
-/** filePath: dist/chunk/11.js **/
-/*! For license information please see 11.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 11 ], {
+/** filePath: dist/chunk/12.js **/
+/*! For license information please see 12.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 12 ], {
     \\"59\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -1124,7 +1571,7 @@ exports[`vue should build vue app 2`] = `
     }
 } ]);
 
-/** filePath: dist/chunk/11.js.LICENSE.txt **/
+/** filePath: dist/chunk/12.js.LICENSE.txt **/
 /*!
       Copyright (c) 2017 Jed Watson.
       Licensed under the MIT License (MIT), see
@@ -1132,9 +1579,9 @@ exports[`vue should build vue app 2`] = `
     */
 
 
-/** filePath: dist/chunk/12.js **/
-/*! For license information please see 12.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 12 ], {
+/** filePath: dist/chunk/13.js **/
+/*! For license information please see 13.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 13 ], {
     \\"60\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -1251,7 +1698,7 @@ exports[`vue should build vue app 2`] = `
     }
 } ]);
 
-/** filePath: dist/chunk/12.js.LICENSE.txt **/
+/** filePath: dist/chunk/13.js.LICENSE.txt **/
 /*!
       Copyright (c) 2017 Jed Watson.
       Licensed under the MIT License (MIT), see
@@ -1259,8 +1706,8 @@ exports[`vue should build vue app 2`] = `
     */
 
 
-/** filePath: dist/chunk/13.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 13 ], {
+/** filePath: dist/chunk/14.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 14 ], {
     \\"26\\": function(module, exports) {
         var StyleNode = function() {
             function StyleNode() {
@@ -1863,9 +2310,9 @@ exports[`vue should build vue app 2`] = `
     }
 } ]);
 
-/** filePath: dist/chunk/14.js **/
-/*! For license information please see 14.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 14 ], {
+/** filePath: dist/chunk/15.js **/
+/*! For license information please see 15.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 15 ], {
     \\"27\\": function(module, exports) {
         (function() {
             var aa = new Set(\\"annotation-xml color-profile font-face font-face-src font-face-uri font-face-format font-face-name missing-glyph\\".split(\\" \\"));
@@ -2632,7 +3079,7 @@ exports[`vue should build vue app 2`] = `
     }
 } ]);
 
-/** filePath: dist/chunk/14.js.LICENSE.txt **/
+/** filePath: dist/chunk/15.js.LICENSE.txt **/
 /*!
 DOMTokenList
 */
@@ -2660,9 +3107,9 @@ Element.remove()
 */
 
 
-/** filePath: dist/chunk/15.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 15 ], {
-    \\"64\\": function(module, exports) {
+/** filePath: dist/chunk/16.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 16 ], {
+    \\"70\\": function(module, exports) {
         (function() {
             if (typeof window !== \\"object\\") {
                 return;
@@ -3019,8 +3466,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/16.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 16 ], {
+/** filePath: dist/chunk/17.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 17 ], {
     \\"28\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3094,8 +3541,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/17.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 17 ], {
+/** filePath: dist/chunk/18.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 18 ], {
     \\"29\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3115,8 +3562,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/18.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 18 ], {
+/** filePath: dist/chunk/19.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 19 ], {
     \\"31\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3139,8 +3586,148 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/19.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 19 ], {
+/** filePath: dist/chunk/2.js **/
+/*! For license information please see 2.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 2 ], {
+    \\"30\\": function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, \\"taro_button_core\\", (function() {
+            return Button;
+        }));
+        var _core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+        var _index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(63);
+        var Button = function() {
+            function Button(hostRef) {
+                Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(this, hostRef);
+                this.hoverClass = \\"button-hover\\";
+                this.type = \\"\\";
+                this.hoverStartTime = 20;
+                this.hoverStayTime = 70;
+                this.loading = false;
+                this.formType = null;
+                this.hover = false;
+                this.touch = false;
+                this.onSubmit = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"tarobuttonsubmit\\", 7);
+                this.onReset = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"tarobuttonreset\\", 7);
+            }
+            Button.prototype.onTouchStart = function() {
+                var _this = this;
+                this.touch = true;
+                if (this.hoverClass && !this.disabled) {
+                    setTimeout((function() {
+                        if (_this.touch) {
+                            _this.hover = true;
+                        }
+                    }), this.hoverStartTime);
+                }
+            };
+            Button.prototype.onTouchEnd = function() {
+                var _this = this;
+                this.touch = false;
+                if (this.hoverClass && !this.disabled) {
+                    setTimeout((function() {
+                        if (!_this.touch) {
+                            _this.hover = false;
+                        }
+                    }), this.hoverStayTime);
+                }
+                if (this.formType === \\"submit\\") {
+                    this.onSubmit.emit();
+                } else if (this.formType === \\"reset\\") {
+                    this.onReset.emit();
+                }
+            };
+            Button.prototype.render = function() {
+                var _a;
+                var _b = this, disabled = _b.disabled, hoverClass = _b.hoverClass, type = _b.type, size = _b.size, plain = _b.plain, loading = _b.loading, hover = _b.hover;
+                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])((_a = {}, 
+                _a[\\"\\" + hoverClass] = hover && !disabled, _a));
+                return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], {
+                    \\"class\\": cls,
+                    \\"type\\": type,
+                    \\"plain\\": plain,
+                    \\"loading\\": loading,
+                    \\"size\\": size,
+                    \\"disabled\\": disabled
+                }, loading && Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"i\\", {
+                    \\"class\\": \\"weui-loading\\"
+                }), Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"slot\\", null));
+            };
+            Object.defineProperty(Button.prototype, \\"el\\", {
+                \\"get\\": function() {
+                    return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"e\\"])(this);
+                },
+                \\"enumerable\\": true,
+                \\"configurable\\": true
+            });
+            Object.defineProperty(Button, \\"style\\", {
+                \\"get\\": function() {
+                    return 'taro-button-core{position:relative;display:block;margin-left:auto;margin-right:auto;padding-left:14px;padding-right:14px;-webkit-box-sizing:border-box;box-sizing:border-box;font-size:18px;text-align:center;text-decoration:none;color:#000;background-color:#f8f8f8;line-height:2.55555556;border-radius:5px;-webkit-tap-highlight-color:rgba(0,0,0,0);overflow:hidden;width:100%;border-width:0;outline:0;-webkit-appearance:none}taro-button-core:not([disabled]):active{color:rgba(0,0,0,.6);background-color:#dedede}taro-button-core:focus{outline:0}taro-button-core:after{content:\\" \\";width:200%;height:200%;position:absolute;top:0;left:0;border:1px solid rgba(0,0,0,.2);-webkit-transform:scale(.5);transform:scale(.5);-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-box-sizing:border-box;box-sizing:border-box;border-radius:10px}taro-button-core+taro-button-core{margin-top:15px}taro-button-core[type=default]{color:#000;background-color:#f8f8f8}taro-button-core[type=default]:not([disabled]):visited{color:#000}taro-button-core[type=default]:not([disabled]):active{color:rgba(0,0,0,.6);background-color:#dedede}taro-button-core[size=mini]{width:auto;display:inline-block;padding:0 1.32em;line-height:2.3;font-size:13px}taro-button-core[plain],taro-button-core[plain][type=default],taro-button-core[plain][type=primary]{border-width:1px;background-color:transparent}taro-button-core[disabled]{color:hsla(0,0%,100%,.6)}taro-button-core[disabled][type=default]{color:rgba(0,0,0,.3);background-color:#f7f7f7}taro-button-core[disabled][type=primary]{background-color:#9ed99d}taro-button-core[disabled][type=warn]{background-color:#ec8b89}taro-button-core[loading] .weui-loading{margin:-.2em .34em 0 0}taro-button-core[loading][type=primary],taro-button-core[loading][type=warn]{color:hsla(0,0%,100%,.6)}taro-button-core[loading][type=primary]{background-color:#179b16}taro-button-core[loading][type=warn]{background-color:#ce3c39}taro-button-core[plain][type=primary]{color:#1aad19;border:1px solid #1aad19}taro-button-core[plain][type=primary]:not([disabled]):active{color:rgba(26,173,25,.6);border-color:rgba(26,173,25,.6);background-color:transparent}taro-button-core[plain][type=primary]:after{border-width:0}taro-button-core[plain],taro-button-core[plain][type=default]{color:#353535;border:1px solid #353535}taro-button-core[plain]:not([disabled]):active,taro-button-core[plain][type=default]:not([disabled]):active{color:rgba(53,53,53,.6);border-color:rgba(53,53,53,.6);background-color:transparent}taro-button-core[plain]:after,taro-button-core[plain][type=default]:after{border-width:0}taro-button-core[type=primary]{color:#fff;background-color:#1aad19}taro-button-core[type=primary]:not([disabled]):visited{color:#fff}taro-button-core[type=primary]:not([disabled]):active{color:hsla(0,0%,100%,.6);background-color:#179b16}taro-button-core[type=warn]{color:#fff;background-color:#e64340}taro-button-core[type=warn]:not([disabled]):visited{color:#fff}taro-button-core[type=warn]:not([disabled]):active{color:hsla(0,0%,100%,.6);background-color:#ce3c39}taro-button-core[plain][disabled],taro-button-core[plain][disabled][type=primary]{color:rgba(0,0,0,.3);border:1px solid rgba(0,0,0,.2);background-color:#f7f7f7}';
+                },
+                \\"enumerable\\": true,
+                \\"configurable\\": true
+            });
+            return Button;
+        }();
+    },
+    \\"63\\": function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+            return classnames;
+        }));
+        function createCommonjsModule(fn, module) {
+            return module = {
+                \\"exports\\": {}
+            }, fn(module, module.exports), module.exports;
+        }
+        var classnames = createCommonjsModule((function(module) {
+            (function() {
+                var hasOwn = {}.hasOwnProperty;
+                function classNames() {
+                    var classes = [];
+                    for (var i = 0; i < arguments.length; i++) {
+                        var arg = arguments[i];
+                        if (!arg) continue;
+                        var argType = typeof arg;
+                        if (argType === \\"string\\" || argType === \\"number\\") {
+                            classes.push(arg);
+                        } else if (Array.isArray(arg) && arg.length) {
+                            var inner = classNames.apply(null, arg);
+                            if (inner) {
+                                classes.push(inner);
+                            }
+                        } else if (argType === \\"object\\") {
+                            for (var key in arg) {
+                                if (hasOwn.call(arg, key) && arg[key]) {
+                                    classes.push(key);
+                                }
+                            }
+                        }
+                    }
+                    return classes.join(\\" \\");
+                }
+                if (module.exports) {
+                    classNames.default = classNames;
+                    module.exports = classNames;
+                } else {
+                    window.classNames = classNames;
+                }
+            })();
+        }));
+    }
+} ]);
+
+/** filePath: dist/chunk/2.js.LICENSE.txt **/
+/*!
+      Copyright (c) 2017 Jed Watson.
+      Licensed under the MIT License (MIT), see
+      http://jedwatson.github.io/classnames
+    */
+
+
+/** filePath: dist/chunk/20.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 20 ], {
     \\"32\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3218,98 +3805,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/2.js **/
-/*! For license information please see 2.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 2 ], {
-    \\"37\\": function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, \\"taro_icon_core\\", (function() {
-            return Icon;
-        }));
-        var _core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-        var _index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(63);
-        var Icon = function() {
-            function Icon(hostRef) {
-                Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(this, hostRef);
-                this.size = \\"23\\";
-            }
-            Icon.prototype.render = function() {
-                var _b;
-                var _a;
-                var _c = this, type = _c.type, size = _c.size, color = _c.color;
-                var iconType = (_a = type) === null || _a === void 0 ? void 0 : _a.replace(/_/g, \\"-\\");
-                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])((_b = {}, 
-                _b[\\"weui-icon-\\" + iconType] = true, _b));
-                var style = {
-                    \\"font-size\\": size + \\"px\\",
-                    \\"color\\": color
-                };
-                return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], {
-                    \\"class\\": cls,
-                    \\"style\\": style
-                });
-            };
-            return Icon;
-        }();
-    },
-    \\"63\\": function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-            return classnames;
-        }));
-        function createCommonjsModule(fn, module) {
-            return module = {
-                \\"exports\\": {}
-            }, fn(module, module.exports), module.exports;
-        }
-        var classnames = createCommonjsModule((function(module) {
-            (function() {
-                var hasOwn = {}.hasOwnProperty;
-                function classNames() {
-                    var classes = [];
-                    for (var i = 0; i < arguments.length; i++) {
-                        var arg = arguments[i];
-                        if (!arg) continue;
-                        var argType = typeof arg;
-                        if (argType === \\"string\\" || argType === \\"number\\") {
-                            classes.push(arg);
-                        } else if (Array.isArray(arg) && arg.length) {
-                            var inner = classNames.apply(null, arg);
-                            if (inner) {
-                                classes.push(inner);
-                            }
-                        } else if (argType === \\"object\\") {
-                            for (var key in arg) {
-                                if (hasOwn.call(arg, key) && arg[key]) {
-                                    classes.push(key);
-                                }
-                            }
-                        }
-                    }
-                    return classes.join(\\" \\");
-                }
-                if (module.exports) {
-                    classNames.default = classNames;
-                    module.exports = classNames;
-                } else {
-                    window.classNames = classNames;
-                }
-            })();
-        }));
-    }
-} ]);
-
-/** filePath: dist/chunk/2.js.LICENSE.txt **/
-/*!
-      Copyright (c) 2017 Jed Watson.
-      Licensed under the MIT License (MIT), see
-      http://jedwatson.github.io/classnames
-    */
-
-
-/** filePath: dist/chunk/20.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 20 ], {
+/** filePath: dist/chunk/21.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 21 ], {
     \\"33\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3443,8 +3940,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/21.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 21 ], {
+/** filePath: dist/chunk/22.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 22 ], {
     \\"34\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3467,8 +3964,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/22.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 22 ], {
+/** filePath: dist/chunk/23.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 23 ], {
     \\"35\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3491,8 +3988,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/23.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 23 ], {
+/** filePath: dist/chunk/24.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 24 ], {
     \\"36\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3601,8 +4098,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/24.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 24 ], {
+/** filePath: dist/chunk/25.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 25 ], {
     \\"39\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3773,8 +4270,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/25.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 25 ], {
+/** filePath: dist/chunk/26.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 26 ], {
     \\"40\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3796,8 +4293,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/26.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 26 ], {
+/** filePath: dist/chunk/27.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 27 ], {
     \\"41\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3820,8 +4317,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/27.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 27 ], {
+/** filePath: dist/chunk/28.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 28 ], {
     \\"42\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3844,8 +4341,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/28.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 28 ], {
+/** filePath: dist/chunk/29.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 29 ], {
     \\"44\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -3868,111 +4365,39 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/29.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 29 ], {
-    \\"46\\": function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, \\"taro_picker_view_column_core\\", (function() {
-            return PickerViewColumn;
-        }));
-        var _core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-        var PickerViewColumn = function() {
-            function PickerViewColumn(hostRef) {
-                Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(this, hostRef);
-            }
-            PickerViewColumn.prototype.componentDidLoad = function() {
-                console.error(\\"H5 暂不支持 PickerViewColumn 组件！\\");
-            };
-            PickerViewColumn.prototype.render = function() {
-                return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], null);
-            };
-            return PickerViewColumn;
-        }();
-    }
-} ]);
-
 /** filePath: dist/chunk/3.js **/
 /*! For license information please see 3.js.LICENSE.txt */
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 3 ], {
-    \\"38\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"37\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, \\"taro_image_core\\", (function() {
-            return Image;
+        __webpack_require__.d(__webpack_exports__, \\"taro_icon_core\\", (function() {
+            return Icon;
         }));
         var _core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
         var _index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(63);
-        __webpack_require__.e(15).then(__webpack_require__.t.bind(null, 64, 7));
-        var Image = function() {
-            function Image(hostRef) {
+        var Icon = function() {
+            function Icon(hostRef) {
                 Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(this, hostRef);
-                this.mode = \\"scaleToFill\\";
-                this.lazyLoad = false;
-                this.aspectFillMode = \\"width\\";
-                this.onLoad = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"load\\", 7);
-                this.onError = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"error\\", 7);
+                this.size = \\"23\\";
             }
-            Image.prototype.componentDidLoad = function() {
-                var _this = this;
-                if (!this.lazyLoad) return;
-                var lazyImg = new IntersectionObserver((function(entries) {
-                    if (entries[entries.length - 1].isIntersecting) {
-                        lazyImg.unobserve(_this.imgRef);
-                        _this.imgRef.src = _this.src;
-                    }
-                }), {
-                    \\"rootMargin\\": \\"300px 0px\\"
-                });
-                lazyImg.observe(this.imgRef);
-            };
-            Image.prototype.imageOnLoad = function() {
-                var _a = this.imgRef, width = _a.width, height = _a.height, naturalWidth = _a.naturalWidth, naturalHeight = _a.naturalHeight;
-                this.onLoad.emit({
-                    \\"width\\": width,
-                    \\"height\\": height
-                });
-                this.aspectFillMode = naturalWidth > naturalHeight ? \\"width\\" : \\"height\\";
-            };
-            Image.prototype.imageOnError = function() {
-                this.onError.emit();
-            };
-            Image.prototype.render = function() {
+            Icon.prototype.render = function() {
+                var _b;
                 var _a;
-                var _this = this;
-                var _b = this, src = _b.src, mode = _b.mode, lazyLoad = _b.lazyLoad, aspectFillMode = _b.aspectFillMode, imageOnLoad = _b.imageOnLoad, imageOnError = _b.imageOnError;
-                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])({
-                    \\"taro-img__widthfix\\": mode === \\"widthFix\\"
-                });
-                var imgCls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(\\"taro-img__mode-\\" + mode.toLowerCase().replace(/\\\\s/g, \\"\\"), (_a = {}, 
-                _a[\\"taro-img__mode-aspectfill--\\" + aspectFillMode] = mode === \\"aspectFill\\", _a));
+                var _c = this, type = _c.type, size = _c.size, color = _c.color;
+                var iconType = (_a = type) === null || _a === void 0 ? void 0 : _a.replace(/_/g, \\"-\\");
+                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])((_b = {}, 
+                _b[\\"weui-icon-\\" + iconType] = true, _b));
+                var style = {
+                    \\"font-size\\": size + \\"px\\",
+                    \\"color\\": color
+                };
                 return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], {
-                    \\"class\\": cls
-                }, lazyLoad ? Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"img\\", {
-                    \\"ref\\": function(img) {
-                        return _this.imgRef = img;
-                    },
-                    \\"class\\": imgCls,
-                    \\"onLoad\\": imageOnLoad.bind(this),
-                    \\"onError\\": imageOnError.bind(this)
-                }) : Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"img\\", {
-                    \\"ref\\": function(img) {
-                        return _this.imgRef = img;
-                    },
-                    \\"class\\": imgCls,
-                    \\"src\\": src,
-                    \\"onLoad\\": imageOnLoad.bind(this),
-                    \\"onError\\": imageOnError.bind(this)
-                }));
+                    \\"class\\": cls,
+                    \\"style\\": style
+                });
             };
-            Object.defineProperty(Image, \\"style\\", {
-                \\"get\\": function() {
-                    return 'img[src=\\"\\"]{opacity:0}taro-image-core{display:inline-block;overflow:hidden;position:relative;font-size:0;width:320px;height:240px}.taro-img.taro-img__widthfix{height:100%}.taro-img__mode-scaletofill{width:100%;height:100%}.taro-img__mode-aspectfit{max-width:100%;max-height:100%}.taro-img__mode-aspectfill{position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.taro-img__mode-aspectfill--width{min-width:100%;height:100%}.taro-img__mode-aspectfill--height{width:100%;min-height:100%}.taro-img__mode-top,.taro-img__mode-widthfix{width:100%}.taro-img__mode-bottom{width:100%;position:absolute;bottom:0}.taro-img__mode-left{height:100%}.taro-img__mode-right{height:100%}.taro-img__mode-right,.taro-img__mode-topright{position:absolute;right:0}.taro-img__mode-bottomleft{position:absolute;bottom:0}.taro-img__mode-bottomright{position:absolute;right:0;bottom:0}';
-                },
-                \\"enumerable\\": true,
-                \\"configurable\\": true
-            });
-            return Image;
+            return Icon;
         }();
     },
     \\"63\\": function(module, __webpack_exports__, __webpack_require__) {
@@ -4032,6 +4457,30 @@ Element.remove()
 
 /** filePath: dist/chunk/30.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 30 ], {
+    \\"46\\": function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, \\"taro_picker_view_column_core\\", (function() {
+            return PickerViewColumn;
+        }));
+        var _core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+        var PickerViewColumn = function() {
+            function PickerViewColumn(hostRef) {
+                Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(this, hostRef);
+            }
+            PickerViewColumn.prototype.componentDidLoad = function() {
+                console.error(\\"H5 暂不支持 PickerViewColumn 组件！\\");
+            };
+            PickerViewColumn.prototype.render = function() {
+                return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], null);
+            };
+            return PickerViewColumn;
+        }();
+    }
+} ]);
+
+/** filePath: dist/chunk/31.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 31 ], {
     \\"47\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -4054,8 +4503,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/31.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 31 ], {
+/** filePath: dist/chunk/32.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 32 ], {
     \\"48\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -4110,8 +4559,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/32.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 32 ], {
+/** filePath: dist/chunk/33.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 33 ], {
     \\"50\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -4255,8 +4704,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/33.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 33 ], {
+/** filePath: dist/chunk/34.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 34 ], {
     \\"51\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -4338,8 +4787,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/34.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 34 ], {
+/** filePath: dist/chunk/35.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 35 ], {
     \\"53\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -4536,8 +4985,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/35.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 35 ], {
+/** filePath: dist/chunk/36.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 36 ], {
     \\"55\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -4620,8 +5069,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/36.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 36 ], {
+/** filePath: dist/chunk/37.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 37 ], {
     \\"58\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -4721,8 +5170,8 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/37.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 37 ], {
+/** filePath: dist/chunk/38.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 38 ], {
     \\"61\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -4767,9 +5216,9 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/38.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 38 ], {
-    \\"66\\": function(module, exports, __webpack_require__) {
+/** filePath: dist/chunk/39.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 39 ], {
+    \\"72\\": function(module, exports, __webpack_require__) {
         (function(global) {
             !function(undefined) {
                 \\"use strict\\";
@@ -8381,10 +8830,148 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/39.js **/
-/*! For license information please see 39.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 39 ], {
-    \\"65\\": function(module, exports) {
+/** filePath: dist/chunk/4.js **/
+/*! For license information please see 4.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
+    \\"38\\": function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, \\"taro_image_core\\", (function() {
+            return Image;
+        }));
+        var _core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+        var _index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(63);
+        __webpack_require__.e(16).then(__webpack_require__.t.bind(null, 70, 7));
+        var Image = function() {
+            function Image(hostRef) {
+                Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(this, hostRef);
+                this.mode = \\"scaleToFill\\";
+                this.lazyLoad = false;
+                this.aspectFillMode = \\"width\\";
+                this.onLoad = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"load\\", 7);
+                this.onError = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"error\\", 7);
+            }
+            Image.prototype.componentDidLoad = function() {
+                var _this = this;
+                if (!this.lazyLoad) return;
+                var lazyImg = new IntersectionObserver((function(entries) {
+                    if (entries[entries.length - 1].isIntersecting) {
+                        lazyImg.unobserve(_this.imgRef);
+                        _this.imgRef.src = _this.src;
+                    }
+                }), {
+                    \\"rootMargin\\": \\"300px 0px\\"
+                });
+                lazyImg.observe(this.imgRef);
+            };
+            Image.prototype.imageOnLoad = function() {
+                var _a = this.imgRef, width = _a.width, height = _a.height, naturalWidth = _a.naturalWidth, naturalHeight = _a.naturalHeight;
+                this.onLoad.emit({
+                    \\"width\\": width,
+                    \\"height\\": height
+                });
+                this.aspectFillMode = naturalWidth > naturalHeight ? \\"width\\" : \\"height\\";
+            };
+            Image.prototype.imageOnError = function() {
+                this.onError.emit();
+            };
+            Image.prototype.render = function() {
+                var _a;
+                var _this = this;
+                var _b = this, src = _b.src, mode = _b.mode, lazyLoad = _b.lazyLoad, aspectFillMode = _b.aspectFillMode, imageOnLoad = _b.imageOnLoad, imageOnError = _b.imageOnError;
+                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])({
+                    \\"taro-img__widthfix\\": mode === \\"widthFix\\"
+                });
+                var imgCls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(\\"taro-img__mode-\\" + mode.toLowerCase().replace(/\\\\s/g, \\"\\"), (_a = {}, 
+                _a[\\"taro-img__mode-aspectfill--\\" + aspectFillMode] = mode === \\"aspectFill\\", _a));
+                return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], {
+                    \\"class\\": cls
+                }, lazyLoad ? Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"img\\", {
+                    \\"ref\\": function(img) {
+                        return _this.imgRef = img;
+                    },
+                    \\"class\\": imgCls,
+                    \\"onLoad\\": imageOnLoad.bind(this),
+                    \\"onError\\": imageOnError.bind(this)
+                }) : Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"img\\", {
+                    \\"ref\\": function(img) {
+                        return _this.imgRef = img;
+                    },
+                    \\"class\\": imgCls,
+                    \\"src\\": src,
+                    \\"onLoad\\": imageOnLoad.bind(this),
+                    \\"onError\\": imageOnError.bind(this)
+                }));
+            };
+            Object.defineProperty(Image, \\"style\\", {
+                \\"get\\": function() {
+                    return 'img[src=\\"\\"]{opacity:0}taro-image-core{display:inline-block;overflow:hidden;position:relative;font-size:0;width:320px;height:240px}.taro-img.taro-img__widthfix{height:100%}.taro-img__mode-scaletofill{width:100%;height:100%}.taro-img__mode-aspectfit{max-width:100%;max-height:100%}.taro-img__mode-aspectfill{position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.taro-img__mode-aspectfill--width{min-width:100%;height:100%}.taro-img__mode-aspectfill--height{width:100%;min-height:100%}.taro-img__mode-top,.taro-img__mode-widthfix{width:100%}.taro-img__mode-bottom{width:100%;position:absolute;bottom:0}.taro-img__mode-left{height:100%}.taro-img__mode-right{height:100%}.taro-img__mode-right,.taro-img__mode-topright{position:absolute;right:0}.taro-img__mode-bottomleft{position:absolute;bottom:0}.taro-img__mode-bottomright{position:absolute;right:0;bottom:0}';
+                },
+                \\"enumerable\\": true,
+                \\"configurable\\": true
+            });
+            return Image;
+        }();
+    },
+    \\"63\\": function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+            return classnames;
+        }));
+        function createCommonjsModule(fn, module) {
+            return module = {
+                \\"exports\\": {}
+            }, fn(module, module.exports), module.exports;
+        }
+        var classnames = createCommonjsModule((function(module) {
+            (function() {
+                var hasOwn = {}.hasOwnProperty;
+                function classNames() {
+                    var classes = [];
+                    for (var i = 0; i < arguments.length; i++) {
+                        var arg = arguments[i];
+                        if (!arg) continue;
+                        var argType = typeof arg;
+                        if (argType === \\"string\\" || argType === \\"number\\") {
+                            classes.push(arg);
+                        } else if (Array.isArray(arg) && arg.length) {
+                            var inner = classNames.apply(null, arg);
+                            if (inner) {
+                                classes.push(inner);
+                            }
+                        } else if (argType === \\"object\\") {
+                            for (var key in arg) {
+                                if (hasOwn.call(arg, key) && arg[key]) {
+                                    classes.push(key);
+                                }
+                            }
+                        }
+                    }
+                    return classes.join(\\" \\");
+                }
+                if (module.exports) {
+                    classNames.default = classNames;
+                    module.exports = classNames;
+                } else {
+                    window.classNames = classNames;
+                }
+            })();
+        }));
+    }
+} ]);
+
+/** filePath: dist/chunk/4.js.LICENSE.txt **/
+/*!
+      Copyright (c) 2017 Jed Watson.
+      Licensed under the MIT License (MIT), see
+      http://jedwatson.github.io/classnames
+    */
+
+
+/** filePath: dist/chunk/40.js **/
+/*! For license information please see 40.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 40 ], {
+    \\"71\\": function(module, exports) {
         (function() {
             \\"use strict\\";
             var aa = new Set(\\"annotation-xml color-profile font-face font-face-src font-face-uri font-face-format font-face-name missing-glyph\\".split(\\" \\"));
@@ -9151,7 +9738,7 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/39.js.LICENSE.txt **/
+/** filePath: dist/chunk/40.js.LICENSE.txt **/
 /*!
 DOMTokenList
 */
@@ -9179,9 +9766,9 @@ Element.remove()
 */
 
 
-/** filePath: dist/chunk/4.js **/
-/*! For license information please see 4.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
+/** filePath: dist/chunk/5.js **/
+/*! For license information please see 5.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
     \\"43\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -9314,7 +9901,7 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/4.js.LICENSE.txt **/
+/** filePath: dist/chunk/5.js.LICENSE.txt **/
 /*!
       Copyright (c) 2017 Jed Watson.
       Licensed under the MIT License (MIT), see
@@ -9322,92 +9909,9 @@ Element.remove()
     */
 
 
-/** filePath: dist/chunk/40.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 40 ], {
-    \\"67\\": function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var render = function() {
-            var _vm = this;
-            var _h = _vm.$createElement;
-            var _c = _vm._self._c || _h;
-            return _c(\\"taro-view\\", {
-                \\"staticClass\\": \\"index\\"
-            }, [ _c(\\"taro-text\\", [ _vm._v(_vm._s(_vm.msg)) ]) ], 1);
-        };
-        var staticRenderFns = [];
-        render._withStripped = true;
-        var indexvue_type_script_lang_js_ = {
-            \\"data\\": function data() {
-                return {
-                    \\"msg\\": \\"Hello world!\\"
-                };
-            }
-        };
-        var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-        function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
-            var options = typeof scriptExports === \\"function\\" ? scriptExports.options : scriptExports;
-            if (render) {
-                options.render = render;
-                options.staticRenderFns = staticRenderFns;
-                options._compiled = true;
-            }
-            if (functionalTemplate) {
-                options.functional = true;
-            }
-            if (scopeId) {
-                options._scopeId = \\"data-v-\\" + scopeId;
-            }
-            var hook;
-            if (moduleIdentifier) {
-                hook = function(context) {
-                    context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
-                    if (!context && typeof __VUE_SSR_CONTEXT__ !== \\"undefined\\") {
-                        context = __VUE_SSR_CONTEXT__;
-                    }
-                    if (injectStyles) {
-                        injectStyles.call(this, context);
-                    }
-                    if (context && context._registeredComponents) {
-                        context._registeredComponents.add(moduleIdentifier);
-                    }
-                };
-                options._ssrRegister = hook;
-            } else if (injectStyles) {
-                hook = shadowMode ? function() {
-                    injectStyles.call(this, this.$root.$options.shadowRoot);
-                } : injectStyles;
-            }
-            if (hook) {
-                if (options.functional) {
-                    options._injectStyles = hook;
-                    var originalRender = options.render;
-                    options.render = function renderWithStyleInjection(h, context) {
-                        hook.call(context);
-                        return originalRender(h, context);
-                    };
-                } else {
-                    var existing = options.beforeCreate;
-                    options.beforeCreate = existing ? [].concat(existing, hook) : [ hook ];
-                }
-            }
-            return {
-                \\"exports\\": scriptExports,
-                \\"options\\": options
-            };
-        }
-        var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
-        if (false) {
-            var api;
-        }
-        component.options.__file = \\"src/pages/index/index.vue\\";
-        var index = __webpack_exports__[\\"default\\"] = component.exports;
-    }
-} ]);
-
-/** filePath: dist/chunk/5.js **/
-/*! For license information please see 5.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
+/** filePath: dist/chunk/6.js **/
+/*! For license information please see 6.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     \\"45\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -10096,7 +10600,7 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/5.js.LICENSE.txt **/
+/** filePath: dist/chunk/6.js.LICENSE.txt **/
 /*!
       Copyright (c) 2017 Jed Watson.
       Licensed under the MIT License (MIT), see
@@ -10104,9 +10608,9 @@ Element.remove()
     */
 
 
-/** filePath: dist/chunk/6.js **/
-/*! For license information please see 6.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+/** filePath: dist/chunk/7.js **/
+/*! For license information please see 7.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
     \\"49\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -10404,7 +10908,7 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/6.js.LICENSE.txt **/
+/** filePath: dist/chunk/7.js.LICENSE.txt **/
 /*!
       Copyright (c) 2017 Jed Watson.
       Licensed under the MIT License (MIT), see
@@ -10412,9 +10916,9 @@ Element.remove()
     */
 
 
-/** filePath: dist/chunk/7.js **/
-/*! For license information please see 7.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
+/** filePath: dist/chunk/8.js **/
+/*! For license information please see 8.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
     \\"52\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -10645,7 +11149,7 @@ Element.remove()
     }
 } ]);
 
-/** filePath: dist/chunk/7.js.LICENSE.txt **/
+/** filePath: dist/chunk/8.js.LICENSE.txt **/
 /*!
       Copyright (c) 2017 Jed Watson.
       Licensed under the MIT License (MIT), see
@@ -10653,9 +11157,9 @@ Element.remove()
     */
 
 
-/** filePath: dist/chunk/8.js **/
-/*! For license information please see 8.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
+/** filePath: dist/chunk/9.js **/
+/*! For license information please see 9.js.LICENSE.txt */
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
     \\"54\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -17654,456 +18158,6 @@ Element.remove()
                 });
             };
             return SwiperItem;
-        }();
-    },
-    \\"63\\": function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-            return classnames;
-        }));
-        function createCommonjsModule(fn, module) {
-            return module = {
-                \\"exports\\": {}
-            }, fn(module, module.exports), module.exports;
-        }
-        var classnames = createCommonjsModule((function(module) {
-            (function() {
-                var hasOwn = {}.hasOwnProperty;
-                function classNames() {
-                    var classes = [];
-                    for (var i = 0; i < arguments.length; i++) {
-                        var arg = arguments[i];
-                        if (!arg) continue;
-                        var argType = typeof arg;
-                        if (argType === \\"string\\" || argType === \\"number\\") {
-                            classes.push(arg);
-                        } else if (Array.isArray(arg) && arg.length) {
-                            var inner = classNames.apply(null, arg);
-                            if (inner) {
-                                classes.push(inner);
-                            }
-                        } else if (argType === \\"object\\") {
-                            for (var key in arg) {
-                                if (hasOwn.call(arg, key) && arg[key]) {
-                                    classes.push(key);
-                                }
-                            }
-                        }
-                    }
-                    return classes.join(\\" \\");
-                }
-                if (module.exports) {
-                    classNames.default = classNames;
-                    module.exports = classNames;
-                } else {
-                    window.classNames = classNames;
-                }
-            })();
-        }));
-    }
-} ]);
-
-/** filePath: dist/chunk/8.js.LICENSE.txt **/
-/*!
-      Copyright (c) 2017 Jed Watson.
-      Licensed under the MIT License (MIT), see
-      http://jedwatson.github.io/classnames
-    */
-
-
-/** filePath: dist/chunk/9.js **/
-/*! For license information please see 9.js.LICENSE.txt */
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    \\"56\\": function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, \\"taro_tabbar\\", (function() {
-            return Tabbar;
-        }));
-        var _core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-        var _index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(63);
-        function isAbsolute(pathname) {
-            return pathname.charAt(0) === \\"/\\";
-        }
-        function spliceOne(list, index) {
-            for (var i = index, k = i + 1, n = list.length; k < n; i += 1, k += 1) {
-                list[i] = list[k];
-            }
-            list.pop();
-        }
-        function resolvePathname(to, from) {
-            if (from === undefined) from = \\"\\";
-            var toParts = to && to.split(\\"/\\") || [];
-            var fromParts = from && from.split(\\"/\\") || [];
-            var isToAbs = to && isAbsolute(to);
-            var isFromAbs = from && isAbsolute(from);
-            var mustEndAbs = isToAbs || isFromAbs;
-            if (to && isAbsolute(to)) {
-                fromParts = toParts;
-            } else if (toParts.length) {
-                fromParts.pop();
-                fromParts = fromParts.concat(toParts);
-            }
-            if (!fromParts.length) return \\"/\\";
-            var hasTrailingSlash;
-            if (fromParts.length) {
-                var last = fromParts[fromParts.length - 1];
-                hasTrailingSlash = last === \\".\\" || last === \\"..\\" || last === \\"\\";
-            } else {
-                hasTrailingSlash = false;
-            }
-            var up = 0;
-            for (var i = fromParts.length; i >= 0; i--) {
-                var part = fromParts[i];
-                if (part === \\".\\") {
-                    spliceOne(fromParts, i);
-                } else if (part === \\"..\\") {
-                    spliceOne(fromParts, i);
-                    up++;
-                } else if (up) {
-                    spliceOne(fromParts, i);
-                    up--;
-                }
-            }
-            if (!mustEndAbs) for (;up--; up) fromParts.unshift(\\"..\\");
-            if (mustEndAbs && fromParts[0] !== \\"\\" && (!fromParts[0] || !isAbsolute(fromParts[0]))) fromParts.unshift(\\"\\");
-            var result = fromParts.join(\\"/\\");
-            if (hasTrailingSlash && result.substr(-1) !== \\"/\\") result += \\"/\\";
-            return result;
-        }
-        var splitUrl = function(_url) {
-            var url = _url || \\"\\";
-            var pos;
-            var res = {
-                \\"path\\": null,
-                \\"query\\": null,
-                \\"fragment\\": null
-            };
-            pos = url.indexOf(\\"#\\");
-            if (pos > -1) {
-                res.fragment = url.substring(pos + 1);
-                url = url.substring(0, pos);
-            }
-            pos = url.indexOf(\\"?\\");
-            if (pos > -1) {
-                res.query = url.substring(pos + 1);
-                url = url.substring(0, pos);
-            }
-            res.path = url;
-            return res;
-        };
-        var TabbarItem = function(props) {
-            var _a = props.index, index = _a === void 0 ? null : _a, _b = props.isSelected, isSelected = _b === void 0 ? false : _b, _c = props.textColor, textColor = _c === void 0 ? {} : _c, _d = props.iconPath, iconPath = _d === void 0 ? \\"\\" : _d, _e = props.badgeText, badgeText = _e === void 0 ? null : _e, _f = props.showRedDot, showRedDot = _f === void 0 ? false : _f, text = props.text;
-            var className = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(\\"weui-tabbar__item\\", {
-                \\"weui-bar__item_on\\": isSelected
-            });
-            var badgeStyle = {
-                \\"position\\": \\"absolute\\",
-                \\"top\\": \\"-2px\\",
-                \\"right\\": \\"-13px\\"
-            };
-            var dotStyle = {
-                \\"position\\": \\"absolute\\",
-                \\"top\\": \\"0\\",
-                \\"right\\": \\"-6px\\"
-            };
-            function onClick() {
-                props.onSelect(props.index);
-            }
-            return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"a\\", {
-                \\"key\\": index,
-                \\"href\\": \\"javascript:;\\",
-                \\"class\\": className,
-                \\"onClick\\": onClick
-            }, Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"span\\", {
-                \\"style\\": {
-                    \\"display\\": \\"inline-block\\",
-                    \\"position\\": \\"relative\\"
-                }
-            }, Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"img\\", {
-                \\"src\\": iconPath,
-                \\"alt\\": \\"\\",
-                \\"class\\": \\"weui-tabbar__icon\\"
-            }), badgeText && Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"span\\", {
-                \\"class\\": \\"weui-badge taro-tabbar-badge\\",
-                \\"style\\": badgeStyle
-            }, badgeText), showRedDot && Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"span\\", {
-                \\"class\\": \\"weui-badge weui-badge_dot\\",
-                \\"style\\": dotStyle
-            })), Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"p\\", {
-                \\"class\\": \\"weui-tabbar__label\\",
-                \\"style\\": {
-                    \\"color\\": textColor
-                }
-            }, text));
-        };
-        var Taro = __webpack_require__(5);
-        var addLeadingSlash = function(str) {
-            return str[0] === \\"/\\" ? str : \\"/\\" + str;
-        };
-        var hasBasename = function(path, prefix) {
-            return new RegExp(\\"^\\" + prefix + \\"(\\\\\\\\/|\\\\\\\\?|#|$)\\", \\"i\\").test(path);
-        };
-        var stripBasename = function(path, prefix) {
-            return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
-        };
-        var STATUS_SHOW = 0;
-        var STATUS_HIDE = 1;
-        var STATUS_SLIDEOUT = 2;
-        var basicTabBarClassName = \\"taro-tabbar__tabbar\\";
-        var hideTabBarClassName = \\"taro-tabbar__tabbar-hide\\";
-        var hideTabBarWithAnimationClassName = \\"taro-tabbar__tabbar-slideout\\";
-        var Tabbar = function() {
-            function Tabbar(hostRef) {
-                var _this = this;
-                Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"g\\"])(this, hostRef);
-                this.homePage = \\"\\";
-                this.customRoutes = [];
-                this.tabbarPos = \\"bottom\\";
-                this.selectedIndex = -1;
-                this.status = STATUS_SHOW;
-                this.getOriginUrl = function(url) {
-                    var customRoute = _this.customRoutes.filter((function(_a) {
-                        var customUrl = _a[1];
-                        var patha = splitUrl(customUrl).path;
-                        var pathb = splitUrl(url).path;
-                        return patha === pathb;
-                    }));
-                    return customRoute.length ? customRoute[0][0] : url;
-                };
-                this.getSelectedIndex = function(url) {
-                    var foundIndex = -1;
-                    _this.list.forEach((function(_a, idx) {
-                        var pagePath = _a.pagePath;
-                        var patha = splitUrl(url).path;
-                        var pathb = splitUrl(pagePath).path;
-                        if (patha === pathb) {
-                            foundIndex = idx;
-                        }
-                    }));
-                    return foundIndex;
-                };
-                this.switchTab = function(index) {
-                    _this.selectedIndex = index;
-                    Taro.redirectTo({
-                        \\"url\\": _this.list[index].pagePath
-                    });
-                };
-                this.switchTabHandler = function(_a) {
-                    var url = _a.url, successHandler = _a.successHandler, errorHandler = _a.errorHandler;
-                    var currentUrl = _this.getOriginUrl(_this.getCurrentUrl() || _this.homePage);
-                    var nextTab = resolvePathname(url, currentUrl);
-                    var foundIndex = _this.getSelectedIndex(nextTab);
-                    if (foundIndex > -1) {
-                        _this.switchTab(foundIndex);
-                        successHandler({
-                            \\"errMsg\\": \\"switchTab:ok\\"
-                        });
-                    } else {
-                        errorHandler({
-                            \\"errMsg\\": 'switchTab:fail page \\"' + nextTab + '\\" is not found'
-                        });
-                    }
-                };
-                this.routerChangeHandler = function(options) {
-                    var toLocation;
-                    var currentPage;
-                    if (options) {
-                        toLocation = options.toLocation;
-                    }
-                    if (toLocation && toLocation.path) {
-                        var tmpPath = addLeadingSlash(toLocation.path);
-                        currentPage = tmpPath === \\"/\\" ? _this.homePage : tmpPath;
-                    } else {
-                        currentPage = _this.getCurrentUrl();
-                    }
-                    _this.selectedIndex = _this.getSelectedIndex(_this.getOriginUrl(currentPage));
-                };
-                this.setTabBarBadgeHandler = function(_a) {
-                    var index = _a.index, text = _a.text, errorHandler = _a.errorHandler;
-                    var list = _this.list;
-                    if (index in list) {
-                        _this.list[index].showRedDot = false;
-                        _this.list[index].badgeText = text;
-                    } else {
-                        errorHandler({
-                            \\"errMsg\\": \\"setTabBarBadge:fail tabbar item not found\\"
-                        });
-                    }
-                };
-                this.removeTabBarBadgeHandler = function(_a) {
-                    var index = _a.index, successHandler = _a.successHandler, errorHandler = _a.errorHandler;
-                    var list = _this.list;
-                    if (index in list) {
-                        _this.list[index].badgeText = null;
-                        _this.list[index].badgeText = null;
-                        successHandler({
-                            \\"errMsg\\": \\"removeTabBarBadge:ok\\"
-                        });
-                    } else {
-                        errorHandler({
-                            \\"errMsg\\": \\"removeTabBarBadge:fail tabbar item not found\\"
-                        });
-                    }
-                };
-                this.showTabBarRedDotHandler = function(_a) {
-                    var index = _a.index, successHandler = _a.successHandler, errorHandler = _a.errorHandler;
-                    var list = _this.list;
-                    if (index in list) {
-                        list[index].badgeText = null;
-                        list[index].showRedDot = true;
-                        successHandler({
-                            \\"errMsg\\": \\"showTabBarRedDot:ok\\"
-                        });
-                    } else {
-                        errorHandler({
-                            \\"errMsg\\": \\"showTabBarRedDot:fail tabbar item not found\\"
-                        });
-                    }
-                };
-                this.hideTabBarRedDotHandler = function(_a) {
-                    var index = _a.index, successHandler = _a.successHandler, errorHandler = _a.errorHandler;
-                    var list = _this.list;
-                    if (index in list) {
-                        list[index].showRedDot = false;
-                        successHandler({
-                            \\"errMsg\\": \\"hideTabBarRedDot:ok\\"
-                        });
-                    } else {
-                        errorHandler({
-                            \\"errMsg\\": \\"hideTabBarRedDot:fail tabbar item not found\\"
-                        });
-                    }
-                };
-                this.showTabBarHandler = function(_a) {
-                    var successHandler = _a.successHandler;
-                    _this.status = STATUS_SHOW;
-                    successHandler({
-                        \\"errMsg\\": \\"showTabBar:ok\\"
-                    });
-                };
-                this.hideTabBarHandler = function(_a) {
-                    var animation = _a.animation, successHandler = _a.successHandler;
-                    _this.status = animation ? STATUS_SLIDEOUT : STATUS_HIDE;
-                    successHandler({
-                        \\"errMsg\\": \\"hideTabBar:ok\\"
-                    });
-                };
-                var list = this.conf.list;
-                var customRoutes = this.conf.customRoutes;
-                if (Object.prototype.toString.call(list) !== \\"[object Array]\\" || list.length < 2 || list.length > 5) {
-                    throw new Error(\\"tabBar 配置错误\\");
-                }
-                this.homePage = addLeadingSlash(this.homePage);
-                for (var key in customRoutes) {
-                    this.customRoutes.push([ key, customRoutes[key] ]);
-                }
-                list.forEach((function(item) {
-                    if (item.pagePath.indexOf(\\"/\\") !== 0) {
-                        item.pagePath = \\"/\\" + item.pagePath;
-                    }
-                }));
-                this.list = list;
-                this.onLongPress = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"longpress\\", 7);
-            }
-            Tabbar.prototype.getCurrentUrl = function() {
-                var routerMode = this.conf.mode;
-                var routerBasename = this.conf.basename || \\"/\\";
-                var url;
-                if (routerMode === \\"hash\\") {
-                    var href = window.location.href;
-                    var hashIndex = href.indexOf(\\"#\\");
-                    url = hashIndex === -1 ? \\"\\" : href.substring(hashIndex + 1);
-                } else {
-                    url = location.pathname;
-                }
-                var processedUrl = addLeadingSlash(stripBasename(url, routerBasename));
-                return processedUrl === \\"/\\" ? this.homePage : processedUrl;
-            };
-            Tabbar.prototype.bindEvent = function() {
-                Taro.eventCenter.on(\\"__taroRouterChange\\", this.routerChangeHandler);
-                Taro.eventCenter.on(\\"__taroSwitchTab\\", this.switchTabHandler);
-                Taro.eventCenter.on(\\"__taroSetTabBarBadge\\", this.setTabBarBadgeHandler);
-                Taro.eventCenter.on(\\"__taroRemoveTabBarBadge\\", this.removeTabBarBadgeHandler);
-                Taro.eventCenter.on(\\"__taroShowTabBarRedDotHandler\\", this.showTabBarRedDotHandler);
-                Taro.eventCenter.on(\\"__taroHideTabBarRedDotHandler\\", this.hideTabBarRedDotHandler);
-                Taro.eventCenter.on(\\"__taroShowTabBar\\", this.showTabBarHandler);
-                Taro.eventCenter.on(\\"__taroHideTabBar\\", this.hideTabBarHandler);
-            };
-            Tabbar.prototype.removeEvent = function() {
-                Taro.eventCenter.off(\\"__taroRouterChange\\", this.routerChangeHandler);
-                Taro.eventCenter.off(\\"__taroSwitchTab\\", this.switchTabHandler);
-                Taro.eventCenter.off(\\"__taroSetTabBarBadge\\", this.setTabBarBadgeHandler);
-                Taro.eventCenter.off(\\"__taroRemoveTabBarBadge\\", this.removeTabBarBadgeHandler);
-                Taro.eventCenter.off(\\"__taroShowTabBarRedDotHandler\\", this.showTabBarRedDotHandler);
-                Taro.eventCenter.off(\\"__taroHideTabBarRedDotHandler\\", this.hideTabBarRedDotHandler);
-                Taro.eventCenter.off(\\"__taroShowTabBarHandler\\", this.showTabBarHandler);
-                Taro.eventCenter.off(\\"__taroHideTabBarHandler\\", this.hideTabBarHandler);
-            };
-            Tabbar.prototype.componentDidLoad = function() {
-                this.tabbarPos = this.tabbar.nextElementSibling ? \\"top\\" : \\"bottom\\";
-                this.bindEvent();
-                this.routerChangeHandler();
-            };
-            Tabbar.prototype.componentDidUnload = function() {
-                this.removeEvent();
-            };
-            Tabbar.prototype.render = function() {
-                var _a, _b;
-                var _this = this;
-                var _c = this, conf = _c.conf, _d = _c.tabbarPos, tabbarPos = _d === void 0 ? \\"bottom\\" : _d;
-                var status = this.status;
-                var containerCls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(\\"weui-tabbar\\", (_a = {}, 
-                _a[\\"taro-tabbar__border-\\" + (conf.borderStyle || \\"black\\")] = true, _a));
-                var shouldHideTabBar = this.selectedIndex === -1 || status === STATUS_HIDE;
-                var shouldSlideout = status === STATUS_SLIDEOUT;
-                return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], {
-                    \\"class\\": Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(basicTabBarClassName, basicTabBarClassName + \\"-\\" + tabbarPos, (_b = {}, 
-                    _b[hideTabBarClassName] = shouldHideTabBar, _b[hideTabBarWithAnimationClassName] = shouldSlideout, 
-                    _b))
-                }, Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(\\"div\\", {
-                    \\"class\\": containerCls,
-                    \\"style\\": {
-                        \\"backgroundColor\\": conf.backgroundColor || \\"\\"
-                    }
-                }, this.list.map((function(item, index) {
-                    var isSelected = _this.selectedIndex === index;
-                    var textColor;
-                    var iconPath;
-                    if (isSelected) {
-                        textColor = conf.selectedColor;
-                        iconPath = item.selectedIconPath;
-                    } else {
-                        textColor = conf.color || \\"\\";
-                        iconPath = item.iconPath;
-                    }
-                    return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(TabbarItem, {
-                        \\"index\\": index,
-                        \\"onSelect\\": _this.switchTab.bind(_this),
-                        \\"isSelected\\": isSelected,
-                        \\"textColor\\": textColor,
-                        \\"iconPath\\": iconPath,
-                        \\"text\\": item.text,
-                        \\"badgeText\\": item.badgeText,
-                        \\"showRedDot\\": item.showRedDot
-                    });
-                }))));
-            };
-            Object.defineProperty(Tabbar.prototype, \\"tabbar\\", {
-                \\"get\\": function() {
-                    return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"e\\"])(this);
-                },
-                \\"enumerable\\": true,
-                \\"configurable\\": true
-            });
-            Object.defineProperty(Tabbar, \\"style\\", {
-                \\"get\\": function() {
-                    return \\"#app,body,html{height:100%}.taro-tabbar__border-white:before{border-top-color:#fff!important}.taro-tabbar__container{display:-ms-flexbox;display:flex;height:100%;-ms-flex-direction:column;flex-direction:column;overflow:hidden}.taro-tabbar__panel{-ms-flex:1;flex:1;position:relative;overflow:auto;-webkit-overflow-scrolling:touch}.taro-tabbar__tabbar{position:relative;height:50px;width:100%;-webkit-transition:bottom .2s,top .2s;transition:bottom .2s,top .2s}.taro-tabbar__tabbar-top{top:0}.taro-tabbar__tabbar-bottom{bottom:0}.taro-tabbar__tabbar-hide{display:none}.taro-tabbar__tabbar-slideout{top:-52px;-ms-flex:0 0;flex:0 0}.taro-tabbar__panel+.taro-tabbar__tabbar-slideout{top:auto;bottom:-52px}\\";
-                },
-                \\"enumerable\\": true,
-                \\"configurable\\": true
-            });
-            return Tabbar;
         }();
     },
     \\"63\\": function(module, __webpack_exports__, __webpack_require__) {
@@ -33745,7 +33799,7 @@ Element.remove()
     };
     var patchEsm = function() {
         if (!(win.CSS && win.CSS.supports && win.CSS.supports(\\"color\\", \\"var(--c)\\"))) {
-            return __webpack_require__.e(13).then(__webpack_require__.t.bind(null, 26, 7)).then((function() {
+            return __webpack_require__.e(14).then(__webpack_require__.t.bind(null, 26, 7)).then((function() {
                 plt.$cssShim$ = win.__stencil_cssshim;
                 if (plt.$cssShim$) {
                     return plt.$cssShim$.initShim();
@@ -33774,7 +33828,7 @@ Element.remove()
             opts.resourcesUrl = new URL(\\".\\", new URL(scriptElm.getAttribute(\\"data-resources-url\\") || scriptElm.src, win.location.href)).href;
             patchDynamicImport(opts.resourcesUrl, scriptElm);
             if (!window.customElements) {
-                return __webpack_require__.e(14).then(__webpack_require__.t.bind(null, 27, 7)).then((function() {
+                return __webpack_require__.e(15).then(__webpack_require__.t.bind(null, 27, 7)).then((function() {
                     return opts;
                 }));
             }
@@ -35732,71 +35786,6 @@ Element.remove()
     __webpack_exports__[\\"default\\"] = _tarojs_taro_h5__WEBPACK_IMPORTED_MODULE_0__[\\"U\\"];
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-    var hasOwnProperty = Object.prototype.hasOwnProperty;
-    var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-    function toObject(val) {
-        if (val === null || val === undefined) {
-            throw new TypeError(\\"Object.assign cannot be called with null or undefined\\");
-        }
-        return Object(val);
-    }
-    function shouldUseNative() {
-        try {
-            if (!Object.assign) {
-                return false;
-            }
-            var test1 = new String(\\"abc\\");
-            test1[5] = \\"de\\";
-            if (Object.getOwnPropertyNames(test1)[0] === \\"5\\") {
-                return false;
-            }
-            var test2 = {};
-            for (var i = 0; i < 10; i++) {
-                test2[\\"_\\" + String.fromCharCode(i)] = i;
-            }
-            var order2 = Object.getOwnPropertyNames(test2).map((function(n) {
-                return test2[n];
-            }));
-            if (order2.join(\\"\\") !== \\"0123456789\\") {
-                return false;
-            }
-            var test3 = {};
-            \\"abcdefghijklmnopqrst\\".split(\\"\\").forEach((function(letter) {
-                test3[letter] = letter;
-            }));
-            if (Object.keys(Object.assign({}, test3)).join(\\"\\") !== \\"abcdefghijklmnopqrst\\") {
-                return false;
-            }
-            return true;
-        } catch (err) {
-            return false;
-        }
-    }
-    module.exports = shouldUseNative() ? Object.assign : function(target, source) {
-        var from;
-        var to = toObject(target);
-        var symbols;
-        for (var s = 1; s < arguments.length; s++) {
-            from = Object(arguments[s]);
-            for (var key in from) {
-                if (hasOwnProperty.call(from, key)) {
-                    to[key] = from[key];
-                }
-            }
-            if (getOwnPropertySymbols) {
-                symbols = getOwnPropertySymbols(from);
-                for (var i = 0; i < symbols.length; i++) {
-                    if (propIsEnumerable.call(from, symbols[i])) {
-                        to[symbols[i]] = from[symbols[i]];
-                    }
-                }
-            }
-        }
-        return to;
-    };
-}, function(module, exports, __webpack_require__) {
-    \\"use strict\\";
     var isOldIE = function isOldIE() {
         var memo;
         return function memorize() {
@@ -36059,6 +36048,71 @@ Element.remove()
         var data = \\"sourceMappingURL=data:application/json;charset=utf-8;base64,\\".concat(base64);
         return \\"/*# \\".concat(data, \\" */\\");
     }
+}, function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+    function toObject(val) {
+        if (val === null || val === undefined) {
+            throw new TypeError(\\"Object.assign cannot be called with null or undefined\\");
+        }
+        return Object(val);
+    }
+    function shouldUseNative() {
+        try {
+            if (!Object.assign) {
+                return false;
+            }
+            var test1 = new String(\\"abc\\");
+            test1[5] = \\"de\\";
+            if (Object.getOwnPropertyNames(test1)[0] === \\"5\\") {
+                return false;
+            }
+            var test2 = {};
+            for (var i = 0; i < 10; i++) {
+                test2[\\"_\\" + String.fromCharCode(i)] = i;
+            }
+            var order2 = Object.getOwnPropertyNames(test2).map((function(n) {
+                return test2[n];
+            }));
+            if (order2.join(\\"\\") !== \\"0123456789\\") {
+                return false;
+            }
+            var test3 = {};
+            \\"abcdefghijklmnopqrst\\".split(\\"\\").forEach((function(letter) {
+                test3[letter] = letter;
+            }));
+            if (Object.keys(Object.assign({}, test3)).join(\\"\\") !== \\"abcdefghijklmnopqrst\\") {
+                return false;
+            }
+            return true;
+        } catch (err) {
+            return false;
+        }
+    }
+    module.exports = shouldUseNative() ? Object.assign : function(target, source) {
+        var from;
+        var to = toObject(target);
+        var symbols;
+        for (var s = 1; s < arguments.length; s++) {
+            from = Object(arguments[s]);
+            for (var key in from) {
+                if (hasOwnProperty.call(from, key)) {
+                    to[key] = from[key];
+                }
+            }
+            if (getOwnPropertySymbols) {
+                symbols = getOwnPropertySymbols(from);
+                for (var i = 0; i < symbols.length; i++) {
+                    if (propIsEnumerable.call(from, symbols[i])) {
+                        to[symbols[i]] = from[symbols[i]];
+                    }
+                }
+            }
+        }
+        return to;
+    };
 }, function(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(25);
 }, function(module, __webpack_exports__, __webpack_require__) {
@@ -38767,7 +38821,7 @@ Element.remove()
     } else {}
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var aa = __webpack_require__(13), n = __webpack_require__(6), r = __webpack_require__(15);
+    var aa = __webpack_require__(13), n = __webpack_require__(8), r = __webpack_require__(15);
     function u(a) {
         for (var b = \\"https://reactjs.org/docs/error-decoder.html?invariant=\\" + a, c = 1; c < arguments.length; c++) b += \\"&args[]=\\" + encodeURIComponent(arguments[c]);
         return \\"Minified React error #\\" + a + \\"; visit \\" + b + \\" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\\";
@@ -44890,7 +44944,7 @@ Element.remove()
     } else {}
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var l = __webpack_require__(6), n = \\"function\\" === typeof Symbol && Symbol.for, p = n ? Symbol.for(\\"react.element\\") : 60103, q = n ? Symbol.for(\\"react.portal\\") : 60106, r = n ? Symbol.for(\\"react.fragment\\") : 60107, t = n ? Symbol.for(\\"react.strict_mode\\") : 60108, u = n ? Symbol.for(\\"react.profiler\\") : 60114, v = n ? Symbol.for(\\"react.provider\\") : 60109, w = n ? Symbol.for(\\"react.context\\") : 60110, x = n ? Symbol.for(\\"react.forward_ref\\") : 60112, y = n ? Symbol.for(\\"react.suspense\\") : 60113, z = n ? Symbol.for(\\"react.memo\\") : 60115, A = n ? Symbol.for(\\"react.lazy\\") : 60116, B = \\"function\\" === typeof Symbol && Symbol.iterator;
+    var l = __webpack_require__(8), n = \\"function\\" === typeof Symbol && Symbol.for, p = n ? Symbol.for(\\"react.element\\") : 60103, q = n ? Symbol.for(\\"react.portal\\") : 60106, r = n ? Symbol.for(\\"react.fragment\\") : 60107, t = n ? Symbol.for(\\"react.strict_mode\\") : 60108, u = n ? Symbol.for(\\"react.profiler\\") : 60114, v = n ? Symbol.for(\\"react.provider\\") : 60109, w = n ? Symbol.for(\\"react.context\\") : 60110, x = n ? Symbol.for(\\"react.forward_ref\\") : 60112, y = n ? Symbol.for(\\"react.suspense\\") : 60113, z = n ? Symbol.for(\\"react.memo\\") : 60115, A = n ? Symbol.for(\\"react.lazy\\") : 60116, B = \\"function\\" === typeof Symbol && Symbol.iterator;
     function C(a) {
         for (var b = \\"https://reactjs.org/docs/error-decoder.html?invariant=\\" + a, c = 1; c < arguments.length; c++) b += \\"&args[]=\\" + encodeURIComponent(arguments[c]);
         return \\"Minified React error #\\" + a + \\"; visit \\" + b + \\" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\\";
@@ -45496,7 +45550,7 @@ Element.remove()
         };
     };
 }, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(7);
+    var api = __webpack_require__(6);
     var content = __webpack_require__(18);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
@@ -45509,7 +45563,7 @@ Element.remove()
     var exported = content.locals ? content.locals : {};
     module.exports = exported;
 }, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(8);
+    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(7);
     exports = ___CSS_LOADER_API_IMPORT___(false);
     exports.push([ module.i, \\"\\", \\"\\" ]);
     module.exports = exports;
@@ -45867,40 +45921,40 @@ Element.remove()
     };
 }, function(module, exports, __webpack_require__) {
     var map = {
-        \\"./taro-audio-core.entry.js\\": [ 28, 16 ],
-        \\"./taro-block-core.entry.js\\": [ 29, 17 ],
-        \\"./taro-button-core.entry.js\\": [ 30, 1 ],
-        \\"./taro-camera-core.entry.js\\": [ 31, 18 ],
-        \\"./taro-canvas-core.entry.js\\": [ 32, 19 ],
-        \\"./taro-checkbox-core_2.entry.js\\": [ 33, 20 ],
-        \\"./taro-cover-image-core.entry.js\\": [ 34, 21 ],
-        \\"./taro-cover-view-core.entry.js\\": [ 35, 22 ],
-        \\"./taro-form-core.entry.js\\": [ 36, 23 ],
-        \\"./taro-icon-core.entry.js\\": [ 37, 2 ],
-        \\"./taro-image-core.entry.js\\": [ 38, 3 ],
-        \\"./taro-input-core.entry.js\\": [ 39, 24 ],
-        \\"./taro-label-core.entry.js\\": [ 40, 25 ],
-        \\"./taro-moveable-area-core.entry.js\\": [ 41, 26 ],
-        \\"./taro-moveable-view-core.entry.js\\": [ 42, 27 ],
-        \\"./taro-navigator-core.entry.js\\": [ 43, 4 ],
-        \\"./taro-open-data-core.entry.js\\": [ 44, 28 ],
-        \\"./taro-picker-core_2.entry.js\\": [ 45, 5 ],
-        \\"./taro-picker-view-column-core.entry.js\\": [ 46, 29 ],
-        \\"./taro-picker-view-core.entry.js\\": [ 47, 30 ],
-        \\"./taro-progress-core.entry.js\\": [ 48, 31 ],
-        \\"./taro-pull-to-refresh.entry.js\\": [ 49, 6 ],
-        \\"./taro-radio-core_2.entry.js\\": [ 50, 32 ],
-        \\"./taro-rich-text-core.entry.js\\": [ 51, 33 ],
-        \\"./taro-scroll-view-core.entry.js\\": [ 52, 7 ],
-        \\"./taro-slider-core.entry.js\\": [ 53, 34 ],
-        \\"./taro-swiper-core_2.entry.js\\": [ 54, 8 ],
-        \\"./taro-switch-core.entry.js\\": [ 55, 35 ],
-        \\"./taro-tabbar.entry.js\\": [ 56, 9 ],
-        \\"./taro-text-core.entry.js\\": [ 57, 10 ],
-        \\"./taro-textarea-core.entry.js\\": [ 58, 36 ],
-        \\"./taro-video-control_3.entry.js\\": [ 59, 11 ],
-        \\"./taro-view-core.entry.js\\": [ 60, 12 ],
-        \\"./taro-web-view-core.entry.js\\": [ 61, 37 ]
+        \\"./taro-audio-core.entry.js\\": [ 28, 17 ],
+        \\"./taro-block-core.entry.js\\": [ 29, 18 ],
+        \\"./taro-button-core.entry.js\\": [ 30, 2 ],
+        \\"./taro-camera-core.entry.js\\": [ 31, 19 ],
+        \\"./taro-canvas-core.entry.js\\": [ 32, 20 ],
+        \\"./taro-checkbox-core_2.entry.js\\": [ 33, 21 ],
+        \\"./taro-cover-image-core.entry.js\\": [ 34, 22 ],
+        \\"./taro-cover-view-core.entry.js\\": [ 35, 23 ],
+        \\"./taro-form-core.entry.js\\": [ 36, 24 ],
+        \\"./taro-icon-core.entry.js\\": [ 37, 3 ],
+        \\"./taro-image-core.entry.js\\": [ 38, 4 ],
+        \\"./taro-input-core.entry.js\\": [ 39, 25 ],
+        \\"./taro-label-core.entry.js\\": [ 40, 26 ],
+        \\"./taro-moveable-area-core.entry.js\\": [ 41, 27 ],
+        \\"./taro-moveable-view-core.entry.js\\": [ 42, 28 ],
+        \\"./taro-navigator-core.entry.js\\": [ 43, 5 ],
+        \\"./taro-open-data-core.entry.js\\": [ 44, 29 ],
+        \\"./taro-picker-core_2.entry.js\\": [ 45, 6 ],
+        \\"./taro-picker-view-column-core.entry.js\\": [ 46, 30 ],
+        \\"./taro-picker-view-core.entry.js\\": [ 47, 31 ],
+        \\"./taro-progress-core.entry.js\\": [ 48, 32 ],
+        \\"./taro-pull-to-refresh.entry.js\\": [ 49, 7 ],
+        \\"./taro-radio-core_2.entry.js\\": [ 50, 33 ],
+        \\"./taro-rich-text-core.entry.js\\": [ 51, 34 ],
+        \\"./taro-scroll-view-core.entry.js\\": [ 52, 8 ],
+        \\"./taro-slider-core.entry.js\\": [ 53, 35 ],
+        \\"./taro-swiper-core_2.entry.js\\": [ 54, 9 ],
+        \\"./taro-switch-core.entry.js\\": [ 55, 36 ],
+        \\"./taro-tabbar.entry.js\\": [ 56, 10 ],
+        \\"./taro-text-core.entry.js\\": [ 57, 11 ],
+        \\"./taro-textarea-core.entry.js\\": [ 58, 37 ],
+        \\"./taro-video-control_3.entry.js\\": [ 59, 12 ],
+        \\"./taro-view-core.entry.js\\": [ 60, 13 ],
+        \\"./taro-web-view-core.entry.js\\": [ 61, 38 ]
     };
     function webpackAsyncContext(req) {
         if (!__webpack_require__.o(map, req)) {
@@ -45921,7 +45975,7 @@ Element.remove()
     webpackAsyncContext.id = 22;
     module.exports = webpackAsyncContext;
 }, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(7);
+    var api = __webpack_require__(6);
     var content = __webpack_require__(24);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
@@ -45947,7 +46001,7 @@ Element.remove()
     var exported = content.locals ? content.locals : {};
     module.exports = exported;
 }, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(8);
+    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(7);
     exports = ___CSS_LOADER_API_IMPORT___(false);
     exports.push([ module.i, \\"/*!\\\\r\\\\n * WeUI v1.1.3 (https://github.com/weui/weui)\\\\r\\\\n * Copyright 2018 Tencent, Inc.\\\\r\\\\n * Licensed under the MIT license\\\\r\\\\n */html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{line-height:1.6;font-family:-apple-system-font,Helvetica Neue,sans-serif}*{margin:0;padding:0}a img{border:0}a{text-decoration:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}@font-face{font-weight:400;font-style:normal;font-family:weui;src:url(\\\\\\"data:application/octet-stream;base64,AAEAAAALAIAAAwAwR1NVQrD+s+0AAAE4AAAAQk9TLzJAKEx+AAABfAAAAFZjbWFw65cFHQAAAhwAAAJQZ2x5ZvCRR/EAAASUAAAKtGhlYWQMPROtAAAA4AAAADZoaGVhCCwD+gAAALwAAAAkaG10eEJo//8AAAHUAAAASGxvY2EYqhW4AAAEbAAAACZtYXhwASEAVQAAARgAAAAgbmFtZeNcHtgAAA9IAAAB5nBvc3T6bLhLAAARMAAAAOYAAQAAA+gAAABaA+j/////A+kAAQAAAAAAAAAAAAAAAAAAABIAAQAAAAEAACbZbxtfDzz1AAsD6AAAAADUm2dvAAAAANSbZ2///wAAA+kD6gAAAAgAAgAAAAAAAAABAAAAEgBJAAUAAAAAAAIAAAAKAAoAAAD/AAAAAAAAAAEAAAAKAB4ALAABREZMVAAIAAQAAAAAAAAAAQAAAAFsaWdhAAgAAAABAAAAAQAEAAQAAAABAAgAAQAGAAAAAQAAAAAAAQOwAZAABQAIAnoCvAAAAIwCegK8AAAB4AAxAQIAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA6gHqEQPoAAAAWgPqAAAAAAABAAAAAAAAAAAAAAPoAAAD6AAAA+gAAAPoAAAD6AAAA+gAAAPoAAAD6AAAA+gAAAPoAAAD6AAAA+gAAAPoAAAD6AAAA+j//wPoAAAD6AAAAAAABQAAAAMAAAAsAAAABAAAAXQAAQAAAAAAbgADAAEAAAAsAAMACgAAAXQABABCAAAABAAEAAEAAOoR//8AAOoB//8AAAABAAQAAAABAAIAAwAEAAUABgAHAAgACQAKAAsADAANAA4ADwAQABEAAAEGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAANwAAAAAAAAAEQAA6gEAAOoBAAAAAQAA6gIAAOoCAAAAAgAA6gMAAOoDAAAAAwAA6gQAAOoEAAAABAAA6gUAAOoFAAAABQAA6gYAAOoGAAAABgAA6gcAAOoHAAAABwAA6ggAAOoIAAAACAAA6gkAAOoJAAAACQAA6goAAOoKAAAACgAA6gsAAOoLAAAACwAA6gwAAOoMAAAADAAA6g0AAOoNAAAADQAA6g4AAOoOAAAADgAA6g8AAOoPAAAADwAA6hAAAOoQAAAAEAAA6hEAAOoRAAAAEQAAAAAARgCMANIBJAF4AcQCMgJgAqgC/ANIA6YD/gROBKAE9AVaAAAAAgAAAAADrwOtABQAKQAAASIHBgcGFBcWFxYyNzY3NjQnJicmAyInJicmNDc2NzYyFxYXFhQHBgcGAfV4Z2Q7PDw7ZGfwZmQ7PDw7ZGZ4bl5bNjc3Nlte215bNjc3NlteA608O2Rn8GdjOzw8O2Nn8GdkOzz8rzc1W17bXlw1Nzc1XF7bXls1NwAAAAACAAAAAAOzA7MAFwAtAAABIgcGBwYVFBcWFxYzMjc2NzY1NCcmJyYTBwYiLwEmNjsBETQ2OwEyFhURMzIWAe52Z2Q7PT07ZGd2fGpmOz4+O2ZpIXYOKA52Dg0XXQsHJgcLXRcNA7M+O2ZqfHZnZDs9PTtkZ3Z9aWY7Pv3wmhISmhIaARcICwsI/ukaAAMAAAAAA+UD5QAXACMALAAAASIHBgcGFRQXFhcWMzI3Njc2NTQnJicmAxQrASI1AzQ7ATIHJyImNDYyFhQGAe6Ecm9BRERBb3KEiXZxQkREQnF1aQIxAwgCQgMBIxIZGSQZGQPkREJxdomEcm9BRERBb3KEinVxQkT9HQICAWICAjEZIxkZIxkAAAAAAgAAAAADsQPkABkALgAAAQYHBgc2BREUFxYXFhc2NzY3NjURJBcmJyYTAQYvASY/ATYyHwEWNjclNjIfARYB9VVVQk+v/tFHPmxebGxdbT1I/tGvT0JVo/7VBASKAwMSAQUBcQEFAgESAgUBEQQD4xMYEhk3YP6sjnVlSD8cHD9IZXWOAVRgNxkSGP62/tkDA48EBBkCAVYCAQHlAQIQBAAAAAADAAAAAAOxA+QAGwAqADMAAAEGBwYHBgcGNxEUFxYXFhc2NzY3NjURJBcmJyYHMzIWFQMUBisBIicDNDYTIiY0NjIWFAYB9UFBODssO38gRz5sXmxsXW09SP7YqFBBVW80BAYMAwImBQELBh4PFhYeFRUD5A8SDhIOEikK/q2PdWRJPh0dPklkdY8BU141GRIY/AYE/sYCAwUBOgQG/kAVHxUVHxUAAAACAAAAAAPkA+QAFwAtAAABIgcGBwYVFBcWFxYzMjc2NzY1NCcmJyYTAQYiLwEmPwE2Mh8BFjI3ATYyHwEWAe6Ecm9BQ0NCbnODiXVxQkREQnF1kf6gAQUBowMDFgEFAYUCBQEBQwIFARUEA+NEQnF1iYNzbkJDQ0FvcoSJdXFCRP6j/qUBAagEBR4CAWYBAQENAgIVBAAAAAQAAAAAA68DrQAUACkAPwBDAAABIgcGBwYUFxYXFjI3Njc2NCcmJyYDIicmJyY0NzY3NjIXFhcWFAcGBwYTBQ4BLwEmBg8BBhYfARYyNwE+ASYiFzAfAQH1eGdkOzw8O2Rn8GZkOzw8O2RmeG5eWzY3NzZbXtteWzY3NzZbXmn+9gYSBmAGDwUDBQEGfQUQBgElBQELEBUBAQOtPDtkZ/BnYzs8PDtjZ/BnZDs8/K83NVte215cNTc3NVxe215bNTcCJt0FAQVJBQIGBAcRBoAGBQEhBQ8LBAEBAAABAAAAAAO7AzoAFwAAEy4BPwE+AR8BFjY3ATYWFycWFAcBBiInPQoGBwUHGgzLDCELAh0LHwsNCgr9uQoeCgGzCyEOCw0HCZMJAQoBvgkCCg0LHQv9sQsKAAAAAAIAAAAAA+UD5gAXACwAAAEiBwYHBhUUFxYXFjMyNzY3NjU0JyYnJhMHBi8BJicmNRM0NjsBMhYVExceAQHvhHJvQUNDQm5zg4l1cUJEREJxdVcQAwT6AwIEEAMCKwIDDsUCAQPlREJxdYmDc25CQ0NBb3KEiXVxQkT9VhwEAncCAgMGAXoCAwMC/q2FAgQAAAQAAAAAA68DrQADABgALQAzAAABMB8BAyIHBgcGFBcWFxYyNzY3NjQnJicmAyInJicmNDc2NzYyFxYXFhQHBgcGAyMVMzUjAuUBAfJ4Z2Q7PDw7ZGfwZmQ7PDw7ZGZ4bl5bNjc3Nlte215bNjc3NltemyT92QKDAQEBLDw7ZGfwZ2M7PDw7Y2fwZ2Q7PPyvNzVbXtteXDU3NzVcXtteWzU3AjH9JAAAAAMAAAAAA+QD5AAXACcAMAAAASIHBgcGFRQXFhcWMzI3Njc2NTQnJicmAzMyFhUDFAYrASImNQM0NhMiJjQ2MhYUBgHuhHJvQUNDQm5zg4l1cUJEREJxdZ42BAYMAwInAwMMBh8PFhYeFhYD40RCcXWJg3NuQkNDQW9yhIl1cUJE/vYGBf7AAgMDAgFABQb+NhYfFhYfFgAABAAAAAADwAPAAAgAEgAoAD0AAAEyNjQmIgYUFhcjFTMRIxUzNSMDIgcGBwYVFBYXFjMyNzY3NjU0Jy4BAyInJicmNDc2NzYyFxYXFhQHBgcGAfQYISEwISFRjzk5yTorhG5rPT99am+DdmhlPD4+PMyFbV5bNTc3NVte2l5bNTc3NVteAqAiLyIiLyI5Hf7EHBwCsT89a26Ed8w8Pj48ZWh2g29qffyjNzVbXtpeWzU3NzVbXtpeWzU3AAADAAAAAAOoA6gACwAgADUAAAEHJwcXBxc3FzcnNwMiBwYHBhQXFhcWMjc2NzY0JyYnJgMiJyYnJjQ3Njc2MhcWFxYUBwYHBgKOmpocmpocmpocmpq2dmZiOjs7OmJm7GZiOjs7OmJmdmtdWTQ2NjRZXdZdWTQ2NjRZXQKqmpocmpocmpocmpoBGTs6YmbsZmI6Ozs6YmbsZmI6O/zCNjRZXdZdWTQ2NjRZXdZdWTQ2AAMAAAAAA+kD6gAaAC8AMAAAAQYHBiMiJyYnJjQ3Njc2MhcWFxYVFAcGBwEHATI3Njc2NCcmJyYiBwYHBhQXFhcWMwKONUBCR21dWjU3NzVaXdpdWzU2GBcrASM5/eBXS0grKysrSEuuSkkqLCwqSUpXASMrFxg2NVtd2l1aNTc3NVpdbUdCQDX+3jkBGSsrSEuuSkkqLCwqSUquS0grKwAC//8AAAPoA+gAFAAwAAABIgcGBwYQFxYXFiA3Njc2ECcmJyYTFg4BIi8BBwYuATQ/AScmPgEWHwE3Nh4BBg8BAfSIdHFDRERDcXQBEHRxQ0REQ3F0SQoBFBsKoqgKGxMKqKIKARQbCqKoChsUAQqoA+hEQ3F0/vB0cUNERENxdAEQdHFDRP1jChsTCqiiCgEUGwqiqAobFAEKqKIKARQbCqIAAAIAAAAAA+QD5AAXADQAAAEiBwYHBhUUFxYXFjMyNzY3NjU0JyYnJhMUBiMFFxYUDwEGLwEuAT8BNh8BFhQPAQUyFh0BAe6Ecm9BQ0NCbnODiXVxQkREQnF1fwQC/pGDAQEVAwTsAgEC7AQEFAIBhAFwAgMD40RCcXWJg3NuQkNDQW9yhIl1cUJE/fYCAwuVAgQCFAQE0AIFAtEEBBQCBQGVCwMDJwAAAAUAAAAAA9QD0wAjACcANwBHAEgAAAERFAYjISImNREjIiY9ATQ2MyE1NDYzITIWHQEhMhYdARQGIyERIREHIgYVERQWOwEyNjURNCYjISIGFREUFjsBMjY1ETQmKwEDeyYb/XYbJkMJDQ0JAQYZEgEvExkBBgkNDQn9CQJc0QkNDQktCQ0NCf7sCQ0NCS0JDQ0JLQMi/TQbJiYbAswMCiwJDS4SGRkSLg0JLAoM/UwCtGsNCf5NCQ0NCQGzCQ0NCf5NCQ0NCQGzCQ0AAAAAEADGAAEAAAAAAAEABAAAAAEAAAAAAAIABwAEAAEAAAAAAAMABAALAAEAAAAAAAQABAAPAAEAAAAAAAUACwATAAEAAAAAAAYABAAeAAEAAAAAAAoAKwAiAAEAAAAAAAsAEwBNAAMAAQQJAAEACABgAAMAAQQJAAIADgBoAAMAAQQJAAMACAB2AAMAAQQJAAQACAB+AAMAAQQJAAUAFgCGAAMAAQQJAAYACACcAAMAAQQJAAoAVgCkAAMAAQQJAAsAJgD6d2V1aVJlZ3VsYXJ3ZXVpd2V1aVZlcnNpb24gMS4wd2V1aUdlbmVyYXRlZCBieSBzdmcydHRmIGZyb20gRm9udGVsbG8gcHJvamVjdC5odHRwOi8vZm9udGVsbG8uY29tAHcAZQB1AGkAUgBlAGcAdQBsAGEAcgB3AGUAdQBpAHcAZQB1AGkAVgBlAHIAcwBpAG8AbgAgADEALgAwAHcAZQB1AGkARwBlAG4AZQByAGEAdABlAGQAIABiAHkAIABzAHYAZwAyAHQAdABmACAAZgByAG8AbQAgAEYAbwBuAHQAZQBsAGwAbwAgAHAAcgBvAGoAZQBjAHQALgBoAHQAdABwADoALwAvAGYAbwBuAHQAZQBsAGwAbwAuAGMAbwBtAAAAAgAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAQIBAwEEAQUBBgEHAQgBCQEKAQsBDAENAQ4BDwEQAREBEgETAAZjaXJjbGUIZG93bmxvYWQEaW5mbwxzYWZlX3N1Y2Nlc3MJc2FmZV93YXJuB3N1Y2Nlc3MOc3VjY2Vzcy1jaXJjbGURc3VjY2Vzcy1uby1jaXJjbGUHd2FpdGluZw53YWl0aW5nLWNpcmNsZQR3YXJuC2luZm8tY2lyY2xlBmNhbmNlbAZzZWFyY2gFY2xlYXIEYmFjawZkZWxldGUAAAAA\\\\\\") format(\\\\\\"truetype\\\\\\")}[class*=\\\\\\" weui-icon-\\\\\\"],[class^=weui-icon-]{display:inline-block;vertical-align:middle;font:normal normal normal 14px/1 weui;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased}[class*=\\\\\\" weui-icon-\\\\\\"]:before,[class^=weui-icon-]:before{display:inline-block;margin-left:.2em;margin-right:.2em}.weui-icon-circle:before{content:\\\\\\"\\\\\\\\EA01\\\\\\"}.weui-icon-download:before{content:\\\\\\"\\\\\\\\EA02\\\\\\"}.weui-icon-info:before{content:\\\\\\"\\\\\\\\EA03\\\\\\"}.weui-icon-safe-success:before{content:\\\\\\"\\\\\\\\EA04\\\\\\"}.weui-icon-safe-warn:before{content:\\\\\\"\\\\\\\\EA05\\\\\\"}.weui-icon-success:before{content:\\\\\\"\\\\\\\\EA06\\\\\\"}.weui-icon-success-circle:before{content:\\\\\\"\\\\\\\\EA07\\\\\\"}.weui-icon-success-no-circle:before{content:\\\\\\"\\\\\\\\EA08\\\\\\"}.weui-icon-waiting:before{content:\\\\\\"\\\\\\\\EA09\\\\\\"}.weui-icon-waiting-circle:before{content:\\\\\\"\\\\\\\\EA0A\\\\\\"}.weui-icon-warn:before{content:\\\\\\"\\\\\\\\EA0B\\\\\\"}.weui-icon-info-circle:before{content:\\\\\\"\\\\\\\\EA0C\\\\\\"}.weui-icon-cancel:before{content:\\\\\\"\\\\\\\\EA0D\\\\\\"}.weui-icon-search:before{content:\\\\\\"\\\\\\\\EA0E\\\\\\"}.weui-icon-clear:before{content:\\\\\\"\\\\\\\\EA0F\\\\\\"}.weui-icon-back:before{content:\\\\\\"\\\\\\\\EA10\\\\\\"}.weui-icon-delete:before{content:\\\\\\"\\\\\\\\EA11\\\\\\"}[class*=\\\\\\" weui-icon_\\\\\\"]:before,[class^=weui-icon_]:before{margin:0}.weui-icon-success{font-size:23px;color:#09bb07}.weui-icon-waiting{font-size:23px;color:#10aeff}.weui-icon-warn{font-size:23px;color:#f43530}.weui-icon-info{font-size:23px;color:#10aeff}.weui-icon-success-circle,.weui-icon-success-no-circle{font-size:23px;color:#09bb07}.weui-icon-waiting-circle{font-size:23px;color:#10aeff}.weui-icon-circle{font-size:23px;color:#c9c9c9}.weui-icon-download,.weui-icon-info-circle{font-size:23px;color:#09bb07}.weui-icon-safe-success{color:#09bb07}.weui-icon-safe-warn{color:#ffbe00}.weui-icon-cancel{color:#f43530;font-size:22px}.weui-icon-clear,.weui-icon-search{color:#b2b2b2;font-size:14px}.weui-icon-delete.weui-icon_gallery-delete{color:#fff;font-size:22px}.weui-icon_msg{font-size:93px}.weui-icon_msg.weui-icon-warn{color:#f76260}.weui-icon_msg-primary{font-size:93px}.weui-icon_msg-primary.weui-icon-warn{color:#ffbe00}.weui-btn{position:relative;display:block;margin-left:auto;margin-right:auto;padding-left:14px;padding-right:14px;font-size:18px;text-align:center;text-decoration:none;color:#fff;line-height:2.55555556;border-radius:5px;-webkit-tap-highlight-color:rgba(0,0,0,0);overflow:hidden}.weui-btn,.weui-btn:after{-webkit-box-sizing:border-box;box-sizing:border-box}.weui-btn:after{content:\\\\\\" \\\\\\";width:200%;height:200%;position:absolute;top:0;left:0;border:1px solid rgba(0,0,0,.2);-webkit-transform:scale(.5);transform:scale(.5);-webkit-transform-origin:0 0;transform-origin:0 0;border-radius:10px}.weui-btn_inline{display:inline-block}.weui-btn_default{color:#000;background-color:#f8f8f8}.weui-btn_default:not(.weui-btn_disabled):visited{color:#000}.weui-btn_default:not(.weui-btn_disabled):active{color:rgba(0,0,0,.6);background-color:#dedede}.weui-btn_primary{background-color:#1aad19}.weui-btn_primary:not(.weui-btn_disabled):visited{color:#fff}.weui-btn_primary:not(.weui-btn_disabled):active{color:hsla(0,0%,100%,.6);background-color:#179b16}.weui-btn_warn{background-color:#e64340}.weui-btn_warn:not(.weui-btn_disabled):visited{color:#fff}.weui-btn_warn:not(.weui-btn_disabled):active{color:hsla(0,0%,100%,.6);background-color:#ce3c39}.weui-btn_disabled{color:hsla(0,0%,100%,.6)}.weui-btn_disabled.weui-btn_default{color:rgba(0,0,0,.3);background-color:#f7f7f7}.weui-btn_disabled.weui-btn_primary{background-color:#9ed99d}.weui-btn_disabled.weui-btn_warn{background-color:#ec8b89}.weui-btn_loading .weui-loading{margin:-.2em .34em 0 0}.weui-btn_loading.weui-btn_primary,.weui-btn_loading.weui-btn_warn{color:hsla(0,0%,100%,.6)}.weui-btn_loading.weui-btn_primary{background-color:#179b16}.weui-btn_loading.weui-btn_warn{background-color:#ce3c39}.weui-btn_plain-primary{color:#1aad19;border:1px solid #1aad19}.weui-btn_plain-primary:not(.weui-btn_plain-disabled):active{color:rgba(26,173,25,.6);border-color:rgba(26,173,25,.6)}.weui-btn_plain-primary:after{border-width:0}.weui-btn_plain-default{color:#353535;border:1px solid #353535}.weui-btn_plain-default:not(.weui-btn_plain-disabled):active{color:rgba(53,53,53,.6);border-color:rgba(53,53,53,.6)}.weui-btn_plain-default:after{border-width:0}.weui-btn_plain-disabled{color:rgba(0,0,0,.2);border-color:rgba(0,0,0,.2)}button.weui-btn,input.weui-btn{width:100%;border-width:0;outline:0;-webkit-appearance:none}button.weui-btn:focus,input.weui-btn:focus{outline:0}button.weui-btn_inline,button.weui-btn_mini,input.weui-btn_inline,input.weui-btn_mini{width:auto}button.weui-btn_plain-default,button.weui-btn_plain-primary,input.weui-btn_plain-default,input.weui-btn_plain-primary{border-width:1px;background-color:transparent}.weui-btn_mini{display:inline-block;padding:0 1.32em;line-height:2.3;font-size:13px}.weui-btn+.weui-btn{margin-top:15px}.weui-btn.weui-btn_inline+.weui-btn.weui-btn_inline{margin-top:auto;margin-left:15px}.weui-btn-area{margin:1.17647059em 15px .3em}.weui-btn-area_inline{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}.weui-btn-area_inline .weui-btn{margin-top:auto;margin-right:15px;width:100%;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}.weui-btn-area_inline .weui-btn:last-child{margin-right:0}.weui-cells{margin-top:1.17647059em;background-color:#fff;line-height:1.47058824;font-size:17px;overflow:hidden;position:relative}.weui-cells:before{top:0;border-top:1px solid #e5e5e5;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-cells:after,.weui-cells:before{content:\\\\\\" \\\\\\";position:absolute;left:0;right:0;height:1px;color:#e5e5e5;z-index:2}.weui-cells:after{bottom:0;border-bottom:1px solid #e5e5e5;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-cells__title{margin-top:.77em;margin-bottom:.3em;padding-left:15px;padding-right:15px;color:#999;font-size:14px}.weui-cells__title+.weui-cells{margin-top:0}.weui-cells__tips{margin-top:.3em;color:#999;padding-left:15px;padding-right:15px;font-size:14px}.weui-cell{padding:10px 15px;position:relative;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}.weui-cell:before{content:\\\\\\" \\\\\\";position:absolute;left:0;top:0;right:0;height:1px;border-top:1px solid #e5e5e5;color:#e5e5e5;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5);left:15px;z-index:2}.weui-cell:first-child:before{display:none}.weui-cell_primary{-webkit-box-align:start;-webkit-align-items:flex-start;-ms-flex-align:start;align-items:flex-start}.weui-cell__bd{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}.weui-cell__ft{text-align:right;color:#999}.weui-cell_swiped{display:block;padding:0}.weui-cell_swiped>.weui-cell__bd{position:relative;z-index:1;background-color:#fff}.weui-cell_swiped>.weui-cell__ft{position:absolute;right:0;top:0;bottom:0;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;color:#fff}.weui-swiped-btn{display:block;padding:10px 1em;line-height:1.47058824;color:inherit}.weui-swiped-btn_default{background-color:#c7c7cc}.weui-swiped-btn_warn{background-color:#ff3b30}.weui-cell_access{-webkit-tap-highlight-color:rgba(0,0,0,0);color:inherit}.weui-cell_access:active{background-color:#ececec}.weui-cell_access .weui-cell__ft{padding-right:13px;position:relative}.weui-cell_access .weui-cell__ft:after{content:\\\\\\" \\\\\\";display:inline-block;height:6px;width:6px;border-width:2px 2px 0 0;border-color:#c8c8cd;border-style:solid;-webkit-transform:matrix(.71,.71,-.71,.71,0,0);transform:matrix(.71,.71,-.71,.71,0,0);position:relative;top:-2px;position:absolute;top:50%;margin-top:-4px;right:2px}.weui-cell_link{color:#586c94;font-size:14px}.weui-cell_link:first-child:before{display:block}.weui-check__label{-webkit-tap-highlight-color:rgba(0,0,0,0)}.weui-check__label:active{background-color:#ececec}.weui-check{position:absolute;left:-9999em}.weui-cells_radio .weui-cell__ft{padding-left:.35em}.weui-cells_radio .weui-check+.weui-icon-checked{min-width:16px}.weui-cells_radio .weui-check:checked+.weui-icon-checked:before{display:block;content:\\\\\\"\\\\\\\\EA08\\\\\\";color:#09bb07;font-size:16px}.weui-cells_checkbox .weui-cell__hd{padding-right:.35em}.weui-cells_checkbox .weui-icon-checked:before{content:\\\\\\"\\\\\\\\EA01\\\\\\";color:#c9c9c9;font-size:23px;display:block}.weui-cells_checkbox .weui-check:checked+.weui-icon-checked:before{content:\\\\\\"\\\\\\\\EA06\\\\\\";color:#09bb07}.weui-label{display:block;width:105px;word-wrap:break-word;word-break:break-all}.weui-input{width:100%;border:0;outline:0;-webkit-appearance:none;background-color:transparent;font-size:inherit;color:inherit;height:1.47058824em;line-height:1.47058824}.weui-input::-webkit-inner-spin-button,.weui-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.weui-textarea{display:block;border:0;resize:none;width:100%;color:inherit;font-size:1em;line-height:inherit;outline:0}.weui-textarea-counter{color:#b2b2b2;text-align:right}.weui-cell_warn .weui-textarea-counter{color:#e64340}.weui-toptips{display:none;position:fixed;-webkit-transform:translateZ(0);transform:translateZ(0);top:0;left:0;right:0;padding:5px;font-size:14px;text-align:center;color:#fff;z-index:5000;word-wrap:break-word;word-break:break-all}.weui-toptips_warn{background-color:#e64340}.weui-cells_form .weui-cell__ft{font-size:0}.weui-cells_form .weui-icon-warn{display:none}.weui-cells_form input,.weui-cells_form label[for],.weui-cells_form textarea{-webkit-tap-highlight-color:rgba(0,0,0,0)}.weui-cell_warn{color:#e64340}.weui-cell_warn .weui-icon-warn{display:inline-block}.weui-form-preview{position:relative;background-color:#fff}.weui-form-preview:before{top:0;border-top:1px solid #e5e5e5;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-form-preview:after,.weui-form-preview:before{content:\\\\\\" \\\\\\";position:absolute;left:0;right:0;height:1px;color:#e5e5e5}.weui-form-preview:after{bottom:0;border-bottom:1px solid #e5e5e5;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-form-preview__hd{position:relative;padding:10px 15px;text-align:right;line-height:2.5em}.weui-form-preview__hd:after{content:\\\\\\" \\\\\\";position:absolute;left:0;bottom:0;right:0;height:1px;border-bottom:1px solid #e5e5e5;color:#e5e5e5;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5);left:15px}.weui-form-preview__hd .weui-form-preview__value{font-style:normal;font-size:1.6em}.weui-form-preview__bd{padding:10px 15px;font-size:.9em;text-align:right;color:#999;line-height:2}.weui-form-preview__ft{position:relative;line-height:50px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}.weui-form-preview__ft:before{content:\\\\\\" \\\\\\";position:absolute;left:0;top:0;right:0;height:1px;border-top:1px solid #d5d5d6;color:#d5d5d6;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-form-preview__item{overflow:hidden}.weui-form-preview__label{float:left;margin-right:1em;min-width:4em;color:#999;text-align:justify;-moz-text-align-last:justify;text-align-last:justify}.weui-form-preview__value{display:block;overflow:hidden;word-break:normal;word-wrap:break-word}.weui-form-preview__btn{position:relative;display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;color:#3cc51f;text-align:center;-webkit-tap-highlight-color:rgba(0,0,0,0)}button.weui-form-preview__btn{background-color:transparent;border:0;outline:0;line-height:inherit;font-size:inherit}.weui-form-preview__btn:active{background-color:#eee}.weui-form-preview__btn:after{content:\\\\\\" \\\\\\";position:absolute;left:0;top:0;width:1px;bottom:0;border-left:1px solid #d5d5d6;color:#d5d5d6;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleX(.5);transform:scaleX(.5)}.weui-form-preview__btn:first-child:after{display:none}.weui-form-preview__btn_default{color:#999}.weui-form-preview__btn_primary{color:#0bb20c}.weui-cell_select{padding:0}.weui-cell_select .weui-select{padding-right:30px}.weui-cell_select .weui-cell__bd:after{content:\\\\\\" \\\\\\";display:inline-block;height:6px;width:6px;border-width:2px 2px 0 0;border-color:#c8c8cd;border-style:solid;-webkit-transform:matrix(.71,.71,-.71,.71,0,0);transform:matrix(.71,.71,-.71,.71,0,0);position:relative;top:-2px;position:absolute;top:50%;right:15px;margin-top:-4px}.weui-select{-webkit-appearance:none;border:0;outline:0;background-color:transparent;width:100%;font-size:inherit;height:45px;line-height:45px;position:relative;z-index:1;padding-left:15px}.weui-cell_select-before{padding-right:15px}.weui-cell_select-before .weui-select{width:105px;-webkit-box-sizing:border-box;box-sizing:border-box}.weui-cell_select-before .weui-cell__hd{position:relative}.weui-cell_select-before .weui-cell__hd:after{content:\\\\\\" \\\\\\";position:absolute;right:0;top:0;width:1px;bottom:0;border-right:1px solid #e5e5e5;color:#e5e5e5;-webkit-transform-origin:100% 0;transform-origin:100% 0;-webkit-transform:scaleX(.5);transform:scaleX(.5)}.weui-cell_select-before .weui-cell__hd:before{content:\\\\\\" \\\\\\";display:inline-block;height:6px;width:6px;border-width:2px 2px 0 0;border-color:#c8c8cd;border-style:solid;-webkit-transform:matrix(.71,.71,-.71,.71,0,0);transform:matrix(.71,.71,-.71,.71,0,0);position:relative;top:-2px;position:absolute;top:50%;right:15px;margin-top:-4px}.weui-cell_select-before .weui-cell__bd{padding-left:15px}.weui-cell_select-before .weui-cell__bd:after{display:none}.weui-cell_select-after{padding-left:15px}.weui-cell_select-after .weui-select{padding-left:0}.weui-cell_vcode{padding-top:0;padding-right:0;padding-bottom:0}.weui-vcode-btn,.weui-vcode-img{margin-left:5px;height:45px;vertical-align:middle}.weui-vcode-btn{display:inline-block;padding:0 .6em 0 .7em;border-left:1px solid #e5e5e5;line-height:45px;font-size:17px;color:#3cc51f}button.weui-vcode-btn{background-color:transparent;border-top:0;border-right:0;border-bottom:0;outline:0}.weui-vcode-btn:active{color:#52a341}.weui-gallery{display:none;position:fixed;top:0;right:0;bottom:0;left:0;background-color:#000;z-index:1000}.weui-gallery__img{position:absolute;top:0;right:0;bottom:60px;left:0;background:50% no-repeat;background-size:contain}.weui-gallery__opr{position:absolute;right:0;bottom:0;left:0;background-color:#0d0d0d;color:#fff;line-height:60px;text-align:center}.weui-gallery__del{display:block}.weui-cell_switch{padding-top:6.5px;padding-bottom:6.5px}.weui-switch{-webkit-appearance:none;-moz-appearance:none;appearance:none}.weui-switch,.weui-switch-cp__box{position:relative;width:52px;height:32px;border:1px solid #dfdfdf;outline:0;border-radius:16px;-webkit-box-sizing:border-box;box-sizing:border-box;background-color:#dfdfdf;-webkit-transition:background-color .1s,border .1s;transition:background-color .1s,border .1s}.weui-switch-cp__box:before,.weui-switch:before{content:\\\\\\" \\\\\\";position:absolute;top:0;left:0;width:50px;height:30px;border-radius:15px;background-color:#fdfdfd;-webkit-transition:-webkit-transform .35s cubic-bezier(.45,1,.4,1);transition:-webkit-transform .35s cubic-bezier(.45,1,.4,1);transition:transform .35s cubic-bezier(.45,1,.4,1);transition:transform .35s cubic-bezier(.45,1,.4,1),-webkit-transform .35s cubic-bezier(.45,1,.4,1)}.weui-switch-cp__box:after,.weui-switch:after{content:\\\\\\" \\\\\\";position:absolute;top:0;left:0;width:30px;height:30px;border-radius:15px;background-color:#fff;-webkit-box-shadow:0 1px 3px rgba(0,0,0,.4);box-shadow:0 1px 3px rgba(0,0,0,.4);-webkit-transition:-webkit-transform .35s cubic-bezier(.4,.4,.25,1.35);transition:-webkit-transform .35s cubic-bezier(.4,.4,.25,1.35);transition:transform .35s cubic-bezier(.4,.4,.25,1.35);transition:transform .35s cubic-bezier(.4,.4,.25,1.35),-webkit-transform .35s cubic-bezier(.4,.4,.25,1.35)}.weui-switch-cp__input:checked~.weui-switch-cp__box,.weui-switch:checked{border-color:#04be02;background-color:#04be02}.weui-switch-cp__input:checked~.weui-switch-cp__box:before,.weui-switch:checked:before{-webkit-transform:scale(0);transform:scale(0)}.weui-switch-cp__input:checked~.weui-switch-cp__box:after,.weui-switch:checked:after{-webkit-transform:translateX(20px);transform:translateX(20px)}.weui-switch-cp__input{position:absolute;left:-9999px}.weui-switch-cp__box{display:block}.weui-uploader__hd{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;padding-bottom:10px;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}.weui-uploader__title{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}.weui-uploader__info{color:#b2b2b2}.weui-uploader__bd{margin-bottom:-4px;margin-right:-9px;overflow:hidden}.weui-uploader__files{list-style:none}.weui-uploader__file{float:left;margin-right:9px;margin-bottom:9px;width:79px;height:79px;background:no-repeat 50%;background-size:cover}.weui-uploader__file_status{position:relative}.weui-uploader__file_status:before{content:\\\\\\" \\\\\\";position:absolute;top:0;right:0;bottom:0;left:0;background-color:rgba(0,0,0,.5)}.weui-uploader__file_status .weui-uploader__file-content{display:block}.weui-uploader__file-content{display:none;position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);color:#fff}.weui-uploader__file-content .weui-icon-warn{display:inline-block}.weui-uploader__input-box{float:left;position:relative;margin-right:9px;margin-bottom:9px;width:77px;height:77px;border:1px solid #d9d9d9}.weui-uploader__input-box:after,.weui-uploader__input-box:before{content:\\\\\\" \\\\\\";position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);background-color:#d9d9d9}.weui-uploader__input-box:before{width:2px;height:39.5px}.weui-uploader__input-box:after{width:39.5px;height:2px}.weui-uploader__input-box:active{border-color:#999}.weui-uploader__input-box:active:after,.weui-uploader__input-box:active:before{background-color:#999}.weui-uploader__input{position:absolute;z-index:1;top:0;left:0;width:100%;height:100%;opacity:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}.weui-msg{padding-top:36px;text-align:center}.weui-msg__icon-area{margin-bottom:30px}.weui-msg__text-area{margin-bottom:25px;padding:0 20px}.weui-msg__text-area a{color:#586c94}.weui-msg__title{margin-bottom:5px;font-weight:400;font-size:20px}.weui-msg__desc,.weui-msg__title{word-wrap:break-word;word-break:break-all}.weui-msg__desc{font-size:14px;color:#999}.weui-msg__opr-area{margin-bottom:25px}.weui-msg__extra-area{margin-bottom:15px;font-size:14px;color:#999}.weui-msg__extra-area a{color:#586c94}@media screen and (min-height:438px){.weui-msg__extra-area{position:fixed;left:0;bottom:0;width:100%;text-align:center}}@media only screen and (device-width:375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3){.weui-msg__extra-area{margin-bottom:49px}}.weui-article{padding:20px 15px;font-size:15px}.weui-article section{margin-bottom:1.5em}.weui-article h1{font-size:18px;font-weight:400;margin-bottom:.9em}.weui-article h2{font-size:16px}.weui-article h2,.weui-article h3{font-weight:400;margin-bottom:.34em}.weui-article h3{font-size:15px}.weui-article *{max-width:100%;-webkit-box-sizing:border-box;box-sizing:border-box;word-wrap:break-word}.weui-article p{margin:0 0 .8em}.weui-tabbar{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;position:absolute;z-index:500;bottom:0;width:100%;background-color:#f7f7fa}.weui-tabbar:before{content:\\\\\\" \\\\\\";position:absolute;left:0;top:0;right:0;height:1px;border-top:1px solid #c0bfc4;color:#c0bfc4;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-tabbar__item{display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;padding:5px 0 0;font-size:0;color:#999;text-align:center;-webkit-tap-highlight-color:rgba(0,0,0,0)}.weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon,.weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon>i,.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{color:#09bb07}.weui-tabbar__icon{display:inline-block;width:27px;height:27px}.weui-tabbar__icon>i,i.weui-tabbar__icon{font-size:24px;color:#999}.weui-tabbar__icon img{width:100%;height:100%}.weui-tabbar__label{text-align:center;color:#999;font-size:10px;line-height:1.8}.weui-navbar{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;position:absolute;z-index:500;top:0;width:100%;background-color:#fafafa}.weui-navbar:after{content:\\\\\\" \\\\\\";position:absolute;left:0;bottom:0;right:0;height:1px;border-bottom:1px solid #ccc;color:#ccc;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-navbar+.weui-tab__panel{padding-top:50px;padding-bottom:0}.weui-navbar__item{position:relative;display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;padding:13px 0;text-align:center;font-size:15px;-webkit-tap-highlight-color:rgba(0,0,0,0)}.weui-navbar__item:active{background-color:#ededed}.weui-navbar__item.weui-bar__item_on{background-color:#eaeaea}.weui-navbar__item:after{content:\\\\\\" \\\\\\";position:absolute;right:0;top:0;width:1px;bottom:0;border-right:1px solid #ccc;color:#ccc;-webkit-transform-origin:100% 0;transform-origin:100% 0;-webkit-transform:scaleX(.5);transform:scaleX(.5)}.weui-navbar__item:last-child:after{display:none}.weui-tab{position:relative;height:100%}.weui-tab__panel{-webkit-box-sizing:border-box;box-sizing:border-box;height:100%;padding-bottom:50px;overflow:auto;-webkit-overflow-scrolling:touch}.weui-tab__content{display:none}.weui-progress{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}.weui-progress__bar{background-color:#ebebeb;height:3px;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}.weui-progress__inner-bar{width:0;height:100%;background-color:#09bb07}.weui-progress__opr{display:block;margin-left:15px;font-size:0}.weui-panel{background-color:#fff;margin-top:10px;position:relative;overflow:hidden}.weui-panel:first-child{margin-top:0}.weui-panel:before{top:0;border-top:1px solid #e5e5e5;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-panel:after,.weui-panel:before{content:\\\\\\" \\\\\\";position:absolute;left:0;right:0;height:1px;color:#e5e5e5}.weui-panel:after{bottom:0;border-bottom:1px solid #e5e5e5;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-panel__hd{padding:14px 15px 10px;color:#999;font-size:13px;position:relative}.weui-panel__hd:after{content:\\\\\\" \\\\\\";position:absolute;left:0;bottom:0;right:0;height:1px;border-bottom:1px solid #e5e5e5;color:#e5e5e5;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5);left:15px}.weui-media-box{padding:15px;position:relative}.weui-media-box:before{content:\\\\\\" \\\\\\";position:absolute;left:0;top:0;right:0;height:1px;border-top:1px solid #e5e5e5;color:#e5e5e5;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5);left:15px}.weui-media-box:first-child:before{display:none}a.weui-media-box{color:#000;-webkit-tap-highlight-color:rgba(0,0,0,0)}a.weui-media-box:active{background-color:#ececec}.weui-media-box__title{font-weight:400;font-size:17px;width:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;word-wrap:break-word;word-break:break-all}.weui-media-box__desc{color:#999;font-size:13px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.weui-media-box__info{margin-top:15px;padding-bottom:5px;font-size:13px;color:#cecece;line-height:1em;list-style:none;overflow:hidden}.weui-media-box__info__meta{float:left;padding-right:1em}.weui-media-box__info__meta_extra{padding-left:1em;border-left:1px solid #cecece}.weui-media-box_text .weui-media-box__title{margin-bottom:8px}.weui-media-box_appmsg{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}.weui-media-box_appmsg .weui-media-box__hd{margin-right:.8em;width:60px;height:60px;line-height:60px;text-align:center}.weui-media-box_appmsg .weui-media-box__thumb{width:100%;max-height:100%;vertical-align:top}.weui-media-box_appmsg .weui-media-box__bd{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;min-width:0}.weui-media-box_small-appmsg{padding:0}.weui-media-box_small-appmsg .weui-cells{margin-top:0}.weui-media-box_small-appmsg .weui-cells:before{display:none}.weui-grids{position:relative;overflow:hidden}.weui-grids:before{right:0;height:1px;border-top:1px solid #d9d9d9;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-grids:after,.weui-grids:before{content:\\\\\\" \\\\\\";position:absolute;left:0;top:0;color:#d9d9d9}.weui-grids:after{width:1px;bottom:0;border-left:1px solid #d9d9d9;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleX(.5);transform:scaleX(.5)}.weui-grid{position:relative;float:left;padding:20px 10px;width:33.33333333%;-webkit-box-sizing:border-box;box-sizing:border-box}.weui-grid:before{top:0;width:1px;border-right:1px solid #d9d9d9;-webkit-transform-origin:100% 0;transform-origin:100% 0;-webkit-transform:scaleX(.5);transform:scaleX(.5)}.weui-grid:after,.weui-grid:before{content:\\\\\\" \\\\\\";position:absolute;right:0;bottom:0;color:#d9d9d9}.weui-grid:after{left:0;height:1px;border-bottom:1px solid #d9d9d9;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-grid:active{background-color:#ececec}.weui-grid__icon{width:28px;height:28px;margin:0 auto}.weui-grid__icon img{display:block;width:100%;height:100%}.weui-grid__icon+.weui-grid__label{margin-top:5px}.weui-grid__label{display:block;color:#000;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.weui-footer,.weui-grid__label{text-align:center;font-size:14px}.weui-footer{color:#999}.weui-footer a{color:#586c94}.weui-footer_fixed-bottom{position:fixed;bottom:.52em;left:0;right:0}.weui-footer__links{font-size:0}.weui-footer__link{display:inline-block;vertical-align:top;margin:0 .62em;position:relative;font-size:14px}.weui-footer__link:before{content:\\\\\\" \\\\\\";position:absolute;left:0;top:0;width:1px;bottom:0;border-left:1px solid #c7c7c7;color:#c7c7c7;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleX(.5);transform:scaleX(.5);left:-.65em;top:.36em;bottom:.36em}.weui-footer__link:first-child:before{display:none}.weui-footer__text{padding:0 .34em;font-size:12px}.weui-flex{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}.weui-flex__item{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}.weui-dialog{position:fixed;z-index:5000;width:80%;max-width:300px;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);background-color:#fff;text-align:center;border-radius:3px;overflow:hidden}.weui-dialog__hd{padding:1.3em 1.6em .5em}.weui-dialog__title{font-weight:400;font-size:18px}.weui-dialog__bd{padding:0 1.6em .8em;min-height:40px;font-size:15px;line-height:1.3;word-wrap:break-word;word-break:break-all;color:#999}.weui-dialog__bd:first-child{padding:2.7em 20px 1.7em;color:#353535}.weui-dialog__ft{position:relative;line-height:48px;font-size:18px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}.weui-dialog__ft:after{content:\\\\\\" \\\\\\";position:absolute;left:0;top:0;right:0;height:1px;border-top:1px solid #d5d5d6;color:#d5d5d6;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-dialog__btn{display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;color:#3cc51f;text-decoration:none;-webkit-tap-highlight-color:rgba(0,0,0,0);position:relative}.weui-dialog__btn:active{background-color:#eee}.weui-dialog__btn:after{content:\\\\\\" \\\\\\";position:absolute;left:0;top:0;width:1px;bottom:0;border-left:1px solid #d5d5d6;color:#d5d5d6;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleX(.5);transform:scaleX(.5)}.weui-dialog__btn:first-child:after{display:none}.weui-dialog__btn_default{color:#353535}.weui-dialog__btn_primary{color:#0bb20c}.weui-skin_android .weui-dialog{text-align:left;-webkit-box-shadow:0 6px 30px 0 rgba(0,0,0,.1);box-shadow:0 6px 30px 0 rgba(0,0,0,.1)}.weui-skin_android .weui-dialog__title{font-size:21px}.weui-skin_android .weui-dialog__hd{text-align:left}.weui-skin_android .weui-dialog__bd{color:#999;padding:.25em 1.6em 2em;font-size:17px;text-align:left}.weui-skin_android .weui-dialog__bd:first-child{padding:1.6em 1.6em 2em;color:#353535}.weui-skin_android .weui-dialog__ft{display:block;text-align:right;line-height:42px;font-size:16px;padding:0 1.6em .7em}.weui-skin_android .weui-dialog__ft:after{display:none}.weui-skin_android .weui-dialog__btn{display:inline-block;vertical-align:top;padding:0 .8em}.weui-skin_android .weui-dialog__btn:after{display:none}.weui-skin_android .weui-dialog__btn:active,.weui-skin_android .weui-dialog__btn:visited{background-color:rgba(0,0,0,.06)}.weui-skin_android .weui-dialog__btn:last-child{margin-right:-.8em}.weui-skin_android .weui-dialog__btn_default{color:grey}@media screen and (min-width:1024px){.weui-dialog{width:35%}}.weui-toast{position:fixed;z-index:5000;width:7.6em;min-height:7.6em;top:180px;left:50%;margin-left:-3.8em;background:hsla(0,0%,7%,.7);text-align:center;border-radius:5px;color:#fff}.weui-icon_toast{margin:22px 0 0;display:block}.weui-icon_toast.weui-icon-success-no-circle:before{color:#fff;font-size:55px}.weui-icon_toast.weui-loading{margin:30px 0 0;width:38px;height:38px;vertical-align:baseline}.weui-toast__content{margin:0 0 15px}.weui-mask{background:rgba(0,0,0,.6)}.weui-mask,.weui-mask_transparent{position:fixed;z-index:1000;top:0;right:0;left:0;bottom:0}.weui-actionsheet{position:fixed;left:0;bottom:0;-webkit-transform:translateY(100%);transform:translateY(100%);-webkit-backface-visibility:hidden;backface-visibility:hidden;z-index:5000;width:100%;background-color:#efeff4;-webkit-transition:-webkit-transform .3s;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s}.weui-actionsheet__title{position:relative;height:65px;padding:0 20px;line-height:1.4;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;text-align:center;font-size:14px;color:#888;background:#fcfcfd}.weui-actionsheet__title:before{content:\\\\\\" \\\\\\";position:absolute;left:0;bottom:0;right:0;height:1px;border-bottom:1px solid #e5e5e5;color:#e5e5e5;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-actionsheet__title .weui-actionsheet__title-text{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.weui-actionsheet__menu{background-color:#fcfcfd}.weui-actionsheet__action{margin-top:6px;background-color:#fcfcfd}.weui-actionsheet__cell{position:relative;padding:10px 0;text-align:center;font-size:18px}.weui-actionsheet__cell:before{content:\\\\\\" \\\\\\";position:absolute;left:0;top:0;right:0;height:1px;border-top:1px solid #e5e5e5;color:#e5e5e5;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-actionsheet__cell:active{background-color:#ececec}.weui-actionsheet__cell:first-child:before{display:none}.weui-skin_android .weui-actionsheet{position:fixed;left:50%;top:50%;bottom:auto;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);width:274px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-backface-visibility:hidden;backface-visibility:hidden;background:transparent;-webkit-transition:-webkit-transform .3s;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s}.weui-skin_android .weui-actionsheet__action{display:none}.weui-skin_android .weui-actionsheet__menu{border-radius:2px;-webkit-box-shadow:0 6px 30px 0 rgba(0,0,0,.1);box-shadow:0 6px 30px 0 rgba(0,0,0,.1)}.weui-skin_android .weui-actionsheet__cell{padding:13px 24px;font-size:16px;line-height:1.4;text-align:left}.weui-skin_android .weui-actionsheet__cell:first-child{border-top-left-radius:2px;border-top-right-radius:2px}.weui-skin_android .weui-actionsheet__cell:last-child{border-bottom-left-radius:2px;border-bottom-right-radius:2px}.weui-actionsheet_toggle{-webkit-transform:translate(0);transform:translate(0)}.weui-loadmore{width:65%;margin:1.5em auto;line-height:1.6em;font-size:14px;text-align:center}.weui-loadmore__tips{display:inline-block;vertical-align:middle}.weui-loadmore_line{border-top:1px solid #e5e5e5;margin-top:2.4em}.weui-loadmore_line .weui-loadmore__tips{position:relative;top:-.9em;padding:0 .55em;background-color:#fff;color:#999}.weui-loadmore_dot .weui-loadmore__tips{padding:0 .16em}.weui-loadmore_dot .weui-loadmore__tips:before{content:\\\\\\" \\\\\\";width:4px;height:4px;border-radius:50%;background-color:#e5e5e5;display:inline-block;position:relative;vertical-align:0;top:-.16em}.weui-badge{display:inline-block;padding:.15em .4em;min-width:8px;border-radius:18px;background-color:#f43530;color:#fff;line-height:1.2;text-align:center;font-size:12px;vertical-align:middle}.weui-badge_dot{padding:.4em;min-width:0}.weui-search-bar{position:relative;padding:8px 10px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-sizing:border-box;box-sizing:border-box;background-color:#efeff4;-webkit-text-size-adjust:100%;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}.weui-search-bar:before{top:0;border-top:1px solid #d7d6dc;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-search-bar:after,.weui-search-bar:before{content:\\\\\\" \\\\\\";position:absolute;left:0;right:0;height:1px;color:#d7d6dc}.weui-search-bar:after{bottom:0;border-bottom:1px solid #d7d6dc;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-search-bar.weui-search-bar_focusing .weui-search-bar__cancel-btn{display:block}.weui-search-bar.weui-search-bar_focusing .weui-search-bar__label{display:none}.weui-search-bar__form{position:relative;-webkit-box-flex:1;-webkit-flex:auto;-ms-flex:auto;flex:auto;background-color:#efeff4}.weui-search-bar__form:after{content:\\\\\\"\\\\\\";position:absolute;left:0;top:0;width:200%;height:200%;-webkit-transform:scale(.5);transform:scale(.5);-webkit-transform-origin:0 0;transform-origin:0 0;border-radius:10px;border:1px solid #e6e6ea;background:#fff}.weui-search-bar__box,.weui-search-bar__form:after{-webkit-box-sizing:border-box;box-sizing:border-box}.weui-search-bar__box{position:relative;padding-left:30px;padding-right:30px;height:100%;width:100%;z-index:1}.weui-search-bar__box .weui-search-bar__input{padding:4px 0;width:100%;height:1.42857143em;border:0;font-size:14px;line-height:1.42857143em;-webkit-box-sizing:content-box;box-sizing:content-box;background:transparent}.weui-search-bar__box .weui-search-bar__input:focus{outline:none}.weui-search-bar__box .weui-icon-search{position:absolute;top:50%;left:10px;margin-top:-14px;line-height:28px}.weui-search-bar__box .weui-icon-clear{position:absolute;top:50%;right:0;margin-top:-14px;padding:0 10px;line-height:28px}.weui-search-bar__label{position:absolute;top:1px;right:1px;bottom:1px;left:1px;z-index:2;border-radius:3px;text-align:center;color:#9b9b9b;background:#fff}.weui-search-bar__label span{display:inline-block;font-size:14px;vertical-align:middle}.weui-search-bar__label .weui-icon-search{margin-right:5px}.weui-search-bar__cancel-btn{display:none;margin-left:10px;line-height:28px;color:#09bb07;white-space:nowrap}.weui-search-bar__input:not(:valid)~.weui-icon-clear{display:none}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration,input[type=search]::-webkit-search-results-button,input[type=search]::-webkit-search-results-decoration{display:none}.weui-picker{position:fixed;width:100%;left:0;bottom:0;z-index:5000;-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-transform:translateY(100%);transform:translateY(100%);-webkit-transition:-webkit-transform .3s;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s}.weui-picker__hd{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;padding:9px 15px;background-color:#fff;position:relative;text-align:center;font-size:17px}.weui-picker__hd:after{content:\\\\\\" \\\\\\";position:absolute;left:0;bottom:0;right:0;height:1px;border-bottom:1px solid #e5e5e5;color:#e5e5e5;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-picker__action{display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;color:#1aad19}.weui-picker__action:first-child{text-align:left;color:#888}.weui-picker__action:last-child{text-align:right}.weui-picker__bd{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;position:relative;background-color:#fff;height:238px;overflow:hidden}.weui-picker__group{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;position:relative;height:100%}.weui-picker__mask{top:0;height:100%;margin:0 auto;background:-webkit-linear-gradient(top,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6)),-webkit-linear-gradient(bottom,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6));background:-webkit-gradient(linear,left top,left bottom,from(hsla(0,0%,100%,.95)),to(hsla(0,0%,100%,.6))),-webkit-gradient(linear,left bottom,left top,from(hsla(0,0%,100%,.95)),to(hsla(0,0%,100%,.6)));background:linear-gradient(180deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6)),linear-gradient(0deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6));background-position:top,bottom;background-size:100% 102px;background-repeat:no-repeat;-webkit-transform:translateZ(0);transform:translateZ(0)}.weui-picker__indicator,.weui-picker__mask{position:absolute;left:0;width:100%;z-index:3}.weui-picker__indicator{height:34px;top:102px}.weui-picker__indicator:before{top:0;border-top:1px solid #e5e5e5;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-picker__indicator:after,.weui-picker__indicator:before{content:\\\\\\" \\\\\\";position:absolute;left:0;right:0;height:1px;color:#e5e5e5}.weui-picker__indicator:after{bottom:0;border-bottom:1px solid #e5e5e5;-webkit-transform-origin:0 100%;transform-origin:0 100%;-webkit-transform:scaleY(.5);transform:scaleY(.5)}.weui-picker__content{position:absolute;top:0;left:0;width:100%}.weui-picker__item{padding:0;height:34px;line-height:34px;text-align:center;color:#000;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.weui-picker__item_disabled{color:#999}@-webkit-keyframes a{0%{-webkit-transform:translate3d(0,100%,0);transform:translate3d(0,100%,0)}to{-webkit-transform:translateZ(0);transform:translateZ(0)}}@keyframes a{0%{-webkit-transform:translate3d(0,100%,0);transform:translate3d(0,100%,0)}to{-webkit-transform:translateZ(0);transform:translateZ(0)}}.weui-animate-slide-up{-webkit-animation:a .3s ease forwards;animation:a .3s ease forwards}@-webkit-keyframes b{0%{-webkit-transform:translateZ(0);transform:translateZ(0)}to{-webkit-transform:translate3d(0,100%,0);transform:translate3d(0,100%,0)}}@keyframes b{0%{-webkit-transform:translateZ(0);transform:translateZ(0)}to{-webkit-transform:translate3d(0,100%,0);transform:translate3d(0,100%,0)}}.weui-animate-slide-down{-webkit-animation:b .3s ease forwards;animation:b .3s ease forwards}@-webkit-keyframes c{0%{opacity:0}to{opacity:1}}@keyframes c{0%{opacity:0}to{opacity:1}}.weui-animate-fade-in{-webkit-animation:c .3s ease forwards;animation:c .3s ease forwards}@-webkit-keyframes d{0%{opacity:1}to{opacity:0}}@keyframes d{0%{opacity:1}to{opacity:0}}.weui-animate-fade-out{-webkit-animation:d .3s ease forwards;animation:d .3s ease forwards}.weui-agree{display:block;padding:.5em 15px;font-size:13px}.weui-agree a{color:#586c94}.weui-agree__text{color:#999}.weui-agree__checkbox{-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:0;font-size:0;border:1px solid #d1d1d1;background-color:#fff;border-radius:3px;width:13px;height:13px;position:relative;vertical-align:0;top:2px}.weui-agree__checkbox:checked:before{font-family:weui;font-style:normal;font-weight:400;font-variant:normal;text-transform:none;text-align:center;speak:none;display:inline-block;vertical-align:middle;text-decoration:inherit;content:\\\\\\"\\\\\\\\EA08\\\\\\";color:#09bb07;font-size:13px;position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-48%) scale(.73);transform:translate(-50%,-48%) scale(.73)}.weui-agree__checkbox:disabled{background-color:#e1e1e1}.weui-agree__checkbox:disabled:before{color:#adadad}.weui-loading{width:20px;height:20px;display:inline-block;vertical-align:middle;-webkit-animation:e 1s steps(12) infinite;animation:e 1s steps(12) infinite;background:transparent url(\\\\\\"data:image/svg+xml;charset=utf8, %3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 100 100'%3E%3Cpath fill='none' d='M0 0h100v100H0z'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23E9E9E9' rx='5' ry='5' transform='translate(0 -30)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23989697' rx='5' ry='5' transform='rotate(30 105.98 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%239B999A' rx='5' ry='5' transform='rotate(60 75.98 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23A3A1A2' rx='5' ry='5' transform='rotate(90 65 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23ABA9AA' rx='5' ry='5' transform='rotate(120 58.66 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23B2B2B2' rx='5' ry='5' transform='rotate(150 54.02 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23BAB8B9' rx='5' ry='5' transform='rotate(180 50 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23C2C0C1' rx='5' ry='5' transform='rotate(-150 45.98 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23CBCBCB' rx='5' ry='5' transform='rotate(-120 41.34 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23D2D2D2' rx='5' ry='5' transform='rotate(-90 35 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23DADADA' rx='5' ry='5' transform='rotate(-60 24.02 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='%23E2E2E2' rx='5' ry='5' transform='rotate(-30 -5.98 65)'/%3E%3C/svg%3E\\\\\\") no-repeat;background-size:100%}.weui-btn_loading.weui-btn_primary .weui-loading,.weui-btn_loading.weui-btn_warn .weui-loading,.weui-loading.weui-loading_transparent{background-image:url(\\\\\\"data:image/svg+xml;charset=utf8, %3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 100 100'%3E%3Cpath fill='none' d='M0 0h100v100H0z'/%3E%3Crect xmlns='http://www.w3.org/2000/svg' width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.56)' rx='5' ry='5' transform='translate(0 -30)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.5)' rx='5' ry='5' transform='rotate(30 105.98 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.43)' rx='5' ry='5' transform='rotate(60 75.98 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.38)' rx='5' ry='5' transform='rotate(90 65 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.32)' rx='5' ry='5' transform='rotate(120 58.66 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.28)' rx='5' ry='5' transform='rotate(150 54.02 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.25)' rx='5' ry='5' transform='rotate(180 50 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.2)' rx='5' ry='5' transform='rotate(-150 45.98 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.17)' rx='5' ry='5' transform='rotate(-120 41.34 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.14)' rx='5' ry='5' transform='rotate(-90 35 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.1)' rx='5' ry='5' transform='rotate(-60 24.02 65)'/%3E%3Crect width='7' height='20' x='46.5' y='40' fill='rgba(255,255,255,.03)' rx='5' ry='5' transform='rotate(-30 -5.98 65)'/%3E%3C/svg%3E\\\\\\")}@-webkit-keyframes e{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes e{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}.weui-slider{padding:15px 18px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.weui-slider__inner{position:relative;height:2px;background-color:#e9e9e9}.weui-slider__track{height:2px;background-color:#1aad19;width:0}.weui-slider__handler{position:absolute;left:0;top:50%;width:28px;height:28px;margin-left:-14px;margin-top:-14px;border-radius:50%;background-color:#fff;-webkit-box-shadow:0 0 4px rgba(0,0,0,.2);box-shadow:0 0 4px rgba(0,0,0,.2)}.weui-slider-box{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}.weui-slider-box .weui-slider{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}.weui-slider-box__value{margin-left:.5em;min-width:24px;color:#888;text-align:center;font-size:14px}\\", \\"\\" ]);
     module.exports = exports;
@@ -45969,7 +46023,7 @@ Element.remove()
             var win = window;
             var promises = [];
             if (!win.customElements || win.Element && (!win.Element.prototype.closest || !win.Element.prototype.matches || !win.Element.prototype.remove)) {
-                promises.push(__webpack_require__.e(39).then(__webpack_require__.t.bind(null, 65, 7)));
+                promises.push(__webpack_require__.e(40).then(__webpack_require__.t.bind(null, 71, 7)));
             }
             function checkIfURLIsSupported() {
                 try {
@@ -45981,7 +46035,7 @@ Element.remove()
                 }
             }
             if (\\"function\\" !== typeof Object.assign || !Object.entries || !Array.prototype.find || !Array.prototype.includes || !String.prototype.startsWith || !String.prototype.endsWith || win.NodeList && !win.NodeList.prototype.forEach || !win.fetch || !checkIfURLIsSupported() || typeof WeakMap == \\"undefined\\") {
-                promises.push(__webpack_require__.e(38).then(__webpack_require__.t.bind(null, 66, 7)));
+                promises.push(__webpack_require__.e(39).then(__webpack_require__.t.bind(null, 72, 7)));
             }
             return Promise.all(promises);
         }
@@ -46261,7 +46315,7 @@ Element.remove()
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": () => __webpack_require__.e(40).then(__webpack_require__.bind(null, 67))
+        \\"load\\": () => __webpack_require__.e(1).then(__webpack_require__.bind(null, 73))
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];

@@ -13,3 +13,14 @@ export default {
   }
 }
 </script>
+
+<style lang='scss'>
+.index {
+  color: blue;
+}
+</style>
+
+<style lang='sass'>
+.detail
+  color: red
+</style>
