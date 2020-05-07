@@ -80,7 +80,6 @@ export default {
 
 监听程序初始化，初始化完成时触发（全局只触发一次）
 
-在此生命周期中也可以通过 `this.$router.params`，访问到程序初始化参数，与 `componentWillMount` 中一致
 
 #### onShow()
 
@@ -171,6 +170,30 @@ export default {
 
 页面首次渲染完毕时执行，此生命周期在小程序端对应小程序页面的 `onReady` 生命周期。从此生命周期开始可以使用 `createCanvasContext` 或 `createselectorquery` 等 API 访问真实 DOM。
 
+在可以非页面组件中，可以使用 Taro 内置的 [消息机制](./apis/about/events) 访问页面组件的 `onReady()` 生命周期：
+
+```vue
+<template>
+  <view id="only" />
+</template>
+<script>
+  import { eventCenter, Current } from '@tarojs/taro'
+
+  export default {
+    mounted () {
+      eventCenter.once(Current.router.onReady, () => {
+        const query = Taro.createSelectorQuery()
+        query.select('#only').boundingClientRect()
+        query.exec(res => {
+          console.log(res, 'res')
+        })
+        console.log('onReady')
+      })
+    }
+  }
+</script>
+```
+
 #### onLoad(options)
 
 页面创建时执行，此生命周期在小程序端对应小程序页面的 `onLoad` 生命周期。此生命周期可以访问 `Current.router`。
@@ -179,7 +202,7 @@ export default {
 
 页面加载时触发，一个页面只会调用一次，此时页面 DOM 尚未准备好，还不能和视图层进行交互
 
-#### ready()
+#### mouted()
 
 页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互
 

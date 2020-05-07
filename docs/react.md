@@ -203,6 +203,31 @@ export default {
 
 页面首次渲染完毕时执行，此生命周期在小程序端对应小程序页面的 `onReady` 生命周期。从此生命周期开始可以使用 `createCanvasContext` 或 `createselectorquery` 等 API 访问真实 DOM。
 
+在可以非页面组件中，可以使用 Taro 内置的 [消息机制](./apis/about/events) 访问页面组件的 `onReady()` 生命周期：
+
+```jsx
+import { eventCenter, Current } from '@tarojs/taro'
+class Test extends React.Component {
+  componentDidMount () {
+    eventCenter.once(Current.router.onReady, () => {
+      const query = Taro.createSelectorQuery()
+      query.select('#only').boundingClientRect()
+      query.exec(res => {
+        console.log(res, 'res')
+      })
+      console.log('onReady')
+    })
+  }
+
+  render () {
+    return (
+      <View id="only">
+      </View>
+    )
+  }
+}
+```
+
 #### onLoad(options)
 
 页面创建时执行，此生命周期在小程序端对应小程序页面的 `onLoad` 生命周期。此生命周期可以访问 `Current.router`。
@@ -213,7 +238,7 @@ export default {
 
 #### componentDidMount()
 
-页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。此生命周期可以无法访问 `Current.router`。此生命周期可以访问 Taro DOM 并且更改 DOM 或添加事件，但无法通过 `Taro.createSelectorQuery` 查找小程序 DOM。
+页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。此生命周期可以访问 `Current.router`。此生命周期可以访问 Taro DOM 并且更改 DOM 或添加事件，但无法通过 `Taro.createSelectorQuery` 查找小程序 DOM。
 
 #### shouldComponentUpdate(nextProps, nextState)
 
