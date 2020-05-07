@@ -23,6 +23,6 @@ jobs:
     - name: build
       run: |
         yarn
-        yarn build
+        yarn build:github
       env:
         CI: true
