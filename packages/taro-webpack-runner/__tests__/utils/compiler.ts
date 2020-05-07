@@ -81,6 +81,17 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
     },
     env: {
       FRAMEWORK: customConfig.framework
+    },
+    terser: {
+      enable: true,
+      config: {
+        compress: false,
+        mangle: false,
+        output: {
+          comments: false,
+          beautify: true
+        }
+      }
     }
   }, customConfig)
 
@@ -88,7 +99,6 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
   const webpackChain = prodConf(appPath, newConfig)
 
   customizeChain(webpackChain, newConfig.webpackChain)
-  webpackChain.optimization.minimize(false)
   webpackChain.module
     .rule('script')
     .exclude
