@@ -1,5 +1,5 @@
 import * as path from 'path'
-import { BUILD_TYPES, MINI_APP_FILES, FRAMEWORK_MAP, taroJsComponents } from '@tarojs/runner-utils'
+import { PLATFORMS, FRAMEWORK_MAP, taroJsComponents } from '@tarojs/helper'
 
 import { IBuildConfig } from '../utils/types'
 import {
@@ -18,15 +18,25 @@ import {
   getEntry
 } from './chain'
 import getBaseConf from './base.conf'
-import { Targets } from '../plugins/MiniPlugin'
+import { createTarget } from '../plugins/MiniPlugin'
+import { weixinAdapter } from '../template/adapters'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
   const {
-    buildAdapter = BUILD_TYPES.WEAPP,
+    buildAdapter = PLATFORMS.WEAPP,
     alias = {},
     entry = {},
     output = {},
+    fileType = {
+      style: '.wxss',
+      config: '.json',
+      script: '.js',
+      templ: '.wxml'
+    },
+    templateAdapter = weixinAdapter,
+    isSupportXS = true,
+    globalObject = 'wx',
     outputRoot = 'dist',
     sourceRoot = 'src',
 
@@ -50,12 +60,17 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
     postcss = {},
     nodeModulesPath,
+    isBuildQuickapp = false,
+    isSupportRecursive = false,
     quickappJSON,
 
     csso,
     terser,
     commonChunks,
-    addChunkPages
+    addChunkPages,
+
+    modifyMiniConfigs,
+    modifyBuildAssets
   } = config
 
   let { copy } = config
@@ -119,6 +134,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     buildAdapter,
     constantsReplaceList,
     nodeModulesPath,
+    isBuildQuickapp,
+    isSupportRecursive,
+    fileType,
+    templateAdapter,
+    isSupportXS,
     quickappJSON,
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
@@ -127,12 +147,14 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     baseLevel,
     framework,
     prerender,
-    addChunkPages
+    addChunkPages,
+    modifyMiniConfigs,
+    modifyBuildAssets
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
-    filename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`,
-    chunkFilename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`
+    filename: `[name]${fileType.style}`,
+    chunkFilename: `[name]${fileType.style}`
   }, miniCssExtractPluginOption])
 
   plugin.providerPlugin = getProviderPlugin({
@@ -168,14 +190,15 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     output: getOutput(appPath, [{
       outputRoot,
       publicPath: '/',
-      buildAdapter
+      globalObject
     }, output]),
-    target: Targets[buildAdapter],
+    target: createTarget(buildAdapter),
     resolve: { alias },
     module: getModule(appPath, {
       sourceDir,
 
       buildAdapter,
+      isBuildQuickapp,
       // constantsReplaceList,
       designWidth,
       deviceRatio,
@@ -190,8 +213,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
 
-      postcss
-      // babel
+      postcss,
+      fileType
     }),
     plugin,
     optimization: {

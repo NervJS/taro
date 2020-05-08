@@ -13,6 +13,8 @@
     "packages/taro-cli",
     "packages/taro-components",
     "packages/taro-h5",
+    "packages/taro-helper",
+    "packages/taro-service",
     "packages/taro-loader",
     "packages/taro-mini-runner",
     "packages/taro-react",

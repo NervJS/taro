@@ -16,36 +16,49 @@ title: 编译配置详情
 
 ## plugins
 
-`plugins` 用来设置编译过程插件，插件机制基于 实现，目前暴露了两个钩子 `beforeBuild` 和 `afterBuild`
+> 自 2.2 开始，Taro 引入了插件化机制，允许开发者通过编写插件的方式来为 Taro 拓展更多功能或者为自身业务定制个性化功能
 
-其中，`beforeBuild` 将在整体编译前触发，可以获取到编译的相关配置，同时也能进行修改
+`plugins` 用来配置 Taro 插件。
 
-`afterBuild` 将在 webpack 编译完后执行，可以获取到编译后的结果
-
-具体使用方式如下：
-
-首先定义一个插件
+`plugins` 字段取值为一个数组，配置方式如下：
 
 ```js
-class BuildPlugin {
-  apply (builder) {
-    builder.hooks.beforeBuild.tap('BuildPlugin', (config) => {
-      console.log(config)
-    })
-
-    builder.hooks.afterBuild.tap('BuildPlugin', (stats) => {
-      console.log(stats)
-    })
-  }
+const config = {
+  plugins: [
+    // 引入 npm 安装的插件
+    '@tarojs/plugin-mock',
+    // 引入 npm 安装的插件，并传入插件参数
+    ['@tarojs/plugin-mock', {
+      mocks: {
+        '/api/user/1': {
+          name: 'judy',
+          desc: 'Mental guy'
+        }
+      }
+    }],
+    // 从本地绝对路径引入插件，同样如果需要传入参数也是如上
+    '/absulute/path/plugin/filename',
+  ]
 }
 ```
 
-接下来在 `plugins` 字段中进行配置
+## presets
+
+如果你有一系列插件需要配置，而他们通常是组合起来完成特定的事儿，那你可以通过**插件集** `presets` 来进行配置。
+
+配置[编译配置](./config-detail.md)中的 `presets` 字段，如下。
 
 ```js
-{
-  plugins: [
-    new BuildPlugin()
+const config = {
+  presets: [
+    // 引入 npm 安装的插件集
+    '@tarojs/preset-sth', 
+    // 引入 npm 安装的插件集，并传入插件参数
+    ['@tarojs/plugin-sth', {
+      arg0: 'xxx'
+    }],
+    // 从本地绝对路径引入插件集，同样如果需要传入参数也是如上
+    '/absulute/path/preset/filename',
   ]
 }
 ```

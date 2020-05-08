@@ -1,4 +1,4 @@
-import * as chalk from 'chalk'
+import { chalk } from '@tarojs/helper'
 import * as ora from 'ora'
 import { partial, pipe } from 'lodash/fp'
 import * as formatMessages from 'webpack-format-messages'
@@ -8,7 +8,7 @@ import * as formatMessages from 'webpack-format-messages'
 const getServeSpinner = (() => {
   let spinner
   return () => {
-    if (!spinner) spinner = ora('Starting development server, please wait~')
+    if (!spinner) spinner = ora(`Starting development server, please wait~`)
     return spinner
   }
 })()
@@ -30,11 +30,7 @@ const printBuildError = (err: Error): void => {
       const problemPath = matched[2]
       const line = matched[3]
       const column = matched[4]
-      console.log(
-        'Failed to minify the code from this file: \n\n',
-        chalk.yellow(`\t${problemPath}:${line}${column !== '0' ? ':' + column : ''}`),
-        '\n'
-      )
+      console.log('Failed to minify the code from this file: \n\n', chalk.yellow(`\t${problemPath}:${line}${column !== '0' ? ':' + column : ''}`), '\n')
     } catch (ignored) {
       console.log('Failed to minify the bundle.', err)
     }

@@ -4,7 +4,7 @@ import * as constparse from 'postcss-plugin-constparse'
 import * as pxtransform from 'postcss-pxtransform'
 import { sync as resolveSync } from 'resolve'
 import { IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
-import { recursiveMerge, isNpmPkg } from '@tarojs/runner-utils'
+import { recursiveMerge, isNpmPkg } from '@tarojs/helper'
 
 const defaultAutoprefixerOption = {
   enable: true,

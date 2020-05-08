@@ -1,6 +1,4 @@
-import { BUILD_TYPES } from '@tarojs/runner-utils'
-
-interface Adapter {
+export interface IAdapter {
   if: string;
   else: string;
   elseif: string;
@@ -9,10 +7,10 @@ interface Adapter {
   forIndex: string;
   key: string;
   xs?: string,
-  type: BUILD_TYPES;
+  type: string;
 }
 
-const weixinAdapter: Adapter = {
+export const weixinAdapter: IAdapter = {
   if: 'wx:if',
   else: 'wx:else',
   elseif: 'wx:elif',
@@ -21,106 +19,11 @@ const weixinAdapter: Adapter = {
   forIndex: 'wx:for-index',
   key: 'wx:key',
   xs: 'wxs',
-  type: BUILD_TYPES.WEAPP
+  type: 'weapp'
 }
 
-const swanAdapter: Adapter = {
-  if: 's-if',
-  else: 's-else',
-  elseif: 's-elif',
-  for: 's-for',
-  forItem: 's-for-item',
-  forIndex: 's-for-index',
-  key: 's-key',
-  xs: 'sjs',
-  type: BUILD_TYPES.SWAN
-}
+export let Adapter: IAdapter = weixinAdapter
 
-const alipayAdapter: Adapter = {
-  if: 'a:if',
-  else: 'a:else',
-  elseif: 'a:elif',
-  for: 'a:for',
-  forItem: 'a:for-item',
-  forIndex: 'a:for-index',
-  key: 'a:key',
-  xs: 'sjs',
-  type: BUILD_TYPES.ALIPAY
-}
-
-const ttAdapter: Adapter = {
-  if: 'tt:if',
-  else: 'tt:else',
-  elseif: 'tt:elif',
-  for: 'tt:for',
-  forItem: 'tt:for-item',
-  forIndex: 'tt:for-index',
-  key: 'tt:key',
-  type: BUILD_TYPES.TT
-}
-
-const quickappAdapter: Adapter = {
-  if: 'if',
-  else: 'else',
-  elseif: 'elif',
-  for: 'for',
-  forItem: 'for-item',
-  forIndex: 'for-index',
-  key: 'key',
-  type: BUILD_TYPES.QUICKAPP
-}
-
-const qqAdapter: Adapter = {
-  if: 'qq:if',
-  else: 'qq:else',
-  elseif: 'qq:elif',
-  for: 'qq:for',
-  forItem: 'qq:for-item',
-  forIndex: 'qq:for-index',
-  key: 'qq:key',
-  xs: 'wxs',
-  type: BUILD_TYPES.QQ
-}
-
-const jdAdapter: Adapter = {
-  if: 'jd:if',
-  else: 'jd:else',
-  elseif: 'jd:elif',
-  for: 'jd:for',
-  forItem: 'jd:for-item',
-  forIndex: 'jd:for-index',
-  key: 'jd:key',
-  type: BUILD_TYPES.JD
-}
-
-export const supportXS = () => {
-  return [BUILD_TYPES.QQ, BUILD_TYPES.WEAPP, BUILD_TYPES.SWAN, BUILD_TYPES.ALIPAY].includes(Adapter.type)
-}
-
-export let Adapter: Adapter = weixinAdapter
-
-export function setAdapter (adapter: BUILD_TYPES) {
-  switch (adapter.toLowerCase()) {
-    case BUILD_TYPES.SWAN:
-      Adapter = swanAdapter
-      break
-    case BUILD_TYPES.ALIPAY:
-      Adapter = alipayAdapter
-      break
-    case BUILD_TYPES.TT:
-      Adapter = ttAdapter
-      break
-    case BUILD_TYPES.QUICKAPP:
-      Adapter = quickappAdapter
-      break
-    case BUILD_TYPES.QQ:
-      Adapter = qqAdapter
-      break
-    case BUILD_TYPES.JD:
-      Adapter = jdAdapter
-      break
-    default:
-      Adapter = weixinAdapter
-      break
-  }
+export function setAdapter (adapter) {
+  Adapter = adapter
 }

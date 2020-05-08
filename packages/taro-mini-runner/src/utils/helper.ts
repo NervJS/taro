@@ -6,7 +6,7 @@ import {
   REG_STYLE,
   REG_SCRIPT,
   removeHeadSlash
-} from '@tarojs/runner-utils'
+} from '@tarojs/helper'
 
 export function getTaroJsQuickAppComponentsPath (nodeModulesPath: string): string {
   const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, nodeModulesPath)

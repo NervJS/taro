@@ -9,13 +9,11 @@ import { partial, cloneDeep } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
-import chalk from 'chalk'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
   recursiveMerge,
   isNodeModule,
   resolveMainFilePath,
-  getSassLoaderOption,
   REG_SASS,
   REG_LESS,
   REG_STYLUS,
@@ -23,13 +21,13 @@ import {
   REG_MEDIA,
   REG_FONT,
   REG_IMAGE,
-  BUILD_TYPES,
   REG_SCRIPTS,
   REG_VUE,
   REG_CSS,
   REG_TEMPLATE,
-  MINI_APP_FILES
-} from '@tarojs/runner-utils'
+  chalk
+} from '@tarojs/helper'
+import { getSassLoaderOption } from '@tarojs/runner-utils'
 
 import { getPostcssPlugins } from './postcss.conf'
 
@@ -45,16 +43,6 @@ export const makeConfig = async (buildConfig: IBuildConfig) => {
     ...buildConfig,
     sassLoaderOption
   }
-}
-
-const globalObjectMap = {
-  [BUILD_TYPES.WEAPP]: 'wx',
-  [BUILD_TYPES.ALIPAY]: 'my',
-  [BUILD_TYPES.SWAN]: 'swan',
-  [BUILD_TYPES.QQ]: 'qq',
-  [BUILD_TYPES.TT]: 'tt',
-  [BUILD_TYPES.JD]: 'jd',
-  [BUILD_TYPES.QUICKAPP]: 'global'
 }
 
 const defaultCSSCompressOption = {
@@ -184,6 +172,7 @@ export const getModule = (appPath: string, {
   designWidth,
   deviceRatio,
   buildAdapter,
+  isBuildQuickapp,
   // constantsReplaceList,
   enableSourceMap,
   compile,
@@ -195,11 +184,9 @@ export const getModule = (appPath: string, {
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
-  postcss
-
-  // babel
+  postcss,
+  fileType
 }) => {
-  const isQuickapp = buildAdapter === BUILD_TYPES.QUICKAPP
   const postcssOption: IPostcssOption = postcss || {}
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
@@ -248,7 +235,7 @@ export const getModule = (appPath: string, {
     {
       ident: 'postcss',
       plugins: getPostcssPlugins(appPath, {
-        isQuickapp,
+        isBuildQuickapp,
         designWidth,
         deviceRatio,
         postcssOption
@@ -264,7 +251,7 @@ export const getModule = (appPath: string, {
     include?;
     use;
   }[] = [{
-    use: isQuickapp ? [
+    use: isBuildQuickapp ? [
       extractCssLoader,
       quickappStyleLoader,
       cssLoader,
@@ -379,7 +366,7 @@ export const getModule = (appPath: string, {
       test: REG_TEMPLATE,
       use: [getFileLoader([{
         useRelativePath: true,
-        name: `[path][name]${MINI_APP_FILES[buildAdapter].TEMPL}`,
+        name: `[path][name]${fileType.templ}`,
         context: sourceDir
       }]), miniTemplateLoader]
     },
@@ -464,13 +451,13 @@ export const getEntry = ({
   }
 }
 
-export function getOutput (appPath: string, [{ outputRoot, publicPath, buildAdapter }, customOutput]) {
+export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObject }, customOutput]) {
   return {
     path: path.join(appPath, outputRoot),
     publicPath,
     filename: '[name].js',
     chunkFilename: '[name].js',
-    globalObject: globalObjectMap[buildAdapter],
+    globalObject,
     ...customOutput
   }
 }

@@ -9,7 +9,7 @@ import {
   FRAMEWORK_MAP,
   VUE_EXT,
   SCRIPT_EXT
-} from '@tarojs/runner-utils'
+} from '@tarojs/helper'
 
 const PLUGIN_NAME = 'MainPlugin'
 
@@ -75,14 +75,14 @@ export default class MainPlugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
-        const { framework } = this.options
+        const { framework, entryFileName } = this.options
         const { dir, name } = path.parse(module.resource)
         if (path.join(dir, name) === this.appEntry) {
           module.loaders.unshift({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
               framework,
-              filename: this.options.entryFileName,
+              filename: entryFileName,
               pages: this.pagesConfigList,
               config: this.appConfig
             }
