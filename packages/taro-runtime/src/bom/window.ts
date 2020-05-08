@@ -8,7 +8,7 @@ export const window = isBrowser ? win : {
   document
 }
 
-if (process.env.TARO_ENV === 'tt' || process.env.TARO_ENV === 'swan') {
+if (process.env.TARO_ENV === 'tt' || process.env.TARO_ENV === 'swan' || process.env.TARO_ENV === 'jd') {
   (window as any).requestAnimationFrame = raf;
   (window as any).cancelAnimationFrame = caf;
   (window as any).Date = Date;
