@@ -1,5 +1,10 @@
 name: Auto reviews
-on: pull_request
+on:
+  # When Release Pull Request is merged
+  pull_request:
+    branches:
+      - next
+      - 2.x
 
 jobs:
   reviews:
