@@ -13,9 +13,9 @@
 */
 
 import { internalComponents, Shortcuts, createMiniComponents, focusComponents, isArray, capitalize } from '@tarojs/shared'
-import { BUILD_TYPES } from '@tarojs/runner-utils'
+import { PLATFORMS } from '@tarojs/helper'
 
-import { Adapter, supportXS } from './adapters'
+import { Adapter } from './adapters'
 import { componentConfig } from './component'
 
 interface Component {
@@ -50,7 +50,7 @@ const swanSpecialAttrs = {
 
 export function buildAttribute (attrs: Attributes, nodeName: string): string {
   function getValue (key: string) {
-    if (Adapter.type === BUILD_TYPES.SWAN && isArray(swanSpecialAttrs[nodeName]) && swanSpecialAttrs[nodeName].includes(key)) {
+    if (Adapter.type === PLATFORMS.SWAN && isArray(swanSpecialAttrs[nodeName]) && swanSpecialAttrs[nodeName].includes(key)) {
       return `= ${attrs[key]} =`
     }
 
@@ -62,12 +62,12 @@ export function buildAttribute (attrs: Attributes, nodeName: string): string {
 }
 
 const dataKeymap = (keymap: string) => {
-  return Adapter.type === BUILD_TYPES.SWAN ? `{ ${keymap} }` : keymap
+  return Adapter.type === PLATFORMS.SWAN ? `{ ${keymap} }` : keymap
 }
 
 function buildStandardComponentTemplate (comp: Component, level: number, supportRecursive: boolean): string {
   const nextLevel = supportRecursive ? 0 : level + 1
-  const child = Adapter.type === BUILD_TYPES.SWAN && comp.nodeName === 'text'
+  const child = Adapter.type === PLATFORMS.SWAN && comp.nodeName === 'text'
     ? `<block>{{ i.${Shortcuts.Childnodes}[index].${Shortcuts.Text} }}</block>`
     : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />`
   const children = voidElements.has(comp.nodeName)
@@ -87,11 +87,11 @@ function buildStandardComponentTemplate (comp: Component, level: number, support
 function buildXsTemplate () {
   let xs = ''
 
-  if (Adapter.type === BUILD_TYPES.WEAPP || Adapter.type === BUILD_TYPES.QQ) {
+  if (Adapter.type === PLATFORMS.WEAPP || Adapter.type === PLATFORMS.QQ) {
     xs = `<wxs module="xs" src="./utils.${Adapter.xs}" />`
-  } else if (Adapter.type === BUILD_TYPES.ALIPAY) {
+  } else if (Adapter.type === PLATFORMS.ALIPAY) {
     xs = `<import-sjs name="xs" from="./utils.${Adapter.xs}" />`
-  } else if (Adapter.type === BUILD_TYPES.SWAN) {
+  } else if (Adapter.type === PLATFORMS.SWAN) {
     xs = `<import-sjs module="xs" src="./utils.${Adapter.xs}" />`
   }
 
@@ -99,7 +99,7 @@ function buildXsTemplate () {
 }
 
 export function buildXScript () {
-  const exportExpr = Adapter.type === BUILD_TYPES.ALIPAY ? 'export default' : 'module.exports ='
+  const exportExpr = Adapter.type === PLATFORMS.ALIPAY ? 'export default' : 'module.exports ='
   return `${exportExpr} {
   c: function(i, prefix) {
     var s = i.focus !== undefined ? 'focus' : 'blur'
@@ -111,15 +111,15 @@ export function buildXScript () {
 }`
 }
 
-function buildComponentTemplate (comp: Component, level: number, supportRecursive: boolean) {
+function buildComponentTemplate (comp: Component, level: number, supportRecursive: boolean, supportXS: boolean) {
   return focusComponents.has(comp.nodeName)
-    ? buildFocusComponentTemplte(comp, level)
+    ? buildFocusComponentTemplte(comp, level, supportXS)
     : buildStandardComponentTemplate(comp, level, supportRecursive)
 }
 
-function buildFocusComponentTemplte (comp: Component, level: number) {
+function buildFocusComponentTemplte (comp: Component, level: number, supportXS: boolean) {
   const attrs = { ...comp.attributes }
-  const templateName = supportXS()
+  const templateName = supportXS
     ? `xs.c(i, 'tmpl_${level}_')`
     : `i.focus ? 'tmpl_${level}_${comp.nodeName}_focus' : 'tmpl_${level}_${comp.nodeName}_blur'`
   delete attrs.focus
@@ -160,14 +160,14 @@ function buildContainerTemplate (level: number, restart = false) {
 `
 }
 
-function buildTemplate (level: number, supportRecursive: boolean, restart = false) {
+function buildTemplate (level: number, supportRecursive: boolean, supportXS: boolean, restart = false) {
   const miniComponents = createMiniComponents(internalComponents, Adapter.type)
   const components = Object.keys(miniComponents).filter(c => componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true)
   let template = ''
 
   for (const nodeName of components) {
     const attributes: Attributes = miniComponents[nodeName]
-    template += buildComponentTemplate({ nodeName, attributes }, level, supportRecursive)
+    template += buildComponentTemplate({ nodeName, attributes }, level, supportRecursive, supportXS)
   }
 
   template += buildPlainTextTemplate(level)
@@ -180,14 +180,14 @@ function buildTemplate (level: number, supportRecursive: boolean, restart = fals
 function buildThirdPartyAttr (attrs: Set<string>) {
   return [...attrs].reduce((str, attr) => {
     if (attr.startsWith('@')) { // vue event
-      if (Adapter.type === BUILD_TYPES.ALIPAY) {
+      if (Adapter.type === PLATFORMS.ALIPAY) {
         return str + `on${capitalize(attr.slice(1))}="eh" `
       }
       return str + `bind${attr.slice(1)}="eh" `
     } else if (attr.startsWith('bind')) {
       return str + `${attr}="eh" `
     } else if (attr.startsWith('on')) {
-      if (Adapter.type === BUILD_TYPES.ALIPAY) {
+      if (Adapter.type === PLATFORMS.ALIPAY) {
         return str + `${attr}="eh" `
       }
 
@@ -217,7 +217,7 @@ function buildThirdPartyTemplate (level: number, supportRecursive: boolean) {
   return template
 }
 
-export function buildBaseTemplate (maxLevel: number, supportRecursive: boolean) {
+export function buildBaseTemplate (maxLevel: number, supportRecursive: boolean, supportXS: boolean) {
   let template = `${buildXsTemplate()}
 <template name="taro_tmpl">
   <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="id">
@@ -227,10 +227,10 @@ export function buildBaseTemplate (maxLevel: number, supportRecursive: boolean) 
 `
 
   if (supportRecursive) {
-    template += buildTemplate(0, supportRecursive)
+    template += buildTemplate(0, supportRecursive, supportXS)
   } else {
     for (let i = 0; i < maxLevel; i++) {
-      template += buildTemplate(i, supportRecursive, maxLevel === i + 1)
+      template += buildTemplate(i, supportRecursive, supportXS, maxLevel === i + 1)
     }
   }
 

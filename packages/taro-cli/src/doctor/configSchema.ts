@@ -8,7 +8,15 @@ const schema = Joi.object().keys({
   sourceRoot: Joi.string().required(),
   outputRoot: Joi.string().required(),
 
-  plugins: Joi.array().items(Joi.object()),
+  plugins: Joi.array().items(Joi.alternatives(
+    Joi.string(),
+    Joi.array()
+  )),
+
+  presets: Joi.array().items(Joi.alternatives(
+    Joi.string(),
+    Joi.array()
+  )),
 
   env: Joi.object().pattern(Joi.string(), Joi.string()),
 

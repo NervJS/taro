@@ -15,8 +15,6 @@ import {
   readConfig,
   isEmptyObject,
   promoteRelativePath,
-  BUILD_TYPES,
-  MINI_APP_FILES,
   META_TYPE,
   REG_STYLE,
   NODE_MODULES_REG,
@@ -25,27 +23,34 @@ import {
   SCRIPT_EXT,
   printLog,
   processTypeEnum
-} from '@tarojs/runner-utils'
+} from '@tarojs/helper'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { buildBaseTemplate, buildPageTemplate, buildXScript, buildBaseComponentTemplate } from '../template'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
-import { setAdapter } from '../template/adapters'
+import { setAdapter, IAdapter, weixinAdapter } from '../template/adapters'
 import { componentConfig } from '../template/component'
 import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
-import { AddPageChunks, IComponent } from '../utils/types'
+import { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
 interface ITaroMiniPluginOptions {
-  buildAdapter: BUILD_TYPES
+  buildAdapter: string
   sourceDir: string
   commonChunks: string[]
   framework: string
   baseLevel: number
   prerender?: PrerenderConfig
   addChunkPages?: AddPageChunks
+  isBuildQuickapp: boolean
+  isSupportRecursive: boolean
+  isSupportXS: boolean
+  fileType: IFileType
+  templateAdapter: IAdapter
+  modifyBuildAssets?: Function,
+  modifyMiniConfigs?: Function
 }
 
 export interface IComponentObj {
@@ -69,17 +74,6 @@ export const createTarget = function createTarget (_) {
     new NodeSourcePlugin(options.node).apply(compiler)
     new LoaderTargetPlugin('node').apply(compiler)
   }
-}
-
-/** for webpack option.target */
-export const Targets = {
-  [BUILD_TYPES.WEAPP]: createTarget(BUILD_TYPES.WEAPP),
-  [BUILD_TYPES.ALIPAY]: createTarget(BUILD_TYPES.ALIPAY),
-  [BUILD_TYPES.SWAN]: createTarget(BUILD_TYPES.SWAN),
-  [BUILD_TYPES.TT]: createTarget(BUILD_TYPES.TT),
-  [BUILD_TYPES.QQ]: createTarget(BUILD_TYPES.QQ),
-  [BUILD_TYPES.JD]: createTarget(BUILD_TYPES.JD),
-  [BUILD_TYPES.QUICKAPP]: createTarget(BUILD_TYPES.QUICKAPP)
 }
 
 function isLoaderExist (loaders, loaderName: string) {
@@ -108,13 +102,24 @@ export default class TaroMiniPlugin {
 
   constructor (options = {}) {
     this.options = Object.assign({
-      buildAdapter: BUILD_TYPES.WEAPP,
+      buildAdapter: 'weapp',
       sourceDir: '',
       framework: 'nerv',
       commonChunks: ['runtime', 'vendors'],
-      baseLevel: 16
+      baseLevel: 16,
+      isBuildQuickapp: false,
+      isSupportRecursive: false,
+      isSupportXS: true,
+      fileType: {
+        style: '.wxss',
+        config: '.json',
+        script: '.js',
+        templ: '.wxml',
+        xs: '.wxs'
+      },
+      templateAdapter: weixinAdapter
     }, options)
-    setAdapter(this.options.buildAdapter)
+    setAdapter(this.options.templateAdapter)
   }
 
   /**
@@ -135,19 +140,25 @@ export default class TaroMiniPlugin {
   apply (compiler: webpack.Compiler) {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
-
+    const {
+      commonChunks,
+      addChunkPages,
+      framework,
+      isBuildQuickapp,
+      fileType
+    } = this.options
     /** build mode */
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(async (compiler: webpack.Compiler) => {
         await this.run(compiler)
         new TaroLoadChunksPlugin({
-          commonChunks: this.options.commonChunks,
-          buildAdapter: this.options.buildAdapter,
+          commonChunks: commonChunks,
           isBuildPlugin: false,
-          addChunkPages: this.options.addChunkPages,
+          addChunkPages: addChunkPages,
           pages: this.pages,
-          framework: this.options.framework
+          framework: framework,
+          isBuildQuickapp
         }).apply(compiler)
       })
     )
@@ -163,12 +174,12 @@ export default class TaroMiniPlugin {
         await this.run(compiler)
         if (!this.loadChunksPlugin) {
           this.loadChunksPlugin = new TaroLoadChunksPlugin({
-            commonChunks: this.options.commonChunks,
-            buildAdapter: this.options.buildAdapter,
+            commonChunks: commonChunks,
             isBuildPlugin: false,
-            addChunkPages: this.options.addChunkPages,
+            addChunkPages: addChunkPages,
             pages: this.pages,
-            framework: this.options.framework
+            framework: framework,
+            isBuildQuickapp
           })
           this.loadChunksPlugin.apply(compiler)
         }
@@ -244,8 +255,8 @@ export default class TaroMiniPlugin {
        */
       compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, assets => {
         Object.keys(assets).forEach(assetPath => {
-          const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
-          const templExt = MINI_APP_FILES[this.options.buildAdapter].TEMPL
+          const styleExt = fileType.style
+          const templExt = fileType.templ
           if (new RegExp(`(\\${styleExt}|\\${templExt})\\.js(\\.map){0,1}$`).test(assetPath)) {
             delete assets[assetPath]
           } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
@@ -582,44 +593,25 @@ export default class TaroMiniPlugin {
     return filePath.replace(this.context, '').replace(/\\/g, '/').replace(/^\//, '')
   }
 
-  get supportRecursive () {
-    return this.options.buildAdapter !== BUILD_TYPES.WEAPP && this.options.buildAdapter !== BUILD_TYPES.QQ && this.options.buildAdapter !== BUILD_TYPES.JD
-  }
-
   /** 生成小程序相关文件 */
-  generateMiniFiles (compilation: webpack.compilation.Compilation) {
+  async generateMiniFiles (compilation: webpack.compilation.Compilation) {
     const baseTemplateName = 'base'
     const baseCompName = 'comp'
-    const { baseLevel } = this.options
-    if (this.options.buildAdapter === BUILD_TYPES.ALIPAY && this.appConfig.tabBar) {
-      const tabBarConfig = { ...this.appConfig.tabBar }
-      const tabBarItems = tabBarConfig.list.map(({ text, iconPath, selectedIconPath, ...rest }) => {
-        return {
-          ...rest,
-          name: text,
-          icon: iconPath,
-          activeIcon: selectedIconPath
-        }
-      })
-      delete tabBarConfig.list
-      this.generateConfigFile(compilation, this.appEntry, {
-        ...this.appConfig,
-        tabBar: {
-          ...tabBarConfig,
-          items: tabBarItems
-        } as any
-      })
-    } else {
-      this.generateConfigFile(compilation, this.appEntry, this.appConfig)
+    const { baseLevel, isSupportRecursive, modifyBuildAssets, modifyMiniConfigs } = this.options
+    if (typeof modifyMiniConfigs === 'function') {
+      await modifyMiniConfigs(this.filesConfig)
     }
+    const appConfigPath = this.getConfigFilePath(this.appEntry)
+    const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
+    this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
     this.generateConfigFile(compilation, baseCompName, {
       component: true,
       usingComponents: {
         [baseCompName]: `./${baseCompName}`
       }
     })
-    this.generateTemplateFile(compilation, baseTemplateName, buildBaseTemplate, baseLevel, this.supportRecursive)
-    if (!this.supportRecursive) {
+    this.generateTemplateFile(compilation, baseTemplateName, buildBaseTemplate, baseLevel, isSupportRecursive)
+    if (!isSupportRecursive) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
       this.generateTemplateFile(compilation, baseCompName, buildBaseComponentTemplate)
     }
@@ -638,7 +630,7 @@ export default class TaroMiniPlugin {
       const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
       if (config) {
-        if (!this.supportRecursive) {
+        if (!isSupportRecursive) {
           const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(baseCompName, ''))))
           config.content.usingComponents = {
             [baseCompName]: importBaseCompPath,
@@ -653,6 +645,9 @@ export default class TaroMiniPlugin {
     })
     this.generateTabBarFiles(compilation)
     this.injectCommonStyles(compilation)
+    if (typeof modifyBuildAssets === 'function') {
+      await modifyBuildAssets(compilation.assets)
+    }
   }
 
   generateConfigFile (compilation: webpack.compilation.Compilation, filePath: string, config: Config & { component?: boolean }) {
@@ -674,7 +669,7 @@ export default class TaroMiniPlugin {
   }
 
   generateXSFile (compilation: webpack.compilation.Compilation) {
-    const ext = MINI_APP_FILES[this.options.buildAdapter].XS
+    const ext = this.options.fileType.xs
     if (ext == null) {
       return
     }
@@ -709,17 +704,17 @@ export default class TaroMiniPlugin {
 
   /** 处理 xml 文件后缀 */
   getTemplatePath (filePath: string) {
-    return this.getTargetFilePath(filePath, MINI_APP_FILES[this.options.buildAdapter].TEMPL)
+    return this.getTargetFilePath(filePath, this.options.fileType.templ)
   }
 
   /** 处理样式文件后缀 */
   getStylePath (filePath: string) {
-    return this.getTargetFilePath(filePath, MINI_APP_FILES[this.options.buildAdapter].STYLE)
+    return this.getTargetFilePath(filePath, this.options.fileType.style)
   }
 
   /** 处理 config 文件后缀 */
   getConfigPath (filePath: string) {
-    return this.getTargetFilePath(filePath, MINI_APP_FILES[this.options.buildAdapter].CONFIG)
+    return this.getTargetFilePath(filePath, this.options.fileType.config)
   }
 
   /** 处理 extname */
@@ -752,7 +747,7 @@ export default class TaroMiniPlugin {
    * 小程序全局样式文件中引入 common chunks 中的公共样式文件
    */
   injectCommonStyles ({ assets }: webpack.compilation.Compilation) {
-    const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
+    const styleExt = this.options.fileType.style
     const appStyle = `app${styleExt}`
 
     if (!assets[appStyle]) return

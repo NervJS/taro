@@ -1,4 +1,5 @@
-import { getSassLoaderOption, recursiveMerge, REG_SCRIPTS, REG_SASS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, REG_VUE } from '@tarojs/runner-utils'
+import { recursiveMerge, REG_SCRIPTS, REG_SASS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, REG_VUE } from '@tarojs/helper'
+import { getSassLoaderOption } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as sass from 'sass'

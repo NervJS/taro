@@ -1,21 +1,20 @@
-import { Compiler } from '../h5'
-import chalk from 'chalk'
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import wxTransformer from '@tarojs/transformer-wx'
-
-import * as npmProcess from '../util/npm'
-import { printLog, resolveScriptPath } from '../util'
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
+import {
+  printLog,
+  resolveScriptPath,
+  npm as npmProcess,
+  processTypeEnum,
+  REG_TYPESCRIPT,
+  chalk,
+} from '@tarojs/helper'
 import { IBuildData, IH5BuildConfig } from './ui.types'
-import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME } from './common'
+import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME, copyAllInterfaceFiles } from './common'
 
 async function buildForH5 (uiIndex = 'index', buildData: IBuildData) {
-  const { appPath } = buildData
-  const compiler = new Compiler(appPath, uiIndex)
   console.log()
   console.log(chalk.green('开始编译 H5 端组件库！'))
-  await (compiler as any).buildTemp()
   if (process.env.TARO_BUILD_TYPE === 'script') {
     await buildH5Script(buildData)
   } else {
@@ -32,6 +31,10 @@ async function buildH5Script (buildData: IBuildData) {
   h5Config.env = projectConfig.env
   h5Config.defineConstants = projectConfig.defineConstants
   h5Config.plugins = projectConfig.plugins
+  h5Config.babel = projectConfig.babel
+  h5Config.csso = projectConfig.csso
+  h5Config.uglify = projectConfig.uglify
+  h5Config.sass = projectConfig.sass
   h5Config.designWidth = projectConfig.designWidth
   if (projectConfig.deviceRatio) {
     h5Config.deviceRatio = projectConfig.deviceRatio
@@ -48,7 +51,7 @@ async function buildH5Script (buildData: IBuildData) {
 
 async function buildH5Lib (uiIndex, buildData: IBuildData) {
   try {
-    const { appPath, outputDirName, tempPath } = buildData
+    const {sourceDir, appPath, outputDirName, tempPath} = buildData
     const outputDir = path.join(appPath, outputDirName, H5_OUTPUT_NAME)
     const tempEntryFilePath = resolveScriptPath(path.join(tempPath, uiIndex))
     const outputEntryFilePath = path.join(outputDir, path.basename(tempEntryFilePath))
@@ -59,7 +62,7 @@ async function buildH5Lib (uiIndex, buildData: IBuildData) {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(tempEntryFilePath)
     })
-    const { styleFiles, components, code: generateCode } = parseEntryAst(transformResult.ast, tempEntryFilePath)
+    const {styleFiles, components, code: generateCode} = parseEntryAst(transformResult.ast, tempEntryFilePath)
     const relativePath = path.relative(appPath, tempEntryFilePath)
     printLog(processTypeEnum.COPY, '发现文件', relativePath)
     fs.ensureDirSync(path.dirname(outputEntryFilePath))
@@ -76,6 +79,7 @@ async function buildH5Lib (uiIndex, buildData: IBuildData) {
       })
       analyzeStyleFilesImport(styleFiles, tempPath, path.join(appPath, outputDirName), buildData)
     }
+    copyAllInterfaceFiles(sourceDir, outputDir, buildData)
   } catch (err) {
     console.log(err)
   }
