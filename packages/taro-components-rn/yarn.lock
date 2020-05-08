@@ -6171,10 +6171,11 @@ react-mixin@^5.0.0:
     smart-mixin "^2.0.0"
 
 react-native-animatable@^1.3.0:
-  version "1.3.2"
-  resolved "http://registry.npm.taobao.org/react-native-animatable/download/react-native-animatable-1.3.2.tgz#4783ee1a73dc98815aef234ce6b819f80bfe7d80"
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
+  integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
   dependencies:
-    prop-types "^15.5.10"
+    prop-types "^15.7.2"
 
 react-native-collapsible@^1.4.0:
   version "1.4.0"
