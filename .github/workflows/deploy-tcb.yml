@@ -12,15 +12,14 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-18.04
+    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
       - name: build
-        if: github.event.pull_request.merged == 'true'
         run: |
           yarn
           yarn build:independent
       - name: Deploy static to Tencent CloudBase
-        if: github.event.pull_request.merged == 'true'
         id: deployStatic
         uses: TencentCloudBase/cloudbase-action@v1.1.0
         with:
