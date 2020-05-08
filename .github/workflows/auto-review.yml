@@ -14,6 +14,8 @@ jobs:
       - name: Get commit message
         run: |
            echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
+      - name: Show commit message
+        run : echo $commitmsg
       - name: Auto reviews branches
         uses: golfzaptw/action-auto-reviews-from-branches@master
         if: contains( env.commitmsg , '[auto review]' )
