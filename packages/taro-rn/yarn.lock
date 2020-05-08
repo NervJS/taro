@@ -1242,17 +1242,17 @@
     xcode "^2.0.0"
     xmldoc "^0.4.0"
 
-"@tarojs/taro@2.0.0-beta.13":
-  version "2.0.0-beta.13"
-  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-2.0.0-beta.13.tgz?cache=0&sync_timestamp=1577772870840&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Ftaro%2Fdownload%2F%40tarojs%2Ftaro-2.0.0-beta.13.tgz#6537b4263a27641fa51e8f98673f9ea48919af01"
-  integrity sha1-ZTe0JjonZB+lHo+YZz+epIkZrwE=
+"@tarojs/taro@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.2.3.tgz#b85f4e6b972cf6a9128fe5c6aa395f542ab568bd"
+  integrity sha512-rGAZK6W04kQxOVYb0Cci8moHiKafugHMx0b/Jnxwf4e3qlMnsK241Ik5ew7HytfyQnDAb5LoDL1gBIBsPtQgBw==
   dependencies:
-    "@tarojs/utils" "2.0.0-beta.13"
+    "@tarojs/utils" "^2.2.3"
 
-"@tarojs/utils@2.0.0-beta.13":
-  version "2.0.0-beta.13"
-  resolved "https://registry.npm.taobao.org/@tarojs/utils/download/@tarojs/utils-2.0.0-beta.13.tgz?cache=0&sync_timestamp=1577772253852&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Futils%2Fdownload%2F%40tarojs%2Futils-2.0.0-beta.13.tgz#a3b9b4a36ab71ac4e2a3fddd96f4fb006862ea62"
-  integrity sha1-o7m0o2q3GsTio/3dlvT7AGhi6mI=
+"@tarojs/utils@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.2.3.tgz#58e4a16b7cc57316cc05417f5f69a631ee3b3ca0"
+  integrity sha512-x2R/HG7azzNM0wGekOAV2QrHN8wUaQ0wTZwCWZNplPA9gwWf+l5U08jkb6VIL9k6c+Ja/vp9ZV6FsQTT41suBw==
 
 "@types/babel-types@^7.0.7":
   version "7.0.7"
@@ -7075,9 +7075,9 @@ react-native-root-siblings@^4.0.0:
     static-container "^1.5.1"
 
 react-native-root-toast@^3.0.1:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-root-toast/-/react-native-root-toast-3.2.0.tgz#eecd50bb914ad74152c0049d77f8e7c9842e03fa"
-  integrity sha512-Y8udA38bGvqdFRp9JiIAAxCaTc1TnjVWjG15UWzOzTKU4+kVuuCCuSGS1PZswhj+eA0ZuB2y2UbZ/ylxOknJ+Q==
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-root-toast/-/react-native-root-toast-3.2.1.tgz#f456d029f5c5b76e4b686334f25371465478a3be"
+  integrity sha512-BNf6LKMqcIAonKgqCGQWk+1lduFqSjPYbEF0FygMZbXhODRTvrGUAvAgV6kfamVPOkKHUkPU7dnnvmgEQ8ZDzQ==
   dependencies:
     prop-types "^15.5.10"
     react-native-root-siblings "^4.0.0"
