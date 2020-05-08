@@ -583,7 +583,7 @@ export default class TaroMiniPlugin {
   }
 
   get supportRecursive () {
-    return this.options.buildAdapter !== BUILD_TYPES.WEAPP && this.options.buildAdapter !== BUILD_TYPES.QQ
+    return this.options.buildAdapter !== BUILD_TYPES.WEAPP && this.options.buildAdapter !== BUILD_TYPES.QQ && this.options.buildAdapter !== BUILD_TYPES.JD
   }
 
   /** 生成小程序相关文件 */
