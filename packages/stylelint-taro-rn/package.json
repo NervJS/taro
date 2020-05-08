@@ -84,7 +84,7 @@
     "babel-core": "^6.26.3",
     "babel-plugin-istanbul": "^5.1.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-jest": "25.0.0",
+    "babel-preset-jest": "26.0.0",
     "coveralls": "^3.0.2",
     "eslint": "^5.9.0",
     "eslint-config-stylelint": "^11.0.0",
