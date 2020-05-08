@@ -1,0 +1,22 @@
+name: Auto reviews
+on: pull_request
+
+jobs:
+  reviews:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name : GITHUB CONTEXT
+        env: 
+          GITHUB_CONTEXT: ${{ toJson(github) }} 
+        run: echo "$GITHUB_CONTEXT" 
+      - name: Get commit message
+        run: |
+           echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
+      - name: Auto reviews branches
+        uses: golfzaptw/action-auto-reviews-from-branches@master
+        if: contains( env.commitmsg , '[auto review]' )
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+          EVENT_TYPE: APPROVE
