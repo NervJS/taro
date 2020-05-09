@@ -209,23 +209,23 @@ exports[`subpackages should process subpackages 2`] = `
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
             return Detail;
         }));
-        var _Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-        var _Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
-        var _Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-        var _Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
-        var _Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+        var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
+        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
         var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
         var react__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(63);
         var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(65);
         var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
         var Detail = function(_Component) {
-            Object(_Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Detail, _Component);
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Detail, _Component);
             function Detail() {
-                Object(_Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Detail);
-                return Object(_Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, Object(_Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Detail).apply(this, arguments));
+                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Detail);
+                return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Detail).apply(this, arguments));
             }
-            Object(_Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Detail, [ {
+            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Detail, [ {
                 \\"key\\": \\"componentDidMount\\",
                 \\"value\\": function componentDidMount() {}
             }, {
@@ -10934,11 +10934,11 @@ Element.remove()
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
             return Index;
         }));
-        var _Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-        var _Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
-        var _Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-        var _Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
-        var _Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+        var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
+        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
         var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
         var react__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(63);
@@ -10946,12 +10946,12 @@ Element.remove()
         var _index_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(64);
         var _index_css__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_8__);
         var Index = function(_Component) {
-            Object(_Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
             function Index() {
-                Object(_Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Index);
-                return Object(_Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, Object(_Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index).apply(this, arguments));
+                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Index);
+                return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index).apply(this, arguments));
             }
-            Object(_Users_chenjiajian_Downloads_taro_3_x_packages_babel_preset_taro_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Index, [ {
+            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Index, [ {
                 \\"key\\": \\"componentDidMount\\",
                 \\"value\\": function componentDidMount() {}
             }, {
