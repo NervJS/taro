@@ -137,7 +137,7 @@ export default class Kernel extends EventEmitter {
   initPreset (preset: IPreset) {
     this.debugger('initPreset', preset)
     const { id, path, opts, apply } = preset
-    const pluginCtx = this.initPluginCtx({id, path, ctx: this})
+    const pluginCtx = this.initPluginCtx({ id, path, ctx: this })
     const { presets, plugins } = apply()(pluginCtx, opts) || {}
     this.registerPlugin(preset)
     if (Array.isArray(presets)) {
@@ -166,7 +166,7 @@ export default class Kernel extends EventEmitter {
     }
     const schema = pluginCtx.optsSchema(joi)
     if (!joi.isSchema(schema)) {
-      throw `插件${pluginCtx.id}中设置参数检查 schema 有误，请检查！`
+      throw new Error(`插件${pluginCtx.id}中设置参数检查 schema 有误，请检查！`)
     }
     const { error } = schema.validate(opts)
     if (error) {
@@ -221,12 +221,12 @@ export default class Kernel extends EventEmitter {
       initialVal = args.initialVal
       opts = args.opts
     }
-    this.debugger(`applyPlugins`)
+    this.debugger('applyPlugins')
     this.debugger(`applyPlugins:name:${name}`)
     this.debugger(`applyPlugins:initialVal:${initialVal}`)
     this.debugger(`applyPlugins:opts:${opts}`)
     if (typeof name !== 'string') {
-      throw new Error(`调用失败，未传入正确的名称！`)
+      throw new Error('调用失败，未传入正确的名称！')
     }
     const hooks = this.hooks.get(name) || []
     const waterfall = new AsyncSeriesWaterfallHook(['arg'])
@@ -256,7 +256,7 @@ export default class Kernel extends EventEmitter {
 
   runWithPlatform (platform) {
     if (!this.platforms.has(platform)) {
-      throw `不存在编译平台 ${platform}`
+      throw new Error(`不存在编译平台 ${platform}`)
     }
     const withNameConfig = this.config.getConfigWithNamed(platform, this.platforms.get(platform)!.useConfigName)
     return withNameConfig

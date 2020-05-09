@@ -47,7 +47,7 @@ export default class Plugin {
   registerMethod (...args) {
     const { name, fn } = processArgs(args)
     if (this.ctx.methods.has(name)) {
-      throw `已存在方法 ${name}`
+      throw new Error(`已存在方法 ${name}`)
     }
     this.ctx.methods.set(name, fn || function (fn: Function) {
       this.register({
@@ -65,7 +65,7 @@ export default class Plugin {
 function processArgs (args) {
   let name, fn
   if (!args.length) {
-    throw '参数为空'
+    throw new Error('参数为空')
   } else if (args.length === 1) {
     if (typeof args[0] === 'string') {
       name = args[0]

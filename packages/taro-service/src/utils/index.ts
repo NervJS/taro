@@ -53,11 +53,7 @@ export function resolvePresetsOrPlugins (root: string, args, type: PluginType): 
       type,
       opts: args[item] || {},
       apply () {
-        try {
-          return getModuleDefaultExport(require(fPath))
-        } catch (err) {
-          throw err
-        }
+        return getModuleDefaultExport(require(fPath))
       }
     }
   })

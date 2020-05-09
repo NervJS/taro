@@ -4,7 +4,7 @@ export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
     name: 'rn',
     useConfigName: 'rn',
-    async fn ({config}) {
+    async fn ({ config }) {
       const { appPath, outputPath } = ctx.paths
       const { isWatch, port } = ctx.runOpts
       const { emptyDirectory } = ctx.helper

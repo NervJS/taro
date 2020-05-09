@@ -130,14 +130,14 @@ export function recursiveFindNodeModules (filePath: string, lastFindPath?: strin
     return nodeModules
   }
   if (dirname.split(path.sep).length <= 1) {
-    printLog(processTypeEnum.ERROR, `在${dirname}目录下`, `未找到node_modules文件夹，请先安装相关依赖库！`)
+    printLog(processTypeEnum.ERROR, `在${dirname}目录下`, '未找到node_modules文件夹，请先安装相关依赖库！')
     return nodeModules
   }
   return recursiveFindNodeModules(dirname, filePath)
 }
 
 export function getUserHomeDir (): string {
-  function homedir(): string {
+  function homedir (): string {
     const env = process.env
     const home = env.HOME
     const user = env.LOGNAME || env.USER || env.LNAME || env.USERNAME
@@ -314,8 +314,8 @@ export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = 
 }
 /* eslint-enable */
 
-export const pascalCase: (str: string) => string
-  = (str: string): string => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
+export const pascalCase: (str: string) => string =
+  (str: string): string => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
 export function getInstalledNpmPkgPath (pkgName: string, basedir: string): string | null {
   const resolvePath = require('resolve')
@@ -335,7 +335,7 @@ export function getInstalledNpmPkgVersion (pkgName: string, basedir: string): st
 }
 
 export const recursiveMerge = <T = any>(src: Partial<T>, ...args: (Partial<T> | undefined)[]) => {
-  return mergeWith(src, ...args, (value, srcValue, key, obj, source) => {
+  return mergeWith(src, ...args, (value, srcValue) => {
     const typeValue = typeof value
     const typeSrcValue = typeof srcValue
     if (typeValue !== typeSrcValue) return
@@ -465,7 +465,7 @@ export interface FileStat {
 export function readDirWithFileTypes (floder: string): FileStat[] {
   const list = fs.readdirSync(floder)
   const res = list.map(name => {
-    const stat =fs.statSync(path.join(floder, name))
+    const stat = fs.statSync(path.join(floder, name))
     return {
       name,
       isDirectory: stat.isDirectory(),
@@ -494,15 +494,11 @@ export function removeHeadSlash (str: string) {
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
-    try {
-      createBabelRegister({
-        only: [configPath]
-      })
-      delete require.cache[configPath]
-      result = getModuleDefaultExport(require(configPath))
-    } catch (err) {
-      throw err
-    }
+    createBabelRegister({
+      only: [configPath]
+    })
+    delete require.cache[configPath]
+    result = getModuleDefaultExport(require(configPath))
   }
   return result
 }

@@ -74,7 +74,7 @@ export default (ctx: IPluginContext) => {
       }
 
       async function updateProject () {
-        if (!configPath ||!fs.existsSync(configPath)) {
+        if (!configPath || !fs.existsSync(configPath)) {
           console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
           process.exit(1)
         }
@@ -109,7 +109,7 @@ export default (ctx: IPluginContext) => {
 
         // 写入package.json
         try {
-          await fs.writeJson(pkgPath, packageMap, {spaces: '\t'})
+          await fs.writeJson(pkgPath, packageMap, { spaces: '\t' })
           console.log(chalk.green('更新项目 package.json 成功！'))
           console.log()
         } catch (err) {

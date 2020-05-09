@@ -31,7 +31,7 @@ export interface IPlugin {
   apply: Function
 }
 
-export interface IPreset extends IPlugin {}
+export type IPreset = IPlugin
 
 export interface IHook {
   name: string
@@ -57,5 +57,5 @@ export interface IFileType {
 }
 
 export interface IPlatform extends IHook {
-  useConfigName?: String
+  useConfigName?: string
 }
