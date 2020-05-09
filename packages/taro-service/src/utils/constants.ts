@@ -10,7 +10,7 @@ export const IS_MODIFY_HOOK = /^modify/
 
 export const presetOrPluginPrefixReg = new RegExp(`^${PRESET_PREFIX}|${PLUGIN_PREFIX}`)
 
-export enum PluginType  {
+export enum PluginType {
   Preset = 'Preset',
   Plugin = 'Plugin'
 }

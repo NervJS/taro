@@ -7,7 +7,7 @@ import {
   npm as npmProcess,
   processTypeEnum,
   REG_TYPESCRIPT,
-  chalk,
+  chalk
 } from '@tarojs/helper'
 import { IBuildData, IH5BuildConfig } from './ui.types'
 import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME, copyAllInterfaceFiles } from './common'
@@ -51,7 +51,7 @@ async function buildH5Script (buildData: IBuildData) {
 
 async function buildH5Lib (uiIndex, buildData: IBuildData) {
   try {
-    const {sourceDir, appPath, outputDirName, tempPath} = buildData
+    const { sourceDir, appPath, outputDirName, tempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, H5_OUTPUT_NAME)
     const tempEntryFilePath = resolveScriptPath(path.join(tempPath, uiIndex))
     const outputEntryFilePath = path.join(outputDir, path.basename(tempEntryFilePath))
@@ -62,7 +62,7 @@ async function buildH5Lib (uiIndex, buildData: IBuildData) {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(tempEntryFilePath)
     })
-    const {styleFiles, components, code: generateCode} = parseEntryAst(transformResult.ast, tempEntryFilePath)
+    const { styleFiles, components, code: generateCode } = parseEntryAst(transformResult.ast, tempEntryFilePath)
     const relativePath = path.relative(appPath, tempEntryFilePath)
     printLog(processTypeEnum.COPY, '发现文件', relativePath)
     fs.ensureDirSync(path.dirname(outputEntryFilePath))

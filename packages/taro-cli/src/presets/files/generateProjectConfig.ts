@@ -18,7 +18,7 @@ export default (ctx: IPluginContext) => {
     const origProjectConfig = fs.readJSONSync(projectConfigPath)
     // compileType 是 plugin 时不修改 miniprogramRoot 字段
     let distProjectConfig = origProjectConfig
-    if (origProjectConfig['compileType'] !== 'plugin') {
+    if (origProjectConfig.compileType !== 'plugin') {
       distProjectConfig = Object.assign({}, origProjectConfig, { miniprogramRoot: './' })
     }
     ctx.writeFileToDist({

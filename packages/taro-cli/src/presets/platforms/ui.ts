@@ -75,11 +75,11 @@ export default (ctx: IPluginContext) => {
         })
 
         const outputDir = path.join(appPath, outputDirName!)
-        fs.writeFileSync(path.join(outputDir, `index.js`), content)
+        fs.writeFileSync(path.join(outputDir, 'index.js'), content)
       }
 
       function watchFiles () {
-        const {sourceDir, projectConfig, appPath, outputDirName, tempPath} = buildData
+        const { sourceDir, projectConfig, appPath, outputDirName, tempPath } = buildData
         const platforms = _.get(buildData, 'projectConfig.ui.platforms')
         console.log('\n', chalk.gray('监听文件修改中...'), '\n')
 
@@ -91,7 +91,7 @@ export default (ctx: IPluginContext) => {
           extraWatchFiles = uiConfig.extraWatchFiles
           extraWatchFiles.forEach(item => {
             watchList.push(path.join(appPath, item.path))
-            if (typeof item.handler === 'function') item.callback = item.handler({buildH5Script})
+            if (typeof item.handler === 'function') item.callback = item.handler({ buildH5Script })
           })
         }
 
@@ -125,7 +125,7 @@ export default (ctx: IPluginContext) => {
         }
 
         function syncH5File (filePath, compiler) {
-          const {sourceDir, appPath, outputDirName, tempPath} = buildData
+          const { sourceDir, appPath, outputDirName, tempPath } = buildData
           const outputDir = path.join(appPath, outputDirName!, H5_OUTPUT_NAME)
           let fileTempPath = filePath.replace(sourceDir, tempPath)
           fileTempPath = fileTempPath.replace(new RegExp(`${path.extname(fileTempPath)}$`), '')
@@ -147,7 +147,7 @@ export default (ctx: IPluginContext) => {
         }
 
         function syncRNFile (filePath, compiler) {
-          const {sourceDir, appPath, outputDirName, rnTempPath} = buildData
+          const { sourceDir, appPath, outputDirName, rnTempPath } = buildData
           const outputDir = path.join(appPath, outputDirName!, RN_OUTPUT_NAME)
           const fileTempPath = filePath.replace(sourceDir, rnTempPath)
           compiler.processFiles(filePath)

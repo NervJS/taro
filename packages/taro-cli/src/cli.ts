@@ -42,7 +42,7 @@ export default class CLI {
         ]
       })
       switch (command) {
-        case 'build':
+        case 'build': {
           build(kernel, {
             platform: args.type,
             isWatch: !!args.watch,
@@ -56,7 +56,8 @@ export default class CLI {
             isHelp: args.h
           })
           break
-        case 'init':
+        }
+        case 'init': {
           const projectName = _[1]
           init(kernel, {
             appPath: this.appPath,
@@ -69,7 +70,8 @@ export default class CLI {
             isHelp: args.h
           })
           break
-        case 'create':
+        }
+        case 'create': {
           const type = _[1] || 'page'
           const name = _[2] || args.name
           create(kernel, {
@@ -80,7 +82,8 @@ export default class CLI {
             isHelp: args.h
           })
           break
-        case 'config':
+        }
+        case 'config': {
           const cmd = _[1]
           const key = _[2]
           const value = _[3]
@@ -92,7 +95,8 @@ export default class CLI {
             isHelp: args.h
           })
           break
-        case 'info':
+        }
+        case 'info': {
           const rn = _[1]
           info(kernel, {
             appPath: this.appPath,
@@ -100,19 +104,22 @@ export default class CLI {
             isHelp: args.h
           })
           break
-        case 'doctor':
+        }
+        case 'doctor': {
           doctor(kernel, {
             appPath: this.appPath,
             isHelp: args.h
           })
           break
-        case 'convert':
+        }
+        case 'convert': {
           convert(kernel, {
             appPath: this.appPath,
             isHelp: args.h
           })
           break
-        case 'update':
+        }
+        case 'update': {
           const updateType = _[1]
           const version = _[2]
           update(kernel, {
@@ -122,6 +129,7 @@ export default class CLI {
             isHelp: args.h
           })
           break
+        }
         default:
           customCommand(command, kernel, args)
           break

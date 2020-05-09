@@ -161,25 +161,25 @@ async function prepareQuickAppEnvironment ({
   if (needInstall) {
     let command
     if (shouldUseYarn()) {
-      if(!isWindows) {
+      if (!isWindows) {
         command = 'NODE_ENV=development yarn install'
       } else {
         command = 'yarn install'
       }
     } else if (shouldUseCnpm()) {
-      if(!isWindows) {
+      if (!isWindows) {
         command = 'NODE_ENV=development cnpm install'
       } else {
         command = 'cnpm install'
       }
     } else {
-      if(!isWindows) {
+      if (!isWindows) {
         command = 'NODE_ENV=development npm install'
       } else {
         command = 'npm install'
       }
     }
-    const installSpinner = ora(`安装快应用依赖环境, 需要一会儿...`).start()
+    const installSpinner = ora('安装快应用依赖环境, 需要一会儿...').start()
     try {
       const stdout = execSync(command)
       installSpinner.color = 'green'

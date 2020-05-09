@@ -67,8 +67,6 @@ function parseAst (
             const value = source.value
             const valueExtname = path.extname(value)
             if (value.indexOf('.') === 0) {
-              let importPath = path.resolve(path.dirname(sourceFilePath), value)
-              importPath = resolveScriptPath(importPath)
               if (REG_SCRIPT.test(valueExtname) || REG_TYPESCRIPT.test(valueExtname)) {
                 const vpath = path.resolve(sourceFilePath, '..', value)
                 let fPath = value
@@ -231,7 +229,7 @@ export function copyFileToDist (filePath: string, sourceDir: string, outputDir: 
   }))
 }
 
-function _analyzeFiles(files: string[], sourceDir: string, outputDir: string, buildData: IBuildData){
+function _analyzeFiles (files: string[], sourceDir: string, outputDir: string, buildData: IBuildData) {
   files.forEach(file => {
     if (fs.existsSync(file)) {
       if (processedScriptFiles.has(file)) {

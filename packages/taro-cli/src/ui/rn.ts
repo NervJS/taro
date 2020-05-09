@@ -18,7 +18,7 @@ export async function buildForRN (uiIndex = 'index', buildData) {
 
 export async function buildRNLib (uiIndex, buildData: IBuildData) {
   try {
-    const { appPath, outputDirName, sourceDir ,rnTempPath} = buildData
+    const { appPath, outputDirName, sourceDir, rnTempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, RN_OUTPUT_NAME)
     const tempEntryFilePath = resolveScriptPath(path.join(sourceDir, uiIndex))
     const baseEntryFilePath = resolveScriptPath(path.join(rnTempPath, uiIndex)) // base by rn_temp
@@ -33,7 +33,7 @@ export async function buildRNLib (uiIndex, buildData: IBuildData) {
     })
     const { styleFiles, components, code: generateCode } = parseEntryAst(transformResult.ast, baseEntryFilePath)
     const relativePath = path.relative(appPath, tempEntryFilePath)
-    tempEntryFilePath.replace(path.extname(tempEntryFilePath),'.js')
+    tempEntryFilePath.replace(path.extname(tempEntryFilePath), '.js')
     printLog(processTypeEnum.COPY, '发现文件', relativePath)
     fs.ensureDirSync(path.dirname(outputEntryFilePath))
     fs.writeFileSync(outputEntryFilePath, generateCode)

@@ -42,7 +42,6 @@ export const getPostcssPlugins = function (appPath: string, {
   deviceRatio,
   postcssOption = {} as IPostcssOption
 }) {
-
   if (designWidth) {
     defaultPxtransformOption.config.designWidth = designWidth
   }

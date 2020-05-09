@@ -8,7 +8,7 @@ import * as formatMessages from 'webpack-format-messages'
 const getServeSpinner = (() => {
   let spinner
   return () => {
-    if (!spinner) spinner = ora(`Starting development server, please wait~`)
+    if (!spinner) spinner = ora('Starting development server, please wait~')
     return spinner
   }
 })()

@@ -16,7 +16,7 @@ import {
   promoteRelativePath,
   isNpmPkg,
   generateEnvList,
-  generateConstantsList,
+  generateConstantsList
 } from '@tarojs/helper'
 
 import babylonConfig from '../config/babylon'

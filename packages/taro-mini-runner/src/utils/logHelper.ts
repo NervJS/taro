@@ -7,7 +7,7 @@ const getServeSpinner = (() => {
   let spinner
   return () => {
     if (!spinner) {
-      spinner = ora(`即将开始启动编译，请稍等~`)
+      spinner = ora('即将开始启动编译，请稍等~')
       spinner.start()
     }
     return spinner
@@ -43,7 +43,7 @@ const printBuildError = (err: Error): void => {
 const printSuccess = () => {
   getServeSpinner().stopAndPersist({
     symbol: '✅ ',
-    text: chalk.green(`编译成功\n`)
+    text: chalk.green('编译成功\n')
   })
 }
 
@@ -76,14 +76,14 @@ const printFailed = () => {
 }
 
 const printWhenBeforeCompile = compiler => {
-  compiler.hooks.beforeCompile.tap('taroBeforeCompile', filepath => {
+  compiler.hooks.beforeCompile.tap('taroBeforeCompile', () => {
     printCompiling()
   })
   return compiler
 }
 
 const printWhenInvalid = compiler => {
-  compiler.hooks.invalid.tap('taroInvalid', filepath => {
+  compiler.hooks.invalid.tap('taroInvalid', () => {
     printCompiling()
   })
   return compiler
@@ -98,7 +98,7 @@ const printWhenFailed = compiler => {
 
 let isFirst = true
 const printWhenFirstDone = (compiler) => {
-  compiler.hooks.done.tap('taroDone', stats => {
+  compiler.hooks.done.tap('taroDone', () => {
     if (isFirst) {
       isFirst = false
       getServeSpinner().clear()
