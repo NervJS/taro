@@ -488,7 +488,7 @@ export const getModule = (appPath: string, {
   }
   rule.script = {
     test: REG_SCRIPTS,
-    exclude: [filename => /node_modules/.test(filename)],
+    exclude: [filename => /@tarojs\/components/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))],
     use: {
       babelLoader: getBabelLoader([{
         compact: false
