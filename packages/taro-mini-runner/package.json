@@ -10,8 +10,10 @@
     "clean": "rimraf dist",
     "lint": "tslint src/**/*.ts --fix",
     "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "test": "env NODE_ENV=production jest",
+    "test:dev": "env NODE_ENV=production jest --watch",
+    "test:coverage": "env NODE_ENV=production jest --coverage",
+    "updateSnapshot": "env NODE_ENV=production jest --updateSnapshot"
   },
   "repository": {
     "type": "git",
@@ -79,5 +81,10 @@
     "webpack-chain": "4.9.0",
     "webpack-format-messages": "^2.0.5",
     "yauzl": "2.10.0"
+  },
+  "devDependencies": {
+    "@tarojs/components": "^3.0.0-beta.6",
+    "@tarojs/react": "^3.0.0-beta.6",
+    "babel-preset-taro": "^3.0.0-beta.6"
   }
 }
