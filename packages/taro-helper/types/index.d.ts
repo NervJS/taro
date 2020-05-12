@@ -89,6 +89,8 @@ declare interface helper {
   REG_SCRIPTS: RegExp;
   REG_VUE: RegExp;
   REG_SASS: RegExp;
+  REG_SASS_SASS: RegExp;
+  REG_SASS_SCSS: RegExp;
   REG_LESS: RegExp;
   REG_STYLUS: RegExp;
   REG_STYLE: RegExp;

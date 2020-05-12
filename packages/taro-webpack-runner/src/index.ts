@@ -14,7 +14,7 @@ import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper
 import { BuildConfig } from './util/types'
 import { makeConfig } from './util/chain'
 
-const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc: Function) => {
+export const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc: Function) => {
   if (modifyWebpackChainFunc instanceof Function) {
     await modifyWebpackChainFunc(chain, webpack)
   }

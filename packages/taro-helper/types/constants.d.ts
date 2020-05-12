@@ -34,6 +34,8 @@ export declare const REG_TYPESCRIPT: RegExp;
 export declare const REG_SCRIPTS: RegExp;
 export declare const REG_VUE: RegExp;
 export declare const REG_SASS: RegExp;
+export declare const REG_SASS_SASS: RegExp;
+export declare const REG_SASS_SCSS: RegExp;
 export declare const REG_LESS: RegExp;
 export declare const REG_STYLUS: RegExp;
 export declare const REG_STYLE: RegExp;
