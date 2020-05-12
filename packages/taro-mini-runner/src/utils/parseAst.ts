@@ -185,7 +185,10 @@ export default function parseAst (
       const node = astPath.node
       const left = node.left
       if (t.isMemberExpression(left) && t.isIdentifier(left.object)) {
-        if (left.object.name === componentClassName
+        // 当 App 的 config 为静态属性(static prop)时,
+        // componentClassName(_App) 与 left.object.name(App)
+        // 不匹配, 造成获取不到 config 对象的问题
+        if ((left.object.name === componentClassName || left.object.name === 'App')
             && t.isIdentifier(left.property)
             && left.property.name === 'config') {
           configObj = traverseObjectNode(node.right)
