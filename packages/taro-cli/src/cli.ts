@@ -97,7 +97,7 @@ export default class CLI {
           break
         }
         case 'info': {
-          const rn = _[1]
+          const rn = _[1] === 'rn'
           info(kernel, {
             appPath: this.appPath,
             rn,
