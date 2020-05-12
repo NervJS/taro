@@ -19,7 +19,7 @@
     "release:lerna": "lerna publish --force-publish=* --exact --skip-temp-tag",
     "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
     "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
-    "test": "lerna run --scope babel-preset-taro  --scope @tarojs/components --scope @tarojs/loader --scope @tarojs/react  test"
+    "test": "lerna run --scope babel-preset-taro  --scope @tarojs/components --scope @tarojs/loader --scope @tarojs/react --scope @tarojs/webpack-runner test"
   },
   "repository": {
     "type": "git",

@@ -14,7 +14,8 @@ import {
   recursiveMerge,
   isNodeModule,
   resolveMainFilePath,
-  REG_SASS,
+  REG_SASS_SASS,
+  REG_SASS_SCSS,
   REG_LESS,
   REG_STYLUS,
   REG_STYLE,
@@ -227,6 +228,13 @@ export const getModule = (appPath: string, {
   const cssLoader = getCssLoader(cssOptions)
   const sassLoader = getSassLoader([{
     sourceMap: true,
+    implementation: sass,
+    sassOptions: {
+      indentedSyntax: true
+    }
+  }, sassLoaderOption])
+  const scssLoader = getSassLoader([{
+    sourceMap: true,
     implementation: sass
   }, sassLoaderOption])
 
@@ -304,8 +312,12 @@ export const getModule = (appPath: string, {
 
   const rule: any = {
     sass: {
-      test: REG_SASS,
+      test: REG_SASS_SASS,
       oneOf: addCssLoader(cssLoaders, sassLoader)
+    },
+    scss: {
+      test: REG_SASS_SCSS,
+      oneOf: addCssLoader(cssLoaders, scssLoader)
     },
     less: {
       test: REG_LESS,
