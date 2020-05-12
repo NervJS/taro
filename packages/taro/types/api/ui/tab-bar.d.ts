@@ -35,7 +35,7 @@ declare namespace Taro {
    * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBar.html
    */
-  function showTabBar(option: showTabBar.Option): Promise<General.CallbackResult>
+  function showTabBar(option?: showTabBar.Option): Promise<General.CallbackResult>
 
   namespace setTabBarStyle {
     interface Option {
@@ -55,7 +55,7 @@ declare namespace Taro {
       success?: (res: General.CallbackResult) => void
     }
   }
-  
+
   /** 动态设置 tabBar 的整体样式
    * @supported weapp, h5
    * @example
@@ -188,5 +188,5 @@ declare namespace Taro {
    * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBar.html
    */
-  function hideTabBar(option: hideTabBar.Option): Promise<General.CallbackResult>
+  function hideTabBar(option?: hideTabBar.Option): Promise<General.CallbackResult>
 }

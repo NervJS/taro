@@ -10,7 +10,7 @@ sidebar_label: hideTabBar
 ## 类型
 
 ```tsx
-(option: Option) => Promise<CallbackResult>
+(option?: Option) => Promise<CallbackResult>
 ```
 
 ## 参数
