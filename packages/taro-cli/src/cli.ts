@@ -96,7 +96,7 @@ export default class CLI {
           const rn = _[1]
           info(kernel, {
             appPath: this.appPath,
-            rn,
+            rn: !!rn,
             isHelp: args.h
           })
           break
