@@ -7,12 +7,6 @@ sidebar_label: Textarea
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/textarea.html)
 
-## 类型
-
-```tsx
-ComponentType<TextareaProps>
-```
-
 ## 示例代码
 
 ```tsx
@@ -51,7 +45,7 @@ export default class PageView extends Component {
       <td>value</td>
       <td><code>string</code></td>
       <td style="text-align:center"></td>
-      <td style="text-align:center">是</td>
+      <td style="text-align:center">否</td>
       <td>输入框的内容</td>
     </tr>
     <tr>
