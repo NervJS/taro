@@ -2,17 +2,34 @@ import * as path from 'path'
 import * as fs from 'fs-extra'
 
 import * as t from 'babel-types'
+import * as glob from 'glob'
 import traverse from 'babel-traverse'
 import generate from 'babel-generator'
 import wxTransformer from '@tarojs/transformer-wx'
 
-import { IBuildData } from './ui.types'
-import { cssImports, printLog, resolveScriptPath, resolveStylePath } from '../util'
-import { processTypeEnum, REG_STYLE, REG_TYPESCRIPT, REG_SCRIPT, REG_JSON, REG_FONT, REG_IMAGE, REG_MEDIA } from '../util/constants'
+import {
+  cssImports,
+  printLog,
+  resolveScriptPath,
+  resolveStylePath,
+  isNpmPkg,
+  processTypeEnum,
+  REG_STYLE,
+  REG_TYPESCRIPT,
+  REG_SCRIPT,
+  REG_JSON,
+  REG_FONT,
+  REG_IMAGE,
+  REG_MEDIA,
+  CSS_EXT
+} from '@tarojs/helper'
 
-const processedScriptFiles: Set<string> = new Set()
+import { IBuildData } from './ui.types'
+
+let processedScriptFiles: Set<string> = new Set()
 
 export const WEAPP_OUTPUT_NAME = 'weapp'
+export const QUICKAPP_OUTPUT_NAME = 'quickappp'
 export const H5_OUTPUT_NAME = 'h5'
 export const RN_OUTPUT_NAME = 'rn'
 export const TEMP_DIR = '.temp'
@@ -50,8 +67,6 @@ function parseAst (
             const value = source.value
             const valueExtname = path.extname(value)
             if (value.indexOf('.') === 0) {
-              const importPath = path.resolve(path.dirname(sourceFilePath), value)
-              resolveScriptPath(importPath)
               if (REG_SCRIPT.test(valueExtname) || REG_TYPESCRIPT.test(valueExtname)) {
                 const vpath = path.resolve(sourceFilePath, '..', value)
                 let fPath = value
@@ -186,10 +201,22 @@ export function parseEntryAst (ast: t.File, relativeFile: string) {
   }
 }
 
+export function isFileToBeCSSModulesMap (filePath) {
+  let isMap = false
+  CSS_EXT.forEach(item => {
+    const reg = new RegExp(`${item}.map.js$`, 'g')
+    if (reg.test(filePath)) {
+      isMap = true
+    }
+  })
+  return isMap
+}
+
 export function copyFileToDist (filePath: string, sourceDir: string, outputDir: string, buildData: IBuildData) {
-  if (!filePath && !path.isAbsolute(filePath)) {
+  if ((!filePath && !path.isAbsolute(filePath)) || isFileToBeCSSModulesMap(filePath)) {
     return
   }
+
   const { appPath } = buildData
   const dirname = path.dirname(filePath)
   const distDirname = dirname.replace(sourceDir, outputDir)
@@ -202,7 +229,7 @@ export function copyFileToDist (filePath: string, sourceDir: string, outputDir: 
   }))
 }
 
-export function analyzeFiles (files: string[], sourceDir: string, outputDir: string, buildData: IBuildData) {
+function _analyzeFiles (files: string[], sourceDir: string, outputDir: string, buildData: IBuildData) {
   files.forEach(file => {
     if (fs.existsSync(file)) {
       if (processedScriptFiles.has(file)) {
@@ -232,13 +259,18 @@ export function analyzeFiles (files: string[], sourceDir: string, outputDir: str
         })
       }
       if (scriptFiles.length) {
-        analyzeFiles(scriptFiles, sourceDir, outputDir, buildData)
+        _analyzeFiles(scriptFiles, sourceDir, outputDir, buildData)
       }
       if (styleFiles.length) {
         analyzeStyleFilesImport(styleFiles, sourceDir, outputDir, buildData)
       }
     }
   })
+}
+
+export function analyzeFiles (files: string[], sourceDir: string, outputDir: string, buildData: IBuildData) {
+  _analyzeFiles(files, sourceDir, outputDir, buildData)
+  processedScriptFiles = new Set()
 }
 
 export function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir, buildData: IBuildData) {
@@ -261,11 +293,23 @@ export function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir, build
     let imports = cssImports(content)
     if (imports.length > 0) {
       imports = imports.map(importItem => {
+        if (isNpmPkg(importItem)) {
+          return ''
+        }
         const filePath = resolveStylePath(path.resolve(path.dirname(item), importItem))
         copyFileToDist(filePath, sourceDir, outputDir, buildData)
         return filePath
-      })
+      }).filter(item => item)
       analyzeStyleFilesImport(imports, sourceDir, outputDir, buildData)
     }
   })
+}
+
+export function copyAllInterfaceFiles (sourceDir, outputDir, buildData) {
+  const interfaceFiles = glob.sync(path.join(sourceDir, '**/*.d.ts'))
+  if (interfaceFiles && interfaceFiles.length) {
+    interfaceFiles.forEach(item => {
+      copyFileToDist(item, sourceDir, outputDir, buildData)
+    })
+  }
 }
