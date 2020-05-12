@@ -133,6 +133,8 @@ class Router extends Taro.Component<Props, State> {
         isRedirect: false,
         isTabBar
       }))
+    } else {
+      toLocation.state.key = routeStack[index].key || ''
     }
     this.setState({ routeStack, location: toLocation })
   }
