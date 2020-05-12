@@ -1,5 +1,4 @@
 import { Shortcuts, noop, isString, isObject, isFunction } from '@tarojs/shared'
-import { MINI_APP_FILES } from '@tarojs/runner-utils'
 
 import { NodeVM } from 'vm2'
 import { omitBy } from 'lodash'
@@ -232,7 +231,7 @@ export class Prerender {
       xml = this.prerenderConfig.transformXML(data, config, xml)
     }
 
-    const templatePath = this.getRealPath(path, MINI_APP_FILES[this.buildConfig.buildAdapter].TEMPL)
+    const templatePath = this.getRealPath(path, this.buildConfig.fileType.templ)
     const [importTemplate, template] = fs.readFileSync(templatePath, 'utf-8').split('\n')
 
     let str = `${importTemplate}\n`

@@ -1,46 +1,21 @@
-import chalk from 'chalk'
 import * as ora from 'ora'
 import { partial, pipe } from 'lodash/fp'
 import * as formatMessages from 'webpack-format-messages'
-import { BUILD_TYPES } from '@tarojs/runner-utils'
-
-// const syntaxErrorLabel = 'Syntax error:'
-
-const LOG_MAP = {
-  [BUILD_TYPES.WEAPP]: {
-    OPEN: '请打开微信小程序开发者工具进行查看'
-  },
-  [BUILD_TYPES.ALIPAY]: {
-    OPEN: '请打开支付宝小程序开发者工具进行查看'
-  },
-  [BUILD_TYPES.QQ]: {
-    OPEN: '请打开 QQ 小程序开发者工具进行查看'
-  },
-  [BUILD_TYPES.SWAN]: {
-    OPEN: '请打开百度智能小程序开发者工具进行查看'
-  },
-  [BUILD_TYPES.TT]: {
-    OPEN: '请打开字节跳动小程序开发者工具进行查看'
-  },
-  [BUILD_TYPES.JD]: {
-    OPEN: '请打开京东小程序开发者工具进行查看'
-  },
-  [BUILD_TYPES.QUICKAPP]: {
-    OPEN: '请按快应用端开发流程 https://taro-docs.jd.com/taro/docs/quick-app.html 进行查看'
-  }
-}
+import { chalk } from '@tarojs/helper'
 
 const getServeSpinner = (() => {
   let spinner
   return () => {
-    if (!spinner) spinner = ora('Starting development server, please wait~')
+    if (!spinner) {
+      spinner = ora('即将开始启动编译，请稍等~')
+      spinner.start()
+    }
     return spinner
   }
 })()
 
 const printCompiling = () => {
   getServeSpinner().text = '正在编译...'
-  getServeSpinner().start()
 }
 
 const printBuildError = (err: Error): void => {
@@ -65,10 +40,10 @@ const printBuildError = (err: Error): void => {
   console.log()
 }
 
-const printSuccess = (buildAdapter: BUILD_TYPES) => {
+const printSuccess = () => {
   getServeSpinner().stopAndPersist({
     symbol: '✅ ',
-    text: isFirst ? chalk.green(`编译成功，${LOG_MAP[buildAdapter].OPEN}\n`) : chalk.green('编译成功\n')
+    text: chalk.green('编译成功\n')
   })
 }
 
@@ -135,20 +110,17 @@ const printWhenFirstDone = (compiler) => {
 
 const _printWhenDone = ({
   verbose = false
-}, buildAdapter, compiler) => {
+}, compiler) => {
   compiler.hooks.done.tap('taroDone', stats => {
     const { errors, warnings } = formatMessages(stats)
 
     if (!stats.hasErrors() && !stats.hasWarnings()) {
-      printSuccess(buildAdapter)
+      printSuccess()
     }
 
     if (stats.hasErrors()) {
       printFailed()
       errors.forEach(e => console.log(e + '\n'))
-      stats.compilation.errors.forEach(error => {
-        console.log(`${error.stack}\n`)
-      })
       verbose && process.exit(1)
       return
     }
@@ -174,11 +146,11 @@ const printWhenDone = partial(_printWhenDone, [{ verbose: false }])
 
 const printWhenDoneVerbosely = partial(_printWhenDone, [{ verbose: true }])
 
-const bindDevLogger = (compiler, buildAdapter: BUILD_TYPES) => {
+const bindDevLogger = compiler => {
   console.log()
   pipe(
     printWhenBeforeCompile,
-    partial(printWhenDone, [buildAdapter]),
+    printWhenDone,
     printWhenFailed,
     printWhenInvalid,
     printWhenFirstDone
@@ -186,11 +158,11 @@ const bindDevLogger = (compiler, buildAdapter: BUILD_TYPES) => {
   return compiler
 }
 
-const bindProdLogger = (compiler, buildAdapter: BUILD_TYPES) => {
+const bindProdLogger = compiler => {
   console.log()
   pipe(
     printWhenBeforeCompile,
-    partial(printWhenDoneVerbosely, [buildAdapter]),
+    printWhenDoneVerbosely,
     printWhenFailed
   )(compiler)
   return compiler

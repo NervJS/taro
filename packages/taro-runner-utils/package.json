@@ -22,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.8.4",
+    "@tarojs/helper": "3.0.0-beta.6",
     "chalk": "^3.0.0",
     "fs-extra": "^8.1.0",
     "lodash": "^4.17.15",
