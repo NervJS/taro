@@ -63,7 +63,7 @@
     "better-babel-generator": "^6.26.1",
     "chokidar": "^2.0.3",
     "commander": "^2.19.0",
-    "cross-spawn": "^6.0.5",
+    "cross-spawn": "^7.0.2",
     "download-git-repo": "^2.0.0",
     "envinfo": "^6.0.1",
     "eslint": "^6.8.0",
