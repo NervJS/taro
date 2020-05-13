@@ -80,6 +80,7 @@ it('should move static apis under "Taro"', function () {
   const taroName = defaultImport!.local.name
   let memberExpression = body[1].expression
   if (t.isCallExpression(body[1])) {
+    // @ts-ignore
     memberExpression = (body[1].expression as t.CallExpression).callee
   }
   expect(memberExpression).toMatchObject(t.memberExpression(
@@ -137,7 +138,7 @@ it('should preserve default imports', function () {
 it('should preserve assignments in lefthands', function () {
   const code = `
     import Taro from '@tarojs/taro-h5'
-    let animation 
+    let animation
     animation = Taro.createAnimation({
       transformOrigin: "50% 50%",
       duration: 1000,
