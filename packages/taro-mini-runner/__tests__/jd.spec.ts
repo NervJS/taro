@@ -1,4 +1,4 @@
-\import { compile, getOutput } from './utils/compiler'
+import { compile, getOutput } from './utils/compiler'
 
 describe('jd', () => {
   test('should build jd app', async () => {
