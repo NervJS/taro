@@ -17,98 +17,61 @@ const customizeChain = async (chain, modifyWebpackChainFunc: Function, customize
   }
 }
 
-export default async function build (appPath: string, config: IBuildConfig) {
+export default async function build (appPath: string, config: IBuildConfig): Promise<webpack.Stats> {
   const mode = config.mode
+
+  /** process config.sass options */
   const newConfig = await makeConfig(config)
+
+  /** initialized chain */
   const webpackChain = buildConf(appPath, mode, newConfig)
+
+  /** customized chain */
   await customizeChain(webpackChain, newConfig.modifyWebpackChain, newConfig.webpackChain)
-  const webpackConfig = webpackChain.toConfig()
-  const onBuildFinish = newConfig.onBuildFinish
-  const compiler = webpack(webpackConfig)
-  return new Promise((resolve, reject) => {
+
+  /** webpack config */
+  const webpackConfig: webpack.Configuration = webpackChain.toConfig()
+
+  return new Promise<webpack.Stats>((resolve, reject) => {
+    const compiler = webpack(webpackConfig)
+    const onBuildFinish = newConfig.onBuildFinish
     let prerender: Prerender
+
+    const onFinish = function (error, stats: webpack.Stats | null) {
+      if (typeof onBuildFinish !== 'function') return
+
+      onBuildFinish({
+        error,
+        stats,
+        isWatch: newConfig.isWatch
+      })
+    }
+
+    const callback = async (err: Error, stats: webpack.Stats) => {
+      if (err || stats.hasErrors()) {
+        const error = err ?? stats.toJson().errors
+        printBuildError(error)
+        onFinish(error, null)
+        return reject(error)
+      }
+
+      if (!isEmpty(newConfig.prerender)) {
+        prerender = prerender ?? new Prerender(newConfig, webpackConfig, stats)
+        await prerender.render()
+      }
+      onFinish(null, stats)
+      resolve(stats)
+    }
+
     if (newConfig.isWatch) {
       bindDevLogger(compiler)
       compiler.watch({
         aggregateTimeout: 300,
         poll: undefined
-      }, (err, stats) => {
-        if (err) {
-          printBuildError(err)
-          if (typeof onBuildFinish === 'function') {
-            onBuildFinish({
-              error: err,
-              stats: null,
-              isWatch: true
-            })
-          }
-          return reject(err)
-        }
-
-        if (!isEmpty(newConfig.prerender)) {
-          if (prerender == null) {
-            prerender = new Prerender(config, webpackConfig, stats)
-          }
-          prerender.render().then(() => {
-            if (typeof onBuildFinish === 'function') {
-              onBuildFinish({
-                error: null,
-                stats,
-                isWatch: true
-              })
-            }
-            resolve()
-          })
-        } else {
-          if (typeof onBuildFinish === 'function') {
-            onBuildFinish({
-              error: null,
-              stats,
-              isWatch: true
-            })
-          }
-          resolve()
-        }
-      })
+      }, callback)
     } else {
       bindProdLogger(compiler)
-      compiler.run((err, stats) => {
-        if (err) {
-          printBuildError(err)
-          if (typeof onBuildFinish === 'function') {
-            onBuildFinish({
-              error: err,
-              stats: null,
-              isWatch: false
-            })
-          }
-          return reject(err)
-        }
-        if (newConfig.prerender) {
-          if (prerender == null) {
-            prerender = new Prerender(config, webpackConfig, stats)
-          }
-          prerender.render().then(() => {
-            if (typeof onBuildFinish === 'function') {
-              onBuildFinish({
-                error: null,
-                stats,
-                isWatch: false
-              })
-            }
-            resolve()
-          })
-        } else {
-          if (typeof onBuildFinish === 'function') {
-            onBuildFinish({
-              error: null,
-              stats,
-              isWatch: false
-            })
-          }
-          resolve()
-        }
-      })
+      compiler.run(callback)
     }
   })
 }

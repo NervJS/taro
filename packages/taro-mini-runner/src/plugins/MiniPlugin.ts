@@ -72,7 +72,9 @@ export const createTarget = function createTarget (_) {
     new JsonpTemplatePlugin().apply(compiler)
     new FunctionModulePlugin(options.output).apply(compiler)
     new NodeSourcePlugin(options.node).apply(compiler)
-    new LoaderTargetPlugin('node').apply(compiler)
+    if (process.env.NODE_ENV !== 'jest') {
+      new LoaderTargetPlugin('node').apply(compiler)
+    }
   }
 }
 
