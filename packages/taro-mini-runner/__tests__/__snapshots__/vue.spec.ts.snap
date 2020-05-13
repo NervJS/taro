@@ -6500,7 +6500,10 @@ require(\\"./taro\\");
                 options: options
             };
         }
-        var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, \\"75fe2d1f\\");
+        var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
+        if (false) {
+            var api;
+        }
         component.options.__file = \\"src/pages/index/index.vue\\";
         var index = component.exports;
         var inst = Page(Object(runtime_esm[\\"createPageConfig\\"])(index, \\"pages/index/index\\"));
