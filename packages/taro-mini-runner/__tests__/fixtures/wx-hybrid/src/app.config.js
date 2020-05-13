@@ -1,8 +1,6 @@
 export default {
   pages: [
     'pages/index/index',
-    'pages/wxParse/wxParse',
-    'pages/echarts/echarts',
     'pages/native/native'
   ],
   window: {

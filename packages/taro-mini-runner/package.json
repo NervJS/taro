@@ -10,10 +10,10 @@
     "clean": "rimraf dist",
     "lint": "tslint src/**/*.ts --fix",
     "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
-    "test": "env NODE_ENV=production jest",
-    "test:dev": "env NODE_ENV=production jest --watch",
-    "test:coverage": "env NODE_ENV=production jest --coverage",
-    "updateSnapshot": "env NODE_ENV=production jest --updateSnapshot"
+    "test": "env NODE_ENV=jest jest",
+    "test:dev": "env NODE_ENV=jest jest --watch",
+    "test:coverage": "env NODE_ENV=jest jest --coverage",
+    "updateSnapshot": "env NODE_ENV=jest jest --updateSnapshot"
   },
   "repository": {
     "type": "git",

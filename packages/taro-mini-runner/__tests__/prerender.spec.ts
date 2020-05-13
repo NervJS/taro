@@ -24,7 +24,7 @@ describe('prerender', () => {
     })
   })
 
-  test.only('should prerender selected pages', async () => {
+  test('should prerender selected pages', async () => {
     const { stats, config } = await compile('prerender', {
       fileType,
       prerender: {

@@ -81,6 +81,8 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
   }
 
   const config: IBuildConfig = merge(baseConfig, {
+    mode: 'production',
+    enableSourceMap: false,
     entry: {
       app: [entryFilePath]
     },
