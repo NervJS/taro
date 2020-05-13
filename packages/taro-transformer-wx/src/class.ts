@@ -970,6 +970,7 @@ class Transformer {
           ))
         ]))
       this.classPath.node.body.body = this.classPath.node.body.body.concat(method)
+      // @ts-ignore
     } else if (t.isMemberExpression(expr) && !t.isThisExpression(expr.object)) {
       // @TODO: 新旧 props 系统在事件处理上耦合太深，快应用应用新 props 把旧 props 系统逻辑全部清楚
       this.buildAnonyMousFunc(path, attr, expr)

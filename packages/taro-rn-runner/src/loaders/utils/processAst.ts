@@ -576,7 +576,9 @@ export function processAst ({
             const parentPath = astPath.parentPath
 
             if (t.isMemberExpression(callee)) {
+              // @ts-ignore
               const object = callee.object as t.Identifier
+              // @ts-ignore
               const property = callee.property as t.Identifier
               if (object.name === taroImportDefaultName && property.name === 'render') {
                 astPath.remove()
