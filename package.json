@@ -19,7 +19,7 @@
     "release:lerna": "lerna publish --force-publish=* --exact --skip-temp-tag",
     "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
     "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
-    "test": "lerna run --scope babel-preset-taro  --scope @tarojs/components --scope @tarojs/loader --scope @tarojs/react  test"
+    "test": "lerna run --scope babel-preset-taro  --scope @tarojs/components --scope @tarojs/loader --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner test"
   },
   "repository": {
     "type": "git",
@@ -65,11 +65,15 @@
     "@types/babel-generator": "^6.25.3",
     "@types/babel-traverse": "^6.25.5",
     "@types/babel-types": "^7.0.7",
+    "@types/debug": "4.1.5",
+    "@types/fs-extra": "8.1.0",
+    "@types/hapi__joi": "16.0.12",
     "@types/jest": "^24.0.18",
     "@types/lodash": "^4.14.142",
     "@types/node": "^12.7.11",
     "@types/react": "^16.9.5",
     "@types/sinon": "^7.5.0",
+    "@types/tapable": "1.0.5",
     "@types/webpack": "^4.39.3",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
     "@typescript-eslint/parser": "^2.23.0",

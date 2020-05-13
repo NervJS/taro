@@ -23,7 +23,7 @@ module.exports = (_, options = {}) => {
     presets.push([require('@babel/preset-typescript'), config])
   }
 
-  const runtimePath = path.dirname(require.resolve('@babel/runtime/package.json'))
+  const runtimePath = process.env.NODE_ENV === 'jest' || process.env.NODE_ENV === 'test' ? false : path.dirname(require.resolve('@babel/runtime/package.json'))
   const runtimeVersion = require('@babel/runtime/package.json').version
   const {
     loose = false,

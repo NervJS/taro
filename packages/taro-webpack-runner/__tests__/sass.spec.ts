@@ -2,8 +2,20 @@ import * as path from 'path'
 import { compile, getOutput } from './utils/compiler'
 
 describe('sass', () => {
-  test('should build app with sass', async () => {
+  test('should build app with scss', async () => {
     const { stats, config } = await compile('sass')
+    const assets = stats.toJson().assets
+
+    expect(assets.length).toMatchSnapshot()
+
+    const output = getOutput(stats, config)
+    expect(output).toMatchSnapshot()
+  })
+
+  test('should build app with sass', async () => {
+    const { stats, config } = await compile('sass', {
+      sourceRoot: 'input'
+    })
     const assets = stats.toJson().assets
 
     expect(assets.length).toMatchSnapshot()

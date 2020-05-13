@@ -81,22 +81,31 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
     },
     env: {
       FRAMEWORK: customConfig.framework
+    },
+    terser: {
+      enable: true,
+      config: {
+        compress: false,
+        mangle: false,
+        output: {
+          comments: false,
+          beautify: true
+        }
+      }
     }
   }, customConfig)
 
   const newConfig: BuildConfig = await makeConfig(config)
   const webpackChain = prodConf(appPath, newConfig)
 
-  customizeChain(webpackChain, newConfig.webpackChain)
-  webpackChain.optimization.minimize(false)
+  customizeChain(webpackChain, null, newConfig.webpackChain)
   webpackChain.module
     .rule('script')
     .exclude
     .clear()
-    .add(filename => (
-      /node_modules/.test(filename) ||
-      (/taro/.test(filename) && !(/taro-webpack-runner/.test(filename)))
-    ))
+    .add(filename => {
+      return /taro-components/.test(filename) || /node_modules/.test(filename)
+    })
 
   const webpackConfig: webpack.Configuration = webpackChain.toConfig()
 

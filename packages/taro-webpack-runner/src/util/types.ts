@@ -16,4 +16,8 @@ export interface BuildConfig extends IProjectBaseConfig, IH5Config {
   isWatch: boolean;
   port?: number;
   entryFileName?: string;
+  modifyWebpackChain: Function;
+  modifyMiniConfigs: Function;
+  modifyBuildAssets: Function;
+  onBuildFinish: Function;
 }

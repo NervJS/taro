@@ -3,7 +3,11 @@ import * as path from 'path'
 import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
 import { toDashed } from '@tarojs/shared'
-import { promoteRelativePath, META_TYPE, BUILD_TYPES, taroJsComponents } from '@tarojs/runner-utils'
+import {
+  promoteRelativePath,
+  META_TYPE,
+  taroJsComponents
+} from '@tarojs/helper'
 
 import { componentConfig } from '../template/component'
 import { AddPageChunks, IComponent } from '../utils/types'
@@ -13,11 +17,11 @@ const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 
 interface IOptions {
   commonChunks: string[],
-  buildAdapter: BUILD_TYPES,
   isBuildPlugin: boolean,
   framework: string,
   addChunkPages?: AddPageChunks,
-  pages: Set<IComponent>
+  pages: Set<IComponent>,
+  isBuildQuickapp: boolean
 }
 
 interface NormalModule {
@@ -27,19 +31,19 @@ interface NormalModule {
 
 export default class TaroLoadChunksPlugin {
   commonChunks: string[]
-  buildAdapter: BUILD_TYPES
   isBuildPlugin: boolean
   framework: string
   addChunkPages?: AddPageChunks
   pages: Set<IComponent>
+  isBuildQuickapp: boolean
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
-    this.buildAdapter = options.buildAdapter
     this.isBuildPlugin = options.isBuildPlugin
     this.framework = options.framework
     this.addChunkPages = options.addChunkPages
     this.pages = options.pages
+    this.isBuildQuickapp = options.isBuildQuickapp
   }
 
   apply (compiler: webpack.Compiler) {
@@ -101,7 +105,7 @@ export default class TaroLoadChunksPlugin {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
 
-          if ((this.buildAdapter === BUILD_TYPES.QUICKAPP) &&
+          if (this.isBuildQuickapp &&
             (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
           ) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)

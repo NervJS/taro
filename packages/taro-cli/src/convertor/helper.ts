@@ -2,9 +2,14 @@ import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as t from 'babel-types'
 
-import { printLog, promoteRelativePath, resolveScriptPath } from '../util'
-
-import { processTypeEnum, REG_SCRIPT, REG_TYPESCRIPT } from '../util/constants'
+import {
+  printLog,
+  promoteRelativePath,
+  resolveScriptPath,
+  processTypeEnum,
+  REG_SCRIPT,
+  REG_TYPESCRIPT
+} from '@tarojs/helper'
 
 function getRelativePath (
   rootPath: string,

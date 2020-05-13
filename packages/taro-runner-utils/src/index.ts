@@ -5,6 +5,3 @@ export {
   getBundleContent,
   getSassLoaderOption
 }
-
-export * from './utils'
-export * from './constants'

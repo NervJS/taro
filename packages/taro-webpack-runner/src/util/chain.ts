@@ -1,4 +1,5 @@
-import { getSassLoaderOption, recursiveMerge, REG_SCRIPTS, REG_SASS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, REG_VUE } from '@tarojs/runner-utils'
+import { recursiveMerge, REG_SCRIPTS, REG_SASS_SASS, REG_SASS_SCSS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, REG_VUE } from '@tarojs/helper'
+import { getSassLoaderOption } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as sass from 'sass'
@@ -400,6 +401,16 @@ export const getModule = (appPath: string, {
   const sassLoader = getSassLoader([
     {
       sourceMap: true,
+      implementation: sass,
+      sassOptions: {
+        indentedSyntax: true
+      }
+    },
+    sassLoaderOption
+  ])
+  const scssLoader = getSassLoader([
+    {
+      sourceMap: true,
       implementation: sass
     },
     sassLoaderOption
@@ -443,8 +454,12 @@ export const getModule = (appPath: string, {
     ]
   }
   rule.sass = {
-    test: REG_SASS,
+    test: REG_SASS_SASS,
     use: [resolveUrlLoader, sassLoader]
+  }
+  rule.scss = {
+    test: REG_SASS_SCSS,
+    use: [resolveUrlLoader, scssLoader]
   }
   rule.less = {
     test: REG_LESS,
@@ -487,7 +502,7 @@ export const getModule = (appPath: string, {
   }
   rule.script = {
     test: REG_SCRIPTS,
-    exclude: [filename => /node_modules/.test(filename)],
+    exclude: [filename => /@tarojs\/components/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))],
     use: {
       babelLoader: getBabelLoader([{
         compact: false
