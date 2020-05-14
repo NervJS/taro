@@ -58,7 +58,7 @@ export default class CLI {
           break
         }
         case 'init': {
-          const projectName = _[1]
+          const projectName = _[1] || args.name
           init(kernel, {
             appPath: this.appPath,
             projectName,
