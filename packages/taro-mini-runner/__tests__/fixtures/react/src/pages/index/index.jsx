@@ -4,7 +4,9 @@ import './index.css'
 
 export default class Index extends Component {
 
-  componentWillMount () { }
+  async componentWillMount () {
+    await Promise.resolve(1)
+  }
 
   componentDidMount () { }
 
