@@ -7,7 +7,7 @@ export default (ctx) => {
   ctx.registerCommand({
     name: 'doctor',
     async fn () {
-      const { validators } = require('../../doctor')
+      const { validators } = require('../../doctor').default
       const { abilityXMLValidator } = require('../../doctor/abilityXMLValidator')
       const { appPath, configPath } = ctx.paths
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper

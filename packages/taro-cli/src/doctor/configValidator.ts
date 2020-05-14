@@ -1,4 +1,4 @@
-import * as Joi from 'joi'
+import * as Joi from '@hapi/joi'
 import * as _ from 'lodash/fp'
 import joi2desc from './joi2desc'
 import configSchema from './configSchema'
@@ -23,6 +23,6 @@ function buildReport (configPath, errors) {
 }
 
 export default async function ({ configPath, projectConfig }) {
-  const { error } = Joi.validate(projectConfig, configSchema, { abortEarly: false })
+  const { error } = configSchema.validate(projectConfig, { abortEarly: false })
   return buildReport(configPath, error)
 }

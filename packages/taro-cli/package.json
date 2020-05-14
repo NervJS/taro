@@ -40,6 +40,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+    "@hapi/joi": "17.1.1",
     "@tarojs/helper": "^2.2.4",
     "@tarojs/service": "^2.2.4",
     "@tarojs/taroize": "^2.2.4",
@@ -78,7 +79,6 @@
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
     "inquirer": "^5.2.0",
-    "joi": "^14.0.6",
     "klaw": "^3.0.0",
     "latest-version": "^4.0.0",
     "lodash": "^4.17.5",
