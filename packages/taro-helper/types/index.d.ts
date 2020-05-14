@@ -89,7 +89,7 @@ declare interface helper {
   CSS_IMPORT_REG: RegExp;
   NODE_MODULES: "node_modules";
   NODE_MODULES_REG: RegExp;
-  PROJECT_CONFIG: "config/index.js";
+  PROJECT_CONFIG: "config/index";
   DEVICE_RATIO: {
     640: number;
     750: number;

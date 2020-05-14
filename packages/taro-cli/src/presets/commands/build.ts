@@ -18,10 +18,10 @@ export default (ctx) => {
     },
     async fn (opts) {
       const { platform, config } = opts
-      const { fs, chalk, PROJECT_CONFIG } = ctx.helper
+      const { fs, chalk, PROJECT_CONFIG, resolveScriptPath } = ctx.helper
       const { outputPath, appPath } = ctx.paths
       const { isWatch, envHasBeenSet } = ctx.runOpts
-      if (!fs.existsSync(path.join(appPath, PROJECT_CONFIG))) {
+      if (!fs.existsSync(resolveScriptPath(path.join(appPath, PROJECT_CONFIG)))) {
         console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
         process.exit(1)
       }
