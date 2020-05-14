@@ -13,7 +13,7 @@ jobs:
       - name: build
         run: |
           yarn
-          yarn build:github
+          yarn build:independent
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.0.12
         with:
