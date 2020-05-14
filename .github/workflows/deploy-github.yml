@@ -1,4 +1,4 @@
-name: publish
+name: Publish build/taro to GitHub and TCB
 on:
   # When Release Pull Request is merged
   push:
@@ -17,7 +17,7 @@ jobs:
         run: |
           yarn
           yarn build:github
-      - name: Deploy 🚀
+      - name: Deploy static to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}

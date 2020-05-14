@@ -1,4 +1,4 @@
-name: publish
+name: Publish root to TCB
 on:
   # When Release Pull Request is merged
   push:
