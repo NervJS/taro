@@ -47,7 +47,7 @@ export default (ctx: IPluginContext) => {
             isWatch,
             mode: isProduction ? 'production' : 'development',
             async modifyWebpackChain (chain, webpack) {
-              ctx.applyPlugins({
+              await ctx.applyPlugins({
                 name: 'modifyWebpackChain',
                 initialVal: chain,
                 opts: {

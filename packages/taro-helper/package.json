@@ -19,7 +19,8 @@
   },
   "files": [
     "index.js",
-    "dist"
+    "dist",
+    "types"
   ],
   "keywords": [
     "taro"
