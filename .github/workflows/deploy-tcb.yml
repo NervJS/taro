@@ -1,10 +1,9 @@
-name: publish
+name: Publish root to TCB
 on:
   # When Release Pull Request is merged
-  pull_request:
-    docs:
+  push:
+    branches:
       - docs
-    types: [closed]
 
 env:
   CI: true
