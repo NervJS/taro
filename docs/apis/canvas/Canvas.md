@@ -9,6 +9,63 @@ Canvas 实例，可通过 SelectorQuery 获取。
 
 ## 方法
 
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>width</td>
+      <td><code>number</code></td>
+      <td>画布宽度</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>画布高度</td>
+    </tr>
+  </tbody>
+</table>
+
+### toDataURL
+
+返回一个包含图片展示的 data URI 。可以使用 type 参数其类型，默认为 PNG 格式。
+
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.toDataURL.html)
+
+```tsx
+(type: string, encoderOptions: number) => string
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code>string</code></td>
+    </tr>
+    <tr>
+      <td>encoderOptions</td>
+      <td><code>number</code></td>
+    </tr>
+  </tbody>
+</table>
+
+#### API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Canvas.toDataURL | ✔️ |  |  |
+
 ### cancelAnimationFrame
 
 取消由 requestAnimationFrame 添加到计划中的动画帧请求。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法。
@@ -140,6 +197,7 @@ Canvas 实例，可通过 SelectorQuery 获取。
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
+| Canvas.toDataURL | ✔️ |  |  |
 | Canvas.cancelAnimationFrame | ✔️ |  |  |
 | Canvas.createImageData | ✔️ |  |  |
 | Canvas.createImage | ✔️ |  |  |

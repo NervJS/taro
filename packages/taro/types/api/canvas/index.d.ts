@@ -223,6 +223,20 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html
    */
   interface Canvas {
+		/**
+		 * 画布宽度
+		 */
+		width: number
+		/**
+		 * 画布高度
+		 */
+		height: number
+		/**
+		 * 返回一个包含图片展示的 data URI 。可以使用 type 参数其类型，默认为 PNG 格式。
+		 * @supported weapp
+		 * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.toDataURL.html
+		 */
+		toDataURL(type: string, encoderOptions: number): string
     /** 取消由 requestAnimationFrame 添加到计划中的动画帧请求。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.cancelAnimationFrame.html
