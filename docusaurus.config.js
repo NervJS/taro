@@ -51,7 +51,7 @@ const siteConfig = {
         },
         {
           to: 'docs/README',
-          activeBasePath: `docs\/(?!api|components)`,
+          activeBasePath: `docs\/(?!api|components|next/guide)`,
           activeRegxp: true,
           label: '文档',
           position: 'left',
@@ -66,6 +66,12 @@ const siteConfig = {
           to: 'docs/apis/about/desc',
           activeBasePath: 'docs/api',
           label: 'API',
+          position: 'left',
+        },
+        {
+          to: 'docs/next/guide',
+          activeBasePath: 'docs/next/guide',
+          label: '教程',
           position: 'left',
         },
         {

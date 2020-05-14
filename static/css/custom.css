@@ -169,29 +169,38 @@ a, a:hover {
   background-size: 22px 22px;
 }
 
-.footer .footer_link .footer_link_connect {
+.footer_link_connect {
   color: #666;
 }
 
 .footer .footer_link a,
-.footer .footer_link .footer_link_wechat {
+.footer_link_wechat {
   color: #666;
 }
 
-.footer .footer_link a .wechat_qrcode_icon,
-.footer .footer_link .footer_link_wechat .wechat_qrcode_icon {
+.wechat_qrcode_icon,
+.footer_link_wechat .wechat_qrcode_icon {
   display: inline-block;
   margin-left: 5px;
   width: 18px;
   height: 18px;
 }
 
-.footer .footer_link a:hover,
-.footer .footer_link .footer_link_wechat:hover {
+.inline-svg-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 2px;
+  margin-right: 2px;
+}
+
+.footer_link a:hover,
+.footer_link_wechat:hover {
   opacity: 0.6;
 }
 
-.footer .footer_link .footer_link_wechat_img {
+.footer_link_wechat_img {
   position: absolute;
   top: -80px;
   left: 50px;
@@ -199,16 +208,20 @@ a, a:hover {
   display: none;
 }
 
-.footer .footer_link .footer_link_wechat_img img {
+.footer_link_wechat_img.inline {
+  left: 100px;
+}
+
+.footer_link_wechat_img img {
   width: 100%;
 }
 
-.footer .footer_link .footer_link_connect_wrap {
+.footer_link_connect_wrap {
   position: relative;
   cursor: pointer;
 }
 
-.footer .footer_link .footer_link_connect_wrap:hover .footer_link_wechat_img {
+.footer_link_connect_wrap:hover .footer_link_wechat_img {
   display: block;
 }
 

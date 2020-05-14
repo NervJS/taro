@@ -1,0 +1,327 @@
+---
+title: 入门教程
+---
+
+## 在我们开始之前
+
+我们将在这个教程开发一个简单的 GitHub 客户端，你将在本节教程学到 Taro 的基础知识、概念和部分优化技巧。学习这些知识并不需要事先了解 Taro、小程序开发或多端开发。当你掌握这些知识之后，你应该可以快速高效地开发多端应用。
+
+:::tip 提示
+这篇教程适合对喜欢边学边做或小程序开发完全没有了解的开发者，如果你倾向于按部就班地学习，请把 [文档](./docs/README) 的内容全部过一遍。当你看完 [文档](./docs/README) 就可以发现：本篇教程就是文档的互动式索引。
+:::
+
+这篇教程将分为四个章节：
+
+- [环境准备](./#环境准备)：当我们使用 Taro 需要安装什么东西；
+- [基础教程](./#基础教程)：Taro 的基础概念和开发指南；
+- [项目优化](./#项目优化)：当项目变大变慢时，应该如何保持或提高应用的可维护性和性能；
+- [多端开发](./#多端开发)：已经使用 Taro 开发了一端的应用，如何快速拓展到多端应用。
+
+（如果你在大屏幕浏览时）在本篇教程右边的标题目录包含了所有章节的子目录，你可以查看或导航到你感兴趣的章节。
+
+### 前置知识
+
+import { VueIcon, ReactIcon } from './guides/index'
+
+在本篇教程中我们假定你已经对 Web 前端开发和 JavaScript 有一定的了解。我们将使用 <ReactIcon /> 和 <VueIcon /> 两个框架分别实现我们的应用，在代码实例中点击 <ReactIcon /> 或 <VueIcon /> 按钮就可以切换不同的实现。如果你对两个框架都不太熟悉，可以通过 [React 文档](https://zh-hans.reactjs.org/)或 [Vue 文档](https://cn.vuejs.org/)对照代码实现。
+
+在我们的代码实现中还会使用部分 ES6 语法，你可以通过 [ES6 入门教程](https://es6.ruanyifeng.com/) 查看或学习 ES6 语法。
+
+## 环境准备
+
+目前 Taro 仅提供一种开发方式：安装 Taro 命令行工具（Taro CLI）进行开发。
+
+Taro CLI 依赖于 Node.js 环境，所以在你的机器上必须安装 Node.js 环境。安装 Node.js 环境有很多种方法，如果你完全不了解 Node.js 可以访问 [Node.js 官网](https://nodejs.org/en/) 下载一个可执行程序进行安装。我们推荐安装 LTS 版本的 Node.js（目前 LTS 版本是 v12）。
+
+当你的机器已经存在了 Node.js 环境，可以通过在终端输入命令 `npm i -g @tarojs/cli` 安装 Taro CLI。安装完毕之后，在终端输入命令 `taro`，如果出现类似内容就说明安装成功了：
+
+```bash
+👽 Taro v3.0.0-beta.6
+
+Usage: taro <command> [options]
+
+Options:
+  -V, --version       output the version number
+  -h, --help          output usage information
+
+Commands:
+  init [projectName]  Init a project with default templete
+  config <cmd>        Taro config
+  create              Create page for project
+  build               Build a project with options
+  update              Update packages of taro
+  convert             Convert weapp to taro
+  info                Diagnostics Taro env info
+  doctor              Diagnose taro project
+  help [cmd]          display help for [cmd]
+```
+
+### 编辑器
+
+我们推荐使用 [VSCode](https://code.visualstudio.com/) 或 [WebStorm](https://www.jetbrains.com/webstorm/)（或其它支持 Web 开发的 Jetbrains IDE）。
+
+当你使用 VSCode 时，推荐安装 [ESLint 插件](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)，如果你使用 TypeScript，别忘了配置 `eslint.probe` 参数。如果使用 Vue，推荐安装 [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur) 插件。
+
+如果你愿意花钱又懒得折腾可以选择 [WebStorm](https://www.jetbrains.com/webstorm/)（或其它支持 Web 开发的 Jetbrains IDE），基本不需要配置。
+
+不管使用 VSCode 还是 WebStrom，安装了上述插件之后使用 Taro 都实现自动补全和代码实时检查（linting）的功能。
+
+### 终端
+
+#### macOS/Linux
+
+在 *nix 系统中终端模拟器使用什么工具（Terminal/iTerm2/Konsole/Hyper/etc..）并不重要，但运行 Taro CLI 的 shell 我们推荐使用 `bash` 或 `zsh`。
+
+#### Windows
+
+在 Windows 中我们推荐使用内置的 `cmd` 或 `PowerShell`。如果有条件推荐安装 [WSL](https://docs.microsoft.com/zh-cn/windows/wsl/install-win10) 并使用 Linux 分发版的终端运行 Taro CLI。由于 Taro 的开发团队和 CI 都只运行或测试 *nix 系统，部分 Windows 极端情况或许没能考虑到，导致出现 Bug。
+
+### 寻求帮助
+
+import { Wechat } from './guides/index'
+
+当你在开发过程中遇到问题时，你可以扫码加入 <Wechat /> 提问，或者去 [Taro 社区](https://taro-club.jd.com/) 提问。当你确信是 Taro 有 Bug 时，请随时向 [Taro GitHub Issue](https://github.com/NervJS/taro/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) 提出你的问题。
+
+
+## 基础教程
+
+安装好 Taro CLI 之后可以通过 `taro init` 命令创建一个全新的项目，你可以根据你的项目需求填写各个选项，一个最小版本的 Taro 项目会包括以下文件：
+
+```bash
+├── babel.config.js             # Babel 配置
+├── .eslintrc.js                # ESLint 配置
+├── config                      # 编译配置目录
+│   ├── dev.js                  # 开发模式配置
+│   ├── index.js                # 默认配置
+│   └── prod.js                 # 生产模式配置
+├── package.json                # Node.js manifest
+├── dist                        # 打包目录
+├── project.config.json         # 小程序项目配置
+├── src # 源码目录
+│   ├── app.config.js           # 全局配置
+│   ├── app.css                 # 全局 CSS
+│   ├── app.js                  # 入口组件
+│   ├── index.html              # H5 入口 HTML
+│   └── pages                   # 页面组件
+│       └── index
+│           ├── index.config.js # 页面配置
+│           ├── index.css       # 页面 CSS
+│           └── index.jsx       # 页面组件，如果是 Vue 项目，此文件为 index.vue
+```
+
+我们以后将会讲解每一个文件的作用，但现在，我们先把注意力聚焦在 `src` 文件夹，也就是源码目录：
+
+### 入口组件
+
+每一个 Taro 项目都有一个入口组件和一个入口配置，我们可以在入口组件中设置全局状态/全局生命周期，一个最小化的入口组件会是这样：
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/app.js"
+import React, { Component } from 'react'
+import './app.css'
+
+class App extends Component {
+  render () {
+    // this.props.children 是将要会渲染的页面
+    return this.props.children
+  }
+}
+
+// 每一个入口组件都必须导出一个 React 组件
+export default App
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```js title="src/app.js"
+import Vue from 'vue'
+import './app.css'
+
+const App = new Vue({
+  render(h) {
+    // this.$slots.default 是将要会渲染的页面
+    return h('block', this.$slots.default)
+  }
+})
+
+export default App
+```
+
+</TabItem>
+
+</Tabs>
+
+
+每一个入口组件（例如 `app.js`）总是伴随一个全局配置文件（例如 `app.config.js`），我们可以在全局配置文件中设置页面组件的路径、全局窗口、路由等信息，一个最简单的全局配置如下：
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```js title="src/app.config.js"
+export default {
+  pages: [
+    'pages/index/index'
+  ]
+}
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+
+```js title="src/app.config.js"
+export default {
+  pages: [
+    'pages/index/index'
+  ]
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+你可能会注意到，不管是 <ReactIcon /> 还是 <VueIcon />，两者的全局配置是一样的。这是在配置文件中，Taro 并不关心框架的区别，Taro CLI 会直接在编译时在 Node.js 环境直接执行全局配置的代码，并把 `export default` 导出的对象序列化为一个 JSON 文件。接下来我们要讲到 [页面配置](./#页面配置) 也是同样的执行逻辑。
+
+因此，我们必须保证配置文件是在 Node.js 环境中是可以执行的，不能使用一些在 H5 环境或小程序环境才能运行的包或者代码，否则编译将会失败。
+
+:::info 了解更多
+Taro 的入口组件和全局配置规范是基于微信小程序而制定的，并对全平台进行统一。
+你可以通过访问 [React 入口组件](./docs/react#入口组件) 和 [Vue 入口组件](./docs/vue#入口组件)，以及 [全局配置](./docs/tutorial#全局配置) 了解入口组件和全局配置的详情。
+:::
+
+### 页面组件
+
+页面组件是每一项路由将会渲染的页面，Taro 的页面默认放在 `src/pages` 中，每一个 Taro 项目至少有一个页面组件。在我们生成的项目中有一个页面组件：`src/pages/index/index`，细心的朋友可以发现，这个路径恰巧对应的就是我们[全局配置](#全局配置)的 `pages` 字段当中的值。一个简单的页面组件如下：
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/pages/index/index.jsx"
+import { View } from '@tarojs/components'
+class Index extends Component {
+  state = {
+    msg: 'Hello World!'
+  }
+
+  onReady () {
+    console.log('onReady')
+  }
+
+  render () {
+    return <View>{ this.state.msg }</View>
+  }
+}
+
+export default Index
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="src/pages/index/index.vue"
+<template>
+  <view>
+    {{ msg }}
+  </view>
+</template>
+
+<script>
+
+export default {
+  data() {
+    return {
+      msg: 'Hello World!'
+    };
+  },
+  onReady () {
+    console.log('onReady')
+  }
+};
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+
+这不正是我们熟悉的 <ReactIcon /> 和 <VueIcon /> 组件吗！但还是有两点细微的差别：
+
+1. `onReady` 生命周期函数。这是来源于微信小程序规范的生命周期，表示组件首次渲染完毕，准备好与视图交互。Taro 在运行时将大部分小程序规范页面生命周期注入到了页面组件中，同时 React 或 Vue 自带的生命周期也是完全可以正常使用的。
+2. `View` 组件。这是来源于 `@tarojs/components` 的跨平台组件。相对于我们熟悉的 `div`、`span` 元素而言，在 Taro 中我们要全部使用这样的跨平台组件进行开发。
+
+和入口组件一样，每一个页面组件（例如 `index.vue`）也会有一个页面配置（例如 `index.config.js`），我们可以在页面配置文件中设置页面的导航栏、背景颜色等参数，一个最简单的页面配置如下：
+
+```jsx title="src/pages/index/index.config.js"
+export default {
+  navigationBarTitleText: '首页'
+}
+```
+
+:::info 了解更多
+Taro 的页面钩子函数和页面配置规范是基于微信小程序而制定的，并对全平台进行统一。
+你可以通过访问 [React 页面组件](./docs/react#页面组件) 和 [Vue 页面组件](./docs/vue#页面组件) 了解全部页面钩子函数和页面配置规范。
+
+Taro 文档的[跨平台组件库](./docs/components-desc) 包含了所有组件参数和用法。但目前组件库文档中的参数和组件名都是针对 React 的。
+对于 Vue 而言，组件名和组件参数都采用短横线风格（kebab-case）的命名方式，例如：`<picker-view indicator-class="myclass" />`
+:::
+
+### 开始开发！
+
+如果你看到这里，那不得不恭喜你，你已经理解了 Taro 中最复杂的概念：入口组件和页面组件，并了解了它们是如何（通过配置文件）交互的。接下来的内容，如果你已经熟悉了 <ReactIcon /> 或 <VueIcon /> 以及 Web 开发的话，那就太简单了：
+
+### 路由
+
+## 项目优化
+
+### 状态管理
+
+### CSS 工具
+
+### 性能优化
+
+#### 虚拟列表
+
+#### 预渲染
+
+### 打包体积
+
+## 多端开发
+
+### 各端差异
+
+### 跨平台开发
+
+### 同步调试
+
