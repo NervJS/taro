@@ -29,7 +29,7 @@ const siteConfig = {
       apiKey: '57b9948bff42bc0dbc6c219556fbae35',
       indexName: 'taro',
       algoliaOptions: {
-        facetFilters: [`version:VERSIONS`],
+        // facetFilters: [`version:VERSIONS`],
       },
     },
     prism: {
