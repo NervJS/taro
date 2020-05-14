@@ -23,6 +23,7 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: build/taro # The folder the action should deploy.
+          CLEAN: true
       - name: Deploy static to Tencent CloudBase
         id: deployStatic
         uses: TencentCloudBase/cloudbase-action@v1.1.0
