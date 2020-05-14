@@ -44,7 +44,7 @@ interface InputProps extends StandardProps, FormItemProps {
    * @default 140
    * @supported weapp, h5, rn
    */
-  maxLength?: number
+  maxlength?: number
 
   /** 指定光标与键盘的距离，单位 px 。取 input 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离
    * @default 0
