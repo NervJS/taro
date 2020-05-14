@@ -6,7 +6,7 @@ declare namespace Taro {
   function createOffscreenCanvas(): OffscreenCanvas
 
   /** 创建 canvas 的绘图上下文 [CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html) 对象
-   * 
+   *
    * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
    * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
@@ -19,7 +19,7 @@ declare namespace Taro {
   ): CanvasContext
 
   /** 把当前画布指定区域的内容导出生成指定大小的图片。在 `draw()` 回调里调用该方法才能保证图片导出成功。
-   * 
+   *
    * **Bug & Tip：**
    *
    * 1.  `tip`: 在 `draw` 回调里调用该方法才能保证图片导出成功。
@@ -251,6 +251,12 @@ declare namespace Taro {
       /** 执行的 callback */
       callback: (...args: any[]) => any,
     ): number
+
+    width: number
+
+    height: number
+
+    toDataURL(type: string, encoderOptions: number): string
   }
 
   /** canvas 组件的绘图上下文
@@ -772,7 +778,7 @@ declare namespace Taro {
       y: number,
     ): void
     /** 创建二次贝塞尔曲线路径。曲线的起始点为路径中前一个点。
-     * 
+     *
      * 针对 moveTo(20, 20) quadraticCurveTo(20, 100, 200, 20) 的三个关键坐标如下：
      *
      * - 红色：起始点(20, 20)
@@ -1715,7 +1721,7 @@ declare namespace Taro {
     /** 图片的真实宽度 */
     width: number
   }
-  
+
   /** ImageData 对象
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/ImageData.html
@@ -1736,7 +1742,7 @@ declare namespace Taro {
     /** 该方法返回 OffscreenCanvas 的绘图上下文
      *
      * ****
-     * 
+     *
      * 当前仅支持获取 WebGL 绘图上下文
      * @supported weapp
      */
