@@ -652,10 +652,10 @@
   version "1.1.3"
   resolved "https://registry.npmjs.org/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
 
-"@tarojs/taro-h5@2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro-h5/-/taro-h5-2.0.5.tgz#00ea704c9dde2c94eda11c66b1b633d162e43c51"
-  integrity sha512-o0UXRZLvOAtieVAysFOqrfy99Yz1VW3vDw7ljIDXx0M/8UOknowrBPkoyUCHT7I/RUIvmeqR6Ao5q4gO+LqatA==
+"@tarojs/taro-h5@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro-h5/-/taro-h5-2.2.4.tgz#a007fcabcb3ac66c55e4b593a92ee529df00a525"
+  integrity sha512-RkOHO5Si4fNiqLou+1CBoEvldBlzPtuEhKXFUHc3R5aCQoVs5ZmAOeJi0IKUHtXaj/HK3/gixM4UY8MfKSeupA==
   dependencies:
     base64-js "^1.3.0"
     jsonp-retry "^1.0.3"
@@ -1478,10 +1478,10 @@ babel-plugin-transform-strict-mode@^6.24.1:
     babel-runtime "^6.22.0"
     babel-types "^6.24.1"
 
-babel-plugin-transform-taroapi@2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-taroapi/-/babel-plugin-transform-taroapi-2.0.5.tgz#4e83072650729dfbf16d9cd7c4bb56bcb2f32e66"
-  integrity sha512-IaUsHOgdolMyAqIc5xn+kygObg/k27kSvEj8fNnRWSUsNPHlBUmZcZAkSXsTEuqCW/CdtioSLauCkP3eymLP+g==
+babel-plugin-transform-taroapi@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-taroapi/-/babel-plugin-transform-taroapi-2.2.4.tgz#2f42b98dfd165eac1ef807b42678014352e7d678"
+  integrity sha512-eQytPcRvmGcjxsp9Tmm8v2cxS4qZaA3JqKFxW+wgP6EMbudMS2Ggh1DQ9gux/YVEbupqjSBZtsZeYE7G59+1kA==
 
 babel-preset-es2015@^6.24.1, babel-preset-es2015@^6.9.0:
   version "6.24.1"
@@ -3385,13 +3385,14 @@ handle-thing@^2.0.0:
   resolved "https://registry.npmjs.org/handle-thing/-/handle-thing-2.0.0.tgz#0e039695ff50c93fc288557d696f3c1dc6776754"
 
 handlebars@^4.0.3:
-  version "4.5.3"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.5.3.tgz#5cf75bd8714f7605713511a56be7c349becb0482"
-  integrity sha512-3yPecJoJHK/4c6aZhSvxOyG4vJKDshV36VHp0iVCDVh7o9w2vwi3NSnL2MMPj3YdduqaBcu7cGbggJQM0br9xA==
+  version "4.7.6"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.6.tgz#d4c05c1baf90e9945f77aa68a7a219aa4a7df74e"
+  integrity sha512-1f2BACcBfiwAfStCKZNrUCgqNZkGsAT7UM3kkYtXuLo0KnaVfjKOyf7PRzB6++aK9STyT1Pd2ZCPe3EGOXleXA==
   dependencies:
+    minimist "^1.2.5"
     neo-async "^2.6.0"
-    optimist "^0.6.1"
     source-map "^0.6.1"
+    wordwrap "^1.0.0"
   optionalDependencies:
     uglify-js "^3.1.4"
 
@@ -4934,14 +4935,10 @@ minimist@0.0.8:
   version "0.0.8"
   resolved "https://registry.npmjs.org/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
-minimist@^1.1.1, minimist@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
-
-minimist@~0.0.1:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
-  integrity sha1-3j+YVD2/lggr5IrRoMfNqDYwHc8=
+minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
+  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
 minipass@^2.2.1, minipass@^2.3.4:
   version "2.3.5"
@@ -5331,14 +5328,6 @@ opn@^5.1.0:
   resolved "https://registry.npmjs.org/opn/-/opn-5.4.0.tgz#cb545e7aab78562beb11aa3bfabc7042e1761035"
   dependencies:
     is-wsl "^1.1.0"
-
-optimist@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
-  integrity sha1-2j6nRob6IaGaERwybpDrFaAZZoY=
-  dependencies:
-    minimist "~0.0.1"
-    wordwrap "~0.0.2"
 
 optionator@^0.8.1:
   version "0.8.2"
@@ -6933,12 +6922,11 @@ uglify-js@^2.8.29:
     uglify-to-browserify "~1.0.0"
 
 uglify-js@^3.1.4:
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.7.2.tgz#cb1a601e67536e9ed094a92dd1e333459643d3f9"
-  integrity sha512-uhRwZcANNWVLrxLfNFEdltoPNhECUR3lc+UdJoG9CBpMcSnKyWA94tc3eAujB1GcMY5Uwq8ZMp4qWpxWYDQmaA==
+  version "3.9.3"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.9.3.tgz#4a285d1658b8a2ebaef9e51366b3a0f7acd79ec2"
+  integrity sha512-r5ImcL6QyzQGVimQoov3aL2ZScywrOgBXGndbWrdehKoSvGe/RmiE5Jpw/v+GvxODt6l2tpBXwA7n+qZVlHBMA==
   dependencies:
     commander "~2.20.3"
-    source-map "~0.6.1"
 
 uglify-to-browserify@~1.0.0:
   version "1.0.2"
@@ -7376,14 +7364,10 @@ wordwrap@0.0.2:
   version "0.0.2"
   resolved "https://registry.npmjs.org/wordwrap/-/wordwrap-0.0.2.tgz#b79669bb42ecb409f83d583cad52ca17eaa1643f"
 
-wordwrap@~0.0.2:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
-  integrity sha1-o9XabNXAvAAI03I0u68b7WMFkQc=
-
-wordwrap@~1.0.0:
+wordwrap@^1.0.0, wordwrap@~1.0.0:
   version "1.0.0"
-  resolved "https://registry.npmjs.org/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+  resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+  integrity sha1-J1hIEIkUVqQXHI0CJkQa3pDLyus=
 
 wrap-ansi@^2.0.0:
   version "2.1.0"

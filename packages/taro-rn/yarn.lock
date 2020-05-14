@@ -1242,17 +1242,17 @@
     xcode "^2.0.0"
     xmldoc "^0.4.0"
 
-"@tarojs/taro@2.0.0-beta.13":
-  version "2.0.0-beta.13"
-  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-2.0.0-beta.13.tgz?cache=0&sync_timestamp=1577772870840&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Ftaro%2Fdownload%2F%40tarojs%2Ftaro-2.0.0-beta.13.tgz#6537b4263a27641fa51e8f98673f9ea48919af01"
-  integrity sha1-ZTe0JjonZB+lHo+YZz+epIkZrwE=
+"@tarojs/taro@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.2.4.tgz#8981d6be89d58d351f55951aed6619e09a8a243d"
+  integrity sha512-hpClP8itQkb3Ue+SyMf9+eH0PbnakEkBb1oZZAr/dTHLFh1XvCWIPTMIfAkY2WSpBRJH4hAobK1S2/94/e7Pkg==
   dependencies:
-    "@tarojs/utils" "2.0.0-beta.13"
+    "@tarojs/utils" "^2.2.4"
 
-"@tarojs/utils@2.0.0-beta.13":
-  version "2.0.0-beta.13"
-  resolved "https://registry.npm.taobao.org/@tarojs/utils/download/@tarojs/utils-2.0.0-beta.13.tgz?cache=0&sync_timestamp=1577772253852&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Futils%2Fdownload%2F%40tarojs%2Futils-2.0.0-beta.13.tgz#a3b9b4a36ab71ac4e2a3fddd96f4fb006862ea62"
-  integrity sha1-o7m0o2q3GsTio/3dlvT7AGhi6mI=
+"@tarojs/utils@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.2.4.tgz#9a4b57b0fc5c9b850f96f97501d3b3442642466a"
+  integrity sha512-Nt4Zvb+S6XTEPsy/wrX+3Xtj7zi2fN3djQuBAyI5ITjgQ+DqRGnxE3TY4d7xamWcTtePC5Y1RepIlgbJfs+WDA==
 
 "@types/babel-types@^7.0.7":
   version "7.0.7"
@@ -3986,13 +3986,14 @@ gulplog@^1.0.0:
     glogg "^1.0.0"
 
 handlebars@^4.0.3:
-  version "4.5.3"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.5.3.tgz#5cf75bd8714f7605713511a56be7c349becb0482"
-  integrity sha512-3yPecJoJHK/4c6aZhSvxOyG4vJKDshV36VHp0iVCDVh7o9w2vwi3NSnL2MMPj3YdduqaBcu7cGbggJQM0br9xA==
+  version "4.7.6"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.6.tgz#d4c05c1baf90e9945f77aa68a7a219aa4a7df74e"
+  integrity sha512-1f2BACcBfiwAfStCKZNrUCgqNZkGsAT7UM3kkYtXuLo0KnaVfjKOyf7PRzB6++aK9STyT1Pd2ZCPe3EGOXleXA==
   dependencies:
+    minimist "^1.2.5"
     neo-async "^2.6.0"
-    optimist "^0.6.1"
     source-map "^0.6.1"
+    wordwrap "^1.0.0"
   optionalDependencies:
     uglify-js "^3.1.4"
 
@@ -5994,10 +5995,10 @@ minimist@0.0.8:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
   integrity sha1-hX/Kv8M5fSYluCKCYuhqp6ARsF0=
 
-minimist@^1.1.1, minimist@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
-  integrity sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=
+minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
+  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
 minimist@~0.0.1:
   version "0.0.10"
@@ -8439,12 +8440,11 @@ uglify-es@^3.1.9:
     source-map "~0.6.1"
 
 uglify-js@^3.1.4:
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.7.2.tgz#cb1a601e67536e9ed094a92dd1e333459643d3f9"
-  integrity sha512-uhRwZcANNWVLrxLfNFEdltoPNhECUR3lc+UdJoG9CBpMcSnKyWA94tc3eAujB1GcMY5Uwq8ZMp4qWpxWYDQmaA==
+  version "3.9.3"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.9.3.tgz#4a285d1658b8a2ebaef9e51366b3a0f7acd79ec2"
+  integrity sha512-r5ImcL6QyzQGVimQoov3aL2ZScywrOgBXGndbWrdehKoSvGe/RmiE5Jpw/v+GvxODt6l2tpBXwA7n+qZVlHBMA==
   dependencies:
     commander "~2.20.3"
-    source-map "~0.6.1"
 
 ultron@1.0.x:
   version "1.0.2"
