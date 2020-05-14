@@ -45,7 +45,7 @@ export declare const REG_URL: RegExp;
 export declare const CSS_IMPORT_REG: RegExp;
 export declare const NODE_MODULES = "node_modules";
 export declare const NODE_MODULES_REG: RegExp;
-export declare const PROJECT_CONFIG = "config/index.js";
+export declare const PROJECT_CONFIG = "config/index";
 export declare const DEVICE_RATIO: {
   640: number;
   750: number;

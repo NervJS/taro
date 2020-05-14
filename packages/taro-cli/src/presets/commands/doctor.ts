@@ -12,7 +12,7 @@ export default (ctx) => {
       const { appPath, configPath } = ctx.paths
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
 
-      if (!configPath ||!fs.existsSync(configPath)) {
+      if (!configPath || !fs.existsSync(configPath)) {
         console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
         process.exit(1)
       }

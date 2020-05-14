@@ -1,4 +1,3 @@
-import * as Joi from '@hapi/joi'
 import * as _ from 'lodash/fp'
 import joi2desc from './joi2desc'
 import configSchema from './configSchema'
