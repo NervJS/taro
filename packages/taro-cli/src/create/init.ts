@@ -118,7 +118,9 @@ function createFiles (
 
     // 创建
     creater.template(template, fileRePath, path.join(projectPath, destRePath), config)
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${path.join(projectName, destRePath)}`)}`)
+
+    const destinationPath = creater.destinationPath(path.join(projectPath, destRePath))
+    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${path.join(projectName, destinationPath)}`)}`)
   })
   return logs
 }
@@ -154,25 +156,11 @@ export async function createPage (creater: Creator, params: IPageConf, cb) {
 }
 
 export async function createApp (creater: Creator, params: IProjectConf, cb) {
-  const { projectName, projectDir, template, env, autoInstall = true, framework } = params
+  const { projectName, projectDir, template, autoInstall = true, framework } = params
   const logs: string[] = []
   // path
   const templatePath = creater.templatePath(template)
   const projectPath = path.join(projectDir, projectName)
-
-  // default 模板发布 npm 会滤掉 '.' 开头的文件，因此改为 '_' 开头，这里先改回来。
-  if (env !== 'test' && template === 'default') {
-    const files = await fs.readdir(templatePath)
-    const renames = files.map(file => {
-      const filePath = path.join(templatePath, file)
-      if (fs.statSync(filePath).isFile() && file.startsWith('_')) {
-        return fs.rename(filePath, path.join(templatePath, file.replace(/^_/, '.')))
-      }
-      return Promise.resolve()
-    })
-
-    await Promise.all(renames)
-  }
 
   // npm & yarn
   const version = getPkgVersion()
