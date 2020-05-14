@@ -1,10 +1,9 @@
-name: publish
+name: Publish build/taro to GitHub and TCB
 on:
   # When Release Pull Request is merged
-  pull_request:
+  push:
     branches:
       - docs
-    types: [closed]
 
 env:
   CI: true
@@ -12,13 +11,18 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-18.04
-    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
       - name: build
         run: |
           yarn
           yarn build:github
+      - name: Deploy static to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: build/taro # The folder the action should deploy.
       - name: Deploy static to Tencent CloudBase
         id: deployStatic
         uses: TencentCloudBase/cloudbase-action@v1.1.0
@@ -26,4 +30,4 @@ jobs:
           secretId: ${{ secrets.TCB_SECRET_ID }}
           secretKey: ${{ secrets.TCB_SECRET_KEY }}
           envId: ${{ secrets.TCB_TARO_DOCS_ENV_ID }}
-          staticSrcPath: build
+          staticSrcPath: build/taro
