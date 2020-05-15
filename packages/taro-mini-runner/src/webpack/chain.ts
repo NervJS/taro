@@ -38,6 +38,28 @@ import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
 import defaultTerserOptions from '../config/terserOptions'
 
+interface IRule {
+  test?: any
+  exclude?: any[]
+  include?: any[]
+  use?: any
+  enforce?: 'pre' | 'post'
+  issuer?: any
+  loader?: any
+  loaders?: any
+  oneOf?: any
+  options?: any
+  query?: any
+  parser?: any
+  generator?: any
+  resource?: any
+  resourceQuery?: any
+  rules?: any
+  sideEffects?: boolean
+  type?: string
+  resolve?: any
+}
+
 export const makeConfig = async (buildConfig: IBuildConfig) => {
   const sassLoaderOption = await getSassLoaderOption(buildConfig)
   return {
@@ -310,7 +332,29 @@ export const getModule = (appPath: string, {
     return cssLoadersCopy
   }
 
-  const rule: any = {
+  const scriptRule: IRule = {
+    test: REG_SCRIPTS,
+    use: {
+      babelLoader: getBabelLoader([])
+    }
+  }
+
+  if (compile.exclude && compile.exclude.length) {
+    scriptRule.exclude = [
+      ...compile.exclude,
+      filename => /node_modules/.test(filename) && !(/taro/.test(filename))
+    ]
+  } else if (compile.include && compile.include.length) {
+    scriptRule.include = [
+      ...compile.include,
+      sourceDir,
+      filename => /taro/.test(filename)
+    ]
+  } else {
+    scriptRule.exclude = [filename => /node_modules/.test(filename) && !(/taro/.test(filename))]
+  }
+
+  const rule: Record<string, IRule> = {
     sass: {
       test: REG_SASS_SASS,
       oneOf: addCssLoader(cssLoaders, sassLoader)
@@ -366,14 +410,7 @@ export const getModule = (appPath: string, {
         }])
       }
     },
-    script: {
-      test: REG_SCRIPTS,
-      exclude: compile.exclude && compile.exclude.length ? compile.exclude : [filename => /node_modules/.test(filename) && !(/taro/.test(filename))],
-      include: compile.include && compile.include.length ? compile.include : [],
-      use: {
-        babelLoader: getBabelLoader([])
-      }
-    },
+    script: scriptRule,
     template: {
       test: REG_TEMPLATE,
       use: [getFileLoader([{
