@@ -70,6 +70,7 @@ export default class Config {
       defineConstants: initialConfig.defineConstants,
       designWidth: initialConfig.designWidth,
       deviceRatio: initialConfig.deviceRatio,
+      terser: initialConfig.terser,
       ...initialConfig[useConfigName]
     }
   }
