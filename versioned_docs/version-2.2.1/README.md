@@ -2,7 +2,7 @@
 title: Taro 介绍
 ---
 
-> 这是 Taro 2.x 版本的文档，若要查看 1.x 版本的文档，请[点击这里选择版本](/taro/versions.md)。
+> 这是 Taro 2.x 版本的文档，若要查看 1.x 版本的文档，请[点击这里选择版本](/taro/versions)。
 
 ## 简介
 
@@ -146,4 +146,4 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 扫码添加 `凹凸实验室-小助手` ，回复 `Taro` 即可进群。（Taro 开发交流 15 群 已满）
 
-![image](https://storage.jd.com/taro-resource/qrcode-into-wechat.png)
+![image](http://storage.jd.com/taro-resource/qrcode-into-wechat.png)
