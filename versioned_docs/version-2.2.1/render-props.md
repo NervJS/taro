@@ -3,7 +3,6 @@ title: Render Props
 ---
 
 > 自 1.3.5 起支持
-
 `render props` 是指一种在 Taro 组件之间使用一个值为函数的 prop 共享代码的简单技术。
 
 具有 render prop 的组件接受一个函数，该函数返回一个 Taro 元素并调用它而不是实现自己的渲染逻辑。
@@ -23,7 +22,6 @@ class Cat extends Taro.Component {
       y: 0
     }
   }
-
   render() {
     const { mouse } = this.props;
     return (
@@ -31,7 +29,6 @@ class Cat extends Taro.Component {
     );
   }
 }
-
 // mouse.js
 class Mouse extends Taro.Component {
   constructor(props) {
@@ -39,7 +36,6 @@ class Mouse extends Taro.Component {
     this.handleMouseMove = this.handleClick.bind(this);
     this.state = { x: 0, y: 0 };
   }
-
   handleClick(event) {
     const { x, y }  = event.detail
     this.setState({
@@ -47,11 +43,9 @@ class Mouse extends Taro.Component {
       y
     });
   }
-
   render() {
     return (
       <View style={{ height: '100%' }} onClick={this.handleClick}>
-
         {/*
           我们可以把 prop 当成一个函数，动态地调整渲染内容。
         */}
@@ -60,7 +54,6 @@ class Mouse extends Taro.Component {
     );
   }
 }
-
 // MouseTracker.js
 class MouseTracker extends Taro.Component {
   render() {
