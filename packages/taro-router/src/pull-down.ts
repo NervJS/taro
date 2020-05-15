@@ -4,6 +4,7 @@ import type Vue from 'vue'
 // eslint-disable-next-line import/no-duplicates
 import type { ComponentOptions } from 'vue'
 import { injectPageInstance } from '@tarojs/runtime'
+import { isFunction } from '@tarojs/shared'
 
 export type R = typeof React
 export type V = typeof Vue
@@ -20,8 +21,17 @@ export const createPullDownRefresh = (
 }
 
 const createReactPullDown = (el, R: R) => {
+  const isReactComponent = isFunction(el.render) ||
+    !!el.prototype?.isReactComponent ||
+    el.prototype instanceof R.Component // compat for some others react-like library
+
   return R.forwardRef((props, ref) => {
-    return R.createElement('taro-pull-to-refresh', null, R.createElement(el, { ...props, ref }))
+    const newProps: React.Props<any> = { ...props }
+    if (isReactComponent) {
+      newProps.ref = ref
+    }
+
+    return R.createElement('taro-pull-to-refresh', null, R.createElement(el, newProps))
   })
 }
 
