@@ -1,7 +1,7 @@
 <template>
   <swiper
     class="taro_swiper {{class}}"
-    style="{{swiperstyle}}"
+    style="{{swiperStyle}}"
     id="{{id}}"
     autoplay="{{autoplay}}"
     index="{{current}}"
