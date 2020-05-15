@@ -131,13 +131,6 @@ Taro 方案的初心就是为了打造一个多端开发的解决方案。目前
 
 <div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg?v=2"/></div>
 
-## 更多功能
-如果你还想 Taro 支持新的特性，请使用 [FeatHub](https://feathub.com/NervJS/taro) 进行投票，我们将综合考虑投票结果等因素来确定开发的优先级。
-
-[![Feature Requests](https://cloud.githubusercontent.com/assets/390379/10127973/045b3a96-6560-11e5-9b20-31a2032956b2.png)](http://feathub.com/NervJS/taro)
-
-[![Feature Requests](http://feathub.com/NervJS/taro?format=svg)](http://feathub.com/NervJS/taro)
-
 ## 🤝 参与共建 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 请参考[贡献指南](https://nervjs.github.io/taro/docs/CONTRIBUTING.html).
