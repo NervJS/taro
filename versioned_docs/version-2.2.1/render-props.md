@@ -1,7 +1,5 @@
 ---
 title: Render Props
-id: version-2.2.0-render-props
-original_id: render-props
 ---
 
 > 自 1.3.5 起支持
