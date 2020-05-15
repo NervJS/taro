@@ -3,7 +3,6 @@ title: 插件功能
 ---
 
 > 自 2.2 开始，Taro 引入了插件化机制，允许开发者通过编写插件的方式来为 Taro 拓展更多功能或者为自身业务定制个性化功能
-
 ## 官方插件
 
 Taro 提供了一些官方插件
@@ -150,7 +149,6 @@ export default (ctx) => {
 使用 API `ctx.registerPlatform`，Taro 中内置的平台支持都是通过这个 API 来进行实现。
 
 > 注意：这是未完工的功能，需要依赖代码编译器 `@tarojs/transform-wx` 的改造完成
-
 ## API
 
 通过以上内容，我们已经大致知道 Taro 插件可以实现哪些特性并且可以编写一个简单的 Taro 插件了，但是，为了能够编写更加复杂且标准的插件，我们需要了解 Taro 插件机制中的具体 API 用法。
@@ -235,7 +233,6 @@ interface IHook {
 主要调用方式：
 
 ```typescript
-
 ctx.registerMethod('methodName')
 ctx.registerMethod('methodName', () => {
   // callback
@@ -303,7 +300,6 @@ ctx.registerCommand({
         projectDir: appPath,
         description
       })
-
       page.create()
     }
   }
@@ -339,7 +335,6 @@ ctx.registerPlatform({
     const { appPath, nodeModulesPath, outputPath } = ctx.paths
     const { npm, emptyDirectory } = ctx.helper
     emptyDirectory(outputPath)
-
     // 准备 miniRunner 参数
     const miniRunnerOpts = {
       ...config,
@@ -348,14 +343,13 @@ ctx.registerPlatform({
       isBuildPlugin: false,
       globalObject: 'my',
       fileType: {
-        templ: '.axml',
+        templ: '.awml',
         style: '.acss',
         config: '.json',
         script: '.js'
       },
       isUseComponentBuildPage: false
     }
-
     ctx.modifyBuildTempFileContent(({ tempFiles }) => {
       const replaceKeyMap = {
         navigationBarTitleText: 'defaultTitle',
@@ -374,7 +368,6 @@ ctx.registerPlatform({
         }
       })
     })
-
     // build with webpack
     const miniRunner = await npm.getNpmPkg('@tarojs/mini-runner', appPath)
     await miniRunner(appPath, miniRunnerOpts)
@@ -394,7 +387,6 @@ ctx.registerPlatform({
 
 ```typescript
 ctx.applyPlugins('onStart')
-
 const assets = await ctx.applyPlugins({
   name: 'modifyBuildAssets',
   initialVal: assets,
