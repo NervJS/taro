@@ -4,7 +4,7 @@ import { analyzeFiles, analyzeStyleFilesImport, copyFileToDist, RN_OUTPUT_NAME, 
 import { printLog, resolveScriptPath } from '../util'
 import * as fs from 'fs-extra'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
+import { processTypeEnum, REG_TYPESCRIPT, BUILD_TYPES } from '../util/constants'
 import { Compiler as RNCompiler } from '../rn'
 import chalk from 'chalk'
 
@@ -19,6 +19,7 @@ export async function buildForRN (uiIndex = 'index', buildData) {
 
 export async function buildRNLib (uiIndex, buildData: IBuildData) {
   try {
+    process.env.TARO_ENV = BUILD_TYPES.RN;
     const { appPath, outputDirName, rnTempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, RN_OUTPUT_NAME)
     const tempEntryFilePath = resolveScriptPath(path.join(rnTempPath, uiIndex))

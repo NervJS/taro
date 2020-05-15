@@ -8,12 +8,28 @@ import * as fs from 'fs-extra'
 import { parseAst } from '../mini/astProcess'
 import { IBuildData } from './ui.types'
 import { cssImports, printLog, resolveScriptPath, resolveStylePath, isNpmPkg } from '../util'
-import { PARSE_AST_TYPE, processTypeEnum, REG_STYLE, REG_TYPESCRIPT, CSS_EXT } from '../util/constants'
+import { PARSE_AST_TYPE, processTypeEnum, REG_STYLE, REG_TYPESCRIPT, CSS_EXT, BUILD_TYPES } from '../util/constants'
 import { IComponentObj } from '../mini/interface'
 
 let processedScriptFiles: Set<string> = new Set()
 
-export const WEAPP_OUTPUT_NAME = 'weapp'
+export const MINI_OUTPUT_NAME_LIST = {
+  [BUILD_TYPES.WEAPP]: 'weapp',
+  [BUILD_TYPES.SWAN]: 'swan',
+  [BUILD_TYPES.ALIPAY]: 'alipay',
+  [BUILD_TYPES.TT]: 'tt',
+  [BUILD_TYPES.QQ]: 'qq',
+  [BUILD_TYPES.JD]: 'jd'
+}
+
+export const MINI_UI_LIST = [
+  BUILD_TYPES.WEAPP,
+  BUILD_TYPES.ALIPAY,
+  BUILD_TYPES.QQ,
+  BUILD_TYPES.TT,
+  BUILD_TYPES.SWAN,
+  BUILD_TYPES.JD
+]
 export const QUICKAPP_OUTPUT_NAME = 'quickappp'
 export const H5_OUTPUT_NAME = 'h5'
 export const RN_OUTPUT_NAME = 'rn'
@@ -42,7 +58,13 @@ export function parseEntryAst (ast: t.File, relativeFile: string) {
       } else {
         specifiers.forEach(specifier => {
           const exported = specifier.exported
-          importExportName.push(exported.name)
+          const local = specifier.local;
+
+          if (exported.name == local.name) { // export { aa }
+              importExportName.push(exported.name);
+          } else { // export { aa as bb }
+              importExportName.push(local.name)
+          }
         })
       }
     },
@@ -120,21 +142,30 @@ export function isFileToBeCSSModulesMap (filePath) {
   return isMap
 }
 
+export function getDistPath (filePath: string, sourceDir: string, outputDir: string): { distDirname: string, distFilePath: string } {
+  const dirname = path.dirname(filePath)
+  const distDirname = dirname.replace(sourceDir, outputDir)
+
+  return {
+    distDirname,
+    distFilePath: path.format({
+      dir: distDirname,
+      base: path.basename(filePath)
+    })
+  }
+}
+
 export function copyFileToDist (filePath: string, sourceDir: string, outputDir: string, buildData: IBuildData) {
   if ((!filePath && !path.isAbsolute(filePath)) || isFileToBeCSSModulesMap(filePath)) {
     return
   }
 
   const { appPath } = buildData
-  const dirname = path.dirname(filePath)
-  const distDirname = dirname.replace(sourceDir, outputDir)
+  const { distDirname, distFilePath } = getDistPath(filePath, sourceDir, outputDir)
   const relativePath = path.relative(appPath, filePath)
   printLog(processTypeEnum.COPY, '发现文件', relativePath)
   fs.ensureDirSync(distDirname)
-  fs.copyFileSync(filePath, path.format({
-    dir: distDirname,
-    base: path.basename(filePath)
-  }))
+  fs.copyFileSync(filePath, distFilePath)
 }
 
 export function analyzeFiles (files: string[], sourceDir: string, outputDir: string, buildData: IBuildData) {

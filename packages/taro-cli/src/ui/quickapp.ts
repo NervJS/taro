@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
+import { processTypeEnum, REG_TYPESCRIPT, BUILD_TYPES } from '../util/constants'
 import * as wxTransformer from '@tarojs/transformer-wx'
 import { compileDepStyles } from '../mini/compileStyle'
 import { printLog } from '../util'
@@ -10,6 +10,7 @@ import { analyzeFiles, parseEntryAst, QUICKAPP_OUTPUT_NAME, copyFileToDist, copy
 import { IBuildData } from './ui.types'
 
 export async function buildForQuickapp (buildData: IBuildData) {
+  process.env.TARO_ENV = BUILD_TYPES.QUICKAPP;
   const { appPath, entryFilePath, outputDirName, entryFileName, sourceDir } = buildData
   console.log()
   console.log(chalk.green('开始编译快应用端组件库！'))
