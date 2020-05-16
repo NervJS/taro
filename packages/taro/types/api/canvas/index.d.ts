@@ -48,8 +48,8 @@ declare namespace Taro {
   ): Promise<canvasToTempFilePath.SuccessCallbackResult>
   namespace canvasToTempFilePath {
     interface Option {
-      /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 */
-      canvas?: CanvasProps
+      /** 画布标识，传入 [canvas实例](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html) （canvas type="2d" 时使用该属性）。 */
+      canvas?: Canvas
       /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id */
       canvasId: string
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
@@ -223,6 +223,18 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html
    */
   interface Canvas {
+    /**
+     * 画布宽度
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html
+     */
+    width: number
+    /**
+     * 画布高度
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html
+     */
+    height: number
     /** 取消由 requestAnimationFrame 添加到计划中的动画帧请求。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.cancelAnimationFrame.html
@@ -251,6 +263,18 @@ declare namespace Taro {
       /** 执行的 callback */
       callback: (...args: any[]) => any,
     ): number
+    /**
+     * 返回一个包含图片展示的 data URI
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.toDataURL.html
+     */
+    toDataURL(type: string, encoderOptions: number): string
+    /**
+     * 创建 Path2D 对象
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.createPath2D.html
+     */
+    createPath2D(path: Path2D): Path2D
   }
 
   /** canvas 组件的绘图上下文
