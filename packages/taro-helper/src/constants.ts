@@ -109,7 +109,7 @@ export const CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 export const NODE_MODULES = 'node_modules'
 export const NODE_MODULES_REG = /(.*)node_modules/
 
-export const PROJECT_CONFIG = 'config/index.js'
+export const PROJECT_CONFIG = 'config/index'
 
 export const DEVICE_RATIO = {
   640: 2.34 / 2,
