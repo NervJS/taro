@@ -39,17 +39,17 @@ export default class Config {
     } else {
       createBabelRegister({
         only: [
-            filePath => filePath.indexOf(path.join(this.appPath, CONFIG_DIR_NAME)) >= 0
-          ]
-        })
-        try {
-          this.initialConfig = getModuleDefaultExport(require(this.configPath))(merge)
-          this.isInitSuccess = true
-        } catch (err) {
-          this.initialConfig = {}
-          this.isInitSuccess = false
-          console.log(err)
-        }
+          filePath => filePath.indexOf(path.join(this.appPath, CONFIG_DIR_NAME)) >= 0
+        ]
+      })
+      try {
+        this.initialConfig = getModuleDefaultExport(require(this.configPath))(merge)
+        this.isInitSuccess = true
+      } catch (err) {
+        this.initialConfig = {}
+        this.isInitSuccess = false
+        console.log(err)
+      }
     }
   }
 
