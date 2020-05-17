@@ -1,6 +1,6 @@
-import * as path from 'path'
-
 import { IPluginContext } from '@tarojs/service'
+
+import configValidator from '../../doctor/configValidator'
 
 export default (ctx: IPluginContext) => {
   registerBuildHooks(ctx)
@@ -21,11 +21,31 @@ export default (ctx: IPluginContext) => {
     async fn (opts) {
       const { platform, config } = opts
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
-      const { outputPath, appPath } = ctx.paths
+      const { outputPath, configPath } = ctx.paths
       const { isWatch, envHasBeenSet } = ctx.runOpts
-      if (!fs.existsSync(path.join(appPath, PROJECT_CONFIG))) {
+      if (!configPath || !fs.existsSync(configPath)) {
         console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
         process.exit(1)
+      }
+      const checkResult = await checkConfig({
+        configPath,
+        projectConfig: ctx.initialConfig
+      })
+      if (checkResult.lines.length) {
+        const NOTE_VALID = chalk.yellow('[!] ')
+        const NOTE_INVALID = chalk.red('[✗] ')
+
+        const lineChalk = chalk.hex('#fff')
+        const errorChalk = chalk.hex('#f00')
+        console.log(errorChalk(`Taro 配置有误，请检查！ (${configPath})`))
+        checkResult.lines.forEach(line => {
+          console.log(
+            '  ' +
+            (line.valid ? NOTE_VALID : NOTE_INVALID) +
+            lineChalk(line.desc)
+          )
+        })
+        return
       }
       if (typeof platform !== 'string') {
         console.log(chalk.red('请传入正确的编译类型！'))
@@ -101,4 +121,12 @@ function registerBuildHooks (ctx) {
   ].forEach(methodName => {
     ctx.registerMethod(methodName)
   })
+}
+
+async function checkConfig ({ projectConfig, configPath }) {
+  const result = await configValidator({
+    configPath,
+    projectConfig
+  })
+  return result
 }
