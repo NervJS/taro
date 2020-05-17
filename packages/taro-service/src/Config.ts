@@ -51,7 +51,6 @@ export default class Config {
         this.isInitSuccess = false
         console.log(err)
       }
-      console.log(this.initialConfig)
     }
   }
 
