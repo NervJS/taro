@@ -3,30 +3,19 @@ title: Text
 sidebar_label: Text
 ---
 
-##### 文本
+文本
 
-> 属性
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/text.html)
 
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| selectable | Boolean | false  | 文本是否可选 |
-| space      | Boolean | false  | 显示连续空格 |
-| decode     | Boolean | false  | 是否解码     |
+## 类型
 
->各端支持度
+```tsx
+ComponentType<TextProps>
+```
 
-| 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
-| :-: | :-: | :-: | :- | :- | :- | :- |
-| selectable | ✔ | ✔ |  ✔| ✔ | ✔ | ✔ |
-| space | ✔ |  |  | ✔ |  | ✔ |
-| decode | ✔ |  |  |  |  | ✔ |
+## 示例代码
 
-
-###### 示例：
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Button } from '@tarojs/components'
-
+```tsx
 export default class PageView extends Component {
   state = {
     contents: [],
@@ -68,3 +57,81 @@ export default class PageView extends Component {
   }
 }
 ```
+
+## TextProps
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style={{ textAlign: "center"}}>默认值</th>
+      <th style={{ textAlign: "center"}}>必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>selectable</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>文本是否可选</td>
+    </tr>
+    <tr>
+      <td>space</td>
+      <td><code>&quot;ensp&quot; | &quot;emsp&quot; | &quot;nbsp&quot;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>显示连续空格</td>
+    </tr>
+    <tr>
+      <td>decode</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>是否解码</td>
+    </tr>
+  </tbody>
+</table>
+
+### API 支持度
+
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| TextProps.selectable | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| TextProps.space | ✔️ | ✔️ |  | ✔️ |  |  |
+| TextProps.decode | ✔️ |  |  | ✔️ |  |  |
+
+### TSpace
+
+space 的合法值
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ensp</td>
+      <td>中文字符空格一半大小</td>
+    </tr>
+    <tr>
+      <td>emsp</td>
+      <td>中文字符空格大小</td>
+    </tr>
+    <tr>
+      <td>nbsp</td>
+      <td>根据字体设置的空格大小</td>
+    </tr>
+  </tbody>
+</table>
+
+## API 支持度
+
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Text | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

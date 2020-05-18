@@ -1,41 +1,107 @@
 ---
-title: Taro.getStorageInfo(OBJECT)
+title: Taro.getStorageInfo(option)
 sidebar_label: getStorageInfo
 ---
 
+异步获取当前storage的相关信息
 
-异步获取当前 storage 的相关信息，支持 `Promise` 化使用。
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfo.html)
 
-**OBJECT 参数说明：**
+## 类型
 
-| 参数 | 类型 | 必填 | 说明 |
-| :-- | :-- | :-- | :-- |
-| success | Function | 否 | 接口调用成功的回调函数，详见返回参数说明 |
-| fail | Function | 否 | 接口调用失败的回调函数 |
-| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+```tsx
+(option?: Option) => Promise<CallbackResult>
+```
 
-**success 返回参数说明：**
+## 参数
 
-| 参数 | 类型 | 说明 |
-| :-- | :-- | :-- |
-| keys | String Array | 当前 storage 中所有的 key |
+### Option
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style={{ textAlign: "center"}}>必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(option: SuccessCallbackOption) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
+
+### SuccessCallbackOption
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>currentSize</td>
+      <td><code>number</code></td>
+      <td>当前占用的空间大小, 单位 KB</td>
+    </tr>
+    <tr>
+      <td>keys</td>
+      <td><code>string[]</code></td>
+      <td>当前 storage 中所有的 key</td>
+    </tr>
+    <tr>
+      <td>limitSize</td>
+      <td><code>number</code></td>
+      <td>限制的空间大小，单位 KB</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 
-```jsx
-import Taro from '@tarojs/taro'
-
-Taro.getStorageInfo()
-  .then(res => console.log(res.keys))
+```tsx
+Taro.getStorageInfo({
+  success: function (res) {
+    console.log(res.keys)
+    console.log(res.currentSize)
+    console.log(res.limitSize)
+  }
+})
 ```
 
+```tsx
+try {
+  const res = Taro.getStorageInfoSync()
+  console.log(res.keys)
+  console.log(res.currentSize)
+  console.log(res.limitSize)
+} catch (e) {
+  // Do something when catch error
+}
+```
 
-
-## API支持度
-
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
+| :---: | :---: | :---: | :---: |
 | Taro.getStorageInfo | ✔️ | ✔️ | ✔️ |
-| Taro.getStorageInfoSync | ✔️ | ✔️ |  |
-

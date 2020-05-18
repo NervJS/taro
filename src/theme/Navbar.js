@@ -32,7 +32,12 @@ function useVersion() {
 
   const defaultVersion = versions[0]
   const location = useLocation()
-  const currentVersion = versions.find(v => location.pathname.includes(v))
+  let currentVersion = versions.find(v => {
+    return location.pathname.includes(v)
+  })
+  if (location.pathname.includes('/docs/next')) {
+    currentVersion = 'next'
+  }
 
   return [defaultVersion, currentVersion ?? defaultVersion]
 }
@@ -40,7 +45,7 @@ function useVersion() {
 function NavLink({ activeBasePath, activeRegxp, to, href, label, position, ...props }) {
   const [defaultVersion, currentVersion] = useVersion()
   if (defaultVersion !== currentVersion && props.version) {
-    label = 'v' + currentVersion
+    label = (currentVersion === 'next' ? '' : 'v')+ currentVersion
   }
   const isDocs = to && to.startsWith('docs/')
   if (isDocs && defaultVersion !== currentVersion) {
@@ -53,7 +58,7 @@ function NavLink({ activeBasePath, activeRegxp, to, href, label, position, ...pr
 
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
-
+  // console.log(toUrl)
   return (
     <Link
       {...(href

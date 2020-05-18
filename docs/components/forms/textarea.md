@@ -3,48 +3,19 @@ title: Textarea
 sidebar_label: Textarea
 ---
 
-##### 多行输入框
+多行输入框。该组件是原生组件，使用时请注意相关限制
 
-> 属性及支持度
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/textarea.html)
 
-| H5 | ReactNative| 属性名 | 类型 | 默认值 | 说明 |
-| :-: | :-: | :- | :- | :- | :- |
-| √ | √ | value             | String      |  | 输入框的内容         |
-| √ | √ | placeholder       | String      |  | 输入框为空时占位符|
-|   | x | placeholderStyle | String      |  | 指定 placeholder 的样式  |
-|   | x | placeholderClass | String      | textarea-placeholder | 指定 placeholder 的样式类|
-| √ | √ | disabled          | Boolean     | false  | 是否禁用          |
-| √ | √ | maxlength         | Number      | 140  | 最大输入长度，设置为 -1 的时候不限制最大长度   |
-| √ | x | autoFocus        | Boolean     | false  | 自动聚焦，拉起键盘。                           |
-|   | √ | focus             | Boolean     | false | 获取焦点   |
-|   | √ | autoHeight             | Boolean     | false | 是否自动增高，设置 auto-height 时，style.height 不生效    |
-|   | x | fixed             | Boolean     | false | 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true     |
-|   | x | cursorSpacing    | Number      | 0 | 指定光标与键盘的距离，单位 px 。取 textarea 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离 |
-|   | x | showConfirmBar  | Boolean     | true | 是否显示键盘上方带有”完成“按钮那一栏   |
-|   | √ | selectionStart   | Number      | -1 | 光标起始位置，自动聚集时有效，需与 selection-end 搭配使用   |
-|   | √ | selectionEnd     | Number      | -1 | 光标结束位置，自动聚集时有效，需与 selectionStart 搭配使用|
-| √ | √ | onFocus         | EventHandle |  | event.detail = { value, height }，height 为键盘高度，在基础库 1.9.90 起支持  |
-| √ | √ | onBlur          | EventHandle |  | 输入框失去焦点时触发， event.detail = {value, cursor}|
-|   | √ | onLinechange    | EventHandle |  | 输入框行数变化时调用，  event.detail = {height: 0, heightRpx: 0, lineCount: 0} |
-| √ | √ | onInput         | EventHandle |  | 当键盘输入时，触发 input 事件， bindinput 处理函数的返回值并不会反映到 textarea 上 |
-|   | √ | onConfirm       | EventHandle |  | 点击完成时， 触发 confirm 事件， event.detail = {value: value}|
+## 类型
 
+```tsx
+ComponentType<TextareaProps>
+```
 
->其他相关属性请看各小程序官方文档
+## 示例代码
 
-[微信小程序 Textarea](https://developers.weixin.qq.com/miniprogram/dev/component/textarea.html)。
-
-[百度小程序 Textarea](https://smartprogram.baidu.com/docs/develop/component/formlist/#textarea)。
-
-[支付宝小程序 Textarea](https://docs.alipay.com/mini/component/textarea)。
-
-[字节跳动小程序 Textarea](https://developer.toutiao.com/docs/comp/textarea.html)。
-
-###### 示例：
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Switch } from '@tarojs/components'
-
+```tsx
 export default class PageView extends Component {
   constructor() {
     super(...arguments)
@@ -62,3 +33,367 @@ export default class PageView extends Component {
   }
 }
 ```
+
+## TextareaProps
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style={{ textAlign: "center"}}>默认值</th>
+      <th style={{ textAlign: "center"}}>必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td>输入框的内容</td>
+    </tr>
+    <tr>
+      <td>placeholder</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>输入框为空时占位符</td>
+    </tr>
+    <tr>
+      <td>placeholderStyle</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>指定 placeholder 的样式</td>
+    </tr>
+    <tr>
+      <td>placeholderClass</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}><code>&quot;textarea-placeholder&quot;</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>指定 placeholder 的样式类</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>是否禁用</td>
+    </tr>
+    <tr>
+      <td>maxlength</td>
+      <td><code>number</code></td>
+      <td style={{ textAlign: "center"}}><code>140</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>最大输入长度，设置为 -1 的时候不限制最大长度</td>
+    </tr>
+    <tr>
+      <td>autoFocus</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>自动聚焦，拉起键盘</td>
+    </tr>
+    <tr>
+      <td>focus</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>获取焦点</td>
+    </tr>
+    <tr>
+      <td>autoHeight</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>是否自动增高，设置 autoHeight 时，style.height不生效</td>
+    </tr>
+    <tr>
+      <td>fixed</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>如果 Textarea 是在一个 <code>position:fixed</code> 的区域，需要显示指定属性 fixed 为 true</td>
+    </tr>
+    <tr>
+      <td>cursorSpacing</td>
+      <td><code>number</code></td>
+      <td style={{ textAlign: "center"}}><code>0</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>指定光标与键盘的距离，单位 px 。取 Textarea 距离底部的距离和 cursorSpacing 指定的距离的最小值作为光标与键盘的距离</td>
+    </tr>
+    <tr>
+      <td>cursor</td>
+      <td><code>number</code></td>
+      <td style={{ textAlign: "center"}}><code>-1</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>指定 focus 时的光标位置</td>
+    </tr>
+    <tr>
+      <td>showConfirmBar</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>true</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>是否显示键盘上方带有”完成“按钮那一栏</td>
+    </tr>
+    <tr>
+      <td>selectionStart</td>
+      <td><code>number</code></td>
+      <td style={{ textAlign: "center"}}><code>-1</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>光标起始位置，自动聚集时有效，需与 selectionEnd 搭配使用</td>
+    </tr>
+    <tr>
+      <td>selectionEnd</td>
+      <td><code>number</code></td>
+      <td style={{ textAlign: "center"}}><code>-1</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>光标结束位置，自动聚集时有效，需与 selectionStart 搭配使用</td>
+    </tr>
+    <tr>
+      <td>adjustPosition</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>true</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>键盘弹起时，是否自动上推页面</td>
+    </tr>
+    <tr>
+      <td>holdKeyboard</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>focus 时，点击页面的时候不收起键盘</td>
+    </tr>
+    <tr>
+      <td>disableDefaultPadding</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>是否去掉 iOS 下的默认内边距</td>
+    </tr>
+    <tr>
+      <td>onFocus</td>
+      <td><code>BaseEventOrigFunction&lt;onFocusEventDetail&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>输入框聚焦时触发</td>
+    </tr>
+    <tr>
+      <td>onBlur</td>
+      <td><code>BaseEventOrigFunction&lt;onBlurEventDetail&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>输入框失去焦点时触发</td>
+    </tr>
+    <tr>
+      <td>onLineChange</td>
+      <td><code>BaseEventOrigFunction&lt;onLineChangeEventDetail&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>输入框行数变化时调用，event.detail = {`{height: 0, heightRpx: 0, lineCount: 0}`}</td>
+    </tr>
+    <tr>
+      <td>onInput</td>
+      <td><code>BaseEventOrigFunction&lt;onInputEventDetail&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>当键盘输入时，触发 input 事件，event.detail = {`{value, cursor, keyCode}`}<br /><br /><strong>onInput 处理函数的返回值并不会反映到 textarea 上</strong></td>
+    </tr>
+    <tr>
+      <td>onConfirm</td>
+      <td><code>BaseEventOrigFunction&lt;onConfirmEventDetail&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>点击完成时， 触发 confirm 事件，event.detail = {`{value: value}`}</td>
+    </tr>
+    <tr>
+      <td>onKeyboardHeightChange</td>
+      <td><code>BaseEventOrigFunction&lt;onKeyboardHeightChangeEventDetail&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>键盘高度发生变化的时候触发此事件</td>
+    </tr>
+  </tbody>
+</table>
+
+### API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| TextareaProps.value | ✔️ | ✔️ | ✔️ |
+| TextareaProps.placeholder | ✔️ | ✔️ | ✔️ |
+| TextareaProps.placeholderStyle | ✔️ |  |  |
+| TextareaProps.placeholderClass | ✔️ |  |  |
+| TextareaProps.disabled | ✔️ | ✔️ | ✔️ |
+| TextareaProps.maxlength | ✔️ | ✔️ | ✔️ |
+| TextareaProps.autoFocus | ✔️ | ✔️ |  |
+| TextareaProps.focus | ✔️ |  | ✔️ |
+| TextareaProps.autoHeight | ✔️ |  | ✔️ |
+| TextareaProps.fixed | ✔️ |  |  |
+| TextareaProps.cursorSpacing | ✔️ |  |  |
+| TextareaProps.cursor | ✔️ |  |  |
+| TextareaProps.showConfirmBar | ✔️ |  |  |
+| TextareaProps.selectionStart | ✔️ |  | ✔️ |
+| TextareaProps.selectionEnd | ✔️ |  | ✔️ |
+| TextareaProps.adjustPosition | ✔️ |  |  |
+| TextareaProps.holdKeyboard | ✔️ |  |  |
+| TextareaProps.disableDefaultPadding | ✔️ |  |  |
+| TextareaProps.onFocus | ✔️ | ✔️ | ✔️ |
+| TextareaProps.onBlur | ✔️ | ✔️ | ✔️ |
+| TextareaProps.onLineChange | ✔️ |  | ✔️ |
+| TextareaProps.onInput | ✔️ | ✔️ | ✔️ |
+| TextareaProps.onConfirm | ✔️ |  | ✔️ |
+| TextareaProps.onKeyboardHeightChange | ✔️ |  |  |
+
+### onFocusEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td>输入值</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>键盘高度</td>
+    </tr>
+  </tbody>
+</table>
+
+### onBlurEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td>输入值</td>
+    </tr>
+    <tr>
+      <td>cursor</td>
+      <td><code>number</code></td>
+      <td>光标位置</td>
+    </tr>
+  </tbody>
+</table>
+
+### onLineChangeEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+    </tr>
+    <tr>
+      <td>heightRpx</td>
+      <td><code>number</code></td>
+    </tr>
+    <tr>
+      <td>lineCount</td>
+      <td><code>number</code></td>
+    </tr>
+  </tbody>
+</table>
+
+### onInputEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td>输入值</td>
+    </tr>
+    <tr>
+      <td>cursor</td>
+      <td><code>number</code></td>
+      <td>光标位置</td>
+    </tr>
+    <tr>
+      <td>keyCode</td>
+      <td><code>number</code></td>
+      <td>键值</td>
+    </tr>
+  </tbody>
+</table>
+
+### onConfirmEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td>输入值</td>
+    </tr>
+  </tbody>
+</table>
+
+### onKeyboardHeightChangeEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>键盘高度</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td>持续时间</td>
+    </tr>
+  </tbody>
+</table>
+
+## API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Textarea | ✔️ | ✔️ | ✔️ |

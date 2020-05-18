@@ -3,55 +3,19 @@ title: Checkbox
 sidebar_label: Checkbox
 ---
 
-### CheckboxGroup
-##### 多项选择器，内部由多个 checkbox 组成
+多选项目
 
-> 属性及支持度
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html)
 
-| H5 | ReactNative| 属性名 | 类型 | 默认值 | 说明 |
-| :-: | :-: | :- | :- | :- | :- |
-| ✔ | x | name | String |   | 表单组件中加上 name 来作为 key |
-| ✔ | ✔ | onChange | EventHandle |   | `<CheckboxGroup/>`中选中项发生改变是触发 change 事件，detail = value:[选中的 Checkbox 的 value 的数组] |
+## 类型
 
->其他相关属性请看各小程序官方文档
+```tsx
+ComponentType<CheckboxProps>
+```
 
-[微信小程序 CheckboxGroup](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox-group.html)。
+## 示例代码
 
-[百度小程序 CheckboxGroup](https://smartprogram.baidu.com/docs/develop/component/formlist/#checkbox)。
-
-[支付宝小程序 CheckboxGroup](https://docs.alipay.com/mini/component/checkbox)。
-
-[字节跳动小程序 CheckboxGroup](https://developer.toutiao.com/docs/comp/checkbox.html)。
-
-### Checkbox
-##### 多选项目。
-
-> 属性及支持度
-
-| H5 | ReactNative| 属性名 | 类型 | 默认值 | 说明 |
-| :-: | :-: | :- | :- | :- | :- |
-|   | ✔ | value      | String      |   | `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value |
-| ✔ | ✔ | checked    | Boolean     | false  | 当前是否选中   |
-| ✔ | ✔ | disabled   | Boolean     | false  | 是否禁用   |
-| ✔ | ✔ | color      | Color       |   | checkbox 的颜色，同 css 的 color       |
-| ✔ | ✔ | onChange | EventHandle |  | 选中项发生变化时触发 change 事件，小程序无此 API   |
-
->其他相关属性请看各小程序官方文档
-
-[微信小程序 Checkbox](https://developers.weixin.qq.com/miniprogram/dev/component/button.html)。
-
-[百度小程序 Checkbox](https://smartprogram.baidu.com/docs/develop/component/formlist/#checkbox)。
-
-[支付宝小程序 Checkbox](https://docs.alipay.com/mini/component/checkbox)。
-
-[字节跳动小程序 Checkbox](https://developer.toutiao.com/docs/comp/checkbox.html)。
-
-###### 示例：
-
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Checkbox } from '@tarojs/components'
-
+```tsx
 export default class PageCheckbox extends Component {
   state = {
     list: [
@@ -110,3 +74,73 @@ export default class PageCheckbox extends Component {
   }
 }
 ```
+
+## CheckboxProps
+
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style={{ textAlign: "center"}}>默认值</th>
+      <th style={{ textAlign: "center"}}>必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td><code>&lt;Checkbox/&gt;</code>标识，选中时触发<code>&lt;CheckboxGroup/&gt;</code>的 change 事件，并携带 <code>&lt;Checkbox/&gt;</code> 的 value</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>是否禁用</td>
+    </tr>
+    <tr>
+      <td>checked</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>当前是否选中，可用来设置默认选中</td>
+    </tr>
+    <tr>
+      <td>color</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>checkbox的颜色，同 css 的 color</td>
+    </tr>
+    <tr>
+      <td>onChange</td>
+      <td>
+        `BaseEventOrigFunction&lt;{`{ value: string[]; }`}&gt;
+      </td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>选中项发生变化时触发 change 事件，小程序无此 API</td>
+    </tr>
+  </tbody>
+</table>
+
+### API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| CheckboxProps.value | ✔️ |  | ✔️ |
+| CheckboxProps.disabled | ✔️ | ✔️ | ✔️ |
+| CheckboxProps.checked | ✔️ | ✔️ | ✔️ |
+| CheckboxProps.color | ✔️ | ✔️ | ✔️ |
+| CheckboxProps.onChange |  | ✔️ | ✔️ |
+
+## API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| Checkbox | ✔️ | ✔️ | ✔️ |
