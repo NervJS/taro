@@ -1,4 +1,4 @@
-import { TaroElement, Style, document } from '@tarojs/runtime'
+import { TaroElement, Style, document, FormElement } from '@tarojs/runtime'
 import { isFunction, isString, isObject, isNumber } from '@tarojs/shared'
 import { CommonEvent } from '@tarojs/components'
 
@@ -18,9 +18,9 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
       setProperty(dom, i, null, oldProps[i])
     }
   }
-
+  const isFormElement = dom instanceof FormElement
   for (i in newProps) {
-    if (oldProps[i] !== newProps[i]) {
+    if (oldProps[i] !== newProps[i] || (isFormElement && i === 'value')) {
       setProperty(dom, i, newProps[i], oldProps[i])
     }
   }

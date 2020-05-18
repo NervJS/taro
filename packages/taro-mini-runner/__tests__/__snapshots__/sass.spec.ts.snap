@@ -4357,16 +4357,16 @@ require(\\"./taro\\");
                 return M(O);
             };
             exports.unstable_Profiling = null;
-        }).call(this, __webpack_require__(3)[\\"window\\"]);
+        }).call(this, __webpack_require__(2)[\\"window\\"]);
     },
     30: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(3);
+        var runtime_esm = __webpack_require__(2);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(4);
-        var getPrototypeOf = __webpack_require__(2);
+        var getPrototypeOf = __webpack_require__(3);
         var inherits = __webpack_require__(5);
         var react = __webpack_require__(6);
         var app = __webpack_require__(24);
@@ -5090,7 +5090,7 @@ object-assign
     28: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
 }, [ [ 28, 0, 1, 2 ] ] ]);
@@ -5108,11 +5108,11 @@ object-assign
     31: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(3);
+        var runtime_esm = __webpack_require__(2);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(4);
-        var getPrototypeOf = __webpack_require__(2);
+        var getPrototypeOf = __webpack_require__(3);
         var inherits = __webpack_require__(5);
         var react = __webpack_require__(6);
         var react_default = __webpack_require__.n(react);
@@ -5342,7 +5342,7 @@ object-assign
         var react_reconciler__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react_reconciler__WEBPACK_IMPORTED_MODULE_3__);
         var scheduler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(11);
         var scheduler__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(scheduler__WEBPACK_IMPORTED_MODULE_4__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
         function isString(o) {
             return typeof o === \\"string\\";
         }
@@ -5469,8 +5469,9 @@ object-assign
                     setProperty(dom, i, null, oldProps[i]);
                 }
             }
+            var isFormElement = dom instanceof _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__[\\"FormElement\\"];
             for (i in newProps) {
-                if (oldProps[i] !== newProps[i]) {
+                if (oldProps[i] !== newProps[i] || isFormElement && i === \\"value\\") {
                     setProperty(dom, i, newProps[i], oldProps[i]);
                 }
             }
@@ -5691,7 +5692,7 @@ object-assign
         };
         __webpack_exports__[\\"a\\"] = index;
     },
-    3: function(module, __webpack_exports__, __webpack_require__) {
+    2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(document, window, requestAnimationFrame, cancelAnimationFrame) {
@@ -5700,6 +5701,9 @@ object-assign
             }));
             __webpack_require__.d(__webpack_exports__, \\"Events\\", (function() {
                 return Events;
+            }));
+            __webpack_require__.d(__webpack_exports__, \\"FormElement\\", (function() {
+                return FormElement;
             }));
             __webpack_require__.d(__webpack_exports__, \\"Style\\", (function() {
                 return Style;
@@ -5824,7 +5828,7 @@ object-assign
             var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
             var _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
             var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-            var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+            var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
             var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
             var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
             var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(15);
@@ -8732,7 +8736,7 @@ object-assign
                     timerFunc();
                 }
             };
-        }).call(this, __webpack_require__(3)[\\"document\\"], __webpack_require__(3)[\\"window\\"], __webpack_require__(3)[\\"requestAnimationFrame\\"], __webpack_require__(3)[\\"cancelAnimationFrame\\"]);
+        }).call(this, __webpack_require__(2)[\\"document\\"], __webpack_require__(2)[\\"window\\"], __webpack_require__(2)[\\"requestAnimationFrame\\"], __webpack_require__(2)[\\"cancelAnimationFrame\\"]);
     }
 } ]);
 
@@ -8767,7 +8771,7 @@ object-assign
         if (staticProps) _defineProperties(Constructor, staticProps);
         return Constructor;
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
+}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _getPrototypeOf;
@@ -8778,7 +8782,7 @@ object-assign
         };
         return _getPrototypeOf(o);
     }
-}, , function(module, __webpack_exports__, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;
@@ -8971,7 +8975,7 @@ object-assign
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _set;
     }));
-    var getPrototypeOf = __webpack_require__(2);
+    var getPrototypeOf = __webpack_require__(3);
     function _superPropBase(object, property) {
         while (!Object.prototype.hasOwnProperty.call(object, property)) {
             object = Object(getPrototypeOf[\\"a\\"])(object);
@@ -13805,16 +13809,16 @@ require(\\"./taro\\");
                 return M(O);
             };
             exports.unstable_Profiling = null;
-        }).call(this, __webpack_require__(3)[\\"window\\"]);
+        }).call(this, __webpack_require__(2)[\\"window\\"]);
     },
     30: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(3);
+        var runtime_esm = __webpack_require__(2);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(4);
-        var getPrototypeOf = __webpack_require__(2);
+        var getPrototypeOf = __webpack_require__(3);
         var inherits = __webpack_require__(5);
         var react = __webpack_require__(6);
         var app = __webpack_require__(24);
@@ -14538,7 +14542,7 @@ object-assign
     28: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
 }, [ [ 28, 0, 1, 2 ] ] ]);
@@ -14556,11 +14560,11 @@ object-assign
     31: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(3);
+        var runtime_esm = __webpack_require__(2);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(4);
-        var getPrototypeOf = __webpack_require__(2);
+        var getPrototypeOf = __webpack_require__(3);
         var inherits = __webpack_require__(5);
         var react = __webpack_require__(6);
         var react_default = __webpack_require__.n(react);
@@ -14790,7 +14794,7 @@ object-assign
         var react_reconciler__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react_reconciler__WEBPACK_IMPORTED_MODULE_3__);
         var scheduler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(11);
         var scheduler__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(scheduler__WEBPACK_IMPORTED_MODULE_4__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
         function isString(o) {
             return typeof o === \\"string\\";
         }
@@ -14917,8 +14921,9 @@ object-assign
                     setProperty(dom, i, null, oldProps[i]);
                 }
             }
+            var isFormElement = dom instanceof _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__[\\"FormElement\\"];
             for (i in newProps) {
-                if (oldProps[i] !== newProps[i]) {
+                if (oldProps[i] !== newProps[i] || isFormElement && i === \\"value\\") {
                     setProperty(dom, i, newProps[i], oldProps[i]);
                 }
             }
@@ -15139,7 +15144,7 @@ object-assign
         };
         __webpack_exports__[\\"a\\"] = index;
     },
-    3: function(module, __webpack_exports__, __webpack_require__) {
+    2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(document, window, requestAnimationFrame, cancelAnimationFrame) {
@@ -15148,6 +15153,9 @@ object-assign
             }));
             __webpack_require__.d(__webpack_exports__, \\"Events\\", (function() {
                 return Events;
+            }));
+            __webpack_require__.d(__webpack_exports__, \\"FormElement\\", (function() {
+                return FormElement;
             }));
             __webpack_require__.d(__webpack_exports__, \\"Style\\", (function() {
                 return Style;
@@ -15272,7 +15280,7 @@ object-assign
             var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
             var _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
             var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-            var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+            var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
             var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
             var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
             var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(15);
@@ -18180,7 +18188,7 @@ object-assign
                     timerFunc();
                 }
             };
-        }).call(this, __webpack_require__(3)[\\"document\\"], __webpack_require__(3)[\\"window\\"], __webpack_require__(3)[\\"requestAnimationFrame\\"], __webpack_require__(3)[\\"cancelAnimationFrame\\"]);
+        }).call(this, __webpack_require__(2)[\\"document\\"], __webpack_require__(2)[\\"window\\"], __webpack_require__(2)[\\"requestAnimationFrame\\"], __webpack_require__(2)[\\"cancelAnimationFrame\\"]);
     }
 } ]);
 
@@ -18215,7 +18223,7 @@ object-assign
         if (staticProps) _defineProperties(Constructor, staticProps);
         return Constructor;
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
+}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _getPrototypeOf;
@@ -18226,7 +18234,7 @@ object-assign
         };
         return _getPrototypeOf(o);
     }
-}, , function(module, __webpack_exports__, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;
@@ -18419,7 +18427,7 @@ object-assign
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _set;
     }));
-    var getPrototypeOf = __webpack_require__(2);
+    var getPrototypeOf = __webpack_require__(3);
     function _superPropBase(object, property) {
         while (!Object.prototype.hasOwnProperty.call(object, property)) {
             object = Object(getPrototypeOf[\\"a\\"])(object);
@@ -23253,16 +23261,16 @@ require(\\"./taro\\");
                 return M(O);
             };
             exports.unstable_Profiling = null;
-        }).call(this, __webpack_require__(3)[\\"window\\"]);
+        }).call(this, __webpack_require__(2)[\\"window\\"]);
     },
     30: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(3);
+        var runtime_esm = __webpack_require__(2);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(4);
-        var getPrototypeOf = __webpack_require__(2);
+        var getPrototypeOf = __webpack_require__(3);
         var inherits = __webpack_require__(5);
         var react = __webpack_require__(6);
         var app = __webpack_require__(24);
@@ -23986,7 +23994,7 @@ object-assign
     28: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
 }, [ [ 28, 0, 1, 2 ] ] ]);
@@ -24004,11 +24012,11 @@ object-assign
     31: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(3);
+        var runtime_esm = __webpack_require__(2);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(4);
-        var getPrototypeOf = __webpack_require__(2);
+        var getPrototypeOf = __webpack_require__(3);
         var inherits = __webpack_require__(5);
         var react = __webpack_require__(6);
         var react_default = __webpack_require__.n(react);
@@ -24238,7 +24246,7 @@ object-assign
         var react_reconciler__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react_reconciler__WEBPACK_IMPORTED_MODULE_3__);
         var scheduler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(11);
         var scheduler__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(scheduler__WEBPACK_IMPORTED_MODULE_4__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
         function isString(o) {
             return typeof o === \\"string\\";
         }
@@ -24365,8 +24373,9 @@ object-assign
                     setProperty(dom, i, null, oldProps[i]);
                 }
             }
+            var isFormElement = dom instanceof _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__[\\"FormElement\\"];
             for (i in newProps) {
-                if (oldProps[i] !== newProps[i]) {
+                if (oldProps[i] !== newProps[i] || isFormElement && i === \\"value\\") {
                     setProperty(dom, i, newProps[i], oldProps[i]);
                 }
             }
@@ -24587,7 +24596,7 @@ object-assign
         };
         __webpack_exports__[\\"a\\"] = index;
     },
-    3: function(module, __webpack_exports__, __webpack_require__) {
+    2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(document, window, requestAnimationFrame, cancelAnimationFrame) {
@@ -24596,6 +24605,9 @@ object-assign
             }));
             __webpack_require__.d(__webpack_exports__, \\"Events\\", (function() {
                 return Events;
+            }));
+            __webpack_require__.d(__webpack_exports__, \\"FormElement\\", (function() {
+                return FormElement;
             }));
             __webpack_require__.d(__webpack_exports__, \\"Style\\", (function() {
                 return Style;
@@ -24720,7 +24732,7 @@ object-assign
             var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
             var _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
             var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-            var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+            var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
             var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
             var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
             var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(15);
@@ -27628,7 +27640,7 @@ object-assign
                     timerFunc();
                 }
             };
-        }).call(this, __webpack_require__(3)[\\"document\\"], __webpack_require__(3)[\\"window\\"], __webpack_require__(3)[\\"requestAnimationFrame\\"], __webpack_require__(3)[\\"cancelAnimationFrame\\"]);
+        }).call(this, __webpack_require__(2)[\\"document\\"], __webpack_require__(2)[\\"window\\"], __webpack_require__(2)[\\"requestAnimationFrame\\"], __webpack_require__(2)[\\"cancelAnimationFrame\\"]);
     }
 } ]);
 
@@ -27663,7 +27675,7 @@ object-assign
         if (staticProps) _defineProperties(Constructor, staticProps);
         return Constructor;
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
+}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _getPrototypeOf;
@@ -27674,7 +27686,7 @@ object-assign
         };
         return _getPrototypeOf(o);
     }
-}, , function(module, __webpack_exports__, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;
@@ -27867,7 +27879,7 @@ object-assign
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _set;
     }));
-    var getPrototypeOf = __webpack_require__(2);
+    var getPrototypeOf = __webpack_require__(3);
     function _superPropBase(object, property) {
         while (!Object.prototype.hasOwnProperty.call(object, property)) {
             object = Object(getPrototypeOf[\\"a\\"])(object);
@@ -32701,16 +32713,16 @@ require(\\"./taro\\");
                 return M(O);
             };
             exports.unstable_Profiling = null;
-        }).call(this, __webpack_require__(3)[\\"window\\"]);
+        }).call(this, __webpack_require__(2)[\\"window\\"]);
     },
     30: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(3);
+        var runtime_esm = __webpack_require__(2);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(4);
-        var getPrototypeOf = __webpack_require__(2);
+        var getPrototypeOf = __webpack_require__(3);
         var inherits = __webpack_require__(5);
         var react = __webpack_require__(6);
         var app = __webpack_require__(24);
@@ -33434,7 +33446,7 @@ object-assign
     28: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
 }, [ [ 28, 0, 1, 2 ] ] ]);
@@ -33452,11 +33464,11 @@ object-assign
     31: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(3);
+        var runtime_esm = __webpack_require__(2);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(4);
-        var getPrototypeOf = __webpack_require__(2);
+        var getPrototypeOf = __webpack_require__(3);
         var inherits = __webpack_require__(5);
         var react = __webpack_require__(6);
         var react_default = __webpack_require__.n(react);
@@ -33686,7 +33698,7 @@ object-assign
         var react_reconciler__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react_reconciler__WEBPACK_IMPORTED_MODULE_3__);
         var scheduler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(11);
         var scheduler__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(scheduler__WEBPACK_IMPORTED_MODULE_4__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
         function isString(o) {
             return typeof o === \\"string\\";
         }
@@ -33813,8 +33825,9 @@ object-assign
                     setProperty(dom, i, null, oldProps[i]);
                 }
             }
+            var isFormElement = dom instanceof _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__[\\"FormElement\\"];
             for (i in newProps) {
-                if (oldProps[i] !== newProps[i]) {
+                if (oldProps[i] !== newProps[i] || isFormElement && i === \\"value\\") {
                     setProperty(dom, i, newProps[i], oldProps[i]);
                 }
             }
@@ -34035,7 +34048,7 @@ object-assign
         };
         __webpack_exports__[\\"a\\"] = index;
     },
-    3: function(module, __webpack_exports__, __webpack_require__) {
+    2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(document, window, requestAnimationFrame, cancelAnimationFrame) {
@@ -34044,6 +34057,9 @@ object-assign
             }));
             __webpack_require__.d(__webpack_exports__, \\"Events\\", (function() {
                 return Events;
+            }));
+            __webpack_require__.d(__webpack_exports__, \\"FormElement\\", (function() {
+                return FormElement;
             }));
             __webpack_require__.d(__webpack_exports__, \\"Style\\", (function() {
                 return Style;
@@ -34168,7 +34184,7 @@ object-assign
             var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
             var _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
             var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-            var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+            var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
             var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
             var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
             var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(15);
@@ -37076,7 +37092,7 @@ object-assign
                     timerFunc();
                 }
             };
-        }).call(this, __webpack_require__(3)[\\"document\\"], __webpack_require__(3)[\\"window\\"], __webpack_require__(3)[\\"requestAnimationFrame\\"], __webpack_require__(3)[\\"cancelAnimationFrame\\"]);
+        }).call(this, __webpack_require__(2)[\\"document\\"], __webpack_require__(2)[\\"window\\"], __webpack_require__(2)[\\"requestAnimationFrame\\"], __webpack_require__(2)[\\"cancelAnimationFrame\\"]);
     }
 } ]);
 
@@ -37111,7 +37127,7 @@ object-assign
         if (staticProps) _defineProperties(Constructor, staticProps);
         return Constructor;
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
+}, , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _getPrototypeOf;
@@ -37122,7 +37138,7 @@ object-assign
         };
         return _getPrototypeOf(o);
     }
-}, , function(module, __webpack_exports__, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;
@@ -37315,7 +37331,7 @@ object-assign
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _set;
     }));
-    var getPrototypeOf = __webpack_require__(2);
+    var getPrototypeOf = __webpack_require__(3);
     function _superPropBase(object, property) {
         while (!Object.prototype.hasOwnProperty.call(object, property)) {
             object = Object(getPrototypeOf[\\"a\\"])(object);

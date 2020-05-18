@@ -20,8 +20,17 @@ export const createPullDownRefresh = (
 }
 
 const createReactPullDown = (el, R: R) => {
+  const isReactComponent = typeof el.render === 'function' ||
+    !!el.prototype?.isReactComponent ||
+    el.prototype instanceof R.Component // compat for some others react-like library
+
   return R.forwardRef((props, ref) => {
-    return R.createElement('taro-pull-to-refresh', null, R.createElement(el, { ...props, ref }))
+    const newProps: React.Props<any> = { ...props }
+    if (isReactComponent) {
+      newProps.ref = ref
+    }
+
+    return R.createElement('taro-pull-to-refresh', null, R.createElement(el, newProps))
   })
 }
 
