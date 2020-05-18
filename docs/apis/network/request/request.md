@@ -57,7 +57,7 @@ sidebar_label: request
     </tr>
     <tr>
       <td>dataType</td>
-      <td><code>&quot;json&quot; | &quot;其他&quot;</code></td>
+      <td><code>string</code></td>
       <td style="text-align:center"></td>
       <td style="text-align:center">否</td>
       <td>返回的数据格式</td>
@@ -239,11 +239,7 @@ sidebar_label: request
   <tbody>
     <tr>
       <td>json</td>
-      <td>返回的数据为 JSON，返回后会对返回的数据进行一次 JSON.parse</td>
-    </tr>
-    <tr>
-      <td>其他</td>
-      <td>不对返回的内容进行 JSON.parse</td>
+      <td>返回的数据为 JSON，返回后会对返回的数据进行一次 JSON.parse<br />其他: 不对返回的内容进行 JSON.parse</td>
     </tr>
   </tbody>
 </table>

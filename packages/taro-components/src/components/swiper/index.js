@@ -69,7 +69,7 @@ class Swiper extends Nerv.Component {
       observeParents: true,
       on: {
         slideChange () {
-          let e = createEvent('touchend')
+          const e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
@@ -82,7 +82,7 @@ class Swiper extends Nerv.Component {
           that.handleOnChange(e)
         },
         transitionEnd () {
-          let e = createEvent('touchend')
+          const e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
@@ -129,15 +129,15 @@ class Swiper extends Nerv.Component {
     if (this.mySwiper) {
       const nextCurrent = typeof nextProps.current === 'number' ? nextProps.current : this._$current || 0
 
-      if (!this.mySwiper.isBeginning && !this.mySwiper.isEnd) {
-        // 是否衔接滚动模式
-        if (nextProps.circular) {
+      // 是否衔接滚动模式
+      if (nextProps.circular) {
+        if (!this.mySwiper.isBeginning && !this.mySwiper.isEnd) {
           this.mySwiper.loopDestroy()
           this.mySwiper.loopCreate()
           this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
-        } else {
-          this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
         }
+      } else {
+        this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
       }
 
       const autoplay = this.mySwiper.autoplay
@@ -149,7 +149,7 @@ class Swiper extends Nerv.Component {
           autoplay.stop()
         }
       }
-      if (!autoplay.paused) {
+      if (nextProps.autoplay && !autoplay.paused) {
         autoplay.run()
         autoplay.paused = false
       }
@@ -190,8 +190,8 @@ class Swiper extends Nerv.Component {
 
   render () {
     const { className, style, vertical, previousMargin, nextMargin, indicatorColor, indicatorActiveColor } = this.props
-    let defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
-    let defaultIndicatorActiveColor = indicatorActiveColor || '#000'
+    const defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
+    const defaultIndicatorActiveColor = indicatorActiveColor || '#000'
     const cls = classNames(`taro-swiper-${this._id}`, className)
     const sty = Object.assign({
       paddingTop: vertical ? this.parsePX(previousMargin) : 0,

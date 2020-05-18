@@ -1,9 +1,11 @@
-import * as Util from '../util'
 import * as path from 'path'
 import * as fs from 'fs-extra'
-import { processTypeEnum } from '../util/constants'
+
+import { shouldUseYarn, shouldUseCnpm, processTypeEnum, printLog } from '@tarojs/helper'
 import chalk from 'chalk'
 import { exec } from 'child_process'
+
+import { getPkgVersion } from '../util'
 
 export function hasRNDep (appPath) {
   const pkgJson = require(path.join(appPath, 'package.json'))
@@ -16,9 +18,9 @@ export function installDep (path: string) {
     console.log(chalk.yellow('开始安装依赖~'))
     process.chdir(path)
     let command
-    if (Util.shouldUseYarn()) {
+    if (shouldUseYarn()) {
       command = 'yarn'
-    } else if (Util.shouldUseCnpm()) {
+    } else if (shouldUseCnpm()) {
       command = 'cnpm install'
     } else {
       command = 'npm install'
@@ -35,7 +37,7 @@ export function installDep (path: string) {
 }
 
 export function updatePkgJson (appPath) {
-  const version = Util.getPkgVersion()
+  const version = getPkgVersion()
   const RNDep = `{
     "@tarojs/components-rn": "^${version}",
     "@tarojs/taro-rn": "^${version}",
@@ -54,7 +56,7 @@ export function updatePkgJson (appPath) {
     if (!hasRNDep(appPath)) {
       pkgJson.dependencies = Object.assign({}, pkgJson.dependencies, JSON.parse(RNDep.replace(/(\r\n|\n|\r|\s+)/gm, '')))
       fs.writeFileSync(path.join(appPath, 'package.json'), JSON.stringify(pkgJson, null, 2))
-      Util.printLog(processTypeEnum.GENERATE, 'package.json', path.join(appPath, 'package.json'))
+      printLog(processTypeEnum.GENERATE, 'package.json', path.join(appPath, 'package.json'))
       installDep(appPath).then(() => {
         resolve()
       })

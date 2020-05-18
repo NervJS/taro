@@ -79,14 +79,16 @@ function _request (options) {
       response.headers.forEach((val, key) => {
         res.header[key] = val
       })
-      if(!response.ok) {
+      if (!response.ok) {
         throw response
       }
       if (options.responseType === 'arraybuffer') {
         return response.arrayBuffer()
       }
-      if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-        return response.json()
+      if (res.statusCode !== 204) {
+        if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
+          return response.json()
+        }
       }
       if (options.responseType === 'text') {
         return response.text()

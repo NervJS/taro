@@ -16,7 +16,7 @@ class _Label extends React.Component<LabelProps> {
   findValidWidget = (children: any): React.ReactNode => {
     if (this.hadFoundValidWidget) return children
 
-    return React.Children.toArray(children).map((child, index) => {
+    return React.Children.toArray(children).map((child: any, index) => {
       if (!child.type) return child
 
       const childTypeName = child.type.name

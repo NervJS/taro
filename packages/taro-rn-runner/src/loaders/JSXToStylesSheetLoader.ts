@@ -282,7 +282,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
             styleNames.push(specifiers[0].local.name)
           } else {
             // 不论 styleName 是第几个，最后都会被合成一个
-            const styleIdentifierName = _.camelCase(sourceValue)
+            const styleIdentifierName = _.camelCase(sourceValue) + styleNameSet.length
             styleNameSet.push(styleIdentifierName)
             node.specifiers = [
               t.importDefaultSpecifier(
@@ -296,9 +296,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
             const styleSheetIdentifierValue = `${cssFileBaseName.replace(/[-.]/g, '_') + NAME_SUFFIX}`
             const styleSheetIdentifierPath = `./index_styles`
             const styleSheetIdentifier = t.identifier(styleSheetIdentifierValue)
-
-            // node.specifiers = [t.importDefaultSpecifier(styleSheetIdentifier)]
-            // node.source = t.stringLiteral(styleSheetIdentifierPath)
+            // const indexStyleSheet = __non_webpack_require__('./index_styles').default
             const webpackNode = template(
               `const ${styleSheetIdentifierValue} =__non_webpack_require__('${styleSheetIdentifierPath}').default`,
               babylonConfig as any
@@ -319,7 +317,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
     })
     // this.callback(null, source, ast)
     const code = generate(ast).code
-    // if (filePath.includes('pages/cart/cart.js')) console.log('JSXToStylesSheetLoader', code)
+    // if (filePath.includes('pages/index/index.js')) console.log('JSXToStylesSheetLoader', code)
     return code
   } catch (e) {
     this.emitError(e)

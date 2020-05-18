@@ -61,7 +61,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks,
     // @ts-ignore
     addChunkPages,
-    appJson
+    appJson,
+
+    // custome plugin hooks
+    modifyBuildAssets,
+    modifyBuildTempFileContent
   } = config
 
   let {copy} = config
@@ -114,7 +118,10 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks: customCommonChunks,
     addChunkPages,
     alias,
-    appJson
+    appJson,
+
+    modifyBuildAssets,
+    modifyBuildTempFileContent
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([
@@ -185,6 +192,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     plugin,
     optimization: {
       minimizer,
+      // not support node
       // splitChunks: {
       //   chunks: 'all',
       //   cacheGroups: {

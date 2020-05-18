@@ -1,12 +1,15 @@
 import * as webpack from 'webpack'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { PARSE_AST_TYPE } from '@tarojs/helper'
 
 import { IBuildConfig, IOption } from './utils/types'
-import { BUILD_TYPES, PARSE_AST_TYPE } from './utils/constants'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import buildConf from './webpack/build.conf'
 
-const customizeChain = (chain, customizeFunc: Function) => {
+const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
+  if (modifyWebpackChainFunc instanceof Function) {
+    await modifyWebpackChainFunc(chain, webpack)
+  }
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack, PARSE_AST_TYPE)
   }
@@ -20,46 +23,64 @@ const makeConfig = async (buildConfig: IBuildConfig) => {
   }
 }
 
-export default function build (appPath: string, config: IBuildConfig, mainBuilder) {
+export default async function build (appPath: string, config: IBuildConfig) {
   const mode = config.mode
+  const newConfig = await makeConfig(config)
+  const webpackChain = buildConf(appPath, mode, newConfig)
+  await customizeChain(webpackChain, newConfig.modifyWebpackChain, newConfig.webpackChain)
+  const webpackConfig = webpackChain.toConfig()
+  const onBuildFinish = config.onBuildFinish
+  const compiler = webpack(webpackConfig)
   return new Promise((resolve, reject) => {
-    const { buildAdapter } = config
-    if (buildAdapter === BUILD_TYPES.PLUGIN) {
-      config.buildAdapter = BUILD_TYPES.WEAPP
-      config.isBuildPlugin = true
-    }
-    makeConfig(config)
-      .then(config => {
-        const webpackChain = buildConf(appPath, mode, config)
-
-        customizeChain(webpackChain, config.webpackChain)
-        const webpackConfig = webpackChain.toConfig()
-
-        const compiler = webpack(webpackConfig)
-        if (config.isWatch) {
-          bindDevLogger(compiler, config.buildAdapter)
-          compiler.watch({
-            aggregateTimeout: 300,
-            poll: true
-          }, (err, stats) => {
-            if (err) {
-              printBuildError(err)
-              return reject(err)
-            }
-            mainBuilder.hooks.afterBuild.call(stats)
-            resolve()
-          })
-        } else {
-          bindProdLogger(compiler, config.buildAdapter)
-          compiler.run((err, stats) => {
-            if (err) {
-              printBuildError(err)
-              return reject(err)
-            }
-            mainBuilder.hooks.afterBuild.call(stats)
-            resolve()
+    if (newConfig.isWatch) {
+      bindDevLogger(compiler)
+      compiler.watch({
+        aggregateTimeout: 300,
+        poll: true
+      }, (err, stats) => {
+        if (err) {
+          printBuildError(err)
+          if (typeof onBuildFinish === 'function') {
+            onBuildFinish({
+              error: err,
+              stats: null,
+              isWatch: true
+            })
+          }
+          return reject(err)
+        }
+        if (typeof onBuildFinish === 'function') {
+          onBuildFinish({
+            error: null,
+            stats,
+            isWatch: true
           })
         }
+        resolve()
       })
+    } else {
+      bindProdLogger(compiler)
+      compiler.run((err, stats) => {
+        if (err) {
+          printBuildError(err)
+          if (typeof onBuildFinish === 'function') {
+            onBuildFinish({
+              error: err,
+              stats: null,
+              isWatch: false
+            })
+          }
+          return reject(err)
+        }
+        if (typeof onBuildFinish === 'function') {
+          onBuildFinish({
+            error: null,
+            stats,
+            isWatch: false
+          })
+        }
+        resolve()
+      })
+    }
   })
 }

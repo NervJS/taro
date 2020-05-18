@@ -15,7 +15,7 @@ sidebar_label: MapContext
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getCenterLocation.html)
 
 ```tsx
-(option?: GetCenterLocationOption) => void
+(option?: GetCenterLocationOption) => Promise<GetCenterLocationSuccessCallbackResult>
 ```
 
 <table>
@@ -46,7 +46,7 @@ sidebar_label: MapContext
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRegion.html)
 
 ```tsx
-(option?: GetRegionOption) => void
+(option?: GetRegionOption) => Promise<GetRegionSuccessCallbackResult>
 ```
 
 <table>
@@ -77,7 +77,7 @@ sidebar_label: MapContext
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRotate.html)
 
 ```tsx
-(option?: GetRotateOption) => void
+(option?: GetRotateOption) => Promise<GetRotateSuccessCallbackResult>
 ```
 
 <table>
@@ -108,7 +108,7 @@ sidebar_label: MapContext
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getScale.html)
 
 ```tsx
-(option?: GetScaleOption) => void
+(option?: GetScaleOption) => Promise<GetScaleSuccessCallbackResult>
 ```
 
 <table>
@@ -139,7 +139,7 @@ sidebar_label: MapContext
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getSkew.html)
 
 ```tsx
-(option?: GetSkewOption) => void
+(option?: GetSkewOption) => Promise<GetSkewSuccessCallbackResult>
 ```
 
 <table>
@@ -170,7 +170,7 @@ sidebar_label: MapContext
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.includePoints.html)
 
 ```tsx
-(option: IncludePointsOption) => void
+(option: IncludePointsOption) => Promise<CallbackResult>
 ```
 
 <table>
@@ -201,7 +201,7 @@ sidebar_label: MapContext
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.moveToLocation.html)
 
 ```tsx
-(option: MoveToLocationOption) => void
+(option: MoveToLocationOption) => Promise<CallbackResult>
 ```
 
 <table>
@@ -232,7 +232,7 @@ sidebar_label: MapContext
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.translateMarker.html)
 
 ```tsx
-(option: TranslateMarkerOption) => void
+(option: TranslateMarkerOption) => Promise<CallbackResult>
 ```
 
 <table>

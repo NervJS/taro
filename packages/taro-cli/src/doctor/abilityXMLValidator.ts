@@ -32,7 +32,7 @@ ability.xml所需声明内容包括：
 import * as _ from 'lodash/fp'
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import chalk from 'chalk'
+import { chalk } from '@tarojs/helper'
 
 import { IErrorLine } from './interface'
 
@@ -63,29 +63,29 @@ export default async function ({ appPath }) {
     const data = fs.readFileSync(PROJECT_ABILITY_FILE_PATH)
 
     xml2js.parseString(data, function(err, result){
-      //解析ability.xml配置文件
-      if(err){
+      // 解析ability.xml配置文件
+      if (err) {
         errorLines.push({
           desc: 'ability.xml 解析错误，请检查文件格式！',
           valid: true
         })
-      }else{
-        //检查ability配置
-        let abilities = result.aml.ability;
-        if(abilities == null){
+      } else {
+        // 检查ability配置
+        const abilities = result.aml.ability;
+        if (abilities == null) {
           errorLines.push({
             desc: '没有发现 ability声明, 请检查是否定义完整',
             valid: true
           })
-        }else{
-          //检查intent声明合法性
-          const intentRegex = /ability.intent.[0-9A-Z_]+$/; //intent匹配规则
-          const parameterRegex = /^[A-Za-z0-9_]+$/; //parameter匹配规则
+        } else {
+          // 检查intent声明合法性
+          const intentRegex = /ability.intent.[0-9A-Z_]+$/ // intent匹配规则
+          const parameterRegex = /^[A-Za-z0-9_]+$/ // parameter匹配规则
 
-          for(let x in abilities){
-            let abilityIndex = parseInt(x)+1;
+          for(const x in abilities){
+            const abilityIndex = parseInt(x, 10) + 1
 
-            //检查intent声明
+            // 检查intent声明
             if(!intentRegex.test(abilities[x].$.intent)){
               errorLines.push({
                 desc: '第'+abilityIndex+'个ability的intent格式错误',
@@ -94,19 +94,19 @@ export default async function ({ appPath }) {
               })
             }
 
-            //检查service的parameter声明合法性
-            let services = abilities[x].service;
+            // 检查service的parameter声明合法性
+            const services = abilities[x].service;
 
-            if(services == null){
+            if (services == null) {
               errorLines.push({
               desc: '第'+abilityIndex+'个ability没有发现 service声明, 请检查是否定义完整',
               valid: true
               })
-            }else{
-              for(let y in services){
-                let serviceIndex = parseInt(y)+1;
+            } else {
+              for (const y in services) {
+                const serviceIndex = parseInt(y, 10) + 1
 
-                //校验linkParameter
+                // 校验linkParameter
                 if(!parameterRegex.test(services[y].parameter[0].$.linkParameter)){
                   errorLines.push({
                     desc: '第'+abilityIndex+'个ability的第'+serviceIndex+'个service linkParameter 格式错误',
@@ -115,7 +115,7 @@ export default async function ({ appPath }) {
                   })
                 }
 
-                //校验intentParameter
+                // 校验intentParameter
                 if(!parameterRegex.test(services[y].parameter[0].$.intentParameter)){
                   errorLines.push({
                     desc: '第'+abilityIndex+'个ability的第'+serviceIndex+'个service intentParameter 格式错误',

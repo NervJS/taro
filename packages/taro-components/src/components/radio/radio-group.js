@@ -102,7 +102,7 @@ class RadioGroup extends Nerv.Component {
         for (let i = 0; i < cs.length; i++) {
           if (isChildOf(e.toElement, cs[i])) index = i
         }
-        if (index > -1) {
+        if (index > -1 && this.props.onChange && typeof this.props.onChange === 'function') {
           this.props.onChange(e, index)
         }
       }}>{children}

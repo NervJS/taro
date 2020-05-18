@@ -1,10 +1,9 @@
-import chalk from 'chalk'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as wxTransformer from '@tarojs/transformer-wx'
 
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
-import { printLog } from '../util'
+import { processTypeEnum, REG_TYPESCRIPT, printLog, chalk } from '@tarojs/helper'
+
 import { analyzeFiles, parseEntryAst, WEAPP_OUTPUT_NAME, copyFileToDist, copyAllInterfaceFiles } from './common'
 import { IBuildData } from './ui.types'
 

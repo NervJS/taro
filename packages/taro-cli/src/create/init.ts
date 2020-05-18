@@ -1,12 +1,13 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import chalk from 'chalk'
 import { exec } from 'child_process'
 import * as ora from 'ora'
+import { shouldUseYarn, shouldUseCnpm, chalk } from '@tarojs/helper'
+
+import { getAllFilesInFloder, getPkgVersion } from '../util'
 import { IProjectConf } from './project'
 import { IPageConf } from './page'
 import Creator from './creator'
-import * as helper from '../util'
 
 const CONFIG_DIR_NAME = 'config'
 const TEMPLATE_CREATOR = 'template_creator.js'
@@ -190,11 +191,11 @@ export async function createApp (
   }
 
   // npm & yarn
-  const version = helper.getPkgVersion()
-  const shouldUseYarn = helper.shouldUseYarn()
-  const useNpmrc = !shouldUseYarn
+  const version = getPkgVersion()
+  const isShouldUseYarn = shouldUseYarn()
+  const useNpmrc = !isShouldUseYarn
   const yarnLockfilePath = path.join('yarn-lockfiles', `${version}-yarn.lock`)
-  const useYarnLock = shouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
+  const useYarnLock = isShouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
 
   if (useNpmrc) {
     creater.template(template, '.npmrc', path.join(projectPath, '.npmrc'))
@@ -206,7 +207,7 @@ export async function createApp (
   }
 
   // 遍历出模板中所有文件
-  const files = await helper.getAllFilesInFloder(templatePath, doNotCopyFiles)
+  const files = await getAllFilesInFloder(templatePath, doNotCopyFiles)
 
   // 引入模板编写者的自定义逻辑
   const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
@@ -257,9 +258,9 @@ export async function createApp (
     if (autoInstall) {
       // packages install
       let command: string
-      if (shouldUseYarn) {
+      if (isShouldUseYarn) {
         command = 'yarn install'
-      } else if (helper.shouldUseCnpm()) {
+      } else if (shouldUseCnpm()) {
         command = 'cnpm install'
       } else {
         command = 'npm install'

@@ -47,7 +47,8 @@ const siteConfig = {
     {search: true},
     {href: 'https://taro-ui.jd.com', label: 'Taro-UI'},
     {href: 'https://taro-ext.jd.com', label: '物料市场'},
-    {href: 'https://taro-club.jd.com', label: '论坛'}
+    {href: 'https://taro-club.jd.com', label: '论坛'},
+    {href: 'https://taro.jd.com/jdmp/index.html', label: '京东小程序'}
   ],
 
   algolia: {
