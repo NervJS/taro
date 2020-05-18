@@ -6006,10 +6006,7 @@ object-assign
     34: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-<<<<<<< HEAD
         var runtime_esm = __webpack_require__(2);
-=======
-        var runtime_esm = __webpack_require__(3);
         var regenerator = __webpack_require__(15);
         var regenerator_default = __webpack_require__.n(regenerator);
         function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
@@ -6041,7 +6038,6 @@ object-assign
                 }));
             };
         }
->>>>>>> next
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(4);
