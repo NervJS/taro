@@ -6646,6 +6646,9 @@ require(\\"./taro\\");
             __webpack_require__.d(__webpack_exports__, \\"Events\\", (function() {
                 return Events;
             }));
+            __webpack_require__.d(__webpack_exports__, \\"FormElement\\", (function() {
+                return FormElement;
+            }));
             __webpack_require__.d(__webpack_exports__, \\"Style\\", (function() {
                 return Style;
             }));
