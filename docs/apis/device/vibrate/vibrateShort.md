@@ -1,34 +1,61 @@
 ---
-title: Taro.vibrateShort(param)
+title: Taro.vibrateShort(option)
 sidebar_label: vibrateShort
 ---
 
-使手机发生较短时间的振动（15 ms）。仅在 iPhone 7 / 7 Plus 以上及 Android 机型生效
+使手机发生较短时间的振动（15 ms）。仅在 iPhone `7 / 7 Plus` 以上及 Android 机型生效
 
-使用方式同 [`wx.vibrateShort`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.vibrateShort.html)，支持 `Promise` 化使用。
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/vibrate/wx.vibrateShort.html)
+
+## 类型
+
+```tsx
+(option?: Option) => Promise<CallbackResult>
+```
 
 ## 参数
 
-### object param
+### Option
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| [success] | <code>function</code> |  | 接口调用成功的回调函数 |
-| [fail] | <code>function</code> |  | 接口调用失败的回调函数 |
-| [complete] | <code>function</code> |  | 接口调用结束的回调函数（调用成功、失败都会执行） |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style={{ textAlign: "center"}}>必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 
-```jsx
-import Taro from '@tarojs/taro'
-
+```tsx
 Taro.vibrateShort(params).then(...)
-
 ```
-## API支持度
 
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
+| :---: | :---: | :---: | :---: |
 | Taro.vibrateShort | ✔️ | ✔️ | ✔️ |
-

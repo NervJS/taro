@@ -3,47 +3,19 @@ title: Audio
 sidebar_label: Audio
 ---
 
-##### 音频
+音频。1.6.0版本开始，该组件不再维护。建议使用能力更强的 Taro.createInnerAudioContext 接口
 
-> 属性
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html)
 
-| 属性名 | 类型 | 默认值 | 说明 |
-| :- | :- | :- | :- |
-| src            | String      |        | 要播放音频的资源地址                                         |
-| controls       | Boolean     | true   | 是否显示默认播放控件（播放/暂停按钮、播放进度、时间）        |
-| autoplay       | Boolean     | false  | 是否自动播放                                                 |
-| poster         | String      |        | 音频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效 |
-| initialTime   | Number      |        | 指定音频初始播放位置                                         |
-| loop           | Boolean     | false  | 是否循环播放                                                 |
-| muted          | Boolean     | false  | 是否静音播放                                                 |
-| onPlay       | EventHandle |        | 当开始/继续播放时触发 play 事件                                |
-| onPause      | EventHandle |        | 当暂停播放时触发 pause 事件                                  |
-| onEnded      | EventHandle |        | 当播放到末尾时触发 ended 事件                                |
-| onTimeUpdate | EventHandle |        | 播放进度变化时触发，触发频率 250ms 一次 |
-| onError      | EventHandle |        | 音频播放出错时触发                                           |
+## 类型
 
->各端支持度
+```tsx
+ComponentType<AudioProps>
+```
 
-| 属性 | 微信小程序 | H5 | ReactNative | 百度小程序 | 支付宝小程序 | 字节跳动小程序 |
-| :-: | :-: | :-: | :- | :- | :- | :- |
-| src          | ✔ | ✔ | x | ✔ |  |  |
-| controls     | ✔ | ✔ | x | ✔ |  |  |
-| autoplay     | ✔ | ✔ | x |  | |  |
-| poster       | ✔ |  | x | ✔ | |  |
-| initialTime  | ✔ |  | x |  |  |  |
-| loop         | ✔ | ✔ | x | ✔ |  |  |
-| muted        | ✔ | ✔ | x |  |  |  |
-| onPlay       | ✔ | ✔ | x | ✔ |  |  |
-| onPause      | ✔ | ✔ | x | ✔ |  |  |
-| onEnded      | ✔ | ✔ | x | ✔ |  |  |
-| onTimeUpdate | ✔ | ✔ | x | ✔ |  |  |
-| onError      | ✔ | ✔ | x | ✔ |  |  |
+## 示例代码
 
-###### 示例：
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-import { View, Audio } from '@tarojs/components'
-
+```tsx
 export default class PageView extends Component {
   constructor() {
     super(...arguments)
@@ -66,3 +38,206 @@ export default class PageView extends Component {
   }
 }
 ```
+
+## AudioProps
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style={{ textAlign: "center"}}>默认值</th>
+      <th style={{ textAlign: "center"}}>必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>id</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td>audio 组件的唯一标识符</td>
+    </tr>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td>要播放音频的资源地址</td>
+    </tr>
+    <tr>
+      <td>loop</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td>是否循环播放</td>
+    </tr>
+    <tr>
+      <td>muted</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>是否静音播放<br /><strong>不推荐使用</strong></td>
+    </tr>
+    <tr>
+      <td>controls</td>
+      <td><code>boolean</code></td>
+      <td style={{ textAlign: "center"}}><code>false</code></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td>是否显示默认控件</td>
+    </tr>
+    <tr>
+      <td>poster</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td>默认控件上的音频封面的图片资源地址，如果 controls 属性值为 false 则设置 poster 无效</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}><code>&quot;未知音频&quot;</code></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td>默认控件上的音频名字，如果 controls 属性值为 false 则设置 name 无效</td>
+    </tr>
+    <tr>
+      <td>author</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}><code>&quot;未知作者&quot;</code></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td>默认控件上的作者名字，如果 controls 属性值为 false 则设置 author 无效</td>
+    </tr>
+    <tr>
+      <td>onError</td>
+      <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>当发生错误时触发 error 事件，detail = {`{errMsg: MediaError.code}`}</td>
+    </tr>
+    <tr>
+      <td>onPlay</td>
+      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>当开始/继续播放时触发play事件</td>
+    </tr>
+    <tr>
+      <td>onPause</td>
+      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>当暂停播放时触发 pause 事件</td>
+    </tr>
+    <tr>
+      <td>onTimeUpdate</td>
+      <td><code>BaseEventOrigFunction&lt;onTimeUpdateEventDetail&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>当播放进度改变时触发 timeupdate 事件，detail = {`{currentTime, duration}`}</td>
+    </tr>
+    <tr>
+      <td>onEnded</td>
+      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>当播放到末尾时触发 ended 事件</td>
+    </tr>
+  </tbody>
+</table>
+
+### API 支持度
+
+| API | 微信小程序 | 百度小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: |
+| AudioProps.id | ✔️ |  |  |  |
+| AudioProps.src | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.loop | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.muted |  |  | ✔️ |  |
+| AudioProps.controls | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.poster | ✔️ | ✔️ |  |  |
+| AudioProps.name | ✔️ |  |  |  |
+| AudioProps.author | ✔️ |  |  |  |
+| AudioProps.onError | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.onPlay | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.onPause | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.onTimeUpdate | ✔️ | ✔️ | ✔️ |  |
+| AudioProps.onEnded | ✔️ | ✔️ | ✔️ |  |
+
+### onErrorEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>1 | 2 | 3 | 4</code></td>
+    </tr>
+  </tbody>
+</table>
+
+### onTimeUpdateEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>currentTime</td>
+      <td><code>number</code></td>
+      <td>当前时间</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td>持续时间</td>
+    </tr>
+  </tbody>
+</table>
+
+### MediaError
+
+#### code
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>获取资源被用户禁止</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>网络错误</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>解码错误</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>不合适资源</td>
+    </tr>
+  </tbody>
+</table>
+
+## API 支持度
+
+| API | 微信小程序 | 百度小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: |
+| Audio | ✔️ | ✔️ | ✔️ |  |

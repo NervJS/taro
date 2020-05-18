@@ -44,4 +44,4 @@ v1 或 v2 不升级版本，直接修改 [versioned_docs](./versioned_docs) 和 
 
 ### v3
 
-运行命令：`npm run docusaurus docs:version <semver>`
+运行命令：`yarn run docusaurus docs:version <semver>`

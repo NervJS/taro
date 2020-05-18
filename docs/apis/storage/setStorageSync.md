@@ -1,32 +1,63 @@
 ---
-title: Taro.setStorageSync(KEY, DATA)
+title: Taro.setStorageSync(key, data)
 sidebar_label: setStorageSync
 ---
 
+Taro.setStorage 的同步版本
 
-将 data 存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个同步接口。
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorageSync.html)
 
-**参数说明：**
+## 类型
 
-| 参数 | 类型 | 必填 | 说明 |
-| :-- | :-- | :-- | :-- |
-| key | String | 是 | 本地缓存中的指定的 key |
-| data | Object/String | 是 | 需要存储的内容 |
+```tsx
+(key: string, data: any) => void
+```
+
+## 参数
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>key</td>
+      <td><code>string</code></td>
+      <td>本地缓存中指定的 key</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td><code>any</code></td>
+      <td>需要存储的内容。只支持原生类型、Date、及能够通过<code>JSON.stringify</code>序列化的对象。</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 
-```jsx
-import Taro from '@tarojs/taro'
+### 示例 1
 
-Taro.setStorageSync('key', 'value')
+```tsx
+Taro.setStorage({
+  key:"key",
+  data:"value"
+})
 ```
 
+### 示例 2
 
+```tsx
+try {
+  Taro.setStorageSync('key', 'value')
+} catch (e) { }
+```
 
-## API支持度
-
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
+| :---: | :---: | :---: | :---: |
 | Taro.setStorageSync | ✔️ | ✔️ |  |
-
