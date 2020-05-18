@@ -1,38 +1,100 @@
 ---
-title: Taro.setClipboardData(OBJECT)
+title: Taro.setClipboardData(option)
 sidebar_label: setClipboardData
 ---
 
-设置系统剪贴板的内容。
+设置系统剪贴板的内容。调用成功后，会弹出 toast 提示"内容已复制"，持续 1.5s
 
-使用方式同 [`wx.setClipboardData`](https://developers.weixin.qq.com/miniprogram/dev/api/wx.setClipboardData.html)，支持 `Promise` 化使用。
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.setClipboardData.html)
+
+## 类型
+
+```tsx
+(option: Option) => Promise<Promised>
+```
 
 ## 参数
 
-### object param
+### Promised
 
-属性|类型|默认值|必填|说明
-:-:|:-:|:-:|:-:|:-:
-data|string| |是|剪贴板的内容
-success|function| |否|接口调用成功的回调函数
-fail|function| |否|接口调用失败的回调函数
-complete|function| |否|接口调用结束的回调函数（调用成功、失败都会执行）
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用信息</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td><code>string</code></td>
+      <td>剪贴板的内容</td>
+    </tr>
+  </tbody>
+</table>
 
+### Option
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style={{ textAlign: "center"}}>必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td>剪贴板的内容</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 
-```jsx
-import Taro from '@tarojs/taro'
-
-Taro.setClipboardData(params).then(...)
+```tsx
+Taro.setClipboardData({
+  data: 'data',
+  success: function (res) {
+    Taro.getClipboardData({
+      success: function (res) {
+        console.log(res.data) // data
+      }
+    })
+  }
+})
 ```
 
-
-
-## API支持度
-
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
+| :---: | :---: | :---: | :---: |
 | Taro.setClipboardData | ✔️ | ✔️(部分实现) | ✔️ |
-

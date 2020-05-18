@@ -1,25 +1,28 @@
 ---
-title: Taro.faceVerifyForPay(OBJECT)
+title: Taro.faceVerifyForPay(option)
 sidebar_label: faceVerifyForPay
 ---
 
+支付各个安全场景验证人脸
 
-使用方式同 [`wx.faceVerifyForPay`](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.faceVerifyForPay.html)，支持 `Promise` 化使用。
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.faceVerifyForPay.html)
+
+## 类型
+
+```tsx
+(option: any) => Promise<any>
+```
+
+## 参数
 
 ## 示例代码
 
-```jsx
-import Taro from '@tarojs/taro'
-
+```tsx
 Taro.faceVerifyForPay(params).then(...)
 ```
 
-
-
-## API支持度
-
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
+| :---: | :---: | :---: | :---: |
 | Taro.faceVerifyForPay | ✔️ |  |  |
-

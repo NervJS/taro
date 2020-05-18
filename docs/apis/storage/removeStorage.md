@@ -1,36 +1,80 @@
 ---
-title: Taro.removeStorage(OBJECT)
+title: Taro.removeStorage(option)
 sidebar_label: removeStorage
 ---
 
+从本地缓存中移除指定 key
 
-从本地缓存中异步移除指定 key，支持 `Promise` 化使用。
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorage.html)
 
-**OBJECT 参数说明：**
+## 类型
 
-| 参数 | 类型 | 必填 | 说明 |
-| :-- | :-- | :-- | :-- |
-| key | String | 是 | 本地缓存中的指定的 key |
-| success | Function | 否 | 接口调用成功的回调函数 |
-| fail | Function | 否 | 接口调用失败的回调函数 |
-| complete | Function | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
+```tsx
+(option: Option) => Promise<CallbackResult>
+```
+
+## 参数
+
+### Option
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style={{ textAlign: "center"}}>必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>key</td>
+      <td><code>string</code></td>
+      <td style={{ textAlign: "center"}}>是</td>
+      <td>本地缓存中指定的 key</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 
-```jsx
-import Taro from '@tarojs/taro'
-
-Taro.removeStorage({ key: 'key' })
-  .then(res => console.log(res))
+```tsx
+Taro.removeStorage({
+  key: 'key',
+  success: function (res) {
+    console.log(res)
+  }
+})
 ```
 
+```tsx
+try {
+  Taro.removeStorageSync('key')
+} catch (e) {
+  // Do something when catch error
+}
+```
 
-
-## API支持度
-
+## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
-| :-: | :-: | :-: | :-: |
+| :---: | :---: | :---: | :---: |
 | Taro.removeStorage | ✔️ | ✔️ | ✔️ |
-| Taro.removeStorageSync | ✔️ | ✔️ |  |
-

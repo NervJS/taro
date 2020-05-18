@@ -3,30 +3,19 @@ title: WebView
 sidebar_label: WebView
 ---
 
-##### WebView 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用
+web-view 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用。
 
-> 组件 支持度
+> [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html)
 
-| H5 | ReactNative |
-| :-: | :-: |
-| ✔ | ✔ |
+## 类型
 
+```tsx
+ComponentType<WebViewProps>
+```
 
->其他相关属性请看各小程序官方文档
+## 示例代码
 
-[微信小程序 WebView](https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html)。
-
-[百度小程序 WebView](https://smartprogram.baidu.com/docs/develop/component/open/#web-view)。
-
-[支付宝小程序 WebView](https://docs.alipay.com/mini/component/web-view)。
-
-[字节跳动小程序 WebView](https://developer.toutiao.com/docs/comp/web-view.html)。
-
-```jsx
-import Taro, { Component } from '@tarojs/taro'
-// 引入 WebView 组件
-import { WebView } from '@tarojs/components'
-
+```tsx
 class App extends Component {
   handleMessage () {}
   
@@ -37,3 +26,114 @@ class App extends Component {
   }
 }
 ```
+
+## WebViewProps
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td>是</td>
+      <td>webview 指向网页的链接。可打开关联的公众号的文章，其它网页需登录小程序管理后台配置业务域名。</td>
+    </tr>
+    <tr>
+      <td>onMessage</td>
+      <td><code>BaseEventOrigFunction&lt;onMessageEventDetail&gt;</code></td>
+      <td>否</td>
+      <td>网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = {`{ data }`}</td>
+    </tr>
+    <tr>
+      <td>onLoad</td>
+      <td><code>BaseEventOrigFunction&lt;onLoadEventDetail&gt;</code></td>
+      <td>否</td>
+      <td>网页加载成功时候触发此事件。e.detail = {`{ src }`}</td>
+    </tr>
+    <tr>
+      <td>onError</td>
+      <td><code>BaseEventOrigFunction&lt;onErrorEventDetail&gt;</code></td>
+      <td>否</td>
+      <td>网页加载失败的时候触发此事件。e.detail = {`{ src }`}</td>
+    </tr>
+  </tbody>
+</table>
+
+### API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| WebViewProps.src | ✔️ | ✔️ |  |
+| WebViewProps.onMessage | ✔️ |  |  |
+| WebViewProps.onLoad | ✔️ | ✔️ |  |
+| WebViewProps.onError | ✔️ | ✔️ |  |
+
+### onMessageEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>any[]</code></td>
+      <td>消息数据，是多次 postMessage 的参数组成的数组</td>
+    </tr>
+  </tbody>
+</table>
+
+### onLoadEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td>网页链接</td>
+    </tr>
+  </tbody>
+</table>
+
+### onErrorEventDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td>网页链接</td>
+    </tr>
+  </tbody>
+</table>
+
+## API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| WebView | ✔️ | ✔️ | ✔️ |
