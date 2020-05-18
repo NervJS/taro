@@ -2,6 +2,7 @@ const { join } = require('path')
 const buble = require('rollup-plugin-buble')
 const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
+const alias = require('rollup-plugin-alias')
 const typescript = require('rollup-plugin-typescript2')
 const cwd = __dirname
 
@@ -17,14 +18,14 @@ const baseConfig = {
     }
   ],
   plugins: [
-    // alias({
-    //   entries: [
-    //     {
-    //       find: '@tarojs/shared',
-    //       replacement: join(cwd, '../shared/dist/shared.esm')
-    //     }
-    //   ]
-    // }),
+    alias({
+      entries: [
+        {
+          find: '@tarojs/shared',
+          replacement: join(cwd, '../shared/dist/shared.esm')
+        }
+      ]
+    }),
     resolve(),
     commonjs(),
     typescript(),
