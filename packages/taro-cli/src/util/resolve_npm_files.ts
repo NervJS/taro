@@ -520,10 +520,16 @@ export function npmCodeHack (filePath: string, content: string, buildAdapter: BU
   const basename = path.basename(filePath)
   switch (basename) {
     case 'mobx.js':
-      // 解决支付宝小程序全局window或global不存在的问题
+      // 解决支付宝和快应用 global 问题
+      let globalContent
+      if (process.env.TARO_ENV === 'quickapp') {
+        globalContent = 'global.__proto__'
+      } else {
+        globalContent = 'typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {}'
+      }
       content = content.replace(
         /typeof window\s{0,}!==\s{0,}['"]undefined['"]\s{0,}\?\s{0,}window\s{0,}:\s{0,}global/,
-        'typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {}'
+        globalContent
       )
       break
     case '_html.js':
