@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mobx-common",
-  "version": "1.3.42",
+  "version": "1.3.43",
   "description": "mobx library for taro",
   "keywords": [
     "mobx",

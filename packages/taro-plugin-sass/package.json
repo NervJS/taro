@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-sass",
-  "version": "1.3.42",
+  "version": "1.3.43",
   "description": "Taro编译sass文件",
   "main": "index.js",
   "files": [
