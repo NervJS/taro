@@ -25232,10 +25232,14 @@ Element.remove()
         return type === \\"vue\\" ? router_esm_createVuePullDown(el, path, framework) : createReactPullDown(el, framework);
     };
     var createReactPullDown = function createReactPullDown(el, R) {
+        var _a;
+        var isReactComponent = typeof el.render === \\"function\\" || !!((_a = el.prototype) === null || _a === void 0 ? void 0 : _a.isReactComponent) || el.prototype instanceof R.Component;
         return R.forwardRef((function(props, ref) {
-            return R.createElement(\\"taro-pull-to-refresh\\", null, R.createElement(el, Object.assign(Object.assign({}, props), {
-                \\"ref\\": ref
-            })));
+            var newProps = Object.assign({}, props);
+            if (isReactComponent) {
+                newProps.ref = ref;
+            }
+            return R.createElement(\\"taro-pull-to-refresh\\", null, R.createElement(el, newProps));
         }));
     };
     var router_esm_createVuePullDown = function createVuePullDown(el, path, vue) {
@@ -67689,10 +67693,14 @@ Element.remove()
         return type === \\"vue\\" ? router_esm_createVuePullDown(el, path, framework) : createReactPullDown(el, framework);
     };
     var createReactPullDown = function createReactPullDown(el, R) {
+        var _a;
+        var isReactComponent = typeof el.render === \\"function\\" || !!((_a = el.prototype) === null || _a === void 0 ? void 0 : _a.isReactComponent) || el.prototype instanceof R.Component;
         return R.forwardRef((function(props, ref) {
-            return R.createElement(\\"taro-pull-to-refresh\\", null, R.createElement(el, Object.assign(Object.assign({}, props), {
-                \\"ref\\": ref
-            })));
+            var newProps = Object.assign({}, props);
+            if (isReactComponent) {
+                newProps.ref = ref;
+            }
+            return R.createElement(\\"taro-pull-to-refresh\\", null, R.createElement(el, newProps));
         }));
     };
     var router_esm_createVuePullDown = function createVuePullDown(el, path, vue) {
