@@ -1,5 +1,22 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.42...v) (2020-04-16)
+# [](https://github.com/NervJS/taro/compare/v1.3.43...v) (2020-05-18)
+
+
+
+<a name="1.3.43"></a>
+## [1.3.43](https://github.com/NervJS/taro/compare/v1.3.42...v1.3.43) (2020-05-18)
+
+
+### Bug Fixes
+
+* **alipay:** 修复支付宝分包页Interceptor 不生效的问题, fix [#6129](https://github.com/NervJS/taro/issues/6129) ([dba24d8](https://github.com/NervJS/taro/commit/dba24d8))
+* **taro-h5:** 修复h5的chooseImage API无法动态设置souceType的问题，对齐小程序端 ([3368299](https://github.com/NervJS/taro/commit/3368299))
+* **transformer:** 修复函数式组件 render props 不能正确解析的问题 ([22f10d8](https://github.com/NervJS/taro/commit/22f10d8))
+
+
+### Features
+
+* **taro-cli:** 新增UI编译跨平台支持 ([#6210](https://github.com/NervJS/taro/issues/6210)) ([79aa5b2](https://github.com/NervJS/taro/commit/79aa5b2))
 
 
 
