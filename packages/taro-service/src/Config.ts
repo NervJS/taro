@@ -7,7 +7,9 @@ import {
   SOURCE_DIR,
   OUTPUT_DIR,
   ENTRY,
-  resolveScriptPath
+  resolveScriptPath,
+  createBabelRegister,
+  getModuleDefaultExport
 } from '@tarojs/helper'
 
 import {
@@ -30,13 +32,24 @@ export default class Config {
   }
 
   init () {
-    this.configPath = path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE)
+    this.configPath = resolveScriptPath(path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE))
     if (!fs.existsSync(this.configPath)) {
       this.initialConfig = {}
       this.isInitSuccess = false
     } else {
-      this.initialConfig = require(this.configPath)(merge)
-      this.isInitSuccess = true
+      createBabelRegister({
+        only: [
+          filePath => filePath.indexOf(path.join(this.appPath, CONFIG_DIR_NAME)) >= 0
+        ]
+      })
+      try {
+        this.initialConfig = getModuleDefaultExport(require(this.configPath))(merge)
+        this.isInitSuccess = true
+      } catch (err) {
+        this.initialConfig = {}
+        this.isInitSuccess = false
+        console.log(err)
+      }
     }
   }
 
@@ -70,6 +83,7 @@ export default class Config {
       defineConstants: initialConfig.defineConstants,
       designWidth: initialConfig.designWidth,
       deviceRatio: initialConfig.deviceRatio,
+      terser: initialConfig.terser,
       ...initialConfig[useConfigName]
     }
   }

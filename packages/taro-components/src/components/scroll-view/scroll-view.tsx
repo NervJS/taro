@@ -188,7 +188,9 @@ export class ScrollView implements ComponentInterface {
       ((this.scrollY && offsetHeight + scrollTop + lowerThreshold >= scrollHeight) ||
       (this.scrollX && offsetWidth + scrollLeft + lowerThreshold >= scrollWidth))
     ) {
-      this.onScrollToLower.emit()
+      this.onScrollToLower.emit({
+        direction: this.scrollX ? 'right' : (this.scrollY ? 'bottom' : '')
+      })
     }
 
     if (
@@ -196,7 +198,9 @@ export class ScrollView implements ComponentInterface {
       ((this.scrollY && scrollTop <= upperThreshold) ||
       (this.scrollX && scrollLeft <= upperThreshold))
     ) {
-      this.onScrollToUpper.emit()
+      this.onScrollToUpper.emit({
+        direction: this.scrollX ? 'left' : (this.scrollY ? 'top' : '')
+      })
     }
   }, 200)
 

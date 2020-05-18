@@ -39,6 +39,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+    "@hapi/joi": "17.1.1",
     "@tarojs/helper": "3.0.0-beta.6",
     "@tarojs/service": "3.0.0-beta.6",
     "@tarojs/taro": "3.0.0-beta.6",
@@ -80,7 +81,6 @@
     "generic-names": "^2.0.1",
     "glob": "^7.1.2",
     "inquirer": "^5.2.0",
-    "joi": "^14.0.6",
     "klaw": "^2.1.1",
     "latest-version": "^4.0.0",
     "lodash": "^4.17.5",
