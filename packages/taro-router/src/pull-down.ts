@@ -4,7 +4,6 @@ import type Vue from 'vue'
 // eslint-disable-next-line import/no-duplicates
 import type { ComponentOptions } from 'vue'
 import { injectPageInstance } from '@tarojs/runtime'
-import { isFunction } from '@tarojs/shared'
 
 export type R = typeof React
 export type V = typeof Vue
@@ -21,7 +20,7 @@ export const createPullDownRefresh = (
 }
 
 const createReactPullDown = (el, R: R) => {
-  const isReactComponent = isFunction(el.render) ||
+  const isReactComponent = typeof el.render === 'function' ||
     !!el.prototype?.isReactComponent ||
     el.prototype instanceof R.Component // compat for some others react-like library
 
