@@ -19,15 +19,17 @@ export function getPluginPath (pluginPath: string) {
 export function convertPluginsToObject (items: PluginItem[]) {
   return () => {
     const obj = {}
-    items.forEach(item => {
-      if (typeof item === 'string') {
-        const name = getPluginPath(item)
-        obj[name] = null
-      } else if (Array.isArray(item)) {
-        const name = getPluginPath(item[0])
-        obj[name] = item[1]
-      }
-    })
+    if (Array.isArray(items)) {
+      items.forEach(item => {
+        if (typeof item === 'string') {
+          const name = getPluginPath(item)
+          obj[name] = null
+        } else if (Array.isArray(item)) {
+          const name = getPluginPath(item[0])
+          obj[name] = item[1]
+        }
+      })
+    }
     return obj
   }
 }

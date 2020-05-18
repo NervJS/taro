@@ -72,7 +72,7 @@ class Compiler {
 
   constructor (appPath) {
     this.appPath = appPath
-    this.projectConfig = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
+    this.projectConfig = require(resolveScriptPath(path.join(appPath, PROJECT_CONFIG)))(_.merge)
     const sourceDirName = this.projectConfig.sourceRoot || SOURCE_DIR
     this.sourceDir = path.join(appPath, sourceDirName)
     this.entryFilePath = resolveScriptPath(path.join(this.sourceDir, ENTRY))

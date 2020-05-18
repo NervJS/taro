@@ -1,4 +1,4 @@
-import * as Joi from 'joi'
+import * as Joi from '@hapi/joi'
 
 const schema = Joi.object().keys({
   projectName: Joi.string().required(),
@@ -130,6 +130,6 @@ const schema = Joi.object().keys({
       })
     )
   })
-})
+}).unknown()
 
 export default schema
