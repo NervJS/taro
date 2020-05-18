@@ -11,7 +11,11 @@ export default (appPath: string) => {
       modules: [
         'node_modules',
         path.join(appPath, 'node_modules')
-      ]
+      ],
+      alias: {
+        // 小程序使用 regenerator-runtime@0.11
+        'regenerator-runtime': require.resolve('regenerator-runtime')
+      }
     },
     resolveLoader: {
       modules: [
