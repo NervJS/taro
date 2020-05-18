@@ -10995,10 +10995,14 @@ Element.remove()
                     var lowerThreshold = Number(_this.lowerThreshold);
                     var upperThreshold = Number(_this.upperThreshold);
                     if (!isNaN(lowerThreshold) && (_this.scrollY && offsetHeight + scrollTop + lowerThreshold >= scrollHeight || _this.scrollX && offsetWidth + scrollLeft + lowerThreshold >= scrollWidth)) {
-                        _this.onScrollToLower.emit();
+                        _this.onScrollToLower.emit({
+                            \\"direction\\": _this.scrollX ? \\"right\\" : _this.scrollY ? \\"bottom\\" : \\"\\"
+                        });
                     }
                     if (!isNaN(upperThreshold) && (_this.scrollY && scrollTop <= upperThreshold || _this.scrollX && scrollLeft <= upperThreshold)) {
-                        _this.onScrollToUpper.emit();
+                        _this.onScrollToUpper.emit({
+                            \\"direction\\": _this.scrollX ? \\"left\\" : _this.scrollY ? \\"top\\" : \\"\\"
+                        });
                     }
                 }), 200);
                 this.onScroll = Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"d\\"])(this, \\"scroll\\", 7);
