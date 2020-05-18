@@ -25477,115 +25477,14 @@ Element.remove()
         document.body.appendChild(container);
         initTabbar(config);
     }
-    function isFunction(o) {
-        return typeof o === \\"function\\";
-    }
-    var touchEvents = {
-        \\"bindTouchStart\\": \\"\\",
-        \\"bindTouchMove\\": \\"\\",
-        \\"bindTouchEnd\\": \\"\\",
-        \\"bindTouchCancel\\": \\"\\",
-        \\"bindLongTap\\": \\"\\"
-    };
-    var View = Object.assign({
-        \\"hover-class\\": singleQuote(\\"none\\"),
-        \\"hover-stop-propagation\\": \\"false\\",
-        \\"hover-start-time\\": \\"50\\",
-        \\"hover-stay-time\\": \\"400\\",
-        \\"animation\\": \\"\\",
-        \\"bindAnimationEnd\\": \\"\\"
-    }, touchEvents);
-    var Map$1 = Object.assign({
-        \\"longitude\\": \\"\\",
-        \\"latitude\\": \\"\\",
-        \\"scale\\": \\"16\\",
-        \\"markers\\": \\"\\",
-        \\"covers\\": \\"\\",
-        \\"polyline\\": \\"\\",
-        \\"circles\\": \\"\\",
-        \\"controls\\": \\"\\",
-        \\"include-point\\": \\"false\\",
-        \\"show-location\\": \\"\\",
-        \\"polygons\\": \\"\\",
-        \\"subkey\\": \\"\\",
-        \\"layer-style\\": \\"1\\",
-        \\"rotate\\": \\"0\\",
-        \\"skew\\": \\"skew\\",
-        \\"enable-3D\\": \\"false\\",
-        \\"show-compass\\": \\"false\\",
-        \\"show-scale\\": \\"false\\",
-        \\"enable-overlooking\\": \\"false\\",
-        \\"enable-zoom\\": \\"true\\",
-        \\"enable-scroll\\": \\"true\\",
-        \\"enable-rotate\\": \\"false\\",
-        \\"enable-satellite\\": \\"false\\",
-        \\"enable-traffic\\": \\"false\\",
-        \\"setting\\": \\"\\",
-        \\"bindMarkerTap\\": \\"\\",
-        \\"bindLabelTap\\": \\"\\",
-        \\"bindControlTap\\": \\"\\",
-        \\"bindCalloutTap\\": \\"\\",
-        \\"bindUpdated\\": \\"\\",
-        \\"bindRegionChange\\": \\"\\",
-        \\"bindPoiTap\\": \\"\\"
-    }, touchEvents);
-    if (false) {}
-    var CoverView = Object.assign({
-        \\"scroll-top\\": \\"false\\"
-    }, touchEvents);
-    var MovableView = Object.assign({
-        \\"direction\\": \\"none\\",
-        \\"inertia\\": \\"false\\",
-        \\"out-of-bounds\\": \\"false\\",
-        \\"x\\": \\"\\",
-        \\"y\\": \\"\\",
-        \\"damping\\": \\"20\\",
-        \\"friction\\": \\"2\\",
-        \\"disabled\\": \\"\\",
-        \\"scale\\": \\"false\\",
-        \\"scale-min\\": \\"0.5\\",
-        \\"scale-max\\": \\"10\\",
-        \\"scale-value\\": \\"1\\",
-        \\"animation\\": \\"true\\",
-        \\"bindAnimationEnd\\": \\"\\",
-        \\"bindChange\\": \\"\\",
-        \\"bindScale\\": \\"\\",
-        \\"htouchmove\\": \\"\\",
-        \\"vtouchmove\\": \\"\\",
-        \\"width\\": singleQuote(\\"10px\\"),
-        \\"height\\": singleQuote(\\"10px\\")
-    }, touchEvents);
-    var ScrollView = Object.assign({
-        \\"scroll-x\\": \\"false\\",
-        \\"scroll-y\\": \\"false\\",
-        \\"upper-threshold\\": \\"50\\",
-        \\"lower-threshold\\": \\"50\\",
-        \\"scroll-top\\": \\"\\",
-        \\"scroll-left\\": \\"\\",
-        \\"scroll-into-view\\": \\"\\",
-        \\"scroll-with-animation\\": \\"false\\",
-        \\"enable-back-to-top\\": \\"false\\",
-        \\"enable-flex\\": \\"false\\",
-        \\"scroll-anchoring\\": \\" false\\",
-        \\"bindScrolltoUpper\\": \\"\\",
-        \\"bindScrolltoLower\\": \\"\\",
-        \\"bindScroll\\": \\"\\"
-    }, touchEvents);
-    function singleQuote(s) {
-        return \\"'\\".concat(s, \\"'\\");
-    }
     var createPullDownRefresh = function createPullDownRefresh(el, type, path, framework) {
         return type === \\"vue\\" ? router_esm_createVuePullDown(el, path, framework) : createReactPullDown(el, framework);
     };
     var createReactPullDown = function createReactPullDown(el, R) {
-        var _a;
-        var isReactComponent = isFunction(el.render) || !!((_a = el.prototype) === null || _a === void 0 ? void 0 : _a.isReactComponent) || el.prototype instanceof R.Component;
         return R.forwardRef((function(props, ref) {
-            var newProps = Object.assign({}, props);
-            if (isReactComponent) {
-                newProps.ref = ref;
-            }
-            return R.createElement(\\"taro-pull-to-refresh\\", null, R.createElement(el, newProps));
+            return R.createElement(\\"taro-pull-to-refresh\\", null, R.createElement(el, Object.assign(Object.assign({}, props), {
+                \\"ref\\": ref
+            })));
         }));
     };
     var router_esm_createVuePullDown = function createVuePullDown(el, path, vue) {
@@ -25827,20 +25726,20 @@ Element.remove()
         el.style.webkitTransform = val;
         el.style.transform = val;
     }
-    function utils_isFunction(obj) {
+    function isFunction(obj) {
         return typeof obj === \\"function\\";
     }
     function successHandler(success, complete) {
         return function(res) {
-            utils_isFunction(success) && success(res);
-            utils_isFunction(complete) && complete(res);
+            isFunction(success) && success(res);
+            isFunction(complete) && complete(res);
             return Promise.resolve(res);
         };
     }
     function errorHandler(fail, complete) {
         return function(res) {
-            utils_isFunction(fail) && fail(res);
-            utils_isFunction(complete) && complete(res);
+            isFunction(fail) && fail(res);
+            isFunction(complete) && complete(res);
             return Promise.reject(res);
         };
     }
