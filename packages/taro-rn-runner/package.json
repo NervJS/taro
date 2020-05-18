@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "scripts": {
@@ -71,11 +71,11 @@
     "scss-bundle": "^2.5.1",
     "stats-webpack-plugin": "^0.7.0",
     "stylelint": "^9.3.0",
-    "stylelint-config-taro-rn": "^2.2.4",
-    "stylelint-taro-rn": "^2.2.4",
+    "stylelint-config-taro-rn": "^2.2.5",
+    "stylelint-taro-rn": "^2.2.5",
     "stylus-loader": "^3.0.2",
     "tapable": "1.1.3",
-    "taro-css-to-react-native": "^2.2.4",
+    "taro-css-to-react-native": "^2.2.5",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^2.0.0",
     "webpack": "4.41.6",
