@@ -19,7 +19,7 @@ function buildReport (configPath, errors) {
     _.get('details')
   )(errors)
   return {
-    desc: `检查 Taro 配置 (${configPath})`,
+    desc: `检查 Taro 配置 (${configPath})，请到文档查看详情：https://nervjs.github.io/taro/docs/next/config-detail。`,
     lines: errorLines
   }
 }
