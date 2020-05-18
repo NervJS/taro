@@ -1,0 +1,369 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>使用 Redux · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="在 Taro 中可以自由地使用 `React` 生态中非常流行的数据流管理工具 [Redux](http://redux.js.org/) 来解决复杂项目的数据管理问题。而为了更方便地使用 `Redux` ，Taro 提供了与 [react-redux](https://redux.js.org/basics/usage-with-react) API 几乎一致的包 `@tarojs/redux` 来让开发人员获得更加良好的开发体验。"/><meta name="docsearch:version" content="2.1.2"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="使用 Redux · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="在 Taro 中可以自由地使用 `React` 生态中非常流行的数据流管理工具 [Redux](http://redux.js.org/) 来解决复杂项目的数据管理问题。而为了更方便地使用 `Redux` ，Taro 提供了与 [react-redux](https://redux.js.org/basics/usage-with-react) API 几乎一致的包 `@tarojs/redux` 来让开发人员获得更加良好的开发体验。"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.1.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/2.1.2/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.1.2/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.1.2/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>社区生态</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/team.html">Taro 团队</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/join-us.html">加入我们</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/wxcloudbase.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/debug-config.html">单步调测配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">迁移指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/migrate-to-2.html">迁移至 Taro 2.x</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/2.1.2/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/css-modules.html">使用 CSS Modules</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/redux.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">使用 Redux</h1></header><article><div><span><p>在 Taro 中可以自由地使用 <code>React</code> 生态中非常流行的数据流管理工具 <a href="http://redux.js.org/">Redux</a> 来解决复杂项目的数据管理问题。而为了更方便地使用 <code>Redux</code> ，Taro 提供了与 <a href="https://redux.js.org/basics/usage-with-react">react-redux</a> API 几乎一致的包 <code>@tarojs/redux</code> 来让开发人员获得更加良好的开发体验。</p>
+<blockquote>
+<p>下文中示例代码均在 <a href="https://github.com/NervJS/taro-redux-sample">taro-redux-sample</a></p>
+</blockquote>
+<p>首先请安装 <code>redux</code> 、 <code>@tarojs/redux</code> 和 <code>@tarojs/redux-h5</code>，以及一些需要用到的 <code>redux</code> 中间件</p>
+<pre><code class="hljs css language-bash">$ <span class="token function">yarn</span> <span class="token function">add</span> redux @tarojs/redux @tarojs/redux-h5 redux-thunk redux-logger
+<span class="token comment"># 或者使用 npm</span>
+$ <span class="token function">npm</span> <span class="token function">install</span> --save redux @tarojs/redux @tarojs/redux-h5 redux-thunk redux-logger
+</code></pre>
+<p>随后可以在项目 <code>src</code> 目录下新增一个 <code>store</code> 目录，在目录下增加 <code>index.js</code> 文件用来配置 <code>store</code>，按自己喜好设置 <code>redux</code> 的中间件，例如下面例子中使用 <code>redux-thunk</code> 和 <code>redux-logger</code> 这两个中间件</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// src/store/index.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createStore<span class="token punctuation">,</span> applyMiddleware <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span>
+<span class="token keyword">import</span> thunkMiddleware <span class="token keyword">from</span> <span class="token string">'redux-thunk'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createLogger <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux-logger'</span>
+<span class="token keyword">import</span> rootReducer <span class="token keyword">from</span> <span class="token string">'../reducers'</span>
+
+<span class="token keyword">const</span> middlewares <span class="token operator">=</span> <span class="token punctuation">[</span>
+  thunkMiddleware<span class="token punctuation">,</span>
+  <span class="token function">createLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">]</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">configStore</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span>rootReducer<span class="token punctuation">,</span> <span class="token function">applyMiddleware</span><span class="token punctuation">(</span><span class="token operator">...</span>middlewares<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> store
+<span class="token punctuation">}</span>
+</code></pre>
+<p>接下来在项目入口文件 <code>app.js</code> 中使用 <code>@tarojs/redux</code> 中提供的 <code>Provider</code> 组件将前面写好的 <code>store</code> 接入应用中</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// src/app.js</span>
+<span class="token keyword">import</span> Taro<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/taro'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Provider <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/redux'</span>
+
+<span class="token keyword">import</span> configStore <span class="token keyword">from</span> <span class="token string">'./store'</span>
+<span class="token keyword">import</span> Index <span class="token keyword">from</span> <span class="token string">'./pages/index'</span>
+
+<span class="token keyword">import</span> <span class="token string">'./app.scss'</span>
+
+<span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">configStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    pages<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">'pages/index/index'</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    window<span class="token operator">:</span> <span class="token punctuation">{</span>
+      navigationBarTitleText<span class="token operator">:</span> <span class="token string">'Test'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Provider</span></span> <span class="token attr-name">store</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>store<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Index</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Provider</span></span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+Taro<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">App</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'app'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+</code></pre>
+<p>然后就可以开始使用了。如 <code>redux</code> 推荐的那样，可以增加</p>
+<ul>
+<li><code>constants</code> 目录，用来放置所有的 <code>action type</code> 常量</li>
+<li><code>actions</code> 目录，用来放置所有的 <code>actions</code></li>
+<li><code>reducers</code> 目录，用来放置所有的 <code>reducers</code></li>
+</ul>
+<p>例如我们要开发一个简单的加、减计数器功能</p>
+<p>新增 <code>action type</code></p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// src/constants/counter.js</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token constant">ADD</span> <span class="token operator">=</span> <span class="token string">'ADD'</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token constant">MINUS</span> <span class="token operator">=</span> <span class="token string">'MINUS'</span>
+</code></pre>
+<p>新增 <code>reducer</code> 处理</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// src/reducers/counter.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token constant">ADD</span><span class="token punctuation">,</span> <span class="token constant">MINUS</span> <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../constants/counter'</span>
+
+<span class="token keyword">const</span> <span class="token constant">INITIAL_STATE</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  num<span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">counter</span> <span class="token punctuation">(</span><span class="token parameter">state <span class="token operator">=</span> <span class="token constant">INITIAL_STATE</span><span class="token punctuation">,</span> action</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token constant">ADD</span><span class="token operator">:</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token operator">...</span>state<span class="token punctuation">,</span>
+        num<span class="token operator">:</span> state<span class="token punctuation">.</span>num <span class="token operator">+</span> <span class="token number">1</span>
+      <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> <span class="token constant">MINUS</span><span class="token operator">:</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token operator">...</span>state<span class="token punctuation">,</span>
+        num<span class="token operator">:</span> state<span class="token punctuation">.</span>num <span class="token operator">-</span> <span class="token number">1</span>
+      <span class="token punctuation">}</span>
+    <span class="token keyword">default</span><span class="token operator">:</span>
+      <span class="token keyword">return</span> state
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre><code class="hljs css language-jsx"><span class="token comment">// src/reducers/index.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> combineReducers <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span>
+<span class="token keyword">import</span> counter <span class="token keyword">from</span> <span class="token string">'./counter'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">combineReducers</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  counter
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+</code></pre>
+<p>新增 <code>action</code> 处理</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// src/actions/counter.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>
+  <span class="token constant">ADD</span><span class="token punctuation">,</span>
+  <span class="token constant">MINUS</span>
+<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../constants/counter'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> <span class="token constant">ADD</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">minus</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    type<span class="token operator">:</span> <span class="token constant">MINUS</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 异步的 action</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">asyncAdd</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token parameter">dispatch</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>最后，我们可以在页面（或者组件）中进行使用，我们将通过 <code>tarojs/redux</code> 提供的 <code>connect</code> 方法将 <code>redux</code> 与我们的页面进行连接</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// src/pages/index/index.js</span>
+<span class="token keyword">import</span> Taro<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/taro'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> View<span class="token punctuation">,</span> Text <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/components'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> connect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/redux'</span>
+<span class="token keyword">import</span> <span class="token string">'./index.scss'</span>
+
+<span class="token keyword">import</span> <span class="token punctuation">{</span> add<span class="token punctuation">,</span> minus<span class="token punctuation">,</span> asyncAdd <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../../actions/counter'</span>
+
+@<span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> counter <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+  counter
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">dispatch</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token function">add</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">dec</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">minus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">asyncAdd</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">asyncAdd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">Index</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    navigationBarTitleText<span class="token operator">:</span> <span class="token string">'首页'</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>todo<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>add_btn<span class="token punctuation">'</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>add<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token operator">+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Button</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>dec_btn<span class="token punctuation">'</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>dec<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token operator">-</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Button</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>dec_btn<span class="token punctuation">'</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>asyncAdd<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token keyword">async</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Button</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>counter<span class="token punctuation">.</span>num<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> Index
+</code></pre>
+<p><code>connect</code> 方法接受两个参数 <code>mapStateToProps</code> 与 <code>mapDispatchToProps</code></p>
+<ul>
+<li><code>mapStateToProps</code>，函数类型，接受最新的 <code>state</code> 作为参数，用于将 <code>state</code> 映射到组件的 <code>props</code></li>
+<li><code>mapDispatchToProps</code>，函数类型，接收 <code>dispatch()</code> 方法并返回期望注入到展示组件的 <code>props</code> 中的回调方法</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="hooks"></a><a href="#hooks" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hooks</h2>
+<h3><a class="anchor" aria-hidden="true" id="在-redux-中使用-hooks"></a><a href="#在-redux-中使用-hooks" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>在 Redux 中使用 Hooks</h3>
+<p>使用 hooks 的基本设置和使用 <code>connect</code> 的设置是一样的，你需要设置你的 <code>store</code>，并把你的应用放在 <code>Provider</code> 组件中。</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">configreStore</span><span class="token punctuation">(</span>rootReducer<span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Components</span> <span class="token punctuation">{</span>
+    <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Provider</span></span> <span class="token attr-name">store</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>store<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Index</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Provider</span></span><span class="token punctuation">></span></span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在这样的情况下，你就可以使用 <code>taro-redux</code> 提供的 Hooks API 在函数式组件中使用。</p>
+<h3><a class="anchor" aria-hidden="true" id="useselector"></a><a href="#useselector" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useSelector</code></h3>
+<pre><code class="hljs css language-javascript"><span class="token keyword">const</span> result <span class="token operator">:</span> any <span class="token operator">=</span> <span class="token function">useSelector</span><span class="token punctuation">(</span>selector <span class="token operator">:</span> Function<span class="token punctuation">,</span> equalityFn<span class="token operator">?</span> <span class="token operator">:</span> Function<span class="token punctuation">)</span>
+</code></pre>
+<p><code>useSelector</code> 允许你使用 selector 函数从一个 Redux Store 中获取数据。</p>
+<p>Selector 函数大致相当于 <code>connect</code> 函数的 <code>mapStateToProps</code> 参数。Selector 会在组件每次渲染时调用。<code>useSelector</code> 同样会订阅 Redux store，在 Redux action 被 dispatch 时调用。</p>
+<p>但 <code>useSelector</code> 还是和 <code>mapStateToProps</code> 有一些不同：</p>
+<ul>
+<li>不像 <code>mapStateToProps</code> 只返回对象一样，Selector 可能会返回任何值。</li>
+<li>当一个 action dispatch 时，<code>useSelector</code> 会把 selector 的前后返回值做一次浅对比，如果不同，组件会强制更新。</li>
+<li>Selector 函数不接受 <code>ownProps</code> 参数。但 selector 可以通过闭包访问函数式组件传递下来的 props。</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="使用案例"></a><a href="#使用案例" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用案例</h4>
+<p>基本使用：</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">import</span> Taro<span class="token punctuation">,</span> <span class="token punctuation">{</span> Components <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/taro'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> useSelector <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/redux'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">CounterComponent</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> counter <span class="token operator">=</span> <span class="token function">useSelector</span><span class="token punctuation">(</span><span class="token parameter">state</span> <span class="token operator">=></span> state<span class="token punctuation">.</span>counter<span class="token punctuation">)</span>
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>counter<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>使用闭包决定如何 select 数据：</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">TodoListItem</span> <span class="token operator">=</span> <span class="token parameter">props</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> todo <span class="token operator">=</span> <span class="token function">useSelector</span><span class="token punctuation">(</span><span class="token parameter">state</span> <span class="token operator">=></span> state<span class="token punctuation">.</span>todos<span class="token punctuation">[</span>props<span class="token punctuation">.</span>id<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>todo<span class="token punctuation">.</span>text<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="进阶使用"></a><a href="#进阶使用" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>进阶使用</h4>
+<p>你还可以访问 <a href="https://react-redux.js.org/api/hooks#using-memoizing-selectors">react-redux 文档</a> 了解如何使用 <code>reselect</code> 缓存 selector。</p>
+<h3><a class="anchor" aria-hidden="true" id="usedispatch"></a><a href="#usedispatch" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useDispatch</code></h3>
+<pre><code class="hljs css language-javascript"><span class="token keyword">const</span> dispatch <span class="token operator">=</span> <span class="token function">useDispatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>这个 Hook 返回 Redux store 的 <code>dispatch</code> 引用。你可以使用它来 dispatch actions。</p>
+<h4><a class="anchor" aria-hidden="true" id="使用案例-1"></a><a href="#使用案例-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用案例</h4>
+<pre><code class="hljs css language-jsx"><span class="token keyword">import</span> Taro<span class="token punctuation">,</span> <span class="token punctuation">{</span> Components <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/taro'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> useDispatch <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/redux'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">CounterComponent</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> value <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> dispatch <span class="token operator">=</span> <span class="token function">useDispatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>value<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">'increment-counter'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+        Increment counter
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Button</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>当我们使用 <code>dispatch</code> 传递回调到一个子组件时，推荐使用 <code>useCallback</code> 把回调缓存起来，因为组件可能因为引用改变而重新渲染。</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// CounterComponent.js</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">CounterComponent</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> value <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> dispatch <span class="token operator">=</span> <span class="token function">useDispatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> incrementCounter <span class="token operator">=</span> <span class="token function">useCallback</span><span class="token punctuation">(</span>
+    <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">'increment-counter'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>dispatch<span class="token punctuation">]</span>
+  <span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>value<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">MyIncrementButton</span></span> <span class="token attr-name">onIncrement</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>incrementCounter<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// IncrementButton.js</span>
+<span class="token keyword">const</span> <span class="token function-variable function">MyIncrementButton</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> onIncrement <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>onIncrement<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>Increment counter<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Button</span></span><span class="token punctuation">></span></span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> Taro<span class="token punctuation">.</span><span class="token function">memo</span><span class="token punctuation">(</span>MyIncrementButton<span class="token punctuation">)</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="usestore"></a><a href="#usestore" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useStore</code></h3>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> store = useStore()
+</code></pre>
+<p><code>useStore</code> 返回一个 store 引用和 <code>Provider</code> 组件引用完全一致。</p>
+<p>这个 hook 可能并不经常使用。<code>useSelector</code> 大部分情况是你的第一选择，如果需要替换 reducers 的情况下可能会使用到这个 API。</p>
+<h4><a class="anchor" aria-hidden="true" id="使用案例-2"></a><a href="#使用案例-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用案例</h4>
+<pre><code class="hljs css language-jsx"><span class="token keyword">import</span> Taro<span class="token punctuation">,</span> <span class="token punctuation">{</span> Components <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/taro'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> useStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/redux'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">CounterComponent</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> value <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">useStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token comment">// EXAMPLE ONLY! Do not do this in a real app.</span>
+  <span class="token comment">// The component will not automatically update if the store state changes</span>
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">{</span>store<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token punctuation">}</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/2.1.2/migrate-to-2.html"><span class="arrow-prev">← </span><span>迁移至 Taro 2.x</span></a><a class="docs-next button" href="/taro/docs/2.1.2/mobx.html"><span class="function-name-prevnext">使用 MobX</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#hooks">Hooks</a><ul class="toc-headings"><li><a href="#在-redux-中使用-hooks">在 Redux 中使用 Hooks</a></li><li><a href="#useselector"><code>useSelector</code></a></li><li><a href="#usedispatch"><code>useDispatch</code></a></li><li><a href="#usestore"><code>useStore</code></a></li></ul></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

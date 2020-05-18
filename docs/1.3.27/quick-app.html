@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>快应用端开发流程 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; 从 **1.3 beta** 版本开始支持快应用开发&lt;br/&gt;"/><meta name="docsearch:version" content="1.3.27"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="快应用端开发流程 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="&gt; 从 **1.3 beta** 版本开始支持快应用开发&lt;br/&gt;"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>1.3.27</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/1.3.27/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/1.3.27/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/1.3.27/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>多端开发</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/team.html">Taro 团队</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/wxcloud.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/1.3.27/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/css-modules.html">CSS Modules 的使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.27/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/quick-app.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">快应用端开发流程</h1></header><article><div><span><blockquote>
+<p>从 <strong>1.3 beta</strong> 版本开始支持快应用开发<br/>
+本章节主要讲解快应用端 环境安装-开发-调试-打包-发布 原理及流程</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="简介"></a><a href="#简介" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>简介</h2>
+<p>Taro 支持快应用端开发</p>
+<h2><a class="anchor" aria-hidden="true" id="安装"></a><a href="#安装" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>安装</h2>
+<h3><a class="anchor" aria-hidden="true" id="搭建快应用环境"></a><a href="#搭建快应用环境" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>搭建快应用环境</h3>
+<h4><a class="anchor" aria-hidden="true" id="手机安装调试器"></a><a href="#手机安装调试器" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>手机安装调试器</h4>
+<p>调试器是一个 Android 应用程序，下载调试器 APK 详见<a href="https://www.quickapp.cn/docCenter/post/69">资源下载</a></p>
+<p>在手机上安装并打开调试器，按钮功能如下：</p>
+<ul>
+<li><strong>扫码安装</strong>：配置 HTTP 服务器地址，下载 rpk 包，并唤起平台运行 rpk 包</li>
+<li><strong>本地安装</strong>：选择手机文件系统中的 rpk 包，并唤起平台运行 rpk 包</li>
+<li><strong>在线更新</strong>：重新发送 HTTP 请求，更新 rpk 包，并唤起平台运行 rpk 包</li>
+<li><strong>开始调试</strong>：唤起平台运行 rpk 包，并启动远程调试
+<strong>注意</strong>：若打开调试器无法点击按钮，请升级手机系统到最新版本或安装平台预览版</li>
+</ul>
+<p>安装成功后如下图所示：</p>
+<p><img src="https://doc.quickapp.cn/tutorial/overview/images/img2.png" alt="img"></p>
+<h4><a class="anchor" aria-hidden="true" id="手机安装平台预览版"></a><a href="#手机安装平台预览版" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>手机安装平台预览版</h4>
+<p>较新的系统版本中内置平台正式版，开发调试平台新功能可使用平台预览版</p>
+<p>平台预览版存在以下优缺点：</p>
+<ul>
+<li>优点：迭代速度快，可立即体验平台新功能</li>
+<li>缺点：实现与真实的运行环境存在差异，对厂商服务和第三方服务的支持存在缺陷
+平台预览版是一个 Android 应用程序，下载平台预览版 APK 详见<a href="https://www.quickapp.cn/docCenter/post/69">资源下载</a></li>
+</ul>
+<p>下载安装成功后，在手机调试器中点击切换运行平台至org.hapjs.mockup，即可在平台预览版上安装运行 rpk 包</p>
+<h3><a class="anchor" aria-hidden="true" id="开发调试"></a><a href="#开发调试" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>开发调试</h3>
+<p>在手机上安装完调试器后，就可以执行 Taro 的快应用编译命令开始编译了</p>
+<pre><code class="hljs css language-bash">$ taro build --type quickapp --watch
+</code></pre>
+<p>在编译完成后会遇到如下输出结果</p>
+<p><img src="https://ws1.sinaimg.cn/large/49320207gy1g2qeziw5ouj218m0vewkd.jpg" alt=""></p>
+<p>Taro 在将代码编译完后，会自动下载快应用的容器模板，同时安装好相关的依赖，随后就会自动启动快应用的服务，此时，只需要使用手机上安装的调试器扫码就能直接在手机上进行调试了。</p>
+<h3><a class="anchor" aria-hidden="true" id="使用-ide"></a><a href="#使用-ide" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 IDE</h3>
+<p><a href="https://doc.quickapp.cn/tutorial/ide/overview.html">https://doc.quickapp.cn/tutorial/ide/overview.html</a></p>
+<h3><a class="anchor" aria-hidden="true" id="快应用配置"></a><a href="#快应用配置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>快应用配置</h3>
+<p>在 Taro 编译适配快应用需要进行一些配置，适配的具体原因可以参考<a href="/taro/docs/1.3.27/taro-quickapp-manifest.html#Taro和快应用配置差异">Taro和快应用配置差异</a>，通过在项目根目录下添加 <code>project.quickapp.json</code> 大体的配置项可以参考快应用官方文档的 <a href="https://doc.quickapp.cn/framework/manifest.html">manifest 配置</a>，而 Taro 中支持以下配置：</p>
+<table>
+<thead>
+<tr><th style="text-align:left">属性</th><th style="text-align:left">类型</th><th style="text-align:left">默认值</th><th style="text-align:left">必填</th><th style="text-align:left">描述</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left">package</td><td style="text-align:left">String</td><td style="text-align:left">-</td><td style="text-align:left">是</td><td style="text-align:left">应用包名，确认与原生应用的包名不一致，推荐采用 com.company.module 的格式，如：com.example.demo</td></tr>
+<tr><td style="text-align:left">name</td><td style="text-align:left">String</td><td style="text-align:left">-</td><td style="text-align:left">是</td><td style="text-align:left">应用名称，6 个汉字以内，与应用商店保存的名称一致，用于在桌面图标、弹窗等处显示应用名称</td></tr>
+<tr><td style="text-align:left">icon</td><td style="text-align:left">String</td><td style="text-align:left">-</td><td style="text-align:left">是</td><td style="text-align:left">应用图标，提供 192x192 大小的即可</td></tr>
+<tr><td style="text-align:left">versionName</td><td style="text-align:left">String</td><td style="text-align:left">-</td><td style="text-align:left">否</td><td style="text-align:left">应用版本名称，如：&quot;1.0&quot;</td></tr>
+<tr><td style="text-align:left">versionCode</td><td style="text-align:left">Integer</td><td style="text-align:left">-</td><td style="text-align:left">是</td><td style="text-align:left">应用版本号，从1自增，推荐每次重新上传包时versionCode+1</td></tr>
+<tr><td style="text-align:left">minPlatformVersion</td><td style="text-align:left">Integer</td><td style="text-align:left">-</td><td style="text-align:left">否</td><td style="text-align:left">支持的最小平台版本号，兼容性检查，避免上线后在低版本平台运行并导致不兼容；如果不填按照内测版本处理</td></tr>
+<tr><td style="text-align:left">features</td><td style="text-align:left">Array</td><td style="text-align:left">-</td><td style="text-align:left">否</td><td style="text-align:left">接口列表，绝大部分接口都需要在这里声明，否则不能调用，详见每个接口的文档说明</td></tr>
+<tr><td style="text-align:left">config</td><td style="text-align:left">Object</td><td style="text-align:left">-</td><td style="text-align:left">是</td><td style="text-align:left">系统配置信息，详见<a href="https://doc.quickapp.cn/framework/manifest.html#config">说明</a></td></tr>
+<tr><td style="text-align:left">subpackages <code>1040+</code></td><td style="text-align:left">Object</td><td style="text-align:left">-</td><td style="text-align:left">否</td><td style="text-align:left">定义并启用分包加载，详见<a href="https://doc.quickapp.cn/framework/manifest.html#subpackages">说明</a></td></tr>
+</tbody>
+</table>
+<p>可以看出，相比于快应用官方的配置项，Taro 中支持的配置项缺少了 <a href="https://doc.quickapp.cn/framework/manifest.html#router">router</a> 与 <a href="https://doc.quickapp.cn/framework/manifest.html#display">display</a> 配置，这是因为这两项配置在 Taro 编译时会根据用户代码直接生成，不再需要额外配置。</p>
+<p>而为了让用户更加方便进行快应用相关配置，Taro 增加了一些额外的配置项，例如：</p>
+<p><code>customPageConfig</code> 是为了让用户可以为每个页面配置快应用独有的 <code>filter</code> 与 <code>launchMode</code> 它直接配置在 <code>project.quickapp.json</code> 中，它是一个对象的类型，其 key 值即为页面路径，与 <strong>入口文件</strong> 中 <code>config</code> 下 <code>pages</code> 数组中配置的页面路径保持一致，常见例子如下</p>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"customPageConfig"</span>: {
+    <span class="hljs-attr">"pages/index/index"</span>: {
+      <span class="hljs-attr">"filter"</span>: {
+        <span class="hljs-attr">"&lt;action&gt;"</span>: {
+          <span class="hljs-attr">"uri"</span>: <span class="hljs-string">"&lt;pattern&gt;"</span>
+        }
+      },
+      <span class="hljs-attr">"launchMode"</span>: <span class="hljs-string">"standard"</span>
+    }
+  }
+}
+</code></pre>
+<p>一个典型的 <code>project.quickapp.json</code> 配置参考<a href="https://github.com/NervJS/taro/blob/master/packages/taro-cli/src/config/manifest.default.json">例子</a></p>
+<h3><a class="anchor" aria-hidden="true" id="taro组件和快应用组件差异剖析"></a><a href="#taro组件和快应用组件差异剖析" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Taro组件和快应用组件差异剖析</h3>
+<p>​       Taro已经可以编译出可在微信/百度/支付宝/字节跳动小程序、H5、React-Native运行的代码，近期也增加了快应用的支持，那必不可少的一步就是组件库的转换，众所周知小程序开发离不开三大要素——界面表现（结构、外观）层、逻辑处理层与系统接口层（网络、存储与媒体等），其中界面结构指的就是组件库，那立足于微信小程序的Taro组件和快应用组件有何异同？Taro是如何处理这些差异的？且看下文.</p>
+<p>​      小程序官网放出来了一个<a href="https://github.com/wechat-miniprogram/miniprogram-demo">体验小程序</a>用来展示它的组件 / API / 云开发能力，快应用官方也出了一个能力展示的开源项目<a href="https://github.com/quickappcn/sample">sample</a>,乍看好像差不多，其实两者之间的差异还是很多的，由于Taro组件基本上是微信小程序组件变为首字母大写之后形成的，下面以微信小程序组件为基准，看看快应用的组件能力如何，首先看视图容器：</p>
+<h2><a class="anchor" aria-hidden="true" id="视图容器"></a><a href="#视图容器" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>视图容器</h2>
+<table>
+<thead>
+<tr><th style="text-align:left">微信小程序组件</th><th style="text-align:left">功能说明</th><th>对应快应用组件</th><th>Taro如何模拟</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/cover-image.html">cover-image</a></td><td style="text-align:left">覆盖在原生组件之上的图片视图</td><td>无</td><td>用image模拟，丢失bindload和binderror事件</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/cover-view.html">cover-view</a></td><td style="text-align:left">覆盖在原生组件之上的文本视图</td><td>无</td><td>用div模拟，丢失scroll-top属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/movable-area.html">movable-area</a></td><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/movable-view.html">movable-view</a>的可移动区域</td><td>无</td><td>用div模拟，丢失scale-area属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/movable-view.html">movable-view</a></td><td style="text-align:left">可移动的视图容器，在页面中可以拖拽滑动</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html">scroll-view</a></td><td style="text-align:left">可滚动视图区域</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/swiper.html">swiper</a></td><td style="text-align:left">滑块视图容器</td><td><a href="https://doc.quickapp.cn/widgets/swiper.html">swiper</a></td><td>指示点颜色可通过样式补齐、丢失previous-margin、easing-function等属性，</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/swiper-item.html">swiper-item</a></td><td style="text-align:left">仅可放置在<a href="https://developers.weixin.qq.com/miniprogram/dev/component/swiper.html">swiper</a>组件中，宽高自动设置为100%</td><td>无</td><td>用text或image模拟，丢失item-id属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/view.html">view</a></td><td style="text-align:left">视图容器</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+</tbody>
+</table>
+<p>再来看基础组件和表单组件：</p>
+<h2><a class="anchor" aria-hidden="true" id="基础组件"></a><a href="#基础组件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>基础组件</h2>
+<table>
+<thead>
+<tr><th style="text-align:left">微信小程序组件</th><th style="text-align:left">功能说明</th><th>对应快应用组件</th><th>Taro如何模拟</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/icon.html">icon</a></td><td style="text-align:left">图标</td><td>无</td><td>用div模拟，丢失type\size\color属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/progress.html">progress</a></td><td style="text-align:left">进度条</td><td><a href="https://doc.quickapp.cn/widgets/progress.html">progress</a></td><td>只保留了percent属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/rich-text.html">rich-text</a></td><td style="text-align:left">富文本</td><td><a href="https://doc.quickapp.cn/widgets/richtext.html">richtext</a></td><td>nodes属性做一次AST映射到变量中，丢失space属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/text.html">text</a></td><td style="text-align:left">文本</td><td><a href="https://doc.quickapp.cn/widgets/text.html">text</a></td><td>少有的比微信丰富的组件，模拟之后丢失所有属性</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="表单组件"></a><a href="#表单组件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>表单组件</h2>
+<table>
+<thead>
+<tr><th style="text-align:left">名称</th><th style="text-align:left">功能说明</th><th>对应快应用组件</th><th>Taro如何模拟</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/button.html">button</a></td><td style="text-align:left">按钮</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html">checkbox</a></td><td style="text-align:left">多选项目</td><td>无</td><td>用input模拟，丢失color属性，仿真度高</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/checkbox-group.html">checkbox-group</a></td><td style="text-align:left">多项选择器，内部由多个<a href="https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html">checkbox</a>组成</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/editor.html">editor</a></td><td style="text-align:left">富文本编辑器，可以对图片、文字进行编辑</td><td>无</td><td>用richtext模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/form.html">form</a></td><td style="text-align:left">表单</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/input.html">input</a></td><td style="text-align:left">输入框</td><td><a href="https://doc.quickapp.cn/widgets/input.html">input</a></td><td>丢失passwd、bindinput等属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/label.html">label</a></td><td style="text-align:left">用来改进表单组件的可用性</td><td><a href="https://doc.quickapp.cn/widgets/label.html">label</a></td><td>for属性对应target，但不支持子组件模拟</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/picker.html">picker</a></td><td style="text-align:left">从底部弹起的滚动选择器</td><td><a href="https://doc.quickapp.cn/widgets/picker.html">picker</a></td><td>丢失省市选择器类型，转换规则随type变化，模拟复杂</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/picker-view.html">picker-view</a></td><td style="text-align:left">嵌入页面的滚动选择器</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/picker-view-column.html">picker-view-column</a></td><td style="text-align:left">滚动选择器子项</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/radio.html">radio</a></td><td style="text-align:left">单选项目</td><td>无</td><td>用input模拟，丢失color属性，仿真度高</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/radio-group.html">radio-group</a></td><td style="text-align:left">单项选择器，内部由多个 <a href="https://developers.weixin.qq.com/miniprogram/dev/component/radio.html">radio</a> 组成</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/slider.html">slider</a></td><td style="text-align:left">滑动选择器</td><td><a href="https://doc.quickapp.cn/widgets/slider.html">slider</a></td><td>丢失color、block-size等属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/switch.html">switch</a></td><td style="text-align:left">开关选择器</td><td><a href="https://doc.quickapp.cn/widgets/switch.html">switch</a></td><td>丢失color、disabled等属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/textarea.html">textarea</a></td><td style="text-align:left">多行输入框</td><td><a href="https://doc.quickapp.cn/widgets/textarea.html">textarea</a></td><td>只保留了placeholder、maxlength属性</td></tr>
+</tbody>
+</table>
+<p>最后是不常用到的导航、媒体、地图和画布组件对比</p>
+<h2><a class="anchor" aria-hidden="true" id="导航"></a><a href="#导航" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>导航</h2>
+<table>
+<thead>
+<tr><th style="text-align:left">名称</th><th style="text-align:left">功能说明</th><th>对应快应用组件</th><th>Taro如何模拟</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/functional-page-navigator.html">functional-page-navigator</a></td><td style="text-align:left">仅在插件中有效，用于跳转到插件功能页</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html">navigator</a></td><td style="text-align:left">页面链接</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="媒体组件"></a><a href="#媒体组件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>媒体组件</h2>
+<table>
+<thead>
+<tr><th style="text-align:left">名称</th><th style="text-align:left">功能说明</th><th>对应快应用组件</th><th>Taro如何模拟</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/audio.html">audio</a></td><td style="text-align:left">音频</td><td>无</td><td>div+slider+接口方式模拟，仅保留基本功能</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/camera.html">camera</a></td><td style="text-align:left">系统相机</td><td><a href="https://doc.quickapp.cn/widgets/camera.html">camera</a></td><td>仅保留device-position、flash、binderror属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/image.html">image</a></td><td style="text-align:left">图片</td><td><a href="https://doc.quickapp.cn/widgets/image.html">image</a></td><td>仅保留src属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html">live-player</a></td><td style="text-align:left">实时音视频播放</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html">live-pusher</a></td><td style="text-align:left">实时音视频录制</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/video.html">video</a></td><td style="text-align:left">视频</td><td><a href="https://doc.quickapp.cn/widgets/video.html">video</a></td><td>只保留src、autoplay、poster、controls和muted属性</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="地图"></a><a href="#地图" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>地图</h2>
+<table>
+<thead>
+<tr><th style="text-align:left">名称</th><th style="text-align:left">功能说明</th><th>对应快应用组件</th><th>Taro如何模拟</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/map.html">map</a></td><td style="text-align:left">地图</td><td><a href="https://doc.quickapp.cn/widgets/map.html">map</a></td><td>仿真度较高，属性可以做到一一映射</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="画布"></a><a href="#画布" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>画布</h2>
+<table>
+<thead>
+<tr><th style="text-align:left">名称</th><th style="text-align:left">功能说明</th><th>对应快应用组件</th><th>Taro如何模拟</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html">canvas</a></td><td style="text-align:left">画布</td><td><a href="https://doc.quickapp.cn/widgets/canvas.html">canvas</a></td><td>同名但一个是组件，一个是通过API模拟的，只能用div模拟</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="开放能力"></a><a href="#开放能力" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>开放能力</h2>
+<table>
+<thead>
+<tr><th style="text-align:left">名称</th><th style="text-align:left">功能说明</th><th>对应快应用组件</th><th>Taro如何模拟</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html">web-view</a></td><td style="text-align:left">承载网页的容器</td><td>无</td><td>通过web组件仿真</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/ad.html">ad</a></td><td style="text-align:left">Banner 广告</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/official-account.html">official-account</a></td><td style="text-align:left">公众号关注组件</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/component/open-data.html">open-data</a></td><td style="text-align:left">用于展示微信开放的数据</td><td>无</td><td>用div模拟，丢失所有属性</td></tr>
+</tbody>
+</table>
+<p>从上面的数据来看，快应用支持的组件还很不完善，如果之前使用Taro开发微信小程序的话，想直接转到快应用是很难的（还有样式的严格限制），看到这里你可能会对快应用有点失望，但是快应用在手机端的原生渲染性能是微信小程序不能比的，下面的快应用特色组件会让你刮目相看：</p>
+<p>1.使用list+list-item实现<a href="https://doc.quickapp.cn/tutorial/widgets/list-tutorial.html">流畅的滚动列表</a></p>
+<p>2.新鲜的气泡组件<a href="https://doc.quickapp.cn/widgets/popup.html">popup</a></p>
+<p>3.想实现盖楼功能? 看看这个堆叠组件<a href="https://doc.quickapp.cn/widgets/stack.html">stack</a></p>
+<p>4.快应用也有tabbar，<a href="https://doc.quickapp.cn/widgets/tabs.html">tabs</a> / tab-bar/tab-content三剑客</p>
+<p>5.外卖应用必不可少的星级评分组件<a href="https://doc.quickapp.cn/widgets/rating.html">rating</a></p>
+<hr>
+<p>以上就是Taro组件和快应用组件的一个概览对比，总结来说，如果想实现多端一致，请尽量在Taro里面使用仿真度高的组件，比如Swiper、Image、Text、Input、Label、Picker、Video、Map、Camera、Canvas、Slider、Textarea等，随着快应用不断完善，相信这些差异会逐渐补齐的。</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/1.3.27/miniprogram-plugin.html"><span class="arrow-prev">← </span><span>小程序插件开发</span></a><a class="docs-next button" href="/taro/docs/1.3.27/react-native.html"><span>React Native 端开发流程</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#简介">简介</a></li><li><a href="#安装">安装</a><ul class="toc-headings"><li><a href="#搭建快应用环境">搭建快应用环境</a></li><li><a href="#开发调试">开发调试</a></li><li><a href="#使用-ide">使用 IDE</a></li><li><a href="#快应用配置">快应用配置</a></li><li><a href="#taro组件和快应用组件差异剖析">Taro组件和快应用组件差异剖析</a></li></ul></li><li><a href="#视图容器">视图容器</a></li><li><a href="#基础组件">基础组件</a></li><li><a href="#表单组件">表单组件</a></li><li><a href="#导航">导航</a></li><li><a href="#媒体组件">媒体组件</a></li><li><a href="#地图">地图</a></li><li><a href="#画布">画布</a></li><li><a href="#开放能力">开放能力</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

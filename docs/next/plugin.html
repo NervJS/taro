@@ -1,0 +1,424 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>插件功能 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; 自 2.2 开始，Taro 引入了插件化机制，允许开发者通过编写插件的方式来为 Taro 拓展更多功能或者为自身业务定制个性化功能"/><meta name="docsearch:version" content="next"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="插件功能 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="&gt; 自 2.2 开始，Taro 引入了插件化机制，允许开发者通过编写插件的方式来为 Taro 拓展更多功能或者为自身业务定制个性化功能"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/next/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/next/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/next/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>进阶指南</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/next/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/team.html">Taro 团队</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/join-us.html">加入我们</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/next/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/specials.html">常见问题</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/next/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/wxcloudbase.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/next/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/next/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/config-detail.html">编译配置详情</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/next/plugin.html">插件功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/debug-config.html">单步调测配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">迁移指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/next/migrate-to-2.html">迁移至 Taro 2.x</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/next/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/css-modules.html">使用 CSS Modules</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/learn.html">社区贡献的学习教程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/join-in.html">加入社区共建</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/CONTRIBUTING.html">CONTRIBUTING</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/plugin.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">插件功能</h1></header><article><div><span><blockquote>
+<p>自 2.2 开始，Taro 引入了插件化机制，允许开发者通过编写插件的方式来为 Taro 拓展更多功能或者为自身业务定制个性化功能</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="官方插件"></a><a href="#官方插件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>官方插件</h2>
+<p>Taro 提供了一些官方插件</p>
+<ul>
+<li><a href="https://github.com/NervJS/taro-plugin-mock">@tarojs/plugin-mock</a>，一个简易的数据 mock 插件</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="如何引入插件"></a><a href="#如何引入插件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>如何引入插件</h2>
+<p>你可以从 npm 或者本地中引入插件，引入方式主要通过 <a href="/taro/docs/next/config-detail.html">编译配置</a>中的 <code>plugins</code> 和 <code>presets</code>，使用如下</p>
+<h3><a class="anchor" aria-hidden="true" id="plugins"></a><a href="#plugins" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>plugins</h3>
+<p>插件在 Taro 中，一般通过<a href="/taro/docs/next/config-detail.html">编译配置</a>中的 <code>plugins</code> 字段进行引入。</p>
+<p><code>plugins</code> 字段取值为一个数组，配置方式如下：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">plugins</span>: [
+    <span class="hljs-comment">// 引入 npm 安装的插件</span>
+    <span class="hljs-string">'@tarojs/plugin-mock'</span>, 
+    <span class="hljs-comment">// 引入 npm 安装的插件，并传入插件参数</span>
+    [<span class="hljs-string">'@tarojs/plugin-mock'</span>, {
+      <span class="hljs-attr">mocks</span>: {
+        <span class="hljs-string">'/api/user/1'</span>: {
+          <span class="hljs-attr">name</span>: <span class="hljs-string">'judy'</span>,
+          <span class="hljs-attr">desc</span>: <span class="hljs-string">'Mental guy'</span>
+        }
+      }
+    }],
+    <span class="hljs-comment">// 从本地绝对路径引入插件，同样如果需要传入参数也是如上</span>
+    <span class="hljs-string">'/absulute/path/plugin/filename'</span>,
+  ]
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="presets"></a><a href="#presets" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>presets</h3>
+<p>如果你有一系列插件需要配置，而他们通常是组合起来完成特定的事儿，那你可以通过<strong>插件集</strong> <code>presets</code> 来进行配置。</p>
+<p>配置<a href="/taro/docs/next/config-detail.html">编译配置</a>中的 <code>presets</code> 字段，如下。</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">presets</span>: [
+    <span class="hljs-comment">// 引入 npm 安装的插件集</span>
+    <span class="hljs-string">'@tarojs/preset-sth'</span>, 
+    <span class="hljs-comment">// 引入 npm 安装的插件集，并传入插件参数</span>
+    [<span class="hljs-string">'@tarojs/plugin-sth'</span>, {
+      <span class="hljs-attr">arg0</span>: <span class="hljs-string">'xxx'</span>
+    }],
+    <span class="hljs-comment">// 从本地绝对路径引入插件集，同样如果需要传入参数也是如上</span>
+    <span class="hljs-string">'/absulute/path/preset/filename'</span>,
+  ]
+}
+</code></pre>
+<p>在了解完如何引入插件之后，我们来学习一下如何编写一个插件。</p>
+<h2><a class="anchor" aria-hidden="true" id="如何编写一个插件"></a><a href="#如何编写一个插件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>如何编写一个插件</h2>
+<p>一个 Taro 的插件都具有固定的代码结构，通常由一个函数组成，示例如下：</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token parameter">ctx<span class="token punctuation">,</span> options</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// plugin 主体</span>
+  ctx<span class="token punctuation">.</span><span class="token function">onBuildStart</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'编译开始！'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  ctx<span class="token punctuation">.</span><span class="token function">onBuildFinish</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'编译结束！'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>插件函数可以接受两个参数：</p>
+<ul>
+<li>ctx：插件当前的运行环境信息，包含插件相关的 API、当前运行参数、辅助方法等等</li>
+<li>options：为插件调用时传入的参数</li>
+</ul>
+<p>在插件主体代码部分可以按照自己的需求编写相应代码，通常你可以实现以下功能。</p>
+<h3><a class="anchor" aria-hidden="true" id="typings"></a><a href="#typings" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Typings</h3>
+<p>建议使用 typescript 来编写插件，这样你就会获得很棒的智能提示，使用方式如下：</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> IPluginContext <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/service'</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token parameter">ctx<span class="token operator">:</span> IPluginContext<span class="token punctuation">,</span> pluginOpts</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// 接下来使用 ctx 的时候就能获得智能提示了</span>
+  ctx<span class="token punctuation">.</span><span class="token function">onBuildStart</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'编译开始！'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="主要功能"></a><a href="#主要功能" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>主要功能</h3>
+<h4><a class="anchor" aria-hidden="true" id="命令行扩展"></a><a href="#命令行扩展" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>命令行扩展</h4>
+<p>你可以通过编写插件来为 Taro 拓展命令行的命令，在之前版本的 Taro 中，命令行的命令是固定的，如果你要进行扩展，那你得直接修改 Taro 源码，而如今借助插件功能，你可以任意拓展 Taro 的命令行。</p>
+<p>这个功能主要通过 <code>ctx.registerCommand</code> API 来进行实现，例如，增加一个上传的命令，将编译后的代码上传到服务器：</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token parameter">ctx</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  ctx<span class="token punctuation">.</span><span class="token function">registerCommand</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token comment">// 命令名</span>
+    name<span class="token operator">:</span> <span class="token string">'upload'</span><span class="token punctuation">,</span>
+    <span class="token comment">// 执行 taro upload --help 时输出的 options 信息</span>
+    optionsMap<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string">'--remote'</span><span class="token operator">:</span> <span class="token string">'服务器地址'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment">// 执行 taro upload --help 时输出的使用例子的信息</span>
+    synopsisList<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">'taro upload --remote xxx.xxx.xxx.xxx'</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token keyword">async</span> <span class="token function">fn</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> <span class="token punctuation">{</span> remote <span class="token punctuation">}</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>runOpts
+      <span class="token keyword">await</span> <span class="token function">uploadDist</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>将这个插件配置到中项目之后，就可以通过 <code>taro upload --remote xxx.xxx.xxx.xxx</code> 命令将编译后代码上传到目标服务器。</p>
+<h4><a class="anchor" aria-hidden="true" id="编译过程扩展"></a><a href="#编译过程扩展" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>编译过程扩展</h4>
+<p>同时你也可以通过插件对代码编译过程进行拓展。</p>
+<p>正如前面所述，针对编译过程，有 <code>onBuildStart</code>、<code>onBuildFinish</code> 两个钩子来分别表示编译开始，编译结束，而除此之外也有更多 API 来对编译过程进行修改，如下：</p>
+<ul>
+<li><code>ctx.onBuildStart(() =&gt; viod)</code>，编译开始，接收一个回调函数</li>
+<li><code>ctx.modifyWebpackChain(args: { chain: any }) =&gt; void)</code>，编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 <a href="/taro/docs/next/config-detail.html#miniwebpackchain"><code>webpackChain</code></a></li>
+<li><code>ctx.modifyBuildAssets(args: { assets: any }) =&gt; void)</code>，修改编译后的结果</li>
+<li><code>ctx.modifyBuildTempFileContent(args: { tempFiles: any }) =&gt; void)</code>，修改编译过程中的中间文件，例如修改 app 或页面的 config 配置</li>
+<li><code>ctx.onBuildFinish(() =&gt; viod)</code>，编译结束，接收一个回调函数</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="编译平台拓展"></a><a href="#编译平台拓展" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>编译平台拓展</h4>
+<p>你也可以通过插件功能对编译平台进行拓展。</p>
+<p>使用 API <code>ctx.registerPlatform</code>，Taro 中内置的平台支持都是通过这个 API 来进行实现。</p>
+<blockquote>
+<p>注意：这是未完工的功能，需要依赖代码编译器 <code>@tarojs/transform-wx</code> 的改造完成</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="api"></a><a href="#api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API</h2>
+<p>通过以上内容，我们已经大致知道 Taro 插件可以实现哪些特性并且可以编写一个简单的 Taro 插件了，但是，为了能够编写更加复杂且标准的插件，我们需要了解 Taro 插件机制中的具体 API 用法。</p>
+<h3><a class="anchor" aria-hidden="true" id="插件环境变量"></a><a href="#插件环境变量" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>插件环境变量</h3>
+<h4><a class="anchor" aria-hidden="true" id="ctxpaths"></a><a href="#ctxpaths" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.paths</h4>
+<p>包含当前执行命令的相关路径，所有的路径如下（并不是所有命令都会拥有以下所有路径）：</p>
+<ul>
+<li><code>ctx.paths.appPath</code>，当前命令执行的目录，如果是 <code>build</code> 命令则为当前项目路径</li>
+<li><code>ctx.paths.configPath</code>，当前项目配置目录，如果 <code>init</code> 命令，则没有此路径</li>
+<li><code>ctx.paths.sourcePath</code>，当前项目源码路径</li>
+<li><code>ctx.paths.outputPath</code>，当前项目输出代码路径</li>
+<li><code>ctx.paths.nodeModulesPath</code>，当前项目所用的 node_modules 路径</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="ctxrunopts"></a><a href="#ctxrunopts" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.runOpts</h4>
+<p>获取当前执行命令所带的参数，例如命令 <code>taro upload --remote xxx.xxx.xxx.xxx</code>，则 <code>ctx.runOpts</code> 值为：</p>
+<pre><code class="hljs css language-js">{
+  <span class="hljs-attr">_</span>: [<span class="hljs-string">'upload'</span>],
+  <span class="hljs-attr">options</span>: {
+    <span class="hljs-attr">remote</span>: <span class="hljs-string">'xxx.xxx.xxx.xxx'</span>
+  },
+  <span class="hljs-attr">isHelp</span>: <span class="hljs-literal">false</span>
+}
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="ctxhelper"></a><a href="#ctxhelper" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.helper</h4>
+<p>为包 <code>@tarojs/helper</code> 的快捷使用方式，包含其所有 API。</p>
+<h4><a class="anchor" aria-hidden="true" id="ctxinitialconfig"></a><a href="#ctxinitialconfig" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.initialConfig</h4>
+<p>获取项目配置。</p>
+<h4><a class="anchor" aria-hidden="true" id="ctxplugins"></a><a href="#ctxplugins" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.plugins</h4>
+<p>获取当前所有挂载的插件。</p>
+<h3><a class="anchor" aria-hidden="true" id="插件方法"></a><a href="#插件方法" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>插件方法</h3>
+<p>Taro 的插件架构基于 <a href="https://github.com/webpack/tapable">Tapable</a>。</p>
+<h4><a class="anchor" aria-hidden="true" id="ctxregisterhook-ihook"></a><a href="#ctxregisterhook-ihook" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.register(hook: IHook)</h4>
+<p>注册一个可供其他插件调用的钩子，接收一个参数，即 Hook 对象。</p>
+<p>一个Hook 对象类型如下：</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">interface</span> <span class="token class-name">IHook</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Hook 名字，也会作为 Hook 标识</span>
+  name<span class="token operator">:</span> <span class="token builtin">string</span>
+  <span class="token comment">// Hook 所处的 plugin id，不需要指定，Hook 挂载的时候会自动识别</span>
+  plugin<span class="token operator">:</span> <span class="token builtin">string</span>
+  <span class="token comment">// Hook 回调</span>
+  fn<span class="token operator">:</span> <span class="token builtin">Function</span>
+  before<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span>
+  stage<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>通过 <code>ctx.register</code> 注册过的钩子需要通过方法 <code>ctx.applyPlugins</code> 进行触发。</p>
+<p>我们约定，按照传入的 Hook 对象的 <code>name</code> 来区分 Hook 类型，主要为以下三类：</p>
+<ul>
+<li>事件类型 Hook，Hook name 以 <code>on</code> 开头，如 <code>onStart</code>，这种类型的 Hook 只管触发而不关心 Hook 回调 fn 的值，Hook 的回调 fn 接收一个参数 <code>opts</code> ，为触发钩子时传入的参数</li>
+<li>修改类型 Hook，Hook name 以 <code>modify</code> 开头，如 <code>modifyBuildAssets</code>，这种类型的 Hook 触发后会返回做出某项修改后的值，Hook 的回调 fn 接收两个参数 <code>opts</code> 和 <code>arg</code> ，分别为触发钩子时传入的参数和上一个回调执行的结果</li>
+<li>添加类型 Hook，Hook name 以 <code>add</code> 开头，如 <code>addConfig</code>，这种类型 Hook 会将所有回调的结果组合成数组最终返回，Hook 的回调 fn 接收两个参数 <code>opts</code> 和 <code>arg</code> ，分别为触发钩子时传入的参数和上一个回调执行的结果</li>
+</ul>
+<p>如果 Hook 对象的 <code>name</code> 不属于以上三类，则该 Hook 表现情况类似事件类型 Hook。</p>
+<p>钩子回调可以是异步也可以是同步，同一个 Hook 标识下一系列回调会借助 Tapable 的 AsyncSeriesWaterfallHook 组织为异步串行任务依次执行。</p>
+<h4><a class="anchor" aria-hidden="true" id="ctxregistermethodarg-string-name-string-fn-function-fn-function"></a><a href="#ctxregistermethodarg-string-name-string-fn-function-fn-function" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.registerMethod(arg: string | { name: string, fn?: Function }, fn?: Function)</h4>
+<p>向 <code>ctx</code> 上挂载一个方法可供其他插件直接调用。</p>
+<p>主要调用方式：</p>
+<pre><code class="hljs css language-typescript">
+ctx<span class="token punctuation">.</span><span class="token function">registerMethod</span><span class="token punctuation">(</span><span class="token string">'methodName'</span><span class="token punctuation">)</span>
+ctx<span class="token punctuation">.</span><span class="token function">registerMethod</span><span class="token punctuation">(</span><span class="token string">'methodName'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// callback</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+ctx<span class="token punctuation">.</span><span class="token function">registerMethod</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'methodName'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+ctx<span class="token punctuation">.</span><span class="token function">registerMethod</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'methodName'</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">fn</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token comment">// callback</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>其中方法名必须指定，而对于回调函数则存在两种情况。</p>
+<h5><a class="anchor" aria-hidden="true" id="指定回调函数"></a><a href="#指定回调函数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>指定回调函数</h5>
+<p>则直接往 <code>ctx</code> 上进行挂载方法，调用时 <code>ctx.methodName</code> 即执行 <code>registerMethod</code> 上指定的回调函数。</p>
+<h5><a class="anchor" aria-hidden="true" id="不指定回调函数"></a><a href="#不指定回调函数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>不指定回调函数</h5>
+<p>则相当于注册了一个 <code>methodName</code> 钩子，与 <code>ctx.register</code> 注册钩子一样需要通过方法 <code>ctx.applyPlugins</code> 进行触发，而具体要执行的钩子回调则通过 <code>ctx.methodName</code> 进行指定，可以指定多个要执行的回调，最后会按照注册顺序依次执行。</p>
+<p>内置的编译过程中的 API 如 <code>ctx.onBuildStart</code> 等均是通过这种方式注册。</p>
+<h4><a class="anchor" aria-hidden="true" id="ctxregistercommandhook-icommand"></a><a href="#ctxregistercommandhook-icommand" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.registerCommand(hook: ICommand)</h4>
+<p>注册一个自定义命令。</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">interface</span> <span class="token class-name">ICommand</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 命令别名</span>
+  alias<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  <span class="token comment">// 执行 taro &lt;command> --help 时输出的 options 信息</span>
+  optionsMap<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>key<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token builtin">string</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// 执行 taro &lt;command> --help 时输出的使用例子的信息</span>
+  synopsisList<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>使用方式：</p>
+<pre><code class="hljs css language-typescript">ctx<span class="token punctuation">.</span><span class="token function">registerCommand</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'create'</span><span class="token punctuation">,</span>
+  <span class="token function">fn</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span>
+      <span class="token keyword">type</span><span class="token punctuation">,</span>
+      name<span class="token punctuation">,</span>
+      description
+    <span class="token punctuation">}</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>runOpts
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> chalk <span class="token punctuation">}</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>helper
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> appPath <span class="token punctuation">}</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>paths
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> name <span class="token operator">!==</span> <span class="token string">'string'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>chalk<span class="token punctuation">.</span><span class="token function">red</span><span class="token punctuation">(</span><span class="token string">'请输入需要创建的页面名称'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">type</span> <span class="token operator">===</span> <span class="token string">'page'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> Page <span class="token operator">=</span> <span class="token keyword">require</span><span class="token punctuation">(</span><span class="token string">'../../create/page'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">default</span>
+      <span class="token keyword">const</span> page <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Page</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        pageName<span class="token operator">:</span> name<span class="token punctuation">,</span>
+        projectDir<span class="token operator">:</span> appPath<span class="token punctuation">,</span>
+        description
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+      page<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="ctxregisterplatformhook-iplatform"></a><a href="#ctxregisterplatformhook-iplatform" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.registerPlatform(hook: IPlatform)</h4>
+<p>注册一个编译平台。</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">interface</span> <span class="token class-name">IFileType</span> <span class="token punctuation">{</span>
+  templ<span class="token operator">:</span> <span class="token builtin">string</span>
+  style<span class="token operator">:</span> <span class="token builtin">string</span>
+  script<span class="token operator">:</span> <span class="token builtin">string</span>
+  config<span class="token operator">:</span> <span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">interface</span> <span class="token class-name">IPlatform</span> <span class="token keyword">extends</span> <span class="token class-name">IHook</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 编译后文件类型</span>
+  fileType<span class="token operator">:</span> IFileType
+  <span class="token comment">// 编译时使用的配置参数名</span>
+  useConfigName<span class="token operator">:</span> String
+<span class="token punctuation">}</span>
+</code></pre>
+<p>使用方式：</p>
+<pre><code class="hljs css language-typescript">ctx<span class="token punctuation">.</span><span class="token function">registerPlatform</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'alipay'</span><span class="token punctuation">,</span>
+  useConfigName<span class="token operator">:</span> <span class="token string">'mini'</span><span class="token punctuation">,</span>
+  <span class="token keyword">async</span> <span class="token function">fn</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> config <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> appPath<span class="token punctuation">,</span> nodeModulesPath<span class="token punctuation">,</span> outputPath <span class="token punctuation">}</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>paths
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> npm<span class="token punctuation">,</span> emptyDirectory <span class="token punctuation">}</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>helper
+    <span class="token function">emptyDirectory</span><span class="token punctuation">(</span>outputPath<span class="token punctuation">)</span>
+
+    <span class="token comment">// 准备 miniRunner 参数</span>
+    <span class="token keyword">const</span> miniRunnerOpts <span class="token operator">=</span> <span class="token punctuation">{</span>
+      <span class="token operator">...</span>config<span class="token punctuation">,</span>
+      nodeModulesPath<span class="token punctuation">,</span>
+      buildAdapter<span class="token operator">:</span> config<span class="token punctuation">.</span>platform<span class="token punctuation">,</span>
+      isBuildPlugin<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      globalObject<span class="token operator">:</span> <span class="token string">'my'</span><span class="token punctuation">,</span>
+      fileType<span class="token operator">:</span> <span class="token punctuation">{</span>
+        templ<span class="token operator">:</span> <span class="token string">'.axml'</span><span class="token punctuation">,</span>
+        style<span class="token operator">:</span> <span class="token string">'.acss'</span><span class="token punctuation">,</span>
+        config<span class="token operator">:</span> <span class="token string">'.json'</span><span class="token punctuation">,</span>
+        script<span class="token operator">:</span> <span class="token string">'.js'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      isUseComponentBuildPage<span class="token operator">:</span> <span class="token boolean">false</span>
+    <span class="token punctuation">}</span>
+
+    ctx<span class="token punctuation">.</span><span class="token function">modifyBuildTempFileContent</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> tempFiles <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> replaceKeyMap <span class="token operator">=</span> <span class="token punctuation">{</span>
+        navigationBarTitleText<span class="token operator">:</span> <span class="token string">'defaultTitle'</span><span class="token punctuation">,</span>
+        navigationBarBackgroundColor<span class="token operator">:</span> <span class="token string">'titleBarColor'</span><span class="token punctuation">,</span>
+        enablePullDownRefresh<span class="token operator">:</span> <span class="token string">'pullRefresh'</span><span class="token punctuation">,</span>
+        list<span class="token operator">:</span> <span class="token string">'items'</span><span class="token punctuation">,</span>
+        text<span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+        iconPath<span class="token operator">:</span> <span class="token string">'icon'</span><span class="token punctuation">,</span>
+        selectedIconPath<span class="token operator">:</span> <span class="token string">'activeIcon'</span><span class="token punctuation">,</span>
+        color<span class="token operator">:</span> <span class="token string">'textColor'</span>
+      <span class="token punctuation">}</span>
+      Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>tempFiles<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">key</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> item <span class="token operator">=</span> tempFiles<span class="token punctuation">[</span>key<span class="token punctuation">]</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>config<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">recursiveReplaceObjectKeys</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>config<span class="token punctuation">,</span> replaceKeyMap<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token comment">// build with webpack</span>
+    <span class="token keyword">const</span> miniRunner <span class="token operator">=</span> <span class="token keyword">await</span> npm<span class="token punctuation">.</span><span class="token function">getNpmPkg</span><span class="token punctuation">(</span><span class="token string">'@tarojs/mini-runner'</span><span class="token punctuation">,</span> appPath<span class="token punctuation">)</span>
+    <span class="token keyword">await</span> <span class="token function">miniRunner</span><span class="token punctuation">(</span>appPath<span class="token punctuation">,</span> miniRunnerOpts<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="ctxapplypluginsargs-string-name-string-initialval-any-opts-any"></a><a href="#ctxapplypluginsargs-string-name-string-initialval-any-opts-any" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.applyPlugins(args: string | { name: string, initialVal?: any, opts?: any })</h4>
+<p>触发注册的钩子。</p>
+<p>传入的钩子名为 <code>ctx.register</code> 和 <code>ctx.registerMethod</code> 指定的名字。</p>
+<p>这里值得注意的是如果是<strong>修改类型</strong>和<strong>添加类型</strong>的钩子，则拥有返回结果，否则不用关心其返回结果。</p>
+<p>使用方式：</p>
+<pre><code class="hljs css language-typescript">ctx<span class="token punctuation">.</span><span class="token function">applyPlugins</span><span class="token punctuation">(</span><span class="token string">'onStart'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> assets <span class="token operator">=</span> <span class="token keyword">await</span> ctx<span class="token punctuation">.</span><span class="token function">applyPlugins</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'modifyBuildAssets'</span><span class="token punctuation">,</span>
+  initialVal<span class="token operator">:</span> assets<span class="token punctuation">,</span>
+  opts<span class="token operator">:</span> <span class="token punctuation">{</span>
+    assets
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="ctxaddpluginoptsschemaschema-function"></a><a href="#ctxaddpluginoptsschemaschema-function" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.addPluginOptsSchema(schema: Function)</h4>
+<p>为插件入参添加校验，接受一个函数类型参数，函数入参为 joi 对象，返回值为 joi schema。</p>
+<p>使用方式：</p>
+<pre><code class="hljs css language-typescript">ctx<span class="token punctuation">.</span><span class="token function">addPluginOptsSchema</span><span class="token punctuation">(</span><span class="token parameter">joi</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> joi<span class="token punctuation">.</span><span class="token function">object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    mocks<span class="token operator">:</span> joi<span class="token punctuation">.</span><span class="token function">object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pattern</span><span class="token punctuation">(</span>
+      joi<span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> joi<span class="token punctuation">.</span><span class="token function">object</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    port<span class="token operator">:</span> joi<span class="token punctuation">.</span><span class="token function">number</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    host<span class="token operator">:</span> joi<span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="ctxwritefiletodist-filepath-string-content-string"></a><a href="#ctxwritefiletodist-filepath-string-content-string" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.writeFileToDist({ filePath: string, content: string })</h4>
+<p>向编译结果目录中写入文件，参数：</p>
+<ul>
+<li>filePath: 文件放入编译结果目录下的路径</li>
+<li>content: 文件内容</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="ctxgenerateframeworkinfo-platform-string"></a><a href="#ctxgenerateframeworkinfo-platform-string" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.generateFrameworkInfo({ platform: string })</h4>
+<p>生成编译信息文件 .frameworkinfo，参数：</p>
+<ul>
+<li>platform: 平台名</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="ctxgenerateprojectconfig-srcconfigname-string-distconfigname-string"></a><a href="#ctxgenerateprojectconfig-srcconfigname-string-distconfigname-string" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ctx.generateProjectConfig({ srcConfigName: string, distConfigName: string })</h4>
+<p>根据当前项目配置，生成最终项目配置，参数：</p>
+<ul>
+<li>srcConfigName: 源码中配置名</li>
+<li>distConfigName: 最终生成的配置名</li>
+</ul>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/next/config-detail.html"><span class="arrow-prev">← </span><span>编译配置详情</span></a><a class="docs-next button" href="/taro/docs/next/debug-config.html"><span>单步调测配置</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#官方插件">官方插件</a></li><li><a href="#如何引入插件">如何引入插件</a><ul class="toc-headings"><li><a href="#plugins">plugins</a></li><li><a href="#presets">presets</a></li></ul></li><li><a href="#如何编写一个插件">如何编写一个插件</a><ul class="toc-headings"><li><a href="#typings">Typings</a></li><li><a href="#主要功能">主要功能</a></li></ul></li><li><a href="#api">API</a><ul class="toc-headings"><li><a href="#插件环境变量">插件环境变量</a></li><li><a href="#插件方法">插件方法</a></li></ul></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

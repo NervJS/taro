@@ -1,0 +1,798 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Animation · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## 方法"/><meta name="docsearch:version" content="2.0.3"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Animation · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="## 方法"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.0.3</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/2.0.3/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.0.3/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.0.3/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/apis/ui/animation/Animation.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Animation</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="方法"></a><a href="#方法" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>方法</h2>
+<h3><a class="anchor" aria-hidden="true" id="export"></a><a href="#export" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>export</h3>
+<p>导出动画队列。<strong>export 方法每次调用后会清掉之前的动画操作。</strong></p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.export.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度"></a><a href="#api-支持度" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.export</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="backgroundcolor"></a><a href="#backgroundcolor" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>backgroundColor</h3>
+<p>设置背景色</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.backgroundColor.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">value<span class="token operator">:</span> <span class="token builtin">string</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td><code>string</code></td><td>颜色值</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-1"></a><a href="#api-支持度-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.backgroundColor</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="bottom"></a><a href="#bottom" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>bottom</h3>
+<p>设置 bottom 值</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.bottom.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">value<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td>`string</td><td>number`</td><td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-2"></a><a href="#api-支持度-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.bottom</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="height"></a><a href="#height" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>height</h3>
+<p>设置高度</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.height.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">value<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td>`string</td><td>number`</td><td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-3"></a><a href="#api-支持度-3" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.height</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="left"></a><a href="#left" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>left</h3>
+<p>设置 left 值</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.left.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">value<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td>`string</td><td>number`</td><td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-4"></a><a href="#api-支持度-4" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.left</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="matrix"></a><a href="#matrix" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>matrix</h3>
+<p>同 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix">transform-function matrix</a></p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-5"></a><a href="#api-支持度-5" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.matrix</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="matrix3d"></a><a href="#matrix3d" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>matrix3d</h3>
+<p>同 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d">transform-function matrix3d</a></p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.matrix3d.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-6"></a><a href="#api-支持度-6" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.matrix3d</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="opacity"></a><a href="#opacity" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>opacity</h3>
+<p>设置透明度</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.opacity.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">value<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td><code>number</code></td><td>透明度，范围 0-1</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-7"></a><a href="#api-支持度-7" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.opacity</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="right"></a><a href="#right" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>right</h3>
+<p>设置 right 值</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.right.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">value<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td>`string</td><td>number`</td><td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-8"></a><a href="#api-支持度-8" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.right</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="rotate"></a><a href="#rotate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>rotate</h3>
+<p>从原点顺时针旋转一个角度</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">angle<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>angle</td><td><code>number</code></td><td>旋转的角度。范围 [-180, 180]</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-9"></a><a href="#api-支持度-9" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.rotate</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="rotate3d"></a><a href="#rotate3d" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>rotate3d</h3>
+<p>从 固定 轴顺时针旋转一个角度</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotate3d.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">x<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> y<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> z<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> angle<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>x</td><td><code>number</code></td><td>旋转轴的 x 坐标</td></tr>
+<tr><td>y</td><td><code>number</code></td><td>旋转轴的 y 坐标</td></tr>
+<tr><td>z</td><td><code>number</code></td><td>旋转轴的 z 坐标</td></tr>
+<tr><td>angle</td><td><code>number</code></td><td>旋转的角度。范围 [-180, 180]</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-10"></a><a href="#api-支持度-10" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.rotate3d</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="rotatex"></a><a href="#rotatex" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>rotateX</h3>
+<p>从 X 轴顺时针旋转一个角度</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateX.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">angle<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>angle</td><td><code>number</code></td><td>旋转的角度。范围 [-180, 180]</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-11"></a><a href="#api-支持度-11" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.rotateX</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="rotatey"></a><a href="#rotatey" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>rotateY</h3>
+<p>从 Y 轴顺时针旋转一个角度</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateY.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">angle<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>angle</td><td><code>number</code></td><td>旋转的角度。范围 [-180, 180]</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-12"></a><a href="#api-支持度-12" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.rotateY</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="rotatez"></a><a href="#rotatez" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>rotateZ</h3>
+<p>从 Z 轴顺时针旋转一个角度</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.rotateZ.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">angle<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>angle</td><td><code>number</code></td><td>旋转的角度。范围 [-180, 180]</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-13"></a><a href="#api-支持度-13" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.rotateZ</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="scale"></a><a href="#scale" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>scale</h3>
+<p>缩放</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scale.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">sx<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> sy<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>sx</td><td><code>number</code></td><td>当仅有 sx 参数时，表示在 X 轴、Y 轴同时缩放sx倍数</td></tr>
+<tr><td>sy</td><td><code>number</code></td><td>在 Y 轴缩放 sy 倍数</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-14"></a><a href="#api-支持度-14" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.scale</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="scale3d"></a><a href="#scale3d" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>scale3d</h3>
+<p>缩放</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scale3d.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">sx<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> sy<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> sz<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>sx</td><td><code>number</code></td><td>x 轴的缩放倍数</td></tr>
+<tr><td>sy</td><td><code>number</code></td><td>y 轴的缩放倍数</td></tr>
+<tr><td>sz</td><td><code>number</code></td><td>z 轴的缩放倍数</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-15"></a><a href="#api-支持度-15" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.scale3d</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="scalex"></a><a href="#scalex" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>scaleX</h3>
+<p>缩放 X 轴</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleX.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">scale<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>scale</td><td><code>number</code></td><td>X 轴的缩放倍数</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-16"></a><a href="#api-支持度-16" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.scaleX</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="scaley"></a><a href="#scaley" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>scaleY</h3>
+<p>缩放 Y 轴</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleY.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">scale<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>scale</td><td><code>number</code></td><td>Y 轴的缩放倍数</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-17"></a><a href="#api-支持度-17" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.scaleY</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="scalez"></a><a href="#scalez" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>scaleZ</h3>
+<p>缩放 Z 轴</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.scaleZ.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">scale<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>scale</td><td><code>number</code></td><td>Z 轴的缩放倍数</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-18"></a><a href="#api-支持度-18" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.scaleZ</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="skew"></a><a href="#skew" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>skew</h3>
+<p>对 X、Y 轴坐标进行倾斜</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skew.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">ax<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> ay<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>ax</td><td><code>number</code></td><td>对 X 轴坐标倾斜的角度，范围 [-180, 180]</td></tr>
+<tr><td>ay</td><td><code>number</code></td><td>对 Y 轴坐标倾斜的角度，范围 [-180, 180]</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-19"></a><a href="#api-支持度-19" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.skew</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="skewx"></a><a href="#skewx" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>skewX</h3>
+<p>对 X 轴坐标进行倾斜</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skewX.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">angle<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>angle</td><td><code>number</code></td><td>倾斜的角度，范围 [-180, 180]</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-20"></a><a href="#api-支持度-20" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.skewX</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="skewy"></a><a href="#skewy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>skewY</h3>
+<p>对 Y 轴坐标进行倾斜</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.skewY.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">angle<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>angle</td><td><code>number</code></td><td>倾斜的角度，范围 [-180, 180]</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-21"></a><a href="#api-支持度-21" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.skewY</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="step"></a><a href="#step" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>step</h3>
+<p>表示一组动画完成。可以在一组动画中调用任意多个动画方法，一组动画中的所有动画会同时开始，一组动画完成后才会进行下一组动画。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.step.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">?</span><span class="token operator">:</span> StepOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>StepOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-22"></a><a href="#api-支持度-22" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.step</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="top"></a><a href="#top" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>top</h3>
+<p>设置 top 值</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.top.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">value<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td>`string</td><td>number`</td><td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-23"></a><a href="#api-支持度-23" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.top</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="translate"></a><a href="#translate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>translate</h3>
+<p>平移变换</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translate.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">tx<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> ty<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>tx</td><td><code>number</code></td><td>当仅有该参数时表示在 X 轴偏移 tx，单位 px</td></tr>
+<tr><td>ty</td><td><code>number</code></td><td>在 Y 轴平移的距离，单位为 px</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-24"></a><a href="#api-支持度-24" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.translate</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="translate3d"></a><a href="#translate3d" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>translate3d</h3>
+<p>对 xyz 坐标进行平移变换</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translate3d.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">tx<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> ty<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> tz<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>tx</td><td><code>number</code></td><td>在 X 轴平移的距离，单位为 px</td></tr>
+<tr><td>ty</td><td><code>number</code></td><td>在 Y 轴平移的距离，单位为 px</td></tr>
+<tr><td>tz</td><td><code>number</code></td><td>在 Z 轴平移的距离，单位为 px</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-25"></a><a href="#api-支持度-25" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.translate3d</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="translatex"></a><a href="#translatex" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>translateX</h3>
+<p>对 X 轴平移</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateX.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">translation<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>translation</td><td><code>number</code></td><td>在 X 轴平移的距离，单位为 px</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-26"></a><a href="#api-支持度-26" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.translateX</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="translatey"></a><a href="#translatey" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>translateY</h3>
+<p>对 Y 轴平移</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateY.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">translation<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>translation</td><td><code>number</code></td><td>在 Y 轴平移的距离，单位为 px</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-27"></a><a href="#api-支持度-27" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.translateY</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="translatez"></a><a href="#translatez" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>translateZ</h3>
+<p>对 Z 轴平移</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.translateZ.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">translation<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>translation</td><td><code>number</code></td><td>在 Z 轴平移的距离，单位为 px</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-28"></a><a href="#api-支持度-28" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.translateZ</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="width"></a><a href="#width" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>width</h3>
+<p>设置宽度</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.width.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">value<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Animation
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td>`string</td><td>number`</td><td>长度值，如果传入 number 则默认使用 px，可传入其他自定义单位的长度值</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-29"></a><a href="#api-支持度-29" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.width</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="参数"></a><a href="#参数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>参数</h2>
+<h3><a class="anchor" aria-hidden="true" id="stepoption"></a><a href="#stepoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>StepOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>delay</td><td><code>number</code></td><td style="text-align:center">否</td><td>动画延迟时间，单位 ms</td></tr>
+<tr><td>duration</td><td><code>number</code></td><td style="text-align:center">否</td><td>动画持续时间，单位 ms</td></tr>
+<tr><td>timingFunction</td><td>`&quot;linear&quot;</td><td style="text-align:center">&quot;ease&quot;</td><td>&quot;ease-in&quot;</td><td>&quot;ease-in-out&quot;</td><td>&quot;ease-out&quot;</td><td>&quot;step-start&quot;</td><td>&quot;step-end&quot;`</td><td>否</td><td>动画的效果</td></tr>
+<tr><td>transformOrigin</td><td><code>string</code></td><td style="text-align:center">否</td><td></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="timingfunction"></a><a href="#timingfunction" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>timingFunction</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>linear</td><td>动画从头到尾的速度是相同的</td></tr>
+<tr><td>ease</td><td>动画以低速开始，然后加快，在结束前变慢</td></tr>
+<tr><td>ease-in</td><td>动画以低速开始</td></tr>
+<tr><td>ease-in-out</td><td>动画以低速开始和结束</td></tr>
+<tr><td>ease-out</td><td>动画以低速结束</td></tr>
+<tr><td>step-start</td><td>动画第一帧就跳至结束状态直到结束</td></tr>
+<tr><td>step-end</td><td>动画一直保持开始状态，最后一帧跳到结束状态</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="api-支持度-30"></a><a href="#api-支持度-30" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h2>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Animation.export</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.backgroundColor</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.bottom</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.height</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.left</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.matrix</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.matrix3d</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.opacity</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.right</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.rotate</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.rotate3d</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.rotateX</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.rotateY</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.rotateZ</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.scale</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.scale3d</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.scaleX</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.scaleY</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.scaleZ</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.skew</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.skewX</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.skewY</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.step</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.top</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.translate</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.translate3d</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.translateX</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.translateY</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.translateZ</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">Animation.width</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#方法">方法</a><ul class="toc-headings"><li><a href="#export">export</a></li><li><a href="#backgroundcolor">backgroundColor</a></li><li><a href="#bottom">bottom</a></li><li><a href="#height">height</a></li><li><a href="#left">left</a></li><li><a href="#matrix">matrix</a></li><li><a href="#matrix3d">matrix3d</a></li><li><a href="#opacity">opacity</a></li><li><a href="#right">right</a></li><li><a href="#rotate">rotate</a></li><li><a href="#rotate3d">rotate3d</a></li><li><a href="#rotatex">rotateX</a></li><li><a href="#rotatey">rotateY</a></li><li><a href="#rotatez">rotateZ</a></li><li><a href="#scale">scale</a></li><li><a href="#scale3d">scale3d</a></li><li><a href="#scalex">scaleX</a></li><li><a href="#scaley">scaleY</a></li><li><a href="#scalez">scaleZ</a></li><li><a href="#skew">skew</a></li><li><a href="#skewx">skewX</a></li><li><a href="#skewy">skewY</a></li><li><a href="#step">step</a></li><li><a href="#top">top</a></li><li><a href="#translate">translate</a></li><li><a href="#translate3d">translate3d</a></li><li><a href="#translatex">translateX</a></li><li><a href="#translatey">translateY</a></li><li><a href="#translatez">translateZ</a></li><li><a href="#width">width</a></li></ul></li><li><a href="#参数">参数</a><ul class="toc-headings"><li><a href="#stepoption">StepOption</a></li><li><a href="#timingfunction">timingFunction</a></li></ul></li><li><a href="#api-支持度-30">API 支持度</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

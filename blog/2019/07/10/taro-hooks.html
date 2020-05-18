@@ -1,0 +1,587 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>使用 React Hooks 重构你的小程序 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; 本文由余澈在 GMTC 全球大前端技术 2019 的演讲：[《使用 React Hooks 重构你的小程序》](https://gmtc.infoq.cn/2019/beijing/presentation/1706)整理而成。"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="使用 React Hooks 重构你的小程序 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/blog/2019/07/10/taro-hooks.html"/><meta property="og:description" content="&gt; 本文由余澈在 GMTC 全球大前端技术 2019 的演讲：[《使用 React Hooks 重构你的小程序》](https://gmtc.infoq.cn/2019/beijing/presentation/1706)整理而成。"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.2.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/apis/about/desc.html" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>全部文章</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">全部文章</h3><ul class=""><li class="navListItem"><a class="navItem" href="/taro/blog/2020/4/13/taro-components.html">Taro Next H5 跨框架组件库实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/02/13/taro-next-alpha.html">Taro Next 发布预览版：同时支持 React / Vue / Nerv</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/08/taro-2-0.html">Taro 2.0：拥抱社区，拥抱变化</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/02/gmtc.html">小程序跨框架开发的探索与实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/12/03/jingxi-index.html">京喜首页（微信购物入口）跨端开发与优化实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/10/24/taro-open.html">Taro 邀你加入社区共建 — 社区共建倡议书</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/09/25/taro-flex.html">玩转 Taro 跨端之 flex 布局篇</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/blog/2019/07/10/taro-hooks.html">使用 React Hooks 重构你的小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/21/taro-ext-club.html">Taro 「物料市场」及「交流社区」 惊喜上线</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/13/taro-1-3.html">Taro 1.3 震撼升级：全面支持 JSX 语法和 HOOKS</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/03/12/mini-program-framework-full-review.html">小程序框架全面测评</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/28/taro-h5-optimize.html">决战性能之巅 - Taro H5 转换与优化升级</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/25/taro-ui-2.0.html">Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/12/18/taro-1-2.html">Taro 1.2：将已有微信小程序转换为多端应用</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/11/05/taro-1-1.html">Taro 1.1 发布，全面支持微信/百度/支付宝小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/18/taro-1-0-0.html">多端统一开发框架 Taro 1.0 正式发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/11/taro-in-jd.html">Taro 在京东购物小程序上的实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/08/24/the-birth-of-taro-ui.html">首个多端 UI 组件库 - Taro UI 发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/25/the-birth-of-taro.html">为何我们要用 React 来写小程序 - Taro 诞生记</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/07/Taro.html">多端统一开发框架 - Taro</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle"><a href="/taro/blog/2019/07/10/taro-hooks.html">使用 React Hooks 重构你的小程序</a></h1><p class="post-meta">July 10, 2019</p><div class="authorBlock"><p class="post-authorName"><a href="https://github.com/yuche" target="_blank" rel="noreferrer noopener">yuche</a></p><div class="authorPhoto"><a href="https://github.com/yuche" target="_blank" rel="noreferrer noopener"><img src="https://static.geekbang.org/ck/5cb53de0e50c0.jpeg?imageView2/0/w/800" alt="yuche"/></a></div></div></header><div><span><p><img src="http://storage.360buyimg.com/taro-club-img/b42116392c909d0680788853011c70db" alt="image"></p>
+<blockquote>
+<p>本文由余澈在 GMTC 全球大前端技术 2019 的演讲：<a href="https://gmtc.infoq.cn/2019/beijing/presentation/1706">《使用 React Hooks 重构你的小程序》</a>整理而成。</p>
+</blockquote>
+<!--truncate-->
+<h2><a class="anchor" aria-hidden="true" id="背景"></a><a href="#背景" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>背景</h2>
+<p>一直关注小程序开发的朋友应该会注意到，最开始小程序就是为了微型创新型业务打造的一个框架，最多只能运行 1m 的包。可是后来发现很多厂商把越来越多的业务搬到了小程序上，小程序的能力也在不断地开放，变得越来越强大。于是后来打包限制上升到了 2m，然后引入了分包，现在已经已经可以上传 8m 的小程序。其实这个体积已经可以实现非常巨型非常复杂的业务了。就从 Taro 的用户来看，例如京东购物小程序和 58 同城小程序不管从代码的数量还是复杂度都不亚于 PC 端业务，所以我们可以说前端开发的复杂度正在向小程序端转移。</p>
+<p>而小程序开发其实也是前端开发的一个子集，在整个前端业界，我们又是怎么解决复杂度这个问题的呢？</p>
+<p>首先我们看看 React：React Core Team 成员，同时也是 Redux 的作者 Dan Abramov 在 2018 年的 ReactConf 向大家首次介绍了 React Hooks。React Hooks 是为了解决 Class Component 的一些问题而引入的：</p>
+<ul>
+<li>Class Component 组件间的逻辑难以复用。因为  JavaScript 不像 Go 或 C++ 一样，Class 可以多重继承，类的逻辑的复用就成了一个问题；</li>
+<li>复杂组件难以理解。Class Component 经常会在生命周期做一些数据获取事件监听的副作用函数，这样的情况下我们就很难把组件拆分为更小的力度；</li>
+<li>Class 令人迷惑。很多新手应该会被 Class 组件绑定事件的 <code>this</code> 迷惑过，绑定事件可以用 bind，可以直接写箭头函数，也可以写类属性函数，但到底哪种方法才是最好的呢？而到了 ES 2018，class 还有多种语法，例如装饰器，例如 private fileds 这些奇奇怪怪的语法也为新手增加了更多的困惑。</li>
+</ul>
+<p>而对于 Vue 而言也有相同的问题，Vue 的作者尤玉溪老师在 VueConf China 2019 也给 Vue 3.0 引入了一个叫 <em>Functional-based API</em> 的概念，它是受 React Hooks 启发而增加的新 API。由于 Vue 2.0 组件组合的模式是对象字面量形式，所以 <em>Functional-based API</em> 可以作为 Mixins 的替代，配合新的响应式 API 作为新的组件组合模式。那么对于 Vue 3.0 我们还知之甚少，以后的 API 也有可能改变，但或许是英雄所见略同，React 和 Vue 对于降低前端开发复杂度这一问题都不约而同地选择了 Hooks 这一方案，这到底是为什么呢？</p>
+<p><img src="https://i.loli.net/2019/07/02/5d1af3a5e84b022890.png" alt="why_hooks.png"></p>
+<p>我们可以一下之前的组件组合方案，首先是 <em>Mixins</em>，红色圈的 <em>Mixins</em>，黄色的是组件，我们知道 <em>Mixins</em> 其实就是把多个对象组合成一个对象，<em>Mixins</em> 的过程就有点像调用 <code>Object.assgin</code> 方法。那 <em>Mixins</em> 有什么问题呢？首先是命名空间耦合，如果多个对象同名参数，这些参数就会耦合在一起；其次由于 <em>Mixins</em> 必须是运行时才能知道具体有什么参数，所以是 TypeScript 是无法做静态检查的；第三是组件参数不清晰，在 <em>Mixins</em> 中组件的 props 和其他参数没什么两样，很容易被其它的 <em>Mixins</em> 覆盖掉。</p>
+<p>为了解决 <em>Mixins</em> 的问题，后来发展出了高阶组件（<em>HOC</em>）的方式，高阶组件就和图里一样，一个组件嵌套着另外的组件。它的确解决了 <em>Mixins</em> 的一些问题，例如命名空间解耦，由于每次都会生成新组件，就不存在命名空间问题了；其次它也能很好地做静态检查；但它依然没有办法处理组件 props 的问题，props 还是有可能会在高阶组件中被更改；而且它还有了新的问题，每多用一次高阶组件，都会多出一个组件实例。</p>
+<p>最后我们来看一下 Hooks，紫色的圈圈是 Hooks，就像图里一样，Hooks 都在同一个组件里，Hooks 之间还可以相互调用。因为 Hooks 跑在一个普通函数式组件里，所以他肯定是没有命名空间的问题，同时 TypeScript 也能对普通函数做很好的静态检查，而且 Hooks 也不能更改组件的 Props，传入的是啥最后可用的就是啥；最后 Hooks 也不会生成新的组件，所以他是单组件实例。</p>
+<p><img src="https://i.loli.net/2019/07/02/5d1af4ef2dd5a56009.png" alt="taroxhooks.png"></p>
+<p>在 Taro 1.3 版本，我们实现了一大堆特性，其中的重头戏就是 React Hooks 的支持。虽然 React Hooks 正式稳定的时间并不长，但我们认为这个特性能有效地简化开发模式，提升开发效率和开发体验。即便 Hooks 的生态和最佳实践还尚未完善，但我们相信未来 Hooks 会成为 React 开发模式的主流，也会深刻地影响其它框架未来的 API 构成。所以在 Taro 的规划中我们也把 Hooks 放在了很重要的位置。</p>
+<h2><a class="anchor" aria-hidden="true" id="什么是-hooks"></a><a href="#什么是-hooks" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>什么是 Hooks？</h2>
+<p>相信笔者扯了那么多，大家对 Hooks 应该产生了一些兴趣，那什么是 Hooks 呢？简单来说，Hooks 就是一组在 React 组件中运行的函数，让你在不编写 Class 的情况下使用 state 及其它特性。具体来说，Hooks 可以表现为以下的形式：</p>
+<h3><a class="anchor" aria-hidden="true" id="usestate-与内部状态"></a><a href="#usestate-与内部状态" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useState</code> 与内部状态</h3>
+<p>我们可以看一个原生小程序的简单案例，一个简单计数器组件，点击按钮就 + 1，相信每位前端开发朋友都可以轻松地写一个计数器组件。但我们可以稍微改一下代码，把事件处理函数改为箭头函数。如果是这样代码就跑不了了。事实上在原生开发中 <code>this</code> 的问题是一以贯之的，所以我们经常要开个新变量把 <code>this</code> 缓存起来，叫做 <code>self</code> 什么的来避免类似的问题。我们之前也提到过，如果采用 ES6 的 Class 来组织组件同样也会遇到 <code>this</code> 指向不清晰的问题。</p>
+<pre><code class="hljs css language-js">Page({
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+  },
+  <span class="hljs-attr">increment</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> { <span class="hljs-comment">// 这里写箭头函数就跑不了了</span>
+    <span class="hljs-keyword">this</span>.setData({
+      <span class="hljs-attr">count</span>: <span class="hljs-keyword">this</span>.data.count + <span class="hljs-number">1</span>
+    })
+  }
+})
+</code></pre>
+<p>再来看看我们的 hooks 写法，我们引入了一个叫 useState 的函数，它接受一个初始值参数，返回一个元组，如果是写后端的同学应该对这个模式比较熟悉，就像 Koa 或者 Go 一样，一个函数返回两个值或者说叫一个元组，不过我们返回的第一个参数是当前的状态，一个是设置这个状态的函数，每次调用这个设置状态的 <code>setState</code> 函数都会使得整个组件被重新渲染。然后用 ES6 的结构语法把它俩解构出来使用。</p>
+<p>然后我们在定义一个增加的函数，把他绑定到 <code>onClick</code> 事件上。</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 返回一个值和一个设置值的函数              </span>
+  <span class="token comment">// 每次设置值之后会重新渲染组件</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> count<span class="token punctuation">,</span> setCount <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">function</span> <span class="token function">increment</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>You clicked <span class="token punctuation">{</span>count<span class="token punctuation">}</span> times<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>increment<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+        Click me
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Button</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>同样是非常简单的代码。如果你熟悉 Taro 之前的版本的话就会知道这样的代码在以前的 Taro 是跑不了的，不过 Taro 1.3 之后事件传参可以传入任何合法值，你如果想直接写箭头函数或者写一个柯里化的函数也是完全没有问题的。</p>
+<p>大家可以发现我们使用的 Hooks 就是一个非常简单非常 normal 的函数，没有 <code>this</code> 没有 class，没有类构造函数，没有了 <code>this</code>，再也不会出现那种 <code>this</code>、<code>self</code> 傻傻分不清楚的情况。</p>
+<p>大家可以记住这个简单的计数器组件，以后之后讲的很多案例是基于这个组件做的。</p>
+<h3><a class="anchor" aria-hidden="true" id="useeffect-与副作用"></a><a href="#useeffect-与副作用" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useEffect</code> 与副作用</h3>
+<p>接下来我们看一个稍微复杂一些的例子，一个倒计时组件，我们点击按钮就开始倒计时，再点击就停止倒计时。在我们这个组件里有两个变量，<code>start</code> 用于控制是否开始计时，<code>time</code> 就是我们的倒计时时间。这里注意我们需要多次清除 <code>interval</code>，而在现实业务开发中，这个 <code>touchStart</code> 函数可能会复杂得多，一不小心就会提前清除 <code>interval</code> 或忘记清除。</p>
+<pre><code class="hljs css language-js">Page({
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">time</span>: <span class="hljs-number">60</span>
+  },
+  <span class="hljs-attr">start</span>: <span class="hljs-literal">false</span>,
+  toggleStart () {
+    <span class="hljs-keyword">this</span>.start = !<span class="hljs-keyword">this</span>.start
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.start) {
+      <span class="hljs-keyword">this</span>.interval = setInterval(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">this</span>.setData({
+          <span class="hljs-attr">time</span>: <span class="hljs-keyword">this</span>.data.time - <span class="hljs-number">1</span>
+        })
+      }, <span class="hljs-number">1000</span>)
+    } <span class="hljs-keyword">else</span> {
+      clearInterval(<span class="hljs-keyword">this</span>.interval)
+    }
+  },
+  onUnload () {
+    clearInterval(<span class="hljs-keyword">this</span>.interval)
+  }
+})
+</code></pre>
+<pre><code class="hljs css language-html"><span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"toggleStart"</span>&gt;</span>
+    {{time}} 
+  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+</code></pre>
+<p>而我们 Hooks 的例子会是这样：我们引入了一个 <code>useEffect</code> 函数。之前我们提到过，每次调用 <code>useState</code> 返回的 <code>setState</code> 函数都会重新调用整个函数，其实就包括了 <code>useEffect</code> 函数，<code>useEffect</code> 接受两个参数。第一个就是副作用，也就是 <code>effect</code> 函数，他不接受也不返回任何参数。
+第二个参数是依赖数组，当数组中的变量变化时就会调用，第一个参数 <code>effect</code> 函数。
+<code>Effect</code> 函数还可以返回一个函数，这个函数在下一次 <code>effect</code> 函数被调用时或每次组件被注销时或者就会调用，我们可以在这里清楚掉一些事件的订阅或者 interval 之类可能会导致内存泄露的行为。
+在我们这个例子中，当 <code>start</code> 每次变化就会重新跑一次 <code>effect</code> 函数，每隔一秒会设置一次 <code>time</code> 的值让它减一，但这样的写法是有问题的。</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> start<span class="token punctuation">,</span> setStart <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> time<span class="token punctuation">,</span> setTime <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">)</span>
+  
+  <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span> <span class="token comment">// effect 函数，不接受也不返回任何参数</span>
+    <span class="token keyword">let</span> interval
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>start<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      interval <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token comment">// setTime(time - 1) ❌ time 在 effect 闭包函数里是拿不到准确值的</span>
+        <span class="token function">setTime</span><span class="token punctuation">(</span><span class="token parameter">t</span> <span class="token operator">=></span> t <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">// ✅ 在 setTime 的回调函数参数里可以拿到对应 state 的最新值</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">clearInterval</span><span class="token punctuation">(</span>interval<span class="token punctuation">)</span> <span class="token comment">// clean-up 函数，当前组件被注销时调用</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span> start <span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">// 依赖数组，当数组中变量变化时会调用 effect 函数</span>
+  
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">setStart</span><span class="token punctuation">(</span><span class="token operator">!</span>start<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>time<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Button</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>因为我们在 <code>setInterval</code> 这个函数的闭包中，我们捕捉到 <code>time</code> 这个变量的值不能和最新的值对应得上，<code>time</code> 的值有可能在我们意料之外地被更改了多次。解决的方案也很简单，之前我们提到过 <code>useState</code> 返回的 <code>setState</code> 方法，可以接受一个函数作为参数，而这个函数的参数，就是 <code>state</code> 最新的值，所以只要我们传入一个函数就好了。这是其中一种方法。</p>
+<p>还有另一种方法是使用 <code>useRef</code> Hooks，<code>useRef</code> 可以返回一个可变的引用，它会生成一个对象，对象里这个有 <code>current</code> 属性，而 <code>current</code> 的值是可变的。在我们这个例子里，每次更改 <code>currentTime.current</code> 都是同步的，而且 <code>currentTime</code> 是一个引用，所以 <code>currentTime.current</code> 一定是可控的。</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> start<span class="token punctuation">,</span> setStart <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> time<span class="token punctuation">,</span> setTime <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> currentTime <span class="token operator">=</span> <span class="token function">useRef</span><span class="token punctuation">(</span>time<span class="token punctuation">)</span> <span class="token comment">// 生成一个可变引用</span>
+  
+  <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span> <span class="token comment">// effect 函数，不接受也不返回任何参数</span>
+    <span class="token keyword">let</span> interval
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>start<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      interval <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token function">setTime</span><span class="token punctuation">(</span>currentTime<span class="token punctuation">.</span>current<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token comment">// currentTime.current 是可变的</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">clearInterval</span><span class="token punctuation">(</span>interval<span class="token punctuation">)</span> <span class="token comment">// clean-up 函数，当前组件被注销时调用</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span> start <span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">// 依赖数组，当数组中变量变化时会调用 effect 函数</span>
+  
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">setStart</span><span class="token punctuation">(</span><span class="token operator">!</span>start<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>time<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Button</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>虽然说我们可以 <code>useRef</code> 来解决这个问题，但是没必要这样做。因为 <code>setTime</code> 传递一个回调函数的方法显然可读性更高。真正有必要的是把我们的 <code>interval</code> 变量作为一个 ref，我们在函数最顶层的作用域把 <code>interval</code> 作为一个 ref，这样我们就可以在这个函数的任何一个地方把他清除，而原来的代码中我们把 <code>interval</code> 作为一个普通的变量放在 effect 函数里，这样如果我们有一个事件也需要清除 interval，这就没法做到了。但是用 <code>useRef</code> 生成可变引用就没有这个限制。</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">function</span> <span class="token function">Counter</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> start<span class="token punctuation">,</span> setStart <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> time<span class="token punctuation">,</span> setTime <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> interval <span class="token operator">=</span> <span class="token function">useRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// interval 可以在这个作用域里任何地方清除和设置</span>
+  
+  <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span> <span class="token comment">// effect 函数，不接受也不返回任何参数</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>start<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      interval<span class="token punctuation">.</span>current <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token function">setTime</span><span class="token punctuation">(</span><span class="token parameter">t</span> <span class="token operator">=></span> t <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">// ✅ 在 setTime 的回调函数参数里可以拿到对应 state 的最新值</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">clearInterval</span><span class="token punctuation">(</span>interval<span class="token punctuation">.</span>current<span class="token punctuation">)</span> <span class="token comment">// clean-up 函数，当前组件被注销时调用</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span> start <span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">// 依赖数组，当数组中变量变化时会调用 effect 函数</span>
+  
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">setStart</span><span class="token punctuation">(</span><span class="token operator">!</span>start<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>time<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Button</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="usecontext-与跨组件通信"></a><a href="#usecontext-与跨组件通信" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useContext</code> 与跨组件通信</h3>
+<p>接下来我们再来看一个跨组件通信的例子，例如我们有三个组件，<em>page</em> 组件有一个 <em>child</em> 组件，<em>child</em> 组件有一个 <em>counter</em> 组件，而我们 <em>counter</em> 组件的 <code>count</code> 值和 <code>setCount</code> 函数，是由 <em>page</em> 组件传递下来的。这种情况在一个复杂业务的开发中也经常能遇到，在原生小程序开发中我们应该怎么做呢？</p>
+<p>我们需要手动的把我们 <code>counter</code> 的值和函数手动地依次地传递下去，而这样的传递必须是显式的，你需要在 JavaScript 中设置 props 的参数，也需要在 WXML 里设置 props 的参数，一个也不能少，少了就跑不动。我们还注意到即便 child 组件没有任何业务逻辑，他也必须要设置一个 <code>triggerEvent</code> 的函数和 props 的类型声明。这样的写法无疑是非常麻烦而且限制很大的。</p>
+<pre><code class="hljs css language-html"><span class="hljs-comment">&lt;!-- page.wxml --&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">child</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- child.wxml --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">counter</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- counter.wxml --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">text</span>&gt;</span>
+    You clicked {{count}} times
+  <span class="hljs-tag">&lt;/<span class="hljs-name">text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">butto</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"increment"</span>&gt;</span>
+    Click me
+  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+</code></pre>
+<pre><code class="hljs css language-js"><span class="hljs-comment">// page.js</span>
+Page({
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+  },
+  increment () {
+    <span class="hljs-keyword">this</span>.setData({
+      <span class="hljs-attr">count</span>: <span class="hljs-keyword">this</span>.data.count + <span class="hljs-number">1</span>
+    })
+  }
+})
+
+<span class="hljs-comment">// child.js</span>
+Component({
+  <span class="hljs-attr">properties</span>: {
+    <span class="hljs-attr">count</span>: <span class="hljs-built_in">Number</span>
+  },
+  <span class="hljs-attr">methods</span>: {
+    increment () {
+      <span class="hljs-keyword">this</span>.triggerEvent(<span class="hljs-string">'increment'</span>)
+    }
+  }
+})
+
+<span class="hljs-comment">// counter.js</span>
+Component({
+  <span class="hljs-attr">properties</span>: {
+    <span class="hljs-attr">count</span>: <span class="hljs-built_in">Number</span>
+  },
+  <span class="hljs-attr">methods</span>: {
+    increment () {
+      <span class="hljs-keyword">this</span>.triggerEvent(<span class="hljs-string">'increment'</span>)
+    }
+  }
+})
+</code></pre>
+<p>而我们可以看看 Hooks 的写法，首先我们用 <code>Taro.createContext</code> 创建一个 <code>context</code> 对象，在我们 <em>page</em> 组件里把我们的 <code>count</code> 和 <code>setCount</code> 函数作为一个对象传入到 <code>Context.Provider</code> 的 <code>value</code> 里。然后在我们的 <em>Counter</em> 组件，我们可以使用 <code>useContext</code> 这个 Hooks 把我们的 <code>count</code> 和 <code>setCount</code> 取出来，就直接可以使用了。</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">export</span> <span class="token keyword">const</span> CounterContext <span class="token operator">=</span> Taro<span class="token punctuation">.</span><span class="token function">createContext</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// page.js</span>
+<span class="token keyword">const</span> <span class="token function-variable function">Page</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> count<span class="token punctuation">,</span> setCount <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">CounterContext.Provider</span></span> <span class="token attr-name">value</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> count<span class="token punctuation">,</span> setCount <span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Child</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">CounterContext.Provider</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// child.js</span>
+<span class="token keyword">const</span> <span class="token function-variable function">Child</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Counter</span></span> <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// counter.js</span>
+<span class="token keyword">const</span> <span class="token function-variable function">Counter</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> count<span class="token punctuation">,</span> setCount <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useContext</span><span class="token punctuation">(</span>CounterContext<span class="token punctuation">)</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+        You clicked <span class="token punctuation">{</span>count<span class="token punctuation">}</span> times
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+        Click me
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Button</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>大家可以发现使用 Context 的代码比原来的代码精简了很多，参数不需要一级一级地显式传递，<em>child</em> 组件也和事实一样，没有一行多余的逻辑。但精简不是最大的好处。最大的好处是大家可以发现我们的 Context 可以传递一个复杂的对象，熟悉小程序原生开发的同学可能会知道，所有 props 的传递都会被小程序序列化掉，如果传递了一个复杂的对象最终会变成一个 JSON。但是用 Taro 的 context 则没有这层限制，你可以传入一个带有函数的对象，也可以传入像是 <code>imutabale</code> 或者 <code>obserable</code> 这样复杂的对象。在 taro 1.3 我们对 props 系统进行了一次重构，Taro 的 context 和 props 一样，属性传递没有任何限制，想传啥就传啥。</p>
+<p>另外一个值得注意的点的是，context 的传递可以无视父级组件的更新策略，在这个例子中即便我们通过 <code>shouldComponentUpdate()</code> 禁止了 <em>child</em> 组件的更新，但 <em>counter</em> 作为它的子组件依然是可以更新的。这个特性可以让我们做性能优化的时候更为灵活一些。</p>
+<h2><a class="anchor" aria-hidden="true" id="hooks-在小程序实战"></a><a href="#hooks-在小程序实战" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hooks 在小程序实战</h2>
+<p>讲完了 Hooks 的基本使用，有些同学会觉得：咦，我怎么觉得你这几个东西感觉平平无奇，没什么特别的。但实际上这些基础的 Hooks 单独拿出来看的确不能玩出什么花样，但他们组合起来却能迸发强大的力量。</p>
+<h3><a class="anchor" aria-hidden="true" id="自定义-hooks"></a><a href="#自定义-hooks" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>自定义 Hooks</h3>
+<p>大家在业务开发可能会遇到这样的需求，实现一个双击事件，如果你是从 H5 开发过来的可能会直接写 <code>onDoubleClick</code>，但很遗憾，小程序组件是没有 <code>doubleClick</code> 这个事件的。当然，如果你使用 Taro 又用了 TypeScript 就不会犯这样的错误，编辑器就回直接给你报错 <code>Text</code> 组件没有这个属性。</p>
+<p>于是你就自己实现了一个双击事件，代码大概是这样，有一个上次点击的时间作为状态，每次触发单机事件的时候和上次点击的时间做对比，如果间隔过小，那他就是一个双击事件。代码非常简单，但我们不禁就会产生一个问题问题，每一次给一个组件加单击事件，我们就每次都加这么一坨代码吗？</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">function</span> <span class="token function">EditableText</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> title <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> lastClickTime<span class="token punctuation">,</span> setClickTime <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> editing<span class="token punctuation">,</span> setEditing <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token punctuation">{</span>
+        editing
+          <span class="token operator">?</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">TextInput</span></span> <span class="token attr-name">editing</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>editing<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+          <span class="token operator">:</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span>
+            <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token parameter">e</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+              <span class="token keyword">const</span> currentTime <span class="token operator">=</span> e<span class="token punctuation">.</span>timeStamp
+              <span class="token keyword">const</span> gap <span class="token operator">=</span> currentTime <span class="token operator">-</span> lastClickTime
+              <span class="token keyword">if</span> <span class="token punctuation">(</span>gap <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> gap <span class="token operator">&lt;</span> <span class="token number">300</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// double click</span>
+                <span class="token function">setEditing</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+              <span class="token punctuation">}</span>
+              <span class="token function">setClickTime</span><span class="token punctuation">(</span>currentTime<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">}</span></span>
+          <span class="token punctuation">></span></span>
+            <span class="token punctuation">{</span>title<span class="token punctuation">}</span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+      <span class="token punctuation">}</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>这个时候我们就可以写一个自定义 Hooks，代码和原来的代码也差不多，<code>useDoubleClick</code> 不接受任何参数，但当我们调用 <code>useDoubleClick</code> 时候返回一个名为 <code>textOnDoubleClick</code> 的函数，在在 Text 组件的事件传参中，我们再在 <code>textOnDoubleClick</code> 函数中传入一个回调函数，这个回调函数就是触发双击条件时候的函数。当我们给这个自定义 Hooks 做了柯里化之后，我们就可以做到知道 Hook 使用时才暴露回调函数:</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">function</span> <span class="token function">useDoubleClick</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> lastClickTime<span class="token punctuation">,</span> setClickTime <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token parameter">callback</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> currentTime <span class="token operator">=</span> e<span class="token punctuation">.</span>timeStamp
+    <span class="token keyword">const</span> gap <span class="token operator">=</span> currentTime <span class="token operator">-</span> lastClickTime
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>gap <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> gap <span class="token operator">&lt;</span> <span class="token number">300</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      callback <span class="token operator">&amp;&amp;</span> <span class="token function">callback</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">setClickTime</span><span class="token punctuation">(</span>currentTime<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">EditableText</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> title <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span> editing<span class="token punctuation">,</span> setEditing <span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> textOnDoubleClick <span class="token operator">=</span> <span class="token function">useDoubleClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token punctuation">{</span>
+        editing
+          <span class="token operator">?</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">TextInput</span></span> <span class="token attr-name">editing</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>editing<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+          <span class="token operator">:</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span>
+            <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token function">textOnDoubleClick</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span>
+              <span class="token function">setEditing</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span><span class="token punctuation">}</span></span>
+          <span class="token punctuation">></span></span>
+            <span class="token punctuation">{</span>title<span class="token punctuation">}</span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+      <span class="token punctuation">}</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>柯里化函数好像有一点点绕，但一旦我们完成了这一步，这种我们的自定义 hooks 就可以像多次调用：</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">function</span> <span class="token function">EditableText</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> title <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> textOnDoubleClick <span class="token operator">=</span> <span class="token function">useDoubleClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> buttonOnDoubleClick <span class="token operator">=</span> <span class="token function">useDoubleClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token comment">// 任何实现单击类型的组件都有自己独立的双击状态</span>
+
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token function">textOnDoubleClick</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+        <span class="token punctuation">{</span>title<span class="token punctuation">}</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Button</span></span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token function">buttonOnDoubleClick</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>每一个大家不妨试想如果按照我们传统的 render props 实现，每次都要多写一个 container 组件，如果用 Mixins 或高阶组件来实现就更麻烦，我们需要基于每个不同类型的组件创造一个新的组件。而使用 Hooks，任何一个实现了单机类型的组件都可以通过我们的自定义 Hook 实现双击效果，不管从它的内部实现来看，还是从它暴露的 API 来看都是非常优雅的。</p>
+<h3><a class="anchor" aria-hidden="true" id="性能优化"></a><a href="#性能优化" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>性能优化</h3>
+<p>接下来我们谈一下性能优化，相信大家也有过这种情况，有一个数组，他只需拿到他的 props 要渲染一次，从此之后他就再也不需要更新了。对于传统而言的 Class Component 我们可以设置 <code>shouldComponentUpdate()</code> 返回 <code>false</code>。</p>
+<pre><code class="hljs css language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Numbers</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
+  shouldComponentUpdate () {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+  }
+
+  render () {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span>&gt;</span>
+      {
+       expensive(this.props.array).map(i =&gt; <span class="hljs-tag">&lt;<span class="hljs-name">View</span>&gt;</span>{i}<span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span>)
+      }
+    <span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span></span>
+  }
+}
+</code></pre>
+<p>而对于函数式组件而言，我们也可以做一样的事情。Taro 和 React 一样提供 <code>Taro.memo</code> API，他的第一个参数接受一个函数式组件，第二个参数和我们的 <code>shouldComponentUpdate()</code> 一样，判断组件在什么样的情况下需要更新。如果第二个参数没有传入的话，<code>Taro.memo</code> 的效果就和 <code>Taro.PureComponent</code> 一样，对新旧 props 做一层浅对比，如果浅对比不相等则更新组件。</p>
+<pre><code class="hljs css language-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Numbers</span> (<span class="hljs-params">{ array }</span>) </span>{
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span>&gt;</span>
+      {
+       expensive(array).map(
+         i =&gt; <span class="hljs-tag">&lt;<span class="hljs-name">View</span>&gt;</span>{i}<span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span>
+       )
+      }
+    <span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span></span>
+  )
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Taro.memo(Numbers, () =&gt; <span class="hljs-literal">true</span>)
+</code></pre>
+<p>第二种情况我们可以看看我们的老朋友，计数器组件。但是这个计数器组件和老朋友有两点不一样：第一是每次点击 + 1，计数器需要调用 <code>expensive</code> 函数循环 1 亿次才能拿到我们想要的值，第二点是它多了一个 <code>Input</code> 组件。在我们真实的业务开发中，这种情况也很常见：我们的组件可能需要进行一次昂贵的数据处理才能得到最终想要的值，但这个组件又还有多个 state 控制其它的组件。在这种情况下，我们如果正常书写业务逻辑是有性能问题的：</p>
+<pre><code class="hljs css language-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [ count, setCount ] = useState(<span class="hljs-number">0</span>)
+  <span class="hljs-keyword">const</span> [val, setValue] = useState(<span class="hljs-string">''</span>)
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">expensive</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> sum = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; count * <span class="hljs-number">1e9</span>; i++) {
+      sum += i
+    }
+    <span class="hljs-keyword">return</span> sum
+  }
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Text</span>&gt;</span>You clicked {expensive()} times}<span class="hljs-tag">&lt;/<span class="hljs-name">Text</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> setCount(count + 1)}&gt;
+        Click me
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Input</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{val}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{event</span> =&gt;</span> setValue(event.detail.value)} /&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span></span>
+  )
+}
+</code></pre>
+<p>因为我们 <code>count</code> 的值跟 <code>Input</code> 的值没有关系，但我们每次改变 <code>Input</code> 的值，就会触发这个组件重新渲染。也就是说这个循环一亿次的 <code>expensive()</code> 函数就会重新调用。这样情况显然是不能接受的。为了解决这个问题，我们可以使用 <code>useMemo</code> API。<code>useMemo</code> 的签名和 <code>useEffect</code> 有点像，区别就在于 <code>useMemo</code> 的第一个函数有返回值，这个函数返回的值同时也是 <code>useMemo</code> 函数的返回值。而第二个参数同样是依赖数组，只有当这个数组的数据变化时候，<code>useMemo</code> 的函数才会重新计算，如果数组没有变化，那就直接从缓存中取数据。在我们这个例子里我们只需要 <code>count</code> 变化才进行计算，而 Input value 变化无需计算。</p>
+<pre><code class="hljs css language-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [ count, setCount ] = useState(<span class="hljs-number">0</span>)
+  <span class="hljs-keyword">const</span> [val, setValue] = useState(<span class="hljs-string">''</span>)
+  <span class="hljs-keyword">const</span> expensive = useMemo(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">let</span> sum = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; count * <span class="hljs-number">100</span>; i++) {
+      sum += i
+    }
+    <span class="hljs-keyword">return</span> sum
+  }, [ count ]) <span class="hljs-comment">// ✅ 只有 count 变化时，回调函数才会执行</span>
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Text</span>&gt;</span>You Clicked {expensive} times<span class="hljs-tag">&lt;/<span class="hljs-name">Text</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> setCount(count + 1)}&gt;
+        Click me
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Input</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{val}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{event</span> =&gt;</span> setValue(event.detail.value)} /&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span></span>
+  )
+}
+</code></pre>
+<p>我们刚才提到的两个 memo 的 API ，他的全称其实是 <em>Memoization</em>。由于 Hooks 都是在普通函数中运行的，所以我们要做好性能优化，一定要好好利用缓存和记忆化这一技术。</p>
+<blockquote>
+<p>在计算机科学中，记忆化（Memoization）是一种提高程序运行速度的优化技术。通过储存大计算量函数的返回值，当这个结果再次被需要时将其从缓存提取，而不用再次计算来节省计算时间。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="大规模状态管理"></a><a href="#大规模状态管理" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>大规模状态管理</h3>
+<p>提到状态管理，React 社区最有名的工具当然是 Redux。在 <code>react-redux@7</code> 中新引用了三个 API:</p>
+<ol>
+<li><code>useSelector</code>。它有点像 <code>connect()</code> 函数的第一个参数 <code>mapStateToProps</code>，把数据从 state 中取出来；</li>
+<li><code>useStore</code> 。返回 <code>store</code> 本身；</li>
+<li><code>useDispatch</code>。返回 <code>store.dispatch</code>。</li>
+</ol>
+<p>在 Taro 中其实你也可以使用我们之前提到过的 <code>createContext</code> 和 <code>useContext</code> 直接就把 <code>useStore</code> 和 <code>useDispatch</code> 实现了。而基于 <code>useStore</code> 和 <code>useDispatch</code> 以及 <code>useState</code>，<code>useMemo</code>，<code>useEffect</code> 也可以实现 <code>useSelector</code>。也就是说 <code>react-redux@7</code> 的新 API 全都是普通 Hooks 构建而成的自定义 Hooks。当然我们也把 <code>react-redux@7</code> 的新功能移植到了 <code>@tarojs/redux</code>，在 Taro 1.3 版本你可以直接使用这几个 API。</p>
+<h2><a class="anchor" aria-hidden="true" id="hooks-的实现"></a><a href="#hooks-的实现" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hooks 的实现</h2>
+<p>我们现在对 Hooks 已经有了以下的了解，一个合法的 Hooks ，必须满足以下需求才能执行:</p>
+<ul>
+<li>只能在函数式函数中调用</li>
+<li>只能在函数最顶层中调用</li>
+<li>不能在条件语句中调用</li>
+<li>不能在循环中调用</li>
+<li>不能在嵌套函数中调用</li>
+</ul>
+<p>我想请大家思考一下，为什么一个 Hook 函数需要满足以上的需求呢？我想请大家以可以框架开发者的角度去思考下这个问题，而不是以 API 的调用者的角度去逆向地思考。当一个 Hook 函数被调用的时，这个 Hook 函数的内部实现应该可以访问到当前正在执行的组件，但是我们的 Hooks API 的入参却没有传入这个组件，那究竟是怎么样的设计才可以让我们的 hook 函数访问到正在执行的组件，也能够准确地定位自己呢？</p>
+<p>聪明的朋友或许已经猜到了，这些所有线索都指向一个结果，<strong>Hooks 必须是一个按顺序执行的函数</strong>。也就是说，不管整个组件执行多少次，渲染多少次，组件中 Hooks 的顺序都是不会变的。</p>
+<p>我们还知道另外一条规则，Hooks 是 React 函数内部的函数，于是我们就可以知道，要实现 Hooks 最关键的问题在于两个:</p>
+<ol>
+<li>找到正在执行的 React 函数</li>
+<li>找到正在执行的 Hooks 的顺序。</li>
+</ol>
+<p>我们可以设置一个全局的对象叫 <code>CurrentOwner</code>，它有两个属性，第一个是 <code>current</code>，他是正在执行的 <code>Taro</code> 函数，我们可以在组件加载和更新时设置它的值，加载或更新完毕之后再设置为 <code>null</code>；第二个属性是 <code>index</code>，它就是 <code>CurrentOwner.current</code> 中 Hooks 的顺序，每次我们执行一个 Hook 函数就自增 1。</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">const</span> CurrentOwner<span class="token operator">:</span> <span class="token punctuation">{</span>
+  current<span class="token operator">:</span> <span class="token keyword">null</span> <span class="token operator">|</span> Component<span class="token operator">&lt;</span><span class="token builtin">any</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">></span><span class="token punctuation">,</span>
+  index<span class="token operator">:</span> <span class="token builtin">number</span>
+<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 正在执行的 Taro 函数,</span>
+  <span class="token comment">// 在组件加载和重新渲染前设置它的值</span>
+  current<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token comment">// Taro 函数中 hooks 的顺序</span>
+  <span class="token comment">// 每执行一个 Hook 自增</span>
+  index<span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在 React 中其实也有这么一个对象，而且你还可以使用它，它叫做 <code>__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner</code>，也就是说如果你想给 React 15 实现 Hooks，其实也可以做到的。但也正如它的名字一样，如果你用了说不定就被 fire 了，被优化了，所以更好的方案还是直接使用我们 taro。</p>
+<p>接下来我们来实现我们的 <code>getHook</code> 函数，同样很简单，如果 <code>CurrenOwner.current</code> 是 <code>null</code>，那这就不是一个合法的 hook 函数，我们直接报错。如果满足条件，我们就把 hook 的 <code>index</code> + 1，接下来我们把组件的 Hooks 都保存在一个数组里，如果 <code>index</code> 大于 Hooks 的长度，说明 Hooks 没有被创造，我们就 push 一个空对象，避免之后取值发生 runtime error。然后我们直接返回我们的 Hook。</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">function</span> <span class="token function">getHook</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> Hook <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>CurrentOwner<span class="token punctuation">.</span>current <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">invalid hooks call: hooks can only be called in a taro component.</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">const</span> index <span class="token operator">=</span> CurrentOwner<span class="token punctuation">.</span>index<span class="token operator">++</span> <span class="token comment">// hook 在该 Taro 函数中的 ID</span>
+  <span class="token keyword">const</span> hooks<span class="token operator">:</span> Hook<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> CurrentOwner<span class="token punctuation">.</span>current<span class="token punctuation">.</span>hooks <span class="token comment">// 所有的 hooks</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">>=</span> hooks<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 如果 hook 还没有创建</span>
+    hooks<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token keyword">as</span> Hook<span class="token punctuation">)</span> <span class="token comment">// 对象就是 hook 的内部状态</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> hooks<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token comment">// 返回正在执行的 hook 状态</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>既然我们已经找到了我们正在执行的 Hooks，完整地实现 Hooks 也就不难了。之前我们讨论过 <code>useState</code> 的签名，现在我们一步一步地看他的实现。</p>
+<p>首先如果 <code>initState</code> 是函数，直接执行它。其次调用我们我们之前写好的 <code>getHook</code> 函数，它返回的就是 Hook 的状态。接下来就是 useState 的主逻辑，如果 hook 还没有状态的话，我们就先把正在执行的组件缓存起来，然后 <code>useState</code> 返回的，就是我们的 <code>hook.state</code>, 其实就是一个数组，第一个值当然就是我们 <code>initState</code>，第一个参数是一个函数，它如果是一个函数，我们就执行它，否则就直接把参数赋值给我们 的 <code>hook.state</code> 第一个值，赋值完毕之后我们把当前的组件加入到更新队列，等待更新。</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">function</span> useState<span class="token operator">&lt;</span><span class="token constant">S</span><span class="token operator">></span> <span class="token punctuation">(</span>initialState<span class="token operator">:</span> <span class="token constant">S</span> <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token constant">S</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token constant">S</span><span class="token punctuation">,</span> Dispatch<span class="token operator">&lt;</span>SetStateAction<span class="token operator">&lt;</span><span class="token constant">S</span><span class="token operator">>></span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isFunction</span><span class="token punctuation">(</span>initialState<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 如果 initialState 是函数</span>
+    initialState <span class="token operator">=</span> <span class="token function">initialState</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 就直接执行</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">const</span> hook <span class="token operator">=</span> <span class="token function">getHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> HookState<span class="token operator">&lt;</span><span class="token constant">S</span><span class="token operator">></span> <span class="token comment">// 找到该函数中对应的 hook</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isUndefined</span><span class="token punctuation">(</span>hook<span class="token punctuation">.</span>state<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 如果 hook 还没有状态</span>
+    hook<span class="token punctuation">.</span>component <span class="token operator">=</span> Current<span class="token punctuation">.</span>current<span class="token operator">!</span> <span class="token comment">// 正在执行的 Taro 函数，缓存起来</span>
+    hook<span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token punctuation">[</span> <span class="token comment">// hook.state 就是我们要返回的元组</span>
+      initialState<span class="token punctuation">,</span>
+      <span class="token punctuation">(</span><span class="token parameter">action</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        hook<span class="token punctuation">.</span>state<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">isFunction</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token function">action</span><span class="token punctuation">(</span>hook<span class="token punctuation">.</span>state<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">:</span> action
+        <span class="token function">enqueueRender</span><span class="token punctuation">(</span>hook<span class="token punctuation">.</span>component<span class="token punctuation">)</span> <span class="token comment">// 加入更新队列</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> hook<span class="token punctuation">.</span>state <span class="token comment">// 已经创建 hook 就直接返回</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>最后我们把 <code>hook.state</code> 返回出去就大功告成了。</p>
+<p>Taro 的 Hooks 总共有八个 API， <code>useState</code> 的实现大家可以发现非常简单，但其实它的代码量和复杂度是所有 Hooks 的实现中第二高的。所以其实 Hooks 也没有什么黑科技，大家可以放心大胆地使用。</p>
+<h2><a class="anchor" aria-hidden="true" id="总结与展望"></a><a href="#总结与展望" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>总结与展望</h2>
+<p>在 2018 年 Ember.js 的作者提出过一个观点，<em>Compilers are the New Frameworks</em>，编译器即框架。什么意思呢？就拿 React 来举例，单单一个 React 其实没什么用，你还需要配合 <em>create-react-app</em>, <em>eslint-plugin-react-hooks</em>, <em>prettier</em> 等等编译相关的工具最终才能构成一个框架，而这些工具也恰巧是 React Core Team 的人创造的。而这样趋势不仅仅发生在 React 身上，大家可以发现在2018年，尤玉溪老师的主要工作就是开发 <em>vue-cli</em>。而对一些更激进的框架，例如 <em>svelte</em>，它的框架就是编译器，编译器就是框架。</p>
+<p>而到了 2019 年，我想提出一个新概念，叫框架即生态。就拿 Taro 来说，使用 Taro 你可以复用 React 生态的东西，同时 Taro 还有 <code>taro doctor</code>，Taro 开发者社区，Taro 物料市场，还有腾讯小程序·云开发等等多个合作伙伴一起构成了 Taro 生态，而整个 Taro 生态才是框架。在过去的半年，我们持续改进并优化了 Taro 框架的表现，以上提到的特性与功能在 Taro 1.3 全部都可以正常使用。而在框架之外，我们也深耕社区，推出了 Taro 物料市场和 Taro 开发者社区，并和腾讯小程序·云开发合作举办了物料开发竞赛。现在，我们诚挚邀请你一起来参与社区贡献，让小程序开发变得更好、更快、更方便：</p>
+<ul>
+<li>Taro 官网：<a href="https://taro.jd.com/">https://taro.jd.com/</a></li>
+<li>Taro 物料市场：<a href="https://taro-ext.jd.com/">https://taro-ext.jd.com/</a></li>
+<li>Taro 开发者社区：<a href="https://taro-club.jd.com/">https://taro-club.jd.com/</a></li>
+</ul>
+</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/taro/blog">最近更新</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#背景">背景</a></li><li><a href="#什么是-hooks">什么是 Hooks？</a><ul class="toc-headings"><li><a href="#usestate-与内部状态"><code>useState</code> 与内部状态</a></li><li><a href="#useeffect-与副作用"><code>useEffect</code> 与副作用</a></li><li><a href="#usecontext-与跨组件通信"><code>useContext</code> 与跨组件通信</a></li></ul></li><li><a href="#hooks-在小程序实战">Hooks 在小程序实战</a><ul class="toc-headings"><li><a href="#自定义-hooks">自定义 Hooks</a></li><li><a href="#性能优化">性能优化</a></li><li><a href="#大规模状态管理">大规模状态管理</a></li></ul></li><li><a href="#hooks-的实现">Hooks 的实现</a></li><li><a href="#总结与展望">总结与展望</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

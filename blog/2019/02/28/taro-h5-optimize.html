@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>决战性能之巅 - Taro H5 转换与优化升级 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="作为一个多端开发框架，Taro 从项目发起时就已经支持编译到 H5 端。随着 Taro 多端能力的不断成熟，我们对 Taro H5 端应用的要求也不断提升。我们已经不再满足于“能跑”，更希望 Taro 能跑得快。"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="决战性能之巅 - Taro H5 转换与优化升级 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/blog/2019/02/28/taro-h5-optimize.html"/><meta property="og:description" content="作为一个多端开发框架，Taro 从项目发起时就已经支持编译到 H5 端。随着 Taro 多端能力的不断成熟，我们对 Taro H5 端应用的要求也不断提升。我们已经不再满足于“能跑”，更希望 Taro 能跑得快。"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.2.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/apis/about/desc.html" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>全部文章</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">全部文章</h3><ul class=""><li class="navListItem"><a class="navItem" href="/taro/blog/2020/4/13/taro-components.html">Taro Next H5 跨框架组件库实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/02/13/taro-next-alpha.html">Taro Next 发布预览版：同时支持 React / Vue / Nerv</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/08/taro-2-0.html">Taro 2.0：拥抱社区，拥抱变化</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/02/gmtc.html">小程序跨框架开发的探索与实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/12/03/jingxi-index.html">京喜首页（微信购物入口）跨端开发与优化实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/10/24/taro-open.html">Taro 邀你加入社区共建 — 社区共建倡议书</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/09/25/taro-flex.html">玩转 Taro 跨端之 flex 布局篇</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/07/10/taro-hooks.html">使用 React Hooks 重构你的小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/21/taro-ext-club.html">Taro 「物料市场」及「交流社区」 惊喜上线</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/13/taro-1-3.html">Taro 1.3 震撼升级：全面支持 JSX 语法和 HOOKS</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/03/12/mini-program-framework-full-review.html">小程序框架全面测评</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/blog/2019/02/28/taro-h5-optimize.html">决战性能之巅 - Taro H5 转换与优化升级</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/25/taro-ui-2.0.html">Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/12/18/taro-1-2.html">Taro 1.2：将已有微信小程序转换为多端应用</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/11/05/taro-1-1.html">Taro 1.1 发布，全面支持微信/百度/支付宝小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/18/taro-1-0-0.html">多端统一开发框架 Taro 1.0 正式发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/11/taro-in-jd.html">Taro 在京东购物小程序上的实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/08/24/the-birth-of-taro-ui.html">首个多端 UI 组件库 - Taro UI 发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/25/the-birth-of-taro.html">为何我们要用 React 来写小程序 - Taro 诞生记</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/07/Taro.html">多端统一开发框架 - Taro</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle"><a href="/taro/blog/2019/02/28/taro-h5-optimize.html">决战性能之巅 - Taro H5 转换与优化升级</a></h1><p class="post-meta">February 28, 2019</p><div class="authorBlock"><p class="post-authorName"><a href="https://github.com/Littly" target="_blank" rel="noreferrer noopener">Littly</a></p><div class="authorPhoto"><a href="https://github.com/Littly" target="_blank" rel="noreferrer noopener"><img src="https://avatars0.githubusercontent.com/u/5780093?s=460&amp;u=f92cbac202f03815a041541ff06397d5d0130232&amp;v=4" alt="Littly"/></a></div></div></header><div><span><p><img src="https://img10.360buyimg.com/img/jfs/t1/21860/12/8740/42390/5c790470E1d0bbce9/9f9bb78d01f7564b.png" alt="image"></p>
+<p>作为一个多端开发框架，Taro 从项目发起时就已经支持编译到 H5 端。随着 Taro 多端能力的不断成熟，我们对 Taro H5 端应用的要求也不断提升。我们已经不再满足于“能跑”，更希望 Taro 能跑得快。</p>
+<!--truncate-->
+<p>我们经常收到用户反馈：为什么使用 Taro 脚手架创建的空项目，打包后代码体积却有 400KB+；也有用户在 Issue 中提到，Taro 的部分 Api 占用空间巨大，事实上功能却并不完美，等等。作为一个开源项目，我们非常重视社区开发者们的意见。所以在最新版本中，我们对 Taro H5 端的性能表现进行了优化。</p>
+<p>作为运行时的基础，每一个 Taro 的 H5 端应用都需要引入 @tarojs/components 和 @tarojs/taro-h5 等基础依赖包。在编译、打包之后，这些依赖包大约会在首屏占用 400KB 以上的空间。如果开发者还使用了 UI 库，例如 Taro-UI，基础体积还会更大，这严重限制了 Taro H5 端应用的性能优化空间。</p>
+<p>事实上，我们在 H5 端应用中并不会使用到全部的 Taro 组件和 Api。将这些依赖包全部打包进应用是没有必要，也是不合理的。进行死码删除（Dead code elimination），进一步缩减代码体积，就是我们的优化方向之一。</p>
+<h2><a class="anchor" aria-hidden="true" id="效果"></a><a href="#效果" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>效果</h2>
+<p>在介绍具体细节之前，我们先看一看优化的效果，因为这可能会让你更有兴趣了解后面的内容。用一句话来说，效果非常显著。</p>
+<p>我们建立了一个空项目，在项目配置中加入了<code>webpack-bundle-analyzer</code>插件以查看编译分析。下图是优化前的打包文件分析结果：</p>
+<p><img src="https://img11.360buyimg.com/img/jfs/t1/19501/21/8687/76054/5c77fb63E5d040dc5/12bcea35b5b780fb.png" alt="before"></p>
+<p>而在优化后，对比非常明显：</p>
+<p><img src="https://img12.360buyimg.com/img/jfs/t1/24494/22/8574/92373/5c77fb63E4402b50f/2312218a7dccedf7.png" alt="after"></p>
+<p>优化前生成的代码总大小为 455KB，而在优化后仅剩约 96KB，仅是原来的 1/5 左右。</p>
+<h2><a class="anchor" aria-hidden="true" id="你需要做什么"></a><a href="#你需要做什么" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>你需要做什么</h2>
+<p>很简单，作为使用者，你不需要做任何代码上的改动，只需要将 Taro 更新到最新版本即可。但在看不见的地方，Taro 却默默地做了许多工作。下面会从原理出发，详细介绍 Taro 的工作。</p>
+<h2><a class="anchor" aria-hidden="true" id="原理"></a><a href="#原理" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>原理</h2>
+<p><a href="https://en.wikipedia.org/wiki/Dead_code_elimination">死码删除（Dead code elimination）</a>是一种代码优化技术，可以删除对应用程序执行结果没有影响的代码。Web Fundamentals 的一篇文章有提到，treeshaking 是由 Rollup 提出的一种死码删除的形式。</p>
+<blockquote>
+<p>Tree shaking is a form of dead code elimination. The term was popularized by Rollup, but the concept of dead code elimination has existed for some time.</p>
+<p>-- <a href="https://developers.google.com/web/fundamentals/performance/optimizing-javascript/tree-shaking/">Reduce JavaScript Payloads with Tree Shaking</a>, Jeremy Wagner</p>
+</blockquote>
+<p>通过在构建时进行静态分析，编译工具可以分析出我们代码中真正的依赖关系。treeshaking 把我们的代码想象成一棵树，代码的每个依赖项看作树上的节点。将未使用过的依赖项从构建结果中移除，这就是 treeshaking 的基本思想。</p>
+<p>那么，假设我们手头有一段代码，我们要怎样辨别其中可以删除的部分呢？答案是，通过分析副作用：</p>
+<pre><code class="hljs css language-javascript"><span class="token comment">// add.js</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> add（a<span class="token punctuation">,</span> b）<span class="token punctuation">{</span> <span class="token keyword">return</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+<span class="token comment">// add2.js</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'这是一个log'</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> add2（a<span class="token punctuation">,</span> b）<span class="token punctuation">{</span> <span class="token keyword">return</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+<span class="token comment">// index.js</span>
+<span class="token keyword">import</span> add <span class="token keyword">from</span> <span class="token string">'./add.js'</span> <span class="token comment">// 没有副作用，可以删除</span>
+<span class="token keyword">import</span> add2 <span class="token keyword">from</span> <span class="token string">'./add2.js'</span> <span class="token comment">// 有副作用，不能直接删除</span>
+
+<span class="token comment">// EOF</span>
+</code></pre>
+<p>副作用这个名词对于了解函数式编程的同学肯定不陌生。修改外部状态，或者是产生输出等等，都是副作用；而存在副作用的代码，是不能被直接移除的。类似上面这个代码示意，add2 模块就是存在副作用的。</p>
+<h3><a class="anchor" aria-hidden="true" id="站在巨人的肩膀上"></a><a href="#站在巨人的肩膀上" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>站在巨人的肩膀上</h3>
+<p>除了 Rollup 之外，支持 treeshaking 的工具/插件还有很多，比如 babel-plugin-transform-dead-code-elimination、uglify、terser等。 webpack 在 v2 之后就内置了对 treeshaking 的支持，并在 webpack@4 中对 treeshaking 功能进行了扩展。</p>
+<p>Taro H5 端在构建过程中，使用 webpack 作为构建的核心。在 webpack 中使用 treeshaking 功能有几个需要注意的地方：</p>
+<ol>
+<li>如果是 npm 模块，需要<code>package.json</code>中存在<code>sideEffects</code>字段，并且准确配置了存在副作用的源代码。</li>
+<li>必须使用 ES6 模块语法。由于诸如<code>babel-preset-env</code>之类的 babel 预配置包默认会对代码的模块机制进行改写，还需要将<code>modules</code>设置为<code>false</code>，将模块解析的工作直接交给 webpack。</li>
+<li>需要工作在 webpack 的<code>production</code>模式下。</li>
+</ol>
+<p>webpack 的 treeshaking 工作主要分为两步。第一步是在模块级别移除未使用且无副作用的模块，这一步由 webpack 的内置插件完成；第二步是在文件级别移除未使用的代码，这一步由代码压缩工具 Terser 完成的。</p>
+<h3><a class="anchor" aria-hidden="true" id="移除未使用的模块"></a><a href="#移除未使用的模块" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>移除未使用的模块</h3>
+<p>前面我们提到，需要在<code>package.json</code>中配置<code>sideEffects</code>字段。</p>
+<p>在 <a href="https://webpack.js.org/guides/tree-shaking/#mark-the-file-as-side-effect-free">webpack 文档</a> 中有提到，这一举动正是为了让 webpack 正确地识别到没有副作用的代码模块。</p>
+<p>在 webpack 中，模块依赖分析是由内置插件 <a href="https://sourcegraph.com/github.com/webpack/webpack/-/blob/lib/optimize/SideEffectsFlagPlugin.js">SideEffectsFlagPlugin</a> 进行的。</p>
+<p><img src="https://m.360buyimg.com/img/jfs/t1/14100/24/8582/236551/5c77fbb1Ef1ec35cc/751d4324349728b8.png" alt="image-20190225220418363"></p>
+<p>经过 <a href="https://sourcegraph.com/github.com/webpack/webpack/-/blob/lib/optimize/SideEffectsFlagPlugin.js">SideEffectsFlagPlugin</a>处理后，没有使用过并且没有副作用的模块都会被打上<code>sideEffectFree</code>标记。</p>
+<p>在 <a href="https://sourcegraph.com/github.com/webpack/webpack/-/blob/lib/optimize/ModuleConcatenationPlugin.js">ModuleConcatenationPlugin</a> 中，带着<code>sideEffectFree</code>标记的模块将不会被打包：</p>
+<p><img src="https://m.360buyimg.com/img/jfs/t1/16074/5/8686/211783/5c77fbacE50bc5fe1/681ba09abcf55c11.png" alt="image-20190222111301698"></p>
+<p>来到这里，webpack 完成了在模块级别对未使用模块的排除。接下来，依靠 Terser，webpack 可以在文件级别，对未使用、无副作用的代码进行移除。</p>
+<h3><a class="anchor" aria-hidden="true" id="移除未使用的代码"></a><a href="#移除未使用的代码" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>移除未使用的代码</h3>
+<p>在 CommonJS 规范中，我们通过<code>require</code>函数来引入模块，通过<code>module.exports</code>进行导出。这意味着我们可以在代码中的任何地方用任何方式引入和导出模块：可以是在某个需要等待用户输入的回调函数中，或者是在符合某个条件才进行引入等等。所以在使用 ES6 的模块系统之前，对 Javascript 做编译时的依赖关系分析是近乎不可能的（并不是完全不可能。prepack 通过实现一个 JS 解释器，甚至可以在编译时提前进行静态计算）。</p>
+<pre><code class="hljs css language-javascript"><span class="token comment">// utils.js</span>
+module<span class="token punctuation">.</span>exports<span class="token punctuation">.</span><span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> a <span class="token operator">+</span> b <span class="token punctuation">}</span><span class="token punctuation">;</span>
+module<span class="token punctuation">.</span>exports<span class="token punctuation">.</span><span class="token function-variable function">minus</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> a <span class="token operator">-</span> b <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// index.js;</span>
+<span class="token keyword">var</span> utils <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./utils.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+utils<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>像上面这段代码，虽然我们最终只使用了<code>add</code>函数，但<code>minus</code>函数也会在最终的打包代码中出现，因为在编译时无法快速得知是否使用了<code>minus</code>函数。</p>
+<p>在 ES6 的模块系统中，我们使用<code>import</code>/<code>export</code>语法来进行模块的引入和导出。与 CommonJS 规范不同的是，这套新的模块系统存在一些限制：<code>import</code>/<code>export</code>行为只能在代码的顶层、默认使用严格模式等等。这些限制使代码模块的导入与导出变得静态化，模块间的依赖关系在开发时已经确定，编译器也更容易解析我们的代码。</p>
+<pre><code class="hljs css language-javascript"><span class="token comment">// utils.js</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">add</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> a <span class="token operator">+</span> b <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">minus</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> a <span class="token operator">-</span> b <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// index.js;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> add <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./utils.js'</span><span class="token punctuation">;</span>
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在使用 ES6 模块系统改造后，我们可以清楚地看到，<code>minus</code>函数确实没有被使用过，所以可以安全地将其从最终打包代码中移除。</p>
+<p>当然，具体的分析过程非常复杂。变量提升、object 取值操作、<code>for(var i in list)</code> 语句、自执行函数、函数传参（<code>onClick(function a () {…})</code>）等等，都有可能导致意料之外的情况，从而导致 treeshaking 失效。如果想了解 Terser 的具体处理过程，百度/Google 会是最好的老师。</p>
+<h2><a class="anchor" aria-hidden="true" id="taro-做了什么"></a><a href="#taro-做了什么" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Taro 做了什么</h2>
+<p>Taro 需要对依赖包做一些修改。</p>
+<h3><a class="anchor" aria-hidden="true" id="组件的-es-模块化"></a><a href="#组件的-es-模块化" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件的 ES 模块化</h3>
+<p>在进行组件库的 ES 模块化改造之前，如果要发布 @tarojs/components 包，Taro 会执行命令 <code>yarn build</code>，使用 webpack 对源代码进行打包，输出为<code>dist/index.js</code>文件。由于 webpack 并不支持输出为 ES 模块，所以这是个 UMD 模块。</p>
+<p><img src="https://m.360buyimg.com/img/jfs/t1/22354/16/8646/21917/5c77fbacEdee5c349/e6af50961d434f09.png" alt="image-20190225154632128"></p>
+<p>这个文件占据了 462KB 的空间，并且由于模块规范等问题，无法进行 treeshaking。所以就算开发者在 Taro 的项目中只引入了两个组件，最终的打包结果也会包含所有的内置组件。</p>
+<p>事实上，@tarojs/components 的源码本身是使用 ESM 规范的：</p>
+<p><img src="https://m.360buyimg.com/img/jfs/t1/14453/5/8776/198331/5c77fbacE24aec263/74ceb998fe9f5059.png" alt="image-20190225160508956"></p>
+<p>所以只要让 webpack 直接解析组件库的源码，我们立即就可以享受到 webpack 自带 treeshaking 带来的好处了。</p>
+<p><img src="https://m.360buyimg.com/img/jfs/t1/21781/18/8661/46118/5c77fbacE28c35efd/ba6ed6939fa041ba.png" alt="image-20190225162018328"></p>
+<p>同时，我们也在<code>sideEffects</code>属性中对样式文件做了标记，帮助 webpack 对样式代码的副作用进行识别，在项目编译的代码中保留样式代码。</p>
+<h3><a class="anchor" aria-hidden="true" id="api-的-es-模块化"></a><a href="#api-的-es-模块化" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Api 的 ES 模块化</h3>
+<p>同样，以前在发布 @tarojs/taro-h5 之前，Taro 也需要执行命令 <code>yarn build</code>，使用 Rollup 对源代码进行打包，输出为<code>dist/index.js</code>文件：</p>
+<p><img src="https://m.360buyimg.com/img/jfs/t1/29124/32/8757/41440/5c77fbacEa1b2206c/fba8b10d73136327.png" alt="image-20190225162654885"></p>
+<p>这个文件占据了 262KB 的空间。同样，只要是个 Taro 的 H5 端应用，生成的代码都会全量引入这个文件。</p>
+<p>我们对 @tarojs/taro-h5 进行模块化改造的思路与 @tarojs/components 相同。我们希望 @tarojs/taro-h5 模块本身遵守 ESM 模块规范，那就只需要标记一下<code>sideEffects</code>，再修改一下模块入口就好。</p>
+<p><img src="https://m.360buyimg.com/img/jfs/t1/16633/12/8583/53807/5c77fbacE239aa77a/0d515de24217f5b5.png" alt="image-20190225165957461"></p>
+<p>粗略一看，@tarojs/taro-h5 还挺 “ESM” 的，但这还不够。我们还需要将这些 Api 以 namedExports 的形式导出，开发者使用<code>import { XXX } from '@tarojs/taro-h5'</code>导入 Api 即可。</p>
+<p><img src="https://m.360buyimg.com/img/jfs/t1/14351/23/8588/28303/5c77fbacEf0ec647b/0b8652e5a5bb49a7.png" alt="image-20190225172609369"></p>
+<p>那么问题来了。在 Taro 项目中，我们一直使用的是 defaultImport，并不会使用 Api 的 <code>namedExports</code> 形式：</p>
+<pre><code class="hljs css language-javascript"><span class="token keyword">import</span> Taro <span class="token keyword">from</span> <span class="token string">'@tarojs/taro-h5'</span>
+
+Taro<span class="token punctuation">.</span><span class="token function">navigateTo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+Taro<span class="token punctuation">.</span><span class="token function">getSystemInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">// Taro.xxx ...</span>
+</code></pre>
+<p>只要 Api 是通过对<code>Taro</code>变量取属性获取，<code>Taro</code>变量就需要具备所有的 Api，treeshaking 也就无从谈起。</p>
+<p>有没有办法把 defaultImport 修改为 namedImports 呢？答案是肯定的。我们写了一个 babel 插件 babel-plugin-transform-taroapi，将指定的 Api 调用替换为 namedImports，未指定的变量则保留属性取值的形式。具体源码可以在<strong>这里</strong>查看。</p>
+<pre><code class="hljs css language-javascript"><span class="token comment">// const apis = new Set(['navigateTo', 'navigateBack', ...])</span>
+<span class="token punctuation">{</span>
+  babel<span class="token operator">:</span> <span class="token punctuation">{</span>
+    preset<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'babel-preset-env'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token comment">// ...,</span>
+      <span class="token punctuation">[</span><span class="token string">'babel-plugin-transform-taroapi'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        packageName<span class="token operator">:</span> <span class="token string">'@tarojs/taro-h5'</span><span class="token punctuation">,</span>
+        apis
+      <span class="token punctuation">}</span><span class="token punctuation">]</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>这个插件接受一个对象作为配置参数：<code>packageName</code>属性指定需要进行替换的模块名，<code>apis</code>接受一个 Set 对象，也就是所有 Api 的列表。</p>
+<p>为了避免后期手动维护 Api 列表的情况，我们给 @tarojs/taro-h5 模块加了一个编译任务，通过一个简单的Rollup 插件，在执行<code>yarn build</code>命令时生成一份 Api 列表：</p>
+<p><img src="https://m.360buyimg.com/img/jfs/t1/11020/15/9616/262595/5c77fbadE6f554c3f/c4d4bc42d65508cd.png" alt="image-20190225210238592"></p>
+<p>下面是编译前后的代码对比。可以看到，在编译后<code>setStorage</code>、<code>getStorage</code>的调用都被替换为 namedImports。</p>
+<pre><code class="hljs css language-javascript"><span class="token comment">// 编译前</span>
+<span class="token keyword">import</span> Taro <span class="token keyword">from</span> <span class="token string">'@tarojs/taro-h5'</span><span class="token punctuation">;</span>
+Taro<span class="token punctuation">.</span><span class="token function">initPxTransform</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Taro<span class="token punctuation">.</span><span class="token function">setStorage</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+Taro<span class="token punctuation">[</span><span class="token string">'getStorage'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 编译后</span>
+<span class="token keyword">import</span> Taro<span class="token punctuation">,</span> <span class="token punctuation">{</span> setStorage <span class="token keyword">as</span> _setStorage<span class="token punctuation">,</span> getStorage <span class="token keyword">as</span> _getStorage <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/taro-h5'</span><span class="token punctuation">;</span>
+Taro<span class="token punctuation">.</span><span class="token function">initPxTransform</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">_setStorage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">_getStorage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>到这里，虽然过程比较艰辛，但我们对 @tarojs/taro-h5 的模块化改造终于完成了。</p>
+<h2><a class="anchor" aria-hidden="true" id="最后"></a><a href="#最后" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>最后</h2>
+<p>截至目前，Taro 在 H5 端的完成度已经很高，但是并不完美。未来，在对已有问题进行修复的同时，我们还将继续为 Taro H5 端带来更多新的特性，比如对社区中呼声相当高的<code>switchTab</code>、页面滚动监听<code>onPageScroll</code>、下拉刷新<code>onPullDownRefresh</code>等 Api 的支持，更加统一的页面切换动画，以及更加稳定的多页面模式等等。</p>
+<p>Taro 发展到现在，离不开社区的支持。非常感谢在 github、微信群中踊跃反馈的开发者们。如果你对Taro有什么想法或建议，Taro 非常欢迎你来吐槽或观光：</p>
+<p><a href="https://github.com/NervJS/taro">https://github.com/NervJS/taro</a></p>
+</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/taro/blog">最近更新</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#效果">效果</a></li><li><a href="#你需要做什么">你需要做什么</a></li><li><a href="#原理">原理</a><ul class="toc-headings"><li><a href="#站在巨人的肩膀上">站在巨人的肩膀上</a></li><li><a href="#移除未使用的模块">移除未使用的模块</a></li><li><a href="#移除未使用的代码">移除未使用的代码</a></li></ul></li><li><a href="#taro-做了什么">Taro 做了什么</a><ul class="toc-headings"><li><a href="#组件的-es-模块化">组件的 ES 模块化</a></li><li><a href="#api-的-es-模块化">Api 的 ES 模块化</a></li></ul></li><li><a href="#最后">最后</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

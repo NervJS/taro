@@ -1,0 +1,361 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>NodesRef · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="用于获取 `WXML` 节点信息的对象"/><meta name="docsearch:version" content="2.0.3"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="NodesRef · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="用于获取 `WXML` 节点信息的对象"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.0.3</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/2.0.3/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.0.3/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.0.3/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/apis/wxml/NodesRef.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">NodesRef</h1></header><article><div><span><p>用于获取 <code>WXML</code> 节点信息的对象</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.html">参考文档</a></p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="方法"></a><a href="#方法" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>方法</h2>
+<h3><a class="anchor" aria-hidden="true" id="boundingclientrect"></a><a href="#boundingclientrect" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>boundingClientRect</h3>
+<p>添加节点的布局位置的查询请求。相对于显示区域，以像素为单位。其功能类似于 DOM 的 <code>getBoundingClientRect</code>。返回 <code>NodesRef</code> 对应的 <code>SelectorQuery</code>。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.boundingClientRect.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> BoundingClientRectCallback</span><span class="token punctuation">)</span> <span class="token operator">=></span> SelectorQuery
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>callback</td><td><code>BoundingClientRectCallback</code></td><td>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，节点信息会在 <code>callback</code> 中返回。</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="示例代码"></a><a href="#示例代码" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例代码</h4>
+<h5><a class="anchor" aria-hidden="true" id="示例-1"></a><a href="#示例-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例 1</h5>
+<pre><code class="hljs css language-tsx">Taro<span class="token punctuation">.</span><span class="token function">createSelectorQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">select</span><span class="token punctuation">(</span><span class="token string">'#the-id'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">boundingClientRect</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">rect</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  rect<span class="token punctuation">.</span>id      <span class="token comment">// 节点的ID</span>
+  rect<span class="token punctuation">.</span>dataset <span class="token comment">// 节点的dataset</span>
+  rect<span class="token punctuation">.</span>left    <span class="token comment">// 节点的左边界坐标</span>
+  rect<span class="token punctuation">.</span>right   <span class="token comment">// 节点的右边界坐标</span>
+  rect<span class="token punctuation">.</span>top     <span class="token comment">// 节点的上边界坐标</span>
+  rect<span class="token punctuation">.</span>bottom  <span class="token comment">// 节点的下边界坐标</span>
+  rect<span class="token punctuation">.</span>width   <span class="token comment">// 节点的宽度</span>
+  rect<span class="token punctuation">.</span>height  <span class="token comment">// 节点的高度</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+##### 示例 <span class="token number">2</span>
+
+</code></pre>
+<pre><code class="hljs css language-tsx">Taro<span class="token punctuation">.</span><span class="token function">createSelectorQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">selectAll</span><span class="token punctuation">(</span><span class="token string">'.a-class'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">boundingClientRect</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">rects</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  rects<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">rect</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    rect<span class="token punctuation">.</span>id      <span class="token comment">// 节点的ID</span>
+    rect<span class="token punctuation">.</span>dataset <span class="token comment">// 节点的dataset</span>
+    rect<span class="token punctuation">.</span>left    <span class="token comment">// 节点的左边界坐标</span>
+    rect<span class="token punctuation">.</span>right   <span class="token comment">// 节点的右边界坐标</span>
+    rect<span class="token punctuation">.</span>top     <span class="token comment">// 节点的上边界坐标</span>
+    rect<span class="token punctuation">.</span>bottom  <span class="token comment">// 节点的下边界坐标</span>
+    rect<span class="token punctuation">.</span>width   <span class="token comment">// 节点的宽度</span>
+    rect<span class="token punctuation">.</span>height  <span class="token comment">// 节点的高度</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度"></a><a href="#api-支持度" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">NodesRef.boundingClientRect</td><td style="text-align:center">✔️</td><td style="text-align:center">✔️</td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="context"></a><a href="#context" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>context</h3>
+<p>添加节点的 Context 对象查询请求。目前支持 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.html">VideoContext</a>、<a href="https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html">CanvasContext</a>、<a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html">LivePlayerContext</a>、<a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html">EditorContext</a>和 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html">MapContext</a> 的获取。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.context.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> ContextCallback</span><span class="token punctuation">)</span> <span class="token operator">=></span> SelectorQuery
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>callback</td><td><code>ContextCallback</code></td><td>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，返回节点信息。</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="示例代码-1"></a><a href="#示例代码-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例代码</h4>
+<pre><code class="hljs css language-tsx">Taro<span class="token punctuation">.</span><span class="token function">createSelectorQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">select</span><span class="token punctuation">(</span><span class="token string">'.the-video-class'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">context</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>context<span class="token punctuation">)</span> <span class="token comment">// 节点对应的 Context 对象。如：选中的节点是 &lt;video> 组件，那么此处即返回 VideoContext 对象</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-1"></a><a href="#api-支持度-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">NodesRef.context</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="fields"></a><a href="#fields" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>fields</h3>
+<p>获取节点的相关信息。需要获取的字段在fields中指定。返回值是 <code>nodesRef</code> 对应的 <code>selectorQuery</code></p>
+<p><strong>注意</strong>
+computedStyle 的优先级高于 size，当同时在 computedStyle 里指定了 width/height 和传入了 size: true，则优先返回 computedStyle 获取到的 width/height。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.fields.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">fields<span class="token operator">:</span> Fields<span class="token punctuation">,</span> callback<span class="token operator">?</span><span class="token operator">:</span> FieldsCallback</span><span class="token punctuation">)</span> <span class="token operator">=></span> SelectorQuery
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>fields</td><td><code>Fields</code></td><td></td></tr>
+<tr><td>callback</td><td><code>FieldsCallback</code></td><td>回调函数</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="示例代码-2"></a><a href="#示例代码-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例代码</h4>
+<pre><code class="hljs css language-tsx">Taro<span class="token punctuation">.</span><span class="token function">createSelectorQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">select</span><span class="token punctuation">(</span><span class="token string">'#the-id'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fields</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  dataset<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  size<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  scrollOffset<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  properties<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'scrollX'</span><span class="token punctuation">,</span> <span class="token string">'scrollY'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  computedStyle<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'margin'</span><span class="token punctuation">,</span> <span class="token string">'backgroundColor'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  context<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span>dataset    <span class="token comment">// 节点的dataset</span>
+  res<span class="token punctuation">.</span>width      <span class="token comment">// 节点的宽度</span>
+  res<span class="token punctuation">.</span>height     <span class="token comment">// 节点的高度</span>
+  res<span class="token punctuation">.</span>scrollLeft <span class="token comment">// 节点的水平滚动位置</span>
+  res<span class="token punctuation">.</span>scrollTop  <span class="token comment">// 节点的竖直滚动位置</span>
+  res<span class="token punctuation">.</span>scrollX    <span class="token comment">// 节点 scroll-x 属性的当前值</span>
+  res<span class="token punctuation">.</span>scrollY    <span class="token comment">// 节点 scroll-y 属性的当前值</span>
+  <span class="token comment">// 此处返回指定要返回的样式名</span>
+  res<span class="token punctuation">.</span>margin
+  res<span class="token punctuation">.</span>backgroundColor
+  res<span class="token punctuation">.</span>context    <span class="token comment">// 节点对应的 Context 对象</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-2"></a><a href="#api-支持度-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">NodesRef.fields</td><td style="text-align:center">✔️</td><td style="text-align:center">✔️</td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="node"></a><a href="#node" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>node</h3>
+<p>获取 Node 节点实例。目前支持 <a href="https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html">Canvas</a> 的获取。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.node.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> NodeCallback</span><span class="token punctuation">)</span> <span class="token operator">=></span> SelectorQuery
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>callback</td><td><code>NodeCallback</code></td><td>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，返回节点信息。</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="示例代码-3"></a><a href="#示例代码-3" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例代码</h4>
+<pre><code class="hljs css language-tsx">Taro<span class="token punctuation">.</span><span class="token function">createSelectorQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">select</span><span class="token punctuation">(</span><span class="token string">'.canvas'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">node</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>node<span class="token punctuation">)</span> <span class="token comment">// 节点对应的 Canvas 实例。</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-3"></a><a href="#api-支持度-3" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">NodesRef.node</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="scrolloffset"></a><a href="#scrolloffset" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>scrollOffset</h3>
+<p>添加节点的滚动位置查询请求。以像素为单位。节点必须是 <code>scroll-view</code> 或者 <code>viewport</code>，返回 <code>NodesRef</code> 对应的 <code>SelectorQuery</code>。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.scrollOffset.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> ScrollOffsetCallback</span><span class="token punctuation">)</span> <span class="token operator">=></span> SelectorQuery
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>callback</td><td><code>ScrollOffsetCallback</code></td><td>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，节点信息会在 <code>callback</code> 中返回。</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="示例代码-4"></a><a href="#示例代码-4" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例代码</h4>
+<pre><code class="hljs css language-tsx">Taro<span class="token punctuation">.</span><span class="token function">createSelectorQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">selectViewport</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">scrollOffset</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span>id      <span class="token comment">// 节点的ID</span>
+  res<span class="token punctuation">.</span>dataset <span class="token comment">// 节点的dataset</span>
+  res<span class="token punctuation">.</span>scrollLeft <span class="token comment">// 节点的水平滚动位置</span>
+  res<span class="token punctuation">.</span>scrollTop  <span class="token comment">// 节点的竖直滚动位置</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-4"></a><a href="#api-支持度-4" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">NodesRef.scrollOffset</td><td style="text-align:center">✔️</td><td style="text-align:center">✔️</td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="参数"></a><a href="#参数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>参数</h2>
+<h3><a class="anchor" aria-hidden="true" id="boundingclientrectcallback"></a><a href="#boundingclientrectcallback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>BoundingClientRectCallback</h3>
+<p>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，节点信息会在 <code>callback</code> 中返回。</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">result<span class="token operator">:</span> BoundingClientRectCallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>result</td><td><code>BoundingClientRectCallbackResult</code></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="boundingclientrectcallbackresult"></a><a href="#boundingclientrectcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>BoundingClientRectCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>bottom</td><td><code>number</code></td><td>节点的下边界坐标</td></tr>
+<tr><td>dataset</td><td><code>Record&lt;string, any&gt;</code></td><td>节点的 dataset</td></tr>
+<tr><td>height</td><td><code>number</code></td><td>节点的高度</td></tr>
+<tr><td>id</td><td><code>string</code></td><td>节点的 ID</td></tr>
+<tr><td>left</td><td><code>number</code></td><td>节点的左边界坐标</td></tr>
+<tr><td>right</td><td><code>number</code></td><td>节点的右边界坐标</td></tr>
+<tr><td>top</td><td><code>number</code></td><td>节点的上边界坐标</td></tr>
+<tr><td>width</td><td><code>number</code></td><td>节点的宽度</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="contextcallback"></a><a href="#contextcallback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ContextCallback</h3>
+<p>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，返回节点信息。</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">result<span class="token operator">:</span> ContextCallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>result</td><td><code>ContextCallbackResult</code></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="contextcallbackresult"></a><a href="#contextcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ContextCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>context</td><td><code>Record&lt;string, any&gt;</code></td><td>节点对应的 Context 对象</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="fields-1"></a><a href="#fields-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fields</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>computedStyle</td><td><code>string[]</code></td><td style="text-align:center">否</td><td>指定样式名列表，返回节点对应样式名的当前值</td></tr>
+<tr><td>context</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>是否返回节点对应的 Context 对象</td></tr>
+<tr><td>dataset</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>是否返回节点 dataset</td></tr>
+<tr><td>id</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>是否返回节点 id</td></tr>
+<tr><td>mark</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>是否返回节点 mark</td></tr>
+<tr><td>node</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>是否返回节点对应的 Node 实例</td></tr>
+<tr><td>properties</td><td><code>string[]</code></td><td style="text-align:center">否</td><td>指定属性名列表，返回节点对应属性名的当前属性值（只能获得组件文档中标注的常规属性值，id class style 和事件绑定的属性值不可获取）</td></tr>
+<tr><td>rect</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>是否返回节点布局位置（<code>left</code> <code>right</code> <code>top</code> <code>bottom</code>）</td></tr>
+<tr><td>scrollOffset</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>否 是否返回节点的 <code>scrollLeft</code> <code>scrollTop</code>，节点必须是 <code>scroll-view</code> 或者 <code>viewport</code></td></tr>
+<tr><td>size</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>是否返回节点尺寸（<code>width</code> <code>height</code>）</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="fieldscallback"></a><a href="#fieldscallback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>FieldsCallback</h3>
+<p>回调函数</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">res<span class="token operator">:</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">></span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>res</td><td><code>Record&lt;string, any&gt;</code></td><td>节点的相关信息</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="nodecallback"></a><a href="#nodecallback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>NodeCallback</h3>
+<p>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，返回节点信息。</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">result<span class="token operator">:</span> NodeCallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>result</td><td><code>NodeCallbackResult</code></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="nodecallbackresult"></a><a href="#nodecallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>NodeCallbackResult</h3>
+<p>回调函数</p>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>node</td><td><code>Record&lt;string, any&gt;</code></td><td>节点对应的 Node 实例</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="scrolloffsetcallback"></a><a href="#scrolloffsetcallback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ScrollOffsetCallback</h3>
+<p>回调函数，在执行 <code>SelectorQuery.exec</code> 方法后，节点信息会在 <code>callback</code> 中返回。</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">result<span class="token operator">:</span> ScrollOffsetCallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>result</td><td><code>ScrollOffsetCallbackResult</code></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="scrolloffsetcallbackresult"></a><a href="#scrolloffsetcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ScrollOffsetCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>dataset</td><td><code>Record&lt;string, any&gt;</code></td><td>节点的 dataset</td></tr>
+<tr><td>id</td><td><code>string</code></td><td>节点的 ID</td></tr>
+<tr><td>scrollLeft</td><td><code>number</code></td><td>节点的水平滚动位置</td></tr>
+<tr><td>scrollTop</td><td><code>number</code></td><td>节点的竖直滚动位置</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="api-支持度-5"></a><a href="#api-支持度-5" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h2>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">NodesRef.boundingClientRect</td><td style="text-align:center">✔️</td><td style="text-align:center">✔️</td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">NodesRef.context</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">NodesRef.fields</td><td style="text-align:center">✔️</td><td style="text-align:center">✔️</td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">NodesRef.node</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">NodesRef.scrollOffset</td><td style="text-align:center">✔️</td><td style="text-align:center">✔️</td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#方法">方法</a><ul class="toc-headings"><li><a href="#boundingclientrect">boundingClientRect</a></li><li><a href="#context">context</a></li><li><a href="#fields">fields</a></li><li><a href="#node">node</a></li><li><a href="#scrolloffset">scrollOffset</a></li></ul></li><li><a href="#参数">参数</a><ul class="toc-headings"><li><a href="#boundingclientrectcallback">BoundingClientRectCallback</a></li><li><a href="#boundingclientrectcallbackresult">BoundingClientRectCallbackResult</a></li><li><a href="#contextcallback">ContextCallback</a></li><li><a href="#contextcallbackresult">ContextCallbackResult</a></li><li><a href="#fields-1">Fields</a></li><li><a href="#fieldscallback">FieldsCallback</a></li><li><a href="#nodecallback">NodeCallback</a></li><li><a href="#nodecallbackresult">NodeCallbackResult</a></li><li><a href="#scrolloffsetcallback">ScrollOffsetCallback</a></li><li><a href="#scrolloffsetcallbackresult">ScrollOffsetCallbackResult</a></li></ul></li><li><a href="#api-支持度-5">API 支持度</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

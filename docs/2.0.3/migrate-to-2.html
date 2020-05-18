@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>迁移至 Taro 2.x · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Taro 2.0 整体上与 1.0 是完全兼容的，迁移并不困难，本指南将指导你如何进行从 Taro 1.x 到 Taro 2.x 的迁移工作。"/><meta name="docsearch:version" content="2.0.3"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="迁移至 Taro 2.x · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="Taro 2.0 整体上与 1.0 是完全兼容的，迁移并不困难，本指南将指导你如何进行从 Taro 1.x 到 Taro 2.x 的迁移工作。"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.0.3</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/2.0.3/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.0.3/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.0.3/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>迁移指南</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/team.html">Taro 团队</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/wxcloud.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/debug-config.html">单步调测配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">迁移指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/2.0.3/migrate-to-2.html">迁移至 Taro 2.x</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/css-modules.html">使用 CSS Modules</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/migrate-to-2.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">迁移至 Taro 2.x</h1></header><article><div><span><p>Taro 2.0 整体上与 1.0 是完全兼容的，迁移并不困难，本指南将指导你如何进行从 Taro 1.x 到 Taro 2.x 的迁移工作。</p>
+<h2><a class="anchor" aria-hidden="true" id="更新-taro-cli-和依赖版本"></a><a href="#更新-taro-cli-和依赖版本" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>更新 Taro CLI 和依赖版本</h2>
+<p>你可以根据自己的实际情况选择升级全局的 Taro 版本或者仅为你的某一个项目升级。</p>
+<h3><a class="anchor" aria-hidden="true" id="全局-cli-升级"></a><a href="#全局-cli-升级" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>全局 CLI 升级</h3>
+<p>如果你的 Taro CLI 以全局方式安装，并且你希望升级到 Taro 2.0 需要执行以下命令：</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># 使用 Taro 自己</span>
+
+$ taro update self <span class="token number">2.0</span>.0
+
+<span class="token comment"># 如果你使用 MPM</span>
+
+$ <span class="token function">npm</span> update -g @tarojs/cli@2.0.0
+
+<span class="token comment"># 如果你使用 Yarn</span>
+
+$ <span class="token function">yarn</span> global upgrade @tarojs/cli@2.0.0
+</code></pre>
+<p>之后在你的项目目录里运行以下命令来升级依赖：</p>
+<pre><code class="hljs css language-bash">$ taro update project <span class="token number">2.0</span>.0
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="单独为某一个项目升级"></a><a href="#单独为某一个项目升级" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>单独为某一个项目升级</h3>
+<p>这样做的好处是全局的 Taro 版本还是 1.x 的，多个项目间的依赖不冲突，其余项目依然可以用旧版本开发。
+如果你的项目里没有安装 Taro CLI，你需要先装一个：</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># 如果你使用 NPM</span>
+
+$ <span class="token function">npm</span> <span class="token function">install</span> --save-dev @tarojs/cli@2.0.0
+
+<span class="token comment"># 如果你使用 Yarn</span>
+
+$ <span class="token function">yarn</span> <span class="token function">add</span> -D @tarojs/cli@2.0.0
+</code></pre>
+<p>然后在你的项目目录里运行以下命令来升级依赖：</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># 如果你使用 NPM</span>
+
+$ node ./node_modules/.bin/taro update project <span class="token number">2.0</span>.0
+
+<span class="token comment"># 如果你使用 Yarn</span>
+
+$ <span class="token function">yarn</span> taro update project <span class="token number">2.0</span>.0
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="安装-tarojs-mini-runner-依赖"></a><a href="#安装-tarojs-mini-runner-依赖" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>安装 <code>@tarojs/mini-runner</code> 依赖</h2>
+<p>Taro 2.0 新增了 <code>@tarojs/mini-runner</code> 作为小程序的编译依赖，所以你需要将它安装在你的项目里，运行：</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># 如果你使用 NPM</span>
+
+$ <span class="token function">npm</span> <span class="token function">install</span> --save-dev @tarojs/mini-runner@2.0.0
+
+<span class="token comment"># 如果你使用 Yarn</span>
+
+$ <span class="token function">yarn</span> <span class="token function">add</span> -D @tarojs/mini-runner@2.0.0
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="编译配置调整"></a><a href="#编译配置调整" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>编译配置调整</h2>
+<p>Taro 2.0 对 CLI 的编译构建系统进行了重构，使用 Webpack 来实现编译构建，所以我们对部分编译配置做了优化调整。</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">projectName</span>: <span class="hljs-string">'taro-framework'</span>,
+  <span class="hljs-attr">date</span>: <span class="hljs-string">'2019-11-2'</span>,
+  <span class="hljs-attr">designWidth</span>: <span class="hljs-number">750</span>,
+  <span class="hljs-attr">deviceRatio</span>: {
+    <span class="hljs-number">640</span>: <span class="hljs-number">2.34</span> / <span class="hljs-number">2</span>,
+    <span class="hljs-number">750</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-number">828</span>: <span class="hljs-number">1.81</span> / <span class="hljs-number">2</span>
+  },
+  <span class="hljs-attr">sourceRoot</span>: <span class="hljs-string">'src'</span>,
+  <span class="hljs-attr">outputRoot</span>: <span class="hljs-string">'dist'</span>,
+  <span class="hljs-comment">// babel、csso、uglify 等配置从 plugins 配置中移出来</span>
+  <span class="hljs-attr">babel</span>: {
+    <span class="hljs-attr">sourceMap</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">presets</span>: [[<span class="hljs-string">'env'</span>, { <span class="hljs-attr">modules</span>: <span class="hljs-literal">false</span> }]],
+    <span class="hljs-attr">plugins</span>: [
+      <span class="hljs-string">'transform-decorators-legacy'</span>,
+      <span class="hljs-string">'transform-class-properties'</span>,
+      <span class="hljs-string">'transform-object-rest-spread'</span>
+    ]
+  },
+  <span class="hljs-comment">// 小程序配置从 weapp 改为 mini，可以删掉很多小配置</span>
+  <span class="hljs-attr">mini</span>: {
+    webpackChain (chain, webpack) {},
+    <span class="hljs-attr">cssLoaderOption</span>: {},
+    <span class="hljs-attr">postcss</span>: {
+      <span class="hljs-attr">pxtransform</span>: {
+        <span class="hljs-attr">enable</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">config</span>: {}
+      },
+      <span class="hljs-attr">url</span>: {
+        <span class="hljs-attr">enable</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">config</span>: {
+          <span class="hljs-attr">limit</span>: <span class="hljs-number">10240</span> <span class="hljs-comment">// 设定转换尺寸上限</span>
+        }
+      }
+    }
+  },
+  <span class="hljs-comment">// 可以删掉很多小配置</span>
+  <span class="hljs-attr">h5</span>: {
+    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/'</span>,
+    <span class="hljs-attr">staticDirectory</span>: <span class="hljs-string">'static'</span>,
+    webpackChain (chain, webpack) {},
+    <span class="hljs-attr">postcss</span>: {
+      <span class="hljs-attr">autoprefixer</span>: {
+        <span class="hljs-attr">enable</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">config</span>: {
+          <span class="hljs-attr">browsers</span>: [
+            <span class="hljs-string">'last 3 versions'</span>,
+            <span class="hljs-string">'Android &gt;= 4.1'</span>,
+            <span class="hljs-string">'ios &gt;= 8'</span>
+          ]
+        }
+      }
+    }
+  }
+}
+
+<span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">merge</span>) </span>{
+  <span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">'development'</span>) {
+    <span class="hljs-keyword">return</span> merge({}, config, <span class="hljs-built_in">require</span>(<span class="hljs-string">'./dev'</span>))
+  }
+  <span class="hljs-keyword">return</span> merge({}, config, <span class="hljs-built_in">require</span>(<span class="hljs-string">'./prod'</span>))
+}
+</code></pre>
+<p>具体编译配置请参考 <a href="/taro/docs/2.0.3/config-detail.html">编译配置文档</a>。</p>
+<h2><a class="anchor" aria-hidden="true" id="异步编程调整"></a><a href="#异步编程调整" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>异步编程调整</h2>
+<p>Taro 2.0 中开启 <code>async functions</code> 支持不再需要安装 <code>@tarojs/async-await</code>，而是直接通过 babel 插件来获得支持。</p>
+<p>如果你已经在项目中安装并使用 <code>@tarojs/async-await</code> 包，需先将它删除。</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># 如果你使用 NPM</span>
+
+$ <span class="token function">npm</span> uninstall @tarojs/async-await
+
+<span class="token comment"># 如果你使用 Yarn</span>
+
+$ <span class="token function">yarn</span> remove @tarojs/async-await
+</code></pre>
+<p>在你的 <code>App.jsx/tsx</code> 里删除 <code>import '@tarojs/async-await'</code>。</p>
+<pre><code class="hljs css language-diff">import Taro, { Component } from '@tarojs/taro'
+<span class="hljs-deletion">- import '@tarojs/async-await'</span>
+import Index from './pages/index'
+
+import './app.scss'
+
+class App extends Component {
+</code></pre>
+<p>在项目根目录下安装包 <code>babel-plugin-transform-runtime</code> 和 <code>babel-runtime</code>。</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># 如果你使用 NPM</span>
+
+$ <span class="token function">npm</span> <span class="token function">install</span> --save-dev babel-plugin-transform-runtime
+$ <span class="token function">npm</span> <span class="token function">install</span> --save babel-runtime
+
+<span class="token comment"># 如果你使用 Yarn</span>
+
+$ <span class="token function">yarn</span> <span class="token function">add</span> -D babel-plugin-transform-runtime
+$ <span class="token function">yarn</span> <span class="token function">add</span> babel-runtime
+</code></pre>
+<p>随后修改项目 <a href="https://nervjs.github.io/taro/docs/config-detail.html#babel">babel 配置</a>，配置插件 <code>babel-plugin-transform-runtime</code>。</p>
+<pre><code class="hljs css language-js">babel: {
+  <span class="hljs-attr">sourceMap</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">presets</span>: [[<span class="hljs-string">'env'</span>, { <span class="hljs-attr">modules</span>: <span class="hljs-literal">false</span> }]],
+  <span class="hljs-attr">plugins</span>: [
+    <span class="hljs-string">'transform-decorators-legacy'</span>,
+    <span class="hljs-string">'transform-class-properties'</span>,
+    <span class="hljs-string">'transform-object-rest-spread'</span>,
+    [<span class="hljs-string">'transform-runtime'</span>, {
+      <span class="hljs-string">"helpers"</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-string">"polyfill"</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-string">"regenerator"</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-string">"moduleName"</span>: <span class="hljs-string">'babel-runtime'</span>
+    }]
+  ]
+}
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="注意-taro-rn-依赖升级到-0599"></a><a href="#注意-taro-rn-依赖升级到-0599" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>注意：Taro RN 依赖升级到 0.59.9</h4>
+<p>在 2.0 中我们将 RN 端 React 依赖升级到 16.8.0，React Native 依赖升级到 0.59.9。主要原因：</p>
+<ul>
+<li>Google 要求所有 <a href="https://play.google.com/">Google Play</a> 应用支持 64 位 so 库，而现有 RN 0.55.4 依无法支持 64 位库，为配合 64 位升级，Taro RN  端的 React Native 依赖需要同步升级</li>
+<li>React 16.8.0 是第一个支持 Hook 的版本，React Native 从 0.59 版本开始支持 Hook，此前社区一直在呼吁对 RN 0.55.4 进行升级以直接支持 Hook 的写法</li>
+</ul>
+<p>本次 RN 端属于无缝升级，原有的写法和配置均不变，如果使用 <a href="https://github.com/NervJS/taro-native-shell">taro-native-shell</a> 的，选择 0.59.9 分支即可；在原生应用集成 RN 的，需要自行升级 React Native 依赖到 0.59.9。</p>
+<h2><a class="anchor" aria-hidden="true" id="升级常见问题整理"></a><a href="#升级常见问题整理" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>升级常见问题整理</h2>
+<h3><a class="anchor" aria-hidden="true" id="小程序"></a><a href="#小程序" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>小程序</h3>
+<h4><a class="anchor" aria-hidden="true" id="使用-async-await-时出现报错-function-is-not-a-function"></a><a href="#使用-async-await-时出现报错-function-is-not-a-function" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 async/await 时出现报错 <code>Function(...) is not a function</code></h4>
+<p>在升级到 2.x 后使用 async/await 语法时可能会出现如下报错</p>
+<p><img src="https://user-images.githubusercontent.com/31717528/72597788-75cd3500-3949-11ea-953c-a34f618e20ec.png" alt="error image"></p>
+<p>这是因为 <code>@tarojs/mini-runner</code> 使用的 <code>postcss-loader</code> 依赖了新版本的 <code>regenerator-runtime</code> 包，可能会与 <code>babel-runtime</code> 中依赖的 <code>regenerator-runtime</code> 版本冲突，而新版本的包无法在小程序中使用，所以导致了如上错误，解决办法是在本地自行安装 <code>0.11.1</code> 版本的 <code>regenerator-runtime</code> 包。</p>
+<pre><code class="hljs css language-bash">$ <span class="token function">npm</span> i --save regenerator-runtime@0.11.1
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="在-js-中引入的图片突然变成-base64-格式"></a><a href="#在-js-中引入的图片突然变成-base64-格式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>在 JS 中引入的图片突然变成 base64 格式</h4>
+<p>在升级到 2.x 后可能会遇到在 JS 中引入的图片突然变成 base64 格式了，是因为 2.x 小程序改用 Webpack 编译后图片都会经过 <code>url-loader</code> 进行处理，默认 10kb 大小以下的图片（包含以下格式，png | jpg | jpeg | gif | bmp）都会被转为 base64，如果不想这么做，可以通过配置 <a href="/taro/docs/2.0.3/config-detail.htmlminiimageurlloaderoption">mini.imageUrlLoaderOption</a> 来解决</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">mini</span>: {
+    <span class="hljs-attr">imageUrlLoaderOption</span>: {
+      <span class="hljs-attr">limit</span>: <span class="hljs-number">10240</span> <span class="hljs-comment">// 大小限制，单位为 b</span>
+    }
+  }
+}
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/2.0.3/optimized-practice.html"><span class="arrow-prev">← </span><span>性能优化实践</span></a><a class="docs-next button" href="/taro/docs/2.0.3/redux.html"><span>使用 Redux</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#更新-taro-cli-和依赖版本">更新 Taro CLI 和依赖版本</a><ul class="toc-headings"><li><a href="#全局-cli-升级">全局 CLI 升级</a></li><li><a href="#单独为某一个项目升级">单独为某一个项目升级</a></li></ul></li><li><a href="#安装-tarojs-mini-runner-依赖">安装 <code>@tarojs/mini-runner</code> 依赖</a></li><li><a href="#编译配置调整">编译配置调整</a></li><li><a href="#异步编程调整">异步编程调整</a></li><li><a href="#升级常见问题整理">升级常见问题整理</a><ul class="toc-headings"><li><a href="#小程序">小程序</a></li></ul></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

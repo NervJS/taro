@@ -1,0 +1,414 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>京喜首页（微信购物入口）跨端开发与优化实践 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="作者从技术选型、开发实录再到性能优化三个维度对微信购物入口「京喜」首页改版做了简单总结。"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="京喜首页（微信购物入口）跨端开发与优化实践 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/blog/2019/12/03/jingxi-index.html"/><meta property="og:description" content="作者从技术选型、开发实录再到性能优化三个维度对微信购物入口「京喜」首页改版做了简单总结。"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.2.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/apis/about/desc.html" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>全部文章</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">全部文章</h3><ul class=""><li class="navListItem"><a class="navItem" href="/taro/blog/2020/4/13/taro-components.html">Taro Next H5 跨框架组件库实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/02/13/taro-next-alpha.html">Taro Next 发布预览版：同时支持 React / Vue / Nerv</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/08/taro-2-0.html">Taro 2.0：拥抱社区，拥抱变化</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/02/gmtc.html">小程序跨框架开发的探索与实践</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/blog/2019/12/03/jingxi-index.html">京喜首页（微信购物入口）跨端开发与优化实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/10/24/taro-open.html">Taro 邀你加入社区共建 — 社区共建倡议书</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/09/25/taro-flex.html">玩转 Taro 跨端之 flex 布局篇</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/07/10/taro-hooks.html">使用 React Hooks 重构你的小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/21/taro-ext-club.html">Taro 「物料市场」及「交流社区」 惊喜上线</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/13/taro-1-3.html">Taro 1.3 震撼升级：全面支持 JSX 语法和 HOOKS</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/03/12/mini-program-framework-full-review.html">小程序框架全面测评</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/28/taro-h5-optimize.html">决战性能之巅 - Taro H5 转换与优化升级</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/25/taro-ui-2.0.html">Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/12/18/taro-1-2.html">Taro 1.2：将已有微信小程序转换为多端应用</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/11/05/taro-1-1.html">Taro 1.1 发布，全面支持微信/百度/支付宝小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/18/taro-1-0-0.html">多端统一开发框架 Taro 1.0 正式发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/11/taro-in-jd.html">Taro 在京东购物小程序上的实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/08/24/the-birth-of-taro-ui.html">首个多端 UI 组件库 - Taro UI 发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/25/the-birth-of-taro.html">为何我们要用 React 来写小程序 - Taro 诞生记</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/07/Taro.html">多端统一开发框架 - Taro</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle"><a href="/taro/blog/2019/12/03/jingxi-index.html">京喜首页（微信购物入口）跨端开发与优化实践</a></h1><p class="post-meta">December 3, 2019</p><div class="authorBlock"><p class="post-authorName"><a href="https://github.com/aNd1coder" target="_blank" rel="noreferrer noopener">aNd1coder</a></p><div class="authorPhoto"><a href="https://github.com/aNd1coder" target="_blank" rel="noreferrer noopener"><img src="https://avatars2.githubusercontent.com/u/168796?s=460&amp;v=4" alt="aNd1coder"/></a></div></div></header><div><span><p><img src="https://img13.360buyimg.com/ling/jfs/t1/103274/2/4226/201268/5de6455aEf651e021/8013f336e45fc79c.png" alt="image"></p>
+<p>作者从技术选型、开发实录再到性能优化三个维度对微信购物入口「京喜」首页改版做了简单总结。</p>
+<!--truncate-->
+<h2><a class="anchor" aria-hidden="true" id="背景介绍"></a><a href="#背景介绍" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>背景介绍</h2>
+<p>随着今年的双十一落下帷幕，京喜（原京东拼购）也迎来了首捷。双十一前夕微信购物一级入口切换为京喜小程序，项目顺利通过近亿级的流量考验，在此与大家分享一点自己参与的工作。</p>
+<!-- more -->
+<p>在接手项目前，京喜业务已在线上稳定运行较长时间。但经过一段时间迭代维护后，发现首页存在以下问题：</p>
+<ol>
+<li>H5 版本首页针对不同渠道开发了多套页面，对开发者维护和内容运营来说存在较大挑战，需投入大量人力成本；</li>
+<li>项目技术栈不统一，分别有传统 H5 开发、原生小程序开发、wqVue 框架开发，严重影响项目复杂度，迭代过程苦不堪言；</li>
+<li>H5、小程序以及 RN 三端存在各自构建和发布流程，涉及较多工具及复杂系统流程，影响业务交付效率。</li>
+</ol>
+<p>综上所述，京喜迎来一次改版契机。</p>
+<h2><a class="anchor" aria-hidden="true" id="改版目标"></a><a href="#改版目标" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>改版目标</h2>
+<p>从前端角度来看，本次改版要实现以下目标：</p>
+<ul>
+<li>升级并统一项目技术栈，解决项目技术栈混乱的现状；</li>
+<li>使用一套代码，适配微信入口、手 Q 入口、微信小程序、京东 APP、京喜 APP、M 站六大业务场景，减少多套页面的维护成本，提升交付效率；</li>
+<li>通过让 RN 技术在业务上的落地，完善团队在 App 端的技术储备；</li>
+<li>优化页面性能及体验，为下沉市场用户提供优质的产品体验；</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="技术选型"></a><a href="#技术选型" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>技术选型</h2>
+<p>京喜业务拥有非常丰富的产品形态，涵盖了 H5、微信小程序以及独立 APP 三种不同的端，对支持多端的开发框架有着天然的需求。</p>
+<p><img src="https://img14.360buyimg.com/ling/jfs/t1/99778/13/1485/65058/5dc00468E7d60a4e0/5bb82c1ec5ce3dd7.jpg" alt="京喜丰富的产品形态"></p>
+<p>在技术选型上，我们选择团队自研的 <a href="https://github.com/NervJS/taro/" title="Taro">Taro</a> 多端统一开发解决方案。</p>
+<blockquote>
+<p>Taro 是一套遵循 React 语法规范的多端开发解决方案。</p>
+<p>现如今市面上端的形态多种多样，Web、React-Native、微信小程序等各种端大行其道，当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。</p>
+<p>使用 Taro，我们可以只书写一套代码，再通过 Taro 的编译工具，将源代码分别编译出可以在不同端（微信/百度/支付宝/字节跳动/QQ 小程序、快应用、H5、React-Native 等）运行的代码。</p>
+</blockquote>
+<p>选它有两个原因，一来是 Taro 已经成熟，内部和外部都有大量实践，内部有京东 7FRESH、京东到家等，外部有淘票票、猫眼试用等多个案例，可以放心投入到业务开发；二来团队成员都拥有使用 Taro 来开发内部组件库的经验，对业务快速完成有保障。</p>
+<p><img src="https://img13.360buyimg.com/ling/jfs/t1/98736/39/2685/263027/5dd3b44dE4cc40299/6e5a359d73f0ef7f.png" alt="组件库"></p>
+<h2><a class="anchor" aria-hidden="true" id="开发实录"></a><a href="#开发实录" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>开发实录</h2>
+<p>由于首页改版的开发排期并不充裕，因此充分地复用已有基础能力（比如像请求、上报、跳转等必不可少的公共类库），能大量减少我们重复的工作量。话虽如此，但在三端统一开发过程中，我们仍遇到不少问题同时也带来解决方案，以下我们一一阐述。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5-篇"></a><a href="#h5-篇" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>H5 篇</h3>
+<p>我们所有的页面都依赖现有业务的全局公共头尾及搜索栏等组件，这就不可避免的需要将 Taro 开发流程融入到现有开发和发布流程中去。同时公共组件都是通过 <a href="https://en.wikipedia.org/wiki/Server_Side_Includes" title="SSI">SSI</a> 的方式引入和维护的，为了能在运行 <code>npm run dev:h5</code> 时预览到完整的页面效果，需要对 <code>index.html</code> 模版中的 SSI 语法进行解析，<code>index.html</code> 模版文件代码结构大致如下：</p>
+<pre><code class="hljs css language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"zh-CN"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>京喜<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-comment">&lt;!--#include virtual="/sinclude/common/head_inc.shtml"--&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"m_common_header"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"display:none;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-comment">&lt;!--S 搜索框--&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"search_block"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"search_block"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"smartboxBlock"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"display:none;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-comment">&lt;!--E 搜索框--&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"app"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"wx_wrap"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-comment">&lt;!--#include virtual="/sinclude/common/foot.shtml"--&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+<p>可以看到模版中存在很多类似 <code>&lt;!--#include virtual=&quot;...&quot; --&gt;</code> 格式的代码，这些就是通过 SSI 方式引入的 H5 公共组件，它的 <code>virtual</code> 属性指向的文件不存在于本地而是存在于服务器上的，所以我们遇到的第一个问题就是在本地解析这些文件，确保能预览到完整的页面效果，不然开发调试起来就非常的低效。好在 Taro 有暴露出 webpack 的配置，我们可以通过引入自定义加载器（这里就叫 <code>ssi-loader</code>）来解析这些代码的路径，然后请求服务器上的文件内容并进行替换即可，要实现这个功能只需在项目的 <code>config/dev.js</code> 中加入如下代码即可：</p>
+<pre><code class="hljs css language-js"><span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-attr">h5</span>: {
+    webpackChain(chain, webpack) {
+      chain.merge({
+        <span class="hljs-attr">module</span>: {
+          <span class="hljs-attr">rule</span>: {
+            <span class="hljs-attr">ssiLoader</span>: {
+              <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.html/</span>,
+              <span class="hljs-attr">use</span>: [
+                {
+                  <span class="hljs-attr">loader</span>: <span class="hljs-string">'html-loader'</span>
+                },
+                {
+                  <span class="hljs-attr">loader</span>: <span class="hljs-string">'ssi-loader'</span>,
+                  <span class="hljs-attr">options</span>: {
+                    <span class="hljs-attr">locations</span>: {
+                      <span class="hljs-attr">include</span>: <span class="hljs-string">'https://wqs.jd.com'</span>
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      })
+    }
+  }
+}
+</code></pre>
+<p>这样就解决了本地开发调试难点，然后开开心心的进行页面开发。</p>
+<p>当页面开发完成之后，接下来遇到的问题就是如何将前端资源部署到测试和生产环境。由于现有开发和发布流程都是基于内部已有的平台，我们临时定制一套也不太现实，所以需要将它融入到 Taro 的流程中去，这里我们引入了 <code>gulp</code> 来整合各种构建和发布等操作，只要构建出符合发布平台规范的目录即可利用它的静态资源构建、版本控制及服务器发布等能力，这样我们就打通了整个开发和发布流程。</p>
+<p>这套拼凑起来的流程还存在不少的问题，对于新接手的同学有一点小繁琐，有着不少改善的空间，这也是接下来的重点工作方向。另外 Taro 的 H5 端之前是基于 SPA 模式，对于有着多页开发需求的项目来说不太友好，当时反馈给 Taro 团队负责 H5 的同学，很快得到了响应，目前 Taro 已支持 H5 多页开发模式，支持非常迅速。</p>
+<h3><a class="anchor" aria-hidden="true" id="小程序篇"></a><a href="#小程序篇" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>小程序篇</h3>
+<p>由于开发完 H5 版之后，对应的业务逻辑就已经处理完了，接下来只需要处理小程序下的一些特殊逻辑（比如分享、前端测速上报等）即可，差异比较大的就是开发和发布流程。</p>
+<p>这里讲一下如何在一个原生小程序项目中使用 Taro 进行开发，因为我们的 Taro 项目跟已有的原生小程序项目是独立的两个项目，所以需要将 Taro 项目的小程序代码编译到已有的原生小程序项目目录下，第一步要做的就是调整 Taro 配置 <code>config/index.js</code>，指定编译输出目录以及禁用 app 文件输出防止覆盖已有文件。</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-comment">// 自定义输出根目录</span>
+  <span class="hljs-attr">outputRoot</span>: process.argv[<span class="hljs-number">3</span>] === <span class="hljs-string">'weapp'</span> ? <span class="hljs-string">'../.temp'</span> : <span class="hljs-string">'dist'</span>,
+  <span class="hljs-comment">// 不输出 app.js 和 app.json 文件</span>
+  <span class="hljs-attr">weapp</span>: {
+    <span class="hljs-attr">appOutput</span>: <span class="hljs-literal">false</span>
+  }
+}
+</code></pre>
+<p>由于京喜以前是主购小程序的一个栏目，后面独立成了独立的小程序，但是核心购物流程还是复用的主购小程序，所以这让情况变得更加复杂。这里还是通过 <code>gulp</code> 来进行繁琐的目录文件处理，比如我们的小程序页面和组件都需要继承主购小程序的 <code>JDPage</code> 和 <code>JDComponent</code> 基类，所以在进行文件复制之前需要进行代码替换，代码如下：</p>
+<pre><code class="hljs css language-js"><span class="hljs-comment">// WEAPP</span>
+<span class="hljs-keyword">const</span> basePath = <span class="hljs-string">`../.temp`</span>
+<span class="hljs-keyword">const</span> destPaths = [<span class="hljs-string">`<span class="hljs-subst">${basePath}</span>/pages/index/`</span>, <span class="hljs-string">`<span class="hljs-subst">${basePath}</span>/pages/components/`</span>]
+<span class="hljs-keyword">const</span> destFiles = destPaths.map(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> <span class="hljs-string">`<span class="hljs-subst">${item}</span>**/*.js`</span>)
+
+<span class="hljs-comment">/*
+ * 基类替换
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">replaceBaseComponent</span> (<span class="hljs-params">files</span>) </span>{
+  <span class="hljs-keyword">return</span> (
+    gulp
+      .src(files || destFiles, { <span class="hljs-attr">base</span>: basePath })
+      .pipe(
+        replace(
+          <span class="hljs-regexp">/\b(Page|Component)(\(require\(['"](.*? "'"")\/npm\/)(.*)(createComponent.*)/</span>,
+          <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">match, p1, p2, p3, p4, p5</span>) </span>{
+            <span class="hljs-keyword">const</span> type =
+              (p5 || <span class="hljs-string">''</span>).indexOf(<span class="hljs-string">'true'</span>) != <span class="hljs-number">-1</span> ||
+              (p5 || <span class="hljs-string">''</span>).indexOf(<span class="hljs-string">'!0'</span>) != <span class="hljs-number">-1</span>
+                ? <span class="hljs-string">'Page'</span>
+                : <span class="hljs-string">'Component'</span>
+            <span class="hljs-keyword">if</span> (type == <span class="hljs-string">'Page'</span>) p5 = p5.replace(<span class="hljs-string">'))'</span>, <span class="hljs-string">'), true)'</span>) <span class="hljs-comment">// 新：page.js基类要多传一个参数</span>
+            <span class="hljs-keyword">const</span> reservedParts = p2 + p4 + p5
+            <span class="hljs-comment">// const type = p1</span>
+            <span class="hljs-comment">// const reservedParts = p2</span>
+            <span class="hljs-keyword">const</span> rootPath = p3
+
+            <span class="hljs-keyword">const</span> clsName = type == <span class="hljs-string">'Page'</span> ? <span class="hljs-string">'JDPage'</span> : <span class="hljs-string">'JDComponent'</span>
+            <span class="hljs-keyword">const</span> baseFile = type == <span class="hljs-string">'Page'</span> ? <span class="hljs-string">'page.taro.js'</span> : <span class="hljs-string">'component.js'</span>
+
+            <span class="hljs-built_in">console</span>.log(
+              <span class="hljs-string">`🌝 Replace with \`<span class="hljs-subst">${clsName}</span>\` successfully: <span class="hljs-subst">${<span class="hljs-keyword">this</span>.file.path.replace(
+                <span class="hljs-regexp">/.*?wxapp\//</span>,
+                <span class="hljs-string">'wxapp/'</span>
+              )}</span>`</span>
+            )
+            <span class="hljs-keyword">return</span> <span class="hljs-string">`new (require("<span class="hljs-subst">${rootPath}</span>/bases/<span class="hljs-subst">${baseFile}</span>").<span class="hljs-subst">${clsName}</span>)<span class="hljs-subst">${reservedParts}</span>`</span>
+          }
+        )
+      )
+      .pipe(gulp.dest(basePath))
+  )
+}
+
+<span class="hljs-comment">// 基类替换</span>
+gulp.task(<span class="hljs-string">'replace-base-component'</span>, () =&gt; replaceBaseComponent())
+</code></pre>
+<p>还有很多类似这样的骚操作，虽然比较麻烦，但是只需要处理一次，后续也很少改动。</p>
+<h3><a class="anchor" aria-hidden="true" id="rn-篇"></a><a href="#rn-篇" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RN 篇</h3>
+<p>对于 RN 开发，也是第一次将它落地到实际的业务项目中，所以大部分时候都是伴随着各种未知的坑不断前行，所以这里也友情提示一下，对于从未使用过的技术，还是需要一些耐心的，遇到问题勤查勤问。</p>
+<p>由于京喜 APP 是复用京东技术中台的基础框架和 JDReact 引擎，所以整个的开发和部署都是遵循 JDReact 已有的流程，画了一张大致的流程图如下：</p>
+<p><img src="https://img10.360buyimg.com/ling/jfs/t1/84738/19/1551/59434/5dc02754E930f59f2/ebe7b01308771a91.png" alt="京喜开发发布流程"></p>
+<blockquote>
+<p>JDReact 平台是在 Facebook ReactNative 开源框架基础上，进行了深度二次开发和功能扩展。不仅打通了 Android/iOS/Web 三端平台，而且对京东移动端基础业务能力进行了 SDK 级别的封装，提供了统一、易于开发的 API。业务开发者可以通过 JDReact SDK 平台进行快速京东业务开发，并且不依赖发版就能无缝集成到客户端(android/iOS)或者转换成 Web 页面进行线上部署，真正实现了一次开发，快速部署三端。</p>
+</blockquote>
+<p>由于京喜 APP 的 JDReact 模块都是独立的 git 仓库，所以需要调整我们 Taro 项目配置 <code>config/index.js</code> 的编译输出路径如下：</p>
+<pre><code class="hljs css language-js">rn: {
+  <span class="hljs-attr">outPath</span>: <span class="hljs-string">'../jdreact-jsbundle-jdreactpingouindex'</span>
+}
+</code></pre>
+<p>这样，当我们运行 <code>yarn run dev:rn</code> 进行本地开发时，文件自动编译到了 JDReact 项目，接下来我们就可以用模拟器或者真机来进行预览调试了。当我们在进行本地开发调试的时候，最高效的方式还是推荐用 Taro 官方提供的 <a href="https://github.com/NervJS/taro-native-shell" title="`taro-native-shell`"><code>taro-native-shell</code></a> 原生 React Native 壳子来启动我们的项目，详细的配置参照该项目的 README 进行配置即可。</p>
+<p>由于 React Native 官方提供的 <a href="https://facebook.github.io/react-native/docs/debugging.html#chrome-developer-tools" title="Remote Debugger">Remote Debugger</a> 功能非常弱，推荐使用 <a href="https://github.com/jhen0409/react-native-debugger" title="React Native Debugger">React Native Debugger</a> 来进行本地 RN 调试，提供了更为丰富的功能，基本接近 H5 和小程序的调试体验。</p>
+<p><img src="https://img20.360buyimg.com/ling/jfs/t1/93257/12/1534/249244/5dc0282eE862961c6/bf7b8367ac970ecf.png" alt="React Native Debugger 界面"></p>
+<p>这样我们就拥有了一个正常的开发调试环境，接下来就可以进行高效的开发了，由于我们前面在 H5 和小程序版本阶段已经完成了绝大部分的业务逻辑开发，所以针对 RN 版本的主要工作集中在 iOS 和安卓不同机型的样式和交互适配上。</p>
+<p>在样式适配这块，不得不提下 Taro 针对我们常见的场景提供了一些最佳实践，可以作为布局参考：</p>
+<ul>
+<li>固定尺寸（按钮、文字大小、间距）：写 PX / Px / pX</li>
+<li>保持宽高比（比如 banner 图片）：<code>Image</code> 组件处理</li>
+<li>间距固定，内容自适应（比如产品卡片宽度）：使用 <code>flex</code> 布局</li>
+<li>按屏幕等比缩放：使用 px 单位，编译时处理（<code>scalePx2dp</code> 动态计算）</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="taro-rn-最佳实践集锦"></a><a href="#taro-rn-最佳实践集锦" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Taro RN 最佳实践集锦</h4>
+<p>在实际开发过程中也遇到不少兼容性问题，这里整理出来以供大家参考：</p>
+<ul>
+<li><p>文本要用 <code>&lt;Text&gt;</code> 标签包起来，因为 RN 没有 <code>textNode</code> 的概念；</p></li>
+<li><p>使用 Swiper 时在外面包一个 View，否则设置 <code>margin</code> 后会导致安卓下高度异常；</p></li>
+<li><p><code>Cannot read property 'x' of undefined</code>，Swiper 底层使用的 react-native-swiper 导致的问题，Disable Remote JS Debug 就不会出现。</p></li>
+<li><p>图片默认尺寸不对，RN 不会自动帮助设置图片尺寸，而是交给开发者自己处理，故意这样设计的；</p></li>
+<li><p>Image 组件上不可以设置 onClick</p></li>
+<li><p>实现基线对齐：<code>vertical-align: baseline</code>，用 <code>&lt;Text&gt;</code> 把需要基线对齐的组件包住即可。</p>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span> <span class="token attr-name">style</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> fontSize<span class="token operator">:</span> <span class="token number">20</span> <span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>abc<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span> <span class="token attr-name">style</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> fontSize<span class="token operator">:</span> <span class="token number">40</span> <span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token number">123</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+</code></pre></li>
+<li><p>尽量避免使用 <code>line-height</code> ，在安卓和 iOS 下表现不一致，而且即使设置为与 <code>fontSize</code> 相同也会导致裁剪；</p></li>
+<li><p>android 调试生产环境的 bundle，摇手机，选 Dev Setting，取消勾选第一项 Dev 即可；</p></li>
+<li><p>iOS 调试生产环境的 bundle，<code>AppDelegate.m</code> 中增加一行语句关闭 dev 即可：</p>
+<pre><code class="hljs css language-objc">  [[RCTBundleURLProvider sharedSettings] setEnableDev:<span class="hljs-literal">false</span>];
+  <span class="hljs-comment">// 找到这行，并在它的上面增加上面这行</span>
+  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:<span class="hljs-string">@"index"</span> fallbackResource:<span class="hljs-literal">nil</span>];
+</code></pre></li>
+<li><p><code>&lt;Text&gt;</code> 与 <code>&lt;View&gt;</code> 支持的 style 属性不相同。</p>
+<pre><code class="hljs">&gt; [Text Style Props](https://facebook.github.io/react-native/docs/text-style-props &quot;Text Style Props&quot;) &amp; [View Style Props](https://facebook.github.io/
+</code></pre>
+<p>react-native/docs/view-style-props)</p></li>
+<li><p>render 方法中不要返回空字符串</p>
+<p>下面的代码在 android 下会报错（empty_string 内容为空字符串）</p>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">{</span>empty_string <span class="token operator">&amp;&amp;</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span><span class="token punctuation">}</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<p>因为 <code>empty_string &amp;&amp; &lt;Text&gt;&lt;/Text&gt;</code> 的返回值是空字符串，RN 尝试把字符串添加到 View 的 children 时在安卓环境下会报错：</p>
+<pre><code class="hljs css language-js">Error: Cannot add a child that doesn't have a YogaNode
+</code></pre></li>
+<li><p><code>border-radius</code> 导致背景色异常，单独给某个角设置圆角时，没有设置圆角的边会出现一块与背景色颜色相同，但半透明的色块。</p>
+<ol>
+<li>添加外层容器设置圆角与超出隐藏</li>
+<li>全部角都设置圆角然后使用 <code>transform:tanslate()</code> 藏起不想要的圆角</li>
+</ol></li>
+<li><p>透明 View 无法点击的问题，给设置了 onClick 的元素添加透明背景色即可：</p></li>
+</ul>
+<pre><code class="hljs css language-js">style={{ <span class="hljs-attr">backgroundColor</span>: <span class="hljs-string">"transparent"</span> }}
+</code></pre>
+<p>不可以用 scss 写，只有写在 JSX 上的才有效，Taro 编译时可能把透明背景色忽略了。</p>
+<ul>
+<li><p>一像素缝隙问题</p>
+<p>可能是 RN 布局引擎的问题，或单位转换以及浏览器渲染中的精度损失问题。可以调整页面结构来绕过。
+或者简单粗暴一点，设置负 margin 值盖住缝隙。</p></li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="跨平台开发"></a><a href="#跨平台开发" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>跨平台开发</h3>
+<h4><a class="anchor" aria-hidden="true" id="js-文件"></a><a href="#js-文件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JS 文件</h4>
+<h5><a class="anchor" aria-hidden="true" id="1-文件拆分的方式"></a><a href="#1-文件拆分的方式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1、文件拆分的方式</h5>
+<p>要&quot;完美&quot;的编译出三端代码，首先要解决的是公共类库的适配问题，好在兄弟业务团队已经沉淀有完成度较高的三端公共类库，利用 Taro 提供的跨平台开发能力，抹平三端方法名和参数不统一的情况，即可很好的解决公共类库的适配问题，如下所示：</p>
+<pre><code class="hljs css language-bash"><span class="token builtin class-name">.</span>
+├── goto.h5.js
+├── goto.rn.js
+├── goto.weapp.js
+├── request.h5.js
+├── request.rn.js
+├── request.weapp.js
+└── <span class="token punctuation">..</span>.
+</code></pre>
+<p>以 <code>request</code> 公共组件为例，三端代码如下：</p>
+<p>request.h5.js</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> request <span class="hljs-keyword">from</span> <span class="hljs-string">'@legos/request'</span>
+<span class="hljs-keyword">export</span> { request }
+</code></pre>
+<p>request.rn.js</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> request <span class="hljs-keyword">from</span> <span class="hljs-string">'@wqvue/jdreact-request'</span>
+<span class="hljs-keyword">export</span> { request }
+</code></pre>
+<p>request.weapp.js（由于小程序的公共组件没有发布至 npm，这里引用的本地项目源文件）</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> { request } <span class="hljs-keyword">from</span> <span class="hljs-string">'../../../common/request/request.js'</span>
+<span class="hljs-keyword">export</span> { request }
+</code></pre>
+<p>如遇到需要适配的方法参数不一致或者增加额外处理的情况，可进行再包装确保最终输出的接口一致，如下：</p>
+<p>goto.rn.js</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> jump <span class="hljs-keyword">from</span> <span class="hljs-string">'@wqvue/jdreact-jump'</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">goto</span>(<span class="hljs-params">url, params = {}, options = {}</span>) </span>{
+  jump(url, options.des || <span class="hljs-string">'m'</span>, options.source || <span class="hljs-string">'JDPingou'</span>, params)
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> goto
+</code></pre>
+<p>文件引入的时候我们正常使用就好，Taro 在编译的时候为我们编译对应的平台的文件</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> goto <span class="hljs-keyword">from</span> <span class="hljs-string">'./goto.js'</span>
+</code></pre>
+<h5><a class="anchor" aria-hidden="true" id="2-条件编译的方式"></a><a href="#2-条件编译的方式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2、条件编译的方式</h5>
+<p>解决了公共类库适配之后，接下来就可以专注于业务代码开发了，同样业务代码在三端也可能存差异的情况，可以用 Taro 提供的环境变量来达到目的，示例代码如下：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">if</span> (process.env.TARO_ENV === <span class="hljs-string">'h5'</span>) {
+  <span class="hljs-keyword">this</span>.speedReport(<span class="hljs-number">8</span>) <span class="hljs-comment">// [测速上报] 首屏渲染完成</span>
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (process.env.TARO_ENV === <span class="hljs-string">'weapp'</span>) {
+  speed.mark(<span class="hljs-number">6</span>).report() <span class="hljs-comment">// [测速上报] 首屏渲染完成</span>
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (process.env.TARO_ENV === <span class="hljs-string">'rn'</span>) {
+  speed.mark(<span class="hljs-number">7</span>).report() <span class="hljs-comment">// [测速上报] 首屏渲染完成</span>
+}
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="css-文件"></a><a href="#css-文件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSS 文件</h4>
+<p>以上是 js 的代码处理方式，对于 css 文件及代码，同样也有类似的处理。</p>
+<h5><a class="anchor" aria-hidden="true" id="1-文件拆分的方式-1"></a><a href="#1-文件拆分的方式-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1、文件拆分的方式</h5>
+<p>比如 RN 相对于 H5 和小程序的样式就存在比较大的差异，RN 支持的样式是 CSS 的子集，所以很多看起来很常见的样式是不支持的，可以通过以下方式进行差异化处理：</p>
+<pre><code class="hljs css language-bash">├── index.base.scss
+├── index.rn.scss
+├── index.scss
+</code></pre>
+<p>这里以 <code>index.base.scss</code> 作为三端都能兼容的公共样式（名字可以任取，不一定为 xxx.base.scss），<code>index.rn.scss</code> 则为 RN 端独特的样式，<code>index.scss</code> 则为 H5 和小程序独特的样式，因为 H5 和小程序样式基本上没有什么差异，这里合为一个文件处理。</p>
+<h5><a class="anchor" aria-hidden="true" id="2-条件编译的方式-1"></a><a href="#2-条件编译的方式-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2、条件编译的方式</h5>
+<p>Taro 也支持样式文件内的条件编译，语法如下：</p>
+<pre><code class="hljs css language-scss"><span class="hljs-comment">/* #ifdef %PLATFORM% */</span>
+<span class="hljs-comment">// 指定平台保留</span>
+<span class="hljs-comment">/* #endif */</span>
+
+<span class="hljs-comment">/* #ifndef %PLATFORM% */</span>
+<span class="hljs-comment">// 指定平台剔除</span>
+<span class="hljs-comment">/* #endif */</span>
+</code></pre>
+<p><code>%PLATFORM%</code> 的取值请参考 <a href="https://nervjs.github.io/taro/docs/envs.html" title="Taro 内置环境变量">Taro 内置环境变量</a></p>
+<p>以下为示例代码：</p>
+<pre><code class="hljs css language-scss"><span class="hljs-selector-class">.selector</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;
+  <span class="hljs-comment">/* #ifndef RN */</span>
+  <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">1px</span> <span class="hljs-number">1px</span> <span class="hljs-number">1px</span> rgba(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, .<span class="hljs-number">1</span>);
+  <span class="hljs-comment">/* #endif */</span>
+}
+</code></pre>
+<p>编译为 H5 和小程序的样式为：</p>
+<pre><code class="hljs css language-scss"><span class="hljs-selector-class">.selector</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;
+  <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">1px</span> <span class="hljs-number">1px</span> <span class="hljs-number">1px</span> rgba(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, .<span class="hljs-number">1</span>);
+}
+</code></pre>
+<p>RN 的样式为：</p>
+<pre><code class="hljs css language-scss"><span class="hljs-selector-class">.selector</span> {
+  <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;
+}
+</code></pre>
+<p>两种方式选其一即可，这样就能开开心心的编写业务代码了。</p>
+<p>有些许遗憾的是产品经理对这次新版首页有着明确的上线优先级：先 H5 版，再微信小程序版，最后是 RN 版，这就为后续 RN 版本跟 H5 和 小程序版本分道扬镳埋下了伏笔，条件允许的话建议优先以 RN 版本为基准进行开发，以免开发完成 H5 和小程序之后发现对结构和样式进行大的调整，因为 RN 对样式确实会弱一些。</p>
+<h3><a class="anchor" aria-hidden="true" id="性能优化"></a><a href="#性能优化" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>性能优化</h3>
+<h4><a class="anchor" aria-hidden="true" id="图片优化"></a><a href="#图片优化" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>图片优化</h4>
+<p>电商性质的网站，会存在大量的素材或商品图片， 往往这些会对页面造成较大的性能影响。得益于京东图床服务，提供强大的图片定制功能，让我们在图片优化方面省去大量工作。以引入商品图片 <code>&quot;https://img10.360buyimg.com/mobilecms/s355x355_jfs/t1/55430/24/116/143859/5cd27c99E71cc323f/0e8da8810fb49796.jpg!q70.dpg.webp&quot;</code> 为样本，我们对图片应用做了部分优化：</p>
+<ul>
+<li>根据容器大小适当裁剪图片尺寸：s355x355_jfs</li>
+<li>根据网络环境设置图片品质参数：0e8da8810fb49796.jpg!q70</li>
+<li>根据浏览器环境合理选择图片类型：0e8da8810fb49796.jpg!q70.dpg.webp</li>
+</ul>
+<p>为 Image 标签设置 lazyload 属性，这样可以在 H5 和小程序下获得懒加载功能。</p>
+<h4><a class="anchor" aria-hidden="true" id="接口聚合直出"></a><a href="#接口聚合直出" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>接口聚合直出</h4>
+<p>起初京喜首页的首屏数据涉及的后端接口多达 20 余个，导致整体数据返回时间较长；为了解决此项痛点，我们联合后端团队，独立开发首屏专用的<strong>聚合直出接口</strong>。一方面，将众多接口请求合并成一个，减少接口联动请求带来的性能损耗；另一方面，将复杂的业务逻辑挪到后端处理，前端只负责视图渲染和交互即可，减少前端代码复杂度；通过此项优化，页面性能和体验得到极大改善。</p>
+<h4><a class="anchor" aria-hidden="true" id="缓存优先策略"></a><a href="#缓存优先策略" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>缓存优先策略</h4>
+<p>由于京喜业务主要围绕下沉市场，其用户群体的网络环境会更加复杂，要保障页面的性能，减少网络延时是一项重要措施。</p>
+<p>为了提升用户二次访问的加载性能，我们决定采用<strong>缓存优先策略</strong>。即用户每次访问页面时所请求的主接口数据写入本地缓存，同时用户每次访问都优先加载缓存数据，形成一套规范的数据读取机制。通过优先读取本地缓存数据，可让页面内容在极短时间内完成渲染；另外，本地缓存数据亦可作为页面兜底数据，在用户网络超时或故障时使用，可避免页面空窗的情景出现。</p>
+<p><img src="https://img20.360buyimg.com/ling/jfs/t1/50956/35/15492/42652/5dc2eaecE30ebcffd/c7e8c52679a3f2fe.jpg" alt="缓存优先策略"></p>
+<h4><a class="anchor" aria-hidden="true" id="高性能瀑布流长列表"></a><a href="#高性能瀑布流长列表" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>高性能瀑布流长列表</h4>
+<p>首页紧接着首屏区域的是一个支持下滑加载的瀑布流长列表，每次滑到底部都会异步拉取 20 条数据，总计会拉取将近 500 条数据，这在 iOS 下交互体验还比较正常。但是在配置较低的安卓机型下，当滑动到 2 到 3 屏之后就开始出现严重卡顿，甚至会闪退。</p>
+<p>针对这种场景也尝试过用 FlatList 和 SectionList 组件来优化，但是它们都要求规则等高的列表条目，于是不得不自己来实现不规则的瀑布流无限滚动加载。其核心思路是通过判断列表的条目是否在视窗内来决定图片是否渲染，要优化得更彻底些得话，甚至可以移除条目内所有内容只保留容器，以达到减少内容节点以及内存占用，不过在快速进行滑动时比较容易出现一片白框，算是为了性能损失一些体验，整体上来说是可以接受得。</p>
+<p>由于 RN 下在获取元素坐标偏移等数据相对 H5 和小程序要麻烦得到，具体的实现细节可以查看抽离出来的简单实现<a href="https://github.com/aNd1coder/taro-waterfall" title="Taro 高性能瀑布流组件（for RN）">Taro 高性能瀑布流组件（for RN）</a>。</p>
+<h2><a class="anchor" aria-hidden="true" id="写在最后"></a><a href="#写在最后" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>写在最后</h2>
+<p><img src="https://img14.360buyimg.com/ling/jfs/t1/105266/16/1522/210358/5dc18d19E6401cb7a/ad1ab2372f08e6c4.jpg" alt="三端达到像素级别的还原"></p>
+<p>这篇文章从技术选型、开发实录再到性能优化三个维度对京喜首页改版做了简单总结。整个项目实践下来，证实 Taro 开发框架 已完全具备投入大型商业项目的条件。虽在多端开发适配上耗费了一些时间，但仍比各端独立开发维护工作量要少；在前端资源匮乏的今天，选择成熟的开发工具来控制成本、提升效率，已是各团队的首要工作目标。 同时，京喜作为京东战略级业务，拥有千万级别的流量入口，我们对页面的体验优化和性能改进远不止于此，希望每一次微小的改动能为用户带来愉悦的感受，始终为用户提供优质的产品体验。</p>
+</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/taro/blog">最近更新</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#背景介绍">背景介绍</a></li><li><a href="#改版目标">改版目标</a></li><li><a href="#技术选型">技术选型</a></li><li><a href="#开发实录">开发实录</a><ul class="toc-headings"><li><a href="#h5-篇">H5 篇</a></li><li><a href="#小程序篇">小程序篇</a></li><li><a href="#rn-篇">RN 篇</a></li><li><a href="#跨平台开发">跨平台开发</a></li><li><a href="#性能优化">性能优化</a></li></ul></li><li><a href="#写在最后">写在最后</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

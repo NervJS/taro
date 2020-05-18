@@ -1,0 +1,643 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>React Native 端开发流程 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](./before-dev-remind.html)"/><meta name="docsearch:version" content="2.0.3"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="React Native 端开发流程 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="&gt; 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](./before-dev-remind.html)"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.0.3</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/2.0.3/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.0.3/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.0.3/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>多端开发</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/team.html">Taro 团队</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/wxcloud.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/quick-app.html">快应用端开发流程</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/2.0.3/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/debug-config.html">单步调测配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">迁移指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/migrate-to-2.html">迁移至 Taro 2.x</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/css-modules.html">使用 CSS Modules</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/react-native.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">React Native 端开发流程</h1></header><article><div><span><blockquote>
+<p>本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 <a href="./before-dev-remind.html">开发前注意</a></p>
+<p>适配 RN 端可参考项目：<a href="https://github.com/js-newbee/taro-yanxuan">首个 Taro 多端统一实例 - 网易严选（小程序 + H5 + React Native） - By 趣店 FED</a></p>
+<p>Taro 从 2.0 开始，依赖的 React Native 版本由 0.55.4 升级为 0.59.9。</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="简介"></a><a href="#简介" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>简介</h2>
+<p>Taro 移动端的开发基于 Facebook 的开源项目 <a href="https://github.com/facebook/react-native">React Native</a>，目前是项目依赖中固定 React Native 版本为 <code>0.55.4</code>。</p>
+<p>整个 RN 端的开发流程如下：</p>
+<p><img src="http://assets.processon.com/chart_image/5c988481e4b01e76978bd6ab.png" alt="image"></p>
+<p>首先在 Taro 项目里执行：<code>taro build --type rn --watch</code>，这个命令会将 Taro 代码编译为 React Native 代码（默认输出在 rn_temp 目录下），并启动 Metro Server（可以看成是 webpack run devserver --port 8081）打包 rn_temp 下的 js。</p>
+<p>然后进入 <code>taro-native-shell</code> 目录（建议和 Taro 项目平级），通过 <code>react-native run-android|ios</code>启动，或者通过对应的 Android Studio / Xcode 启动应用，启动后应用可以看成是一个浏览器，会从 8081 端口加载 js 并渲染。</p>
+<h2><a class="anchor" aria-hidden="true" id="搭建-ios-开发环境"></a><a href="#搭建-ios-开发环境" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>搭建 iOS 开发环境</h2>
+<p>必须安装的依赖有：Node、Watchman 和 React Native 命令行工具以及 Xcode。</p>
+<p>虽然你可以使用任何编辑器来开发应用（编写 js 代码），但你仍然必须安装 Xcode 来获得编译 iOS 应用所需的工具和环境。</p>
+<h3><a class="anchor" aria-hidden="true" id="node-watchman"></a><a href="#node-watchman" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Node, Watchman</h3>
+<p>我们推荐使用 <a href="http://brew.sh/">Homebrew</a> 来安装 Node 和 Watchman。在命令行中执行下列命令安装：</p>
+<pre><code class="hljs css language-sh">brew install node
+brew install watchman
+</code></pre>
+<p>如果你已经安装了 Node，请检查其版本是否在 v8.3 以上。安装完 Node 后建议设置 npm 镜像以加速后面的过程（或使用科学上网工具）。</p>
+<blockquote>
+<p>注意：不要使用 cnpm！cnpm 安装的模块路径比较奇怪，packager 不能正常识别！</p>
+</blockquote>
+<p>设置 npm 镜像：</p>
+<pre><code class="hljs">npm config <span class="token keyword">set</span> registry https<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>registry<span class="token punctuation">.</span>npm<span class="token punctuation">.</span>taobao<span class="token punctuation">.</span>org <span class="token operator">--</span>global
+npm config <span class="token keyword">set</span> disturl https<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>npm<span class="token punctuation">.</span>taobao<span class="token punctuation">.</span>org<span class="token operator">/</span>dist <span class="token operator">--</span>global
+</code></pre>
+<p>或者使用 <a href="https://github.com/Pana/nrm">nrm</a>：</p>
+<pre><code class="hljs css language-sh">$ nrm ls
+
+* npm -----  https://registry.npmjs.org/
+  cnpm ----  http://r.cnpmjs.org/
+  taobao --  https://registry.npm.taobao.org/
+  nj ------  https://registry.nodejitsu.com/
+  skimdb -- https://skimdb.npmjs.com/registry
+
+</code></pre>
+<pre><code class="hljs css language-sh">$ nrm use cnpm  //switch registry to cnpm
+
+    Registry has been <span class="hljs-built_in">set</span> to: http://r.cnpmjs.org/
+</code></pre>
+<p><a href="https://facebook.github.io/watchman">Watchman</a> 则是由 Facebook 提供的监视文件系统变更的工具。安装此工具可以提高开发时的性能（packager 可以快速捕捉文件的变化从而实现实时刷新）。</p>
+<h3><a class="anchor" aria-hidden="true" id="yarn-react-native-的命令行工具-react-native-cli"></a><a href="#yarn-react-native-的命令行工具-react-native-cli" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Yarn、React Native 的命令行工具（react-native-cli）</h3>
+<p>Yarn 是 Facebook 提供的替代 npm 的工具，可以加速 node 模块的下载。React Native 的命令行工具用于执行创建、初始化、更新项目、运行打包服务（packager）等任务。</p>
+<pre><code class="hljs css language-sh">npm install -g yarn react-native-cli
+</code></pre>
+<p>安装完 yarn 后同理也要设置镜像源：</p>
+<pre><code class="hljs css language-sh">yarn config <span class="hljs-built_in">set</span> registry https://registry.npm.taobao.org --global
+yarn config <span class="hljs-built_in">set</span> disturl https://npm.taobao.org/dist --global
+</code></pre>
+<p>安装完 yarn 之后就可以用 yarn 代替 npm 了，例如用 yarn 代替 npm install 命令，用 yarn add 某第三方库名代替 npm install 某第三方库名。</p>
+<h3><a class="anchor" aria-hidden="true" id="xcode"></a><a href="#xcode" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Xcode</h3>
+<p>React Native 目前需要 <a href="https://developer.apple.com/xcode/downloads/">Xcode</a> 9.4 或更高版本。你可以通过 App Store 或是到 <a href="https://developer.apple.com/xcode/downloads/">Apple 开发者官网</a> 上下载。这一步骤会同时安装 Xcode IDE、Xcode 的命令行工具和 iOS 模拟器。</p>
+<p>Xcode 的命令行工具</p>
+<p>启动 Xcode，并在 <code>Xcode | Preferences | Locations</code> 菜单中检查一下是否装有某个版本的 <code>Command Line Tools</code>。Xcode 的命令行工具中包含一些必须的工具，比如 <code>git</code> 等。</p>
+<p><img src="https://reactnative.cn/docs/assets/GettingStartedXcodeCommandLineTools.png" alt="image"></p>
+<h2><a class="anchor" aria-hidden="true" id="搭建-android-开发环境"></a><a href="#搭建-android-开发环境" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>搭建 Android 开发环境</h2>
+<h3><a class="anchor" aria-hidden="true" id="安装依赖"></a><a href="#安装依赖" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>安装依赖</h3>
+<p>必须安装的依赖有：Node、Watchman 和 React Native 命令行工具以及 JDK 和 Android Studio。</p>
+<p>虽然你可以使用任何编辑器来开发应用（编写 js 代码），但你仍然必须安装 Android Studio 来获得编译 Android 应用所需的工具和环境。</p>
+<h3><a class="anchor" aria-hidden="true" id="java-development-kit"></a><a href="#java-development-kit" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Java Development Kit</h3>
+<p>React Native 需要 Java Development Kit [JDK] 1.8（暂不支持 1.9 及更高版本）。你可以在命令行中输入</p>
+<blockquote>
+<p>javac -version来查看你当前安装的 JDK 版本。如果版本不合要求，则可以到 官网上下载。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="android-开发环境"></a><a href="#android-开发环境" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Android 开发环境</h3>
+<p>如果你之前没有接触过 Android 的开发环境，那么请做好心理准备，这一过程相当繁琐。请 <code>万分仔细</code>地阅读下面的说明，严格对照文档进行配置操作。</p>
+<blockquote>
+<p>注：请注意！！！国内用户必须必须必须有稳定的翻墙工具，否则在下载、安装、配置过程中会不断遭遇链接超时或断开，无法进行开发工作。某些翻墙工具可能只提供浏览器的代理功能，或只针对特定网站代理等等，请自行研究配置或更换其他软件。总之如果报错中出现有网址，那么 99% 就是无法正常翻墙。</p>
+</blockquote>
+<blockquote>
+<p>如果是 socks5 代理 ，如下这样设置其实并没有什么卵用</p>
+</blockquote>
+<pre><code class="hljs">#systemProp<span class="token punctuation">.</span>socks<span class="token punctuation">.</span>proxyHost<span class="token operator">=</span><span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span>
+#systemProp<span class="token punctuation">.</span>socks<span class="token punctuation">.</span>proxyPort<span class="token operator">=</span><span class="token number">8016</span>
+
+#systemProp<span class="token punctuation">.</span>https<span class="token punctuation">.</span>proxyHost<span class="token operator">=</span><span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span>
+#systemProp<span class="token punctuation">.</span>https<span class="token punctuation">.</span>proxyPort<span class="token operator">=</span><span class="token number">8016</span>
+
+#systemProp<span class="token punctuation">.</span>https<span class="token punctuation">.</span>proxyHost<span class="token operator">=</span>socks5<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span>
+#systemProp<span class="token punctuation">.</span>https<span class="token punctuation">.</span>proxyPort<span class="token operator">=</span><span class="token number">8016</span>
+</code></pre>
+<blockquote>
+<p>正确设置方法应该是这样：
+org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=8016</p>
+</blockquote>
+<blockquote>
+<p>修改 $HOME/.gradle/gradle.properties 文件,加入上面那句，这样就可以全局开启 gradle 代理</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="1-安装-android-studio"></a><a href="#1-安装-android-studio" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. 安装 Android Studio</h4>
+<p><a href="https://developer.android.com/studio/index.html">首先下载和安装 Android Studio</a>，国内用户可能无法打开官方链接，请自行使用搜索引擎搜索可用的下载链接。安装界面中选择&quot;Custom&quot;选项，确保选中了以下几项：</p>
+<ul>
+<li>Android SDK</li>
+<li>Android SDK Platform</li>
+<li>Performance (Intel ® HAXM) (<a href="https://android-developers.googleblog.com/2018/07/android-emulator-amd-processor-hyper-v.html">AMD 处理器看这里</a>)</li>
+<li>Android Virtual Device</li>
+</ul>
+<p>然后点击&quot;Next&quot;来安装选中的组件。</p>
+<blockquote>
+<p>如果选择框是灰的，你也可以先跳过，稍后再来安装这些组件。</p>
+</blockquote>
+<p>安装完成后，看到欢迎界面时，就可以进行下面的操作了。</p>
+<h4><a class="anchor" aria-hidden="true" id="2-安装-android-sdk"></a><a href="#2-安装-android-sdk" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. 安装 Android SDK</h4>
+<p>Android Studio 默认会安装最新版本的 Android SDK。目前编译 React Native 应用需要的是 <code>Android 6.0 (Marshmallow)</code> 版本的 SDK（注意 SDK 版本不等于终端系统版本，RN 目前支持 android 4.1 以上设备）。你可以在 Android Studio 的 SDK Manager 中选择安装各版本的 SDK。</p>
+<p>你可以在 Android Studio 的欢迎界面中找到 SDK Manager。点击 &quot;Configure&quot;，然后就能看到 &quot;SDK Manager&quot;。</p>
+<p><img src="https://reactnative.cn/docs/assets/GettingStartedAndroidStudioWelcomeMacOS.png" alt="image"></p>
+<blockquote>
+<p>SDK Manager 还可以在 Android Studio 的 &quot;Preferences&quot; 菜单中找到。具体路径是 <code>Appearance &amp; Behavior → System Settings → Android SDK</code>。</p>
+</blockquote>
+<p>在 SDK Manager 中选择 &quot;SDK Platforms&quot;选项卡，然后在右下角勾选 &quot;Show Package Details&quot;。展开 <code>Android 6.0 (Marshmallow)</code> 选项，确保勾选了下面这些组件（重申你必须使用稳定的翻墙工具，否则可能都看不到这个界面）：</p>
+<ul>
+<li><code>Android SDK Platform 28</code></li>
+<li><code>Intel x86 Atom_64 System Image</code>（官方模拟器镜像文件，使用非官方模拟器不需要安装此组件）</li>
+</ul>
+<p>然后点击&quot;SDK Tools&quot;选项卡，同样勾中右下角的&quot;Show Package Details&quot;。展开&quot;Android SDK Build-Tools&quot;选项，确保选中了 React Native 所必须的 <code>23.0.1</code> 版本。你可以同时安装多个其他版本，然后还要勾选最底部的 <code>Android Support Repository</code>。</p>
+<p><img src="https://reactnative.cn/docs/assets/GettingStartedAndroidSDKManagerSDKToolsMacOS.png" alt="image"></p>
+<p>最后点击&quot;Apply&quot;来下载和安装这些组件。</p>
+<p><img src="https://reactnative.cn/docs/assets/GettingStartedAndroidSDKManagerInstallsMacOS.png" alt="image"></p>
+<h4><a class="anchor" aria-hidden="true" id="3-配置-android_home-环境变量"></a><a href="#3-配置-android_home-环境变量" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. 配置 ANDROID_HOME 环境变量</h4>
+<p>React Native 需要通过环境变量来了解你的 Android SDK 装在什么路径，从而正常进行编译。</p>
+<p>具体的做法是把下面的命令加入到 <code>~/.bash_profile</code> 文件中：</p>
+<blockquote>
+<p>~表示用户目录，即/Users/你的用户名/，而小数点开头的文件在 Finder 中是隐藏的，并且这个文件有可能并不存在。可在终端下使用vi ~/.bash_profile命令创建或编辑。如不熟悉 vi 操作，请点击 <a href="http://www.eepw.com.cn/article/48018.htm">这里</a> 学习。</p>
+</blockquote>
+<pre><code class="hljs css language-sh"><span class="hljs-comment"># 如果你不是通过Android Studio安装的sdk，则其路径可能不同，请自行确定清楚。</span>
+<span class="hljs-built_in">export</span> ANDROID_HOME=<span class="hljs-variable">$HOME</span>/Library/Android/sdk
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$ANDROID_HOME</span>/tools
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$ANDROID_HOME</span>/platform-tools
+</code></pre>
+<blockquote>
+<p>如果你的命令行不是 bash，而是例如 zsh 等其他，请使用对应的配置文件。</p>
+</blockquote>
+<p>使用 <code>source $HOME/.bash_profile</code> 命令来使环境变量设置立即生效（否则重启后才生效）。可以使用 <code>echo $ANDROID_HOME</code> 检查此变量是否已正确设置。</p>
+<blockquote>
+<p>请确保你正常指定了 Android SDK 路径。你可以在 Android Studio 的 &quot;Preferences&quot; 菜单中查看 SDK 的真实路径，具体是<code>Appearance &amp; Behavior → System Settings → Android SDK</code>。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="准备-android-设备"></a><a href="#准备-android-设备" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>准备 Android 设备</h3>
+<p>你需要准备一台 Android 设备来运行 React Native Android 应用。这里所指的设备既可以是真机，也可以是模拟器。Android 官方提供了名为 Android Virtual Device（简称 AVD）的模拟器。此外还有很多第三方提供的模拟器如 <a href="https://www.genymotion.com/download">Genymotion</a>、BlueStack 等。一般来说官方模拟器免费、功能完整，但性能较差。第三方模拟器性能较好，但可能需要付费，或带有广告。</p>
+<h4><a class="anchor" aria-hidden="true" id="使用-android-真机"></a><a href="#使用-android-真机" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 Android 真机</h4>
+<p>你也可以使用 Android 真机来代替模拟器进行开发，只需用 usb 数据线连接到电脑，然后遵照 <a href="https://reactnative.cn/docs/0.55/running-on-device">在设备上运行</a> 这篇文档的说明操作即可。</p>
+<h4><a class="anchor" aria-hidden="true" id="使用-android-模拟器"></a><a href="#使用-android-模拟器" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 Android 模拟器</h4>
+<p>你可以在 Android Studi 打开 &quot;AVD Manager&quot; 来查看可用的虚拟设备，它的图标看起来像下面这样：</p>
+<p><img src="https://reactnative.cn/docs/assets/GettingStartedAndroidStudioAVD.png" alt="image"></p>
+<p>如果你刚刚才安装 Android Studio，那么可能需要先 <a href="https://developer.android.com/studio/run/managing-avds.html">创建一个虚拟设备</a>。点击&quot;Create Virtual Device...&quot;，然后选择所需的设备类型并点击&quot;Next&quot;。</p>
+<p><img src="https://reactnative.cn/docs/assets/GettingStartedCreateAVDMacOS.png" alt="image"></p>
+<p>选择 &quot;x86 Images&quot; 选项卡，这里可以看到你之前已安装过的镜像文件。必须先安装镜像文件才能创建对应的虚拟设备。</p>
+<p><img src="https://reactnative.cn/docs/assets/GettingStartedCreateAVDx86MacOS.png" alt="image"></p>
+<blockquote>
+<p>如果你还没有安装 HAXM（Intel 虚拟硬件加速驱动），则先按 <a href="https://software.intel.com/en-us/android/articles/installation-instructions-for-intel-hardware-accelerated-execution-manager-mac-os-x">这篇文档</a> 说明来进行安装。</p>
+</blockquote>
+<p><img src="https://reactnative.cn/docs/assets/GettingStartedAVDManagerMacOS.png" alt="image"></p>
+<p>然后点击 &quot;Next&quot; 和 &quot;Finish&quot; 来完成虚拟设备的创建。</p>
+<h2><a class="anchor" aria-hidden="true" id="开发"></a><a href="#开发" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>开发</h2>
+<h3><a class="anchor" aria-hidden="true" id="编译"></a><a href="#编译" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>编译</h3>
+<p>RN 编译预览模式:</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> yarn</span>
+<span class="hljs-meta">$</span><span class="bash"> yarn dev:rn</span>
+<span class="hljs-meta">#</span><span class="bash"> npm script</span>
+<span class="hljs-meta">$</span><span class="bash"> npm run dev:rn</span>
+<span class="hljs-meta">#</span><span class="bash"> 仅限全局安装</span>
+<span class="hljs-meta">$</span><span class="bash"> taro build --<span class="hljs-built_in">type</span> rn --watch</span>
+<span class="hljs-meta">#</span><span class="bash"> npx 用户也可以使用</span>
+<span class="hljs-meta">$</span><span class="bash"> npx taro build --<span class="hljs-built_in">type</span> rn --watch</span>
+</code></pre>
+<p>Taro 将会开始编译文件：</p>
+<pre><code class="hljs css language-sh">➜  taro-demo git:(master) ✗ taro build --<span class="hljs-built_in">type</span> rn --watch
+👽 Taro v1.2.20
+
+开始编译项目 taro-demo
+编译  JS        /Users/chengshuai/Taro/taro-demo/src/app.js
+编译  SCSS      /Users/chengshuai/Taro/taro-demo/src/app.scss
+拷贝  HTML      /Users/chengshuai/Taro/taro-demo/src/index.html
+生成  生成文件  /Users/chengshuai/Taro/taro-demo/rn_temp/app_styles.js
+编译  JS        /Users/chengshuai/Taro/taro-demo/src/pages/index/index.js
+编译  SCSS      /Users/chengshuai/Taro/taro-demo/src/pages/index/index.scss
+生成  index.js  /Users/chengshuai/Taro/taro-demo/rn_temp/index.js
+生成  app.json  /Users/chengshuai/Taro/taro-demo/rn_temp/app.json
+生成  package.json  /Users/chengshuai/Taro/taro-demo/rn_temp/package.json
+编译  编译完成，花费2504 ms
+生成  生成文件  /Users/chengshuai/Taro/taro-demo/rn_temp/pages/index/index_styles.js
+
+初始化完毕，监听文件修改中...
+
+</code></pre>
+<p>编译后的代码及应用文件在根目录的 <code>rn_temp</code> 目录下，常见的工程目录结构如下：</p>
+<pre><code class="hljs css language-shell">rn_temp
+├── app.js
+├── app.json
+├── app_styles.js
+├── index.html
+├── index.js
+├── package-lock.json
+├── package.json
+├── pages
+│   └── index
+│       ├── component.js
+│       ├── index.js
+│       └── index_styles.js
+├── bundle
+│   ├── assets
+│   ├── index.bundle
+│   └── index.bundle.meta
+└── yarn.lock
+</code></pre>
+<p>其中关键文件及目录如下：</p>
+<ul>
+<li>app.json React Native 应用的配置，从 <code>config.rn.appJson</code> 中获取</li>
+<li>bundle:实时编译的 jsbundle 临时文件</li>
+</ul>
+<p>如果编译没有报错，会自动打开一个终端，并在 8081 端口启动 <a href="https://github.com/facebook/metro">Metro</a> Bundler 负责打包 jsbundle：</p>
+<p><img src="https://user-images.githubusercontent.com/9441951/59322399-85780180-8d08-11e9-9ea7-b3e4b23c077c.png" alt="image"></p>
+<blockquote>
+<p>注意：少数电脑上，可能不会 <code>自动打开一个终端</code>，这时你可以在项目根目录下运行：<code>react-native start</code> 手动启动。</p>
+</blockquote>
+<p>这时，在浏览器输入 <a href="http://127.0.0.1:8081">http://127.0.0.1:8081</a>，可以看到如下页面：
+<img src="https://user-images.githubusercontent.com/9441951/55865494-13245d00-5bb1-11e9-9a97-8a785a83b584.png" alt="image"></p>
+<p>输入 <a href="http://127.0.0.1:8081/rn_temp/index.bundle?platform=ios&amp;dev=true">http://127.0.0.1:8081/rn_temp/index.bundle?platform=ios&amp;dev=true</a> 会触发对应终端平台的 js bundle 构建。</p>
+<p><img src="https://user-images.githubusercontent.com/9441951/55865039-37336e80-5bb0-11e9-8aca-c121be4542f6.png" alt="image"></p>
+<p>构建完成后，浏览器会显示构建后的 js 代码。</p>
+<blockquote>
+<p>Note：进入下一步之前请确保 Metro Bundler Server 正常启动，即浏览器能正常访问访问 jsbundle。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="启动应用"></a><a href="#启动应用" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>启动应用</h3>
+<p>如果上一步的编译和 Metro Bundler Server 启动没问题，接下来就可以启动应用了。</p>
+<p>开发者可以自行<a href="https://reactnative.cn/docs/0.55/integration-with-existing-apps/">整合 React Native (0.55.4) 到原生应用</a>，同时为了方便大家开发和整合，Taro 将 React Native 工程中原生的部分剥离出来，单独放在一个工程里面 <a href="https://github.com/NervJS/taro-native-shell">NervJS/taro-native-shell</a>，你可以把它看成是 React Native iOS/Android 空应用的壳子。</p>
+<p>首先将应用代码 clone 下来：</p>
+<pre><code class="hljs">git clone git@github<span class="token punctuation">.</span>com<span class="token operator">:</span>NervJS<span class="token operator">/</span>taro<span class="token operator">-</span>native<span class="token operator">-</span>shell<span class="token punctuation">.</span>git
+</code></pre>
+<p>然后 <code>cd taro-native-shell</code>，使用 yarn 或者 npm install 安装依赖。</p>
+<blockquote>
+<p>注意 <code>taro-native-shell</code> 工程和 Taro 工程最好独立存放，不要嵌套，否则会报：<code>multi react-native</code> 错误</p>
+</blockquote>
+<p>工程目录如下：</p>
+<pre><code class="hljs css language-sh">➜  taro-native-shell git:(master) ✗ tree -L 1
+.
+├── LICENSE
+├── README.md
+├── android // Android 工程目录
+├── ios // iOS 工程目录
+├── node_modules
+├── package.json
+└── yarn.lock
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="ios"></a><a href="#ios" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>iOS</h3>
+<h4><a class="anchor" aria-hidden="true" id="使用-react-native-命令启动"></a><a href="#使用-react-native-命令启动" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 React Native 命令启动</h4>
+<pre><code class="hljs css language-sh">$ react-native run-ios
+</code></pre>
+<p>iOS 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印以下内容：</p>
+<pre><code class="hljs css language-sh"> BUNDLE  [ios, dev] ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100.0% (1/1), <span class="hljs-keyword">done</span>.
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="使用-xcode-启动"></a><a href="#使用-xcode-启动" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 Xcode 启动</h4>
+<p>iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run 按钮就行。</p>
+<p><img src="https://developer.apple.com/library/archive/documentation/ToolsLanguages/Conceptual/Xcode_Overview/Art/XC_O_SchemeMenuWithCallouts_2x.png" alt="image"></p>
+<p>这里需要注意的是 jsBundle 的 moduleName，默认的 moduleName 为 &quot;taroDemo&quot;，需要和 <code>rn_temp/app.json</code> 里面的 name 字段保持一致。该配置在 <code>AppDelegate.m</code> 文件中。</p>
+<pre><code class="hljs css language-objc"><span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">AppDelegate</span></span>
+
+- (<span class="hljs-built_in">BOOL</span>)application:(<span class="hljs-built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="hljs-built_in">NSDictionary</span> *)launchOptions
+{
+  <span class="hljs-built_in">NSURL</span> *jsCodeLocation;
+
+  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:<span class="hljs-string">@"rn_temp/index"</span> fallbackResource:<span class="hljs-literal">nil</span>];
+
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+                                                      moduleName:<span class="hljs-string">@"taroDemo"</span>
+                                               initialProperties:<span class="hljs-literal">nil</span>
+                                                   launchOptions:launchOptions];
+  rootView.backgroundColor = [[<span class="hljs-built_in">UIColor</span> alloc] initWithRed:<span class="hljs-number">1.0</span>f green:<span class="hljs-number">1.0</span>f blue:<span class="hljs-number">1.0</span>f alpha:<span class="hljs-number">1</span>];
+
+  <span class="hljs-keyword">self</span>.window = [[<span class="hljs-built_in">UIWindow</span> alloc] initWithFrame:[<span class="hljs-built_in">UIScreen</span> mainScreen].bounds];
+  <span class="hljs-built_in">UIViewController</span> *rootViewController = [<span class="hljs-built_in">UIViewController</span> new];
+  rootViewController.view = rootView;
+  <span class="hljs-keyword">self</span>.window.rootViewController = rootViewController;
+  [<span class="hljs-keyword">self</span>.window makeKeyAndVisible];
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">YES</span>;
+}
+
+<span class="hljs-keyword">@end</span>
+</code></pre>
+<p>app.json 字段的配置默认取自于 package.json 的 name 字段，除非你在 <code>rn -&gt; appJson</code> 里面有配置。</p>
+<p>更多资料，可以查看 Xcode 文档：<a href="https://developer.apple.com/library/archive/documentation/ToolsLanguages/Conceptual/Xcode_Overview/BuildingYourApp.html">Building Your App</a></p>
+<h3><a class="anchor" aria-hidden="true" id="android"></a><a href="#android" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Android</h3>
+<p>在 taro-native-shell/android 目录下，你就可以看到 React Native 的工程代码。</p>
+<h4><a class="anchor" aria-hidden="true" id="使用-react-native-命令启动-1"></a><a href="#使用-react-native-命令启动-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 React Native 命令启动</h4>
+<pre><code class="hljs css language-sh">$ react-native run-android
+</code></pre>
+<p>Android 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印一下内容：</p>
+<pre><code class="hljs css language-sh"> BUNDLE  [android, dev] ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100.0% (1/1), <span class="hljs-keyword">done</span>.
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="在真实设备上运行"></a><a href="#在真实设备上运行" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>在真实设备上运行</h4>
+<p>按照以下步骤设置您的设备：</p>
+<ol>
+<li><p>使用一根 USB 电缆将您的设备连接到您的开发机器。如果您是在 Windows 上开发，可能需要为您的设备 <a href="https://developer.android.com/studio/run/oem-usb.html?hl=zh-cn">安装相应的 USB 驱动程序</a>。</p></li>
+<li><p>按照以下步骤操作，在 Developer options 中启用 USB debugging。
+首先，您必须启用开发者选项：</p>
+<ol>
+<li>打开 Settings 应用。</li>
+<li>（仅在 Android 8.0 或更高版本上）选择 System。</li>
+<li>滚动到底部，然后选择 About phone。</li>
+<li>滚动到底部，点按 Build number 7 次。</li>
+<li>返回上一屏幕，在底部附近可找到 Developer options。
+打开 Developer options，然后向下滚动以找到并启用 USB debugging。</li>
+</ol></li>
+</ol>
+<p>按照以下步骤操作，在您的设备上运行应用：</p>
+<ol>
+<li>在 Android Studio 中，点击 Project 窗口中的 app 模块，然后选择 Run &gt; Run（或点击工具栏中的 Run  ）。</li>
+</ol>
+<p><img src="https://sdtimes.com/wp-content/uploads/2016/04/0408.sdt-androidstudio.png" alt="image"></p>
+<ol start="2">
+<li>在 Select Deployment Target 窗口中，选择您的设备，然后点击 OK。</li>
+</ol>
+<p><img src="https://developer.android.com/training/basics/firstapp/images/run-device_2x.png?hl=zh-cn" alt="image"></p>
+<p>Android Studio 会在您连接的设备上安装并启动应用。</p>
+<h4><a class="anchor" aria-hidden="true" id="在模拟器上运行"></a><a href="#在模拟器上运行" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>在模拟器上运行</h4>
+<p>按照以下步骤操作，在模拟器上运行应用：</p>
+<ol>
+<li>在 Android Studio 中，点击 Project 窗口中的 app 模块，然后选择 Run &gt; Run（或点击工具栏中的 Run  ）。</li>
+<li>在 Select Deployment Target 窗口中，点击 Create New Virtual Device。</li>
+</ol>
+<p><img src="https://developer.android.com/training/basics/firstapp/images/run-avd_2x.png?hl=zh-cn" alt="image"></p>
+<ol start="3">
+<li>在 Select Hardware 屏幕中，选择电话设备（如 Pixel），然后点击 Next。</li>
+<li>在 System Image 屏幕中，选择具有最高 API 级别的版本。如果您未安装该版本，将显示一个 Download 链接，因此，请点击该链接并完成下载。</li>
+<li>点击 Next。</li>
+<li>在 Android Virtual Device (AVD) 屏幕上，保留所有设置不变，然后点击 Finish。</li>
+<li>返回到 Select Deployment Target 对话框中，选择您刚刚创建的设备，然后点击 OK。</li>
+</ol>
+<p>Android Studio 会在模拟器上安装并启动应用。</p>
+<h4><a class="anchor" aria-hidden="true" id="在真机上运行"></a><a href="#在真机上运行" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>在真机上运行</h4>
+<p>参考 <a href="https://reactnative.cn/docs/running-on-device/">在设备上运行</a></p>
+<h4><a class="anchor" aria-hidden="true" id="module-name"></a><a href="#module-name" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Module Name</h4>
+<p>同样，Android 这边默认的 jsBundle moduleName 也是 “taroDemo”，位于 <code>MainActivity.java</code> 的文件里面：</p>
+<pre><code class="hljs css language-java"><span class="hljs-keyword">package</span> com.tarodemo;
+
+<span class="hljs-keyword">import</span> com.facebook.react.ReactActivity;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ReactActivity</span> </span>{
+
+    <span class="hljs-comment">/**
+     * Returns the name of the main component registered from JavaScript.
+     * This is used to schedule rendering of the component.
+     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> String <span class="hljs-title">getMainComponentName</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"taroDemo"</span>;
+    }
+}
+
+</code></pre>
+<p>你可以根据实际情况自行修改。</p>
+<h2><a class="anchor" aria-hidden="true" id="调试"></a><a href="#调试" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>调试</h2>
+<p>更多资料可以查看 <a href="https://reactnative.cn/docs/debugging.html">React Native 调试</a>。</p>
+<h3><a class="anchor" aria-hidden="true" id="开发者菜单"></a><a href="#开发者菜单" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>开发者菜单</h3>
+<p>React Native 在 iOS 模拟器上支持一些快捷键操作，具体会在下文中描述。要使用快捷键请务必确保模拟器的 Hardware 菜单中，Keyboard 选项下的&quot;Connect Hardware Keyboard&quot;处于开启状态，否则按键是没有响应的。</p>
+<p>你可以通过摇晃设备或是选择 iOS 模拟器的 &quot;Hardware&quot; 菜单中的 &quot;Shake Gesture&quot; 选项来打开开发菜单。另外，如果是在 iOS 模拟器中运行，还可以按下 <code>Command⌘ + D</code> 快捷键，Android 模拟器对应的则是 <code>Command⌘ + M</code>（windows 上可能是 F1 或者 F2），或是直接在命令行中运行 <code>adb shell input keyevent 82</code> 来发送菜单键命令。</p>
+<p><img src="https://reactnative.cn/docs/assets/DeveloperMenu.png" alt="image"></p>
+<blockquote>
+<p>在发布（production）版本中开发者菜单将无法使用。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="刷新-javascript"></a><a href="#刷新-javascript" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>刷新 JavaScript</h3>
+<p>传统的原生应用开发中，每一次修改都需要重新编译，但在 RN 中你只需要刷新一下 JavaScript 代码，就能立刻看到变化。具体的操作就是在开发菜单中点击 &quot;Reload&quot; 选项。也可以在 iOS 模拟器中按下 <code>Command⌘ + R</code>，Android 模拟器上对应的则是 <code>按两下R</code>。</p>
+<h4><a class="anchor" aria-hidden="true" id="自动刷新"></a><a href="#自动刷新" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>自动刷新</h4>
+<p>选择开发菜单中的 &quot;Enable Live Reload&quot; 可以开启自动刷新，这样可以节省你开发中的时间。</p>
+<p>更神奇的是，你还可以保持应用的当前运行状态，修改后的 JavaScript 文件会自动注入进来（就好比行驶中的汽车不用停下就能更换新的轮胎）。要实现这一特性只需开启开发菜单中的 <a href="https://facebook.github.io/react-native/blog/2016/03/24/introducing-hot-reloading.html">Hot Reloading</a> 选项。</p>
+<blockquote>
+<p>某些情况下 hot reload 并不能顺利实施。如果碰到任何界面刷新上的问题，请尝试手动完全刷新。</p>
+</blockquote>
+<p>但有些时候你必须要重新编译应用才能使修改生效：</p>
+<ul>
+<li>增加了新的资源(比如给 iOS 的Images.xcassets或是 Andorid 的res/drawable文件夹添加了图片)</li>
+<li>更改了任何的原生代码（objective-c/swift/java）</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="应用内的错误与警告提示-红屏和黄屏"></a><a href="#应用内的错误与警告提示-红屏和黄屏" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>应用内的错误与警告提示（红屏和黄屏）</h3>
+<p>红屏或黄屏提示都只会在开发版本中显示，正式的离线包中是不会显示的。</p>
+<h3><a class="anchor" aria-hidden="true" id="红屏错误"></a><a href="#红屏错误" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>红屏错误</h3>
+<p>应用内的报错会以全屏红色显示在应用中（调试模式下），我们称为红屏（red box）报错。你可以使用console.error()来手动触发红屏错误。</p>
+<h3><a class="anchor" aria-hidden="true" id="黄屏警告"></a><a href="#黄屏警告" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>黄屏警告</h3>
+<p>应用内的警告会以全屏黄色显示在应用中（调试模式下），我们称为黄屏（yellow box）报错。点击警告可以查看详情或是忽略掉。和红屏报警类似，你可以使用 <code>console.warn()</code> 来手动触发黄屏警告。在默认情况下，开发模式中启用了黄屏警告。可以通过以下代码关闭：</p>
+<pre><code class="hljs css language-js"><span class="hljs-built_in">console</span>.disableYellowBox = <span class="hljs-literal">true</span>;
+<span class="hljs-built_in">console</span>.warn(<span class="hljs-string">'YellowBox is disabled.'</span>);
+</code></pre>
+<p>你也可以通过代码屏蔽指定的警告，像下面这样调用 ignoreWarnings 方法，参数为一个数组：</p>
+<pre><code class="hljs"><span class="token keyword">import</span> <span class="token punctuation">{</span>YellowBox<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-native'</span><span class="token punctuation">;</span>
+YellowBox<span class="token punctuation">.</span><span class="token function">ignoreWarnings</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'Warning: ...'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在 CI/Xcode 中，黄屏警告还可以通过设置 <code>IS_TESTING</code> 环境变量来控制启用与否。</p>
+<blockquote>
+<p>红屏错误和黄屏警告在发布版（release/production）中都是自动禁用的。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="chrome-开发者工具"></a><a href="#chrome-开发者工具" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chrome 开发者工具</h3>
+<p>在开发者菜单中选择 &quot;Debug JS Remotely&quot; 选项，即可以开始在 Chrome 中调试 JavaScript 代码。点击这个选项的同时会自动打开调试页面 <a href="http://localhost:8081/debugger-ui.(如果地址栏打开的是">http://localhost:8081/debugger-ui.(如果地址栏打开的是</a> ip 地址，则请自行改为 localhost)</p>
+<p>在 Chrome 的菜单中选择 <code>Tools → Developer Tools</code> 可以打开开发者工具，也可以通过键盘快捷键来打开（Mac 上是 <code>Command⌘ + Option⌥ + I</code>，Windows 上是 <code>Ctrl + Shift + I或是 F12</code>）。打开有 <a href="http://stackoverflow.com/questions/2233339/javascript-is-there-a-way-to-get-chrome-to-break-on-all-errors/17324511#17324511">异常时暂停（Pause On Caught Exceptions）</a> 选项，能够获得更好的开发体验。</p>
+<blockquote>
+<p>注意：Chrome 中并不能直接看到 App 的用户界面，而只能提供 console 的输出，以及在 sources 项中断点调试 js 脚本。一些老的教程和文章会提到 React 的 Chrome 插件，这一插件目前并不支持 React Native，而且调试本身并不需要这个插件。不过你可以安装独立（非插件）版本的 React Developer Tools 来辅助查看界面布局，下文会讲述具体安装方法。</p>
+</blockquote>
+<blockquote>
+<p>注意：使用 Chrome 调试目前无法观测到 React Native 中的网络请求，你可以使用功能更强大的第三方的 <a href="https://github.com/jhen0409/react-native-debugger">react-native-debugger</a>来进行观测。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="使用自定义的-javascript-调试器来调试"></a><a href="#使用自定义的-javascript-调试器来调试" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用自定义的 JavaScript 调试器来调试</h3>
+<p>如果想用其他的 JavaScript 调试器来代替 Chrome，可以设置一个名为 <code>REACT_DEBUGGER</code> 的环境变量，其值为启动自定义调试器的命令。调试的流程依然是从开发者菜单中的 &quot;Debug JS Remotely&quot; 选项开始。</p>
+<p>被指定的调试器需要知道项目所在的目录（可以一次传递多个目录参数，以空格隔开）。例如，如果你设定了 <code>REACT_DEBUGGER=&quot;node /某个路径/launchDebugger.js --port 2345 --type ReactNative&quot;</code>，那么启动调试器的命令就应该是 <code>node /某个路径/launchDebugger.js --port 2345 --type ReactNative /某个路径/你的RN项目目录</code>。</p>
+<blockquote>
+<p>以这种方式执行的调试器最好是一个短进程（short-lived processes），同时最好也不要有超过 200k 的文字输出。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="使用-chrome-开发者工具来在设备上调试"></a><a href="#使用-chrome-开发者工具来在设备上调试" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 Chrome 开发者工具来在设备上调试</h3>
+<blockquote>
+<p>If you're using Create React Native App, this is configured for you already.</p>
+</blockquote>
+<p>对于 iOS 真机来说，需要打开 RCTWebSocketExecutor.m 文件，然后将其中的 &quot;localhost&quot; 改为你的电脑的 IP 地址，最后启用开发者菜单中的 &quot;Debug JS Remotely&quot; 选项。</p>
+<p>对于 Android 5.0+设备（包括模拟器）来说，将设备通过 USB 连接到电脑上后，可以使用adb命令行工具来设定从设备到电脑的端口转发：</p>
+<pre><code class="hljs css language-sh">adb reverse tcp:8081 tcp:8081
+</code></pre>
+<p>如果设备 Android 版本在 5.0 以下，则可以在开发者菜单中选择&quot;Dev Settings - Debug server host for device&quot;，然后在其中填入电脑的”IP 地址:端口“。</p>
+<p>如果在 Chrome 调试时遇到一些问题，那有可能是某些 Chrome 的插件引起的。试着禁用所有的插件，然后逐个启用，以确定是否某个插件影响到了调试。</p>
+<h3><a class="anchor" aria-hidden="true" id="使用-react-developer-tools-调试"></a><a href="#使用-react-developer-tools-调试" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 React Developer Tools 调试</h3>
+<p>You can use <a href="https://github.com/facebook/react-devtools/tree/master/packages/react-devtools">the standalone version of React Developer Tools</a> to debug the React component hierarchy. To use it, install the react-devtools package globally:</p>
+<pre><code class="hljs css language-sh">npm install -g react-devtools
+</code></pre>
+<blockquote>
+<p>译注：react-devtools 依赖于 electron，而 electron 需要到国外服务器下载二进制包，所以国内用户这一步很可能会卡住。此时请在环境变量中添加 electron 专用的国内镜像源：ELECTRON_MIRROR=&quot;<a href="https://npm.taobao.org/mirrors/electron/">https://npm.taobao.org/mirrors/electron/</a>&quot;，然后再尝试安装 react-devtools。</p>
+</blockquote>
+<p>安装完成后在命令行中执行 <code>react-devtools</code> 即可启动此工具：</p>
+<pre><code class="hljs css language-sh">react-devtools
+</code></pre>
+<p><img src="https://reactnative.cn/docs/assets/ReactDevTools.png" alt="image"></p>
+<p>It should connect to your simulator within a few seconds.</p>
+<blockquote>
+<p>Note: if you prefer to avoid global installations, you can add react-devtools as a project dependency. Add the react-devtools package to your project using npm install --save-dev react-devtools, then add &quot;react-devtools&quot;: &quot;react-devtools&quot; to the scripts section in your package.json, and then run npm run react-devtools from your project folder to open the DevTools.</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="integration-with-react-native-inspector"></a><a href="#integration-with-react-native-inspector" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integration with React Native Inspector</h4>
+<p>Open the in-app developer menu and choose &quot;Show Inspector&quot;. It will bring up an overlay that lets you tap on any UI element and see information about it:</p>
+<p><img src="https://reactnative.cn/docs/assets/Inspector.gif" alt="image"></p>
+<p>However, when <code>react-devtools</code> is running, Inspector will enter a special collapsed mode, and instead use the DevTools as primary UI. In this mode, clicking on something in the simulator will bring up the relevant components in the DevTools:</p>
+<p><img src="https://reactnative.cn/docs/assets/ReactDevToolsInspector.gif" alt="image"></p>
+<p>You can choose &quot;Hide Inspector&quot; in the same menu to exit this mode.</p>
+<h4><a class="anchor" aria-hidden="true" id="inspecting-component-instances"></a><a href="#inspecting-component-instances" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Inspecting Component Instances</h4>
+<p>When debugging JavaScript in Chrome, you can inspect the props and state of the React components in the browser console.</p>
+<p>First, follow the instructions for debugging in Chrome to open the Chrome console.</p>
+<p>Make sure that the dropdown in the top left corner of the Chrome console says <code>debuggerWorker.js</code>. This step is essential.</p>
+<p>Then select a React component in React DevTools. There is a search box at the top that helps you find one by name. As soon as you select it, it will be available as <code>$r</code> in the Chrome console, letting you inspect its props, state, and instance properties.</p>
+<p><img src="https://reactnative.cn/docs/assets/ReactDevToolsDollarR.gif" alt="image"></p>
+<h3><a class="anchor" aria-hidden="true" id="使用-react-native-debugger-调试"></a><a href="#使用-react-native-debugger-调试" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 React Native Debugger 调试</h3>
+<p><a href="https://github.com/jhen0409/react-native-debugger">React Native Debugger </a>，一个基于 React Native 官方调试方式、包含 React Inspector / Redux DevTools 独立应用：</p>
+<ul>
+<li>基于官方的 <a href="https://facebook.github.io/react-native/docs/debugging.html#chrome-developer-tools">Remote Debugger</a> 且提供了更为丰富的功能</li>
+<li>包含 <a href="https://github.com/facebook/react-devtools/tree/master/packages/react-devtools-core"><code>react-devtools-core</code></a> 的 <a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/react-devtools-integration.md">React Inspector</a></li>
+<li>包含 Redux DevTools，且与 <a href="https://github.com/zalmoxisus/redux-devtools-extension"><code>redux-devtools-extension</code></a> 保持 <a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/redux-devtools-integration.md">API</a> 一致</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/3001525/29451479-6621bf1a-83c8-11e7-8ebb-b4e98b1af91c.png" alt="image"></p>
+<h4><a class="anchor" aria-hidden="true" id="安装"></a><a href="#安装" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>安装</h4>
+<p>不同平台及版本的安装包，请点击<a href="https://github.com/jhen0409/react-native-debugger/releases">这里</a>。</p>
+<p><strong>macOS</strong> 平台可以使用 <a href="https://caskroom.github.io/">Homebrew Cask</a> 安装：</p>
+<pre><code class="hljs css language-sh">$ brew update &amp;&amp; brew cask install react-native-debugger
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="启动"></a><a href="#启动" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>启动</h4>
+<p>在启动 React Native Debugger 之前，请先确认以下内容：</p>
+<ul>
+<li>所有的 React Native 的 debugger 客户端已关闭，特别是 <code>http://localhost:&lt;port&gt;/debugger-ui</code></li>
+<li>React Native Debugger 会尝试连接 debugger 代理， React Native 默认使用 <code>8081</code> 端口， 你可以新建一个 debugger 窗口 (macOS: <code>Command + T</code>，Linux/Windows: <code>Ctrl + T</code>) 开定义端口</li>
+<li>保证 <a href="https://facebook.github.io/react-native/docs/debugging.html#accessing-the-in-app-developer-menu">developer menu</a>  的  <code>Debug JS Remotely</code> 处于开启状态</li>
+</ul>
+<p>你可以启动应用之后再修改端口，也可以直接通过命令行启动应用时指定端口：</p>
+<pre><code class="hljs css language-sh">$ open <span class="hljs-string">"rndebugger://set-debugger-loc?host=localhost&amp;port=8081"</span>
+</code></pre>
+<blockquote>
+<p>如果启动之后调试窗口空白，请确认调试端口正确。</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="使用-redux-devtools-extension-api"></a><a href="#使用-redux-devtools-extension-api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 Redux DevTools Extension API</h4>
+<p>Use the same API as <a href="https://github.com/zalmoxisus/redux-devtools-extension#1-with-redux"><code>redux-devtools-extension</code></a> is very simple:</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span>
+  reducer<span class="token punctuation">,</span> <span class="token comment">/* preloadedState, */</span>
+  window<span class="token punctuation">.</span>__REDUX_DEVTOOLS_EXTENSION__ <span class="token operator">&amp;&amp;</span> window<span class="token punctuation">.</span><span class="token function">__REDUX_DEVTOOLS_EXTENSION__</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+</code></pre>
+<p>See <a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/redux-devtools-integration.md"><code>Redux DevTools Integration</code></a> section for more information.</p>
+<h4><a class="anchor" aria-hidden="true" id="更多资料"></a><a href="#更多资料" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>更多资料</h4>
+<ul>
+<li><a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/getting-started.md">快速开始</a></li>
+<li><a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/debugger-integration.md">Debugger 整合</a></li>
+<li><a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/react-devtools-integration.md">React DevTools 整合</a></li>
+<li><a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/redux-devtools-integration.md">Redux DevTools 整合</a></li>
+<li><a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/shortcut-references.md">Shortcut references</a></li>
+<li><a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/network-inspect-of-chrome-devtools.md">Network inspect of Chrome Developer Tools</a></li>
+<li><a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/enable-open-in-editor-in-console.md">Enable open in editor in console</a></li>
+<li><a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/troubleshooting.md">Troubleshooting</a></li>
+<li><a href="https://github.com/jhen0409/react-native-debugger/blob/master/docs/contributing.md">Contributing</a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="使用原生模块"></a><a href="#使用原生模块" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用原生模块</h2>
+<p>有一些平台性的差异是 Taro 无法抹平的，比如支付、登录等，这时候就需要自己写跨端代码，RN 端这边可能还需要修改原生代码。</p>
+<p>例如登录的功能：</p>
+<p><img src="https://user-images.githubusercontent.com/9441951/56015544-ff513600-5d2b-11e9-92a6-ad01d21b2b8f.png" alt="image"></p>
+<p>React Native 参考文档:<a href="https://reactnative.cn/docs/0.55/native-modules-ios/">原生模块</a></p>
+<h2><a class="anchor" aria-hidden="true" id="集成到现有原生-app"></a><a href="#集成到现有原生-app" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>集成到现有原生 app</h2>
+<p>Taro  编译后的项目实际上就是一个 native React Native 项目，所以集成到现有原生 app 的流程和 React Native 也是一样的。</p>
+<p>如果你正准备从头开始制作一个新的应用，那么 React Native 会是个非常好的选择。但如果你只想给现有的原生应用中添加一两个视图或是业务流程，React Native 也同样不在话下。只需简单几步，你就可以给原有应用加上新的基于 React Native 的特性、画面和视图等。</p>
+<p>React Native 参考文档：<a href="https://reactnative.cn/docs/0.55/integration-with-existing-apps/">集成到现有原生应用</a></p>
+<h2><a class="anchor" aria-hidden="true" id="构建独立-app"></a><a href="#构建独立-app" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>构建独立 app</h2>
+<p>接下来的步骤将会帮助你为 iOS 和 Android 创建独立二进制文件，并将其提交到 Apple App Store 和 Google Play Store。</p>
+<p>构建 iOS 独立应用程序需要 Apple Developer 帐户，但构建 Android 独立应用程序不需要 Google Play Developer 帐户。如果您想要提交到任一应用商店，您将需要该商店的开发者帐户。</p>
+<h3><a class="anchor" aria-hidden="true" id="编译-rn-代码"></a><a href="#编译-rn-代码" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>编译 RN 代码</h3>
+<p>在打包发布步骤之前，我们先对开发者的源代码进行预处理，将 Taro 代码转成 React Native 代码：</p>
+<pre><code class="hljs css language-bash">taro build --type rn
+</code></pre>
+<p>然后 <code>rn_temp</code> 目录（如果你没有修改）下会生成转换后的 React Native 代码。</p>
+<h3><a class="anchor" aria-hidden="true" id="生成-jsbundle"></a><a href="#生成-jsbundle" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>生成 jsbundle</h3>
+<p>首先使用 React Native 的 bundle 命令将 rn_temp 目录下的 RN 代码及资源打包成 jsbundle，命令如下：</p>
+<pre><code class="hljs css language-sh">node ../node_modules/react-native/<span class="hljs-built_in">local</span>-cli/cli.js bundle --entry-file ./rn_temp/index.js --bundle-output ./bundle/index.bundle --assets-dest ./<span class="hljs-variable">${BUNDLE_DIR_NAME}</span> --dev <span class="hljs-literal">false</span>
+</code></pre>
+<p>其中参数可以自行调整，<code>--bundle-output</code> 可以制定任意目录，然后将 bundle 目录下的文件 copy 到 <code>taro-native-shell</code>目录即可。</p>
+<p>当然，也可以通过指定 <code>--bundle-output</code> 直接输出到 <code>taro-native-shell</code>目录。</p>
+<p>接下来，按照 React Native 的文档按照不同的端分别打包对应的应用即可。</p>
+<h3><a class="anchor" aria-hidden="true" id="构建-app"></a><a href="#构建-app" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>构建 APP</h3>
+<h4><a class="anchor" aria-hidden="true" id="ios-1"></a><a href="#ios-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>iOS</h4>
+<p>参考文档：<a href="https://reactnative.cn/docs/0.55/running-on-device/">在设备上运行</a></p>
+<h4><a class="anchor" aria-hidden="true" id="android-1"></a><a href="#android-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Android</h4>
+<p>参考文档：<a href="https://reactnative.cn/docs/0.55/signed-apk-android/">打包APK</a></p>
+<h2><a class="anchor" aria-hidden="true" id="发布"></a><a href="#发布" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>发布</h2>
+<p>打包好的应用发布到 App Store 或各大应用商店可以查看官方文档。</p>
+<ul>
+<li><a href="https://help.apple.com/app-store-connect/#/dev34e9bbb5a">Overview of publishing an app</a></li>
+<li><a href="https://developer.android.com/studio/publish">Publish your app | Android Developers</a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="更新-react-native-版本"></a><a href="#更新-react-native-版本" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>更新 React Native 版本</h2>
+<p>Taro RN 版本暂时固定在 0.55.4 ,用户如有需求，可以自行升级到更高版本。步骤如下：</p>
+<ol>
+<li>更新 Taro 项目中 <code>package.json</code> React Native 版本，并重新安装依赖</li>
+<li>更新 <code>taro-native-shell</code> 项目中 <code>package.json</code>  React Native 版本，并重新安装依赖</li>
+<li>分别重新安装 <code>taro-native-shell</code> 项目中 ios/android 依赖，如 iOS：<code>cd ios &amp;&amp; pod install</code></li>
+</ol>
+<blockquote>
+<p>如果对 react 版本有要求，可以同步更新。</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="常见错误"></a><a href="#常见错误" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>常见错误</h2>
+<h3><a class="anchor" aria-hidden="true" id="no-bundle-url-present"></a><a href="#no-bundle-url-present" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>No bundle url present</h3>
+<p>导致这个报错的原因很多，最常见的是电脑开了代理。具体可以参考 <a href="https://github.com/facebook/react-native/issues/12754">#12754</a></p>
+<h3><a class="anchor" aria-hidden="true" id="unabletoresolveerror-unable-to-resolve-module-accessibilityinfo"></a><a href="#unabletoresolveerror-unable-to-resolve-module-accessibilityinfo" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>UnableToResolveError: Unable to resolve module <code>AccessibilityInfo</code></h3>
+<p>原因很多，我这边是重启电脑就好了😂。 具体可以查看 <a href="https://github.com/facebook/react-native/issues/14209">#14209</a></p>
+<h3><a class="anchor" aria-hidden="true" id="metro-bundler-error-expected-path-to-be-relative-to-one-of-the-project-roots"></a><a href="#metro-bundler-error-expected-path-to-be-relative-to-one-of-the-project-roots" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Metro Bundler error: Expected path […] to be relative to one of the project roots</h3>
+<p>不支持 <code>npm link</code>，可以使用 <a href="https://github.com/nicojs/node-install-local">nicojs/node-install-local</a> 替代。</p>
+<h3><a class="anchor" aria-hidden="true" id="image-component-does-not-resolve-images-with-filenames-that-include-symbol"></a><a href="#image-component-does-not-resolve-images-with-filenames-that-include-symbol" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Image component does not resolve images with filenames that include '@' symbol</h3>
+<p><img src="https://user-images.githubusercontent.com/22125059/44312799-373dee80-a3d4-11e8-8367-9cf44e851739.PNG" alt="image"></p>
+<p>React Native 不支持路径中带 @ 符号，具体可以查看 <a href="https://github.com/facebook/react-native/issues/14980">#14980</a>。</p>
+<h3><a class="anchor" aria-hidden="true" id="the-development-server-returned-response-error-code-500"></a><a href="#the-development-server-returned-response-error-code-500" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The development server returned response error code 500</h3>
+<p><img src="https://user-images.githubusercontent.com/25324938/41452372-42c1e766-708f-11e8-96ce-323eaa1eb03f.jpeg" alt="image">
+多半是依赖的问题，进入 <code>.rn_temp/</code> 目录，然后删除 npm 依赖，在重新安装就可以了。
+也可以试一下以下命令：</p>
+<pre><code class="hljs css language-shell">watchman watch-del-all
+rm -rf node_modules &amp;&amp; npm install
+rm -fr $TMPDIR/react-*
+</code></pre>
+<p>具体可以参考 <a href="https://github.com/expo/expo/issues/1282">#1282</a></p>
+<h3><a class="anchor" aria-hidden="true" id="app-加载阻塞-building-javascript-bundle-100"></a><a href="#app-加载阻塞-building-javascript-bundle-100" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>app 加载阻塞： &quot;Building JavaScript bundle... 100%&quot;</h3>
+<p><img src="https://user-images.githubusercontent.com/9441951/47762170-7bb00980-dcf6-11e8-95ab-41152076c3de.png" alt="image"></p>
+<p>可能的原因很多，可以参考这个 issue：<a href="https://github.com/react-community/create-react-native-app/issues/392">react-community/create-react-native-app#392</a></p>
+<h2><a class="anchor" aria-hidden="true" id="参考"></a><a href="#参考" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>参考</h2>
+<ul>
+<li><a href="https://reactnative.cn/">React Native 中文网</a></li>
+<li><a href="https://developer.android.com/guide?hl=zh-cn">Android 开发文档</a></li>
+<li><a href="https://developer.android.com/studio/intro?hl=zh-cn">Android Studio 用户指南</a></li>
+<li><a href="https://developer.apple.com/documentation/">Apple Developer Documentation</a></li>
+<li><a href="https://github.com/jhen0409/react-native-debugger">React Native Debugger </a></li>
+</ul>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/2.0.3/quick-app.html"><span class="arrow-prev">← </span><span>快应用端开发流程</span></a><a class="docs-next button" href="/taro/docs/2.0.3/debug.html"><span>Debug 指南</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#简介">简介</a></li><li><a href="#搭建-ios-开发环境">搭建 iOS 开发环境</a><ul class="toc-headings"><li><a href="#node-watchman">Node, Watchman</a></li><li><a href="#yarn-react-native-的命令行工具-react-native-cli">Yarn、React Native 的命令行工具（react-native-cli）</a></li><li><a href="#xcode">Xcode</a></li></ul></li><li><a href="#搭建-android-开发环境">搭建 Android 开发环境</a><ul class="toc-headings"><li><a href="#安装依赖">安装依赖</a></li><li><a href="#java-development-kit">Java Development Kit</a></li><li><a href="#android-开发环境">Android 开发环境</a></li><li><a href="#准备-android-设备">准备 Android 设备</a></li></ul></li><li><a href="#开发">开发</a><ul class="toc-headings"><li><a href="#编译">编译</a></li><li><a href="#启动应用">启动应用</a></li><li><a href="#ios">iOS</a></li><li><a href="#android">Android</a></li></ul></li><li><a href="#调试">调试</a><ul class="toc-headings"><li><a href="#开发者菜单">开发者菜单</a></li><li><a href="#刷新-javascript">刷新 JavaScript</a></li><li><a href="#应用内的错误与警告提示-红屏和黄屏">应用内的错误与警告提示（红屏和黄屏）</a></li><li><a href="#红屏错误">红屏错误</a></li><li><a href="#黄屏警告">黄屏警告</a></li><li><a href="#chrome-开发者工具">Chrome 开发者工具</a></li><li><a href="#使用自定义的-javascript-调试器来调试">使用自定义的 JavaScript 调试器来调试</a></li><li><a href="#使用-chrome-开发者工具来在设备上调试">使用 Chrome 开发者工具来在设备上调试</a></li><li><a href="#使用-react-developer-tools-调试">使用 React Developer Tools 调试</a></li><li><a href="#使用-react-native-debugger-调试">使用 React Native Debugger 调试</a></li></ul></li><li><a href="#使用原生模块">使用原生模块</a></li><li><a href="#集成到现有原生-app">集成到现有原生 app</a></li><li><a href="#构建独立-app">构建独立 app</a><ul class="toc-headings"><li><a href="#编译-rn-代码">编译 RN 代码</a></li><li><a href="#生成-jsbundle">生成 jsbundle</a></li><li><a href="#构建-app">构建 APP</a></li></ul></li><li><a href="#发布">发布</a></li><li><a href="#更新-react-native-版本">更新 React Native 版本</a></li><li><a href="#常见错误">常见错误</a><ul class="toc-headings"><li><a href="#no-bundle-url-present">No bundle url present</a></li><li><a href="#unabletoresolveerror-unable-to-resolve-module-accessibilityinfo">UnableToResolveError: Unable to resolve module <code>AccessibilityInfo</code></a></li><li><a href="#metro-bundler-error-expected-path-to-be-relative-to-one-of-the-project-roots">Metro Bundler error: Expected path […] to be relative to one of the project roots</a></li><li><a href="#image-component-does-not-resolve-images-with-filenames-that-include-symbol">Image component does not resolve images with filenames that include '@' symbol</a></li><li><a href="#the-development-server-returned-response-error-code-500">The development server returned response error code 500</a></li><li><a href="#app-加载阻塞-building-javascript-bundle-100">app 加载阻塞： &quot;Building JavaScript bundle... 100%&quot;</a></li></ul></li><li><a href="#参考">参考</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

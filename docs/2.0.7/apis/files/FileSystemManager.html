@@ -1,0 +1,1164 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>FileSystemManager · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="文件管理器"/><meta name="docsearch:version" content="2.0.7"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="FileSystemManager · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="文件管理器"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.0.7</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/2.0.7/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.0.7/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.0.7/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/apis/files/FileSystemManager.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">FileSystemManager</h1></header><article><div><span><p>文件管理器</p>
+<h2><a class="anchor" aria-hidden="true" id="方法"></a><a href="#方法" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>方法</h2>
+<h3><a class="anchor" aria-hidden="true" id="readdirsync"></a><a href="#readdirsync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>readdirSync</h3>
+<p>FileSystemManager.readdir 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdirSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">dirPath<span class="token operator">:</span> <span class="token builtin">string</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>dirPath</td><td><code>string</code></td><td>要读取的目录路径</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度"></a><a href="#api-支持度" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.readdirSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="access"></a><a href="#access" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>access</h3>
+<p>判断文件/目录是否存在</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.access.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> AccessOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>AccessOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-1"></a><a href="#api-支持度-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.access</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="accesssync"></a><a href="#accesssync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>accessSync</h3>
+<p>FileSystemManager.access 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.accessSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">path<span class="token operator">:</span> <span class="token builtin">string</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>path</td><td><code>string</code></td><td>要判断是否存在的文件/目录路径</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-2"></a><a href="#api-支持度-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.accessSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="appendfile"></a><a href="#appendfile" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>appendFile</h3>
+<p>在文件结尾追加内容</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFile.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> AppendFileOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>AppendFileOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-3"></a><a href="#api-支持度-3" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.appendFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="appendfilesync"></a><a href="#appendfilesync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>appendFileSync</h3>
+<p>FileSystemManager.appendFile 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFileSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span>filePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> data<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> ArrayBuffer<span class="token punctuation">,</span> encoding<span class="token operator">?</span><span class="token operator">:</span> <span class="token string">"ascii"</span> <span class="token operator">|</span> <span class="token string">"base64"</span> <span class="token operator">|</span> <span class="token string">"binary"</span> <span class="token operator">|</span> <span class="token string">"hex"</span> <span class="token operator">|</span> <span class="token string">"ucs2"</span> <span class="token operator">|</span> <span class="token string">"ucs-2"</span> <span class="token operator">|</span> <span class="token string">"utf16le"</span> <span class="token operator">|</span> <span class="token string">"utf-16le"</span> <span class="token operator">|</span> <span class="token string">"utf-8"</span> <span class="token operator">|</span> <span class="token string">"utf8"</span> <span class="token operator">|</span> <span class="token string">"latin1"</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>filePath</td><td><code>string</code></td><td>要追加内容的文件路径</td></tr>
+<tr><td>data</td><td>string or ArrayBuffer</td><td>要追加的文本或二进制数据</td></tr>
+<tr><td>encoding</td><td>&quot;ascii&quot; or &quot;base64&quot; or &quot;binary&quot; or &quot;hex&quot; or &quot;ucs2&quot; or &quot;ucs-2&quot; or &quot;utf16le&quot; or &quot;utf-16le&quot; or &quot;utf-8&quot; or &quot;utf8&quot; or &quot;latin1&quot;</td><td>指定写入文件的字符编码</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-4"></a><a href="#api-支持度-4" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.appendFileSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="copyfile"></a><a href="#copyfile" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>copyFile</h3>
+<p>复制文件</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFile.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> CopyFileOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>CopyFileOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-5"></a><a href="#api-支持度-5" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.copyFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="copyfilesync"></a><a href="#copyfilesync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>copyFileSync</h3>
+<p>FileSystemManager.copyFile 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFileSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">srcPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> destPath<span class="token operator">:</span> <span class="token builtin">string</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>srcPath</td><td><code>string</code></td><td>源文件路径，只可以是普通文件</td></tr>
+<tr><td>destPath</td><td><code>string</code></td><td>目标文件路径</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-6"></a><a href="#api-支持度-6" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.copyFileSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="getfileinfo"></a><a href="#getfileinfo" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>getFileInfo</h3>
+<p>获取该小程序下的 本地临时文件 或 本地缓存文件 信息</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getFileInfo.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> getFileInfoOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>getFileInfoOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-7"></a><a href="#api-支持度-7" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.getFileInfo</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="getsavedfilelist"></a><a href="#getsavedfilelist" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>getSavedFileList</h3>
+<p>获取该小程序下已保存的本地缓存文件列表</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getSavedFileList.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">?</span><span class="token operator">:</span> getSavedFileListOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>getSavedFileListOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-8"></a><a href="#api-支持度-8" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.getSavedFileList</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="mkdir"></a><a href="#mkdir" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mkdir</h3>
+<p>创建目录</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdir.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> MkdirOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>MkdirOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-9"></a><a href="#api-支持度-9" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.mkdir</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="mkdirsync"></a><a href="#mkdirsync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mkdirSync</h3>
+<p>FileSystemManager.mkdir 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdirSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">dirPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> recursive<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>dirPath</td><td><code>string</code></td><td>创建的目录路径</td></tr>
+<tr><td>recursive</td><td><code>boolean</code></td><td>是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-10"></a><a href="#api-支持度-10" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.mkdirSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="readfile"></a><a href="#readfile" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>readFile</h3>
+<p>读取本地文件内容</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFile.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> ReadFileOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>ReadFileOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-11"></a><a href="#api-支持度-11" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.readFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="readdir"></a><a href="#readdir" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>readdir</h3>
+<p>读取目录内文件列表</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdir.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> ReaddirOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>ReaddirOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-12"></a><a href="#api-支持度-12" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.readdir</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="removesavedfile"></a><a href="#removesavedfile" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>removeSavedFile</h3>
+<p>删除该小程序下已保存的本地缓存文件</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.removeSavedFile.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> RemoveSavedFileOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>RemoveSavedFileOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-13"></a><a href="#api-支持度-13" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.removeSavedFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="rename"></a><a href="#rename" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>rename</h3>
+<p>重命名文件。可以把文件从 oldPath 移动到 newPath</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rename.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> RenameOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>RenameOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-14"></a><a href="#api-支持度-14" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.rename</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="renamesync"></a><a href="#renamesync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>renameSync</h3>
+<p>FileSystemManager.rename 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.renameSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">oldPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> newPath<span class="token operator">:</span> <span class="token builtin">string</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>oldPath</td><td><code>string</code></td><td>源文件路径，可以是普通文件或目录</td></tr>
+<tr><td>newPath</td><td><code>string</code></td><td>新文件路径</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-15"></a><a href="#api-支持度-15" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.renameSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="rmdir"></a><a href="#rmdir" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>rmdir</h3>
+<p>删除目录</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdir.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> RmdirOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>RmdirOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-16"></a><a href="#api-支持度-16" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.rmdir</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="rmdirsync"></a><a href="#rmdirsync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>rmdirSync</h3>
+<p>FileSystemManager.rmdir 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdirSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">dirPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> recursive<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>dirPath</td><td><code>string</code></td><td>要删除的目录路径</td></tr>
+<tr><td>recursive</td><td><code>boolean</code></td><td>是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-17"></a><a href="#api-支持度-17" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.rmdirSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="savefile"></a><a href="#savefile" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>saveFile</h3>
+<p>保存临时文件到本地。此接口会移动临时文件，因此调用成功后，tempFilePath 将不可用。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFile.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> SaveFileOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>SaveFileOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-18"></a><a href="#api-支持度-18" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.saveFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="stat"></a><a href="#stat" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>stat</h3>
+<p>获取文件 Stats 对象</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> StatOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>StatOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-19"></a><a href="#api-支持度-19" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.stat</td><td style="text-align:center"></td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="unlink"></a><a href="#unlink" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>unlink</h3>
+<p>删除文件</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlink.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> UnlinkOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>UnlinkOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-20"></a><a href="#api-支持度-20" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.unlink</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="unlinksync"></a><a href="#unlinksync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>unlinkSync</h3>
+<p>FileSystemManager.unlink 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlinkSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">filePath<span class="token operator">:</span> <span class="token builtin">string</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>filePath</td><td><code>string</code></td><td>要删除的文件路径</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-21"></a><a href="#api-支持度-21" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.unlinkSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="unzip"></a><a href="#unzip" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>unzip</h3>
+<p>解压文件</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unzip.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> UnzipOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>UnzipOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-22"></a><a href="#api-支持度-22" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.unzip</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="writefile"></a><a href="#writefile" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>writeFile</h3>
+<p>写文件</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFile.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> WriteFileOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>option</td><td><code>WriteFileOption</code></td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-23"></a><a href="#api-支持度-23" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.writeFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="writefilesync"></a><a href="#writefilesync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>writeFileSync</h3>
+<p>FileSystemManager.writeFile 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFileSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span>filePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> data<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">|</span> ArrayBuffer<span class="token punctuation">,</span> encoding<span class="token operator">?</span><span class="token operator">:</span> <span class="token string">"ascii"</span> <span class="token operator">|</span> <span class="token string">"base64"</span> <span class="token operator">|</span> <span class="token string">"binary"</span> <span class="token operator">|</span> <span class="token string">"hex"</span> <span class="token operator">|</span> <span class="token string">"ucs2"</span> <span class="token operator">|</span> <span class="token string">"ucs-2"</span> <span class="token operator">|</span> <span class="token string">"utf16le"</span> <span class="token operator">|</span> <span class="token string">"utf-16le"</span> <span class="token operator">|</span> <span class="token string">"utf-8"</span> <span class="token operator">|</span> <span class="token string">"utf8"</span> <span class="token operator">|</span> <span class="token string">"latin1"</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>filePath</td><td><code>string</code></td><td>要写入的文件路径</td></tr>
+<tr><td>data</td><td>string or ArrayBuffer</td><td>要写入的文本或二进制数据</td></tr>
+<tr><td>encoding</td><td>&quot;ascii&quot; or &quot;base64&quot; or &quot;binary&quot; or &quot;hex&quot; or &quot;ucs2&quot; or &quot;ucs-2&quot; or &quot;utf16le&quot; or &quot;utf-16le&quot; or &quot;utf-8&quot; or &quot;utf8&quot; or &quot;latin1&quot;</td><td>指定写入文件的字符编码</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-24"></a><a href="#api-支持度-24" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.writeFileSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="statsync"></a><a href="#statsync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>statSync</h3>
+<p>FileSystemManager.stat 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.statSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">path<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> recursive<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> Stats <span class="token operator">|</span> Record<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">any</span><span class="token operator">></span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>path</td><td><code>string</code></td><td>文件/目录路径</td></tr>
+<tr><td>recursive</td><td><code>boolean</code></td><td>是否递归获取目录下的每个文件的 Stats 信息</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-25"></a><a href="#api-支持度-25" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.statSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="savefilesync"></a><a href="#savefilesync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>saveFileSync</h3>
+<p>FileSystemManager.saveFile 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFileSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">tempFilePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> filePath<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token builtin">number</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>tempFilePath</td><td><code>string</code></td><td>临时存储文件路径</td></tr>
+<tr><td>filePath</td><td><code>string</code></td><td>要存储的文件路径</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-26"></a><a href="#api-支持度-26" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.saveFileSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="readfilesync"></a><a href="#readfilesync" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>readFileSync</h3>
+<p>FileSystemManager.readFile 的同步版本</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span>filePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> encoding<span class="token operator">?</span><span class="token operator">:</span> <span class="token string">"ascii"</span> <span class="token operator">|</span> <span class="token string">"base64"</span> <span class="token operator">|</span> <span class="token string">"binary"</span> <span class="token operator">|</span> <span class="token string">"hex"</span> <span class="token operator">|</span> <span class="token string">"ucs2"</span> <span class="token operator">|</span> <span class="token string">"ucs-2"</span> <span class="token operator">|</span> <span class="token string">"utf16le"</span> <span class="token operator">|</span> <span class="token string">"utf-16le"</span> <span class="token operator">|</span> <span class="token string">"utf-8"</span> <span class="token operator">|</span> <span class="token string">"utf8"</span> <span class="token operator">|</span> <span class="token string">"latin1"</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token builtin">string</span> <span class="token operator">|</span> ArrayBuffer
+</code></pre>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>filePath</td><td><code>string</code></td><td>要读取的文件的路径</td></tr>
+<tr><td>encoding</td><td>&quot;ascii&quot; or &quot;base64&quot; or &quot;binary&quot; or &quot;hex&quot; or &quot;ucs2&quot; or &quot;ucs-2&quot; or &quot;utf16le&quot; or &quot;utf-16le&quot; or &quot;utf-8&quot; or &quot;utf8&quot; or &quot;latin1&quot;</td><td>指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-27"></a><a href="#api-支持度-27" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.readFileSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="参数"></a><a href="#参数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>参数</h2>
+<h3><a class="anchor" aria-hidden="true" id="encoding"></a><a href="#encoding" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>encoding</h3>
+<p>字符编码</p>
+<table>
+<thead>
+<tr><th>参数</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>ascii</td><td></td></tr>
+<tr><td>base64</td><td></td></tr>
+<tr><td>binary</td><td></td></tr>
+<tr><td>hex</td><td></td></tr>
+<tr><td>ucs2</td><td>以小端序读取</td></tr>
+<tr><td>ucs-2</td><td>以小端序读取</td></tr>
+<tr><td>utf16le</td><td>以小端序读取</td></tr>
+<tr><td>utf-16le</td><td>以小端序读取</td></tr>
+<tr><td>utf-8</td><td></td></tr>
+<tr><td>utf8</td><td></td></tr>
+<tr><td>latin1</td><td></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="accessoption"></a><a href="#accessoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AccessOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>path</td><td><code>string</code></td><td style="text-align:center">是</td><td>要判断是否存在的文件/目录路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: AccessFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="accessfailcallbackresult"></a><a href="#accessfailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AccessFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${path}': 文件/目录不存在;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="appendfileoption"></a><a href="#appendfileoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AppendFileOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>data</td><td>string or ArrayBuffer</td><td style="text-align:center">是</td><td>要追加的文本或二进制数据</td></tr>
+<tr><td>filePath</td><td><code>string</code></td><td style="text-align:center">是</td><td>要追加内容的文件路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>encoding</td><td>&quot;ascii&quot; or &quot;base64&quot; or &quot;binary&quot; or &quot;hex&quot; or &quot;ucs2&quot; or &quot;ucs-2&quot; or &quot;utf16le&quot; or &quot;utf-16le&quot; or &quot;utf-8&quot; or &quot;utf8&quot; or &quot;latin1&quot;</td><td style="text-align:center">否</td><td>指定写入文件的字符编码</td></tr>
+<tr><td>fail</td><td><code>(result: AppendFileFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="appendfilefailcallbackresult"></a><a href="#appendfilefailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AppendFileFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 文件不存在;<br />- 'fail illegal operation on a directory, open &quot;${filePath}&quot;': 指定的 filePath 是一个已经存在的目录;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail sdcard not mounted': 指定的 filePath 是一个已经存在的目录;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="copyfileoption"></a><a href="#copyfileoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CopyFileOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>destPath</td><td><code>string</code></td><td style="text-align:center">是</td><td>目标文件路径</td></tr>
+<tr><td>srcPath</td><td><code>string</code></td><td style="text-align:center">是</td><td>源文件路径，只可以是普通文件</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: CopyFileFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="copyfilefailcallbackresult"></a><a href="#copyfilefailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CopyFileFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail permission denied, copyFile ${srcPath} -&gt; ${destPath}': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, copyFile ${srcPath} -&gt; ${destPath}': 源文件不存在，或目标文件路径的上层目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="getfileinfooption"></a><a href="#getfileinfooption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>getFileInfoOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>filePath</td><td><code>string</code></td><td style="text-align:center">是</td><td>要读取的文件路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: GetFileInfoFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(result: GetFileInfoSuccessCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="getfileinfofailcallbackresult"></a><a href="#getfileinfofailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GetFileInfoFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 filePath 找不到文件;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="getfileinfosuccesscallbackresult"></a><a href="#getfileinfosuccesscallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GetFileInfoSuccessCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>size</td><td><code>number</code></td><td>文件大小，以字节为单位</td></tr>
+<tr><td>errMsg</td><td><code>string</code></td><td>调用结果</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="getsavedfilelistoption"></a><a href="#getsavedfilelistoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>getSavedFileListOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(result: GetSavedFileListSuccessCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="getsavedfilelistsuccesscallbackresult"></a><a href="#getsavedfilelistsuccesscallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GetSavedFileListSuccessCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>fileList</td><td><code>GetSavedFileListSuccessCallbackResultFileItem[]</code></td><td>文件数组</td></tr>
+<tr><td>errMsg</td><td><code>string</code></td><td>调用结果</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="getsavedfilelistsuccesscallbackresultfileitem"></a><a href="#getsavedfilelistsuccesscallbackresultfileitem" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GetSavedFileListSuccessCallbackResultFileItem</h3>
+<p>文件数组</p>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>createTime</td><td><code>number</code></td><td>文件保存时的时间戳，从1970/01/01 08:00:00 到当前时间的秒数</td></tr>
+<tr><td>filePath</td><td><code>string</code></td><td>本地路径</td></tr>
+<tr><td>size</td><td><code>number</code></td><td>本地文件大小，以字节为单位</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="mkdiroption"></a><a href="#mkdiroption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>MkdirOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>dirPath</td><td><code>string</code></td><td style="text-align:center">是</td><td>创建的目录路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: MkdirFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>recursive</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="mkdirfailcallbackresult"></a><a href="#mkdirfailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>MkdirFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 上级目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail file already exists ${dirPath}': 有同名文件或目录;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="readfileoption"></a><a href="#readfileoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ReadFileOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>filePath</td><td><code>string</code></td><td style="text-align:center">是</td><td>要读取的文件的路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>encoding</td><td>&quot;ascii&quot; or &quot;base64&quot; or &quot;binary&quot; or &quot;hex&quot; or &quot;ucs2&quot; or &quot;ucs-2&quot; or &quot;utf16le&quot; or &quot;utf-16le&quot; or &quot;utf-8&quot; or &quot;utf8&quot; or &quot;latin1&quot;</td><td style="text-align:center">否</td><td>指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容</td></tr>
+<tr><td>fail</td><td><code>(result: ReadFileFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="readfilefailcallbackresult"></a><a href="#readfilefailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ReadFileFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="readdiroption"></a><a href="#readdiroption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ReaddirOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>dirPath</td><td><code>string</code></td><td style="text-align:center">是</td><td>要读取的目录路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: ReaddirFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(result: ReaddirSuccessCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="readdirfailcallbackresult"></a><a href="#readdirfailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ReaddirFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 目录不存在;<br />- 'fail not a directory ${dirPath}': dirPath 不是目录;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="readdirsuccesscallbackresult"></a><a href="#readdirsuccesscallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ReaddirSuccessCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>files</td><td><code>string[]</code></td><td>指定目录下的文件名数组。</td></tr>
+<tr><td>errMsg</td><td><code>string</code></td><td>调用结果</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="removesavedfileoption"></a><a href="#removesavedfileoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RemoveSavedFileOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>filePath</td><td><code>string</code></td><td style="text-align:center">是</td><td>需要删除的文件路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: RemoveSavedFileFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="removesavedfilefailcallbackresult"></a><a href="#removesavedfilefailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RemoveSavedFileFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 tempFilePath 找不到文件;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="renameoption"></a><a href="#renameoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RenameOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>newPath</td><td><code>string</code></td><td style="text-align:center">是</td><td>新文件路径</td></tr>
+<tr><td>oldPath</td><td><code>string</code></td><td style="text-align:center">是</td><td>源文件路径，可以是普通文件或目录</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: RenameFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="renamefailcallbackresult"></a><a href="#renamefailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RenameFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail permission denied, rename ${oldPath} -&gt; ${newPath}': 指定源文件或目标文件没有写权限;<br />- 'fail no such file or directory, rename ${oldPath} -&gt; ${newPath}': 源文件不存在，或目标文件路径的上层目录不存在;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="rmdiroption"></a><a href="#rmdiroption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RmdirOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>dirPath</td><td><code>string</code></td><td style="text-align:center">是</td><td>要删除的目录路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: RmdirFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>recursive</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="rmdirfailcallbackresult"></a><a href="#rmdirfailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RmdirFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 目录不存在;<br />- 'fail directory not empty': 目录不为空;<br />- 'fail permission denied, open ${dirPath}': 指定的 dirPath 路径没有写权限;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="savefileoption"></a><a href="#savefileoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SaveFileOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>tempFilePath</td><td><code>string</code></td><td style="text-align:center">是</td><td>临时存储文件路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: SaveFileFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>filePath</td><td><code>string</code></td><td style="text-align:center">否</td><td>要存储的文件路径</td></tr>
+<tr><td>success</td><td><code>(result: SaveFileSuccessCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="savefilefailcallbackresult"></a><a href="#savefilefailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SaveFileFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open &quot;${filePath}&quot;': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory &quot;${dirPath}&quot;': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="savefilesuccesscallbackresult"></a><a href="#savefilesuccesscallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SaveFileSuccessCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>savedFilePath</td><td><code>number</code></td><td>存储后的文件路径</td></tr>
+<tr><td>errMsg</td><td><code>string</code></td><td>调用结果</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="statoption"></a><a href="#statoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>StatOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>path</td><td><code>string</code></td><td style="text-align:center">是</td><td>文件/目录路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: StatFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>recursive</td><td><code>boolean</code></td><td style="text-align:center">否</td><td>是否递归获取目录下的每个文件的 Stats 信息</td></tr>
+<tr><td>success</td><td><code>(result: StatSuccessCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="statfailcallbackresult"></a><a href="#statfailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>StatFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open ${path}': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory ${path}': 文件不存在;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="statsuccesscallbackresult"></a><a href="#statsuccesscallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>StatSuccessCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>stats</td><td>Stats or Record&lt;string, any&gt;</td><td><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html">Stats</a>orObject<br /><br />当 recursive 为 false 时，res.stats 是一个 Stats 对象。当 recursive 为 true 且 path 是一个目录的路径时，res.stats 是一个 Object，key 以 path 为根路径的相对路径，value 是该路径对应的 Stats 对象。</td></tr>
+<tr><td>errMsg</td><td><code>string</code></td><td>调用结果</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="unlinkoption"></a><a href="#unlinkoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>UnlinkOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>filePath</td><td><code>string</code></td><td style="text-align:center">是</td><td>要删除的文件路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: UnlinkFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="unlinkfailcallbackresult"></a><a href="#unlinkfailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>UnlinkFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open ${path}': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory ${path}': 文件不存在;<br />- 'fail operation not permitted, unlink ${filePath}': 传入的 filePath 是一个目录;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="unzipoption"></a><a href="#unzipoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>UnzipOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>targetPath</td><td><code>string</code></td><td style="text-align:center">是</td><td>目标目录路径</td></tr>
+<tr><td>zipFilePath</td><td><code>string</code></td><td style="text-align:center">是</td><td>源文件路径，只可以是 zip 压缩文件</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>fail</td><td><code>(result: UnzipFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="unzipfailcallbackresult"></a><a href="#unzipfailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>UnzipFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail permission denied, unzip ${zipFilePath} -&gt; ${destPath}': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, unzip ${zipFilePath} -&gt; &quot;${destPath}': 源文件不存在，或目标文件路径的上层目录不存在;</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="writefileoption"></a><a href="#writefileoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>WriteFileOption</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>data</td><td>string or ArrayBuffer</td><td style="text-align:center">是</td><td>要写入的文本或二进制数据</td></tr>
+<tr><td>filePath</td><td><code>string</code></td><td style="text-align:center">是</td><td>要写入的文件路径</td></tr>
+<tr><td>complete</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用结束的回调函数（调用成功、失败都会执行）</td></tr>
+<tr><td>encoding</td><td>&quot;ascii&quot; or &quot;base64&quot; or &quot;binary&quot; or &quot;hex&quot; or &quot;ucs2&quot; or &quot;ucs-2&quot; or &quot;utf16le&quot; or &quot;utf-16le&quot; or &quot;utf-8&quot; or &quot;utf8&quot; or &quot;latin1&quot;</td><td style="text-align:center">否</td><td>指定写入文件的字符编码</td></tr>
+<tr><td>fail</td><td><code>(result: WriteFileFailCallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用失败的回调函数</td></tr>
+<tr><td>success</td><td><code>(res: CallbackResult) =&gt; void</code></td><td style="text-align:center">否</td><td>接口调用成功的回调函数</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="writefilefailcallbackresult"></a><a href="#writefilefailcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>WriteFileFailCallbackResult</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>errMsg</td><td><code>string</code></td><td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="api-支持度-28"></a><a href="#api-支持度-28" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h2>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">FileSystemManager.readdirSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.access</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.accessSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.appendFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.appendFileSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.copyFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.copyFileSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.getFileInfo</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.getSavedFileList</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.mkdir</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.mkdirSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.readFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.readdir</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.removeSavedFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.rename</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.renameSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.rmdir</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.rmdirSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.saveFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.stat</td><td style="text-align:center"></td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.unlink</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.unlinkSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.unzip</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.writeFile</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.writeFileSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.statSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.saveFileSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">FileSystemManager.readFileSync</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#方法">方法</a><ul class="toc-headings"><li><a href="#readdirsync">readdirSync</a></li><li><a href="#access">access</a></li><li><a href="#accesssync">accessSync</a></li><li><a href="#appendfile">appendFile</a></li><li><a href="#appendfilesync">appendFileSync</a></li><li><a href="#copyfile">copyFile</a></li><li><a href="#copyfilesync">copyFileSync</a></li><li><a href="#getfileinfo">getFileInfo</a></li><li><a href="#getsavedfilelist">getSavedFileList</a></li><li><a href="#mkdir">mkdir</a></li><li><a href="#mkdirsync">mkdirSync</a></li><li><a href="#readfile">readFile</a></li><li><a href="#readdir">readdir</a></li><li><a href="#removesavedfile">removeSavedFile</a></li><li><a href="#rename">rename</a></li><li><a href="#renamesync">renameSync</a></li><li><a href="#rmdir">rmdir</a></li><li><a href="#rmdirsync">rmdirSync</a></li><li><a href="#savefile">saveFile</a></li><li><a href="#stat">stat</a></li><li><a href="#unlink">unlink</a></li><li><a href="#unlinksync">unlinkSync</a></li><li><a href="#unzip">unzip</a></li><li><a href="#writefile">writeFile</a></li><li><a href="#writefilesync">writeFileSync</a></li><li><a href="#statsync">statSync</a></li><li><a href="#savefilesync">saveFileSync</a></li><li><a href="#readfilesync">readFileSync</a></li></ul></li><li><a href="#参数">参数</a><ul class="toc-headings"><li><a href="#encoding">encoding</a></li><li><a href="#accessoption">AccessOption</a></li><li><a href="#accessfailcallbackresult">AccessFailCallbackResult</a></li><li><a href="#appendfileoption">AppendFileOption</a></li><li><a href="#appendfilefailcallbackresult">AppendFileFailCallbackResult</a></li><li><a href="#copyfileoption">CopyFileOption</a></li><li><a href="#copyfilefailcallbackresult">CopyFileFailCallbackResult</a></li><li><a href="#getfileinfooption">getFileInfoOption</a></li><li><a href="#getfileinfofailcallbackresult">GetFileInfoFailCallbackResult</a></li><li><a href="#getfileinfosuccesscallbackresult">GetFileInfoSuccessCallbackResult</a></li><li><a href="#getsavedfilelistoption">getSavedFileListOption</a></li><li><a href="#getsavedfilelistsuccesscallbackresult">GetSavedFileListSuccessCallbackResult</a></li><li><a href="#getsavedfilelistsuccesscallbackresultfileitem">GetSavedFileListSuccessCallbackResultFileItem</a></li><li><a href="#mkdiroption">MkdirOption</a></li><li><a href="#mkdirfailcallbackresult">MkdirFailCallbackResult</a></li><li><a href="#readfileoption">ReadFileOption</a></li><li><a href="#readfilefailcallbackresult">ReadFileFailCallbackResult</a></li><li><a href="#readdiroption">ReaddirOption</a></li><li><a href="#readdirfailcallbackresult">ReaddirFailCallbackResult</a></li><li><a href="#readdirsuccesscallbackresult">ReaddirSuccessCallbackResult</a></li><li><a href="#removesavedfileoption">RemoveSavedFileOption</a></li><li><a href="#removesavedfilefailcallbackresult">RemoveSavedFileFailCallbackResult</a></li><li><a href="#renameoption">RenameOption</a></li><li><a href="#renamefailcallbackresult">RenameFailCallbackResult</a></li><li><a href="#rmdiroption">RmdirOption</a></li><li><a href="#rmdirfailcallbackresult">RmdirFailCallbackResult</a></li><li><a href="#savefileoption">SaveFileOption</a></li><li><a href="#savefilefailcallbackresult">SaveFileFailCallbackResult</a></li><li><a href="#savefilesuccesscallbackresult">SaveFileSuccessCallbackResult</a></li><li><a href="#statoption">StatOption</a></li><li><a href="#statfailcallbackresult">StatFailCallbackResult</a></li><li><a href="#statsuccesscallbackresult">StatSuccessCallbackResult</a></li><li><a href="#unlinkoption">UnlinkOption</a></li><li><a href="#unlinkfailcallbackresult">UnlinkFailCallbackResult</a></li><li><a href="#unzipoption">UnzipOption</a></li><li><a href="#unzipfailcallbackresult">UnzipFailCallbackResult</a></li><li><a href="#writefileoption">WriteFileOption</a></li><li><a href="#writefilefailcallbackresult">WriteFileFailCallbackResult</a></li></ul></li><li><a href="#api-支持度-28">API 支持度</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

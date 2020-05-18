@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="转眼间，Taro UI 发布已有半年，感谢大家的支持，让我们收获了 [GitHub](https://github.com/NervJS/taro-ui) 1400+ star。在此期间，我们不断完善组件库的功能和特性，新增了许多组件和小工具，包括但不限于:"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/blog/2019/02/25/taro-ui-2.0.html"/><meta property="og:description" content="转眼间，Taro UI 发布已有半年，感谢大家的支持，让我们收获了 [GitHub](https://github.com/NervJS/taro-ui) 1400+ star。在此期间，我们不断完善组件库的功能和特性，新增了许多组件和小工具，包括但不限于:"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.2.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/apis/about/desc.html" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>全部文章</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">全部文章</h3><ul class=""><li class="navListItem"><a class="navItem" href="/taro/blog/2020/4/13/taro-components.html">Taro Next H5 跨框架组件库实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/02/13/taro-next-alpha.html">Taro Next 发布预览版：同时支持 React / Vue / Nerv</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/08/taro-2-0.html">Taro 2.0：拥抱社区，拥抱变化</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/02/gmtc.html">小程序跨框架开发的探索与实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/12/03/jingxi-index.html">京喜首页（微信购物入口）跨端开发与优化实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/10/24/taro-open.html">Taro 邀你加入社区共建 — 社区共建倡议书</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/09/25/taro-flex.html">玩转 Taro 跨端之 flex 布局篇</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/07/10/taro-hooks.html">使用 React Hooks 重构你的小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/21/taro-ext-club.html">Taro 「物料市场」及「交流社区」 惊喜上线</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/13/taro-1-3.html">Taro 1.3 震撼升级：全面支持 JSX 语法和 HOOKS</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/03/12/mini-program-framework-full-review.html">小程序框架全面测评</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/28/taro-h5-optimize.html">决战性能之巅 - Taro H5 转换与优化升级</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/blog/2019/02/25/taro-ui-2.0.html">Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/12/18/taro-1-2.html">Taro 1.2：将已有微信小程序转换为多端应用</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/11/05/taro-1-1.html">Taro 1.1 发布，全面支持微信/百度/支付宝小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/18/taro-1-0-0.html">多端统一开发框架 Taro 1.0 正式发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/11/taro-in-jd.html">Taro 在京东购物小程序上的实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/08/24/the-birth-of-taro-ui.html">首个多端 UI 组件库 - Taro UI 发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/25/the-birth-of-taro.html">为何我们要用 React 来写小程序 - Taro 诞生记</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/07/Taro.html">多端统一开发框架 - Taro</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle"><a href="/taro/blog/2019/02/25/taro-ui-2.0.html">Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序</a></h1><p class="post-meta">February 25, 2019</p><div class="authorBlock"><p class="post-authorName"><a href="https://github.com/jimczj" target="_blank" rel="noreferrer noopener">jimczj</a></p><div class="authorPhoto"><a href="https://github.com/jimczj" target="_blank" rel="noreferrer noopener"><img src="https://avatars3.githubusercontent.com/u/13499146?s=460&amp;u=a5a6d4c6bcc746b3b6353c245346d7a832f4649b&amp;v=4" alt="jimczj"/></a></div></div></header><div><span><p>转眼间，Taro UI 发布已有半年，感谢大家的支持，让我们收获了 <a href="https://github.com/NervJS/taro-ui">GitHub</a> 1400+ star。在此期间，我们不断完善组件库的功能和特性，新增了许多组件和小工具，包括但不限于:</p>
+<ul>
+<li>新增日历、索引选择、区域选择、图片选择等十一个组件</li>
+<li>适配支付宝小程序、百度小程序</li>
+<li>新增自定义主题功能</li>
+<li>新增主题生成器，以帮助开发者更好地使用自定义主题功能</li>
+<li>新增 Issue Helper，以帮助开发者更规范地填写 Issue</li>
+</ul>
+<!--truncate-->
+<h2><a class="anchor" aria-hidden="true" id="新增组件"></a><a href="#新增组件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>新增组件</h2>
+<p>在 1.0 版本发布之后，我们又陆续新增了如下十一个组件：</p>
+<ul>
+<li>视图组件：页面提示、 分隔符、倒计时、 幕帘 、步骤条</li>
+<li>操作反馈：全局信息组件</li>
+<li>表单：图片选择器、区域选择器、索引选择器、日历组件、搜索栏</li>
+</ul>
+<p>其中，在社区里呼声最高的组件，非日历组件莫属。由于日历组件复杂度偏高，要适配多端环境难度偏大，纵观市面上的小程序 UI 组件库，包含日历组件的寥寥无几。尽管如此，我们团队的大鱼兄仍独自挑起重担，几乎完美地实现了该组件，此处掌声献给大鱼兄。</p>
+<p><strong>日历组件功能预览：</strong></p>
+<p><img src="https://misc.aotu.io/jimczj/calender.gif" alt="calender"></p>
+<h2><a class="anchor" aria-hidden="true" id="适配支付宝小程序-百度小程序"></a><a href="#适配支付宝小程序-百度小程序" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>适配支付宝小程序、百度小程序</h2>
+<p>在 1.0 版本适配微信小程序时，我们遇到了很多困难。比如：</p>
+<ul>
+<li><p>微信小程序自定义组件使用 Shadow DOM 进行渲染，引起了以下几种问题：</p>
+<ul>
+<li>组件之间无法使用相邻选择器，如组件间加 border 的需求，最终只能通过新增 props 给开发者自行控制</li>
+<li>无法自定义 flex 布局组件，最终只能提供样式给开发者自行使用</li>
+</ul></li>
+<li><p>Component 组件对应 wxss 文件的样式，只对组件 wxml 内的节点生效。经过不断探索，才发现 addGlobalClass 这一属性，需在自定义组件内激活 addGlobalClass 选项，才能使自定义组件被 app.wxss 或页面的 wxss 中的所有的样式定义影响。。</p></li>
+<li><p>原生组件的使用限制。由于原生组件脱离在 WebView 渲染流程外，原生组件的层级是最高的，所以页面中的其他组件无论设置 z-index 为多少，都无法盖在原生组件上。由此导致模态框等组件无法遮挡 input、textarea等原生组件，造成穿透效果。 可喜的是，微信官方团队已经在改善该问题，对小程序原生组件引入了同层渲染模式。通过同层渲染，小程序原生组件可与其他内置组件处于相同层级，不再有特殊的使用限制。<a href="https://developers.weixin.qq.com/community/develop/doc/000aa28d030f60a3c4183eecb5d801?from=timeline">详见</a>。</p></li>
+<li><p>小程序不支持 requestAnimationFrame，无法很好地实现 js 动画。</p></li>
+</ul>
+<p>克服完上述微信小程序的困难后，支付宝小程序和百度小程序的适配工作大多是解决样式和某些API的差异。得益于 Taro 良好的支持，Taro UI 的适配工作暂时告一段落。</p>
+<h2><a class="anchor" aria-hidden="true" id="新增自定义主题功能"></a><a href="#新增自定义主题功能" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>新增自定义主题功能</h2>
+<p>Taro UI 1.0 发布时只有一套默认的主题配色，为满足业务和品牌上多样化的视觉需求，UI 库支持一定程度的样式定制。</p>
+<p>Taro UI 的组件样式是使用 SCSS 编写的，如果你的项目中也使用了 SCSS，那么可以直接在项目中改变 Taro UI 的样式变量。</p>
+<p>新建一个主题样式文件（例如 custom-variables.scss）并覆盖<a href="https://github.com/NervJS/taro-ui/blob/dev/src/style/variables/default.scss">默认主题变量</a>：</p>
+<pre><code class="hljs"><span class="token comment">/* 改变主题变量，具体变量名可查看 taro-ui/dist/style/variables/default.scss 文件 */</span>
+$color<span class="token operator">-</span>brand<span class="token operator">:</span> #<span class="token number">6190E8</span><span class="token punctuation">;</span>
+<span class="token comment">/* 引入 Taro UI 默认样式 */</span>
+@<span class="token keyword">import</span> <span class="token string">"~taro-ui/dist/style/index.scss"</span><span class="token punctuation">;</span>
+</code></pre>
+<p>之后在项目的入口文件中引入以上的样式文件即可（无需重复引入组件的默认样式）。</p>
+<p>目前，我们额外定制了京东主题和 7Fresh 主题色，可通过扫描以下二维码查看。</p>
+<p><strong>京东主题：</strong></p>
+<p><img src="https://misc.aotu.io/jimczj/taro-ui-red.png" alt="image"></p>
+<p><strong>7Fresh 主题：</strong></p>
+<p><img src="https://misc.aotu.io/jimczj/taro-ui-purple.png" alt="image"></p>
+<h2><a class="anchor" aria-hidden="true" id="新增主题生成器"></a><a href="#新增主题生成器" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>新增主题生成器</h2>
+<p>为了让开发者更好地使用自定义主题功能，我们还新增了主题生成器。开发者可以使用该工具方便地定制 UI 主题。</p>
+<p><strong>主题生成器地址：</strong> <a href="https://nervjs.github.io/taro-ui-theme-preview/">https://nervjs.github.io/taro-ui-theme-preview/</a></p>
+<p><strong>效果预览：</strong></p>
+<p><img src="https://misc.aotu.io/jimczj/theme-preview.gif" alt="theme-preview"></p>
+<h2><a class="anchor" aria-hidden="true" id="新增-issue-helper"></a><a href="#新增-issue-helper" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>新增 Issue Helper</h2>
+<p>虽然我们配置了 Issue Template，但仍有部分开发者没有根据规范填写 Issue。我们排查问题时经常需要再次询问版本号信息、复现代码等等，这不仅消耗我们维护项目的精力，还降低了 Issue 处理效率。因此我们参考了 Ant 和 iView 团队的做法，制作了 Issue Helper 页面，帮助开发者更规范地填写 Issue。</p>
+<p><strong>Taro UI Issue Helper 地址：</strong> <a href="https://nervjs.github.io/taro-ui-issue-helper/">https://nervjs.github.io/taro-ui-issue-helper/</a></p>
+<p>此外，我们发现重复制作 Issue Helper 页面是一件很浪费劳动力的事情，于是将 Issue Helper 封装成一个命令行工具，开发者可以通过简单配置 <code>config.js</code>，执行命令 <code>issue-helper build</code> 就可以生成所需要的页面。</p>
+<p><strong>Issue Helper 工具仓库地址：</strong> <a href="https://github.com/jimczj/issue-helper">https://github.com/jimczj/issue-helper</a></p>
+<h2><a class="anchor" aria-hidden="true" id="未来计划"></a><a href="#未来计划" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>未来计划</h2>
+<ul>
+<li>适配字节跳动小程序</li>
+<li>国际化 i18n</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="致谢"></a><a href="#致谢" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>致谢</h2>
+<p>感谢大家对 Taro UI 的使用与反馈，我们会致力于将 Taro UI 打造成高质量组件库，不断丰富组件功能与特性，紧跟 Taro 的步伐适配更多平台。</p>
+<p>最后，欢迎关注并使用我们的组件库：</p>
+<p><a href="https://github.com/NervJS/taro-ui">https://github.com/NervJS/taro-ui</a></p>
+</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/taro/blog">最近更新</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#新增组件">新增组件</a></li><li><a href="#适配支付宝小程序-百度小程序">适配支付宝小程序、百度小程序</a></li><li><a href="#新增自定义主题功能">新增自定义主题功能</a></li><li><a href="#新增主题生成器">新增主题生成器</a></li><li><a href="#新增-issue-helper">新增 Issue Helper</a></li><li><a href="#未来计划">未来计划</a></li><li><a href="#致谢">致谢</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

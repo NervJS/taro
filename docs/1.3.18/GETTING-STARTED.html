@@ -1,0 +1,352 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>安装及使用 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## 安装"/><meta name="docsearch:version" content="1.3.18"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="安装及使用 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="## 安装"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>1.3.18</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/1.3.18/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/1.3.18/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/1.3.18/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>快速开始</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/team.html">Taro 团队</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/1.3.18/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/composition.html">Taro 组成</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/before-dev-remind.html">开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/wxcloud.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/css-modules.html">CSS Modules 的使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.18/template.html">项目模板</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/GETTING-STARTED.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">安装及使用</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="安装"></a><a href="#安装" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>安装</h2>
+<p>Taro 项目基于 node，请确保已具备较新的 node 环境（&gt;=8.0.0），推荐使用 node 版本管理工具 <a href="https://github.com/creationix/nvm">nvm</a> 来管理 node，这样不仅可以很方便地切换 node 版本，而且全局安装时候也不用加 sudo 了。</p>
+<h3><a class="anchor" aria-hidden="true" id="cli-工具安装"></a><a href="#cli-工具安装" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>cli 工具安装</h3>
+<p>首先，你需要使用 npm 或者 yarn 全局安装<code>@tarojs/cli</code>，或者直接使用<a href="https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b">npx</a>:</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># 使用 npm 安装 CLI</span>
+$ <span class="token function">npm</span> <span class="token function">install</span> -g @tarojs/cli
+<span class="token comment"># OR 使用 yarn 安装 CLI</span>
+$ <span class="token function">yarn</span> global <span class="token function">add</span> @tarojs/cli
+<span class="token comment"># OR 安装了 cnpm，使用 cnpm 安装 CLI</span>
+$ cnpm <span class="token function">install</span> -g @tarojs/cli
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="回到某个版本"></a><a href="#回到某个版本" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>回到某个版本</h2>
+<p>需要安装某个固定版本，或者回到某个版本，例如我们要安装 <code>1.3.9</code> ， 则如下：</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># 使用 npm 安装 CLI</span>
+$ <span class="token function">npm</span> <span class="token function">install</span> -g @tarojs/cli@1.3.9
+<span class="token comment"># OR 使用 yarn 安装 CLI</span>
+$ <span class="token function">yarn</span> global <span class="token function">add</span> @tarojs/cli@1.3.9
+<span class="token comment"># OR 安装了 cnpm，使用 cnpm 安装 CLI</span>
+$ cnpm <span class="token function">install</span> -g @tarojs/cli@1.3.9
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="注意事项"></a><a href="#注意事项" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>注意事项</h3>
+<p>值得一提的是，如果安装过程出现<code>sass</code>相关的安装错误，请在安装<a href="https://www.npmjs.com/package/mirror-config-china"><code>mirror-config-china</code></a>后重试。</p>
+<pre><code class="hljs css language-bash">$ <span class="token function">npm</span> <span class="token function">install</span> -g mirror-config-china
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="使用"></a><a href="#使用" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用</h2>
+<p>使用命令创建模板项目</p>
+<pre><code class="hljs css language-bash">$ taro init myApp
+</code></pre>
+<p>npm 5.2+ 也可在不全局安装的情况下使用 npx 创建模板项目</p>
+<pre><code class="hljs css language-bash">$ npx @tarojs/cli init myApp
+</code></pre>
+<p><img src="http://ww1.sinaimg.cn/large/49320207gy1g0u2e0uf8gj20vg0uw10f.jpg" alt="taro init myApp command screenshot"></p>
+<p>在创建完项目之后，Taro 会默认开始安装项目所需要的依赖，安装使用的工具按照 yarn&gt;cnpm&gt;npm 顺序进行检测，一般来说，依赖安装会比较顺利，但某些情况下可能会安装失败，这时候你可以在项目目录下自己使用安装命令进行安装</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># 使用 yarn 安装依赖</span>
+$ <span class="token function">yarn</span>
+<span class="token comment"># OR 使用 cnpm 安装依赖</span>
+$ cnpm <span class="token function">install</span>
+<span class="token comment"># OR 使用 npm 安装依赖</span>
+$ <span class="token function">npm</span> <span class="token function">install</span>
+</code></pre>
+<p>进入项目目录开始开发，目前已经支持 微信/百度/支付宝/字节跳动/QQ 小程序、H5、快应用以及 ReactNative 等端的代码转换，针对不同端的启动以及预览、打包方式并不一致</p>
+<h3><a class="anchor" aria-hidden="true" id="微信小程序"></a><a href="#微信小程序" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>微信小程序</h3>
+<p>选择微信小程序模式，需要自行下载并打开<a href="https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html">微信开发者工具</a>，然后选择项目根目录进行预览。</p>
+<p>微信小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># yarn</span>
+$ <span class="token function">yarn</span> dev:weapp
+$ <span class="token function">yarn</span> build:weapp
+<span class="token comment"># npm script</span>
+$ <span class="token function">npm</span> run dev:weapp
+$ <span class="token function">npm</span> run build:weapp
+<span class="token comment"># 仅限全局安装</span>
+$ taro build --type weapp --watch
+$ taro build --type weapp
+<span class="token comment"># npx 用户也可以使用</span>
+$ npx taro build --type weapp --watch
+$ npx taro build --type weapp
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="百度小程序"></a><a href="#百度小程序" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>百度小程序</h3>
+<p>选择百度小程序模式，需要自行下载并打开<a href="https://smartprogram.baidu.com/docs/develop/devtools/show_sur/">百度开发者工具</a>，然后在项目编译完后选择项目根目录下 <code>dist</code> 目录进行预览。</p>
+<p>百度小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># yarn</span>
+$ <span class="token function">yarn</span> dev:swan
+$ <span class="token function">yarn</span> build:swan
+<span class="token comment"># npm script</span>
+$ <span class="token function">npm</span> run dev:swan
+$ <span class="token function">npm</span> run build:swan
+<span class="token comment"># 仅限全局安装</span>
+$ taro build --type swan --watch
+$ taro build --type swan
+<span class="token comment"># npx 用户也可以使用</span>
+$ npx taro build --type swan --watch
+$ npx taro build --type swan
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="支付宝小程序"></a><a href="#支付宝小程序" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>支付宝小程序</h3>
+<p>选择支付宝小程序模式，需要自行下载并打开<a href="https://docs.alipay.com/mini/developer/getting-started/">支付宝小程序开发者工具</a>，然后在项目编译完后选择项目根目录下 <code>dist</code> 目录进行预览。</p>
+<p>支付宝小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># yarn</span>
+$ <span class="token function">yarn</span> dev:alipay
+$ <span class="token function">yarn</span> build:alipay
+<span class="token comment"># npm script</span>
+$ <span class="token function">npm</span> run dev:alipay
+$ <span class="token function">npm</span> run build:alipay
+<span class="token comment"># 仅限全局安装</span>
+$ taro build --type alipay --watch
+$ taro build --type alipay
+<span class="token comment"># npx 用户也可以使用</span>
+$ npx taro build --type alipay --watch
+$ npx taro build --type alipay
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="字节跳动小程序"></a><a href="#字节跳动小程序" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>字节跳动小程序</h3>
+<p>选择字节跳动小程序模式，需要自行下载并打开<a href="https://microapp.bytedance.com/docs/devtool/versionUpdate.html">字节跳动小程序开发者工具</a>，然后在项目编译完后选择项目根目录下 <code>dist</code> 目录进行预览。</p>
+<p>字节跳动小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># yarn</span>
+$ <span class="token function">yarn</span> dev:tt
+$ <span class="token function">yarn</span> build:tt
+<span class="token comment"># npm script</span>
+$ <span class="token function">npm</span> run dev:tt
+$ <span class="token function">npm</span> run build:tt
+<span class="token comment"># 仅限全局安装</span>
+$ taro build --type tt --watch
+$ taro build --type tt
+<span class="token comment"># npx 用户也可以使用</span>
+$ npx taro build --type tt --watch
+$ npx taro build --type tt
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="qq-小程序"></a><a href="#qq-小程序" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>QQ 小程序</h3>
+<p>选择 QQ 小程序模式，需要自行下载并打开<a href="https://q.qq.com/wiki/#_4-%E7%BC%96%E7%A0%81%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F">QQ 小程序开发者工具</a>，然后在项目编译完后选择项目根目录下 <code>dist</code> 目录进行预览。</p>
+<p>QQ 小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># yarn</span>
+$ <span class="token function">yarn</span> dev:qq
+$ <span class="token function">yarn</span> build:qq
+<span class="token comment"># npm script</span>
+$ <span class="token function">npm</span> run dev:qq
+$ <span class="token function">npm</span> run build:qq
+<span class="token comment"># 仅限全局安装</span>
+$ taro build --type qq --watch
+$ taro build --type qq
+<span class="token comment"># npx 用户也可以使用</span>
+$ npx taro build --type qq --watch
+$ npx taro build --type qq
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="快应用"></a><a href="#快应用" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>快应用</h3>
+<p>选择快应用模式，需要自行下载并打开<a href="https://www.quickapp.cn/docCenter/IDEPublicity">快应用开发者工具</a>，然后在项目编译完后，在开发者工具中选择「打开文件夹」选择项目根目录下 <code>dist</code> 目录，点击左边的预览图标（那个眼睛图标）进行预览。</p>
+<p>快应用编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># yarn</span>
+$ <span class="token function">yarn</span> dev:quickapp
+$ <span class="token function">yarn</span> build:quickapp
+<span class="token comment"># npm script</span>
+$ <span class="token function">npm</span> run dev:quickapp
+$ <span class="token function">npm</span> run build:quickapp
+<span class="token comment"># 仅限全局安装</span>
+$ taro build --type quickapp --watch
+$ taro build --type quickapp
+<span class="token comment"># npx 用户也可以使用</span>
+$ npx taro build --type quickapp --watch
+$ npx taro build --type quickapp
+</code></pre>
+<p><a href="https://doc.quickapp.cn/tutorial/ide/overview.html">快应用开发者工具如何使用？点击了解</a></p>
+<p><a href="https://taro-docs.jd.com/taro/docs/quick-app.html">快应用端开发流程</a></p>
+<h3><a class="anchor" aria-hidden="true" id="h5"></a><a href="#h5" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>H5</h3>
+<p>H5 模式，无需特定的开发者工具，在执行完下述命令之后即可通过浏览器进行预览</p>
+<p>H5 预览项目</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># yarn</span>
+$ <span class="token function">yarn</span> dev:h5
+<span class="token comment"># npm script</span>
+$ <span class="token function">npm</span> run dev:h5
+<span class="token comment"># 仅限全局安装</span>
+$ taro build --type h5 --watch
+<span class="token comment"># npx 用户也可以使用</span>
+$ npx taro build --type h5 --watch
+</code></pre>
+<p>H5 打包项目</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># yarn</span>
+$ <span class="token function">yarn</span> build:h5
+<span class="token comment"># npm script</span>
+$ <span class="token function">npm</span> run build:h5
+<span class="token comment"># 仅限全局安装</span>
+$ taro build --type h5
+<span class="token comment"># npx 用户也可以使用</span>
+$ npx taro build --type h5
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="react-native"></a><a href="#react-native" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>React Native</h3>
+<p>React Native 端运行需执行如下命令，React Native 端相关的运行说明请参见 <a href="https://nervjs.github.io/taro/docs/react-native.html">React Native 教程</a></p>
+<pre><code class="hljs css language-bash"><span class="token comment"># yarn</span>
+$ <span class="token function">yarn</span> dev:rn
+<span class="token comment"># npm script</span>
+$ <span class="token function">npm</span> run dev:rn
+<span class="token comment"># 仅限全局安装</span>
+$ taro build --type rn --watch
+<span class="token comment"># npx 用户也可以使用</span>
+$ npx taro build --type rn --watch
+</code></pre>
+<blockquote>
+<p>Note：React Native 端和其他端样式兼容性差异较大，如果需要兼容 React Native 端，建议 React Native 端和其他端同步开发。</p>
+</blockquote>
+<blockquote>
+<p>Note：如果要支持 React Native 端，必须采用 Flex 布局，并且样式选择器仅支持类选择器，且不
+支持 <strong>组合器</strong> <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Combinators_and_multiple_selectors">Combinators and groups of selectors</a>。</p>
+</blockquote>
+<p>以下选择器的写法都是不支持的，在样式转换时会自动忽略。</p>
+<pre><code class="hljs css language-css"><span class="hljs-selector-class">.button</span><span class="hljs-selector-class">.button_theme_islands</span>{
+  <span class="hljs-attribute">font-style</span>: bold;
+}
+
+<span class="hljs-selector-tag">img</span> + <span class="hljs-selector-tag">p</span> {
+  <span class="hljs-attribute">font-style</span>: bold;
+}
+
+<span class="hljs-selector-tag">p</span> ~ <span class="hljs-selector-tag">span</span> {
+  <span class="hljs-attribute">color</span>: red;
+}
+
+<span class="hljs-selector-tag">div</span> &gt; <span class="hljs-selector-tag">span</span> {
+  <span class="hljs-attribute">background-color</span>: DodgerBlue;
+}
+
+<span class="hljs-selector-tag">div</span> <span class="hljs-selector-tag">span</span> { <span class="hljs-attribute">background-color</span>: DodgerBlue; }
+
+</code></pre>
+<p>样式上 H5 最为灵活，小程序次之，RN 最弱，统一多端样式即是对齐短板，也就是要以 RN 的约束来管理样式，同时兼顾小程序的限制，核心可以用三点来概括：</p>
+<ul>
+<li>使用 Flex 布局</li>
+<li>基于 BEM 写样式</li>
+<li>采用 style 属性覆盖组件样式</li>
+</ul>
+<p>RN 中 View 标签默认主轴方向是 column，如果不将其他端改成与 RN 一致，就需要在所有用到 display: flex 的地方都显式声明主轴方向。</p>
+<h2><a class="anchor" aria-hidden="true" id="更新"></a><a href="#更新" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>更新</h2>
+<p>Taro 提供了更新命令来更新 CLI 工具自身和项目中 Taro 相关的依赖</p>
+<p>更新 Taro CLI 工具</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># taro</span>
+$ taro update self
+<span class="token comment"># npm</span>
+<span class="token function">npm</span> i -g @tarojs/cli@latest
+<span class="token comment"># yarn</span>
+<span class="token function">yarn</span> global <span class="token function">add</span> @tarojs/cli@latest
+</code></pre>
+<p>更新项目中 Taro 相关的依赖</p>
+<pre><code class="hljs css language-bash">$ taro update project
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="环境及依赖检测"></a><a href="#环境及依赖检测" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>环境及依赖检测</h2>
+<p>Taro 提供了命令来一键检测 Taro 环境及依赖的版本等信息，方便大家查看项目的环境及依赖，排查环境问题。在提 issue 的时候，请附上 <code>taro info</code> 打印的信息，帮助开发人员快速定位问题。</p>
+<pre><code class="hljs css language-bash">$ taro info
+👽 Taro v1.2.0-beta.15
+
+
+  Taro CLI <span class="token number">1.2</span>.0-beta.15 environment info:
+    System:
+      OS: macOS High Sierra <span class="token number">10.13</span>.5
+      Shell: <span class="token number">5.3</span> - /bin/zsh
+    Binaries:
+      Node: <span class="token number">8.11</span>.2 - /usr/local/bin/node
+      Yarn: <span class="token number">1.8</span>.0 - /usr/local/bin/yarn
+      npm: <span class="token number">5.6</span>.0 - /usr/local/bin/npm
+    npmPackages:
+      @tarojs/components: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      @tarojs/plugin-babel: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      @tarojs/plugin-csso: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      @tarojs/plugin-sass: ^1.2.0-beta.4 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.4
+      @tarojs/plugin-uglifyjs: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      @tarojs/rn-runner: ^1.2.0-beta.4 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.4
+      @tarojs/router: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      @tarojs/taro: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      @tarojs/taro-alipay: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      @tarojs/taro-h5: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      @tarojs/taro-swan: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      @tarojs/taro-weapp: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      @tarojs/webpack-runner: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      eslint-config-taro: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+      eslint-plugin-taro: ^1.2.0-beta.3 <span class="token operator">=</span><span class="token operator">></span> <span class="token number">1.2</span>.0-beta.3
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="taro-doctor"></a><a href="#taro-doctor" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Taro Doctor</h2>
+<p>Taro Doctor 就像一个医生一样，可以诊断项目的依赖、设置、结构，以及代码的规范是否存在问题，并尝试给出解决方案。</p>
+<p>但和真正的医生不一样，Taro Doctor 不需要排队挂号，也不用花钱。你只需要在终端运行命令：<code>taro doctor</code>，就像图里一样：</p>
+<p><img src="https://img10.360buyimg.com/ling/jfs/t1/46613/36/5573/202581/5d357d14E6f0df7e1/fc026be7dc69dcf2.png" alt="Taro Doctor 诊断结果图"></p>
+<h2><a class="anchor" aria-hidden="true" id="cli-配置"></a><a href="#cli-配置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI 配置</h2>
+<blockquote>
+<p>自 <code>1.3.9</code> 开始支持</p>
+</blockquote>
+<p><code>1.3.9</code> 开始 Taro 会在用户根目录下创建 .taro 文件夹，其中 .taro/index.json 用于存放 CLI 相关配置。</p>
+<p>开发者可以使用 <code>taro config</code> 命令对配置项进行一系列操作：</p>
+<pre><code class="hljs css language-bash"><span class="token comment"># 查看用法</span>
+$ taro config --help
+<span class="token comment"># 设置配置项&lt;key>的值为&lt;value></span>
+$ taro config <span class="token builtin class-name">set</span> <span class="token operator">&lt;</span>key<span class="token operator">></span> <span class="token operator">&lt;</span>value<span class="token operator">></span>
+<span class="token comment"># 读取配置项&lt;key></span>
+$ taro config get <span class="token operator">&lt;</span>key<span class="token operator">></span>
+<span class="token comment"># 删除配置项&lt;key></span>
+$ taro config delete <span class="token operator">&lt;</span>key<span class="token operator">></span>
+<span class="token comment"># 打印所有配置项</span>
+$ taro config list <span class="token punctuation">[</span>--json<span class="token punctuation">]</span> 
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/1.3.18/team.html"><span class="arrow-prev">← </span><span>Taro 团队</span></a><a class="docs-next button" href="/taro/docs/1.3.18/composition.html"><span>更多资源</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#安装">安装</a><ul class="toc-headings"><li><a href="#cli-工具安装">cli 工具安装</a></li></ul></li><li><a href="#回到某个版本">回到某个版本</a><ul class="toc-headings"><li><a href="#注意事项">注意事项</a></li></ul></li><li><a href="#使用">使用</a><ul class="toc-headings"><li><a href="#微信小程序">微信小程序</a></li><li><a href="#百度小程序">百度小程序</a></li><li><a href="#支付宝小程序">支付宝小程序</a></li><li><a href="#字节跳动小程序">字节跳动小程序</a></li><li><a href="#qq-小程序">QQ 小程序</a></li><li><a href="#快应用">快应用</a></li><li><a href="#h5">H5</a></li><li><a href="#react-native">React Native</a></li></ul></li><li><a href="#更新">更新</a></li><li><a href="#环境及依赖检测">环境及依赖检测</a></li><li><a href="#taro-doctor">Taro Doctor</a></li><li><a href="#cli-配置">CLI 配置</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

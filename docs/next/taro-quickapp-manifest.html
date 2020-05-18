@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>taro-quickapp-manifest · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="### Taro和快应用配置差异"/><meta name="docsearch:version" content="next"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="taro-quickapp-manifest · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="### Taro和快应用配置差异"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/next/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/next/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/next/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/taro-quickapp-manifest.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">taro-quickapp-manifest</h1></header><article><div><span><h3><a class="anchor" aria-hidden="true" id="taro和快应用配置差异"></a><a href="#taro和快应用配置差异" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Taro和快应用配置差异</h3>
+<p>如果希望自己现在写的Taro程序日后能更平滑的转换到快应用，在十大厂商的多个入口(搜索、语音、浏览器、负一屏)快速上线，就需要了解Taro和快应用的配置差异，由于Taro是立足于微信小程序的开发框架，因此只需要比较微信小程序和快应用的官方文档即可了解差异，以生态更完善的微信小程序为基础整理出如下表格：</p>
+<table>
+<thead>
+<tr><th style="text-align:left">微信小程序属性</th><th style="text-align:left">类型</th><th style="text-align:left">必填</th><th style="text-align:left">描述</th><th style="text-align:left">对应快应用属性</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#pages">pages</a></td><td style="text-align:left">string[]</td><td style="text-align:left">是</td><td style="text-align:left">页面路径列表</td><td style="text-align:left">router.pages</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#window">window</a></td><td style="text-align:left">Object</td><td style="text-align:left">否</td><td style="text-align:left">全局的默认窗口表现</td><td style="text-align:left">display</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#tabBar">tabBar</a></td><td style="text-align:left">Object</td><td style="text-align:left">否</td><td style="text-align:left">底部 <code>tab</code> 栏的表现</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#networkTimeout">networkTimeout</a></td><td style="text-align:left">Object</td><td style="text-align:left">否</td><td style="text-align:left">网络超时时间</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#functionalPages">functionalPages</a></td><td style="text-align:left">boolean</td><td style="text-align:left">否</td><td style="text-align:left">是否启用插件功能页，默认关闭</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#subpackages">subpackages</a></td><td style="text-align:left">Object[]</td><td style="text-align:left">否</td><td style="text-align:left">分包结构配置</td><td style="text-align:left">subpackages</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#workers">workers</a></td><td style="text-align:left">string</td><td style="text-align:left">否</td><td style="text-align:left"><code>Worker</code> 代码放置的目录</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#requiredBackgroundModes">requiredBackgroundModes</a></td><td style="text-align:left">string[]</td><td style="text-align:left">否</td><td style="text-align:left">需要在后台使用的能力，如「音乐播放」</td><td style="text-align:left">features</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#plugins">plugins</a></td><td style="text-align:left">Object</td><td style="text-align:left">否</td><td style="text-align:left">使用到的插件</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#preloadRule">preloadRule</a></td><td style="text-align:left">Object</td><td style="text-align:left">否</td><td style="text-align:left">分包预下载规则</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#resizable">resizable</a></td><td style="text-align:left">boolean</td><td style="text-align:left">否</td><td style="text-align:left">iPad 小程序是否支持屏幕旋转，默认关闭</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#navigateToMiniProgramAppIdList">navigateToMiniProgramAppIdList</a></td><td style="text-align:left">string[]</td><td style="text-align:left">否</td><td style="text-align:left">需要跳转的小程序列表，详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/open-api/miniprogram-navigate/wx.navigateToMiniProgram.html">wx.navigateToMiniProgram</a></td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#usingComponents">usingComponents</a></td><td style="text-align:left">Object</td><td style="text-align:left">否</td><td style="text-align:left">全局<a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/(custom-component/README)">自定义组件</a>配置</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission">permission</a></td><td style="text-align:left">Object</td><td style="text-align:left">否</td><td style="text-align:left">小程序接口权限相关设置</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#sitemapLocation">sitemapLocation</a></td><td style="text-align:left">String</td><td style="text-align:left">是</td><td style="text-align:left">指明 sitemap.json 的位置</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left"><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#style">style</a></td><td style="text-align:left">String</td><td style="text-align:left">否</td><td style="text-align:left">指定使用升级后的weui样式</td><td style="text-align:left">无</td></tr>
+</tbody>
+</table>
+<p>以上是全局配置的差异，从表中可以看到微信小程序有非常多的定制属性，比如tabBar\plugins\sitemapLocation等，当然快应用也有很多定制属性，如下表加粗所示：</p>
+<table>
+<thead>
+<tr><th style="text-align:left">属性</th><th style="text-align:left">类型</th><th style="text-align:left">默认值</th><th style="text-align:left">必填</th><th style="text-align:left">描述</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left"><strong>package</strong></td><td style="text-align:left"><strong>String</strong></td><td style="text-align:left"><strong>-</strong></td><td style="text-align:left"><strong>是</strong></td><td style="text-align:left"><strong>应用包名，确认与原生应用的包名不一致，推荐采用 com.company.module 的格式，如：com.example.demo</strong></td></tr>
+<tr><td style="text-align:left"><strong>name</strong></td><td style="text-align:left"><strong>String</strong></td><td style="text-align:left"><strong>-</strong></td><td style="text-align:left"><strong>是</strong></td><td style="text-align:left"><strong>应用名称，6 个汉字以内，与应用商店保存的名称一致，用于在桌面图标、弹窗等处显示应用名称</strong></td></tr>
+<tr><td style="text-align:left"><strong>icon</strong></td><td style="text-align:left"><strong>String</strong></td><td style="text-align:left"><strong>-</strong></td><td style="text-align:left"><strong>是</strong></td><td style="text-align:left"><strong>应用图标，提供 192x192 大小的即可</strong></td></tr>
+<tr><td style="text-align:left"><strong>versionName</strong></td><td style="text-align:left"><strong>String</strong></td><td style="text-align:left"><strong>-</strong></td><td style="text-align:left"><strong>否</strong></td><td style="text-align:left">**应用版本名称，如：<code>&quot;1.0&quot;**</code></td></tr>
+<tr><td style="text-align:left"><strong>versionCode</strong></td><td style="text-align:left"><strong>Integer</strong></td><td style="text-align:left"><strong>-</strong></td><td style="text-align:left"><strong>是</strong></td><td style="text-align:left">**应用版本号，从<code>1</code>自增，推荐每次重新上传包时versionCode+1****</td></tr>
+<tr><td style="text-align:left"><strong>minPlatformVersion</strong></td><td style="text-align:left"><strong>Integer</strong></td><td style="text-align:left"><strong>-</strong></td><td style="text-align:left"><strong>否</strong></td><td style="text-align:left"><strong>支持的最小平台版本号，兼容性检查，避免上线后在低版本平台运行并导致不兼容；如果不填按照内测版本处理</strong></td></tr>
+<tr><td style="text-align:left">features</td><td style="text-align:left">Array</td><td style="text-align:left">-</td><td style="text-align:left">否</td><td style="text-align:left">接口列表，绝大部分接口都需要在这里声明，否则不能调用，详见每个接口的文档说明</td></tr>
+<tr><td style="text-align:left">config</td><td style="text-align:left">Object</td><td style="text-align:left">-</td><td style="text-align:left">是</td><td style="text-align:left">系统配置信息</td></tr>
+<tr><td style="text-align:left">router</td><td style="text-align:left">Object</td><td style="text-align:left">-</td><td style="text-align:left">是</td><td style="text-align:left">路由信息</td></tr>
+<tr><td style="text-align:left">display</td><td style="text-align:left">Object</td><td style="text-align:left">-</td><td style="text-align:left">否</td><td style="text-align:left">UI 显示相关配置</td></tr>
+<tr><td style="text-align:left">subpackages <code>1040+</code></td><td style="text-align:left">Object</td><td style="text-align:left">-</td><td style="text-align:left">否</td><td style="text-align:left">定义并启用分包加载</td></tr>
+</tbody>
+</table>
+<p>微信小程序还支持每个页面定制自己的页面配置json(大部分属性继承自<a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#window">window</a>)，而快应用的页面配置则统一由display.pages管理，从宏观上可以看到两类轻应用的配置差别，微观上我们也来分析一下：</p>
+<ul>
+<li>pages <strong>VS</strong> router.pages</li>
+</ul>
+<p>微信的pages只是一个路径字符串数组，没有额外的信息，而快应用的pages有很多细腻的属性，比如filter属性，声明该属性之后，页面中可以使用$page获取打开页面的参数，还有launchMode可以指定启动模式，Taro为了兼容这一差异，使用customPageConfig属性进行适配，参考<a href="https://taro-docs.jd.com/taro/docs/quick-app.html">https://taro-docs.jd.com/taro/docs/quick-app.html</a>。</p>
+<ul>
+<li>window <strong>VS</strong> display</li>
+</ul>
+<table>
+<thead>
+<tr><th style="text-align:left">微信小程序属性</th><th style="text-align:left">描述</th><th style="text-align:left">快应用属性</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left">navigationBarBackgroundColor</td><td style="text-align:left">导航栏背景颜色，如 <code>#000000</code></td><td style="text-align:left">titleBarBackgroundColor</td></tr>
+<tr><td style="text-align:left">navigationBarTextStyle</td><td style="text-align:left">导航栏标题颜色，仅支持 <code>black</code> / <code>white</code></td><td style="text-align:left">titleBarTextColor</td></tr>
+<tr><td style="text-align:left">navigationBarTitleText</td><td style="text-align:left">导航栏标题文字内容</td><td style="text-align:left">titleBarText</td></tr>
+<tr><td style="text-align:left">navigationStyle</td><td style="text-align:left">导航栏样式，仅支持以下值： <code>default</code> 默认样式 <code>custom</code> 自定义导航栏，只保留右上角胶囊按钮。参见注 2。</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left">backgroundColor</td><td style="text-align:left">窗口的背景色</td><td style="text-align:left">backgroundColor</td></tr>
+<tr><td style="text-align:left">backgroundTextStyle</td><td style="text-align:left">下拉 loading 的样式，仅支持 <code>dark</code> / <code>light</code></td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left">backgroundColorTop</td><td style="text-align:left">顶部窗口的背景色，仅 iOS 支持</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left">backgroundColorBottom</td><td style="text-align:left">底部窗口的背景色，仅 iOS 支持</td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left">enablePullDownRefresh</td><td style="text-align:left">是否开启全局的下拉刷新。 详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onpulldownrefresh">Page.onPullDownRefresh</a></td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left">onReachBottomDistance</td><td style="text-align:left">页面上拉触底事件触发时距页面底部距离，单位为 px。 详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onreachbottom">Page.onReachBottom</a></td><td style="text-align:left">无</td></tr>
+<tr><td style="text-align:left">pageOrientation</td><td style="text-align:left">屏幕旋转设置，支持 <code>auto</code> / <code>portrait</code> / <code>landscape</code>  详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html">响应显示区域变化</a></td><td style="text-align:left">orientation</td></tr>
+</tbody>
+</table>
+<p>微信小程序对背景和导航栏的样式配置更加细腻，快应用则新增了对沉浸式状态栏的管理。</p>
+<table>
+<thead>
+<tr><th style="text-align:left">属性</th><th style="text-align:left">类型</th><th style="text-align:left">默认值</th><th style="text-align:left">描述</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left">statusBarImmersive <code>1050+</code></td><td style="text-align:left">Boolean</td><td style="text-align:left">false</td><td style="text-align:left">是否显示沉浸式状态栏</td></tr>
+<tr><td style="text-align:left">statusBarTextStyle <code>1050+</code></td><td style="text-align:left">light \</td><td style="text-align:left">dark \</td><td style="text-align:left">auto</td><td>auto</td><td>状态栏文字样式，有亮,暗和自动 当为自动时会根据状态栏背景色调整</td></tr>
+<tr><td style="text-align:left">statusBarBackgroundColor <code>1050+</code></td><td style="text-align:left">String</td><td style="text-align:left">-</td><td style="text-align:left">状态栏背景色，默认值同标题栏背景色</td></tr>
+<tr><td style="text-align:left">statusBarBackgroundOpacity <code>1050+</code></td><td style="text-align:left">float(0-1.0)</td><td style="text-align:left">false</td><td style="text-align:left">状态栏背景色不透明度，默认值同标题栏背景色不透明度</td></tr>
+</tbody>
+</table>
+<p>至于啥是沉浸式状态栏，<a href="https://jingyan.baidu.com/article/3d69c55122cd57f0cf02d728.html">参考经验</a></p>
+<ul>
+<li><p>subPackages <strong>VS</strong> subPackages</p>
+<p>既然是轻应用自然少不了分包机制，微信的subPackages 支持root\name\pages\independent字段，当independent字段为true时为独立分包，此时可以不需下载主包即可运行，否则为普通分包，当用户进入普通分包或主包内页面时，主包会被下载，快应用则支持name\resource字段，resource就是包名，运行时，快应用将优先加载基础包和页面所在分包，其余分包会自动在后台进行预加载。</p>
+<hr></li>
+</ul>
+<p>以上就是Taro和快应用的配置对比啦。</p>
+<p>参考链接：</p>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#全局配置">https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE</a></p>
+<p><a href="https://doc.quickapp.cn/framework/manifest.html">https://doc.quickapp.cn/framework/manifest.html</a></p>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>玩转 Taro 跨端之 flex 布局篇 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; 玩转 Taro 跨端之 flex 布局篇，带你了解 flex 布局在各小程序端的表现详情并给出最佳实践 demo"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="玩转 Taro 跨端之 flex 布局篇 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/blog/2019/09/25/taro-flex.html"/><meta property="og:description" content="&gt; 玩转 Taro 跨端之 flex 布局篇，带你了解 flex 布局在各小程序端的表现详情并给出最佳实践 demo"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.2.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/apis/about/desc.html" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>全部文章</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">全部文章</h3><ul class=""><li class="navListItem"><a class="navItem" href="/taro/blog/2020/4/13/taro-components.html">Taro Next H5 跨框架组件库实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/02/13/taro-next-alpha.html">Taro Next 发布预览版：同时支持 React / Vue / Nerv</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/08/taro-2-0.html">Taro 2.0：拥抱社区，拥抱变化</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/02/gmtc.html">小程序跨框架开发的探索与实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/12/03/jingxi-index.html">京喜首页（微信购物入口）跨端开发与优化实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/10/24/taro-open.html">Taro 邀你加入社区共建 — 社区共建倡议书</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/blog/2019/09/25/taro-flex.html">玩转 Taro 跨端之 flex 布局篇</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/07/10/taro-hooks.html">使用 React Hooks 重构你的小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/21/taro-ext-club.html">Taro 「物料市场」及「交流社区」 惊喜上线</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/13/taro-1-3.html">Taro 1.3 震撼升级：全面支持 JSX 语法和 HOOKS</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/03/12/mini-program-framework-full-review.html">小程序框架全面测评</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/28/taro-h5-optimize.html">决战性能之巅 - Taro H5 转换与优化升级</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/25/taro-ui-2.0.html">Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/12/18/taro-1-2.html">Taro 1.2：将已有微信小程序转换为多端应用</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/11/05/taro-1-1.html">Taro 1.1 发布，全面支持微信/百度/支付宝小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/18/taro-1-0-0.html">多端统一开发框架 Taro 1.0 正式发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/11/taro-in-jd.html">Taro 在京东购物小程序上的实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/08/24/the-birth-of-taro-ui.html">首个多端 UI 组件库 - Taro UI 发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/25/the-birth-of-taro.html">为何我们要用 React 来写小程序 - Taro 诞生记</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/07/Taro.html">多端统一开发框架 - Taro</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle"><a href="/taro/blog/2019/09/25/taro-flex.html">玩转 Taro 跨端之 flex 布局篇</a></h1><p class="post-meta">September 25, 2019</p><div class="authorBlock"><p class="post-authorName"><a href="https://github.com/ZakaryCode" target="_blank" rel="noreferrer noopener">ZakaryCode</a></p><div class="authorPhoto"><a href="https://github.com/ZakaryCode" target="_blank" rel="noreferrer noopener"><img src="https://avatars0.githubusercontent.com/u/24262362?s=460&amp;u=dfb6bbff0f0d07de91d03174474b6ba220ed960c&amp;v=4" alt="ZakaryCode"/></a></div></div></header><div><span><blockquote>
+<p>玩转 Taro 跨端之 flex 布局篇，带你了解 flex 布局在各小程序端的表现详情并给出最佳实践 demo</p>
+</blockquote>
+<p>Taro 是一套遵循 React 语法规范的跨平台开发解决方案，但是目前当我们使用 Taro 的时候，在不同平台上的开发体验还有不一致的地方，所以我们也都期待有一套跨平台统一的解决方案，能够以最小差异的方式向开发者提供更好的开发体验。</p>
+<!--truncate-->
+<h1><a class="anchor" aria-hidden="true" id="玩转taro跨端之flex布局篇"></a><a href="#玩转taro跨端之flex布局篇" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>玩转Taro跨端之flex布局篇</h1>
+<p>在跨平台开发的过程中，不同平台之间的差异尤其体现在样式的统一上，由于不同平台对样式的支持程度并不一致，Taro 很难能够通过编译的手段来对跨平台样式进行统一，所以，我们需要一个支持跨平台的解决方案来对样式进行统一。</p>
+<h2><a class="anchor" aria-hidden="true" id="跨平台样式"></a><a href="#跨平台样式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>跨平台样式</h2>
+<p>考虑页面布局和样式 H5 是最为灵活的，小程序次之，React Native 和快应用最弱，统一跨平台样式应当优先对齐短板，也就是要以 React Native 和快应用的约束来管理样式，同时兼顾小程序的限制，而 Flexbox 就是一个很好的解决方案。</p>
+<p>在构建页面的时候，我们可以通过 Flexbox 高效地完成页面代码，虽然并不是所有属性都可以全平台适应的，但是它在全平台都能够得到足够的支持，而且所有平台可以很容易通过它来绘制通用性很高的页面，这也就是为什么我们选择使用 Flexbox 方案来完成这个跨平台演示项目。</p>
+<p><img src="https://img14.360buyimg.com/ling/jfs/t1/62729/39/11317/546281/5d8a1c6dE2a8f223e/056e2327640ccf83.png" alt="taro flexbox 效果图"></p>
+<p><a href="https://nervjs.github.io/taro-flexbox/">预览地址</a></p>
+<h3><a class="anchor" aria-hidden="true" id="flexbox-布局-flexible-box-layout"></a><a href="#flexbox-布局-flexible-box-layout" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Flexbox 布局 (Flexible Box Layout)</h3>
+<p>Flexbox 是弹性布局模块(CSS Flexible Box Layout Module)常用的简称，是一种用于在单个维度中显示项目行或列的布局模型。在规范中， Flexbox 被描述为用户界面设计的布局模型。 Flexbox 的关键特性是 flex 布局中的项目可以增长和缩小。可以将空间分配给项目本身，或者在项目之间或周围分配空间。</p>
+<p>在 Flexbox 中，采用 <em>flex 布局</em> 的元素，称为 <strong>flex 容器</strong>(flex container)， flex 容器所有的子元素自动成为容器成员，称为 <strong>flex 元素</strong>(flex item)。<strong>Flex 容器</strong> 默认存在两根轴：水平的主轴(main-axis)和垂直的交叉轴(cross-axis)。<strong>flex 元素</strong> 默认沿主轴排列。主轴的开始位置(与边框的交叉点)叫做 <em>main-start</em> ，结束位置叫做 <em>main end</em> ;交叉轴的开始位置叫做 <em>cross-start</em> ，结束位置叫做 <em>cross-end</em> ;单个项目占据的主轴空间叫做 <em>main-size</em> ，占据的交叉轴空间叫做 <em>cross-size</em> 。</p>
+<p><img src="https://www.w3.org/TR/css-flexbox-1/images/flex-direction-terms.svg" alt="flex-direction-terms"></p>
+<p>Flexbox 可以对齐主轴或横轴上的项目，从而提供对一组项目的大小和对齐的高级控制，大多数场景下，使用 flex-direction、align-items 和 justify-content 三个样式属性就已经能满足大多数布局需求，换而言之如果熟悉 Flexbox 就可以应对大多数场景下的布局需求。</p>
+<blockquote>
+<p>注意，设为 Flex 布局以后，子元素的 <em>float</em> 、 <em>clear</em> 和 <em>vertical-align</em> 属性将失效。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="flex-container-属性"></a><a href="#flex-container-属性" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Flex Container 属性</h3>
+<p>在规范中， Flex Container 上，一共有七个属性可以设置，但是 flex-flow 在 React Native 上是不支持的。</p>
+<h4><a class="anchor" aria-hidden="true" id="flex-direction"></a><a href="#flex-direction" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>flex-direction</h4>
+<p>flex-direction 属性指定了flex 元素是如何在 flex 容器中布局的，定义了主轴的方向(正方向或反方向)。</p>
+<p>支持的值如下：</p>
+<table>
+<thead>
+<tr><th>值</th><th>意义</th></tr>
+</thead>
+<tbody>
+<tr><td>row</td><td>flex 容器的主轴被定义为与文本方向相同。 主轴起点和主轴终点与内容方向相同。</td></tr>
+<tr><td>row-reverse</td><td>表现和 row 相同，但是置换了主轴起点和主轴终点。</td></tr>
+<tr><td>column</td><td>flex 容器的主轴和块轴相同。主轴起点与主轴终点和书写模式的前后点相同。</td></tr>
+<tr><td>column-reverse</td><td>表现和 column 相同，但是置换了主轴起点和主轴终点。</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>需要注意的是，规范下 flex-direction 的默认值是 row ，而在 React Native 中则为 column，这也就是为什么我们会添加了这个的样式</p>
+<pre><code class="hljs css language-scss"><span class="hljs-selector-class">.flex</span> {
+    <span class="hljs-attribute">display</span>: flex;
+    <span class="hljs-attribute">flex-direction</span>: row;
+}
+</code></pre>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="flex-wrap"></a><a href="#flex-wrap" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>flex-wrap</h4>
+<p>flex-wrap 指定 flex 元素单行显示还是多行显示。如果允许换行，这个属性允许控制行的堆叠方向。默认值为 nowrap。</p>
+<p>支持的值如下：</p>
+<table>
+<thead>
+<tr><th>值</th><th>意义</th></tr>
+</thead>
+<tbody>
+<tr><td>nowrap</td><td>不换行。flex 元素被摆放到到一行，这可能导致溢出 flex 容器。交叉轴的起点会根据 flex-direction 的值相当于 start 或 before。</td></tr>
+<tr><td>wrap</td><td>flex 元素被打断到多个行中。交叉轴的起点会根据 flex-direction 的值选择等于start 或before。交叉轴的终点为确定的交叉轴的起点的另一端。</td></tr>
+<tr><td>wrap-reverse</td><td>和 wrap 的行为一样，但是交叉轴的起点和交叉轴的终点互换。</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>使用 flex-wrap 属性的时候，我们需要注意 wrap-reverse 值在 React Native 上是不支持的。</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="flex-flow"></a><a href="#flex-flow" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>flex-flow</h4>
+<p>flex-flow 属性是 flex-direction 和 flex-wrap 的简写。默认值为 row nowrap。</p>
+<p>语法格式</p>
+<pre><code class="hljs css language-conf">&lt;<span class="hljs-symbol">'flex</span>-direction'&gt; || &lt;<span class="hljs-symbol">'flex</span>-wrap'&gt;
+</code></pre>
+<blockquote>
+<p>flex-flow 属性不被 React Native 和快应用支持</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="align-items"></a><a href="#align-items" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>align-items</h4>
+<p>align-items 属性将所有直接子节点上的 align-self 值设置为一个组。 align-self 属性设置项目在其包含块中在交叉轴方向上的对齐方式。默认值为 stretch。</p>
+<table>
+<thead>
+<tr><th>值</th><th>意义</th></tr>
+</thead>
+<tbody>
+<tr><td>stretch</td><td>flex 元素在交叉轴方向拉伸到与容器相同的高度或宽度（flex 元素不能固定尺寸）</td></tr>
+<tr><td>flex-start</td><td>交叉轴的起点对齐</td></tr>
+<tr><td>flex-end</td><td>交叉轴的终点对齐</td></tr>
+<tr><td>center</td><td>交叉轴的中点对齐</td></tr>
+<tr><td>baseline</td><td>元素第一行文字的基线对齐</td></tr>
+</tbody>
+</table>
+<p>语法格式</p>
+<pre><code class="hljs css language-conf">normal | <span class="hljs-type">stretch</span> | <span class="hljs-type">&lt;baseline</span>-position&gt; | <span class="hljs-type">[ &lt;overflow</span>-position&gt;? &lt;self-position&gt; ]
+<span class="hljs-keyword">where</span> 
+&lt;baseline-position&gt; = [ <span class="hljs-built_in">first</span> | <span class="hljs-type">last</span> ]? baseline
+&lt;overflow-position&gt; = unsafe | <span class="hljs-type">safe</span>
+&lt;self-position&gt; = center | <span class="hljs-type">start</span> | <span class="hljs-type">end</span> | <span class="hljs-type">self</span>-start | <span class="hljs-type">self</span>-<span class="hljs-keyword">end</span> | <span class="hljs-type">flex</span>-start | <span class="hljs-type">flex</span>-<span class="hljs-keyword">end</span>
+</code></pre>
+<blockquote>
+<p>baseline 值不被 React Native 和快应用支持</p>
+<p>space-evenly、start、end、self-start、self-end、left、right、first baseline、last baseline、safe、unsafe 在 flex 布局中通用性低</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="align-content"></a><a href="#align-content" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>align-content</h4>
+<p>align-content 属性设置了如何沿着 flex 容器的交叉轴和在 flex 元素之间和周围分配空间。默认值为 stretch。</p>
+<blockquote>
+<p>该属性对单行弹性盒子模型无效。（即：带有 flex-wrap: nowrap 的 flex 容器）。</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>值</th><th>意义</th></tr>
+</thead>
+<tbody>
+<tr><td>stretch</td><td>拉伸所有 flex 元素来填满剩余空间。剩余空间平均的分配给每一个 flex 元素</td></tr>
+<tr><td>flex-start</td><td>所有 flex 元素从垂直轴起点开始填充。第一个 flex 元素的垂直轴起点边和 flex 容器的垂直轴起点边对齐。接下来的每一个 flex 元素紧跟前一个 flex 元素。</td></tr>
+<tr><td>flex-end</td><td>所有 flex 元素从垂直轴末尾开始填充。最后一个 flex 元素的垂直轴终点和容器的垂直轴终点对齐。同时所有后续 flex 元素与前一个对齐。</td></tr>
+<tr><td>center</td><td>所有 flex 元素朝向容器的中心填充。每 flex 元素互相紧挨，相对于容器居中对齐。容器的垂直轴起点边和第一个 flex 元素的距离相等于容器的垂直轴终点边和最后一个 flex 元素的距离。</td></tr>
+<tr><td>space-between</td><td>所有 flex 元素在容器中平均分布。相邻两 flex 元素间距相等。容器的垂直轴起点边和终点边分别与第一个 flex 元素和最后一个 flex 元素的边对齐。</td></tr>
+<tr><td>space-around</td><td>所有 flex 元素在 flex 容器中平均分布，相邻两 flex 元素间距相等。容器的垂直轴起点边和终点边分别与第一个 flex 元素和最后一个 flex 元素的距离是相邻两 flex 元素间距的一半。</td></tr>
+<tr><td>space-evenly</td><td>flex 元素都沿着主轴均匀分布在指定的 flex 元素中。相邻 flex 元素之间的间距，主轴起始位置到第一个 flex 元素的间距,，主轴结束位置到最后一个 flex 元素的间距，都完全一样。</td></tr>
+</tbody>
+</table>
+<p>语法格式</p>
+<pre><code class="hljs css language-conf">normal | &lt;baseline-<span class="hljs-built_in">position</span>&gt; | &lt;<span class="hljs-built_in">content</span>-distribution&gt; | &lt;overflow-<span class="hljs-built_in">position</span>&gt;? &lt;<span class="hljs-built_in">content</span>-<span class="hljs-built_in">position</span>&gt;
+where 
+&lt;baseline-<span class="hljs-built_in">position</span>&gt; = [ <span class="hljs-built_in">first</span> | <span class="hljs-built_in">last</span> ]? baseline
+&lt;<span class="hljs-built_in">content</span>-distribution&gt; = <span class="hljs-built_in">space</span>-between | <span class="hljs-built_in">space</span>-around | <span class="hljs-built_in">space</span>-evenly | stretch
+&lt;overflow-<span class="hljs-built_in">position</span>&gt; = unsafe | safe
+&lt;<span class="hljs-built_in">content</span>-<span class="hljs-built_in">position</span>&gt; = <span class="hljs-built_in">center</span> | start | end | flex-start | flex-end
+</code></pre>
+<blockquote>
+<p>React Native 中需要版本号在 0.58 以上</p>
+<p>且 flex-wrap 属性值需要为 wrap</p>
+<p>同时只对横轴生效(即 flex-direction 属性为 column 或 column-reverse)</p>
+<p>baseline 值不被 React Native 支持</p>
+<p>space-evenly、start、end、left、right、first baseline、last baseline、safe、unsafe 在 flex 布局中通用性低</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="justify-content"></a><a href="#justify-content" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>justify-content</h4>
+<p>justify-content 属性定义了浏览器如何分配顺着 flex 容器主轴的 flex 元素之间及其周围的空间。</p>
+<table>
+<thead>
+<tr><th>值</th><th>意义</th></tr>
+</thead>
+<tbody>
+<tr><td>flex-start</td><td>从行首开始排列。每行第一个 flex 元素与行首对齐，同时所有后续的 flex 元素与前一个对齐。</td></tr>
+<tr><td>flex-end</td><td>从行尾开始排列。每行最后一个 flex 元素与行尾对齐，其他元素将与后一个对齐。</td></tr>
+<tr><td>center</td><td>伸缩元素向每行中点排列。每行第一个元素到行首的距离将与每行最后一个元素到行尾的距离相同。</td></tr>
+<tr><td>space-between</td><td>在每行上均匀分配 flex 元素。相邻元素间距离相同。每行第一个元素与行首对齐，每行最后一个元素与行尾对齐。</td></tr>
+<tr><td>space-around</td><td>在每行上均匀分配 flex 元素。相邻元素间距离相同。每行第一个元素到行首的距离和每行最后一个元素到行尾的距离将会是相邻元素之间距离的一半。</td></tr>
+<tr><td>space-evenly</td><td>flex 元素都沿着主轴均匀分布在指定的 flex 元素中。相邻 flex 元素之间的间距，主轴起始位置到第一个 flex 元素的间距,，主轴结束位置到最后一个 flex 元素的间距，都完全一样。</td></tr>
+</tbody>
+</table>
+<p>语法格式</p>
+<pre><code class="hljs css language-conf">normal | <span class="hljs-type">&lt;content</span>-distribution&gt; | <span class="hljs-type">&lt;overflow</span>-position&gt;? [ &lt;content-position&gt; | <span class="hljs-type">left</span> | <span class="hljs-type">right</span> ]
+<span class="hljs-keyword">where</span> 
+&lt;content-distribution&gt; = space-between | <span class="hljs-type">space</span>-around | <span class="hljs-type">space</span>-evenly | <span class="hljs-type">stretch</span>
+&lt;overflow-position&gt; = unsafe | <span class="hljs-type">safe</span>
+&lt;content-position&gt; = center | <span class="hljs-type">start</span> | <span class="hljs-type">end</span> | <span class="hljs-type">flex</span>-start | <span class="hljs-type">flex</span>-<span class="hljs-keyword">end</span>
+</code></pre>
+<blockquote>
+<p>baseline 值不被 React Native 支持</p>
+<p>stretch、space-evenly、start、end、left、right、first baseline、last baseline、safe、unsafe 在 flex 布局中通用性低</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="place-content"></a><a href="#place-content" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>place-content</h4>
+<p>place-content 属性是 align-content 和 justify-content 的简写。</p>
+<p>语法格式</p>
+<pre><code class="hljs css language-conf">&lt;<span class="hljs-symbol">'align</span>-content'&gt; &lt;<span class="hljs-symbol">'justify</span>-content'&gt;?
+</code></pre>
+<ul>
+<li>如果第二个值不存在，且第一个值适用于用于两者，则第二个值复用第一个</li>
+<li>如果第二个值不存在，且第一个值不适用于用于两者，则整个值无效</li>
+</ul>
+<blockquote>
+<p>place-content 属性不被 React Native 支持</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="flex-item-属性"></a><a href="#flex-item-属性" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Flex Item 属性</h3>
+<p>在 Flex Item 上，同样也有六个属性，而 order 属性在 React Native 上不支持。</p>
+<h4><a class="anchor" aria-hidden="true" id="order"></a><a href="#order" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>order</h4>
+<p>order 属性规定了 flex 容器中的 flex 元素在布局时的顺序。flex 元素按照 order 属性的值的增序进行布局。拥有相同 order 属性值的 flex 元素按照它们在源代码中出现的顺序进行布局。默认值为 0。</p>
+<p>语法格式</p>
+<pre><code class="hljs css language-conf">&lt;<span class="hljs-built_in">int</span>eger&gt;
+</code></pre>
+<blockquote>
+<p>order 属性不被 React Native 支持</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="flex-grow"></a><a href="#flex-grow" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>flex-grow</h4>
+<p>flex-grow 属性定义 flex 元素的拉伸因子。</p>
+<p>语法格式</p>
+<pre><code class="hljs css language-conf"><span class="hljs-variable">&lt;number&gt;</span> |<span class="hljs-string"> inherit
+</span></code></pre>
+<blockquote>
+<p>负值无效</p>
+<p>React Native 上默认值为 0</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="flex-shrink"></a><a href="#flex-shrink" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>flex-shrink</h4>
+<p>flex-shrink 属性指定了 flex 元素的收缩规则。flex 元素仅在默认宽度之和大于容器的时候才会发生收缩，其收缩的大小是依据 flex-shrink 的值。默认值为 1。</p>
+<p>语法格式</p>
+<pre><code class="hljs css language-conf"><span class="hljs-variable">&lt;number&gt;</span> |<span class="hljs-string"> inherit
+</span></code></pre>
+<blockquote>
+<p>负值是不被允许的。</p>
+<p>React Native 上默认值为 1</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="flex-basis"></a><a href="#flex-basis" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>flex-basis</h4>
+<p>flex-basis 指定了 flex 元素在主轴方向上的初始大小。如果不使用  box-sizing 改变盒模型的话，那么这个属性就决定了 flex 元素的内容盒（content-box）的尺寸。</p>
+<blockquote>
+<p>注意：如果一个 flex 元素同时设置了 flex-basis (auto 除外)和 width (或者 flex-direction: column 时设置了 height )，flex-basis 权级更高。</p>
+</blockquote>
+<p>语法规范</p>
+<pre><code class="hljs css language-conf"><span class="hljs-built_in">content</span> | &lt;'<span class="hljs-built_in">width</span>'&gt;
+</code></pre>
+<ul>
+<li>&lt;'width'&gt;
+<ul>
+<li>width 值可以是<code>&lt;length&gt;</code>;</li>
+<li>该值也可以是一个相对于其父弹性盒容器主轴尺寸的百分数 。</li>
+<li>负值是不被允许的。</li>
+<li>默认为 0。</li>
+</ul></li>
+<li>content
+<ul>
+<li>基于 flex 元素的内容自动调整大小。</li>
+</ul></li>
+</ul>
+<blockquote>
+<p>React Native 上使用 ScrollView 组件会导致属性失效</p>
+<p>如果没有足够空间，组件不会发生收缩 (应该是设置了 flex-shrink 属性值默认为 0)</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="flex"></a><a href="#flex" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>flex</h4>
+<p>flex 规定了 flex 元素如何伸长或缩短以适应 flex 容器中的可用空间。这是一个简写属性，用来设置 flex-grow, flex-shrink 与 flex-basis。</p>
+<p>语法格式</p>
+<pre><code class="hljs css language-conf">none | [ &lt;<span class="hljs-symbol">'flex</span>-grow'&gt; &lt;<span class="hljs-symbol">'flex</span>-shrink'&gt;? || &lt;<span class="hljs-symbol">'flex</span>-basis'&gt; ]
+</code></pre>
+<ul>
+<li>initial
+<ul>
+<li>元素会根据自身宽高设置尺寸。</li>
+<li>它会缩短自身以适应 flex 容器，但不会伸长并吸收 flex 容器中的额外自由空间来适应 flex 容器 。</li>
+<li>相当于将属性设置为&quot;flex: 0 1 auto&quot;。</li>
+</ul></li>
+<li>auto
+<ul>
+<li>元素会根据自身的宽度与高度来确定尺寸，但是会伸长并吸收 flex 容器中额外的自由空间，也会缩短自身来适应 flex 容器。</li>
+<li>这相当于将属性设置为 &quot;flex: 1 1 auto&quot;。</li>
+</ul></li>
+<li>none
+<ul>
+<li>元素会根据自身宽高来设置尺寸。</li>
+<li>它是完全非弹性的：既不会缩短，也不会伸长来适应 flex 容器。</li>
+<li>相当于将属性设置为&quot;flex: 0 0 auto&quot;。</li>
+</ul></li>
+</ul>
+<blockquote>
+<p>在 React Native 中只能为 number 类型</p>
+<ul>
+<li>当 flex &gt; 0 时，组件大小将与其弹性值成比例。因此，flex 设置为 2 的组件将占用空间的两倍作为 flex 设置为 1 的组件</li>
+<li>当 flex = 0 时，组件根据 width 和 height 确定大小，且不会发生变化。</li>
+<li>当 flex = -1 时，组件通常根据 width 和 height 确定大小。但是，如果没有足够的空间，组件将收缩到 minWidth 和 minHeight。</li>
+</ul>
+<p>在快应用中，flex 的快捷值设置均是无效值</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="align-self"></a><a href="#align-self" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>align-self</h4>
+<p>align-self 会对齐当前 flex 行中的 flex 元素，并覆盖 align-items 的值. 如果任何 flex 元素的侧轴方向 margin 值设置为 auto，则会忽略 align-self。</p>
+<p>语法格式</p>
+<pre><code class="hljs css language-conf"><span class="hljs-built_in">auto</span> | <span class="hljs-type">normal</span> | <span class="hljs-type">stretch</span> | <span class="hljs-type">&lt;baseline</span>-position&gt; | <span class="hljs-type">&lt;overflow</span>-position&gt;? &lt;self-position&gt;
+<span class="hljs-keyword">where</span> 
+&lt;baseline-position&gt; = [ <span class="hljs-built_in">first</span> | <span class="hljs-type">last</span> ]? baseline
+&lt;overflow-position&gt; = unsafe | <span class="hljs-type">safe</span>
+&lt;self-position&gt; = center | <span class="hljs-type">start</span> | <span class="hljs-type">end</span> | <span class="hljs-type">self</span>-start | <span class="hljs-type">self</span>-<span class="hljs-keyword">end</span> | <span class="hljs-type">flex</span>-start | <span class="hljs-type">flex</span>-<span class="hljs-keyword">end</span>
+</code></pre>
+<blockquote>
+<p>baseline 值不被 React Native 和快应用支持</p>
+<p>start、end、self-start、self-end、first baseline、last baseline、safe、unsafe 在 flex 布局中通用性低</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="组件化开发"></a><a href="#组件化开发" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件化开发</h2>
+<p>不同的平台如 Web、React-Native、微信小程序等各有特色，平台之间的差异很大，会导致很多额外的开发成本。那么如果我们想要完成一个跨平台项目该怎么做呢？</p>
+<p>我们开始从比较容易入手的方向考虑，如果采用模块化组件或是 css-in-js 的方案去完成样式的构建会是一个好的方案么？</p>
+<p>在目前的前端生态中，模块化组件开发会是个很棒的方案，覆盖模式下构建开箱即用的组件同时可以提供方法来覆盖样式再好不过了，但是如果放到小程序开发的模式中，这就会有个很严重的问题，那就是如果我们在层级样式表中写到的样式，是不能直接传给组件来覆盖样式的，组件和组件的隔离在不同小程序中很难被打破。</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">/* CustomComp.js */</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">CustomComp</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token keyword">static</span> defaultProps <span class="token operator">=</span> <span class="token punctuation">{</span>
+    className<span class="token operator">:</span> <span class="token string">''</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span> <span class="token attr-name">className</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>className<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>这段文本的颜色不会由组件外的 <span class="token keyword">class</span> 决定<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* MyPage.js */</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">MyPage</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">CustomComp</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>red-text<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre><code class="hljs css language-css"><span class="hljs-comment">/* MyPage.scss */</span>
+<span class="hljs-selector-class">.red-text</span> {
+  <span class="hljs-attribute">color</span>: red;
+}
+</code></pre>
+<p>如果大家尝试上述的写法，会发现 red-text 类中的样式并没有生效，那么在这种情况下我们如果考虑是使用 css-in-js 会好么？很遗憾，如果你使用它，我们将不会为这些需要运行时处理的样式补全前缀。</p>
+<p>这两个方案都不是合适的方案，那么我们该怎么做呢？试着去打破小程序的组件限制么？我们在微信小程序官方的文档中找到 externalClasses 这个方法，可以先来尝试。</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">/* CustomComp.js */</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">CustomComp</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token keyword">static</span> externalClasses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'my-class'</span><span class="token punctuation">]</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>my-class<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>这段文本的颜色由组件外的 <span class="token keyword">class</span> 决定<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* MyPage.js */</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">MyPage</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">CustomComp</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>red-text<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre><code class="hljs css language-css"><span class="hljs-comment">/* MyPage.scss */</span>
+<span class="hljs-selector-class">.red-text</span> {
+  <span class="hljs-attribute">color</span>: red;
+}
+</code></pre>
+<p>但是这也并非所有的开发平台都能够提供给开发者相关的方法，所以我们只能转换目光到另一个 addGlobalClass 方法上，这个方法不仅在所有小程序都能够支持，Taro 在 React Native 端上也提供了同样的方法给大家，这样我们也可以避开 css modules 这个体验稍差的方法。</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">/* CustomComp.js */</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">CustomComp</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token keyword">static</span> options <span class="token operator">=</span> <span class="token punctuation">{</span>
+    addGlobalClass<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>red-text<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>这段文本的颜色由组件外的 <span class="token keyword">class</span> 决定<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre><code class="hljs css language-css"><span class="hljs-comment">/* 组件外的样式定义 */</span>
+<span class="hljs-selector-class">.red-text</span> {
+  <span class="hljs-attribute">color</span>: red;
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="写在最后"></a><a href="#写在最后" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>写在最后</h2>
+<p>在项目中，我们已经将所有通用支持的方法写到 scss 文件中，如果大家需要可以直接使用我们已经提供的 flexbox 样式，按如下方法在自己全局的层级样式表中引入我们已经提供的样式。</p>
+<pre><code class="hljs css language-scss"><span class="hljs-keyword">@import</span> <span class="hljs-string">'https://raw.githubusercontent.com/NervJS/taro-flexbox/master/flexbox-demo/src/asset/flex.scss'</span>;
+</code></pre>
+<p>那么关于 Flex 布局的知识，如果文中有遗漏的，大家可以跟着我们的项目来梳理知识，也可以到 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_Layout#%E5%8F%82%E8%80%83">MDN</a> 上查看相关的文档，值得注意的是在 Flexbox 布局中 gap、row-gap、column-gap 属性在 Grid 布局中普遍支持，但是在 Flex 布局中却只有 Firefox 完成了适配，所以暂且不表,</p>
+<p>同样 justify-content 属性的 space-evenly 值在 web 端通用性很低，不建议使用。</p>
+<blockquote>
+<p>gap、row-gap、column-gap in flex</p>
+</blockquote>
+<p><img src="https://github.com/NervJS/taro-flexbox/wiki/space-evently-desktop.png?raw=true" alt="gap_in_flex"></p>
+<blockquote>
+<p>space-evently on desktop</p>
+</blockquote>
+<p><img src="https://github.com/NervJS/taro-flexbox/wiki/space-evently-mobile.png?raw=true" alt="space-evently-desktop"></p>
+<blockquote>
+<p>space-evently on mobile</p>
+</blockquote>
+<p><img src="https://github.com/NervJS/taro-flexbox/wiki/gap_in_flex.png?raw=true" alt="space-evently-mobile"></p>
+<p>希望这篇文章可以为你提供一些帮助。</p>
+<h3><a class="anchor" aria-hidden="true" id="属性对照表"></a><a href="#属性对照表" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>属性对照表</h3>
+<table>
+<thead>
+<tr><th>属性</th><th style="text-align:center">Chrome</th><th style="text-align:center">Firefox</th><th style="text-align:center">Android webview</th><th style="text-align:center">Safari on iOS</th><th style="text-align:center">微信小程序</th><th style="text-align:center">支付宝小程序</th><th style="text-align:center">百度小程序</th><th style="text-align:center">头条小程序</th><th style="text-align:center">QQ小程序</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td>flex-direction</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">部分差异</td></tr>
+<tr><td>flex-wrap</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">wrap-reverse 不支持</td></tr>
+<tr><td>flex-flow</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">不支持</td></tr>
+<tr><td>align-items</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">baseline 不支持</td></tr>
+<tr><td>align-content</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">0.58+ (部分差异)</td></tr>
+<tr><td>justify-content</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">baseline 不支持</td></tr>
+<tr><td>place-content</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">不支持</td></tr>
+<tr><td>order</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">不支持</td></tr>
+<tr><td>flex-grow</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td></tr>
+<tr><td>flex-shrink</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td></tr>
+<tr><td>flex-basis</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">部分差异</td></tr>
+<tr><td>flex</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">语法不同</td></tr>
+<tr><td>align-self</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">✔</td><td style="text-align:center">baseline 不支持</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="相关链接"></a><a href="#相关链接" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>相关链接</h3>
+<ul>
+<li>预览地址：<a href="https://nervjs.github.io/taro-flexbox/">https://nervjs.github.io/taro-flexbox/</a></li>
+<li>项目地址：<a href="https://github.com/NervJS/taro-flexbox">https://github.com/NervJS/taro-flexbox</a></li>
+<li>参考地址
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout#Reference">https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout#Reference</a></li>
+<li><a href="https://facebook.github.io/react-native/docs/flexbox">https://facebook.github.io/react-native/docs/flexbox</a></li>
+<li><a href="https://github.com/startheart/cml-flexbox">https://github.com/startheart/cml-flexbox</a></li>
+</ul></li>
+</ul>
+</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/taro/blog">最近更新</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#跨平台样式">跨平台样式</a><ul class="toc-headings"><li><a href="#flexbox-布局-flexible-box-layout">Flexbox 布局 (Flexible Box Layout)</a></li><li><a href="#flex-container-属性">Flex Container 属性</a></li><li><a href="#flex-item-属性">Flex Item 属性</a></li></ul></li><li><a href="#组件化开发">组件化开发</a></li><li><a href="#写在最后">写在最后</a><ul class="toc-headings"><li><a href="#属性对照表">属性对照表</a></li><li><a href="#相关链接">相关链接</a></li></ul></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

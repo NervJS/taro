@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Taro Blog</title>
+        <link>https://taro.jd.com/taro/blog</link>
+        <description>The best place to stay up-to-date with the latest Taro news and events.</description>
+        <lastBuildDate>Thu, 01 Jan 1970 00:00:00 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>Feed for Node.js</generator>
+        <image>
+            <title>Taro Blog</title>
+            <url>https://taro.jd.com/taro/img/logo-taro.png</url>
+            <link>https://taro.jd.com/taro/blog</link>
+        </image>
+        <copyright>Copyright © 2020 ltp11</copyright>
+        <item>
+            <title><![CDATA[Taro Next H5 跨框架组件库实践]]></title>
+            <link>https://taro.jd.com/taro/blog/2020/4/13/taro-components.html</link>
+            <guid>https://taro.jd.com/taro/blog/2020/4/13/taro-components.html</guid>
+            <pubDate>Thu, 01 Jan 1970 00:00:00 GMT</pubDate>
+            <description><![CDATA[<p><img src="https://img30.360buyimg.com/ling/jfs/t1/108543/10/12151/1750297/5e93ef97Ef424d4a7/29cf4e4364e5d3f0.png" alt="image"></p>
+<p><a href="https://github.com/NervJS/taro">Taro</a> 是一款多端开发框架。开发者只需编写一份代码，即可生成各小程序端、H5 以及 React Native 的应用。</p>
+<blockquote>
+<p><a href="http://taro-docs-in.jd.com/taro/next/docs/next/README.html">Taro Next</a> 近期已发布 beta 版本，全面完善对小程序以及 H5 的支持，欢迎体验！</p>
+</blockquote>
+<p>本文将重点介绍对 <strong>Taro H5 端组件库</strong>的改造工作。</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Taro Next 发布预览版：同时支持 React / Vue / Nerv]]></title>
+            <link>https://taro.jd.com/taro/blog/2020/02/13/taro-next-alpha.html</link>
+            <guid>https://taro.jd.com/taro/blog/2020/02/13/taro-next-alpha.html</guid>
+            <pubDate>Thu, 13 Feb 2020 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p><img src="https://img14.360buyimg.com/ling/jfs/t1/103557/3/12087/1051626/5e44b357E4cab8765/d8c821c4a3e1060d.png" alt="image"></p>
+<p>自 Taro 2.0 起，我们将会启动对整个 Taro 系统架构的革新，这次革新我们将其称之为 Taro Next。Taro Next 革新完成之后，Taro 本身的拓展性、稳定性、可维护性都会大幅提高，相应地，使用 Taro 的开发者也会获得更好的开发体验，降低更多开发成本和学习成本。</p>
+<p>我们目前已经完成了<strong>编译系统和小程序端的重构</strong>，通过 <code>npm i -g @tarojs/cli@next</code> 安装 Taro CLI 预览（alpha）版之后，使用 <code>taro init</code> 创建新项目即可体验 Taro Next 的新特性。</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Taro 2.0：拥抱社区，拥抱变化]]></title>
+            <link>https://taro.jd.com/taro/blog/2020/01/08/taro-2-0.html</link>
+            <guid>https://taro.jd.com/taro/blog/2020/01/08/taro-2-0.html</guid>
+            <pubDate>Wed, 08 Jan 2020 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>Taro 1.x 版本自去年 9 月份发布以来，已经陪伴大家度过了一年多的时间，在此期间 Taro 一直保持高速成长，发布了多个具有重大意义的版本，让 Taro 成为如今一个功能完善，拥有众多忠实拥趸的多端统一开发框架。</p>
+<p><img src="https://storage.360buyimg.com/2.0/alls.jpg" alt=""></p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[小程序跨框架开发的探索与实践]]></title>
+            <link>https://taro.jd.com/taro/blog/2020/01/02/gmtc.html</link>
+            <guid>https://taro.jd.com/taro/blog/2020/01/02/gmtc.html</guid>
+            <pubDate>Thu, 02 Jan 2020 06:00:00 GMT</pubDate>
+            <description><![CDATA[<blockquote>
+<p>前言：随着小程序开发的热度上升，小程序开发框架也层出不穷。但目前每个框架都会绑定一个专属 DSL，如类 React 或者类 Vue，在一个框架内，开发者无法根据团队技术栈自由选择 DSL，同时也无法共享框架本身的生态与工具。</p>
+</blockquote>
+<p>本次分享将为大家介绍 Taro 如何将各种语法的前端框架运行在小程序上，讨论一个框架支持多 DSL 的实现探索，使得开发者可以使用任意热门框架/语法/DSL 来编写小程序应用，同时复用相关生态。</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[京喜首页（微信购物入口）跨端开发与优化实践]]></title>
+            <link>https://taro.jd.com/taro/blog/2019/12/03/jingxi-index.html</link>
+            <guid>https://taro.jd.com/taro/blog/2019/12/03/jingxi-index.html</guid>
+            <pubDate>Tue, 03 Dec 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p><img src="https://img13.360buyimg.com/ling/jfs/t1/103274/2/4226/201268/5de6455aEf651e021/8013f336e45fc79c.png" alt="image"></p>
+<p>作者从技术选型、开发实录再到性能优化三个维度对微信购物入口「京喜」首页改版做了简单总结。</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Taro 邀你加入社区共建 — 社区共建倡议书]]></title>
+            <link>https://taro.jd.com/taro/blog/2019/10/24/taro-open.html</link>
+            <guid>https://taro.jd.com/taro/blog/2019/10/24/taro-open.html</guid>
+            <pubDate>Thu, 24 Oct 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p><a href="https://taro.jd.com">Taro</a> 作为一个多端统一开发解决方案，自诞生以来一直保持着高速的发展态势， 从一个单一的开发框架发展到如今服务数万名开发者的多端解决方案，Taro 的成长有 Taro 团队不忘初心的努力，但更重要的是，离不开社区广大开发者的支持和帮助。</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[玩转 Taro 跨端之 flex 布局篇]]></title>
+            <link>https://taro.jd.com/taro/blog/2019/09/25/taro-flex.html</link>
+            <guid>https://taro.jd.com/taro/blog/2019/09/25/taro-flex.html</guid>
+            <pubDate>Wed, 25 Sep 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<blockquote>
+<p>玩转 Taro 跨端之 flex 布局篇，带你了解 flex 布局在各小程序端的表现详情并给出最佳实践 demo</p>
+</blockquote>
+<p>Taro 是一套遵循 React 语法规范的跨平台开发解决方案，但是目前当我们使用 Taro 的时候，在不同平台上的开发体验还有不一致的地方，所以我们也都期待有一套跨平台统一的解决方案，能够以最小差异的方式向开发者提供更好的开发体验。</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[使用 React Hooks 重构你的小程序]]></title>
+            <link>https://taro.jd.com/taro/blog/2019/07/10/taro-hooks.html</link>
+            <guid>https://taro.jd.com/taro/blog/2019/07/10/taro-hooks.html</guid>
+            <pubDate>Wed, 10 Jul 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p><img src="http://storage.360buyimg.com/taro-club-img/b42116392c909d0680788853011c70db" alt="image"></p>
+<blockquote>
+<p>本文由余澈在 GMTC 全球大前端技术 2019 的演讲：<a href="https://gmtc.infoq.cn/2019/beijing/presentation/1706">《使用 React Hooks 重构你的小程序》</a>整理而成。</p>
+</blockquote>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Taro 「物料市场」及「交流社区」 惊喜上线]]></title>
+            <link>https://taro.jd.com/taro/blog/2019/06/21/taro-ext-club.html</link>
+            <guid>https://taro.jd.com/taro/blog/2019/06/21/taro-ext-club.html</guid>
+            <pubDate>Fri, 21 Jun 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>我们不仅带来了焕然一新的 <a href="https://taro.jd.com">Taro 官网</a>，还一次性推出了 <a href="https://taro-ext.jd.com">Taro 物料市场</a> 和 <a href="https://taro-club.jd.com">Taro 开发者社区</a>。帮助 Taro 实现从 <strong>多端统一开发框架</strong> 到 <strong>多端统一开发解决方案</strong> 的转型。</p>
+<p>Taro 物料市场：<a href="https://taro-ext.jd.com/">https://taro-ext.jd.com/</a>
+Taro 开发者社区：<a href="https://taro-club.jd.com/">https://taro-club.jd.com/</a></p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Taro 1.3 震撼升级：全面支持 JSX 语法和 HOOKS]]></title>
+            <link>https://taro.jd.com/taro/blog/2019/06/13/taro-1-3.html</link>
+            <guid>https://taro.jd.com/taro/blog/2019/06/13/taro-1-3.html</guid>
+            <pubDate>Thu, 13 Jun 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>在 Taro 1.2 发布之后，Taro 在业界收获了巨大的赞誉和关注：GitHub 上 Star 数量超过 19000 粒，NPM 下载量也稳居同类开发框架之首，同时 Taro 团队也和腾讯、百度、华为等数十家业界巨头的研发团队展开了深入和有效的合作。</p>
+<p>Taro 1.3 是我们酝酿最久的版本：经历了横跨 6 个月的开发时间，近 2000 次的代码提交，近百位开发者的共同参与。我们终于在今天骄傲地发布了 Taro 1.3。</p>
+<p>Taro 1.3 的特性包括但不限于：</p>
+<ul>
+<li>支持快应用和 QQ 小程序的开发</li>
+<li>全面支持 JSX 语法和 React Hooks</li>
+<li>大幅提高 H5 性能和可用性</li>
+<li>Taro Doctor</li>
+</ul>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[小程序框架全面测评]]></title>
+            <link>https://taro.jd.com/taro/blog/2019/03/12/mini-program-framework-full-review.html</link>
+            <guid>https://taro.jd.com/taro/blog/2019/03/12/mini-program-framework-full-review.html</guid>
+            <pubDate>Tue, 12 Mar 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p><img src="https://storage.jd.com/taro-resource/review.jpg" alt="image"></p>
+<p>最近前端届多端框架频出，相信很多有代码多端运行需求的开发者都会产生一些疑惑：这些框架都有什么优缺点？到底应该用哪个？</p>
+<p>作为 Taro 开发团队一员，笔者想在本文尽量站在一个客观公正的角度去评价各个框架的选型和优劣。但宥于利益相关，本文的观点很可能是带有偏向性的，大家可以带着批判的眼光去看待，权当抛砖引玉。</p>
+<p>那么，当我们在讨论多端框架时，我们在谈论什么：</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[决战性能之巅 - Taro H5 转换与优化升级]]></title>
+            <link>https://taro.jd.com/taro/blog/2019/02/28/taro-h5-optimize.html</link>
+            <guid>https://taro.jd.com/taro/blog/2019/02/28/taro-h5-optimize.html</guid>
+            <pubDate>Thu, 28 Feb 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p><img src="https://img10.360buyimg.com/img/jfs/t1/21860/12/8740/42390/5c790470E1d0bbce9/9f9bb78d01f7564b.png" alt="image"></p>
+<p>作为一个多端开发框架，Taro 从项目发起时就已经支持编译到 H5 端。随着 Taro 多端能力的不断成熟，我们对 Taro H5 端应用的要求也不断提升。我们已经不再满足于“能跑”，更希望 Taro 能跑得快。</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序]]></title>
+            <link>https://taro.jd.com/taro/blog/2019/02/25/taro-ui-2.0.html</link>
+            <guid>https://taro.jd.com/taro/blog/2019/02/25/taro-ui-2.0.html</guid>
+            <pubDate>Mon, 25 Feb 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>转眼间，Taro UI 发布已有半年，感谢大家的支持，让我们收获了 <a href="https://github.com/NervJS/taro-ui">GitHub</a> 1400+ star。在此期间，我们不断完善组件库的功能和特性，新增了许多组件和小工具，包括但不限于:</p>
+<ul>
+<li>新增日历、索引选择、区域选择、图片选择等十一个组件</li>
+<li>适配支付宝小程序、百度小程序</li>
+<li>新增自定义主题功能</li>
+<li>新增主题生成器，以帮助开发者更好地使用自定义主题功能</li>
+<li>新增 Issue Helper，以帮助开发者更规范地填写 Issue</li>
+</ul>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Taro 1.2：将已有微信小程序转换为多端应用]]></title>
+            <link>https://taro.jd.com/taro/blog/2018/12/18/taro-1-2.html</link>
+            <guid>https://taro.jd.com/taro/blog/2018/12/18/taro-1-2.html</guid>
+            <pubDate>Tue, 18 Dec 2018 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>在距离 <a href="https://aotu.io/notes/2018/11/05/taro-1-1/">Taro 1.1 发布</a> 之后一个月，经历了 <strong>500</strong> 多次提交和 <strong>17</strong> 个预览版本的迭代之后，我们有信心在今天发布 Taro 1.2 正式版。</p>
+<p>Taro 1.2 比起 Taro 1.1 和其它的小程序开发框架，增加了许多首次在小程序框架上实现的功能，这些功能包括但不限于：</p>
+<ul>
+<li><a href="#taroize">微信小程序转多端应用</a></li>
+<li><a href="#tt">字节跳动（头条）小程序支持</a></li>
+<li><a href="#css">CSS Modules 支持</a></li>
+<li><a href="#mobx">MobX 支持</a></li>
+</ul>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Taro 1.1 发布，全面支持微信/百度/支付宝小程序]]></title>
+            <link>https://taro.jd.com/taro/blog/2018/11/05/taro-1-1.html</link>
+            <guid>https://taro.jd.com/taro/blog/2018/11/05/taro-1-1.html</guid>
+            <pubDate>Mon, 05 Nov 2018 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>在 9 月 16 日的掘金小程序大会上，Taro 正式发布了 1.0 版本。</p>
+<p>作为一个多端统一开发框架，Taro 1.0 版本为广大开发者带来了许多激动人心的特性，帮助开发者们更方便快捷地开发多端应用。</p>
+<p>前进的脚步没有停下，历时一个多月，Taro 1.1 版本正式来袭！</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[多端统一开发框架 Taro 1.0 正式发布]]></title>
+            <link>https://taro.jd.com/taro/blog/2018/09/18/taro-1-0-0.html</link>
+            <guid>https://taro.jd.com/taro/blog/2018/09/18/taro-1-0-0.html</guid>
+            <pubDate>Tue, 18 Sep 2018 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>在 <code>2018.6.7</code> 我们对外开源了 <a href="https://aotu.io/notes/2018/06/07/Taro/"><code>多端统一开发框架——Taro</code></a>。</p>
+<p>Taro 是一个多端统一开发框架，它支持使用 React 的开发方式来编写可以同时在微信小程序、Web 、React Native 等多个平台上运行的应用，帮助开发者提升开发效率，改善开发体验，降低多端研发成本。</p>
+<p>自开源以来，Taro 一直广受业界关注，其原理与思想也得到了广泛开发者的认可，这对于我们来说无疑是一件令人振奋的事。但是由于初期 Taro 测试与实现方式的不足，导致在开源期间 Bug 较多，受到了一些质疑。为此，我们痛定思痛，积极接受了开源社区的意见与帮助，并努力探索提升 Taro 稳定性与性能的方式。经过不断地迭代完善，已经让 Taro 浴火重生。</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Taro 在京东购物小程序上的实践]]></title>
+            <link>https://taro.jd.com/taro/blog/2018/09/11/taro-in-jd.html</link>
+            <guid>https://taro.jd.com/taro/blog/2018/09/11/taro-in-jd.html</guid>
+            <pubDate>Tue, 11 Sep 2018 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>在 Taro 发布之后，京东购物小程序也开始了部分页面基于 Taro 的重构.</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[首个多端 UI 组件库 - Taro UI 发布]]></title>
+            <link>https://taro.jd.com/taro/blog/2018/08/24/the-birth-of-taro-ui.html</link>
+            <guid>https://taro.jd.com/taro/blog/2018/08/24/the-birth-of-taro-ui.html</guid>
+            <pubDate>Fri, 24 Aug 2018 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p><img src="https://misc.aotu.io/jimczj/2018-08-27taro-ui.jpg" alt="image"></p>
+<p><a href="https://github.com/NervJS/taro">Taro</a> 是由凹凸实验室倾力打造的多端开发解决方案，旨在让一套代码在多端运行。为了进一步丰富 Taro 的开发生态，让开发者有更好的开发体验和更快的开发速度，凹凸实验室自主设计了一套 UI 组件库，经过两个多月的精雕细琢，终于跟随 Taro 1.0 版本正式发布。</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[为何我们要用 React 来写小程序 - Taro 诞生记]]></title>
+            <link>https://taro.jd.com/taro/blog/2018/06/25/the-birth-of-taro.html</link>
+            <guid>https://taro.jd.com/taro/blog/2018/06/25/the-birth-of-taro.html</guid>
+            <pubDate>Mon, 25 Jun 2018 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>从去年微信小程序的诞生，到今年的逐渐火热，以及异军突起的轻应用、百度小程序等的出现，前端可以延伸的领域已经越来越广，当然也意味着业务在不断扩大。这时候，如何通过技术手段来提升开发效率，应对不断增长的业务，就是一个值得探索的话题。本文将对 Taro 诞生的故事，进行深入浅出地介绍，记录下这个忙碌的春夏之交发生的故事。</p>
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[多端统一开发框架 - Taro]]></title>
+            <link>https://taro.jd.com/taro/blog/2018/06/07/Taro.html</link>
+            <guid>https://taro.jd.com/taro/blog/2018/06/07/Taro.html</guid>
+            <pubDate>Thu, 07 Jun 2018 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p><img src="https://img11.360buyimg.com/uba/jfs/t21205/91/853520716/145629/b03d7fa7/5b19f383N6a30536b.jpg" alt="image"></p>
+<p>使用 Taro，我们可以只书写一套代码，再通过 Taro 的编译工具，将源代码分别编译出可以在不同端（微信小程序、H5、App 端等）运行的代码。同时 Taro 还提供开箱即用的语法检测和自动补全等功能，有效地提升了开发体验和开发效率。</p>
+]]></description>
+        </item>
+    </channel>
+</rss>

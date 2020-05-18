@@ -1,0 +1,306 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>微信小程序转 Taro · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; 自 `v1.2.0` 开始支持此功能"/><meta name="docsearch:version" content="2.1.2"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="微信小程序转 Taro · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="&gt; 自 `v1.2.0` 开始支持此功能"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.1.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/2.1.2/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.1.2/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.1.2/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>关于Taro</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/README.html">Taro 介绍</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/2.1.2/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/team.html">Taro 团队</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/join-us.html">加入我们</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/wxcloudbase.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/debug-config.html">单步调测配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">迁移指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/migrate-to-2.html">迁移至 Taro 2.x</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/css-modules.html">使用 CSS Modules</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.2/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/taroize.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">微信小程序转 Taro</h1></header><article><div><span><blockquote>
+<p>自 <code>v1.2.0</code> 开始支持此功能</p>
+</blockquote>
+<p>Taro 可以将你的原生微信小程序应用转换为 Taro 代码，进而你可以通过 <code>taro build</code> 的命令将 Taro 代码转换为对应平台的代码，或者对转换后的 Taro 代码用 React 的方式进行二次开发。</p>
+<p>微信原生小程序转 Taro 的操作非常简单，首先必须安装使用 <code>npm i -g @tarojs/cli</code> 安装 Taro 命令行工具，其次在命令行中定位到小程序项目的根目录，根目录中运行：</p>
+<pre><code class="hljs css language-bash">$ taro convert
+</code></pre>
+<p>即可完成转换。转换后的代码保存在根目录下的 <code>taroConvert</code> 文件夹下。你需要定位到 <code>taroConvert</code> 目录执行 <code>npm install</code> 命令之后就可以使用 <code>taro build</code> 命令编译到对应平台的代码。</p>
+<h2><a class="anchor" aria-hidden="true" id="二次开发"></a><a href="#二次开发" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>二次开发</h2>
+<p>假设已有一个转换后文件如下：</p>
+<pre><code class="hljs css language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> View <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/components'</span>
+<span class="token keyword">import</span> Taro <span class="token keyword">from</span> <span class="token string">'@tarojs/taro'</span>
+<span class="token keyword">import</span> withWeapp <span class="token keyword">from</span> <span class="token string">'@tarojs/with-weapp'</span>
+<span class="token keyword">import</span> <span class="token string">'./index.scss'</span>
+
+<span class="token keyword">var</span> app <span class="token operator">=</span> Taro<span class="token punctuation">.</span><span class="token function">getApp</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+@<span class="token function">withWeapp</span><span class="token punctuation">(</span><span class="token string">'Page'</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">_C</span> <span class="token keyword">extends</span> <span class="token class-name">Taro<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+  state <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  <span class="token function">componentWillMount</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> orderId <span class="token operator">=</span> e<span class="token punctuation">.</span>id
+    <span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>orderId <span class="token operator">=</span> orderId
+  <span class="token punctuation">}</span>
+
+  <span class="token function">componentDidShow</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> that <span class="token operator">=</span> <span class="token keyword">this</span>
+    Taro<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      url<span class="token operator">:</span> <span class="token string">'https://api.it120.cc/'</span> <span class="token operator">+</span> app<span class="token punctuation">.</span>globalData<span class="token punctuation">.</span>subDomain <span class="token operator">+</span> <span class="token string">'/order/detail'</span><span class="token punctuation">,</span>
+      data<span class="token operator">:</span> <span class="token punctuation">{</span>
+        token<span class="token operator">:</span> Taro<span class="token punctuation">.</span><span class="token function">getStorageSync</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        id<span class="token operator">:</span> that<span class="token punctuation">.</span>data<span class="token punctuation">.</span>orderId
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token parameter">res</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        Taro<span class="token punctuation">.</span><span class="token function">hideLoading</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>code <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          Taro<span class="token punctuation">.</span><span class="token function">showModal</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            title<span class="token operator">:</span> <span class="token string">'错误'</span><span class="token punctuation">,</span>
+            content<span class="token operator">:</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>msg<span class="token punctuation">,</span>
+            showCancel<span class="token operator">:</span> <span class="token boolean">false</span>
+          <span class="token punctuation">}</span><span class="token punctuation">)</span>
+          <span class="token keyword">return</span>
+        <span class="token punctuation">}</span>
+        that<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          orderDetail<span class="token operator">:</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>data<span class="token punctuation">,</span>
+          logisticsTraces<span class="token operator">:</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>data<span class="token punctuation">.</span>logisticsTraces<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    navigationBarTitleText<span class="token operator">:</span> <span class="token string">'物流详情'</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span>
+      orderDetail<span class="token operator">:</span> orderDetail<span class="token punctuation">,</span>
+      logisticsTraces<span class="token operator">:</span> logisticsTraces
+    <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"container"</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"top-sec"</span><span class="token operator">></span>
+          <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"a-row"</span><span class="token operator">></span>
+            <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"label"</span><span class="token operator">></span>物流单号<span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+            <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"text"</span><span class="token operator">></span><span class="token punctuation">{</span>orderDetail<span class="token punctuation">.</span>logistics<span class="token punctuation">.</span>trackingNumber<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+          <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+          <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"a-row"</span><span class="token operator">></span>
+            <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"label"</span><span class="token operator">></span>物流公司<span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+            <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"text"</span><span class="token operator">></span><span class="token punctuation">{</span>orderDetail<span class="token punctuation">.</span>logistics<span class="token punctuation">.</span>shipperName<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+          <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+        <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"sec-wrap"</span><span class="token operator">></span>
+          <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"details-info"</span><span class="token operator">></span>
+            <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"line-box"</span> <span class="token operator">/</span><span class="token operator">></span>
+            <span class="token punctuation">{</span>logisticsTraces<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> index</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+              <span class="token keyword">return</span> <span class="token punctuation">(</span>
+                <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"a-row"</span> key<span class="token operator">=</span><span class="token punctuation">{</span>index<span class="token punctuation">}</span><span class="token operator">></span>
+                  <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"dot"</span><span class="token operator">></span>
+                    <span class="token operator">&lt;</span>View
+                      className<span class="token operator">=</span><span class="token string">"active-dot"</span>
+                      hidden<span class="token operator">=</span><span class="token punctuation">{</span>index <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token boolean">false</span> <span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span>
+                    <span class="token operator">></span>
+                      <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"yuan-red"</span> <span class="token operator">/</span><span class="token operator">></span>
+                    <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>View
+                      className<span class="token operator">=</span><span class="token string">"default-dot"</span>
+                      hidden<span class="token operator">=</span><span class="token punctuation">{</span>index <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token boolean">true</span> <span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">}</span>
+                    <span class="token operator">/</span><span class="token operator">></span>
+                  <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+                  <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"info"</span><span class="token operator">></span>
+                    <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"date-box"</span><span class="token operator">></span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>AcceptTime<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"text"</span><span class="token operator">></span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>AcceptStation<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+                  <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+                <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+              <span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+          <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> _C
+</code></pre>
+<p>它看起来就像普通的 Taro 组件，最重要的区别就在于 <code>@withWeapp()</code> 这个装饰器，你可以将它理解为转换代码的运行时，<code>@withWeapp()</code> 会增加一些原来 Taro 没有方法和属性，例如：</p>
+<h3><a class="anchor" aria-hidden="true" id="thissetdata"></a><a href="#thissetdata" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>this.setData</code></h3>
+<p>转换后的 <code>this.setData</code> 的 API 相当于小程序的 <code>this.setData</code> 的 polyfill，他和 <code>this.setState</code> 最大的区别就在于，<code>this.setData</code> 之后 <code>data</code> 的数据是同步更新，而渲染是异步更新，而 <code>setState</code> 两者都是异步的。</p>
+<h3><a class="anchor" aria-hidden="true" id="thisdata-和-thisproperties"></a><a href="#thisdata-和-thisproperties" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>this.data</code> 和 <code>this.properties</code></h3>
+<p><code>this.data</code> 和 <code>this.properties</code> 相当于 Taro 的 <code>this.state</code> 和 <code>this.props</code> 的 alias，当它们的数据更新时，对应的 <code>state</code> 和 <code>props</code> 也会同步更新。</p>
+<h3><a class="anchor" aria-hidden="true" id="生命周期"></a><a href="#生命周期" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>生命周期</h3>
+<p>Taro 会将原始文件的生命周期钩子函数转换为 Taro 的生命周期，完整对应关系如下：</p>
+<table>
+<thead>
+<tr><th style="text-align:right">Page.onLoad</th><th style="text-align:right">componentWillMount</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:right">onShow</td><td style="text-align:right">componentDidShow</td></tr>
+<tr><td style="text-align:right">onHide</td><td style="text-align:right">componentDidHide</td></tr>
+<tr><td style="text-align:right">onReady</td><td style="text-align:right">componentDidMount</td></tr>
+<tr><td style="text-align:right">onUnload</td><td style="text-align:right">componentWillUnmount</td></tr>
+<tr><td style="text-align:right">onError</td><td style="text-align:right">componentDidCatchError</td></tr>
+<tr><td style="text-align:right">App.onLaunch</td><td style="text-align:right">componentWillMount</td></tr>
+<tr><td style="text-align:right">Component.created</td><td style="text-align:right">componentWillMount</td></tr>
+<tr><td style="text-align:right">attached</td><td style="text-align:right">componentDidMount</td></tr>
+<tr><td style="text-align:right">ready</td><td style="text-align:right">componentDidMount</td></tr>
+<tr><td style="text-align:right">detached</td><td style="text-align:right">componentWillUnmount</td></tr>
+<tr><td style="text-align:right">moved</td><td style="text-align:right">保留</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="常见问题"></a><a href="#常见问题" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>常见问题</h2>
+<h3><a class="anchor" aria-hidden="true" id="在小程序-ide-显示-_createdata-错误"></a><a href="#在小程序-ide-显示-_createdata-错误" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>在小程序 IDE 显示 <code>_createData</code> 错误</h3>
+<p>这个错误通常是由于原始代码的初始 <code>data</code> 中没有对应的数据，后来通过 <code>this.setData</code> 补充数据造成的。在 Taro 中推荐不管是 <code>state(data)</code> 还是 <code>properties(props)</code> 都要设置一个默认值。你可以在类构造器或修改原始代码提供一个默认值解决这个问题，这也应该是编写代码的最佳实践。</p>
+<h3><a class="anchor" aria-hidden="true" id="转换-wxparse-报错不存在文件"></a><a href="#转换-wxparse-报错不存在文件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>转换 <code>wxParse</code> 报错不存在文件</h3>
+<p>这是由于 <code>wxParse</code> 的源码使用了一个<a href="https://github.com/icindy/wxParse/issues/255">不存在的 <code>template</code></a> 声明造成的。你可以修改 <code>wxParse</code> 的源码文件 <code>wxParse.wxml</code> 134 行到 207 行：</p>
+<pre><code class="hljs css language-html"><span class="hljs-comment">&lt;!--循环模版--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"wxParse1"</span>&gt;</span>
+  <span class="hljs-comment">&lt;!--&lt;template is="wxParse1" data="{{item}}" /&gt;--&gt;</span>
+  <span class="hljs-comment">&lt;!--判断是否是标签节点--&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:if</span>=<span class="hljs-string">"{{item.node == 'element'}}"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:if</span>=<span class="hljs-string">"{{item.tag == 'button'}}"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"default"</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"mini"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:for</span>=<span class="hljs-string">"{{item.nodes}}"</span> <span class="hljs-attr">wx:for-item</span>=<span class="hljs-string">"item"</span> <span class="hljs-attr">wx:key</span>=<span class="hljs-string">""</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"wxParse0"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">"{{item}}"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--li类型--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:elif</span>=<span class="hljs-string">"{{item.tag == 'li'}}"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"{{item.classStr}} wxParse-li"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"{{item.styleStr}}"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"{{item.classStr}} wxParse-li-inner"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"{{item.classStr}} wxParse-li-text"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"{{item.classStr}} wxParse-li-circle"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"{{item.classStr}} wxParse-li-text"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:for</span>=<span class="hljs-string">"{{item.nodes}}"</span> <span class="hljs-attr">wx:for-item</span>=<span class="hljs-string">"item"</span> <span class="hljs-attr">wx:key</span>=<span class="hljs-string">""</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"wxParse0"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">"{{item}}"</span> /&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--video类型--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:elif</span>=<span class="hljs-string">"{{item.tag == 'video'}}"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"wxParseVideo"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">"{{item}}"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--img类型--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:elif</span>=<span class="hljs-string">"{{item.tag == 'img'}}"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"wxParseImg"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">"{{item}}"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--a类型--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:elif</span>=<span class="hljs-string">"{{item.tag == 'a'}}"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"wxParseTagATap"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"wxParse-inline {{item.classStr}} wxParse-{{item.tag}}"</span> <span class="hljs-attr">data-src</span>=<span class="hljs-string">"{{item.attr.href}}"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"{{item.styleStr}}"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:for</span>=<span class="hljs-string">"{{item.nodes}}"</span> <span class="hljs-attr">wx:for-item</span>=<span class="hljs-string">"item"</span> <span class="hljs-attr">wx:key</span>=<span class="hljs-string">""</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"wxParse0"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">"{{item}}"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:elif</span>=<span class="hljs-string">"{{item.tag == 'table'}}"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"{{item.classStr}} wxParse-{{item.tag}}"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"{{item.styleStr}}"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:for</span>=<span class="hljs-string">"{{item.nodes}}"</span> <span class="hljs-attr">wx:for-item</span>=<span class="hljs-string">"item"</span> <span class="hljs-attr">wx:key</span>=<span class="hljs-string">""</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"wxParse0"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">"{{item}}"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:elif</span>=<span class="hljs-string">"{{item.tag == 'br'}}"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"WxParseBr"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--其他块级标签--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:elif</span>=<span class="hljs-string">"{{item.tagType == 'block'}}"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"{{item.classStr}} wxParse-{{item.tag}}"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"{{item.styleStr}}"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:for</span>=<span class="hljs-string">"{{item.nodes}}"</span> <span class="hljs-attr">wx:for-item</span>=<span class="hljs-string">"item"</span> <span class="hljs-attr">wx:key</span>=<span class="hljs-string">""</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"wxParse0"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">"{{item}}"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--内联标签--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">wx:else</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"{{item.classStr}} wxParse-{{item.tag}} wxParse-{{item.tagType}}"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"{{item.styleStr}}"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:for</span>=<span class="hljs-string">"{{item.nodes}}"</span> <span class="hljs-attr">wx:for-item</span>=<span class="hljs-string">"item"</span> <span class="hljs-attr">wx:key</span>=<span class="hljs-string">""</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"wxParse0"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">"{{item}}"</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+
+  <span class="hljs-comment">&lt;!--判断是否是文本节点--&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">block</span> <span class="hljs-attr">wx:elif</span>=<span class="hljs-string">"{{item.node == 'text'}}"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--如果是，直接进行--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"WxEmojiView"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">"{{item}}"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+</code></pre>
+<p>把 <code>&lt;template name=&quot;wxParse1&quot;&gt;</code> 的模板内所有 <code>&lt;template is=&quot;wxParse2&quot; data=&quot;{{item}}&quot; /&gt;</code> 修改为 <code>&lt;template is=&quot;wxParse0&quot; data=&quot;{{item}}&quot; /&gt;</code> 再运行 <code>taro convert</code> 即可。这样修改之后还会取消原来 <code>wxParse</code> 只能处理 11 级 HTML 嵌套的问题，理论上内存不爆栈可以处理无限级 HTML 嵌套。</p>
+<h3><a class="anchor" aria-hidden="true" id="不支持-relations-和-behavior"></a><a href="#不支持-relations-和-behavior" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>不支持 <code>relations</code> 和 <code>Behavior</code></h3>
+<p>目前转换暂只支持转换 <code>Page</code>、<code>Component</code> 、<code>App</code> 三种构造器创造的小程序组件实例。 <code>relations</code> 和 <code>Behavior</code> 在其他许多小程序端中还没有对应的实现，我们认为实现这两个功能意义不大。</p>
+<h3><a class="anchor" aria-hidden="true" id="转换-wepy-文件不成功"></a><a href="#转换-wepy-文件不成功" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>转换 wepy 文件不成功</h3>
+<p>目前只能支持转换使用原生微信小程序开发的应用。</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/2.1.2/README.html"><span class="arrow-prev">← </span><span>Taro 介绍</span></a><a class="docs-next button" href="/taro/docs/2.1.2/team.html"><span>Taro 团队</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#二次开发">二次开发</a><ul class="toc-headings"><li><a href="#thissetdata"><code>this.setData</code></a></li><li><a href="#thisdata-和-thisproperties"><code>this.data</code> 和 <code>this.properties</code></a></li><li><a href="#生命周期">生命周期</a></li></ul></li><li><a href="#常见问题">常见问题</a><ul class="toc-headings"><li><a href="#在小程序-ide-显示-_createdata-错误">在小程序 IDE 显示 <code>_createData</code> 错误</a></li><li><a href="#转换-wxparse-报错不存在文件">转换 <code>wxParse</code> 报错不存在文件</a></li><li><a href="#不支持-relations-和-behavior">不支持 <code>relations</code> 和 <code>Behavior</code></a></li><li><a href="#转换-wepy-文件不成功">转换 wepy 文件不成功</a></li></ul></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

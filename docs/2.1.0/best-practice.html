@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>最佳实践 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## 关于 JSX 支持程度补充说明"/><meta name="docsearch:version" content="2.1.0"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="最佳实践 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="## 关于 JSX 支持程度补充说明"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.1.0</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/2.1.0/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.1.0/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.1.0/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>基础教程</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/team.html">Taro 团队</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/join-us.html">加入我们</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/project-config.html">项目配置</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/2.1.0/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/wxcloudbase.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/debug-config.html">单步调测配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">迁移指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/migrate-to-2.html">迁移至 Taro 2.x</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/css-modules.html">使用 CSS Modules</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.0/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/best-practice.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">最佳实践</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="关于-jsx-支持程度补充说明"></a><a href="#关于-jsx-支持程度补充说明" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>关于 JSX 支持程度补充说明</h2>
+<p>由于 JSX 中的写法千变万化，我们不能支持到所有的 JSX 写法，同时由于微信小程序端的限制，也有部分 JSX 的优秀用法暂时不能得到很好地支持，特在此补充说明一下对于 JSX 的支持程度:</p>
+<ul>
+<li><a href="https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/manipulate-jsx-as-array.md">不能使用 Array#map 之外的方法操作 JSX 数组</a></li>
+<li><a href="https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-jsx-in-class-method.md">暂不支持在 render() 之外的方法定义 JSX</a> (自 v1.3.0-beta.0 起支持)</li>
+<li><a href="https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-spread-in-props.md">不能在 JSX 参数中使用对象展开符</a> (自 v1.3.0-beta.0 起，自定义组件可以使用对象展开符，内置组件仍然需要分别单独传入参数)</li>
+<li><a href="https://github.com/NervJS/taro/blob/master/packages/eslint-plugin-taro/docs/no-stateless-function.md">不支持无状态组件</a> (自 v1.3.0-beta.0 起支持)</li>
+</ul>
+<p>以上的规则在 Taro 默认生成的模板都有 ESLint 检测，无需做任何配置。如果你的编辑器没有安装 ESLint 插件可以参考以下教程在你的编辑器安装：</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">VSCode</a></li>
+<li><a href="https://www.jetbrains.com/help/idea/eslint.html">IntelliJ IDEA(WebStorm 等 JetBrains 系)</a></li>
+<li><a href="https://packagecontrol.io/packages/ESLint">Sublime Text</a></li>
+</ul>
+<p>默认情况下 Taro 的编译器也会对无法运行的代码进行警告，当没有调用栈信息时代码是可以生成的。如果你需要在编译时禁用掉 ESLint 检查，可以在命令前加入 <code>ESLINT=false</code> 参数，例如：</p>
+<pre><code class="hljs css language-bash">$ <span class="token assign-left variable">ESLINT</span><span class="token operator">=</span>false taro build --type weapp --watch
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="最佳编码方式"></a><a href="#最佳编码方式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>最佳编码方式</h2>
+<p>经过较长时间的探索与验证，目前 Taro 在微信小程序端是采用依托于小程序原生自定义组件系统来设计实现 Taro 组件化的，所以目前小程序端的组件化会受到小程序原生组件系统的限制，而同时为了实现以 React 方式编写代码的目标，Taro 本身做了一些编译时以及运行时的处理，这样也带来了一些值得注意的约束，所以有必要阐述一下 Taro 编码上的最佳实践。</p>
+<h3><a class="anchor" aria-hidden="true" id="组件样式说明"></a><a href="#组件样式说明" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件样式说明</h3>
+<p>微信小程序的<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html">自定义组件样式</a>默认是不能受外部样式影响的，例如在页面中引用了一个自定义组件，在页面样式中直接写自定义组件元素的样式是无法生效的。这一点，在 Taro 中也是一样，而这也是与大家认知的传统 Web 开发不太一样。</p>
+<h3><a class="anchor" aria-hidden="true" id="给组件设置-defaultprops"></a><a href="#给组件设置-defaultprops" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>给组件设置 <code>defaultProps</code></h3>
+<p>在微信小程序端的自定义组件中，只有在 <code>properties</code> 中指定的属性，才能从父组件传入并接收</p>
+<pre><code class="hljs css language-jsx"><span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  properties<span class="token operator">:</span> <span class="token punctuation">{</span>
+    myProperty<span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token comment">// 属性名</span>
+      type<span class="token operator">:</span> String<span class="token punctuation">,</span> <span class="token comment">// 类型（必填），目前接受的类型包括：String, Number, Boolean, Object, Array, null（表示任意类型）</span>
+      value<span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">,</span> <span class="token comment">// 属性初始值（可选），如果未指定则会根据类型选择一个</span>
+      <span class="token function-variable function">observer</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">newVal<span class="token punctuation">,</span> oldVal<span class="token punctuation">,</span> changedPath</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         <span class="token comment">// 属性被改变时执行的函数（可选），也可以写成在 methods 段中定义的方法名字符串, 如：'_propertyChange'</span>
+         <span class="token comment">// 通常 newVal 就是新设置的数据， oldVal 是旧数据</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    myProperty2<span class="token operator">:</span> String <span class="token comment">// 简化的定义方式</span>
+  <span class="token punctuation">}</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>而在 Taro 中，对于在组件代码中使用到的来自 <code>props</code> 的属性，会在编译时被识别并加入到编译后的 <code>properties</code> 中，暂时支持到了以下写法</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>property
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> property <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props
+
+<span class="token keyword">const</span> property <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>property
+</code></pre>
+<p>但是一千个人心中有一千个哈姆雷特，不同人的代码写法肯定也不尽相同，所以 Taro 的编译肯定不能覆盖到所有的写法，而同时可能会有某一属性没有使用而是直接传递给子组件的情况，这种情况是编译时无论如何也处理不到的，这时候就需要大家在编码时给组件设置 <a href="./apis/about/tarocomponent.html#defaultprops"><code>defaultProps</code></a> 来解决了。</p>
+<p>组件设置的 <code>defaultProps</code> 会在运行时用来弥补编译时处理不到的情况，里面所有的属性都会被设置到 <code>properties</code> 中初始化组件，正确设置 <code>defaultProps</code> 可以避免很多异常的情况的出现。</p>
+<h3><a class="anchor" aria-hidden="true" id="组件传递函数属性名以-on-开头"></a><a href="#组件传递函数属性名以-on-开头" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件传递函数属性名以 <code>on</code> 开头</h3>
+<blockquote>
+<p>在 v1.3.0-beta.0 之后，自定义组件间的事件传递可以不用 <code>on</code> 开头，但内置组件的事件依然是以 <code>on</code> 开头的，为了一致性我们仍然推荐你以 <code>on</code> 开头命名你的事件。</p>
+</blockquote>
+<p>在 Taro 中，父组件要往子组件传递函数，属性名必须以 <code>on</code> 开头</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// 调用 Custom 组件，传入 handleEvent 函数，属性名为 onTrigger</span>
+<span class="token keyword">class</span> <span class="token class-name">Parent</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+
+  <span class="token function">handleEvent</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token punctuation">}</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Custom</span></span> <span class="token attr-name">onTrigger</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>handleEvent<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Custom</span></span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>这是因为，微信小程序端组件化是不能直接传递函数类型给子组件的，在 Taro 中是借助组件的<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/events.html">事件机制</a>来实现这一特性，而小程序中传入事件的时候属性名写法为 <code>bindmyevent</code> 或者 <code>bind:myevent</code></p>
+<pre><code class="hljs css language-xml"><span class="hljs-comment">&lt;!-- 当自定义组件触发 myevent 事件时，调用 onMyEvent 方法 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">component-tag-name</span> <span class="hljs-attr">bindmyevent</span>=<span class="hljs-string">"onMyEvent"</span> /&gt;</span>
+<span class="hljs-comment">&lt;!-- 或者可以写成 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">component-tag-name</span> <span class="hljs-attr">bind:myevent</span>=<span class="hljs-string">"onMyEvent"</span> /&gt;</span>
+</code></pre>
+<p>所以 Taro 中约定组件传递函数属性名以 <code>on</code> 开头，同时这也和内置组件的事件绑定写法保持一致了。</p>
+<h3><a class="anchor" aria-hidden="true" id="小程序端不要在组件中打印传入的函数"></a><a href="#小程序端不要在组件中打印传入的函数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>小程序端不要在组件中打印传入的函数</h3>
+<blockquote>
+<p>自 v1.3.0-beta.0 没有这条限制</p>
+</blockquote>
+<p>前面已经提到小程序端的组件传入函数的原理，所以在小程序端不要在组件中打印传入的函数，因为拿不到结果，但是 <code>this.props.onXxx &amp;&amp; this.props.onXxx()</code> 这种判断函数是否传入来进行调用的写法是完全支持的。</p>
+<h3><a class="anchor" aria-hidden="true" id="小程序端不要将在模板中用到的数据设置为-undefined"></a><a href="#小程序端不要将在模板中用到的数据设置为-undefined" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>小程序端不要将在模板中用到的数据设置为 <code>undefined</code></h3>
+<p>由于小程序不支持将 data 中任何一项的 value 设为 <code>undefined</code> ，在 setState 的时候也请避免这么用。你可以使用 null 来替代。</p>
+<h3><a class="anchor" aria-hidden="true" id="小程序端不要在组件中打印-thispropschildren"></a><a href="#小程序端不要在组件中打印-thispropschildren" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>小程序端不要在组件中打印 <code>this.props.children</code></h3>
+<p>在微信小程序端是通过 <code>&lt;slot /&gt;</code> 来实现往自定义组件中传入元素的，而 Taro 利用 <code>this.props.children</code> 在编译时实现了这一功能， <code>this.props.children</code> 会直接被编译成 <code>&lt;slot /&gt;</code> 标签，所以它在小程序端属于语法糖的存在，请不要在组件中打印它。</p>
+<h3><a class="anchor" aria-hidden="true" id="支持-props-传入-jsx"></a><a href="#支持-props-传入-jsx" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>支持 props 传入 JSX</h3>
+<blockquote>
+<p>自 <code>1.1.9</code> 开始支持</p>
+</blockquote>
+<p>支持 props 传入 JSX，但是元素传入 JSX 的属性名必须以 <code>render</code> 开头</p>
+<p>例如，子组件写法</p>
+<pre><code class="hljs css language-javascript"><span class="token keyword">class</span> <span class="token class-name">Dialog</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">'dialog'</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">'header'</span><span class="token operator">></span>
+          <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>renderHeader<span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+        <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">'body'</span><span class="token operator">></span>
+          <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>children<span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+        <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">'footer'</span><span class="token operator">></span>
+          <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>renderFooter<span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>父组件调用子组件时传入 JSX</p>
+<pre><code class="hljs css language-javascript"><span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">'container'</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>Dialog
+          renderHeader<span class="token operator">=</span><span class="token punctuation">{</span>
+            <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">'welcome-message'</span><span class="token operator">></span>Welcome<span class="token operator">!</span><span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+          <span class="token punctuation">}</span>
+          renderFooter<span class="token operator">=</span><span class="token punctuation">{</span>
+            <span class="token operator">&lt;</span>Button className<span class="token operator">=</span><span class="token string">'close'</span><span class="token operator">></span>Close<span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span>
+          <span class="token punctuation">}</span>
+        <span class="token operator">></span>
+          <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">"dialog-message"</span><span class="token operator">></span>
+            Thank you <span class="token keyword">for</span> using Taro<span class="token punctuation">.</span>
+          <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>Dialog<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="组件属性传递注意"></a><a href="#组件属性传递注意" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件属性传递注意</h3>
+<p>不要以 <code>id</code>、<code>class</code>、<code>style</code> 作为自定义组件的属性与内部 state 的名称，因为这些属性名在微信小程序小程序中会丢失。</p>
+<h3><a class="anchor" aria-hidden="true" id="组件-state-与-props-里字段重名的问题"></a><a href="#组件-state-与-props-里字段重名的问题" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件 <code>state</code> 与 <code>props</code> 里字段重名的问题</h3>
+<p>不要在 <code>state</code> 与 <code>props</code> 上用同名的字段，因为这些字段在微信小程序中都会挂在 <code>data</code> 上。</p>
+<h3><a class="anchor" aria-hidden="true" id="小程序中页面生命周期-componentwillmount-不一致问题"></a><a href="#小程序中页面生命周期-componentwillmount-不一致问题" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>小程序中页面生命周期 <code>componentWillMount</code> 不一致问题</h3>
+<p>由于微信小程序里页面在 <code>onLoad</code> 时才能拿到页面的路由参数，而页面 onLoad 前组件都已经 <code>attached</code> 了。因此页面的 <code>componentWillMount</code> 可能会与预期不太一致。例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// 错误写法</span>
+<span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 在 willMount 之前无法拿到路由参数</span>
+  <span class="token keyword">const</span> abc <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$router<span class="token punctuation">.</span>params<span class="token punctuation">.</span>abc
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Custom</span></span> <span class="token attr-name">adc</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>abc<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 正确写法</span>
+<span class="token function">componentWillMount</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> abc <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$router<span class="token punctuation">.</span>params<span class="token punctuation">.</span>abc
+  <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    abc
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 增加一个兼容判断</span>
+  <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>abc <span class="token operator">&amp;&amp;</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Custom</span></span> <span class="token attr-name">adc</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>abc<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>对于不需要等到页面 willMount 之后取路由参数的页面则没有任何影响。</p>
+<h3><a class="anchor" aria-hidden="true" id="组件的-constructor-与-render-提前调用"></a><a href="#组件的-constructor-与-render-提前调用" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件的 <code>constructor</code> 与 <code>render</code> 提前调用</h3>
+<p>很多细心的开发者应该已经注意到了，在 Taro 编译到小程序端后，组件的 <code>constructor</code> 与 <code>render</code> 默认会多调用一次，表现得与 React 不太一致。</p>
+<p>这是因为，Taro 的组件编译后就是小程序的自定义组件，而小程序的自定义组件的初始化时是可以指定 <code>data</code> 来让组件拥有初始化数据的。开发者一般会在组件的 <code>constructor</code> 中设置一些初始化的 <code>state</code>，同时也可能会在 <code>render</code> 中处理 <code>state</code>  与 <code>props</code> 产生新的数据，在 Taro 中多出的这一次提前调用，就是为了收集组件的初始化数据，给自定义组件提前生成 <code>data</code> ，以保证组件初始化时能带有数据，让组件初次渲染正常。</p>
+<p>所以，在编码时，需要在处理数据的时候做一些容错处理，这样可以避免在 <code>constructor</code> 与 <code>render</code> 提前调用时出现由于没有数据导致出错的情况。</p>
+<h3><a class="anchor" aria-hidden="true" id="js-编码必须用单引号"></a><a href="#js-编码必须用单引号" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JS 编码必须用单引号</h3>
+<p>在 Taro 中，JS 代码里必须书写单引号，特别是 JSX 中，如果出现双引号，可能会导致编译错误。</p>
+<h3><a class="anchor" aria-hidden="true" id="环境变量-processenv-的使用"></a><a href="#环境变量-processenv-的使用" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>环境变量 <code>process.env</code> 的使用</h3>
+<p>不要以解构的方式来获取通过 <code>env</code> 配置的 <code>process.env</code> 环境变量，请直接以完整书写的方式 <code>process.env.NODE_ENV</code> 来进行使用</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// 错误写法，不支持</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> <span class="token constant">NODE_ENV</span> <span class="token operator">=</span> <span class="token string">'development'</span> <span class="token punctuation">}</span> <span class="token operator">=</span> process<span class="token punctuation">.</span>env
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token constant">NODE_ENV</span> <span class="token operator">===</span> <span class="token string">'development'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 正确写法</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">===</span> <span class="token string">'development'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="使用-this-componenttype-来判断当前-tarocomponent-是页面还是组件"></a><a href="#使用-this-componenttype-来判断当前-tarocomponent-是页面还是组件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用 <code>this.$componentType</code> 来判断当前 Taro.Component 是页面还是组件</h3>
+<p><code>this.$componentType</code> 可能取值分别为 <code>PAGE</code> 和 <code>COMPONENT</code>，开发者可以根据此变量的取值分别采取不同逻辑。</p>
+<h3><a class="anchor" aria-hidden="true" id="原生小程序组件传递-props-给-taro-组件"></a><a href="#原生小程序组件传递-props-给-taro-组件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>原生小程序组件传递 props 给 Taro 组件</h3>
+<p><strong>Taro v1.3+</strong> 对 props 系统进行了改造，使得不能兼容原生组件通过 properties 传入的属性。</p>
+<p>目前可以通过把所有需要传入 Taro 组件的 props，通过借助 <code>extraProps</code> 属性来解决。</p>
+<pre><code class="hljs css language-js">// 小程序组件常规 props 传递
+&lt;plugin title="{{name}}" desc="{{desc}}" bindonclick="onClick"&gt;&lt;/plugin&gt;
+
+// 原生小程序组件调用 Taro 组件时需要改造成以下形式：
+this.setData({
+  extraProps: {
+    name,
+    desc,
+    onClick: this.onClick
+  }
+})
+&lt;plugin extraProps="{{extraProps}}" &gt;&lt;/plugin&gt;
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="全局变量"></a><a href="#全局变量" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>全局变量</h2>
+<p>在 Taro 中推荐使用 <code>Redux</code> 来进行全局变量的管理，但是对于一些小型的应用， <code>Redux</code> 就可能显得比较重了，这时候如果想使用全局变量，推荐如下使用。</p>
+<p>新增一个自行命名的 <code>JS</code> 文件，例如 <code>global_data.js</code>，示例代码如下</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">const</span> globalData <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token parameter">key<span class="token punctuation">,</span> val</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  globalData<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> val
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token keyword">get</span> <span class="token punctuation">(</span><span class="token parameter">key</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> globalData<span class="token punctuation">[</span>key<span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>随后就可以在任意位置进行使用啦</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token keyword">set</span> <span class="token keyword">as</span> setGlobalData<span class="token punctuation">,</span> <span class="token keyword">get</span> <span class="token keyword">as</span> getGlobalData <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./path/name/global_data'</span>
+
+<span class="token function">setGlobalData</span><span class="token punctuation">(</span><span class="token string">'test'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token function">getGlobalData</span><span class="token punctuation">(</span><span class="token string">'test'</span><span class="token punctuation">)</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/2.1.0/project-config.html"><span class="arrow-prev">← </span><span>项目配置</span></a><a class="docs-next button" href="/taro/docs/2.1.0/router.html"><span>路由功能</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#关于-jsx-支持程度补充说明">关于 JSX 支持程度补充说明</a></li><li><a href="#最佳编码方式">最佳编码方式</a><ul class="toc-headings"><li><a href="#组件样式说明">组件样式说明</a></li><li><a href="#给组件设置-defaultprops">给组件设置 <code>defaultProps</code></a></li><li><a href="#组件传递函数属性名以-on-开头">组件传递函数属性名以 <code>on</code> 开头</a></li><li><a href="#小程序端不要在组件中打印传入的函数">小程序端不要在组件中打印传入的函数</a></li><li><a href="#小程序端不要将在模板中用到的数据设置为-undefined">小程序端不要将在模板中用到的数据设置为 <code>undefined</code></a></li><li><a href="#小程序端不要在组件中打印-thispropschildren">小程序端不要在组件中打印 <code>this.props.children</code></a></li><li><a href="#支持-props-传入-jsx">支持 props 传入 JSX</a></li><li><a href="#组件属性传递注意">组件属性传递注意</a></li><li><a href="#组件-state-与-props-里字段重名的问题">组件 <code>state</code> 与 <code>props</code> 里字段重名的问题</a></li><li><a href="#小程序中页面生命周期-componentwillmount-不一致问题">小程序中页面生命周期 <code>componentWillMount</code> 不一致问题</a></li><li><a href="#组件的-constructor-与-render-提前调用">组件的 <code>constructor</code> 与 <code>render</code> 提前调用</a></li><li><a href="#js-编码必须用单引号">JS 编码必须用单引号</a></li><li><a href="#环境变量-processenv-的使用">环境变量 <code>process.env</code> 的使用</a></li><li><a href="#使用-this-componenttype-来判断当前-tarocomponent-是页面还是组件">使用 <code>this.$componentType</code> 来判断当前 Taro.Component 是页面还是组件</a></li><li><a href="#原生小程序组件传递-props-给-taro-组件">原生小程序组件传递 props 给 Taro 组件</a></li></ul></li><li><a href="#全局变量">全局变量</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

@@ -1,0 +1,698 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>RecorderManager · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="全局唯一的录音管理器"/><meta name="docsearch:version" content="2.1.3"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="RecorderManager · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="全局唯一的录音管理器"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.1.3</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/2.1.3/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.1.3/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.1.3/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/apis/media/recorder/RecorderManager.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">RecorderManager</h1></header><article><div><span><p>全局唯一的录音管理器</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.html">参考文档</a></p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="方法"></a><a href="#方法" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>方法</h2>
+<h3><a class="anchor" aria-hidden="true" id="onerror"></a><a href="#onerror" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onError</h3>
+<p>监听录音错误事件</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onError.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">:</span> OnErrorCallback</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnErrorCallback</code></td>
+      <td>录音错误事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度"></a><a href="#api-支持度" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.onError</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onframerecorded"></a><a href="#onframerecorded" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onFrameRecorded</h3>
+<p>监听已录制完指定帧大小的文件事件。如果设置了 frameSize，则会回调此事件。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onFrameRecorded.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">:</span> OnFrameRecordedCallback</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnFrameRecordedCallback</code></td>
+      <td>已录制完指定帧大小的文件事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-1"></a><a href="#api-支持度-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.onFrameRecorded</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="oninterruptionbegin"></a><a href="#oninterruptionbegin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onInterruptionBegin</h3>
+<p>监听录音因为受到系统占用而被中断开始事件。以下场景会触发此事件：微信语音聊天、微信视频聊天。此事件触发后，录音会被暂停。pause 事件在此事件后触发</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onInterruptionBegin.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token function-variable function">callback</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">res<span class="token operator">:</span> CallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>录音因为受到系统占用而被中断开始事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-2"></a><a href="#api-支持度-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.onInterruptionBegin</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="oninterruptionend"></a><a href="#oninterruptionend" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onInterruptionEnd</h3>
+<p>监听录音中断结束事件。在收到 interruptionBegin 事件之后，小程序内所有录音会暂停，收到此事件之后才可再次录音成功。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onInterruptionEnd.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token function-variable function">callback</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">res<span class="token operator">:</span> CallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>录音中断结束事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-3"></a><a href="#api-支持度-3" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.onInterruptionEnd</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onpause"></a><a href="#onpause" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onPause</h3>
+<p>监听录音暂停事件</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onPause.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token function-variable function">callback</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">res<span class="token operator">:</span> CallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>录音暂停事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-4"></a><a href="#api-支持度-4" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.onPause</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onresume"></a><a href="#onresume" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onResume</h3>
+<p>监听录音继续事件</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onResume.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token function-variable function">callback</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">res<span class="token operator">:</span> CallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>录音继续事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-5"></a><a href="#api-支持度-5" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.onResume</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onstart"></a><a href="#onstart" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onStart</h3>
+<p>监听录音开始事件</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onStart.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token function-variable function">callback</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">res<span class="token operator">:</span> CallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>录音开始事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-6"></a><a href="#api-支持度-6" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.onStart</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onstop"></a><a href="#onstop" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onStop</h3>
+<p>监听录音结束事件</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onStop.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">:</span> OnStopCallback</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnStopCallback</code></td>
+      <td>录音结束事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-7"></a><a href="#api-支持度-7" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.onStop</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="pause"></a><a href="#pause" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>pause</h3>
+<p>暂停录音</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.pause.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-8"></a><a href="#api-支持度-8" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.pause</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="resume"></a><a href="#resume" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>resume</h3>
+<p>继续录音</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.resume.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-9"></a><a href="#api-支持度-9" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.resume</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="start"></a><a href="#start" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>start</h3>
+<p>开始录音</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.start.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">:</span> StartOption</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>StartOption</code></td>
+    </tr>
+  </tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-10"></a><a href="#api-支持度-10" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.start</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="stop"></a><a href="#stop" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>stop</h3>
+<p>停止录音</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.stop.html">参考文档</a></p>
+</blockquote>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="api-支持度-11"></a><a href="#api-支持度-11" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h4>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.stop</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="参数"></a><a href="#参数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>参数</h2>
+<h3><a class="anchor" aria-hidden="true" id="onerrorcallback"></a><a href="#onerrorcallback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>OnErrorCallback</h3>
+<p>录音错误事件的回调函数</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">result<span class="token operator">:</span> OnErrorCallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnErrorCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onerrorcallbackresult"></a><a href="#onerrorcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>OnErrorCallbackResult</h3>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onframerecordedcallback"></a><a href="#onframerecordedcallback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>OnFrameRecordedCallback</h3>
+<p>已录制完指定帧大小的文件事件的回调函数</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">result<span class="token operator">:</span> OnFrameRecordedCallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnFrameRecordedCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onframerecordedcallbackresult"></a><a href="#onframerecordedcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>OnFrameRecordedCallbackResult</h3>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>frameBuffer</td>
+      <td><code>ArrayBuffer</code></td>
+      <td>录音分片数据</td>
+    </tr>
+    <tr>
+      <td>isLastFrame</td>
+      <td><code>boolean</code></td>
+      <td>当前帧是否正常录音结束前的最后一帧</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onstopcallback"></a><a href="#onstopcallback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>OnStopCallback</h3>
+<p>录音结束事件的回调函数</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">result<span class="token operator">:</span> OnStopCallbackResult</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnStopCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onstopcallbackresult"></a><a href="#onstopcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>OnStopCallbackResult</h3>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td>录音总时长，单位：ms</td>
+    </tr>
+    <tr>
+      <td>fileSize</td>
+      <td><code>number</code></td>
+      <td>录音文件大小，单位：Byte</td>
+    </tr>
+    <tr>
+      <td>tempFilePath</td>
+      <td><code>string</code></td>
+      <td>录音文件的临时路径</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="startoption"></a><a href="#startoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>StartOption</h3>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>audioSource</td>
+      <td><code>&quot;auto&quot; | &quot;buildInMic&quot; | &quot;headsetMic&quot; | &quot;mic&quot; | &quot;camcorder&quot; | &quot;voice_communication&quot; | &quot;voice_recognition&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定录音的音频输入源，可通过 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.getAvailableAudioSources.html">wx.getAvailableAudioSources()</a> 获取当前可用的音频源</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>录音的时长，单位 ms，最大值 600000（10 分钟）</td>
+    </tr>
+    <tr>
+      <td>encodeBitRate</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>编码码率，有效值见下表格</td>
+    </tr>
+    <tr>
+      <td>format</td>
+      <td><code>&quot;mp3&quot; | &quot;aac&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>音频格式</td>
+    </tr>
+    <tr>
+      <td>frameSize</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定帧大小，单位 KB。传入 frameSize 后，每录制指定帧大小的内容后，会回调录制的文件内容，不指定则不会回调。暂仅支持 mp3 格式。</td>
+    </tr>
+    <tr>
+      <td>numberOfChannels</td>
+      <td><code>1 | 2</code></td>
+      <td style="text-align:center">否</td>
+      <td>录音通道数</td>
+    </tr>
+    <tr>
+      <td>sampleRate</td>
+      <td><code>8000 | 11025 | 12000 | 16000 | 22050 | 24000 | 32000 | 44100 | 48000</code></td>
+      <td style="text-align:center">否</td>
+      <td>采样率</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="audiosource"></a><a href="#audiosource" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>audioSource</h3>
+<p>指定录音的音频输入源</p>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>auto</td>
+      <td>自动设置，默认使用手机麦克风，插上耳麦后自动切换使用耳机麦克风，所有平台适用</td>
+    </tr>
+    <tr>
+      <td>buildInMic</td>
+      <td>手机麦克风，仅限 iOS</td>
+    </tr>
+    <tr>
+      <td>headsetMic</td>
+      <td>耳机麦克风，仅限 iOS</td>
+    </tr>
+    <tr>
+      <td>mic</td>
+      <td>麦克风（没插耳麦时是手机麦克风，插耳麦时是耳机麦克风），仅限 Android</td>
+    </tr>
+    <tr>
+      <td>camcorder</td>
+      <td>同 mic，适用于录制音视频内容，仅限 Android</td>
+    </tr>
+    <tr>
+      <td>voice_communication</td>
+      <td>同 mic，适用于实时沟通，仅限 Android</td>
+    </tr>
+    <tr>
+      <td>voice_recognition</td>
+      <td>同 mic，适用于语音识别，仅限 Android</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="format"></a><a href="#format" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>format</h3>
+<p>音频格式</p>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>mp3</td>
+      <td>mp3 格式</td>
+    </tr>
+    <tr>
+      <td>aac</td>
+      <td>aac 格式</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="numberofchannels"></a><a href="#numberofchannels" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>numberOfChannels</h3>
+<p>录音通道数</p>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1 个通道</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2 个通道</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="samplerate"></a><a href="#samplerate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>sampleRate</h3>
+<p>采样率</p>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+      <th>编码码率</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>8000</td>
+      <td>8000 采样率</td>
+      <td><code>16000 ~ 48000</code></td>
+    </tr>
+    <tr>
+      <td>11025</td>
+      <td>11025 采样率</td>
+      <td><code>16000 ~ 48000</code></td>
+    </tr>
+    <tr>
+      <td>12000</td>
+      <td>12000 采样率</td>
+      <td><code>24000 ~ 64000</code></td>
+    </tr>
+    <tr>
+      <td>16000</td>
+      <td>16000 采样率</td>
+      <td><code>24000 ~ 96000</code></td>
+    </tr>
+    <tr>
+      <td>22050</td>
+      <td>22050 采样率</td>
+      <td><code>32000 ~ 128000</code></td>
+    </tr>
+    <tr>
+      <td>24000</td>
+      <td>24000 采样率</td>
+      <td><code>32000 ~ 128000</code></td>
+    </tr>
+    <tr>
+      <td>32000</td>
+      <td>32000 采样率</td>
+      <td><code>48000 ~ 192000</code></td>
+    </tr>
+    <tr>
+      <td>44100</td>
+      <td>44100 采样率</td>
+      <td><code>64000 ~ 320000</code></td>
+    </tr>
+    <tr>
+      <td>48000</td>
+      <td>48000 采样率</td>
+      <td><code>64000 ~ 320000</code></td>
+    </tr>
+  </tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="api-支持度-12"></a><a href="#api-支持度-12" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h2>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">RecorderManager.onError</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.onFrameRecorded</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.onInterruptionBegin</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.onInterruptionEnd</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.onPause</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.onResume</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.onStart</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.onStop</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.pause</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.resume</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.start</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">RecorderManager.stop</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#方法">方法</a><ul class="toc-headings"><li><a href="#onerror">onError</a></li><li><a href="#onframerecorded">onFrameRecorded</a></li><li><a href="#oninterruptionbegin">onInterruptionBegin</a></li><li><a href="#oninterruptionend">onInterruptionEnd</a></li><li><a href="#onpause">onPause</a></li><li><a href="#onresume">onResume</a></li><li><a href="#onstart">onStart</a></li><li><a href="#onstop">onStop</a></li><li><a href="#pause">pause</a></li><li><a href="#resume">resume</a></li><li><a href="#start">start</a></li><li><a href="#stop">stop</a></li></ul></li><li><a href="#参数">参数</a><ul class="toc-headings"><li><a href="#onerrorcallback">OnErrorCallback</a></li><li><a href="#onerrorcallbackresult">OnErrorCallbackResult</a></li><li><a href="#onframerecordedcallback">OnFrameRecordedCallback</a></li><li><a href="#onframerecordedcallbackresult">OnFrameRecordedCallbackResult</a></li><li><a href="#onstopcallback">OnStopCallback</a></li><li><a href="#onstopcallbackresult">OnStopCallbackResult</a></li><li><a href="#startoption">StartOption</a></li><li><a href="#audiosource">audioSource</a></li><li><a href="#format">format</a></li><li><a href="#numberofchannels">numberOfChannels</a></li><li><a href="#samplerate">sampleRate</a></li></ul></li><li><a href="#api-支持度-12">API 支持度</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

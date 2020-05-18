@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>设计稿及尺寸单位 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="在 Taro 中尺寸单位建议使用 `px`、 `百分比 %`，Taro 默认会对所有单位进行转换。在 Taro 中书写尺寸按照 1:1 的关系来进行书写，即从设计稿上量的长度 `100px`，那么尺寸书写就是 `100px`，当转成微信小程序的时候，尺寸将默认转换为 `100rpx`，当转成 H5 时将默认转换为以 `rem` 为单位的值。"/><meta name="docsearch:version" content="2.0.6"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="设计稿及尺寸单位 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="在 Taro 中尺寸单位建议使用 `px`、 `百分比 %`，Taro 默认会对所有单位进行转换。在 Taro 中书写尺寸按照 1:1 的关系来进行书写，即从设计稿上量的长度 `100px`，那么尺寸书写就是 `100px`，当转成微信小程序的时候，尺寸将默认转换为 `100rpx`，当转成 H5 时将默认转换为以 `rem` 为单位的值。"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.0.6</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/2.0.6/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.0.6/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.0.6/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>基础教程</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/team.html">Taro 团队</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/router.html">路由功能</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/2.0.6/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/wxcloud.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/debug-config.html">单步调测配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">迁移指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/migrate-to-2.html">迁移至 Taro 2.x</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/css-modules.html">使用 CSS Modules</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.6/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/size.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">设计稿及尺寸单位</h1></header><article><div><span><p>在 Taro 中尺寸单位建议使用 <code>px</code>、 <code>百分比 %</code>，Taro 默认会对所有单位进行转换。在 Taro 中书写尺寸按照 1:1 的关系来进行书写，即从设计稿上量的长度 <code>100px</code>，那么尺寸书写就是 <code>100px</code>，当转成微信小程序的时候，尺寸将默认转换为 <code>100rpx</code>，当转成 H5 时将默认转换为以 <code>rem</code> 为单位的值。</p>
+<p>如果你希望部分 <code>px</code> 单位不被转换成 <code>rpx</code> 或者 <code>rem</code> ，最简单的做法就是在 px 单位中增加一个大写字母，例如 <code>Px</code> 或者 <code>PX</code> 这样，则会被转换插件忽略。</p>
+<p>结合过往的开发经验，Taro 默认以 <code>750px</code> 作为换算尺寸标准，如果设计稿不是以 <code>750px</code> 为标准，则需要在项目配置 <code>config/index.js</code> 中进行设置，例如设计稿尺寸是 <code>640px</code>，则需要修改项目配置 <code>config/index.js</code> 中的 <code>designWidth</code> 配置为 <code>640</code>：</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">const</span> config <span class="token operator">=</span> <span class="token punctuation">{</span>
+  projectName<span class="token operator">:</span> <span class="token string">'myProject'</span><span class="token punctuation">,</span>
+  date<span class="token operator">:</span> <span class="token string">'2018-4-18'</span><span class="token punctuation">,</span>
+  designWidth<span class="token operator">:</span> <span class="token number">640</span><span class="token punctuation">,</span>
+  <span class="token operator">...</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>目前 Taro 支持 <code>750</code>、 <code>640</code> 、 <code>828</code> 三种尺寸设计稿，他们的换算规则如下：</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">const</span> deviceRatio <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token string">'640'</span><span class="token operator">:</span> <span class="token number">2.34</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token string">'750'</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token string">'828'</span><span class="token operator">:</span> <span class="token number">1.81</span> <span class="token operator">/</span> <span class="token number">2</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>建议使用 Taro 时，设计稿以 iPhone 6 <code>750px</code> 作为设计尺寸标准。</p>
+<p>如果你的设计稿是 <code>375</code> ，不在以上三种之中，那么你需要把 <code>designWidth</code> 配置为 <code>375</code>，同时在 <code>deviceRatio</code> 中添加换算规则如下：</p>
+<pre><code class="hljs css language-js">{
+  <span class="hljs-attr">designWidth</span>: <span class="hljs-number">375</span>,
+  <span class="hljs-attr">deviceRatio</span>: {
+    <span class="hljs-string">'375'</span>: <span class="hljs-number">1</span> / <span class="hljs-number">2</span>,
+    <span class="hljs-string">'640'</span>: <span class="hljs-number">2.34</span> / <span class="hljs-number">2</span>,
+    <span class="hljs-string">'750'</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-string">'828'</span>: <span class="hljs-number">1.81</span> / <span class="hljs-number">2</span>
+  }
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="api"></a><a href="#api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API</h2>
+<p>在编译时，Taro 会帮你对样式做尺寸转换操作，但是如果是在 JS 中书写了行内样式，那么编译时就无法做替换了，针对这种情况，Taro 提供了 API <code>Taro.pxTransform</code> 来做运行时的尺寸转换。</p>
+<pre><code class="hljs css language-jsx">Taro<span class="token punctuation">.</span><span class="token function">pxTransform</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token comment">// 小程序：rpx，H5：rem</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="配置"></a><a href="#配置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置</h2>
+<p>默认配置会对所有的 <code>px</code> 单位进行转换，有大写字母的 <code>Px</code> 或 <code>PX</code> 则会被忽略。</p>
+<p>参数默认值如下：</p>
+<pre><code class="hljs css language-js">{
+  <span class="hljs-attr">onePxTransform</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">unitPrecision</span>: <span class="hljs-number">5</span>,
+  <span class="hljs-attr">propList</span>: [<span class="hljs-string">'*'</span>],
+  <span class="hljs-attr">selectorBlackList</span>: [],
+  <span class="hljs-attr">replace</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">mediaQuery</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">minPixelValue</span>: <span class="hljs-number">0</span>
+}
+</code></pre>
+<p>Type: <code>Object | Null</code></p>
+<h3><a class="anchor" aria-hidden="true" id="onepxtransform-boolean"></a><a href="#onepxtransform-boolean" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>onePxTransform</code> (Boolean)</h3>
+<p>设置 1px 是否需要被转换</p>
+<h3><a class="anchor" aria-hidden="true" id="unitprecision-number"></a><a href="#unitprecision-number" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>unitPrecision</code> (Number)</h3>
+<p>REM 单位允许的小数位。</p>
+<h3><a class="anchor" aria-hidden="true" id="proplist-array"></a><a href="#proplist-array" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>propList</code> (Array)</h3>
+<p>允许转换的属性。</p>
+<ul>
+<li>Values need to be exact matches.</li>
+<li>Use wildcard <code>*</code> to enable all properties. Example: <code>['*']</code></li>
+<li>Use <code>*</code> at the start or end of a word. (<code>['*position*']</code> will match <code>background-position-y</code>)</li>
+<li>Use <code>!</code> to not match a property. Example: <code>['*', '!letter-spacing']</code></li>
+<li>Combine the &quot;not&quot; prefix with the other prefixes. Example: <code>['*', '!font*']</code></li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="selectorblacklist"></a><a href="#selectorblacklist" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>selectorBlackList</code></h3>
+<p>黑名单里的选择器将会被忽略。</p>
+<ul>
+<li>If value is string, it checks to see if selector contains the string.
+<ul>
+<li><code>['body']</code> will match <code>.body-class</code></li>
+</ul></li>
+<li>If value is regexp, it checks to see if the selector matches the regexp.
+<ul>
+<li><code>[/^body$/]</code> will match <code>body</code> but not <code>.body</code></li>
+</ul></li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="replace-boolean"></a><a href="#replace-boolean" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>replace</code> (Boolean)</h3>
+<p>直接替换而不是追加一条进行覆盖。</p>
+<h3><a class="anchor" aria-hidden="true" id="mediaquery-boolean"></a><a href="#mediaquery-boolean" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>mediaQuery</code> (Boolean)</h3>
+<p>允许媒体查询里的 px 单位转换</p>
+<h3><a class="anchor" aria-hidden="true" id="minpixelvalue-number"></a><a href="#minpixelvalue-number" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>minPixelValue</code> (Number)</h3>
+<p>设置一个可被转换的最小 px 值</p>
+<p>配置规则对应到 <code>config/index.js</code> ，例如：</p>
+<pre><code class="hljs css language-js">{
+  <span class="hljs-attr">h5</span>: {
+    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/'</span>,
+    <span class="hljs-attr">staticDirectory</span>: <span class="hljs-string">'static'</span>,
+    <span class="hljs-attr">postcss</span>: {
+      <span class="hljs-attr">autoprefixer</span>: {
+        <span class="hljs-attr">enable</span>: <span class="hljs-literal">true</span>
+      },
+      <span class="hljs-attr">pxtransform</span>: {
+        <span class="hljs-attr">enable</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">config</span>: {
+          <span class="hljs-attr">selectorBlackList</span>: [<span class="hljs-string">'body'</span>]
+        }
+      }
+    }
+  },
+  <span class="hljs-attr">mini</span>: {
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-attr">postcss</span>: {
+      <span class="hljs-attr">pxtransform</span>: {
+        <span class="hljs-attr">enable</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">config</span>: {
+          <span class="hljs-attr">selectorBlackList</span>: [<span class="hljs-string">'body'</span>]
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="忽略"></a><a href="#忽略" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>忽略</h2>
+<h3><a class="anchor" aria-hidden="true" id="属性"></a><a href="#属性" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>属性</h3>
+<p>当前忽略单个属性的最简单的方法，就是 px 单位使用大写字母。</p>
+<pre><code class="hljs css language-css"> /* `px` is converted to `rem` */
+.convert {
+  font-size: 16px; // converted to 1rem
+}
+
+ /* `Px` or `PX` is ignored by `postcss-pxtorem` but still accepted by browsers */
+.ignore {
+  border: 1Px solid; // ignored
+  border-width: 2PX; // ignored
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="文件"></a><a href="#文件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>文件</h3>
+<p>对于头部包含注释 <code>/*postcss-pxtransform disable*/</code> 的文件，插件不予处理。</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/2.0.6/router.html"><span class="arrow-prev">← </span><span>路由功能</span></a><a class="docs-next button" href="/taro/docs/2.0.6/static-reference.html"><span>静态资源引用</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#api">API</a></li><li><a href="#配置">配置</a><ul class="toc-headings"><li><a href="#onepxtransform-boolean"><code>onePxTransform</code> (Boolean)</a></li><li><a href="#unitprecision-number"><code>unitPrecision</code> (Number)</a></li><li><a href="#proplist-array"><code>propList</code> (Array)</a></li><li><a href="#selectorblacklist"><code>selectorBlackList</code></a></li><li><a href="#replace-boolean"><code>replace</code> (Boolean)</a></li><li><a href="#mediaquery-boolean"><code>mediaQuery</code> (Boolean)</a></li><li><a href="#minpixelvalue-number"><code>minPixelValue</code> (Number)</a></li></ul></li><li><a href="#忽略">忽略</a><ul class="toc-headings"><li><a href="#属性">属性</a></li><li><a href="#文件">文件</a></li></ul></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

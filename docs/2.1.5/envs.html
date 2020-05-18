@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>跨平台开发 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Taro 的设计初衷就是为了统一跨平台的开发方式，并且已经尽力通过运行时框架、组件、API 去抹平多端差异，但是由于不同的平台之间还是存在一些无法消除的差异，所以为了更好的实现跨平台开发，Taro 中提供了如下的解决方案"/><meta name="docsearch:version" content="2.1.5"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="跨平台开发 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="Taro 的设计初衷就是为了统一跨平台的开发方式，并且已经尽力通过运行时框架、组件、API 去抹平多端差异，但是由于不同的平台之间还是存在一些无法消除的差异，所以为了更好的实现跨平台开发，Taro 中提供了如下的解决方案"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.1.5</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/2.1.5/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.1.5/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.1.5/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>多端开发</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/team.html">Taro 团队</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/join-us.html">加入我们</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/2.1.5/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/wxcloudbase.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/debug-config.html">单步调测配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">迁移指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/migrate-to-2.html">迁移至 Taro 2.x</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/css-modules.html">使用 CSS Modules</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/learn.html">社区贡献的学习教程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.1.5/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/envs.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">跨平台开发</h1></header><article><div><span><p>Taro 的设计初衷就是为了统一跨平台的开发方式，并且已经尽力通过运行时框架、组件、API 去抹平多端差异，但是由于不同的平台之间还是存在一些无法消除的差异，所以为了更好的实现跨平台开发，Taro 中提供了如下的解决方案</p>
+<h2><a class="anchor" aria-hidden="true" id="内置环境变量"></a><a href="#内置环境变量" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>内置环境变量</h2>
+<blockquote>
+<p>注意：环境变量在代码中的使用方式，<a href="/taro/docs/2.1.5/best-practice.html#最佳编码方式">参考</a></p>
+</blockquote>
+<p>Taro 在编译时提供了一些内置的环境变量来帮助用户做一些特殊处理</p>
+<h3><a class="anchor" aria-hidden="true" id="processenvtaro_env"></a><a href="#processenvtaro_env" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>process.env.TARO_ENV</h3>
+<p>用于判断当前编译类型，目前有 <code>weapp</code> / <code>swan</code> / <code>alipay</code> / <code>h5</code> / <code>rn</code> / <code>tt</code> / <code>qq</code> / <code>quickapp</code> 八个取值，可以通过这个变量来书写对应一些不同环境下的代码，在编译时会将不属于当前编译类型的代码去掉，只保留当前编译类型下的代码，例如想在微信小程序和 H5 端分别引用不同资源</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TARO_ENV</span> <span class="token operator">===</span> <span class="token string">'weapp'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path/to/weapp/name'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TARO_ENV</span> <span class="token operator">===</span> <span class="token string">'h5'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path/to/h5/name'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>同时也可以在 JSX 中使用，决定不同端要加载的组件</p>
+<pre><code class="hljs css language-jsx"><span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+      <span class="token punctuation">{</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TARO_ENV</span> <span class="token operator">===</span> <span class="token string">'weapp'</span> <span class="token operator">&amp;&amp;</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">ScrollViewWeapp</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">}</span>
+      <span class="token punctuation">{</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TARO_ENV</span> <span class="token operator">===</span> <span class="token string">'h5'</span> <span class="token operator">&amp;&amp;</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">ScrollViewH5</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">}</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="样式文件中跨平台支持"></a><a href="#样式文件中跨平台支持" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>样式文件中跨平台支持</h3>
+<p>为了方便大家书写样式跨端的样式代码，在样式文件中支持条件编译的特性。</p>
+<p>指定平台保留样式：</p>
+<pre><code class="hljs css language-scss"><span class="hljs-comment">/*  #ifdef  %PLATFORM%  */</span>
+样式代码
+<span class="hljs-comment">/*  #endif  */</span>
+</code></pre>
+<p>指定平台剔除样式：</p>
+<pre><code class="hljs css language-scss"><span class="hljs-comment">/*  #ifndef  %PLATFORM%  */</span>
+样式代码
+<span class="hljs-comment">/*  #endif  */</span>
+</code></pre>
+<p>其中 <code>PLATFORM</code> 的取值与 <code>process.env.TARO_ENV</code> 保持一致</p>
+<p>例如，希望某段样式只在 <strong>微信小程序中</strong> 生效，可以如下写法</p>
+<pre><code class="hljs css language-scss"><span class="hljs-comment">/*  #ifdef weapp  */</span>
+样式代码
+<span class="hljs-comment">/*  #endif  */</span>
+</code></pre>
+<p>如果是多个平台，之间可以使用空格隔开。</p>
+<h2><a class="anchor" aria-hidden="true" id="统一接口的多端文件"></a><a href="#统一接口的多端文件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>统一接口的多端文件</h2>
+<blockquote>
+<p>1.2.17 开始支持</p>
+</blockquote>
+<p>内置环境变量虽然可以解决大部分跨端的问题，但是会让代码中充斥着逻辑判断的代码，影响代码的可维护性，而且也让代码变得愈发丑陋，为了解决这种问题，自 <code>1.2.17</code> 开始，Taro 提供了另外一种跨端开发的方式作为补充。</p>
+<p>开发者可以通过使用统一接口的多端文件，来解决跨端差异的功能。针对一项功能，如果多个端之间都有差异，那么开发者可以通过将文件修改成 <code>原文件名 + 端类型</code> 的命名形式，不同端的文件代码对外保持统一接口，而引用的时候仍然是 <code>import</code> 原文件名的文件，Taro 在编译时，会跟根据需要编译平台类型，将加载的文件变更为带有对应端类型文件名的文件，从而达到不同的端加载对应文件的目的。</p>
+<p>端类型对应着 <code>process.env.TARO_ENV</code> 的值</p>
+<p>通常有以下两种使用场景。</p>
+<h3><a class="anchor" aria-hidden="true" id="多端组件"></a><a href="#多端组件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>多端组件</h3>
+<p>假如有一个 <code>Test</code> 组件存在微信小程序、百度小程序和 H5 三个不同版本，那么就可以像如下组织代码</p>
+<p><code>test.js</code> 文件，这是 <code>Test</code> 组件默认的形式，编译到微信小程序、百度小程序和 H5 三端之外的端使用的版本</p>
+<p><code>test.h5.js</code> 文件，这是 <code>Test</code> 组件的 H5 版本</p>
+<p><code>test.weapp.js</code> 文件，这是 <code>Test</code> 组件的 微信小程序 版本</p>
+<p><code>test.swan.js</code> 文件，这是 <code>Test</code> 组件的 百度小程序 版本</p>
+<p><code>test.qq.js</code> 文件，这是 <code>Test</code> 组件的 QQ 小程序 版本</p>
+<p><code>test.quickapp.js</code> 文件，这是 <code>Test</code> 组件的 快应用 版本</p>
+<p>四个文件，对外暴露的是统一的接口，它们接受一致的参数，只是内部有针对各自平台的代码实现</p>
+<p>而我们使用 <code>Test</code> 组件的时候，引用的方式依然和之前保持一致，<code>import</code> 的是不带端类型的文件名，在编译的时候会自动识别并添加端类型后缀</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">import</span> Test <span class="token keyword">from</span> <span class="token string">'../../components/test'</span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Test</span></span> <span class="token attr-name">argA</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">}</span></span> <span class="token attr-name">argA</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token number">2</span><span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="多端脚本逻辑"></a><a href="#多端脚本逻辑" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>多端脚本逻辑</h3>
+<p>与多端组件类似，假如有需要针对不同的端写不同的脚本逻辑代码，我们也可以类似的进行处理，遵守的唯一原则就是多端文件对外的接口保持一致。</p>
+<p>例如微信小程序上使用 <code>Taro.setNavigationBarTitle</code> 来设置页面标题，H5 使用 <code>document.title</code>，那么可以封装一个 <code>setTitle</code> 方法来抹平两个平台的差异。</p>
+<p>增加 <code>set_title.h5.js</code>，代码如下</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setTitle</span> (<span class="hljs-params">title</span>) </span>{
+  <span class="hljs-built_in">document</span>.title = title
+}
+</code></pre>
+<p>增加 <code>set_title.weapp.js</code>，代码如下</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> Taro <span class="hljs-keyword">from</span> <span class="hljs-string">'@tarojs/taro'</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setTitle</span> (<span class="hljs-params">title</span>) </span>{
+  Taro.setNavigationBarTitle({
+    title
+  })
+}
+</code></pre>
+<p>调用的时候，如下使用</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> setTitle <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/set_title'</span>
+
+setTitle(<span class="hljs-string">'页面标题'</span>)
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="使用要点"></a><a href="#使用要点" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用要点</h3>
+<p>统一接口的多端文件这一跨平台兼容写法有如下三个使用要点</p>
+<ul>
+<li>不同端的对应文件一定要统一接口，统一调用方式</li>
+<li>最好有一个平台无关的默认文件，这样在使用 ts 的时候也不会出现报错</li>
+<li>引用文件的时候，只需要写默认文件名，不用带文件后缀</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="appjs-中使用不同的-pages"></a><a href="#appjs-中使用不同的-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>app.js 中使用不同的 pages</h3>
+<blockquote>
+<p>1.3.11 开始支持</p>
+</blockquote>
+<p>根据不同环境返回不同的 <code>pages</code>，可以这么写</p>
+<pre><code class="hljs">config<span class="token operator">:</span> Config <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token string">"pages"</span><span class="token operator">:</span> preval<span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+    module.exports=(function() {
+      if (process.env.TARO_ENV === 'weapp') {
+        return [
+          '/pages/index/index'
+        ]
+      }
+      if (process.env.TARO_ENV === 'swan') {
+        return [
+          '/pages/indexswan/indexswan'
+        ]
+      }
+    })()
+  </span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>详情可以参考 <a href="https://github.com/NervJS/taro/pull/3867">issue</a></p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/2.1.5/ref.html"><span class="arrow-prev">← </span><span>Refs 引用</span></a><a class="docs-next button" href="/taro/docs/2.1.5/envs-debug.html"><span>多端同步调试</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#内置环境变量">内置环境变量</a><ul class="toc-headings"><li><a href="#processenvtaro_env">process.env.TARO_ENV</a></li><li><a href="#样式文件中跨平台支持">样式文件中跨平台支持</a></li></ul></li><li><a href="#统一接口的多端文件">统一接口的多端文件</a><ul class="toc-headings"><li><a href="#多端组件">多端组件</a></li><li><a href="#多端脚本逻辑">多端脚本逻辑</a></li><li><a href="#使用要点">使用要点</a></li><li><a href="#appjs-中使用不同的-pages">app.js 中使用不同的 pages</a></li></ul></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

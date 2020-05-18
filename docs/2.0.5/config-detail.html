@@ -1,0 +1,760 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>编译配置详情 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## designWidth"/><meta name="docsearch:version" content="2.0.5"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="编译配置详情 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="## designWidth"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.0.5</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/2.0.5/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.0.5/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.0.5/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>进阶指南</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/team.html">Taro 团队</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/wxcloud.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/config.html">编译配置</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/2.0.5/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/debug-config.html">单步调测配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">迁移指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/migrate-to-2.html">迁移至 Taro 2.x</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/css-modules.html">使用 CSS Modules</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.5/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/config-detail.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">编译配置详情</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="designwidth"></a><a href="#designwidth" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>designWidth</h2>
+<p><code>designWidth</code> 用来设置设计稿尺寸，关于这一部分的配置说明请见<a href="/taro/docs/2.0.5/size.html">设计稿及尺寸单位</a>这一章节。</p>
+<h2><a class="anchor" aria-hidden="true" id="sourceroot"></a><a href="#sourceroot" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>sourceRoot</h2>
+<p><code>sourceRoot</code> 用来设置源码存放目录，通过 Taro 开发工具初始化后的项目源码目录都是 <code>src</code>，你可以通过修改这一配置来重新指定源码目录。</p>
+<h2><a class="anchor" aria-hidden="true" id="outputroot"></a><a href="#outputroot" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>outputRoot</h2>
+<p><code>outputRoot</code> 用来设置代码编译后的生产目录，通过 Taro 开发工具初始化后的生产目录都是 <code>dist</code>，你可以通过修改这一配置来重新指定生产目录。</p>
+<h2><a class="anchor" aria-hidden="true" id="plugins"></a><a href="#plugins" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>plugins</h2>
+<p><code>plugins</code> 用来设置编译过程插件，插件机制基于 实现，目前暴露了两个钩子 <code>beforeBuild</code> 和 <code>afterBuild</code></p>
+<p>其中，<code>beforeBuild</code> 将在整体编译前触发，可以获取到编译的相关配置，同时也能进行修改</p>
+<p><code>afterBuild</code> 将在 webpack 编译完后执行，可以获取到编译后的结果</p>
+<p>具体使用方式如下：</p>
+<p>首先定义一个插件</p>
+<pre><code class="hljs css language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BuildPlugin</span> </span>{
+  apply (builder) {
+    builder.hooks.beforeBuild.tap(<span class="hljs-string">'BuildPlugin'</span>, (config) =&gt; {
+      <span class="hljs-built_in">console</span>.log(config)
+    })
+
+    builder.hooks.afterBuild.tap(<span class="hljs-string">'BuildPlugin'</span>, (stats) =&gt; {
+      <span class="hljs-built_in">console</span>.log(stats)
+    })
+  }
+}
+</code></pre>
+<p>接下来在 <code>plugins</code> 字段中进行配置</p>
+<pre><code class="hljs css language-js">{
+  <span class="hljs-attr">plugins</span>: [
+    <span class="hljs-keyword">new</span> BuildPlugin()
+  ]
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="babel"></a><a href="#babel" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>babel</h2>
+<p>用来配置 <code>babel</code>，默认配置如下，可以自行添加自己需要的额外的 <code>presets</code> 及 <code>plugins</code>。</p>
+<pre><code class="hljs css language-jsx">babel<span class="token operator">:</span> <span class="token punctuation">{</span>
+  sourceMap<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  presets<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">'env'</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">'transform-class-properties'</span><span class="token punctuation">,</span>
+    <span class="token string">'transform-decorators-legacy'</span><span class="token punctuation">,</span>
+    <span class="token string">'transform-object-rest-spread'</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="uglify"></a><a href="#uglify" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>uglify</h2>
+<p>用来配置 <code>UgligyJS</code> 工具，设置打包过程中的 JS 代码压缩。可以通过 <code>uglify.enable</code> 来设置是否开启压缩，若设置开启，则可以通过 <code>uglify.config</code> 来设置 <code>UgligyJS</code> 的配置项，具体配置方式如下：</p>
+<pre><code class="hljs css language-jsx">uglify<span class="token operator">:</span> <span class="token punctuation">{</span>
+  enable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  config<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 配置项同 https://github.com/mishoo/UglifyJS2#minify-options</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="csso"></a><a href="#csso" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>csso</h2>
+<p>用来配置 <code>csso</code> 工具，设置打包过程中的 CSS 代码压缩。可以通过 <code>csso.enable</code> 来设置是否开启压缩，若设置开启，则可以通过 <code>csso.config</code> 来设置 <code>csso</code> 的配置项，具体配置方式如下：</p>
+<pre><code class="hljs css language-jsx">csso<span class="token operator">:</span> <span class="token punctuation">{</span>
+  enable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  config<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 配置项同 https://github.com/css/csso#minifysource-options</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="sass"></a><a href="#sass" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>sass</h2>
+<p>用来配置 <code>sass</code> 工具，设置打包过程中的 SCSS 代码编译。<br>
+具体配置可以参考<a href="https://www.npmjs.com/package/node-sass">node-sass</a>  <br>
+当需要全局注入scss文件时，可以添加三个额外参数：<code>resource</code> 、 <code>projectDirectory</code> (v1.2.25开始支持)、<code>data</code>（v1.3.0开始支持），具体配置方式如下：</p>
+<h4><a class="anchor" aria-hidden="true" id="单文件路径形式"></a><a href="#单文件路径形式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>单文件路径形式</h4>
+<p>当只有 <code>resource</code> 字段时，可以传入 scss 文件的绝对路径。</p>
+<pre><code class="hljs css language-js">sass: {
+  <span class="hljs-attr">resource</span>: path.resolve(__dirname, <span class="hljs-string">'..'</span>, <span class="hljs-string">'src/styles/variable.scss'</span>)
+}
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="多文件路径形式"></a><a href="#多文件路径形式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>多文件路径形式</h4>
+<p>此外，当只有 <code>resource</code> 字段时，也可以传入一个路径数组。</p>
+<pre><code class="hljs css language-js">sass: {
+  <span class="hljs-attr">resource</span>: [
+    path.resolve(__dirname, <span class="hljs-string">'..'</span>, <span class="hljs-string">'src/styles/variable.scss'</span>),
+    path.resolve(__dirname, <span class="hljs-string">'..'</span>, <span class="hljs-string">'src/styles/mixins.scss'</span>)
+  ]
+}
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="指定项目根目录路径形式"></a><a href="#指定项目根目录路径形式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>指定项目根目录路径形式</h4>
+<p>你可以额外配置 <code>projectDirectory</code> 字段，这样你就可以在 <code>resource</code> 里写相对路径了。</p>
+<pre><code class="hljs css language-js">sass: {
+  <span class="hljs-attr">resource</span>: [
+    <span class="hljs-string">'src/styles/variable.scss'</span>,
+    <span class="hljs-string">'src/styles/mixins.scss'</span>
+  ],
+  <span class="hljs-attr">projectDirectory</span>: path.resolve(__dirname, <span class="hljs-string">'..'</span>)
+}
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="传入-scss-变量字符串"></a><a href="#传入-scss-变量字符串" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>传入 scss 变量字符串</h4>
+<pre><code class="hljs css language-js">sass: {
+  <span class="hljs-attr">resource</span>: [
+    <span class="hljs-string">'src/styles/variable.scss'</span>,
+    <span class="hljs-string">'src/styles/mixins.scss'</span>
+  ],
+  <span class="hljs-attr">projectDirectory</span>: path.resolve(__dirname, <span class="hljs-string">'..'</span>),
+  <span class="hljs-attr">data</span>: <span class="hljs-string">'$nav-height: 48px;'</span>
+}
+</code></pre>
+<ul>
+<li>resource: 如果要引入多个文件，支持数组形式传入</li>
+<li>projectDirectory: 项目根目录的绝对地址(若为小程序云开发模板，则应该是client目录)</li>
+<li>data: 全局 scss 变量，若 data 与 resource 中设置了同样的变量，则 data 的优先级高于 resource</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="env"></a><a href="#env" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>env</h2>
+<p>用来设置一些环境变量如 <code>process.env.NODE_ENV</code>，例如我们想设置区分预览、打包来做些不同的操作，可以如下配置：</p>
+<p>在 <code>config/dev.js</code> 中：</p>
+<pre><code class="hljs css language-jsx">env<span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token constant">NODE_ENV</span><span class="token operator">:</span> <span class="token string">'"development"'</span> <span class="token comment">// JSON.stringify('development')</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在 <code>config/prod.js</code> 中：</p>
+<pre><code class="hljs css language-jsx">env<span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token constant">NODE_ENV</span><span class="token operator">:</span> <span class="token string">'"production"'</span> <span class="token comment">// JSON.stringify('production')</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>这样就能在代码中通过 <code>process.env.NODE_ENV === 'development'</code> 来判断环境。</p>
+<h2><a class="anchor" aria-hidden="true" id="defineconstants"></a><a href="#defineconstants" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>defineConstants</h2>
+<p>用来配置一些全局变量供代码中进行使用，配置方式与 <a href="https://webpack.js.org/plugins/define-plugin/">Webpack DefinePlugin</a> 类似，例如：</p>
+<pre><code class="hljs css language-js">defineConstants: {
+  <span class="hljs-attr">A</span>: <span class="hljs-built_in">JSON</span>.stringify(<span class="hljs-string">'a'</span>) <span class="hljs-comment">// '"a"'</span>
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="alias"></a><a href="#alias" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>alias</h2>
+<blockquote>
+<p><code>1.2.0</code> 开始支持。</p>
+</blockquote>
+<p>用来配置目录别名，从而方便书写代码引用路径。例如，使用相对路径书写文件引用如下：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> A <span class="hljs-keyword">from</span> <span class="hljs-string">'../../componnets/A'</span>
+<span class="hljs-keyword">import</span> Utils <span class="hljs-keyword">from</span> <span class="hljs-string">'../../utils'</span>
+<span class="hljs-keyword">import</span> packageJson <span class="hljs-keyword">from</span> <span class="hljs-string">'../../package.json'</span>
+<span class="hljs-keyword">import</span> projectConfig <span class="hljs-keyword">from</span> <span class="hljs-string">'../../project.config.json'</span>
+</code></pre>
+<p>为了避免书写多级相对路径，我们可以如下配置 <code>alias</code>：</p>
+<pre><code class="hljs css language-js">alias: {
+  <span class="hljs-string">'@/components'</span>: path.resolve(__dirname, <span class="hljs-string">'..'</span>, <span class="hljs-string">'src/components'</span>),
+  <span class="hljs-string">'@/utils'</span>: path.resolve(__dirname, <span class="hljs-string">'..'</span>, <span class="hljs-string">'src/utils'</span>),
+  <span class="hljs-string">'@/package'</span>: path.resolve(__dirname, <span class="hljs-string">'..'</span>, <span class="hljs-string">'package.json'</span>),
+  <span class="hljs-string">'@/project'</span>: path.resolve(__dirname, <span class="hljs-string">'..'</span>, <span class="hljs-string">'project.config.json'</span>),
+}
+</code></pre>
+<p>通过上述配置，可以将 <code>src/components</code> 和 <code>src/utils</code> 目录配置成别名，将根目录下的 <code>package.json</code> 和 <code>project.config.json</code> 文件配置成别名，则代码中的引用改写如下：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> A <span class="hljs-keyword">from</span> <span class="hljs-string">'@/components/A'</span>
+<span class="hljs-keyword">import</span> Utils <span class="hljs-keyword">from</span> <span class="hljs-string">'@/utils'</span>
+<span class="hljs-keyword">import</span> packageJson <span class="hljs-keyword">from</span> <span class="hljs-string">'@/package'</span>
+<span class="hljs-keyword">import</span> projectConfig <span class="hljs-keyword">from</span> <span class="hljs-string">'@/project'</span>
+</code></pre>
+<p>为了让编辑器（VS Code）不报错，并继续使用自动路径补全的功能，需要在项目根目录下的 <code>jsconfig.json</code> 或者 <code>tsconfig.json</code> 中配置 <code>paths</code> 让编辑器认得我们的别名，形式如下：</p>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"compilerOptions"</span>: {
+    <span class="hljs-attr">"baseUrl"</span>: <span class="hljs-string">"."</span>,
+    <span class="hljs-attr">"paths"</span>: {
+      <span class="hljs-attr">"@/components/*"</span>: [<span class="hljs-string">"./src/components/*"</span>],
+      <span class="hljs-attr">"@/utils/*"</span>: [<span class="hljs-string">"./src/utils/*"</span>],
+      <span class="hljs-attr">"@/package"</span>: [<span class="hljs-string">"./package.json"</span>],
+      <span class="hljs-attr">"@/project"</span>: [<span class="hljs-string">"./project.config.json"</span>],
+    }
+  }
+}
+</code></pre>
+<p><em>建议别名使用 <code>@/</code> 开头而非仅用 <code>@</code> 开头，因为有小概率会与某些 <code>scoped</code> 形式的 <code>npm</code> 包（行如：<a href="https://npm.im/@tarojs/taro">@tarojs/taro</a>, <a href="https://npm.im/@babel/core">@babel/core</a>）产生命名冲突。</em></p>
+<h2><a class="anchor" aria-hidden="true" id="copy"></a><a href="#copy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>copy</h2>
+<p>文件 copy 配置，包含两个配置项 <code>patterns</code> 和 <code>options</code>。</p>
+<h3><a class="anchor" aria-hidden="true" id="copypatterns"></a><a href="#copypatterns" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>copy.patterns</h3>
+<p>用来指定需要拷贝的文件或者目录，<strong>数组类型</strong>，每一项都必须包含 <code>from</code> 、<code>to</code> 的配置，分别代表来源和需要拷贝到的目录，同时可以设置 <code>ignore</code> 配置来指定需要忽略的文件， <code>ignore</code> 是指定的 <a href="https://github.com/isaacs/node-glob">glob</a> 类型字符串，或者 glob 字符串数组。</p>
+<p>值得注意的是，目前 <code>from</code> 必须指定存在的文件或者目录，暂不支持 glob 格式， <code>from</code> 和 <code>to</code> 直接置顶项目根目录下的文件目录，建议 <code>from</code> 以 <code>src</code> 目录开头，<code>to</code> 以 <code>dist</code> 目录开头。</p>
+<p>一般有如下的使用形式：</p>
+<pre><code class="hljs css language-jsx">copy<span class="token operator">:</span> <span class="token punctuation">{</span>
+  patterns<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> <span class="token keyword">from</span><span class="token operator">:</span> <span class="token string">'src/asset/tt/'</span><span class="token punctuation">,</span> to<span class="token operator">:</span> <span class="token string">'dist/asset/tt/'</span><span class="token punctuation">,</span> ignore<span class="token operator">:</span> <span class="token string">'*.js'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment">// 指定需要 copy 的目录</span>
+    <span class="token punctuation">{</span> <span class="token keyword">from</span><span class="token operator">:</span> <span class="token string">'src/asset/tt/sd.jpg'</span><span class="token punctuation">,</span> to<span class="token operator">:</span> <span class="token string">'dist/asset/tt/sd.jpg'</span> <span class="token punctuation">}</span> <span class="token comment">// 指定需要 copy 的文件</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="copyoptions"></a><a href="#copyoptions" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>copy.options</h3>
+<p>拷贝配置，目前可以指定全局的 ignore：</p>
+<pre><code class="hljs css language-jsx">copy<span class="token operator">:</span> <span class="token punctuation">{</span>
+  options<span class="token operator">:</span> <span class="token punctuation">{</span>
+    ignore<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'*.js'</span><span class="token punctuation">,</span> <span class="token string">'*.css'</span><span class="token punctuation">]</span> <span class="token comment">// 全局的 ignore</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="mini"></a><a href="#mini" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini</h2>
+<p>专属于小程序的配置。</p>
+<h3><a class="anchor" aria-hidden="true" id="minicompile"></a><a href="#minicompile" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.compile</h3>
+<p>小程序编译过程的相关配置。</p>
+<h4><a class="anchor" aria-hidden="true" id="minicompileexclude"></a><a href="#minicompileexclude" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.compile.exclude</h4>
+<p>配置小程序编译过程中排除不需要经过 Taro 编译的文件，数组类型，数组里面可以包含具体文件路径，也可以是判断函数，同 <a href="https://webpack.js.org/configuration/module/#ruleexclude">Rule.exclude</a></p>
+<p>例如，想要排除某个文件，可以如下配置要排除的文件具体路径：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">mini</span>: {
+    <span class="hljs-attr">compile</span>: {
+      <span class="hljs-attr">exclude</span>: [
+        path.resolve(__dirname, <span class="hljs-string">'..'</span>, <span class="hljs-string">'src/pages/index/vod-wx-sdk-v2.js'</span>)
+      ]
+    }
+  }
+}
+</code></pre>
+<p>也可以配置判断函数，如下</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">mini</span>: {
+    <span class="hljs-attr">compile</span>: {
+      <span class="hljs-attr">exclude</span>: [
+        <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">modulePath</span>) </span>{
+          <span class="hljs-keyword">return</span> modulePath.indexOf(<span class="hljs-string">'vod-wx-sdk-v2'</span>) &gt;= <span class="hljs-number">0</span>
+        }
+      ]
+    }
+  }
+}
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="minicompileincldue"></a><a href="#minicompileincldue" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.compile.incldue</h4>
+<p>配置额外需要经过 Taro 编译的文件，例如 Taro 默认不编译 <code>node_modules</code> 包中文件，可以通过这个配置让 Taro 编译  <code>node_modules</code> 包中文件，使用方式与 <code>mini.compile.exclude</code> 一致，同 <a href="https://webpack.js.org/configuration/module/#ruleinclude">Rule.include</a>。</p>
+<h3><a class="anchor" aria-hidden="true" id="miniwebpackchain"></a><a href="#miniwebpackchain" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.webpackChain</h3>
+<p>自定义 Webpack 配置，接受函数形式的配置。</p>
+<p>这个函数会收到三个参数，第一个参数是 webpackChain 对象，可参考 <a href="https://github.com/neutrinojs/webpack-chain">webpack-chain</a> 的 api 进行修改；第二个参数是 <code>webpack</code> 实例；第三个参数 <code>PARSE_AST_TYPE</code> 是小程序编译时的文件类型集合。例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// 这是一个添加 raw-loader 的例子，用于在项目中直接引用 md 文件</span>
+<span class="token punctuation">{</span>
+  <span class="token function">webpackChain</span> <span class="token punctuation">(</span><span class="token parameter">chain<span class="token punctuation">,</span> webpack</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    chain<span class="token punctuation">.</span><span class="token function">merge</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      module<span class="token operator">:</span> <span class="token punctuation">{</span>
+        rule<span class="token operator">:</span> <span class="token punctuation">{</span>
+          myloader<span class="token operator">:</span> <span class="token punctuation">{</span>
+            test<span class="token operator">:</span> <span class="token regex">/\.md$/</span><span class="token punctuation">,</span>
+            use<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+              loader<span class="token operator">:</span> <span class="token string">'raw-loader'</span><span class="token punctuation">,</span>
+              options<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+            <span class="token punctuation">}</span><span class="token punctuation">]</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre><code class="hljs css language-jsx"><span class="token comment">// 这是一个添加插件的例子</span>
+<span class="token punctuation">{</span>
+  <span class="token function">webpackChain</span> <span class="token punctuation">(</span><span class="token parameter">chain<span class="token punctuation">,</span> webpack</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    chain<span class="token punctuation">.</span><span class="token function">merge</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      plugin<span class="token operator">:</span> <span class="token punctuation">{</span>
+        install<span class="token operator">:</span> <span class="token punctuation">{</span>
+          plugin<span class="token operator">:</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'npm-install-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          args<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+            <span class="token comment">// Use --save or --save-dev</span>
+            dev<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token comment">// Install missing peerDependencies</span>
+            peerDependencies<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+            <span class="token comment">// Reduce amount of console logging</span>
+            quiet<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token comment">// npm command used inside company, yarn is not supported yet</span>
+            npm<span class="token operator">:</span> <span class="token string">'cnpm'</span>
+          <span class="token punctuation">}</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>注意：第三个参数的取值如下</p>
+<pre><code class="hljs css language-typescript"><span class="token keyword">export</span> <span class="token keyword">enum</span> <span class="token constant">PARSE_AST_TYPE</span> <span class="token punctuation">{</span>
+  <span class="token constant">ENTRY</span> <span class="token operator">=</span> <span class="token string">'ENTRY'</span><span class="token punctuation">,</span>
+  <span class="token constant">PAGE</span> <span class="token operator">=</span> <span class="token string">'PAGE'</span><span class="token punctuation">,</span>
+  <span class="token constant">COMPONENT</span> <span class="token operator">=</span> <span class="token string">'COMPONENT'</span><span class="token punctuation">,</span>
+  <span class="token constant">NORMAL</span> <span class="token operator">=</span> <span class="token string">'NORMAL'</span><span class="token punctuation">,</span>
+  <span class="token constant">STATIC</span> <span class="token operator">=</span> <span class="token string">'STATIC'</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="minicommonchunks"></a><a href="#minicommonchunks" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.commonChunks</h4>
+<blockquote>
+<p><code>type commonChunks = string[] | ((commonChunks: string[]) =&gt; string[])</code></p>
+</blockquote>
+<p>配置打包时抽离的公共文件</p>
+<p>支持两种配置方式，其一是字符串数组，给定抽离公共文件名，在 Taro 编译中，如果是普通编译，则 commonChunks 默认值为 <code>['runtime', 'vendors', 'taro', 'common']</code>，如果是编译为微信小程序插件，则 commonChunks 默认值为 <code>['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']</code>，普通编译时默认配置</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">mini</span>: {
+    <span class="hljs-attr">commonChunks</span>: [<span class="hljs-string">'runtime'</span>, <span class="hljs-string">'vendors'</span>, <span class="hljs-string">'taro'</span>, <span class="hljs-string">'common'</span>]
+  }
+}
+</code></pre>
+<p>这几个公共文件分别表示：</p>
+<ul>
+<li><code>runtime</code>: webpack 运行时入口</li>
+<li><code>vendors</code>: node_modules 中文件抽离</li>
+<li><code>taro</code>: node_modules 中 Taro 相关依赖抽离</li>
+<li><code>common</code>: 项目中业务代码公共文件抽离</li>
+</ul>
+<p>其二是函数，通过对入参的默认公共文件数组进行操作，返回新的数组来进行配置，如下</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">mini</span>: {
+    commonChunks (commonChunks) {
+      <span class="hljs-comment">// commonChunks 的取值即为默认的公共文件名数组</span>
+      commonChunks.push(<span class="hljs-string">'yourCustomCommonChunkName'</span>)
+      <span class="hljs-keyword">return</span> commonChunks
+    }
+  }
+}
+</code></pre>
+<p><code>commonChunks</code> 的配置值主要依据 webpack 配置 <a href="https://webpack.js.org/configuration/optimization/#optimizationruntimechunk"><code>optimization.runtimeChunk</code></a> 和 <a href="https://webpack.js.org/plugins/split-chunks-plugin/"><code>optimization.splitChunks</code></a>，Taro 中默认的配置分别为</p>
+<pre><code class="hljs css language-javascript">optimization<span class="token operator">:</span> <span class="token punctuation">{</span>
+  runtimeChunk<span class="token operator">:</span> <span class="token punctuation">{</span>
+    name<span class="token operator">:</span> <span class="token string">'runtime'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  splitChunks<span class="token operator">:</span> <span class="token punctuation">{</span>
+    chunks<span class="token operator">:</span> <span class="token string">'all'</span><span class="token punctuation">,</span>
+    maxInitialRequests<span class="token operator">:</span> <span class="token number">Infinity</span><span class="token punctuation">,</span>
+    minSize<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">'vendors'</span><span class="token punctuation">,</span>
+    cacheGroups<span class="token operator">:</span> <span class="token punctuation">{</span>
+      common<span class="token operator">:</span> <span class="token punctuation">{</span>
+        name<span class="token operator">:</span> <span class="token operator">!</span><span class="token operator">!</span>config<span class="token punctuation">.</span>isBuildPlugin <span class="token operator">?</span> <span class="token string">'plugin/common'</span> <span class="token operator">:</span> <span class="token string">'common'</span><span class="token punctuation">,</span>
+        minChunks<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        priority<span class="token operator">:</span> <span class="token number">1</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      vendors<span class="token operator">:</span> <span class="token punctuation">{</span>
+        name<span class="token operator">:</span> <span class="token operator">!</span><span class="token operator">!</span>config<span class="token punctuation">.</span>isBuildPlugin <span class="token operator">?</span> <span class="token string">'plugin/vendors'</span> <span class="token operator">:</span> <span class="token string">'vendors'</span><span class="token punctuation">,</span>
+        minChunks<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        <span class="token function-variable function">test</span><span class="token operator">:</span> <span class="token parameter">module</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+          <span class="token comment">// 如果需要自定义配置，PARSE_AST_TYPE 可以从 webpackChain 第三个参数获得</span>
+          <span class="token keyword">return</span> <span class="token operator">/</span><span class="token punctuation">[</span>\\<span class="token regex">/]node_modules[\\/]/</span><span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>module<span class="token punctuation">.</span>resource<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> module<span class="token punctuation">.</span>miniType <span class="token operator">!==</span> <span class="token constant">PARSE_AST_TYPE</span><span class="token punctuation">.</span><span class="token constant">COMPONENT</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        priority<span class="token operator">:</span> <span class="token number">10</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      taro<span class="token operator">:</span> <span class="token punctuation">{</span>
+        name<span class="token operator">:</span> <span class="token operator">!</span><span class="token operator">!</span>config<span class="token punctuation">.</span>isBuildPlugin <span class="token operator">?</span> <span class="token string">'plugin/taro'</span> <span class="token operator">:</span> <span class="token string">'taro'</span><span class="token punctuation">,</span>
+        <span class="token function-variable function">test</span><span class="token operator">:</span> <span class="token parameter">module</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+          <span class="token comment">// buildAdapter 为当前编译的端，在配置文件中可以通过 process.env.TARO_ENV 来获取</span>
+          <span class="token keyword">const</span> taroBaseReg <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RegExp</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">@tarojs[\\/]taro|@tarojs[\\/]</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>buildAdapter<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+          <span class="token keyword">return</span> taroBaseReg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>module<span class="token punctuation">.</span>context<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        priority<span class="token operator">:</span> <span class="token number">100</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>如果有自行拆分公共文件的需求，请先通过 <code>webpackChain</code> 配置覆盖 <code>optimization.runtimeChunk</code> 与 <code>optimization.splitChunks</code> 配置，再通过 <code>commonChunks</code> 配置指定的公共入口文件。</p>
+<h3><a class="anchor" aria-hidden="true" id="miniaddchunkpages"></a><a href="#miniaddchunkpages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.addChunkPages</h3>
+<blockquote>
+<p>2.0.5 开始支持
+<code>type addChunkPages = ((pages: Map&lt;string, string[]&gt;, pagesNames?: string[]) =&gt; void)</code></p>
+</blockquote>
+<p>在某些情况下，我们可能需要为某些页面单独指定需要引用的公共文件，例如，使用小程序分包的时候，为了减少主包大小，分包的页面希望引入自己的公共文件，而不希望直接放在主包内，那么我们首先可以通过配置 <code>mini.webpackChain</code> 来单独抽离分包的公共文件，然后通过 <code>mini.addChunkPages</code> 为分包页面配置引入子包公共文件，其使用方式如下：</p>
+<p><code>mini.addChunkPages</code> 配置为一个函数，接受两个参数</p>
+<ul>
+<li><code>pages</code> 参数为 Map 类型，用于为页面添加公共文件</li>
+<li><code>pagesNames</code> 参数为当前应用的所有页面标识列表，可以通过打印的方式进行查看页面的标识</li>
+</ul>
+<p>例如，为 <code>pages/index/index</code> 页面添加 <code>eating</code> 和 <code>morning</code> 两个抽离的公共文件</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">mini</span>: {
+    addChunkPages (pages, pagesNames) {
+      pages.set(<span class="hljs-string">'pages/index/index'</span>, [<span class="hljs-string">'eating'</span>, <span class="hljs-string">'morning'</span>])
+    }
+  }
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="minicssloaderoption"></a><a href="#minicssloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.cssLoaderOption</h3>
+<p>css-loader 的附加配置。配置项参考<a href="https://github.com/webpack-contrib/css-loader">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  cssLoaderOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    localIdentName<span class="token operator">:</span> <span class="token string">'[hash:base64]'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="ministyleloaderoption"></a><a href="#ministyleloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.styleLoaderOption</h3>
+<p>style-loader 的附加配置。配置项参考<a href="https://github.com/webpack-contrib/style-loader">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  styleLoaderOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    insertAt<span class="token operator">:</span> <span class="token string">'top'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="minisassloaderoption"></a><a href="#minisassloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.sassLoaderOption</h3>
+<p>sass-loader 的附加配置。配置项参考<a href="https://github.com/webpack-contrib/sass-loader">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  sassLoaderOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    implementation<span class="token operator">:</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"dart-sass"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="minilessloaderoption"></a><a href="#minilessloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.lessLoaderOption</h3>
+<p>less-loader 的附加配置。配置项参考<a href="https://github.com/webpack-contrib/less-loader">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  lessLoaderOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    strictMath<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    noIeCompat<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="ministylusloaderoption"></a><a href="#ministylusloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.stylusLoaderOption</h3>
+<p>stylus-loader 的附加配置。配置项参考<a href="https://github.com/shama/stylus-loader">官方文档</a>。</p>
+<h3><a class="anchor" aria-hidden="true" id="minimediaurlloaderoption"></a><a href="#minimediaurlloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.mediaUrlLoaderOption</h3>
+<p>针对 <code>mp4 | webm | ogg | mp3 | wav | flac | aac</code> 文件的 url-loader 配置。配置项参考<a href="https://github.com/webpack-contrib/url-loader">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  mediaUrlLoaderOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    limit<span class="token operator">:</span> <span class="token number">8192</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="minifonturlloaderoption"></a><a href="#minifonturlloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.fontUrlLoaderOption</h3>
+<p>针对 <code>woff | woff2 | eot | ttf | otf</code> 文件的 url-loader 配置。配置项参考<a href="https://github.com/webpack-contrib/url-loader">官方文档</a>。</p>
+<h3><a class="anchor" aria-hidden="true" id="miniimageurlloaderoption"></a><a href="#miniimageurlloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.imageUrlLoaderOption</h3>
+<p>针对 <code>png | jpg | jpeg | gif | bpm | svg</code> 文件的 url-loader 配置。配置项参考<a href="https://github.com/webpack-contrib/url-loader">官方文档</a>。</p>
+<h3><a class="anchor" aria-hidden="true" id="miniminicssextractpluginoption"></a><a href="#miniminicssextractpluginoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.miniCssExtractPluginOption</h3>
+<p><code>mini-css-extract-plugin</code> 的附加配置，在 <code>enableExtract</code> 为 <code>true</code> 的情况下生效。
+配置项参考<a href="https://github.com/webpack-contrib/mini-css-extract-plugin">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  miniCssExtractPluginOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    filename<span class="token operator">:</span> <span class="token string">'[name].css'</span><span class="token punctuation">,</span>
+    chunkFilename<span class="token operator">:</span> <span class="token string">'[name].css'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="minipostcss"></a><a href="#minipostcss" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mini.postcss</h3>
+<p>配置 <code>postcss</code> 相关插件：</p>
+<pre><code class="hljs css language-jsx">postcss<span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 可以进行 autoprefixer 的配置。配置项参考官方文档 https://github.com/postcss/autoprefixer</span>
+  autoprefixer<span class="token operator">:</span> <span class="token punctuation">{</span>
+    enable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    config<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">// autoprefixer 配置项</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  pxtransform<span class="token operator">:</span> <span class="token punctuation">{</span>
+    enable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    config<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">// pxtransform 配置项，参考尺寸章节</span>
+      selectorBlackList<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'body'</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// 小程序端样式引用本地资源内联</span>
+  url<span class="token operator">:</span> <span class="token punctuation">{</span>
+    enable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    config<span class="token operator">:</span> <span class="token punctuation">{</span>
+      limit<span class="token operator">:</span> <span class="token number">10240</span> <span class="token comment">// 设定转换尺寸上限</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// css modules 功能开关与相关配置</span>
+  cssModules<span class="token operator">:</span> <span class="token punctuation">{</span>
+    enable<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">// 默认为 false，如需使用 css modules 功能，则设为 true</span>
+    config<span class="token operator">:</span> <span class="token punctuation">{</span>
+      generateScopedName<span class="token operator">:</span> <span class="token string">'[name]__[local]___[hash:base64:5]'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="h5"></a><a href="#h5" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5</h2>
+<p>专属于 H5 的配置。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5devserver"></a><a href="#h5devserver" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.devServer</h3>
+<p>预览服务的配置，可以更改端口等参数。具体配置参考 <a href="https://webpack.js.org/configuration/dev-server">webpack-dev-server</a>。</p>
+<pre><code class="hljs css language-js">devServer: {
+  <span class="hljs-attr">port</span>: <span class="hljs-number">10086</span>
+}
+</code></pre>
+<p>默认是 <code>http</code> 服务，如果想开启 <code>https</code> 服务需要做如下配置。</p>
+<pre><code class="hljs css language-js">devServer: {
+  <span class="hljs-attr">https</span>: <span class="hljs-literal">true</span>
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5output"></a><a href="#h5output" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.output</h3>
+<p>输出配置</p>
+<pre><code class="hljs css language-js">output: {
+  <span class="hljs-attr">filename</span>: <span class="hljs-string">'js/[name].[hash:8].js'</span>,
+  <span class="hljs-attr">chunkFilename</span>: <span class="hljs-string">'js/[name].[chunkhash:8].js'</span>
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5publicpath"></a><a href="#h5publicpath" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.publicPath</h3>
+<p>设置输出解析文件的目录。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5staticdirectory"></a><a href="#h5staticdirectory" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.staticDirectory</h3>
+<p>h5 编译后的静态文件目录。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5chunkdirectory"></a><a href="#h5chunkdirectory" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.chunkDirectory</h3>
+<p>编译后非 entry 的 js 文件的存放目录，主要影响动态引入的 <code>pages</code> 的存放路径。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5webpackchain"></a><a href="#h5webpackchain" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.webpackChain</h3>
+<p>自定义 Webpack 配置，接受函数形式的配置。</p>
+<p>这个函数会收到两个参数，第一个参数是 webpackChain 对象，可参考 <a href="https://github.com/neutrinojs/webpack-chain">webpack-chain</a> 的 api 进行修改；第二个参数是 <code>webpack</code> 实例。例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// 这是一个添加 ts-loader 的例子，但事实上 taro 是默认支持 ts 的，并不需要这样做。</span>
+<span class="token punctuation">{</span>
+  <span class="token function">webpackChain</span> <span class="token punctuation">(</span><span class="token parameter">chain<span class="token punctuation">,</span> webpack</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    chain<span class="token punctuation">.</span><span class="token function">merge</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      module<span class="token operator">:</span> <span class="token punctuation">{</span>
+        rule<span class="token operator">:</span> <span class="token punctuation">{</span>
+          myloader<span class="token operator">:</span> <span class="token punctuation">{</span>
+            test<span class="token operator">:</span> <span class="token regex">/.tsx?/</span><span class="token punctuation">,</span>
+            use<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+              loader<span class="token operator">:</span> <span class="token string">'ts-loader'</span><span class="token punctuation">,</span>
+              options<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+            <span class="token punctuation">}</span><span class="token punctuation">]</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre><code class="hljs css language-jsx"><span class="token comment">// 这是一个添加插件的例子</span>
+<span class="token punctuation">{</span>
+  <span class="token function">webpackChain</span> <span class="token punctuation">(</span><span class="token parameter">chain<span class="token punctuation">,</span> webpack</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    chain<span class="token punctuation">.</span><span class="token function">merge</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      plugin<span class="token operator">:</span> <span class="token punctuation">{</span>
+        install<span class="token operator">:</span> <span class="token punctuation">{</span>
+          plugin<span class="token operator">:</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'npm-install-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          args<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+            <span class="token comment">// Use --save or --save-dev</span>
+            dev<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token comment">// Install missing peerDependencies</span>
+            peerDependencies<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+            <span class="token comment">// Reduce amount of console logging</span>
+            quiet<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token comment">// npm command used inside company, yarn is not supported yet</span>
+            npm<span class="token operator">:</span> <span class="token string">'cnpm'</span>
+          <span class="token punctuation">}</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5router"></a><a href="#h5router" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.router</h3>
+<p>路由相关的配置，支持路由模式、路由基准路径以及自定义路由的配置。</p>
+<h4><a class="anchor" aria-hidden="true" id="h5routermode"></a><a href="#h5routermode" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.router.mode</h4>
+<p>路由模式配置。配置值为 <code>hash</code>（默认值）或 <code>browser</code>，分别对应 hash 路由模式和浏览器 history 路由模式。例子：</p>
+<pre><code class="hljs css language-js">h5: {
+  <span class="hljs-comment">/* 其他配置 */</span>
+  ... ,
+  <span class="hljs-attr">router</span>: {
+    <span class="hljs-attr">mode</span>: <span class="hljs-string">'hash'</span> <span class="hljs-comment">// 或者是 'browser'</span>
+  }
+}
+</code></pre>
+<p>针对上面的配置，调用 <code>Taro.navigateTo({ url: '/pages/index/index' })</code> 后，浏览器地址栏将被变为 <code>http://{{domain}}/#/pages/index/index</code>（hash 模式）或者 <code>http://{{domain}}/pages/index/index</code>（browser 模式）。</p>
+<h4><a class="anchor" aria-hidden="true" id="h5routerbasename"></a><a href="#h5routerbasename" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.router.basename</h4>
+<p>路由基准路径的配置，配置值为 <code>string</code> 类型。例子：</p>
+<pre><code class="hljs css language-js">h5: {
+  <span class="hljs-comment">/* 其他配置 */</span>
+  ... ,
+  <span class="hljs-attr">router</span>: {
+    <span class="hljs-attr">basename</span>: <span class="hljs-string">'/myapp'</span>
+  }
+}
+</code></pre>
+<p>针对上面的配置，调用 <code>Taro.navigateTo({ url: '/pages/index/index' })</code> 后，浏览器地址栏将被变为 <code>http://{{domain}}/#/myapp/pages/index/index</code>（hash 模式）或者 <code>http://{{domain}}/myapp/pages/index/index</code>（browser 模式）。</p>
+<h4><a class="anchor" aria-hidden="true" id="h5routercustomroutes"></a><a href="#h5routercustomroutes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.router.customRoutes</h4>
+<p>自定义路由的配置，配置值为 <code>{ [key: string]: string }</code> 类型。例子：</p>
+<pre><code class="hljs css language-js">h5: {
+  <span class="hljs-comment">/* 其他配置 */</span>
+  ... ,
+  <span class="hljs-attr">router</span>: {
+    <span class="hljs-attr">customRoutes</span>: {
+      <span class="hljs-string">'/pages/index/index'</span>: <span class="hljs-string">'/index'</span>
+    }
+  }
+}
+</code></pre>
+<p>针对上面的配置，调用 <code>Taro.navigateTo({ url: '/pages/index/index' })</code> 后，浏览器地址栏将被变为 <code>http://{{domain}}/#/index</code>（hash 模式）或者 <code>http://{{domain}}/myapp/index</code>（browser 模式）。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5entry"></a><a href="#h5entry" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.entry</h3>
+<p>Taro app 的入口，同 <a href="https://webpack.js.org/configuration/entry-context/#entry">webpack.entry</a>。</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  entry<span class="token operator">:</span> <span class="token punctuation">{</span>
+    home<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'./home.js'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    about<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'./about.js'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    contact<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'./contact.js'</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5enablesourcemap"></a><a href="#h5enablesourcemap" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.enableSourceMap</h3>
+<p>sourceMap 开关，影响 js、css 的 sourceMap 配置。
+dev 状态默认 <strong>开</strong>，prod 状态默认 <strong>关</strong>。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5sourcemaptype"></a><a href="#h5sourcemaptype" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.sourceMapType</h3>
+<p>sourceMap格式, 默认cheap-module-eval-source-map。<a href="https://webpack.js.org/configuration/devtool/#devtool">具体配置</a></p>
+<h3><a class="anchor" aria-hidden="true" id="h5enableextract"></a><a href="#h5enableextract" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.enableExtract</h3>
+<p>extract 功能开关，开启后将使用 <code>mini-css-extract-plugin</code> 分离 css 文件，
+可通过 <code>h5.miniCssExtractPluginOption</code> 对插件进行配置。
+dev 状态默认 <strong>关</strong>，prod 状态默认 <strong>开</strong>。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5esnextmodules"></a><a href="#h5esnextmodules" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.esnextModules</h3>
+<p>配置需要额外的编译的源码模块，比如 <a href="https://github.com/NervJS/taro-ui">taro-ui</a>：</p>
+<pre><code class="hljs css language-javascript">h5<span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 经过这一配置之后，代码中引入的处于 `node_modules/taro-ui/` 路径下的源码文件均会经过taro的编译处理。</span>
+  esnextModules<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'taro-ui'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5cssloaderoption"></a><a href="#h5cssloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.cssLoaderOption</h3>
+<p>css-loader 的附加配置。配置项参考<a href="https://github.com/webpack-contrib/css-loader">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  cssLoaderOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    localIdentName<span class="token operator">:</span> <span class="token string">'[hash:base64]'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5styleloaderoption"></a><a href="#h5styleloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.styleLoaderOption</h3>
+<p>style-loader 的附加配置。配置项参考<a href="https://github.com/webpack-contrib/style-loader">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  styleLoaderOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    insertAt<span class="token operator">:</span> <span class="token string">'top'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5sassloaderoption"></a><a href="#h5sassloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.sassLoaderOption</h3>
+<p>sass-loader 的附加配置。配置项参考<a href="https://github.com/webpack-contrib/sass-loader">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  sassLoaderOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    implementation<span class="token operator">:</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"dart-sass"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5lessloaderoption"></a><a href="#h5lessloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.lessLoaderOption</h3>
+<p>less-loader 的附加配置。配置项参考<a href="https://github.com/webpack-contrib/less-loader">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  lessLoaderOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    strictMath<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    noIeCompat<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5stylusloaderoption"></a><a href="#h5stylusloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.stylusLoaderOption</h3>
+<p>stylus-loader 的附加配置。配置项参考<a href="https://github.com/shama/stylus-loader">官方文档</a>。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5mediaurlloaderoption"></a><a href="#h5mediaurlloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.mediaUrlLoaderOption</h3>
+<p>针对 <code>mp4 | webm | ogg | mp3 | wav | flac | aac</code> 文件的 url-loader 配置。配置项参考<a href="https://github.com/webpack-contrib/url-loader">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  mediaUrlLoaderOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    limit<span class="token operator">:</span> <span class="token number">8192</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5fonturlloaderoption"></a><a href="#h5fonturlloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.fontUrlLoaderOption</h3>
+<p>针对 <code>woff | woff2 | eot | ttf | otf</code> 文件的 url-loader 配置。配置项参考<a href="https://github.com/webpack-contrib/url-loader">官方文档</a>。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5imageurlloaderoption"></a><a href="#h5imageurlloaderoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.imageUrlLoaderOption</h3>
+<p>针对 <code>png | jpg | jpeg | gif | bpm | svg</code> 文件的 url-loader 配置。配置项参考<a href="https://github.com/webpack-contrib/url-loader">官方文档</a>。</p>
+<h3><a class="anchor" aria-hidden="true" id="h5minicssextractpluginoption"></a><a href="#h5minicssextractpluginoption" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.miniCssExtractPluginOption</h3>
+<p><code>mini-css-extract-plugin</code> 的附加配置，在 <code>enableExtract</code> 为 <code>true</code> 的情况下生效。
+配置项参考<a href="https://github.com/webpack-contrib/mini-css-extract-plugin">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx"><span class="token punctuation">{</span>
+  miniCssExtractPluginOption<span class="token operator">:</span> <span class="token punctuation">{</span>
+    filename<span class="token operator">:</span> <span class="token string">'css/[name].css'</span><span class="token punctuation">,</span>
+    chunkFilename<span class="token operator">:</span> <span class="token string">'css/[id].css'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="h5postcss"></a><a href="#h5postcss" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.postcss</h3>
+<p>配置 H5 的 <code>postcss</code> 插件。</p>
+<h4><a class="anchor" aria-hidden="true" id="h5postcssautoprefixer"></a><a href="#h5postcssautoprefixer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.postcss.autoprefixer</h4>
+<p>可以进行 <code>autoprefixer</code> 的配置。配置项参考<a href="https://github.com/postcss/autoprefixer">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx">postcss<span class="token operator">:</span> <span class="token punctuation">{</span>
+  autoprefixer<span class="token operator">:</span> <span class="token punctuation">{</span>
+    enable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    config<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">/* autoprefixer 配置项 */</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="h5postcsspxtransform"></a><a href="#h5postcsspxtransform" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.postcss.pxtransform</h4>
+<p>可以进行 <code>pxtransform</code> 的配置。配置项参考<a href="https://github.com/Pines-Cheng/postcss-pxtransform/">官方文档</a>，例如：</p>
+<pre><code class="hljs css language-jsx">postcss<span class="token operator">:</span> <span class="token punctuation">{</span>
+  pxtransform<span class="token operator">:</span> <span class="token punctuation">{</span>
+    enable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    config<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">/* pxtransform 配置项 */</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="h5postcsscssmodules"></a><a href="#h5postcsscssmodules" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>h5.postcss.cssModules</h4>
+<p>可以进行 H5 端 CSS Modules 配置，配置如下：</p>
+<pre><code class="hljs css language-js">postcss: {
+  <span class="hljs-comment">// css modules 功能开关与相关配置</span>
+  <span class="hljs-attr">cssModules</span>: {
+    <span class="hljs-attr">enable</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// 默认为 false，如需使用 css modules 功能，则设为 true</span>
+    <span class="hljs-attr">config</span>: {
+      <span class="hljs-attr">namingPattern</span>: <span class="hljs-string">'module'</span>,
+      <span class="hljs-attr">generateScopedName</span>: <span class="hljs-string">'[name]__[local]___[hash:base64:5]'</span>
+    }
+  }
+}
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/2.0.5/config.html"><span class="arrow-prev">← </span><span>编译配置</span></a><a class="docs-next button" href="/taro/docs/2.0.5/debug-config.html"><span>单步调测配置</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#designwidth">designWidth</a></li><li><a href="#sourceroot">sourceRoot</a></li><li><a href="#outputroot">outputRoot</a></li><li><a href="#plugins">plugins</a></li><li><a href="#babel">babel</a></li><li><a href="#uglify">uglify</a></li><li><a href="#csso">csso</a></li><li><a href="#sass">sass</a></li><li><a href="#env">env</a></li><li><a href="#defineconstants">defineConstants</a></li><li><a href="#alias">alias</a></li><li><a href="#copy">copy</a><ul class="toc-headings"><li><a href="#copypatterns">copy.patterns</a></li><li><a href="#copyoptions">copy.options</a></li></ul></li><li><a href="#mini">mini</a><ul class="toc-headings"><li><a href="#minicompile">mini.compile</a></li><li><a href="#miniwebpackchain">mini.webpackChain</a></li><li><a href="#miniaddchunkpages">mini.addChunkPages</a></li><li><a href="#minicssloaderoption">mini.cssLoaderOption</a></li><li><a href="#ministyleloaderoption">mini.styleLoaderOption</a></li><li><a href="#minisassloaderoption">mini.sassLoaderOption</a></li><li><a href="#minilessloaderoption">mini.lessLoaderOption</a></li><li><a href="#ministylusloaderoption">mini.stylusLoaderOption</a></li><li><a href="#minimediaurlloaderoption">mini.mediaUrlLoaderOption</a></li><li><a href="#minifonturlloaderoption">mini.fontUrlLoaderOption</a></li><li><a href="#miniimageurlloaderoption">mini.imageUrlLoaderOption</a></li><li><a href="#miniminicssextractpluginoption">mini.miniCssExtractPluginOption</a></li><li><a href="#minipostcss">mini.postcss</a></li></ul></li><li><a href="#h5">h5</a><ul class="toc-headings"><li><a href="#h5devserver">h5.devServer</a></li><li><a href="#h5output">h5.output</a></li><li><a href="#h5publicpath">h5.publicPath</a></li><li><a href="#h5staticdirectory">h5.staticDirectory</a></li><li><a href="#h5chunkdirectory">h5.chunkDirectory</a></li><li><a href="#h5webpackchain">h5.webpackChain</a></li><li><a href="#h5router">h5.router</a></li><li><a href="#h5entry">h5.entry</a></li><li><a href="#h5enablesourcemap">h5.enableSourceMap</a></li><li><a href="#h5sourcemaptype">h5.sourceMapType</a></li><li><a href="#h5enableextract">h5.enableExtract</a></li><li><a href="#h5esnextmodules">h5.esnextModules</a></li><li><a href="#h5cssloaderoption">h5.cssLoaderOption</a></li><li><a href="#h5styleloaderoption">h5.styleLoaderOption</a></li><li><a href="#h5sassloaderoption">h5.sassLoaderOption</a></li><li><a href="#h5lessloaderoption">h5.lessLoaderOption</a></li><li><a href="#h5stylusloaderoption">h5.stylusLoaderOption</a></li><li><a href="#h5mediaurlloaderoption">h5.mediaUrlLoaderOption</a></li><li><a href="#h5fonturlloaderoption">h5.fontUrlLoaderOption</a></li><li><a href="#h5imageurlloaderoption">h5.imageUrlLoaderOption</a></li><li><a href="#h5minicssextractpluginoption">h5.miniCssExtractPluginOption</a></li><li><a href="#h5postcss">h5.postcss</a></li></ul></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

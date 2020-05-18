@@ -1,0 +1,867 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>框架 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## 项目目录结构"/><meta name="docsearch:version" content="1.3.28"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="框架 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="## 项目目录结构"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>1.3.28</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/1.3.28/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/1.3.28/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/1.3.28/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>基础教程</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/team.html">Taro 团队</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/spec-for-taro.html">Taro 规范</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/1.3.28/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/wxcloud.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/css-modules.html">CSS Modules 的使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/1.3.28/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/tutorial.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">框架</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="项目目录结构"></a><a href="#项目目录结构" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>项目目录结构</h2>
+<pre><code class="hljs">├── dist                   编译结果目录
+├── config                 配置目录
+|   ├── dev.js             开发时配置
+|   ├── index.js           默认配置
+|   └── prod.js            打包时配置
+├── src                    源码目录
+|   ├── pages              页面文件目录
+|   |   ├── index          index 页面目录
+|   |   |   ├── index.js   index 页面逻辑
+|   |   |   └── index.css  index 页面样式
+|   ├── app.css            项目总通用样式
+|   └── app.js             项目入口文件
+└── package.json
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="入口文件"></a><a href="#入口文件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>入口文件</h2>
+<p>入口文件默认是 <code>src</code> 目录下的 <code>app.js</code>。</p>
+<h3><a class="anchor" aria-hidden="true" id="代码示例"></a><a href="#代码示例" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>代码示例</h3>
+<p>一个普通的入口文件示例如下</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">import</span> Taro<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/taro'</span>
+<span class="token keyword">import</span> Index <span class="token keyword">from</span> <span class="token string">'./pages/index'</span>
+
+<span class="token keyword">import</span> <span class="token string">'./app.scss'</span>
+
+<span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 项目配置</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    pages<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">'pages/index/index'</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    window<span class="token operator">:</span> <span class="token punctuation">{</span>
+      backgroundTextStyle<span class="token operator">:</span> <span class="token string">'light'</span><span class="token punctuation">,</span>
+      navigationBarBackgroundColor<span class="token operator">:</span> <span class="token string">'#fff'</span><span class="token punctuation">,</span>
+      navigationBarTitleText<span class="token operator">:</span> <span class="token string">'WeChat'</span><span class="token punctuation">,</span>
+      navigationBarTextStyle<span class="token operator">:</span> <span class="token string">'black'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">componentWillMount</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  <span class="token function">componentDidMount</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  <span class="token function">componentDidShow</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  <span class="token function">componentDidHide</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Index</span></span> <span class="token punctuation">/></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>可以看出入口文件也是 <code>React</code> 风格的写法，首先需要引用依赖 <code>@tarojs/taro</code>，这是 <strong>Taro</strong> 方案的基础框架，在这里我们继承了 <code>Component</code> 组件基类。</p>
+<h3><a class="anchor" aria-hidden="true" id="全局配置"></a><a href="#全局配置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>全局配置</h3>
+<p>通常入口文件会包含一个 <code>config</code> 配置项，这个配置是整个应用的全局的配置，配置规范基于微信小程序的<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE">全局配置</a>进行制定，所有平台进行统一。</p>
+<p>入口文件中的全局配置，在编译后将生成全局配置文件 <code>app.json</code>。</p>
+<h4><a class="anchor" aria-hidden="true" id="配置项列表"></a><a href="#配置项列表" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置项列表</h4>
+<p>Taro 中全局配置所包含的配置项及各端支持程度如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>必填</th><th>描述</th><th>微信小程序</th><th>百度小程序</th><th>字节跳动小程序</th><th>支付宝小程序</th><th>H5</th><th>RN</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#pages">pages</a></td><td>String Array</td><td>是</td><td>页面路径列表</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td><a href="#window">window</a></td><td>Object</td><td>否</td><td>全局的默认窗口表现</td><td>具体支持程度见下方</td><td>具体支持程度见下方</td><td>具体支持程度见下方</td><td>具体支持程度见下方</td><td>具体支持程度见下方</td><td>具体支持程度见下方</td></tr>
+<tr><td><a href="#tabbar">tabBar</a></td><td>Object</td><td>否</td><td>底部 tab 栏的表现</td><td>具体支持程度见下方</td><td>具体支持程度见下方</td><td>具体支持程度见下方</td><td>具体支持程度见下方</td><td>具体支持程度见下方</td><td>具体支持程度见下方</td></tr>
+<tr><td><a href="#networktimeout">networkTimeout</a></td><td>Object</td><td>否</td><td>网络超时时间</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td><a href="#debug">debug</a></td><td>Boolean</td><td>否</td><td>是否开启 debug 模式，默认关闭</td><td>✔️</td><td>✘</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td><a href="#functionalpages">functionalPages</a></td><td>Boolean</td><td>否</td><td>是否启用插件功能页，默认关闭</td><td>✔️（基础库 2.1.0 以上）</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td><a href="#subpackages">subPackages</a></td><td>Object Array</td><td>否</td><td>分包结构配置</td><td>✔️（基础库 1.7.3 以上）</td><td>✔️</td><td>✘</td><td>✘</td><td>✔️</td><td>✔️</td></tr>
+<tr><td><a href="#workers">workers</a></td><td>String</td><td>否</td><td>Worker 代码放置的目录</td><td>✔️（基础库 1.9.90 以上）</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td><a href="#requiredbackgroundmodes">requiredBackgroundModes</a></td><td>String Array</td><td>否</td><td>需要在后台使用的能力，如「音乐播放」</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td><a href="#plugins">plugins</a></td><td>Object</td><td>否</td><td>使用到的插件</td><td>✔️（基础库 1.9.6 以上）</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td><a href="#preloadrule">preloadRule</a></td><td>Object</td><td>否</td><td>分包预下载规则</td><td>✔️（基础库 2.3.0 以上）</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td><a href="#resizable">resizable</a></td><td>Boolean</td><td>否</td><td>iPad 小程序是否支持屏幕旋转，默认关闭</td><td>✔️（基础库 2.3.0 以上）</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td><a href="#navigatetominiprogramappidlist">navigateToMiniProgramAppIdList</a></td><td>String Array</td><td>否</td><td>需要跳转的小程序列表，详见 wx.navigateToMiniProgram</td><td>✔️（基础库 2.4.0 以上）</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td><a href="#usingcomponents">usingComponents</a></td><td>Object</td><td>否</td><td>全局自定义组件配置</td><td>✔️（开发者工具 1.02.1810190）</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td><a href="#permission">permission</a></td><td>Object</td><td>否</td><td>小程序接口权限相关设置</td><td>✔️ 微信客户端 7.0.0</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="pages"></a><a href="#pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>pages</h4>
+<p>用于指定小程序由哪些页面组成，每一项都对应一个页面的 <code>路径 + 文件名</code> 信息。文件名不需要写文件后缀，框架会自动去寻找对应位置的文件进行处理。</p>
+<p><strong>数组的第一项代表小程序的初始页面（首页）。小程序中新增/减少页面，都需要对 pages 数组进行修改。</strong></p>
+<p>如开发目录为：</p>
+<pre><code class="hljs">├── app.js
+├── app.json
+├── app.wxss
+├── pages
+│   │── index
+│   │   ├── index.wxml
+│   │   ├── index.js
+│   │   ├── index.json
+│   │   └── index.wxss
+│   └── logs
+│       ├── logs.wxml
+│       └── logs.js
+└── utils
+</code></pre>
+<p>则需要在入口文件配置中写</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 项目配置</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    pages<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">'pages/index/index'</span><span class="token punctuation">,</span>
+      <span class="token string">'pages/logs/logs'</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="window"></a><a href="#window" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>window</h4>
+<p>用于设置小程序的状态栏、导航条、标题、窗口背景色，其配置项如下。</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>默认值</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr><td>navigationBarBackgroundColor</td><td>HexColor（十六进制颜色值）</td><td>#000000</td><td>导航栏背景颜色，如 #000000</td></tr>
+<tr><td>navigationBarTextStyle</td><td>String</td><td>white</td><td>导航栏标题颜色，仅支持 black / white</td></tr>
+<tr><td>navigationBarTitleText</td><td>String</td><td></td><td>导航栏标题文字内容</td></tr>
+<tr><td>navigationStyle</td><td>String</td><td>default</td><td>导航栏样式，仅支持以下值：default 默认样式；custom 自定义导航栏，只保留右上角胶囊按钮</td></tr>
+<tr><td>backgroundColor</td><td>String</td><td></td><td>窗口的背景色</td></tr>
+<tr><td>backgroundTextStyle</td><td>String</td><td>dark</td><td>下拉 loading 的样式，仅支持 dark / light</td></tr>
+<tr><td>backgroundColorTop</td><td>String</td><td>#ffffff</td><td>顶部窗口的背景色，仅 iOS 支持</td></tr>
+<tr><td>backgroundColorBottom</td><td>String</td><td>#ffffff</td><td>底部窗口的背景色，仅 iOS 支持</td></tr>
+<tr><td>enablePullDownRefresh</td><td>boolean</td><td>false</td><td>是否开启当前页面的下拉刷新。</td></tr>
+<tr><td>onReachBottomDistance</td><td>Number</td><td>50</td><td>页面上拉触底事件触发时距页面底部距离，单位为 px</td></tr>
+<tr><td>pageOrientation</td><td>String</td><td>portrait</td><td>屏幕旋转设置，支持 auto / portrait / landscape 详见 响应显示区域变化</td></tr>
+</tbody>
+</table>
+<p>各端支持程度如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>微信小程序</th><th>百度小程序</th><th>字节跳动小程序</th><th>支付宝小程序</th><th>H5</th><th>RN</th></tr>
+</thead>
+<tbody>
+<tr><td>navigationBarBackgroundColor</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>navigationBarTextStyle</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>navigationBarTitleText</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>navigationStyle</td><td>✔️（微信客户端 6.6.0）</td><td>✔️（百度 App 版本 11.1.0）</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>backgroundColor</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td><td>✔️</td></tr>
+<tr><td>backgroundTextStyle</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>backgroundColorTop</td><td>✔️（微信客户端 6.5.16）</td><td>✘</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>backgroundColorBottom</td><td>✔️（微信客户端 6.5.16）</td><td>✘</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>enablePullDownRefresh</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+<tr><td>onReachBottomDistance</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>pageOrientation</td><td>✔️2.4.0 (auto) / 2.5.0 (landscape)</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>微信小程序中，关于navigationStyle</br></p>
+<ul>
+<li>客户端 7.0.0 以下版本，navigationStyle 只在 app.json 中生效。</br></li>
+<li>客户端 6.7.2 版本开始，navigationStyle: custom 对 &lt;web-view&gt; 组件无效</br></li>
+<li>开启 custom 后，低版本客户端需要做好兼容。开发者工具基础库版本切到 1.7.0（不代表最低版本，只供调试用）可方便切到旧视觉</li>
+</ul>
+</blockquote>
+<p>配置示例如下：</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 项目配置</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    pages<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">'pages/index/index'</span><span class="token punctuation">,</span>
+      <span class="token string">'pages/logs/logs'</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    window<span class="token operator">:</span> <span class="token punctuation">{</span>
+      navigationBarBackgroundColor<span class="token operator">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+      navigationBarTextStyle<span class="token operator">:</span> <span class="token string">'black'</span><span class="token punctuation">,</span>
+      navigationBarTitleText<span class="token operator">:</span> <span class="token string">'微信接口功能演示'</span><span class="token punctuation">,</span>
+      backgroundColor<span class="token operator">:</span> <span class="token string">'#eeeeee'</span><span class="token punctuation">,</span>
+      backgroundTextStyle<span class="token operator">:</span> <span class="token string">'light'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="tabbar"></a><a href="#tabbar" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>tabBar</h4>
+<p>如果小程序是一个多 tab 应用（客户端窗口的底部或顶部有 tab 栏可以切换页面），可以通过 tabBar 配置项指定 tab 栏的表现，以及 tab 切换时显示的对应页面。</p>
+<p>其配置项如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>必填</th><th>默认值</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr><td>color</td><td>HexColor（十六进制颜色值）</td><td>是</td><td></td><td>tab 上的文字默认颜色，仅支持十六进制颜色</td></tr>
+<tr><td>selectedColor</td><td>HexColor（十六进制颜色值）</td><td>是</td><td></td><td>tab 上的文字选中时的颜色，仅支持十六进制颜色</td></tr>
+<tr><td>backgroundColor</td><td>HexColor（十六进制颜色值）</td><td>是</td><td></td><td>tab 的背景色，仅支持十六进制颜色</td></tr>
+<tr><td>borderStyle</td><td>String</td><td>是</td><td>black</td><td>tabbar 上边框的颜色， 仅支持 black / white</td></tr>
+<tr><td>list</td><td>Array</td><td>是</td><td></td><td>tab 的列表，详见 list 属性说明，最少 2 个、最多 5 个 tab</td></tr>
+<tr><td>position</td><td>String</td><td>否</td><td>bottom</td><td>tabBar的位置，仅支持 bottom / top</td></tr>
+<tr><td>custom</td><td>Boolean</td><td>否</td><td>false</td><td>自定义 tabBar</td></tr>
+</tbody>
+</table>
+<p>各端支持程度如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>微信小程序</th><th>百度小程序</th><th>字节跳动小程序</th><th>支付宝小程序</th><th>H5</th><th>RN</th></tr>
+</thead>
+<tbody>
+<tr><td>color</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>selectedColor</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>backgroundColor</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>borderStyle</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>list</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>position</td><td>✔️</td><td>✘</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>custom</td><td>✔️（基础库 2.5.0 以上）</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+</tbody>
+</table>
+<p>其中 list 接受一个数组，只能配置最少 2 个、最多 5 个 tab。tab 按数组的顺序排序，每个项都是一个对象，其属性值如下：</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>必填</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr><td>pagePath</td><td>String</td><td>是</td><td>页面路径，必须在 pages 中先定义</td></tr>
+<tr><td>text</td><td>String</td><td>是</td><td>tab 上按钮文字</td></tr>
+<tr><td>iconPath</td><td>String</td><td>否</td><td>图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，不支持网络图片。<br/>当 position 为 top 时，不显示 icon。</td></tr>
+<tr><td>selectedIconPath</td><td>String</td><td>否</td><td>选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，不支持网络图片。<br/>当 position 为 top 时，不显示 icon。</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="networktimeout"></a><a href="#networktimeout" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>networkTimeout</h4>
+<blockquote>
+<p>只在微信小程序上支持</p>
+</blockquote>
+<p>各类网络请求的超时时间，单位均为毫秒。</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>必填</th><th>默认值</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr><td>request</td><td>Number</td><td>否</td><td>60000</td><td><a href="./native-api.md#发起请求">Taro.request</a> 的超时时间，单位：毫秒</td></tr>
+<tr><td>connectSocket</td><td>Number</td><td>否</td><td>60000</td><td><a href="./native-api.md#websocket">Taro.connectSocket</a> 的超时时间，单位：毫秒</td></tr>
+<tr><td>uploadFile</td><td>Number</td><td>否</td><td>60000</td><td><a href="./native-api.md#上传-下载">Taro.uploadFile</a> 的超时时间，单位：毫秒</td></tr>
+<tr><td>downloadFile</td><td>Number</td><td>否</td><td>60000</td><td><a href="./native-api.md#上传-下载">Taro.downloadFile</a> 的超时时间，单位：毫秒</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="debug"></a><a href="#debug" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>debug</h4>
+<p>可以在开发者工具中开启 debug 模式，在开发者工具的控制台面板，调试信息以 info 的形式给出，其信息有 Page 的注册，页面路由，数据更新，事件触发等。可以帮助开发者快速定位一些常见的问题。</p>
+<h4><a class="anchor" aria-hidden="true" id="functionalpages"></a><a href="#functionalpages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>functionalPages</h4>
+<blockquote>
+<p>微信小程序基础库 2.1.0 开始支持</p>
+</blockquote>
+<p>启用<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages.html">插件功能页</a>时，插件所有者小程序需要设置其 <code>functionalPages</code> 为 <code>true</code></p>
+<h4><a class="anchor" aria-hidden="true" id="subpackages"></a><a href="#subpackages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>subPackages</h4>
+<blockquote>
+<p>微信客户端 6.6.0 ，基础库 1.7.3 及以上版本支持<br />
+百度小程序支持<br />
+H5 和 RN 会把 <code>subPackages</code> 合入 <code>pages</code></p>
+</blockquote>
+<p>启用<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages.html">分包加载</a>时，声明项目分包结构</p>
+<h4><a class="anchor" aria-hidden="true" id="workers"></a><a href="#workers" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>workers</h4>
+<blockquote>
+<p>微信小程序基础库 1.9.90 开始支持</p>
+</blockquote>
+<p>使用 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/workers.html">Worker</a> 处理多线程任务时，设置 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/workers.html">Worker</a> 代码放置的目录</p>
+<h4><a class="anchor" aria-hidden="true" id="requiredbackgroundmodes"></a><a href="#requiredbackgroundmodes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>requiredBackgroundModes</h4>
+<blockquote>
+<p>微信客户端 6.7.2 及以上版本支持</p>
+</blockquote>
+<p>申明需要后台运行的能力，类型为数组。目前支持以下项目：</p>
+<ul>
+<li><code>audio</code>: 后台音乐播放</li>
+</ul>
+<pre><code class="hljs css language-jsx"><span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 项目配置</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    pages<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">'pages/index/index'</span><span class="token punctuation">,</span>
+      <span class="token string">'pages/logs/logs'</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    requiredBackgroundModes<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'audio'</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>注：在此处申明了后台运行的接口，开发版和体验版上可以直接生效，正式版还需通过审核。</p>
+<h4><a class="anchor" aria-hidden="true" id="plugins"></a><a href="#plugins" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>plugins</h4>
+<blockquote>
+<p>微信小程序基础库 1.9.6 开始支持</p>
+</blockquote>
+<p>声明小程序需要使用的 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/using.html">插件</a></p>
+<h4><a class="anchor" aria-hidden="true" id="preloadrule"></a><a href="#preloadrule" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>preloadRule</h4>
+<blockquote>
+<p>微信小程序基础库 2.3.0 开始支持</p>
+</blockquote>
+<p>声明分包预下载的规则</p>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/preload.html">微信小程序文档</a>  <a href="https://smartprogram.baidu.com/docs/develop/framework/subpackages/#%E5%88%86%E5%8C%85%E9%A2%84%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99">百度小程序文档</a></p>
+<h4><a class="anchor" aria-hidden="true" id="resizable"></a><a href="#resizable" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>resizable</h4>
+<blockquote>
+<p>微信小程序基础库 2.3.0 开始支持</p>
+</blockquote>
+<p>在 iPad 上运行的小程序可以设置支持<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html">屏幕旋转</a></p>
+<h4><a class="anchor" aria-hidden="true" id="navigatetominiprogramappidlist"></a><a href="#navigatetominiprogramappidlist" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>navigateToMiniProgramAppIdList</h4>
+<blockquote>
+<p>微信小程序基础库 2.4.0 开始支持</p>
+</blockquote>
+<p>当小程序需要使用 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/wx.navigateToMiniProgram.html">Taro.navigateToMiniProgram</a> 接口跳转到其他小程序时，需要先在配置文件中声明需要跳转的小程序 appId 列表，最多允许填写 10 个</p>
+<h4><a class="anchor" aria-hidden="true" id="usingcomponents"></a><a href="#usingcomponents" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>usingComponents</h4>
+<blockquote>
+<p>微信开发者工具 1.02.1810190 及以上版本支持</p>
+</blockquote>
+<p>在此处声明的自定义组件视为全局自定义组件，在小程序内的页面或自定义组件中可以直接使用而无需再声明</p>
+<h4><a class="anchor" aria-hidden="true" id="permission"></a><a href="#permission" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>permission</h4>
+<blockquote>
+<p>微信客户端 7.0.0 及以上版本支持</p>
+</blockquote>
+<p>微信小程序接口权限相关设置。字段类型为 Object，结构为：</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>必填</th><th>默认值</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr><td>scope.userLocation</td><td>PermissionObject</td><td>否</td><td></td><td>位置相关权限声明</td></tr>
+</tbody>
+</table>
+<p>PermissionObject 结构</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>必填</th><th>默认值</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr><td>desc</td><td>string</td><td>是</td><td></td><td>小程序获取权限时展示的接口用途说明。最长 30 个字符</td></tr>
+</tbody>
+</table>
+<pre><code class="hljs css language-jsx"><span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 项目配置</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    pages<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">'pages/index/index'</span><span class="token punctuation">,</span>
+      <span class="token string">'pages/logs/logs'</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    permission<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string">'scope.userLocation'</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        desc<span class="token operator">:</span> <span class="token string">'你的位置信息将用于小程序位置接口的效果展示'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="http://ww1.sinaimg.cn/large/49320207gy1g0uiageahij20gf08dwer.jpg" alt="image"></p>
+<h3><a class="anchor" aria-hidden="true" id="生命周期"></a><a href="#生命周期" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>生命周期</h3>
+<p>而且由于入口文件继承自 <code>Component</code> 组件基类，它同样拥有组件生命周期，但因为入口文件的特殊性，他的生命周期并不完整，具体如下</p>
+<h4><a class="anchor" aria-hidden="true" id="componentwillmount"></a><a href="#componentwillmount" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentWillMount()</h4>
+<blockquote>
+<p>在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 app 的 <code>onLaunch</code></p>
+</blockquote>
+<p>监听程序初始化，初始化完成时触发（全局只触发一次）</p>
+<p>在此生命周期中通过 <code>this.$router.params</code>，可以访问到程序初始化参数</p>
+<p>参数格式如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>说明</th><th>微信小程序</th><th>百度小程序</th><th>字节跳动小程序</th><th>支付宝小程序</th><th>H5</th><th>RN</th></tr>
+</thead>
+<tbody>
+<tr><td>path</td><td>string</td><td>启动小程序的路径</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+<tr><td>scene</td><td>number</td><td>启动小程序的场景值</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>query</td><td>Object</td><td>启动小程序的 query 参数</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+<tr><td>shareTicket</td><td>string</td><td>shareTicket，详见获取更多转发信息</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>referrerInfo</td><td>Object</td><td>来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+</tbody>
+</table>
+<p>其中，场景值 scene，在微信小程序和百度小程序中存在区别，请分别参考 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html">微信小程序文档</a> 和 <a href="http://smartprogram.baidu.com/docs/data/scene/">百度小程序文档</a></p>
+<p>来源信息 referrerInfo 的数据结构如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>说明</th><th>微信小程序</th><th>百度小程序</th><th>字节跳动小程序</th><th>支付宝小程序</th></tr>
+</thead>
+<tbody>
+<tr><td>appId</td><td>string</td><td>来源小程序，或者公众号（微信中）</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>extraData</td><td>Object</td><td>来源小程序传过来的数据，微信和百度小程序在scene=1037或1038时支持</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>sourceServiceId</td><td>string</td><td>来源插件，当处于插件运行模式时可见</td><td>✘</td><td>✘</td><td>✘</td><td>✔️（基础库版本 1.11.0）</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="componentdidmount"></a><a href="#componentdidmount" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidMount()</h4>
+<blockquote>
+<p>在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 app 的 <code>onLaunch</code>，在 <code>componentWillMount</code> 后执行</p>
+</blockquote>
+<p>监听程序初始化，初始化完成时触发（全局只触发一次）</p>
+<p>在此生命周期中也可以通过 <code>this.$router.params</code>，访问到程序初始化参数，与 <code>componentWillMount</code> 中一致</p>
+<h4><a class="anchor" aria-hidden="true" id="componentdidshow"></a><a href="#componentdidshow" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidShow()</h4>
+<blockquote>
+<p>在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 <code>onShow</code>，在 H5/RN 中同步实现</p>
+</blockquote>
+<p>程序启动，或从后台进入前台显示时触发，微信小程序中也可以使用 <code>Taro.onAppShow</code> 绑定监听</p>
+<p>在此生命周期中通过 <code>this.$router.params</code>，可以访问到程序初始化参数</p>
+<p>参数与 <code>componentWillMount</code> 中获取的基本一致，但<strong>百度小程序</strong>中补充两个参数如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>说明</th><th>最低版本</th></tr>
+</thead>
+<tbody>
+<tr><td>entryType</td><td>string</td><td>展现的来源标识，取值为 user/ schema /sys :<br />user：表示通过home前后<br/>切换或解锁屏幕等方式调起；<br/>schema：表示通过协议调起;<br />sys：其它</td><td>2.10.7</td></tr>
+<tr><td>appURL</td><td>string</td><td>展现时的调起协议，仅当entryType值为 schema 时存在</td><td>2.10.7</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="componentdidhide"></a><a href="#componentdidhide" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidHide()</h4>
+<blockquote>
+<p>在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 <code>onHide</code>，在 H5/RN 中同步实现</p>
+</blockquote>
+<p>程序从前台进入后台时触发，微信小程序中也可以使用 <code>Taro.onAppHide</code> 绑定监听</p>
+<h4><a class="anchor" aria-hidden="true" id="componentdidcatcherrorstring-error"></a><a href="#componentdidcatcherrorstring-error" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidCatchError(String error)</h4>
+<blockquote>
+<p>在微信/百度/字节跳动/支付宝小程序中这一生命周期方法对应 <code>onError</code>，H5/RN 中尚未实现</p>
+</blockquote>
+<p>程序发生脚本错误或 API 调用报错时触发，微信小程序中也可以使用 <code>Taro.onError</code> 绑定监听</p>
+<h4><a class="anchor" aria-hidden="true" id="componentdidnotfoundobject"></a><a href="#componentdidnotfoundobject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidNotFound(Object)</h4>
+<blockquote>
+<p>在微信/字节跳动小程序中这一生命周期方法对应 <code>onPageNotFound</code>，其他端尚未实现<br/>
+微信小程序中，基础库 1.9.90 开始支持</p>
+</blockquote>
+<p>程序要打开的页面不存在时触发，微信小程序中也可以使用 <code>Taro.onPageNotFound</code> 绑定监听</p>
+<p>参数如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>path</td><td>string</td><td>不存在页面的路径</td></tr>
+<tr><td>query</td><td>Object</td><td>打开不存在页面的 query 参数</td></tr>
+<tr><td>isEntryPage</td><td>boolean</td><td>是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="tarogetappobject"></a><a href="#tarogetappobject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Taro.getApp(Object)</h3>
+<p>可以用来获取到程序 App 实例，在各个端均有实现</p>
+<p>微信小程序端可以传入一个 Object 参数，格式如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>说明</th><th>基础库最低版本</th></tr>
+</thead>
+<tbody>
+<tr><td>allowDefault</td><td>Boolean</td><td>在 App 未定义时返回默认实现。当App被调用时，默认实现中定义的属性会被覆盖合并到App中。一般用于<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/independent.html">独立分包</a></td><td>2.2.4</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="入口文件-render-方法说明"></a><a href="#入口文件-render-方法说明" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>入口文件 render 方法说明</h3>
+<p>入口文件需要包含一个 <code>render</code> 方法，一般返回程序的第一个页面，但值得注意的是不要在入口文件中的 <code>render</code> 方法里写逻辑及引用其他页面、组件，因为编译时 <code>render</code> 方法的内容会被直接替换掉，你的逻辑代码不会起作用。</p>
+<h2><a class="anchor" aria-hidden="true" id="页面"></a><a href="#页面" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>页面</h2>
+<p>Taro 项目的页面一般都放在 <code>src</code> 中的 <code>pages</code> 目录下，如果页面包含 <code>js</code> 以及 <code>css</code>，建议页面以文件夹的形式进行组织，例如 <code>index</code> 页面包含 <code>index.js</code> 和 <code>index.scss</code>，则在 <code>pages</code> 目录下新建 <code>index</code> 目录。</p>
+<h3><a class="anchor" aria-hidden="true" id="指定页面"></a><a href="#指定页面" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>指定页面</h3>
+<p>页面创建好后如果需要渲染展示，则需要在项目入口文件 <code>app.js</code> 中 <code>config</code> 的 <code>pages</code> 数组中进行指定，例如上面提到的 <code>index</code> 页面，需要如下进行配置，页面配置需要指定到页面具体的 <code>js</code> 文件，可以不带 <code>.js</code> 后缀</p>
+<pre><code class="hljs css language-jsx"><span class="token comment">// ...</span>
+<span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 项目配置</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    pages<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">'pages/index/index'</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="代码示例-1"></a><a href="#代码示例-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>代码示例</h3>
+<p>一个普通的页面文件示例如下</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">import</span> Taro<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/taro'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> View<span class="token punctuation">,</span> Text <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/components'</span>
+<span class="token keyword">import</span> <span class="token string">'./index.scss'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">Index</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    navigationBarTitleText<span class="token operator">:</span> <span class="token string">'首页'</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">componentWillMount</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+  <span class="token function">componentDidMount</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+  <span class="token function">componentWillUnmount</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+  <span class="token function">componentDidShow</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+  <span class="token function">componentDidHide</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>index<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span><span class="token number">1</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="页面配置"></a><a href="#页面配置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>页面配置</h3>
+<p>Taro 的页面同样是继承自 <code>Component</code> 组件基类，每一个页面都拥有自己配置 <code>config</code>，这个配置是针对当前页面配置，配置规范基于微信小程序的<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE">页面配置</a>进行制定，所有平台进行统一。</p>
+<p>页面文件中的 <code>config</code> 配置，在编译后将生成全局配置文件 <code>app.json</code>。</p>
+<p>页面的配置只能设置 <a href="#全局配置">全局配置</a> 中部分 <code>window</code> 配置项的内容，页面中配置项会覆盖 <a href="#全局配置">全局配置</a> 的 window 中相同的配置项。</p>
+<p>配置示例：</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">Index</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    navigationBarBackgroundColor<span class="token operator">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+    navigationBarTextStyle<span class="token operator">:</span> <span class="token string">'black'</span><span class="token punctuation">,</span>
+    navigationBarTitleText<span class="token operator">:</span> <span class="token string">'首页'</span><span class="token punctuation">,</span>
+    backgroundColor<span class="token operator">:</span> <span class="token string">'#eeeeee'</span><span class="token punctuation">,</span>
+    backgroundTextStyle<span class="token operator">:</span> <span class="token string">'light'</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>index<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span><span class="token number">1</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="配置项列表-1"></a><a href="#配置项列表-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置项列表</h4>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>默认值</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr><td>navigationBarBackgroundColor</td><td>HexColor（十六进制颜色值）</td><td>#000000</td><td>导航栏背景颜色，如 #000000</td></tr>
+<tr><td>navigationBarTextStyle</td><td>String</td><td>white</td><td>导航栏标题颜色，仅支持 black / white</td></tr>
+<tr><td>navigationBarTitleText</td><td>String</td><td></td><td>导航栏标题文字内容</td></tr>
+<tr><td>navigationStyle</td><td>String</td><td>default</td><td>导航栏样式，仅支持以下值：default 默认样式；custom 自定义导航栏，只保留右上角胶囊按钮</td></tr>
+<tr><td>backgroundColor</td><td>String</td><td></td><td>窗口的背景色</td></tr>
+<tr><td>backgroundTextStyle</td><td>String</td><td>dark</td><td>下拉 loading 的样式，仅支持 dark / light</td></tr>
+<tr><td>backgroundColorTop</td><td>String</td><td>#ffffff</td><td>顶部窗口的背景色，仅 iOS 支持</td></tr>
+<tr><td>backgroundColorBottom</td><td>String</td><td>#ffffff</td><td>底部窗口的背景色，仅 iOS 支持</td></tr>
+<tr><td>enablePullDownRefresh</td><td>boolean</td><td>false</td><td>是否开启当前页面的下拉刷新。</td></tr>
+<tr><td>onReachBottomDistance</td><td>Number</td><td>50</td><td>页面上拉触底事件触发时距页面底部距离，单位为 px</td></tr>
+<tr><td>pageOrientation</td><td>String</td><td>portrait</td><td>屏幕旋转设置，支持 auto / portrait / landscape 详见 响应显示区域变化</td></tr>
+<tr><td>disableScroll</td><td>Boolean</td><td>false</td><td>设置为 true 则页面整体不能上下滚动。<br />只在页面配置中有效，无法在 app.json 中设置</td></tr>
+<tr><td>disableSwipeBack</td><td>Boolean</td><td>false</td><td>禁止页面右滑手势返回</td></tr>
+<tr><td>usingComponents</td><td>Object</td><td>否</td><td>页面自定义组件配置</td></tr>
+</tbody>
+</table>
+<p>各端支持程度如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>微信小程序</th><th>百度小程序</th><th>字节跳动小程序</th><th>支付宝小程序</th><th>H5</th><th>RN</th></tr>
+</thead>
+<tbody>
+<tr><td>navigationBarBackgroundColor</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>navigationBarTextStyle</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>navigationBarTitleText</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+<tr><td>navigationStyle</td><td>✔️（微信客户端 6.6.0）</td><td>✔️（百度 App 版本 11.1.0）</td><td>✔️</td><td>✘</td><td>✘</td><td>✔️</td></tr>
+<tr><td>backgroundColor</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td><td>✔️</td></tr>
+<tr><td>backgroundTextStyle</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td><td>✔️</td></tr>
+<tr><td>backgroundColorTop</td><td>✔️（微信客户端 6.5.16）</td><td>✘</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>backgroundColorBottom</td><td>✔️（微信客户端 6.5.16）</td><td>✘</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>enablePullDownRefresh</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+<tr><td>onReachBottomDistance</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>pageOrientation</td><td>✔️2.4.0 (auto) / 2.5.0 (landscape)</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>disableScroll</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✔️</td></tr>
+<tr><td>disableSwipeBack</td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>usingComponents</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+</tbody>
+</table>
+<p>其中，<code>usingComponents</code> 一般不需要配置，只有在需要与引用原生小程序组件的时候才需要配置。</p>
+<h3><a class="anchor" aria-hidden="true" id="页面说明"></a><a href="#页面说明" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>页面说明</h3>
+<p>页面的样式文件建议放在与页面 JS 的同级目录下，然后通过 ES6 规范 <code>import</code> 进行引入，支持使用 CSS 预编译处理器，目前提供了 <code>sass</code> 预编译插件 <code>@tarojs/plugin-sass</code>，需要自行在本地进行安装。</p>
+<p>页面 JS 要求必须有一个 <code>render</code> 函数，函数返回 JSX 代码，具体 JSX 代码的写法请参考 <a href="/taro/docs/1.3.28/jsx.html">JSX 章节</a>。</p>
+<h3><a class="anchor" aria-hidden="true" id="生命周期-1"></a><a href="#生命周期-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>生命周期</h3>
+<p>由于页面 JS 也继承自 <code>Component</code> 组件基类，所以页面同样拥有生命周期，页面的生命周期方法如下：</p>
+<h4><a class="anchor" aria-hidden="true" id="componentwillmount-1"></a><a href="#componentwillmount-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentWillMount()</h4>
+<p>页面加载时触发，一个页面只会调用一次，此时页面 DOM 尚未准备好，还不能和视图层进行交互</p>
+<h4><a class="anchor" aria-hidden="true" id="componentdidmount-1"></a><a href="#componentdidmount-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidMount()</h4>
+<p>页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互</p>
+<h4><a class="anchor" aria-hidden="true" id="shouldcomponentupdatenextprops-nextstate"></a><a href="#shouldcomponentupdatenextprops-nextstate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>shouldComponentUpdate(nextProps, nextState)</h4>
+<p>页面是否需要更新，返回 false 不继续更新，否则继续走更新流程</p>
+<h4><a class="anchor" aria-hidden="true" id="componentwillupdatenextprops-nextstate"></a><a href="#componentwillupdatenextprops-nextstate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentWillUpdate(nextProps, nextState)</h4>
+<p>页面即将更新</p>
+<h4><a class="anchor" aria-hidden="true" id="componentdidupdateprevprops-prevstate"></a><a href="#componentdidupdateprevprops-prevstate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidUpdate(prevProps, prevState)</h4>
+<p>页面更新完毕</p>
+<h4><a class="anchor" aria-hidden="true" id="componentwillunmount"></a><a href="#componentwillunmount" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentWillUnmount()</h4>
+<p>页面卸载时触发，如 redirectTo 或 navigateBack 到其他页面时</p>
+<h4><a class="anchor" aria-hidden="true" id="componentdidshow-1"></a><a href="#componentdidshow-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidShow()</h4>
+<p>页面显示/切入前台时触发</p>
+<h4><a class="anchor" aria-hidden="true" id="componentdidhide-1"></a><a href="#componentdidhide-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidHide()</h4>
+<p>页面隐藏/切入后台时触发， 如 navigateTo 或底部 tab 切换到其他页面，小程序切入后台等</p>
+<p><strong>在以上所有的生命周期方法中，都可以通过 <code>this.$router.params</code> 获取打开当前页面路径中的参数</strong>。</p>
+<h3><a class="anchor" aria-hidden="true" id="页面事件处理函数"></a><a href="#页面事件处理函数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>页面事件处理函数</h3>
+<p>在小程序中，页面还有在一些专属的事件处理函数，如下</p>
+<h4><a class="anchor" aria-hidden="true" id="onpulldownrefresh"></a><a href="#onpulldownrefresh" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onPullDownRefresh()</h4>
+<p>监听用户下拉刷新事件</p>
+<ul>
+<li>需要在全局配置的 window 选项中或页面配置中开启 enablePullDownRefresh</li>
+<li>可以通过 <a href="./native-api.md#tarostartpulldownrefreshobject">Taro.startPullDownRefresh</a> 触发下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。</li>
+<li>当处理完数据刷新后，<a href="./native-api.md#tarostoppulldownrefresh">Taro.stopPullDownRefresh</a> 可以停止当前页面的下拉刷新</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="onreachbottom"></a><a href="#onreachbottom" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onReachBottom()</h4>
+<p>监听用户上拉触底事件</p>
+<ul>
+<li>可以在全局配置的 window 选项中或页面配置中设置触发距离 onReachBottomDistance</li>
+<li>在触发距离内滑动期间，本事件只会被触发一次</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="onpagescrollobject"></a><a href="#onpagescrollobject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onPageScroll(Object)</h4>
+<p>监听用户滑动页面事件</p>
+<p>Object 参数说明：</p>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>scrollTop</td><td>Number</td><td>页面在垂直方向已滚动的距离（单位px）</td></tr>
+</tbody>
+</table>
+<p><strong>注意：请只在需要的时候才在 page 中定义此方法，不要定义空方法。以减少不必要的事件派发对渲染层-逻辑层通信的影响。注意：请避免在 onPageScroll 中过于频繁的执行 this.setState() 等引起逻辑层-渲染层通信的操作。尤其是每次传输大量数据，会影响通信耗时。</strong></p>
+<h4><a class="anchor" aria-hidden="true" id="onshareappmessageobject"></a><a href="#onshareappmessageobject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onShareAppMessage(Object)</h4>
+<p>监听用户点击页面内转发按钮（Button 组件 openType='share'）或右上角菜单“转发”按钮的行为，并自定义转发内容。</p>
+<p>注意：只有定义了此事件处理函数，右上角菜单才会显示“转发”按钮</p>
+<p>Object 参数说明：</p>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>from</td><td>String</td><td>转发事件来源。<br />button：页面内转发按钮；<br />menu：右上角转发菜单</td></tr>
+<tr><td>target</td><td>Object</td><td>如果 <code>from</code> 值是 <code>button</code>，则 <code>target</code> 是触发这次转发事件的 <code>button</code>，否则为 <code>undefined</code></td></tr>
+<tr><td>webViewUrl</td><td>String</td><td>页面中包含 <WebView> 组件时，返回当前 <WebView> 的url</td></tr>
+</tbody>
+</table>
+<p>此事件需要 return 一个 Object，用于自定义转发内容，返回内容如下：</p>
+<p>自定义转发内容</p>
+<table>
+<thead>
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>title</td><td>转发标题</td><td>当前小程序名称</td></tr>
+<tr><td>path</td><td>转发路径</td><td>当前页面 path ，必须是以 / 开头的完整路径</td></tr>
+<tr><td>imageUrl</td><td>自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持 PNG 及 JPG 。显示图片长宽比是 5:4</td><td>使用默认截图</td></tr>
+</tbody>
+</table>
+<p>示例代码</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">Index</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  config <span class="token operator">=</span> <span class="token punctuation">{</span>
+    navigationBarTitleText<span class="token operator">:</span> <span class="token string">'首页'</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">onShareAppMessage</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>from <span class="token operator">===</span> <span class="token string">'button'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 来自页面内转发按钮</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>target<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      title<span class="token operator">:</span> <span class="token string">'自定义转发标题'</span><span class="token punctuation">,</span>
+      path<span class="token operator">:</span> <span class="token string">'/page/user?id=123'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>index<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span><span class="token number">1</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="onresizeobject"></a><a href="#onresizeobject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onResize(object)</h4>
+<blockquote>
+<p>只有微信小程序支持<br />
+基础库 2.4.0 开始支持</p>
+</blockquote>
+<p>小程序屏幕旋转时触发。详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E5%90%AF%E7%94%A8%E5%B1%8F%E5%B9%95%E6%97%8B%E8%BD%AC%E6%94%AF%E6%8C%81">响应显示区域变化</a></p>
+<h4><a class="anchor" aria-hidden="true" id="ontabitemtapobject"></a><a href="#ontabitemtapobject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onTabItemTap(Object)</h4>
+<blockquote>
+<p>微信小程序中，基础库 1.9.0 开始支持</p>
+</blockquote>
+<p>点击 tab 时触发</p>
+<p>Object 参数说明：</p>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>index</td><td>String</td><td>被点击 tabItem 的序号，从 0 开始</td></tr>
+<tr><td>pagePath</td><td>String</td><td>被点击 tabItem 的页面路径</td></tr>
+<tr><td>text</td><td>String</td><td>被点击 tabItem 的按钮文字</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="componentwillpreload"></a><a href="#componentwillpreload" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentWillPreload()</h4>
+<blockquote>
+<p>目前只有微信小程序支持</p>
+</blockquote>
+<p><a href="/taro/docs/1.3.28/best-practice.html#预加载">预加载</a>钩子</p>
+<h4><a class="anchor" aria-hidden="true" id="ontitleclick"></a><a href="#ontitleclick" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onTitleClick()</h4>
+<blockquote>
+<p>只有支付宝小程序支持，基础库 1.3.0 开始支持</p>
+</blockquote>
+<p>点击标题触发</p>
+<h4><a class="anchor" aria-hidden="true" id="onoptionmenuclick"></a><a href="#onoptionmenuclick" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onOptionMenuClick()</h4>
+<blockquote>
+<p>只有支付宝小程序支持，基础库 1.3.0 开始支持</p>
+</blockquote>
+<p>点击导航栏额外图标触发</p>
+<h4><a class="anchor" aria-hidden="true" id="onpopmenuclick"></a><a href="#onpopmenuclick" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onPopMenuClick()</h4>
+<blockquote>
+<p>只有支付宝小程序支持，基础库 1.11.0 开始支持</p>
+</blockquote>
+<p>暂无说明</p>
+<h4><a class="anchor" aria-hidden="true" id="onpullintercept"></a><a href="#onpullintercept" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onPullIntercept()</h4>
+<blockquote>
+<p>只有支付宝小程序支持，基础库 1.3.0 开始支持</p>
+</blockquote>
+<p>下拉截断时触发</p>
+<blockquote>
+<p>H5 暂时没有同步实现 <code>onReachBottom</code> 、 <code>onPageScroll</code> 这两个事件函数，可以通过给 window 绑定 scroll 事件来进行模拟，而 <code>onPullDownRefresh</code> 下拉刷新则暂时只能用 <code>ScrollView</code> 组件来代替了。</p>
+</blockquote>
+<p>页面事件函数各端支持程度如下</p>
+<table>
+<thead>
+<tr><th>方法</th><th>作用</th><th>微信小程序</th><th>百度小程序</th><th>字节跳动小程序</th><th>支付宝小程序</th><th>H5</th><th>RN</th></tr>
+</thead>
+<tbody>
+<tr><td>onPullDownRefresh</td><td>页面相关事件处理函数--监听用户下拉动作</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+<tr><td>onReachBottom</td><td>页面上拉触底事件的处理函数</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+<tr><td>onShareAppMessage</td><td>用户点击右上角转发</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+<tr><td>onPageScroll</td><td>页面滚动触发事件的处理函数</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+<tr><td>onTabItemTap</td><td>当前是 tab 页时，点击 tab 时触发</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+<tr><td>onResize</td><td>页面尺寸改变时触发，详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#%E5%9C%A8%E6%89%8B%E6%9C%BA%E4%B8%8A%E5%90%AF%E7%94%A8%E5%B1%8F%E5%B9%95%E6%97%8B%E8%BD%AC%E6%94%AF%E6%8C%81">响应显示区域变化</a></td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>componentWillPreload</td><td><a href="/taro/docs/1.3.28/best-practice.html#预加载">预加载</a></td><td>✔️</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td><td>✘</td></tr>
+<tr><td>onTitleClick</td><td>点击标题触发</td><td>✘</td><td>✘</td><td>✘</td><td>✔️</td><td>✘</td><td>✘</td></tr>
+<tr><td>onOptionMenuClick</td><td>点击导航栏额外图标触发</td><td>✘</td><td>✘</td><td>✘</td><td>✔️（基础库 1.3.0）</td><td>✘</td><td>✘</td></tr>
+<tr><td>onPopMenuClick</td><td></td><td>✘</td><td>✘</td><td>✘</td><td>✔️（基础库 1.3.0）</td><td>✘</td><td>✘</td></tr>
+<tr><td>onPullIntercept</td><td>下拉截断时触发</td><td>✘</td><td>✘</td><td>✘</td><td>✔️（基础库 1.11.0）</td><td>✘</td><td>✘</td></tr>
+</tbody>
+</table>
+<p>以上成员方法在 Taro 的页面中同样可以使用，书写同名方法即可，不过需要注意的，目前暂时只有小程序端支持（支持程度如上）这些方法，编译到 H5/RN 端后这些方法均会失效。</p>
+<h2><a class="anchor" aria-hidden="true" id="组件"></a><a href="#组件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件</h2>
+<p>Taro 支持组件化开发，组件代码可以放在任意位置，不过建议放在 <code>src</code> 下的 <code>components</code> 目录中。一个组件通常包含组件 JS 文件以及组件样式文件，组织方式与页面类似。</p>
+<h3><a class="anchor" aria-hidden="true" id="组件配置"></a><a href="#组件配置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件配置</h3>
+<p>一般来说，Taro 组件不需要任何配置，但当你在 Taro 组件中引用原生小程序组件代码时，则需要通过配置 <code>config</code> 来实现。</p>
+<p>配置项如下</p>
+<table>
+<thead>
+<tr><th>属性</th><th>类型</th><th>必填</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr><td>usingComponents</td><td>Object</td><td>否</td><td>组件自定义组件配置</td></tr>
+</tbody>
+</table>
+<p><code>usingComponents</code> 中通过 <code>组件名: 组件相对路径</code> 这种 key/value 的方式定义引用的组件。</p>
+<h3><a class="anchor" aria-hidden="true" id="代码示例-2"></a><a href="#代码示例-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>代码示例</h3>
+<pre><code class="hljs css language-jsx"><span class="token keyword">import</span> Taro<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/taro'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> View<span class="token punctuation">,</span> Image<span class="token punctuation">,</span> Button <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/components'</span>
+<span class="token keyword">import</span> <span class="token string">'./tab.scss'</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Tab</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+
+  <span class="token function-variable function">onNewTodo</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token comment">// dosth</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">componentWillMount</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+  <span class="token function">componentDidMount</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+  <span class="token function">componentWillUnmount</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+  <span class="token function">componentWillReceiveProps</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>tab<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+        tab
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="组件说明"></a><a href="#组件说明" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件说明</h3>
+<p>组件的样式文件可以需要在组件中通过 <code>import</code> 语法进行引入。</p>
+<p>Taro 的组件同样是继承自 <code>Component</code> 组件基类，与页面类似，组件也必须包含一个 <code>render</code> 函数，返回 JSX 代码。</p>
+<h3><a class="anchor" aria-hidden="true" id="生命周期-2"></a><a href="#生命周期-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>生命周期</h3>
+<p>由于组件 JS 也继承自 <code>Component</code> 组件基类，所以页面同样拥有生命周期，页面的生命周期方法如下：</p>
+<h4><a class="anchor" aria-hidden="true" id="componentwillmount-2"></a><a href="#componentwillmount-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentWillMount()</h4>
+<p>组件加载时触发，一个组件只会调用一次，此时组件 DOM 尚未准备好，还不能和视图层进行交互</p>
+<h4><a class="anchor" aria-hidden="true" id="componentdidmount-2"></a><a href="#componentdidmount-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidMount()</h4>
+<p>组件初次渲染完成时触发，一个组件只会调用一次，代表组件已经准备妥当，可以和视图层进行交互</p>
+<h4><a class="anchor" aria-hidden="true" id="componentwillreceivepropsnextprops"></a><a href="#componentwillreceivepropsnextprops" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentWillReceiveProps(nextProps)</h4>
+<p>已经装载的组件接收到新属性前调用</p>
+<h4><a class="anchor" aria-hidden="true" id="shouldcomponentupdatenextprops-nextstate-1"></a><a href="#shouldcomponentupdatenextprops-nextstate-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>shouldComponentUpdate(nextProps, nextState)</h4>
+<p>组件是否需要更新，返回 false 不继续更新，否则继续走更新流程</p>
+<h4><a class="anchor" aria-hidden="true" id="componentwillupdatenextprops-nextstate-1"></a><a href="#componentwillupdatenextprops-nextstate-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentWillUpdate(nextProps, nextState)</h4>
+<p>组件即将更新</p>
+<h4><a class="anchor" aria-hidden="true" id="componentdidupdateprevprops-prevstate-1"></a><a href="#componentdidupdateprevprops-prevstate-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentDidUpdate(prevProps, prevState)</h4>
+<p>组件更新完毕</p>
+<h4><a class="anchor" aria-hidden="true" id="componentwillunmount-1"></a><a href="#componentwillunmount-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>componentWillUnmount()</h4>
+<p>组件卸载时触发</p>
+<blockquote>
+<p>具体生命周期的使用以及组件类的说明可以查看<a href="./component.md">组件说明章节</a>。</p>
+</blockquote>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/1.3.28/spec-for-taro.html"><span class="arrow-prev">← </span><span>Taro 规范</span></a><a class="docs-next button" href="/taro/docs/1.3.28/project-config.html"><span>项目配置</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#项目目录结构">项目目录结构</a></li><li><a href="#入口文件">入口文件</a><ul class="toc-headings"><li><a href="#代码示例">代码示例</a></li><li><a href="#全局配置">全局配置</a></li><li><a href="#生命周期">生命周期</a></li><li><a href="#tarogetappobject">Taro.getApp(Object)</a></li><li><a href="#入口文件-render-方法说明">入口文件 render 方法说明</a></li></ul></li><li><a href="#页面">页面</a><ul class="toc-headings"><li><a href="#指定页面">指定页面</a></li><li><a href="#代码示例-1">代码示例</a></li><li><a href="#页面配置">页面配置</a></li><li><a href="#页面说明">页面说明</a></li><li><a href="#生命周期-1">生命周期</a></li><li><a href="#页面事件处理函数">页面事件处理函数</a></li></ul></li><li><a href="#组件">组件</a><ul class="toc-headings"><li><a href="#组件配置">组件配置</a></li><li><a href="#代码示例-2">代码示例</a></li><li><a href="#组件说明">组件说明</a></li><li><a href="#生命周期-2">生命周期</a></li></ul></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

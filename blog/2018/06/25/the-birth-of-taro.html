@@ -1,0 +1,255 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>为何我们要用 React 来写小程序 - Taro 诞生记 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="从去年微信小程序的诞生，到今年的逐渐火热，以及异军突起的轻应用、百度小程序等的出现，前端可以延伸的领域已经越来越广，当然也意味着业务在不断扩大。这时候，如何通过技术手段来提升开发效率，应对不断增长的业务，就是一个值得探索的话题。本文将对 Taro 诞生的故事，进行深入浅出地介绍，记录下这个忙碌的春夏之交发生的故事。"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="为何我们要用 React 来写小程序 - Taro 诞生记 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/blog/2018/06/25/the-birth-of-taro.html"/><meta property="og:description" content="从去年微信小程序的诞生，到今年的逐渐火热，以及异军突起的轻应用、百度小程序等的出现，前端可以延伸的领域已经越来越广，当然也意味着业务在不断扩大。这时候，如何通过技术手段来提升开发效率，应对不断增长的业务，就是一个值得探索的话题。本文将对 Taro 诞生的故事，进行深入浅出地介绍，记录下这个忙碌的春夏之交发生的故事。"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.2.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/apis/about/desc.html" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>全部文章</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">全部文章</h3><ul class=""><li class="navListItem"><a class="navItem" href="/taro/blog/2020/4/13/taro-components.html">Taro Next H5 跨框架组件库实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/02/13/taro-next-alpha.html">Taro Next 发布预览版：同时支持 React / Vue / Nerv</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/08/taro-2-0.html">Taro 2.0：拥抱社区，拥抱变化</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/02/gmtc.html">小程序跨框架开发的探索与实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/12/03/jingxi-index.html">京喜首页（微信购物入口）跨端开发与优化实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/10/24/taro-open.html">Taro 邀你加入社区共建 — 社区共建倡议书</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/09/25/taro-flex.html">玩转 Taro 跨端之 flex 布局篇</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/07/10/taro-hooks.html">使用 React Hooks 重构你的小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/21/taro-ext-club.html">Taro 「物料市场」及「交流社区」 惊喜上线</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/13/taro-1-3.html">Taro 1.3 震撼升级：全面支持 JSX 语法和 HOOKS</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/03/12/mini-program-framework-full-review.html">小程序框架全面测评</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/28/taro-h5-optimize.html">决战性能之巅 - Taro H5 转换与优化升级</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/25/taro-ui-2.0.html">Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/12/18/taro-1-2.html">Taro 1.2：将已有微信小程序转换为多端应用</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/11/05/taro-1-1.html">Taro 1.1 发布，全面支持微信/百度/支付宝小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/18/taro-1-0-0.html">多端统一开发框架 Taro 1.0 正式发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/11/taro-in-jd.html">Taro 在京东购物小程序上的实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/08/24/the-birth-of-taro-ui.html">首个多端 UI 组件库 - Taro UI 发布</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/blog/2018/06/25/the-birth-of-taro.html">为何我们要用 React 来写小程序 - Taro 诞生记</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/07/Taro.html">多端统一开发框架 - Taro</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle"><a href="/taro/blog/2018/06/25/the-birth-of-taro.html">为何我们要用 React 来写小程序 - Taro 诞生记</a></h1><p class="post-meta">June 25, 2018</p><div class="authorBlock"><p class="post-authorName"><a href="https://github.com/luckyadam" target="_blank" rel="noreferrer noopener">luckyadam</a></p><div class="authorPhoto"><a href="https://github.com/luckyadam" target="_blank" rel="noreferrer noopener"><img src="https://avatars2.githubusercontent.com/u/1782542?s=400&amp;u=d20514a52100ed1f82282bcfca6f49052793c889&amp;v=4" alt="luckyadam"/></a></div></div></header><div><span><p>从去年微信小程序的诞生，到今年的逐渐火热，以及异军突起的轻应用、百度小程序等的出现，前端可以延伸的领域已经越来越广，当然也意味着业务在不断扩大。这时候，如何通过技术手段来提升开发效率，应对不断增长的业务，就是一个值得探索的话题。本文将对 Taro 诞生的故事，进行深入浅出地介绍，记录下这个忙碌的春夏之交发生的故事。</p>
+<!--truncate-->
+<p><img src="http://img20.360buyimg.com/uba/jfs/t22954/193/251445690/357583/7232c10b/5b2a15e2N23cf1e55.jpg" alt="image"></p>
+<h2><a class="anchor" aria-hidden="true" id="让人又爱又恨的微信小程序"></a><a href="#让人又爱又恨的微信小程序" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>让人又爱又恨的微信小程序</h2>
+<p>自 <code>2017-1-9</code> 微信小程序（以下简称小程序）诞生以来，就伴随着赞誉与争议不断。从发布上线时的不被大多数人看好，到如今的逐渐火热，甚至说是如日中天也不为过，小程序用时间与实践证明了自己的价值。同时于开发者来说，小程序的生态不断在完善，许多的坑已被踩平，虽然还是存在一些令人诟病的问题，但已经足见微信的诚意了。这个时候要是还没有上手把玩过小程序，就显得非常OUT了。</p>
+<p>小程序对于前端程序员来说应该算得上是福音了，用前端相关的技术，获得丝般顺滑的 <code>Native</code> 体验，前端们又可以在产品小姐姐面前硬气一把了。可以说小程序给前端程序员打开了一扇新的大门，大家都应该感谢微信，但是从开发的角度来说，小程序的开发体验就非常值得商榷了，不仅语法上显得有些不伦不类，而且有些莫名其妙的坑也经常让人不经意间感叹一下和谐社会，从市面上层出不穷的小程序开发框架就可见一斑。以下就盘点部分小程序开发的痛点。</p>
+<h3><a class="anchor" aria-hidden="true" id="代码组织与语法"></a><a href="#代码组织与语法" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>代码组织与语法</h3>
+<p>在小程序中，一个页面 <code>page</code> 可能拥有 <code>page.js</code>、<code>page.wxss</code>、<code>page.wxml</code> 、<code>page.json</code> 四个文件</p>
+<p><img src="http://img13.360buyimg.com/img/jfs/t24499/361/448655041/15273/6552407d/5b307974Nfaccdf2d.jpg" alt=""></p>
+<p>这样在开发的时候就需要来回进行文件切换，尤其是在同时开发模板和逻辑的时候，切来切去会显得尤其麻烦，影响开发效率，但小程序原生只支持这么写，就显得比较尴尬了。</p>
+<p>而在语法上，小程序的语法可以说既像 <code>React</code> ，又像 <code>Vue</code>，不能说显得有点不伦不类吧，但在使用上总是感觉有些别扭，对于开发者来说，等于又要学习一套新的语法，提升了学习成本。而且，小程序的模板由于没有编辑器插件的支持，书写的时候也没有智能提示与 lint 检查，书写起来显得有些麻烦。</p>
+<h3><a class="anchor" aria-hidden="true" id="命名规范"></a><a href="#命名规范" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>命名规范</h3>
+<p>在小程序中到处可见规范不统一的情况</p>
+<p>例如组件的属性，以最简单的 <code>&lt;button /&gt;</code> 组件为例，在小程序官方文档中，该组件的属性部分截图如下，大家可以感受下</p>
+<p><img src="http://img10.360buyimg.com/img/jfs/t23614/365/454746445/128330/71fef006/5b307975Ne1ae5de9.jpg" alt=""></p>
+<p><code>&lt;button /&gt;</code> 组件属性名既有以中划线分割多个单词的情况 <code>session-form</code>，也有多个单词连写的情况 <code>bindgetphonenumber</code>。当然这也不是最严重的，你可以说事件绑定的规范就是 <code>bind + 事件名</code> ，而其他属性的规范就是中划线分割单词，我一度以为小程序就是这个作为标准，直到我看到了 <code>&lt;progress /&gt;</code> 组件</p>
+<p><img src="http://img12.360buyimg.com/img/jfs/t23056/19/454899133/104795/d15cd017/5b307975Nd43ac751.jpg" alt=""></p>
+<p>这和说好的不一样啊喂！</p>
+<p><img src="http://img11.360buyimg.com/img/jfs/t23071/12/457583038/19273/4ae32c30/5b307974N88af3974.jpg" alt=""></p>
+<p>同样的情况也出现在 <code>页面</code> 与 <code>组件</code> 的生命周期方法中，<code>页面</code> 的生命周期方法有 <code>onLoad</code>、<code>onReady</code>、<code>onUnload</code> 等，但到了 <code>组件</code> 中则是 <code>created</code>、<code>attached</code> 、<code>ready</code> 等，这样规范又不统一了，为啥 <code>页面</code> 的生命周期方法是 <code>on+Xxx</code> 的格式，但到了 <code>组件</code> 里缺不一样了呢，有点费解。</p>
+<h3><a class="anchor" aria-hidden="true" id="开发方式"></a><a href="#开发方式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>开发方式</h3>
+<p>小程序官方提供了 <code>微信开发工具</code> 作为开发编译工具，而对于代码本身没有提供一个类似 <code>webpack</code> 的工程化开发工具，来解决开发中的一些问题，所以小程序原生的开发方式显得不那么现代化，这也是很多小程序开发框架致力于解决的问题。例如，在小程序开发中</p>
+<ul>
+<li><strong>不能使用 <code>npm</code> 管理依赖</strong>，在小程序中需要手动把第三方代码文件下载到本地，然后再 <code>reuqire</code> 进行使用，显得不那么优雅</li>
+<li><strong>不能使用 Sass 等 CSS 预处理器</strong>，由于没有预编译的概念，小程序开发中无法使用市面上流行的  CSS 预处理器，这样会使得样式代码难以管理</li>
+<li><strong>不完整的 ES Next 语法支持</strong>，小程序默认只能支持极少一部分 ES6 规范的语法，而 ES 是不断往前发展的，一些非常优秀的新语法特性就不能使用了</li>
+<li><strong>手动的文件处理</strong>，像图片压缩、代码压缩等等的一些文件操作，必须手工来处理，显得有些繁琐</li>
+</ul>
+<p>以上就是从开发者的角度看到的一些小程序的开发问题，不过纵然有千般困难，我们总要面对，作为新时代的前端开发工程师，我们不能一味忍受问题，要保持技术的头脑，以技术作为武器，用技术手段去提升的我们开发体验。</p>
+<h2><a class="anchor" aria-hidden="true" id="突发奇想-我能不能用react来写小程序"></a><a href="#突发奇想-我能不能用react来写小程序" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>突发奇想：我能不能用React来写小程序</h2>
+<p>目前前端界言及前端框架，必离不开依然保持着统治地位的 <code>React</code> 与 <code>Vue</code>，这两个都是非常优秀的前端 UI 框架，而且在网上也经常能看到两个框架的粉丝之间热情交流，碰撞出一些思想火花，显得社区异常活跃。</p>
+<p>而我们团队也在去年勇敢地抛弃了历史包袱，非常荣幸地引入了 <code>React</code> 开发方式，让我们团队丢掉了煤油灯，开始通上了电。而且也研发出了一款优秀的类 <code>React</code> 框架 <code>Nerv</code> ，让我们和  <code>React</code> 开发思想结合得更深。</p>
+<p>与小程序的开发方式相比，<code>React</code> 明显显得更加现代化、规范化，而且 <code>React</code> 天生组件化更适合我们的业务开发，<code>JSX</code> 也比字符串模板有更强的表现力。那么这时候我们就在思考，我们能不能用    <code>React</code> 来写小程序？</p>
+<h3><a class="anchor" aria-hidden="true" id="理性地探索"></a><a href="#理性地探索" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>理性地探索</h3>
+<h4><a class="anchor" aria-hidden="true" id="类比"></a><a href="#类比" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>类比</h4>
+<p>通过对比体验 小程序和 <code>React</code> ，我们还是能发现两者之间相似的地方</p>
+<h5><a class="anchor" aria-hidden="true" id="生命周期"></a><a href="#生命周期" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>生命周期</h5>
+<p>小程序的生命周期和 <code>React</code> 的生命周期，在很大程度上是类似的，我们甚至能找到他们之间的对应关系</p>
+<p>app 及页面的生命周期</p>
+<table>
+<thead>
+<tr><th>小程序</th><th style="text-align:center">React</th></tr>
+</thead>
+<tbody>
+<tr><td>onLaunch</td><td style="text-align:center">componentWillMount</td></tr>
+<tr><td>onLoad</td><td style="text-align:center">componentWillMount</td></tr>
+<tr><td>onReady</td><td style="text-align:center">componentDidMount</td></tr>
+<tr><td>onShow</td><td style="text-align:center">不支持，需要特殊处理</td></tr>
+<tr><td>onHide</td><td style="text-align:center">不支持，需要特殊处理</td></tr>
+<tr><td>onUnload</td><td style="text-align:center">componentWillUnmount</td></tr>
+</tbody>
+</table>
+<p>可以看出，对于 <code>app</code> 及 <code>页面</code> 来说，除了 <code>onShow</code> 与 <code>onHide</code> 两个方法，其他方法都能在 <code>React</code> 中找到对应。</p>
+<h5><a class="anchor" aria-hidden="true" id="数据更新方式"></a><a href="#数据更新方式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>数据更新方式</h5>
+<p>在 <code>React</code> 中，组件的内部数据是用 <code>state</code> 来进行管理的，而在小程序中组件的内部数据都是用 <code>data</code> 来进行管理，两者具有一定相似性。而同时在 <code>React</code> 中，我们更新数据使用的是 <code>setState</code> 方法，传入新的数据或者生成新数据的函数，从而更新相应视图。在小程序中，则对应的有 <code>setData</code> 方法，传入新的数据，从而更新视图。</p>
+<p>两者都是以数据驱动视图的方式进行更新，而且 <code>api</code> 神似。</p>
+<h5><a class="anchor" aria-hidden="true" id="事件绑定"></a><a href="#事件绑定" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>事件绑定</h5>
+<p>小程序中绑定事件使用的是 <code>bind + 事件名</code> 的方式，例如点击事件，小程序中是 <code>bindtap</code></p>
+<pre><code class="hljs css language-handlebars"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"handlClick"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+</span></code></pre>
+<p>而在 <code>React</code> 里，则是 <code>on + 事件名</code> 的方式，例如点击事件， <code>React</code> web 中是 <code>onClick</code></p>
+<pre><code class="hljs css language-javascript"><span class="token operator">&lt;</span>View onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>handlClick<span class="token punctuation">}</span><span class="token operator">></span><span class="token number">1</span><span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+</code></pre>
+<p>虽然看上去不一样，但其实是可以类比的，我们只需要在编译时将 <code>on + 事件名</code> 的形式编译成 <code>bind + 事件名</code> 的形式就可以了。</p>
+<blockquote>
+<p>如此看来，两者之间有些相似，用 <code>React</code> 来写小程序貌似是可行的，但接下来我们就发现了巨大的差异。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="巨大的差异"></a><a href="#巨大的差异" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>巨大的差异</h3>
+<p><code>React</code> 与小程序之间最大的差异就是他们的模板了，在 <code>React</code> 中，是使用 <code>JSX</code> 来作为组件的模板的，而小程序则与 <code>Vue</code> 一样，是使用字符串模板的。这样两者之间就有着巨大的差异了。</p>
+<p>JSX</p>
+<pre><code class="hljs css language-javascript"><span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">'index'</span><span class="token operator">></span>
+      <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>list<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> idx</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span>
+        <span class="token operator">&lt;</span>View key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span><span class="token operator">></span><span class="token punctuation">{</span>item<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+      <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+      <span class="token operator">&lt;</span>Button onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>goto<span class="token punctuation">}</span><span class="token operator">></span>走你<span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>小程序模板</p>
+<pre><code class="hljs css language-htmlbars"><span class="xml"> <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"index"</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">wx:key</span>=<span class="hljs-string">{idx}</span> <span class="hljs-attr">wx:for</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{list}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span> <span class="hljs-attr">wx:for-item</span>=<span class="hljs-string">"item"</span> <span class="hljs-attr">wx:for-index</span>=<span class="hljs-string">"idx"</span>&gt;</span></span><span class="hljs-template-variable">{{item}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"goto"</span>&gt;</span>走你<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+</span></code></pre>
+<p>众所周知，<code>JSX</code> 其实本质上就是 <code>JS</code>，我们可以在里面写任意的逻辑代码，这样一来就比字符串模板的表现力与操作性要强多了，况且，小程序的字符串模板功能比较羸弱，只有一些比较基本的功能。那这样的话，要如何来实现用 <code>JSX</code> 来写小程序模板呢。</p>
+<h3><a class="anchor" aria-hidden="true" id="编译原理的力量"></a><a href="#编译原理的力量" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>编译原理的力量</h3>
+<p>我们可以仔细来分析我们的需求，我们期望使用 <code>JSX</code> 来书写小程序模板，但小程序显然是不支持执行 <code>JSX</code> 代码的（要是支持的话，Taro 应该也就不存在了吧），我们也不能期望微信能给我们开个后门来跑 <code>JSX</code>。那么这个时候我们就想，我们要是能够将 <code>JSX</code> 编译成小程序模板就好了。</p>
+<p>事实上在我们平时的开发中，这种编译的操作到处可见，<code>babel</code> 就是我们最常用的 <code>JS 代码编译器</code>，一般浏览器是不能支持一些非常新的语法特性的，但我们又想使用它们，这个时候就可以借助 <code>babel</code> 来将我们的高版本的 ES 代码，编译成浏览器可以运行的 ES 代码。而我们像要将 <code>JSX</code>编译成小程序模板，也是同样的道理。我们首先来了解一下 <code>Babel</code> 的运行机制。</p>
+<p><code>Babel</code> 作为一个 <code>代码编译器</code> ，能够将 ES6/7/8 的代码编译成 ES5 的代码，其核心利用的就是计算中非常基础的编译原理知识，将输入语言代码，通过编译器执行，输出目标语言的代码。编译原理的一般过程就是，输入源程序，经过词法分析、语法分析，构造出语法树，再经过语义分析，理解程序正确与否，再对语法树做出需要的操作与优化，最终生成目标代码。</p>
+<p><img src="http://m.360buyimg.com/img/jfs/t23551/19/471755927/52473/e349bf6c/5b307975N60463097.jpg" alt=""></p>
+<p><code>Babel</code> 的编译过程亦是如此，主要包含三个阶段</p>
+<ul>
+<li>解析过程，在这个过程中进行词法、语法分析，以及语义分析，生成符合 <a href="https://github.com/estree/estree">ESTree 标准</a> 虚拟语法树(AST)</li>
+<li>转换过程，针对 AST 做出已定义好的操作，<code>babel</code> 的配置文件 <code>.babelrc</code> 中定义的 <code>preset</code> 、 <code>plugin</code> 就是在这一步中执行并改变 AST 的</li>
+<li>生成过程，将前一步转换好的 AST 生成目标代码的字符串</li>
+</ul>
+<p>为了更好地理解这些过程，大家可以利用 <a href="https://astexplorer.net/">Ast Explorer</a> 这个网站接一下自己的代码，感受一下每一部分代码所对应的 AST 结构。</p>
+<p><img src="http://img30.360buyimg.com/img/jfs/t22843/37/455454462/106864/1d96f394/5b307975Nf78e5829.jpg" alt=""></p>
+<p>可以看到，一份源码经过编译器解析后，会变成类似如下的结构</p>
+<pre><code class="hljs css language-javascript"><span class="token punctuation">{</span>
+  type<span class="token operator">:</span> <span class="token string">"Program"</span><span class="token punctuation">,</span>
+  start<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  end<span class="token operator">:</span> <span class="token number">78</span><span class="token punctuation">,</span>
+  loc<span class="token operator">:</span> <span class="token punctuation">{</span> start<span class="token punctuation">,</span> end <span class="token punctuation">}</span>
+  sourceType<span class="token operator">:</span> <span class="token string">"module"</span><span class="token punctuation">,</span>
+  body<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">"VariableDeclaration"</span><span class="token punctuation">,</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">"VariableDeclaration"</span><span class="token punctuation">,</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">"FunctionDeclaration"</span><span class="token punctuation">,</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">"ExpressionStatement"</span><span class="token punctuation">,</span> <span class="token operator">...</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>其中，<code>body</code> 里包含的就是我们示例代码的语法树结构，第一个 <code>VariableDeclaration</code> 对应的是 <code>const a = 1</code>，第三个 <code>FunctionDeclaration</code> 对应的则是 <code>function sum (a, b) { }</code>，分别就是 JS 中的变量定义与函数定义，每一个树节点里都会包含许多子节点，这样就形成了一个树形结构，更多的节点类型，请参考 <a href="https://github.com/babel/babel/tree/master/packages/babel-types">babel types</a>。</p>
+<p>当然我们在这儿只是简单介绍下编译原理与 <code>babel</code>，编译原理是一门非常深奥的课程， <code>babel</code> 也是一个非常优秀的工具，希望在后续的文章中能和大家再详细探讨这一部分内容。</p>
+<p>再次回到我们的需求，将 <code>JSX</code> 编译成小程序模板，非常幸运的是 <code>babel</code> 的核心编译器 <code>babylon</code> 是支持对 <code>JSX</code> 语法的解析的，我们可以直接利用它来帮我们构造 AST，而我们需要专注的核心就是如何对 AST 进行转换操作，得出我们需要的新 AST，再将新 AST 进行递归遍历，生成小程序的模板。</p>
+<p><code>JSX</code> 代码</p>
+<pre><code class="hljs css language-javascript"><span class="token operator">&lt;</span>View className<span class="token operator">=</span><span class="token string">'index'</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>Button className<span class="token operator">=</span><span class="token string">'add_btn'</span> onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>add<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">+</span><span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span>
+  <span class="token operator">&lt;</span>Button className<span class="token operator">=</span><span class="token string">'dec_btn'</span> onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>dec<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">-</span><span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span>
+  <span class="token operator">&lt;</span>Button className<span class="token operator">=</span><span class="token string">'dec_btn'</span> onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>asyncAdd<span class="token punctuation">}</span><span class="token operator">></span>async<span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span>
+  <span class="token operator">&lt;</span>View<span class="token operator">></span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>counter<span class="token punctuation">.</span>num<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token constant">A</span> <span class="token operator">/</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>Button onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>goto<span class="token punctuation">}</span><span class="token operator">></span>走你<span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span>
+  <span class="token operator">&lt;</span>Image src<span class="token operator">=</span><span class="token punctuation">{</span>sd<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+</code></pre>
+<p>编译生成小程序模板</p>
+<pre><code class="hljs css language-handlebars"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">import</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"../../components/A/A.wxml"</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">block</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"index"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"add_btn"</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"add"</span>&gt;</span>+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"dec_btn"</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"dec"</span>&gt;</span>-<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"dec_btn"</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"asyncAdd"</span>&gt;</span>async<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span></span><span class="hljs-template-variable">{{counter.num}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">is</span>=<span class="hljs-string">"A"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{...$$A}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"goto"</span>&gt;</span>走你<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">image</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{sd}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">block</span>&gt;</span>
+</span></code></pre>
+<p>这时候，聪明的你应该就能发现问题的难点所在了，要知道小程序的模板只是字符串，而 <code>JSX</code> 则是真正的 JS 代码扩展，其语法之丰富，显然不是字符串模板所能比，在这一步中，我们要做的操作，包括但不仅限于如下</p>
+<ul>
+<li>理解三目运算符与逻辑表达式，例如三目运算符 <code>abc ? : &lt;View&gt;1&lt;/View&gt; : &lt;View&gt;2&lt;/View&gt;</code> 需要编译成 <code>&lt;view wx:if=&quot;{{abc}}&quot;&gt;1&lt;/view&gt;&lt;view wx:else&gt;2&lt;/view&gt;</code></li>
+<li>理解数组 <code>map</code> 语法，例如 <code>map</code> 的使用 <code>abc.map(item =&gt; &lt;View&gt;item&lt;/View&gt;)</code> 需要编译成 <code>&lt;view wx:for=&quot;{{abc}}&quot; wx:for-item=&quot;item&quot;&gt;item&lt;/view&gt;</code></li>
+<li>等等</li>
+</ul>
+<p>以上仅仅是我们转换规则的冰山一角，<code>JSX</code> 的写法极其灵活多变，我们只能通过穷举的方式，将常用的、React 官方推荐的写法作为转换规则加以支持，而一些比较生僻的，或者是不那么推荐的写的写法则不做支持，转而以 <code>eslint</code> 插件的方式，提示用户进行修改。目前我们支持的 <code>JSX</code> 转换规则，大致能覆盖到 <code>JSX</code>  80% 的写法操作。</p>
+<p>关于 JSX 转小程序模板这一部分，我们将在后续的技术原理分析系列文章中，详细为大家介绍。</p>
+<h2><a class="anchor" aria-hidden="true" id="还能不能干点别的"></a><a href="#还能不能干点别的" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>还能不能干点别的</h2>
+<p>经过我们一次次的探索，以及一波波猛如虎的操作，我们已经可以将类 React 代码转成小程序可以跑的代码了，也就是说我们已经可以正式以 React 的方式来写小程序的代码了。喜大普奔！但是我们激动之余，冷静下来继续思考，我们还能不能干点别的有意思的事情呢。</p>
+<h3><a class="anchor" aria-hidden="true" id="分析一下需求"></a><a href="#分析一下需求" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>分析一下需求</h3>
+<p>我们发现，在平常的工作中，我们业务通常有一些多端的需求，就是要求小程序要有，H5 要有，甚至 RN 也能有就最好了，我猜产品经理还看不上快应用，不然肯定要求我们快应用也上一套吧，反正你们不是经常号称代码优秀、高度可复用么。这个时候，你就会发现，差不多的界面和逻辑，你可能需要重复写上好几轮，这时候要是有个多端代码生成工具就好了，只写一份代码，可以多端运行。Write once, run anywhere，相信是所有工程师的梦想。</p>
+<h3><a class="anchor" aria-hidden="true" id="依然编译原理的力量"></a><a href="#依然编译原理的力量" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>依然编译原理的力量</h3>
+<p>这时候我们回忆一下前文的内容，将一份代码编译成多端代码，这不正是编译原理干的事么，我们可以输入一份源代码，针对不同的端设定好对应的转换规则，再一键转换出对应端的代码。而且由于我们已经遵循 React 语法了，那我们再转成 H5 端（使用 Nerv）与 RN 端（使用 React）也就有了天然的优势。</p>
+<p><img src="http://img11.360buyimg.com/img/jfs/t23863/65/477773801/39493/d1292897/5b307974Na1febb30.jpg" alt=""></p>
+<h3><a class="anchor" aria-hidden="true" id="设计思路补完"></a><a href="#设计思路补完" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>设计思路补完</h3>
+<p>但是仔细思考我们又会发现，仅仅将代码按照对应语法规则转换过去后，还远远不够，因为不同端会有自己的原生组件，端能力 API 等等，代码直接转换过去后，可能不能直接执行。例如，小程序中普通的容器组件用的是 <code>&lt;view /&gt;</code>，而在 H5 中则是 <code>&lt;div /&gt;</code>；小程序中提供了丰富的端能力 API，例如网络请求、文件下载、数据缓存等，而在 H5 中对应功能的 API 则不一致。</p>
+<p>所以，为了弥补不同端的差异，我们需要订制好一个统一的组件库标准，以及统一的 API 标准，在不同的端依靠它们的语法与能力去实现这个组件库与 API，同时还要为不同的端编写相应的运行时框架，负责初始化等等操作。通过以上这些操作，我们就能实现一份一键生成多端的需求了。在 Taro 最初的设计中，我们组件库与 API 的标准就是源自小程序的，因为我们觉得既然已经有定义好的组件库与 API 标准，那为啥不直接拿来使用呢，这样不仅省去了定制标准的冥思苦想，同时也省去了为小程序开发组件库与 API 的麻烦，只需要让其他端来向小程序靠齐就好。</p>
+<p>可能有些人会有疑问，既然是为不同的端实现了对应的组件库与端能力 API （小程序除外，因为组件库和 API 的标准都是源自小程序），那么是怎么能够只写一份代码就够了呢？因为我们有编译的操作，在书写代码的时候，只需要引入标准组件库 <code>@tarojs/components</code> 与运行时框架 <code>@tarojs/taro</code> ，代码经过编译之后，会变成对应端所需要的库。</p>
+<p><img src="http://img14.360buyimg.com/img/jfs/t21535/241/1645070830/74027/775c8a15/5b307976Nce466138.jpg" alt=""></p>
+<p>既然组件库以及端能力都是依靠不同的端做不同实现来抹平差异，那么同样的，如果我们想为 Taro 引入更多的功能支持的话，有时候也需要按照这个套路来。例如，为了提升开发便利性，我们为 Taro 加入了 <code>Redux</code> 支持，我们的做法就是，在小程序端，我们实现了 <code>@tarojs/redux</code> 这个库来作为小程序的 <code>Redux</code> 辅助库，并且以他作为基准库，它具有和 <code>react-redux</code> 一致的 API，在书写代码的时候，引用的都是  <code>@tarojs/redux</code> ，经过编译后，在 H5 端会替换成 <code>nerv-redux</code>（<code>Nerv</code>的 <code>Redux</code> 辅助库），在 RN 端会替换成 <code>react-redux</code>。这样就实现了 <code>Redux</code> 在 Taro 中的多端支持。</p>
+<p><img src="http://img30.360buyimg.com/uba/jfs/t22360/120/839096197/151922/229ceba4/5b1a6fcdNed7d4039.jpg" alt=""></p>
+<p>以上就是 Taro 的整体设计思路，里面还有很多细节没有展开去阐述，可能大家会觉得有些意犹未尽，后续我们将会产出一系列的文章来阐述 Taro 的技术细节，例如 《Taro 开发工具原理分析》、《Taro 代码编译的背后》、《深入浅出 JSX 转小程序模板》等等。</p>
+<h2><a class="anchor" aria-hidden="true" id="最后的最后"></a><a href="#最后的最后" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>最后的最后</h2>
+<p>Taro 从立项之初到现在已经差不多有了三个月左右的时间，从最初的激烈讨论方案，各种思想的碰撞，到方案逐渐成型，进入火热的开发迭代，再到现在的小程序端和 H5 端顺利支持，从而决定走向开源。这一路走来，收获颇丰，既有跟团队小伙伴一起创造的激动，也有无数个日夜加班的苦思。Taro 是凹凸实验室的诚意之作，我们也将会一直维护下去，希望 Taro 能越来越好，帮助更多人创造更多价值。</p>
+<p>项目官网：<a href="https://taro.aotu.io/">https://taro.aotu.io/</a></p>
+<p>项目 GitHub：<a href="https://github.com/NervJS/taro">https://github.com/NervJS/taro</a></p>
+<p><strong>同时，有任何关于 Taro 希望沟通交流的，欢迎~</strong></p>
+<p><img src="http://img20.360buyimg.com/uba/jfs/t20197/283/1687168874/136042/2b4d811f/5b30a65cN9d1f03f1.png" alt=""></p>
+</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/taro/blog">最近更新</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#让人又爱又恨的微信小程序">让人又爱又恨的微信小程序</a><ul class="toc-headings"><li><a href="#代码组织与语法">代码组织与语法</a></li><li><a href="#命名规范">命名规范</a></li><li><a href="#开发方式">开发方式</a></li></ul></li><li><a href="#突发奇想-我能不能用react来写小程序">突发奇想：我能不能用React来写小程序</a><ul class="toc-headings"><li><a href="#理性地探索">理性地探索</a></li><li><a href="#巨大的差异">巨大的差异</a></li><li><a href="#编译原理的力量">编译原理的力量</a></li></ul></li><li><a href="#还能不能干点别的">还能不能干点别的</a><ul class="toc-headings"><li><a href="#分析一下需求">分析一下需求</a></li><li><a href="#依然编译原理的力量">依然编译原理的力量</a></li><li><a href="#设计思路补完">设计思路补完</a></li></ul></li><li><a href="#最后的最后">最后的最后</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

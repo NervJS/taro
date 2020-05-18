@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>小程序框架全面测评 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="最近前端届多端框架频出，相信很多有代码多端运行需求的开发者都会产生一些疑惑：这些框架都有什么优缺点？到底应该用哪个？"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="小程序框架全面测评 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/blog/2019/03/12/mini-program-framework-full-review.html"/><meta property="og:description" content="最近前端届多端框架频出，相信很多有代码多端运行需求的开发者都会产生一些疑惑：这些框架都有什么优缺点？到底应该用哪个？"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.2.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/apis/about/desc.html" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>全部文章</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">全部文章</h3><ul class=""><li class="navListItem"><a class="navItem" href="/taro/blog/2020/4/13/taro-components.html">Taro Next H5 跨框架组件库实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/02/13/taro-next-alpha.html">Taro Next 发布预览版：同时支持 React / Vue / Nerv</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/08/taro-2-0.html">Taro 2.0：拥抱社区，拥抱变化</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/02/gmtc.html">小程序跨框架开发的探索与实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/12/03/jingxi-index.html">京喜首页（微信购物入口）跨端开发与优化实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/10/24/taro-open.html">Taro 邀你加入社区共建 — 社区共建倡议书</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/09/25/taro-flex.html">玩转 Taro 跨端之 flex 布局篇</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/07/10/taro-hooks.html">使用 React Hooks 重构你的小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/21/taro-ext-club.html">Taro 「物料市场」及「交流社区」 惊喜上线</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/13/taro-1-3.html">Taro 1.3 震撼升级：全面支持 JSX 语法和 HOOKS</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/blog/2019/03/12/mini-program-framework-full-review.html">小程序框架全面测评</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/28/taro-h5-optimize.html">决战性能之巅 - Taro H5 转换与优化升级</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/25/taro-ui-2.0.html">Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/12/18/taro-1-2.html">Taro 1.2：将已有微信小程序转换为多端应用</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/11/05/taro-1-1.html">Taro 1.1 发布，全面支持微信/百度/支付宝小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/18/taro-1-0-0.html">多端统一开发框架 Taro 1.0 正式发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/11/taro-in-jd.html">Taro 在京东购物小程序上的实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/08/24/the-birth-of-taro-ui.html">首个多端 UI 组件库 - Taro UI 发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/25/the-birth-of-taro.html">为何我们要用 React 来写小程序 - Taro 诞生记</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/07/Taro.html">多端统一开发框架 - Taro</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle"><a href="/taro/blog/2019/03/12/mini-program-framework-full-review.html">小程序框架全面测评</a></h1><p class="post-meta">March 12, 2019</p><div class="authorBlock"><p class="post-authorName"><a href="https://github.com/yuche" target="_blank" rel="noreferrer noopener">yuche</a></p><div class="authorPhoto"><a href="https://github.com/yuche" target="_blank" rel="noreferrer noopener"><img src="https://static.geekbang.org/ck/5cb53de0e50c0.jpeg?imageView2/0/w/800" alt="yuche"/></a></div></div></header><div><span><p><img src="https://storage.jd.com/taro-resource/review.jpg" alt="image"></p>
+<p>最近前端届多端框架频出，相信很多有代码多端运行需求的开发者都会产生一些疑惑：这些框架都有什么优缺点？到底应该用哪个？</p>
+<p>作为 Taro 开发团队一员，笔者想在本文尽量站在一个客观公正的角度去评价各个框架的选型和优劣。但宥于利益相关，本文的观点很可能是带有偏向性的，大家可以带着批判的眼光去看待，权当抛砖引玉。</p>
+<p>那么，当我们在讨论多端框架时，我们在谈论什么：</p>
+<!--truncate-->
+<h2><a class="anchor" aria-hidden="true" id="多端"></a><a href="#多端" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>多端</h2>
+<p>笔者以为，现在流行的多端框架可以大致分为三类：</p>
+<h4><a class="anchor" aria-hidden="true" id="1-全包型"></a><a href="#1-全包型" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. 全包型</h4>
+<p>这类框架最大的特点就是从底层的渲染引擎、布局引擎，到中层的 DSL，再到上层的框架全部由自己开发，代表框架是 Qt 和 Flutter。这类框架优点非常明显：性能（的上限）高；各平台渲染结果一致。缺点也非常明显：需要完全重新学习 DSL（QML/Dart），以及难以适配中国特色的端：小程序。</p>
+<p>这类框架是最原始也是最纯正的的多端开发框架，由于底层到上层每个环节都掌握在自己手里，也能最大可能地去保证开发和跨端体验一致。但它们的框架研发成本巨大，渲染引擎、布局引擎、DSL、上层框架每个部分都需要大量人力开发维护。</p>
+<h4><a class="anchor" aria-hidden="true" id="2-web-技术型"></a><a href="#2-web-技术型" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Web 技术型</h4>
+<p>这类框架把 Web 技术（JavaScript，CSS）带到移动开发中，自研布局引擎处理 CSS，使用 JavaScript 写业务逻辑，使用流行的前端框架作为 DSL，各端分别使用各自的原生组件渲染。代表框架是 React Native 和 Weex，这样做的优点有：</p>
+<ol>
+<li>开发迅速</li>
+<li>复用前端生态</li>
+<li>易于学习上手，不管前端后端移动端，多多少少都会一点 JS、CSS</li>
+</ol>
+<p>缺点有：</p>
+<ol>
+<li>交互复杂时难以写出高性能的代码，这类框架的设计就必然导致 <code>JS</code> 和 <code>Native</code>  之间需要通信，类似于手势操作这样频繁地触发通信就很可能使得 UI 无法在 16ms 内及时绘制。React Native 有一些声明式的组件可以避免这个问题，但声明式的写法很难满足复杂交互的需求。</li>
+<li>由于没有渲染引擎，使用各端的原生组件渲染，相同代码渲染的一致性没有第一种高。</li>
+</ol>
+<h4><a class="anchor" aria-hidden="true" id="3-javascript-编译型"></a><a href="#3-javascript-编译型" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. JavaScript 编译型</h4>
+<p>这类框架就是我们这篇文章的主角们：<code>Taro</code>、<code>WePY</code> 、<code>uni-app</code>  、 <code>mpvue</code> 、 <code>chameleon</code>，它们的原理也都大同小异：先以 JavaScript 作为基础选定一个 DSL 框架，以这个 DSL 框架为标准在各端分别编译为不同的代码，各端分别有一个运行时框架或兼容组件库保证代码正确运行。</p>
+<p>这类框架最大优点和创造的最大原因就是小程序，因为第一第二种框架其实除了可以跨系统平台之外，也都能编译运行在浏览器中。(Qt 有 Qt for WebAssembly, Flutter 有 Hummingbird，React Native 有 <code>react-native-web</code>, Weex 原生支持)</p>
+<p>另外一个优点是在移动端一般会编译到 React Native/Weex，所以它们也都拥有 Web 技术型框架的优点。这看起来很美好，但实际上 React Native/Weex 的缺点编译型框架也无法避免。除此之外，<strong>编译型框架的抽象也不是免费的</strong>：当 bug 出现时，问题的根源可能出在运行时、编译时、组件库以及三者依赖的库等等各个方面。在 Taro 开源的过程中，我们就遇到过 Babel 的 bug，React Native 的 bug，JavaScript 引擎的 bug，当然也少不了 Taro 本身的 bug。相信其它原理相同的框架也无法避免这一问题。</p>
+<p>但这并不意味着这类为了小程序而设计的多端框架就都不堪大用。首先现在各巨头超级 App 的小程序百花齐放，框架会为了抹平小程序做了许多工作，这些工作在大部分情况下是不需要开发者关心的。其次是许多业务类型并不需要复杂的逻辑和交互，没那么容易触发到框架底层依赖的 bug。</p>
+<p>那么当你的业务适合选择编译型框架时，在笔者看来首先要考虑的就是选择 DSL 的起点。因为有多端需求业务通常都希望能快速开发，一个能够快速适应团队开发节奏的 DSL 就至关重要。不管是 React 还是 Vue（或者类 Vue）都有它们的优缺点，大家可以根据团队技术栈和偏好自行选择。</p>
+<p>如果不管什么 DSL 都能接受，那就可以进入下一个环节：</p>
+<h2><a class="anchor" aria-hidden="true" id="生态"></a><a href="#生态" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>生态</h2>
+<p>以下内容均以各框架现在（2019 年 3 月 11日）已发布稳定版为标准进行讨论。</p>
+<h4><a class="anchor" aria-hidden="true" id="开发工具"></a><a href="#开发工具" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>开发工具</h4>
+<p>就开发工具而言 <code>uni-app</code> 应该是一骑绝尘，它的文档内容最为翔实丰富，还自带了 IDE 图形化开发工具，鼠标点点点就能编译测试发布。</p>
+<p>其它的框架都是使用 CLI 命令行工具，但值得注意的是 <code>chameleon</code>  有独立的语法检查工具，<code>Taro</code> 则单独写了 ESLint 规则和规则集。</p>
+<p>在语法支持方面，<code>mpvue</code>、<code>uni-app</code>、<code>Taro</code> 、<code>WePY</code> 均支持 TypeScript，四者也都能通过 <code>typing</code> 实现编辑器自动补全。除了 API 补全之外，得益于 TypeScript 对于 JSX 的良好支持，Taro 也能对组件进行自动补全。</p>
+<p>CSS 方面，所有框架均支持 <code>SASS</code>、<code>LESS</code>、<code>Stylus</code>，Taro 则多一个 <code>CSS Modules</code> 的支持。</p>
+<p>所以这一轮比拼的结果应该是：</p>
+<p><code>uni-app</code>  &gt; <code>Taro</code> &gt;  <code>chameleon</code>  &gt; <code>WePY</code>、<code>mpvue</code></p>
+<p><img src="https://storage.jd.com/taro-resource/develop_tools.png" alt="开发工具"></p>
+<h4><a class="anchor" aria-hidden="true" id="多端支持度"></a><a href="#多端支持度" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>多端支持度</h4>
+<p>只从支持端的数量来看，<code>Taro</code> 和 <code>uni-app</code> 以六端略微领先（移动端、H5、微信小程序、百度小程序、支付宝小程序、头条小程序），<code>chameleon</code> 少了头条小程序紧随其后。</p>
+<p>但值得一提的是 <code>chameleon</code> 有一套自研<a href="//cmljs.org/doc/framework/polymorphism/intro.html">多态协议</a>，编写多端代码的体验会好许多，可以说是一个能戳到多端开发痛点的功能。<code>uni-app</code> 则有一套独立的<a href="://uniapp.dcloud.io/platform">条件编译语法</a>，这套语法能同时作用于 <code>js</code>、样式和模板文件。<code>Taro</code> 可以在业务逻辑中根据环境变量使用条件编译，也可以直接使用<a href="https://nervjs.github.io/taro/docs/envs.html">条件编译文件</a>（类似 React Native 的方式）。</p>
+<p>在移动端方面，<code>uni-app</code> 基于 <code>weex</code> 定制了一套 <code>nvue</code> 方案 弥补 <code>weex</code> API 的不足；<code>Taro</code> 则是暂时基于 <code>expo</code> 达到同样的效果；<code>chameleon</code> 在移动端则有一套 SDK 配合多端协议与原生语言通信。</p>
+<p>H5 方面，<code>chameleon</code> 同样是由多态协议实现支持，<code>uni-app</code> 和 <code>Taro</code> 则是都在 H5 实现了一套兼容的组件库和 API。</p>
+<p><code>mpvue</code> 和 <code>WePY</code>  都提供了转换各端小程序的功能，但都没有 h5 和移动端的支持。</p>
+<p>所以最后一轮对比的结果是：</p>
+<p><code>chameleon</code> &gt; <code>Taro</code>、<code>uni-app</code> &gt; <code>mpvue</code> &gt; <code>WePY</code></p>
+<p><img src="https://storage.jd.com/taro-resource/duoduan.png" alt="多端支持"></p>
+<h4><a class="anchor" aria-hidden="true" id="组件库-工具库-demo"></a><a href="#组件库-工具库-demo" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>组件库/工具库/demo</h4>
+<p>作为开源时间最长的框架，<code>WePY</code> 不管从 Demo，组件库数量 ，工具库来看都占有一定优势。</p>
+<p><code>uni-app</code> 则有自己的插件市场和 UI 库，如果算上收费的框架和插件比起 <code>WePy</code> 也是完全不遑多让的。</p>
+<p><code>Taro</code> 也有官方维护的跨端 UI 库 <code>taro-ui</code> ，另外在状态管理工具上也有非常丰富的选择（Redux、MobX、dva），但 demo 的数量不如前两个。但 <code>Taro</code> 有一个转换微信小程序代码为 Taro 代码的工具，可以弥补这一问题。</p>
+<p>而 <code>mpvue</code> 没有官方维护的 UI 库，<code>chameleon</code> 第三方的 demo 和工具库也还基本没有。</p>
+<p>所以这轮的排序是：</p>
+<p><code>WePY</code>  &gt; <code>uni-app</code> 、<code>taro</code> &gt; <code>mpvue</code> &gt; <code>chameleon</code></p>
+<p><img src="https://storage.jd.com/taro-resource/component.png" alt="组件库/工具库/demo"></p>
+<h4><a class="anchor" aria-hidden="true" id="接入成本"></a><a href="#接入成本" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>接入成本</h4>
+<p>接入成本有两个方面：</p>
+<p>第一是框架接入原有微信小程序生态。由于目前微信小程序已呈一家独大之势，开源的组件和库（例如 <code>wxparse</code>、<code>echart</code>、<code>zan-ui</code>  等）多是基于原生微信小程序框架语法写成的。目前看来 <code>uni-app</code> 、<code>Taro</code>、<code>mpvue</code> 均有文档或 demo 在框架中直接使用原生小程序组件/库，<code>WePY</code> 由于运行机制的问题，很多情况需要小改一下目标库的源码，<code>chameleon</code> 则是提供了一个按步骤大改目标库源码的迁移方式。</p>
+<p>第二是原有微信小程序项目部分接入框架重构。在这个方面 Taro 在京东购物小程序上进行了大胆的实践，具体可以查看文章<a href="//aotu.io/notes/2018/09/11/taro-in-jd/">《Taro 在京东购物小程序上的实践》</a>。其它框架则没有提到相关内容。</p>
+<p>而对于两种接入方式 Taro 都提供了 <code>taro convert</code> 功能，既可以将原有微信小程序项目转换为 Taro 多端代码，也可以将微信小程序生态的组件转换为 Taro 组件。</p>
+<p>所以这轮的排序是：</p>
+<p><code>Taro</code> &gt;  <code>mpvue</code> 、 <code>uni-app</code>  &gt; <code>WePY</code> &gt;  <code>chameleon</code></p>
+<h4><a class="anchor" aria-hidden="true" id="流行度"></a><a href="#流行度" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>流行度</h4>
+<p>从 GitHub 的 star 来看，<code>mpvue</code> 、<code>Taro</code>、<code>WePY</code> 的差距非常小。从 NPM 和 CNPM 的 CLI 工具下载量来看，是 Taro（3k/week）&gt; mpvue (2k/w) &gt; WePY (1k/w)。但发布时间也刚好反过来。笔者估计三家的流行程度和案例都差不太多。</p>
+<p><code>uni-app</code> 则号称有上万案例，但不像其它框架一样有一些大厂应用案例。另外从开发者的数量来看也是 <code>uni-app</code> 领先，它拥有 20+ 个 QQ 交流群（最大人数 2000）。</p>
+<p>所以从流行程度来看应该是：</p>
+<p><code>uni-app</code> &gt; <code>Taro</code>、<code>WePY</code>、<code>mpvue</code> &gt; <code>chameleon</code></p>
+<p><img src="https://storage.jd.com/taro-resource/popluar.png" alt="流行度"></p>
+<h4><a class="anchor" aria-hidden="true" id="开源建设"></a><a href="#开源建设" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>开源建设</h4>
+<p>一个开源作品能走多远是由框架维护团队和第三方开发者共同决定的。虽然开源建设不能具体地量化，但依然是衡量一个框架/库生命力的非常重要的标准。</p>
+<p>从第三方贡献者数量来看，<code>Taro</code> 在这一方面领先，并且 <code>Taro</code> 的一些核心包/功能（MobX、CSS Modules、alias）也是由第三方开发者贡献的。除此之外，腾讯开源的 <code>omi</code> 框架小程序部分也是基于 Taro 完成的。</p>
+<p><code>WePY</code> 在腾讯开源计划的加持下在这一方面也有不错的表现；<code>mpvue</code> 由于停滞开发了很久就比较落后了；可能是产品策略的原因，<code>uni-app</code> 在开源建设上并不热心，甚至有些部分代码都没有开源；<code>chameleon</code> 刚刚开源不久，但它的代码和测试用例都非常规范，以后或许会有不错的表现。</p>
+<p>那么这一轮的对比结果是：</p>
+<p><code>Taro</code> &gt; <code>WePY</code> &gt; <code>mpvue</code> &gt; <code>chameleon</code>  &gt; <code>uni-app</code></p>
+<p>最后补一个总的生态对比图表：</p>
+<p><img src="https://storage.jd.com/taro-resource/all.png" alt="总表"></p>
+<h2><a class="anchor" aria-hidden="true" id="未来"></a><a href="#未来" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>未来</h2>
+<p>从各框架已经公布的规划来看：</p>
+<p><code>WePY</code>  已经发布了 <code>v2.0.alpha</code>  版本，虽然没有公开的文档可以查阅到 <code>2.0</code> 版本有什么新功能/特性，但据其作者介绍，<code>WePY 2.0</code>  会放大招，是一个「对得起开发者」的版本。笔者也非常期待 2.0 正式发布后 <code>WePY</code> 的表现。</p>
+<p><code>mpvue</code> 已经发布了 <code>2.0</code> 的版本，主要是更新了其它端小程序的支持。但从代码提交， issue 的回复/解决率来看，<code>mpvue</code> 要想在未来有作为首先要打消社区对于 <code>mpvue</code> 不管不顾不更新的质疑。</p>
+<p><code>uni-app</code> 已经在生态上建设得很好了，应该会在此基础之上继续稳步发展。如果 <code>uni-app</code> 能加强开源开放，再加强与大厂的合作，相信未来还能更上一层楼。</p>
+<p><code>chameleon</code> 的规划比较宏大，虽然是最后发的框架，但已经在规划或正在实现的功能有：</p>
+<ul>
+<li>快应用和端拓展协议</li>
+<li>通用组件库和垂直类组件库</li>
+<li>面向研发的图形化开发工具</li>
+<li>面向非研发的图形化页面搭建工具</li>
+</ul>
+<p>如果 <code>chameleon</code> 把这些功能都做出来的话，再继续完善生态，争取更多第三方开发者，那么在未来  <code>chameleon</code>  将大有可为。</p>
+<p><code>Taro</code> 的未来也一样值得憧憬。Taro 即将要发布的 <code>1.3</code> 版本就会支持以下功能：</p>
+<ul>
+<li>快应用支持</li>
+<li>Taro Doctor，自动化检查项目配置和代码合法性</li>
+<li>更多的 JSX 语法支持，1.3 之后限制生产力的语法只有 <code>只能用 map 创造循环组件</code> 一条</li>
+<li>H5 打包体积大幅精简</li>
+</ul>
+<p>同时 <code>Taro</code> 也正在对移动端进行大规模重构；开发图形化开发工具；开发组件/物料平台以及图形化页面搭建工具。</p>
+<h2><a class="anchor" aria-hidden="true" id="结语"></a><a href="#结语" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>结语</h2>
+<p>那说了那么多，到底用哪个呢？</p>
+<p>如果不介意尝鲜和学习 DSL 的话，完全可以尝试 <code>WePY</code> 2.0  和 <code>chameleon</code> ，一个是酝酿了很久的 2.0 全新升级，一个有专门针对多端开发的多态协议。</p>
+<p><code>uni-app</code> 和 <code>Taro</code> 相比起来就更像是「水桶型」框架，从工具、UI 库，开发体验、多端支持等各方面来看都没有明显的短板。而 <code>mpvue</code> 由于开发一度停滞，现在看来各个方面都不如在小程序端基于它的 <code>uni-app</code> 。</p>
+<p>当然，Talk is cheap。如果对这个话题有更多兴趣的同学可以去 GitHub 另行研究，有空看代码，没空看提交：</p>
+<ul>
+<li>chameleon: <a href="https://github.com/didi/chameleon">https://github.com/didi/chameleon</a></li>
+<li>mpvue: <a href="https://github.com/Meituan-Dianping/mpvue">https://github.com/Meituan-Dianping/mpvue</a></li>
+<li>Taro: <a href="https://github.com/NervJS/taro">https://github.com/NervJS/taro</a></li>
+<li>uni-app: <a href="https://github.com/dcloudio/uni-app">https://github.com/dcloudio/uni-app</a></li>
+<li>WePY: <a href="https://github.com/Tencent/wepy">https://github.com/Tencent/wepy</a></li>
+</ul>
+<p>(按字母顺序排序)</p>
+</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/taro/blog">最近更新</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#多端">多端</a></li><li><a href="#生态">生态</a></li><li><a href="#未来">未来</a></li><li><a href="#结语">结语</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

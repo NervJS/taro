@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Taro 在京东购物小程序上的实践 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="在 Taro 发布之后，京东购物小程序也开始了部分页面基于 Taro 的重构."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Taro 在京东购物小程序上的实践 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/blog/2018/09/11/taro-in-jd.html"/><meta property="og:description" content="在 Taro 发布之后，京东购物小程序也开始了部分页面基于 Taro 的重构."/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.2.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/apis/about/desc.html" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>全部文章</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">全部文章</h3><ul class=""><li class="navListItem"><a class="navItem" href="/taro/blog/2020/4/13/taro-components.html">Taro Next H5 跨框架组件库实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/02/13/taro-next-alpha.html">Taro Next 发布预览版：同时支持 React / Vue / Nerv</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/08/taro-2-0.html">Taro 2.0：拥抱社区，拥抱变化</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/02/gmtc.html">小程序跨框架开发的探索与实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/12/03/jingxi-index.html">京喜首页（微信购物入口）跨端开发与优化实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/10/24/taro-open.html">Taro 邀你加入社区共建 — 社区共建倡议书</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/09/25/taro-flex.html">玩转 Taro 跨端之 flex 布局篇</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/07/10/taro-hooks.html">使用 React Hooks 重构你的小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/21/taro-ext-club.html">Taro 「物料市场」及「交流社区」 惊喜上线</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/13/taro-1-3.html">Taro 1.3 震撼升级：全面支持 JSX 语法和 HOOKS</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/03/12/mini-program-framework-full-review.html">小程序框架全面测评</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/28/taro-h5-optimize.html">决战性能之巅 - Taro H5 转换与优化升级</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/25/taro-ui-2.0.html">Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/12/18/taro-1-2.html">Taro 1.2：将已有微信小程序转换为多端应用</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/11/05/taro-1-1.html">Taro 1.1 发布，全面支持微信/百度/支付宝小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/18/taro-1-0-0.html">多端统一开发框架 Taro 1.0 正式发布</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/blog/2018/09/11/taro-in-jd.html">Taro 在京东购物小程序上的实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/08/24/the-birth-of-taro-ui.html">首个多端 UI 组件库 - Taro UI 发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/25/the-birth-of-taro.html">为何我们要用 React 来写小程序 - Taro 诞生记</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/07/Taro.html">多端统一开发框架 - Taro</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle"><a href="/taro/blog/2018/09/11/taro-in-jd.html">Taro 在京东购物小程序上的实践</a></h1><p class="post-meta">September 11, 2018</p><div class="authorBlock"><p class="post-authorName"><a href="https://github.com/hihuimin" target="_blank" rel="noreferrer noopener">hihuimin</a></p><div class="authorPhoto"><a href="https://github.com/hihuimin" target="_blank" rel="noreferrer noopener"><img src="https://avatars1.githubusercontent.com/u/3112601?s=460&amp;v=4" alt="hihuimin"/></a></div></div></header><div><span><p>在 Taro 发布之后，京东购物小程序也开始了部分页面基于 Taro 的重构.</p>
+<!--truncate-->
+<h2><a class="anchor" aria-hidden="true" id="taro-简介"></a><a href="#taro-简介" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Taro 简介</h2>
+<p><code>Taro</code> 是一个基于 <code>React</code> 语法规范的多端统一开发框架，大家可以通过 <a href="https://taro.aotu.io/">taro.aotu.io</a> 进一步了解。而前段时间 Taro 发布后，京东购物小程序就开始了部分页面基于 Taro 的重构工作，本文便是对商品分类页使用 Taro 进行代码重构的一些实践分享。</p>
+<h2><a class="anchor" aria-hidden="true" id="混合开发模式"></a><a href="#混合开发模式" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>混合开发模式</h2>
+<p>过去的京东购物小程序未使用任何第三方框架，而是在原生小程序模式的基础上，进行了页面/组件基类、网络请求、本地存储、页面跳转等模块的封装。由于项目庞大（涉及 100 多个页面），把整个项目直接改造成 Taro 的开发方式肯定是不可行的，于是采用这么一种原生小程序与 Taro 相混合的开发模式，将部分旧页面使用 Taro 重构，部分新的页面则直接使用 Taro 进行开发。这里以商品分类页为例，先来看下原京东购物小程序项目的目录结构：</p>
+<pre><code class="hljs">├── dist
+│   ├── app<span class="token punctuation">.</span>js
+│   ├── app<span class="token punctuation">.</span>json
+│   ├── app<span class="token punctuation">.</span>wxss
+│   ├── assets<span class="token operator">/</span>
+│   ├── common<span class="token operator">/</span>
+│   ├── libs<span class="token operator">/</span>
+│   └── pages
+│       ├── cate
+│       │   ├── components<span class="token operator">/</span>
+│       │   ├── index<span class="token punctuation">.</span>js
+│       │   ├── index<span class="token punctuation">.</span>json
+│       │   ├── index<span class="token punctuation">.</span>wxml
+│       │   └── index<span class="token punctuation">.</span>wxss
+│       └── index<span class="token operator">/</span>
+├── src<span class="token operator">/</span>
+├── <span class="token constant">README</span><span class="token punctuation">.</span>md
+├── gulpfile<span class="token punctuation">.</span>js
+├── <span class="token keyword">package</span><span class="token punctuation">.</span>json
+└── node_modules<span class="token operator">/</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="1-初始化-taro"></a><a href="#1-初始化-taro" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. 初始化 Taro</h3>
+<p>在项目根目录处运行命令 <code>taro init jdwxa-taro</code> 进行初始化，完成后会新增一个名为 <code>jdwxa-taro</code> 的目录，Taro 相关的源代码就写在该目录中：</p>
+<pre><code class="hljs">├── dist<span class="token operator">/</span>
+├── src<span class="token operator">/</span>
+└── jdwxa<span class="token operator">-</span>taro
+    ├── config
+    │   ├── dev<span class="token punctuation">.</span>js
+    │   ├── index<span class="token punctuation">.</span>js
+    │   └── prod<span class="token punctuation">.</span>js
+    ├── node_modules<span class="token operator">/</span>
+    ├── <span class="token keyword">package</span><span class="token punctuation">.</span>json
+    ├── project<span class="token punctuation">.</span>config<span class="token punctuation">.</span>json
+    └── src
+        ├── app<span class="token punctuation">.</span>js
+        ├── app<span class="token punctuation">.</span>scss
+        ├── index<span class="token punctuation">.</span>html
+        └── pages
+            └── cate
+                ├── index<span class="token punctuation">.</span>js
+                └── index<span class="token punctuation">.</span>scss
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="2-taro-配置"></a><a href="#2-taro-配置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Taro 配置</h3>
+<p>独立的 Taro 项目会将包括 <code>app.js</code>、<code>app.json</code>、<code>app.wxss</code> 及页面文件均生成在 dist/ 目录中，而混合开发模式下只需要生成单个页面，这里需要对 Taro 进行一些配置，打开并编辑 <code>config/index.js</code> 文件：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> config = {
+    <span class="hljs-attr">outputRoot</span>: <span class="hljs-string">'../dist'</span>,
+    <span class="hljs-attr">weapp</span>: {
+        <span class="hljs-attr">appOutput</span>: <span class="hljs-literal">false</span>,
+        <span class="hljs-attr">npm</span>: {
+            <span class="hljs-attr">dir</span>: <span class="hljs-string">'../../dist/common'</span>,
+            <span class="hljs-attr">name</span>: <span class="hljs-string">'taro'</span>
+        }
+    },
+    <span class="hljs-comment">// ...</span>
+}
+</code></pre>
+<p>如代码所示，<code>outputRoot</code> 字段为生成目标页面的存放路径，这里把它指向顶层（即原项目）的 dist/ 目录；<code>weapp</code> 部分，我们把 <code>appOutput</code> 设置成 false, 这样就不会生成 app.js、app.json、app.wxss 三个文件了，<code>npm</code> 字段则表示 Taro 运行时框架文件的存放目录，这里遵循原项目的规范，把它指定为 common/ 目录。这样 Taro 编译生成的目标文件就完美地融入进了原小程序项目。</p>
+<h3><a class="anchor" aria-hidden="true" id="3-页面开发"></a><a href="#3-页面开发" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. 页面开发</h3>
+<p>页面开发过程中，跟原生小程序最大的不同就是 <code>React</code> + <code>JSX</code> 的编码方式了，习惯了原生小程序的同学可能要一些适应过程，具体的编码就不细说了，这里提几点注意事项：</p>
+<ul>
+<li>与小程序的 <code>setData</code> 方法不同，Taro 用于更新页面数据的 <code>setState</code> 是异步的，相关代码的执行时序需要特别注意；</li>
+<li>为了方便 JSX 模板的书写，原先很长的 WXML 内容建议拆分成一些小的组件；</li>
+<li>关于旧组件的复用，无论是小程序原生组件、普通 JS 模块、样式文件或是第三方组件库，都能很好的进行引入调用，这点无需担心；</li>
+<li>目前对于 Taro 编译生成的目标代码，调试起来会有些困难，但对 <code>SourceMap</code> 的支持正在积极开发中。</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="4-最终效果"></a><a href="#4-最终效果" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. 最终效果</h3>
+<p>如今重构后的商品分类页已经在线上稳定运行有一段时间了，可以扫描下面的小程序码进行体验：</p>
+<p><img src="https://img10.360buyimg.com/img/s360x360_jfs/t1/2914/23/355/264599/5b912565Ecd448c81/fd0362f0724e06e7.jpg" alt="小程序码 of 京东购物小程序 - 商品分类页"></p>
+<h2><a class="anchor" aria-hidden="true" id="taro-带来的收益"></a><a href="#taro-带来的收益" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Taro 带来的收益</h2>
+<h3><a class="anchor" aria-hidden="true" id="多端运行"></a><a href="#多端运行" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>多端运行</h3>
+<p>最大的收益便是可以生成多端版本，避免重复工作、节省开发成本。以分类页为例，只需运行 <code>npm run build:h5</code> 便可生成 H5 版本的分类页，运行效果和小程序一致，大家可以扫描下面的二维码进行体验：</p>
+<p><img src="https://storage.360buyimg.com/mtd/home/cate-taro-h51536239496540.png" alt="Taro 生成的 H5 版商品分类页"></p>
+<p>注：以上仅为 Taro 生成的示例页面，由于一些业务组件尚未完全适配两端，所以 H5 版本暂时没有正式投入使用。</p>
+<h3><a class="anchor" aria-hidden="true" id="性能提升"></a><a href="#性能提升" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>性能提升</h3>
+<p>小程序项目中遇到的性能问题，大多是频繁地调用 setData 造成的，这是由于每调用一次 <code>setData</code>，小程序内部都会将该部分数据在逻辑层（运行环境 <code>JSCore</code>）进行类似序列化的操作，将数据转换成字符串形式传递给视图层（运行环境 <code>WebView</code>），视图层通过反序列化拿到数据后再进行页面渲染，这个过程下来有一定性能开销。</p>
+<p>所以开发过程中，我们建议尽量对 <code>setData</code> 进行合并，减少调用次数，例如：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">this</span>.setData({ <span class="hljs-attr">foo</span>: <span class="hljs-string">'Strawberry'</span> })
+<span class="hljs-keyword">this</span>.setData({ <span class="hljs-attr">foo</span>: <span class="hljs-string">'Strawberry'</span>, <span class="hljs-attr">bar</span>: <span class="hljs-string">'Fields'</span> })
+<span class="hljs-keyword">this</span>.setData({ <span class="hljs-attr">baz</span>: <span class="hljs-string">'Forever'</span> })
+</code></pre>
+<p>以上代码调用了 3 次 <code>setData</code>，造成不必要的性能开销，应对其进行合并：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">this</span>.setData({
+    <span class="hljs-attr">foo</span>: <span class="hljs-string">'Strawberry'</span>,
+    <span class="hljs-attr">bar</span>: <span class="hljs-string">'Fields'</span>,
+    <span class="hljs-attr">baz</span>: <span class="hljs-string">'Forever'</span>,
+})
+</code></pre>
+<p>而使用 Taro 之后，更新数据时调用的 <code>setState</code> 为异步方法，它会自动地对同一事件循环里的多次 <code>setState</code> 调用进行合并处理，此外还会进行数据 <code>diff</code> 优化，自动剔除那些未变更的数据，从而有效避免了此类性能问题。例如：</p>
+<pre><code class="hljs css language-js"><span class="hljs-comment">// 初始时</span>
+<span class="hljs-keyword">this</span>.state = {
+    <span class="hljs-attr">foo</span>: <span class="hljs-string">'1967'</span>,
+    <span class="hljs-attr">bar</span>: {
+        <span class="hljs-attr">foo</span>: <span class="hljs-string">'Strawberry'</span>,
+        <span class="hljs-attr">bar</span>: <span class="hljs-string">'Fields'</span>,
+        <span class="hljs-attr">baz</span>: <span class="hljs-string">'Forever'</span>,
+    }
+}
+
+<span class="hljs-comment">// 第一次更新</span>
+<span class="hljs-keyword">this</span>.setState({
+    <span class="hljs-attr">bar</span>: {
+        <span class="hljs-attr">foo</span>: <span class="hljs-string">'Norwegian'</span>,
+        <span class="hljs-attr">bar</span>: <span class="hljs-string">'Fields'</span>,
+        <span class="hljs-attr">baz</span>: <span class="hljs-string">'Forever'</span>,
+    }
+})
+
+<span class="hljs-comment">// 紧接着进行第二次更新</span>
+<span class="hljs-keyword">this</span>.setState({
+    <span class="hljs-attr">foo</span>: <span class="hljs-string">'1967'</span>,
+    <span class="hljs-attr">bar</span>: {
+        <span class="hljs-attr">foo</span>: <span class="hljs-string">'Norwegian'</span>,
+        <span class="hljs-attr">bar</span>: <span class="hljs-string">'Wood'</span>,
+        <span class="hljs-attr">baz</span>: <span class="hljs-string">'Forever'</span>,
+    }
+})
+</code></pre>
+<p>以上代码虽然经过两次 <code>setState</code>，但只有 bar.foo 和 bar.bar 的数据更新了，此时 Taro 内部会自动对数据进行合并、并剔除重复数据，最终执行代码为：</p>
+<pre><code class="hljs css language-js"><span class="hljs-comment">// this.$scope 在小程序环境中为 page 实例</span>
+<span class="hljs-keyword">this</span>.$scope.setData({
+    <span class="hljs-string">'bar.foo'</span>: <span class="hljs-string">'Norwegian'</span>,
+    <span class="hljs-string">'bar.bar'</span>: <span class="hljs-string">'Wood'</span>,
+})
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="其他收益"></a><a href="#其他收益" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>其他收益</h3>
+<p>比起原生小程序开发，Taro 带来了许多激动人心的特性（如支持 TypeScript、NPM、丰富的 JSX 语法、更高级的 ES 特性等等），不仅提升了开发体验，对自动化测试、持续构建等也会有不小的帮助。</p>
+<p>举个例子，京东购物小程序里封装了一个 <code>getImg</code> 方法，该方法接受一个图片 url 及可选的宽高作为参数，然后根据设备类型决定是否使用 webp 格式、根据当前网络环境应用适当的图片压缩率、自动处理协议头和域名转换，最后生成符合目标大小的图片 url。我们要求所有的图片都必须经过 <code>getImg</code> 方法处理后才能进行展示，但由于 JS 方法只能在逻辑层进行调用，处理好后再传递给 <code>WXML</code> 进行展示，使得很难在自动化工具中进行检测，及时发现未调用 <code>getImg</code> 输出图片的情况。</p>
+<p>而使用 Taro 之后，可以直接在 <code>JSX</code> 模板的 <code>Image</code> 标签输出时对 <code>src</code> 调用 <code>getImg</code> 方法进行处理，将此种写法作为规范明确后，就很容易通过自动化工具进行检测了：</p>
+<pre><code class="hljs css language-js">render () {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Image</span> <span class="hljs-attr">src</span>=<span class="hljs-string">{getImg(url,</span> <span class="hljs-attr">750</span>)} /&gt;</span></span>
+}
+</code></pre>
+<p>So 对于现有项目来说，不需要进行整体重构，也能很好的将 Taro 集成进去。还等什么，赶紧试试吧~</p>
+</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/taro/blog">最近更新</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#taro-简介">Taro 简介</a></li><li><a href="#混合开发模式">混合开发模式</a><ul class="toc-headings"><li><a href="#1-初始化-taro">1. 初始化 Taro</a></li><li><a href="#2-taro-配置">2. Taro 配置</a></li><li><a href="#3-页面开发">3. 页面开发</a></li><li><a href="#4-最终效果">4. 最终效果</a></li></ul></li><li><a href="#taro-带来的收益">Taro 带来的收益</a><ul class="toc-headings"><li><a href="#多端运行">多端运行</a></li><li><a href="#性能提升">性能提升</a></li><li><a href="#其他收益">其他收益</a></li></ul></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Hooks · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; 自 `v1.3.0-beta-0` 起支持"/><meta name="docsearch:version" content="2.0.3"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Hooks · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="&gt; 自 `v1.3.0-beta-0` 起支持"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.0.3</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/taro/docs/2.0.3/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.0.3/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.0.3/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>进阶指南</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于Taro<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/README.html">Taro 介绍</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/taroize.html">微信小程序转 Taro</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/team.html">Taro 团队</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">快速开始<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/GETTING-STARTED.html">安装及使用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/composition.html">更多资源</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/before-dev-remind.html">各端开发前注意</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/specials.html">特殊问题的处理</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">基础教程<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/spec-for-taro.html">Taro 规范</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/tutorial.html">框架</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/project-config.html">项目配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/best-practice.html">最佳实践</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/router.html">路由功能</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/size.html">设计稿及尺寸单位</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/static-reference.html">静态资源引用</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/component-style.html">组件的外部样式和全局样式</a></li><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">语法特性</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/jsx.html">JSX 简介</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/props.html">组件化 &amp; Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/state.html">生命周期 &amp; State</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/event.html">事件处理</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/condition.html">条件渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/list.html">列表渲染</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/functional-component.html">函数式组件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/context.html">Context</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/children.html">Children 与组合</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/render-props.html">Render Props</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/ref.html">Refs 引用</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">多端开发</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/envs.html">跨平台开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/envs-debug.html">多端同步调试</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/relations.html">小程序原生作用域获取</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/wxcloud.html">小程序云开发模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/miniprogram-plugin.html">小程序插件开发</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/quick-app.html">快应用端开发流程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/react-native.html">React Native 端开发流程</a></li></ul></div><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/debug.html">Debug 指南</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">进阶指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/config.html">编译配置</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/config-detail.html">编译配置详情</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/debug-config.html">单步调测配置</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/2.0.3/hooks.html">Hooks</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/ui-lib.html">基于 Taro 开发第三方多端 UI 库</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/async-await.html">异步编程</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/mini-third-party.html">使用小程序原生第三方组件和插件</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/hybrid.html">Taro 代码与小程序代码混写</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/optimized-practice.html">性能优化实践</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">迁移指南<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/migrate-to-2.html">迁移至 Taro 2.x</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">社区生态<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/redux.html">使用 Redux</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/mobx.html">使用 MobX</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/css-modules.html">使用 CSS Modules</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/template.html">项目模板</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/report.html">接入统计平台</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/2.0.3/join-in.html">加入社区共建</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/hooks.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Hooks</h1></header><article><div><span><blockquote>
+<p>自 <code>v1.3.0-beta-0</code> 起支持</p>
+</blockquote>
+<p><code>Hooks</code> 是一套全新的 API，可以让你在不编写类，不使用 <code>state</code> 的情况下使用 Class 的状态管理，生命周期等功能。</p>
+<p>关于 <code>Hooks</code> 的概述、动机和规则，我们强烈建议你阅读 React 的官方文档。和其它大部分 React 特性不同，Hooks 没有 RFC 介绍，相反，所有说明都在文档中：</p>
+<ul>
+<li><a href="https://zh-hans.reactjs.org/docs/hooks-intro.html">Introducing Hooks(简介)</a></li>
+<li><a href="https://zh-hans.reactjs.org/docs/hooks-overview.html">Hooks at a Glance(概览)</a></li>
+<li><a href="https://zh-hans.reactjs.org/docs/hooks-rules.html">Rules of Hooks(规则)</a></li>
+</ul>
+<p>本篇文档只会介绍在 Taro 中可用的 Hooks API 和部分与 React 不一致的行为，其它内容大体的内容和 <a href="https://zh-hans.reactjs.org/docs/hooks-reference.html">Hooks Reference</a> 相同。</p>
+<p>你还可以参考这两个使用 Hooks 的 Demo：</p>
+<ul>
+<li><p><a href="https://github.com/NervJS/taro-v2ex-hooks">V2EX</a>，主要展示与服务器通信</p></li>
+<li><p><a href="https://github.com/NervJS/taro-todomvc-hooks">TodoMVC</a>，主要展示组件间通信</p></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="api"></a><a href="#api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API</h2>
+<p>在 Taro 中使用 Hooks API 很简单，只需要从 <code>@tarojs/taro</code> 中引入即可。</p>
+<pre><code class="hljs css language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> useEffect<span class="token punctuation">,</span> useLayoutEffect<span class="token punctuation">,</span> useReducer<span class="token punctuation">,</span> useState<span class="token punctuation">,</span> useContext<span class="token punctuation">,</span> useRef<span class="token punctuation">,</span> useCallback<span class="token punctuation">,</span> useMemo <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@tarojs/taro'</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="usestate"></a><a href="#usestate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useState</code></h3>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> [state, setState] = useState(initialState);
+</code></pre>
+<p>返回一个 state，以及更新 state 的函数。</p>
+<p>在初始渲染期间，返回的状态 (<code>state</code>) 与传入的第一个参数 (<code>initialState</code>) 值相同。</p>
+<p><code>setState</code> 函数用于更新 state。它接收一个新的 state 值并将组件的一次重新渲染加入队列。</p>
+<pre><code class="hljs css language-js">setState(newState);
+</code></pre>
+<p>在后续的重新渲染中，<code>useState</code> 返回的第一个值将始终是更新后最新的 state。</p>
+<blockquote>
+<p>注意</p>
+<p>Taro 会确保 <code>setState</code> 函数的标识是稳定的，并且不会在组件重新渲染时发生变化。这就是为什么可以安全地从 <code>useEffect</code> 或 <code>useCallback</code> 的依赖列表中省略 <code>setState</code>。</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="函数式更新"></a><a href="#函数式更新" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>函数式更新</h4>
+<p>如果新的 state 需要通过使用先前的 state 计算得出，那么可以将函数传递给 <code>setState</code>。该函数将接收先前的 state，并返回一个更新后的值。下面的计数器组件示例展示了 <code>setState</code> 的两种用法：</p>
+<pre><code class="hljs css language-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params">{initialCount}</span>) </span>{
+  <span class="hljs-keyword">const</span> [count, setCount] = useState(initialCount);
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span>&gt;</span>
+      Count: {count}
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> setCount(initialCount)}&gt;Reset<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> setCount(prevCount =&gt; prevCount + 1)}&gt;+<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> setCount(prevCount =&gt; prevCount - 1)}&gt;-<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<p>“+” 和 “-” 按钮采用函数式形式，因为被更新的 state 需要基于之前的 state。但是“重置”按钮则采用普通形式，因为它总是把 count 设置回初始值。</p>
+<blockquote>
+<p>注意</p>
+<p>与 class 组件中的 <code>setState</code> 方法不同，<code>useState</code> 不会自动合并更新对象。你可以用函数式的 <code>setState</code> 结合展开运算符来达到合并更新对象的效果。</p>
+<pre><code class="hljs css language-js">setState(<span class="hljs-function"><span class="hljs-params">prevState</span> =&gt;</span> {
+  <span class="hljs-comment">// 也可以使用 Object.assign</span>
+  <span class="hljs-keyword">return</span> {...prevState, ...updatedValues};
+});
+</code></pre>
+<p><code>useReducer</code> 是另一种可选方案，它更适合用于管理包含多个子值的 state 对象。</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="惰性初始-state"></a><a href="#惰性初始-state" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>惰性初始 state</h4>
+<p><code>initialState</code> 参数只会在组件的初始渲染中起作用，后续渲染时会被忽略。如果初始 state 需要通过复杂计算获得，则可以传入一个函数，在函数中计算并返回初始的 state，此函数只在初始渲染时被调用：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> [state, setState] = useState(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> initialState = someExpensiveComputation(props);
+  <span class="hljs-keyword">return</span> initialState;
+});
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="useeffect"></a><a href="#useeffect" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useEffect</code></h3>
+<pre><code class="hljs css language-js">useEffect(didUpdate);
+</code></pre>
+<p>该 Hook 接收一个包含命令式、且可能有副作用代码的函数。</p>
+<p>在函数组件主体内（这里指在 Taro 渲染或创建数据的阶段）改变 DOM、添加订阅、设置定时器、记录日志以及执行其他包含副作用的操作都是不被允许的，因为这可能会产生莫名其妙的 bug 并破坏 UI 的一致性。</p>
+<p>使用 <code>useEffect</code> 完成副作用操作。赋值给 <code>useEffect</code> 的函数会在组件渲染到屏幕之后执行。</p>
+<p>默认情况下，effect 将在每轮渲染结束后执行，但你可以选择让它在只有某些值改变的时候才执行。</p>
+<h4><a class="anchor" aria-hidden="true" id="清除-effect"></a><a href="#清除-effect" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>清除 effect</h4>
+<p>通常，组件卸载时需要清除 effect 创建的诸如订阅或计时器 ID 等资源。要实现这一点，<code>useEffect</code> 函数需返回一个清除函数。以下就是一个创建订阅的例子：</p>
+<pre><code class="hljs css language-js">useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> subscription = props.source.subscribe();
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-comment">// 清除订阅</span>
+    subscription.unsubscribe();
+  };
+});
+</code></pre>
+<p>为防止内存泄漏，清除函数会在组件卸载前执行。另外，如果组件多次渲染（通常如此），则<strong>在执行下一个 effect 之前，上一个 effect 就已被清除</strong>。在上述示例中，意味着组件的每一次更新都会创建新的订阅。若想避免每次更新都触发 effect 的执行，请参阅下一小节。</p>
+<h4><a class="anchor" aria-hidden="true" id="effect-的执行时机"></a><a href="#effect-的执行时机" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>effect 的执行时机</h4>
+<p>与 <code>componentDidMount</code>、<code>componentDidUpdate</code> 不同的是，Taro 会在 <code>setData</code> 完成之后的下一个 <a href="https://github.com/ccforward/cc/issues/47">macrotask</a> 执行 effect 的回调函数，传给 <code>useEffect</code> 的函数会延迟调用。这使得它适用于许多常见的副作用场景，比如如设置订阅和事件处理等情况，因此不应在函数中执行渲染和更新。</p>
+<p>然而，并非所有 effect 都可以被延迟执行。例如，在容器执行下一次绘制前，用户可见的 DOM 变更就必须同步执行，这样用户才不会感觉到视觉上的不一致。（概念上类似于被动监听事件和主动监听事件的区别。）Taro 为此提供了一个额外的 <a href="#uselayouteffect"><code>useLayoutEffect</code></a> Hook 来处理这类 effect。它和 <code>useEffect</code> 的结构相同，区别只是调用时机不同。</p>
+<h4><a class="anchor" aria-hidden="true" id="effect-的条件执行"></a><a href="#effect-的条件执行" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>effect 的条件执行</h4>
+<p>默认情况下，effect 会在每轮组件渲染完成后执行。这样的话，一旦 effect 的依赖发生变化，它就会被重新创建。</p>
+<p>然而，在某些场景下这么做可能会矫枉过正。比如，在上一章节的订阅示例中，我们不需要在每次组件更新时都创建新的订阅，而是仅需要在 <code>source</code> props 改变时重新创建。</p>
+<p>要实现这一点，可以给 <code>useEffect</code> 传递第二个参数，它是 effect 所依赖的值数组。更新后的示例如下：</p>
+<pre><code class="hljs css language-js">useEffect(
+  <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> subscription = props.source.subscribe();
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      subscription.unsubscribe();
+    };
+  },
+  [props.source],
+);
+</code></pre>
+<p>此时，只有当 <code>props.source</code> 改变后才会重新创建订阅。</p>
+<blockquote>
+<p>注意</p>
+<p>如果你要使用此优化方式，请确保数组中包含了<strong>所有外部作用域中会发生变化且在 effect 中使用的变量</strong>，否则你的代码会引用到先前渲染中的旧变量。</p>
+<p>如果想执行只运行一次的 effect（仅在组件挂载和卸载时执行），可以传递一个空数组（<code>[]</code>）作为第二个参数。这就告诉 Taro 你的 effect 不依赖于 props 或 state 中的任何值，所以它永远都不需要重复执行。这并不属于特殊情况 —— 它依然遵循输入数组的工作方式。</p>
+<p>如果你传入了一个空数组（<code>[]</code>），effect 内部的 props 和 state 就会一直拥有其初始值。尽管传入 <code>[]</code> 作为第二个参数有点类似于 <code>componentDidMount</code> 和 <code>componentWillUnmount</code> 的思维模式，但我们有 <a href="https://zh-hans.reactjs.org/docs/hooks-faq.html#is-it-safe-to-omit-functions-from-the-list-of-dependencies">更好的</a> <a href="https://zh-hans.reactjs.org/docs/hooks-faq.html#what-can-i-do-if-my-effect-dependencies-change-too-often">方式</a> 来避免过于频繁的重复调用 effect。除此之外，请记得 Taro 会等待渲染完毕之后才会延迟调用 <code>useEffect</code>，因此会使得额外操作很方便。</p>
+<p>Taro 会在自带的 ESLint 中配置 <a href="https://www.npmjs.com/package/eslint-plugin-react-hooks#installation"><code>eslint-plugin-react-hooks</code></a> 中的 <a href="https://github.com/facebook/react/issues/14920"><code>exhaustive-deps</code></a> 规则。此规则会在添加错误依赖时发出警告并给出修复建议。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="usereducer-usereducer"></a><a href="#usereducer-usereducer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useReducer</code> {#usereducer}</h3>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> [state, dispatch] = useReducer(reducer, initialArg, init);
+</code></pre>
+<p><a href="#usestate"><code>useState</code></a> 的替代方案。它接收一个形如 <code>(state, action) =&gt; newState</code> 的 reducer，并返回当前的 state 以及与其配套的 <code>dispatch</code> 方法。（如果你熟悉 Redux 的话，就已经知道它如何工作了。）</p>
+<p>在某些场景下，<code>useReducer</code> 会比 <code>useState</code> 更适用，例如 state 逻辑较复杂且包含多个子值，或者下一个 state 依赖于之前的 state 等。并且，使用 <code>useReducer</code> 还能给那些会触发深更新的组件做性能优化，因为<a href="https://zh-hans.reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down">你可以向子组件传递 <code>dispatch</code> 而不是回调函数</a> 。</p>
+<p>以下是用 reducer 重写 <a href="#usestate"><code>useState</code></a> 一节的计数器示例：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> initialState = {<span class="hljs-attr">count</span>: <span class="hljs-number">0</span>};
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reducer</span>(<span class="hljs-params">state, action</span>) </span>{
+  <span class="hljs-keyword">switch</span> (action.type) {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'increment'</span>:
+      <span class="hljs-keyword">return</span> {<span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>};
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'decrement'</span>:
+      <span class="hljs-keyword">return</span> {<span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span>};
+    <span class="hljs-keyword">default</span>:
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>();
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params">{initialState}</span>) </span>{
+  <span class="hljs-keyword">const</span> [state, dispatch] = useReducer(reducer, initialState);
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span>&gt;</span>
+      Count: {state.count}
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> dispatch({type: 'increment'})}&gt;+<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> dispatch({type: 'decrement'})}&gt;-<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<blockquote>
+<p>注意</p>
+<p>Taro 会确保 <code>dispatch</code> 函数的标识是稳定的，并且不会在组件重新渲染时改变。这就是为什么可以安全地从 <code>useEffect</code> 或 <code>useCallback</code> 的依赖列表中省略 <code>dispatch</code>。</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="指定初始-state"></a><a href="#指定初始-state" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>指定初始 state</h4>
+<p>有两种不同初始化 <code>useReducer</code> state 的方式，你可以根据使用场景选择其中的一种。将初始 state 作为第二个参数传入 <code>useReducer</code> 是最简单的方法：</p>
+<pre><code class="hljs css language-js{3}">  const [<span class="hljs-keyword">state</span>, dispatch] = useReducer(
+    reducer,
+    {count: initialCount}
+  );
+</code></pre>
+<blockquote>
+<p>注意</p>
+<p>Taro 不使用 <code>state = initialState</code> 这一由 Redux 推广开来的参数约定。有时候初始值依赖于 props，因此需要在调用 Hook 时指定。如果你特别喜欢上述的参数约定，可以通过调用 <code>useReducer(reducer, undefined, reducer)</code> 来模拟 Redux 的行为，但我们不鼓励你这么做。</p>
+</blockquote>
+<h4><a class="anchor" aria-hidden="true" id="惰性初始化"></a><a href="#惰性初始化" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>惰性初始化</h4>
+<p>你可以选择惰性地创建初始 state。为此，需要将 <code>init</code> 函数作为 <code>useReducer</code> 的第三个参数传入，这样初始 state 将被设置为 <code>init(initialArg)</code>。</p>
+<p>这么做可以将用于计算 state 的逻辑提取到 reducer 外部，这也为将来对重置 state 的 action 做处理提供了便利：</p>
+<pre><code class="hljs css language-js{1-3,11-12,19,24}"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">init</span>(<span class="hljs-params">initialCount</span>) </span>{
+  <span class="hljs-keyword">return</span> {<span class="hljs-attr">count</span>: initialCount};
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reducer</span>(<span class="hljs-params">state, action</span>) </span>{
+  <span class="hljs-keyword">switch</span> (action.type) {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'increment'</span>:
+      <span class="hljs-keyword">return</span> {<span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>};
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'decrement'</span>:
+      <span class="hljs-keyword">return</span> {<span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span>};
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'reset'</span>:
+      <span class="hljs-keyword">return</span> init(action.payload);
+    <span class="hljs-keyword">default</span>:
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>();
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params">{initialCount}</span>) </span>{
+  <span class="hljs-keyword">const</span> [state, dispatch] = useReducer(reducer, initialCount, init);
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span>&gt;</span>
+      Count: {state.count}
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span>
+        <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> dispatch({type: 'reset', payload: initialCount})}&gt;
+        Reset
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> dispatch({type: 'increment'})}&gt;+<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> dispatch({type: 'decrement'})}&gt;-<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="usecallback"></a><a href="#usecallback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useCallback</code></h3>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> memoizedCallback = useCallback(
+  <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    doSomething(a, b);
+  },
+  [a, b],
+);
+</code></pre>
+<p>返回一个 <a href="https://en.wikipedia.org/wiki/Memoization">memoized</a> 回调函数。</p>
+<p>把内联回调函数及依赖项数组作为参数传入 <code>useCallback</code>，它将返回该回调函数的 memoized 版本，该回调函数仅在某个依赖项改变时才会更新。当你把回调函数传递给经过优化的并使用引用相等性去避免非必要渲染（例如 <code>shouldComponentUpdate</code>）的子组件时，它将非常有用。</p>
+<p><code>useCallback(fn, deps)</code> 相当于 <code>useMemo(() =&gt; fn, deps)</code>。</p>
+<h3><a class="anchor" aria-hidden="true" id="usememo-usememo"></a><a href="#usememo-usememo" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useMemo</code> {#usememo}</h3>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> memoizedValue = useMemo(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> computeExpensiveValue(a, b), [a, b]);
+</code></pre>
+<p>返回一个 <a href="https://en.wikipedia.org/wiki/Memoization">memoized</a> 值。</p>
+<p>把“创建”函数和依赖项数组作为参数传入 <code>useMemo</code>，它仅会在某个依赖项改变时才重新计算 memoized 值。这种优化有助于避免在每次渲染时都进行高开销的计算。</p>
+<p>记住，传入 <code>useMemo</code> 的函数会在渲染期间执行。请不要在这个函数内部执行与渲染无关的操作，诸如副作用这类的操作属于 <code>useEffect</code> 的适用范畴，而不是 <code>useMemo</code>。</p>
+<p>如果没有提供依赖项数组，<code>useMemo</code> 在每次渲染时都会计算新的值。</p>
+<h3><a class="anchor" aria-hidden="true" id="useref"></a><a href="#useref" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useRef</code></h3>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> refContainer = useRef(initialValue);
+</code></pre>
+<p><code>useRef</code> 返回一个可变的 ref 对象，其 <code>.current</code> 属性被初始化为传入的参数（<code>initialValue</code>）。返回的 ref 对象在组件的整个生命周期内保持不变。</p>
+<p>一个常见的用例便是命令式地访问子组件：</p>
+<pre><code class="hljs css language-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TextInputWithFocusButton</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> inputEl = useRef(<span class="hljs-literal">null</span>);
+  <span class="hljs-keyword">const</span> onButtonClick = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-comment">// `current` 指向已挂载到 DOM 上的文本输入元素</span>
+    inputEl.current.focus();
+  };
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">View</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Input</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{inputEl}</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{onButtonClick}</span>&gt;</span>Focus the input<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<p>本质上，<code>useRef</code> 就像是可以在其 <code>.current</code> 属性中保存一个可变值的“盒子”。</p>
+<p>你应该熟悉 ref 这一种<a href="/docs/refs.html">访问 DOM</a> 的主要方式。如果你将 ref 对象以 <code>&lt;View ref={myRef} /&gt;</code> Taro 都会将 ref 对象的 <code>.current</code> 属性设置为相应的 DOM 节点。</p>
+<p>然而，<code>useRef()</code> 比 <code>ref</code> 属性更有用。它可以<a href="https://zh-hans.reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables">很方便地保存任何可变值</a>，其类似于在 class 中使用实例字段的方式。</p>
+<p>这是因为它创建的是一个普通 JavaScript 对象。而 <code>useRef()</code> 和自建一个 <code>{current: ...}</code> 对象的唯一区别是，<code>useRef</code> 会在每次渲染时返回同一个 ref 对象。</p>
+<p>请记住，当 ref 对象内容发生变化时，<code>useRef</code> 并<em>不会</em>通知你。变更 <code>.current</code> 属性不会引发组件重新渲染。如果想要在 Taro 绑定或解绑 DOM 节点的 ref 时运行某些代码，则需要使用<a href="https://zh-hans.reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node">回调 ref</a> 来实现。</p>
+<h3><a class="anchor" aria-hidden="true" id="uselayouteffect"></a><a href="#uselayouteffect" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useLayoutEffect</code></h3>
+<p>其函数签名与 <code>useEffect</code> 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发重渲染。在浏览器执行绘制之前，<code>useLayoutEffect</code> 内部的更新计划将被同步刷新。</p>
+<p>尽可能使用标准的 <code>useEffect</code> 以避免阻塞视觉更新。</p>
+<blockquote>
+<p>提示</p>
+<p>如果你正在将代码从 class 组件迁移到使用 Hook 的函数组件，则需要注意 <code>useLayoutEffect</code> 与 <code>componentDidMount</code>、<code>componentDidUpdate</code> 的调用阶段是一样的。但是，我们推荐你<strong>一开始先用 <code>useEffect</code></strong>，只有当它出问题的时再尝试使用 <code>useLayoutEffect</code>。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="usecontext"></a><a href="#usecontext" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useContext</code></h3>
+<pre><code class="hljs css language-jsx"><span class="token keyword">const</span> value <span class="token operator">=</span> <span class="token function">useContext</span><span class="token punctuation">(</span>MyContext<span class="token punctuation">)</span>
+</code></pre>
+<p>接收一个 context (<code>Taro.createContext</code> 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中最先渲染的 <code>&lt;MyContext.Provider value={value}&gt;</code> 的 <code>value</code>决定。</p>
+<p>当组件上层最近的 &lt;MyContext.Provider&gt; 更新时，该 Hook 会触发重渲染，并使用最新传递给 MyContext provider 的 context <code>value</code> 值。</p>
+<p>别忘记 <code>useContext</code> 的参数必须是 context 对象本身：</p>
+<p>正确： <code>useContext(MyContext)</code>
+错误： <code>useContext(MyContext.Consumer)</code>
+错误： <code>useContext(MyContext.Provider)</code>
+调用了 <code>useContext</code> 的组件总会在 context 值变化时重新渲染。</p>
+<blockquote>
+<p>如果你在接触 Hook 前已经对 context API 比较熟悉，那应该可以理解，<code>useContext(MyContext)</code> 相当于 class 组件中的 <code>static contextType = MyContext</code> 或者 &lt;MyContext.Consumer&gt;。
+<code>useContext(MyContext)</code> 只是让你能够读取 context 的值以及订阅 context 的变化。你仍然需要在上层组件树中使用 &lt;MyContext.Provider&gt; 来为下层组件提供 context。</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="usedidshow"></a><a href="#usedidshow" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useDidShow</code></h3>
+<blockquote>
+<p>自 <code>1.3.14</code> 开始支持</p>
+</blockquote>
+<pre><code class="hljs css language-jsx"><span class="token function">useDidShow</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'componentDidShow'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p><code>useDidShow</code> 是 Taro 专有的 Hook，等同于 <code>componentDidShow</code> 页面生命周期钩子</p>
+<h3><a class="anchor" aria-hidden="true" id="usedidhide"></a><a href="#usedidhide" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useDidHide</code></h3>
+<blockquote>
+<p>自 <code>1.3.14</code> 开始支持</p>
+</blockquote>
+<pre><code class="hljs css language-jsx"><span class="token function">useDidHide</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'componentDidHide'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p><code>useDidHide</code> 是 Taro 专有的 Hook，等同于 <code>componentDidHide</code> 页面生命周期钩子</p>
+<h3><a class="anchor" aria-hidden="true" id="usepulldownrefresh"></a><a href="#usepulldownrefresh" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>usePullDownRefresh</code></h3>
+<blockquote>
+<p>自 <code>1.3.14</code> 开始支持</p>
+</blockquote>
+<pre><code class="hljs css language-jsx"><span class="token function">usePullDownRefresh</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'onPullDownRefresh'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p><code>usePullDownRefresh</code> 是 Taro 专有的 Hook，等同于 <code>onPullDownRefresh</code> 页面生命周期钩子</p>
+<h3><a class="anchor" aria-hidden="true" id="usereachbottom"></a><a href="#usereachbottom" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useReachBottom</code></h3>
+<blockquote>
+<p>自 <code>1.3.14</code> 开始支持</p>
+</blockquote>
+<pre><code class="hljs css language-jsx"><span class="token function">useReachBottom</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'onReachBottom'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p><code>useReachBottom</code> 是 Taro 专有的 Hook，等同于 <code>onReachBottom</code> 页面生命周期钩子</p>
+<h3><a class="anchor" aria-hidden="true" id="usepagescroll"></a><a href="#usepagescroll" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>usePageScroll</code></h3>
+<blockquote>
+<p>自 <code>1.3.14</code> 开始支持</p>
+</blockquote>
+<pre><code class="hljs css language-jsx"><span class="token function">usePageScroll</span><span class="token punctuation">(</span><span class="token parameter">res</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>scrollTop<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p><code>usePageScroll</code> 是 Taro 专有的 Hook，等同于 <code>onPageScroll</code> 页面生命周期钩子</p>
+<h3><a class="anchor" aria-hidden="true" id="useresize"></a><a href="#useresize" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useResize</code></h3>
+<blockquote>
+<p>自 <code>1.3.14</code> 开始支持</p>
+</blockquote>
+<pre><code class="hljs css language-jsx"><span class="token function">useResize</span><span class="token punctuation">(</span><span class="token parameter">res</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>size<span class="token punctuation">.</span>windowWidth<span class="token punctuation">)</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>size<span class="token punctuation">.</span>windowHeight<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p><code>useResize</code> 是 Taro 专有的 Hook，等同于 <code>onResize</code> 页面生命周期钩子</p>
+<h3><a class="anchor" aria-hidden="true" id="useshareappmessage"></a><a href="#useshareappmessage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useShareAppMessage</code></h3>
+<blockquote>
+<p>自 <code>1.3.14</code> 开始支持</p>
+</blockquote>
+<pre><code class="hljs css language-jsx"><span class="token function">useShareAppMessage</span><span class="token punctuation">(</span><span class="token parameter">res</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>from <span class="token operator">===</span> <span class="token string">'button'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 来自页面内转发按钮</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>target<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    title<span class="token operator">:</span> <span class="token string">'自定义转发标题'</span><span class="token punctuation">,</span>
+    path<span class="token operator">:</span> <span class="token string">'/page/user?id=123'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p><code>useShareAppMessage</code> 是 Taro 专有的 Hook，等同于 <code>onShareAppMessage</code> 页面生命周期钩子</p>
+<h3><a class="anchor" aria-hidden="true" id="usetabitemtap"></a><a href="#usetabitemtap" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useTabItemTap</code></h3>
+<blockquote>
+<p>自 <code>1.3.14</code> 开始支持</p>
+</blockquote>
+<pre><code class="hljs css language-jsx"><span class="token function">useTabItemTap</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>index<span class="token punctuation">)</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>pagePath<span class="token punctuation">)</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p><code>useTabItemTap</code> 是 Taro 专有的 Hook，等同于 <code>onTabItemTap</code> 页面生命周期钩子</p>
+<h3><a class="anchor" aria-hidden="true" id="userouter"></a><a href="#userouter" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useRouter</code></h3>
+<blockquote>
+<p>自 <code>1.3.14</code> 开始支持</p>
+</blockquote>
+<pre><code class="hljs css language-jsx"><span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token function">useRouter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// { path: '', params: { ... } }</span>
+</code></pre>
+<p><code>useRouter</code> 是 Taro 专有的 Hook，等同于页面为类时的 <code>this.$router</code></p>
+<h3><a class="anchor" aria-hidden="true" id="usescope"></a><a href="#usescope" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>useScope</code></h3>
+<blockquote>
+<p>自 <code>1.3.20</code> 开始支持</p>
+</blockquote>
+<pre><code class="hljs css language-jsx"><span class="token keyword">const</span> scope <span class="token operator">=</span> <span class="token function">useScope</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><code>useScope</code> 是 Taro 专有的 Hook，等同于页面为类时的 <code>this.$scope</code></p>
+<h2><a class="anchor" aria-hidden="true" id="页面及组件中相关属性设置"></a><a href="#页面及组件中相关属性设置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>页面及组件中相关属性设置</h2>
+<p>在 Taro 中，你可以为页面及组件设置一些属性来达到一些特殊的目的，例如 <code>config</code> 设置配置等等，在前面章节你已经学会如何在类中进行相关设置，同样的，使用 Hooks 时你也可以进行相关设置来达到和使用类一样的效果。</p>
+<p>不同于使用类的写法，使用 Hooks 时，你需要将 <code>config</code> 或 <code>options</code> 等配置直接挂载在 Hooks 函数上，即可以达到想要的效果，例如</p>
+<p>为页面设置 <code>config</code></p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">Index</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+<span class="token punctuation">}</span>
+
+Index<span class="token punctuation">.</span>config <span class="token operator">=</span> <span class="token punctuation">{</span>
+  navigationBarTitleText<span class="token operator">:</span> <span class="token string">'首页'</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>为组件设置 <code>options</code></p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">Com</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">View</span></span><span class="token punctuation">></span></span>
+<span class="token punctuation">}</span>
+
+Com<span class="token punctuation">.</span>options <span class="token operator">=</span> <span class="token punctuation">{</span>
+  addGlobalClass<span class="token operator">:</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/2.0.3/debug-config.html"><span class="arrow-prev">← </span><span>单步调测配置</span></a><a class="docs-next button" href="/taro/docs/2.0.3/ui-lib.html"><span>基于 Taro 开发第三方多端 UI 库</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#api">API</a><ul class="toc-headings"><li><a href="#usestate"><code>useState</code></a></li><li><a href="#useeffect"><code>useEffect</code></a></li><li><a href="#usereducer-usereducer"><code>useReducer</code> {#usereducer}</a></li><li><a href="#usecallback"><code>useCallback</code></a></li><li><a href="#usememo-usememo"><code>useMemo</code> {#usememo}</a></li><li><a href="#useref"><code>useRef</code></a></li><li><a href="#uselayouteffect"><code>useLayoutEffect</code></a></li><li><a href="#usecontext"><code>useContext</code></a></li><li><a href="#usedidshow"><code>useDidShow</code></a></li><li><a href="#usedidhide"><code>useDidHide</code></a></li><li><a href="#usepulldownrefresh"><code>usePullDownRefresh</code></a></li><li><a href="#usereachbottom"><code>useReachBottom</code></a></li><li><a href="#usepagescroll"><code>usePageScroll</code></a></li><li><a href="#useresize"><code>useResize</code></a></li><li><a href="#useshareappmessage"><code>useShareAppMessage</code></a></li><li><a href="#usetabitemtap"><code>useTabItemTap</code></a></li><li><a href="#userouter"><code>useRouter</code></a></li><li><a href="#usescope"><code>useScope</code></a></li></ul></li><li><a href="#页面及组件中相关属性设置">页面及组件中相关属性设置</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Taro Next H5 跨框架组件库实践 · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="[Taro](https://github.com/NervJS/taro) 是一款多端开发框架。开发者只需编写一份代码，即可生成各小程序端、H5 以及 React Native 的应用。"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Taro Next H5 跨框架组件库实践 · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/blog/2020/4/13/taro-components.html"/><meta property="og:description" content="[Taro](https://github.com/NervJS/taro) 是一款多端开发框架。开发者只需编写一份代码，即可生成各小程序端、H5 以及 React Native 的应用。"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.2.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/apis/about/desc.html" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>全部文章</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">全部文章</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/taro/blog/2020/4/13/taro-components.html">Taro Next H5 跨框架组件库实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/02/13/taro-next-alpha.html">Taro Next 发布预览版：同时支持 React / Vue / Nerv</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/08/taro-2-0.html">Taro 2.0：拥抱社区，拥抱变化</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2020/01/02/gmtc.html">小程序跨框架开发的探索与实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/12/03/jingxi-index.html">京喜首页（微信购物入口）跨端开发与优化实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/10/24/taro-open.html">Taro 邀你加入社区共建 — 社区共建倡议书</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/09/25/taro-flex.html">玩转 Taro 跨端之 flex 布局篇</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/07/10/taro-hooks.html">使用 React Hooks 重构你的小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/21/taro-ext-club.html">Taro 「物料市场」及「交流社区」 惊喜上线</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/06/13/taro-1-3.html">Taro 1.3 震撼升级：全面支持 JSX 语法和 HOOKS</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/03/12/mini-program-framework-full-review.html">小程序框架全面测评</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/28/taro-h5-optimize.html">决战性能之巅 - Taro H5 转换与优化升级</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2019/02/25/taro-ui-2.0.html">Taro UI 2.0 发布：新增自定义主题功能，适配更多小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/12/18/taro-1-2.html">Taro 1.2：将已有微信小程序转换为多端应用</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/11/05/taro-1-1.html">Taro 1.1 发布，全面支持微信/百度/支付宝小程序</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/18/taro-1-0-0.html">多端统一开发框架 Taro 1.0 正式发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/09/11/taro-in-jd.html">Taro 在京东购物小程序上的实践</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/08/24/the-birth-of-taro-ui.html">首个多端 UI 组件库 - Taro UI 发布</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/25/the-birth-of-taro.html">为何我们要用 React 来写小程序 - Taro 诞生记</a></li><li class="navListItem"><a class="navItem" href="/taro/blog/2018/06/07/Taro.html">多端统一开发框架 - Taro</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer postContainer blogContainer"><div class="wrapper"><div class="lonePost"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle"><a href="/taro/blog/2020/4/13/taro-components.html">Taro Next H5 跨框架组件库实践</a></h1><p class="post-meta">April 13, 2020</p><div class="authorBlock"><p class="post-authorName"><a href="https://github.com/Chen-jj" target="_blank" rel="noreferrer noopener">JJ</a></p><div class="authorPhoto"><a href="https://github.com/Chen-jj" target="_blank" rel="noreferrer noopener"><img src="http://storage.jd.com/cjj-pub-images/11807297.png" alt="JJ"/></a></div></div></header><div><span><p><img src="https://img30.360buyimg.com/ling/jfs/t1/108543/10/12151/1750297/5e93ef97Ef424d4a7/29cf4e4364e5d3f0.png" alt="image"></p>
+<p><a href="https://github.com/NervJS/taro">Taro</a> 是一款多端开发框架。开发者只需编写一份代码，即可生成各小程序端、H5 以及 React Native 的应用。</p>
+<blockquote>
+<p><a href="http://taro-docs-in.jd.com/taro/next/docs/next/README.html">Taro Next</a> 近期已发布 beta 版本，全面完善对小程序以及 H5 的支持，欢迎体验！</p>
+</blockquote>
+<p>本文将重点介绍对 <strong>Taro H5 端组件库</strong>的改造工作。</p>
+<!--truncate-->
+<h2><a class="anchor" aria-hidden="true" id="背景"></a><a href="#背景" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>背景</h2>
+<h3><a class="anchor" aria-hidden="true" id="taro-next-将支持使用多框架开发"></a><a href="#taro-next-将支持使用多框架开发" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Taro Next 将支持使用多框架开发</h3>
+<p>过去的 Taro 1 与 Taro 2 只能使用 React 语法进行开发，但下一代的 Taro 框架对整体架构进行了<a href="https://aotu.io/notes/2020/02/03/taro-next-alpha/">升级</a>，支持使用 React、Vue、Nerv 等框架开发多端应用。</p>
+<p>为了支持使用多框架进行开发，Taro 需要对自身的各端适配能力进行改造。本文将重点介绍对 <strong>Taro H5 端组件库</strong>的改造工作。</p>
+<h3><a class="anchor" aria-hidden="true" id="taro-h5"></a><a href="#taro-h5" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Taro H5</h3>
+<p>Taro 遵循以微信小程序为主，其他小程序为辅的组件与 API 规范。</p>
+<p>但浏览器并没有小程序规范的组件与 API 可供使用，例如我们不能在浏览器上使用小程序的 <code>view</code> 组件和 <code>getSystemInfo</code>  API。因此我们需要在 H5 端实现一套基于小程序规范的组件库和 API 库。</p>
+<blockquote>
+<p>Taro H5 架构图：</p>
+</blockquote>
+<p><img src="http://storage.jd.com/cjj-pub-images/WX20200402-140148.png" alt=""></p>
+<p>在 Taro 1 和 Taro 2 中，Taro H5 的组件库使用了 React 语法进行开发。但如果开发者在 Taro Next 中使用 Vue 开发 H5 应用，则不能和现有的 H5 组件库兼容。</p>
+<p>所以本文需要面对的核心问题就是：<strong>我们需要在 H5 端实现 React、Vue 等框架都可以使用的组件库</strong>。</p>
+<h3><a class="anchor" aria-hidden="true" id="方案选择"></a><a href="#方案选择" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>方案选择</h3>
+<p>我们最先想到的是使用 Vue 再开发一套组件库，这样最为稳妥，工作量也没有特别大。</p>
+<p>但考虑到以下两点，我们遂放弃了此思路：</p>
+<ol>
+<li>组件库的可维护性和拓展性不足。每当有问题需要修复或新功能需要添加，我们需要分别对 React 和 Vue 版本的组件库进行改造。</li>
+<li>Taro Next 的目标是支持使用任意框架开发多端应用。倘若将来支持使用 Angular 等框架进行开发，那么我们需要再开发对应支持 Angular 等框架的组件库。</li>
+</ol>
+<p>那么是否存在着一种方案，使得只用一份代码构建的组件库能兼容所有的 web 开发框架呢？</p>
+<p>答案就是 <strong>Web Components</strong>。</p>
+<p>但在组件库改造为 Web Components 的过程并不是一凡风顺的，我们也遇到了不少的问题，故借此文向大家娓娓道来。</p>
+<h2><a class="anchor" aria-hidden="true" id="web-components-简介"></a><a href="#web-components-简介" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Web Components 简介</h2>
+<p><a href="https://www.webcomponents.org/introduction">Web Components</a> 由一系列的技术规范所组成，它让开发者可以开发出浏览器原生支持的组件。</p>
+<h3><a class="anchor" aria-hidden="true" id="技术规范"></a><a href="#技术规范" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>技术规范</h3>
+<p>Web Components 的主要技术规范为：</p>
+<ul>
+<li>Custom Elements</li>
+<li>Shadow DOM</li>
+<li>HTML Template</li>
+</ul>
+<p>Custom Elements 让开发者可以自定义带有特定行为的 HTML 标签。</p>
+<p>Shadow DOM 对标签内的结构和样式进行一层包装。</p>
+<p><code>&lt;template&gt;</code> 标签为 Web Components 提供复用性，还可以配合 <code>&lt;slot&gt;</code> 标签提供灵活性。</p>
+<h3><a class="anchor" aria-hidden="true" id="示例"></a><a href="#示例" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例</h3>
+<p>定义模板：</p>
+<pre><code class="hljs css language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"template"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello World!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+</code></pre>
+<p>构造 Custom Element：</p>
+<pre><code class="hljs css language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HTMLElement</span> </span>{
+  <span class="hljs-keyword">constructor</span> () {
+    <span class="hljs-keyword">super</span>(...arguments)
+
+    <span class="hljs-comment">// 开启 Shadow DOM</span>
+    <span class="hljs-keyword">const</span> shadowRoot = <span class="hljs-keyword">this</span>.attachShadow({ <span class="hljs-attr">mode</span>: <span class="hljs-string">'open'</span> })
+
+    <span class="hljs-comment">// 复用 &lt;template&gt; 定义好的结构 </span>
+    <span class="hljs-keyword">const</span> template = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'#template'</span>)
+    <span class="hljs-keyword">const</span> node = template.content.cloneNode(<span class="hljs-literal">true</span>)
+    shadowRoot.appendChild(node)
+  }
+}
+<span class="hljs-built_in">window</span>.customElements.define(<span class="hljs-string">'my-app'</span>, App)
+</code></pre>
+<p>使用：</p>
+<pre><code class="hljs css language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-app</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-app</span>&gt;</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="stencil"></a><a href="#stencil" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Stencil</h2>
+<p>使用原生语法去编写 Web Components 相当繁琐，因此我们需要一个框架帮助我们提高开发效率和开发体验。</p>
+<p>业界已经有很多成熟的 <a href="https://www.webcomponents.org/libraries">Web Components 框架</a>，一番比较后我们最终选择了 <a href="https://stenciljs.com/docs/introduction">Stencil</a>，原因有二：</p>
+<ol>
+<li>Stencil 由 Ionic 团队打造，被用于构建 Ionic 的组件库，证明经受过业界考验。</li>
+<li>Stencil 支持 JSX，能减少现有组件库的迁移成本。</li>
+</ol>
+<p>Stencil 是一个可以生成 Web Components 的编译器。它糅合了业界前端框架的一些优秀概念，如支持 Typescript、JSX、虚拟 DOM 等。</p>
+<h3><a class="anchor" aria-hidden="true" id="示例-1"></a><a href="#示例-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例：</h3>
+<p>创建 Stencil Component：</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> Prop<span class="token punctuation">,</span> State<span class="token punctuation">,</span> h <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@stencil/core'</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  tag<span class="token operator">:</span> <span class="token string">'my-component'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  @<span class="token function">Prop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> first <span class="token operator">=</span> <span class="token string">''</span>
+  @<span class="token function">State</span><span class="token punctuation">(</span><span class="token punctuation">)</span> last <span class="token operator">=</span> <span class="token string">'JS'</span>
+
+  <span class="token function">componentDidLoad</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        Hello<span class="token punctuation">,</span> my name is <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>first<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>last<span class="token punctuation">}</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>使用组件：</p>
+<pre><code class="hljs css language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">first</span>=<span class="hljs-string">'Taro'</span> /&gt;</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="在-react-与-vue-中使用-stencil"></a><a href="#在-react-与-vue-中使用-stencil" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>在 React 与 Vue 中使用 Stencil</h2>
+<p>到目前为止一切都那么美好：使用 Stencil 编写出 Web Components，即可以在 React 和 Vue 中直接使用它们。</p>
+<p>但实际使用上却会出现一些问题，<a href="https://custom-elements-everywhere.com/">Custom Elements Everywhere</a> 通过一系列的测试用例，罗列出业界前端框架对 Web Components 的兼容问题及相关 issues。下面将简单介绍 Taro H5 组件库分别对 React 和 Vue 的兼容工作。</p>
+<h3><a class="anchor" aria-hidden="true" id="兼容-react"></a><a href="#兼容-react" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>兼容 React</h3>
+<h4><a class="anchor" aria-hidden="true" id="1-props"></a><a href="#1-props" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Props</h4>
+<h5><a class="anchor" aria-hidden="true" id="11-问题"></a><a href="#11-问题" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.1 问题</h5>
+<p>React 使用 <code>setAttribute</code> 的形式给 Web Components 传递参数。当参数为原始类型时是可以运行的，但是如果参数为对象或数组时，由于 HTML 元素的 attribute 值只能为字符串或 null，最终给 WebComponents 设置的 attribute 会是 <code>attr=&quot;[object Object]&quot;</code>。</p>
+<blockquote>
+<p>attribute 与 property <a href="https://stackoverflow.com/questions/6003819/what-is-the-difference-between-properties-and-attributes-in-html#answer-6004028">区别</a></p>
+</blockquote>
+<h5><a class="anchor" aria-hidden="true" id="12-解决方案"></a><a href="#12-解决方案" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.2 解决方案</h5>
+<p>采用 <strong>DOM Property</strong> 的方法传参。</p>
+<p>我们可以把 Web Components 包装一层高阶组件，把高阶组件上的 props 设置为 Web Components 的 property：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> reactifyWebComponent = <span class="hljs-function"><span class="hljs-params">WC</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    ref = React.createRef()
+
+    update () {
+      <span class="hljs-built_in">Object</span>.entries(<span class="hljs-keyword">this</span>.props).forEach(<span class="hljs-function">(<span class="hljs-params">[prop, val]</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (prop === <span class="hljs-string">'children'</span> || prop === <span class="hljs-string">'dangerouslySetInnerHTML'</span>) {
+          <span class="hljs-keyword">return</span>
+        }
+        <span class="hljs-keyword">if</span> (prop === <span class="hljs-string">'style'</span> &amp;&amp; val &amp;&amp; <span class="hljs-keyword">typeof</span> val === <span class="hljs-string">'object'</span>) {
+          <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> key <span class="hljs-keyword">in</span> val) {
+            <span class="hljs-keyword">this</span>.ref.current.style[key] = val[key]
+          }
+          <span class="hljs-keyword">return</span>
+        }
+        <span class="hljs-keyword">this</span>.ref.current[prop] = val
+      })
+    }
+
+    componentDidUpdate () {
+      <span class="hljs-keyword">this</span>.update()
+    }
+
+    componentDidMount () {
+      <span class="hljs-keyword">this</span>.update()
+    }
+
+    render () {
+      <span class="hljs-keyword">const</span> { children, dangerouslySetInnerHTML } = <span class="hljs-keyword">this</span>.props
+      <span class="hljs-keyword">return</span> React.createElement(WC, {
+        <span class="hljs-attr">ref</span>: <span class="hljs-keyword">this</span>.ref,
+        dangerouslySetInnerHTML
+      }, children)
+    }
+  }
+}
+
+<span class="hljs-keyword">const</span> MyComponent = reactifyWebComponent(<span class="hljs-string">'my-component'</span>)
+</code></pre>
+<p>注意：</p>
+<ul>
+<li>children、dangerouslySetInnerHTML 属性需要透传。</li>
+<li>React 中 style 属性值可以接受对象形式，这里需要额外处理。</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="2-events"></a><a href="#2-events" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Events</h4>
+<h5><a class="anchor" aria-hidden="true" id="21-问题"></a><a href="#21-问题" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.1 问题</h5>
+<p>因为 React 有一套<a href="https://reactjs.org/docs/events.html">合成事件系统</a>，所以它不能监听到 Web Components 发出的自定义事件。</p>
+<p>以下 Web Component 的 onLongPress 回调不会被触发：</p>
+<pre><code class="hljs css language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-view</span> <span class="hljs-attr">onLongPress</span>=<span class="hljs-string">{onLongPress}</span>&gt;</span>view<span class="hljs-tag">&lt;/<span class="hljs-name">my-view</span>&gt;</span>
+</code></pre>
+<h5><a class="anchor" aria-hidden="true" id="22-解决方案"></a><a href="#22-解决方案" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.2 解决方案</h5>
+<p>通过 ref 取得 Web Component 元素，手动 <strong>addEventListener</strong> 绑定事件。</p>
+<p>改造上述的高阶组件：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> reactifyWebComponent = <span class="hljs-function"><span class="hljs-params">WC</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Index</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    ref = React.createRef()
+    eventHandlers = []
+
+    update () {
+      <span class="hljs-keyword">this</span>.clearEventHandlers()
+
+      <span class="hljs-built_in">Object</span>.entries(<span class="hljs-keyword">this</span>.props).forEach(<span class="hljs-function">(<span class="hljs-params">[prop, val]</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> val === <span class="hljs-string">'function'</span> &amp;&amp; prop.match(<span class="hljs-regexp">/^on[A-Z]/</span>)) {
+          <span class="hljs-keyword">const</span> event = prop.substr(<span class="hljs-number">2</span>).toLowerCase()
+          <span class="hljs-keyword">this</span>.eventHandlers.push([event, val])
+          <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.ref.current.addEventListener(event, val)
+        }
+
+        ...
+      })
+    }
+
+    clearEventHandlers () {
+      <span class="hljs-keyword">this</span>.eventHandlers.forEach(<span class="hljs-function">(<span class="hljs-params">[event, handler]</span>) =&gt;</span> {
+        <span class="hljs-keyword">this</span>.ref.current.removeEventListener(event, handler)
+      })
+      <span class="hljs-keyword">this</span>.eventHandlers = []
+    }
+
+    componentWillUnmount () {
+      <span class="hljs-keyword">this</span>.clearEventHandlers()
+    }
+    
+    ...
+  }
+}
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="3-ref"></a><a href="#3-ref" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Ref</h4>
+<h5><a class="anchor" aria-hidden="true" id="31-问题"></a><a href="#31-问题" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.1 问题</h5>
+<p>我们为了解决 Props 和 Events 的问题，引入了高阶组件。那么当开发者向高阶组件传入 ref 时，获取到的其实是高阶组件，但我们希望开发者能获取到对应的 Web Component。</p>
+<p>domRef 会获取到 <code>MyComponent</code>，而不是 <code>&lt;my-component&gt;&lt;/my-component&gt;</code></p>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">MyComponent</span></span> <span class="token attr-name">ref</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>domRef<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+</code></pre>
+<h5><a class="anchor" aria-hidden="true" id="32-解决方案"></a><a href="#32-解决方案" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.2 解决方案</h5>
+<p>使用 <a href="https://reactjs.org/docs/forwarding-refs.html#forwarding-refs-to-dom-components">forwardRef</a> 传递 ref。</p>
+<p>改造上述的高阶组件为 forwardRef 形式：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> reactifyWebComponent = <span class="hljs-function"><span class="hljs-params">WC</span> =&gt;</span> {
+  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Index</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    ...
+    
+    render () {
+      <span class="hljs-keyword">const</span> { children, forwardRef } = <span class="hljs-keyword">this</span>.props
+      <span class="hljs-keyword">return</span> React.createElement(WC, {
+        <span class="hljs-attr">ref</span>: forwardRef
+      }, children)
+    }
+  }
+  <span class="hljs-keyword">return</span> React.forwardRef(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> (
+    React.createElement(Index, { ...props, <span class="hljs-attr">forwardRef</span>: ref })
+  ))
+}
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="4-hosts-classname"></a><a href="#4-hosts-classname" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Host's className</h4>
+<h5><a class="anchor" aria-hidden="true" id="41-问题"></a><a href="#41-问题" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.1 问题</h5>
+<p>在 Stencil 里我们可以使用 Host 组件为 host element 添加类名。</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> { Component, Host, h } <span class="hljs-keyword">from</span> <span class="hljs-string">'@stencil/core'</span>;
+
+@Component({
+  <span class="hljs-attr">tag</span>: <span class="hljs-string">'todo-list'</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TodoList</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Host</span> <span class="hljs-attr">class</span>=<span class="hljs-string">'todo-list'</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>todo<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Host</span>&gt;</span></span>
+    )
+  }
+}
+</code></pre>
+<p>然后在使用 <code>&lt;todo-list&gt;</code> 元素时会展示我们内置的类名 “todo-list” 和 Stencil 自动加入的类名 “hydrated”：</p>
+<p><img src="http://storage.jd.com/cjj-pub-images/WX20200401-102833.png" alt=""></p>
+<p>但如果我们在使用时设置了动态类名，如： <code>&lt;todo-list class={this.state.cls}&gt;</code>。那么在动态类名更新时，则会把内置的类名 “todo-list” 和 “hydrated” 抹除掉。</p>
+<p><strong>关于类名 “hydrated”：</strong></p>
+<p>Stencil 会为所有 Web Components 加上 <code>visibility: hidden;</code> 的样式。然后在各 Web Component 初始化完成后加入类名 “hydrated”，将 <code>visibility</code> 改为 <code>inherit</code>。如果 “hydrated” 被抹除掉，Web Components 将不可见。</p>
+<p>因此我们需要保证在类名更新时不会覆盖 Web Components 的内置类名。</p>
+<h5><a class="anchor" aria-hidden="true" id="42-解决方案"></a><a href="#42-解决方案" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.2 解决方案</h5>
+<p>高阶组件在使用 ref 为 Web Component 设置 className 属性时，对内置 class 进行合并。</p>
+<p>改造上述的高阶组件：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> reactifyWebComponent = <span class="hljs-function"><span class="hljs-params">WC</span> =&gt;</span> {
+  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Index</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    update (prevProps) {
+      <span class="hljs-built_in">Object</span>.entries(<span class="hljs-keyword">this</span>.props).forEach(<span class="hljs-function">(<span class="hljs-params">[prop, val]</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (prop.toLowerCase() === <span class="hljs-string">'classname'</span>) {
+          <span class="hljs-keyword">this</span>.ref.current.className = prevProps
+            <span class="hljs-comment">// getClassName 在保留内置类名的情况下，返回最新的类名</span>
+            ? getClassName(<span class="hljs-keyword">this</span>.ref.current, prevProps, <span class="hljs-keyword">this</span>.props)
+            : val
+          <span class="hljs-keyword">return</span>
+        }
+
+        ...
+      })
+    }
+
+    componentDidUpdate (prevProps) {
+      <span class="hljs-keyword">this</span>.update(prevProps)
+    }
+
+    componentDidMount () {
+      <span class="hljs-keyword">this</span>.update()
+    }
+
+    ...
+  }
+  <span class="hljs-keyword">return</span> React.forwardRef(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> (
+    React.createElement(Index, { ...props, <span class="hljs-attr">forwardRef</span>: ref })
+  ))
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="兼容-vue"></a><a href="#兼容-vue" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>兼容 Vue</h3>
+<p>不同于 React，虽然 Vue 在传递参数给 Web Components 时也是采用 <code>setAttribute</code> 的方式，但 v-bind 指令提供了 <a href="https://cn.vuejs.org/v2/api/#v-bind">.prop</a> 修饰符，它可以将参数作为 DOM property 来绑定。另外 Vue 也能监听 Web Components 发出的自定义事件。</p>
+<p>因此 Vue 在 Props 和 Events 两个问题上都不需要额外处理，但在与 Stencil 的配合上还是有一些兼容问题，接下来将列出主要的三点。</p>
+<h4><a class="anchor" aria-hidden="true" id="1-hosts-classname"></a><a href="#1-hosts-classname" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Host's className</h4>
+<h5><a class="anchor" aria-hidden="true" id="11-问题-1"></a><a href="#11-问题-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.1 问题</h5>
+<p>同上文兼容 React 第四部分，在 Vue 中更新 host element 的 class，也会覆盖内置 class。</p>
+<h5><a class="anchor" aria-hidden="true" id="12-解决方案-1"></a><a href="#12-解决方案-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.2 解决方案</h5>
+<p>同样的思路，需要在 Web Components 上包装一层 Vue 的自定义组件。</p>
+<pre><code class="hljs css language-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createComponent</span> (<span class="hljs-params">name, classNames = []</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    name,
+    <span class="hljs-attr">computed</span>: {
+      listeners () {
+        <span class="hljs-keyword">return</span> { ...this.$listeners }
+      }
+    },
+    render (createElement) {
+      <span class="hljs-keyword">return</span> createElement(name, {
+        <span class="hljs-attr">class</span>: [<span class="hljs-string">'hydrated'</span>, ...classNames],
+        <span class="hljs-attr">on</span>: <span class="hljs-keyword">this</span>.listeners
+      }, <span class="hljs-keyword">this</span>.$slots.default)
+    }
+  }
+}
+
+Vue.component(<span class="hljs-string">'todo-list'</span>, createComponent(<span class="hljs-string">'todo-list'</span>, [<span class="hljs-string">'todo-list'</span>]))
+</code></pre>
+<p>注意：</p>
+<ul>
+<li>我们在自定义组件中重复声明了 Web Component 该有的内置类名。后续开发者为自定义组件设置类名时，Vue 将会<a href="https://cn.vuejs.org/v2/guide/components-props.html#%E6%9B%BF%E6%8D%A2-%E5%90%88%E5%B9%B6%E5%B7%B2%E6%9C%89%E7%9A%84-Attribute">自动对类名进行合并</a>。</li>
+<li>需要把自定义组件上绑定的事件通过 <a href="https://cn.vuejs.org/v2/guide/components-custom-events.html#%E5%B0%86%E5%8E%9F%E7%94%9F%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A%E5%88%B0%E7%BB%84%E4%BB%B6">$listeners</a> 透传给 Web Component。</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="2-ref"></a><a href="#2-ref" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Ref</h4>
+<h5><a class="anchor" aria-hidden="true" id="21-问题-1"></a><a href="#21-问题-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.1 问题</h5>
+<p>为了解决问题 1，我们给 Vue 中的 Web Components 都包装了一层自定义组件。同样地，开发者在使用 ref 时取到的是自定义组件，而不是 Web Component。</p>
+<h5><a class="anchor" aria-hidden="true" id="22-解决方案-1"></a><a href="#22-解决方案-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.2 解决方案</h5>
+<p>Vue 并没有 forwardRef 的概念，只可简单粗暴地修改 <code>this.$parent.$refs</code>。</p>
+<p>为自定义组件增加一个 mixin：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> refs = {
+  mounted () {
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>.keys(<span class="hljs-keyword">this</span>.$parent.$refs).length) {
+      <span class="hljs-keyword">const</span> refs = <span class="hljs-keyword">this</span>.$parent.$refs
+
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> key <span class="hljs-keyword">in</span> refs) {
+        <span class="hljs-keyword">if</span> (refs[key] === <span class="hljs-keyword">this</span>) {
+          refs[key] = <span class="hljs-keyword">this</span>.$el
+          <span class="hljs-keyword">break</span>
+        }
+      }
+    }
+  },
+  beforeDestroy () {
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>.keys(<span class="hljs-keyword">this</span>.$parent.$refs).length) {
+      <span class="hljs-keyword">const</span> refs = <span class="hljs-keyword">this</span>.$parent.$refs
+
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> key <span class="hljs-keyword">in</span> refs) {
+        <span class="hljs-keyword">if</span> (refs[key] === <span class="hljs-keyword">this</span>.$el) {
+          refs[key] = <span class="hljs-literal">null</span>
+          <span class="hljs-keyword">break</span>
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<p>注意：</p>
+<ul>
+<li>上述代码没有处理循环 ref，循环 ref 还需要另外判断和处理。</li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="3-v-model"></a><a href="#3-v-model" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. v-model</h4>
+<h5><a class="anchor" aria-hidden="true" id="31-问题-1"></a><a href="#31-问题-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.1 问题</h5>
+<p>我们在自定义组件中使用了渲染函数进行渲染，因此对表单组件需要额外处理 <a href="https://cn.vuejs.org/v2/guide/render-function.html#v-model">v-model</a>。</p>
+<h5><a class="anchor" aria-hidden="true" id="32-解决方案-1"></a><a href="#32-解决方案-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.2 解决方案</h5>
+<p>使用自定义组件上的 <code>model</code> 选项，定制组件使用 <code>v-model</code> 时的 prop 和 event。</p>
+<p>改造上述的自定义组件：</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createFormsComponent</span> (<span class="hljs-params">name, event, modelValue = <span class="hljs-string">'value'</span>, classNames = []</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    name,
+    <span class="hljs-attr">computed</span>: {
+      listeners () {
+        <span class="hljs-keyword">return</span> { ...this.$listeners }
+      }
+    },
+    <span class="hljs-attr">model</span>: {
+      <span class="hljs-attr">prop</span>: modelValue,
+      <span class="hljs-attr">event</span>: <span class="hljs-string">'model'</span>
+    },
+    <span class="hljs-attr">methods</span>: {
+      input (e) {
+        <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'input'</span>, e)
+        <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'model'</span>, e.target.value)
+      },
+      change (e) {
+        <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'change'</span>, e)
+        <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'model'</span>, e.target.value)
+      }
+    },
+    render (createElement) {
+      <span class="hljs-keyword">return</span> createElement(name, {
+        <span class="hljs-attr">class</span>: [<span class="hljs-string">'hydrated'</span>, ...classNames],
+        <span class="hljs-attr">on</span>: {
+          ...this.listeners,
+          [event]: <span class="hljs-keyword">this</span>[event]
+        }
+      }, <span class="hljs-keyword">this</span>.$slots.default)
+    }
+  }
+}
+
+<span class="hljs-keyword">const</span> Input = createFormsComponent(<span class="hljs-string">'taro-input'</span>, <span class="hljs-string">'input'</span>)
+<span class="hljs-keyword">const</span> Switch = createFormsComponent(<span class="hljs-string">'taro-switch'</span>, <span class="hljs-string">'change'</span>, <span class="hljs-string">'checked'</span>)
+Vue.component(<span class="hljs-string">'taro-input'</span>, Input)
+Vue.component(<span class="hljs-string">'taro-switch'</span>, Switch)
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="总结"></a><a href="#总结" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>总结</h2>
+<p>当我们希望创建一些不拘泥于框架的组件时，Web Components 会是一个不错的选择。比如跨团队协作，双方的技术栈不同，但又需要公用部分组件时。</p>
+<p>本次对 React 语法组件库进行 Web Components 化改造，工作量不下于重新搭建一个 Vue 组件库。但日后当 Taro 支持使用其他框架编写多端应用时，只需要针对对应框架与 Web Components 和 Stencil 的兼容问题编写一个胶水层即可，总体来看还是值得的。</p>
+<p>关于胶水层，业界兼容 React 的方案颇多，只是兼容 Web Components 可以使用 <a href="https://github.com/BBKolton/reactify-wc">reactify-wc</a>，配合 Stencil 则可以使用官方提供的插件 <a href="https://github.com/ionic-team/stencil-ds-plugins/blob/master/README.md">Stencil DS Plugin</a>。倘若 Vue 需要兼容 Stencil，或需要提高兼容时的灵活性，还是建议手工编写一个胶水层。</p>
+<p>本文简单介绍了 Taro Next、Web Components、Stencil 以及基于 Stencil 的组件库改造历程，希望能为读者们带来一些帮助与启迪。</p>
+</span></div></div><div class="blogSocialSection"></div></div><div class="blog-recent"><a class="button" href="/taro/blog">最近更新</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#背景">背景</a><ul class="toc-headings"><li><a href="#taro-next-将支持使用多框架开发">Taro Next 将支持使用多框架开发</a></li><li><a href="#taro-h5">Taro H5</a></li><li><a href="#方案选择">方案选择</a></li></ul></li><li><a href="#web-components-简介">Web Components 简介</a><ul class="toc-headings"><li><a href="#技术规范">技术规范</a></li><li><a href="#示例">示例</a></li></ul></li><li><a href="#stencil">Stencil</a><ul class="toc-headings"><li><a href="#示例-1">示例：</a></li></ul></li><li><a href="#在-react-与-vue-中使用-stencil">在 React 与 Vue 中使用 Stencil</a><ul class="toc-headings"><li><a href="#兼容-react">兼容 React</a></li><li><a href="#兼容-vue">兼容 Vue</a></li></ul></li><li><a href="#总结">总结</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Taro.chooseAddress(option) · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="获取用户收货地址。调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。"/><meta name="docsearch:version" content="next"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Taro.chooseAddress(option) · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="获取用户收货地址。调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/next/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/next/components-desc.html" target="_self">组件库</a></li><li class="siteNavGroupActive"><a href="/taro/docs/next/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>地址</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">关于API<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/about/desc.html">API 说明</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/about/tarocomponent.html">Taro.Component</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/about/env.html">环境判断</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/about/events.html">消息机制</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">设备<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">加速度计</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/accelerometer/startAccelerometer.html">startAccelerometer</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/accelerometer/stopAccelerometer.html">stopAccelerometer</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/accelerometer/onAccelerometerChange.html">onAccelerometerChange</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">蓝牙</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/bluetooth/closeBluetoothAdapter.html">closeBluetoothAdapter</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/bluetooth/getBluetoothAdapterState.html">getBluetoothAdapterState</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/bluetooth/getBluetoothDevices.html">getBluetoothDevices</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/bluetooth/getConnectedBluetoothDevices.html">getConnectedBluetoothDevices</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/bluetooth/onBluetoothAdapterStateChange.html">onBluetoothAdapterStateChange</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/bluetooth/onBluetoothDeviceFound.html">onBluetoothDeviceFound</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/bluetooth/openBluetoothAdapter.html">openBluetoothAdapter</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/bluetooth/startBluetoothDevicesDiscovery.html">startBluetoothDevicesDiscovery</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/bluetooth/stopBluetoothDevicesDiscovery.html">stopBluetoothDevicesDiscovery</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">低功耗蓝牙</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ble/closeBLEConnection.html">closeBLEConnection</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ble/createBLEConnection.html">createBLEConnection</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ble/getBLEDeviceCharacteristics.html">getBLEDeviceCharacteristics</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ble/getBLEDeviceServices.html">getBLEDeviceServices</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ble/notifyBLECharacteristicValueChange.html">notifyBLECharacteristicValueChange</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ble/onBLECharacteristicValueChange.html">onBLECharacteristicValueChange</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ble/onBLEConnectionStateChange.html">onBLEConnectionStateChange</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ble/readBLECharacteristicValue.html">readBLECharacteristicValue</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ble/writeBLECharacteristicValue.html">writeBLECharacteristicValue</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">剪贴板</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/clipboard/getClipboardData.html">getClipboardData</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/clipboard/setClipboardData.html">setClipboardData</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">罗盘</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/compass/onCompassChange.html">onCompassChange</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/compass/startCompass.html">startCompass</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/compass/stopCompass.html">stopCompass</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">iBeacon</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ibeacon/getBeacons.html">getBeacons</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ibeacon/onBeaconServiceChange.html">onBeaconServiceChange</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ibeacon/onBeaconUpdate.html">onBeaconUpdate</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ibeacon/startBeaconDiscovery.html">startBeaconDiscovery</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/ibeacon/stopBeaconDiscovery.html">stopBeaconDiscovery</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">NFC</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/nfc/getHCEState.html">getHCEState</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/nfc/onHCEMessage.html">onHCEMessage</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/nfc/sendHCEMessage.html">sendHCEMessage</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/nfc/startHCE.html">startHCE</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/nfc/stopHCE.html">stopHCE</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">电话</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/phone/makePhoneCall.html">makePhoneCall</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">振动</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/vibrate/vibrateLong.html">vibrateLong</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/vibrate/vibrateShort.html">vibrateShort</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">Wi-Fi</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/wifi/connectWifi.html">connectWifi</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/wifi/getConnectedWifi.html">getConnectedWifi</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/wifi/getWifiList.html">getWifiList</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/wifi/onGetWifiList.html">onGetWifiList</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/wifi/offGetWifiList.html">offGetWifiList</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/wifi/onWifiConnected.html">onWifiConnected</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/wifi/offWifiConnected.html">offWifiConnected</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/wifi/setWifiList.html">setWifiList</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/wifi/startWifi.html">startWifi</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/device/wifi/stopWifi.html">stopWifi</a></li></ul></div></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">文件<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/files/getFileInfo.html">getFileInfo</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/files/getSavedFileInfo.html">getSavedFileInfo</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/files/getSavedFileList.html">getSavedFileList</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/files/openDocument.html">openDocument</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/files/removeSavedFile.html">removeSavedFile</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/files/saveFile.html">saveFile</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">位置<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/location/getLocation.html">getLocation</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/location/openLocation.html">openLocation</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/location/chooseLocation.html">chooseLocation</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">网络<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">请求</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/network/request/request.html">request</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/network/request/addInterceptor.html">addInterceptor</a></li></ul></div></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">开放接口<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">地址</h4><ul><li class="navListItem navListItemActive"><a class="navItem" href="/taro/docs/next/apis/open-api/address/chooseAddress.html">chooseAddress</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">卡券</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/card/addCard.html">addCard</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/card/openCard.html">openCard</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">发票</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/invoice/chooseInvoice.html">chooseInvoice</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/invoice/chooseInvoiceTitle.html">chooseInvoiceTitle</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">登录</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/login/login.html">login</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/login/checkSession.html">checkSession</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">支付</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/payment/faceVerifyForPay.html">faceVerifyForPay</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/payment/requestPayment.html">requestPayment</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">设置</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/settings/getSetting.html">getSetting</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/settings/openSetting.html">openSetting</a></li></ul></div><div class="navGroup subNavGroup"><h4 class="navGroupSubcategoryTitle">微信运动</h4><ul><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/open-api/werun/getWeRunData.html">getWeRunData</a></li></ul></div></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">数据缓存<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/storage/setStorage.html">setStorage</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/storage/setStorageSync.html">setStorageSync</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/storage/getStorage.html">getStorage</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/storage/getStorageSync.html">getStorageSync</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/storage/getStorageInfo.html">getStorageInfo</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/storage/getStorageInfoSync.html">getStorageInfoSync</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/storage/removeStorage.html">removeStorage</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/storage/removeStorageSync.html">removeStorageSync</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/storage/clearStorage.html">clearStorage</a></li><li class="navListItem"><a class="navItem" href="/taro/docs/next/apis/storage/clearStorageSync.html">clearStorageSync</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/apis/open-api/address/chooseAddress.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Taro.chooseAddress(option)</h1></header><article><div><span><p>获取用户收货地址。调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html">参考文档</a></p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="类型"></a><a href="#类型" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>类型</h2>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">option<span class="token operator">?</span><span class="token operator">:</span> Option</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token builtin">Promise</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">SuccessCallbackResult</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="参数"></a><a href="#参数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>参数</h2>
+<h3><a class="anchor" aria-hidden="true" id="option"></a><a href="#option" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Option</h3>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="successcallbackresult"></a><a href="#successcallbackresult" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SuccessCallbackResult</h3>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cityName</td>
+      <td><code>string</code></td>
+      <td>国标收货地址第二级地址</td>
+    </tr>
+    <tr>
+      <td>countyName</td>
+      <td><code>string</code></td>
+      <td>国标收货地址第三级地址</td>
+    </tr>
+    <tr>
+      <td>detailInfo</td>
+      <td><code>string</code></td>
+      <td>详细收货地址信息</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+    <tr>
+      <td>nationalCode</td>
+      <td><code>string</code></td>
+      <td>收货地址国家码</td>
+    </tr>
+    <tr>
+      <td>postalCode</td>
+      <td><code>string</code></td>
+      <td>邮编</td>
+    </tr>
+    <tr>
+      <td>provinceName</td>
+      <td><code>string</code></td>
+      <td>国标收货地址第一级地址</td>
+    </tr>
+    <tr>
+      <td>telNumber</td>
+      <td><code>string</code></td>
+      <td>收货人手机号码</td>
+    </tr>
+    <tr>
+      <td>userName</td>
+      <td><code>string</code></td>
+      <td>收货人姓名</td>
+    </tr>
+  </tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="示例代码"></a><a href="#示例代码" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例代码</h2>
+<pre><code class="hljs css language-tsx">Taro<span class="token punctuation">.</span><span class="token function">chooseAddress</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>userName<span class="token punctuation">)</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>postalCode<span class="token punctuation">)</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>provinceName<span class="token punctuation">)</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>cityName<span class="token punctuation">)</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>countyName<span class="token punctuation">)</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>detailInfo<span class="token punctuation">)</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>nationalCode<span class="token punctuation">)</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>telNumber<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="api-支持度"></a><a href="#api-支持度" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h2>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">Taro.chooseAddress</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/taro/docs/next/apis/network/socket/SocketTask.html"><span class="arrow-prev">← </span><span>Previous</span></a><a class="docs-next button" href="/taro/docs/next/apis/open-api/auth/authorize.html"><span>Next</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#类型">类型</a></li><li><a href="#参数">参数</a><ul class="toc-headings"><li><a href="#option">Option</a></li><li><a href="#successcallbackresult">SuccessCallbackResult</a></li></ul></li><li><a href="#示例代码">示例代码</a></li><li><a href="#api-支持度">API 支持度</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

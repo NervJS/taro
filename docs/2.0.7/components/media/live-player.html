@@ -1,0 +1,203 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>LivePlayer · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="实时音视频播放。相关api：Taro.createLivePlayerContext"/><meta name="docsearch:version" content="2.0.7"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="LivePlayer · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="实时音视频播放。相关api：Taro.createLivePlayerContext"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.0.7</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/2.0.7/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.0.7/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.0.7/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/components/media/live-player.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">LivePlayer</h1></header><article><div><span><p>实时音视频播放。相关api：Taro.createLivePlayerContext</p>
+<p>需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。</p>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html">参考文档</a></p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="类型"></a><a href="#类型" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>类型</h2>
+<pre><code class="hljs css language-tsx">ComponentType<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">LivePlayerProps</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="示例代码"></a><a href="#示例代码" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例代码</h2>
+<pre><code class="hljs css language-tsx"><span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Components</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">LivePlayer</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>url<span class="token punctuation">'</span></span> <span class="token attr-name">mode</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>live<span class="token punctuation">'</span></span> <span class="token attr-name">autoplay</span>  <span class="token punctuation">/></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="liveplayerprops"></a><a href="#liveplayerprops" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>LivePlayerProps</h2>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th style="text-align:center">默认值</th><th style="text-align:center">必填</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>src</td><td><code>string</code></td><td style="text-align:center"></td><td style="text-align:center">否</td><td>音视频地址。目前仅支持 flv, rtmp 格式</td></tr>
+<tr><td>mode</td><td>&quot;live&quot; or &quot;RTC&quot;</td><td style="text-align:center"><code>&quot;live&quot;</code></td><td style="text-align:center">否</td><td>模式</td></tr>
+<tr><td>autoplay</td><td><code>boolean</code></td><td style="text-align:center"><code>false</code></td><td style="text-align:center">否</td><td>自动播放</td></tr>
+<tr><td>muted</td><td><code>boolean</code></td><td style="text-align:center"><code>false</code></td><td style="text-align:center">否</td><td>是否静音</td></tr>
+<tr><td>orientation</td><td>&quot;vertical&quot; or &quot;horizontal&quot;</td><td style="text-align:center"><code>&quot;vertical&quot;</code></td><td style="text-align:center">否</td><td>画面方向</td></tr>
+<tr><td>objectFit</td><td>&quot;contain&quot; or &quot;fillCrop&quot;</td><td style="text-align:center"><code>&quot;contain&quot;</code></td><td style="text-align:center">否</td><td>填充模式</td></tr>
+<tr><td>backgroundMute</td><td><code>boolean</code></td><td style="text-align:center"><code>false</code></td><td style="text-align:center">否</td><td>进入后台时是否静音（已废弃，默认退台静音）<br /><strong>不推荐使用</strong></td></tr>
+<tr><td>minCache</td><td><code>number</code></td><td style="text-align:center"><code>1</code></td><td style="text-align:center">否</td><td>进最小缓冲区，单位s</td></tr>
+<tr><td>maxCache</td><td><code>number</code></td><td style="text-align:center"><code>3</code></td><td style="text-align:center">否</td><td>进最小缓冲区，单位s</td></tr>
+<tr><td>soundMode</td><td>&quot;speaker&quot; or &quot;ear&quot;</td><td style="text-align:center"><code>&quot;speaker&quot;</code></td><td style="text-align:center">否</td><td>声音输出方式</td></tr>
+<tr><td>autoPauseIfNavigate</td><td><code>boolean</code></td><td style="text-align:center"><code>true</code></td><td style="text-align:center">否</td><td>当跳转到本小程序的其他页面时，是否自动暂停本页面的实时音视频播放</td></tr>
+<tr><td>autoPauseIfOpenNavigate</td><td><code>boolean</code></td><td style="text-align:center"><code>true</code></td><td style="text-align:center">否</td><td>当跳转到其它微信原生页面时，是否自动暂停本页面的实时音视频播放</td></tr>
+<tr><td>onStateChange</td><td><code>BaseEventOrigFunction&lt;onStateChangeEventDetail&gt;</code></td><td style="text-align:center"></td><td style="text-align:center">否</td><td>播放状态变化事件，detail = {code}</td></tr>
+<tr><td>onFullScreenChange</td><td><code>BaseEventOrigFunction&lt;onFullScreenChangeEventDetail&gt;</code></td><td style="text-align:center"></td><td style="text-align:center">否</td><td>全屏变化事件，detail = {direction, fullScreen}</td></tr>
+<tr><td>onNetstatus</td><td><code>BaseEventOrigFunction&lt;onNetStatusEventDetail&gt;</code></td><td style="text-align:center"></td><td style="text-align:center">否</td><td>网络状态通知，detail = {info}</td></tr>
+<tr><td>onAudioVolumenotify</td><td><code>BaseEventOrigFunction&lt;{}&gt;</code></td><td style="text-align:center"></td><td style="text-align:center">否</td><td>播放音量大小通知，detail = {}</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="api-支持度"></a><a href="#api-支持度" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h3>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">LivePlayerProps.src</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.mode</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.autoplay</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.muted</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.orientation</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.objectFit</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.backgroundMute</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.minCache</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.maxCache</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.soundMode</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.autoPauseIfNavigate</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.autoPauseIfOpenNavigate</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.onStateChange</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.onFullScreenChange</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.onNetstatus</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+<tr><td style="text-align:center">LivePlayerProps.onAudioVolumenotify</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="mode"></a><a href="#mode" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>mode</h3>
+<p>mode 的合法值</p>
+<table>
+<thead>
+<tr><th>参数</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>live</td><td>直播</td></tr>
+<tr><td>RTC</td><td>实时通话，该模式时延更低</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="orientation"></a><a href="#orientation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>orientation</h3>
+<p>orientation 的合法值</p>
+<table>
+<thead>
+<tr><th>参数</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>vertical</td><td>竖直</td></tr>
+<tr><td>horizontal</td><td>水平</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="objectfit"></a><a href="#objectfit" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>objectFit</h3>
+<p>objectFit 的合法值</p>
+<table>
+<thead>
+<tr><th>参数</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>contain</td><td>图像长边填满屏幕，短边区域会被填充⿊⾊</td></tr>
+<tr><td>fillCrop</td><td>图像铺满屏幕，超出显示区域的部分将被截掉</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="soundmode"></a><a href="#soundmode" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>soundMode</h3>
+<p>soundMode 的合法值</p>
+<table>
+<thead>
+<tr><th>参数</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>speaker</td><td>扬声器</td></tr>
+<tr><td>ear</td><td>听筒</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onstatechangeeventdetail"></a><a href="#onstatechangeeventdetail" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onStateChangeEventDetail</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>code</td><td><code>number</code></td><td>状态码</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onfullscreenchangeeventdetail"></a><a href="#onfullscreenchangeeventdetail" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onFullScreenChangeEventDetail</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>direction</td><td><code>number</code></td><td>方向</td></tr>
+<tr><td>fullScreen</td><td>number or boolean</td><td>全屏</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onnetstatuseventdetail"></a><a href="#onnetstatuseventdetail" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onNetStatusEventDetail</h3>
+<table>
+<thead>
+<tr><th>参数</th><th>类型</th></tr>
+</thead>
+<tbody>
+<tr><td>info</td><td><code>netStatus</code></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="status"></a><a href="#status" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>status</h3>
+<p>状态码</p>
+<table>
+<thead>
+<tr><th>参数</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>2001</td><td>已经连接服务器</td></tr>
+<tr><td>2002</td><td>已经连接 RTMP 服务器,开始拉流</td></tr>
+<tr><td>2003</td><td>网络接收到首个视频数据包(IDR)</td></tr>
+<tr><td>2004</td><td>视频播放开始</td></tr>
+<tr><td>2005</td><td>视频播放进度</td></tr>
+<tr><td>2006</td><td>视频播放结束</td></tr>
+<tr><td>2007</td><td>视频播放Loading</td></tr>
+<tr><td>2008</td><td>解码器启动</td></tr>
+<tr><td>2009</td><td>视频分辨率改变</td></tr>
+<tr><td>-2301</td><td>网络断连，且经多次重连抢救无效，更多重试请自行重启播放</td></tr>
+<tr><td>-2302</td><td>获取加速拉流地址失败</td></tr>
+<tr><td>2101</td><td>当前视频帧解码失败</td></tr>
+<tr><td>2102</td><td>当前音频帧解码失败</td></tr>
+<tr><td>2103</td><td>网络断连, 已启动自动重连</td></tr>
+<tr><td>2104</td><td>网络来包不稳：可能是下行带宽不足，或由于主播端出流不均匀</td></tr>
+<tr><td>2105</td><td>当前视频播放出现卡顿</td></tr>
+<tr><td>2106</td><td>硬解启动失败，采用软解</td></tr>
+<tr><td>2107</td><td>当前视频帧不连续，可能丢帧</td></tr>
+<tr><td>2108</td><td>当前流硬解第一个I帧失败，SDK自动切软解</td></tr>
+<tr><td>3001</td><td>RTMP -DNS解析失败</td></tr>
+<tr><td>3002</td><td>RTMP服务器连接失败</td></tr>
+<tr><td>3003</td><td>RTMP服务器握手失败</td></tr>
+<tr><td>3005</td><td>RTMP 读/写失败</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="api-支持度-1"></a><a href="#api-支持度-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API 支持度</h2>
+<table>
+<thead>
+<tr><th style="text-align:center">API</th><th style="text-align:center">微信小程序</th><th style="text-align:center">H5</th><th style="text-align:center">React Native</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:center">LivePlayer</td><td style="text-align:center">✔️</td><td style="text-align:center"></td><td style="text-align:center"></td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#类型">类型</a></li><li><a href="#示例代码">示例代码</a></li><li><a href="#liveplayerprops">LivePlayerProps</a><ul class="toc-headings"><li><a href="#api-支持度">API 支持度</a></li><li><a href="#mode">mode</a></li><li><a href="#orientation">orientation</a></li><li><a href="#objectfit">objectFit</a></li><li><a href="#soundmode">soundMode</a></li><li><a href="#onstatechangeeventdetail">onStateChangeEventDetail</a></li><li><a href="#onfullscreenchangeeventdetail">onFullScreenChangeEventDetail</a></li><li><a href="#onnetstatuseventdetail">onNetStatusEventDetail</a></li><li><a href="#status">status</a></li></ul></li><li><a href="#api-支持度-1">API 支持度</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

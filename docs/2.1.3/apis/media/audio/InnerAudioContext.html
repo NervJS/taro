@@ -1,0 +1,593 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>InnerAudioContext · Taro</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取实例。"/><meta name="docsearch:version" content="2.1.3"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="InnerAudioContext · Taro"/><meta property="og:type" content="website"/><meta property="og:url" content="https://taro.jd.com/taro/index.html"/><meta property="og:description" content="InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取实例。"/><meta property="og:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://taro.jd.com/taro/img/logo-taro.png"/><link rel="shortcut icon" href="/taro/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="https://storage.jd.com/taro-resource/vs.min.css"/><link rel="alternate" type="application/atom+xml" href="https://taro.jd.com/taro/blog/atom.xml" title="Taro Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://taro.jd.com/taro/blog/feed.xml" title="Taro Blog RSS Feed"/><script type="text/javascript" src="https://storage.jd.com/taro-docs/buttons.js"></script><script type="text/javascript" src="https://storage.jd.com/taro-resource/tongji.js" async=""></script><script type="text/javascript" src="https://storage.jd.com/taro-docs/taro-doc-hotjar.js" async=""></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/taro/js/scrollSpy.js"></script><link rel="stylesheet" href="/taro/css/prism.css"/><link rel="stylesheet" href="/taro/css/main.css"/><script src="/taro/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/taro/"><img class="logo" src="/taro/img/logo-taro.png" alt="Taro"/><h2 class="headerTitleWithLogo">Taro</h2></a><a href="/taro/versions.html"><h3>2.1.3</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/taro/docs/2.1.3/README.html" target="_self">文档</a></li><li class=""><a href="/taro/docs/2.1.3/components-desc.html" target="_self">组件库</a></li><li class=""><a href="/taro/docs/2.1.3/apis/about/desc.html" target="_self">API</a></li><li class=""><a href="/taro/blog/" target="_self">Blog</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><li class=""><a href="https://taro-ui.jd.com" target="_self">Taro-UI</a></li><li class=""><a href="https://taro-ext.jd.com" target="_self">物料市场</a></li><li class=""><a href="https://taro-club.jd.com" target="_self">论坛</a></li><li class=""><a href="https://taro.jd.com/jdmp/index.html" target="_self">京东小程序</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/nervjs/taro/edit/master/docs/apis/media/audio/InnerAudioContext.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">InnerAudioContext</h1></header><article><div><span><p>InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取实例。</p>
+<p><strong>支持格式</strong></p>
+<table>
+<thead>
+<tr><th>格式</th><th>iOS</th><th>Android</th></tr>
+</thead>
+<tbody>
+<tr><td>flac</td><td>x</td><td>√</td></tr>
+<tr><td>m4a</td><td>√</td><td>√</td></tr>
+<tr><td>ogg</td><td>x</td><td>√</td></tr>
+<tr><td>ape</td><td>x</td><td>√</td></tr>
+<tr><td>amr</td><td>x</td><td>√</td></tr>
+<tr><td>wma</td><td>x</td><td>√</td></tr>
+<tr><td>wav</td><td>√</td><td>√</td></tr>
+<tr><td>mp3</td><td>√</td><td>√</td></tr>
+<tr><td>mp4</td><td>x</td><td>√</td></tr>
+<tr><td>aac</td><td>√</td><td>√</td></tr>
+<tr><td>aiff</td><td>√</td><td>x</td></tr>
+<tr><td>caf</td><td>√</td><td>x</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/InnerAudioContext.html">参考文档</a></p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="方法"></a><a href="#方法" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>方法</h2>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">只读</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>autoplay</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否自动开始播放</td>
+    </tr>
+    <tr>
+      <td>buffered</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲</td>
+    </tr>
+    <tr>
+      <td>currentTime</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>当前音频的播放位置（单位 s）。只有在当前有合法的 src 时返回，时间保留小数点后 6 位</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>当前音频的长度（单位 s）。只有在当前有合法的 src 时返回</td>
+    </tr>
+    <tr>
+      <td>loop</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否循环播放</td>
+    </tr>
+    <tr>
+      <td>obeyMuteSwitch</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>true</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否遵循系统静音开关。当此参数为 <code>false</code> 时，即使用户打开了静音开关，也能继续发出声音。从 2.3.0 版本开始此参数不生效，使用 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.setInnerAudioOption.html">Taro.setInnerAudioOption</a> 接口统一设置。</td>
+    </tr>
+    <tr>
+      <td>paused</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>当前是是否暂停或停止状态</td>
+    </tr>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>音频资源的地址，用于直接播放。</td>
+    </tr>
+    <tr>
+      <td>startTime</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"><code>0</code></td>
+      <td style="text-align:center">否</td>
+      <td>开始播放的位置（单位：s）</td>
+    </tr>
+    <tr>
+      <td>volume</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"><code>1</code></td>
+      <td style="text-align:center">否</td>
+      <td>音量。范围 0~1。</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="play"></a><a href="#play" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>play</h3>
+<p>播放</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="pause"></a><a href="#pause" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>pause</h3>
+<p>暂停</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="stop"></a><a href="#stop" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>stop</h3>
+<p>停止</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="seek"></a><a href="#seek" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>seek</h3>
+<p>跳转到指定位置，单位 s</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">position<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>position</td>
+      <td><code>number</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="destroy"></a><a href="#destroy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>destroy</h3>
+<p>销毁当前实例</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="oncanplay"></a><a href="#oncanplay" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onCanplay</h3>
+<p>音频进入可以播放状态，但不保证后面可以流畅播放</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onplay"></a><a href="#onplay" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onPlay</h3>
+<p>音频播放事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onpause"></a><a href="#onpause" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onPause</h3>
+<p>音频暂停事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onstop"></a><a href="#onstop" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onStop</h3>
+<p>音频停止事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onended"></a><a href="#onended" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onEnded</h3>
+<p>音频自然播放结束事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="ontimeupdate"></a><a href="#ontimeupdate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onTimeUpdate</h3>
+<p>音频播放进度更新事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onerror"></a><a href="#onerror" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onError</h3>
+<p>音频播放错误事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">res<span class="token operator">:</span> onErrorDetail</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: onErrorDetail) =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onwaiting"></a><a href="#onwaiting" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onWaiting</h3>
+<p>音频加载中事件，当音频因为数据不足，需要停下来加载时会触发</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onseeking"></a><a href="#onseeking" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onSeeking</h3>
+<p>音频进行 seek 操作事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onseeked"></a><a href="#onseeked" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onSeeked</h3>
+<p>音频完成 seek 操作事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="offcanplay"></a><a href="#offcanplay" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>offCanplay</h3>
+<p>取消监听 onCanplay 事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="offplay"></a><a href="#offplay" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>offPlay</h3>
+<p>取消监听 onPlay 事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="offpause"></a><a href="#offpause" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>offPause</h3>
+<p>取消监听 onPause 事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="offstop"></a><a href="#offstop" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>offStop</h3>
+<p>取消监听 onStop 事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="offended"></a><a href="#offended" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>offEnded</h3>
+<p>取消监听 onEnded 事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="offtimeupdate"></a><a href="#offtimeupdate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>offTimeUpdate</h3>
+<p>取消监听 onTimeUpdate 事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="offerror"></a><a href="#offerror" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>offError</h3>
+<p>取消监听 onError 事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="offwaiting"></a><a href="#offwaiting" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>offWaiting</h3>
+<p>取消监听 onWaiting 事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="offseeking"></a><a href="#offseeking" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>offSeeking</h3>
+<p>取消监听 onSeeking 事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="offseeked"></a><a href="#offseeked" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>offSeeked</h3>
+<p>取消监听 onSeeked 事件</p>
+<pre><code class="hljs css language-tsx"><span class="token punctuation">(</span><span class="token parameter">callback<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">void</span>
+</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="参数"></a><a href="#参数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>参数</h2>
+<h3><a class="anchor" aria-hidden="true" id="onerrordetail"></a><a href="#onerrordetail" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onErrorDetail</h3>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errCode</td>
+      <td><code>number</code></td>
+      <td>错误码</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="onerrordetailerrcode"></a><a href="#onerrordetailerrcode" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>onErrorDetailErrCode</h3>
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10001</td>
+      <td>系统错误</td>
+    </tr>
+    <tr>
+      <td>10002</td>
+      <td>网络错误</td>
+    </tr>
+    <tr>
+      <td>10003</td>
+      <td>文件错误</td>
+    </tr>
+    <tr>
+      <td>10004</td>
+      <td>格式错误</td>
+    </tr>
+    <tr>
+      <td>-1</td>
+      <td>未知错误</td>
+    </tr>
+  </tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="示例代码"></a><a href="#示例代码" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例代码</h2>
+<pre><code class="hljs css language-tsx"><span class="token keyword">const</span> innerAudioContext <span class="token operator">=</span> Taro<span class="token punctuation">.</span><span class="token function">createInnerAudioContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+innerAudioContext<span class="token punctuation">.</span>autoplay <span class="token operator">=</span> <span class="token boolean">true</span>
+innerAudioContext<span class="token punctuation">.</span>src <span class="token operator">=</span> <span class="token string">'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&amp;uin=346897220&amp;vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&amp;fromtag=46'</span>
+innerAudioContext<span class="token punctuation">.</span><span class="token function">onPlay</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'开始播放'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+innerAudioContext<span class="token punctuation">.</span><span class="token function">onError</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>errMsg<span class="token punctuation">)</span>
+  <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>errCode<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#方法">方法</a><ul class="toc-headings"><li><a href="#play">play</a></li><li><a href="#pause">pause</a></li><li><a href="#stop">stop</a></li><li><a href="#seek">seek</a></li><li><a href="#destroy">destroy</a></li><li><a href="#oncanplay">onCanplay</a></li><li><a href="#onplay">onPlay</a></li><li><a href="#onpause">onPause</a></li><li><a href="#onstop">onStop</a></li><li><a href="#onended">onEnded</a></li><li><a href="#ontimeupdate">onTimeUpdate</a></li><li><a href="#onerror">onError</a></li><li><a href="#onwaiting">onWaiting</a></li><li><a href="#onseeking">onSeeking</a></li><li><a href="#onseeked">onSeeked</a></li><li><a href="#offcanplay">offCanplay</a></li><li><a href="#offplay">offPlay</a></li><li><a href="#offpause">offPause</a></li><li><a href="#offstop">offStop</a></li><li><a href="#offended">offEnded</a></li><li><a href="#offtimeupdate">offTimeUpdate</a></li><li><a href="#offerror">offError</a></li><li><a href="#offwaiting">offWaiting</a></li><li><a href="#offseeking">offSeeking</a></li><li><a href="#offseeked">offSeeked</a></li></ul></li><li><a href="#参数">参数</a><ul class="toc-headings"><li><a href="#onerrordetail">onErrorDetail</a></li><li><a href="#onerrordetailerrcode">onErrorDetailErrCode</a></li></ul></li><li><a href="#示例代码">示例代码</a></li></ul></nav></div><footer class="footer" id="footer"><div class="grid_c1 footer_cont"><div class="footer_logo_container"><div class="footer_logo"></div><span class="footer_designedby"></span></div><div class="footer_link_container"><div class="footer_link"><h3 class="footer_link_tit footer_link_tit1">相关资源</h3><p><a class="link" href="https://taro.jd.com/" target="_blank">Taro</a></p><p><a class="link" href="https://taro-ui.jd.com/" target="_blank">Taro UI</a></p><p><a class="link" href="https://at-ui.github.io/at-ui/#/zh" target="_blank">At-UI</a></p><p><a class="link" href="https://nerv.aotu.io/" target="_blank">Nerv</a></p><p><a class="link" href="https://athena.aotu.io/" target="_blank">Athena</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit2">社区</h3><p><a href="https://github.com/NervJS/taro/issues" target="_blank">GitHub</a></p><p><a href="https://taro-club.jd.com" target="_blank">Taro BBS</a></p><p class="footer_link_connect_wrap"><span class="footer_link_connect footer_link_wechat">微信<span class="wechat_qrcode_icon"><svg t="1554966525626" class="icon svgicon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2588" data-spm-anchor-id="a313x.7781069.0.i0"><path d="M240.071 241.095h59.278v59.278h-59.278v-59.278z" fill="" p-id="2589"></path><path d="M405.959 134.485h-272.611v272.611h106.723v47.445h59.278v-47.445h106.723v-59.278h47.445v-47.445h-47.445l-0.114-165.888zM346.795 347.819h-154.169v-154.055h154.055v154.055h0.114zM240.071 727.154h59.278v59.278h-59.278v-59.278zM726.016 241.095h59.278v59.278h-59.278v-59.278zM512.683 509.042v63.943h59.278v-59.165h47.445v-59.278h-47.445v-47.445h-59.278v101.945zM512.683 725.789v60.643h59.278v-106.723h47.445v-59.278h-106.723v105.358zM571.961 786.432h47.445v47.445h-47.445v-47.445zM453.405 833.877v59.165h118.557v-59.165h-118.557z" fill="" p-id="2590"></path><path d="M678.685 679.709h-59.278v106.723h106.61v-59.278h-47.331v-47.445zM726.016 893.042h166.002v-59.165h-106.723v-47.445h-59.278v106.61zM892.018 513.821v-59.278h-106.723v59.278h106.723zM832.739 727.154h59.278v59.278h-59.278v-59.278zM453.405 347.819h59.278v59.278h-59.278v-59.278zM726.016 454.542v-47.445h166.002v-272.611h-272.611v59.278h-106.723v47.445h106.723v59.165h-47.445v47.445h47.445v59.278h59.278v47.445h47.331zM678.685 193.763h154.055v154.055h-154.055v-154.055zM678.685 572.985h47.331v47.445h-47.331v-47.445zM785.294 679.709h-59.278v47.445h106.723v-106.723h59.278v-47.445h-106.723v106.723zM453.405 241.095h59.278v59.278h-59.278v-59.278zM299.349 513.821h47.445v59.165h-47.445v-59.165zM453.405 454.542h-106.61v59.278h59.165v59.165h47.445v-118.443z" fill="" p-id="2591"></path><path d="M405.959 786.432v-106.723h47.445v-59.278h-213.333v-106.61h-106.723v59.278h59.278v47.445h-59.278v272.611h272.611v-59.278h47.445v-47.445h-47.445zM346.795 833.877h-154.169v-154.169h154.055v154.169h0.114zM453.405 572.985h59.278v47.445h-59.278v-47.445zM619.406 513.821h59.278v59.165h-59.278v-59.165zM726.016 513.821h59.278v59.165h-59.278v-59.165z" fill="" p-id="2592"></path></svg></span></span><span class="footer_link_wechat_img"><img src="https://img11.360buyimg.com/ling/jfs/t1/105094/21/15729/35411/5e74e903Ed1490359/5991e49a33964c93.png"/></span></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit3">关于我们</h3><p><a href="https://aotu.io/" target="_blank">凹凸实验室</a></p><p><a href="https://aotu.io/join/" target="_blank">加入我们</a></p><p><a href="mailto:taro@jd.com?subject=【Taro 合作】合作标题">联系我们</a></p></div><div class="footer_link"><h3 class="footer_link_tit footer_link_tit4">感谢</h3><p><a href="http://jdc.jd.com/" target="_blank">用户体验设计部</a></p><p><a href="https://github.com/nervjs/taro#%E8%B4%A1%E7%8C%AE%E8%80%85%E4%BB%AC" target="_blank">Taro 贡献者们</a></p></div></div></div><div class="copyright"><div class="in">Copyright © 2019. All Rights Reserved. 粤ICP备15077732号-2</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+                indexName: 'taro',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
