@@ -26,7 +26,7 @@ declare namespace Taro {
   }
 
   /** 显示消息提示框
-   * 
+   *
    * **注意**
    * - Taro.showLoading 和 Taro.showToast 同时只能显示一个
    * - Taro.showToast 应与 Taro.hideToast 配对使用
@@ -41,7 +41,7 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showToast.html
    */
-  function showToast(option: showToast.Option): Promise<General.CallbackResult>
+  function showToast(option?: showToast.Option): Promise<General.CallbackResult>
 
   namespace showModal {
     interface Option {
@@ -98,7 +98,7 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showModal.html
    */
-  function showModal(option: showModal.Option): Promise<showModal.SuccessCallbackResult>
+  function showModal(option?: showModal.Option): Promise<showModal.SuccessCallbackResult>
 
   namespace showLoading {
     interface Option {
@@ -132,7 +132,7 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showLoading.html
    */
-  function showLoading(option: showLoading.Option): Promise<General.CallbackResult>
+  function showLoading(option?: showLoading.Option): Promise<General.CallbackResult>
 
   namespace showActionSheet {
     interface Option {
@@ -156,7 +156,7 @@ declare namespace Taro {
   }
 
   /** 显示操作菜单
-   * 
+   *
    * **注意**
    * - Android 6.7.2 以下版本，点击取消或蒙层时，回调 fail, errMsg 为 "fail cancel"；
    * - Android 6.7.2 及以上版本 和 iOS 点击蒙层不会关闭模态弹窗，所以尽量避免使用「取消」分支中实现业务逻辑
