@@ -49,11 +49,6 @@ export default (ctx) => {
         console.log(chalk.red('请传入正确的编译类型！'))
         process.exit(0)
       }
-      if (isWatch) {
-        process.env.NODE_ENV = 'development'
-      } else {
-        process.env.NODE_ENV = 'production'
-      }
       process.env.TARO_ENV = platform
       fs.ensureDirSync(outputPath)
       let isProduction = false
