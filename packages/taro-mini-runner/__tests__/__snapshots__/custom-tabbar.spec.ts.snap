@@ -6592,6 +6592,9 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             __webpack_require__.d(__webpack_exports__, \\"Events\\", (function() {
                 return Events;
             }));
+            __webpack_require__.d(__webpack_exports__, \\"FormElement\\", (function() {
+                return FormElement;
+            }));
             __webpack_require__.d(__webpack_exports__, \\"Style\\", (function() {
                 return Style;
             }));
@@ -9761,8 +9764,9 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
                     setProperty(dom, i, null, oldProps[i]);
                 }
             }
+            var isFormElement = dom instanceof _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__[\\"FormElement\\"];
             for (i in newProps) {
-                if (oldProps[i] !== newProps[i]) {
+                if (oldProps[i] !== newProps[i] || isFormElement && i === \\"value\\") {
                     setProperty(dom, i, newProps[i], oldProps[i]);
                 }
             }
