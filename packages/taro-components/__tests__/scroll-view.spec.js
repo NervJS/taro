@@ -55,8 +55,8 @@ describe('ScrollView', () => {
           'white-space': 'nowrap'
         }}
         onScroll={e => onScroll(e.detail)}
-        onScrollToUpper={onScrollToUpper}
-        onScrollToLower={onScrollToLower}
+        onScrollToUpper={e => onScrollToUpper(e.detail)}
+        onScrollToLower={e => onScrollToLower(e.detail)}
       >
         <div style={Object.assign({}, divStyleH, { backgroundColor: 'blue' })}></div>
         <div style={Object.assign({}, divStyleH, { backgroundColor: 'yellow' })}></div>
@@ -93,7 +93,7 @@ describe('ScrollView', () => {
       scrollLeft: upper
     })
 
-    assert(onScrollToUpper.callCount === 1)
+    assert(onScrollToUpper.calledOnceWith({ direction: 'left' }))
 
     await wrapper.setProps({
       scrollLeft: scrollWidth - width - lower - 1
@@ -105,7 +105,7 @@ describe('ScrollView', () => {
       scrollLeft: scrollWidth - width - lower
     })
 
-    assert(onScrollToLower.callCount === 1)
+    assert(onScrollToLower.calledOnceWith({ direction: 'right' }))
   })
 
   it('scroll-y', async () => {
@@ -123,8 +123,8 @@ describe('ScrollView', () => {
         upperThreshold={upper}
         lowerThreshold={lower}
         onScroll={e => onScroll(e.detail)}
-        onScrollToUpper={onScrollToUpper}
-        onScrollToLower={onScrollToLower}
+        onScrollToUpper={e => onScrollToUpper(e.detail)}
+        onScrollToLower={e => onScrollToLower(e.detail)}
       >
         <div style={Object.assign({}, divStyleV, { backgroundColor: 'blue' })}></div>
         <div style={Object.assign({}, divStyleV, { backgroundColor: 'yellow' })}></div>
@@ -156,7 +156,7 @@ describe('ScrollView', () => {
       scrollTop: upper
     })
 
-    assert(onScrollToUpper.callCount === 1)
+    assert(onScrollToUpper.calledOnceWith({ direction: 'top' }))
 
     await wrapper.setProps({
       scrollTop: scrollHeight - height - lower - 1
@@ -168,6 +168,6 @@ describe('ScrollView', () => {
       scrollTop: scrollHeight - height - lower
     })
 
-    assert(onScrollToLower.callCount === 1)
+    assert(onScrollToLower.calledOnceWith({ direction: 'bottom' }))
   })
 })
