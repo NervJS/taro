@@ -8,7 +8,7 @@ import { Prerender } from './prerender/prerender'
 import { isEmpty } from 'lodash'
 import { makeConfig } from './webpack/chain'
 
-const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc: Function) => {
+const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
   if (modifyWebpackChainFunc instanceof Function) {
     await modifyWebpackChainFunc(chain, webpack)
   }
