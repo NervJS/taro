@@ -45,7 +45,6 @@ export default (ctx: IPluginContext) => {
             lineChalk(line.desc)
           )
         })
-        return
       }
       if (typeof platform !== 'string') {
         console.log(chalk.red('请传入正确的编译类型！'))
