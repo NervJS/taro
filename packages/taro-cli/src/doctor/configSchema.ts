@@ -20,7 +20,7 @@ const schema = Joi.object().keys({
 
   env: Joi.object().pattern(Joi.string(), Joi.string()),
 
-  defineConstants: Joi.object().pattern(Joi.string(), Joi.string()),
+  defineConstants: Joi.object().pattern(Joi.string(), Joi.any()),
 
   copy: Joi.object().keys({
     patterns: Joi.array().items(
