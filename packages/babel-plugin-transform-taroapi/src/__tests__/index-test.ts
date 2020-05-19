@@ -55,6 +55,7 @@ it('should leave other apis untouched', function () {
   expect(namedImports).toEqual(new Set())
   // @ts-ignore
   expect(t.isMemberExpression(body[1].expression)).toBeTruthy()
+  // @ts-ignore
   expect((body[1].expression as t.MemberExpression)).toMatchObject(t.memberExpression(
     t.identifier(taroName),
     t.identifier('noop')
@@ -79,8 +80,10 @@ it('should move static apis under "Taro"', function () {
   expect(defaultImport).toBeTruthy()
 
   const taroName = defaultImport!.local.name
+  // @ts-ignore
   let memberExpression = body[1].expression
   if (t.isCallExpression(body[1])) {
+    // @ts-ignore
     memberExpression = (body[1].expression as t.CallExpression).callee
   }
   expect(memberExpression).toMatchObject(t.memberExpression(
