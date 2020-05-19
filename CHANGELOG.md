@@ -1,5 +1,15 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v1.3.43...v) (2020-05-18)
+# [](https://github.com/NervJS/taro/compare/v1.3.44...v) (2020-05-19)
+
+
+
+<a name="1.3.44"></a>
+## [1.3.44](https://github.com/NervJS/taro/compare/v1.3.43...v1.3.44) (2020-05-19)
+
+
+### Bug Fixes
+
+* **router:** checkout 2.x router fixed ([#6373](https://github.com/NervJS/taro/issues/6373)) ([6891724](https://github.com/NervJS/taro/commit/6891724))
 
 
 
