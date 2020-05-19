@@ -1520,6 +1520,7 @@ export class RenderParser {
             }
             // @ts-ignore
             if (t.isSpreadProperty(p) && t.isIdentifier(p.argument)) {
+              // @ts-ignore
               if (this.initState.has(p.argument.name)) {
                 // tslint:disable-next-line
                 console.log(codeFrameError(id.node, errMsg).message)
