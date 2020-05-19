@@ -991,6 +991,7 @@ export class RenderParser {
     const properties: Array<t.ObjectProperty | t.SpreadProperty> = []
     openingElement.attributes = attrs.filter(attr => {
       if (t.isJSXSpreadAttribute(attr)) {
+        // @ts-ignore
         properties.push(t.spreadProperty(attr.argument))
         return false
       } else if (t.isJSXAttribute(attr)) {
@@ -1511,11 +1512,13 @@ export class RenderParser {
           const { properties } = id.node
           for (const p of properties) {
             if (t.isIdentifier(p)) {
+              // @ts-ignore
               if (this.initState.has(p.name)) {
                 // tslint:disable-next-line
                 console.log(codeFrameError(id.node, errMsg).message)
               }
             }
+            // @ts-ignore
             if (t.isSpreadProperty(p) && t.isIdentifier(p.argument)) {
               if (this.initState.has(p.argument.name)) {
                 // tslint:disable-next-line
