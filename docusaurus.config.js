@@ -15,7 +15,7 @@ const siteConfig = {
   favicon: './img/favicon.ico',
   tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝/QQ小程序、快应用、H5、React Native 等平台的应用。',
   title: 'Taro 文档' /* title for your website */,
-  url: 'https://nervjs.github.io/taro' /* your website url */,
+  url: 'https://nervjs.github.io' /* your website url */,
   themes: ['@docusaurus/theme-live-codeblock'],
   organizationName: 'nervjs',
   projectName: 'taro',
