@@ -53,6 +53,7 @@ it('should leave other apis untouched', function () {
   const taroName = defaultImport!.local.name
   const namedImports = getNamedImports(body[0].specifiers)
   expect(namedImports).toEqual(new Set())
+  // @ts-ignore
   expect(t.isMemberExpression(body[1].expression)).toBeTruthy()
   expect((body[1].expression as t.MemberExpression)).toMatchObject(t.memberExpression(
     t.identifier(taroName),
