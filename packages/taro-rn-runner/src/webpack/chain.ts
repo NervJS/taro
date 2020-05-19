@@ -206,7 +206,7 @@ export const getModule = (appPath: string, {
         getLocalIdent: (context, localIdentName, localName, options) => {
           const parse = path.parse(entry.app[0])
           // if is enrty style
-          if (context.resourcePath.startsWith(path.join(parse.dir,parse.name))) {
+          if (context.resourcePath.startsWith(path.join(parse.dir, parse.name))) {
             return localName
           }
         }
@@ -225,7 +225,7 @@ export const getModule = (appPath: string, {
           getLocalIdent: (context, localIdentName, localName, options) => {
             const parse = path.parse(entry.app[0])
             // if is enrty style
-            if (context.resourcePath.startsWith(path.join(parse.dir,parse.name))) {
+            if (context.resourcePath.startsWith(path.join(parse.dir, parse.name))) {
               return localName
             }
           }
@@ -418,7 +418,7 @@ export const getModule = (appPath: string, {
           defaultImageUrlLoaderOption, {
             name: `${staticDirectory}/images/[name].[ext]`,
             ...imageUrlLoaderOption,
-            limit: false
+            limit: 8192 * 1024
           }])
       }
     }
