@@ -115,8 +115,5 @@
     "vinyl-fs": "^3.0.2",
     "xml2js": "^0.4.19",
     "xxhashjs": "^0.2.2"
-  },
-  "devDependencies": {
-    "@tarojs/taro": "3.0.0-alpha.4"
   }
 }

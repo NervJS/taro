@@ -81,6 +81,7 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-power-assert": "^3.0.0",
+    "cli-highlight": "^2.1.4",
     "conventional-changelog-cli": "^2.0.1",
     "copy": "^0.3.2",
     "css-loader": "^0.28.10",
