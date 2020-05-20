@@ -72,10 +72,17 @@ class Router extends Taro.Component<Props, State> {
     }
   }
 
-  isTabBar (path: string) {
+  isTabBar (originalPathname: string) {
+    let pathname = originalPathname
+    const foundRoute = this.customRoutes.filter(([originalRoute, mappedRoute]) => {
+      return originalPathname === mappedRoute
+    })
+    if (foundRoute.length) {
+      pathname = foundRoute[0][0]
+    }
     const tabBar = this.props.tabBar
-    if (path && tabBar && tabBar.list && tabBar.list instanceof Array) {
-      return tabBar.list.findIndex(e => e.pagePath === path) !== -1
+    if (foundRoute && tabBar && tabBar.list && tabBar.list instanceof Array) {
+      return tabBar.list.findIndex(e => e.pagePath === pathname) !== -1
     }
     return false
   }
@@ -125,7 +132,9 @@ class Router extends Taro.Component<Props, State> {
   switch (toLocation: Types.Location, isTabBar = false) {
     const routeStack: Types.RouteObj[] = [...this.state.routeStack]
     const matchedRoute = this.computeMatch(toLocation)
-    const index = routeStack.findIndex(e => e.path === toLocation.path)
+    const index = routeStack.findIndex(e => e.path === toLocation.path || this.customRoutes.findIndex(([originalRoute, mappedRoute]) => {
+      return mappedRoute === toLocation.path && e.path === originalRoute
+    }) !== -1)
     if (!this.isTabBar(routeStack[routeStack.length - 1].path)) {
       routeStack.splice(-1, 1, assign({}, matchedRoute, {
         key: toLocation.state.key,
@@ -212,6 +221,7 @@ class Router extends Taro.Component<Props, State> {
           return (
             <Route
               path={path}
+              customRoutes={this.props.customRoutes}
               currentLocation={currentLocation}
               componentLoader={componentLoader}
               isIndex={isIndex}
