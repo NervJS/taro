@@ -31,4 +31,4 @@ jobs:
           secretId: ${{ secrets.TCB_SECRET_ID }}
           secretKey: ${{ secrets.TCB_SECRET_KEY }}
           envId: ${{ secrets.TCB_TARO_DOCS_ENV_ID }}
-          staticSrcPath: build/taro
+          staticSrcPath: build
