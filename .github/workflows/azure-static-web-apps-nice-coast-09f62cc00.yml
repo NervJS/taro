@@ -24,7 +24,7 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
         action: 'upload'
         ###### Repository/Build Configurations - These values can be configured to match you app requirements. ######
-        # app_location: '/' # App source code path
+        app_location: '/' # App source code path
         app_artifact_location: './build/taro' # Built app content directory - optional
         ###### End of Repository/Build Configurations ######
 
