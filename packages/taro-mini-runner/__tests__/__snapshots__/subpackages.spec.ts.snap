@@ -8815,6 +8815,12 @@ require(\\"../../sub-utils\\");
             function getOnReadyEventKey(path) {
                 return path + \\".\\" + \\"onReady\\";
             }
+            function getOnShowEventKey(path) {
+                return path + \\".\\" + \\"onShow\\";
+            }
+            function getOnHideEventKey(path) {
+                return path + \\".\\" + \\"onHide\\";
+            }
             function createPageConfig(component, pageName, data) {
                 var id = pageName !== null && pageName !== void 0 ? pageName : \\"taro_page_\\".concat(pageId());
                 var pageElement = null;
@@ -8826,7 +8832,9 @@ require(\\"../../sub-utils\\");
                         Current.router = {
                             params: options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
                         Current.app.mount(component, path, (function() {
                             pageElement = document$1.getElementById(path);
@@ -8841,7 +8849,7 @@ require(\\"../../sub-utils\\");
                     onReady: function onReady() {
                         var path = getPath(id, this.options);
                         raf((function() {
-                            eventCenter.trigger(getOnReadyEventKey(path));
+                            eventCenter.trigger(getOnReadyEventKey(id));
                         }));
                         safeExecute(path, \\"onReady\\");
                     },
@@ -8859,14 +8867,22 @@ require(\\"../../sub-utils\\");
                         Current.router = {
                             params: this.options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
+                        raf((function() {
+                            eventCenter.trigger(getOnShowEventKey(id));
+                        }));
                         safeExecute(path, \\"onShow\\");
                     },
                     onHide: function onHide() {
                         Current.page = null;
                         Current.router = null;
                         var path = getPath(id, this.options);
+                        raf((function() {
+                            eventCenter.trigger(getOnHideEventKey(id));
+                        }));
                         safeExecute(path, \\"onHide\\");
                     },
                     onPullDownRefresh: function onPullDownRefresh() {
