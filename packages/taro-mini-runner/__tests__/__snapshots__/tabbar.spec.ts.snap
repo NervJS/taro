@@ -8228,6 +8228,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
                     onUnload: function onUnload() {
                         var path = getPath(id, this.options);
                         Current.app.unmount(path, (function() {
+                            instances.delete(path);
                             if (pageElement) {
                                 pageElement.ctx = null;
                             }
@@ -17738,6 +17739,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
                     onUnload: function onUnload() {
                         var path = getPath(id, this.options);
                         Current.app.unmount(path, (function() {
+                            instances.delete(path);
                             if (pageElement) {
                                 pageElement.ctx = null;
                             }

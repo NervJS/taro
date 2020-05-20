@@ -745,16 +745,6 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@tarojs/taro@2.2.1":
-  version "2.2.1"
-  resolved "https://registry.npm.taobao.org/@tarojs/taro/download/@tarojs/taro-2.2.1.tgz?cache=0&sync_timestamp=1588213070796&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Ftaro%2Fdownload%2F%40tarojs%2Ftaro-2.2.1.tgz#32974e49ec55a9af6f916bcba7f713cf2089b68e"
-  dependencies:
-    "@tarojs/utils" "2.2.1"
-
-"@tarojs/utils@2.2.1":
-  version "2.2.1"
-  resolved "https://registry.npm.taobao.org/@tarojs/utils/download/@tarojs/utils-2.2.1.tgz?cache=0&sync_timestamp=1588213058625&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Futils%2Fdownload%2F%40tarojs%2Futils-2.2.1.tgz#d80e72272d8e50addccdef2408e45874ea0d55ab"
-
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/@types/color-name/download/@types/color-name-1.1.1.tgz?cache=0&sync_timestamp=1588200011932&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fcolor-name%2Fdownload%2F%40types%2Fcolor-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
