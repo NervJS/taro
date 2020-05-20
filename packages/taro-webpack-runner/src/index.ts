@@ -72,7 +72,6 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const customDevServerOption = config.devServer || {}
   const webpackChain = devConf(appPath, config)
   const onBuildFinish = config.onBuildFinish
-  console.log(config)
   await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
 
   const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
