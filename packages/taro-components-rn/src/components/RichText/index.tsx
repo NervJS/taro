@@ -6,7 +6,7 @@ import * as React from 'react'
 import {
   View,
   WebView,
-} from 'react-native'
+} from 'react-native-webview'
 import * as ReactDOMServer from 'react-dom/server.browser'
 import { omit, parseStyles } from '../../utils'
 import { RichTextProps, Node } from './PropsType'
