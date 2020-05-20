@@ -47,12 +47,14 @@ import '@tarojs/components/h5/vue'
 
   const code = `import Taro from '@tarojs/taro'
 import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
+import { window } from '@tarojs/runtime'
 import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
 ${importFramework(options.framework)}
 import '@tarojs/components/dist/taro-components/taro-components.css'
 ${options.framework === 'vue' ? vue : ''}
 ${webComponents}
 const config = ${JSON.stringify(config)}
+window.__taroAppConfig = config
 ${config.tabBar ? tabBarCode : ''}
 if (config.tabBar) {
   const tabbarList = config.tabBar.list

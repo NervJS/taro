@@ -221,7 +221,8 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
-                prerender: this.prerenderPages.size > 0
+                prerender: this.prerenderPages.size > 0,
+                config: this.appConfig
               }
             })
           }
