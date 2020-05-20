@@ -4398,7 +4398,17 @@ require(\\"./taro\\");
         }(react[\\"Component\\"]);
         var lib_origin_app = app_App;
         var react_esm = __webpack_require__(16);
-        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_origin_app, react, react_esm[\\"a\\"]));
+        var config = {
+            pages: [ \\"pages/index/index\\" ],
+            window: {
+                backgroundTextStyle: \\"light\\",
+                navigationBarBackgroundColor: \\"#fff\\",
+                navigationBarTitleText: \\"WeChat\\",
+                navigationBarTextStyle: \\"black\\"
+            }
+        };
+        runtime_esm[\\"window\\"].__taroAppConfig = config;
+        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_origin_app, react, react_esm[\\"a\\"], config));
     }
 }, [ [ 31, 0, 1, 2 ] ] ]);
 
@@ -8590,7 +8600,7 @@ object-assign
             var R = EMPTY_OBJ;
             var PageContext = EMPTY_OBJ;
             var ReactDOM;
-            function createReactApp(App, react, reactdom) {
+            function createReactApp(App, react, reactdom, config) {
                 R = react;
                 ReactDOM = reactdom;
                 ensure(!!ReactDOM, \\"\\\\u6784\\\\u5efa React/Nerv \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'react'/'nerv' \\");
@@ -8647,6 +8657,7 @@ object-assign
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
@@ -8731,7 +8742,7 @@ object-assign
                 };
             }
             var Vue;
-            function createVueApp(App, vue) {
+            function createVueApp(App, vue, config) {
                 Vue = vue;
                 ensure(!!Vue, \\"\\\\u6784\\\\u5efa Vue \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'vue'\\");
                 Vue.config.getTagNamespace = noop;
@@ -8779,6 +8790,7 @@ object-assign
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
@@ -14009,7 +14021,17 @@ require(\\"./taro\\");
         }(react[\\"Component\\"]);
         var lib_origin_app = app_App;
         var react_esm = __webpack_require__(16);
-        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_origin_app, react, react_esm[\\"a\\"]));
+        var config = {
+            pages: [ \\"pages/index/index\\" ],
+            window: {
+                backgroundTextStyle: \\"light\\",
+                navigationBarBackgroundColor: \\"#fff\\",
+                navigationBarTitleText: \\"WeChat\\",
+                navigationBarTextStyle: \\"black\\"
+            }
+        };
+        runtime_esm[\\"window\\"].__taroAppConfig = config;
+        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_origin_app, react, react_esm[\\"a\\"], config));
     }
 }, [ [ 31, 0, 1, 2 ] ] ]);
 
@@ -18041,7 +18063,7 @@ object-assign
             var R = EMPTY_OBJ;
             var PageContext = EMPTY_OBJ;
             var ReactDOM;
-            function createReactApp(App, react, reactdom) {
+            function createReactApp(App, react, reactdom, config) {
                 R = react;
                 ReactDOM = reactdom;
                 ensure(!!ReactDOM, \\"\\\\u6784\\\\u5efa React/Nerv \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'react'/'nerv' \\");
@@ -18098,6 +18120,7 @@ object-assign
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
@@ -18182,7 +18205,7 @@ object-assign
                 };
             }
             var Vue;
-            function createVueApp(App, vue) {
+            function createVueApp(App, vue, config) {
                 Vue = vue;
                 ensure(!!Vue, \\"\\\\u6784\\\\u5efa Vue \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'vue'\\");
                 Vue.config.getTagNamespace = noop;
@@ -18230,6 +18253,7 @@ object-assign
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
@@ -23460,7 +23484,17 @@ require(\\"./taro\\");
         }(react[\\"Component\\"]);
         var lib_origin_app = app_App;
         var react_esm = __webpack_require__(16);
-        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_origin_app, react, react_esm[\\"a\\"]));
+        var config = {
+            pages: [ \\"pages/index/index\\" ],
+            window: {
+                backgroundTextStyle: \\"light\\",
+                navigationBarBackgroundColor: \\"#fff\\",
+                navigationBarTitleText: \\"WeChat\\",
+                navigationBarTextStyle: \\"black\\"
+            }
+        };
+        runtime_esm[\\"window\\"].__taroAppConfig = config;
+        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_origin_app, react, react_esm[\\"a\\"], config));
     }
 }, [ [ 31, 0, 1, 2 ] ] ]);
 
@@ -27496,7 +27530,7 @@ I m irrelevant.
             var R = EMPTY_OBJ;
             var PageContext = EMPTY_OBJ;
             var ReactDOM;
-            function createReactApp(App, react, reactdom) {
+            function createReactApp(App, react, reactdom, config) {
                 R = react;
                 ReactDOM = reactdom;
                 ensure(!!ReactDOM, \\"\\\\u6784\\\\u5efa React/Nerv \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'react'/'nerv' \\");
@@ -27553,6 +27587,7 @@ I m irrelevant.
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
@@ -27637,7 +27672,7 @@ I m irrelevant.
                 };
             }
             var Vue;
-            function createVueApp(App, vue) {
+            function createVueApp(App, vue, config) {
                 Vue = vue;
                 ensure(!!Vue, \\"\\\\u6784\\\\u5efa Vue \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'vue'\\");
                 Vue.config.getTagNamespace = noop;
@@ -27685,6 +27720,7 @@ I m irrelevant.
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
