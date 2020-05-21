@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@types/enzyme": "^3.9.1",
-    "@types/jest": "^24.0.11",
+    "@types/jest": "^24.9.1",
     "@types/react": "^16.7.5",
     "@types/react-dom": "^16.8.4",
     "@types/react-native": "^0.57.8",
