@@ -3,10 +3,14 @@ id: 2020-04-27-taro-build-jd
 title: 使用 Taro 快速开发京东小程序
 author: JJ
 author_url: https://github.com/Chen-jj
-author_image_url: https://img20.360buyimg.com/ling/jfs/t1/117964/14/2118/145903/5e9eee0aE8897b3dd/bd435e6161779ad1.png
+author_image_url: https://storage.jd.com/cjj-pub-images/11807297.png
 ---
 
+![](https://img20.360buyimg.com/ling/jfs/t1/117964/14/2118/145903/5e9eee0aE8897b3dd/bd435e6161779ad1.png)
+
 近两年来小程序逐渐成为互联网的一个行业风口，一直备受业界关注，各大厂也接踵推出了自己的小程序。近日京东也推出了小程序：[**京东小程序**](https://mp.jd.com/?entrance=taro)。Taro 作为一款专注于多端统一开发的框架，第一时间对京东小程序进行了适配。接下来就跟着小编一起了解一下如何使用 Taro 快速开发京东小程序吧。
+
+<!--truncate-->
 
 ## 背景
 
