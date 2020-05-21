@@ -143,7 +143,7 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
  * @param {Boolean} [object.withCredentials] （仅H5）表示跨域请求时是否需要使用凭证
  * @returns {UploadTask}
  */
-const uploadFile = ({ url, filePath, fileName, name, header, formData, success, fail, complete, withCredentials }) => {
+const uploadFile = ({ url, filePath, fileName, name, header, formData, success, fail, complete, withCredentials = true }) => {
   let task
   const promise = new Promise((resolve, reject) => {
     task = createUploadTask({
@@ -162,7 +162,8 @@ const uploadFile = ({ url, filePath, fileName, name, header, formData, success, 
         fail && fail(res)
         complete && complete(res)
         reject(res)
-      }
+      },
+      withCredentials
     })
   })
 
