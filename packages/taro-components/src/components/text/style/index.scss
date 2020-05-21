@@ -1,14 +1,15 @@
-.taro-text {
+taro-text-core {
+  display: inline;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
   white-space: pre-wrap;
-  &__selectable {
-    -moz-user-select: text;
-    -webkit-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-  }
-  display: inline;
+}
+
+.taro-text__selectable {
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
