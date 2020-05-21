@@ -20,7 +20,7 @@ jobs:
           yarn build:independent
       - name: Deploy static to Tencent CloudBase
         id: deployStatic
-        uses: TencentCloudBase/cloudbase-action@v1.1.0
+        uses: TencentCloudBase/cloudbase-action@v1.1.1
         with:
           secretId: ${{ secrets.TCB_SECRET_ID }}
           secretKey: ${{ secrets.TCB_SECRET_KEY }}
