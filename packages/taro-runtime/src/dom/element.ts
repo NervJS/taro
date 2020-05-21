@@ -7,6 +7,7 @@ import { isElement } from '../utils'
 import { Style } from './style'
 import { PROPERTY_THRESHOLD } from '../constants'
 import { treeToArray } from './tree'
+import { ClassList } from './class-list'
 
 interface Attributes {
   name: string;
@@ -38,6 +39,10 @@ export class TaroElement extends TaroNode {
 
   public set id (val: string) {
     this.setAttribute('id', val)
+  }
+
+  public get classList () {
+    return new ClassList(this.className, this)
   }
 
   public get className () {
