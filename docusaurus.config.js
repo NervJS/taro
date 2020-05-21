@@ -22,6 +22,12 @@ const siteConfig = {
   customFields: {
     versions
   },
+  scripts: [
+    {
+      src: 'https://storage.jd.com/taro-resource/tongji.js',
+      async: true
+    }
+  ],
   themeConfig: {
     scrollToTop: true,
     disableDarkMode: false,
