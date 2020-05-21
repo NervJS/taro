@@ -39,6 +39,7 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
 
   xhr.onload = () => {
     const status = xhr.status
+    clearTimeout(timeout)
     success({
       errMsg: `${apiName}:ok`,
       statusCode: status,
