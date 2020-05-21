@@ -1,8 +1,11 @@
 module.exports = {
-  verbose: true,
-  preset: 'react-native',
-  transform: {
-    '^.+\\.js$': 'babel-jest'
-  },
-  testPathIgnorePatterns: ['/node_modules/', '/__tests__/mocks/']
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'jsx', 'node'],
+  testMatch: ['**/__tests__/inspect.spec.ts'],
+  globals: {
+    'ts-jest': {
+      diagnostics: false
+    }
+  }
 }

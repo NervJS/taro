@@ -4,7 +4,10 @@
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "env NODE_ENV=test jest",
+    "test:dev": "env NODE_ENV=test jest --watch",
+    "test:coverage": "env NODE_ENV=test jest --coverage",
+    "updateSnapshot": "env NODE_ENV=test jest --updateSnapshot",
     "build": "npm run clean && npm run prod",
     "dev": "tsc -w",
     "prod": "tsc",
@@ -115,5 +118,9 @@
     "vinyl-fs": "^3.0.2",
     "xml2js": "^0.4.19",
     "xxhashjs": "^0.2.2"
+  },
+  "devDependencies": {
+    "@tarojs/mini-runner": "^3.0.0-rc.0",
+    "@tarojs/webpack-runner": "^3.0.0-rc.0"
   }
 }
