@@ -87,6 +87,12 @@ sidebar_label: uploadFile
       <td style="text-align:center">否</td>
       <td>接口调用成功的回调函数</td>
     </tr>
+    <tr>
+      <td>withCredentials</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>（仅H5）表示跨域请求时是否需要使用凭证</td>
+    </tr>
   </tbody>
 </table>
 
