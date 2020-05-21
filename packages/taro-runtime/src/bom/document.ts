@@ -33,6 +33,20 @@ export class TaroDocument extends TaroElement {
     return isUndefined(el) ? null : el as T
   }
 
+  public getElementsByTagName<T extends TaroElement> (tagName: string) {
+    const elements: T[] = []
+    eventSource.forEach((node) => {
+      if (node.nodeType !== NodeType.ELEMENT_NODE) {
+        return
+      }
+      if (node.nodeName === tagName || (tagName === '*' && node !== this)) {
+        elements.push(node as T)
+      }
+    })
+
+    return elements
+  }
+
   // @TODO: @PERF: 在 hydrate 移除掉空的 node
   public createComment () {
     return new TaroText('')

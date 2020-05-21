@@ -6,6 +6,7 @@ import { TaroEvent, eventSource } from './event'
 import { isElement } from '../utils'
 import { Style } from './style'
 import { PROPERTY_THRESHOLD } from '../constants'
+import { treeToArray } from './tree'
 
 interface Attributes {
   name: string;
@@ -141,6 +142,12 @@ export class TaroElement extends TaroNode {
       return this.parentNode
     }
     return null
+  }
+
+  public getElementsByTagName (tagName: string): TaroElement[] {
+    return treeToArray(this, (el) => {
+      return el.nodeName === tagName || (tagName === '*' && this !== el)
+    })
   }
 
   public dispatchEvent (event: TaroEvent) {
