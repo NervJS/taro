@@ -25,7 +25,7 @@ const addHtmlExtname = (str: string) => {
     : `${str}.html`
 }
 
-const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc: Function) => {
+const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
   if (modifyWebpackChainFunc instanceof Function) {
     await modifyWebpackChainFunc(chain, webpack)
   }

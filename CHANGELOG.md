@@ -1,5 +1,37 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.2.3...v) (2020-05-13)
+# [](https://github.com/NervJS/taro/compare/v2.2.5...v) (2020-05-19)
+
+
+### Bug Fixes
+
+* **rn:** image 未能转换成 base64 无法显示 close [#6041](https://github.com/NervJS/taro/issues/6041) ([#6394](https://github.com/NervJS/taro/issues/6394)) ([99db834](https://github.com/NervJS/taro/commit/99db834))
+* **video:** video controls bar style [#6291](https://github.com/NervJS/taro/issues/6291) ([#6389](https://github.com/NervJS/taro/issues/6389)) ([cde5f3f](https://github.com/NervJS/taro/commit/cde5f3f))
+
+
+
+<a name="2.2.5"></a>
+## [2.2.5](https://github.com/NervJS/taro/compare/v2.2.4...v2.2.5) (2020-05-18)
+
+
+### Bug Fixes
+
+* **cli:** 修复设置环境变量失效的问题，close [#6353](https://github.com/NervJS/taro/issues/6353) ([#6372](https://github.com/NervJS/taro/issues/6372)) ([227a56a](https://github.com/NervJS/taro/commit/227a56a))
+* **cli:** 修正 taro doctor 对项目配置的检测 ([6cbcd1a](https://github.com/NervJS/taro/commit/6cbcd1a))
+* **mini:** 修复 useLayoutEffect 触发时机，fix [#6069](https://github.com/NervJS/taro/issues/6069) ([#6355](https://github.com/NervJS/taro/issues/6355)) ([d2473ee](https://github.com/NervJS/taro/commit/d2473ee))
+* **mobx:** 修复快应用下 store 未定义的问题 ([3be1ff4](https://github.com/NervJS/taro/commit/3be1ff4))
+* **router:** router redirect for tabbar fix [#5930](https://github.com/NervJS/taro/issues/5930) ([#6329](https://github.com/NervJS/taro/issues/6329)) ([dac86c3](https://github.com/NervJS/taro/commit/dac86c3))
+* **service:** 修复项目 plugins 配置不是数组时直接报错的问题 ([0677d20](https://github.com/NervJS/taro/commit/0677d20))
+
+
+### Features
+
+* **cli:** 执行编译命令时增加 config 检测 ([4445d52](https://github.com/NervJS/taro/commit/4445d52))
+* 编译配置支持 typescript ([718bd1b](https://github.com/NervJS/taro/commit/718bd1b))
+
+
+
+<a name="2.2.4"></a>
+## [2.2.4](https://github.com/NervJS/taro/compare/v2.2.3...v2.2.4) (2020-05-14)
 
 
 ### Bug Fixes
