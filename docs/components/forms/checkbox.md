@@ -77,13 +77,54 @@ export default class PageCheckbox extends Component {
 
 ## CheckboxProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| value | `string` |  | 是 | `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value |
-| disabled | `boolean` | `false` | 否 | 是否禁用 |
-| checked | `boolean` | `false` | 否 | 当前是否选中，可用来设置默认选中 |
-| color | `string` |  | 否 | checkbox的颜色，同 css 的 color |
-| onChange | `BaseEventOrigFunction<{ value: string[]; }>` |  | 否 | 选中项发生变化时触发 change 事件，小程序无此 API |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td><code>&lt;Checkbox/&gt;</code>标识，选中时触发<code>&lt;CheckboxGroup/&gt;</code>的 change 事件，并携带 <code>&lt;Checkbox/&gt;</code> 的 value</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否禁用</td>
+    </tr>
+    <tr>
+      <td>checked</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>当前是否选中，可用来设置默认选中</td>
+    </tr>
+    <tr>
+      <td>color</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>checkbox的颜色，同 css 的 color</td>
+    </tr>
+    <tr>
+      <td>onChange</td>
+      <td><code>BaseEventOrigFunction&lt;{ value: string[]; }&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>选中项发生变化时触发 change 事件，小程序无此 API</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 

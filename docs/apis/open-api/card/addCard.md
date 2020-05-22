@@ -20,39 +20,128 @@ cardExt 是卡券的扩展参数，其值是一个 JSON 字符串。
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| cardList | `RequestInfo[]` | 是 | 需要添加的卡券列表 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cardList</td>
+      <td><code>RequestInfo[]</code></td>
+      <td style="text-align:center">是</td>
+      <td>需要添加的卡券列表</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RequestInfo
 
 需要添加的卡券列表
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| cardExt | `string` | 卡券的扩展参数。需将 CardExt 对象 JSON 序列化为**字符串**传入 |
-| cardId | `string` | 卡券 ID |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cardExt</td>
+      <td><code>string</code></td>
+      <td>卡券的扩展参数。需将 CardExt 对象 JSON 序列化为<strong>字符串</strong>传入</td>
+    </tr>
+    <tr>
+      <td>cardId</td>
+      <td><code>string</code></td>
+      <td>卡券 ID</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| cardList | `AddCardResponseInfo[]` | 卡券添加结果列表 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cardList</td>
+      <td><code>AddCardResponseInfo[]</code></td>
+      <td>卡券添加结果列表</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### AddCardResponseInfo
 
 卡券添加结果列表
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| cardExt | `string` | 卡券的扩展参数，结构请参考下文 |
-| cardId | `string` | 用户领取到卡券的 ID |
-| code | `string` | 加密 code，为用户领取到卡券的code加密后的字符串，解密请参照：[code 解码接口](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1499332673_Unm7V) |
-| isSuccess | `boolean` | 是否成功 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cardExt</td>
+      <td><code>string</code></td>
+      <td>卡券的扩展参数，结构请参考下文</td>
+    </tr>
+    <tr>
+      <td>cardId</td>
+      <td><code>string</code></td>
+      <td>用户领取到卡券的 ID</td>
+    </tr>
+    <tr>
+      <td>code</td>
+      <td><code>string</code></td>
+      <td>加密 code，为用户领取到卡券的code加密后的字符串，解密请参照：<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1499332673_Unm7V">code 解码接口</a></td>
+    </tr>
+    <tr>
+      <td>isSuccess</td>
+      <td><code>boolean</code></td>
+      <td>是否成功</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

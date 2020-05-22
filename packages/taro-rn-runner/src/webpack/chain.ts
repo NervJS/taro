@@ -117,7 +117,7 @@ export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-load
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getFileParseLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/fileParseLoader')))
-export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/wxTransformerLoader')))
+export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/tsTransformerLoader')))
 export const getJSXToStylesSheetLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/JSXToStylesSheetLoader')))
 export const getBabelLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/babelLoader')))
 const getExtractCssLoader = () => {
@@ -170,6 +170,7 @@ export const getRNPlugin = args => {
 
 export const getModule = (appPath: string, {
   sourceDir,
+  entry,
 
   designWidth,
   deviceRatio,
@@ -195,11 +196,12 @@ export const getModule = (appPath: string, {
 
   const {namingPattern, generateScopedName} = cssModuleOptions.config!
 
+  // RN default convert to CSS Modules
   const cssOptions = [
     {
       importLoaders: 1,
       sourceMap: enableSourceMap,
-      modules: false
+      modules:false
     },
     cssLoaderOption
   ]
@@ -209,7 +211,15 @@ export const getModule = (appPath: string, {
         importLoaders: 1,
         sourceMap: enableSourceMap,
         modules: {
-          mode: namingPattern === 'module' ? 'local' : 'global'
+          localIdentName: '[path][name]__[local]--[hash:base64:5]',
+          mode: namingPattern === 'module' ? 'local' : 'global',
+          getLocalIdent: (context, localIdentName, localName, options) => {
+            const parse = path.parse(entry.app[0])
+            // if is enrty style
+            if (context.resourcePath.startsWith(path.join(parse.dir, parse.name))) {
+              return localName
+            }
+          }
         }
       },
       {
@@ -299,6 +309,7 @@ export const getModule = (appPath: string, {
       buildAdapter
     }])
 
+  // @ts-ignore
   const JSXToStylesSheetLoader = getJSXToStylesSheetLoader([
     {
       buildAdapter
@@ -313,7 +324,12 @@ export const getModule = (appPath: string, {
   // TODO fileParseLoader
   let scriptsLoaderConf = {
     test: REG_SCRIPTS,
-    use: [babelLoader, JSXToStylesSheetLoader, fileParseLoader, wxTransformerLoader]
+    use: [
+      babelLoader,
+      JSXToStylesSheetLoader,
+      fileParseLoader,
+      wxTransformerLoader
+    ]
   }
 
   if (compileExclude && compileExclude.length) {
@@ -393,7 +409,7 @@ export const getModule = (appPath: string, {
           defaultImageUrlLoaderOption, {
             name: `${staticDirectory}/images/[name].[ext]`,
             ...imageUrlLoaderOption,
-            limit: false
+            limit: 8192 * 1024
           }])
       }
     }

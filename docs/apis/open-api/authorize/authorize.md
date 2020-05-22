@@ -17,12 +17,42 @@ sidebar_label: authorize
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| scope | `string` | 是 | 需要获取权限的 scope，详见 [scope 列表]((authorize#scope-列表)) |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scope</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>需要获取权限的 scope，详见 <a href="(authorize#scope-%E5%88%97%E8%A1%A8)">scope 列表</a></td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

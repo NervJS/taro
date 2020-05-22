@@ -19,23 +19,88 @@ sidebar_label: downloadFile
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| url | `string` | 是 | 下载资源的 url |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| filePath | `string` | 否 | 指定文件下载后存储的路径 |
-| header | `Record<string, any>` | 否 | HTTP 请求的 Header，Header 中不能设置 Referer |
-| success | `(result: FileSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>url</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>下载资源的 url</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定文件下载后存储的路径</td>
+    </tr>
+    <tr>
+      <td>header</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>HTTP 请求的 Header，Header 中不能设置 Referer</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: FileSuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### FileSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| filePath | `string` | 用户文件路径。传入 filePath 时会返回，跟传入的 filePath 一致 |
-| statusCode | `number` | 开发者服务器返回的 HTTP 状态码 |
-| tempFilePath | `string` | 临时文件路径。没传入 filePath 指定文件存储路径时会返回，下载后的文件会存储到一个临时文件 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td>用户文件路径。传入 filePath 时会返回，跟传入的 filePath 一致</td>
+    </tr>
+    <tr>
+      <td>statusCode</td>
+      <td><code>number</code></td>
+      <td>开发者服务器返回的 HTTP 状态码</td>
+    </tr>
+    <tr>
+      <td>tempFilePath</td>
+      <td><code>string</code></td>
+      <td>临时文件路径。没传入 filePath 指定文件存储路径时会返回，下载后的文件会存储到一个临时文件</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

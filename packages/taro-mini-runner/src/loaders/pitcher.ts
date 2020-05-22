@@ -2,7 +2,10 @@ import * as path from 'path'
 import * as qs from 'querystring'
 
 import { stringifyRequest, getOptions } from 'loader-utils'
-import { MINI_APP_FILES, NODE_MODULES_REG, NODE_MODULES } from '../utils/constants'
+import {
+  NODE_MODULES,
+  NODE_MODULES_REG
+} from '@tarojs/helper'
 
 const isPitcher = l => l.path !== __filename
 const isPreLoader = l => !l.pitchExecuted
@@ -31,7 +34,7 @@ const genRequest = (loaderRequest, loaders) => {
 }
 
 export function pitch () {
-  const { sourceDir, buildAdapter } = getOptions(this)
+  const { sourceDir, fileType } = getOptions(this)
   const query = qs.parse(this.resourceQuery.slice(1))
 
   let loaders = this.loaders
@@ -39,7 +42,7 @@ export function pitch () {
   if (query.type === 'template') {
     const preLoaders = loaders.filter(isPreLoader)
     const postLoaders = loaders.filter(isPostLoader)
-    let fileLoaderRequest = `file-loader?name=[path][name]${MINI_APP_FILES[buildAdapter].TEMPL}`
+    let fileLoaderRequest = `file-loader?name=[path][name]${fileType.templ}`
     if (NODE_MODULES_REG.test(this.resourcePath)) {
       const baseContext = path.join(process.cwd(), NODE_MODULES)
       fileLoaderRequest += `&context=${baseContext}&outputPath=npm`

@@ -21,23 +21,71 @@ sidebar_label: openBluetoothAdapter
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: BluetoothError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: BluetoothError) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: BluetoothError) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: BluetoothError) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: BluetoothError) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: BluetoothError) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### state
 
 object.fail 回调函数返回的 state 参数（仅 iOS）
 
-| 参数 | 说明 |
-| --- | --- |
-| 0 | 未知 |
-| 1 | 重置中 |
-| 2 | 不支持 |
-| 3 | 未授权 |
-| 4 | 未开启 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>未知</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>重置中</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>不支持</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>未授权</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>未开启</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

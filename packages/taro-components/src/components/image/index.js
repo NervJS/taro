@@ -62,6 +62,7 @@ class Image extends Nerv.Component {
       mode,
       onError,
       lazyLoad,
+      imgProps,
       ...reset
     } = this.props
     const { aspectFillMode } = this.state
@@ -89,6 +90,7 @@ class Image extends Nerv.Component {
             data-src={src}
             onLoad={this.imageOnLoad}
             onError={onError}
+            {...imgProps}
           />
         ) : (
           <img
@@ -97,6 +99,7 @@ class Image extends Nerv.Component {
             src={src}
             onLoad={this.imageOnLoad}
             onError={onError}
+            {...imgProps}
           />
         )}
       </div>

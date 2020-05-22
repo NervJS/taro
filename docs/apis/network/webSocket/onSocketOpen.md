@@ -23,15 +23,39 @@ WebSocket 连接打开事件的回调函数
 (result: OpenCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OpenCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OpenCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OpenCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| header | `Record<string, any>` | 连接成功的 HTTP 响应 Header |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>header</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>连接成功的 HTTP 响应 Header</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

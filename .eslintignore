@@ -1,2 +1,3 @@
 dist
 __tests__
+*.d.ts

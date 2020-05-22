@@ -20,9 +20,20 @@ sidebar_label: LivePusherContext
 (option?: PauseOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `PauseOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>PauseOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -40,9 +51,20 @@ sidebar_label: LivePusherContext
 (option?: PauseBGMOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `PauseBGMOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>PauseBGMOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -60,9 +82,20 @@ sidebar_label: LivePusherContext
 (option: PlayBGMOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `PlayBGMOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>PlayBGMOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -80,9 +113,20 @@ sidebar_label: LivePusherContext
 (option?: ResumeOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `ResumeOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>ResumeOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -100,9 +144,20 @@ sidebar_label: LivePusherContext
 (option?: ResumeBGMOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `ResumeBGMOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>ResumeBGMOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -120,9 +175,20 @@ sidebar_label: LivePusherContext
 (option: SetBGMVolumeOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `SetBGMVolumeOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>SetBGMVolumeOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -140,9 +206,20 @@ sidebar_label: LivePusherContext
 (option?: SnapshotOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `SnapshotOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>SnapshotOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -160,9 +237,20 @@ sidebar_label: LivePusherContext
 (option?: StartOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `StartOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>StartOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -180,9 +268,20 @@ sidebar_label: LivePusherContext
 (option?: StartPreviewOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `StartPreviewOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>StartPreviewOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -200,9 +299,20 @@ sidebar_label: LivePusherContext
 (option?: StopOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `StopOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>StopOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -220,9 +330,20 @@ sidebar_label: LivePusherContext
 (option?: StopBGMOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `StopBGMOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>StopBGMOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -240,9 +361,20 @@ sidebar_label: LivePusherContext
 (option?: StopPreviewOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `StopPreviewOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>StopPreviewOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -260,9 +392,20 @@ sidebar_label: LivePusherContext
 (option?: SwitchCameraOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `SwitchCameraOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>SwitchCameraOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -280,9 +423,20 @@ sidebar_label: LivePusherContext
 (option?: ToggleTorchOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `ToggleTorchOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>ToggleTorchOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -294,117 +448,477 @@ sidebar_label: LivePusherContext
 
 ### PauseOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### PauseBGMOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### PlayBGMOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| url | `string` | 是 | 加入背景混音的资源地址 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>url</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>加入背景混音的资源地址</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ResumeOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ResumeBGMOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SetBGMVolumeOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| volume | `string` | 是 | 音量大小，范围是 0-1 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>volume</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>音量大小，范围是 0-1</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SnapshotOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StartOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StartPreviewOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StopOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StopBGMOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StopPreviewOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SwitchCameraOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ToggleTorchOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

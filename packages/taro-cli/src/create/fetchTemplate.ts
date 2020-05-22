@@ -1,10 +1,10 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import chalk from 'chalk'
 import * as ora from 'ora'
 import * as AdmZip from 'adm-zip'
 import * as download from 'download-git-repo'
 import * as request from 'request'
+import { chalk } from '@tarojs/helper'
 import { getTemplateSourceType, readDirWithFileTypes } from '../util'
 
 const TEMP_DOWNLOAD_FLODER = 'taro-temp'

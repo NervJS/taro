@@ -1,6 +1,5 @@
 import * as webpack from 'webpack'
 import { IProjectBaseConfig, IMiniAppConfig } from '@tarojs/taro/types/compile'
-import { BUILD_TYPES } from './constants'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
@@ -27,14 +26,29 @@ export interface IChain {
   [key: string]: any
 }
 
+export interface IFileType {
+  style: string,
+  script: string,
+  templ: string,
+  config: string
+}
+
 export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   isWatch: boolean,
   mode: 'production' |'development',
   port?: number,
-  buildAdapter: BUILD_TYPES,
+  buildAdapter: string,
   nodeModulesPath: string,
   quickappJSON: any,
-  isBuildPlugin: boolean
+  isBuildPlugin: boolean,
+  isBuildQuickapp: boolean,
+  fileType: IFileType,
+  globalObject: string,
+  isUseComponentBuildPage: boolean,
+  modifyWebpackChain: Function,
+  modifyBuildAssets: Function,
+  modifyBuildTempFileContent: Function,
+  onBuildFinish: Function
 }
 
 export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)

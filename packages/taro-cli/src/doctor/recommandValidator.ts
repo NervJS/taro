@@ -1,7 +1,7 @@
 import * as _ from 'lodash/fp'
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import chalk from 'chalk'
+import { chalk } from '@tarojs/helper'
 
 import { IErrorLine } from './interface'
 

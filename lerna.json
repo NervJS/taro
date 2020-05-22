@@ -30,6 +30,8 @@
     "packages/taro-quickapp",
     "packages/taro-qq",
     "packages/taro-jd",
+    "packages/taro-service",
+    "packages/taro-helper",
     "packages/taro-runner-utils",
     "packages/taro-webpack-runner",
     "packages/taro-mini-runner",
@@ -56,6 +58,6 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "2.0.7",
+  "version": "2.2.6",
   "npmClient": "npm"
 }

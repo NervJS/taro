@@ -25,23 +25,64 @@ sidebar_label: onMemoryWarning
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| level | 5 or 10 or 15 | 内存告警等级，只有 Android 才有，对应系统宏定义 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>level</td>
+      <td><code>5 | 10 | 15</code></td>
+      <td>内存告警等级，只有 Android 才有，对应系统宏定义</td>
+    </tr>
+  </tbody>
+</table>
 
 ### level
 
-| 参数 | 说明 |
-| --- | --- |
-| 5 | TRIM_MEMORY_RUNNING_MODERATE |
-| 10 | TRIM_MEMORY_RUNNING_LOW |
-| 15 | TRIM_MEMORY_RUNNING_CRITICAL |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5</td>
+      <td>TRIM_MEMORY_RUNNING_MODERATE</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>TRIM_MEMORY_RUNNING_LOW</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>TRIM_MEMORY_RUNNING_CRITICAL</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

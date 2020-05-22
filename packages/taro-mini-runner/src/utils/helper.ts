@@ -1,8 +1,18 @@
 import * as path from 'path'
 import * as _ from 'lodash'
 
-import { getInstalledNpmPkgPath, promoteRelativePath, removeHeadSlash, printLog } from '.'
-import { taroJsQuickAppComponents, REG_STYLE, REG_SCRIPT, processTypeEnum } from './constants'
+import {
+  getInstalledNpmPkgPath,
+  promoteRelativePath,
+  printLog,
+  taroJsQuickAppComponents,
+  REG_STYLE,
+  REG_SCRIPT,
+  PARSE_AST_TYPE,
+  processTypeEnum
+} from '@tarojs/helper'
+
+import { removeHeadSlash } from '.'
 
 export function getTaroJsQuickAppComponentsPath (nodeModulesPath: string): string {
   const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, nodeModulesPath)
@@ -82,12 +92,17 @@ export function generateQuickAppUx ({
 }
 
 export function generateQuickAppManifest ({
-  appConfig,
+  sourceDir,
+  taroFileTypeMap,
   quickappJSON,
-  pageConfigs,
   designWidth
 }) {
   // 生成 router
+  let appConfig = Object.keys(taroFileTypeMap).map(key => {
+    if (taroFileTypeMap[key].type === PARSE_AST_TYPE.ENTRY) {
+      return taroFileTypeMap[key].config
+    }
+  }).filter(item => item)[0]
   const pages = (appConfig.pages as string[]).concat()
   const routerPages = {}
   const customPageConfig = quickappJSON.customPageConfig || {}
@@ -118,9 +133,10 @@ export function generateQuickAppManifest ({
   // 生成 display
   const display = JSON.parse(JSON.stringify(appConfig.window || {}))
   display.pages = {}
-  pageConfigs.forEach((item, page) => {
-    if (item) {
-      display.pages[removeHeadSlash(path.dirname(page))] = item
+  Object.keys(taroFileTypeMap).forEach(key => {
+    if (taroFileTypeMap[key].type === PARSE_AST_TYPE.PAGE) {
+      const page = removeHeadSlash(path.dirname(key).replace(sourceDir, '').replace(path.extname(key), ''))
+      display.pages[page] = taroFileTypeMap[key].config || {}
     }
   })
   quickappJSON.router = router

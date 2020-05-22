@@ -61,7 +61,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks,
     // @ts-ignore
     addChunkPages,
-    appJson
+    appJson,
+
+    // custome plugin hooks
+    modifyBuildAssets,
+    modifyBuildTempFileContent
   } = config
 
   let {copy} = config
@@ -73,7 +77,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({copy, appPath})
   }
-  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants])
+  const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants, {'process.env.TARO_ENV': `"${buildAdapter}"`}])
   const entryRes = getEntry({
     sourceDir,
     entry,
@@ -114,7 +118,10 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks: customCommonChunks,
     addChunkPages,
     alias,
-    appJson
+    appJson,
+
+    modifyBuildAssets,
+    modifyBuildTempFileContent
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([
@@ -161,6 +168,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     resolve: {alias},
     module: getModule(appPath, {
       sourceDir,
+      entry: entryRes!.entry,
 
       buildAdapter,
       constantsReplaceList,
@@ -182,7 +190,21 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       alias
     }),
     plugin,
-    optimization: {minimizer}
+    optimization: {
+      minimizer,
+      // not support node
+      // splitChunks: {
+      //   chunks: 'all',
+      //   cacheGroups: {
+      //     common: {
+      //       name: 'common',
+      //       chunks: 'initial',
+      //       priority: 2,
+      //       minChunks: 2
+      //     }
+      //   }
+      // }
+    }
   })
   return chain
 }

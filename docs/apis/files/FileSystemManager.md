@@ -17,9 +17,22 @@ FileSystemManager.readdir 的同步版本
 (dirPath: string) => string[]
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| dirPath | `string` | 要读取的目录路径 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dirPath</td>
+      <td><code>string</code></td>
+      <td>要读取的目录路径</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -37,9 +50,20 @@ FileSystemManager.readdir 的同步版本
 (option: AccessOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `AccessOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>AccessOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -57,9 +81,22 @@ FileSystemManager.access 的同步版本
 (path: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| path | `string` | 要判断是否存在的文件/目录路径 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>path</td>
+      <td><code>string</code></td>
+      <td>要判断是否存在的文件/目录路径</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -77,9 +114,20 @@ FileSystemManager.access 的同步版本
 (option: AppendFileOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `AppendFileOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>AppendFileOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -97,11 +145,32 @@ FileSystemManager.appendFile 的同步版本
 (filePath: string, data: string | ArrayBuffer, encoding?: "ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1") => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| filePath | `string` | 要追加内容的文件路径 |
-| data | string or ArrayBuffer | 要追加的文本或二进制数据 |
-| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 指定写入文件的字符编码 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td>要追加内容的文件路径</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td><code>string | ArrayBuffer</code></td>
+      <td>要追加的文本或二进制数据</td>
+    </tr>
+    <tr>
+      <td>encoding</td>
+      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
+      <td>指定写入文件的字符编码</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -119,9 +188,20 @@ FileSystemManager.appendFile 的同步版本
 (option: CopyFileOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `CopyFileOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>CopyFileOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -139,10 +219,27 @@ FileSystemManager.copyFile 的同步版本
 (srcPath: string, destPath: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| srcPath | `string` | 源文件路径，只可以是普通文件 |
-| destPath | `string` | 目标文件路径 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>srcPath</td>
+      <td><code>string</code></td>
+      <td>源文件路径，只可以是普通文件</td>
+    </tr>
+    <tr>
+      <td>destPath</td>
+      <td><code>string</code></td>
+      <td>目标文件路径</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -160,9 +257,20 @@ FileSystemManager.copyFile 的同步版本
 (option: getFileInfoOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `getFileInfoOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>getFileInfoOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -180,9 +288,20 @@ FileSystemManager.copyFile 的同步版本
 (option?: getSavedFileListOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `getSavedFileListOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>getSavedFileListOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -200,9 +319,20 @@ FileSystemManager.copyFile 的同步版本
 (option: MkdirOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `MkdirOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>MkdirOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -220,10 +350,27 @@ FileSystemManager.mkdir 的同步版本
 (dirPath: string, recursive?: boolean) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| dirPath | `string` | 创建的目录路径 |
-| recursive | `boolean` | 是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dirPath</td>
+      <td><code>string</code></td>
+      <td>创建的目录路径</td>
+    </tr>
+    <tr>
+      <td>recursive</td>
+      <td><code>boolean</code></td>
+      <td>是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -241,9 +388,20 @@ FileSystemManager.mkdir 的同步版本
 (option: ReadFileOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `ReadFileOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>ReadFileOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -261,9 +419,20 @@ FileSystemManager.mkdir 的同步版本
 (option: ReaddirOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `ReaddirOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>ReaddirOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -281,9 +450,20 @@ FileSystemManager.mkdir 的同步版本
 (option: RemoveSavedFileOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `RemoveSavedFileOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>RemoveSavedFileOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -301,9 +481,20 @@ FileSystemManager.mkdir 的同步版本
 (option: RenameOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `RenameOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>RenameOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -321,10 +512,27 @@ FileSystemManager.rename 的同步版本
 (oldPath: string, newPath: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| oldPath | `string` | 源文件路径，可以是普通文件或目录 |
-| newPath | `string` | 新文件路径 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>oldPath</td>
+      <td><code>string</code></td>
+      <td>源文件路径，可以是普通文件或目录</td>
+    </tr>
+    <tr>
+      <td>newPath</td>
+      <td><code>string</code></td>
+      <td>新文件路径</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -342,9 +550,20 @@ FileSystemManager.rename 的同步版本
 (option: RmdirOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `RmdirOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>RmdirOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -362,10 +581,27 @@ FileSystemManager.rmdir 的同步版本
 (dirPath: string, recursive?: boolean) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| dirPath | `string` | 要删除的目录路径 |
-| recursive | `boolean` | 是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dirPath</td>
+      <td><code>string</code></td>
+      <td>要删除的目录路径</td>
+    </tr>
+    <tr>
+      <td>recursive</td>
+      <td><code>boolean</code></td>
+      <td>是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -383,9 +619,20 @@ FileSystemManager.rmdir 的同步版本
 (option: SaveFileOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `SaveFileOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>SaveFileOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -401,9 +648,20 @@ FileSystemManager.rmdir 的同步版本
 (option: StatOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `StatOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>StatOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -421,9 +679,20 @@ FileSystemManager.rmdir 的同步版本
 (option: UnlinkOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `UnlinkOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>UnlinkOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -441,9 +710,22 @@ FileSystemManager.unlink 的同步版本
 (filePath: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| filePath | `string` | 要删除的文件路径 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td>要删除的文件路径</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -461,9 +743,20 @@ FileSystemManager.unlink 的同步版本
 (option: UnzipOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `UnzipOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>UnzipOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -481,9 +774,20 @@ FileSystemManager.unlink 的同步版本
 (option: WriteFileOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `WriteFileOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>WriteFileOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -501,11 +805,32 @@ FileSystemManager.writeFile 的同步版本
 (filePath: string, data: string | ArrayBuffer, encoding?: "ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1") => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| filePath | `string` | 要写入的文件路径 |
-| data | string or ArrayBuffer | 要写入的文本或二进制数据 |
-| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 指定写入文件的字符编码 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td>要写入的文件路径</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td><code>string | ArrayBuffer</code></td>
+      <td>要写入的文本或二进制数据</td>
+    </tr>
+    <tr>
+      <td>encoding</td>
+      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
+      <td>指定写入文件的字符编码</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -523,10 +848,27 @@ FileSystemManager.stat 的同步版本
 (path: string, recursive?: boolean) => Stats | Record<string, any>
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| path | `string` | 文件/目录路径 |
-| recursive | `boolean` | 是否递归获取目录下的每个文件的 Stats 信息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>path</td>
+      <td><code>string</code></td>
+      <td>文件/目录路径</td>
+    </tr>
+    <tr>
+      <td>recursive</td>
+      <td><code>boolean</code></td>
+      <td>是否递归获取目录下的每个文件的 Stats 信息</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -544,10 +886,27 @@ FileSystemManager.saveFile 的同步版本
 (tempFilePath: string, filePath?: string) => number
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| tempFilePath | `string` | 临时存储文件路径 |
-| filePath | `string` | 要存储的文件路径 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tempFilePath</td>
+      <td><code>string</code></td>
+      <td>临时存储文件路径</td>
+    </tr>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td>要存储的文件路径</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -565,10 +924,27 @@ FileSystemManager.readFile 的同步版本
 (filePath: string, encoding?: "ascii" | "base64" | "binary" | "hex" | "ucs2" | "ucs-2" | "utf16le" | "utf-16le" | "utf-8" | "utf8" | "latin1") => string | ArrayBuffer
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| filePath | `string` | 要读取的文件的路径 |
-| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td>要读取的文件的路径</td>
+    </tr>
+    <tr>
+      <td>encoding</td>
+      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
+      <td>指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -582,309 +958,1186 @@ FileSystemManager.readFile 的同步版本
 
 字符编码
 
-| 参数 | 说明 |
-| --- | --- |
-| ascii |  |
-| base64 |  |
-| binary |  |
-| hex |  |
-| ucs2 | 以小端序读取 |
-| ucs-2 | 以小端序读取 |
-| utf16le | 以小端序读取 |
-| utf-16le | 以小端序读取 |
-| utf-8 |  |
-| utf8 |  |
-| latin1 |  |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ascii</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>base64</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>binary</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>hex</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ucs2</td>
+      <td>以小端序读取</td>
+    </tr>
+    <tr>
+      <td>ucs-2</td>
+      <td>以小端序读取</td>
+    </tr>
+    <tr>
+      <td>utf16le</td>
+      <td>以小端序读取</td>
+    </tr>
+    <tr>
+      <td>utf-16le</td>
+      <td>以小端序读取</td>
+    </tr>
+    <tr>
+      <td>utf-8</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>utf8</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>latin1</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 ### AccessOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| path | `string` | 是 | 要判断是否存在的文件/目录路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: AccessFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>path</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>要判断是否存在的文件/目录路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: AccessFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### AccessFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${path}': 文件/目录不存在; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${path}': 文件/目录不存在;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### AppendFileOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| data | string or ArrayBuffer | 是 | 要追加的文本或二进制数据 |
-| filePath | `string` | 是 | 要追加内容的文件路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 否 | 指定写入文件的字符编码 |
-| fail | `(result: AppendFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>string | ArrayBuffer</code></td>
+      <td style="text-align:center">是</td>
+      <td>要追加的文本或二进制数据</td>
+    </tr>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>要追加内容的文件路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>encoding</td>
+      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定写入文件的字符编码</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: AppendFileFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### AppendFileFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 文件不存在;<br />- 'fail illegal operation on a directory, open "${filePath}"': 指定的 filePath 是一个已经存在的目录;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail sdcard not mounted': 指定的 filePath 是一个已经存在的目录; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 文件不存在;<br />- 'fail illegal operation on a directory, open &quot;${filePath}&quot;': 指定的 filePath 是一个已经存在的目录;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail sdcard not mounted': 指定的 filePath 是一个已经存在的目录;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### CopyFileOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| destPath | `string` | 是 | 目标文件路径 |
-| srcPath | `string` | 是 | 源文件路径，只可以是普通文件 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: CopyFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>destPath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>目标文件路径</td>
+    </tr>
+    <tr>
+      <td>srcPath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>源文件路径，只可以是普通文件</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: CopyFileFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### CopyFileFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail permission denied, copyFile ${srcPath} -> ${destPath}': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, copyFile ${srcPath} -> ${destPath}': 源文件不存在，或目标文件路径的上层目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, copyFile ${srcPath} -&gt; ${destPath}': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, copyFile ${srcPath} -&gt; ${destPath}': 源文件不存在，或目标文件路径的上层目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### getFileInfoOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| filePath | `string` | 是 | 要读取的文件路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: GetFileInfoFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(result: GetFileInfoSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>要读取的文件路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: GetFileInfoFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: GetFileInfoSuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetFileInfoFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 filePath 找不到文件; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 filePath 找不到文件;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetFileInfoSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| size | `number` | 文件大小，以字节为单位 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>size</td>
+      <td><code>number</code></td>
+      <td>文件大小，以字节为单位</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### getSavedFileListOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(result: GetSavedFileListSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: GetSavedFileListSuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetSavedFileListSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| fileList | `GetSavedFileListSuccessCallbackResultFileItem[]` | 文件数组 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>fileList</td>
+      <td><code>GetSavedFileListSuccessCallbackResultFileItem[]</code></td>
+      <td>文件数组</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GetSavedFileListSuccessCallbackResultFileItem
 
 文件数组
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| createTime | `number` | 文件保存时的时间戳，从1970/01/01 08:00:00 到当前时间的秒数 |
-| filePath | `string` | 本地路径 |
-| size | `number` | 本地文件大小，以字节为单位 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>createTime</td>
+      <td><code>number</code></td>
+      <td>文件保存时的时间戳，从1970/01/01 08:00:00 到当前时间的秒数</td>
+    </tr>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td>本地路径</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td><code>number</code></td>
+      <td>本地文件大小，以字节为单位</td>
+    </tr>
+  </tbody>
+</table>
 
 ### MkdirOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| dirPath | `string` | 是 | 创建的目录路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: MkdirFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| recursive | `boolean` | 否 | 是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dirPath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>创建的目录路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: MkdirFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>recursive</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### MkdirFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 上级目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail file already exists ${dirPath}': 有同名文件或目录; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 上级目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail file already exists ${dirPath}': 有同名文件或目录;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ReadFileOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| filePath | `string` | 是 | 要读取的文件的路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 否 | 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 |
-| fail | `(result: ReadFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>要读取的文件的路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>encoding</td>
+      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: ReadFileFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ReadFileFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ReaddirOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| dirPath | `string` | 是 | 要读取的目录路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: ReaddirFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(result: ReaddirSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dirPath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>要读取的目录路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: ReaddirFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: ReaddirSuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ReaddirFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 目录不存在;<br />- 'fail not a directory ${dirPath}': dirPath 不是目录;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 目录不存在;<br />- 'fail not a directory ${dirPath}': dirPath 不是目录;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ReaddirSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| files | `string[]` | 指定目录下的文件名数组。 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>files</td>
+      <td><code>string[]</code></td>
+      <td>指定目录下的文件名数组。</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RemoveSavedFileOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| filePath | `string` | 是 | 需要删除的文件路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: RemoveSavedFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>需要删除的文件路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: RemoveSavedFileFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RemoveSavedFileFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 tempFilePath 找不到文件; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail file not exist': 指定的 tempFilePath 找不到文件;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RenameOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| newPath | `string` | 是 | 新文件路径 |
-| oldPath | `string` | 是 | 源文件路径，可以是普通文件或目录 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: RenameFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>newPath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>新文件路径</td>
+    </tr>
+    <tr>
+      <td>oldPath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>源文件路径，可以是普通文件或目录</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: RenameFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RenameFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail permission denied, rename ${oldPath} -> ${newPath}': 指定源文件或目标文件没有写权限;<br />- 'fail no such file or directory, rename ${oldPath} -> ${newPath}': 源文件不存在，或目标文件路径的上层目录不存在; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, rename ${oldPath} -&gt; ${newPath}': 指定源文件或目标文件没有写权限;<br />- 'fail no such file or directory, rename ${oldPath} -&gt; ${newPath}': 源文件不存在，或目标文件路径的上层目录不存在;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RmdirOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| dirPath | `string` | 是 | 要删除的目录路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: RmdirFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| recursive | `boolean` | 否 | 是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dirPath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>要删除的目录路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: RmdirFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>recursive</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否递归删除目录。如果为 true，则删除该目录和该目录下的所有子目录以及文件。</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### RmdirFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 目录不存在;<br />- 'fail directory not empty': 目录不为空;<br />- 'fail permission denied, open ${dirPath}': 指定的 dirPath 路径没有写权限; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory ${dirPath}': 目录不存在;<br />- 'fail directory not empty': 目录不为空;<br />- 'fail permission denied, open ${dirPath}': 指定的 dirPath 路径没有写权限;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SaveFileOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| tempFilePath | `string` | 是 | 临时存储文件路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: SaveFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| filePath | `string` | 否 | 要存储的文件路径 |
-| success | `(result: SaveFileSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tempFilePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>临时存储文件路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: SaveFileFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>要存储的文件路径</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: SaveFileSuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SaveFileFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open "${filePath}"': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory "${dirPath}"': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open &quot;${filePath}&quot;': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory &quot;${dirPath}&quot;': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SaveFileSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| savedFilePath | `number` | 存储后的文件路径 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>savedFilePath</td>
+      <td><code>number</code></td>
+      <td>存储后的文件路径</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StatOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| path | `string` | 是 | 文件/目录路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: StatFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| recursive | `boolean` | 否 | 是否递归获取目录下的每个文件的 Stats 信息 |
-| success | `(result: StatSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>path</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>文件/目录路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: StatFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>recursive</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否递归获取目录下的每个文件的 Stats 信息</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: StatSuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StatFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail permission denied, open ${path}': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory ${path}': 文件不存在; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open ${path}': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory ${path}': 文件不存在;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StatSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| stats | Stats or Record<string, any> | [Stats](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html)orObject<br /><br />当 recursive 为 false 时，res.stats 是一个 Stats 对象。当 recursive 为 true 且 path 是一个目录的路径时，res.stats 是一个 Object，key 以 path 为根路径的相对路径，value 是该路径对应的 Stats 对象。 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>stats</td>
+      <td><code>Stats | Record&lt;string, any&gt;</code></td>
+      <td><a href="https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html">Stats</a></td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### UnlinkOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| filePath | `string` | 是 | 要删除的文件路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: UnlinkFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>要删除的文件路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: UnlinkFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### UnlinkFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail permission denied, open ${path}': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory ${path}': 文件不存在;<br />- 'fail operation not permitted, unlink ${filePath}': 传入的 filePath 是一个目录; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, open ${path}': 指定的 path 路径没有读权限;<br />- 'fail no such file or directory ${path}': 文件不存在;<br />- 'fail operation not permitted, unlink ${filePath}': 传入的 filePath 是一个目录;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### UnzipOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| targetPath | `string` | 是 | 目标目录路径 |
-| zipFilePath | `string` | 是 | 源文件路径，只可以是 zip 压缩文件 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: UnzipFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>targetPath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>目标目录路径</td>
+    </tr>
+    <tr>
+      <td>zipFilePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>源文件路径，只可以是 zip 压缩文件</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: UnzipFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### UnzipFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail permission denied, unzip ${zipFilePath} -> ${destPath}': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, unzip ${zipFilePath} -> "${destPath}': 源文件不存在，或目标文件路径的上层目录不存在; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail permission denied, unzip ${zipFilePath} -&gt; ${destPath}': 指定目标文件路径没有写权限;<br />- 'fail no such file or directory, unzip ${zipFilePath} -&gt; &quot;${destPath}': 源文件不存在，或目标文件路径的上层目录不存在;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### WriteFileOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| data | string or ArrayBuffer | 是 | 要写入的文本或二进制数据 |
-| filePath | `string` | 是 | 要写入的文件路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| encoding | "ascii" or "base64" or "binary" or "hex" or "ucs2" or "ucs-2" or "utf16le" or "utf-16le" or "utf-8" or "utf8" or "latin1" | 否 | 指定写入文件的字符编码 |
-| fail | `(result: WriteFileFailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>string | ArrayBuffer</code></td>
+      <td style="text-align:center">是</td>
+      <td>要写入的文本或二进制数据</td>
+    </tr>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>要写入的文件路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>encoding</td>
+      <td><code>&quot;ascii&quot; | &quot;base64&quot; | &quot;binary&quot; | &quot;hex&quot; | &quot;ucs2&quot; | &quot;ucs-2&quot; | &quot;utf16le&quot; | &quot;utf-16le&quot; | &quot;utf-8&quot; | &quot;utf8&quot; | &quot;latin1&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定写入文件的字符编码</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: WriteFileFailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### WriteFileFailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在;<br />- 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

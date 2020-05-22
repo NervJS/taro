@@ -23,15 +23,39 @@ iBeacon 设备更新事件的回调函数
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| beacons | `IBeaconInfo[]` | 当前搜寻到的所有 iBeacon 设备列表 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>beacons</td>
+      <td><code>IBeaconInfo[]</code></td>
+      <td>当前搜寻到的所有 iBeacon 设备列表</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

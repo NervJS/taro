@@ -27,14 +27,54 @@ selector类似于 CSS 的选择器，但仅支持下列语法。
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| duration | `number` | 否 | 滚动动画的时长，单位 ms |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| scrollTop | `number` | 否 | 滚动到页面的目标位置，单位 px |
-| selector | `string` | 否 | 选择器, css selector |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>滚动动画的时长，单位 ms</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>scrollTop</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>滚动到页面的目标位置，单位 px</td>
+    </tr>
+    <tr>
+      <td>selector</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>选择器, css selector</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

@@ -33,9 +33,22 @@ sidebar_label: RequestTask
 (callback: (res: CallbackResult) => void) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(res: CallbackResult) => void` | HTTP Response Header 事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td>HTTP Response Header 事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -53,9 +66,22 @@ sidebar_label: RequestTask
 (callback: (result: OnHeadersReceivedCallbackResult) => void) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(result: OnHeadersReceivedCallbackResult) => void` | HTTP Response Header 事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(result: OnHeadersReceivedCallbackResult) =&gt; void</code></td>
+      <td>HTTP Response Header 事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -67,9 +93,22 @@ sidebar_label: RequestTask
 
 ### OnHeadersReceivedCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| header | `Record<string, any>` | 开发者服务器返回的 HTTP Response Header |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>header</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>开发者服务器返回的 HTTP Response Header</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

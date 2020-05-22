@@ -15,10 +15,27 @@ sidebar_label: EventChannel
 (eventName: string, ...args: any) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| eventName | `string` | 事件名称 |
-| args | `any` | 事件参数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>eventName</td>
+      <td><code>string</code></td>
+      <td>事件名称</td>
+    </tr>
+    <tr>
+      <td>args</td>
+      <td><code>any</code></td>
+      <td>事件参数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -36,10 +53,27 @@ sidebar_label: EventChannel
 (eventName: string, fn: EventCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| eventName | `string` | 事件名称 |
-| fn | `EventCallback` | 事件监听函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>eventName</td>
+      <td><code>string</code></td>
+      <td>事件名称</td>
+    </tr>
+    <tr>
+      <td>fn</td>
+      <td><code>EventCallback</code></td>
+      <td>事件监听函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -57,10 +91,27 @@ sidebar_label: EventChannel
 (eventName: string, fn: EventCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| eventName | `string` | 事件名称 |
-| fn | `EventCallback` | 事件监听函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>eventName</td>
+      <td><code>string</code></td>
+      <td>事件名称</td>
+    </tr>
+    <tr>
+      <td>fn</td>
+      <td><code>EventCallback</code></td>
+      <td>事件监听函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -78,10 +129,27 @@ sidebar_label: EventChannel
 (eventName: string, fn: EventCallback) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| eventName | `string` | 事件名称 |
-| fn | `EventCallback` | 事件监听函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>eventName</td>
+      <td><code>string</code></td>
+      <td>事件名称</td>
+    </tr>
+    <tr>
+      <td>fn</td>
+      <td><code>EventCallback</code></td>
+      <td>事件监听函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 

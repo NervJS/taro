@@ -26,9 +26,15 @@ export default class DateSelector extends React.Component<DateProps, any> {
     if (nextProps.value !== lastState.pValue) {
       const now = new Date()
       if (!nextProps.value || typeof nextProps.value !== 'string') {
-        return { value: now }
+        return {
+          value: now,
+          pValue: now
+        }
       }
-      return { value: formatTimeStr(nextProps.value) }
+      return {
+        value: formatTimeStr(nextProps.value),
+        pValue: nextProps.value
+      }
     }
     return null
   }
@@ -64,8 +70,8 @@ export default class DateSelector extends React.Component<DateProps, any> {
   render () {
     const {
       children,
-      start,
-      end,
+      start='1970-01-01',
+      end='2999-01-01',
       fields,
       disabled,
     } = this.props

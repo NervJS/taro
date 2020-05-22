@@ -84,12 +84,47 @@ export default class PageRadio extends Component {
 
 ## RadioProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| value | `string` |  | 否 | `<Radio/>` 标识。当该`<Radio/>` 选中时，`<RadioGroup/>`的 change 事件会携带`<Radio/>`的 value |
-| checked | `boolean` | `false` | 否 | 当前是否选中 |
-| disabled | `boolean` | `false` | 否 | 是否禁用 |
-| color | `string` | `"#09BB07"` | 否 | Radio 的颜色，同 css 的 color |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>value</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td><code>&lt;Radio/&gt;</code> 标识。当该<code>&lt;Radio/&gt;</code> 选中时，<code>&lt;RadioGroup/&gt;</code>的 change 事件会携带<code>&lt;Radio/&gt;</code>的 value</td>
+    </tr>
+    <tr>
+      <td>checked</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>当前是否选中</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否禁用</td>
+    </tr>
+    <tr>
+      <td>color</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"><code>&quot;#09BB07&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>Radio 的颜色，同 css 的 color</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 

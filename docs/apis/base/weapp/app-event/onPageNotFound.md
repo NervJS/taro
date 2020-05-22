@@ -22,11 +22,32 @@ sidebar_label: onPageNotFound
 
 ### Result
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| isEntryPage | `boolean` | 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面） |
-| path | `string` | 不存在页面的路径 |
-| query | `Record<string, any>` | 打开不存在页面的 query 参数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>isEntryPage</td>
+      <td><code>boolean</code></td>
+      <td>是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）</td>
+    </tr>
+    <tr>
+      <td>path</td>
+      <td><code>string</code></td>
+      <td>不存在页面的路径</td>
+    </tr>
+    <tr>
+      <td>query</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>打开不存在页面的 query 参数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Callback
 
@@ -36,9 +57,20 @@ sidebar_label: onPageNotFound
 (res: Result) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| res | `Result` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>res</td>
+      <td><code>Result</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

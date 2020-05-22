@@ -22,22 +22,77 @@ sidebar_label: setWifiList
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| wifiList | `WifiData[]` | 是 | 提供预设的 Wi-Fi 信息列表 |
-| complete | `(res: WifiError) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: WifiError) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: WifiError) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>wifiList</td>
+      <td><code>WifiData[]</code></td>
+      <td style="text-align:center">是</td>
+      <td>提供预设的 Wi-Fi 信息列表</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: WifiError) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: WifiError) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: WifiError) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### WifiData
 
 提供预设的 Wi-Fi 信息列表
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| BSSID | `string` | 否 | Wi-Fi 的 BSSID |
-| SSID | `string` | 否 | Wi-Fi 的 SSID |
-| password | `string` | 否 | Wi-Fi 设备密码 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BSSID</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>Wi-Fi 的 BSSID</td>
+    </tr>
+    <tr>
+      <td>SSID</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>Wi-Fi 的 SSID</td>
+    </tr>
+    <tr>
+      <td>password</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>Wi-Fi 设备密码</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

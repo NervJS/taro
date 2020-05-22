@@ -31,32 +31,118 @@ sidebar_label: startSoterAuthentication
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| challenge | `string` | 是 | 挑战因子。挑战因子为调用者为此次生物鉴权准备的用于签名的字符串关键识别信息，将作为 `resultJSON` 的一部分，供调用者识别本次请求。例如：如果场景为请求用户对某订单进行授权确认，则可以将订单号填入此参数。 |
-| requestAuthModes | ("fingerPrint" or "facial" or "speech")[] | 是 | 请求使用的可接受的生物认证方式 |
-| authContent | `string` | 否 | 验证描述，即识别过程中显示在界面上的对话框提示内容 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>challenge</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>挑战因子。挑战因子为调用者为此次生物鉴权准备的用于签名的字符串关键识别信息，将作为 <code>resultJSON</code> 的一部分，供调用者识别本次请求。例如：如果场景为请求用户对某订单进行授权确认，则可以将订单号填入此参数。</td>
+    </tr>
+    <tr>
+      <td>requestAuthModes</td>
+      <td><code>(&quot;fingerPrint&quot; | &quot;facial&quot; | &quot;speech&quot;)[]</code></td>
+      <td style="text-align:center">是</td>
+      <td>请求使用的可接受的生物认证方式</td>
+    </tr>
+    <tr>
+      <td>authContent</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>验证描述，即识别过程中显示在界面上的对话框提示内容</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| authMode | `string` | 生物认证方式 |
-| errCode | `number` | 错误码 |
-| errMsg | `string` | 错误信息 |
-| resultJSON | `string` | 在设备安全区域（TEE）内获得的本机安全信息（如TEE名称版本号等以及防重放参数）以及本次认证信息（仅Android支持，本次认证的指纹ID）。具体说明见下文 |
-| resultJSONSignature | `string` | 用SOTER安全密钥对 `resultJSON` 的签名(SHA256 with RSA/PSS, saltlen=20) |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>authMode</td>
+      <td><code>string</code></td>
+      <td>生物认证方式</td>
+    </tr>
+    <tr>
+      <td>errCode</td>
+      <td><code>number</code></td>
+      <td>错误码</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+    <tr>
+      <td>resultJSON</td>
+      <td><code>string</code></td>
+      <td>在设备安全区域（TEE）内获得的本机安全信息（如TEE名称版本号等以及防重放参数）以及本次认证信息（仅Android支持，本次认证的指纹ID）。具体说明见下文</td>
+    </tr>
+    <tr>
+      <td>resultJSONSignature</td>
+      <td><code>string</code></td>
+      <td>用SOTER安全密钥对 <code>resultJSON</code> 的签名(SHA256 with RSA/PSS, saltlen=20)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### requestAuthModes
 
-| 参数 | 说明 |
-| --- | --- |
-| fingerPrint | 指纹识别 |
-| facial | 人脸识别 |
-| speech | 声纹识别<br />API 支持度: 暂未支持 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>fingerPrint</td>
+      <td>指纹识别</td>
+    </tr>
+    <tr>
+      <td>facial</td>
+      <td>人脸识别</td>
+    </tr>
+    <tr>
+      <td>speech</td>
+      <td>声纹识别<br />API 支持度: 暂未支持</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 

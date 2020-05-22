@@ -40,10 +40,30 @@ class App extends Components {
 
 ## RichTextProps
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| nodes | `Nodes` | 节点列表/ HTML String |
-| space | "ensp" or "emsp" or "nbsp" | 显示连续空格 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>nodes</td>
+      <td><code>Nodes</code></td>
+      <td style="text-align:center">否</td>
+      <td>节点列表/ HTML String</td>
+    </tr>
+    <tr>
+      <td>space</td>
+      <td><code>&quot;ensp&quot; | &quot;emsp&quot; | &quot;nbsp&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>显示连续空格</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 
@@ -55,32 +75,107 @@ class App extends Components {
 
 space 的合法值
 
-| 参数 | 说明 |
-| --- | --- |
-| ensp | 中文字符空格一半大小 |
-| emsp | 中文字符空格大小 |
-| nbsp | 根据字体设置的空格大小 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ensp</td>
+      <td>中文字符空格一半大小</td>
+    </tr>
+    <tr>
+      <td>emsp</td>
+      <td>中文字符空格大小</td>
+    </tr>
+    <tr>
+      <td>nbsp</td>
+      <td>根据字体设置的空格大小</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Text
 
 文本节点
 
-| 参数 | 类型 | 默认值 | 说明 | 备注 |
-| --- | --- | :---: | --- | --- |
-| type | `"text"` |  | 文本类型 |  |
-| text | `string` | `""` | 文本字符串 | `支持 entities` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th>说明</th>
+      <th>备注</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code>&quot;text&quot;</code></td>
+      <td style="text-align:center"></td>
+      <td>文本类型</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>text</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"><code>&quot;&quot;</code></td>
+      <td>文本字符串</td>
+      <td><code>支持 entities</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### HTMLElement
 
 元素节点，默认为元素节点
 全局支持class和style属性，不支持 id 属性。
 
-| 参数 | 类型 | 必填 | 说明 | 备注 |
-| --- | --- | :---: | --- | --- |
-| type | `"node"` | 否 | HTML 类型 |  |
-| name | `string` | 是 | 标签名 | `支持部分受信任的 HTML 节点` |
-| attrs | `Object` | 否 | 属性 | `支持部分受信任的属性，遵循 Pascal 命名法` |
-| children | `Nodes` | 否 | 子节点列表 | `结构和 nodes 一致` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+      <th>备注</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code>&quot;node&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>HTML 类型</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>标签名</td>
+      <td><code>支持部分受信任的 HTML 节点</code></td>
+    </tr>
+    <tr>
+      <td>attrs</td>
+      <td><code>Object</code></td>
+      <td style="text-align:center">否</td>
+      <td>属性</td>
+      <td><code>支持部分受信任的属性，遵循 Pascal 命名法</code></td>
+    </tr>
+    <tr>
+      <td>children</td>
+      <td><code>Nodes</code></td>
+      <td style="text-align:center">否</td>
+      <td>子节点列表</td>
+      <td><code>结构和 nodes 一致</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## Nodes
 

@@ -5,6 +5,7 @@ import { getOptions } from 'loader-utils'
 
 export default function fileParseLoader (source) {
   const {babel: babelConfig, buildAdapter} = getOptions(this)
+  // console.log('##babelConfig', babelConfig)
   const filePath = this.resourcePath
   const res = transform(source, babelConfig) // use config babelConfig
   if (NODE_MODULES_REG.test(filePath) && res.code) {

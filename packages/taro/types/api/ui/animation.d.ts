@@ -47,7 +47,9 @@ declare namespace Taro {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.export.html
      */
-    export(): General.IAnyObject[]
+    export(): {
+      actions: General.IAnyObject[]
+    }
     /** 设置背景色
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.backgroundColor.html

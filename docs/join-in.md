@@ -32,7 +32,7 @@ Taro 发展至今早已不在属于单一团队的项目了，而是整个 Taro 
 
 同时也感谢受邀成为 [TaroUI](https://github.com/NervJS/taro-ui) 核心维护人员的  [Garfield550](https://github.com/Garfield550) (小姐姐)、[梁音](https://github.com/yinLiangDream)、[ShaoQian Liu](https://github.com/lsqy)，他们将支撑起 TaroUI 的后续迭代与维护。
 
-当然还有在社区中乐于助人、积极贡献的 [zacksleo](https://github.com/zacksleo) 、[Jay Fong](https://github.com/fjc0k)、[loveonelong](https://github.com/loveonelong)、[lolipop99](https://github.com/lolipop99)、[波仔糕](https://github.com/bozaigao)、[原罪](https://github.com/fwh1990)、[lentoo](https://github.com/lentoo/) 、[白领夏公子](https://taro-club.jd.com/user/%E7%99%BD%E9%A2%86%E5%A4%8F%E5%85%AC%E5%AD%90)  、YuanQuan、 tourze、 lingxiaoZhu 等等。
+当然还有在社区中乐于助人、积极贡献的 [zacksleo](https://github.com/zacksleo) 、[Jay Fong](https://github.com/fjc0k)、[loveonelong](https://github.com/loveonelong)、[lolipop99](https://github.com/lolipop99)、[波仔糕](https://github.com/bozaigao)、[原罪](https://github.com/fwh1990)、[lentoo](https://github.com/lentoo/) 、[白领夏公子](https://taro-club.jd.com/user/%E7%99%BD%E9%A2%86%E5%A4%8F%E5%85%AC%E5%AD%90)  、YuanQuan、 tourze、 lingxiaoZhu、和输出多篇实践文章的[盛瀚钦（小溪里）](https://github.com/shenghanqin) 等等。
 
 此外，还要感谢一直默默为 Taro 发展提供宝贵建议的研发团队：腾讯云、数字广东、腾讯CDC、网易严选、华为开源团队、招联消费金融等等
 

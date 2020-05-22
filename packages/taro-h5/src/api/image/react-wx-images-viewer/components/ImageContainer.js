@@ -126,6 +126,7 @@ class ImageContainer extends PureComponent {
 
   componentWillMount () {
     this.loadImg(this.props.src)
+    window.addEventListener('popstate', this.handlePopState)
   }
 
   componentWillUnmount () {
@@ -133,6 +134,13 @@ class ImageContainer extends PureComponent {
     if (this.animationID) {
       raf.cancel(this.animationID)
     }
+    window.removeEventListener('popstate', this.handlePopState)
+  }
+
+  handlePopState = () => {
+    window.removeEventListener('popstate', this.handlePopState)
+    this.context.onError({ errMsg: 'previewImage:fail cancel' })
+    this.context.onClose()
   }
 
   onLoad = () => {

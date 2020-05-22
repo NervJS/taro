@@ -32,22 +32,68 @@ sidebar_label: onAppShow
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| path | `string` | 小程序切前台的路径 |
-| query | `Record<string, any>` | 小程序切前台的 query 参数 |
-| referrerInfo | `ResultReferrerInfo` | 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 `{}`。(参见后文注意) |
-| scene | `number` | 小程序切前台的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) |
-| shareTicket | `string` | shareTicket，详见[获取更多转发信息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>path</td>
+      <td><code>string</code></td>
+      <td>小程序切前台的路径</td>
+    </tr>
+    <tr>
+      <td>query</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>小程序切前台的 query 参数</td>
+    </tr>
+    <tr>
+      <td>referrerInfo</td>
+      <td><code>ResultReferrerInfo</code></td>
+      <td>来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 <code>{}</code>。(参见后文注意)</td>
+    </tr>
+    <tr>
+      <td>scene</td>
+      <td><code>number</code></td>
+      <td>小程序切前台的<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html">场景值</a></td>
+    </tr>
+    <tr>
+      <td>shareTicket</td>
+      <td><code>string</code></td>
+      <td>shareTicket，详见<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html">获取更多转发信息</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ### ResultReferrerInfo
 
 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 `{}`。(参见后文注意)
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| appId | `string` | 来源小程序、公众号或 App 的 appId |
-| extraData | `Record<string, any>` | 来源小程序传过来的数据，scene=1037或1038时支持 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>appId</td>
+      <td><code>string</code></td>
+      <td>来源小程序、公众号或 App 的 appId</td>
+    </tr>
+    <tr>
+      <td>extraData</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>来源小程序传过来的数据，scene=1037或1038时支持</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

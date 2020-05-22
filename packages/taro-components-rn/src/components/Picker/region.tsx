@@ -10,16 +10,18 @@ export default class RegionSelector extends React.Component<RegionProps, any> {
   }
 
   static getDerivedStateFromProps (nextProps: RegionProps, lastState: any) {
-    if (nextProps.value !== lastState.value) {
+    if (nextProps.value !== lastState.pvalue) {
       return {
-        value: nextProps.value
+        value: nextProps.value,
+        pvalue: nextProps.value
       }
     }
     return null
   }
 
   state = {
-    value: []
+    value: [],
+    pvalue: []
   }
 
   onChange = (value: string[]) => {

@@ -1,0 +1,54 @@
+{
+  "name": "@tarojs/service",
+  "version": "2.2.6",
+  "description": "Taro Service",
+  "main": "index.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "run-s clean prod",
+    "dev": "tsc -w",
+    "prod": "tsc",
+    "clean": "rimraf dist",
+    "lint": "tslint src/**/*.ts --fix",
+    "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
+    "prepack": "npm run build",
+    "test": "jest",
+    "test:dev": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "files": [
+    "index.js",
+    "dist",
+    "src",
+    "types"
+  ],
+  "keywords": [
+    "taro"
+  ],
+  "author": "luckyadam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "dependencies": {
+    "@hapi/joi": "17.1.1",
+    "@tarojs/helper": "^2.2.6",
+    "@tarojs/taro": "^2.2.6",
+    "fs-extra": "8.1.0",
+    "lodash": "4.17.15",
+    "resolve": "1.15.1",
+    "tapable": "1.1.3"
+  },
+  "devDependencies": {
+    "@types/hapi__joi": "16.0.12",
+    "@types/jest": "25.2.1",
+    "@types/node": "13.9.0",
+    "jest": "25.1.0",
+    "ts-jest": "25.2.1",
+    "typescript": "^3.4.5"
+  }
+}

@@ -23,21 +23,69 @@ sidebar_label: onLocationChange
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| accuracy | `number` | 位置的精确度 |
-| altitude | `number` | 高度，单位 m |
-| horizontalAccuracy | `number` | 水平精度，单位 m |
-| latitude | `number` | 纬度，范围为 -90~90，负数表示南纬 |
-| longitude | `number` | 经度，范围为 -180~180，负数表示西经 |
-| speed | `number` | 速度，单位 m/s |
-| verticalAccuracy | `number` | 垂直精度，单位 m（Android 无法获取，返回 0） |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>accuracy</td>
+      <td><code>number</code></td>
+      <td>位置的精确度</td>
+    </tr>
+    <tr>
+      <td>altitude</td>
+      <td><code>number</code></td>
+      <td>高度，单位 m</td>
+    </tr>
+    <tr>
+      <td>horizontalAccuracy</td>
+      <td><code>number</code></td>
+      <td>水平精度，单位 m</td>
+    </tr>
+    <tr>
+      <td>latitude</td>
+      <td><code>number</code></td>
+      <td>纬度，范围为 -90~90，负数表示南纬</td>
+    </tr>
+    <tr>
+      <td>longitude</td>
+      <td><code>number</code></td>
+      <td>经度，范围为 -180~180，负数表示西经</td>
+    </tr>
+    <tr>
+      <td>speed</td>
+      <td><code>number</code></td>
+      <td>速度，单位 m/s</td>
+    </tr>
+    <tr>
+      <td>verticalAccuracy</td>
+      <td><code>number</code></td>
+      <td>垂直精度，单位 m（Android 无法获取，返回 0）</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

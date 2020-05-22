@@ -23,9 +23,22 @@ sidebar_label: onError
 (error: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| error | `string` | 错误信息，包含堆栈 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>error</td>
+      <td><code>string</code></td>
+      <td>错误信息，包含堆栈</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

@@ -17,26 +17,91 @@ sidebar_label: saveFile
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| tempFilePath | `string` | 是 | 临时存储文件路径 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(result: FailCallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| filePath | `string` | 否 | 要存储的文件路径 |
-| success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tempFilePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">是</td>
+      <td>临时存储文件路径</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(result: FailCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>filePath</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>要存储的文件路径</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### FailCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| errMsg | `string` | 错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open "${filePath}"': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory "${dirPath}"': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足; |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息<br /><br />可选值：<br />- 'fail tempFilePath file not exist': 指定的 tempFilePath 找不到文件;<br />- 'fail permission denied, open &quot;${filePath}&quot;': 指定的 filePath 路径没有写权限;<br />- 'fail no such file or directory &quot;${dirPath}&quot;': 上级目录不存在;<br />- 'fail the maximum size of the file storage limit is exceeded': 存储空间不足;</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| savedFilePath | `number` | 存储后的文件路径 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>savedFilePath</td>
+      <td><code>number</code></td>
+      <td>存储后的文件路径</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

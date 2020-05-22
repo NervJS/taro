@@ -30,10 +30,30 @@ ComponentType<OfficialAccountProps>
 
 ## OfficialAccountProps
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| onLoad | `BaseEventOrigFunction<detail>` | 否 | 组件加载成功时触发 |
-| onError | `BaseEventOrigFunction<detail>` | 否 | 组件加载失败时触发 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>onLoad</td>
+      <td><code>BaseEventOrigFunction&lt;detail&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>组件加载成功时触发</td>
+    </tr>
+    <tr>
+      <td>onError</td>
+      <td><code>BaseEventOrigFunction&lt;detail&gt;</code></td>
+      <td style="text-align:center">否</td>
+      <td>组件加载失败时触发</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 
@@ -46,26 +66,78 @@ ComponentType<OfficialAccountProps>
 
 detail 对象
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| status | `number` | 状态码 |
-| errMsg | `string` | 错误信息 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>status</td>
+      <td><code>number</code></td>
+      <td>状态码</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+  </tbody>
+</table>
 
 ### status
 
 status 有效值
 
-| 参数 | 说明 |
-| --- | --- |
-| -2 | 网络错误 |
-| -1 | 数据解析错误 |
-| 0 | 加载成功 |
-| 1 | 小程序关注公众号功能被封禁 |
-| 2 | 关联公众号被封禁 |
-| 3 | 关联关系解除或未选中关联公众号 |
-| 4 | 未开启关注公众号功能 |
-| 5 | 场景值错误 |
-| 6 | 重复创建 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-2</td>
+      <td>网络错误</td>
+    </tr>
+    <tr>
+      <td>-1</td>
+      <td>数据解析错误</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>加载成功</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>小程序关注公众号功能被封禁</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>关联公众号被封禁</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>关联关系解除或未选中关联公众号</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>未开启关注公众号功能</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>场景值错误</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>重复创建</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

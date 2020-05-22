@@ -16,7 +16,9 @@ const cssSuffixs = ['.css', '.scss', '.sass', '.less', '.styl']
 let styleNames = [] // css module 写法中 import 的 Identifier
 
 export default function JSXToStylesSheetLoader (source, ast) {
-  const filePath = this.resourcePath
+  // const filePath = this.resourcePath
+  const entryPath = this._module.resource
+  // const miniType = this._module.miniType || PARSE_AST_TYPE.NORMAL
   const file = new Map()
   // const mergeStylesFunctionTemplate = template(`
   //   function ${MERGE_STYLES_FUNC_NAME}() {
@@ -251,7 +253,8 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
         const node: t.ImportDeclaration = astPath.node
         const sourceValue = node.source.value
         const specifiers = node.specifiers
-        const jsFilePath = filePath // 传进来的文件的 filePath ,Babel6 file.opts.filaname 为unknown
+        // every enery has one styles
+        const jsFilePath = entryPath // 传进来的文件的 filePath ,Babel6 file.opts.filaname 为unknown
         const extname = path.extname(sourceValue)
         const cssIndex = cssSuffixs.indexOf(extname)
         let cssFileCount = file.get('cssFileCount') || 0
@@ -269,15 +272,14 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
             const cssFileBaseName = path.basename(jsFilePath, path.extname(jsFilePath))
             // 引入样式对应的变量名
             const styleSheetIdentifierValue = `${cssFileBaseName.replace(/[-.]/g, '_') + NAME_SUFFIX}`
-            const styleSheetIdentifierPath = `./${cssFileBaseName}_styles`
+            const styleSheetIdentifierPath = `./index_styles`
             const styleSheetIdentifier = t.identifier(styleSheetIdentifierValue)
-
-            // node.specifiers = [t.importDefaultSpecifier(styleSheetIdentifier)]
-            // node.source = t.stringLiteral(styleSheetIdentifierPath)
+            // const indexStyleSheet = __non_webpack_require__('./index_styles').default
             const webpackNode = template(
               `const ${styleSheetIdentifierValue} =__non_webpack_require__('${styleSheetIdentifierPath}').default`,
               babylonConfig as any
             )()
+            // console.log(filePath, entryPath, styleSheetIdentifierPath)
             astPath.insertBefore(webpackNode)
             cssParamIdentifiers.push(styleSheetIdentifier)
           } else {
@@ -293,7 +295,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
     })
     // this.callback(null, source, ast)
     const code = generate(ast).code
-    // console.log('JSXToStylesSheetLoader', code)
+    // if (filePath.includes('pages/index/index.js')) console.log('JSXToStylesSheetLoader', code)
     return code
   } catch (e) {
     this.emitError(e)

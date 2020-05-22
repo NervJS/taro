@@ -10,13 +10,6 @@ import { mapKeys, pipe } from 'lodash/fp'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
-import chalk from 'chalk'
-
-import { getPostcssPlugins } from './postcss.conf'
-
-import MiniPlugin from '../plugins/MiniPlugin'
-import { IOption } from '../utils/types'
-import { recursiveMerge, isNodeModule, resolveScriptPath } from '../utils'
 import {
   REG_SASS,
   REG_LESS,
@@ -25,21 +18,18 @@ import {
   REG_MEDIA,
   REG_FONT,
   REG_IMAGE,
-  BUILD_TYPES,
   REG_SCRIPTS,
   REG_TEMPLATE,
-  MINI_APP_FILES
-} from '../utils/constants'
+  recursiveMerge,
+  isNodeModule,
+  resolveScriptPath,
+  chalk
+} from '@tarojs/helper'
 
-const globalObjectMap = {
-  [BUILD_TYPES.WEAPP]: 'wx',
-  [BUILD_TYPES.ALIPAY]: 'my',
-  [BUILD_TYPES.SWAN]: 'swan',
-  [BUILD_TYPES.QQ]: 'qq',
-  [BUILD_TYPES.TT]: 'tt',
-  [BUILD_TYPES.JD]: 'jd',
-  [BUILD_TYPES.QUICKAPP]: 'global'
-}
+import { getPostcssPlugins } from './postcss.conf'
+
+import MiniPlugin from '../plugins/MiniPlugin'
+import { IOption } from '../utils/types'
 
 const defaultUglifyJsOption = {
   keep_fnames: true,
@@ -163,6 +153,9 @@ export const getMiniPlugin = args => {
 
 export const getModule = (appPath: string, {
   sourceDir,
+  fileType,
+  isBuildQuickapp,
+  isUseComponentBuildPage,
 
   designWidth,
   deviceRatio,
@@ -180,9 +173,9 @@ export const getModule = (appPath: string, {
   postcss,
   compile,
   babel,
-  alias
+  alias,
+  nodeModulesPath
 }) => {
-  const isQuickapp = buildAdapter === BUILD_TYPES.QUICKAPP
   const postcssOption: IPostcssOption = postcss || {}
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
@@ -223,7 +216,7 @@ export const getModule = (appPath: string, {
     include?;
     use;
   }[] = [{
-    use: isQuickapp ? [cssLoader, quickappStyleLoader] : [cssLoader]
+    use: isBuildQuickapp ? [cssLoader, quickappStyleLoader] : [cssLoader]
   }]
 
   const compileExclude = compile.exclude || []
@@ -255,7 +248,7 @@ export const getModule = (appPath: string, {
     {
       ident: 'postcss',
       plugins: getPostcssPlugins(appPath, {
-        isQuickapp,
+        isBuildQuickapp,
         designWidth,
         deviceRatio,
         postcssOption
@@ -264,25 +257,35 @@ export const getModule = (appPath: string, {
   ])
   const sassLoader = getSassLoader([{
     sourceMap: true,
-    implementation: sass
+    implementation: sass,
+    outputStyle: 'expanded'
   }, sassLoaderOption])
   const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
+  const parsedConstantsReplaceList = {}
+  Object.keys(constantsReplaceList).forEach(key => {
+    try {
+      parsedConstantsReplaceList[key] = JSON.parse(constantsReplaceList[key])
+    } catch (error) {
+      parsedConstantsReplaceList[key] = constantsReplaceList[key]
+    }
+  })
   const wxTransformerLoader = getWxTransformerLoader([{
     babel,
     alias,
     designWidth,
     deviceRatio,
     buildAdapter,
-    constantsReplaceList,
-    sourceDir
+    constantsReplaceList: parsedConstantsReplaceList,
+    sourceDir,
+    isBuildQuickapp,
+    nodeModulesPath,
+    isUseComponentBuildPage
   }])
 
-  const miniTemplateLoader = getMiniTemplateLoader([{
-    buildAdapter
-  }])
+  const miniTemplateLoader = getMiniTemplateLoader([])
 
   let scriptsLoaderConf = {
     test: REG_SCRIPTS,
@@ -339,7 +342,7 @@ export const getModule = (appPath: string, {
       test: REG_TEMPLATE,
       use: [getFileLoader([{
         useRelativePath: true,
-        name: `[path][name]${MINI_APP_FILES[buildAdapter].TEMPL}`,
+        name: `[path][name]${fileType.templ}`,
         context: sourceDir
       }]), miniTemplateLoader]
     },
@@ -351,7 +354,7 @@ export const getModule = (appPath: string, {
           useRelativePath: true,
           context: sourceDir,
           ...mediaUrlLoaderOption,
-          limit: isQuickapp ? false : mediaUrlLoaderOption.limit
+          limit: isBuildQuickapp ? false : mediaUrlLoaderOption.limit
         }])
       }
     },
@@ -363,7 +366,7 @@ export const getModule = (appPath: string, {
           useRelativePath: true,
           context: sourceDir,
           ...fontUrlLoaderOption,
-          limit: isQuickapp ? false : fontUrlLoaderOption.limit
+          limit: isBuildQuickapp ? false : fontUrlLoaderOption.limit
         }])
       }
     },
@@ -375,7 +378,7 @@ export const getModule = (appPath: string, {
           useRelativePath: true,
           context: sourceDir,
           ...imageUrlLoaderOption,
-          limit: isQuickapp ? false : imageUrlLoaderOption.limit
+          limit: isBuildQuickapp ? false : imageUrlLoaderOption.limit
         }])
       }
     }
@@ -406,11 +409,13 @@ export const getEntry = ({
   }
   const pluginConfig = fs.readJSONSync(pluginConfigPath)
   const entryObj = {}
+  let pluginMainEntry
   Object.keys(pluginConfig).forEach(key => {
     if (key === 'main') {
       const filePath = path.join(pluginDir, pluginConfig[key])
       const fileName = path.basename(filePath).replace(path.extname(filePath), '')
-      entryObj[`plugin/${fileName}`] = [resolveScriptPath(filePath.replace(path.extname(filePath), ''))]
+      pluginMainEntry = `plugin/${fileName}`
+      entryObj[pluginMainEntry] = [resolveScriptPath(filePath.replace(path.extname(filePath), ''))]
     } else if (key === 'publicComponents' || key === 'pages') {
       Object.keys(pluginConfig[key]).forEach(subKey => {
         const filePath = path.join(pluginDir, pluginConfig[key][subKey])
@@ -420,17 +425,18 @@ export const getEntry = ({
   })
   return {
     entry: entryObj,
-    pluginConfig
+    pluginConfig,
+    pluginMainEntry,
   }
 }
 
-export function getOutput (appPath: string, [{ outputRoot, publicPath, buildAdapter, isBuildPlugin }, customOutput]) {
+export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObject }, customOutput]) {
   return {
     path: path.join(appPath, outputRoot),
     publicPath,
     filename: '[name].js',
     chunkFilename: '[name].js',
-    globalObject: globalObjectMap[buildAdapter],
+    globalObject,
     ...customOutput
   }
 }

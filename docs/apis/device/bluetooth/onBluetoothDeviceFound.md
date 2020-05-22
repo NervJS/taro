@@ -27,29 +27,90 @@ sidebar_label: onBluetoothDeviceFound
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| devices | `CallbackResultBlueToothDevice[]` | 新搜索到的设备列表 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>devices</td>
+      <td><code>CallbackResultBlueToothDevice[]</code></td>
+      <td>新搜索到的设备列表</td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResultBlueToothDevice
 
 新搜索到的设备
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| RSSI | `number` | 当前蓝牙设备的信号强度 |
-| advertisData | `ArrayBuffer` | 当前蓝牙设备的广播数据段中的 ManufacturerData 数据段。 |
-| advertisServiceUUIDs | `string[]` | 当前蓝牙设备的广播数据段中的 ServiceUUIDs 数据段 |
-| deviceId | `string` | 用于区分设备的 id |
-| localName | `string` | 当前蓝牙设备的广播数据段中的 LocalName 数据段 |
-| name | `string` | 蓝牙设备名称，某些设备可能没有 |
-| serviceData | `Record<string, any>` | 当前蓝牙设备的广播数据段中的 ServiceData 数据段 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RSSI</td>
+      <td><code>number</code></td>
+      <td>当前蓝牙设备的信号强度</td>
+    </tr>
+    <tr>
+      <td>advertisData</td>
+      <td><code>ArrayBuffer</code></td>
+      <td>当前蓝牙设备的广播数据段中的 ManufacturerData 数据段。</td>
+    </tr>
+    <tr>
+      <td>advertisServiceUUIDs</td>
+      <td><code>string[]</code></td>
+      <td>当前蓝牙设备的广播数据段中的 ServiceUUIDs 数据段</td>
+    </tr>
+    <tr>
+      <td>deviceId</td>
+      <td><code>string</code></td>
+      <td>用于区分设备的 id</td>
+    </tr>
+    <tr>
+      <td>localName</td>
+      <td><code>string</code></td>
+      <td>当前蓝牙设备的广播数据段中的 LocalName 数据段</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td><code>string</code></td>
+      <td>蓝牙设备名称，某些设备可能没有</td>
+    </tr>
+    <tr>
+      <td>serviceData</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>当前蓝牙设备的广播数据段中的 ServiceData 数据段</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

@@ -75,7 +75,7 @@ export const createInnerAudioContext = () => {
     audioEl = null
   }
 
-  const simpleProperties = [ 'src', 'autoplay', 'loop', 'volume', 'duration', 'currentTime', 'buffered', 'paused' ]
+  const simpleProperties = ['src', 'autoplay', 'loop', 'volume', 'duration', 'currentTime', 'buffered', 'paused']
   simpleProperties.forEach(propertyName => {
     Object.defineProperty(iac, propertyName, {
       get: () => audioEl[propertyName],
@@ -116,7 +116,7 @@ export const createInnerAudioContext = () => {
     })
   })
 
-  const customEvents = [ 'Stop' ]
+  const customEvents = ['Stop']
   const customListenerTuples = [
     ['on', 'add'],
     ['off', 'remove']
