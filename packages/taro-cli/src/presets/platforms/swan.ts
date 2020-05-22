@@ -9,9 +9,9 @@ export default (ctx: IPluginContext) => {
       const { npm, emptyDirectory } = ctx.helper
       emptyDirectory(outputPath)
 
-      ctx.generateFrameworkInfo({
-        platform: config.platform
-      })
+      // ctx.generateFrameworkInfo({
+      //   platform: config.platform
+      // })
 
       // 生成 project.swan.json
       ctx.generateProjectConfig({

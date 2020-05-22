@@ -721,7 +721,7 @@ exports[`css modules should use css modules with global mode 2`] = `
                 this.selectable = false;
             }
             Text.prototype.render = function() {
-                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(\\"taro-text\\", {
+                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])({
                     \\"taro-text__selectable\\": this.selectable
                 });
                 return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], {
@@ -730,7 +730,7 @@ exports[`css modules should use css modules with global mode 2`] = `
             };
             Object.defineProperty(Text, \\"style\\", {
                 \\"get\\": function() {
-                    return \\".taro-text{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;display:inline}.taro-text__selectable{-moz-user-select:text;-webkit-user-select:text;-ms-user-select:text;user-select:text}\\";
+                    return \\"taro-text-core{display:inline;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;white-space:pre-wrap}.taro-text__selectable{-moz-user-select:text;-webkit-user-select:text;-ms-user-select:text;user-select:text}\\";
                 },
                 \\"enumerable\\": true,
                 \\"configurable\\": true
@@ -21067,6 +21067,12 @@ Element.remove()
     function getOnReadyEventKey(path) {
         return path + \\".\\" + \\"onReady\\";
     }
+    function getOnShowEventKey(path) {
+        return path + \\".\\" + \\"onShow\\";
+    }
+    function getOnHideEventKey(path) {
+        return path + \\".\\" + \\"onHide\\";
+    }
     function createPageConfig(component, pageName, data) {
         var id = pageName !== null && pageName !== void 0 ? pageName : \\"taro_page_\\".concat(pageId());
         var pageElement = null;
@@ -21078,7 +21084,9 @@ Element.remove()
                 Current.router = {
                     \\"params\\": options,
                     \\"path\\": addLeadingSlash(this.route || this.__route__),
-                    \\"onReady\\": getOnReadyEventKey(path)
+                    \\"onReady\\": getOnReadyEventKey(id),
+                    \\"onShow\\": getOnShowEventKey(id),
+                    \\"onHide\\": getOnHideEventKey(id)
                 };
                 Current.app.mount(component, path, (function() {
                     pageElement = document$1.getElementById(path);
@@ -21093,13 +21101,14 @@ Element.remove()
             \\"onReady\\": function onReady() {
                 var path = getPath(id, this.options);
                 raf((function() {
-                    eventCenter.trigger(getOnReadyEventKey(path));
+                    eventCenter.trigger(getOnReadyEventKey(id));
                 }));
                 safeExecute(path, \\"onReady\\");
             },
             \\"onUnload\\": function onUnload() {
                 var path = getPath(id, this.options);
                 Current.app.unmount(path, (function() {
+                    instances.delete(path);
                     if (pageElement) {
                         pageElement.ctx = null;
                     }
@@ -21111,14 +21120,22 @@ Element.remove()
                 Current.router = {
                     \\"params\\": this.options,
                     \\"path\\": addLeadingSlash(this.route || this.__route__),
-                    \\"onReady\\": getOnReadyEventKey(path)
+                    \\"onReady\\": getOnReadyEventKey(id),
+                    \\"onShow\\": getOnShowEventKey(id),
+                    \\"onHide\\": getOnHideEventKey(id)
                 };
+                raf((function() {
+                    eventCenter.trigger(getOnShowEventKey(id));
+                }));
                 safeExecute(path, \\"onShow\\");
             },
             \\"onHide\\": function onHide() {
                 Current.page = null;
                 Current.router = null;
                 var path = getPath(id, this.options);
+                raf((function() {
+                    eventCenter.trigger(getOnHideEventKey(id));
+                }));
                 safeExecute(path, \\"onHide\\");
             },
             \\"onPullDownRefresh\\": function onPullDownRefresh() {
@@ -43189,7 +43206,7 @@ exports[`css modules should use css modules with module mode 2`] = `
                 this.selectable = false;
             }
             Text.prototype.render = function() {
-                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(\\"taro-text\\", {
+                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])({
                     \\"taro-text__selectable\\": this.selectable
                 });
                 return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], {
@@ -43198,7 +43215,7 @@ exports[`css modules should use css modules with module mode 2`] = `
             };
             Object.defineProperty(Text, \\"style\\", {
                 \\"get\\": function() {
-                    return \\".taro-text{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;display:inline}.taro-text__selectable{-moz-user-select:text;-webkit-user-select:text;-ms-user-select:text;user-select:text}\\";
+                    return \\"taro-text-core{display:inline;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;white-space:pre-wrap}.taro-text__selectable{-moz-user-select:text;-webkit-user-select:text;-ms-user-select:text;user-select:text}\\";
                 },
                 \\"enumerable\\": true,
                 \\"configurable\\": true
@@ -63535,6 +63552,12 @@ Element.remove()
     function getOnReadyEventKey(path) {
         return path + \\".\\" + \\"onReady\\";
     }
+    function getOnShowEventKey(path) {
+        return path + \\".\\" + \\"onShow\\";
+    }
+    function getOnHideEventKey(path) {
+        return path + \\".\\" + \\"onHide\\";
+    }
     function createPageConfig(component, pageName, data) {
         var id = pageName !== null && pageName !== void 0 ? pageName : \\"taro_page_\\".concat(pageId());
         var pageElement = null;
@@ -63546,7 +63569,9 @@ Element.remove()
                 Current.router = {
                     \\"params\\": options,
                     \\"path\\": addLeadingSlash(this.route || this.__route__),
-                    \\"onReady\\": getOnReadyEventKey(path)
+                    \\"onReady\\": getOnReadyEventKey(id),
+                    \\"onShow\\": getOnShowEventKey(id),
+                    \\"onHide\\": getOnHideEventKey(id)
                 };
                 Current.app.mount(component, path, (function() {
                     pageElement = document$1.getElementById(path);
@@ -63561,13 +63586,14 @@ Element.remove()
             \\"onReady\\": function onReady() {
                 var path = getPath(id, this.options);
                 raf((function() {
-                    eventCenter.trigger(getOnReadyEventKey(path));
+                    eventCenter.trigger(getOnReadyEventKey(id));
                 }));
                 safeExecute(path, \\"onReady\\");
             },
             \\"onUnload\\": function onUnload() {
                 var path = getPath(id, this.options);
                 Current.app.unmount(path, (function() {
+                    instances.delete(path);
                     if (pageElement) {
                         pageElement.ctx = null;
                     }
@@ -63579,14 +63605,22 @@ Element.remove()
                 Current.router = {
                     \\"params\\": this.options,
                     \\"path\\": addLeadingSlash(this.route || this.__route__),
-                    \\"onReady\\": getOnReadyEventKey(path)
+                    \\"onReady\\": getOnReadyEventKey(id),
+                    \\"onShow\\": getOnShowEventKey(id),
+                    \\"onHide\\": getOnHideEventKey(id)
                 };
+                raf((function() {
+                    eventCenter.trigger(getOnShowEventKey(id));
+                }));
                 safeExecute(path, \\"onShow\\");
             },
             \\"onHide\\": function onHide() {
                 Current.page = null;
                 Current.router = null;
                 var path = getPath(id, this.options);
+                raf((function() {
+                    eventCenter.trigger(getOnHideEventKey(id));
+                }));
                 safeExecute(path, \\"onHide\\");
             },
             \\"onPullDownRefresh\\": function onPullDownRefresh() {

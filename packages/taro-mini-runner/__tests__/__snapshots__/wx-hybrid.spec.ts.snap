@@ -8637,6 +8637,12 @@ object-assign
             function getOnReadyEventKey(path) {
                 return path + \\".\\" + \\"onReady\\";
             }
+            function getOnShowEventKey(path) {
+                return path + \\".\\" + \\"onShow\\";
+            }
+            function getOnHideEventKey(path) {
+                return path + \\".\\" + \\"onHide\\";
+            }
             function createPageConfig(component, pageName, data) {
                 const id = pageName !== null && pageName !== void 0 ? pageName : \`taro_page_\${pageId()}\`;
                 let pageElement = null;
@@ -8647,7 +8653,9 @@ object-assign
                         Current.router = {
                             params: options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
                         Current.app.mount(component, path, () => {
                             pageElement = document$1.getElementById(path);
@@ -8662,13 +8670,14 @@ object-assign
                     onReady() {
                         const path = getPath(id, this.options);
                         raf(() => {
-                            eventCenter.trigger(getOnReadyEventKey(path));
+                            eventCenter.trigger(getOnReadyEventKey(id));
                         });
                         safeExecute(path, \\"onReady\\");
                     },
                     onUnload() {
                         const path = getPath(id, this.options);
                         Current.app.unmount(path, () => {
+                            instances.delete(path);
                             if (pageElement) {
                                 pageElement.ctx = null;
                             }
@@ -8680,14 +8689,22 @@ object-assign
                         Current.router = {
                             params: this.options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
+                        raf(() => {
+                            eventCenter.trigger(getOnShowEventKey(id));
+                        });
                         safeExecute(path, \\"onShow\\");
                     },
                     onHide() {
                         Current.page = null;
                         Current.router = null;
                         const path = getPath(id, this.options);
+                        raf(() => {
+                            eventCenter.trigger(getOnHideEventKey(id));
+                        });
                         safeExecute(path, \\"onHide\\");
                     },
                     onPullDownRefresh() {

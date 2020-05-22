@@ -86,6 +86,14 @@ export function getOnReadyEventKey (path: string) {
   return path + '.' + 'onReady'
 }
 
+export function getOnShowEventKey (path: string) {
+  return path + '.' + 'onShow'
+}
+
+export function getOnHideEventKey (path: string) {
+  return path + '.' + 'onHide'
+}
+
 export function createPageConfig (component: React.ComponentClass, pageName?: string, data?: Record<string, unknown>) {
   const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
@@ -100,7 +108,9 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       Current.router = {
         params: options,
         path: addLeadingSlash(this.route || this.__route__),
-        onReady: getOnReadyEventKey(path)
+        onReady: getOnReadyEventKey(id),
+        onShow: getOnShowEventKey(id),
+        onHide: getOnHideEventKey(id)
       }
 
       Current.app!.mount!(component, path, () => {
@@ -118,7 +128,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       const path = getPath(id, this.options)
 
       raf(() => {
-        eventCenter.trigger(getOnReadyEventKey(path))
+        eventCenter.trigger(getOnReadyEventKey(id))
       })
 
       safeExecute(path, 'onReady')
@@ -126,6 +136,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
     onUnload () {
       const path = getPath(id, this.options)
       Current.app!.unmount!(path, () => {
+        instances.delete(path)
         if (pageElement) {
           pageElement.ctx = null
         }
@@ -138,8 +149,14 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       Current.router = {
         params: this.options,
         path: addLeadingSlash(this.route || this.__route__),
-        onReady: getOnReadyEventKey(path)
+        onReady: getOnReadyEventKey(id),
+        onShow: getOnShowEventKey(id),
+        onHide: getOnHideEventKey(id)
       }
+
+      raf(() => {
+        eventCenter.trigger(getOnShowEventKey(id))
+      })
 
       safeExecute(path, 'onShow')
     },
@@ -147,6 +164,11 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       Current.page = null
       Current.router = null
       const path = getPath(id, this.options)
+
+      raf(() => {
+        eventCenter.trigger(getOnHideEventKey(id))
+      })
+
       safeExecute(path, 'onHide')
     },
     onPullDownRefresh () {
