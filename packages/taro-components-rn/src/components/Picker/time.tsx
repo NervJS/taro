@@ -26,9 +26,15 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
     if (nextProps.value !== lastState.pValue) {
       const now = new Date()
       if (!nextProps.value || typeof nextProps.value !== 'string') {
-        return { value: now }
+        return {
+          value: now,
+          pValue: now
+        }
       }
-      return { value: formatTimeStr(nextProps.value) }
+      return {
+        value: formatTimeStr(nextProps.value),
+        pValue: nextProps.value
+      }
     }
     return null
   }
