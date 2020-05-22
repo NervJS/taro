@@ -10,7 +10,6 @@ import config from './commands/config'
 import info from './commands/info'
 import doctor from './commands/doctor'
 import convert from './commands/convert'
-import update from './commands/update'
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
@@ -115,17 +114,6 @@ export default class CLI {
         case 'convert': {
           convert(kernel, {
             appPath: this.appPath,
-            isHelp: args.h
-          })
-          break
-        }
-        case 'update': {
-          const updateType = _[1]
-          const version = _[2]
-          update(kernel, {
-            appPath: this.appPath,
-            updateType,
-            version,
             isHelp: args.h
           })
           break

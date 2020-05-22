@@ -270,25 +270,6 @@ describe('inspect', () => {
     })
   })
 
-  describe('update', () => {
-    it('should make configs', () => {
-      const updateType = 'project'
-      const version = 3
-      setProcessArgv('taro update project 3.0')
-      cli.run()
-      const ins = MockedKernel.mock.instances[0]
-      expect(ins.run).toHaveBeenCalledWith({
-        name: 'update',
-        opts: {
-          appPath: APP_PATH,
-          updateType,
-          version,
-          isHelp: false
-        }
-      })
-    })
-  })
-
   describe('customCommand', () => {
     it('should make configs', () => {
       const cmd = 'inspect'
