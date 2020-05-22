@@ -16,9 +16,9 @@ import ReactDOM from 'react-dom'
 
 export function getFrameworkArgs (framework: string) {
   if (framework === 'vue') {
-    return 'Vue'
+    return 'Vue, config'
   } else if (framework === 'nerv') {
-    return 'Nerv, Nerv'
+    return 'Nerv, Nerv, config'
   }
-  return 'React, ReactDOM'
+  return 'React, ReactDOM, config'
 }
