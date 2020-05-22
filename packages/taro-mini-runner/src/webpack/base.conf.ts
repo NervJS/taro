@@ -1,5 +1,6 @@
 import * as path from 'path'
 import * as Chain from 'webpack-chain'
+import { MultiPlatformPlugin } from '@tarojs/runner-utils'
 
 export default (appPath: string) => {
   const chain = new Chain()
@@ -23,6 +24,10 @@ export default (appPath: string) => {
       ]
     }
   })
+
+  chain.resolve
+    .plugin('MultiPlatformPlugin')
+    .use(MultiPlatformPlugin, ['described-resolve', 'resolve'])
 
   return chain
 }

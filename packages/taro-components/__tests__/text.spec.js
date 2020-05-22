@@ -27,7 +27,6 @@ describe('Text', () => {
     const { node } = wrapper
     const computedStyle = window.getComputedStyle(node)
 
-    assert(node.classList.contains('taro-text') === true)
     assert(computedStyle.userSelect === 'none')
 
     await wrapper.setProps({
@@ -36,6 +35,7 @@ describe('Text', () => {
     })
 
     assert(computedStyle.userSelect === 'text')
+    assert(node.classList.contains('taro-text__selectable') === true)
     assert(node.classList.contains('foo') === true)
     assert(node.classList.contains('hydrated') === true)
   })
