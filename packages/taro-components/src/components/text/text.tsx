@@ -10,12 +10,9 @@ export class Text implements ComponentInterface {
   @Prop() selectable = false
 
   render () {
-    const cls = classNames(
-      'taro-text',
-      {
-        'taro-text__selectable': this.selectable
-      }
-    )
+    const cls = classNames({
+      'taro-text__selectable': this.selectable
+    })
     return (
       <Host class={cls} />
     )
