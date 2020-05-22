@@ -6,11 +6,16 @@ title: 渲染 HTML
 
 Taro 可以直接通过 `Element#innerHTML` 或 Vue 的 `v-html` 或 React/Nerv 的 `dangerouslySetInnerHTML` 直接渲染 HTML:  
 
-<br />
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-<!--DOCUSAURUS_CODE_TABS-->
-
-<!--React-->
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
 
 ```jsx
 function helloWorld() {
@@ -20,7 +25,9 @@ function helloWorld() {
 }
 ```
 
-<!--Vue-->
+</TabItem>
+
+<TabItem value="Vue">
 
 ```html
 <template>
@@ -37,31 +44,12 @@ export default {
 }
 </script>
 ```
+  
+</TabItem>
 
-<!--innerHTML-->
 
+</Tabs>
 
-```js
-// Taro 更推荐使用框架自带的渲染 HTML 方式
-// 因为不管 React/Nerv/Vue 都会自带一个 diff 机制，可以避免不必要的渲染的开销
-// 重复调用 `innerHTML` 会使得应用的性能拖慢。
-
-import { document } from '@tarojs/runtime'
-
-class HelloWorld extends React.Component {
-  componentDidMount () {
-    const el = document.getElementById('html')
-
-    el.innerHTML = `<h1 style="color: red">Wallace is way taller than other reporters.</h1>`
-  }
-
-  render () {
-    return <View id="html" />
-  }
-}
-```
-
-<!--END_DOCUSAURUS_CODE_TABS-->
 
 
 ## 自定义 HTML 样式
@@ -73,9 +61,14 @@ class HelloWorld extends React.Component {
 
 为了让内置的标签样式起作用，我们还需要将 HTML 容器的 CSS 类设置为 `.taro_html`:
 
-<!--DOCUSAURUS_CODE_TABS-->
 
-<!--React-->
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'},
+  ]}>
+  <TabItem value="React">
 
 ```jsx
 import '@tarojs/taro/html.css'
@@ -87,7 +80,9 @@ function helloWorld() {
 }
 ```
 
-<!--Vue-->
+  </TabItem>
+
+  <TabItem value="Vue">
 
 ```html
 <template>
@@ -106,8 +101,11 @@ export default {
 }
 </script>
 ```
+  
+  </TabItem>
 
-<!--END_DOCUSAURUS_CODE_TABS-->
+</Tabs>
+
 
 同样地，我们也可以自己编写 CSS 样式，Taro 最终渲染的 HTML 标签的类名都和 HTML 标签名保持一致，例如我们的容器 CSS 类名为 `my_css`，想要设置 `h1` 标签的样式，那就这样这样做：
 
@@ -139,13 +137,16 @@ export default {
 
 出于作用域和安全因素考虑，Taro 会把 HTML 字符串中的事件和 JavaScript 全部清除。但我们仍然有办法给 HTML 绑定事件：
 
-<!--DOCUSAURUS_CODE_TABS-->
-
-<!--React-->
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'},
+  ]}>
+  <TabItem value="React">
 
 ```jsx
 import '@tarojs/taro/html.css'
-import { document } from '@tarojs/runtime'
 
 function helloWorld() {
   const html = `<h1 id="test">Wallace is way taller than other reporters.</h1>`
@@ -167,7 +168,10 @@ function helloWorld() {
 }
 ```
 
-<!--Vue-->
+  </TabItem>
+
+  <TabItem value="Vue">
+
 
 ```html
 <template>
@@ -176,7 +180,6 @@ function helloWorld() {
 
 <script>
 import '@tarojs/taro/html.css'
-import { document } from '@tarojs/runtime'
 
 export default {
   data () {
@@ -199,6 +202,10 @@ export default {
 }
 </script>
 ```
+  
+  </TabItem>
+
+</Tabs>
 
 <!--END_DOCUSAURUS_CODE_TABS-->
 
@@ -257,8 +264,20 @@ HashSet 中包含的 HTML 标签可以自动闭合，且不能被嵌套。
 
 ### transformElement
 
-类型：`(taroText: TaroElement, text: Text) => TaroElement`
+类型：`(taroElement: TaroElement, element: Element) => TaroElement`
 
 默认值：`void`
 
 该函数第一个参数的值为 Taro 默认处理好的 [TaroElement](https://github.com/NervJS/taro/blob/7349f716111accb6a39c72ed0f1e6cbc166fa32b/packages/taro-runtime/src/dom/element.ts#L15)，第二个参数是 HTML 解析器解析好的 [Element](https://github.com/NervJS/taro/blob/7349f716111accb6a39c72ed0f1e6cbc166fa32b/packages/taro-runtime/src/dom/html/parser.ts#L38-L43)，最后返回的 `TaroElement` 对象参与 HTML 元素渲染。
+
+### 示例：
+
+```js
+// 给所有 img 标签添加 nimabi 类
+Taro.options.html.transformElement = (el) => {
+  if (el.nodeName === 'img') {
+    el.setAttribute('class', 'nimabi')
+  }
+  return el
+}
+```
