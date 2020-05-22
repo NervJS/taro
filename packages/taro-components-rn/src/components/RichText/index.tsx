@@ -3,10 +3,10 @@
  */
 
 import * as React from 'react'
+import { View } from 'react-native'
 import {
-  View,
-  WebView,
-} from 'react-native'
+  WebView
+} from 'react-native-webview'
 import * as ReactDOMServer from 'react-dom/server.browser'
 import { omit, parseStyles } from '../../utils'
 import { RichTextProps, Node } from './PropsType'
@@ -28,7 +28,7 @@ class _RichText extends React.Component<RichTextProps> {
 
   renderText = (text: string = '') => {
     return React.createElement('span', {
-      dangerouslySetInnerHTML: { __html: text },
+      dangerouslySetInnerHTML: {__html: text},
       key: Math.random()
     })
   }
@@ -50,7 +50,7 @@ class _RichText extends React.Component<RichTextProps> {
   render () {
     const {
       style,
-      nodes,
+      nodes
     } = this.props
 
     const html: string = typeof nodes === 'string'
@@ -62,7 +62,7 @@ class _RichText extends React.Component<RichTextProps> {
     return (
       <View style={style}>
         <WebView
-          source={{ html }}
+          source={{html}}
           scalesPageToFit={false}
           injectedJavaScript={`
             document.documentElement.style.padding = 0;

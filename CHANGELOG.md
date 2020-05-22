@@ -1,5 +1,16 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.2.4...v) (2020-05-18)
+# [](https://github.com/NervJS/taro/compare/v2.2.5...v) (2020-05-19)
+
+
+### Bug Fixes
+
+* **rn:** image 未能转换成 base64 无法显示 close [#6041](https://github.com/NervJS/taro/issues/6041) ([#6394](https://github.com/NervJS/taro/issues/6394)) ([99db834](https://github.com/NervJS/taro/commit/99db834))
+* **video:** video controls bar style [#6291](https://github.com/NervJS/taro/issues/6291) ([#6389](https://github.com/NervJS/taro/issues/6389)) ([cde5f3f](https://github.com/NervJS/taro/commit/cde5f3f))
+
+
+
+<a name="2.2.5"></a>
+## [2.2.5](https://github.com/NervJS/taro/compare/v2.2.4...v2.2.5) (2020-05-18)
 
 
 ### Bug Fixes
