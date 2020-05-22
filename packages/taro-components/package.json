@@ -5,7 +5,7 @@
   "main:h5": "src/index.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "typings": "types/index.d.ts",
+  "types": "types/index.d.ts",
   "sideEffects": [
     "*.scss",
     "*.css"
