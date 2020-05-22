@@ -21,15 +21,11 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "scripts": {
-    "local-dev": "webpack-dev-server --config webpack.config.js --env development",
-    "dev": "webpack --config webpack.prod.config.js --watch",
-    "deploy": "webpack --config webpack.config.js",
     "build": "stencil build --config stencil.config.ts",
-    "dev-stencil": "stencil build --config stencil.config.ts --watch",
+    "dev": "stencil build --config stencil.config.ts --watch",
     "test": "karmatic --files '__tests__/**.spec.js' --coverage false",
     "test:debug": "karmatic debug --files '__tests__/**.spec.js' --coverage false",
-    "test:coverage": "karmatic --files '__tests__/**.spec.js'",
-    "test-update": "jest --updateSnapshot"
+    "test:coverage": "karmatic --files '__tests__/**.spec.js'"
   },
   "repository": {
     "type": "git",
