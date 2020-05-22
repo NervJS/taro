@@ -18591,24 +18591,6 @@ Element.remove()
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _defineProperty;
-    }));
-    function _defineProperty(obj, key, value) {
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                \\"value\\": value,
-                \\"enumerable\\": true,
-                \\"configurable\\": true,
-                \\"writable\\": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
     var toConsumableArray = __webpack_require__(10);
     var getPrototypeOf = __webpack_require__(7);
     function _superPropBase(object, property) {
@@ -18618,7 +18600,7 @@ Element.remove()
         }
         return object;
     }
-    var defineProperty = __webpack_require__(2);
+    var defineProperty = __webpack_require__(3);
     function set_set(target, property, value, receiver) {
         if (typeof Reflect !== \\"undefined\\" && Reflect.set) {
             set_set = Reflect.set;
@@ -18726,6 +18708,9 @@ Element.remove()
     }));
     __webpack_require__.d(__webpack_exports__, \\"u\\", (function() {
         return useTitleClick;
+    }));
+    __webpack_require__.d(__webpack_exports__, \\"v\\", (function() {
+        return window$1;
     }));
     function isString(o) {
         return typeof o === \\"string\\";
@@ -21342,7 +21327,7 @@ Element.remove()
     var runtime_esm_R = EMPTY_OBJ;
     var PageContext = EMPTY_OBJ;
     var ReactDOM;
-    function createReactApp(App, react, reactdom) {
+    function createReactApp(App, react, reactdom, config) {
         runtime_esm_R = react;
         ReactDOM = reactdom;
         ensure(!!ReactDOM, \\"构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 'react'/'nerv' \\");
@@ -21399,6 +21384,7 @@ Element.remove()
         var AppConfig = function() {
             function AppConfig() {
                 Object(classCallCheck[\\"a\\"])(this, AppConfig);
+                this.config = config;
             }
             Object(createClass[\\"a\\"])(AppConfig, [ {
                 \\"key\\": \\"onLaunch\\",
@@ -21483,7 +21469,7 @@ Element.remove()
         };
     }
     var Vue;
-    function createVueApp(App, vue) {
+    function createVueApp(App, vue, config) {
         Vue = vue;
         ensure(!!Vue, \\"构建 Vue 项目请把 process.env.FRAMEWORK 设置为 'vue'\\");
         Vue.config.getTagNamespace = noop;
@@ -21531,6 +21517,7 @@ Element.remove()
         var AppConfig = function() {
             function AppConfig() {
                 Object(classCallCheck[\\"a\\"])(this, AppConfig);
+                this.config = config;
             }
             Object(createClass[\\"a\\"])(AppConfig, [ {
                 \\"key\\": \\"onLaunch\\",
@@ -21649,8 +21636,26 @@ Element.remove()
     };
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _defineProperty;
+    }));
+    function _defineProperty(obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                \\"value\\": value,
+                \\"enumerable\\": true,
+                \\"configurable\\": true,
+                \\"writable\\": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
     (function(global) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         function _typeof(obj) {
             \\"@babel/helpers - typeof\\";
             if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -24189,7 +24194,7 @@ Element.remove()
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var defineProperty = __webpack_require__(2);
+    var defineProperty = __webpack_require__(3);
     function ownKeys(object, enumerableOnly) {
         var keys = Object.keys(object);
         if (Object.getOwnPropertySymbols) {
@@ -24324,7 +24329,7 @@ Element.remove()
         }
         return _typeof(obj);
     }
-    var runtime_esm = __webpack_require__(3);
+    var runtime_esm = __webpack_require__(2);
     function _extends() {
         _extends = Object.assign || function(target) {
             for (var i = 1; i < arguments.length; i++) {
@@ -25357,7 +25362,7 @@ Element.remove()
             });
         }
         var router = new router_esm_UniversalRouter(routes);
-        var app = type === \\"vue\\" ? Object(runtime_esm[\\"e\\"])(App, framework) : Object(runtime_esm[\\"d\\"])(App, framework, reactdom);
+        var app = type === \\"vue\\" ? Object(runtime_esm[\\"e\\"])(App, framework, config) : Object(runtime_esm[\\"d\\"])(App, framework, reactdom, config);
         app.onLaunch();
         var render = function() {
             var _ref2 = _asyncToGenerator(regenerator_default.a.mark((function _callee(location, action) {
@@ -42133,6 +42138,7 @@ Element.remove()
         return App;
     }(react[\\"Component\\"]);
     var src_app = app_App;
+    var runtime_esm = __webpack_require__(2);
     function applyPolyfills() {
         if (typeof window !== \\"undefined\\") {
             var win = window;
@@ -42407,7 +42413,7 @@ Element.remove()
     var react_dom_default = __webpack_require__.n(react_dom);
     var taro_components = __webpack_require__(37);
     applyPolyfills().then(() => {
-        defineCustomElements(window);
+        defineCustomElements(runtime_esm[\\"v\\"]);
     });
     const config = {
         \\"pages\\": [ \\"pages/index/index\\" ],
@@ -42418,6 +42424,7 @@ Element.remove()
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    runtime_esm[\\"v\\"].__taroAppConfig = config;
     if (config.tabBar) {
         const tabbarList = config.tabBar.list;
         for (let i = 0; i < tabbarList.length; i++) {
@@ -42436,7 +42443,7 @@ Element.remove()
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5[\\"default\\"].createRouter(src_app, config, \\"react\\", react, react_dom_default.a);
+    h5[\\"default\\"].createRouter(src_app, config, \\"react\\", react, react_dom_default.a, config);
 } ]);
 
 /** filePath: dist/js/app.js.LICENSE.txt **/
@@ -61069,24 +61076,6 @@ Element.remove()
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _defineProperty;
-    }));
-    function _defineProperty(obj, key, value) {
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                \\"value\\": value,
-                \\"enumerable\\": true,
-                \\"configurable\\": true,
-                \\"writable\\": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
     var toConsumableArray = __webpack_require__(10);
     var getPrototypeOf = __webpack_require__(7);
     function _superPropBase(object, property) {
@@ -61096,7 +61085,7 @@ Element.remove()
         }
         return object;
     }
-    var defineProperty = __webpack_require__(2);
+    var defineProperty = __webpack_require__(3);
     function set_set(target, property, value, receiver) {
         if (typeof Reflect !== \\"undefined\\" && Reflect.set) {
             set_set = Reflect.set;
@@ -61204,6 +61193,9 @@ Element.remove()
     }));
     __webpack_require__.d(__webpack_exports__, \\"u\\", (function() {
         return useTitleClick;
+    }));
+    __webpack_require__.d(__webpack_exports__, \\"v\\", (function() {
+        return window$1;
     }));
     function isString(o) {
         return typeof o === \\"string\\";
@@ -63820,7 +63812,7 @@ Element.remove()
     var runtime_esm_R = EMPTY_OBJ;
     var PageContext = EMPTY_OBJ;
     var ReactDOM;
-    function createReactApp(App, react, reactdom) {
+    function createReactApp(App, react, reactdom, config) {
         runtime_esm_R = react;
         ReactDOM = reactdom;
         ensure(!!ReactDOM, \\"构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 'react'/'nerv' \\");
@@ -63877,6 +63869,7 @@ Element.remove()
         var AppConfig = function() {
             function AppConfig() {
                 Object(classCallCheck[\\"a\\"])(this, AppConfig);
+                this.config = config;
             }
             Object(createClass[\\"a\\"])(AppConfig, [ {
                 \\"key\\": \\"onLaunch\\",
@@ -63961,7 +63954,7 @@ Element.remove()
         };
     }
     var Vue;
-    function createVueApp(App, vue) {
+    function createVueApp(App, vue, config) {
         Vue = vue;
         ensure(!!Vue, \\"构建 Vue 项目请把 process.env.FRAMEWORK 设置为 'vue'\\");
         Vue.config.getTagNamespace = noop;
@@ -64009,6 +64002,7 @@ Element.remove()
         var AppConfig = function() {
             function AppConfig() {
                 Object(classCallCheck[\\"a\\"])(this, AppConfig);
+                this.config = config;
             }
             Object(createClass[\\"a\\"])(AppConfig, [ {
                 \\"key\\": \\"onLaunch\\",
@@ -64127,8 +64121,26 @@ Element.remove()
     };
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _defineProperty;
+    }));
+    function _defineProperty(obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                \\"value\\": value,
+                \\"enumerable\\": true,
+                \\"configurable\\": true,
+                \\"writable\\": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
     (function(global) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         function _typeof(obj) {
             \\"@babel/helpers - typeof\\";
             if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -66667,7 +66679,7 @@ Element.remove()
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var defineProperty = __webpack_require__(2);
+    var defineProperty = __webpack_require__(3);
     function ownKeys(object, enumerableOnly) {
         var keys = Object.keys(object);
         if (Object.getOwnPropertySymbols) {
@@ -66802,7 +66814,7 @@ Element.remove()
         }
         return _typeof(obj);
     }
-    var runtime_esm = __webpack_require__(3);
+    var runtime_esm = __webpack_require__(2);
     function _extends() {
         _extends = Object.assign || function(target) {
             for (var i = 1; i < arguments.length; i++) {
@@ -67835,7 +67847,7 @@ Element.remove()
             });
         }
         var router = new router_esm_UniversalRouter(routes);
-        var app = type === \\"vue\\" ? Object(runtime_esm[\\"e\\"])(App, framework) : Object(runtime_esm[\\"d\\"])(App, framework, reactdom);
+        var app = type === \\"vue\\" ? Object(runtime_esm[\\"e\\"])(App, framework, config) : Object(runtime_esm[\\"d\\"])(App, framework, reactdom, config);
         app.onLaunch();
         var render = function() {
             var _ref2 = _asyncToGenerator(regenerator_default.a.mark((function _callee(location, action) {
@@ -84403,6 +84415,7 @@ Element.remove()
         return App;
     }(react[\\"Component\\"]);
     var src_app = app_App;
+    var runtime_esm = __webpack_require__(2);
     function applyPolyfills() {
         if (typeof window !== \\"undefined\\") {
             var win = window;
@@ -84677,7 +84690,7 @@ Element.remove()
     var react_dom_default = __webpack_require__.n(react_dom);
     var taro_components = __webpack_require__(37);
     applyPolyfills().then(() => {
-        defineCustomElements(window);
+        defineCustomElements(runtime_esm[\\"v\\"]);
     });
     const config = {
         \\"pages\\": [ \\"pages/index/index\\" ],
@@ -84688,6 +84701,7 @@ Element.remove()
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    runtime_esm[\\"v\\"].__taroAppConfig = config;
     if (config.tabBar) {
         const tabbarList = config.tabBar.list;
         for (let i = 0; i < tabbarList.length; i++) {
@@ -84706,7 +84720,7 @@ Element.remove()
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5[\\"default\\"].createRouter(src_app, config, \\"react\\", react, react_dom_default.a);
+    h5[\\"default\\"].createRouter(src_app, config, \\"react\\", react, react_dom_default.a, config);
 } ]);
 
 /** filePath: dist/js/app.js.LICENSE.txt **/
