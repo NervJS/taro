@@ -95,7 +95,7 @@ class Compiler {
   constructor (public appPath: string, entryFile?: string, isUi?: boolean) {
     const projectConfig = recursiveMerge({
       h5: defaultH5Config
-    }, require(path.join(appPath, PROJECT_CONFIG))(merge))
+    }, require(resolveScriptPath(path.join(appPath, PROJECT_CONFIG)))(merge))
     this.projectConfig = projectConfig
     const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
     this.sourceRoot = sourceDir

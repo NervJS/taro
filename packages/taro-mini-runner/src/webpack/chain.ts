@@ -257,7 +257,8 @@ export const getModule = (appPath: string, {
   ])
   const sassLoader = getSassLoader([{
     sourceMap: true,
-    implementation: sass
+    implementation: sass,
+    outputStyle: 'expanded'
   }, sassLoaderOption])
   const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
 

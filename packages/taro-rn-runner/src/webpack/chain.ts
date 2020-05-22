@@ -201,16 +201,7 @@ export const getModule = (appPath: string, {
     {
       importLoaders: 1,
       sourceMap: enableSourceMap,
-      modules: {
-        localIdentName: '[path][name]__[local]--[hash:base64:5]',
-        getLocalIdent: (context, localIdentName, localName, options) => {
-          const parse = path.parse(entry.app[0])
-          // if is enrty style
-          if (context.resourcePath.startsWith(path.join(parse.dir,parse.name))) {
-            return localName
-          }
-        }
-      }
+      modules:false
     },
     cssLoaderOption
   ]
@@ -225,7 +216,7 @@ export const getModule = (appPath: string, {
           getLocalIdent: (context, localIdentName, localName, options) => {
             const parse = path.parse(entry.app[0])
             // if is enrty style
-            if (context.resourcePath.startsWith(path.join(parse.dir,parse.name))) {
+            if (context.resourcePath.startsWith(path.join(parse.dir, parse.name))) {
               return localName
             }
           }
@@ -418,7 +409,7 @@ export const getModule = (appPath: string, {
           defaultImageUrlLoaderOption, {
             name: `${staticDirectory}/images/[name].[ext]`,
             ...imageUrlLoaderOption,
-            limit: false
+            limit: 8192 * 1024
           }])
       }
     }

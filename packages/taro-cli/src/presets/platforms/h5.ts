@@ -9,9 +9,6 @@ export default (ctx) => {
       const { emptyDirectory } = ctx.helper
       const { modifyWebpackChain, modifyBuildAssets, onBuildFinish } = config
       emptyDirectory(outputPath)
-      ctx.onBuildFinish(result => {
-        console.log(result)
-      })
       build(appPath, {
         watch: isWatch,
         port
