@@ -8229,6 +8229,7 @@ object-assign
                     onUnload: function onUnload() {
                         var path = getPath(id, this.options);
                         Current.app.unmount(path, (function() {
+                            instances.delete(path);
                             if (pageElement) {
                                 pageElement.ctx = null;
                             }
@@ -17697,6 +17698,7 @@ object-assign
                     onUnload: function onUnload() {
                         var path = getPath(id, this.options);
                         Current.app.unmount(path, (function() {
+                            instances.delete(path);
                             if (pageElement) {
                                 pageElement.ctx = null;
                             }
@@ -27165,6 +27167,7 @@ object-assign
                     onUnload: function onUnload() {
                         var path = getPath(id, this.options);
                         Current.app.unmount(path, (function() {
+                            instances.delete(path);
                             if (pageElement) {
                                 pageElement.ctx = null;
                             }
@@ -36633,6 +36636,7 @@ object-assign
                     onUnload: function onUnload() {
                         var path = getPath(id, this.options);
                         Current.app.unmount(path, (function() {
+                            instances.delete(path);
                             if (pageElement) {
                                 pageElement.ctx = null;
                             }

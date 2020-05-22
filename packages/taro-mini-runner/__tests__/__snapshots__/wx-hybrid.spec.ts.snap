@@ -8667,6 +8667,7 @@ object-assign
                     onUnload() {
                         const path = getPath(id, this.options);
                         Current.app.unmount(path, () => {
+                            instances.delete(path);
                             if (pageElement) {
                                 pageElement.ctx = null;
                             }
