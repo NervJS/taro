@@ -110,7 +110,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
         path: addLeadingSlash(this.route || this.__route__),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
-        onHide: getOnHideEventKey(id),
+        onHide: getOnHideEventKey(id)
       }
 
       Current.app!.mount!(component, path, () => {
@@ -150,7 +150,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
         path: addLeadingSlash(this.route || this.__route__),
         onReady: getOnReadyEventKey(id),
         onShow: getOnShowEventKey(id),
-        onHide: getOnHideEventKey(id),
+        onHide: getOnHideEventKey(id)
       }
 
       raf(() => {
@@ -163,7 +163,7 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       Current.page = null
       Current.router = null
       const path = getPath(id, this.options)
-      
+
       raf(() => {
         eventCenter.trigger(getOnHideEventKey(id))
       })
