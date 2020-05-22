@@ -120,7 +120,7 @@ function createFiles (
     creater.template(template, fileRePath, path.join(projectPath, destRePath), config)
 
     const destinationPath = creater.destinationPath(path.join(projectPath, destRePath))
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${path.join(projectName, destinationPath)}`)}`)
+    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${destinationPath}`)}`)
   })
   return logs
 }
