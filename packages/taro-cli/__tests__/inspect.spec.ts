@@ -1,7 +1,7 @@
 import * as path from 'path'
-import { Kernel } from '@tarojs/service'
 import chalk from 'chalk'
 import { fs } from '@tarojs/helper'
+import { run } from './utils'
 
 jest.mock('cli-highlight', () => {
   return {
@@ -25,25 +25,7 @@ jest.mock('@tarojs/helper', () => {
   }
 })
 
-async function run (appPath: string, options: Record<string, string> = {}, args: string[] = []) {
-  const kernel = new Kernel({
-    appPath: appPath,
-    presets: [
-      path.resolve(__dirname, '__mocks__', 'presets.ts')
-    ]
-  })
-
-  await kernel.run({
-    name: 'inspect',
-    opts: {
-      _: ['inspect', ...args],
-      options,
-      isHelp: false
-    }
-  })
-
-  return kernel
-}
+const runInspect = run('inspect')
 
 describe('inspect', () => {
   it('should exit because there isn\'t a Taro project', async () => {
@@ -56,7 +38,7 @@ describe('inspect', () => {
     logSpy.mockImplementation(() => {})
 
     try {
-      await run('')
+      await runInspect('')
     } catch (error) {}
 
     expect(exitSpy).toBeCalledWith(1)
@@ -76,7 +58,7 @@ describe('inspect', () => {
     logSpy.mockImplementation(() => {})
 
     try {
-      await run(path.resolve(__dirname, 'fixtures/default'))
+      await runInspect(path.resolve(__dirname, 'fixtures/default'))
     } catch (error) {}
 
     expect(exitSpy).toBeCalledWith(0)
@@ -97,8 +79,10 @@ describe('inspect', () => {
 
     try {
       const appPath = path.resolve(__dirname, 'fixtures/default')
-      await run(appPath, {
-        type: 'weapp'
+      await runInspect(appPath, {
+        options: {
+          type: 'weapp'
+        }
       })
     } catch (error) {}
 
@@ -114,18 +98,17 @@ describe('inspect', () => {
     const logSpy = jest.spyOn(console, 'log')
     const errorSpy = jest.spyOn(console, 'error')
 
-    exitSpy.mockImplementation(() => {
-      throw new Error()
-    })
+    exitSpy.mockImplementation(() => {})
     logSpy.mockImplementation(() => {})
     errorSpy.mockImplementation(() => {})
 
-    try {
-      const appPath = path.resolve(__dirname, 'fixtures/default')
-      await run(appPath, {
+    const appPath = path.resolve(__dirname, 'fixtures/default')
+    await runInspect(appPath, {
+      options: {
         type: 'h5'
-      }, ['resolve.mainFields.0'])
-    } catch (error) {}
+      },
+      args: ['resolve.mainFields.0']
+    })
 
     expect(exitSpy).toBeCalledWith(0)
     expect(logSpy).toBeCalledTimes(1)
@@ -147,10 +130,13 @@ describe('inspect', () => {
 
     try {
       const appPath = path.resolve(__dirname, 'fixtures/default')
-      await run(appPath, {
-        type: 'alipay',
-        output: outputPath
-      }, ['resolve.mainFields.0'])
+      await runInspect(appPath, {
+        options: {
+          type: 'alipay',
+          output: outputPath
+        },
+        args: ['resolve.mainFields.0']
+      })
     } catch (error) {}
 
     expect(exitSpy).toBeCalledWith(0)
