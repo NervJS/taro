@@ -24,3 +24,4 @@ input
 | √ (onFocus)  | bindfocus         | EventHandle |        | 输入框聚焦时触发，height 参数在基础库 1.9.90 起支持                                                             |
 | √ (onBlur)   | bindblur          | EventHandle |        | 输入框失去焦点时触发                                                                                            |
 |              | bindconfirm       | EventHandle |        | 点击完成按钮时触发                                                                                              |
+|              | on-input-delay       | Number |        | 当键盘输入时，指延迟指定时间后触发 input 事件                                                                                              |
