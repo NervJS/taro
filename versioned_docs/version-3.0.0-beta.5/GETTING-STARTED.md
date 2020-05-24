@@ -37,7 +37,7 @@ $ taro init myApp
 npm 5.2+ 也可在不全局安装的情况下使用 npx 创建模板项目
 
 ```bash
-$ npx @tarojs/cli init myApp
+$ npx @tarojs/cli@next init myApp
 ```
 
 ![taro init myApp command screenshot](https://ww1.sinaimg.cn/large/49320207gy1g0u2e0uf8gj20vg0uw10f.jpg)
