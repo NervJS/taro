@@ -7,7 +7,6 @@ import build from './commands/build'
 import init from './commands/init'
 import create from './commands/create'
 import config from './commands/config'
-import info from './commands/info'
 import doctor from './commands/doctor'
 import convert from './commands/convert'
 import customCommand from './commands/customCommand'
@@ -91,15 +90,6 @@ export default class CLI {
             key,
             value,
             json: !!args.json,
-            isHelp: args.h
-          })
-          break
-        }
-        case 'info': {
-          const rn = _[1] === 'rn'
-          info(kernel, {
-            appPath: this.appPath,
-            rn,
             isHelp: args.h
           })
           break

@@ -212,34 +212,6 @@ describe('inspect', () => {
     })
   })
 
-  describe('info', () => {
-    const baseOpts = {
-      appPath: APP_PATH,
-      rn: false,
-      isHelp: false
-    }
-
-    it('should make configs', () => {
-      setProcessArgv('taro info')
-      cli.run()
-      const ins = MockedKernel.mock.instances[0]
-      expect(ins.run).toHaveBeenCalledWith({
-        name: 'info',
-        opts: baseOpts
-      })
-    })
-
-    it('should make rn configs', () => {
-      setProcessArgv('taro info rn')
-      cli.run()
-      const ins = MockedKernel.mock.instances[0]
-      expect(ins.run).toHaveBeenCalledWith({
-        name: 'info',
-        opts: Object.assign({}, baseOpts, { rn: true })
-      })
-    })
-  })
-
   describe('doctor', () => {
     it('should make configs', () => {
       setProcessArgv('taro doctor')
