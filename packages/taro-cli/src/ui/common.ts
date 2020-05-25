@@ -6,10 +6,24 @@ import * as glob from 'glob'
 import traverse from 'babel-traverse'
 import generate from 'babel-generator'
 import * as wxTransformer from '@tarojs/transformer-wx'
+import {
+  cssImports,
+  printLog,
+  resolveScriptPath,
+  resolveStylePath,
+  isNpmPkg,
+  processTypeEnum,
+  REG_STYLE,
+  REG_TYPESCRIPT,
+  REG_SCRIPT,
+  REG_JSON,
+  REG_FONT,
+  REG_IMAGE,
+  REG_MEDIA,
+  CSS_EXT
+} from '@tarojs/helper'
 
 import { IBuildData } from './ui.types'
-import { cssImports, printLog, resolveScriptPath, resolveStylePath, isNpmPkg } from '../util'
-import { processTypeEnum, REG_STYLE, REG_TYPESCRIPT, REG_SCRIPT, REG_JSON, REG_FONT, REG_IMAGE, REG_MEDIA, CSS_EXT } from '../util/constants'
 
 let processedScriptFiles: Set<string> = new Set()
 

@@ -18,11 +18,17 @@
 
 [1.x 版本文档](https://nervjs.github.io/taro/docs/1.3.34/README.html)
 
+## 最新支持京东小程序
+
+[京东小程序平台](https://mp.jd.com/?entrance=taro)是京东自研技术（能力）开放平台，平台集成京东特色功能，串联商家和用户。为用户提供延展服务，给商家带来新机遇。京东小程序平台不仅支持存量自营、POP商家自动开通，还支持新型的非电商领域商家参与小程序生态。   
+
+加入京东小程序开放平台的商家，可以利用京东平台完整的营销、交易、支付、会员、物流等能力，更加便捷地构建起自己的特色服务场景。助力商家实现生态场景上的“跃迁”，快速为用户提供一站式服务体验。
+
 ## 简介
 
 **Taro** 是一套遵循 [React](https://reactjs.org/) 语法规范的 **多端开发** 解决方案。现如今市面上端的形态多种多样，Web、React-Native、微信小程序等各种端大行其道，当业务同时在不同的端都要求有所表现的时候，针对不同的端编写多套代码的成本显然非常高，这时只编写一套代码就能适配到多端的能力就显得极为重要。
 
-使用 **Taro**，我们只需书写一套代码，再通过 **Taro** 的编译工具，即可将源代码分别编译出在不同端（微信/百度/支付宝/字节跳动小程序、快应用、H5、React-Native 等）运行的代码。
+使用 **Taro**，我们只需书写一套代码，再通过 **Taro** 的编译工具，即可将源代码分别编译出在不同端（[微信](https://mp.weixin.qq.com/) / [京东](https://mp.jd.com/?entrance=taro) / [百度](https://smartprogram.baidu.com/) / [支付宝](https://mini.open.alipay.com/) / [字节跳动](https://developer.toutiao.com/) 小程序、[快应用](https://www.quickapp.cn/)、H5、React-Native 等）运行的代码。
 
 ## 学习资源
 
@@ -124,13 +130,6 @@ Taro 立足于微信小程序开发，众所周知小程序的开发体验并不
 Taro 方案的初心就是为了打造一个多端开发的解决方案。目前 Taro 代码可以支持转换到 **微信/百度/支付宝/字节跳动小程序** 、**快应用**、 **H5 端** 以及 **移动端（React-Native）**。
 
 <div align="center"><img src="https://storage.360buyimg.com/taro-resource/platforms.jpg?v=2"/></div>
-
-## 更多功能
-如果你还想 Taro 支持新的特性，请使用 [FeatHub](https://feathub.com/NervJS/taro) 进行投票，我们将综合考虑投票结果等因素来确定开发的优先级。
-
-[![Feature Requests](https://cloud.githubusercontent.com/assets/390379/10127973/045b3a96-6560-11e5-9b20-31a2032956b2.png)](http://feathub.com/NervJS/taro)
-
-[![Feature Requests](http://feathub.com/NervJS/taro?format=svg)](http://feathub.com/NervJS/taro)
 
 ## 🤝 参与共建 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 

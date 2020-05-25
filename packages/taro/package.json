@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "2.1.5",
+  "version": "2.2.6",
   "description": "Taro framework",
   "module": "dist/index.esm.js",
   "main": "index.js",
@@ -29,7 +29,7 @@
     "nervjs": "^1.5.0"
   },
   "dependencies": {
-    "@tarojs/utils": "2.1.5"
+    "@tarojs/utils": "^2.2.6"
   },
   "devDependencies": {
     "@types/react": "^16.9.4",

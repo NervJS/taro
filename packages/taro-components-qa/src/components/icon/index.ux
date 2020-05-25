@@ -1,6 +1,6 @@
 <template>
   <stack
-    class="taro_icon {{classname}} icon_{{type}}"
+    class="taro_icon {{class}} icon_{{type}}"
     id="{{id}}"
     onclick="handleClick"
     disabled="{{disabled}}"
@@ -14,7 +14,7 @@
 <script>
   export default {
     props: {
-      classname: {
+      class: {
         type: String,
         required: false,
         default: ''

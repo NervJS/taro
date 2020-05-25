@@ -126,13 +126,21 @@ class Router extends Taro.Component<Props, State> {
     const routeStack: Types.RouteObj[] = [...this.state.routeStack]
     const matchedRoute = this.computeMatch(toLocation)
     const index = routeStack.findIndex(e => e.path === toLocation.path)
-    if (index === -1) {
+    if (!this.isTabBar(routeStack[routeStack.length - 1].path)) {
+      routeStack.splice(-1, 1, assign({}, matchedRoute, {
+        key: toLocation.state.key,
+        isRedirect: true,
+        isTabBar
+      }))
+    } else if (index === -1) {
       routeStack.forEach(v => { v.isRedirect = false })
       routeStack.push(assign({}, matchedRoute, {
         key: toLocation.state.key,
         isRedirect: false,
         isTabBar
       }))
+    } else {
+      toLocation.state.key = routeStack[index].key || ''
     }
     this.setState({ routeStack, location: toLocation })
   }

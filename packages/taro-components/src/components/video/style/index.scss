@@ -104,11 +104,11 @@
   -webkit-align-items: center;
   align-items: center;
   padding: 0 10px;
-  z-index: 0
+  z-index: 1;
 }
 
 .taro-video-bar.taro-video-bar-full {
-  left: 0
+  left: 0;
 }
 
 .taro-video-controls {
@@ -118,7 +118,7 @@
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   flex-grow: 1;
-  margin: 0 8.5px
+  margin: 0 8.5px;
 }
 
 .taro-video-control-button {
@@ -126,7 +126,7 @@
   height: 15px;
   padding: 14.5px 12.5px 14.5px 12.5px;
   margin-left: -8.5px;
-  box-sizing: content-box
+  box-sizing: content-box;
 }
 
 .taro-video-control-button:after {
@@ -136,15 +136,15 @@
   height: 100%;
   background-size: 100%;
   background-position: 50% 50%;
-  background-repeat: no-repeat
+  background-repeat: no-repeat;
 }
 
 .taro-video-control-button.taro-video-control-button-play:after,.taro-video-cover-play-button {
-  background-image: url("../images/play.png")
+  background-image: url("../images/play.png");
 }
 
 .taro-video-control-button.taro-video-control-button-pause:after {
-  background-image: url("../images/pause.png")
+  background-image: url("../images/pause.png");
 }
 
 .taro-video-current-time,.taro-video-duration {
@@ -153,21 +153,21 @@
   margin-top: 15px;
   margin-bottom: 14.5px;
   font-size: 12px;
-  color: #cbcbcb
+  color: #cbcbcb;
 }
 
 .taro-video-progress-container {
   -webkit-box-flex: 2;
   -webkit-flex-grow: 2;
   flex-grow: 2;
-  position: relative
+  position: relative;
 }
 
 .taro-video-progress {
   height: 2px;
   margin: 21px 12px;
   background-color: hsla(0,0%,100%,.4);
-  position: relative
+  position: relative;
 }
 
 .taro-video-progress-buffered {
@@ -178,7 +178,7 @@
   height: 100%;
   -webkit-transition: width .1s;
   transition: width .1s;
-  background-color: hsla(0,0%,100%,.8)
+  background-color: hsla(0,0%,100%,.8);
 }
 
 .taro-video-ball {

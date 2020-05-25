@@ -2,14 +2,14 @@ import * as qs from 'querystring'
 
 import * as RuleSet from 'webpack/lib/RuleSet'
 
-import { BUILD_TYPES } from '../utils/constants'
+import { IFileType } from '../utils/types'
 
 const PLUGIN_NAME = 'MiniLoaderPlugin'
 const NS = 'TARO'
 
 interface IOptions {
   sourceDir: string,
-  buildAdapter: BUILD_TYPES
+  fileType: IFileType
 }
 
 export default class MiniLoaderPlugin {
@@ -21,7 +21,7 @@ export default class MiniLoaderPlugin {
   apply (compiler) {
     const {
       sourceDir,
-      buildAdapter
+      fileType
     } = this.options
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       const normalModuleLoader = compilation.hooks.normalModuleLoader
@@ -40,7 +40,7 @@ export default class MiniLoaderPlugin {
       },
       options: {
         sourceDir,
-        buildAdapter
+        fileType
       }
     }
     compiler.options.module.rules = [

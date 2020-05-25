@@ -112,7 +112,7 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile, conf
           const key = node.key
           const value = node.value
           // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-          if (key.name === 'pages' && t.isArrayExpression(value)) {
+          if ((key.name === 'pages' || key.value === 'pages') && t.isArrayExpression(value)) {
             // 分包
             let root = ''
             const rootNode = astPath.parent.properties.find(v => {
@@ -129,10 +129,10 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile, conf
             astPath.remove()
           }
           // window
-          if (key.name === 'window' && t.isObjectExpression(value)) {
+          if ((key.name === 'window' || key.value === 'window') && t.isObjectExpression(value)) {
             return
           }
-          if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+          if ((key.name === 'tabBar' || key.value === 'tabBar') && t.isObjectExpression(value)) {
             astPath.traverse({
               ObjectProperty (astPath) {
                 const node = astPath.node
@@ -576,7 +576,9 @@ export function processAst ({
             const parentPath = astPath.parentPath
 
             if (t.isMemberExpression(callee)) {
+              // @ts-ignore
               const object = callee.object as t.Identifier
+              // @ts-ignore
               const property = callee.property as t.Identifier
               if (object.name === taroImportDefaultName && property.name === 'render') {
                 astPath.remove()

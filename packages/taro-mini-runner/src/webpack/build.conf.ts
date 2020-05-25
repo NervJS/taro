@@ -1,5 +1,7 @@
 import * as path from 'path'
 
+import { PARSE_AST_TYPE } from '@tarojs/helper'
+
 import { IBuildConfig } from '../utils/types'
 import {
   getCopyWebpackPlugin,
@@ -16,15 +18,21 @@ import {
   getEntry,
 } from './chain'
 import getBaseConf from './base.conf'
-import { BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES } from '../utils/constants'
-import { Targets } from '../plugins/MiniPlugin'
+import { createTarget } from '../plugins/MiniPlugin'
 
 const emptyObj = {}
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
   const {
-    buildAdapter = BUILD_TYPES.WEAPP,
+    buildAdapter,
+    fileType = {
+      style: '.wxss',
+      config: '.json',
+      script: '.js',
+      templ: '.wxml'
+    },
+    globalObject = 'wx',
     alias = emptyObj,
     entry = emptyObj,
     output = emptyObj,
@@ -50,14 +58,18 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     postcss = emptyObj,
     nodeModulesPath,
     quickappJSON,
+    isBuildQuickapp = false,
+    isUseComponentBuildPage = false,
 
     babel,
     csso,
     uglify,
     commonChunks,
-    addChunkPages
-  } = config
+    addChunkPages,
 
+    modifyBuildAssets,
+    modifyBuildTempFileContent
+  } = config
   let { copy } = config
 
   const plugin: any = {}
@@ -102,18 +114,22 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     constantsReplaceList,
     nodeModulesPath,
     quickappJSON,
+    isBuildQuickapp,
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
     pluginMainEntry: entryRes!.pluginMainEntry,
     isBuildPlugin: !!config.isBuildPlugin,
     commonChunks: customCommonChunks,
     addChunkPages,
-    alias
+    alias,
+    fileType,
+    modifyBuildAssets,
+    modifyBuildTempFileContent
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
-    filename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`,
-    chunkFilename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`
+    filename: `[name]${fileType.style}`,
+    chunkFilename: `[name]${fileType.style}`
   }, miniCssExtractPluginOption])
 
   const isCssoEnabled = (csso && csso.enable === false)
@@ -146,13 +162,15 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     output: getOutput(appPath, [{
       outputRoot,
       publicPath: '/',
-      buildAdapter,
-      isBuildPlugin: config.isBuildPlugin
+      globalObject
     }, output]),
-    target: Targets[buildAdapter],
+    target: createTarget[buildAdapter!],
     resolve: { alias },
     module: getModule(appPath, {
       sourceDir,
+      fileType,
+      isBuildQuickapp,
+      isUseComponentBuildPage,
 
       buildAdapter,
       constantsReplaceList,

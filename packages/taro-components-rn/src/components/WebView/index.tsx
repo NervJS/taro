@@ -10,7 +10,7 @@
 import * as React from 'react'
 import {
   WebView
-} from 'react-native'
+} from 'react-native-webview'
 import { WebViewProps } from './PropsType'
 import utils from '../../utils'
 

@@ -58,7 +58,7 @@ declare namespace Taro {
 
     /**
      * 可以于 `this.$router.path` 中获取当前页面路径
-     * 
+     *
      * @example
      * componentWillMount () {
      *   console.log(this.$router.path)

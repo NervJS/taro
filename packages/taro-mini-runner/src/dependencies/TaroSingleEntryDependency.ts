@@ -1,5 +1,5 @@
 import * as ModuleDependency from 'webpack/lib/dependencies/ModuleDependency'
-import { PARSE_AST_TYPE } from '../utils/constants'
+import { PARSE_AST_TYPE } from '@tarojs/helper'
 
 export default class TaroSingleEntryDependency extends ModuleDependency {
   name: string

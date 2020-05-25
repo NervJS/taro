@@ -3,7 +3,7 @@
         @scroll="onScroll"
         @scrollbottom="onScrollToLower"
         @scrolltop="onScrollToUpper"
-        class="{{classname}}"
+        class="{{class}}"
         style="{{flexDirection}} {{customstyle}}"
         >
         <list-item type='a'>
@@ -15,7 +15,7 @@
 <script>
     export default {
       props: {
-        classname: {
+        class: {
           type: String,
           required: false,
           default: ''
