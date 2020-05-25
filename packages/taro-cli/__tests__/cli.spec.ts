@@ -185,33 +185,6 @@ describe('inspect', () => {
     })
   })
 
-  describe('config', () => {
-    const baseOpts = {
-      cmd: undefined,
-      key: undefined,
-      value: undefined,
-      json: false,
-      isHelp: false
-    }
-
-    it('should make configs', () => {
-      const cmd = 'set'
-      const key = 'templateSource'
-      const value = 'https://url'
-      setProcessArgv('taro config set templateSource https://url')
-      cli.run()
-      const ins = MockedKernel.mock.instances[0]
-      expect(ins.run).toHaveBeenCalledWith({
-        name: 'config',
-        opts: Object.assign({}, baseOpts, {
-          cmd,
-          key,
-          value
-        })
-      })
-    })
-  })
-
   describe('doctor', () => {
     it('should make configs', () => {
       setProcessArgv('taro doctor')

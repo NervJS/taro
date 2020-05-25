@@ -6,7 +6,6 @@ import { Kernel } from '@tarojs/service'
 import build from './commands/build'
 import init from './commands/init'
 import create from './commands/create'
-import config from './commands/config'
 import doctor from './commands/doctor'
 import convert from './commands/convert'
 import customCommand from './commands/customCommand'
@@ -77,19 +76,6 @@ export default class CLI {
             type,
             name,
             description: args.description,
-            isHelp: args.h
-          })
-          break
-        }
-        case 'config': {
-          const cmd = _[1]
-          const key = _[2]
-          const value = _[3]
-          config(kernel, {
-            cmd,
-            key,
-            value,
-            json: !!args.json,
             isHelp: args.h
           })
           break

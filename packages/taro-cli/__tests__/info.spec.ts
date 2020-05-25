@@ -67,4 +67,3 @@ describe('info', () => {
     logSpy.mockRestore()
   })
 })
-
