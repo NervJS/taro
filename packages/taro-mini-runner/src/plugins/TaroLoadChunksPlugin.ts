@@ -41,6 +41,7 @@ export default class TaroLoadChunksPlugin {
     this.depsMap = options.depsMap
     this.sourceDir = options.sourceDir
     this.subPackages = options.subPackages || new Set<string>()
+    this.isBuildQuickapp = options.isBuildQuickapp
     this.destroyed = false
   }
 
