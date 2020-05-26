@@ -109,6 +109,7 @@ export default class Kernel extends EventEmitter {
     const allConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])()
     const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
     this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
+    process.env.NODE_ENV !== 'test' &&
     createBabelRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })

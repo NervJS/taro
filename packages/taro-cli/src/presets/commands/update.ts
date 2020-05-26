@@ -1,35 +1,42 @@
 import * as path from 'path'
 import { exec } from 'child_process'
-
 import * as getLatestVersion from 'latest-version'
 import * as semver from 'semver'
 import * as ora from 'ora'
 import { IPluginContext } from '@tarojs/service'
-
 import { getPkgItemByKey } from '../../util'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
     name: 'update',
-    async fn () {
+    synopsisList: [
+      'taro update self [version]',
+      'taro update project [version]'
+    ],
+    async fn ({ _ }) {
+      const [, updateType, version] = _ as [string, ('self' | 'project')?, number?]
       const { appPath, configPath } = ctx.paths
-      const { chalk, fs, shouldUseCnpm, shouldUseYarn, PROJECT_CONFIG, UPDATE_PACKAGE_LIST } = ctx.helper
-      const { version, updateType } = ctx.runOpts
+      const {
+        chalk,
+        fs,
+        shouldUseCnpm,
+        shouldUseYarn,
+        PROJECT_CONFIG,
+        UPDATE_PACKAGE_LIST
+      } = ctx.helper
 
       const pkgPath = path.join(appPath, 'package.json')
       const pkgName = getPkgItemByKey('name')
 
       async function getTargetVersion () {
         let targetTaroVersion
-        // base on current project taro versions, not base on @tarojs/cli verison
-        const currentTaroVersion = require(pkgPath).dependencies['@tarojs/taro']
+
         if (version) {
           targetTaroVersion = semver.clean(version)
         } else {
-          // update to current lastest major.x.x
           try {
             targetTaroVersion = await getLatestVersion(pkgName, {
-              version: semver.major(currentTaroVersion).toString()
+              version: 'next'
             })
           } catch (e) {
             targetTaroVersion = await getLatestVersion(pkgName)
@@ -42,37 +49,38 @@ export default (ctx: IPluginContext) => {
         return targetTaroVersion
       }
 
-      function info () {
-        console.log(chalk.red('命令错误:'))
-        console.log(`${chalk.green(
-          'taro update self [version]')} 更新 Taro 开发工具 taro-cli 到指定版本或当前主版本的最新版本`)
-        console.log(`${chalk.green(
-          'taro update project [version]')} 更新项目所有 Taro 相关依赖到指定版本或当前主版本的最新版本`)
+      function execUpdate (command: string, version: string, isSelf = false) {
+        const child = exec(command)
+
+        const updateTarget = isSelf ? ' CLI ' : ' Taro 项目依赖'
+        const spinner = ora(`正在更新${updateTarget}到 v${version} ...`).start()
+
+        child.stdout!.on('data', function (data) {
+          spinner.stop()
+          console.log(data)
+        })
+
+        child.stderr!.on('data', function (data) {
+          spinner.stop()
+          console.log(data)
+        })
       }
 
+      /** 更新全局的 Taro CLI */
       async function updateSelf () {
-        let command
         const targetTaroVersion = await getTargetVersion()
+        let command
+
         if (shouldUseCnpm()) {
           command = `cnpm i -g @tarojs/cli@${targetTaroVersion}`
         } else {
           command = `npm i -g @tarojs/cli@${targetTaroVersion}`
         }
 
-        const child = exec(command)
-
-        const spinner = ora('即将将 Taro 开发工具 taro-cli 更新到最新版本...').start()
-
-        child.stdout!.on('data', function (data) {
-          console.log(data)
-          spinner.stop()
-        })
-        child.stderr!.on('data', function (data) {
-          console.log(data)
-          spinner.stop()
-        })
+        execUpdate(command, targetTaroVersion, true)
       }
 
+      /** 更新当前项目中的 Taro 相关依赖 */
       async function updateProject () {
         if (!configPath || !fs.existsSync(configPath)) {
           console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
@@ -89,9 +97,6 @@ export default (ctx: IPluginContext) => {
           if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
             if (key.includes('nerv')) {
               packageMap.dependencies[key] = nervJSVersion
-            } else if (key.includes('react-native')) {
-              // delete old version react-native,and will update when run taro build
-              delete packageMap.dependencies[key]
             } else {
               packageMap.dependencies[key] = version
             }
@@ -125,27 +130,18 @@ export default (ctx: IPluginContext) => {
           command = 'npm install'
         }
 
-        const child = exec(command)
-
-        const spinner = ora('即将将项目所有 Taro 相关依赖更新到最新版本...').start()
-
-        child.stdout!.on('data', function (data) {
-          spinner.stop()
-          console.log(data)
-        })
-        child.stderr!.on('data', function (data) {
-          spinner.stop()
-          console.log(data)
-        })
+        execUpdate(command, version)
       }
-
-      if (!updateType) return info()
 
       if (updateType === 'self') return updateSelf()
 
       if (updateType === 'project') return updateProject()
 
-      info()
+      console.log(chalk.red('命令错误:'))
+      console.log(`${chalk.green(
+        'taro update self [version]')} 更新 Taro 开发工具 taro-cli 到指定版本或 Taro3 的最新版本`)
+      console.log(`${chalk.green(
+        'taro update project [version]')} 更新项目所有 Taro 相关依赖到指定版本或 Taro3 的最新版本`)
     }
   })
 }
