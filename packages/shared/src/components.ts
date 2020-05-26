@@ -125,11 +125,13 @@ const Button = {
   'app-parameter': '',
   'show-message-card': 'false',
   bindGetUserInfo: '',
+  bindGetAuthorize: '',
   bindContact: '',
   bindGetPhoneNumber: '',
   bindError: '',
   bindOpenSetting: '',
   bindLaunchApp: '',
+  scope: '',
   name: ''
 }
 
