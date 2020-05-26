@@ -58,5 +58,5 @@ export interface IFileType {
 
 export interface IPlatform extends IHook {
   fileType: IFileType
-  useConfigName: String
+  useConfigName: string
 }
