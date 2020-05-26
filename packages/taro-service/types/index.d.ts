@@ -20,6 +20,10 @@ export declare interface IPluginContext {
    */
   runOpts: Object
   /**
+   * 当前运行环境下加载的所有平台及相关配置
+   */
+  platforms: Map<string, IPlatform>
+  /**
    * 为包 @tarojs/helper 的快捷使用方式，包含其所有 API
    */
   helper: helper

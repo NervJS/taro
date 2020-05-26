@@ -4,14 +4,12 @@ import * as path from 'path'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as sass from 'node-sass'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
-  REG_SASS,
   REG_LESS,
   REG_STYLUS,
   REG_STYLE,
@@ -98,7 +96,6 @@ export const processEnvOption = partial(mapKeys as any, (key: string) => `proces
 
 export const getCssLoader = pipe(mergeOption, partial(getLoader, 'css-loader'))
 export const getPostcssLoader = pipe(mergeOption, partial(getLoader, 'postcss-loader'))
-export const getSassLoader = pipe(mergeOption, partial(getLoader, 'sass-loader'))
 export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader'))
 export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
@@ -165,7 +162,6 @@ export const getModule = (appPath: string, {
 
   cssLoaderOption,
   lessLoaderOption,
-  sassLoaderOption,
   stylusLoaderOption,
   fontUrlLoaderOption,
   imageUrlLoaderOption,
@@ -255,11 +251,6 @@ export const getModule = (appPath: string, {
       })
     }
   ])
-  const sassLoader = getSassLoader([{
-    sourceMap: true,
-    implementation: sass,
-    outputStyle: 'expanded'
-  }, sassLoaderOption])
   const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
@@ -310,11 +301,6 @@ export const getModule = (appPath: string, {
   }
 
   const rule: any = {
-    sass: {
-      test: REG_SASS,
-      enforce: 'pre',
-      use: [sassLoader]
-    },
     less: {
       test: REG_LESS,
       enforce: 'pre',
@@ -329,10 +315,6 @@ export const getModule = (appPath: string, {
       test: REG_STYLE,
       oneOf: cssLoaders
     },
-    // styleFiles: {
-    //   test: REG_STYLE,
-    //   use: [fileLoader]
-    // },
     postcss: {
       test: REG_STYLE,
       use: [postcssLoader]

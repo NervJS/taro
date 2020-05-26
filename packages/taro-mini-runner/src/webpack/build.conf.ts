@@ -46,7 +46,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     defineConstants = emptyObj,
     env = emptyObj,
     cssLoaderOption = emptyObj,
-    sassLoaderOption = emptyObj,
     lessLoaderOption = emptyObj,
     stylusLoaderOption = emptyObj,
     mediaUrlLoaderOption = emptyObj,
@@ -180,7 +179,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
       cssLoaderOption,
       lessLoaderOption,
-      sassLoaderOption,
       stylusLoaderOption,
       fontUrlLoaderOption,
       imageUrlLoaderOption,
