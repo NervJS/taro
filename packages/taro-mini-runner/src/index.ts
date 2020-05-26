@@ -29,6 +29,10 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
   /** customized chain */
   await customizeChain(webpackChain, newConfig.modifyWebpackChain, newConfig.webpackChain)
 
+  if (typeof newConfig.onWebpackChainReady === 'function') {
+    newConfig.onWebpackChainReady(webpackChain)
+  }
+
   /** webpack config */
   const webpackConfig: webpack.Configuration = webpackChain.toConfig()
 

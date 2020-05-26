@@ -7326,7 +7326,6 @@ object-assign
                         }
                         child.parentNode = null;
                         eventSource.delete(child.uid);
-                        child._empty();
                         return child;
                     }
                 }, {
@@ -8049,7 +8048,12 @@ object-assign
                 navigator: navigator,
                 document: document$1
             };
-            if (false) {}
+            if (true) {
+                window$1.requestAnimationFrame = raf;
+                window$1.cancelAnimationFrame = caf;
+                window$1.Date = Date;
+                window$1.setTimeout = setTimeout;
+            }
             var Current = {
                 app: null,
                 router: null,
@@ -16825,7 +16829,6 @@ object-assign
                         }
                         child.parentNode = null;
                         eventSource.delete(child.uid);
-                        child._empty();
                         return child;
                     }
                 }, {
@@ -17548,7 +17551,12 @@ object-assign
                 navigator: navigator,
                 document: document$1
             };
-            if (false) {}
+            if (true) {
+                window$1.requestAnimationFrame = raf;
+                window$1.cancelAnimationFrame = caf;
+                window$1.Date = Date;
+                window$1.setTimeout = setTimeout;
+            }
             var Current = {
                 app: null,
                 router: null,
@@ -26324,7 +26332,6 @@ object-assign
                         }
                         child.parentNode = null;
                         eventSource.delete(child.uid);
-                        child._empty();
                         return child;
                     }
                 }, {
@@ -27047,7 +27054,12 @@ object-assign
                 navigator: navigator,
                 document: document$1
             };
-            if (false) {}
+            if (true) {
+                window$1.requestAnimationFrame = raf;
+                window$1.cancelAnimationFrame = caf;
+                window$1.Date = Date;
+                window$1.setTimeout = setTimeout;
+            }
             var Current = {
                 app: null,
                 router: null,
@@ -35823,7 +35835,6 @@ object-assign
                         }
                         child.parentNode = null;
                         eventSource.delete(child.uid);
-                        child._empty();
                         return child;
                     }
                 }, {
@@ -36546,7 +36557,12 @@ object-assign
                 navigator: navigator,
                 document: document$1
             };
-            if (false) {}
+            if (true) {
+                window$1.requestAnimationFrame = raf;
+                window$1.cancelAnimationFrame = caf;
+                window$1.Date = Date;
+                window$1.setTimeout = setTimeout;
+            }
             var Current = {
                 app: null,
                 router: null,
