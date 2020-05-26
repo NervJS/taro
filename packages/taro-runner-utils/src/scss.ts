@@ -16,13 +16,13 @@ interface BuildConfig {
 
 /**
  * Return bundled sass content.
- * 
+ *
  * @param {string} url Absolute file path.
  * @param {(string | undefined)} projectDirectory Absolute project location, where node_modules are located.
  * Used for resolving tilde imports.
  * @returns Bundle result.
  */
-export async function getBundleResult(url: string, 
+export async function getBundleResult(url: string,
     projectDirectory: string | undefined = undefined
   ): Promise<BundleResult> {
   let bundler: Bundler = new Bundler()
@@ -91,7 +91,7 @@ export async function getSassLoaderOption(
   }
   return {
     ...sassLoaderOption,
-    data: sassLoaderOption.data ? `${sassLoaderOption.data}${bundledContent}` : bundledContent
+    prependData: sassLoaderOption.prependData ? `${sassLoaderOption.prependData}${bundledContent}` : bundledContent
   }
 }
 
