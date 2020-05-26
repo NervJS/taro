@@ -25,6 +25,7 @@ export default () => {
       path.resolve(__dirname, 'commands', 'doctor.js'),
       path.resolve(__dirname, 'commands', 'convert.js'),
       path.resolve(__dirname, 'commands', 'update.js'),
+      path.resolve(__dirname, 'commands', 'inspect.js'),
 
       // files
       path.resolve(__dirname, 'files', 'writeFileToDist.js'),
