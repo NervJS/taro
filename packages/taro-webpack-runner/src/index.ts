@@ -26,6 +26,9 @@ export const customizeChain = async (chain, modifyWebpackChainFunc: Function, cu
 const buildProd = async (appPath: string, config: BuildConfig): Promise<void> => {
   const webpackChain = prodConf(appPath, config)
   await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+  if (typeof config.onWebpackChainReady === 'function') {
+    config.onWebpackChainReady(webpackChain)
+  }
   const webpackConfig = webpackChain.toConfig()
   const compiler = webpack(webpackConfig)
   const onBuildFinish = config.onBuildFinish
@@ -73,6 +76,10 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const webpackChain = devConf(appPath, config)
   const onBuildFinish = config.onBuildFinish
   await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+
+  if (typeof config.onWebpackChainReady === 'function') {
+    config.onWebpackChainReady(webpackChain)
+  }
 
   const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
     {

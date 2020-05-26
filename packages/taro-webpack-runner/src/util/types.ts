@@ -19,5 +19,6 @@ export interface BuildConfig extends IProjectBaseConfig, IH5Config {
   modifyWebpackChain: Function;
   modifyMiniConfigs: Function;
   modifyBuildAssets: Function;
+  onWebpackChainReady: Function;
   onBuildFinish: Function;
 }
