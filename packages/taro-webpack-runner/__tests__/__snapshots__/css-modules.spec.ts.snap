@@ -19070,6 +19070,11 @@ Element.remove()
         \\"refresher-threshold\\": \\"45\\",
         \\"refresher-default-style\\": singleQuote(\\"black\\"),
         \\"refresher-background\\": singleQuote(\\"#FFF\\"),
+        \\"refresher-triggered\\": \\"false\\",
+        \\"bindRefresherPulling\\": \\"\\",
+        \\"bindRefresherRefresh\\": \\"\\",
+        \\"bindRefresherRestore\\": \\"\\",
+        \\"bindRefresherAbort\\": \\"\\",
         \\"bindScrolltoUpper\\": \\"\\",
         \\"bindScrolltoLower\\": \\"\\",
         \\"bindScroll\\": \\"\\"
@@ -61559,6 +61564,11 @@ Element.remove()
         \\"refresher-threshold\\": \\"45\\",
         \\"refresher-default-style\\": singleQuote(\\"black\\"),
         \\"refresher-background\\": singleQuote(\\"#FFF\\"),
+        \\"refresher-triggered\\": \\"false\\",
+        \\"bindRefresherPulling\\": \\"\\",
+        \\"bindRefresherRefresh\\": \\"\\",
+        \\"bindRefresherRestore\\": \\"\\",
+        \\"bindRefresherAbort\\": \\"\\",
         \\"bindScrolltoUpper\\": \\"\\",
         \\"bindScrolltoLower\\": \\"\\",
         \\"bindScroll\\": \\"\\"
