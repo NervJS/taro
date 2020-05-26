@@ -46,6 +46,7 @@ export default class CLI {
             platform: args.type,
             isWatch: !!args.watch,
             port: args.port,
+            env: args.env,
             release: args.release,
             ui: args.ui,
             uiIndex: args.uiIndex,

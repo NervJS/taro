@@ -1,6 +1,8 @@
 /* eslint-disable import/no-duplicates */
 import type { ComponentOptions, VueConstructor, VNode } from 'vue'
 import type VueCtor from 'vue'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { AppConfig } from '@tarojs/taro'
 import { AppInstance, VueAppInstance, VueInstance } from './instance'
 import { injectPageInstance } from './common'
 import { Current } from '../current'
@@ -46,7 +48,7 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
 
 let Vue
 
-export function createVueApp (App: VueInstance, vue: V) {
+export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
   Vue = vue
   ensure(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
 
@@ -89,6 +91,8 @@ export function createVueApp (App: VueInstance, vue: V) {
   })
 
   class AppConfig implements AppInstance {
+    config = config
+
     onLaunch (options) {
       wrapper.$mount(document.getElementById('app') as any)
       appInstance = wrapper.$refs.app as VueAppInstance

@@ -32,7 +32,7 @@ require(\\"./taro\\");
         var _typeof = __webpack_require__(15);
         module.exports = function $$$reconciler($$$hostConfig) {
             \\"use strict\\";
-            var aa = __webpack_require__(28), ba = __webpack_require__(3), m = __webpack_require__(12);
+            var aa = __webpack_require__(28), ba = __webpack_require__(4), m = __webpack_require__(12);
             function n(a) {
                 for (var b = \\"https://reactjs.org/docs/error-decoder.html?invariant=\\" + a, c = 1; c < arguments.length; c++) {
                     b += \\"&args[]=\\" + encodeURIComponent(arguments[c]);
@@ -4359,18 +4359,18 @@ require(\\"./taro\\");
                 return M(O);
             };
             exports.unstable_Profiling = null;
-        }).call(this, __webpack_require__(4)[\\"window\\"]);
+        }).call(this, __webpack_require__(3)[\\"window\\"]);
     },
     32: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(4);
+        var runtime_esm = __webpack_require__(3);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(5);
         var getPrototypeOf = __webpack_require__(2);
         var inherits = __webpack_require__(6);
-        var react = __webpack_require__(3);
+        var react = __webpack_require__(4);
         var app = __webpack_require__(26);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
@@ -4400,7 +4400,17 @@ require(\\"./taro\\");
         }(react[\\"Component\\"]);
         var lib_src_app = app_App;
         var react_esm = __webpack_require__(17);
-        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_src_app, react, react_esm[\\"a\\"]));
+        var config = {
+            pages: [ \\"pages/index/index\\", \\"pages/about/index\\" ],
+            window: {
+                backgroundTextStyle: \\"light\\",
+                navigationBarBackgroundColor: \\"#fff\\",
+                navigationBarTitleText: \\"WeChat\\",
+                navigationBarTextStyle: \\"black\\"
+            }
+        };
+        runtime_esm[\\"window\\"].__taroAppConfig = config;
+        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_src_app, react, react_esm[\\"a\\"], config));
     }
 }, [ [ 32, 0, 1, 2 ] ] ]);
 
@@ -5100,7 +5110,7 @@ object-assign
         var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
         var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
-        var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3);
+        var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
         var react__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
         var _index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(31);
@@ -5133,7 +5143,7 @@ object-assign
     30: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
 }, [ [ 30, 0, 1, 2 ] ] ]);
@@ -5150,13 +5160,13 @@ object-assign
     34: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(4);
+        var runtime_esm = __webpack_require__(3);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(5);
         var getPrototypeOf = __webpack_require__(2);
         var inherits = __webpack_require__(6);
-        var react = __webpack_require__(3);
+        var react = __webpack_require__(4);
         var react_default = __webpack_require__.n(react);
         var mini = __webpack_require__(7);
         var title = __webpack_require__(14);
@@ -5194,13 +5204,13 @@ object-assign
     33: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime_esm = __webpack_require__(4);
+        var runtime_esm = __webpack_require__(3);
         var classCallCheck = __webpack_require__(0);
         var createClass = __webpack_require__(1);
         var possibleConstructorReturn = __webpack_require__(5);
         var getPrototypeOf = __webpack_require__(2);
         var inherits = __webpack_require__(6);
-        var react = __webpack_require__(3);
+        var react = __webpack_require__(4);
         var react_default = __webpack_require__.n(react);
         var mini = __webpack_require__(7);
         var title = __webpack_require__(14);
@@ -5361,7 +5371,7 @@ object-assign
         var react_reconciler__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react_reconciler__WEBPACK_IMPORTED_MODULE_3__);
         var scheduler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(12);
         var scheduler__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(scheduler__WEBPACK_IMPORTED_MODULE_4__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3);
         function isString(o) {
             return typeof o === \\"string\\";
         }
@@ -5711,7 +5721,7 @@ object-assign
         };
         __webpack_exports__[\\"a\\"] = index;
     },
-    4: function(module, __webpack_exports__, __webpack_require__) {
+    3: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         (function(document, window, requestAnimationFrame, cancelAnimationFrame) {
@@ -8207,6 +8217,12 @@ object-assign
             function getOnReadyEventKey(path) {
                 return path + \\".\\" + \\"onReady\\";
             }
+            function getOnShowEventKey(path) {
+                return path + \\".\\" + \\"onShow\\";
+            }
+            function getOnHideEventKey(path) {
+                return path + \\".\\" + \\"onHide\\";
+            }
             function createPageConfig(component, pageName, data) {
                 var id = pageName !== null && pageName !== void 0 ? pageName : \\"taro_page_\\".concat(pageId());
                 var pageElement = null;
@@ -8218,7 +8234,9 @@ object-assign
                         Current.router = {
                             params: options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
                         Current.app.mount(component, path, (function() {
                             pageElement = document$1.getElementById(path);
@@ -8233,7 +8251,7 @@ object-assign
                     onReady: function onReady() {
                         var path = getPath(id, this.options);
                         raf((function() {
-                            eventCenter.trigger(getOnReadyEventKey(path));
+                            eventCenter.trigger(getOnReadyEventKey(id));
                         }));
                         safeExecute(path, \\"onReady\\");
                     },
@@ -8252,14 +8270,22 @@ object-assign
                         Current.router = {
                             params: this.options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
+                        raf((function() {
+                            eventCenter.trigger(getOnShowEventKey(id));
+                        }));
                         safeExecute(path, \\"onShow\\");
                     },
                     onHide: function onHide() {
                         Current.page = null;
                         Current.router = null;
                         var path = getPath(id, this.options);
+                        raf((function() {
+                            eventCenter.trigger(getOnHideEventKey(id));
+                        }));
                         safeExecute(path, \\"onHide\\");
                     },
                     onPullDownRefresh: function onPullDownRefresh() {
@@ -8451,7 +8477,7 @@ object-assign
             var R = EMPTY_OBJ;
             var PageContext = EMPTY_OBJ;
             var ReactDOM;
-            function createReactApp(App, react, reactdom) {
+            function createReactApp(App, react, reactdom, config) {
                 R = react;
                 ReactDOM = reactdom;
                 ensure(!!ReactDOM, \\"\\\\u6784\\\\u5efa React/Nerv \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'react'/'nerv' \\");
@@ -8508,6 +8534,7 @@ object-assign
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
@@ -8592,7 +8619,7 @@ object-assign
                 };
             }
             var Vue;
-            function createVueApp(App, vue) {
+            function createVueApp(App, vue, config) {
                 Vue = vue;
                 ensure(!!Vue, \\"\\\\u6784\\\\u5efa Vue \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'vue'\\");
                 Vue.config.getTagNamespace = noop;
@@ -8640,6 +8667,7 @@ object-assign
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
@@ -8756,7 +8784,7 @@ object-assign
                     timerFunc();
                 }
             };
-        }).call(this, __webpack_require__(4)[\\"document\\"], __webpack_require__(4)[\\"window\\"], __webpack_require__(4)[\\"requestAnimationFrame\\"], __webpack_require__(4)[\\"cancelAnimationFrame\\"]);
+        }).call(this, __webpack_require__(3)[\\"document\\"], __webpack_require__(3)[\\"window\\"], __webpack_require__(3)[\\"requestAnimationFrame\\"], __webpack_require__(3)[\\"cancelAnimationFrame\\"]);
     },
     7: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -8856,12 +8884,12 @@ object-assign
         };
         return _getPrototypeOf(o);
     }
-}, function(module, exports, __webpack_require__) {
+}, , function(module, exports, __webpack_require__) {
     \\"use strict\\";
     if (true) {
         module.exports = __webpack_require__(24);
     } else {}
-}, , function(module, __webpack_exports__, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _possibleConstructorReturn;

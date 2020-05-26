@@ -4398,7 +4398,17 @@ require(\\"./taro\\");
         }(react[\\"Component\\"]);
         var lib_src_app = app_App;
         var react_esm = __webpack_require__(17);
-        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_src_app, react, react_esm[\\"a\\"]));
+        var config = {
+            pages: [ \\"pages/index/index\\" ],
+            window: {
+                backgroundTextStyle: \\"light\\",
+                navigationBarBackgroundColor: \\"#fff\\",
+                navigationBarTitleText: \\"WeChat\\",
+                navigationBarTextStyle: \\"black\\"
+            }
+        };
+        runtime_esm[\\"window\\"].__taroAppConfig = config;
+        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_src_app, react, react_esm[\\"a\\"], config));
     }
 }, [ [ 32, 0, 1, 2 ] ] ]);
 
@@ -8205,6 +8215,12 @@ object-assign
             function getOnReadyEventKey(path) {
                 return path + \\".\\" + \\"onReady\\";
             }
+            function getOnShowEventKey(path) {
+                return path + \\".\\" + \\"onShow\\";
+            }
+            function getOnHideEventKey(path) {
+                return path + \\".\\" + \\"onHide\\";
+            }
             function createPageConfig(component, pageName, data) {
                 var id = pageName !== null && pageName !== void 0 ? pageName : \\"taro_page_\\".concat(pageId());
                 var pageElement = null;
@@ -8216,7 +8232,9 @@ object-assign
                         Current.router = {
                             params: options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
                         Current.app.mount(component, path, (function() {
                             pageElement = document$1.getElementById(path);
@@ -8231,7 +8249,7 @@ object-assign
                     onReady: function onReady() {
                         var path = getPath(id, this.options);
                         raf((function() {
-                            eventCenter.trigger(getOnReadyEventKey(path));
+                            eventCenter.trigger(getOnReadyEventKey(id));
                         }));
                         safeExecute(path, \\"onReady\\");
                     },
@@ -8250,14 +8268,22 @@ object-assign
                         Current.router = {
                             params: this.options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
+                        raf((function() {
+                            eventCenter.trigger(getOnShowEventKey(id));
+                        }));
                         safeExecute(path, \\"onShow\\");
                     },
                     onHide: function onHide() {
                         Current.page = null;
                         Current.router = null;
                         var path = getPath(id, this.options);
+                        raf((function() {
+                            eventCenter.trigger(getOnHideEventKey(id));
+                        }));
                         safeExecute(path, \\"onHide\\");
                     },
                     onPullDownRefresh: function onPullDownRefresh() {
@@ -8449,7 +8475,7 @@ object-assign
             var R = EMPTY_OBJ;
             var PageContext = EMPTY_OBJ;
             var ReactDOM;
-            function createReactApp(App, react, reactdom) {
+            function createReactApp(App, react, reactdom, config) {
                 R = react;
                 ReactDOM = reactdom;
                 ensure(!!ReactDOM, \\"\\\\u6784\\\\u5efa React/Nerv \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'react'/'nerv' \\");
@@ -8506,6 +8532,7 @@ object-assign
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
@@ -8590,7 +8617,7 @@ object-assign
                 };
             }
             var Vue;
-            function createVueApp(App, vue) {
+            function createVueApp(App, vue, config) {
                 Vue = vue;
                 ensure(!!Vue, \\"\\\\u6784\\\\u5efa Vue \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'vue'\\");
                 Vue.config.getTagNamespace = noop;
@@ -8638,6 +8665,7 @@ object-assign
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
@@ -13868,7 +13896,17 @@ require(\\"./taro\\");
         }(react[\\"Component\\"]);
         var lib_src_app = app_App;
         var react_esm = __webpack_require__(17);
-        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_src_app, react, react_esm[\\"a\\"]));
+        var config = {
+            pages: [ \\"pages/index/index\\" ],
+            window: {
+                backgroundTextStyle: \\"light\\",
+                navigationBarBackgroundColor: \\"#fff\\",
+                navigationBarTitleText: \\"WeChat\\",
+                navigationBarTextStyle: \\"black\\"
+            }
+        };
+        runtime_esm[\\"window\\"].__taroAppConfig = config;
+        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_src_app, react, react_esm[\\"a\\"], config));
     }
 }, [ [ 32, 0, 1, 2 ] ] ]);
 
@@ -17671,6 +17709,12 @@ object-assign
             function getOnReadyEventKey(path) {
                 return path + \\".\\" + \\"onReady\\";
             }
+            function getOnShowEventKey(path) {
+                return path + \\".\\" + \\"onShow\\";
+            }
+            function getOnHideEventKey(path) {
+                return path + \\".\\" + \\"onHide\\";
+            }
             function createPageConfig(component, pageName, data) {
                 var id = pageName !== null && pageName !== void 0 ? pageName : \\"taro_page_\\".concat(pageId());
                 var pageElement = null;
@@ -17682,7 +17726,9 @@ object-assign
                         Current.router = {
                             params: options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
                         Current.app.mount(component, path, (function() {
                             pageElement = document$1.getElementById(path);
@@ -17697,7 +17743,7 @@ object-assign
                     onReady: function onReady() {
                         var path = getPath(id, this.options);
                         raf((function() {
-                            eventCenter.trigger(getOnReadyEventKey(path));
+                            eventCenter.trigger(getOnReadyEventKey(id));
                         }));
                         safeExecute(path, \\"onReady\\");
                     },
@@ -17716,14 +17762,22 @@ object-assign
                         Current.router = {
                             params: this.options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
+                        raf((function() {
+                            eventCenter.trigger(getOnShowEventKey(id));
+                        }));
                         safeExecute(path, \\"onShow\\");
                     },
                     onHide: function onHide() {
                         Current.page = null;
                         Current.router = null;
                         var path = getPath(id, this.options);
+                        raf((function() {
+                            eventCenter.trigger(getOnHideEventKey(id));
+                        }));
                         safeExecute(path, \\"onHide\\");
                     },
                     onPullDownRefresh: function onPullDownRefresh() {
@@ -17915,7 +17969,7 @@ object-assign
             var R = EMPTY_OBJ;
             var PageContext = EMPTY_OBJ;
             var ReactDOM;
-            function createReactApp(App, react, reactdom) {
+            function createReactApp(App, react, reactdom, config) {
                 R = react;
                 ReactDOM = reactdom;
                 ensure(!!ReactDOM, \\"\\\\u6784\\\\u5efa React/Nerv \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'react'/'nerv' \\");
@@ -17972,6 +18026,7 @@ object-assign
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",
@@ -18056,7 +18111,7 @@ object-assign
                 };
             }
             var Vue;
-            function createVueApp(App, vue) {
+            function createVueApp(App, vue, config) {
                 Vue = vue;
                 ensure(!!Vue, \\"\\\\u6784\\\\u5efa Vue \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'vue'\\");
                 Vue.config.getTagNamespace = noop;
@@ -18104,6 +18159,7 @@ object-assign
                 var AppConfig = function() {
                     function AppConfig() {
                         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_8__[\\"a\\"])(this, AppConfig);
+                        this.config = config;
                     }
                     Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_9__[\\"a\\"])(AppConfig, [ {
                         key: \\"onLaunch\\",

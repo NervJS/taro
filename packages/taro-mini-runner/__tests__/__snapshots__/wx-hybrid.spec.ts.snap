@@ -4332,7 +4332,17 @@ require(\\"./taro\\");
         }(react_default.a.Component);
         var lib_src_app = app_App;
         var react_esm = __webpack_require__(11);
-        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_src_app, react, react_esm[\\"a\\"]));
+        var config = {
+            pages: [ \\"pages/index/index\\", \\"pages/native/native\\" ],
+            window: {
+                backgroundTextStyle: \\"light\\",
+                navigationBarBackgroundColor: \\"#fff\\",
+                navigationBarTitleText: \\"WeChat\\",
+                navigationBarTextStyle: \\"black\\"
+            }
+        };
+        runtime_esm[\\"window\\"].__taroAppConfig = config;
+        var inst = App(Object(runtime_esm[\\"createReactApp\\"])(lib_src_app, react, react_esm[\\"a\\"], config));
     },
     9: function(module, exports, __webpack_require__) {
         \\"use strict\\";
@@ -8627,6 +8637,12 @@ object-assign
             function getOnReadyEventKey(path) {
                 return path + \\".\\" + \\"onReady\\";
             }
+            function getOnShowEventKey(path) {
+                return path + \\".\\" + \\"onShow\\";
+            }
+            function getOnHideEventKey(path) {
+                return path + \\".\\" + \\"onHide\\";
+            }
             function createPageConfig(component, pageName, data) {
                 const id = pageName !== null && pageName !== void 0 ? pageName : \`taro_page_\${pageId()}\`;
                 let pageElement = null;
@@ -8637,7 +8653,9 @@ object-assign
                         Current.router = {
                             params: options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
                         Current.app.mount(component, path, () => {
                             pageElement = document$1.getElementById(path);
@@ -8652,7 +8670,7 @@ object-assign
                     onReady() {
                         const path = getPath(id, this.options);
                         raf(() => {
-                            eventCenter.trigger(getOnReadyEventKey(path));
+                            eventCenter.trigger(getOnReadyEventKey(id));
                         });
                         safeExecute(path, \\"onReady\\");
                     },
@@ -8671,14 +8689,22 @@ object-assign
                         Current.router = {
                             params: this.options,
                             path: addLeadingSlash(this.route || this.__route__),
-                            onReady: getOnReadyEventKey(path)
+                            onReady: getOnReadyEventKey(id),
+                            onShow: getOnShowEventKey(id),
+                            onHide: getOnHideEventKey(id)
                         };
+                        raf(() => {
+                            eventCenter.trigger(getOnShowEventKey(id));
+                        });
                         safeExecute(path, \\"onShow\\");
                     },
                     onHide() {
                         Current.page = null;
                         Current.router = null;
                         const path = getPath(id, this.options);
+                        raf(() => {
+                            eventCenter.trigger(getOnHideEventKey(id));
+                        });
                         safeExecute(path, \\"onHide\\");
                     },
                     onPullDownRefresh() {
@@ -8857,7 +8883,7 @@ object-assign
             let R = EMPTY_OBJ;
             let PageContext = EMPTY_OBJ;
             let ReactDOM;
-            function createReactApp(App, react, reactdom) {
+            function createReactApp(App, react, reactdom, config) {
                 R = react;
                 ReactDOM = reactdom;
                 ensure(!!ReactDOM, \\"\\\\u6784\\\\u5efa React/Nerv \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'react'/'nerv' \\");
@@ -8898,6 +8924,9 @@ object-assign
                     }
                 }
                 class AppConfig {
+                    constructor() {
+                        this.config = config;
+                    }
                     onLaunch(options) {
                         wrapper = ReactDOM.render(R.createElement(AppWrapper), document$1.getElementById(\\"app\\"));
                         const app = ref.current;
@@ -8967,7 +8996,7 @@ object-assign
                 };
             }
             let Vue;
-            function createVueApp(App, vue) {
+            function createVueApp(App, vue, config) {
                 Vue = vue;
                 ensure(!!Vue, \\"\\\\u6784\\\\u5efa Vue \\\\u9879\\\\u76ee\\\\u8bf7\\\\u628a process.env.FRAMEWORK \\\\u8bbe\\\\u7f6e\\\\u4e3a 'vue'\\");
                 Vue.config.getTagNamespace = noop;
@@ -9009,6 +9038,9 @@ object-assign
                     }
                 });
                 class AppConfig {
+                    constructor() {
+                        this.config = config;
+                    }
                     onLaunch(options) {
                         wrapper.$mount(document$1.getElementById(\\"app\\"));
                         appInstance = wrapper.$refs.app;
