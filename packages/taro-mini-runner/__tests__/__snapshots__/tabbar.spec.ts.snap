@@ -6022,11 +6022,13 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
                 \\"app-parameter\\": \\"\\",
                 \\"show-message-card\\": \\"false\\",
                 bindGetUserInfo: \\"\\",
+                bindGetAuthorize: \\"\\",
                 bindContact: \\"\\",
                 bindGetPhoneNumber: \\"\\",
                 bindError: \\"\\",
                 bindOpenSetting: \\"\\",
                 bindLaunchApp: \\"\\",
+                scope: \\"\\",
                 name: \\"\\"
             };
             if (false) {}
@@ -15601,11 +15603,13 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
                 \\"app-parameter\\": \\"\\",
                 \\"show-message-card\\": \\"false\\",
                 bindGetUserInfo: \\"\\",
+                bindGetAuthorize: \\"\\",
                 bindContact: \\"\\",
                 bindGetPhoneNumber: \\"\\",
                 bindError: \\"\\",
                 bindOpenSetting: \\"\\",
                 bindLaunchApp: \\"\\",
+                scope: \\"\\",
                 name: \\"\\"
             };
             if (false) {}
