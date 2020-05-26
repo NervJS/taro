@@ -7308,7 +7308,6 @@ object-assign
                         }
                         child.parentNode = null;
                         eventSource.delete(child.uid);
-                        child._empty();
                         return child;
                     }
                 }, {
@@ -16794,7 +16793,6 @@ object-assign
                         }
                         child.parentNode = null;
                         eventSource.delete(child.uid);
-                        child._empty();
                         return child;
                     }
                 }, {
@@ -26280,7 +26278,6 @@ object-assign
                         }
                         child.parentNode = null;
                         eventSource.delete(child.uid);
-                        child._empty();
                         return child;
                     }
                 }, {
@@ -35766,7 +35763,6 @@ object-assign
                         }
                         child.parentNode = null;
                         eventSource.delete(child.uid);
-                        child._empty();
                         return child;
                     }
                 }, {
