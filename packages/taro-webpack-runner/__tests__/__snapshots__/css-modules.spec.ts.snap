@@ -721,7 +721,7 @@ exports[`css modules should use css modules with global mode 2`] = `
                 this.selectable = false;
             }
             Text.prototype.render = function() {
-                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(\\"taro-text\\", {
+                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])({
                     \\"taro-text__selectable\\": this.selectable
                 });
                 return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], {
@@ -730,7 +730,7 @@ exports[`css modules should use css modules with global mode 2`] = `
             };
             Object.defineProperty(Text, \\"style\\", {
                 \\"get\\": function() {
-                    return \\".taro-text{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;display:inline}.taro-text__selectable{-moz-user-select:text;-webkit-user-select:text;-ms-user-select:text;user-select:text}\\";
+                    return \\"taro-text-core{display:inline;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;white-space:pre-wrap}.taro-text__selectable{-moz-user-select:text;-webkit-user-select:text;-ms-user-select:text;user-select:text}\\";
                 },
                 \\"enumerable\\": true,
                 \\"configurable\\": true
@@ -18591,24 +18591,6 @@ Element.remove()
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _defineProperty;
-    }));
-    function _defineProperty(obj, key, value) {
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                \\"value\\": value,
-                \\"enumerable\\": true,
-                \\"configurable\\": true,
-                \\"writable\\": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
     var toConsumableArray = __webpack_require__(10);
     var getPrototypeOf = __webpack_require__(7);
     function _superPropBase(object, property) {
@@ -18618,7 +18600,7 @@ Element.remove()
         }
         return object;
     }
-    var defineProperty = __webpack_require__(2);
+    var defineProperty = __webpack_require__(3);
     function set_set(target, property, value, receiver) {
         if (typeof Reflect !== \\"undefined\\" && Reflect.set) {
             set_set = Reflect.set;
@@ -18726,6 +18708,9 @@ Element.remove()
     }));
     __webpack_require__.d(__webpack_exports__, \\"u\\", (function() {
         return useTitleClick;
+    }));
+    __webpack_require__.d(__webpack_exports__, \\"v\\", (function() {
+        return window$1;
     }));
     function isString(o) {
         return typeof o === \\"string\\";
@@ -19082,7 +19067,16 @@ Element.remove()
         \\"scroll-with-animation\\": \\"false\\",
         \\"enable-back-to-top\\": \\"false\\",
         \\"enable-flex\\": \\"false\\",
-        \\"scroll-anchoring\\": \\" false\\",
+        \\"scroll-anchoring\\": \\"false\\",
+        \\"refresher-enabled\\": \\"false\\",
+        \\"refresher-threshold\\": \\"45\\",
+        \\"refresher-default-style\\": singleQuote(\\"black\\"),
+        \\"refresher-background\\": singleQuote(\\"#FFF\\"),
+        \\"refresher-triggered\\": \\"false\\",
+        \\"bindRefresherPulling\\": \\"\\",
+        \\"bindRefresherRefresh\\": \\"\\",
+        \\"bindRefresherRestore\\": \\"\\",
+        \\"bindRefresherAbort\\": \\"\\",
         \\"bindScrolltoUpper\\": \\"\\",
         \\"bindScrolltoLower\\": \\"\\",
         \\"bindScroll\\": \\"\\"
@@ -20189,7 +20183,6 @@ Element.remove()
                 }
                 child.parentNode = null;
                 eventSource.delete(child.uid);
-                child._empty();
                 return child;
             }
         }, {
@@ -21087,6 +21080,12 @@ Element.remove()
     function getOnReadyEventKey(path) {
         return path + \\".\\" + \\"onReady\\";
     }
+    function getOnShowEventKey(path) {
+        return path + \\".\\" + \\"onShow\\";
+    }
+    function getOnHideEventKey(path) {
+        return path + \\".\\" + \\"onHide\\";
+    }
     function createPageConfig(component, pageName, data) {
         var id = pageName !== null && pageName !== void 0 ? pageName : \\"taro_page_\\".concat(pageId());
         var pageElement = null;
@@ -21098,7 +21097,9 @@ Element.remove()
                 Current.router = {
                     \\"params\\": options,
                     \\"path\\": addLeadingSlash(this.route || this.__route__),
-                    \\"onReady\\": getOnReadyEventKey(path)
+                    \\"onReady\\": getOnReadyEventKey(id),
+                    \\"onShow\\": getOnShowEventKey(id),
+                    \\"onHide\\": getOnHideEventKey(id)
                 };
                 Current.app.mount(component, path, (function() {
                     pageElement = document$1.getElementById(path);
@@ -21113,7 +21114,7 @@ Element.remove()
             \\"onReady\\": function onReady() {
                 var path = getPath(id, this.options);
                 raf((function() {
-                    eventCenter.trigger(getOnReadyEventKey(path));
+                    eventCenter.trigger(getOnReadyEventKey(id));
                 }));
                 safeExecute(path, \\"onReady\\");
             },
@@ -21132,14 +21133,22 @@ Element.remove()
                 Current.router = {
                     \\"params\\": this.options,
                     \\"path\\": addLeadingSlash(this.route || this.__route__),
-                    \\"onReady\\": getOnReadyEventKey(path)
+                    \\"onReady\\": getOnReadyEventKey(id),
+                    \\"onShow\\": getOnShowEventKey(id),
+                    \\"onHide\\": getOnHideEventKey(id)
                 };
+                raf((function() {
+                    eventCenter.trigger(getOnShowEventKey(id));
+                }));
                 safeExecute(path, \\"onShow\\");
             },
             \\"onHide\\": function onHide() {
                 Current.page = null;
                 Current.router = null;
                 var path = getPath(id, this.options);
+                raf((function() {
+                    eventCenter.trigger(getOnHideEventKey(id));
+                }));
                 safeExecute(path, \\"onHide\\");
             },
             \\"onPullDownRefresh\\": function onPullDownRefresh() {
@@ -21331,7 +21340,7 @@ Element.remove()
     var runtime_esm_R = EMPTY_OBJ;
     var PageContext = EMPTY_OBJ;
     var ReactDOM;
-    function createReactApp(App, react, reactdom) {
+    function createReactApp(App, react, reactdom, config) {
         runtime_esm_R = react;
         ReactDOM = reactdom;
         ensure(!!ReactDOM, \\"构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 'react'/'nerv' \\");
@@ -21388,6 +21397,7 @@ Element.remove()
         var AppConfig = function() {
             function AppConfig() {
                 Object(classCallCheck[\\"a\\"])(this, AppConfig);
+                this.config = config;
             }
             Object(createClass[\\"a\\"])(AppConfig, [ {
                 \\"key\\": \\"onLaunch\\",
@@ -21472,7 +21482,7 @@ Element.remove()
         };
     }
     var Vue;
-    function createVueApp(App, vue) {
+    function createVueApp(App, vue, config) {
         Vue = vue;
         ensure(!!Vue, \\"构建 Vue 项目请把 process.env.FRAMEWORK 设置为 'vue'\\");
         Vue.config.getTagNamespace = noop;
@@ -21520,6 +21530,7 @@ Element.remove()
         var AppConfig = function() {
             function AppConfig() {
                 Object(classCallCheck[\\"a\\"])(this, AppConfig);
+                this.config = config;
             }
             Object(createClass[\\"a\\"])(AppConfig, [ {
                 \\"key\\": \\"onLaunch\\",
@@ -21638,8 +21649,26 @@ Element.remove()
     };
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _defineProperty;
+    }));
+    function _defineProperty(obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                \\"value\\": value,
+                \\"enumerable\\": true,
+                \\"configurable\\": true,
+                \\"writable\\": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
     (function(global) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         function _typeof(obj) {
             \\"@babel/helpers - typeof\\";
             if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -24178,7 +24207,7 @@ Element.remove()
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var defineProperty = __webpack_require__(2);
+    var defineProperty = __webpack_require__(3);
     function ownKeys(object, enumerableOnly) {
         var keys = Object.keys(object);
         if (Object.getOwnPropertySymbols) {
@@ -24313,7 +24342,7 @@ Element.remove()
         }
         return _typeof(obj);
     }
-    var runtime_esm = __webpack_require__(3);
+    var runtime_esm = __webpack_require__(2);
     function _extends() {
         _extends = Object.assign || function(target) {
             for (var i = 1; i < arguments.length; i++) {
@@ -25346,7 +25375,7 @@ Element.remove()
             });
         }
         var router = new router_esm_UniversalRouter(routes);
-        var app = type === \\"vue\\" ? Object(runtime_esm[\\"e\\"])(App, framework) : Object(runtime_esm[\\"d\\"])(App, framework, reactdom);
+        var app = type === \\"vue\\" ? Object(runtime_esm[\\"e\\"])(App, framework, config) : Object(runtime_esm[\\"d\\"])(App, framework, reactdom, config);
         app.onLaunch();
         var render = function() {
             var _ref2 = _asyncToGenerator(regenerator_default.a.mark((function _callee(location, action) {
@@ -42122,6 +42151,7 @@ Element.remove()
         return App;
     }(react[\\"Component\\"]);
     var src_app = app_App;
+    var runtime_esm = __webpack_require__(2);
     function applyPolyfills() {
         if (typeof window !== \\"undefined\\") {
             var win = window;
@@ -42396,7 +42426,7 @@ Element.remove()
     var react_dom_default = __webpack_require__.n(react_dom);
     var taro_components = __webpack_require__(37);
     applyPolyfills().then(() => {
-        defineCustomElements(window);
+        defineCustomElements(runtime_esm[\\"v\\"]);
     });
     const config = {
         \\"pages\\": [ \\"pages/index/index\\" ],
@@ -42407,6 +42437,7 @@ Element.remove()
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    runtime_esm[\\"v\\"].__taroAppConfig = config;
     if (config.tabBar) {
         const tabbarList = config.tabBar.list;
         for (let i = 0; i < tabbarList.length; i++) {
@@ -42425,7 +42456,7 @@ Element.remove()
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5[\\"default\\"].createRouter(src_app, config, \\"react\\", react, react_dom_default.a);
+    h5[\\"default\\"].createRouter(src_app, config, \\"react\\", react, react_dom_default.a, config);
 } ]);
 
 /** filePath: dist/js/app.js.LICENSE.txt **/
@@ -43188,7 +43219,7 @@ exports[`css modules should use css modules with module mode 2`] = `
                 this.selectable = false;
             }
             Text.prototype.render = function() {
-                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(\\"taro-text\\", {
+                var cls = Object(_index_be61bb74_js__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])({
                     \\"taro-text__selectable\\": this.selectable
                 });
                 return Object(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"f\\"])(_core_42efd82a_js__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], {
@@ -43197,7 +43228,7 @@ exports[`css modules should use css modules with module mode 2`] = `
             };
             Object.defineProperty(Text, \\"style\\", {
                 \\"get\\": function() {
-                    return \\".taro-text{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;display:inline}.taro-text__selectable{-moz-user-select:text;-webkit-user-select:text;-ms-user-select:text;user-select:text}\\";
+                    return \\"taro-text-core{display:inline;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;white-space:pre-wrap}.taro-text__selectable{-moz-user-select:text;-webkit-user-select:text;-ms-user-select:text;user-select:text}\\";
                 },
                 \\"enumerable\\": true,
                 \\"configurable\\": true
@@ -61058,24 +61089,6 @@ Element.remove()
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _defineProperty;
-    }));
-    function _defineProperty(obj, key, value) {
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                \\"value\\": value,
-                \\"enumerable\\": true,
-                \\"configurable\\": true,
-                \\"writable\\": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
     var toConsumableArray = __webpack_require__(10);
     var getPrototypeOf = __webpack_require__(7);
     function _superPropBase(object, property) {
@@ -61085,7 +61098,7 @@ Element.remove()
         }
         return object;
     }
-    var defineProperty = __webpack_require__(2);
+    var defineProperty = __webpack_require__(3);
     function set_set(target, property, value, receiver) {
         if (typeof Reflect !== \\"undefined\\" && Reflect.set) {
             set_set = Reflect.set;
@@ -61193,6 +61206,9 @@ Element.remove()
     }));
     __webpack_require__.d(__webpack_exports__, \\"u\\", (function() {
         return useTitleClick;
+    }));
+    __webpack_require__.d(__webpack_exports__, \\"v\\", (function() {
+        return window$1;
     }));
     function isString(o) {
         return typeof o === \\"string\\";
@@ -61549,7 +61565,16 @@ Element.remove()
         \\"scroll-with-animation\\": \\"false\\",
         \\"enable-back-to-top\\": \\"false\\",
         \\"enable-flex\\": \\"false\\",
-        \\"scroll-anchoring\\": \\" false\\",
+        \\"scroll-anchoring\\": \\"false\\",
+        \\"refresher-enabled\\": \\"false\\",
+        \\"refresher-threshold\\": \\"45\\",
+        \\"refresher-default-style\\": singleQuote(\\"black\\"),
+        \\"refresher-background\\": singleQuote(\\"#FFF\\"),
+        \\"refresher-triggered\\": \\"false\\",
+        \\"bindRefresherPulling\\": \\"\\",
+        \\"bindRefresherRefresh\\": \\"\\",
+        \\"bindRefresherRestore\\": \\"\\",
+        \\"bindRefresherAbort\\": \\"\\",
         \\"bindScrolltoUpper\\": \\"\\",
         \\"bindScrolltoLower\\": \\"\\",
         \\"bindScroll\\": \\"\\"
@@ -62656,7 +62681,6 @@ Element.remove()
                 }
                 child.parentNode = null;
                 eventSource.delete(child.uid);
-                child._empty();
                 return child;
             }
         }, {
@@ -63554,6 +63578,12 @@ Element.remove()
     function getOnReadyEventKey(path) {
         return path + \\".\\" + \\"onReady\\";
     }
+    function getOnShowEventKey(path) {
+        return path + \\".\\" + \\"onShow\\";
+    }
+    function getOnHideEventKey(path) {
+        return path + \\".\\" + \\"onHide\\";
+    }
     function createPageConfig(component, pageName, data) {
         var id = pageName !== null && pageName !== void 0 ? pageName : \\"taro_page_\\".concat(pageId());
         var pageElement = null;
@@ -63565,7 +63595,9 @@ Element.remove()
                 Current.router = {
                     \\"params\\": options,
                     \\"path\\": addLeadingSlash(this.route || this.__route__),
-                    \\"onReady\\": getOnReadyEventKey(path)
+                    \\"onReady\\": getOnReadyEventKey(id),
+                    \\"onShow\\": getOnShowEventKey(id),
+                    \\"onHide\\": getOnHideEventKey(id)
                 };
                 Current.app.mount(component, path, (function() {
                     pageElement = document$1.getElementById(path);
@@ -63580,7 +63612,7 @@ Element.remove()
             \\"onReady\\": function onReady() {
                 var path = getPath(id, this.options);
                 raf((function() {
-                    eventCenter.trigger(getOnReadyEventKey(path));
+                    eventCenter.trigger(getOnReadyEventKey(id));
                 }));
                 safeExecute(path, \\"onReady\\");
             },
@@ -63599,14 +63631,22 @@ Element.remove()
                 Current.router = {
                     \\"params\\": this.options,
                     \\"path\\": addLeadingSlash(this.route || this.__route__),
-                    \\"onReady\\": getOnReadyEventKey(path)
+                    \\"onReady\\": getOnReadyEventKey(id),
+                    \\"onShow\\": getOnShowEventKey(id),
+                    \\"onHide\\": getOnHideEventKey(id)
                 };
+                raf((function() {
+                    eventCenter.trigger(getOnShowEventKey(id));
+                }));
                 safeExecute(path, \\"onShow\\");
             },
             \\"onHide\\": function onHide() {
                 Current.page = null;
                 Current.router = null;
                 var path = getPath(id, this.options);
+                raf((function() {
+                    eventCenter.trigger(getOnHideEventKey(id));
+                }));
                 safeExecute(path, \\"onHide\\");
             },
             \\"onPullDownRefresh\\": function onPullDownRefresh() {
@@ -63798,7 +63838,7 @@ Element.remove()
     var runtime_esm_R = EMPTY_OBJ;
     var PageContext = EMPTY_OBJ;
     var ReactDOM;
-    function createReactApp(App, react, reactdom) {
+    function createReactApp(App, react, reactdom, config) {
         runtime_esm_R = react;
         ReactDOM = reactdom;
         ensure(!!ReactDOM, \\"构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 'react'/'nerv' \\");
@@ -63855,6 +63895,7 @@ Element.remove()
         var AppConfig = function() {
             function AppConfig() {
                 Object(classCallCheck[\\"a\\"])(this, AppConfig);
+                this.config = config;
             }
             Object(createClass[\\"a\\"])(AppConfig, [ {
                 \\"key\\": \\"onLaunch\\",
@@ -63939,7 +63980,7 @@ Element.remove()
         };
     }
     var Vue;
-    function createVueApp(App, vue) {
+    function createVueApp(App, vue, config) {
         Vue = vue;
         ensure(!!Vue, \\"构建 Vue 项目请把 process.env.FRAMEWORK 设置为 'vue'\\");
         Vue.config.getTagNamespace = noop;
@@ -63987,6 +64028,7 @@ Element.remove()
         var AppConfig = function() {
             function AppConfig() {
                 Object(classCallCheck[\\"a\\"])(this, AppConfig);
+                this.config = config;
             }
             Object(createClass[\\"a\\"])(AppConfig, [ {
                 \\"key\\": \\"onLaunch\\",
@@ -64105,8 +64147,26 @@ Element.remove()
     };
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _defineProperty;
+    }));
+    function _defineProperty(obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                \\"value\\": value,
+                \\"enumerable\\": true,
+                \\"configurable\\": true,
+                \\"writable\\": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
     (function(global) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         function _typeof(obj) {
             \\"@babel/helpers - typeof\\";
             if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -66645,7 +66705,7 @@ Element.remove()
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var defineProperty = __webpack_require__(2);
+    var defineProperty = __webpack_require__(3);
     function ownKeys(object, enumerableOnly) {
         var keys = Object.keys(object);
         if (Object.getOwnPropertySymbols) {
@@ -66780,7 +66840,7 @@ Element.remove()
         }
         return _typeof(obj);
     }
-    var runtime_esm = __webpack_require__(3);
+    var runtime_esm = __webpack_require__(2);
     function _extends() {
         _extends = Object.assign || function(target) {
             for (var i = 1; i < arguments.length; i++) {
@@ -67813,7 +67873,7 @@ Element.remove()
             });
         }
         var router = new router_esm_UniversalRouter(routes);
-        var app = type === \\"vue\\" ? Object(runtime_esm[\\"e\\"])(App, framework) : Object(runtime_esm[\\"d\\"])(App, framework, reactdom);
+        var app = type === \\"vue\\" ? Object(runtime_esm[\\"e\\"])(App, framework, config) : Object(runtime_esm[\\"d\\"])(App, framework, reactdom, config);
         app.onLaunch();
         var render = function() {
             var _ref2 = _asyncToGenerator(regenerator_default.a.mark((function _callee(location, action) {
@@ -84381,6 +84441,7 @@ Element.remove()
         return App;
     }(react[\\"Component\\"]);
     var src_app = app_App;
+    var runtime_esm = __webpack_require__(2);
     function applyPolyfills() {
         if (typeof window !== \\"undefined\\") {
             var win = window;
@@ -84655,7 +84716,7 @@ Element.remove()
     var react_dom_default = __webpack_require__.n(react_dom);
     var taro_components = __webpack_require__(37);
     applyPolyfills().then(() => {
-        defineCustomElements(window);
+        defineCustomElements(runtime_esm[\\"v\\"]);
     });
     const config = {
         \\"pages\\": [ \\"pages/index/index\\" ],
@@ -84666,6 +84727,7 @@ Element.remove()
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    runtime_esm[\\"v\\"].__taroAppConfig = config;
     if (config.tabBar) {
         const tabbarList = config.tabBar.list;
         for (let i = 0; i < tabbarList.length; i++) {
@@ -84684,7 +84746,7 @@ Element.remove()
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5[\\"default\\"].createRouter(src_app, config, \\"react\\", react, react_dom_default.a);
+    h5[\\"default\\"].createRouter(src_app, config, \\"react\\", react, react_dom_default.a, config);
 } ]);
 
 /** filePath: dist/js/app.js.LICENSE.txt **/

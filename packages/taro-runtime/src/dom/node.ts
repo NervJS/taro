@@ -129,7 +129,8 @@ export class TaroNode extends TaroEventTarget {
     }
     child.parentNode = null
     eventSource.delete(child.uid)
-    child._empty()
+    // @TODO: eventSource memory overflow
+    // child._empty()
     return child
   }
 

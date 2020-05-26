@@ -10,7 +10,6 @@ import config from './commands/config'
 import info from './commands/info'
 import doctor from './commands/doctor'
 import convert from './commands/convert'
-import update from './commands/update'
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
@@ -47,6 +46,7 @@ export default class CLI {
             platform: args.type,
             isWatch: !!args.watch,
             port: args.port,
+            env: args.env,
             release: args.release,
             ui: args.ui,
             uiIndex: args.uiIndex,
@@ -119,17 +119,6 @@ export default class CLI {
           })
           break
         }
-        case 'update': {
-          const updateType = _[1]
-          const version = _[2]
-          update(kernel, {
-            appPath: this.appPath,
-            updateType,
-            version,
-            isHelp: args.h
-          })
-          break
-        }
         default:
           customCommand(command, kernel, args)
           break
@@ -150,6 +139,7 @@ export default class CLI {
         console.log('  update              Update packages of taro')
         console.log('  info                Diagnostics Taro env info')
         console.log('  doctor              Diagnose taro project')
+        console.log('  inspect             Inspect the webpack config')
         console.log('  help [cmd]          display help for [cmd]')
       } else if (args.v) {
         console.log(getPkgVersion())
