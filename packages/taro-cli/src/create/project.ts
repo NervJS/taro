@@ -68,23 +68,13 @@ export default class Project extends Creator {
   create () {
     this.fetchTemplates()
       .then((templateChoices: string[]) => {
-        const choices: string[] = []
-        const framework = this.conf.framework
-        for (const choice of templateChoices) {
-          if (framework === 'vue' && (choice === 'mobx' || choice === 'redux')) {
-            continue
-          }
-          if ((framework === 'react' || framework === 'nerv') && choice === 'vuex') {
-            continue
-          }
-          choices.push(choice)
-        }
-        return this.ask(choices)
+        return this.ask(templateChoices)
       })
       .then(answers => {
         const date = new Date()
         this.conf = Object.assign(this.conf, answers)
         this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+				return
         this.write()
       })
       .catch(err => console.log(chalk.red('创建项目失败: ', err)))
@@ -124,6 +114,7 @@ export default class Project extends Creator {
 
   ask (templateChoices: string[]) {
     const prompts: object[] = []
+    const templateChoicesPrompts: object[] = []
     const conf = this.conf
 
     this.askProjectName(conf, prompts)
@@ -131,9 +122,16 @@ export default class Project extends Creator {
     this.askFramework(conf, prompts)
     this.askTypescript(conf, prompts)
     this.askCSS(conf, prompts)
-    this.askTemplate(conf, prompts, templateChoices)
 
-    return inquirer.prompt(prompts)
+    return inquirer.prompt(prompts).then(answers => {
+    	const newTemplateChoices: string[] = templateChoices.filter(templateChoice => {
+    		if (answers.framework === 'react') return templateChoice !== 'vuex'
+    		if (answers.framework === 'vue') return !['redux', 'mobx'].includes(templateChoice)
+				return true
+			})
+			this.askTemplate(conf, templateChoicesPrompts, newTemplateChoices)
+			return inquirer.prompt(templateChoicesPrompts)
+		})
   }
 
   askProjectName: AskMethods = function (conf, prompts) {
