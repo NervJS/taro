@@ -107,12 +107,12 @@ function createListComponent ({
       },
 
       _callOnItemsRendered: memoizeOne(
-        (
+        function (
           overscanStartIndex,
           overscanStopIndex,
           visibleStartIndex,
           visibleStopIndex
-        ) => {
+        ) {
           return this.$props.onItemsRendered({
             overscanStartIndex,
             overscanStopIndex,
@@ -123,16 +123,17 @@ function createListComponent ({
       ),
 
       _callOnScroll: memoizeOne(
-        (
+        function (
           scrollDirection,
           scrollOffset,
           scrollUpdateWasRequested
-        ) =>
+        ) {
           this.$emit('scroll', {
             scrollDirection,
             scrollOffset,
             scrollUpdateWasRequested
           })
+        }
       ),
 
       _callPropsCallbacks () {
