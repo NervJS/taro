@@ -5,6 +5,7 @@ export default function build (kernel: Kernel, {
   isWatch,
   release,
   port,
+  env,
   ui,
   uiIndex,
   page,
@@ -17,6 +18,7 @@ export default function build (kernel: Kernel, {
   isWatch: boolean,
   release?: boolean
   port?: number
+  env?: string
   ui?: boolean
   uiIndex?: string
   page?: string
@@ -37,7 +39,7 @@ export default function build (kernel: Kernel, {
   if (ui) {
     platform = 'ui'
   }
-  let nodeEnv = process.env.NODE_ENV
+  let nodeEnv = process.env.NODE_ENV || env
   if (!nodeEnv) {
     if (isWatch) {
       nodeEnv = 'development'

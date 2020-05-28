@@ -1,4 +1,6 @@
 import type * as React from 'react'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { AppConfig } from '@tarojs/taro'
 import { isFunction, ensure, EMPTY_OBJ } from '@tarojs/shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance } from './instance'
@@ -75,7 +77,7 @@ let ReactDOM
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
-export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom) {
+export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfig) {
   R = react
   ReactDOM = reactdom
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
@@ -122,6 +124,8 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
   }
 
   class AppConfig implements AppInstance {
+    config = config
+
     onLaunch (options) {
       // eslint-disable-next-line react/no-render-return-value
       wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))

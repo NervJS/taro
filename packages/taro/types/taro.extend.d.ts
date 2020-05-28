@@ -110,6 +110,8 @@ declare namespace Taro {
     app: AppInstance | null,
     router: RouterInfo | null,
     page: PageInstance | null,
-    onReady: string
+    onReady: string,
+    onHide: string,
+    onShow: string
   }
 }
