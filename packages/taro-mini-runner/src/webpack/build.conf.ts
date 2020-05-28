@@ -44,8 +44,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>, chain: any
     defineConstants = emptyObj,
     env = emptyObj,
     cssLoaderOption = emptyObj,
-    lessLoaderOption = emptyObj,
-    stylusLoaderOption = emptyObj,
     mediaUrlLoaderOption = emptyObj,
     fontUrlLoaderOption = emptyObj,
     imageUrlLoaderOption = emptyObj,
@@ -176,8 +174,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>, chain: any
       enableSourceMap,
 
       cssLoaderOption,
-      lessLoaderOption,
-      stylusLoaderOption,
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
