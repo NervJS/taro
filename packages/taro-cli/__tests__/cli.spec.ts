@@ -185,21 +185,6 @@ describe('inspect', () => {
     })
   })
 
-  describe('doctor', () => {
-    it('should make configs', () => {
-      setProcessArgv('taro doctor')
-      cli.run()
-      const ins = MockedKernel.mock.instances[0]
-      expect(ins.run).toHaveBeenCalledWith({
-        name: 'doctor',
-        opts: {
-          appPath: APP_PATH,
-          isHelp: false
-        }
-      })
-    })
-  })
-
   describe('convert', () => {
     it('should make configs', () => {
       setProcessArgv('taro convert')

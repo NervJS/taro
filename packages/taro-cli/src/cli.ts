@@ -6,7 +6,6 @@ import { Kernel } from '@tarojs/service'
 import build from './commands/build'
 import init from './commands/init'
 import create from './commands/create'
-import doctor from './commands/doctor'
 import convert from './commands/convert'
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
@@ -76,13 +75,6 @@ export default class CLI {
             type,
             name,
             description: args.description,
-            isHelp: args.h
-          })
-          break
-        }
-        case 'doctor': {
-          doctor(kernel, {
-            appPath: this.appPath,
             isHelp: args.h
           })
           break
