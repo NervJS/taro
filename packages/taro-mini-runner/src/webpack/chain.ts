@@ -10,8 +10,6 @@ import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
-  REG_LESS,
-  REG_STYLUS,
   REG_STYLE,
   REG_MEDIA,
   REG_FONT,
@@ -89,15 +87,10 @@ export const mergeOption = ([...options]: IOption[]): IOption => {
   return recursiveMerge({}, ...options)
 }
 
-const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
-const styleGlobalReg = /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/
-
 export const processEnvOption = partial(mapKeys as any, (key: string) => `process.env.${key}`) as any
 
 export const getCssLoader = pipe(mergeOption, partial(getLoader, 'css-loader'))
 export const getPostcssLoader = pipe(mergeOption, partial(getLoader, 'postcss-loader'))
-export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader'))
-export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/wxTransformerLoader')))
@@ -161,8 +154,6 @@ export const getModule = (appPath: string, {
   enableSourceMap,
 
   cssLoaderOption,
-  lessLoaderOption,
-  stylusLoaderOption,
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
@@ -219,6 +210,18 @@ export const getModule = (appPath: string, {
   const compileExclude = compile.exclude || []
   const compileInclude = compile.include || []
 
+  const styleExtRegs = [/\.css$/]
+  const rules = chain.module.rules.entries()
+  Object.keys(rules).forEach(item => {
+    if (/^addChainStyle/.test(item) && rules[item].get('test')) {
+      styleExtRegs.push(rules[item].get('test'))
+    }
+  })
+  const styleReg = new RegExp(styleExtRegs.map(reg => new RegExp(reg).source).join('|'))
+
+  const styleModuleReg = new RegExp(`(.*\.module).*${styleReg.source}`)
+  const styleGlobalReg = new RegExp(`(.*\.global).*${styleReg.source}`)
+
   if (cssModuleOptions.enable) {
     const cssLoaderWithModule = getCssLoader(cssOptionsWithModule)
     let cssModuleCondition
@@ -252,9 +255,6 @@ export const getModule = (appPath: string, {
       })
     }
   ])
-  const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
-
-  const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
   const parsedConstantsReplaceList = {}
   Object.keys(constantsReplaceList).forEach(key => {
@@ -300,15 +300,6 @@ export const getModule = (appPath: string, {
       ]
     })
   }
-
-  const styleExtRegs = [/\.css$/]
-  const rules = chain.module.rules.entries()
-  Object.keys(rules).forEach(item => {
-    if (/^addChainStyle/.test(item) && rules[item].get('test')) {
-      styleExtRegs.push(rules[item].get('test'))
-    }
-  })
-  const styleReg = new RegExp(styleExtRegs.map(reg => new RegExp(reg).source).join('|'))
 
   const rule: any = {
     css: {
