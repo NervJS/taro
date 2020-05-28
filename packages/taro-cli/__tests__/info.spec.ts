@@ -49,10 +49,11 @@ describe('info', () => {
     const title = `Taro CLI ${getPkgVersion()} environment info`
     expect(res.hasOwnProperty(title)).toBeTruthy()
     const info = res[title]
-    expect(Object.keys(info)).toEqual(['System', 'Binaries', 'npmPackages', 'npmGlobalPackages'])
+    expect('System' in info).toBeTruthy()
+    expect('Binaries' in info).toBeTruthy()
+    expect('npmPackages' in info).toBeTruthy()
     expect(Object.keys(info.System)).toEqual(['OS', 'Shell'])
     expect(Object.keys(info.Binaries)).toEqual(['Node', 'Yarn', 'npm'])
-    expect(Object.keys(info.npmGlobalPackages)).toEqual(['typescript'])
     expect(info.npmPackages.hasOwnProperty('@tarojs/helper')).toBeTruthy()
     expect(info.npmPackages.hasOwnProperty('@tarojs/mini-runner')).toBeTruthy()
     expect(info.npmPackages.hasOwnProperty('@tarojs/service')).toBeTruthy()
