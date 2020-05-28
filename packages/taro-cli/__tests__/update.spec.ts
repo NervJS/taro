@@ -56,6 +56,8 @@ jest.mock('@tarojs/helper', () => {
   }
 })
 
+jest.mock('latest-version', () => () => lastestVersion)
+
 function updatePkg (pkgPath: string, version: string) {
   let packageMap = require(pkgPath)
   packageMap = {
@@ -93,7 +95,7 @@ function updatePkg (pkgPath: string, version: string) {
   return packageMap
 }
 
-describe.skip('update', () => {
+describe('update', () => {
   const execMocked = (exec as unknown) as jest.Mock<any>
   const shouldUseCnpmMocked = shouldUseCnpm as jest.Mock<any>
   const shouldUseYarnMocked = shouldUseYarn as jest.Mock<any>
