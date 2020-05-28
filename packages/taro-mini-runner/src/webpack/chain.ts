@@ -171,7 +171,8 @@ export const getModule = (appPath: string, {
   babel,
   alias,
   nodeModulesPath
-}) => {
+}, chain) => {
+
   const postcssOption: IPostcssOption = postcss || {}
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
@@ -300,27 +301,26 @@ export const getModule = (appPath: string, {
     })
   }
 
+  const styleExtRegs = [/\.css$/]
+  const rules = chain.module.rules.entries()
+  Object.keys(rules).forEach(item => {
+    if (/^addChainStyle/.test(item) && rules[item].get('test')) {
+      styleExtRegs.push(rules[item].get('test'))
+    }
+  })
+  const styleReg = new RegExp(styleExtRegs.map(reg => new RegExp(reg).source).join('|'))
+
   const rule: any = {
-    less: {
-      test: REG_LESS,
-      enforce: 'pre',
-      use: [lessLoader]
-    },
-    stylus: {
-      test: REG_STYLUS,
-      enforce: 'pre',
-      use: [stylusLoader]
-    },
     css: {
-      test: REG_STYLE,
+      test: styleReg,
       oneOf: cssLoaders
     },
     postcss: {
-      test: REG_STYLE,
+      test: styleReg,
       use: [postcssLoader]
     },
     customStyle: {
-      test: REG_STYLE,
+      test: styleReg,
       enforce: 'post',
       use: [extractCssLoader]
     },

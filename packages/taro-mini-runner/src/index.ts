@@ -3,6 +3,7 @@ import { PARSE_AST_TYPE } from '@tarojs/helper'
 
 import { IBuildConfig } from './utils/types'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
+import baseConf from './webpack/base.conf'
 import buildConf from './webpack/build.conf'
 
 const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
@@ -16,8 +17,10 @@ const customizeChain = async (chain, modifyWebpackChainFunc: Function, customize
 
 export default async function build (appPath: string, config: IBuildConfig) {
   const mode = config.mode
-  const webpackChain = buildConf(appPath, mode, config)
-  await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+  const baseWebpackChain = baseConf(appPath)
+  await customizeChain(baseWebpackChain, config.modifyWebpackChain, config.webpackChain)
+  const buildWebpackConf = buildConf(appPath, mode, config, baseWebpackChain)
+  const webpackChain = baseWebpackChain.merge(buildWebpackConf)
   const webpackConfig = webpackChain.toConfig()
   const onBuildFinish = config.onBuildFinish
   const compiler = webpack(webpackConfig)
