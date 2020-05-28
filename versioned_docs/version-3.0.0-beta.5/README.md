@@ -84,6 +84,6 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 掘金小册：[Taro 多端开发实现原理与实战](https://juejin.im/book/5b73a131f265da28065fb1cd?referrer=5ba228f16fb9a05d3251492d)
 
 ## 开发交流
-扫码添加 `凹凸实验室-小助手` ，回复 `Taro` 即可进群。（Taro 开发交流13群 已满）
+扫码添加 `凹凸实验室-小助手` ，回复 `Taro` 即可进群。（Taro 开发交流21群 已满）
 
 ![image](https://user-images.githubusercontent.com/9441951/63744620-7994e800-c8d2-11e9-9e66-ab43d1d75fe8.png)
