@@ -27,7 +27,9 @@ import {
   processTypeEnum,
   PROJECT_CONFIG,
   REG_SCRIPTS,
-  REG_TYPESCRIPT
+  REG_TYPESCRIPT,
+  createBabelRegister,
+  getModuleDefaultExport
 } from '@tarojs/helper'
 import {
   convertAstExpressionToVariable as toVar,
@@ -93,9 +95,14 @@ class Compiler {
   isUi: boolean
 
   constructor (public appPath: string, entryFile?: string, isUi?: boolean) {
+    createBabelRegister({
+      only: [
+        filePath => filePath.indexOf(path.dirname(path.join(appPath, PROJECT_CONFIG))) >= 0
+      ]
+    })
     const projectConfig = recursiveMerge({
       h5: defaultH5Config
-    }, require(resolveScriptPath(path.join(appPath, PROJECT_CONFIG)))(merge))
+    }, getModuleDefaultExport(require(resolveScriptPath(path.join(appPath, PROJECT_CONFIG))))(merge))
     this.projectConfig = projectConfig
     const sourceDir = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
     this.sourceRoot = sourceDir

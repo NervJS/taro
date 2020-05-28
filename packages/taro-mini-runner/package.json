@@ -33,7 +33,6 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@tarojs/helper": "^2.2.7",
-    "@tarojs/runner-utils": "^2.2.7",
     "@tarojs/taro": "^2.2.7",
     "@tarojs/transformer-wx": "^2.2.7",
     "babel-core": "^6.26.3",
