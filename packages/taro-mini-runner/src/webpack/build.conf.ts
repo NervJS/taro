@@ -17,13 +17,11 @@ import {
   getMiniCssExtractPlugin,
   getEntry,
 } from './chain'
-import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
 
 const emptyObj = {}
 
-export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
-  const chain = getBaseConf(appPath)
+export default (appPath: string, mode, config: Partial<IBuildConfig>, chain: any): any => {
   const {
     buildAdapter,
     fileType = {
@@ -153,7 +151,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     }
   }
   const taroBaseReg = new RegExp(`@tarojs[\\/]taro|@tarojs[\\/]${buildAdapter}`)
-  chain.merge({
+  return {
     mode,
     devtool: getDevtool(enableSourceMap),
     watch: mode === 'development',
@@ -189,7 +187,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       babel,
       alias,
       nodeModulesPath
-    }),
+    }, chain),
     plugin,
     optimization: {
       minimizer,
@@ -224,6 +222,5 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         }
       }
     }
-  })
-  return chain
+  }
 }
