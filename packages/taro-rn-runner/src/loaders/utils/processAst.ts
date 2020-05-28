@@ -304,19 +304,20 @@ export function processAst ({
   traverse(ast, {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
-    ExpressionStatement (astPath) {
-      const node = astPath.node as t.ExpressionStatement
-      const expression = node.expression as t.CallExpression
-      const callee = expression.callee as t.Identifier
-      if (callee && callee.name === 'require') {
-        const argument = expression.arguments[0] as t.StringLiteral
-        const value = argument.value
-        const valueExtname = path.extname(value)
-        if (REG_STYLE.test(valueExtname)) {
-          astPath.replaceWith(t.importDeclaration([], t.stringLiteral(value)))
-        }
-      }
-    },
+    // replace  require('styles') to import
+    // ExpressionStatement (astPath) {
+    //   const node = astPath.node as t.ExpressionStatement
+    //   const expression = node.expression as t.CallExpression
+    //   const callee = expression.callee as t.Identifier
+    //   if (callee && callee.name === 'require') {
+    //     const argument = expression.arguments[0] as t.StringLiteral
+    //     const value = argument.value
+    //     const valueExtname = path.extname(value)
+    //     if (REG_STYLE.test(valueExtname)) {
+    //       astPath.replaceWith(t.importDeclaration([], t.stringLiteral(value)))
+    //     }
+    //   }
+    // },
     ImportDeclaration (astPath) {
       const node = astPath.node as t.ImportDeclaration
       const source = node.source
