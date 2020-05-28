@@ -1,4 +1,5 @@
 import type { TaroElement } from './element'
+import { NodeType } from './node_types'
 
 function returnTrue () {
   return true
@@ -13,7 +14,7 @@ export function treeToArray (root: TaroElement, predict?: Filter) {
   let object: TaroElement | null = root
 
   while (object) {
-    if (filter(object)) {
+    if (object.nodeType === NodeType.ELEMENT_NODE && filter(object)) {
       array.push(object)
     }
 

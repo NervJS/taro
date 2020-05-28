@@ -142,16 +142,17 @@ export class TaroElement extends TaroNode {
     return attrs.concat(style ? { name: 'style', value: style } : [])
   }
 
-  public get parentElement () {
-    if (this.parentNode instanceof TaroElement) {
-      return this.parentNode
-    }
-    return null
-  }
-
   public getElementsByTagName (tagName: string): TaroElement[] {
     return treeToArray(this, (el) => {
       return el.nodeName === tagName || (tagName === '*' && this !== el)
+    })
+  }
+
+  public getElementsByClassName (className: string): TaroElement[] {
+    return treeToArray(this, (el) => {
+      const classList = el.classList
+      const classNames = className.trim().split(/\s+/)
+      return classNames.every(c => classList.has(c))
     })
   }
 
