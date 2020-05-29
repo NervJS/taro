@@ -20225,7 +20225,7 @@ Element.remove()
                 var attr = child.attributes[i];
                 var _splitEqual = splitEqual(attr), _splitEqual2 = Object(slicedToArray[\\"a\\"])(_splitEqual, 2), key = _splitEqual2[0], value = _splitEqual2[1];
                 if (key === \\"class\\") {
-                    el.className += el.className;
+                    el.className += \\" \\" + unquote(value);
                 } else if (key[0] === \\"o\\" && key[1] === \\"n\\") {
                     continue;
                 } else {
