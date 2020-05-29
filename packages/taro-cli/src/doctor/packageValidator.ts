@@ -1,29 +1,37 @@
 import * as _ from 'lodash/fp'
 import * as npmCheck from 'npm-check'
-
+import { UPDATE_PACKAGE_LIST } from '@tarojs/helper'
 import { getPkgVersion } from '../util'
 
-const pkgVersion = getPkgVersion()
-const isTaroPkg = pkg => /^@tarojs\//.test(pkg.moduleName)
-const isCliVersionNotMatch = _.compose(
-  _.negate(_.equals(pkgVersion)),
-  _.get('installed')
-)
+interface ErrorLine {
+  desc: string
+  valid: boolean
+}
+
+const mustInstalledTaroPkg = [
+  '@tarojs/components',
+  '@tarojs/runtime',
+  '@tarojs/taro',
+  '@tarojs/mini-runner',
+  '@tarojs/webpack-runner',
+  'babel-preset-taro',
+  'eslint-config-taro'
+]
+
+const cliVersion = getPkgVersion()
 const isPkgInstalled = _.get('isInstalled')
 const isPkgNotInstalled = _.negate(isPkgInstalled)
 
 async function checkPkgs ({ appPath }) {
-  let errorLines: any[] = []
+  let errorLines: ErrorLine[] = []
   const pkgs = await npmCheck({
     cwd: appPath
   })
-    .then(_.invoke('all'))
-    .then(_.get('packages'))
-  const taroPkgs = _.filter(isTaroPkg, pkgs)
+    .then(currentState => currentState.get('packages'))
 
   errorLines = _.concat(errorLines, pkgsNotInstalled(pkgs))
-  errorLines = _.concat(errorLines, taroShouldUpdate(taroPkgs))
-  errorLines = _.concat(errorLines, taroCliVersionNotMatch(taroPkgs))
+  errorLines = _.concat(errorLines, taroShouldUpdate(pkgs))
+  errorLines = _.concat(errorLines, taroOutdate(pkgs))
   errorLines = _.compact(errorLines)
 
   return {
@@ -32,35 +40,7 @@ async function checkPkgs ({ appPath }) {
   }
 }
 
-function taroCliVersionNotMatch (pkgs) {
-  const pkgsNotMatch = _.filter(pkg => isPkgInstalled(pkg) && isCliVersionNotMatch(pkg), pkgs)
-  const lines = _.map(
-    pkg =>
-      Object({
-        desc: `${pkg.moduleName} (${pkg.installed}) 与当前使用的 @tarojs/cli (${pkgVersion}) 版本不一致, 请更新为统一的版本`,
-        valid: false
-      }),
-    pkgsNotMatch
-  )
-  return lines
-}
-
-function taroShouldUpdate (pkgs) {
-  // 未安装的依赖的情况下查找更新没有意义
-  const taroPkg = _.find(isPkgInstalled, pkgs)
-  if (!taroPkg || taroPkg.latest === taroPkg.installed) return []
-
-  return [
-    {
-      // 需要正确设置 next 版本以使 npm-check 在判定最新版本时将 rc 版本也算在内
-      desc: `检测到最新稳定版本 Taro ${taroPkg.latest} , 当前 cli 版本 ${pkgVersion}`,
-      valid: true, // 并非错误,仅提示即可
-      solution: '前往 https://github.com/NervJS/taro/releases 了解详情'
-    }
-  ]
-}
-
-function pkgsNotInstalled (pkgs) {
+function pkgsNotInstalled (pkgs): ErrorLine[] {
   const uninstalledPkgs = _.filter(isPkgNotInstalled, pkgs)
   const lines = _.map(
     pkg =>
@@ -71,6 +51,56 @@ function pkgsNotInstalled (pkgs) {
     uninstalledPkgs
   )
   return lines
+}
+
+function taroShouldUpdate (pkgs): ErrorLine[] {
+  // sort 是为了 UPDATE_PACKAGE_LIST 顺序改变也不影响单测结果
+  const list = UPDATE_PACKAGE_LIST
+    .filter(item => !(/nerv/.test(item)))
+    .sort()
+    .map(item => {
+      const taroPkg = pkgs.find(pkg => pkg.moduleName === item)
+
+      if (!taroPkg) {
+        if (!mustInstalledTaroPkg.includes(item)) return null
+
+        return {
+          desc: `请安装 Taro 依赖: ${item}`,
+          valid: true
+        }
+      }
+
+      const { moduleName, installed, latest } = taroPkg
+
+      if (installed === cliVersion) {
+        if (installed === latest) return null
+
+        return {
+          desc: `依赖 ${moduleName} 可更新到最新版本 ${latest}，当前安装版本为 ${installed}`,
+          valid: true
+        }
+      }
+
+      return {
+        desc: `依赖 ${moduleName} (${installed}) 与当前使用的 Taro CLI (${cliVersion}) 版本不一致, 请更新为统一的版本`,
+        valid: false
+      }
+    })
+
+  return _.compact(list)
+}
+
+function taroOutdate (pkgs): ErrorLine[] {
+  const list: ErrorLine[] = []
+  pkgs.forEach(({ moduleName, isInstalled }) => {
+    if (!UPDATE_PACKAGE_LIST.includes(moduleName) && /^@tarojs/.test(moduleName)) {
+      list.push({
+        desc: `Taro 3 不再依赖 ${moduleName}，可以${isInstalled ? '卸载' : '从 package.json 移除'}`,
+        valid: true
+      })
+    }
+  })
+  return list
 }
 
 export default checkPkgs

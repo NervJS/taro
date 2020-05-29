@@ -3,19 +3,19 @@ import * as Joi from '@hapi/joi'
 const schema = Joi.object().keys({
   projectName: Joi.string().required(),
   date: Joi.date(),
-  designWidth: Joi.number().integer(),
+  designWidth: Joi.number().integer().positive(),
   deviceRatio: Joi.object().pattern(Joi.number(), Joi.number()),
   sourceRoot: Joi.string().required(),
   outputRoot: Joi.string().required(),
 
   plugins: Joi.array().items(Joi.alternatives(
     Joi.string(),
-    Joi.array()
+    Joi.array().ordered(Joi.string().required(), Joi.object())
   )),
 
   presets: Joi.array().items(Joi.alternatives(
     Joi.string(),
-    Joi.array()
+    Joi.array().ordered(Joi.string().required(), Joi.object())
   )),
 
   env: Joi.object().pattern(
@@ -40,12 +40,12 @@ const schema = Joi.object().keys({
     })
   }),
 
-  framework: Joi.any().allow('nerv', 'react', 'vue'),
+  framework: Joi.any().valid('nerv', 'react', 'vue'),
 
   mini: Joi.object().keys({
     compile: Joi.object().keys({
-      exclude: Joi.array().items(Joi.any()),
-      include: Joi.array().items(Joi.any())
+      exclude: Joi.array().items(Joi.string(), Joi.function()),
+      include: Joi.array().items(Joi.string(), Joi.function())
     }),
     webpackChain: Joi.func(),
     commonChunks: Joi.alternatives(Joi.func(), Joi.array().items(Joi.string())),
@@ -66,10 +66,7 @@ const schema = Joi.object().keys({
     mediaUrlLoaderOption: Joi.object(), // 第三方配置
     fontUrlLoaderOption: Joi.object(), // 第三方配置
     imageUrlLoaderOption: Joi.object(), // 第三方配置
-    miniCssExtractPluginOption: Joi.object(), // 第三方配置
-    jsxAttributeNameReplace: Joi.object().pattern(
-      Joi.string(), Joi.string()
-    )
+    miniCssExtractPluginOption: Joi.object() // 第三方配置
   }).unknown(),
 
   alias: Joi.object().pattern(Joi.string(), Joi.string()),
@@ -106,23 +103,18 @@ const schema = Joi.object().keys({
     // DEPRECATED: https://nervjs.github.io/taro/docs/config-detail.html#deprecated-h5webpack
     webpack: Joi.forbidden(),
 
-    // https://webpack.js.org/configuration/resolve/#resolve-alias
-    alias: Joi.object().pattern(Joi.string(), Joi.string().strict()),
-
     // https://webpack.js.org/configuration/entry-context/#entry
     entry: Joi.alternatives(
       Joi.string(),
-      Joi.array().items(
-        Joi.alternatives(
-          Joi.string(),
-          Joi.object().pattern(Joi.string(), Joi.alternatives(Joi.string(), Joi.array().items(Joi.string())))
-        )
+      Joi.array().items(Joi.string()),
+      Joi.object().pattern(
+        Joi.string(),
+        Joi.alternatives(Joi.string(), Joi.array().items(Joi.string()))
       ),
       Joi.func()
     ),
     enableSourceMap: Joi.bool(),
     enableExtract: Joi.bool(),
-    transformOnly: Joi.bool(),
     cssLoaderOption: Joi.object(), // 第三方配置
     styleLoaderOption: Joi.object(), // 第三方配置
     sassLoaderOption: Joi.object(), // 第三方配置
