@@ -111,13 +111,10 @@ function format (children: ChildNode[]) {
     }
 
     const el = document.createElement(getTagName(child.tagName))
-    el.className = child.tagName
     for (let i = 0; i < child.attributes.length; i++) {
       const attr = child.attributes[i]
       const [key, value] = splitEqual(attr)
-      if (key === 'class') {
-        el.className += el.className
-      } else if (key[0] === 'o' && key[1] === 'n') {
+      if (key[0] === 'o' && key[1] === 'n') {
         continue
       } else {
         el.setAttribute(key, value == null ? true : unquote(value))
