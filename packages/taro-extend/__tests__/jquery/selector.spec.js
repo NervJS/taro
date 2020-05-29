@@ -32,7 +32,7 @@ describe('selector', () => {
 
   it('should work with >', () => {
     // console.log(dom)
-    dom.innerHTML = '<view class="t1 fuck" id="t1"></view>'
+    dom.innerHTML = '<view class="t1" id="t1"></view>'
     // console.log(dom.childNodes)
     const $dom = Sizzle('main > .t1')
     expect($dom[0]).toBe(dom.firstChild)
