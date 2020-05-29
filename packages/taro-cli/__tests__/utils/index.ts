@@ -2,7 +2,7 @@ import * as path from 'path'
 import { Kernel } from '@tarojs/service'
 
 interface IRunOptions {
-  options?: Record<string, string>,
+  options?: Record<string, string | boolean>,
   args?: string[]
 }
 
