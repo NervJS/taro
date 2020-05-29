@@ -74,7 +74,6 @@ export default class Project extends Creator {
         const date = new Date()
         this.conf = Object.assign(this.conf, answers)
         this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-        return
         this.write()
       })
       .catch(err => console.log(chalk.red('创建项目失败: ', err)))
@@ -125,7 +124,7 @@ export default class Project extends Creator {
 
     return inquirer.prompt(prompts).then(answers => {
       const newTemplateChoices: string[] = templateChoices.filter(templateChoice => {
-        if (answers.framework === 'react') return templateChoice !== 'vuex'
+        if (['react', 'nerv'].includes(answers.framework)) return templateChoice !== 'vuex'
         if (answers.framework === 'vue') return !['redux', 'mobx'].includes(templateChoice)
         return true
       })
