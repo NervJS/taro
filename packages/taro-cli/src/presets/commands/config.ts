@@ -13,29 +13,30 @@ export default (ctx: IPluginContext) => {
       'taro config delete <key>',
       'taro config list [--json]'
     ],
-    fn () {
-      const { cmd, key, value, json } = ctx.runOpts
+    fn ({ _, options }) {
+      const [, cmd, key, value] = _
+      const json = !!options.json
       const { fs, getUserHomeDir, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } = ctx.helper
       const homedir = getUserHomeDir()
       const configPath = path.join(homedir, `${TARO_CONFIG_FLODER}/${TARO_BASE_CONFIG}`)
       if (!homedir) return console.log('找不到用户根目录')
 
       function displayConfigPath (configPath) {
-        console.log('Config path:', configPath)
+        console.log(`Config path: ${configPath}`)
         console.log()
       }
 
       switch (cmd) {
         case 'get':
-          if (!key) return console.log('Usage: taro config get foo')
+          if (!key) return console.log('Usage: taro config get <key>')
           if (fs.existsSync(configPath)) {
             displayConfigPath(configPath)
             const config = fs.readJSONSync(configPath)
-            console.log('Key:', key, ', value:', config[key])
+            console.log(`key: ${key}, value: ${config[key]}`)
           }
           break
         case 'set':
-          if (!key || !value) return console.log('Usage: taro config set foo bar')
+          if (!key || !value) return console.log('Usage: taro config set <key> <value>')
 
           if (fs.existsSync(configPath)) {
             displayConfigPath(configPath)
@@ -48,10 +49,10 @@ export default (ctx: IPluginContext) => {
               [key]: value
             })
           }
-          console.log('Set key:', key, ', value:', value)
+          console.log(`set key: ${key}, value: ${value}`)
           break
         case 'delete':
-          if (!key) return console.log('Usage: taro config delete foo')
+          if (!key) return console.log('Usage: taro config delete <key>')
 
           if (fs.existsSync(configPath)) {
             displayConfigPath(configPath)
@@ -59,7 +60,7 @@ export default (ctx: IPluginContext) => {
             delete config[key]
             fs.writeJSONSync(configPath, config)
           }
-          console.log('Deleted:', key)
+          console.log(`deleted: ${key}`)
           break
         case 'list':
         case 'ls':

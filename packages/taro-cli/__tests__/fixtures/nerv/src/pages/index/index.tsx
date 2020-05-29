@@ -1,7 +1,10 @@
-import React, { Component } from 'react'
+import Nerv, { Component } from 'nervjs'
 import { View, Text } from '@tarojs/components'
 
+const a = 1
+
 export default class Index extends Component {
+
   componentWillMount () { }
 
   componentDidMount () { }

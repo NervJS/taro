@@ -78,6 +78,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-react-hooks": "^1.6.1",
+    "eslint-plugin-vue": "^6.2.2",
     "eslint-plugin-taro": "3.0.0-rc.2",
     "fbjs": "^1.0.0",
     "find-yarn-workspace-root": "1.2.1",
