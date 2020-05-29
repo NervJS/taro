@@ -130,6 +130,12 @@ export default class Project extends Creator {
       })
       this.askTemplate(conf, templateChoicesPrompts, newTemplateChoices)
       return inquirer.prompt(templateChoicesPrompts)
+        .then(templateChoiceAnswer => {
+          return {
+            ...answers,
+            ...templateChoiceAnswer
+          }
+        })
     })
   }
 
