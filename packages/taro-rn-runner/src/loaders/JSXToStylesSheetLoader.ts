@@ -227,6 +227,9 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
 
           if (hasStyleAttribute && styleAttribute.value) {
             let expression = styleAttribute.value.expression
+            if (!expression) {
+              return
+            }
             let expressionType = expression.type
 
             // style={[styles.a, styles.b]} ArrayExpression
