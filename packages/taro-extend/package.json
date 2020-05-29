@@ -1,5 +1,5 @@
 {
-  "name": "taro-extend",
+  "name": "@tarojs/extend",
   "version": "3.0.0-rc.0",
   "description": "Taro extend functionality",
   "author": "yuche <i@yuche.me>",
@@ -18,9 +18,17 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "TARO_ENV=weapp jest --coverage false",
+    "test:dev": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "build": "rollup -c",
+    "dev": "rollup -cw"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/runtime": "3.0.0-rc.0",
+    "@tarojs/taro": "3.0.0-rc.0"
   }
 }

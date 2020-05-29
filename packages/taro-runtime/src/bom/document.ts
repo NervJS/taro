@@ -67,7 +67,9 @@ export function createDocument () {
 
   doc.documentElement.appendChild((doc.head = doc.createElement('head')))
 
-  doc.documentElement.appendChild((doc.createElement('body')))
+  const body = doc.createElement('body')
+  doc.documentElement.appendChild(body)
+  doc.body = body
 
   const app = doc.createElement('app')
   app.id = 'app'
