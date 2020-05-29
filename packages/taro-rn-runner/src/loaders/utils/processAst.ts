@@ -301,6 +301,17 @@ export function processAst ({
   let hasComponentWillUnmount = false
   let hasJSX = false
 
+  // process package alias
+  if (alias) {
+    const prefixList = Object.keys(alias)
+    const packageList = Object.keys(PACKAGES)
+    prefixList.forEach(key => {
+      if (packageList.includes(key)) {
+        PACKAGES[key] = alias[key]
+      }
+    })
+  }
+
   traverse(ast, {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
