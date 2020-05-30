@@ -6,7 +6,6 @@ import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
@@ -27,16 +26,6 @@ import { getPostcssPlugins } from './postcss.conf'
 import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption } from '../utils/types'
 
-const defaultUglifyJsOption = {
-  keep_fnames: true,
-  output: {
-    comments: false,
-    keep_quoted_props: true,
-    quote_keys: true,
-    beautify: false
-  },
-  warnings: false
-}
 const defaultCSSCompressOption = {
   mergeRules: false,
   mergeIdents: false,
@@ -108,14 +97,6 @@ const getQuickappStyleLoader = () => {
 }
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
 export const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
-export const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
-  return new UglifyJsPlugin({
-    cache: true,
-    parallel: true,
-    sourceMap: enableSourceMap,
-    uglifyOptions: recursiveMerge({}, defaultUglifyJsOption, uglifyOptions)
-  })
-}
 export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(listify, partial(getPlugin, CssoWebpackPlugin))([mergeOption([defaultCSSCompressOption, cssoOption]), REG_STYLE])
 }

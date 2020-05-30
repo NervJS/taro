@@ -8,7 +8,6 @@ import {
   getDefinePlugin,
   processEnvOption,
   getCssoWebpackPlugin,
-  getUglifyPlugin,
   getDevtool,
   getOutput,
   getModule,
@@ -58,7 +57,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>, chain: any
 
     babel,
     csso,
-    uglify,
     commonChunks,
     addChunkPages,
 
@@ -131,18 +129,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>, chain: any
     ? false
     : true
 
-  const isUglifyEnabled = (uglify && uglify.enable === false)
-    ? false
-    : true
-
   if (mode === 'production') {
-    if (isUglifyEnabled) {
-      minimizer.push(getUglifyPlugin([
-        enableSourceMap,
-        uglify ? uglify.config : {}
-      ]))
-    }
-
     if (isCssoEnabled) {
       const cssoConfig: any = csso ? csso.config : {}
       plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
