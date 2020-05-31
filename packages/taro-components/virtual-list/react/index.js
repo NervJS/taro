@@ -2,6 +2,16 @@ import React from 'react'
 import FixedSizeList from './FixedSizeList'
 import { ScrollView, View } from '@tarojs/components'
 
+function convertPxToInt (style) {
+  if (typeof style === 'string') {
+    const str = style.toLowerCase()
+    if (/px$/.test(str)) {
+      return Number(str.replace(/px$/, ''))
+    }
+  }
+  return style
+}
+
 const OuterScrollView = React.forwardRef(
   (props, ref) => {
     const { style, onScroll, onScrollNative, layout, ...rest } = props
@@ -10,8 +20,8 @@ const OuterScrollView = React.forwardRef(
         ...event,
         currentTarget: {
           ...event.detail,
-          clientWidth: style.width,
-          clientHeight: style.height
+          clientWidth: convertPxToInt(style.width),
+          clientHeight: convertPxToInt(style.height)
         }
       })
 
