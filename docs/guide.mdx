@@ -4,7 +4,7 @@ title: 入门教程
 
 ## 在我们开始之前
 
-我们将在这个教程开发一个简单的 GitHub 客户端，你将在本节教程学到 Taro 的基础知识、概念和部分优化技巧。学习这些知识并不需要事先了解 Taro、小程序开发或多端开发。当你掌握这些知识之后，你应该可以快速高效地开发多端应用。
+我们将在这个教程开发一个简单的 V2EX 论坛客户端，你将在本节教程学到 Taro 的基础知识、概念和部分优化技巧。学习这些知识并不需要事先了解 Taro、小程序开发或多端开发。当你掌握这些知识之后，你应该可以快速高效地开发多端应用。
 
 :::tip 提示
 这篇教程适合对喜欢边学边做或小程序开发完全没有了解的开发者，如果你倾向于按部就班地学习，请把 [文档](./docs/README) 的内容全部过一遍。当你看完 [文档](./docs/README) 就可以发现：本篇教程就是文档的互动式索引。
@@ -292,22 +292,844 @@ export default {
 :::info 了解更多
 Taro 的页面钩子函数和页面配置规范是基于微信小程序而制定的，并对全平台进行统一。
 你可以通过访问 [React 页面组件](./docs/react#页面组件) 和 [Vue 页面组件](./docs/vue#页面组件) 了解全部页面钩子函数和页面配置规范。
-
-Taro 文档的[跨平台组件库](./docs/components-desc) 包含了所有组件参数和用法。但目前组件库文档中的参数和组件名都是针对 React 的。
-对于 Vue 而言，组件名和组件参数都采用短横线风格（kebab-case）的命名方式，例如：`<picker-view indicator-class="myclass" />`
 :::
 
 ### 开始开发！
 
 如果你看到这里，那不得不恭喜你，你已经理解了 Taro 中最复杂的概念：入口组件和页面组件，并了解了它们是如何（通过配置文件）交互的。接下来的内容，如果你已经熟悉了 <ReactIcon /> 或 <VueIcon /> 以及 Web 开发的话，那就太简单了：
 
-### 路由
+我们先把首页写好，首页的逻辑很简单：把论坛最新的帖子展示出来。
 
-## 项目优化
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/pages/index/index.jsx"
+import Taro from '@tarojs/taro'
+import React from 'react'
+import { View } from '@tarojs/components'
+import { ThreadList } from '../../components/thread_list'
+import api from '../../utils/api'
+
+import './index.css'
+
+class Index extends React.Component {
+  config = {
+    navigationBarTitleText: '首页'
+  }
+
+  state = {
+    loading: true,
+    threads: []
+  }
+
+  async componentDidMount () {
+    try {
+      const res = await Taro.request({
+        url: api.getLatestTopic()
+      })
+      this.setState({
+        threads: res.data,
+        loading: false
+      })
+    } catch (error) {
+      Taro.showToast({
+        title: '载入远程数据错误'
+      })
+    }
+  }
+
+  render () {
+    const { loading, threads } = this.state
+    return (
+      <View className='index'>
+        <ThreadList
+          threads={threads}
+          loading={loading}
+        />
+      </View>
+    )
+  }
+}
+
+export default Index
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="src/pages/index/index.vue"
+<template>
+  <view class='index'>
+    <thread-list
+      :threads="threads"
+      :loading="loading"
+    />
+  </view>
+</template>
+
+<script>
+import Vue from 'vue'
+import Taro from '@tarojs/taro'
+import api from '../../utils/api'
+import ThreadList from '../../components/thread_list.vue'
+export default {
+  components: {
+    'thread-list': ThreadList
+  },
+  data () {
+    return {
+      loading: true,
+      threads: []
+    }
+  },
+  async created() {
+    try {
+      const res = await Taro.request({
+        url: api.getLatestTopic()
+      })
+      this.loading = false
+      this.threads = res.data
+    } catch (error) {
+      Taro.showToast({
+        title: '载入远程数据错误'
+      })
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+:::info 了解更多
+可能你会注意到在一个 Taro 应用中发送请求是 `Taro.request()` 完成的。
+和页面配置、全局配置一样，Taro 的 API 规范也是基于微信小程序而制定的，并对全平台进行统一。
+你可以通过在 [API 文档](./apis/about/desc) 找到所有 API。
+:::
+
+在我们的首页组件里，还引用了一个 `ThreadList` 组件，我们现在来实现它：
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/components/thread_list.jsx"
+import React from 'react'
+import { View, Text } from '@tarojs/components'
+import { Thread } from './thread'
+import { Loading } from './loading'
+
+import './thread.css'
+
+class ThreadList extends React.Component {
+  static defaultProps = {
+    threads: [],
+    loading: true
+  }
+
+  render () {
+    const { loading, threads } = this.props
+
+    if (loading) {
+      return <Loading />
+    }
+
+    const element = threads.map((thread, index) => {
+      return (
+        <Thread
+          key={thread.id}
+          node={thread.node}
+          title={thread.title}
+          last_modified={thread.last_modified}
+          replies={thread.replies}
+          tid={thread.id}
+          member={thread.member}
+        />
+      )
+    })
+
+    return (
+      <View className='thread-list'>
+        {element}
+      </View>
+    )
+  }
+}
+
+export { ThreadList }
+```
+
+```jsx title="src/components/thread.jsx"
+import Taro, { eventCenter } from '@tarojs/taro'
+import React from 'react'
+import { View, Text, Navigator, Image } from '@tarojs/components'
+
+import api from '../utils/api'
+import { timeagoInst, Thread_DETAIL_NAVIGATE } from '../utils'
+
+class Thread extends React.Component {
+
+  handleNavigate = () => {
+    const { tid, not_navi } = this.props
+    if (not_navi) {
+      return
+    }
+    eventCenter.trigger(Thread_DETAIL_NAVIGATE, this.props)
+    // 跳转到帖子详情
+    Taro.navigateTo({
+      url: '/pages/thread_detail/thread_detail'
+    })
+  }
+
+  render () {
+    const { title, member, last_modified, replies, node, not_navi } = this.props
+    const time = timeagoInst.format(last_modified * 1000, 'zh')
+    const usernameCls = `author ${not_navi ? 'bold' : ''}`
+
+    return (
+      <View className='thread' onClick={this.handleNavigate}>
+        <View className='info'>
+          <View>
+            <Image src={member.avatar_large} className='avatar' />
+          </View>
+          <View className='middle'>
+            <View className={usernameCls}>
+                {member.username}
+            </View>
+            <View className='replies'>
+              <Text className='mr10'>
+                {time}
+              </Text>
+              <Text>
+                评论 {replies}
+              </Text>
+            </View>
+          </View>
+          <View className='node'>
+            <Text className='tag'>
+              {node.title}
+            </Text>
+          </View>
+        </View>
+        <Text className='title'>
+          {title}
+        </Text>
+      </View>
+    )
+  }
+}
+
+export { Thread }
+```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="src/components/thread_list.vue"
+<template>
+  <view className='thread-list'>
+    <loading v-if="loading" />
+    <thread
+      v-else
+      v-for="t in threads"
+      :key="t.id"
+      :node="t.node"
+      :title="t.title"
+      :last_modified="t.last_modified"
+      :replies="t.replies"
+      :tid="t.id"
+      :member="t.member"
+    />
+  </view>
+</template>
+
+<script >
+import Vue from 'vue'
+import Loading from './loading.vue'
+import Thread from './thread.vue'
+export default {
+  components: {
+    'loading': Loading,
+    'thread': Thread
+  },
+  props: {
+    threads: {
+      type: Array,
+      default: []
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    }
+  }
+}
+</script>
+```
+
+```html title="src/components/thread.vue"
+<template>
+  <view class='thread' @tap="handleNavigate">
+    <view class='info'>
+      <view>
+        <image :src="member.avatar_large | url" class='avatar' />
+      </view>
+      <view class='middle'>
+        <view :class="usernameCls">
+            {{member.username}}
+        </view>
+        <view class='replies'>
+          <text class='mr10'>{{time}}</text>
+          <text>评论 {{replies}}</text>
+        </view>
+      </view>
+      <view class='node'>
+        <text class='tag'>{{node.title}}</Text>
+      </view>
+    </view>
+    <text class='title'>{{title}}</text>
+  </view>
+</template>
+
+<script>
+import Vue from 'vue'
+import { eventCenter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
+import { timeagoInst, Thread_DETAIL_NAVIGATE } from '../utils'
+import './thread.css'
+export default {
+  props: ['title', 'member', 'last_modified', 'replies', 'node', 'not_navi', 'tid'],
+  computed: {
+    time () {
+      return timeagoInst.format(this.last_modified * 1000, 'zh')
+    },
+    usernameCls () {
+      return `author ${this.not_navi ? 'bold' : ''}`
+    }
+  },
+  filters: {
+    url (val) {
+      return 'https:' + val
+    }
+  },
+  methods: {
+    handleNavigate () {
+      const { tid, not_navi } = this.$props
+      if (not_navi) {
+        return
+      }
+      eventCenter.trigger(Thread_DETAIL_NAVIGATE, this.$props)
+      // 跳转到帖子详情
+      Taro.navigateTo({
+        url: '/pages/thread_detail/thread_detail'
+      })
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+这里可以发现我们把论坛帖子渲染逻辑拆成了两个组件，并放在 `src/components` 文件中，因为这些组件是会在其它页面中多次用到。
+拆分组件的力度是完全由开发者决定的，Taro 并没有规定组件一定要放在 `components` 文件夹，也没有规定页面一定要放在 `pages` 文件夹。
+
+另外一个值得注意的点是：我们并没有使用 `div`/`span` 这样的 HTML 组件，而是使用了 `View`/`Text` 这样的跨平台组件。
+
+:::info 了解更多
+Taro 文档的[跨平台组件库](./docs/components-desc) 包含了所有组件参数和用法。但目前组件库文档中的参数和组件名都是针对 React 的（除了 React 的点击事件是 `onClick` 之外）。
+对于 Vue 而言，组件名和组件参数都采用短横线风格（kebab-case）的命名方式，例如：`<picker-view indicator-class="myclass" />`
+:::
+
+### 路由与 Tabbar
+
+在 `src/components/thread` 组件中，我们通过
+
+```js
+Taro.navigateTo({ url: '/pages/thread_detail/thread_detail' })
+```
+跳转到帖子详情，但这个页面仍未实现，现在我们去入口文件配置一个新的页面：
+
+```js title="src/app.config.js"
+
+export default {
+  pages: [
+    'pages/index/index',
+    'pages/thread_detail/thread_detail'
+  ]
+}
+```
+
+然后在路径 `src/pages/thread_detail/thread_detail` 实现帖子详情页面，路由就可以跳转，我们整个流程就跑起来了：
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/pages/thread_detail/thread_detail"
+import Taro from '@tarojs/taro'
+import React from 'react'
+import { View, RichText, Image } from '@tarojs/components'
+import { Thread } from '../../components/thread'
+import { Loading } from '../../components/loading'
+import api from '../../utils/api'
+import { timeagoInst, GlobalState } from '../../utils'
+
+import './index.css'
+
+function prettyHTML (str) {
+  const lines = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+
+  lines.forEach(line => {
+    const regex = new RegExp(`<${line}`, 'gi')
+
+    str = str.replace(regex, `<${line} class="line"`)
+  })
+
+  return str.replace(/<img/gi, '<img class="img"')
+}
+
+class ThreadDetail extends React.Component {
+  state = {
+    loading: true,
+    replies: [],
+    content: '',
+    thread: {}
+  } as IState
+
+  config = {
+    navigationBarTitleText: '话题'
+  }
+
+  componentWillMount () {
+    this.setState({
+      thread: GlobalState.thread
+    })
+  }
+
+  async componentDidMount () {
+    try {
+      const id = GlobalState.thread.tid
+      const [{ data }, { data: [ { content_rendered } ] } ] = await Promise.all([
+        Taro.request({
+          url: api.getReplies({
+            'topic_id': id
+          })
+        }),
+        Taro.request({
+          url: api.getTopics({
+            id
+          })
+        })
+      ])
+      this.setState({
+        loading: false,
+        replies: data,
+        content: prettyHTML(content_rendered)
+      })
+    } catch (error) {
+      Taro.showToast({
+        title: '载入远程数据错误'
+      })
+    }
+  }
+
+  render () {
+    const { loading, replies, thread, content } = this.state
+
+    const replieEl = replies.map((reply, index) => {
+      const time = timeagoInst.format(reply.last_modified * 1000, 'zh')
+      return (
+        <View className='reply' key={reply.id}>
+          <Image src={reply.member.avatar_large} className='avatar' />
+          <View className='main'>
+            <View className='author'>
+              {reply.member.username}
+            </View>
+            <View className='time'>
+              {time}
+            </View>
+            <RichText nodes={reply.content} className='content' />
+            <View className='floor'>
+              {index + 1} 楼
+            </View>
+          </View>
+        </View>
+      )
+    })
+
+    const contentEl = loading
+      ? <Loading />
+      : (
+        <View>
+          <View className='main-content'>
+          <RichText nodes={content} />
+          </View>
+          <View className='replies'>
+            {replieEl}
+          </View>
+        </View>
+      )
+
+    return (
+      <View className='detail'>
+        <Thread
+          node={thread.node}
+          title={thread.title}
+          last_modified={thread.last_modified}
+          replies={thread.replies}
+          tid={thread.id}
+          member={thread.member}
+          not_navi={true}
+        />
+        {contentEl}
+      </View>
+    )
+  }
+}
+
+export default ThreadDetail
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="src/pages/thread_detail/thread_detail.vue"
+
+<template>
+  <view class='detail'>
+    <thread
+      :node="topic.node"
+      :title="topic.title"
+      :last_modified="topic.last_modified"
+      :replies="topic.replies"
+      :tid="topic.id"
+      :member="topic.member"
+      :not_navi="true"
+    />
+    <loading v-if="loading" />
+    <view v-else>
+      <view class='main-content'>
+        <rich-text :nodes="content | html" />
+      </view>
+      <view class='replies'>
+        <view v-for="(reply, index) in replies" class='reply' :key="reply.id">
+          <image :src='reply.member.avatar_large' class='avatar' />
+          <view class='main'>
+            <view class='author'>
+              {{reply.member.username}}
+            </view>
+            <view class='time'>
+              {{reply.last_modified | time}}
+            </view>
+            <rich-text :nodes="reply.content_rendered | html" class='content' />
+            <view class='floor'>
+              {{index + 1}} 楼
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import Vue from 'vue'
+import Taro from '@tarojs/taro'
+import api from '../../utils/api'
+import { timeagoInst, GlobalState, IThreadProps, prettyHTML } from '../../utils'
+import Thread from '../../components/thread.vue'
+import Loading from '../../components/loading.vue'
+import './index.css'
+export default {
+  components: {
+    'loading': Loading,
+    'thread': Thread
+  },
+  data () {
+    return {
+      topic: GlobalState.thread,
+      loading: true,
+      replies: [],
+      content: ''
+    }
+  },
+  async created () {
+    try {
+      const id = GlobalState.thread.tid
+      const [{ data }, { data: [ { content_rendered } ] } ] = await Promise.all([
+        Taro.request({
+          url: api.getReplies({
+            'topic_id': id
+          })
+        }),
+        Taro.request({
+          url: api.getTopics({
+            id
+          })
+        })
+      ])
+      this.loading = false
+      this.replies = data
+      this.content = content_rendered
+    } catch (error) {
+      Taro.showToast({
+        title: '载入远程数据错误'
+      })
+    }
+  },
+  filters: {
+    time (val) {
+      return timeagoInst.format(val * 1000)
+    },
+    html (val) {
+      return prettyHTML(val)
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+到目前为止，我们已经实现了这个应用的所有逻辑，除去「节点列表」页面（在进阶指南我们会讨论这个页面组件）之外，剩下的页面都可以通过我们已经讲解过的组件或页面快速抽象完成。按照我们的计划，这个应用会有五个页面，分别是：
+
+1. 首页，展示最新帖子（已完成）
+2. 节点列表
+3. 热门帖子（可通过组件复用）
+4. 节点帖子 （可通过组件复用）
+5. 帖子详情 （已完成）
+
+其中前三个页面我们可以把它们规划在 `tabBar` 里，`tabBar` 是 Taro 内置的导航栏，可以在 `app.config.js` 配置，配置完成之后处于的 `tabBar` 位置的页面会显示一个导航栏。最终我们的 `app.config.js` 会是这样：
+
+```jsx title="app.config.js"
+export default {
+  pages: [
+    'pages/index/index',
+    'pages/nodes/nodes',
+    'pages/hot/hot',
+    'pages/node_detail/node_detail',
+    'pages/thread_detail/thread_detail'
+  ],
+  tabBar: {
+    list: [{
+      'iconPath': 'resource/latest.png',
+      'selectedIconPath': 'resource/lastest_on.png',
+      pagePath: 'pages/index/index',
+      text: '最新'
+    }, {
+      'iconPath': 'resource/hotest.png',
+      'selectedIconPath': 'resource/hotest_on.png',
+      pagePath: 'pages/hot/hot',
+      text: '热门'
+    }, {
+      'iconPath': 'resource/node.png',
+      'selectedIconPath': 'resource/node_on.png',
+      pagePath: 'pages/nodes/nodes',
+      text: '节点'
+    }],
+    'color': '#000',
+    'selectedColor': '#56abe4',
+    'backgroundColor': '#fff',
+    'borderStyle': 'white'
+  },
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: 'V2EX',
+    navigationBarTextStyle: 'black'
+  }
+}
+```
+
+## 项目进阶与优化
 
 ### 状态管理
 
+在我们实现帖子组件（`src/components/thread`）时，通过 Taro 内置的 `eventCenter` 发起了一个事件，把当前帖子的数据注入到一个全局的 `GlobalState` 中，然后在帖子详情页面再从 `GlobalState` 取出当前帖子的数据——这种简单的发布/订阅模式在处理简单逻辑时非常有效且清晰。
+
+一旦我们的业务逻辑变得复杂，一个简单的发布订阅机制绑定到一个全局的 `state` 可能就会导致我们的数据流变得难以追踪。好在这个问题不管是在 React 还是 Vue 社区中都有很好的解决方案。我们会使用这两个社区最热门的状态管理工具：`Redux` 和 `Vuex` 来解决这个问题。
+
+#### Redux
+
+首先安装 `redux` 和 `react-redux`:
+
+```bash
+npm i redux react-redux
+```
+
+在入口文件使用 `react-redux` 的 `Provider` 注入 `context` 到我们的应用：
+
+```js title="src/app.js"
+import React, { Component } from 'react'
+import { Provider } from 'react-redux'
+import { createStore, combineReducers } from 'redux';
+import './app.css'
+
+const reducers = combineReducers({
+  thread: (state = {}, action) => {
+    if (action.type === 'SET_CURRENT_THREAD') {
+      return {
+        ...state,
+        ...action.thread
+      }
+    }
+    return state
+  }
+})
+
+const store = createStore(reducers)
+
+class App extends Component {
+  render () {
+    // this.props.children 是将要会渲染的页面
+    return (
+      <Provider store={store}>
+        {this.props.children}
+      </Provider>
+    )
+  }
+}
+
+export default App
+```
+
+然后在帖子组件中我们就可以通过 `connect` 一个 `dispatch` 设置当前的帖子：
+
+```diff title="src/components/thread.jsx"
+- eventCenter.trigger(Thread_DETAIL_NAVIGATE, this.props)
++ this.props.setThread(this.props)
+- export default Thread
++ const mapDispatchToProps = dispatch => {
++   return {
++     setThread: thread => dispatch({ type: 'SET_CURRENT_THREAD', thread })
++   }
++ }
++ export default connect(null, mapDispatchToProps)(Thread)
+```
+
+在帖子详情组件中通过 `connect` 一个 `mapStateToProps` 获取当前帖子的数据：
+
+```diff title="src/components/thread_detail.jsx"
+- const id = GlobalState.thread.tid
++ const id = this.props.thread.tid
+- export default ThreadDetail
++ function mapStateToProps(state) {
++  return { thread: state.thread }
++ }
++ export default connect(mapStateToProps)(ThreadDetail)
+```
+
+:::caution 请注意
+此教程演示的是 `Redux` 极简用法，而非最佳实践。详情请访问 [Redux 文档](https://www.redux.org.cn/) 和 [react-redux 文档](https://react-redux.js.org/introduction/quick-start)。
+:::
+
+#### Vuex
+
+首先安装 `vuex`:
+
+```bash
+npm i vuex
+```
+
+在入口文件中注入 Vuex 的 `store`：
+
+```js title="src/app.js"
+import Vue from 'vue'
+import './app.css'
+
+const store = new Vuex.Store({
+  state: {
+    thread: {}
+  },
+  mutations: {
+  	setThread: (state, thread) => {
+      state.thread = { ...thread }
+    }
+  }
+})
+
+const App = new Vue({
+  store,
+  render(h) {
+    // this.$slots.default 是将要会渲染的页面
+    return h('block', this.$slots.default)
+  }
+})
+
+export default App
+```
+
+然后在帖子组件中我们就可以通过 `this.$store.setThread()` 设置当前的帖子：
+
+```diff title="src/components/thread.vue"
+- eventCenter.trigger(Thread_DETAIL_NAVIGATE, this.props)
++ this.$store.setThread(this.$props)
+```
+
+在帖子详情组件中通过 `computed` 获取当前帖子的数据：
+
+```diff title="src/components/thread_detail.vue"
+{
+  data () {
+    return {
+-     topic: GlobalState.thread,
+      loading: true,
+      replies: [],
+      content: ''
+    }
+  },
++ computed: {
++  topic() {
++    return this.$store.state.thread
++  }
++ }
+}
+```
+
+:::caution 请注意
+此教程演示的是 `Vuex` 极简用法，而非最佳实践。详情请访问 [Vuex 文档](https://vuex.vuejs.org/zh/guide/)。
+:::
+
+#### 其它状态管理工具
+
+原理上来说，Taro 可以支持任何兼容 React 或 Vue 的状态管理工具，使用这类工具通常都会要求在入口组件注入 `context`，而在 Taro 中入口文件是不能渲染 UI 的。只要注意这点即可。
+
+在 Vue 生态圈我们推荐使用 `Vuex`。React 生态圈状态管理工具百花齐放，考虑到使用 Taro 的开发者很多应用会编译到小程序，我们推荐几个在性能和体积上有优势的状态管理工具：
+
+* [`mobx-react`](https://cn.mobx.js.org/): 和 Vuex 一样响应式的状态管理工具
+* [unstaged](https://github.com/jamiebuilds/unstated-next): 基于 React Hooks 的极简状态管理工具，压缩体积只有 200 字节
+* [Recoil](https://recoiljs.org/): Facebook 推出的基于 React Hooks 的状态管理工具
+
 ### CSS 工具
+
+### 渲染 HTML
 
 ### 性能优化
 
