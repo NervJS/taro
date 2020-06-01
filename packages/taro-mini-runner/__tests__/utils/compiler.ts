@@ -92,6 +92,7 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
       config: {
         compress: false,
         mangle: false,
+        extractComments: false,
         output: {
           comments: false,
           beautify: true
