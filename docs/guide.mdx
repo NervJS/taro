@@ -294,7 +294,7 @@ Taro 的页面钩子函数和页面配置规范是基于微信小程序而制定
 你可以通过访问 [React 页面组件](./docs/react#页面组件) 和 [Vue 页面组件](./docs/vue#页面组件) 了解全部页面钩子函数和页面配置规范。
 :::
 
-### 开始开发！
+### 自定义组件
 
 如果你看到这里，那不得不恭喜你，你已经理解了 Taro 中最复杂的概念：入口组件和页面组件，并了解了它们是如何（通过配置文件）交互的。接下来的内容，如果你已经熟悉了 <ReactIcon /> 或 <VueIcon /> 以及 Web 开发的话，那就太简单了：
 
@@ -976,7 +976,13 @@ export default {
 
 一旦我们的业务逻辑变得复杂，一个简单的发布订阅机制绑定到一个全局的 `state` 可能就会导致我们的数据流变得难以追踪。好在这个问题不管是在 React 还是 Vue 社区中都有很好的解决方案。我们会使用这两个社区最热门的状态管理工具：`Redux` 和 `Vuex` 来解决这个问题。
 
-#### Redux
+<Tabs
+  defaultValue="redux"
+  values={[
+    {label: 'Redux', value: 'redux'},
+    {label: 'Vuex', value: 'vuex'},
+  ]}>
+<TabItem value="redux">
 
 首先安装 `redux` 和 `react-redux`:
 
@@ -1050,7 +1056,9 @@ export default App
 此教程演示的是 `Redux` 极简用法，而非最佳实践。详情请访问 [Redux 文档](https://www.redux.org.cn/) 和 [react-redux 文档](https://react-redux.js.org/introduction/quick-start)。
 :::
 
-#### Vuex
+</TabItem>
+<TabItem value="vuex">
+
 
 首先安装 `vuex`:
 
@@ -1117,11 +1125,15 @@ export default App
 此教程演示的是 `Vuex` 极简用法，而非最佳实践。详情请访问 [Vuex 文档](https://vuex.vuejs.org/zh/guide/)。
 :::
 
+</TabItem>
+</Tabs>
+
+
 #### 其它状态管理工具
 
 原理上来说，Taro 可以支持任何兼容 React 或 Vue 的状态管理工具，使用这类工具通常都会要求在入口组件注入 `context`，而在 Taro 中入口文件是不能渲染 UI 的。只要注意这点即可。
 
-在 Vue 生态圈我们推荐使用 `Vuex`。React 生态圈状态管理工具百花齐放，考虑到使用 Taro 的开发者很多应用会编译到小程序，我们推荐几个在性能和体积上有优势的状态管理工具：
+在 Vue 生态圈我们推荐使用 `Vuex`。React 生态圈状态管理工具百花齐放，考虑到使用 Taro 的开发者很多应用会编译到小程序，我们推荐几个在性能或体积上有优势的状态管理工具：
 
 * [`mobx-react`](https://cn.mobx.js.org/): 和 Vuex 一样响应式的状态管理工具
 * [unstaged](https://github.com/jamiebuilds/unstated-next): 基于 React Hooks 的极简状态管理工具，压缩体积只有 200 字节
@@ -1129,21 +1141,638 @@ export default App
 
 ### CSS 工具
 
+在 Taro 中，我们可以自由地使用 CSS 预处理器和后处理器，使用的方法也非常简单，只要在编译配置添加相关的插件即可：
+
+```js {8,9,10} title="config/index.js"
+const config = {
+  projectName: 'v2ex',
+  date: '2018-8-3',
+  designWidth: 750,
+  sourceRoot: 'src',
+  outputRoot: 'dist',
+  plugins: [
+    '@tarojs/plugin-sass', // 使用 Sass
+    // '@tarojs/plugin-less', // 使用 Less
+    // '@tarojs/plugin-stylus', // 使用 Stylus
+  ],
+  defineConstants: {
+  },
+  mini: {
+
+  },
+  h5: {
+    publicPath: '/',
+    staticDirectory: 'static',
+    module: {
+      postcss: {
+        autoprefixer: {
+          enable: true
+        }
+      }
+    }
+  }
+}
+
+module.exports = function (merge) {
+  if (process.env.NODE_ENV === 'development') {
+    return merge({}, config, require('./dev'))
+  }
+  return merge({}, config, require('./prod'))
+}
+```
+
+:::info 了解更多
+除了 CSS 预处理器之外，Taro 还支持 [CSS Modules]() 和 [CSS-in-JS](./css-in-js)。
+原理上还支持更多 CSS 工具，我们将在 [自定义编译](./guide/#自定义编译与插件化系统) 继续讨论这个问题。
+:::
+
 ### 渲染 HTML
+
+在帖子详情组件（`ThreadDetail`）中，我们使用了内置组件 `RichText` 来渲染 HTML，但这个组件的兼容性不好，无法在所有端都正常使用，某些特定的 HTML 元素也无法渲染。
+
+幸运的是，Taro 内置了 HTML 渲染，使用方法也和 React/Vue 在 Web 开发中没什么区别：
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```diff title="src/pages/thread_detail/thread_detail.jsx"
+- <RichText nodes={reply.content} className='content' />
++ <View dangerouslySetInnerHTML={{ __html: reply.content }} className='content'></View>
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```diff title="src/pages/thread_detail/thread_detail.vue"
+- <rich-text :nodes="reply.content_rendered | html" class='content' />
++ <view v-html="reply.content_rendered | html" class='content' />
+```
+
+</TabItem>
+
+</Tabs>
+
+:::info 了解更多
+Taro 内置的 HTML 渲染功能不仅可以按 Web 开发的方式去使用，也支持自定义样式、自定义渲染、自定义事件这样的高级功能。
+你可以访问 [HTML 渲染文档](./html) 了解更多。
+:::
 
 ### 性能优化
 
 #### 虚拟列表
 
+在帖子列表组件（`ThreadList`）中，我们直接渲染从远程得来的数据。这样做没有什么问题，但如果我们的数据非常庞大，或者列表渲染的 DOM 结构异常复杂，这就可能会产生性能问题。
+
+为了解决这一问题，Taro 内置了虚拟列表（`VirtualList`）功能，比起全量渲染所有列表数据，我们只需要渲染当前可视区域(visable viewport)的视图：
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/pages/thread_detail/thread_list.jsx"
+import React from 'react'
+import { View, Text } from '@tarojs/components'
+import { Thread } from './thread'
+import { Loading } from './loading'
+import VirtualList from `@tarojs/components/virtual-list`
+
+
+import './thread.css'
+
+const Row = React.memo(({ thread }) => {
+  return (
+    <Thread
+      key={thread.id}
+      node={thread.node}
+      title={thread.title}
+      last_modified={thread.last_modified}
+      replies={thread.replies}
+      tid={thread.id}
+      member={thread.member}
+    />
+  )
+})
+
+class ThreadList extends React.Component {
+  static defaultProps = {
+    threads: [],
+    loading: true
+  }
+
+  render () {
+    const { loading, threads } = this.props
+
+    if (loading) {
+      return <Loading />
+    }
+
+    const element = (
+      <VirtualList
+        height={800} /* 列表的高度 */
+        width='100%' /* 列表的宽度 */
+        itemData={threads} /* 渲染列表的数据 */
+        itemCount={threads.length} /*  渲染列表的长度 */
+        itemSize={100} /* 列表单项的高度  */
+      >
+        {Row} /* 列表单项组件，这里只能传入一个组件 */
+      </VirtualList>
+    )
+
+    return (
+      <View className='thread-list'>
+        {element}
+      </View>
+    )
+  }
+}
+
+export { ThreadList }
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```js title="app.js"
+// 在入口文件新增使用插件
+import VirtualList from `@tarojs/components/virtual-list`
+Vue.use(VirtualList)
+```
+
+```html title="src/components/row.vue"
+<template>
+  <thread
+    :key="data.id"
+    :node="data.node"
+    :title="data.title"
+    :last_modified="data.last_modified"
+    :replies="data.replies"
+    :tid="data.id"
+    :member="data.member"
+  />
+</template>
+
+<script>
+import Thread from './thread.vue'
+export default {
+  components: {
+    'thread': Thread
+  },
+  props: ['index', 'data', 'css']
+}
+</script>
+```
+
+```html title="src/components/thread_list.vue"
+<template>
+  <view className='thread-list'>
+    <loading v-if="loading" />
+    <virtual-list
+      v-else
+      :height="500"
+      :item-data="threads"
+      :item-count="threads.length"
+      :item-size="100"
+      :item="Row"
+      width="100%"
+    />
+  </view>
+</template>
+
+<script >
+import Vue from 'vue'
+import Loading from './loading.vue'
+import Thread from './thread.vue'
+import Row from './row.vue'
+export default {
+  components: {
+    'loading': Loading,
+    'thread': Thread
+  },
+  props: {
+    threads: {
+      type: Array,
+      default: []
+    },
+    loading: {
+      type: Boolean,
+      default: true
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+:::info 了解更多
+在文档[虚拟列表](./virtual-list) 你可以找到虚拟列表的一些高级用法，例如：无限滚动、滚动偏移、滚动事件等。
+:::
+
 #### 预渲染
+
+现在我们来实现最后一个页面：节点列表页面。这个页面本质说就是渲染一个存在本地的巨大列表：
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```jsx title="src/pages/nodes/nodes.jsx"
+import React from 'react'
+import { View, Text, Navigator } from '@tarojs/components'
+import allNodes from './all_node'
+import api from '../../utils/api'
+
+import './nodes.css'
+
+function Nodes () {
+  const element = allNodes.map(item => {
+    return (
+      <View key={item.title} className='container'>
+        <View className='title'>
+          <Text style='margin-left: 5px'>{item.title}</Text>
+        </View>
+        <View className='nodes'>
+          {item.nodes.map(node => {
+            return (
+              <Navigator
+                className='tag'
+                url={`/pages/node_detail/node_detail${api.queryString(node)}`}
+                key={node.full_name}
+              >
+                <Text>{node.full_name}</Text>
+              </Navigator>
+            )
+          })}
+        </View>
+      </View>
+    )
+  })
+  return <View className='node-container'>{element}</View>
+}
+
+export default Nodes
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html title="src/pages/nodes/nodes.vue"
+<template>
+  <view class='node-container'>
+    <view v-for="item in allNodes" :key="item.title" class='container'>
+      <view class='title'>
+        <text style='margin-left: 5px'>{{item.title}}</text>
+      </view>
+      <view class='nodes'>
+        <navigator
+          v-for="node in item.nodes"
+          :key="node.full_name"
+          class='tag'
+          :url="node | url"
+        >
+          <text>{{node.full_name}}</text>
+        </navigator>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import Vue from 'vue'
+import allNodes from './all_node'
+import api from '../../utils/api'
+import './nodes.css'
+
+function getURL (node) {
+  return `/pages/node_detail/node_detail${api.queryString(node)}`
+}
+
+export default {
+  data () {
+    return {
+      allNodes
+    }
+  },
+  filters: {
+    url (node) {
+      return getURL(node)
+    }
+  }
+}
+</script>
+```
+
+</TabItem>
+
+</Tabs>
+
+这个时候我们整个应用就完成了。但如果你把这个应用放在真机小程序中，尤其是一些性能不高的真机中，切换到此页面的时间可能会比较长，会有一段白屏时间。
+
+这是由于 Taro 的渲染机制导致的：在页面初始化时，原生小程序可以从本地直接取数据渲染，但 Taro 会把初始数据通过 React/Vue 渲染成一颗 DOM 树，然后将这颗 DOM 树序列化之后交给小程序渲染。也就是说，比起原生小程序 Taro 会在页面初始化时多一次调用 `setData` 函数的支出——而大部分小程序的性能问题是 `setData` 数据过大导致的。
+
+为了解决这个问题，Taro 引入了一种名为预渲染（Prerender）的技术，和服务端渲染一样，在 Taro CLI 直接将要渲染的页面转换为 `wxml` 字符串，这样就获得了与原生小程序一致甚至更快的速度。
+
+使用预渲染也非常简单，我们只要进行简单的配置即可：
+
+```js {4-6} title="config/prod.js"
+const config = {
+  ...
+  mini: {
+    prerender: {
+      include: ['pages/nodes/nodes'], // `pages/nodes/nodes` 也会参与 prerender
+    }
+  }
+};
+
+// 我们这里在编译生产模式时才开启预渲染
+// 如果需要开发时也开启，那就把配置放在 `config/index` 或 `config/dev`
+module.exports = config
+```
+
+:::info 了解更多
+预渲染的配置支持条件渲染页面、条件渲染逻辑、自定义渲染函数等功能，详情可以访问[预渲染文档](./prerender)。
+:::
 
 ### 打包体积
 
-## 多端开发
+默认而言使用生产模式打包，Taro 就会给你优化打包体积。但值得注意，Taro 默认的打包配置是为了让多数项目和需求都可以运行，而不是针对任何项目的最优选择。因此你可以在 Taro 配置的基础之上再针对自己的项目进行优化。
 
-### 各端差异
+#### JavaScript
+
+在 Taro 应用中，所有 Java(Type)Script 都是通过 `babel.config.js` 配置的，具体来说是使用 [`babel-prest-taro`](https://www.npmjs.com/package/babel-preset-taro) 这个 Babel 插件编译的。
+
+默认而言 Taro 会兼容所有 [`@babel/preset-env`](https://www.npmjs.com/package/@babel/preset-env) 支持的语法，并兼容到 `iOS 9` 和 `Android 5`，如果你不需要那么高的兼容性，或者不需要某些 ES2015+ 语法支持，可以自行配置 `babel.config.js` 达到缩小打包体积效果。
+
+例如我们可以把兼容性提升到 `iOS 12`：
+
+```js title="babel.config.js"
+// babel.config.js
+module.exports = {
+  presets: [
+    ['taro', {
+      targets: {
+        ios: '12'
+      }
+    }]
+  ]
+}
+```
+
+你可以访问 [Babel 文档](https://babeljs.io/) 了解更多自定义配置的信息。
+
+#### 打包体积分析
+
+Taro 使用 [Webpack](https://www.webpackjs.com/) 作为内部的打包系统，有时候当我们的业务代码使用了 `require` 语法或者 `import default` 语法，Webpack 并不能给我们提供 `tree-shaking` 的效果。在这样的情况下我们通过 [`webpack-bundle-analyzer`](https://www.npmjs.com/package/webpack-bundle-analyzer) 来分析我们依赖打包体积，这个插件会在浏览器打开一个可视化的图表页面告诉我们引用各个包的体积。
+
+首先安装 `webpack-bundle-analyzer` 依赖:
+
+```bash
+npm install webpack-bundle-analyzer -D
+```
+
+然后在 [mini.webpackChain](./config-detail/#miniwebpackchain-1) 中添加如下配置：
+
+```js {4-7} title="config/index"
+const config = {
+  ...
+  mini: {
+    webpackChain (chain, webpack) {
+      chain.plugin('analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
+    }
+  }
+}
+```
+
+运行编译命令完成之后就可以看到各文件依赖关系及体积。
+
+你可以访问 [webpack-bundle-analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) 文档了解详细的用法。
+
+#### 分包
+
+在一些情况，我们希望我们的页面只有当用到时才按需进行加载。这种情况在 Taro 应用被称为分包，分包的使用也非常简单，只需要通过配置入口文件 `app.config.js` 即可。
+
+假设我们需要把刚刚实现预渲染的所有节点页面进行分包：
+
+```js title="src/app.config.js"
+export default {
+  pages: [
+    'pages/index/index',
+    // 'pages/nodes/nodes', 把要分包的页面从 `pages` 字段中删除
+    'pages/hot/hot',
+    'pages/node_detail/node_detail',
+    'pages/thread_detail/thread_detail'
+  ],
+  // 在 `subpackages` 字段添加分包
+  "subpackages": [
+    {
+      "root": "pages",
+      "pages": [
+        "nodes/nodes"
+      ]
+    }
+  ]
+  tabBar: {
+    list: [{
+      'iconPath': 'resource/latest.png',
+      'selectedIconPath': 'resource/lastest_on.png',
+      pagePath: 'pages/index/index',
+      text: '最新'
+    }, {
+      'iconPath': 'resource/hotest.png',
+      'selectedIconPath': 'resource/hotest_on.png',
+      pagePath: 'pages/hot/hot',
+      text: '热门'
+    }, {
+      'iconPath': 'resource/node.png',
+      'selectedIconPath': 'resource/node_on.png',
+      pagePath: 'pages/nodes/nodes',
+      text: '节点'
+    }],
+    'color': '#000',
+    'selectedColor': '#56abe4',
+    'backgroundColor': '#fff',
+    'borderStyle': 'white'
+  },
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: 'V2EX',
+    navigationBarTextStyle: 'black'
+  }
+}
+```
+
+### 自定义编译
+
+在特定的情况下，Taro 自带的编译系统没有办法满足我们的编译需求，这时 Taro 提供了两种拓展编译的方案：
+
+#### 使用 Webpack 进行拓展
+
+在[打包体积分析](./guide#打包体积分析) 中我们在 [mini.webpackChain](./config-detail/#miniwebpackchain-1) 添加了一个 Webpack 插件，达到了打包体积/依赖分析的效果。
+
+事实上通过 `mini.webpackChain` 这个配置我们可以几乎使用任何 Webpack 生态的插件和 `loader`，例如我们想使用 `CoffeeScript` 来进行开发：
+
+```js {4-7} title="config/index"
+const config = {
+  ...
+  mini: {
+    webpackChain (chain, webpack) {
+      chain.merge({
+          module: {
+              rule: {
+                  test: /\.coffee$/,
+                  use: [ 'coffee-loader' ]
+              }
+          }
+      })
+    }
+  }
+}
+```
+
+同样，之前我们提到过的 `CSS Modules` 也可以通过 Webpack 的形式进行拓展支持。详情可以访问 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 文档了解详细的用法。
+
+#### 使用插件化系统进行拓展
+
+在 [CSS 工具](./guide#CSS-工具) 我们已经使用了名为 `@tarojs/plugin-sass` 的插件来实现对 `Sass` 的支持。比起使用 Webpack 拓展编译，Taro 的插件功能不用在每个端都对 Webpack 进行配置，只用使用插件即可。
+
+除此之外，Taro 的插件化功能还可以拓展 Taro CLI 编译命令，拓展编译流程，拓展编译平台，你可以访问 [插件功能文档](./plugin) 了解更多自定义配置的信息。
+
+:::info 了解更多
+除了以上两种方式外，Taro 还提供大量的编译相关选项，你可以访问 [编译配置详情](./config-detail) 文档了解更多。
+:::
+
+## 多端开发
 
 ### 跨平台开发
 
+在某些情况下，不同平台的表现或业务逻辑有质的不同。在这样的情况下我们是没有办法做到「一套代码走天下」的。
+
+例如我们正在实现 V2EX 论坛应用，当前的 API 没有办法在浏览器中跨域调用，因此我们需要在 H5 端使用另一份 API。我们可以通过内置环境变量来解决：
+
+```diff
+- import api from '../../utils/api'
+// 我们可以根据不同的平台，引入不同的 API
++ let api
++ if (process.env.TARO_ENV === 'weapp') {
++  api = require('../../utils/api-weapp')
++ } else if (process.env.TARO_ENV === 'h5') {
++  api = require('../../utils/api-h5')
++ }
+```
+
+Taro 还提供了[统一接口的多端文件](./envs#统一接口的多端文件)，通过不同的命名方式寻找依赖，在这类情况下，我们可以保留：
+
+```js
+import api from '../../utils/api'
+```
+
+语句原封不动，修改我们的文件结构，在文件名和后缀名之间加上平台的名字：
+
+```bash
+.
+└── utils
+    ├── api.h5.js
+    ├── api.weapp.js
+    └── index.js
+```
+
+:::info 了解更多
+除了「内置环境变量」和「统一接口的多端文件」之外，Taro 还提供了别的跨平台开发解决方案，你可以访问文档 [跨平台开发](./envs) 了解更多。
+:::
+
 ### 同步调试
 
+默认情况下，Taro 会把各端打包后的文件都放在 `dist` 目录。如果你想要多端同步调试的话先编译后的文件就会被后编译好的文件覆盖。
+
+但我们可以通过修改编译配置的 `outputRoot` 达到多端同步调试的目的：
+
+```js {2} title="config/index.js"
+const config = {
+  outputRoot: `dist/${process.env.TARO_ENV}`
+}
+```
+
+在这样的配置下，微信小程序编译后的目录就会是 `dist/weapp`，H5 编译后目录就会是 `dist/h5`。
+
+### 使用原生小程序组件
+
+某些情况下我们需要复用小程序既有生态，而小程序的组件/库通常是针对特定小程序写的，并不能直接在 Taro 上使用，需要一些额外的操作。
+
+例如我们的论坛应用，在帖子详情可能服务端返回的是 MarkDown 格式，我们就需要 `towxml` 来渲染的我们的帖子：
+
+首先我们需要在帖子详情页面的配置文件中引用 `towxml`:
+
+```js
+export default {
+  "usingComponents": {
+    "towxml":"../../towxml/towxml"
+  }
+}
+```
+
+然后使用 `towxml` 组件，这里必须记住的是不管是 React 还是 Vue，原生小程序组件声明需要是小写的
+
+<Tabs
+  defaultValue="React"
+  values={[
+    { label: <ReactIcon />, value: 'React', },
+    { label: <VueIcon />, value: 'Vue', }
+  ]
+}>
+
+<TabItem value="React">
+
+```diff title="src/pages/thread_detail/thread_detail.jsx"
+- <View dangerouslySetInnerHTML={{ __html: reply.content }} className='content'></View>
++ <towxml nodes="{{reply.content}}" />
+```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```diff title="src/pages/thread_detail/thread_detail.vue"
+- <view v-html="reply.content_rendered | html" class='content' />
++ <towxml :nodes="reply.content_rendered | html" />
+```
+
+</TabItem>
+
+</Tabs>
+
+最后按照 [towxml](./https://github.com/sbfkcel/towxml/wiki/3.0-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8) 文档调用即可。
+
+
+:::caution 请注意
+一旦使用了原生小程序组件，Taro 应用就失去了跨端的能力。
+:::
+
+:::info 了解更多
+Taro 还支持使用小程序插件，详情可以访问文档[使用小程序原生第三方组件和插件](./mini-third-party)。
+:::

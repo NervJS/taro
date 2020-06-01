@@ -212,6 +212,18 @@ a, a:hover {
   left: 100px;
 }
 
+.docusaurus-highlight-code-line {
+  background-color: #eee;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+/* If you have a different syntax highlighting theme for dark mode. */
+html[data-theme='dark'] .docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91); /* Color which works with dark mode syntax highlighting theme */
+}
+
 .footer_link_wechat_img img {
   width: 100%;
 }
