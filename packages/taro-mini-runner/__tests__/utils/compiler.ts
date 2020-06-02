@@ -48,29 +48,28 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
   const customChain = customConfig.webpackChain
 
   customConfig.webpackChain = (chain, webpack, PARSE_AST_TYPE) => {
-    // hack: providePlugin 注入的 @tarojs/runtime 在测试环境会 resolve 不了，原因未查明，这里先 hack 一下。
-    chain.plugin('providerPlugin').tap(() => {
-      return [{
-        window: [path.resolve(__dirname, '../../node_modules', '@tarojs/runtime'), 'window'],
-        document: [path.resolve(__dirname, '../../node_modules', '@tarojs/runtime'), 'document'],
-        navigator: [path.resolve(__dirname, '../../node_modules', '@tarojs/runtime'), 'navigator'],
-        requestAnimationFrame: [path.resolve(__dirname, '../../node_modules', '@tarojs/runtime'), 'requestAnimationFrame'],
-        cancelAnimationFrame: [path.resolve(__dirname, '../../node_modules', '@tarojs/runtime'), 'cancelAnimationFrame']
-      }]
-    })
-
-    // 测试环境 taro 的包都是 link 使用，需要修改正则判断
-    const splitChunksConfig = chain.optimization.get('splitChunks')
-    chain.optimization.splitChunks({
-      ...splitChunksConfig,
-      cacheGroups: {
-        ...splitChunksConfig.cacheGroups,
-        taro: {
-          name: 'taro',
-          test: module => {
-            return /taro-(components[\\/]mini|runtime[\\/]dist|react[\\/]dist)/.test(module.context)
-          },
-          priority: 100
+    chain.merge({
+      resolve: {
+        alias: {
+          '@tarojs/runtime': path.resolve(__dirname, '../mocks/taro-runtime'),
+          '@tarojs/components$': path.resolve(__dirname, '../mocks/taro-components'),
+          '@tarojs/react': path.resolve(__dirname, '../mocks/taro-react'),
+          react: path.resolve(__dirname, '../mocks/react'),
+          vue: path.resolve(__dirname, '../mocks/vue'),
+          nervjs: path.resolve(__dirname, '../mocks/nerv')
+        }
+      },
+      optimization: {
+        splitChunks: {
+          cacheGroups: {
+            taro: {
+              name: 'taro',
+              test: module => {
+                return /taro-(components|runtime|react)/.test(module.request)
+              },
+              priority: 100
+            }
+          }
         }
       }
     })
@@ -93,6 +92,7 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
       config: {
         compress: false,
         mangle: false,
+        extractComments: false,
         output: {
           comments: false,
           beautify: true
