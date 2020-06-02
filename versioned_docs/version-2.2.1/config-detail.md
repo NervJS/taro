@@ -393,7 +393,7 @@ export enum PARSE_AST_TYPE {
 }
 ```
 
-#### mini.commonChunks
+### mini.commonChunks
 
 > `type commonChunks = string[] | ((commonChunks: string[]) => string[])`
 

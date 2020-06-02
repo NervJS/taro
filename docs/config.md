@@ -13,23 +13,21 @@ title: 编译配置
 ```js
 const config = {
   // 项目名称
-  projectName: 'kj',
+  projectName: 'Awesome Next',
   // 项目创建日期
-  date: '2018-6-8',
+  date: '2020-6-2',
   // 设计稿尺寸
   designWidth: 750,
+  // 设计稿尺寸换算规则
+  deviceRatio: {
+    640: 2.34 / 2,
+    750: 1,
+    828: 1.81 / 2
+  },
   // 项目源码目录
   sourceRoot: 'src',
   // 项目产出目录
   outputRoot: 'dist',
-  // babel 编译配置
-  babel: {
-    sourceMap: true,
-    presets: ['env'],
-    plugins: ['transform-class-properties', 'transform-decorators-legacy', 'transform-object-rest-spread']
-  },
-  // 框架，react，nerv，vue 三选一
-  framework: 'react',
   // 编译插件配置
   plugins: [],
   // 全局变量设置
@@ -41,6 +39,8 @@ const config = {
     options: {
     }
   },
+  // 框架，react，nerv，vue 三选一
+  framework: 'react',
   // 小程序端专用配置
   mini: {
     postcss: {
@@ -55,6 +55,7 @@ const config = {
         }
       }
     },
+    // 自定义 Webpack 配置
     webpackChain: {},
   },
   // H5 端专用配置
