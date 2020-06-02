@@ -69,9 +69,10 @@ function stringify (obj?: Record<string, unknown>) {
   if (obj == null) {
     return ''
   }
-  return '?' + Object.keys(obj).map((key) => {
+  const path = Object.keys(obj).map((key) => {
     return key + '=' + obj[key]
   }).join('&')
+  return !path ? path : '?' + path
 }
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
