@@ -98,14 +98,24 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
   const newConfig: BuildConfig = await makeConfig(config)
   const webpackChain = prodConf(appPath, newConfig)
 
+  webpackChain.merge({
+    resolve: {
+      alias: {
+        '@tarojs/runtime': path.resolve(__dirname, '../mocks/taro-runtime'),
+        '@tarojs/shared': path.resolve(__dirname, '../mocks/taro-shared'),
+        '@tarojs/taro-h5': path.resolve(__dirname, '../mocks/taro-h5'),
+        '@tarojs/components$': path.resolve(__dirname, '../mocks/taro-components'),
+        '@tarojs/components/loader': path.resolve(__dirname, '../mocks/taro-components'),
+        '@tarojs/components/dist/taro-components/taro-components.css': path.resolve(__dirname, '../mocks/taro-components.css'),
+        'react-dom': path.resolve(__dirname, '../mocks/react'),
+        react: path.resolve(__dirname, '../mocks/react'),
+        vue: path.resolve(__dirname, '../mocks/vue'),
+        nervjs: path.resolve(__dirname, '../mocks/nerv')
+      }
+    }
+  })
+
   customizeChain(webpackChain, null, newConfig.webpackChain)
-  webpackChain.module
-    .rule('script')
-    .exclude
-    .clear()
-    .add(filename => {
-      return /taro-components/.test(filename) || /node_modules/.test(filename)
-    })
 
   const webpackConfig: webpack.Configuration = webpackChain.toConfig()
 
