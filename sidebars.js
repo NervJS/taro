@@ -20,6 +20,8 @@ module.exports = {
     进阶指南: [
       'config',
       'config-detail',
+      'plugin',
+      'debug-config',
       'hooks',
       'html',
       'css-in-js',
