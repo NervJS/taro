@@ -5,6 +5,7 @@ import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
 import { recursiveMerge } from '@tarojs/helper'
 
+import baseConf from './config/base.conf'
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
@@ -12,7 +13,6 @@ import prodConf from './config/prod.conf'
 import { addLeadingSlash, addTrailingSlash, formatOpenHost } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
-import { makeConfig } from './util/chain'
 
 export const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
   if (modifyWebpackChainFunc instanceof Function) {
@@ -24,8 +24,10 @@ export const customizeChain = async (chain, modifyWebpackChainFunc: Function, cu
 }
 
 const buildProd = async (appPath: string, config: BuildConfig): Promise<void> => {
-  const webpackChain = prodConf(appPath, config)
-  await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+  const baseWebpackChain = baseConf(appPath, config)
+  await customizeChain(baseWebpackChain, config.modifyWebpackChain, config.webpackChain)
+  const prodWebpackConf = prodConf(appPath, config, baseWebpackChain)
+  const webpackChain = baseWebpackChain.merge(prodWebpackConf)
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
   }
@@ -73,9 +75,11 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const publicPath = conf.publicPath ? addLeadingSlash(addTrailingSlash(conf.publicPath)) : '/'
   const outputPath = path.join(appPath, conf.outputRoot as string)
   const customDevServerOption = config.devServer || {}
-  const webpackChain = devConf(appPath, config)
   const onBuildFinish = config.onBuildFinish
-  await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+  const baseWebpackChain = baseConf(appPath, config)
+  await customizeChain(baseWebpackChain, config.modifyWebpackChain, config.webpackChain)
+  const devWebpackConf = devConf(appPath, config, baseWebpackChain)
+  const webpackChain = baseWebpackChain.merge(devWebpackConf)
 
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
@@ -174,16 +178,15 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 }
 
 export default async (appPath: string, config: BuildConfig): Promise<void> => {
-  const newConfig: BuildConfig = await makeConfig(config)
-  if (newConfig.isWatch) {
+  if (config.isWatch) {
     try {
-      await buildDev(appPath, newConfig)
+      await buildDev(appPath, config)
     } catch (e) {
       console.error(e)
     }
   } else {
     try {
-      await buildProd(appPath, newConfig)
+      await buildProd(appPath, config)
     } catch (e) {
       console.error(e)
       process.exit(1)

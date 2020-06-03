@@ -6,7 +6,6 @@ import {
   getCopyWebpackPlugin,
   getDefinePlugin,
   getDevtool,
-  // getHotModuleReplacementPlugin,
   getHtmlWebpackPlugin,
   getMiniCssExtractPlugin,
   getMainPlugin,
@@ -15,12 +14,10 @@ import {
   processEnvOption
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
-import getBaseChain from './base.conf'
 
 const emptyObj = {}
 
-export default function (appPath: string, config: Partial<BuildConfig>): any {
-  const chain = getBaseChain(appPath, config)
+export default function (appPath: string, config: Partial<BuildConfig>, chain: any): any {
   const {
     alias = {},
     copy,
@@ -43,9 +40,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     env = emptyObj,
     styleLoaderOption = emptyObj,
     cssLoaderOption = emptyObj,
-    sassLoaderOption = emptyObj,
-    lessLoaderOption = emptyObj,
-    stylusLoaderOption = emptyObj,
     mediaUrlLoaderOption = emptyObj,
     fontUrlLoaderOption = emptyObj,
     imageUrlLoaderOption = emptyObj,
@@ -111,7 +105,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     }
   }
 
-  chain.merge({
+  return {
     mode,
     devtool: getDevtool([enableSourceMap]),
     entry,
@@ -129,9 +123,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
       styleLoaderOption,
       cssLoaderOption,
-      lessLoaderOption,
-      sassLoaderOption,
-      stylusLoaderOption,
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
@@ -140,12 +131,10 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       postcss,
       staticDirectory,
       framework: config.framework
-    }),
+    }, chain),
     plugin,
     optimization: {
       noEmitOnErrors: true
     }
-  })
-
-  return chain
+  }
 }

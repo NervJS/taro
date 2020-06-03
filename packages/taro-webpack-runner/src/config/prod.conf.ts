@@ -12,14 +12,11 @@ import {
   getMainPlugin,
   getModule,
   getOutput,
-  getTerserPlugin,
   processEnvOption
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
-import getBaseChain from './base.conf'
 
-export default function (appPath: string, config: Partial<BuildConfig>): any {
-  const chain = getBaseChain(appPath, config)
+export default function (appPath: string, config: Partial<BuildConfig>, chain: any): any {
   const {
     alias = emptyObj,
     copy,
@@ -42,9 +39,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     env = emptyObj,
     styleLoaderOption = emptyObj,
     cssLoaderOption = emptyObj,
-    sassLoaderOption = emptyObj,
-    lessLoaderOption = emptyObj,
-    stylusLoaderOption = emptyObj,
     mediaUrlLoaderOption = emptyObj,
     fontUrlLoaderOption = emptyObj,
     imageUrlLoaderOption = emptyObj,
@@ -53,9 +47,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     esnextModules = [],
 
     postcss,
-    csso,
-    uglify,
-    terser
+    csso
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
@@ -111,15 +103,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   const mode = 'production'
 
   const minimizer: any[] = []
-  const uglifyConfig = uglify || terser
-  const isUglifyEnabled = !(uglifyConfig && uglifyConfig.enable === false)
-
-  if (isUglifyEnabled) {
-    minimizer.push(getTerserPlugin([
-      enableSourceMap,
-      uglifyConfig ? uglifyConfig.config : {}
-    ]))
-  }
 
   alias['@tarojs/components$'] = `@tarojs/components/h5/${config.framework === 'vue' ? 'vue' : 'react'}`
 
@@ -130,7 +113,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     }
   }
 
-  chain.merge({
+  return {
     mode,
     devtool: getDevtool(enableSourceMap),
     entry,
@@ -148,9 +131,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
       styleLoaderOption,
       cssLoaderOption,
-      lessLoaderOption,
-      sassLoaderOption,
-      stylusLoaderOption,
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
@@ -159,7 +139,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       postcss,
       staticDirectory,
       framework: config.framework
-    }),
+    }, chain),
     plugin,
     optimization: {
       minimizer,
@@ -167,6 +147,5 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
         name: false
       }
     }
-  })
-  return chain
+  }
 }

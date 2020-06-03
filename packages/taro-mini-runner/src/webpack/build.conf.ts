@@ -7,7 +7,6 @@ import {
   getDefinePlugin,
   processEnvOption,
   getCssoWebpackPlugin,
-  getTerserPlugin,
   getDevtool,
   getOutput,
   getModule,
@@ -17,12 +16,10 @@ import {
   getMiniCssExtractPlugin,
   getEntry
 } from './chain'
-import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
 import { weixinAdapter } from '../template/adapters'
 
-export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
-  const chain = getBaseConf(appPath)
+export default (appPath: string, mode, config: Partial<IBuildConfig>, chain: any): any => {
   const {
     buildAdapter = PLATFORMS.WEAPP,
     alias = {},
@@ -50,9 +47,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     defineConstants = {},
     env = {},
     cssLoaderOption = {},
-    sassLoaderOption = {},
-    lessLoaderOption = {},
-    stylusLoaderOption = {},
     mediaUrlLoaderOption = {},
     fontUrlLoaderOption = {},
     imageUrlLoaderOption = {},
@@ -65,7 +59,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     quickappJSON,
 
     csso,
-    terser,
     commonChunks,
     addChunkPages,
 
@@ -167,23 +160,14 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   const isCssoEnabled = !((csso && csso.enable === false))
 
-  const isTerserEnabled = !((terser && terser.enable === false))
-
   if (mode === 'production') {
-    if (isTerserEnabled) {
-      minimizer.push(getTerserPlugin([
-        enableSourceMap,
-        terser ? terser.config : {}
-      ]))
-    }
-
     if (isCssoEnabled) {
       const cssoConfig: any = csso ? csso.config : {}
       plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
     }
   }
 
-  chain.merge({
+  return {
     mode,
     devtool: getDevtool(enableSourceMap),
     entry: entryRes!.entry,
@@ -206,16 +190,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       compile: config.compile || {},
 
       cssLoaderOption,
-      lessLoaderOption,
-      sassLoaderOption,
-      stylusLoaderOption,
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
 
       postcss,
       fileType
-    }),
+    }, chain),
     plugin,
     optimization: {
       usedExports: true,
@@ -251,6 +232,5 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         }
       }
     }
-  })
-  return chain
+  }
 }

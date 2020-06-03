@@ -1,8 +1,6 @@
-import { recursiveMerge, REG_SCRIPTS, REG_SASS_SASS, REG_SASS_SCSS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, REG_VUE } from '@tarojs/helper'
-import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { recursiveMerge, REG_SCRIPTS, REG_MEDIA, REG_FONT, REG_IMAGE, REG_VUE } from '@tarojs/helper'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
-import * as sass from 'sass'
 import * as HtmlWebpackPlugin from 'html-webpack-plugin'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
@@ -14,15 +12,7 @@ import { PostcssOption, IPostcssOption, ICopyOptions } from '@tarojs/taro/types/
 
 import MainPlugin from '../plugins/MainPlugin'
 import { getPostcssPlugins } from '../config/postcss.conf'
-import { Option, BuildConfig } from './types'
-
-export const makeConfig = async (buildConfig: BuildConfig) => {
-  const sassLoaderOption = await getSassLoaderOption(buildConfig)
-  return {
-    ...buildConfig,
-    sassLoaderOption
-  }
-}
+import { Option } from './types'
 
 const defaultTerserOption = {
   keep_fnames: true,
@@ -143,22 +133,6 @@ const getPostcssLoader = pipe(
   mergeOption,
   partial(getLoader, 'postcss-loader')
 )
-const getResolveUrlLoader = pipe(
-  mergeOption,
-  partial(getLoader, 'resolve-url-loader')
-)
-const getSassLoader = pipe(
-  mergeOption,
-  partial(getLoader, 'sass-loader')
-)
-const getLessLoader = pipe(
-  mergeOption,
-  partial(getLoader, 'less-loader')
-)
-const getStylusLoader = pipe(
-  mergeOption,
-  partial(getLoader, 'stylus-loader')
-)
 const getBabelLoader = pipe(
   mergeOption,
   partial(getLoader, 'babel-loader')
@@ -227,9 +201,6 @@ export const getMainPlugin = args => {
   return partial(getPlugin, MainPlugin)([args])
 }
 
-const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
-const styleGlobalReg = /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/
-
 const isNodeModule = (filename: string) => /\bnode_modules\b/.test(filename)
 const taroModuleRegs = [/@tarojs[/\\_]components/, /\btaro-components\b/]
 const isTaroModule = (filename: string) => taroModuleRegs.some(reg => reg.test(filename))
@@ -259,9 +230,6 @@ export const getModule = (appPath: string, {
 
   styleLoaderOption,
   cssLoaderOption,
-  lessLoaderOption,
-  sassLoaderOption,
-  stylusLoaderOption,
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
@@ -269,7 +237,7 @@ export const getModule = (appPath: string, {
 
   postcss,
   framework
-}) => {
+}, chain) => {
   const postcssOption: IPostcssOption = postcss || {}
 
   const defaultStyleLoaderOption = {
@@ -278,6 +246,20 @@ export const getModule = (appPath: string, {
      * singleton: true
      */
   }
+
+  const styleExtRegs = [/\.css$/]
+  const rules = chain.module.rules.entries()
+  if (rules) {
+    Object.keys(rules).forEach(item => {
+      if (/^addChainStyle/.test(item) && rules[item].get('test')) {
+        styleExtRegs.push(rules[item].get('test'))
+      }
+    })
+  }
+  const styleReg = new RegExp(styleExtRegs.map(reg => new RegExp(reg).source).join('|'))
+
+  const styleModuleReg = new RegExp(`(.*\.module).*${styleReg.source}`)
+  const styleGlobalReg = new RegExp(`(.*\.global).*${styleReg.source}`)
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge(
     {},
@@ -396,50 +378,26 @@ export const getModule = (appPath: string, {
     }
   ])
 
-  const resolveUrlLoader = getResolveUrlLoader([{}])
-
-  const sassLoader = getSassLoader([
-    {
-      sourceMap: true,
-      implementation: sass,
-      sassOptions: {
-        indentedSyntax: true
-      }
-    },
-    sassLoaderOption
-  ])
-  const scssLoader = getSassLoader([
-    {
-      sourceMap: true,
-      implementation: sass
-    },
-    sassLoaderOption
-  ])
-
-  const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
-
-  const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
-
   const rule: {
     [key: string]: any
   } = {}
 
   rule.taroStyle = {
-    test: REG_STYLE,
+    test: styleReg,
     use: [topStyleLoader],
     include: [(filename: string) => isTaroModule(filename)]
   }
   rule.customStyle = {
-    test: REG_STYLE,
+    test: styleReg,
     use: [lastStyleLoader],
     exclude: [(filename: string) => isTaroModule(filename)]
   }
   rule.css = {
-    test: REG_STYLE,
+    test: styleReg,
     oneOf: cssLoaders
   }
   rule.postcss = {
-    test: REG_STYLE,
+    test: styleReg,
     use: [postcssLoader],
     exclude: [
       filename => {
@@ -452,22 +410,6 @@ export const getModule = (appPath: string, {
         }
       }
     ]
-  }
-  rule.sass = {
-    test: REG_SASS_SASS,
-    use: [resolveUrlLoader, sassLoader]
-  }
-  rule.scss = {
-    test: REG_SASS_SCSS,
-    use: [resolveUrlLoader, scssLoader]
-  }
-  rule.less = {
-    test: REG_LESS,
-    use: [lessLoader]
-  }
-  rule.styl = {
-    test: REG_STYLUS,
-    use: [stylusLoader]
   }
   rule.vue = {
     test: REG_VUE,

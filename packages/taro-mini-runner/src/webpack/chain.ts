@@ -4,20 +4,14 @@ import * as path from 'path'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as sass from 'node-sass'
-import { partial, cloneDeep } from 'lodash'
+import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
-import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
   recursiveMerge,
   isNodeModule,
   resolveMainFilePath,
-  REG_SASS_SASS,
-  REG_SASS_SCSS,
-  REG_LESS,
-  REG_STYLUS,
   REG_STYLE,
   REG_MEDIA,
   REG_FONT,
@@ -36,7 +30,6 @@ import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption, IBuildConfig } from '../utils/types'
 import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
-import defaultTerserOptions from '../config/terserOptions'
 
 interface IRule {
   test?: any
@@ -125,16 +118,10 @@ export const mergeOption = ([...options]: IOption[]): IOption => {
   return recursiveMerge({}, ...options)
 }
 
-const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
-const styleGlobalReg = /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/
-
 export const processEnvOption = partial(mapKeys as any, (key: string) => `process.env.${key}`) as any
 
 export const getCssLoader = pipe(mergeOption, partial(getLoader, 'css-loader'))
 export const getPostcssLoader = pipe(mergeOption, partial(getLoader, 'postcss-loader'))
-export const getSassLoader = pipe(mergeOption, partial(getLoader, 'sass-loader'))
-export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader'))
-export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
@@ -153,14 +140,7 @@ const getQuickappStyleLoader = () => {
 }
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
 export const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
-export const getTerserPlugin = ([enableSourceMap, terserOptions]) => {
-  return new TerserPlugin({
-    cache: true,
-    parallel: true,
-    sourceMap: enableSourceMap,
-    terserOptions: recursiveMerge({}, defaultTerserOptions, terserOptions)
-  })
-}
+
 export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(listify, partial(getPlugin, CssoWebpackPlugin))([mergeOption([defaultCSSCompressOption, cssoOption]), REG_STYLE])
 }
@@ -201,20 +181,31 @@ export const getModule = (appPath: string, {
   compile,
 
   cssLoaderOption,
-  lessLoaderOption,
-  sassLoaderOption,
-  stylusLoaderOption,
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
   postcss,
   fileType
-}) => {
+}, chain) => {
   const postcssOption: IPostcssOption = postcss || {}
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
 
   const { namingPattern, generateScopedName } = cssModuleOptions.config!
+
+  const styleExtRegs = [/\.css$/]
+  const rules = chain.module.rules.entries()
+  if (rules) {
+    Object.keys(rules).forEach(item => {
+      if (/^addChainStyle/.test(item) && rules[item].get('test')) {
+        styleExtRegs.push(rules[item].get('test'))
+      }
+    })
+  }
+  const styleReg = new RegExp(styleExtRegs.map(reg => new RegExp(reg).source).join('|'))
+
+  const styleModuleReg = new RegExp(`(.*\.module).*${styleReg.source}`)
+  const styleGlobalReg = new RegExp(`(.*\.global).*${styleReg.source}`)
 
   const cssOptions = [
     {
@@ -248,17 +239,6 @@ export const getModule = (appPath: string, {
   }])
 
   const cssLoader = getCssLoader(cssOptions)
-  const sassLoader = getSassLoader([{
-    sourceMap: true,
-    implementation: sass,
-    sassOptions: {
-      indentedSyntax: true
-    }
-  }, sassLoaderOption])
-  const scssLoader = getSassLoader([{
-    sourceMap: true,
-    implementation: sass
-  }, sassLoaderOption])
 
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
@@ -272,10 +252,6 @@ export const getModule = (appPath: string, {
       })
     }
   ])
-
-  const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
-
-  const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
   const cssLoaders: {
     include?;
@@ -324,14 +300,6 @@ export const getModule = (appPath: string, {
     postcssUrlOption = urlOptions.config
   }
 
-  function addCssLoader (cssLoaders, loader) {
-    const cssLoadersCopy = cloneDeep(cssLoaders)
-    cssLoadersCopy.forEach(item => {
-      item.use && item.use.push(loader)
-    })
-    return cssLoadersCopy
-  }
-
   const scriptRule: IRule = {
     test: REG_SCRIPTS,
     use: {
@@ -355,21 +323,9 @@ export const getModule = (appPath: string, {
   }
 
   const rule: Record<string, IRule> = {
-    sass: {
-      test: REG_SASS_SASS,
-      oneOf: addCssLoader(cssLoaders, sassLoader)
-    },
-    scss: {
-      test: REG_SASS_SCSS,
-      oneOf: addCssLoader(cssLoaders, scssLoader)
-    },
-    less: {
-      test: REG_LESS,
-      oneOf: addCssLoader(cssLoaders, lessLoader)
-    },
-    stylus: {
-      test: REG_STYLUS,
-      oneOf: addCssLoader(cssLoaders, stylusLoader)
+    css: {
+      test: styleReg,
+      oneOf: cssLoaders
     },
     nomorlCss: {
       test: REG_CSS,
