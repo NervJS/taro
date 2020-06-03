@@ -62,7 +62,6 @@
     "request": "^2.88.0",
     "resolve": "^2.0.0-next.0",
     "sax": "^1.2.4",
-    "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^2.0.0",
     "webpack": "4.41.6",
     "webpack-chain": "4.9.0",
