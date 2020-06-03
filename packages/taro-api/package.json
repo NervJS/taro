@@ -3,7 +3,7 @@
   "version": "3.0.0-rc.3",
   "description": "Taro common API",
   "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
+  "homepage": "https://github.com/nervjs/taro/tree/next/packages/taro-api#readme",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -22,7 +22,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
+    "test": "jest --collectCoverage",
     "build": "rollup -c rollup.config.js"
   },
   "bugs": {
@@ -30,5 +30,8 @@
   },
   "dependencies": {
     "@tarojs/runtime": "3.0.0-rc.3"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1"
   }
 }
