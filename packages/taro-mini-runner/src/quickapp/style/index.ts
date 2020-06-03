@@ -19,6 +19,7 @@ export default function rewriter (rule, output) {
 
   if (!selectors.length) {
     let commentCssCode = ''
+    rule.declarations = rule.declarations.filter(declaration => declaration.type !== "comment");
     try {
       commentCssCode = css.stringify({
         stylesheet: {
