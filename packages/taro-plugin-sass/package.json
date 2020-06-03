@@ -1,0 +1,36 @@
+{
+  "name": "@tarojs/plugin-sass",
+  "version": "3.0.0-rc.3",
+  "description": "Taro webpack sass config plugin",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run clean && npm run prod",
+    "dev": "tsc -w",
+    "prod": "tsc",
+    "clean": "rimraf dist",
+    "test": "jest",
+    "test:dev": "jest --watch"
+  },
+  "files": [
+    "src",
+    "dist",
+    "index.js",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "luckyadam",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/runner-utils": "3.0.0-rc.3",
+    "@tarojs/service": "3.0.0-rc.3",
+    "node-sass": "4.14.1",
+    "resolve-url-loader": "3.1.1",
+    "sass-loader": "8.0.2"
+  }
+}
