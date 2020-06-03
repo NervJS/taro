@@ -29,6 +29,7 @@ export default (ctx) => {
         configPath,
         projectConfig: ctx.initialConfig
       })
+      await checkPlugin(ctx, isWatch)
       if (checkResult.lines.length) {
         const NOTE_VALID = chalk.yellow('[!] ')
         const NOTE_INVALID = chalk.red('[✗] ')
@@ -126,4 +127,68 @@ async function checkConfig ({ projectConfig, configPath }) {
     projectConfig
   })
   return result
+}
+
+function findFilesWithExt (dirname, ext) {
+  const glob = require('glob')
+  const pattern = Array.isArray(ext) ? `${dirname}/**/*{${ext.join(',')}}` : `${dirname}/**/*${ext}`
+  const files = glob.sync(pattern)
+  return files
+}
+
+const PLUGIN_SASS = '@tarojs/plugin-sass'
+const PLUGIN_LESS = '@tarojs/plugin-less'
+const PLUGIN_STYLUS = '@tarojs/plugin-stylus'
+const PLUGIN_UGLIFY = '@tarojs/plugin-uglify'
+const PLUGIN_TERSER = '@tarojs/plugin-terser'
+
+const PLUGINS_CONFIG_DOC = 'https://nervjs.github.io/taro/docs/config-detail#plugins'
+
+function hadAddPlugin (plugins, pluginName) {
+  let hadAdd = false
+  plugins.forEach(item => {
+    if (item.id === pluginName || item.name === pluginName) {
+      hadAdd = true
+    }
+  })
+  return hadAdd
+}
+
+async function checkPlugin (ctx, isWatch) {
+  const plugins = ctx.plugins
+  const sassFiles = findFilesWithExt(ctx.paths.sourcePath, ['.scss', '.sass'])
+  if (sassFiles.length && !hadAddPlugin(plugins, PLUGIN_SASS)) {
+    console.log()
+    console.log(ctx.helper.chalk.red(`当前项目使用了 sass，请安装插件 ${PLUGIN_SASS}，并且在 plugins 中进行配置，否则将无法编译 sass 文件！`))
+    console.log(ctx.helper.chalk.red(`参考文档：${PLUGINS_CONFIG_DOC}`))
+    console.log()
+    process.exit(1)
+  }
+
+  const lessFiles = findFilesWithExt(ctx.paths.sourcePath, '.less')
+  if (lessFiles.length && !hadAddPlugin(plugins, PLUGIN_LESS)) {
+    console.log()
+    console.log(ctx.helper.chalk.red(`当前项目使用了 sass，请安装插件 ${PLUGIN_LESS}，并且在 plugins 中进行配置，否则将无法编译 less 文件！`))
+    console.log(ctx.helper.chalk.red(`参考文档：${PLUGINS_CONFIG_DOC}`))
+    console.log()
+    process.exit(1)
+  }
+
+  const stylusFiles = findFilesWithExt(ctx.paths.sourcePath, '.styl')
+  if (stylusFiles.length && !hadAddPlugin(plugins, PLUGIN_STYLUS)) {
+    console.log()
+    console.log(ctx.helper.chalk.red(`当前项目使用了 sass，请安装插件 ${PLUGIN_STYLUS}，并且在 plugins 中进行配置，否则将无法编译 stylus 文件！`))
+    console.log(ctx.helper.chalk.red(`参考文档：${PLUGINS_CONFIG_DOC}`))
+    console.log()
+    process.exit(1)
+  }
+
+  if (!isWatch) {
+    if (!hadAddPlugin(plugins, PLUGIN_UGLIFY) && !hadAddPlugin(plugins, PLUGIN_TERSER)) {
+      console.log()
+      console.log(ctx.helper.chalk.yellow(`检测到当前项目没有安装压缩插件 ${PLUGIN_UGLIFY} 或 ${PLUGIN_TERSER}，打包时将无法压缩 JS 代码，请安装插件（安装其一即可），并且在 plugins 中进行配置！`))
+      console.log(ctx.helper.chalk.yellow(`参考文档：${PLUGINS_CONFIG_DOC}`))
+      console.log()
+    }
+  }
 }
