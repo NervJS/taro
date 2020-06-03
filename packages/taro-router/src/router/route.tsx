@@ -1,14 +1,18 @@
 import Taro from '@tarojs/taro-h5'
 import Nerv, { nextTick } from 'nervjs'
+import toPairs from 'lodash/toPairs'
 
 import { tryToCall } from '../utils'
 import { Location, RouteObj } from '../utils/types'
 import createWrappedComponent from './createWrappedComponent'
 
+import * as Types from '../utils/types'
+
 type RouteProps = RouteObj & {
   currentLocation: Location;
   k: number;
   collectComponent: Function;
+  customRoutes: Types.CustomRoutes;
 }
 
 const getScroller = () => {
@@ -32,6 +36,9 @@ const getScroller = () => {
 }
 let scroller
 
+type OriginalRoute = string;
+type MappedRoute = string;
+
 class Route extends Taro.Component<RouteProps, {}> {
   matched = false;
   wrappedComponent;
@@ -39,6 +46,7 @@ class Route extends Taro.Component<RouteProps, {}> {
   containerRef;
   isRoute = true;
   scrollPos = 0;
+  customRoutes: [OriginalRoute, MappedRoute][] = [];
 
   state = {
     location: {}
@@ -46,6 +54,7 @@ class Route extends Taro.Component<RouteProps, {}> {
 
   constructor (props, context) {
     super(props, context)
+    this.customRoutes = toPairs(this.props.customRoutes)
     this.matched = this.computeMatch(this.props.currentLocation)
     if (this.matched) {
       this.state = { location: this.props.currentLocation }
@@ -53,19 +62,26 @@ class Route extends Taro.Component<RouteProps, {}> {
   }
 
   computeMatch (currentLocation: Location) {
-    const path = currentLocation.path;
+    let pathname = currentLocation.path;
     const key = currentLocation.state.key;
     const isIndex = this.props.isIndex;
     const isTabBar = this.props.isTabBar;
 
+    const foundRoute = this.customRoutes.filter(([originalRoute, mappedRoute]) => {
+      return currentLocation.path === mappedRoute
+    })
+    if (foundRoute.length) {
+      pathname = foundRoute[0][0]
+    }
+
     if (key !== undefined) {
       if (isTabBar) {
-        return key === this.props.key && path === this.props.path
+        return key === this.props.key && pathname === this.props.path
       } else {
         return key === this.props.key
       }
     } else {
-      return isIndex && path === '/'
+      return isIndex && pathname === '/'
     }
   }
 
