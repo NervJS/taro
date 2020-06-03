@@ -37,5 +37,5 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/wx.pageScrollTo.html
    */
-  function pageScrollTo(option: pageScrollTo.Option): void
+  function pageScrollTo(option: pageScrollTo.Option): Promise<General.CallbackResult>
 }
