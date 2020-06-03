@@ -25,6 +25,7 @@ export interface IPaths {
 
 export interface IPlugin {
   id: string
+  name: string
   path: string
   opts: any
   type: PluginType
