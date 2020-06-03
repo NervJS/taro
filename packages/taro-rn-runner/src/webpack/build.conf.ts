@@ -8,7 +8,6 @@ import {
   // getStatsPlugin,
   processEnvOption,
   getCssoWebpackPlugin,
-  getUglifyPlugin,
   getDevtool,
   getOutput,
   getModule,
@@ -17,7 +16,6 @@ import {
   getMiniCssExtractPlugin,
   getEntry
 } from './chain'
-import getBaseConf from './base.conf'
 import { BUILD_TYPES } from '../utils/constants'
 import { Targets } from '../plugins/RNPlugin'
 
@@ -25,8 +23,7 @@ const nodeExternals = require('webpack-node-externals')
 
 const emptyObj = {}
 
-export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
-  const chain = getBaseConf(appPath)
+export default (appPath: string, mode, config: Partial<IBuildConfig>, chain: any): any => {
   const {
     buildAdapter = BUILD_TYPES.WEAPP,
     alias = emptyObj,
@@ -42,9 +39,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     defineConstants = emptyObj,
     env = emptyObj,
     cssLoaderOption = emptyObj,
-    sassLoaderOption = emptyObj,
-    lessLoaderOption = emptyObj,
-    stylusLoaderOption = emptyObj,
     mediaUrlLoaderOption = emptyObj,
     fontUrlLoaderOption = emptyObj,
     imageUrlLoaderOption = emptyObj,
@@ -57,7 +51,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
     babel,
     csso,
-    uglify,
     commonChunks,
     // @ts-ignore
     addChunkPages,
@@ -132,23 +125,14 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   const isCssoEnabled = !(csso && csso.enable === false)
 
-  const isUglifyEnabled = !(uglify && uglify.enable === false)
-
   // not use
   if (mode === 'production') {
-    if (isUglifyEnabled) {
-      minimizer.push(getUglifyPlugin([
-        enableSourceMap,
-        uglify ? uglify.config : {}
-      ]))
-    }
-
     if (isCssoEnabled) {
       const cssoConfig: any = csso ? csso.config : {}
       plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
     }
   }
-  chain.merge({
+  return {
     mode,
     devtool: getDevtool(enableSourceMap),
     watch: mode === 'development',
@@ -177,9 +161,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       enableSourceMap,
 
       cssLoaderOption,
-      lessLoaderOption,
-      sassLoaderOption,
-      stylusLoaderOption,
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
@@ -188,7 +169,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       compile,
       babel,
       alias
-    }),
+    }, chain),
     plugin,
     optimization: {
       minimizer,
@@ -205,6 +186,5 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       //   }
       // }
     }
-  })
-  return chain
+  }
 }
