@@ -207,7 +207,7 @@ class Swiper extends Nerv.Component {
       }
     )
     return (
-      <div className={cls} style={sty}>
+      <div className={`swiper-container-wrapper ${cls}`} style={sty}>
         <div className='swiper-container' style={{ overflow: 'visible' }} ref={(el) => { this.$el = el }}>
           <div
             dangerouslySetInnerHTML={{
