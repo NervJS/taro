@@ -192,6 +192,7 @@ export const getModule = (appPath: string, {
   const compileInclude = compile.include || []
 
   const styleExtRegs = [/\.css$/]
+  styleExtRegs.push(new RegExp(`${fileType.style}$`))
   const rules = chain.module.rules.entries()
   if (rules) {
     Object.keys(rules).forEach(item => {
