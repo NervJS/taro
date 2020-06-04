@@ -294,13 +294,18 @@ export const getModule = (appPath: string, {
 
   if (compileExclude && compileExclude.length) {
     scriptsLoaderConf = Object.assign({}, scriptsLoaderConf, {
-      exclude: compileExclude
+      exclude: [
+        ...compileExclude
+      ]
     })
   }
 
   if (compileInclude && compileInclude.length) {
     scriptsLoaderConf = Object.assign({}, scriptsLoaderConf, {
-      include: compileInclude
+      include: [
+        ...compileInclude,
+        sourceDir
+      ]
     })
   }
 

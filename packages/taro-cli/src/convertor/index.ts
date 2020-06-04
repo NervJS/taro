@@ -26,13 +26,12 @@ import {
 import { generateMinimalEscapeCode } from '../util/astConvert'
 import Creator from '../create/creator'
 import babylonConfig from '../config/babylon'
-import { IPrettierConfig } from '../util/types'
 import { analyzeImportUrl, incrementId } from './helper'
 import { getPkgVersion } from '../util'
 
 const template = require('babel-template')
 
-const prettierJSConfig: IPrettierConfig = {
+const prettierJSConfig: prettier.Options = {
   semi: false,
   singleQuote: true,
   parser: 'babel'
