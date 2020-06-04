@@ -15,6 +15,8 @@ export default class Chain {
     const p = nextInterceptor(nextChain)
     const res = p.catch(err => Promise.reject(err))
     if (typeof p.abort === 'function') res.abort = p.abort
+    if (typeof p.onHeadersReceived === 'function') res.onHeadersReceived = p.onHeadersReceived
+    if (typeof p.offHeadersReceived === 'function') res.offHeadersReceived = p.offHeadersReceived
     return res
   }
 
