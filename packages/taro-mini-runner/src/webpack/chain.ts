@@ -194,6 +194,7 @@ export const getModule = (appPath: string, {
   const { namingPattern, generateScopedName } = cssModuleOptions.config!
 
   const styleExtRegs = [/\.css$/]
+  styleExtRegs.push(new RegExp(`${fileType.style}$`))
   const rules = chain.module.rules.entries()
   if (rules) {
     Object.keys(rules).forEach(item => {
