@@ -48,22 +48,22 @@ describe('Regs', () => {
       babel: {}
     }, chain)
     expect(rule.css).toMatchObject({
-      test: /\.(css|s[ac]ss|less|styl)\b/,
+      test: /\.css$/,
       oneOf: expect.any(Array)
     })
     expect(rule.postcss).toMatchObject({
-      test: /\.(css|s[ac]ss|less|styl)\b/,
+      test: /\.css$/,
       use: expect.any(Array),
       exclude: expect.any(Array)
     })
     expect(rule.taroStyle).toMatchObject({
-      test: /\.(css|s[ac]ss|less|styl)\b/,
+      test: /\.css$/,
       enforce: 'post',
       use: expect.any(Array),
       include: expect.any(Array)
     })
     expect(rule.customStyle).toMatchObject({
-      test: /\.(css|s[ac]ss|less|styl)\b/,
+      test: /\.css$/,
       enforce: 'post',
       use: expect.any(Array),
       exclude: expect.any(Array)

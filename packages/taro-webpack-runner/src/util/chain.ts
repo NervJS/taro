@@ -266,13 +266,15 @@ const getModule = (appPath: string, {
   }]
 
   const styleExtRegs = [/\.css$/]
-  const rules = chain.module.rules.entries()
-  if (rules) {
-    Object.keys(rules).forEach(item => {
-      if (/^addChainStyle/.test(item) && rules[item].get('test')) {
-        styleExtRegs.push(rules[item].get('test'))
-      }
-    })
+  if (chain.module) {
+    const rules = chain.module.rules.entries()
+    if (rules) {
+      Object.keys(rules).forEach(item => {
+        if (/^addChainStyle/.test(item) && rules[item].get('test')) {
+          styleExtRegs.push(rules[item].get('test'))
+        }
+      })
+    }
   }
   const styleReg = new RegExp(styleExtRegs.map(reg => new RegExp(reg).source).join('|'))
 
