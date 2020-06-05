@@ -37,16 +37,6 @@ const globalObjectMap = {
   [BUILD_TYPES.RN]: 'global'
 }
 
-const defaultUglifyJsOption = {
-  keep_fnames: true,
-  output: {
-    comments: false,
-    keep_quoted_props: true,
-    quote_keys: true,
-    beautify: false
-  },
-  warnings: false
-}
 const defaultCSSCompressOption = {
   mergeRules: false,
   mergeIdents: false,
