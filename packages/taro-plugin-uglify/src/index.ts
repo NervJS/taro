@@ -16,9 +16,7 @@ export default (ctx: IPluginContext, opts) => {
       warnings: false
     }
     const uglify = ctx.initialConfig.uglify
-    const isUglifyEnabled = (uglify && uglify.enable === false)
-      ? false
-      : true
+    const isUglifyEnabled = !((uglify && uglify.enable === false))
     if (isUglifyEnabled) {
       chain.merge({
         optimization: {

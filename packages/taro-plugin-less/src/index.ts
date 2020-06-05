@@ -17,12 +17,12 @@ export default (ctx: IPluginContext, opts) => {
 
       chain.module
         .rule('addChainStyleLess')
-          .test(ctx.helper.REG_LESS)
-          .pre()
-          .use('less')
-            .loader(require.resolve('less-loader'))
-            .options(Object.assign({}, defaultLessLoaderOption, lessLoaderOption))
-            .end()
+        .test(ctx.helper.REG_LESS)
+        .pre()
+        .use('less')
+        .loader(require.resolve('less-loader'))
+        .options(Object.assign({}, defaultLessLoaderOption, lessLoaderOption))
+        .end()
     }
   })
 }

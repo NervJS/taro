@@ -205,8 +205,8 @@ export const getModule = (appPath: string, {
   }
   const styleReg = new RegExp(styleExtRegs.map(reg => new RegExp(reg).source).join('|'))
 
-  const styleModuleReg = new RegExp(`(.*\.module).*${styleReg.source}`)
-  const styleGlobalReg = new RegExp(`(.*\.global).*${styleReg.source}`)
+  const styleModuleReg = new RegExp(`(.*.module).*${styleReg.source}`)
+  const styleGlobalReg = new RegExp(`(.*.global).*${styleReg.source}`)
 
   const cssOptions = [
     {

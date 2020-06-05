@@ -26,31 +26,31 @@ export default (ctx: IPluginContext, opts) => {
       const completeSassLoaderOption = Object.assign({}, defaultSassLoaderOption, newSassLoaderOption)
       chain.module
         .rule('addChainStyleScss')
-          .test(ctx.helper.REG_SASS_SCSS)
-          .pre()
-          .use('resolveUrl')
-            .loader(require.resolve('resolve-url-loader'))
-            .end()
-          .use('sass')
-            .loader(require.resolve('sass-loader'))
-            .options(completeSassLoaderOption)
-            .end()
-          .end()
+        .test(ctx.helper.REG_SASS_SCSS)
+        .pre()
+        .use('resolveUrl')
+        .loader(require.resolve('resolve-url-loader'))
+        .end()
+        .use('sass')
+        .loader(require.resolve('sass-loader'))
+        .options(completeSassLoaderOption)
+        .end()
+        .end()
         .rule('addChainStyleSass')
-          .test(ctx.helper.REG_SASS_SASS)
-          .pre()
-          .use('resolveUrl')
-            .loader(require.resolve('resolve-url-loader'))
-            .end()
-          .use('sass')
-            .loader(require.resolve('sass-loader'))
-            .options(Object.assign({}, completeSassLoaderOption, {
-              sassOptions: {
-                indentedSyntax: true
-              }
-            }))
-            .end()
-          .end()
+        .test(ctx.helper.REG_SASS_SASS)
+        .pre()
+        .use('resolveUrl')
+        .loader(require.resolve('resolve-url-loader'))
+        .end()
+        .use('sass')
+        .loader(require.resolve('sass-loader'))
+        .options(Object.assign({}, completeSassLoaderOption, {
+          sassOptions: {
+            indentedSyntax: true
+          }
+        }))
+        .end()
+        .end()
     }
   })
 }

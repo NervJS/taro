@@ -16,9 +16,7 @@ export default (ctx: IPluginContext, opts) => {
       warnings: false
     }
     const terser = ctx.initialConfig.terser
-    const isTerserEnabled = (terser && terser.enable === false)
-      ? false
-      : true
+    const isTerserEnabled = !((terser && terser.enable === false))
     if (isTerserEnabled) {
       chain.merge({
         optimization: {

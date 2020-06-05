@@ -15,12 +15,12 @@ export default (ctx: IPluginContext, opts) => {
 
       chain.module
         .rule('addChainStyleStylus')
-          .test(ctx.helper.REG_STYLUS)
-          .pre()
-          .use('stylus')
-            .loader(require.resolve('stylus-loader'))
-            .options(Object.assign({}, defaultStylusLoaderOption, stylusLoaderOption))
-            .end()
+        .test(ctx.helper.REG_STYLUS)
+        .pre()
+        .use('stylus')
+        .loader(require.resolve('stylus-loader'))
+        .options(Object.assign({}, defaultStylusLoaderOption, stylusLoaderOption))
+        .end()
     }
   })
 }
