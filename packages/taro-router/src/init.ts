@@ -3,7 +3,7 @@ import { setHistoryMode } from './history'
 import { RouterConfig } from './router'
 
 export function init (config: RouterConfig) {
-  setHistoryMode(config.router.mode)
+  setHistoryMode(config.router.mode, config.router.basename)
   // eslint-disable-next-line no-unused-expressions
   document.getElementById('app')?.remove()
 
