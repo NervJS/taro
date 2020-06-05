@@ -1,7 +1,9 @@
-import { AppConfig } from '@tarojs/taro'
 import { initTabbar } from './tabbar'
+import { setHistoryMode } from './history'
+import { RouterConfig } from './router'
 
-export function init (config: AppConfig) {
+export function init (config: RouterConfig) {
+  setHistoryMode(config.router.mode)
   // eslint-disable-next-line no-unused-expressions
   document.getElementById('app')?.remove()
 

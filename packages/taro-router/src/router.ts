@@ -15,7 +15,12 @@ export interface Route extends PageConfig {
 }
 
 export interface RouterConfig extends AppConfig {
-  routes: Route[]
+  routes: Route[],
+  router: {
+    mode: 'hash' | 'browser'
+    basename: 'string',
+    customRoutes?: Record<string, string>
+  }
 }
 
 function addLeadingSlash (path?: string) {
