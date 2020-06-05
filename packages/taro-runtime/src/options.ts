@@ -10,7 +10,8 @@ interface Options {
     voidElements: Set<string>
     closingElements: Set<string>
     transformText?: (taroText: TaroText, text: Text) => TaroText
-    transformElement?: (taroElement: TaroElement, element: Element) => TaroElement
+    transformElement?: (taroElement: TaroElement, element: Element) => TaroElement,
+    renderHTMLTag: false
   }
 }
 
@@ -28,6 +29,7 @@ export const options: Options = {
     closingElements: new Set([
       'html', 'head', 'body', 'p', 'dt', 'dd', 'li', 'option',
       'thead', 'th', 'tbody', 'tr', 'td', 'tfoot', 'colgroup'
-    ])
+    ]),
+    renderHTMLTag: false
   }
 }

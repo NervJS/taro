@@ -38,8 +38,8 @@ module.exports = {
   ],
   moduleNameMapper: {
     '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts'),
-    '@tarojs/runtime': path.resolve(__dirname, '..', '..', 'packages/taro-runtime/src/index.ts')
+    '@tarojs/runtime': path.resolve(__dirname, '..', '..', 'packages/taro-runtime/dist/runtime.esm.js')
   },
   // setupFiles: ['<rootDir>/__tests__/setup.js'],
-  testMatch: ['**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)']
+  testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)']
 }
