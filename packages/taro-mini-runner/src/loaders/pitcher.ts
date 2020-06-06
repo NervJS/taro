@@ -42,7 +42,7 @@ export function pitch () {
   if (query.type === 'template') {
     const preLoaders = loaders.filter(isPreLoader)
     const postLoaders = loaders.filter(isPostLoader)
-    let fileLoaderRequest = `file-loader?name=[path][name]${fileType.templ}`
+    let fileLoaderRequest = `${require.resolve('file-loader')}?name=[path][name]${fileType.templ}`
     if (NODE_MODULES_REG.test(this.resourcePath)) {
       const baseContext = path.join(process.cwd(), NODE_MODULES)
       fileLoaderRequest += `&context=${baseContext}&outputPath=npm`

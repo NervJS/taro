@@ -1,5 +1,40 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.2.5...v) (2020-05-19)
+# [](https://github.com/NervJS/taro/compare/v2.2.6...v) (2020-06-04)
+
+
+### Bug Fixes
+
+* **cli:** 修复配置 include 时代码编译失效的问题，close [#6553](https://github.com/NervJS/taro/issues/6553) ([60845e8](https://github.com/NervJS/taro/commit/60845e8))
+* **components-rn:** rn上Block组件会被编译成View组件，会有样式问题 close [#5505](https://github.com/NervJS/taro/issues/5505) ([#6427](https://github.com/NervJS/taro/issues/6427)) ([9ac0e3f](https://github.com/NervJS/taro/commit/9ac0e3f))
+* **components-rn:** ts error ([#6409](https://github.com/NervJS/taro/issues/6409)) ([9f232eb](https://github.com/NervJS/taro/commit/9f232eb))
+* **mini-runner:** 修复 file-loader 的解析 ([c81844f](https://github.com/NervJS/taro/commit/c81844f))
+* custom-routes for path-match fix [#6388](https://github.com/NervJS/taro/issues/6388) ([#6421](https://github.com/NervJS/taro/issues/6421)) ([cfec520](https://github.com/NervJS/taro/commit/cfec520))
+* **mini-runner:** 快应用端unsupported selector注释与css中原有注释提前闭合,导致css注释错乱的问题 ([#6418](https://github.com/NervJS/taro/issues/6418)) ([290072d](https://github.com/NervJS/taro/commit/290072d))
+* unified with wechat swiper circular fix [#6277](https://github.com/NervJS/taro/issues/6277) ([#6326](https://github.com/NervJS/taro/issues/6326)) ([4b6cf4e](https://github.com/NervJS/taro/commit/4b6cf4e))
+* **cli:** 模板初始化时changeExt 无效 ([#6464](https://github.com/NervJS/taro/issues/6464)) ([b64d01f](https://github.com/NervJS/taro/commit/b64d01f))
+* **components-rn:** picker组件选择无效 close [#5846](https://github.com/NervJS/taro/issues/5846) close [#5561](https://github.com/NervJS/taro/issues/5561) ([#6422](https://github.com/NervJS/taro/issues/6422)) ([3f5a40a](https://github.com/NervJS/taro/commit/3f5a40a))
+* **components-rn:** RichText组件不显示内容 close [#5527](https://github.com/NervJS/taro/issues/5527) ([#6410](https://github.com/NervJS/taro/issues/6410)) ([b7e477d](https://github.com/NervJS/taro/commit/b7e477d))
+* **mini-runner:** taroLoadChunksPlugin 参数isBuildQuickapp未赋值 ([15f40f0](https://github.com/NervJS/taro/commit/15f40f0))
+* **rn:** app.js 中的 config key有引号的编译问题 close [#6229](https://github.com/NervJS/taro/issues/6229) ([#6406](https://github.com/NervJS/taro/issues/6406)) ([e80ea1a](https://github.com/NervJS/taro/commit/e80ea1a))
+* **rn:** 去除默认的 css_modules close [#6021](https://github.com/NervJS/taro/issues/6021) ([#6405](https://github.com/NervJS/taro/issues/6405)) ([956dda0](https://github.com/NervJS/taro/commit/956dda0))
+* **rn-runner:** alias 和 external 冲突导致替换失败 ([#6507](https://github.com/NervJS/taro/issues/6507)) ([49facbe](https://github.com/NervJS/taro/commit/49facbe))
+* **taro:** quickapp 环境判断出错, 被判断为WEB ([114c0e0](https://github.com/NervJS/taro/commit/114c0e0))
+* **taro-h5:** 文件上传成功后清除计时器 ([#6428](https://github.com/NervJS/taro/issues/6428)) ([0daf50d](https://github.com/NervJS/taro/commit/0daf50d))
+* **transformer:** 修复百度小程序编译问题，fix [#6431](https://github.com/NervJS/taro/issues/6431) ([#6435](https://github.com/NervJS/taro/issues/6435)) ([06e6492](https://github.com/NervJS/taro/commit/06e6492))
+* 修复微信小程序canvas部分属性类型缺失, 定义Path2D接口 ([#6520](https://github.com/NervJS/taro/issues/6520)) ([9381360](https://github.com/NervJS/taro/commit/9381360))
+* 样式 require 替换成 import 导致的报错 ([#6504](https://github.com/NervJS/taro/issues/6504)) ([4b2bbfd](https://github.com/NervJS/taro/commit/4b2bbfd))
+
+
+### Features
+
+* 支持RequestTask的offHeadersReceived和onHeadersReceived事件 ([#6400](https://github.com/NervJS/taro/issues/6400)) ([b4ad74d](https://github.com/NervJS/taro/commit/b4ad74d))
+* **eslint:** global add jd ([b04bad5](https://github.com/NervJS/taro/commit/b04bad5))
+* **h5:** uploadFile可配置withCredentials ([#6424](https://github.com/NervJS/taro/issues/6424)) ([4c85d6d](https://github.com/NervJS/taro/commit/4c85d6d))
+
+
+
+<a name="2.2.6"></a>
+## [2.2.6](https://github.com/NervJS/taro/compare/v2.2.5...v2.2.6) (2020-05-19)
 
 
 ### Bug Fixes

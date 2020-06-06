@@ -1859,7 +1859,7 @@ export class RenderParser {
           JSXElement: path => {
             const element = path.node.openingElement
             if (this.isInternalComponent(element)) {
-              if (this.isEmptyProps(element.attributes)) {
+              if (this.isEmptyProps(element.attributes) && Adapter.type !== Adapters.swan) {
                 return
               }
 

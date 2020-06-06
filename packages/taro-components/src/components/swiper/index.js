@@ -51,7 +51,6 @@ class Swiper extends Nerv.Component {
       duration = 500,
       current = 0,
       displayMultipleItems = 1,
-      circular,
       vertical,
       spaceBetween
     } = this.props
@@ -61,7 +60,7 @@ class Swiper extends Nerv.Component {
       // 指示器
       pagination: { el: `.taro-swiper-${this._id} .swiper-container .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
-      loop: circular,
+      loop: true,
       slidesPerView: parseFloat(displayMultipleItems, 10),
       initialSlide: parseInt(current, 10),
       speed: parseInt(duration, 10),
@@ -129,15 +128,15 @@ class Swiper extends Nerv.Component {
     if (this.mySwiper) {
       const nextCurrent = typeof nextProps.current === 'number' ? nextProps.current : this._$current || 0
 
+      this.mySwiper.loopDestroy()
+      this.mySwiper.loopCreate()
       // 是否衔接滚动模式
       if (nextProps.circular) {
         if (!this.mySwiper.isBeginning && !this.mySwiper.isEnd) {
-          this.mySwiper.loopDestroy()
-          this.mySwiper.loopCreate()
           this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
         }
       } else {
-        this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
+        this.mySwiper.slideTo(parseInt(nextCurrent, 10) + 1) // 更新下标
       }
 
       const autoplay = this.mySwiper.autoplay
