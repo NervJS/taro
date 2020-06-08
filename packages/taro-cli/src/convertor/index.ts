@@ -712,7 +712,7 @@ export default class Convertor {
     const version = getPkgVersion()
     const dateObj = new Date()
     const date = `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1)}-${dateObj.getDate()}`
-    creator.template(templateName, 'package.json', pkgPath, {
+    creator.template(templateName, 'pkg', pkgPath, {
       description,
       projectName,
       version,
