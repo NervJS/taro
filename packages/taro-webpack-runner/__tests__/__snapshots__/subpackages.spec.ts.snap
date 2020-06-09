@@ -791,6 +791,11 @@ exports[`subpackages should process subpackages 2`] = `
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
     var config = {
+        \\"router\\": {
+            \\"mode\\": \\"hash\\",
+            \\"customRoutes\\": {},
+            \\"basename\\": \\"/\\"
+        },
         \\"pages\\": [ \\"pages/index/index\\", \\"packageA/detail/index\\" ],
         \\"window\\": {
             \\"backgroundTextStyle\\": \\"light\\",

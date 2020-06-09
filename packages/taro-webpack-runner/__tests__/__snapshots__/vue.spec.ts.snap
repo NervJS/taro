@@ -645,6 +645,11 @@ exports[`vue should build vue app 2`] = `
         defineCustomElements(taro_runtime_window);
     }));
     var config = {
+        \\"router\\": {
+            \\"mode\\": \\"hash\\",
+            \\"customRoutes\\": {},
+            \\"basename\\": \\"/\\"
+        },
         \\"pages\\": [ \\"pages/index/index\\" ],
         \\"window\\": {
             \\"backgroundTextStyle\\": \\"light\\",

@@ -728,6 +728,11 @@ exports[`config should build from origin and pipe to output 2`] = `
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
     var config = {
+        \\"router\\": {
+            \\"mode\\": \\"hash\\",
+            \\"customRoutes\\": {},
+            \\"basename\\": \\"/\\"
+        },
         \\"pages\\": [ \\"pages/index/index\\" ],
         \\"window\\": {
             \\"backgroundTextStyle\\": \\"light\\",
@@ -1494,6 +1499,11 @@ I m irrelevant.
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
     var config = {
+        \\"router\\": {
+            \\"mode\\": \\"hash\\",
+            \\"customRoutes\\": {},
+            \\"basename\\": \\"/\\"
+        },
         \\"pages\\": [ \\"pages/index/index\\" ],
         \\"window\\": {
             \\"backgroundTextStyle\\": \\"light\\",
@@ -2260,6 +2270,11 @@ exports[`config should resolved alias 2`] = `
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
     var config = {
+        \\"router\\": {
+            \\"mode\\": \\"hash\\",
+            \\"customRoutes\\": {},
+            \\"basename\\": \\"/\\"
+        },
         \\"pages\\": [ \\"pages/index/index\\" ],
         \\"window\\": {
             \\"backgroundTextStyle\\": \\"light\\",

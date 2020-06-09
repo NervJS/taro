@@ -745,6 +745,11 @@ exports[`css modules should use css modules with global mode 2`] = `
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
     var config = {
+        \\"router\\": {
+            \\"mode\\": \\"hash\\",
+            \\"customRoutes\\": {},
+            \\"basename\\": \\"/\\"
+        },
         \\"pages\\": [ \\"pages/index/index\\" ],
         \\"window\\": {
             \\"backgroundTextStyle\\": \\"light\\",
@@ -1520,6 +1525,11 @@ exports[`css modules should use css modules with module mode 2`] = `
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
     var config = {
+        \\"router\\": {
+            \\"mode\\": \\"hash\\",
+            \\"customRoutes\\": {},
+            \\"basename\\": \\"/\\"
+        },
         \\"pages\\": [ \\"pages/index/index\\" ],
         \\"window\\": {
             \\"backgroundTextStyle\\": \\"light\\",

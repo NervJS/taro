@@ -84,7 +84,10 @@ export default class MainPlugin {
               framework,
               filename: entryFileName,
               pages: this.pagesConfigList,
-              config: this.appConfig
+              config: {
+                router: this.options.routerConfig,
+                ...this.appConfig
+              }
             }
           })
         }
