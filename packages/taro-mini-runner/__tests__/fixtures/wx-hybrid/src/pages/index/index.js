@@ -2,7 +2,7 @@ import Taro from '@tarojs/taro'
 import React from 'react'
 import { View, Text, Button } from '@tarojs/components'
 
-import './index.scss'
+import './index.css'
 
 export default class Index extends React.Component {
 
@@ -31,7 +31,7 @@ export default class Index extends React.Component {
   render () {
     return (
       <View className='index'>
-        
+
         <View className='title'>与小程序原生融合的各种示例</View>
         <View className='main'>
           <View className='wrapper'>

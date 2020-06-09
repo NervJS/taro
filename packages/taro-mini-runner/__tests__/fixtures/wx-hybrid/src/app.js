@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import React from 'react'
 
-import './app.scss'
+import './app.css'
 
 class App extends React.Component {
   componentDidMount () {}

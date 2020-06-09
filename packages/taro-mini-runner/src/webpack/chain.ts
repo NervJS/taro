@@ -18,7 +18,6 @@ import {
   REG_IMAGE,
   REG_SCRIPTS,
   REG_VUE,
-  REG_CSS,
   REG_TEMPLATE,
   chalk
 } from '@tarojs/helper'
@@ -326,10 +325,6 @@ export const getModule = (appPath: string, {
   const rule: Record<string, IRule> = {
     css: {
       test: styleReg,
-      oneOf: cssLoaders
-    },
-    nomorlCss: {
-      test: REG_CSS,
       oneOf: cssLoaders
     },
     vue: {

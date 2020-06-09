@@ -6,39 +6,58 @@ exports[`vue should build vue app 2`] = `
 "
 /** filePath: dist/app.js **/
 require(\\"./runtime\\");
+require(\\"./common\\");
 
-require(\\"./taro\\");
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([[2],{
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], {
-    3: function(module, exports, __webpack_require__) {},
-    6: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        var vue = \\"vue-mock\\";
-        var app = __webpack_require__(3);
-        var app_App = new vue({
-            onShow: function onShow() {},
-            render: function render(h) {
-                return h(\\"block\\", this.$slots.default);
-            }
-        });
-        var lib_src_app = app_App;
-        var config = {
-            pages: [ \\"pages/index/index\\" ],
-            window: {
-                backgroundTextStyle: \\"light\\",
-                navigationBarBackgroundColor: \\"#fff\\",
-                navigationBarTitleText: \\"WeChat\\",
-                navigationBarTextStyle: \\"black\\"
-            }
-        };
-        taro_runtime[\\"window\\"].__taroAppConfig = config;
-        var inst = App(Object(taro_runtime[\\"createVueApp\\"])(lib_src_app, vue, config));
-    }
-}, [ [ 6, 0, 1 ] ] ]);
+/***/ 3:
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/__tests__/mocks/taro-runtime.ts
+var taro_runtime = __webpack_require__(0);
+
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/__tests__/mocks/vue.ts
+/* harmony default export */ var vue = ('vue-mock');
+// EXTERNAL MODULE: ./src/app.css
+var app = __webpack_require__(3);
+
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/babel-loader/lib!./src/app.js
 
 
+var app_App = new vue({
+  onShow: function onShow() {},
+  render: function render(h) {
+    // this.$slots.default 是将要会渲染的页面
+    return h('block', this.$slots.default);
+  }
+});
+/* harmony default export */ var lib_src_app = (app_App);
+// CONCATENATED MODULE: ./src/app.js
+
+
+
+
+
+var config = {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}};
+taro_runtime[\\"window\\"].__taroAppConfig = config
+var inst = App(Object(taro_runtime[\\"createVueApp\\"])(lib_src_app, vue, config))
+
+
+
+/***/ })
+
+},[[6,0,1]]]);;
 
 /** filePath: dist/app.json **/
 {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
@@ -55,7 +74,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -95,7 +114,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -135,7 +154,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -175,7 +194,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -215,7 +234,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -255,7 +274,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -295,7 +314,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -335,7 +354,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -375,7 +394,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -415,7 +434,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -455,7 +474,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -495,7 +514,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -535,7 +554,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -575,7 +594,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -615,7 +634,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -655,7 +674,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_16_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -695,15 +714,35 @@ require(\\"./taro\\");
 </template>
 
 
+/** filePath: dist/common.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([[1],[
+/* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* unused harmony default export */ var _unused_webpack_default_export = ('taro-runtime-mock');
+
+/***/ })
+]]);
+
 /** filePath: dist/comp.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    4: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
-    }
-}, [ [ 4, 0, 1 ] ] ]);
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([[4],{
+
+/***/ 4:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* eslint-disable no-undef */
+ // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+
+Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+
+/***/ })
+
+},[[4,0,1]]]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
@@ -713,89 +752,182 @@ require(\\"./taro\\");
 <template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
 
 /** filePath: dist/pages/index/index.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
-    5: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        var render = function() {
-            var _vm = this;
-            var _h = _vm.$createElement;
-            var _c = _vm._self._c || _h;
-            return _c(\\"view\\", {
-                staticClass: \\"index\\"
-            }, [ _c(\\"text\\", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
-        };
-        var staticRenderFns = [];
-        render._withStripped = true;
-        var indexvue_type_script_lang_js_ = {
-            data: function data() {
-                return {
-                    msg: \\"Hello world!\\"
-                };
-            }
-        };
-        var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-        function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
-            var options = typeof scriptExports === \\"function\\" ? scriptExports.options : scriptExports;
-            if (render) {
-                options.render = render;
-                options.staticRenderFns = staticRenderFns;
-                options._compiled = true;
-            }
-            if (functionalTemplate) {
-                options.functional = true;
-            }
-            if (scopeId) {
-                options._scopeId = \\"data-v-\\" + scopeId;
-            }
-            var hook;
-            if (moduleIdentifier) {
-                hook = function(context) {
-                    context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
-                    if (!context && typeof __VUE_SSR_CONTEXT__ !== \\"undefined\\") {
-                        context = __VUE_SSR_CONTEXT__;
-                    }
-                    if (injectStyles) {
-                        injectStyles.call(this, context);
-                    }
-                    if (context && context._registeredComponents) {
-                        context._registeredComponents.add(moduleIdentifier);
-                    }
-                };
-                options._ssrRegister = hook;
-            } else if (injectStyles) {
-                hook = shadowMode ? function() {
-                    injectStyles.call(this, this.$root.$options.shadowRoot);
-                } : injectStyles;
-            }
-            if (hook) {
-                if (options.functional) {
-                    options._injectStyles = hook;
-                    var originalRender = options.render;
-                    options.render = function renderWithStyleInjection(h, context) {
-                        hook.call(context);
-                        return originalRender(h, context);
-                    };
-                } else {
-                    var existing = options.beforeCreate;
-                    options.beforeCreate = existing ? [].concat(existing, hook) : [ hook ];
-                }
-            }
-            return {
-                exports: scriptExports,
-                options: options
-            };
-        }
-        var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
-        if (false) {
-            var api;
-        }
-        component.options.__file = \\"src/pages/index/index.vue\\";
-        var index = component.exports;
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index, \\"pages/index/index\\"));
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([[5],{
+
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/__tests__/mocks/taro-runtime.ts
+var taro_runtime = __webpack_require__(0);
+
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/vue-loader/lib??vue-loader-options!./src/pages/index/index.vue?vue&type=template&id=1badc801&
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(\\"view\\", { staticClass: \\"index\\" }, [
+    _c(\\"text\\", [_vm._v(_vm._s(_vm.msg))])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+// CONCATENATED MODULE: ./src/pages/index/index.vue?vue&type=template&id=1badc801&
+
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/babel-loader/lib!/Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/vue-loader/lib??vue-loader-options!./src/pages/index/index.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+/* harmony default export */ var indexvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      msg: 'Hello world!'
+    };
+  }
+});
+// CONCATENATED MODULE: ./src/pages/index/index.vue?vue&type=script&lang=js&
+ /* harmony default export */ var pages_indexvue_type_script_lang_js_ = (indexvue_type_script_lang_js_); 
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/vue-loader/lib/runtime/componentNormalizer.js
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
     }
-}, [ [ 5, 0, 1 ] ] ]);
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functional component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-loader/lib/raw.js!./src/pages/index/index.vue
+
+
+
+
+
+/* normalize component */
+
+var component = normalizeComponent(
+  pages_indexvue_type_script_lang_js_,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = \\"src/pages/index/index.vue\\"
+/* harmony default export */ var index = (component.exports);
+// CONCATENATED MODULE: ./src/pages/index/index.vue
+
+
+var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index, 'pages/index/index'))
+
+
+
+/***/ })
+
+},[[5,0,1]]]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
@@ -805,126 +937,159 @@ require(\\"./taro\\");
 <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 
 /** filePath: dist/runtime.js **/
-(function(modules) {
-    function webpackJsonpCallback(data) {
-        var chunkIds = data[0];
-        var moreModules = data[1];
-        var executeModules = data[2];
-        var moduleId, chunkId, i = 0, resolves = [];
-        for (;i < chunkIds.length; i++) {
-            chunkId = chunkIds[i];
-            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
-                resolves.push(installedChunks[chunkId][0]);
-            }
-            installedChunks[chunkId] = 0;
-        }
-        for (moduleId in moreModules) {
-            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-                modules[moduleId] = moreModules[moduleId];
-            }
-        }
-        if (parentJsonpFunction) parentJsonpFunction(data);
-        while (resolves.length) {
-            resolves.shift()();
-        }
-        deferredModules.push.apply(deferredModules, executeModules || []);
-        return checkDeferredModules();
-    }
-    function checkDeferredModules() {
-        var result;
-        for (var i = 0; i < deferredModules.length; i++) {
-            var deferredModule = deferredModules[i];
-            var fulfilled = true;
-            for (var j = 1; j < deferredModule.length; j++) {
-                var depId = deferredModule[j];
-                if (installedChunks[depId] !== 0) fulfilled = false;
-            }
-            if (fulfilled) {
-                deferredModules.splice(i--, 1);
-                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-            }
-        }
-        return result;
-    }
-    var installedModules = {};
-    var installedChunks = {
-        0: 0
-    };
-    var deferredModules = [];
-    function __webpack_require__(moduleId) {
-        if (installedModules[moduleId]) {
-            return installedModules[moduleId].exports;
-        }
-        var module = installedModules[moduleId] = {
-            i: moduleId,
-            l: false,
-            exports: {}
-        };
-        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-        module.l = true;
-        return module.exports;
-    }
-    __webpack_require__.m = modules;
-    __webpack_require__.c = installedModules;
-    __webpack_require__.d = function(exports, name, getter) {
-        if (!__webpack_require__.o(exports, name)) {
-            Object.defineProperty(exports, name, {
-                enumerable: true,
-                get: getter
-            });
-        }
-    };
-    __webpack_require__.r = function(exports) {
-        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
-            Object.defineProperty(exports, Symbol.toStringTag, {
-                value: \\"Module\\"
-            });
-        }
-        Object.defineProperty(exports, \\"__esModule\\", {
-            value: true
-        });
-    };
-    __webpack_require__.t = function(value, mode) {
-        if (mode & 1) value = __webpack_require__(value);
-        if (mode & 8) return value;
-        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
-        var ns = Object.create(null);
-        __webpack_require__.r(ns);
-        Object.defineProperty(ns, \\"default\\", {
-            enumerable: true,
-            value: value
-        });
-        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
-            return value[key];
-        }.bind(null, key));
-        return ns;
-    };
-    __webpack_require__.n = function(module) {
-        var getter = module && module.__esModule ? function getDefault() {
-            return module[\\"default\\"];
-        } : function getModuleExports() {
-            return module;
-        };
-        __webpack_require__.d(getter, \\"a\\", getter);
-        return getter;
-    };
-    __webpack_require__.o = function(object, property) {
-        return Object.prototype.hasOwnProperty.call(object, property);
-    };
-    __webpack_require__.p = \\"/\\";
-    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
-    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-    jsonpArray.push = webpackJsonpCallback;
-    jsonpArray = jsonpArray.slice();
-    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-    var parentJsonpFunction = oldJsonpFunction;
-    checkDeferredModules();
-})([]);
-
-/** filePath: dist/taro.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], [ function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    var _unused_webpack_default_export = \\"taro-runtime-mock\\";
-} ] ]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/
+/******/ 		// add \\"moreModules\\" to the modules object,
+/******/ 		// then flag all \\"chunkIds\\" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/
+/******/ 		return result;
+/******/ 	}
+/******/
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		0: 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = \\"/\\";
+/******/
+/******/ 	var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
+/******/
+/******/
+/******/ 	// run deferred modules from other chunks
+/******/ 	checkDeferredModules();
+/******/ })
+/************************************************************************/
+/******/ ([]);
 "
 `;

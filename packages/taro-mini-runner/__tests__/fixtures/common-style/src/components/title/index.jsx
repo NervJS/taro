@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text } from '@tarojs/components'
-import './index.scss'
+import './index.css'
 
 export default class Index extends Component {
   render () {

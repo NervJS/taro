@@ -36,7 +36,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@stencil/core": "^1.8.1",
+    "@stencil/core": "1.8.6",
     "@tarojs/taro": "3.0.0-rc.4",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",

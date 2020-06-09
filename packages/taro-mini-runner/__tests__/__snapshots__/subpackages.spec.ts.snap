@@ -1,14 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`subpackages should process subpackages 1`] = `22`;
+exports[`subpackages should process subpackages 1`] = `21`;
 
 exports[`subpackages should process subpackages 2`] = `
 "
 /** filePath: dist/app.js **/
 require(\\"./runtime\\");
-
 require(\\"./common\\");
-
 require(\\"./vendors\\");
 
 require(\\"./taro\\");
@@ -74,6 +72,17 @@ require(\\"./taro\\");
 
 
 
+
+var config = {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"},\\"subpackages\\":[{\\"root\\":\\"packageA\\",\\"pages\\":[\\"detail/index\\",\\"my/index\\"]}]};
+taro_runtime[\\"window\\"].__taroAppConfig = config
+var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react, config))
+
+
+
+/***/ })
+
+},[[22,0,2,1]]]);;
+
 /** filePath: dist/app.json **/
 {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"},\\"subpackages\\":[{\\"root\\":\\"packageA\\",\\"pages\\":[\\"detail/index\\",\\"my/index\\"]}]}
 
@@ -89,7 +98,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -129,7 +138,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -169,7 +178,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -209,7 +218,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -249,7 +258,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -289,7 +298,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -329,7 +338,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -369,7 +378,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -409,7 +418,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -449,7 +458,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -489,7 +498,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -529,7 +538,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -569,7 +578,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -609,7 +618,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -649,7 +658,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -689,7 +698,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_16_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -796,7 +805,16 @@ require(\\"../../sub-utils\\");
     }
 }, [ [ 19, 0, 4, 1, 3, 2 ] ] ]);
 
+// CONCATENATED MODULE: ./src/packageA/detail/index.jsx
 
+
+var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(detail_Detail, 'packageA/detail/index'))
+
+
+
+/***/ })
+
+},[[23,0,3,2,1]]]);;
 
 /** filePath: dist/packageA/detail/index.json **/
 {\\"navigationBarTitleText\\":\\"详情页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
@@ -847,7 +865,9 @@ require(\\"../../sub-utils\\");
     }
 }, [ [ 20, 0, 4, 1, 3, 2 ] ] ]);
 
+/***/ })
 
+},[[24,0,3,2,1]]]);;
 
 /** filePath: dist/packageA/my/index.json **/
 {\\"navigationBarTitleText\\":\\"个人中心页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
@@ -902,139 +922,104 @@ require(\\"../../sub-utils\\");
     }
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
-/** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+        options = options || {};
+        var task = null;
+        var obj = Object.assign({}, options);
 
-/** filePath: dist/pages/index/index.wxml **/
-<import src=\\"../../base.wxml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+        if (typeof options === 'string') {
+          if (args.length) {
+            var _wx;
 
-/** filePath: dist/runtime.js **/
-(function(modules) {
-    function webpackJsonpCallback(data) {
-        var chunkIds = data[0];
-        var moreModules = data[1];
-        var executeModules = data[2];
-        var moduleId, chunkId, i = 0, resolves = [];
-        for (;i < chunkIds.length; i++) {
-            chunkId = chunkIds[i];
-            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
-                resolves.push(installedChunks[chunkId][0]);
+            return (_wx = wx)[key].apply(_wx, [options].concat(args));
+          }
+
+          return wx[key](options);
+        }
+
+        if (key === 'navigateTo' || key === 'redirectTo' || key === 'switchTab') {
+          var url = obj.url ? obj.url.replace(/^\\\\//, '') : '';
+          if (url.indexOf('?') > -1) url = url.split('?')[0];
+          var Component = (0, _dataCache.cacheDataGet)(url);
+
+          if (Component) {
+            var component = new Component();
+
+            if (component.componentWillPreload) {
+              var cacheKey = (0, _utils.getUniqueKey)();
+              var MarkIndex = obj.url.indexOf('?');
+              var hasMark = MarkIndex > -1;
+              var urlQueryStr = hasMark ? obj.url.substring(MarkIndex + 1, obj.url.length) : '';
+              var params = (0, _utils.queryToJson)(urlQueryStr);
+              obj.url += (hasMark ? '&' : '?') + \\"\\".concat(preloadPrivateKey, \\"=\\").concat(cacheKey);
+              (0, _dataCache.cacheDataSet)(cacheKey, component.componentWillPreload(params));
+              (0, _dataCache.cacheDataSet)(preloadInitedComponent, component);
             }
-            installedChunks[chunkId] = 0;
+          }
         }
-        for (moduleId in moreModules) {
-            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-                modules[moduleId] = moreModules[moduleId];
-            }
+
+        if (useDataCacheApis[key]) {
+          var _url = obj.url = obj.url || '';
+
+          var _MarkIndex = _url.indexOf('?');
+
+          var _hasMark = _MarkIndex > -1;
+
+          var _urlQueryStr = _hasMark ? _url.substring(_MarkIndex + 1, _url.length) : '';
+
+          var _params = (0, _utils.queryToJson)(_urlQueryStr);
+
+          var _cacheKey = (0, _utils.getUniqueKey)();
+
+          obj.url += (_hasMark ? '&' : '?') + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(_cacheKey);
+          (0, _dataCache.cacheDataSet)(_cacheKey, _params);
         }
-        if (parentJsonpFunction) parentJsonpFunction(data);
-        while (resolves.length) {
-            resolves.shift()();
-        }
-        deferredModules.push.apply(deferredModules, executeModules || []);
-        return checkDeferredModules();
-    }
-    function checkDeferredModules() {
-        var result;
-        for (var i = 0; i < deferredModules.length; i++) {
-            var deferredModule = deferredModules[i];
-            var fulfilled = true;
-            for (var j = 1; j < deferredModule.length; j++) {
-                var depId = deferredModule[j];
-                if (installedChunks[depId] !== 0) fulfilled = false;
-            }
-            if (fulfilled) {
-                deferredModules.splice(i--, 1);
-                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-            }
-        }
-        return result;
-    }
-    var installedModules = {};
-    var installedChunks = {
-        0: 0
-    };
-    var deferredModules = [];
-    function __webpack_require__(moduleId) {
-        if (installedModules[moduleId]) {
-            return installedModules[moduleId].exports;
-        }
-        var module = installedModules[moduleId] = {
-            i: moduleId,
-            l: false,
-            exports: {}
-        };
-        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-        module.l = true;
-        return module.exports;
-    }
-    __webpack_require__.m = modules;
-    __webpack_require__.c = installedModules;
-    __webpack_require__.d = function(exports, name, getter) {
-        if (!__webpack_require__.o(exports, name)) {
-            Object.defineProperty(exports, name, {
-                enumerable: true,
-                get: getter
-            });
-        }
-    };
-    __webpack_require__.r = function(exports) {
-        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
-            Object.defineProperty(exports, Symbol.toStringTag, {
-                value: \\"Module\\"
-            });
-        }
-        Object.defineProperty(exports, \\"__esModule\\", {
-            value: true
+
+        var p = new Promise(function (resolve, reject) {
+          ['fail', 'success', 'complete'].forEach(function (k) {
+            obj[k] = function (res) {
+              options[k] && options[k](res);
+
+              if (k === 'success') {
+                if (key === 'connectSocket') {
+                  resolve(Promise.resolve().then(function () {
+                    return Object.assign(task, res);
+                  }));
+                } else {
+                  resolve(res);
+                }
+              } else if (k === 'fail') {
+                reject(res);
+              }
+            };
+          });
+
+          if (args.length) {
+            var _wx2;
+
+            task = (_wx2 = wx)[key].apply(_wx2, [obj].concat(args));
+          } else {
+            task = wx[key](obj);
+          }
         });
-    };
-    __webpack_require__.t = function(value, mode) {
-        if (mode & 1) value = __webpack_require__(value);
-        if (mode & 8) return value;
-        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
-        var ns = Object.create(null);
-        __webpack_require__.r(ns);
-        Object.defineProperty(ns, \\"default\\", {
-            enumerable: true,
-            value: value
-        });
-        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
-            return value[key];
-        }.bind(null, key));
-        return ns;
-    };
-    __webpack_require__.n = function(module) {
-        var getter = module && module.__esModule ? function getDefault() {
-            return module[\\"default\\"];
-        } : function getModuleExports() {
-            return module;
-        };
-        __webpack_require__.d(getter, \\"a\\", getter);
-        return getter;
-    };
-    __webpack_require__.o = function(object, property) {
-        return Object.prototype.hasOwnProperty.call(object, property);
-    };
-    __webpack_require__.p = \\"/\\";
-    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
-    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-    jsonpArray.push = webpackJsonpCallback;
-    jsonpArray = jsonpArray.slice();
-    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-    var parentJsonpFunction = oldJsonpFunction;
-    checkDeferredModules();
-})([]);
 
-/** filePath: dist/sub-utils.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    8: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-            return someCommon;
-        }));
-        function someCommon(text) {
-            console.log(\\"log something: \\", text);
+        if (key === 'uploadFile' || key === 'downloadFile') {
+          p.progress = function (cb) {
+            if (task) {
+              task.onProgressUpdate(cb);
+            }
+
+            return p;
+          };
+
+          p.abort = function (cb) {
+            cb && cb();
+
+            if (task) {
+              task.abort();
+            }
+
+            return p;
+          };
         }
     }
 } ]);
@@ -1055,102 +1040,598 @@ require(\\"../../sub-utils\\");
     }
 } ]);
 
+        return p;
+      };
+    } else {
+      taro[key] = function () {
+        for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+          args[_key3] = arguments[_key3];
+        }
+
+        var argsLen = args.length;
+        var newArgs = args.concat();
+        var lastArg = newArgs[argsLen - 1];
+
+        if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
+          newArgs.splice(argsLen - 1, 1, lastArg.$scope);
+        }
+
+        return wx[key].apply(wx, newArgs);
+      };
+    }
+  });
+}
+
+function pxTransform(size) {
+  var _ref = this.config || {},
+      _ref$designWidth = _ref.designWidth,
+      designWidth = _ref$designWidth === void 0 ? 750 : _ref$designWidth,
+      _ref$deviceRatio = _ref.deviceRatio,
+      deviceRatio = _ref$deviceRatio === void 0 ? {
+    640: 2.34 / 2,
+    750: 1,
+    828: 1.81 / 2
+  } : _ref$deviceRatio;
+
+  if (!(designWidth in deviceRatio)) {
+    throw new Error(\\"deviceRatio \\\\u914D\\\\u7F6E\\\\u4E2D\\\\u4E0D\\\\u5B58\\\\u5728 \\".concat(designWidth, \\" \\\\u7684\\\\u8BBE\\\\u7F6E\\\\uFF01\\"));
+  }
+
+  return parseInt(size, 10) / deviceRatio[designWidth] + 'rpx';
+}
+
+function canIUseWebp() {
+  var _wx$getSystemInfoSync = wx.getSystemInfoSync(),
+      platform = _wx$getSystemInfoSync.platform;
+
+  var platformLower = platform.toLowerCase();
+
+  if (platformLower === 'android' || platformLower === 'devtools') {
+    return true;
+  }
+
+  return false;
+}
+
+function wxCloud(taro) {
+  var wxC = wx.cloud || {};
+  var wxcloud = {};
+  var apiList = ['init', 'database', 'uploadFile', 'downloadFile', 'getTempFileURL', 'deleteFile', 'callFunction', 'CloudID'];
+  apiList.forEach(function (v) {
+    wxcloud[v] = wxC[v];
+  });
+  taro.cloud = wxcloud;
+}
+
+function initNativeApi(taro) {
+  processApis(taro);
+  taro.request = link.request.bind(link);
+  taro.addInterceptor = link.addInterceptor.bind(link);
+  taro.cleanInterceptors = link.cleanInterceptors.bind(link);
+  taro.getCurrentPages = getCurrentPages;
+  taro.getApp = getApp;
+  taro.requirePlugin = requirePlugin;
+  taro.initPxTransform = initPxTransform.bind(taro);
+  taro.pxTransform = pxTransform.bind(taro);
+  taro.canIUseWebp = canIUseWebp;
+  wxCloud(taro);
+}
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+\\"use strict\\";
+
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+exports.cacheDataSet = cacheDataSet;
+exports.cacheDataGet = cacheDataGet;
+exports.cacheDataHas = cacheDataHas;
+var data = {};
+
+function cacheDataSet(key, val) {
+  data[key] = val;
+}
+
+function cacheDataGet(key, delelteAfterGet) {
+  var temp = data[key];
+  delelteAfterGet && delete data[key];
+  return temp;
+}
+
+function cacheDataHas(key) {
+  return key in data;
+}
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+\\"use strict\\";
+
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+exports.queryToJson = queryToJson;
+exports.getUniqueKey = getUniqueKey;
+
+function queryToJson(str) {
+  var dec = decodeURIComponent;
+  var qp = str.split('&');
+  var ret = {};
+  var name;
+  var val;
+
+  for (var i = 0, l = qp.length, item; i < l; ++i) {
+    item = qp[i];
+
+    if (item.length) {
+      var s = item.indexOf('=');
+
+      if (s < 0) {
+        name = dec(item);
+        val = '';
+      } else {
+        name = dec(item.slice(0, s));
+        val = dec(item.slice(s + 1));
+      }
+
+      if (typeof ret[name] === 'string') {
+        // inline'd type check
+        ret[name] = [ret[name]];
+      }
+
+      if (Array.isArray(ret[name])) {
+        ret[name].push(val);
+      } else {
+        ret[name] = val;
+      }
+    }
+  }
+
+  return ret; // Object
+}
+
+var _i = 1;
+
+var _loadTime = new Date().getTime().toString();
+
+function getUniqueKey() {
+  return _loadTime + _i++;
+}
+
+/***/ }),
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/__tests__/mocks/taro-runtime.ts
+var taro_runtime = __webpack_require__(0);
+
+// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/classCallCheck.js
+var classCallCheck = __webpack_require__(3);
+
+// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/createClass.js
+var createClass = __webpack_require__(4);
+
+// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
+var inherits = __webpack_require__(6);
+
+// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/createSuper.js + 5 modules
+var createSuper = __webpack_require__(5);
+
+// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/__tests__/mocks/react.ts
+var react = __webpack_require__(1);
+
+// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-components/mini/index.js
+var mini = __webpack_require__(2);
+
+// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro/index.js
+var taro = __webpack_require__(8);
+var taro_default = /*#__PURE__*/__webpack_require__.n(taro);
+
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/babel-loader/lib!./src/pages/index/index.jsx
+
+
+
+
+
+
+
+
+var index_Index = /*#__PURE__*/function (_Component) {
+  Object(inherits[\\"a\\" /* default */])(Index, _Component);
+
+  var _super = Object(createSuper[\\"a\\" /* default */])(Index);
+
+  function Index() {
+    Object(classCallCheck[\\"a\\" /* default */])(this, Index);
+
+    return _super.apply(this, arguments);
+  }
+
+  Object(createClass[\\"a\\" /* default */])(Index, [{
+    key: \\"render\\",
+    value: function render() {
+      return /*#__PURE__*/react[\\"default\\"].createElement(mini[\\"b\\" /* View */], {
+        className: \\"index\\"
+      }, /*#__PURE__*/react[\\"default\\"].createElement(mini[\\"b\\" /* View */], {
+        onClick: function onClick() {
+          return taro_default.a.navigateTo({
+            url: '/packageA/detail/index'
+          });
+        }
+      }, \\"Go to detail\\"), /*#__PURE__*/react[\\"default\\"].createElement(mini[\\"b\\" /* View */], {
+        onClick: function onClick() {
+          return taro_default.a.navigateTo({
+            url: '/packageA/my/index'
+          });
+        }
+      }, \\"Go to my\\"));
+    }
+  }]);
+
+  return Index;
+}(react[\\"Component\\"]);
+
+
+// CONCATENATED MODULE: ./src/pages/index/index.jsx
+
+
+var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, 'pages/index/index'))
+
+
+
+/***/ })
+],[[25,0,2,1]]]);
+
+/** filePath: dist/pages/index/index.json **/
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+
+/** filePath: dist/pages/index/index.wxml **/
+<import src=\\"../../base.wxml\\"/>
+<template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+
+/** filePath: dist/runtime.js **/
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/
+/******/ 		// add \\"moreModules\\" to the modules object,
+/******/ 		// then flag all \\"chunkIds\\" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/
+/******/ 		return result;
+/******/ 	}
+/******/
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		0: 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = \\"/\\";
+/******/
+/******/ 	var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
+/******/
+/******/
+/******/ 	// run deferred modules from other chunks
+/******/ 	checkDeferredModules();
+/******/ })
+/************************************************************************/
+/******/ ([]);
+
+/** filePath: dist/sub-utils.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([[3],{
+
+/***/ 7:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return someCommon; });
+function someCommon(text) {
+  console.log('log something: ', text);
+}
+
+/***/ })
+
+}]);
+
 /** filePath: dist/vendors.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _classCallCheck;
-    }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError(\\"Cannot call a class as a function\\");
-        }
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([[2],[
+/* 0 */,
+/* 1 */,
+/* 2 */,
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _classCallCheck; });
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError(\\"Cannot call a class as a function\\");
+  }
+}
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _createClass; });
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if (\\"value\\" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, \\"a\\", function() { return /* binding */ _createSuper; });
+
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/isNativeReflectConstruct.js
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === \\"function\\") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/typeof.js
+function _typeof(obj) {
+  \\"@babel/helpers - typeof\\";
+
+  if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+  }
+
+  return self;
+}
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
+
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/createSuper.js
+
+
+
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+        result;
+
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createClass;
-    }));
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if (\\"value\\" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
+
+    return _possibleConstructorReturn(this, result);
+  };
+}
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, \\"a\\", function() { return /* binding */ _inherits; });
+
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-mini-runner/node_modules/@babel/runtime/helpers/esm/inherits.js
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== \\"function\\" && superClass !== null) {
+    throw new TypeError(\\"Super expression must either be null or a function\\");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
     }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _getPrototypeOf;
-    }));
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _possibleConstructorReturn;
-    }));
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-        } else {
-            _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-        }
-        return _typeof(obj);
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
-            return call;
-        }
-        return _assertThisInitialized(self);
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits;
-    }));
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== \\"function\\" && superClass !== null) {
-            throw new TypeError(\\"Super expression must either be null or a function\\");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                writable: true,
-                configurable: true
-            }
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-} ] ]);
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+/***/ })
+]]);
 "
 `;
