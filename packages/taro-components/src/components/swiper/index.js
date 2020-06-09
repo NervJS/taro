@@ -58,7 +58,7 @@ class Swiper extends Nerv.Component {
     const that = this
     const opt = {
       // 指示器
-      pagination: { el: `.taro-swiper-${this._id} .swiper-container .swiper-pagination` },
+      pagination: { el: `.taro-swiper-${this._id} .swiper-container .swiper-pagination.swiper-pagination-${this._id}` },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: true,
       slidesPerView: parseFloat(displayMultipleItems, 10),
@@ -200,7 +200,7 @@ class Swiper extends Nerv.Component {
       overflow: 'hidden'
     }, style)
     const paginationCls = classNames(
-      'swiper-pagination',
+      'swiper-pagination', `swiper-pagination-${this._id}`,
       {
         'swiper-pagination-hidden': !this.props.indicatorDots,
         'swiper-pagination-bullets': this.props.indicatorDots
