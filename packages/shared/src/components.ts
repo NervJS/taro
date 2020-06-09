@@ -34,6 +34,7 @@ const View = {
   'hover-stay-time': '400',
   animation: '',
   bindAnimationEnd: '',
+  bindTransitionEnd: '',
   ...touchEvents
 }
 
