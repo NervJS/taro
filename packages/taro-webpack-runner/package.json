@@ -72,7 +72,7 @@
     "@types/lodash": "4.14.149",
     "@types/node": "13.7.2",
     "@types/resolve": "1.14.0",
-    "@types/webpack": "4.41.6",
+    "@types/webpack": "4.41.17",
     "@types/webpack-dev-server": "3.10.0",
     "babel-plugin-transform-taroapi": "3.0.0-rc.4",
     "babel-preset-taro": "3.0.0-rc.4"
