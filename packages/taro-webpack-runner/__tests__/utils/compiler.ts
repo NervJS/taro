@@ -6,9 +6,9 @@ import * as joinPath from 'memory-fs/lib/join'
 
 import baseConfig from './config'
 import prodConf from '../../src/config/prod.conf'
+import baseConf from '../../src/config/base.conf'
 import { BuildConfig } from '../../src/util/types'
 import { customizeChain } from '../../src/index'
-import { makeConfig } from '../../src/util/chain'
 
 interface EnsuredFs extends IFs {
   join: () => string
@@ -94,10 +94,10 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
       }
     }
   }, customConfig)
-
-  const newConfig: BuildConfig = await makeConfig(config)
-  const webpackChain = prodConf(appPath, newConfig)
-
+  const baseWebpackChain = baseConf(appPath, config)
+  await customizeChain(baseWebpackChain, null, config.webpackChain)
+  const prodWebpackConf = prodConf(appPath, config, baseWebpackChain)
+  const webpackChain = baseWebpackChain.merge(prodWebpackConf)
   webpackChain.merge({
     resolve: {
       alias: {
@@ -115,10 +115,8 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
     }
   })
 
-  customizeChain(webpackChain, null, newConfig.webpackChain)
-
   const webpackConfig: webpack.Configuration = webpackChain.toConfig()
 
   const stats = await run(webpackConfig)
-  return { stats, config: newConfig }
+  return { stats, config: config }
 }
