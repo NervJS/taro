@@ -18,19 +18,43 @@ require(\\"./taro\\");
     16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var possibleConstructorReturn = __webpack_require__(6);
-        var getPrototypeOf = __webpack_require__(5);
+        var taro_runtime = __webpack_require__(2);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
+        var possibleConstructorReturn = __webpack_require__(6);
+        var getPrototypeOf = __webpack_require__(1);
         var react = __webpack_require__(0);
         var app = __webpack_require__(13);
+        function _createSuper(Derived) {
+            function isNativeReflectConstruct() {
+                if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if (typeof Proxy === \\"function\\") return true;
+                try {
+                    Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            return function() {
+                var Super = Object(getPrototypeOf[\\"a\\"])(Derived), result;
+                if (isNativeReflectConstruct()) {
+                    var NewTarget = Object(getPrototypeOf[\\"a\\"])(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return Object(possibleConstructorReturn[\\"a\\"])(this, result);
+            };
+        }
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
+            var _super = _createSuper(App);
             function App() {
                 Object(classCallCheck[\\"a\\"])(this, App);
-                return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(App).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             Object(createClass[\\"a\\"])(App, [ {
                 key: \\"componentDidMount\\",
@@ -739,20 +763,44 @@ require(\\"./taro\\");
         __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
             return Index;
         }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
-        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+        var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
         var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(3);
         var _index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
         var _index_scss__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_7__);
+        function _createSuper(Derived) {
+            function isNativeReflectConstruct() {
+                if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if (typeof Proxy === \\"function\\") return true;
+                try {
+                    Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            return function() {
+                var Super = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Derived), result;
+                if (isNativeReflectConstruct()) {
+                    var NewTarget = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(this, result);
+            };
+        }
         var Index = function(_Component) {
-            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
+            var _super = _createSuper(Index);
             function Index() {
                 Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Index);
-                return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Index, [ {
                 key: \\"render\\",
@@ -775,7 +823,7 @@ require(\\"./taro\\");
     14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
 }, [ [ 14, 0, 1 ] ] ]);
@@ -792,20 +840,44 @@ require(\\"./taro\\");
     18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var possibleConstructorReturn = __webpack_require__(6);
-        var getPrototypeOf = __webpack_require__(5);
+        var taro_runtime = __webpack_require__(2);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
+        var possibleConstructorReturn = __webpack_require__(6);
+        var getPrototypeOf = __webpack_require__(1);
         var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(2);
+        var taro_components = __webpack_require__(3);
         var title = __webpack_require__(8);
+        function _createSuper(Derived) {
+            function isNativeReflectConstruct() {
+                if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if (typeof Proxy === \\"function\\") return true;
+                try {
+                    Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            return function() {
+                var Super = Object(getPrototypeOf[\\"a\\"])(Derived), result;
+                if (isNativeReflectConstruct()) {
+                    var NewTarget = Object(getPrototypeOf[\\"a\\"])(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return Object(possibleConstructorReturn[\\"a\\"])(this, result);
+            };
+        }
         var about_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
+            var _super = _createSuper(Index);
             function Index() {
                 Object(classCallCheck[\\"a\\"])(this, Index);
-                return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(Index).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             Object(createClass[\\"a\\"])(Index, [ {
                 key: \\"render\\",
@@ -835,20 +907,44 @@ require(\\"./taro\\");
     17: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var possibleConstructorReturn = __webpack_require__(6);
-        var getPrototypeOf = __webpack_require__(5);
+        var taro_runtime = __webpack_require__(2);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
+        var possibleConstructorReturn = __webpack_require__(6);
+        var getPrototypeOf = __webpack_require__(1);
         var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(2);
+        var taro_components = __webpack_require__(3);
         var title = __webpack_require__(8);
+        function _createSuper(Derived) {
+            function isNativeReflectConstruct() {
+                if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if (typeof Proxy === \\"function\\") return true;
+                try {
+                    Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            return function() {
+                var Super = Object(getPrototypeOf[\\"a\\"])(Derived), result;
+                if (isNativeReflectConstruct()) {
+                    var NewTarget = Object(getPrototypeOf[\\"a\\"])(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return Object(possibleConstructorReturn[\\"a\\"])(this, result);
+            };
+        }
         var index_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
+            var _super = _createSuper(Index);
             function Index() {
                 Object(classCallCheck[\\"a\\"])(this, Index);
-                return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(Index).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             Object(createClass[\\"a\\"])(Index, [ {
                 key: \\"render\\",
@@ -992,11 +1088,11 @@ require(\\"./taro\\");
 
 /** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    1: function(module, __webpack_exports__, __webpack_require__) {
+    2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },
-    2: function(module, __webpack_exports__, __webpack_require__) {
+    3: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
@@ -1007,7 +1103,18 @@ require(\\"./taro\\");
 } ]);
 
 /** filePath: dist/vendors.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _getPrototypeOf;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+}, , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _classCallCheck;
@@ -1035,17 +1142,6 @@ require(\\"./taro\\");
         if (protoProps) _defineProperties(Constructor.prototype, protoProps);
         if (staticProps) _defineProperties(Constructor, staticProps);
         return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _getPrototypeOf;
-    }));
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";

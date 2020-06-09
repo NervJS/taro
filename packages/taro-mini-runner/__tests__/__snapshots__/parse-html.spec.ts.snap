@@ -19,18 +19,42 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(2);
-        var createClass = __webpack_require__(3);
-        var possibleConstructorReturn = __webpack_require__(5);
-        var getPrototypeOf = __webpack_require__(4);
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
+        var possibleConstructorReturn = __webpack_require__(5);
+        var getPrototypeOf = __webpack_require__(2);
         var react = __webpack_require__(0);
         var app = __webpack_require__(11);
+        function _createSuper(Derived) {
+            function isNativeReflectConstruct() {
+                if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if (typeof Proxy === \\"function\\") return true;
+                try {
+                    Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            return function() {
+                var Super = Object(getPrototypeOf[\\"a\\"])(Derived), result;
+                if (isNativeReflectConstruct()) {
+                    var NewTarget = Object(getPrototypeOf[\\"a\\"])(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return Object(possibleConstructorReturn[\\"a\\"])(this, result);
+            };
+        }
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
+            var _super = _createSuper(App);
             function App() {
                 Object(classCallCheck[\\"a\\"])(this, App);
-                return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(App).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             Object(createClass[\\"a\\"])(App, [ {
                 key: \\"componentDidMount\\",
@@ -628,31 +652,55 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(2);
-        var createClass = __webpack_require__(3);
-        var possibleConstructorReturn = __webpack_require__(5);
-        var getPrototypeOf = __webpack_require__(4);
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
+        var possibleConstructorReturn = __webpack_require__(5);
+        var getPrototypeOf = __webpack_require__(2);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(7);
         var index = __webpack_require__(13);
+        function _createSuper(Derived) {
+            function isNativeReflectConstruct() {
+                if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if (typeof Proxy === \\"function\\") return true;
+                try {
+                    Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            return function() {
+                var Super = Object(getPrototypeOf[\\"a\\"])(Derived), result;
+                if (isNativeReflectConstruct()) {
+                    var NewTarget = Object(getPrototypeOf[\\"a\\"])(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return Object(possibleConstructorReturn[\\"a\\"])(this, result);
+            };
+        }
         var index_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
+            var _super = _createSuper(Index);
             function Index() {
                 Object(classCallCheck[\\"a\\"])(this, Index);
-                return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(Index).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             Object(createClass[\\"a\\"])(Index, [ {
                 key: \\"render\\",
                 value: function render() {
                     var html = '<div class=\\"page\\" role=\\"\\" aria-label=\\"\\"></div>\\\\n    <div class=\\"page__hd\\" role=\\"\\" aria-label=\\"\\"><span class=\\"page__title\\"><span\\\\n          style=\\"display:none;\\">image</span><span>image</span></span><span class=\\"page__desc\\"><span\\\\n          style=\\"display:none;\\">\\\\u56fe\\\\u7247</span><span>\\\\u56fe\\\\u7247</span></span></div>\\\\n    <div class=\\"page__bd\\" role=\\"\\" aria-label=\\"\\">\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">scaleToFill\\\\uff1a\\\\u4e0d\\\\u4fdd\\\\u6301\\\\u7eb5\\\\u6a2a\\\\u6bd4\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u4f7f\\\\u56fe\\\\u7247\\\\u5b8c\\\\u5168\\\\u9002\\\\u5e94</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"scaleToFill\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: 100% 100%; background-position: 0% 0%; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">aspectFit\\\\uff1a\\\\u4fdd\\\\u6301\\\\u7eb5\\\\u6a2a\\\\u6bd4\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u4f7f\\\\u56fe\\\\u7247\\\\u7684\\\\u957f\\\\u8fb9\\\\u80fd\\\\u5b8c\\\\u5168\\\\u663e\\\\u793a\\\\u51fa\\\\u6765</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"aspectFit\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: contain; background-position: center center; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">aspectFill\\\\uff1a\\\\u4fdd\\\\u6301\\\\u7eb5\\\\u6a2a\\\\u6bd4\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u53ea\\\\u4fdd\\\\u8bc1\\\\u56fe\\\\u7247\\\\u7684\\\\u77ed\\\\u8fb9\\\\u80fd\\\\u5b8c\\\\u5168\\\\u663e\\\\u793a\\\\u51fa\\\\u6765</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"aspectFill\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: cover; background-position: center center; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">top\\\\uff1a\\\\u4e0d\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u53ea\\\\u663e\\\\u793a\\\\u56fe\\\\u7247\\\\u7684\\\\u9876\\\\u90e8\\\\u533a\\\\u57df</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"top\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: auto; background-position: center top; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">bottom\\\\uff1a\\\\u4e0d\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u53ea\\\\u663e\\\\u793a\\\\u56fe\\\\u7247\\\\u7684\\\\u5e95\\\\u90e8\\\\u533a\\\\u57df</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"bottom\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: auto; background-position: center bottom; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">center\\\\uff1a\\\\u4e0d\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u53ea\\\\u663e\\\\u793a\\\\u56fe\\\\u7247\\\\u7684\\\\u4e2d\\\\u95f4\\\\u533a\\\\u57df</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"center\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: auto; background-position: center center; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">left\\\\uff1a\\\\u4e0d\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u53ea\\\\u663e\\\\u793a\\\\u56fe\\\\u7247\\\\u7684\\\\u5de6\\\\u8fb9\\\\u533a\\\\u57df</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"left\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: auto; background-position: left center; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">right\\\\uff1a\\\\u4e0d\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u53ea\\\\u663e\\\\u793a\\\\u56fe\\\\u7247\\\\u7684\\\\u53f3\\\\u8fb9\\\\u8fb9\\\\u533a\\\\u57df</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"right\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: auto; background-position: right center; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">top left\\\\uff1a\\\\u4e0d\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u53ea\\\\u663e\\\\u793a\\\\u56fe\\\\u7247\\\\u7684\\\\u5de6\\\\u4e0a\\\\u8fb9\\\\u533a\\\\u57df</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"top left\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: auto; background-position: left top; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">top right\\\\uff1a\\\\u4e0d\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u53ea\\\\u663e\\\\u793a\\\\u56fe\\\\u7247\\\\u7684\\\\u53f3\\\\u4e0a\\\\u8fb9\\\\u533a\\\\u57df</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"top right\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: auto; background-position: right top; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">bottom left\\\\uff1a\\\\u4e0d\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u53ea\\\\u663e\\\\u793a\\\\u56fe\\\\u7247\\\\u7684\\\\u5de6\\\\u4e0b\\\\u8fb9\\\\u533a\\\\u57df</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"bottom left\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: auto; background-position: left bottom; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\"section section_gap\\" role=\\"\\" aria-label=\\"\\">\\\\n        <div class=\\"section__title\\" role=\\"\\" aria-label=\\"\\">bottom right\\\\uff1a\\\\u4e0d\\\\u7f29\\\\u653e\\\\u56fe\\\\u7247\\\\uff0c\\\\u53ea\\\\u663e\\\\u793a\\\\u56fe\\\\u7247\\\\u7684\\\\u53f3\\\\u4e0b\\\\u8fb9\\\\u533a\\\\u57df</div>\\\\n        <div class=\\"section__ctn\\" role=\\"\\" aria-label=\\"\\"><img mode=\\"bottom right\\"\\\\n            src=\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\"\\\\n            style=\\"width: 200px; height: 200px; background-color: #eeeeee;\\">\\\\n          <div role=\\"img\\" aria-label=\\"\\"\\\\n            style=\\\\'background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-image: url(\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\");\\\\'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n    </div>\\\\n  </div>';
-                    return react[\\"default\\"].createElement(taro_components[\\"View\\"], {
+                    return (react[\\"default\\"].createElement(taro_components[\\"View\\"], {
                         className: \\"index\\"
                     }, react[\\"default\\"].createElement(taro_components[\\"View\\"], {
                         dangerouslySetInnerHTML: {
                             __html: html
                         }
-                    }));
+                    })));
                 }
             } ]);
             return Index;
@@ -808,6 +856,17 @@ require(\\"./taro\\");
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _getPrototypeOf;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _classCallCheck;
     }));
     function _classCallCheck(instance, Constructor) {
@@ -833,17 +892,6 @@ require(\\"./taro\\");
         if (protoProps) _defineProperties(Constructor.prototype, protoProps);
         if (staticProps) _defineProperties(Constructor, staticProps);
         return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _getPrototypeOf;
-    }));
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
