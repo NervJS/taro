@@ -14,19 +14,19 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    19: function(module, exports, __webpack_require__) {},
-    28: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, exports, __webpack_require__) {},
+    23: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
+        var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(4);
         var createClass = __webpack_require__(5);
         var possibleConstructorReturn = __webpack_require__(7);
         var getPrototypeOf = __webpack_require__(6);
         var inherits = __webpack_require__(8);
         var taro = __webpack_require__(3);
-        var react = __webpack_require__(1);
-        var app = __webpack_require__(19);
+        var react = __webpack_require__(0);
+        var app = __webpack_require__(14);
         var app_App = function(_React$Component) {
             Object(inherits[\\"a\\"])(App, _React$Component);
             function App() {
@@ -54,7 +54,7 @@ require(\\"./taro\\");
             return App;
         }(react[\\"default\\"].Component);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(10);
+        var taro_react = __webpack_require__(9);
         var config = {
             pages: [ \\"pages/index/index\\", \\"pages/native/native\\" ],
             window: {
@@ -67,7 +67,7 @@ require(\\"./taro\\");
         taro_runtime[\\"window\\"].__taroAppConfig = config;
         var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], config));
     }
-}, [ [ 28, 0, 1, 3, 2 ] ] ]);
+}, [ [ 23, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -855,926 +855,24 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
-}, , function(module, exports, __webpack_require__) {
-    const Taro = __webpack_require__(9).default;
-    let api;
-    if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (true) {
-        api = __webpack_require__(16);
-    }
-    const initNativeAPI = api && api.default ? api.default : api;
-    if (typeof initNativeAPI === \\"function\\") {
-        initNativeAPI(Taro);
-    }
-    module.exports = Taro;
-    module.exports.default = module.exports;
-}, , , , , , function(module, __webpack_exports__, __webpack_require__) {
+}, , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    (function(global, window) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        function _typeof(obj) {
-            \\"@babel/helpers - typeof\\";
-            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-                _typeof = function(obj) {
-                    return typeof obj;
-                };
-            } else {
-                _typeof = function(obj) {
-                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-                };
-            }
-            return _typeof(obj);
-        }
-        function _classCallCheck(instance, Constructor) {
-            if (!(instance instanceof Constructor)) {
-                throw new TypeError(\\"Cannot call a class as a function\\");
-            }
-        }
-        function _defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if (\\"value\\" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        }
-        function _createClass(Constructor, protoProps, staticProps) {
-            if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) _defineProperties(Constructor, staticProps);
-            return Constructor;
-        }
-        function _defineProperty(obj, key, value) {
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
-        function ownKeys(object, enumerableOnly) {
-            var keys = Object.keys(object);
-            if (Object.getOwnPropertySymbols) {
-                var symbols = Object.getOwnPropertySymbols(object);
-                if (enumerableOnly) symbols = symbols.filter((function(sym) {
-                    return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-                }));
-                keys.push.apply(keys, symbols);
-            }
-            return keys;
-        }
-        function _objectSpread2(target) {
-            for (var i = 1; i < arguments.length; i++) {
-                var source = arguments[i] != null ? arguments[i] : {};
-                if (i % 2) {
-                    ownKeys(Object(source), true).forEach((function(key) {
-                        _defineProperty(target, key, source[key]);
-                    }));
-                } else if (Object.getOwnPropertyDescriptors) {
-                    Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-                } else {
-                    ownKeys(Object(source)).forEach((function(key) {
-                        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-                    }));
-                }
-            }
-            return target;
-        }
-        if (typeof Object.assign !== \\"function\\") {
-            Object.assign = function(target) {
-                if (target == null) {
-                    throw new TypeError(\\"Cannot convert undefined or null to object\\");
-                }
-                var to = Object(target);
-                for (var index = 1; index < arguments.length; index++) {
-                    var nextSource = arguments[index];
-                    if (nextSource != null) {
-                        for (var nextKey in nextSource) {
-                            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                                to[nextKey] = nextSource[nextKey];
-                            }
-                        }
-                    }
-                }
-                return to;
-            };
-        }
-        if (typeof Object.defineProperties !== \\"function\\") {
-            Object.defineProperties = function(obj, properties) {
-                function convertToDescriptor(desc) {
-                    function hasProperty(obj, prop) {
-                        return Object.prototype.hasOwnProperty.call(obj, prop);
-                    }
-                    function isCallable(v) {
-                        return typeof v === \\"function\\";
-                    }
-                    if (_typeof(desc) !== \\"object\\" || desc === null) {
-                        throw new TypeError(\\"bad desc\\");
-                    }
-                    var d = {};
-                    if (hasProperty(desc, \\"enumerable\\")) d.enumerable = !!desc.enumerable;
-                    if (hasProperty(desc, \\"configurable\\")) {
-                        d.configurable = !!desc.configurable;
-                    }
-                    if (hasProperty(desc, \\"value\\")) d.value = desc.value;
-                    if (hasProperty(desc, \\"writable\\")) d.writable = !!desc.writable;
-                    if (hasProperty(desc, \\"get\\")) {
-                        var g = desc.get;
-                        if (!isCallable(g) && typeof g !== \\"undefined\\") {
-                            throw new TypeError(\\"bad get\\");
-                        }
-                        d.get = g;
-                    }
-                    if (hasProperty(desc, \\"set\\")) {
-                        var s = desc.set;
-                        if (!isCallable(s) && typeof s !== \\"undefined\\") {
-                            throw new TypeError(\\"bad set\\");
-                        }
-                        d.set = s;
-                    }
-                    if ((\\"get\\" in d || \\"set\\" in d) && (\\"value\\" in d || \\"writable\\" in d)) {
-                        throw new TypeError(\\"identity-confused descriptor\\");
-                    }
-                    return d;
-                }
-                if (_typeof(obj) !== \\"object\\" || obj === null) throw new TypeError(\\"bad obj\\");
-                properties = Object(properties);
-                var keys = Object.keys(properties);
-                var descs = [];
-                for (var i = 0; i < keys.length; i++) {
-                    descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
-                }
-                for (var _i = 0; _i < descs.length; _i++) {
-                    Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
-                }
-                return obj;
-            };
-        }
-        var ENV_TYPE = {
-            WEAPP: \\"WEAPP\\",
-            WEB: \\"WEB\\",
-            RN: \\"RN\\",
-            SWAN: \\"SWAN\\",
-            ALIPAY: \\"ALIPAY\\",
-            TT: \\"TT\\",
-            QQ: \\"QQ\\",
-            JD: \\"JD\\"
-        };
-        var _env = null;
-        function getEnv() {
-            if (_env) return _env;
-            if (typeof jd !== \\"undefined\\" && jd.getSystemInfo) {
-                _env = ENV_TYPE.JD;
-                return ENV_TYPE.JD;
-            }
-            if (typeof qq !== \\"undefined\\" && qq.getSystemInfo) {
-                _env = ENV_TYPE.QQ;
-                return ENV_TYPE.QQ;
-            }
-            if (typeof tt !== \\"undefined\\" && tt.getSystemInfo) {
-                _env = ENV_TYPE.TT;
-                return ENV_TYPE.TT;
-            }
-            if (typeof wx !== \\"undefined\\" && wx.getSystemInfo) {
-                _env = ENV_TYPE.WEAPP;
-                return ENV_TYPE.WEAPP;
-            }
-            if (typeof swan !== \\"undefined\\" && swan.getSystemInfo) {
-                _env = ENV_TYPE.SWAN;
-                return ENV_TYPE.SWAN;
-            }
-            if (typeof my !== \\"undefined\\" && my.getSystemInfo) {
-                _env = ENV_TYPE.ALIPAY;
-                return ENV_TYPE.ALIPAY;
-            }
-            if (typeof global !== \\"undefined\\" && global.__fbGenNativeModule) {
-                _env = ENV_TYPE.RN;
-                return ENV_TYPE.RN;
-            }
-            if (typeof window !== \\"undefined\\") {
-                _env = ENV_TYPE.WEB;
-                return ENV_TYPE.WEB;
-            }
-            return \\"Unknown environment\\";
-        }
-        function render() {}
-        var Chain = function() {
-            function Chain(requestParams) {
-                var interceptors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-                var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-                _classCallCheck(this, Chain);
-                this.index = index;
-                this.requestParams = requestParams;
-                this.interceptors = interceptors;
-            }
-            _createClass(Chain, [ {
-                key: \\"proceed\\",
-                value: function proceed(requestParams) {
-                    this.requestParams = requestParams;
-                    if (this.index >= this.interceptors.length) {
-                        throw new Error(\\"chain \\\\u53c2\\\\u6570\\\\u9519\\\\u8bef, \\\\u8bf7\\\\u52ff\\\\u76f4\\\\u63a5\\\\u4fee\\\\u6539 request.chain\\");
-                    }
-                    var nextInterceptor = this._getNextInterceptor();
-                    var nextChain = this._getNextChain();
-                    var p = nextInterceptor(nextChain);
-                    var res = p[\\"catch\\"]((function(err) {
-                        return Promise.reject(err);
-                    }));
-                    if (typeof p.abort === \\"function\\") res.abort = p.abort;
-                    return res;
-                }
-            }, {
-                key: \\"_getNextInterceptor\\",
-                value: function _getNextInterceptor() {
-                    return this.interceptors[this.index];
-                }
-            }, {
-                key: \\"_getNextChain\\",
-                value: function _getNextChain() {
-                    return new Chain(this.requestParams, this.interceptors, this.index + 1);
-                }
-            } ]);
-            return Chain;
-        }();
-        var Link = function() {
-            function Link(interceptor) {
-                _classCallCheck(this, Link);
-                this.taroInterceptor = interceptor;
-                this.chain = new Chain;
-            }
-            _createClass(Link, [ {
-                key: \\"request\\",
-                value: function request(requestParams) {
-                    var _this = this;
-                    this.chain.interceptors = this.chain.interceptors.filter((function(interceptor) {
-                        return interceptor !== _this.taroInterceptor;
-                    }));
-                    this.chain.interceptors.push(this.taroInterceptor);
-                    return this.chain.proceed(_objectSpread2({}, requestParams));
-                }
-            }, {
-                key: \\"addInterceptor\\",
-                value: function addInterceptor(interceptor) {
-                    this.chain.interceptors.push(interceptor);
-                }
-            }, {
-                key: \\"cleanInterceptors\\",
-                value: function cleanInterceptors() {
-                    this.chain = new Chain;
-                }
-            } ]);
-            return Link;
-        }();
-        function timeoutInterceptor(chain) {
-            var requestParams = chain.requestParams;
-            var p;
-            var res = new Promise((function(resolve, reject) {
-                var timeout = setTimeout((function() {
-                    timeout = null;
-                    reject(new Error(\\"\\\\u7f51\\\\u7edc\\\\u94fe\\\\u63a5\\\\u8d85\\\\u65f6,\\\\u8bf7\\\\u7a0d\\\\u540e\\\\u518d\\\\u8bd5\\\\uff01\\"));
-                }), requestParams && requestParams.timeout || 6e4);
-                chain.proceed(requestParams).then((function(res) {
-                    if (!timeout) return;
-                    clearTimeout(timeout);
-                    resolve(res);
-                }))[\\"catch\\"]((function(err) {
-                    timeout && clearTimeout(timeout);
-                    reject(err);
-                }));
-            }));
-            if (typeof p.abort === \\"function\\") ;
-            return res;
-        }
-        function logInterceptor(chain) {
-            var requestParams = chain.requestParams;
-            var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-            console.log(\\"http \\".concat(method || \\"GET\\", \\" --\\\\x3e \\").concat(url, \\" data: \\"), data);
-            var p = chain.proceed(requestParams);
-            var res = p.then((function(res) {
-                console.log(\\"http <-- \\".concat(url, \\" result:\\"), res);
-                return res;
-            }));
-            if (typeof p.abort === \\"function\\") res.abort = p.abort;
-            return res;
-        }
-        var interceptors = Object.freeze({
-            __proto__: null,
-            timeoutInterceptor: timeoutInterceptor,
-            logInterceptor: logInterceptor
-        });
-        var onAndSyncApis = {
-            onSocketOpen: true,
-            onSocketError: true,
-            onSocketMessage: true,
-            onSocketClose: true,
-            onBackgroundAudioPlay: true,
-            onBackgroundAudioPause: true,
-            onBackgroundAudioStop: true,
-            onNetworkStatusChange: true,
-            onAccelerometerChange: true,
-            onCompassChange: true,
-            onBluetoothAdapterStateChange: true,
-            onBluetoothDeviceFound: true,
-            onBLEConnectionStateChange: true,
-            onBLECharacteristicValueChange: true,
-            onBeaconUpdate: true,
-            onBeaconServiceChange: true,
-            onUserCaptureScreen: true,
-            onHCEMessage: true,
-            onGetWifiList: true,
-            onWifiConnected: true,
-            onDeviceMotionChange: true,
-            setStorageSync: true,
-            getStorageSync: true,
-            getStorageInfoSync: true,
-            removeStorageSync: true,
-            clearStorageSync: true,
-            getSystemInfoSync: true,
-            getExtConfigSync: true,
-            getLogManager: true,
-            onMemoryWarning: true,
-            reportMonitor: true,
-            reportAnalytics: true,
-            navigateToSmartGameProgram: true,
-            getFileSystemManager: true,
-            getLaunchOptionsSync: true,
-            onPageNotFound: true,
-            onError: true,
-            onAppShow: true,
-            onAppHide: true,
-            offPageNotFound: true,
-            offError: true,
-            offAppShow: true,
-            offAppHide: true,
-            onAudioInterruptionEnd: true,
-            onAudioInterruptionBegin: true,
-            onLocationChange: true,
-            offLocationChange: true
-        };
-        var noPromiseApis = {
-            stopRecord: true,
-            getRecorderManager: true,
-            pauseVoice: true,
-            stopVoice: true,
-            pauseBackgroundAudio: true,
-            stopBackgroundAudio: true,
-            getBackgroundAudioManager: true,
-            createAudioContext: true,
-            createInnerAudioContext: true,
-            createVideoContext: true,
-            createCameraContext: true,
-            createLivePlayerContext: true,
-            createLivePusherContext: true,
-            createMapContext: true,
-            canIUse: true,
-            startAccelerometer: true,
-            stopAccelerometer: true,
-            startCompass: true,
-            stopCompass: true,
-            hideToast: true,
-            hideLoading: true,
-            showNavigationBarLoading: true,
-            hideNavigationBarLoading: true,
-            createAnimation: true,
-            createSelectorQuery: true,
-            createOffscreenCanvas: true,
-            createCanvasContext: true,
-            drawCanvas: true,
-            hideKeyboard: true,
-            stopPullDownRefresh: true,
-            createIntersectionObserver: true,
-            getMenuButtonBoundingClientRect: true,
-            onWindowResize: true,
-            offWindowResize: true,
-            arrayBufferToBase64: true,
-            base64ToArrayBuffer: true,
-            getAccountInfoSync: true,
-            getUpdateManager: true,
-            createWorker: true,
-            createRewardedVideoAd: true,
-            createInterstitialAd: true
-        };
-        var otherApis = {
-            uploadFile: true,
-            downloadFile: true,
-            connectSocket: true,
-            sendSocketMessage: true,
-            closeSocket: true,
-            chooseImage: true,
-            chooseMessageFile: true,
-            previewImage: true,
-            getImageInfo: true,
-            compressImage: true,
-            saveImageToPhotosAlbum: true,
-            startRecord: true,
-            playVoice: true,
-            setInnerAudioOption: true,
-            getAvailableAudioSources: true,
-            getBackgroundAudioPlayerState: true,
-            playBackgroundAudio: true,
-            seekBackgroundAudio: true,
-            chooseVideo: true,
-            saveVideoToPhotosAlbum: true,
-            loadFontFace: true,
-            saveFile: true,
-            getFileInfo: true,
-            getSavedFileList: true,
-            getSavedFileInfo: true,
-            removeSavedFile: true,
-            openDocument: true,
-            setStorage: true,
-            getStorage: true,
-            getStorageInfo: true,
-            removeStorage: true,
-            clearStorage: true,
-            navigateBack: true,
-            navigateTo: true,
-            redirectTo: true,
-            switchTab: true,
-            reLaunch: true,
-            startLocationUpdate: true,
-            startLocationUpdateBackground: true,
-            stopLocationUpdate: true,
-            getLocation: true,
-            chooseLocation: true,
-            openLocation: true,
-            getSystemInfo: true,
-            getNetworkType: true,
-            makePhoneCall: true,
-            scanCode: true,
-            setClipboardData: true,
-            getClipboardData: true,
-            openBluetoothAdapter: true,
-            closeBluetoothAdapter: true,
-            getBluetoothAdapterState: true,
-            startBluetoothDevicesDiscovery: true,
-            stopBluetoothDevicesDiscovery: true,
-            getBluetoothDevices: true,
-            getConnectedBluetoothDevices: true,
-            createBLEConnection: true,
-            closeBLEConnection: true,
-            getBLEDeviceServices: true,
-            getBLEDeviceCharacteristics: true,
-            readBLECharacteristicValue: true,
-            writeBLECharacteristicValue: true,
-            notifyBLECharacteristicValueChange: true,
-            startBeaconDiscovery: true,
-            stopBeaconDiscovery: true,
-            getBeacons: true,
-            setScreenBrightness: true,
-            getScreenBrightness: true,
-            setKeepScreenOn: true,
-            vibrateLong: true,
-            vibrateShort: true,
-            addPhoneContact: true,
-            getHCEState: true,
-            startHCE: true,
-            stopHCE: true,
-            sendHCEMessage: true,
-            startWifi: true,
-            stopWifi: true,
-            connectWifi: true,
-            getWifiList: true,
-            setWifiList: true,
-            getConnectedWifi: true,
-            startDeviceMotionListening: true,
-            stopDeviceMotionListening: true,
-            pageScrollTo: true,
-            showToast: true,
-            showLoading: true,
-            showModal: true,
-            showActionSheet: true,
-            setNavigationBarTitle: true,
-            setNavigationBarColor: true,
-            setTabBarBadge: true,
-            removeTabBarBadge: true,
-            showTabBarRedDot: true,
-            hideTabBarRedDot: true,
-            setTabBarStyle: true,
-            setTabBarItem: true,
-            showTabBar: true,
-            hideTabBar: true,
-            setTopBarText: true,
-            startPullDownRefresh: true,
-            canvasToTempFilePath: true,
-            canvasGetImageData: true,
-            canvasPutImageData: true,
-            setBackgroundColor: true,
-            setBackgroundTextStyle: true,
-            getSelectedTextRange: true,
-            hideHomeButton: true,
-            getExtConfig: true,
-            login: true,
-            checkSession: true,
-            authorize: true,
-            getUserInfo: true,
-            checkIsSupportFacialRecognition: true,
-            startFacialRecognitionVerify: true,
-            startFacialRecognitionVerifyAndUploadVideo: true,
-            faceVerifyForPay: true,
-            requestPayment: true,
-            showShareMenu: true,
-            hideShareMenu: true,
-            updateShareMenu: true,
-            getShareInfo: true,
-            chooseAddress: true,
-            addCard: true,
-            openCard: true,
-            openSetting: true,
-            getSetting: true,
-            getWeRunData: true,
-            navigateToMiniProgram: true,
-            navigateBackMiniProgram: true,
-            chooseInvoice: true,
-            chooseInvoiceTitle: true,
-            checkIsSupportSoterAuthentication: true,
-            startSoterAuthentication: true,
-            checkIsSoterEnrolledInDevice: true,
-            requestSubscribeMessage: true,
-            setEnableDebug: true,
-            getOpenUserInfo: true,
-            ocrIdCard: true,
-            ocrBankCard: true,
-            ocrDrivingLicense: true,
-            ocrVehicleLicense: true,
-            textReview: true,
-            textToAudio: true,
-            imageAudit: true,
-            advancedGeneralIdentify: true,
-            objectDetectIdentify: true,
-            carClassify: true,
-            dishClassify: true,
-            logoClassify: true,
-            animalClassify: true,
-            plantClassify: true,
-            setPageInfo: true,
-            getSwanId: true,
-            requestPolymerPayment: true,
-            navigateToSmartProgram: true,
-            navigateBackSmartProgram: true,
-            preloadSubPackage: true
-        };
-        function initPxTransform(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? 700 : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? {
-                640: 2.34 / 2,
-                750: 1,
-                828: 1.81 / 2
-            } : _config$deviceRatio;
-            this.config = this.config || {};
-            this.config.designWidth = designWidth;
-            this.config.deviceRatio = deviceRatio;
-        }
-        var Taro = {
-            Events: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"Events\\"],
-            eventCenter: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"eventCenter\\"],
-            getEnv: getEnv,
-            ENV_TYPE: ENV_TYPE,
-            render: render,
-            noPromiseApis: noPromiseApis,
-            onAndSyncApis: onAndSyncApis,
-            otherApis: otherApis,
-            initPxTransform: initPxTransform,
-            Link: Link,
-            interceptors: interceptors,
-            Current: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"Current\\"],
-            useDidShow: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"useDidShow\\"],
-            useDidHide: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"useDidHide\\"],
-            usePullDownRefresh: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"usePullDownRefresh\\"],
-            useReachBottom: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"useReachBottom\\"],
-            usePageScroll: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"usePageScroll\\"],
-            useResize: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"useResize\\"],
-            useShareAppMessage: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"useShareAppMessage\\"],
-            useTabItemTap: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"useTabItemTap\\"],
-            useTitleClick: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"useTitleClick\\"],
-            useOptionMenuClick: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"useOptionMenuClick\\"],
-            usePullIntercept: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"usePullIntercept\\"],
-            useRouter: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"useRouter\\"],
-            options: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"options\\"],
-            nextTick: _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"nextTick\\"]
-        };
-        __webpack_exports__[\\"default\\"] = Taro;
-    }).call(this, __webpack_require__(15), __webpack_require__(0)[\\"window\\"]);
-}, , , , , , , function(module, exports, __webpack_require__) {
-    \\"use strict\\";
-    Object.defineProperty(exports, \\"__esModule\\", {
-        value: true
-    });
-    exports[\\"default\\"] = initNativeApi;
-    var _api = _interopRequireDefault(__webpack_require__(9));
-    var _dataCache = __webpack_require__(17);
-    var _utils = __webpack_require__(18);
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : {
-            default: obj
-        };
-    }
-    var noPromiseApis = _api[\\"default\\"].noPromiseApis, onAndSyncApis = _api[\\"default\\"].onAndSyncApis, otherApis = _api[\\"default\\"].otherApis, initPxTransform = _api[\\"default\\"].initPxTransform, Link = _api[\\"default\\"].Link;
-    var RequestQueue = {
-        MAX_REQUEST: 5,
-        queue: [],
-        request: function request(options) {
-            this.push(options);
-            return this.run();
-        },
-        push: function push(options) {
-            this.queue.push(options);
-        },
-        run: function run() {
-            var _this = this;
-            if (!this.queue.length) {
-                return;
-            }
-            if (this.queue.length <= this.MAX_REQUEST) {
-                var options = this.queue.shift();
-                var completeFn = options.complete;
-                options.complete = function() {
-                    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                        args[_key] = arguments[_key];
-                    }
-                    completeFn && completeFn.apply(options, args);
-                    _this.run();
-                };
-                return wx.request(options);
-            }
-        }
-    };
-    function taroInterceptor(chain) {
-        return request(chain.requestParams);
-    }
-    var link = new Link(taroInterceptor);
-    function request(options) {
-        options = options || {};
-        if (typeof options === \\"string\\") {
-            options = {
-                url: options
-            };
-        }
-        var originSuccess = options.success;
-        var originFail = options.fail;
-        var originComplete = options.complete;
-        var requestTask;
-        var p = new Promise((function(resolve, reject) {
-            options.success = function(res) {
-                originSuccess && originSuccess(res);
-                resolve(res);
-            };
-            options.fail = function(res) {
-                originFail && originFail(res);
-                reject(res);
-            };
-            options.complete = function(res) {
-                originComplete && originComplete(res);
-            };
-            requestTask = RequestQueue.request(options);
-        }));
-        p.abort = function(cb) {
-            cb && cb();
-            if (requestTask) {
-                requestTask.abort();
-            }
-            return p;
-        };
-        return p;
-    }
-    function processApis(taro) {
-        var weApis = Object.assign({}, onAndSyncApis, noPromiseApis, otherApis);
-        var useDataCacheApis = {
-            navigateTo: true,
-            redirectTo: true,
-            reLaunch: true
-        };
-        var routerParamsPrivateKey = \\"__key_\\";
-        var preloadPrivateKey = \\"__preload_\\";
-        var preloadInitedComponent = \\"$preloadComponent\\";
-        Object.keys(weApis).forEach((function(key) {
-            if (!(key in wx)) {
-                taro[key] = function() {
-                    console.warn(\\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(key));
-                };
-                return;
-            }
-            if (!onAndSyncApis[key] && !noPromiseApis[key]) {
-                taro[key] = function(options) {
-                    for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-                        args[_key2 - 1] = arguments[_key2];
-                    }
-                    options = options || {};
-                    var task = null;
-                    var obj = Object.assign({}, options);
-                    if (typeof options === \\"string\\") {
-                        if (args.length) {
-                            var _wx;
-                            return (_wx = wx)[key].apply(_wx, [ options ].concat(args));
-                        }
-                        return wx[key](options);
-                    }
-                    if (key === \\"navigateTo\\" || key === \\"redirectTo\\" || key === \\"switchTab\\") {
-                        var url = obj.url ? obj.url.replace(/^\\\\//, \\"\\") : \\"\\";
-                        if (url.indexOf(\\"?\\") > -1) url = url.split(\\"?\\")[0];
-                        var Component = (0, _dataCache.cacheDataGet)(url);
-                        if (Component) {
-                            var component = new Component;
-                            if (component.componentWillPreload) {
-                                var cacheKey = (0, _utils.getUniqueKey)();
-                                var MarkIndex = obj.url.indexOf(\\"?\\");
-                                var hasMark = MarkIndex > -1;
-                                var urlQueryStr = hasMark ? obj.url.substring(MarkIndex + 1, obj.url.length) : \\"\\";
-                                var params = (0, _utils.queryToJson)(urlQueryStr);
-                                obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(preloadPrivateKey, \\"=\\").concat(cacheKey);
-                                (0, _dataCache.cacheDataSet)(cacheKey, component.componentWillPreload(params));
-                                (0, _dataCache.cacheDataSet)(preloadInitedComponent, component);
-                            }
-                        }
-                    }
-                    if (useDataCacheApis[key]) {
-                        var _url = obj.url = obj.url || \\"\\";
-                        var _MarkIndex = _url.indexOf(\\"?\\");
-                        var _hasMark = _MarkIndex > -1;
-                        var _urlQueryStr = _hasMark ? _url.substring(_MarkIndex + 1, _url.length) : \\"\\";
-                        var _params = (0, _utils.queryToJson)(_urlQueryStr);
-                        var _cacheKey = (0, _utils.getUniqueKey)();
-                        obj.url += (_hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(_cacheKey);
-                        (0, _dataCache.cacheDataSet)(_cacheKey, _params);
-                    }
-                    var p = new Promise((function(resolve, reject) {
-                        [ \\"fail\\", \\"success\\", \\"complete\\" ].forEach((function(k) {
-                            obj[k] = function(res) {
-                                options[k] && options[k](res);
-                                if (k === \\"success\\") {
-                                    if (key === \\"connectSocket\\") {
-                                        resolve(Promise.resolve().then((function() {
-                                            return Object.assign(task, res);
-                                        })));
-                                    } else {
-                                        resolve(res);
-                                    }
-                                } else if (k === \\"fail\\") {
-                                    reject(res);
-                                }
-                            };
-                        }));
-                        if (args.length) {
-                            var _wx2;
-                            task = (_wx2 = wx)[key].apply(_wx2, [ obj ].concat(args));
-                        } else {
-                            task = wx[key](obj);
-                        }
-                    }));
-                    if (key === \\"uploadFile\\" || key === \\"downloadFile\\") {
-                        p.progress = function(cb) {
-                            if (task) {
-                                task.onProgressUpdate(cb);
-                            }
-                            return p;
-                        };
-                        p.abort = function(cb) {
-                            cb && cb();
-                            if (task) {
-                                task.abort();
-                            }
-                            return p;
-                        };
-                    }
-                    return p;
-                };
-            } else {
-                taro[key] = function() {
-                    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                        args[_key3] = arguments[_key3];
-                    }
-                    var argsLen = args.length;
-                    var newArgs = args.concat();
-                    var lastArg = newArgs[argsLen - 1];
-                    if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
-                        newArgs.splice(argsLen - 1, 1, lastArg.$scope);
-                    }
-                    return wx[key].apply(wx, newArgs);
-                };
-            }
-        }));
-    }
-    function pxTransform(size) {
-        var _ref = this.config || {}, _ref$designWidth = _ref.designWidth, designWidth = _ref$designWidth === void 0 ? 750 : _ref$designWidth, _ref$deviceRatio = _ref.deviceRatio, deviceRatio = _ref$deviceRatio === void 0 ? {
-            640: 2.34 / 2,
-            750: 1,
-            828: 1.81 / 2
-        } : _ref$deviceRatio;
-        if (!(designWidth in deviceRatio)) {
-            throw new Error(\\"deviceRatio \\\\u914d\\\\u7f6e\\\\u4e2d\\\\u4e0d\\\\u5b58\\\\u5728 \\".concat(designWidth, \\" \\\\u7684\\\\u8bbe\\\\u7f6e\\\\uff01\\"));
-        }
-        return parseInt(size, 10) / deviceRatio[designWidth] + \\"rpx\\";
-    }
-    function canIUseWebp() {
-        var _wx$getSystemInfoSync = wx.getSystemInfoSync(), platform = _wx$getSystemInfoSync.platform;
-        var platformLower = platform.toLowerCase();
-        if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
-            return true;
-        }
-        return false;
-    }
-    function wxCloud(taro) {
-        var wxC = wx.cloud || {};
-        var wxcloud = {};
-        var apiList = [ \\"init\\", \\"database\\", \\"uploadFile\\", \\"downloadFile\\", \\"getTempFileURL\\", \\"deleteFile\\", \\"callFunction\\", \\"CloudID\\" ];
-        apiList.forEach((function(v) {
-            wxcloud[v] = wxC[v];
-        }));
-        taro.cloud = wxcloud;
-    }
-    function initNativeApi(taro) {
-        processApis(taro);
-        taro.request = link.request.bind(link);
-        taro.addInterceptor = link.addInterceptor.bind(link);
-        taro.cleanInterceptors = link.cleanInterceptors.bind(link);
-        taro.getCurrentPages = getCurrentPages;
-        taro.getApp = getApp;
-        taro.requirePlugin = requirePlugin;
-        taro.initPxTransform = initPxTransform.bind(taro);
-        taro.pxTransform = pxTransform.bind(taro);
-        taro.canIUseWebp = canIUseWebp;
-        wxCloud(taro);
-    }
-}, function(module, exports, __webpack_require__) {
-    \\"use strict\\";
-    Object.defineProperty(exports, \\"__esModule\\", {
-        value: true
-    });
-    exports.cacheDataSet = cacheDataSet;
-    exports.cacheDataGet = cacheDataGet;
-    exports.cacheDataHas = cacheDataHas;
-    var data = {};
-    function cacheDataSet(key, val) {
-        data[key] = val;
-    }
-    function cacheDataGet(key, delelteAfterGet) {
-        var temp = data[key];
-        delelteAfterGet && delete data[key];
-        return temp;
-    }
-    function cacheDataHas(key) {
-        return key in data;
-    }
-}, function(module, exports, __webpack_require__) {
-    \\"use strict\\";
-    Object.defineProperty(exports, \\"__esModule\\", {
-        value: true
-    });
-    exports.queryToJson = queryToJson;
-    exports.getUniqueKey = getUniqueKey;
-    function queryToJson(str) {
-        var dec = decodeURIComponent;
-        var qp = str.split(\\"&\\");
-        var ret = {};
-        var name;
-        var val;
-        for (var i = 0, l = qp.length, item; i < l; ++i) {
-            item = qp[i];
-            if (item.length) {
-                var s = item.indexOf(\\"=\\");
-                if (s < 0) {
-                    name = dec(item);
-                    val = \\"\\";
-                } else {
-                    name = dec(item.slice(0, s));
-                    val = dec(item.slice(s + 1));
-                }
-                if (typeof ret[name] === \\"string\\") {
-                    ret[name] = [ ret[name] ];
-                }
-                if (Array.isArray(ret[name])) {
-                    ret[name].push(val);
-                } else {
-                    ret[name] = val;
-                }
-            }
-        }
-        return ret;
-    }
-    var _i = 1;
-    var _loadTime = (new Date).getTime().toString();
-    function getUniqueKey() {
-        return _loadTime + _i++;
-    }
+    __webpack_exports__[\\"a\\"] = \\"taro\\";
 } ] ]);
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    20: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 20, 0, 1 ] ] ]);
+}, [ [ 15, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
@@ -1785,7 +883,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/components/tab/tab.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    26: function(module, exports) {
+    21: function(module, exports) {
         Component({
             behaviors: [],
             properties: {
@@ -1819,7 +917,7 @@ require(\\"./taro\\");
             }
         });
     }
-}, [ [ 26, 0 ] ] ]);
+}, [ [ 21, 0 ] ] ]);
 
 /** filePath: dist/components/tab/tab.json **/
 {\\"component\\":true,\\"usingComponents\\":{}}
@@ -1832,21 +930,20 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    21: function(module, exports, __webpack_require__) {},
-    29: function(module, __webpack_exports__, __webpack_require__) {
+    16: function(module, exports, __webpack_require__) {},
+    24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
+        var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(4);
         var createClass = __webpack_require__(5);
         var possibleConstructorReturn = __webpack_require__(7);
         var getPrototypeOf = __webpack_require__(6);
         var inherits = __webpack_require__(8);
         var taro = __webpack_require__(3);
-        var taro_default = __webpack_require__.n(taro);
-        var react = __webpack_require__(1);
+        var react = __webpack_require__(0);
         var taro_components = __webpack_require__(2);
-        var index = __webpack_require__(21);
+        var index = __webpack_require__(16);
         var index_Index = function(_React$Component) {
             Object(inherits[\\"a\\"])(Index, _React$Component);
             function Index() {
@@ -1856,21 +953,21 @@ require(\\"./taro\\");
             Object(createClass[\\"a\\"])(Index, [ {
                 key: \\"gotoWxParse\\",
                 value: function gotoWxParse() {
-                    taro_default.a.navigateTo({
+                    taro[\\"a\\"].navigateTo({
                         url: \\"/pages/wxParse/wxParse\\"
                     });
                 }
             }, {
                 key: \\"gotoEcharts\\",
                 value: function gotoEcharts() {
-                    taro_default.a.navigateTo({
+                    taro[\\"a\\"].navigateTo({
                         url: \\"/pages/echarts/echarts\\"
                     });
                 }
             }, {
                 key: \\"gotoNative\\",
                 value: function gotoNative() {
-                    taro_default.a.navigateTo({
+                    taro[\\"a\\"].navigateTo({
                         url: \\"/pages/native/native\\"
                     });
                 }
@@ -1905,7 +1002,7 @@ require(\\"./taro\\");
         }(react[\\"default\\"].Component);
         var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\"));
     }
-}, [ [ 29, 0, 1, 3, 2 ] ] ]);
+}, [ [ 24, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"tab\\":\\"../../components/tab/tab\\"}}
@@ -1919,8 +1016,8 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/native/native.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 12 ], {
-    22: function(module, exports, __webpack_require__) {
-        var _require = __webpack_require__(23), add = _require.add;
+    17: function(module, exports, __webpack_require__) {
+        var _require = __webpack_require__(18), add = _require.add;
         Page({
             data: {
                 text: \\"This is page data.\\",
@@ -1943,7 +1040,7 @@ require(\\"./taro\\");
             }
         });
     },
-    23: function(module, __webpack_exports__, __webpack_require__) {
+    18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"add\\", (function() {
@@ -1953,7 +1050,7 @@ require(\\"./taro\\");
             return a + b;
         }
     }
-}, [ [ 22, 0 ] ] ]);
+}, [ [ 17, 0 ] ] ]);
 
 /** filePath: dist/pages/native/native.json **/
 {\\"navigationBarBackgroundColor\\":\\"#ffffff\\",\\"navigationBarTextStyle\\":\\"black\\",\\"navigationBarTitleText\\":\\"混写页面示例\\",\\"backgroundColor\\":\\"#eeeeee\\",\\"backgroundTextStyle\\":\\"light\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"tab\\":\\"../../components/tab/tab\\"}}
@@ -2087,18 +1184,17 @@ require(\\"./taro\\");
 
 /** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    0: function(module, __webpack_exports__, __webpack_require__) {
+    1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_exports__[\\"default\\"] = \\"taro-runtime-mock\\";
-    },
-    10: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
+        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
     },
     2: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
+    },
+    9: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
 } ]);
 
@@ -2198,19 +1294,6 @@ require(\\"./taro\\");
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
-}, , , , , , , function(module, exports, __webpack_require__) {
-    (function(window) {
-        var g;
-        g = function() {
-            return this;
-        }();
-        try {
-            g = g || new Function(\\"return this\\")();
-        } catch (e) {
-            if (typeof window === \\"object\\") g = window;
-        }
-        module.exports = g;
-    }).call(this, __webpack_require__(0)[\\"window\\"]);
 } ] ]);
 "
 `;

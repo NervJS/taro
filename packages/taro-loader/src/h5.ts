@@ -9,7 +9,7 @@ function genResource (path: string, pages: Map<string, PageConfig>, loaderContex
   return `
   Object.assign({
       path: '${path}',
-      load: () => {
+      load: function() {
           return import(${stringify(join(loaderContext.context, path))})
       }
   }, ${JSON.stringify(pages.get(path))} || {}),
@@ -21,8 +21,8 @@ export default function (this: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(this, s)
   const config: AppConfig = options.config
   const pages: Map<string, PageConfig> = options.pages
-  let tabBarCode = `const tabbarIconPath = []
-const tabbarSelectedIconPath = []
+  let tabBarCode = `var tabbarIconPath = []
+var tabbarSelectedIconPath = []
 `
   if (config.tabBar) {
     const tabbarList = config.tabBar.list
@@ -37,7 +37,7 @@ const tabbarSelectedIconPath = []
     }
   }
 
-  const webComponents = `applyPolyfills().then(() => {
+  const webComponents = `applyPolyfills().then(function () {
   defineCustomElements(window)
 })
 `
@@ -53,13 +53,13 @@ ${importFramework(options.framework)}
 import '@tarojs/components/dist/taro-components/taro-components.css'
 ${options.framework === 'vue' ? vue : ''}
 ${webComponents}
-const config = ${JSON.stringify(config)}
+var config = ${JSON.stringify(config)}
 window.__taroAppConfig = config
 ${config.tabBar ? tabBarCode : ''}
 if (config.tabBar) {
-  const tabbarList = config.tabBar.list
+  var tabbarList = config.tabBar.list
   for (let i = 0; i < tabbarList.length; i++) {
-    const t = tabbarList[i]
+    var t = tabbarList[i]
     if (t.iconPath) {
       t.iconPath = tabbarIconPath[i]
     }
