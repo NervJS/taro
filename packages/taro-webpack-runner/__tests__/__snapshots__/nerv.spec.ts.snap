@@ -7,26 +7,19 @@ exports[`nerv should build nerv app 2`] = `
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([[1],{
 
-/***/ 13:
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ 14:
+/***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"default\\", function() { return Index; });
-/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-/* harmony import */ var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+/* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+/* harmony import */ var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
 /* harmony import */ var nervjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-/* harmony import */ var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
-/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(13);
+/* harmony import */ var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(24);
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
 
 
@@ -75,6 +68,13 @@ var Index = /*#__PURE__*/function (_Component) {
 }(nervjs__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
 
 
+
+/***/ }),
+
+/***/ 24:
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ })
 
@@ -353,7 +353,7 @@ var Index = /*#__PURE__*/function (_Component) {
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -368,6 +368,13 @@ var Index = /*#__PURE__*/function (_Component) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
+/* harmony default export */ __webpack_exports__[\\"a\\"] = ('taro-h5-mock');
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"d\\", function() { return defineCustomElements; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"c\\", function() { return applyPolyfills; });
 /* unused harmony default export */ var _unused_webpack_default_export = ('taro-components-mock');
@@ -375,7 +382,29 @@ function defineCustomElements() {}
 function applyPolyfills() {}
 
 /***/ }),
-/* 2 */
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _getPrototypeOf; });
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return window; });
+/* unused harmony default export */ var _unused_webpack_default_export = ('taro-runtime-mock');
+var window = {};
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
@@ -387,7 +416,7 @@ function _classCallCheck(instance, Constructor) {
 }
 
 /***/ }),
-/* 3 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
@@ -409,19 +438,144 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 
 /***/ }),
-/* 4 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _inherits; });
+/* harmony import */ var _setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
 
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== \\"function\\" && superClass !== null) {
+    throw new TypeError(\\"Super expression must either be null or a function\\");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object(_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(subClass, superClass);
 }
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/isNativeReflectConstruct.js
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _createSuper; });
+/* harmony import */ var _getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
+
+
+
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = Object(_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__[/* default */ \\"a\\"])();
+  return function () {
+    var Super = Object(_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(Derived),
+        result;
+
+    if (hasNativeReflectConstruct) {
+      var NewTarget = Object(_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(this).constructor;
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+
+    return Object(_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[/* default */ \\"a\\"])(this, result);
+  };
+}
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony import */ var _tarojs_taro_h5__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+
+
+/* harmony default export */ __webpack_exports__[\\"a\\"] = (_tarojs_taro_h5__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"]);
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+/* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+/* harmony import */ var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
+/* harmony import */ var nervjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+/* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(18);
+/* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_app_css__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+
+
+var App = /*#__PURE__*/function (_Component) {
+  Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[/* default */ \\"a\\"])(App, _Component);
+
+  var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[/* default */ \\"a\\"])(App);
+
+  function App() {
+    Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(this, App);
+
+    return _super.apply(this, arguments);
+  }
+
+  Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[/* default */ \\"a\\"])(App, [{
+    key: \\"componentDidMount\\",
+    value: function componentDidMount() {}
+  }, {
+    key: \\"componentDidShow\\",
+    value: function componentDidShow() {}
+  }, {
+    key: \\"componentDidHide\\",
+    value: function componentDidHide() {}
+  }, {
+    key: \\"componentDidCatchError\\",
+    value: function componentDidCatchError() {} // this.props.children 是将要会渲染的页面
+
+  }, {
+    key: \\"render\\",
+    value: function render() {
+      return this.props.children;
+    }
+  }]);
+
+  return App;
+}(nervjs__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
+
+/* harmony default export */ __webpack_exports__[\\"a\\"] = (App);
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _setPrototypeOf; });
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _isNativeReflectConstruct; });
 function _isNativeReflectConstruct() {
   if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
   if (Reflect.construct.sham) return false;
@@ -434,7 +588,31 @@ function _isNativeReflectConstruct() {
     return false;
   }
 }
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/typeof.js
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _possibleConstructorReturn; });
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
+    return call;
+  }
+
+  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ \\"a\\"])(self);
+}
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _typeof; });
 function _typeof(obj) {
   \\"@babel/helpers - typeof\\";
 
@@ -450,7 +628,13 @@ function _typeof(obj) {
 
   return _typeof(obj);
 }
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _assertThisInitialized; });
 function _assertThisInitialized(self) {
   if (self === void 0) {
     throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
@@ -458,90 +642,80 @@ function _assertThisInitialized(self) {
 
   return self;
 }
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/createSuper.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _createSuper; });
-
-
-
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = _isNativeReflectConstruct();
-  return function () {
-    var Super = _getPrototypeOf(Derived),
-        result;
-
-    if (hasNativeReflectConstruct) {
-      var NewTarget = _getPrototypeOf(this).constructor;
-      result = Reflect.construct(Super, arguments, NewTarget);
-    } else {
-      result = Super.apply(this, arguments);
-    }
-
-    return _possibleConstructorReturn(this, result);
-  };
-}
 
 /***/ }),
-/* 5 */
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(17);
+
+
+/***/ }),
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
+/* harmony import */ var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _tarojs_components_loader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+/* harmony import */ var nervjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+/* harmony import */ var _tarojs_components_dist_taro_components_taro_components_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(19);
+/* harmony import */ var _tarojs_components_dist_taro_components_taro_components_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_tarojs_components_dist_taro_components_taro_components_css__WEBPACK_IMPORTED_MODULE_5__);
 
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
 
-  return _setPrototypeOf(o, p);
-}
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/inherits.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _inherits; });
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== \\"function\\" && superClass !== null) {
-    throw new TypeError(\\"Super expression must either be null or a function\\");
-  }
 
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
+
+
+
+
+
+Object(_tarojs_components_loader__WEBPACK_IMPORTED_MODULE_3__[/* applyPolyfills */ \\"c\\"])().then(() => {
+  Object(_tarojs_components_loader__WEBPACK_IMPORTED_MODULE_3__[/* defineCustomElements */ \\"d\\"])(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_2__[/* window */ \\"a\\"])
+})
+
+const config = {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
+_tarojs_runtime__WEBPACK_IMPORTED_MODULE_2__[/* window */ \\"a\\"].__taroAppConfig = config
+
+if (config.tabBar) {
+  const tabbarList = config.tabBar.list
+  for (let i = 0; i < tabbarList.length; i++) {
+    const t = tabbarList[i]
+    if (t.iconPath) {
+      t.iconPath = tabbarIconPath[i]
     }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
+    if (t.selectedIconPath) {
+      t.selectedIconPath = tabbarSelectedIconPath[i]
+    }
+  }
 }
+config.routes = [
+
+  Object.assign({
+      path: 'pages/index/index',
+      load: () => {
+          return __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, 23))
+      }
+  }, {\\"navigationBarTitleText\\":\\"首页\\"} || {}),
+
+]
+_tarojs_taro__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"].createRouter(_app__WEBPACK_IMPORTED_MODULE_1__[/* default */ \\"a\\"], config, 'nerv', nervjs__WEBPACK_IMPORTED_MODULE_4__[/* default */ \\"b\\"], nervjs__WEBPACK_IMPORTED_MODULE_4__[/* default */ \\"b\\"], config)
+
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(12);
-
-
-/***/ }),
-/* 7 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
-/* 8 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var api = __webpack_require__(9);
-            var content = __webpack_require__(10);
+var api = __webpack_require__(20);
+            var content = __webpack_require__(21);
 
             content = content.__esModule ? content.default : content;
 
@@ -578,7 +752,7 @@ var exported = content.locals ? content.locals : {};
 module.exports = exported;
 
 /***/ }),
-/* 9 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 \\"use strict\\";
@@ -853,11 +1027,11 @@ module.exports = function (list, options) {
 };
 
 /***/ }),
-/* 10 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Imports
-var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(11);
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(22);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
 exports.push([module.i, \\"\\", \\"\\"]);
@@ -866,7 +1040,7 @@ module.exports = exports;
 
 
 /***/ }),
-/* 11 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 \\"use strict\\";

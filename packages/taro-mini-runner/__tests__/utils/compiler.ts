@@ -61,6 +61,7 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
         }
       },
       optimization: {
+        concatenateModules: false,
         splitChunks: {
           cacheGroups: {
             taro: {
@@ -87,19 +88,7 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
       app: [entryFilePath]
     },
     framework: 'react',
-    buildAdapter: 'weapp',
-    terser: {
-      enable: true,
-      config: {
-        compress: false,
-        mangle: false,
-        extractComments: false,
-        output: {
-          comments: false,
-          beautify: true
-        }
-      }
-    }
+    buildAdapter: 'weapp'
   }, customConfig)
 
   const stats = await build(appPath, config)

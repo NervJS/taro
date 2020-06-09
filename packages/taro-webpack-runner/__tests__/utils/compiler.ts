@@ -81,17 +81,6 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
     },
     env: {
       FRAMEWORK: customConfig.framework
-    },
-    terser: {
-      enable: true,
-      config: {
-        compress: false,
-        mangle: false,
-        output: {
-          comments: false,
-          beautify: true
-        }
-      }
     }
   }, customConfig)
   const baseWebpackChain = baseConf(appPath, config)
@@ -112,6 +101,9 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
         vue: path.resolve(__dirname, '../mocks/vue'),
         nervjs: path.resolve(__dirname, '../mocks/nerv')
       }
+    },
+    optimization: {
+      concatenateModules: false
     }
   })
 

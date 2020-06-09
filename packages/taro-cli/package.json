@@ -52,8 +52,6 @@
     "@types/request": "^2.48.1",
     "@typescript-eslint/parser": "^2.0.0",
     "adm-zip": "^0.4.13",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.3",
     "babel-generator": "^6.26.1",
     "babel-plugin-danger-remove-unused-import": "^1.1.1",
     "babel-plugin-preval": "1.6.4",
