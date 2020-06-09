@@ -57,6 +57,11 @@ export default {
 }
 ```
 
+### 使用 Slot
+
+在 React 中使用 `<slot name="slotName" />`（首字母小写），在 Vue 中使用 `<slot-view name="slotName" />`（由于 `slot` 在 Vue 中是内置组件）。
+
+
 ## 引入插件
 
 ### 引入插件代码包
