@@ -215,7 +215,8 @@ describe('inspect', () => {
           options: {
             type
           },
-          isHelp: true
+          isHelp: true,
+          cliVersion: getPkgVersion()
         }
       })
     })

@@ -12,7 +12,7 @@ export default (ctx: IPluginContext) => {
   ctx.registerCommand({
     name: 'inspect',
     optionsMap: {
-      '-t, --type [typeName]': 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq/jd',
+      '-t, --type [typeName]': 'Build type, weapp/swan/alipay/tt/h5/qq/jd',
       '-o, --output [outputPath]': 'output config to ouputPath'
     },
     synopsisList: [

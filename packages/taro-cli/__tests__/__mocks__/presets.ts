@@ -10,11 +10,8 @@ export default () => {
       path.resolve(__dirname, '../../src/presets', 'platforms', 'swan.ts'),
       path.resolve(__dirname, '../../src/presets', 'platforms', 'jd.ts'),
       path.resolve(__dirname, '../../src/presets', 'platforms', 'qq.ts'),
-      path.resolve(__dirname, '../../src/presets', 'platforms', 'quickapp.ts'),
       path.resolve(__dirname, '../../src/presets', 'platforms', 'h5.ts'),
-      path.resolve(__dirname, '../../src/presets', 'platforms', 'rn.ts'),
       path.resolve(__dirname, '../../src/presets', 'platforms', 'plugin.ts'),
-      path.resolve(__dirname, '../../src/presets', 'platforms', 'ui.ts'),
 
       // commands
       path.resolve(__dirname, '../../src/presets', 'commands', 'build.ts'),
