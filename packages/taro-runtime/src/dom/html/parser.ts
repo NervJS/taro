@@ -116,7 +116,7 @@ function format (children: ChildNode[]) {
       const attr = child.attributes[i]
       const [key, value] = splitEqual(attr)
       if (key === 'class') {
-        el.className += el.className
+        el.className += ' ' + unquote(value)
       } else if (key[0] === 'o' && key[1] === 'n') {
         continue
       } else {

@@ -1,4 +1,5 @@
 import * as fs from 'fs-extra'
+import { detailMock, indexMock } from './fixtures/prerender/vmMock'
 
 let compile
 let getOutput
@@ -10,6 +11,22 @@ const fileType = {
   script: '.js',
   xs: '.wxs'
 }
+
+jest.mock('vm2', () => ({
+  NodeVM: jest.fn().mockImplementation(() => {
+    return {
+      run: jest.fn().mockImplementation((code) => {
+        if (code.includes('others/detail/index')) {
+          return cb => cb(detailMock)
+        } else if (code.includes('pages/index/index')) {
+          return cb => cb(indexMock)
+        } else {
+          return cb => cb({})
+        }
+      })
+    }
+  })
+}))
 
 describe('prerender', () => {
   beforeAll(() => {
@@ -39,39 +56,6 @@ describe('prerender', () => {
 
     const output = getOutput(stats, { ...config, fs })
     expect(output).toMatchSnapshot()
-  })
-
-  test('should mock global console', async () => {
-    const log = jest.fn()
-
-    await compile('prerender', {
-      fileType,
-      prerender: {
-        match: 'others/detail/index',
-        mock: {
-          console: {
-            log
-          }
-        }
-      }
-    })
-
-    expect(log).toBeCalled()
-  })
-
-  test('should console log message', async () => {
-    const spy = jest.spyOn(console, 'log')
-
-    await compile('prerender', {
-      fileType,
-      prerender: {
-        match: 'others/detail/index',
-        console: true
-      }
-    })
-
-    expect(spy).toHaveBeenCalledWith('mount')
-    jest.restoreAllMocks()
   })
 
   test('should transform dom tree', async () => {
