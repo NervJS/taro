@@ -13,20 +13,44 @@ exports[`react should build react app 2`] = `
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
             return Index;
         }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+        var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
         var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2);
         var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(14);
         var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
+        function _createSuper(Derived) {
+            function isNativeReflectConstruct() {
+                if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if (typeof Proxy === \\"function\\") return true;
+                try {
+                    Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            return function() {
+                var Super = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Derived), result;
+                if (isNativeReflectConstruct()) {
+                    var NewTarget = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(this, result);
+            };
+        }
         var Index = function(_Component) {
-            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
+            var _super = _createSuper(Index);
             function Index() {
                 Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Index);
-                return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Index, [ {
                 \\"key\\": \\"componentDidMount\\",
@@ -280,6 +304,17 @@ exports[`react should build react app 2`] = `
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _getPrototypeOf;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
         return defineCustomElements;
     }));
@@ -317,17 +352,6 @@ exports[`react should build react app 2`] = `
         if (protoProps) _defineProperties(Constructor.prototype, protoProps);
         if (staticProps) _defineProperties(Constructor, staticProps);
         return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _getPrototypeOf;
-    }));
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
@@ -686,18 +710,42 @@ exports[`react should build react app 2`] = `
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
     var h5 = taro_h5;
-    var classCallCheck = __webpack_require__(2);
-    var createClass = __webpack_require__(3);
-    var possibleConstructorReturn = __webpack_require__(5);
-    var getPrototypeOf = __webpack_require__(4);
+    var classCallCheck = __webpack_require__(3);
+    var createClass = __webpack_require__(4);
     var inherits = __webpack_require__(6);
+    var possibleConstructorReturn = __webpack_require__(5);
+    var getPrototypeOf = __webpack_require__(1);
     var react = __webpack_require__(0);
     var app = __webpack_require__(8);
+    function _createSuper(Derived) {
+        function isNativeReflectConstruct() {
+            if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+            if (Reflect.construct.sham) return false;
+            if (typeof Proxy === \\"function\\") return true;
+            try {
+                Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        return function() {
+            var Super = Object(getPrototypeOf[\\"a\\"])(Derived), result;
+            if (isNativeReflectConstruct()) {
+                var NewTarget = Object(getPrototypeOf[\\"a\\"])(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return Object(possibleConstructorReturn[\\"a\\"])(this, result);
+        };
+    }
     var app_App = function(_Component) {
         Object(inherits[\\"a\\"])(App, _Component);
+        var _super = _createSuper(App);
         function App() {
             Object(classCallCheck[\\"a\\"])(this, App);
-            return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(App).apply(this, arguments));
+            return _super.apply(this, arguments);
         }
         Object(createClass[\\"a\\"])(App, [ {
             \\"key\\": \\"componentDidMount\\",
@@ -722,7 +770,7 @@ exports[`react should build react app 2`] = `
     var src_app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
-    var taro_components = __webpack_require__(1);
+    var taro_components = __webpack_require__(2);
     var mocks_taro_components = __webpack_require__(9);
     Object(taro_components[\\"c\\"])().then(() => {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
