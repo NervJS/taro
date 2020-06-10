@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro from '@tencent/tarojs-taro'
 
 namespace Router {
   export interface Location {

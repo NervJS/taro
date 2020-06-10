@@ -1,5 +1,5 @@
 {
-  "name": "@tarojs/api",
+  "name": "@tencent/tarojs-api",
   "version": "3.0.0-rc.4",
   "description": "Taro common API",
   "author": "yuche <i@yuche.me>",
@@ -29,6 +29,6 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.0.0-rc.4"
+    "@tencent/tarojs-runtime": "3.0.0-rc.4"
   }
 }

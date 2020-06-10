@@ -1,5 +1,5 @@
 /* eslint-disable no-dupe-class-members */
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, internalComponents, capitalize, hasOwn, isBooleanStringLiteral } from '@tarojs/shared'
+import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, internalComponents, capitalize, hasOwn, isBooleanStringLiteral } from '@tencent/tarojs-shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { TaroEvent, eventSource } from './event'

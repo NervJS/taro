@@ -5,7 +5,7 @@ describe('app-loader', () => {
     const request = '!request'
     const result = app.call({ query: { framework: 'nerv' }, request })
     const method = 'createReactApp'
-    expect(result).toMatch(`import { ${method} } from '@tarojs/runtime'
+    expect(result).toMatch(`import { ${method} } from '@tencent/tarojs-runtime'
 import component from '${request.slice(1)}'
 var inst = App(${method}(component))
 `)
@@ -15,7 +15,7 @@ var inst = App(${method}(component))
     const request = '!request'
     const result = app.call({ query: { framework: 'react' }, request })
     const method = 'createReactApp'
-    expect(result).toMatch(`import { ${method} } from '@tarojs/runtime'
+    expect(result).toMatch(`import { ${method} } from '@tencent/tarojs-runtime'
 import component from '${request.slice(1)}'
 var inst = App(${method}(component))
 `)
@@ -25,7 +25,7 @@ var inst = App(${method}(component))
     const request = '!request'
     const result = app.call({ query: { framework: 'vue' }, request })
     const method = 'createVueApp'
-    expect(result).toMatch(`import { ${method} } from '@tarojs/runtime'
+    expect(result).toMatch(`import { ${method} } from '@tencent/tarojs-runtime'
 import component from '${request.slice(1)}'
 var inst = App(${method}(component))
 `)
@@ -35,7 +35,7 @@ var inst = App(${method}(component))
     const request = '!request'
     const result = app.call({ query: { framework: 'vue', prerender: true }, request })
     const method = 'createVueApp'
-    expect(result).toMatch(`import { ${method} } from '@tarojs/runtime'
+    expect(result).toMatch(`import { ${method} } from '@tencent/tarojs-runtime'
 import component from '${request.slice(1)}'
 var inst = App(${method}(component))
 

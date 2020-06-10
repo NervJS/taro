@@ -1,5 +1,5 @@
 import * as path from 'path'
-import helper from '@tarojs/helper'
+import helper from '@tencent/tarojs-helper'
 
 interface IOptions {
   include?: string[]

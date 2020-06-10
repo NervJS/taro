@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs-extra'
 
 import { merge } from 'lodash'
-import { IProjectConfig } from '@tarojs/taro/types/compile'
+import { IProjectConfig } from '@tencent/tarojs-taro/types/compile'
 import {
   SOURCE_DIR,
   OUTPUT_DIR,
@@ -10,7 +10,7 @@ import {
   resolveScriptPath,
   createBabelRegister,
   getModuleDefaultExport
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 import {
   CONFIG_DIR_NAME,

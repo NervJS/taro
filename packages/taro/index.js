@@ -1,4 +1,4 @@
-const Taro = require('@tarojs/api').default
+const Taro = require('@tencent/tarojs-api').default
 
 let api
 

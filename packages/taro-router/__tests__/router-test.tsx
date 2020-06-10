@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro-h5'
+import Taro from '@tencent/tarojs-taro-h5'
 import Nerv from 'nervjs'
 
 import mountApis from '../apis'

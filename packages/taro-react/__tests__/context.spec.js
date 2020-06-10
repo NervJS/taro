@@ -6,7 +6,7 @@ describe('Context', () => {
   beforeAll(() => {
     process.env.FRAMEWORK = 'react'
     render = require('../dist/index').render
-    document = require('@tarojs/runtime').document
+    document = require('@tencent/tarojs-runtime').document
   })
 
   afterAll(() => {

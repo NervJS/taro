@@ -12,8 +12,8 @@
  * ^1: packages/taro-runtime/src/hydrate.ts
 */
 
-import { internalComponents, Shortcuts, createMiniComponents, focusComponents, isArray, capitalize, toCamelCase } from '@tarojs/shared'
-import { PLATFORMS } from '@tarojs/helper'
+import { internalComponents, Shortcuts, createMiniComponents, focusComponents, isArray, capitalize, toCamelCase } from '@tencent/tarojs-shared'
+import { PLATFORMS } from '@tencent/tarojs-helper'
 
 import { Adapter } from './adapters'
 import { componentConfig } from './component'

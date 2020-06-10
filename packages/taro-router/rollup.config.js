@@ -8,7 +8,7 @@ const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.ts'),
-  external: ['@tarojs/runtime'],
+  external: ['@tencent/tarojs-runtime'],
   output: [
     {
       file: join(cwd, 'dist/index.js'),
@@ -21,7 +21,7 @@ const baseConfig = {
     // alias({
     //   entries: [
     //     {
-    //       find: '@tarojs/shared',
+    //       find: '@tencent/tarojs-shared',
     //       replacement: join(cwd, '../shared/dist/shared.esm')
     //     }
     //   ]

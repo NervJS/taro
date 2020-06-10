@@ -14,7 +14,7 @@ export default function (this: webpack.loader.LoaderContext) {
 if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
 }`
-  return `import { createPageConfig } from '@tarojs/runtime'
+  return `import { createPageConfig } from '@tencent/tarojs-runtime'
 import component from ${stringify(componentPath)}
 var inst = Page(createPageConfig(component, '${options.name}'))
 ${options.prerender ? prerender : ''}

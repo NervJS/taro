@@ -22,7 +22,7 @@ import {
   REG_IMAGE,
   REG_MEDIA,
   CSS_EXT
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 import { IBuildData } from './ui.types'
 

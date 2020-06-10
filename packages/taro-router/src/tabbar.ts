@@ -1,4 +1,4 @@
-import { AppConfig } from '@tarojs/taro'
+import { AppConfig } from '@tencent/tarojs-taro'
 
 export function initTabbar (config: AppConfig) {
   if (config.tabBar == null) {

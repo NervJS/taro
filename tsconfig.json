@@ -17,9 +17,9 @@
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
-      "@tarojs/shared": ["packages/shared/src"],
-      "@tarojs/taro": ["packages/taro/types/index.d.ts"],
-      "@tarojs/runtime": ["packages/taro-runtime/src"],
+      "@tencent/tarojs-shared": ["packages/shared/src"],
+      "@tencent/tarojs-taro": ["packages/taro/types/index.d.ts"],
+      "@tencent/tarojs-runtime": ["packages/taro-runtime/src"],
       "@dom": ["packages/taro-runtime/src/dom"],
       "@tarojs/components": ["packages/taro-components/types"]
     }

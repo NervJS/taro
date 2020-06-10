@@ -1,5 +1,5 @@
-import helper from '@tarojs/helper'
-import { IProjectConfig } from '@tarojs/taro/types/compile'
+import helper from '@tencent/tarojs-helper'
+import { IProjectConfig } from '@tencent/tarojs-taro/types/compile'
 import joi from '@hapi/joi'
 
 import { IPlugin, IPaths, IHook, ICommand, IPlatform } from '../src/utils/types'
@@ -20,7 +20,7 @@ export declare interface IPluginContext {
    */
   runOpts: any
   /**
-   * 为包 @tarojs/helper 的快捷使用方式，包含其所有 API
+   * 为包 @tencent/tarojs-helper 的快捷使用方式，包含其所有 API
    */
   helper: helper
   /**

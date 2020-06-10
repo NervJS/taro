@@ -2,7 +2,7 @@ import { TaroElement } from './element'
 import { NodeType } from './node_types'
 import { MpInstance, HydratedData } from '../hydrate'
 import { UpdatePayload, UpdatePayloadValue } from './node'
-import { isFunction, Shortcuts } from '@tarojs/shared'
+import { isFunction, Shortcuts } from '@tencent/tarojs-shared'
 import { perf } from '../perf'
 import { SET_DATA, PAGE_INIT } from '../constants'
 

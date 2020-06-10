@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/indent */
 import Reconciler, { HostConfig } from 'react-reconciler'
 import * as scheduler from 'scheduler'
-import { TaroElement, TaroText, document } from '@tarojs/runtime'
-import { noop, EMPTY_ARR } from '@tarojs/shared'
+import { TaroElement, TaroText, document } from '@tencent/tarojs-runtime'
+import { noop, EMPTY_ARR } from '@tencent/tarojs-shared'
 import { Props, updateProps } from './props'
 
 const {

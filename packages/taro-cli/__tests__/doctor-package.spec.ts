@@ -20,25 +20,25 @@ const baseModules = [
     isInstalled: true
   },
   {
-    moduleName: '@tarojs/runtime',
+    moduleName: '@tencent/tarojs-runtime',
     latest: cliVersion,
     installed: cliVersion,
     isInstalled: true
   },
   {
-    moduleName: '@tarojs/taro',
+    moduleName: '@tencent/tarojs-taro',
     latest: cliVersion,
     installed: cliVersion,
     isInstalled: true
   },
   {
-    moduleName: '@tarojs/mini-runner',
+    moduleName: '@tencent/tarojs-mini-runner',
     latest: cliVersion,
     installed: cliVersion,
     isInstalled: true
   },
   {
-    moduleName: '@tarojs/webpack-runner',
+    moduleName: '@tencent/tarojs-webpack-runner',
     latest: cliVersion,
     installed: cliVersion,
     isInstalled: true
@@ -103,8 +103,8 @@ describe('package validator of doctor', () => {
   it('should report uninstalled modules', async () => {
     const latestTaro = '3.0.0-rc.3'
     const uninstalledTaroPkg = '@tarojs/components'
-    const couldUpdateTaroPkg = '@tarojs/runtime'
-    const inconsistentTaroPkg = '@tarojs/taro'
+    const couldUpdateTaroPkg = '@tencent/tarojs-runtime'
+    const inconsistentTaroPkg = '@tencent/tarojs-taro'
 
     getMocked.mockReturnValue([
       {

@@ -2,7 +2,7 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 import { exec } from 'child_process'
 import * as ora from 'ora'
-import { shouldUseYarn, shouldUseCnpm, chalk } from '@tarojs/helper'
+import { shouldUseYarn, shouldUseCnpm, chalk } from '@tencent/tarojs-helper'
 
 import { getAllFilesInFloder, getPkgVersion } from '../util'
 import { IProjectConf } from './project'

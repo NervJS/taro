@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro from '@tencent/tarojs-taro'
 import React from 'react'
 
 import './app.scss'

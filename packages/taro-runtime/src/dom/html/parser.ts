@@ -2,7 +2,7 @@ import { Scaner, Token } from './scaner'
 import { options } from '../../options'
 import { document } from '../../bom/document'
 import { specialMiniElements, isMiniElements, isBlockElements, isInlineElements } from './tags'
-import { isFunction } from '@tarojs/shared'
+import { isFunction } from '@tencent/tarojs-shared'
 
 interface State {
   tokens: Token[]

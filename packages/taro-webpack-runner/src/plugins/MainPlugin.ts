@@ -1,7 +1,7 @@
 import * as path from 'path'
 
 import { defaults } from 'lodash'
-import { AppConfig, Config as IConfig } from '@tarojs/taro'
+import { AppConfig, Config as IConfig } from '@tencent/tarojs-taro'
 import {
   readConfig,
   resolveMainFilePath,
@@ -9,7 +9,7 @@ import {
   FRAMEWORK_MAP,
   VUE_EXT,
   SCRIPT_EXT
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 const PLUGIN_NAME = 'MainPlugin'
 
@@ -79,7 +79,7 @@ export default class MainPlugin {
         const { dir, name } = path.parse(module.resource)
         if (path.join(dir, name) === this.appEntry) {
           module.loaders.unshift({
-            loader: '@tarojs/taro-loader/lib/h5',
+            loader: '@tencent/tarojs-taro-loader/lib/h5',
             options: {
               framework,
               filename: entryFileName,

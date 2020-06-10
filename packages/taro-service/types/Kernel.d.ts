@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import { EventEmitter } from 'events'
-import { PluginItem, IProjectConfig } from '@tarojs/taro/types/compile'
+import { PluginItem, IProjectConfig } from '@tencent/tarojs-taro/types/compile'
 
 import { IPreset, IPlugin, IPaths, IHook, ICommand, IPlatform } from '../src/utils/types'
 import Plugin from './Plugin'

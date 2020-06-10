@@ -35,9 +35,9 @@
   "dependencies": {
     "@babel/runtime": "^7.7.7",
     "@tarojs/components": "<%= version %>",
-    "@tarojs/runtime": "<%= version %>",
-    "@tarojs/taro": "<%= version %>",<% if (framework === 'react') {%>
-    "@tarojs/react": "<%= version %>",
+    "@tencent/tarojs-runtime": "<%= version %>",
+    "@tencent/tarojs-taro": "<%= version %>",<% if (framework === 'react') {%>
+    "@tencent/tarojs-react": "<%= version %>",
     "react-dom": "^16.10.0",
     "react": "^16.10.0"<%}%><% if (framework === 'nerv') {%>
     "nervjs": "^1.5.0"<%}%><% if (framework === 'vue') {%>
@@ -47,9 +47,9 @@
   "devDependencies": {
     "@types/webpack-env": "^1.13.6",<% if (framework === 'react' || framework === 'nerv') {%>
     "@types/react": "^16.0.0",<%}%>
-    "@tarojs/mini-runner": "<%= version %>",
+    "@tencent/tarojs-mini-runner": "<%= version %>",
     "@babel/core": "^7.8.0",
-    "@tarojs/webpack-runner": "<%= version %>",
+    "@tencent/tarojs-webpack-runner": "<%= version %>",
     "babel-preset-taro": "<%= version %>",<% if (framework === 'vue') {%>
     "eslint-plugin-vue": "^6.x",<%}%>
     "eslint-config-taro": "<%= version %>",

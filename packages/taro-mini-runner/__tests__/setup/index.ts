@@ -29,8 +29,8 @@ jest.mock('webpack', () => {
   return webpack
 })
 
-jest.mock('@tarojs/helper', () => {
-  const originalModule = jest.requireActual('@tarojs/helper')
+jest.mock('@tencent/tarojs-helper', () => {
+  const originalModule = jest.requireActual('@tencent/tarojs-helper')
   return {
     __esModule: true,
     ...originalModule,

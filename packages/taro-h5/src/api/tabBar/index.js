@@ -1,4 +1,4 @@
-import Taro from '@tarojs/api'
+import Taro from '@tencent/tarojs-api'
 import { shouleBeObject, getParameterError, isValidColor, successHandler, errorHandler } from '../utils'
 
 let tabConf

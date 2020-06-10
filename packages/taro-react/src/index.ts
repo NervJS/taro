@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { render, ContainerMap } from './render'
 import { TaroReconciler } from './reconciler'
-import { TaroElement } from '@tarojs/runtime'
+import { TaroElement } from '@tencent/tarojs-runtime'
 import { ReactNode } from 'react'
-import { ensure } from '@tarojs/shared'
+import { ensure } from '@tencent/tarojs-shared'
 
 const unstable_batchedUpdates = TaroReconciler.batchedUpdates
 

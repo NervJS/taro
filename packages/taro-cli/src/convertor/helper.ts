@@ -9,7 +9,7 @@ import {
   processTypeEnum,
   REG_SCRIPT,
   REG_TYPESCRIPT
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 function getRelativePath (
   rootPath: string,

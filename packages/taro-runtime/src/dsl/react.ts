@@ -1,7 +1,7 @@
 import type * as React from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { AppConfig } from '@tarojs/taro'
-import { isFunction, ensure, EMPTY_OBJ } from '@tarojs/shared'
+import type { AppConfig } from '@tencent/tarojs-taro'
+import { isFunction, ensure, EMPTY_OBJ } from '@tencent/tarojs-shared'
 import { Current } from '../current'
 import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance } from './instance'
 import { document } from '../bom/document'

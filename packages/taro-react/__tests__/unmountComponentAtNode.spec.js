@@ -7,7 +7,7 @@ describe('unmountComponentAtNode', () => {
   let render, unmountComponentAtNode, batchedUpdates
   beforeAll(() => {
     process.env.FRAMEWORK = 'react'
-    runtime = require('@tarojs/runtime')
+    runtime = require('@tencent/tarojs-runtime')
     const TaroReact = require('../dist/index')
     render = TaroReact.render
     unmountComponentAtNode = TaroReact.unmountComponentAtNode

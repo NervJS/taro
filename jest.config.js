@@ -32,6 +32,6 @@ module.exports = {
   ],
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
   moduleNameMapper: {
-    '@tarojs/shared': path.join(__dirname, './packages/shared/src')
+    '@tencent/tarojs-shared': path.join(__dirname, './packages/shared/src')
   }
 }

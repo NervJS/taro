@@ -1,11 +1,11 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
-import { AppConfig, TabBar } from '@tarojs/taro'
+import { AppConfig, TabBar } from '@tencent/tarojs-taro'
 import * as prettier from 'prettier'
 import traverse, { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import * as taroize from '@tarojs/taroize'
+import * as taroize from '@tencent/tarojs-taroize'
 import wxTransformer from '@tarojs/transformer-wx'
 import * as postcss from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
@@ -23,7 +23,7 @@ import {
   REG_URL,
   REG_IMAGE,
   chalk
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 import { generateMinimalEscapeCode } from '../util/astConvert'
 import Creator from '../create/creator'
 import babylonConfig from '../config/babylon'
@@ -277,10 +277,10 @@ export default class Convertor {
         exit (astPath) {
           const bodyNode = astPath.get('body') as NodePath<t.Node>[]
           const lastImport = bodyNode.filter(p => p.isImportDeclaration()).pop()
-          const hasTaroImport = bodyNode.some(p => p.isImportDeclaration() && p.node.source.value === '@tarojs/taro')
+          const hasTaroImport = bodyNode.some(p => p.isImportDeclaration() && p.node.source.value === '@tencent/tarojs-taro')
           if (needInsertImportTaro && !hasTaroImport) {
             ;(astPath.node as t.Program).body.unshift(
-              t.importDeclaration([t.importDefaultSpecifier(t.identifier('Taro'))], t.stringLiteral('@tarojs/taro'))
+              t.importDeclaration([t.importDefaultSpecifier(t.identifier('Taro'))], t.stringLiteral('@tencent/tarojs-taro'))
             )
           }
           astPath.traverse({
@@ -831,7 +831,7 @@ ${code}
     creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'))
     creator.fs.commit(() => {
       const pkgObj = JSON.parse(fs.readFileSync(pkgPath).toString())
-      pkgObj.dependencies['@tarojs/with-weapp'] = `^${version}`
+      pkgObj.dependencies['@tencent/tarojs-with-weapp'] = `^${version}`
       fs.writeJSONSync(pkgPath, pkgObj, {
         spaces: 2,
         EOL: '\n'

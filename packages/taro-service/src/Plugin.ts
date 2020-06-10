@@ -1,4 +1,4 @@
-import { addPlatforms } from '@tarojs/helper'
+import { addPlatforms } from '@tencent/tarojs-helper'
 
 import Kernel from './Kernel'
 import { IHook, ICommand, IPlatform } from './utils/types'

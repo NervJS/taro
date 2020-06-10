@@ -1,4 +1,4 @@
-import { IProjectConfig } from '@tarojs/taro/types/compile';
+import { IProjectConfig } from '@tencent/tarojs-taro/types/compile';
 interface IConfigOptions {
     appPath: string;
 }

@@ -1,4 +1,4 @@
-import { isUndefined, toCamelCase, toDashed, Shortcuts, warn, isString } from '@tarojs/shared'
+import { isUndefined, toCamelCase, toDashed, Shortcuts, warn, isString } from '@tencent/tarojs-shared'
 import { styleProperties } from './style_properties'
 import { TaroElement } from './element'
 import { PROPERTY_THRESHOLD } from '../constants'

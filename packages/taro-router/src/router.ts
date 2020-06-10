@@ -1,8 +1,8 @@
 /* eslint-disable dot-notation */
 import UniversalRouter, { Routes } from 'universal-router'
-import { AppConfig, PageConfig } from '@tarojs/taro'
+import { AppConfig, PageConfig } from '@tencent/tarojs-taro'
 import { LocationListener, LocationState } from 'history'
-import { createReactApp, createPageConfig, Current, createVueApp, PageInstance, eventCenter } from '@tarojs/runtime'
+import { createReactApp, createPageConfig, Current, createVueApp, PageInstance, eventCenter } from '@tencent/tarojs-runtime'
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'

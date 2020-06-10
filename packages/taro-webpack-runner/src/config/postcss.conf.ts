@@ -3,8 +3,8 @@ import * as path from 'path'
 import * as constparse from 'postcss-plugin-constparse'
 import * as pxtransform from 'postcss-pxtransform'
 import { sync as resolveSync } from 'resolve'
-import { IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
-import { recursiveMerge, isNpmPkg } from '@tarojs/helper'
+import { IPostcssOption, TogglableOptions } from '@tencent/tarojs-taro/types/compile'
+import { recursiveMerge, isNpmPkg } from '@tencent/tarojs-helper'
 
 const defaultAutoprefixerOption = {
   enable: true,

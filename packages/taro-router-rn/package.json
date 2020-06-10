@@ -1,5 +1,5 @@
 {
-  "name": "@tarojs/taro-router-rn",
+  "name": "@tencent/tarojs-taro-router-rn",
   "version": "1.3.22",
   "description": "taro-router-rn",
   "main": "./index.js",

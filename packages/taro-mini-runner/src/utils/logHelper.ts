@@ -1,7 +1,7 @@
 import * as ora from 'ora'
 import { partial, pipe } from 'lodash/fp'
 import * as formatMessages from 'webpack-format-messages'
-import { chalk } from '@tarojs/helper'
+import { chalk } from '@tencent/tarojs-helper'
 
 const getServeSpinner = (() => {
   let spinner

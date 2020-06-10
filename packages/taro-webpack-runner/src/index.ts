@@ -3,7 +3,7 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
-import { recursiveMerge } from '@tarojs/helper'
+import { recursiveMerge } from '@tencent/tarojs-helper'
 
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'

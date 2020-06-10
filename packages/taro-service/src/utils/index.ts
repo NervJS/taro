@@ -2,9 +2,9 @@ import * as path from 'path'
 
 import { merge } from 'lodash'
 import * as resolve from 'resolve'
-import { getModuleDefaultExport } from '@tarojs/helper'
+import { getModuleDefaultExport } from '@tencent/tarojs-helper'
 
-import { PluginItem } from '@tarojs/taro/types/compile'
+import { PluginItem } from '@tencent/tarojs-taro/types/compile'
 
 import { PluginType } from './constants'
 import { IPlugin } from './types'

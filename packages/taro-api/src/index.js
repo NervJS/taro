@@ -28,7 +28,7 @@ import {
   nextTick,
   eventCenter,
   Events
-} from '@tarojs/runtime'
+} from '@tencent/tarojs-runtime'
 
 const Taro = {
   Events,

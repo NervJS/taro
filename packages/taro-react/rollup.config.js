@@ -14,12 +14,12 @@ const baseConfig = {
       exports: 'named'
     }
   ],
-  external: ['@tarojs/runtime', 'scheduler', 'react-reconciler'],
+  external: ['@tencent/tarojs-runtime', 'scheduler', 'react-reconciler'],
   plugins: [
     alias({
       entries: [
         {
-          find: '@tarojs/shared',
+          find: '@tencent/tarojs-shared',
           replacement: join(cwd, '../shared/dist/shared.esm')
         }
       ]

@@ -26,7 +26,7 @@ const baseConfig = {
   plugins: [
     typescript(),
     alias({
-      '@tarojs/taro': join(cwd, '../taro/src/index')
+      '@tencent/tarojs-taro': join(cwd, '../taro/src/index')
     }),
     resolve({
       preferBuiltins: false

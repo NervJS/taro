@@ -1,5 +1,5 @@
 {
-  "name": "@tarojs/taro-loader",
+  "name": "@tencent/tarojs-taro-loader",
   "version": "3.0.0-rc.4",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
@@ -32,6 +32,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@tarojs/taro": "3.0.0-rc.4"
+    "@tencent/tarojs-taro": "3.0.0-rc.4"
   }
 }

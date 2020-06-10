@@ -1,5 +1,5 @@
 // import { findRef } from '../utils/index'
-import Taro from '@tarojs/api'
+import Taro from '@tencent/tarojs-api'
 import { createCallbackManager } from '../utils/index'
 
 /**

@@ -1,7 +1,7 @@
 import * as path from 'path'
 
 import * as minimist from 'minimist'
-import { Kernel } from '@tarojs/service'
+import { Kernel } from '@tencent/tarojs-service'
 
 import build from './commands/build'
 import init from './commands/init'

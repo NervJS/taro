@@ -3,7 +3,7 @@ import type * as React from 'react'
 import type Vue from 'vue'
 // eslint-disable-next-line import/no-duplicates
 import type { ComponentOptions } from 'vue'
-import { injectPageInstance } from '@tarojs/runtime'
+import { injectPageInstance } from '@tencent/tarojs-runtime'
 
 export type R = typeof React
 export type V = typeof Vue

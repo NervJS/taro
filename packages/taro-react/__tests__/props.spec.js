@@ -7,7 +7,7 @@ let runtime
 describe('Context', () => {
   beforeAll(() => {
     process.env.FRAMEWORK = 'react'
-    runtime = require('@tarojs/runtime')
+    runtime = require('@tencent/tarojs-runtime')
     render = require('../dist/index').render
     document = runtime.document
   })

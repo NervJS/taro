@@ -124,7 +124,7 @@ declare interface helper {
   UPDATE_PACKAGE_LIST: string[];
   taroJsComponents: "@tarojs/components";
   taroJsQuickAppComponents: "@tarojs/components-qa";
-  taroJsFramework: "@tarojs/taro";
+  taroJsFramework: "@tencent/tarojs-taro";
   taroJsRedux: "@tarojs/redux";
   taroJsMobx: "@tarojs/mobx";
   taroJsMobxCommon: "@tarojs/mobx-common";

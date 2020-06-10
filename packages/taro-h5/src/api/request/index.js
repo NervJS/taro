@@ -1,4 +1,4 @@
-import Taro from '@tarojs/api'
+import Taro from '@tencent/tarojs-api'
 import 'unfetch/polyfill'
 import jsonpRetry from 'jsonp-retry'
 import { serializeParams } from '../utils'

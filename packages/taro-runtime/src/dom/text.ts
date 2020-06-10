@@ -1,6 +1,6 @@
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
-import { Shortcuts } from '@tarojs/shared'
+import { Shortcuts } from '@tencent/tarojs-shared'
 
 export class TaroText extends TaroNode {
   private _value: string

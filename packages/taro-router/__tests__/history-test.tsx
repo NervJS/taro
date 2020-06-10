@@ -1,6 +1,6 @@
 import mountApis from '../apis'
 import createHistory from '../history/createHistory'
-import Taro from '@tarojs/taro-h5'
+import Taro from '@tencent/tarojs-taro-h5'
 import { History } from '../utils/types'
 
 let history: History

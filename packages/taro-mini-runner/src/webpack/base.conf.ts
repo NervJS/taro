@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as Chain from 'webpack-chain'
-import { MultiPlatformPlugin } from '@tarojs/runner-utils'
+import { MultiPlatformPlugin } from '@tencent/tarojs-runner-utils'
 
 export default (appPath: string) => {
   const chain = new Chain()

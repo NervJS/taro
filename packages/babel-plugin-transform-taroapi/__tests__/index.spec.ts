@@ -1,4 +1,4 @@
-import * as apis from '@tarojs/taro-h5'
+import * as apis from '@tencent/tarojs-taro-h5'
 import * as babel from 'babel-core'
 import * as t from 'babel-types'
 
@@ -8,7 +8,7 @@ const pluginOptions = [
   plugin,
   {
     apis,
-    packageName: '@tarojs/taro-h5'
+    packageName: '@tencent/tarojs-taro-h5'
   }
 ]
 
@@ -23,7 +23,7 @@ const getNamedImports = (importSpecifiers: (t.ImportSpecifier | t.ImportDefaultS
 
 it('should work!', function () {
   const code = `
-    import Taro, { setStorage, initPxTransform, param } from '@tarojs/taro-h5';
+    import Taro, { setStorage, initPxTransform, param } from '@tencent/tarojs-taro-h5';
     initPxTransform(param)
     Taro.initPxTransform()
     Taro.initPxTransform()
@@ -37,7 +37,7 @@ it('should work!', function () {
 
 it('should leave other apis untouched', function () {
   const code = `
-    import Taro from '@tarojs/taro-h5'
+    import Taro from '@tencent/tarojs-taro-h5'
     Taro.noop
   `
   const result = babel.transform(code, { plugins: [pluginOptions] })
@@ -62,7 +62,7 @@ it('should leave other apis untouched', function () {
 
 it('should move static apis under "Taro"', function () {
   const code = `
-    import { noop } from '@tarojs/taro-h5';
+    import { noop } from '@tencent/tarojs-taro-h5';
     noop;
     noop();
   `
@@ -90,8 +90,8 @@ it('should move static apis under "Taro"', function () {
 
 it('should not import taro duplicatly', function () {
   const code = `
-    import { Component } from "@tarojs/taro-h5";
-    import Taro from '@tarojs/taro-h5';
+    import { Component } from "@tencent/tarojs-taro-h5";
+    import Taro from '@tencent/tarojs-taro-h5';
     Component
     Taro.createAnimation()
     Taro.initPxTransform()
@@ -109,7 +109,7 @@ it('should not import taro duplicatly', function () {
 
 it('should not go wrong when using an api twice', function () {
   const code = `
-    import Taro from '@tarojs/taro-h5';
+    import Taro from '@tencent/tarojs-taro-h5';
     const animation = Taro.createAnimation({
       duration: dura * 1000,
       timingFunction: 'linear'
@@ -127,7 +127,7 @@ it('should not go wrong when using an api twice', function () {
 
 it('should preserve default imports', function () {
   const code = `
-    import Taro from '@tarojs/taro-h5'
+    import Taro from '@tencent/tarojs-taro-h5'
     console.log(Taro)
   `
   const result = babel.transform(code, { plugins: [pluginOptions] })
@@ -136,7 +136,7 @@ it('should preserve default imports', function () {
 
 it('should preserve assignments in lefthands', function () {
   const code = `
-    import Taro from '@tarojs/taro-h5'
+    import Taro from '@tencent/tarojs-taro-h5'
     let animation 
     animation = Taro.createAnimation({
       transformOrigin: "50% 50%",
@@ -155,7 +155,7 @@ it('should preserve assignments in lefthands', function () {
 it('should support rename of imported names', function () {
   const code = `
   // import { inject as mobxInject, observer as mobxObserver } from '@tarojs/mobx'
-  import { Component as TaroComponent } from "@tarojs/taro-h5";
+  import { Component as TaroComponent } from "@tencent/tarojs-taro-h5";
   export class Connected extends TaroComponent {}
   `
   const result = babel.transform(code, { plugins: [pluginOptions] })

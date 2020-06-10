@@ -1,5 +1,5 @@
 import * as webpack from 'webpack'
-import { META_TYPE } from '@tarojs/helper'
+import { META_TYPE } from '@tencent/tarojs-helper'
 
 import { IBuildConfig } from './utils/types'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'

@@ -3,7 +3,7 @@ import { exec } from 'child_process'
 import * as getLatestVersion from 'latest-version'
 import * as semver from 'semver'
 import * as ora from 'ora'
-import { IPluginContext } from '@tarojs/service'
+import { IPluginContext } from '@tencent/tarojs-service'
 import { getPkgItemByKey } from '../../util'
 
 export default (ctx: IPluginContext) => {
@@ -72,9 +72,9 @@ export default (ctx: IPluginContext) => {
         let command
 
         if (shouldUseCnpm()) {
-          command = `cnpm i -g @tarojs/cli@${targetTaroVersion}`
+          command = `cnpm i -g @tencent/tarojs-cli@${targetTaroVersion}`
         } else {
-          command = `npm i -g @tarojs/cli@${targetTaroVersion}`
+          command = `npm i -g @tencent/tarojs-cli@${targetTaroVersion}`
         }
 
         execUpdate(command, targetTaroVersion, true)

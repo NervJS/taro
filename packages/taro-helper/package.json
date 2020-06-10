@@ -1,5 +1,5 @@
 {
-  "name": "@tarojs/helper",
+  "name": "@tencent/tarojs-helper",
   "version": "3.0.0-rc.4",
   "description": "Taro Helper",
   "main": "index.js",
@@ -41,7 +41,7 @@
     "@babel/preset-typescript": "7.9.0",
     "@babel/register": "7.9.0",
     "@babel/runtime": "7.9.2",
-    "@tarojs/taro": "3.0.0-rc.4",
+    "@tencent/tarojs-taro": "3.0.0-rc.4",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "chalk": "3.0.0",
     "chokidar": "3.3.1",

@@ -7,7 +7,7 @@ describe('app-loader', () => {
     const name = '/page/test'
     const result = pageLoader.call({ query: { framework: 'nerv', name }, request })
     const method = 'createPageConfig'
-    expect(result).toMatch(`import { ${method} } from '@tarojs/runtime'
+    expect(result).toMatch(`import { ${method} } from '@tencent/tarojs-runtime'
 import component from '${request.slice(1)}'
 var inst = Page(${method}(component, '${name}'))
 `)
@@ -18,7 +18,7 @@ var inst = Page(${method}(component, '${name}'))
     const name = '/page/test'
     const result = pageLoader.call({ query: { framework: 'react', name }, request })
     const method = 'createPageConfig'
-    expect(result).toMatch(`import { ${method} } from '@tarojs/runtime'
+    expect(result).toMatch(`import { ${method} } from '@tencent/tarojs-runtime'
 import component from '${request.slice(1)}'
 var inst = Page(${method}(component, '${name}'))
 `)
@@ -30,7 +30,7 @@ var inst = Page(${method}(component, '${name}'))
     const resourcePath = 'resourcePath'
     const result = pageLoader.call({ query: { framework: 'vue', name }, request, resourcePath })
     const method = 'createPageConfig'
-    expect(result).toMatch(`import { ${method} } from '@tarojs/runtime'
+    expect(result).toMatch(`import { ${method} } from '@tencent/tarojs-runtime'
 import component from '${path.resolve(__dirname, '..', 'src', 'raw.js')}!${resourcePath}'
 var inst = Page(${method}(component, '${name}'))
 `)
@@ -42,7 +42,7 @@ var inst = Page(${method}(component, '${name}'))
     const resourcePath = 'resourcePath'
     const result = pageLoader.call({ query: { framework: 'vue', name, prerender: true }, request, resourcePath })
     const method = 'createPageConfig'
-    expect(result).toMatch(`import { ${method} } from '@tarojs/runtime'
+    expect(result).toMatch(`import { ${method} } from '@tencent/tarojs-runtime'
 import component from '${path.resolve(__dirname, '..', 'src', 'raw.js')}!${resourcePath}'
 var inst = Page(${method}(component, '${name}'))
 

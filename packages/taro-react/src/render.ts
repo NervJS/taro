@@ -1,4 +1,4 @@
-import { TaroElement } from '@tarojs/runtime'
+import { TaroElement } from '@tencent/tarojs-runtime'
 import { ReactNode } from 'react'
 import { TaroReconciler } from './reconciler'
 import { OpaqueRoot } from 'react-reconciler'

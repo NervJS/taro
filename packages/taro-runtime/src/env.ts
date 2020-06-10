@@ -1,4 +1,4 @@
-import { EMPTY_OBJ } from '@tarojs/shared'
+import { EMPTY_OBJ } from '@tencent/tarojs-shared'
 
 export const isBrowser = typeof document !== 'undefined' && !!document.scripts
 export const doc: Document = isBrowser ? document : EMPTY_OBJ

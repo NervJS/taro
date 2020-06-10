@@ -2,7 +2,7 @@ import * as path from 'path'
 
 import * as _ from 'lodash/fp'
 import * as ora from 'ora'
-import { IPluginContext } from '@tarojs/service'
+import { IPluginContext } from '@tencent/tarojs-service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({

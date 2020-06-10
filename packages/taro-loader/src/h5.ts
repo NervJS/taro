@@ -1,6 +1,6 @@
 import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
-import { AppConfig, PageConfig } from '@tarojs/taro'
+import { AppConfig, PageConfig } from '@tencent/tarojs-taro'
 import { join, dirname } from 'path'
 import { importFramework, getFrameworkArgs } from './utils'
 
@@ -45,9 +45,9 @@ var tabbarSelectedIconPath = []
 import '@tarojs/components/h5/vue'
 `
 
-  const code = `import Taro from '@tarojs/taro'
+  const code = `import Taro from '@tencent/tarojs-taro'
 import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
-import { window } from '@tarojs/runtime'
+import { window } from '@tencent/tarojs-runtime'
 import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
 ${importFramework(options.framework)}
 import '@tarojs/components/dist/taro-components/taro-components.css'

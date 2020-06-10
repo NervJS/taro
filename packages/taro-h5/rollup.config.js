@@ -9,7 +9,7 @@ import exportNameOnly from './build/rollup-plugin-export-name-only'
 
 const cwd = __dirname
 const baseConfig = {
-  external: ['nervjs', '@tarojs/runtime', 'react-dom'],
+  external: ['nervjs', '@tencent/tarojs-runtime', 'react-dom'],
   output: {
     format: 'cjs',
     sourcemap: false,
@@ -17,7 +17,7 @@ const baseConfig = {
   },
   plugins: [
     alias({
-      '@tarojs/taro': join(cwd, '../taro/src/index')
+      '@tencent/tarojs-taro': join(cwd, '../taro/src/index')
     }),
     resolve({
       preferBuiltins: false,

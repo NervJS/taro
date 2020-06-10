@@ -8,7 +8,7 @@ import {
   shouldUseCnpm,
   shouldUseYarn,
   PROJECT_CONFIG
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 const runUpdate = run('update')
 const lastestVersion = getPkgVersion()
@@ -37,8 +37,8 @@ jest.mock('ora', () => {
   return ora
 })
 
-jest.mock('@tarojs/helper', () => {
-  const helper = jest.requireActual('@tarojs/helper')
+jest.mock('@tencent/tarojs-helper', () => {
+  const helper = jest.requireActual('@tencent/tarojs-helper')
   const fs = jest.requireActual('fs-extra')
   return {
     __esModule: true,
@@ -64,23 +64,23 @@ function updatePkg (pkgPath: string, version: string) {
     ...packageMap,
     dependencies: {
       ...packageMap.dependencies,
-      '@tarojs/shared': version,
-      '@tarojs/taro': version,
-      '@tarojs/api': version,
-      '@tarojs/cli': version,
+      '@tencent/tarojs-shared': version,
+      '@tencent/tarojs-taro': version,
+      '@tencent/tarojs-api': version,
+      '@tencent/tarojs-cli': version,
       '@tarojs/components': version,
-      '@tarojs/taro-h5': version,
-      '@tarojs/helper': version,
-      '@tarojs/taro-loader': version,
-      '@tarojs/mini-runner': version,
-      '@tarojs/react': version,
-      '@tarojs/router': version,
-      '@tarojs/runner-utils': version,
-      '@tarojs/runtime': version,
-      '@tarojs/service': version,
-      '@tarojs/webpack-runner': version,
-      '@tarojs/with-weapp': version,
-      '@tarojs/taroize': version
+      '@tencent/tarojs-taro-h5': version,
+      '@tencent/tarojs-helper': version,
+      '@tencent/tarojs-taro-loader': version,
+      '@tencent/tarojs-mini-runner': version,
+      '@tencent/tarojs-react': version,
+      '@tencent/tarojs-router': version,
+      '@tencent/tarojs-runner-utils': version,
+      '@tencent/tarojs-runtime': version,
+      '@tencent/tarojs-service': version,
+      '@tencent/tarojs-webpack-runner': version,
+      '@tencent/tarojs-with-weapp': version,
+      '@tencent/tarojs-taroize': version
     },
     devDependencies: {
       ...packageMap.devDependencies,
@@ -125,7 +125,7 @@ describe('update', () => {
     await runUpdate('', {
       args: ['self']
     })
-    expect(execMocked).toBeCalledWith(`npm i -g @tarojs/cli@${lastestVersion}`)
+    expect(execMocked).toBeCalledWith(`npm i -g @tencent/tarojs-cli@${lastestVersion}`)
   })
 
   it('should update self using cnpm', async () => {
@@ -133,7 +133,7 @@ describe('update', () => {
     await runUpdate('', {
       args: ['self']
     })
-    expect(execMocked).toBeCalledWith(`cnpm i -g @tarojs/cli@${lastestVersion}`)
+    expect(execMocked).toBeCalledWith(`cnpm i -g @tencent/tarojs-cli@${lastestVersion}`)
   })
 
   it('should update self to specific version', async () => {
@@ -141,7 +141,7 @@ describe('update', () => {
     await runUpdate('', {
       args: ['self', version]
     })
-    expect(execMocked).toBeCalledWith(`npm i -g @tarojs/cli@${version}`)
+    expect(execMocked).toBeCalledWith(`npm i -g @tencent/tarojs-cli@${version}`)
   })
 
   it('should throw when there isn\'t a Taro project', async () => {

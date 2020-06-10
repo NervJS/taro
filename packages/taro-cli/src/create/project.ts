@@ -9,7 +9,7 @@ import {
   getUserHomeDir,
   chalk,
   SOURCE_DIR
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 import { createApp } from './init'
 import fetchTemplate from './fetchTemplate'

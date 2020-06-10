@@ -1,4 +1,4 @@
-import { controlledComponent, isUndefined } from '@tarojs/shared'
+import { controlledComponent, isUndefined } from '@tencent/tarojs-shared'
 import { TaroText } from '../dom/text'
 import { TaroElement } from '../dom/element'
 import { FormElement } from '../dom/form'

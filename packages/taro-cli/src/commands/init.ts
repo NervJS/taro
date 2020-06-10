@@ -1,4 +1,4 @@
-import { Kernel } from '@tarojs/service'
+import { Kernel } from '@tencent/tarojs-service'
 
 export default function init (kernel: Kernel, {
   appPath,

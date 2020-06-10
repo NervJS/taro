@@ -8,7 +8,7 @@ import {
   processTypeEnum,
   REG_TYPESCRIPT,
   chalk
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 import { IBuildData, IH5BuildConfig } from './ui.types'
 import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME, copyAllInterfaceFiles } from './common'
 
@@ -45,7 +45,7 @@ async function buildH5Script (buildData: IBuildData) {
     app: [path.join(tempPath, entryFile)]
   }, h5Config.entry)
   h5Config.isWatch = false
-  const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', appPath)
+  const webpackRunner = await npmProcess.getNpmPkg('@tencent/tarojs-webpack-runner', appPath)
   webpackRunner(appPath, h5Config)
 }
 

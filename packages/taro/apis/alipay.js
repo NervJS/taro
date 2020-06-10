@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import Taro from '@tarojs/api'
+import Taro from '@tencent/tarojs-api'
 import { cacheDataSet, cacheDataGet } from './data-cache'
 import { queryToJson, getUniqueKey } from './utils'
 

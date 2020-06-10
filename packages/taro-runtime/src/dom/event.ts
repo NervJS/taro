@@ -1,5 +1,5 @@
 import { TaroNode } from './node'
-import { EMPTY_OBJ } from '@tarojs/shared'
+import { EMPTY_OBJ } from '@tencent/tarojs-shared'
 import { document } from '../bom/document'
 import { TaroElement } from './element'
 

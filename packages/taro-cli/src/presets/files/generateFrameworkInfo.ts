@@ -1,4 +1,4 @@
-import { IPluginContext } from '@tarojs/service'
+import { IPluginContext } from '@tencent/tarojs-service'
 
 import { getPkgVersion } from '../../util'
 
@@ -8,7 +8,7 @@ export default (ctx: IPluginContext) => {
     const { nodeModulesPath } = ctx.paths
     const { date, outputRoot } = ctx.initialConfig
     const frameworkInfoFileName = '.frameworkinfo'
-    const frameworkName = `@tarojs/taro-${platform}`
+    const frameworkName = `@tencent/tarojs-taro-${platform}`
     const frameworkVersion = getInstalledNpmPkgVersion(frameworkName, nodeModulesPath)
 
     if (frameworkVersion) {

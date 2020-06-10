@@ -1,4 +1,4 @@
-import { Shortcuts, noop, isString, isObject, isFunction } from '@tarojs/shared'
+import { Shortcuts, noop, isString, isObject, isFunction } from '@tencent/tarojs-shared'
 
 import { NodeVM } from 'vm2'
 import { omitBy } from 'lodash'

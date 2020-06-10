@@ -27,7 +27,8 @@
   ],
   "command": {
     "publish": {
-      "message": "chore(release): publish %s"
+      "message": "chore(release): publish %s",
+      "registry": "http://r.tnpm.oa.com"
     },
     "create": {
       "homepage": "https://github.com/nervjs/taro",
@@ -35,5 +36,5 @@
     }
   },
   "version": "3.0.0-rc.4",
-  "npmClient": "yarn"
+  "npmClient": "tnpm"
 }

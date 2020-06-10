@@ -1,5 +1,5 @@
 {
-  "name": "@tarojs/router",
+  "name": "@tencent/tarojs-router",
   "version": "3.0.0-rc.4",
   "description": "Taro-router",
   "main:h5": "dist/router.esm.js",
@@ -27,7 +27,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runtime": "3.0.0-rc.4",
+    "@tencent/tarojs-runtime": "3.0.0-rc.4",
     "history": "^4.10.1",
     "universal-router": "^8.3.0",
     "url-parse": "^1.4.7"

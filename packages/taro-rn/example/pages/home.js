@@ -1,5 +1,5 @@
 import React from 'react'
-import { Component } from '@tarojs/taro-rn'
+import { Component } from '@tencent/tarojs-taro-rn'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Device } from './device'
 import { Media } from './media'

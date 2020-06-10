@@ -1,5 +1,5 @@
 {
-  "name": "@tarojs/webpack-runner",
+  "name": "@tencent/tarojs-webpack-runner",
   "version": "3.0.0-rc.4",
   "description": "webpack runner for taro",
   "main": "index.js",
@@ -30,11 +30,11 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@babel/core": "7.6.4",
-    "@tarojs/helper": "3.0.0-rc.4",
-    "@tarojs/runner-utils": "3.0.0-rc.4",
-    "@tarojs/runtime": "3.0.0-rc.4",
-    "@tarojs/shared": "3.0.0-rc.4",
-    "@tarojs/taro-loader": "3.0.0-rc.4",
+    "@tencent/tarojs-helper": "3.0.0-rc.4",
+    "@tencent/tarojs-runner-utils": "3.0.0-rc.4",
+    "@tencent/tarojs-runtime": "3.0.0-rc.4",
+    "@tencent/tarojs-shared": "3.0.0-rc.4",
+    "@tencent/tarojs-taro-loader": "3.0.0-rc.4",
     "autoprefixer": "9.7.4",
     "babel-loader": "8.0.6",
     "copy-webpack-plugin": "5.1.1",
@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@tarojs/components": "3.0.0-rc.4",
-    "@tarojs/taro": "3.0.0-rc.4",
+    "@tencent/tarojs-taro": "3.0.0-rc.4",
     "@types/autoprefixer": "9.7.0",
     "@types/detect-port": "1.1.0",
     "@types/lodash": "4.14.149",

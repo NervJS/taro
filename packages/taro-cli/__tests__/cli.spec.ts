@@ -1,8 +1,8 @@
 import CLI from '../src/cli'
-import { Kernel } from '@tarojs/service'
+import { Kernel } from '@tencent/tarojs-service'
 import { getPkgVersion } from '../src/util'
 
-jest.mock('@tarojs/service')
+jest.mock('@tencent/tarojs-service')
 const MockedKernel = (Kernel as unknown) as (jest.Mock<Kernel>)
 const APP_PATH = '/a/b/c'
 

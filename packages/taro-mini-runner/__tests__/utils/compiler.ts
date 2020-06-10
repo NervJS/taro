@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as merge from 'webpack-merge'
-import { resolveMainFilePath } from '@tarojs/helper'
+import { resolveMainFilePath } from '@tencent/tarojs-helper'
 import { IFs } from 'memfs'
 
 import baseConfig from './config'
@@ -51,10 +51,10 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
     chain.merge({
       resolve: {
         alias: {
-          '@tarojs/runtime': path.resolve(__dirname, '../mocks/taro-runtime'),
+          '@tencent/tarojs-runtime': path.resolve(__dirname, '../mocks/taro-runtime'),
           '@tarojs/components$': path.resolve(__dirname, '../mocks/taro-components'),
-          '@tarojs/react': path.resolve(__dirname, '../mocks/taro-react'),
-          '@tarojs/taro': path.resolve(__dirname, '../mocks/taro'),
+          '@tencent/tarojs-react': path.resolve(__dirname, '../mocks/taro-react'),
+          '@tencent/tarojs-taro': path.resolve(__dirname, '../mocks/taro'),
           react: path.resolve(__dirname, '../mocks/react'),
           vue: path.resolve(__dirname, '../mocks/vue'),
           nervjs: path.resolve(__dirname, '../mocks/nerv')

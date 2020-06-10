@@ -1,5 +1,5 @@
 {
-  "name": "@tarojs/taroize",
+  "name": "@tencent/tarojs-taroize",
   "version": "3.0.0-rc.4",
   "description": "转换原生微信小程序代码为 Taro 代码",
   "main": "index.js",

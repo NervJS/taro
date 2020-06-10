@@ -1,3 +1,3 @@
-import { PageInstance } from '@tarojs/runtime'
+import { PageInstance } from '@tencent/tarojs-runtime'
 
 export const stacks: PageInstance[] = []

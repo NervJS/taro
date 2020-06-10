@@ -1,5 +1,5 @@
 import * as webpack from 'webpack'
-import { IProjectBaseConfig, IMiniAppConfig } from '@tarojs/taro/types/compile'
+import { IProjectBaseConfig, IMiniAppConfig } from '@tencent/tarojs-taro/types/compile'
 import { PrerenderConfig } from '../prerender/prerender'
 import { IAdapter } from 'src/template/adapters'
 

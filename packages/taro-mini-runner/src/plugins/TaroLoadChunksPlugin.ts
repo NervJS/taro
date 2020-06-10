@@ -2,12 +2,12 @@ import * as path from 'path'
 
 import webpack from 'webpack'
 import { ConcatSource } from 'webpack-sources'
-import { toDashed } from '@tarojs/shared'
+import { toDashed } from '@tencent/tarojs-shared'
 import {
   promoteRelativePath,
   META_TYPE,
   taroJsComponents
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 import { componentConfig } from '../template/component'
 import { AddPageChunks, IComponent } from '../utils/types'

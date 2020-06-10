@@ -22,7 +22,7 @@ module.exports = {
       '.jsx'
     ],
     'import/core-modules': [
-      '@tarojs/taro',
+      '@tencent/tarojs-taro',
       '@tarojs/components'
     ]
   },

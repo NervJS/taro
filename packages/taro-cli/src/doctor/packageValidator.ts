@@ -1,6 +1,6 @@
 import * as _ from 'lodash/fp'
 import * as npmCheck from 'npm-check'
-import { UPDATE_PACKAGE_LIST } from '@tarojs/helper'
+import { UPDATE_PACKAGE_LIST } from '@tencent/tarojs-helper'
 import { getPkgVersion } from '../util'
 
 interface ErrorLine {
@@ -10,10 +10,10 @@ interface ErrorLine {
 
 const mustInstalledTaroPkg = [
   '@tarojs/components',
-  '@tarojs/runtime',
-  '@tarojs/taro',
-  '@tarojs/mini-runner',
-  '@tarojs/webpack-runner',
+  '@tencent/tarojs-runtime',
+  '@tencent/tarojs-taro',
+  '@tencent/tarojs-mini-runner',
+  '@tencent/tarojs-webpack-runner',
   'babel-preset-taro',
   'eslint-config-taro'
 ]

@@ -28,7 +28,7 @@ export async function compile (fixture, { type, framework }) {
       path: path.resolve(__dirname, './fixtures'),
       filename: 'bundle.txt'
     },
-    externals: ['@tarojs/runtime', 'vue', 'react-dom', 'react', 'vue', './app'],
+    externals: ['@tencent/tarojs-runtime', 'vue', 'react-dom', 'react', 'vue', './app'],
     module: {
       rules: [{
         test: /\.txt$/,

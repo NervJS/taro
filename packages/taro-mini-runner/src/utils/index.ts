@@ -8,7 +8,7 @@ import {
   resolveMainFilePath,
   NODE_MODULES_REG,
   promoteRelativePath
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 import { IOption, IComponentObj } from './types'
 

@@ -5,10 +5,10 @@ import {
   fs,
   TARO_CONFIG_FLODER,
   TARO_BASE_CONFIG
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
-jest.mock('@tarojs/helper', () => {
-  const helper = jest.requireActual('@tarojs/helper')
+jest.mock('@tencent/tarojs-helper', () => {
+  const helper = jest.requireActual('@tencent/tarojs-helper')
   const fs = jest.requireActual('fs-extra')
   return {
     __esModule: true,

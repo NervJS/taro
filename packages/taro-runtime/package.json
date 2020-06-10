@@ -1,5 +1,5 @@
 {
-  "name": "@tarojs/runtime",
+  "name": "@tencent/tarojs-runtime",
   "version": "3.0.0-rc.4",
   "description": "taro runtime for mini apps.",
   "main": "dist/index.js",

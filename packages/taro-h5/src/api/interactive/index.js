@@ -1,4 +1,4 @@
-import Taro from '@tarojs/api'
+import Taro from '@tencent/tarojs-api'
 import { errorHandler, getParameterError } from '../utils'
 import Toast from './toast'
 import Modal from './modal'

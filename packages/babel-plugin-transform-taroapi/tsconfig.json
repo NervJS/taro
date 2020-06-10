@@ -19,7 +19,7 @@
     "traceResolution": false,
     "types": ["jest"],
     "paths": {
-      "@tarojs/taro-h5": ["../packages/taro-h5"]
+      "@tencent/tarojs-taro-h5": ["../packages/taro-h5"]
     }
   },
   "include": [

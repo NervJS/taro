@@ -1,4 +1,4 @@
-import { IProjectConfig, IH5Config } from '@tarojs/taro/types/compile'
+import { IProjectConfig, IH5Config } from '@tencent/tarojs-taro/types/compile'
 
 export interface IBuildData {
   appPath: string,

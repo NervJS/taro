@@ -4,7 +4,7 @@ import * as ora from 'ora'
 import * as AdmZip from 'adm-zip'
 import * as download from 'download-git-repo'
 import * as request from 'request'
-import { chalk } from '@tarojs/helper'
+import { chalk } from '@tencent/tarojs-helper'
 
 import { getTemplateSourceType, readDirWithFileTypes } from '../util'
 

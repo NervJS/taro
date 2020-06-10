@@ -1,5 +1,5 @@
 import * as path from 'path'
-import { PLATFORMS, FRAMEWORK_MAP, taroJsComponents } from '@tarojs/helper'
+import { PLATFORMS, FRAMEWORK_MAP, taroJsComponents } from '@tencent/tarojs-helper'
 
 import { IBuildConfig } from '../utils/types'
 import {
@@ -103,7 +103,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   }
   alias[taroJsComponents + '$'] = `${taroJsComponents}/mini`
   if (framework === 'react') {
-    alias['react-dom'] = '@tarojs/react'
+    alias['react-dom'] = '@tencent/tarojs-react'
   }
   if (framework === 'nerv') {
     alias['react-dom'] = 'nervjs'
@@ -158,11 +158,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   }, miniCssExtractPluginOption])
 
   plugin.providerPlugin = getProviderPlugin({
-    window: ['@tarojs/runtime', 'window'],
-    document: ['@tarojs/runtime', 'document'],
-    navigator: ['@tarojs/runtime', 'navigator'],
-    requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
-    cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame']
+    window: ['@tencent/tarojs-runtime', 'window'],
+    document: ['@tencent/tarojs-runtime', 'document'],
+    navigator: ['@tencent/tarojs-runtime', 'navigator'],
+    requestAnimationFrame: ['@tencent/tarojs-runtime', 'requestAnimationFrame'],
+    cancelAnimationFrame: ['@tencent/tarojs-runtime', 'cancelAnimationFrame']
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))

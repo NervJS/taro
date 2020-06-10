@@ -1,6 +1,6 @@
 import * as path from 'path'
 import chalk from 'chalk'
-import { fs } from '@tarojs/helper'
+import { fs } from '@tencent/tarojs-helper'
 import { run } from './utils'
 
 jest.mock('cli-highlight', () => {
@@ -12,8 +12,8 @@ jest.mock('cli-highlight', () => {
   }
 })
 
-jest.mock('@tarojs/helper', () => {
-  const helper = jest.requireActual('@tarojs/helper')
+jest.mock('@tencent/tarojs-helper', () => {
+  const helper = jest.requireActual('@tencent/tarojs-helper')
   const fs = jest.requireActual('fs-extra')
   return {
     __esModule: true,

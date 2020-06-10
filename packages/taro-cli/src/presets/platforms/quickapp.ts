@@ -1,7 +1,7 @@
 import * as path from 'path'
 import { execSync } from 'child_process'
 
-import { IPluginContext } from '@tarojs/service'
+import { IPluginContext } from '@tencent/tarojs-service'
 import * as ora from 'ora'
 
 import {
@@ -96,7 +96,7 @@ export default (ctx: IPluginContext) => {
       })
 
       // build with webpack
-      const miniRunner = await npm.getNpmPkg('@tarojs/mini-runner', appPath)
+      const miniRunner = await npm.getNpmPkg('@tencent/tarojs-mini-runner', appPath)
       await miniRunner(appPath, miniRunnerOpts)
 
       const isReady = await prepareQuickAppEnvironment({

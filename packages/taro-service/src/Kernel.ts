@@ -2,14 +2,14 @@ import * as path from 'path'
 import { EventEmitter } from 'events'
 
 import { AsyncSeriesWaterfallHook } from 'tapable'
-import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import { IProjectConfig, PluginItem } from '@tencent/tarojs-taro/types/compile'
 import {
   NODE_MODULES,
   recursiveFindNodeModules,
   createBabelRegister,
   createDebug
-} from '@tarojs/helper'
-import * as helper from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
+import * as helper from '@tencent/tarojs-helper'
 import * as joi from '@hapi/joi'
 
 import {

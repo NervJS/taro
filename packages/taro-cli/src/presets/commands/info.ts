@@ -1,7 +1,7 @@
 import * as path from 'path'
 
 import * as envinfo from 'envinfo'
-import { IPluginContext } from '@tarojs/service'
+import { IPluginContext } from '@tencent/tarojs-service'
 
 import { getPkgVersion } from '../../util'
 

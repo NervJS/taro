@@ -9,7 +9,7 @@ import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
-import { AppConfig, Config } from '@tarojs/taro'
+import { AppConfig, Config } from '@tencent/tarojs-taro'
 import {
   resolveMainFilePath,
   readConfig,
@@ -23,7 +23,7 @@ import {
   SCRIPT_EXT,
   printLog,
   processTypeEnum
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { buildBaseTemplate, buildPageTemplate, buildXScript, buildBaseComponentTemplate } from '../template'
@@ -215,7 +215,7 @@ export default class TaroMiniPlugin {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module:/** TaroNormalModule */ any) => {
         const { framework } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
-          const loaderName = '@tarojs/taro-loader'
+          const loaderName = '@tencent/tarojs-taro-loader'
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
               loader: loaderName,
@@ -227,7 +227,7 @@ export default class TaroMiniPlugin {
             })
           }
         } else if (module.miniType === META_TYPE.PAGE) {
-          const loaderName = '@tarojs/taro-loader/lib/page'
+          const loaderName = '@tencent/tarojs-taro-loader/lib/page'
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
               loader: loaderName,
@@ -239,7 +239,7 @@ export default class TaroMiniPlugin {
             })
           }
         } else if (module.miniType === META_TYPE.COMPONENT) {
-          const loaderName = '@tarojs/taro-loader/lib/component'
+          const loaderName = '@tencent/tarojs-taro-loader/lib/component'
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
               loader: loaderName,

@@ -1,4 +1,4 @@
-import { IPluginContext } from '@tarojs/service'
+import { IPluginContext } from '@tencent/tarojs-service'
 
 import configValidator from '../../doctor/configValidator'
 

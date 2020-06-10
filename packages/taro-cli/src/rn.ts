@@ -4,7 +4,7 @@ import { exec, spawn, spawnSync, execSync, SpawnSyncOptions } from 'child_proces
 import { performance } from 'perf_hooks'
 import * as _ from 'lodash'
 import * as klaw from 'klaw'
-import { TogglableOptions, IOption } from '@tarojs/taro/types/compile'
+import { TogglableOptions, IOption } from '@tencent/tarojs-taro/types/compile'
 import {
   PROJECT_CONFIG,
   processTypeEnum,
@@ -19,7 +19,7 @@ import {
   shouldUseCnpm,
   SOURCE_DIR,
   ENTRY
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 import { getPkgVersion } from './util'
 import * as StyleProcess from './rn/styleProcess'
@@ -323,9 +323,9 @@ function updatePkgJson (appPath) {
   const version = getPkgVersion()
   const RNDep = `{
     "@tarojs/components-rn": "^${version}",
-    "@tarojs/taro-rn": "^${version}",
-    "@tarojs/taro-router-rn": "^${version}",
-    "@tarojs/taro-redux-rn": "^${version}",
+    "@tencent/tarojs-taro-rn": "^${version}",
+    "@tencent/tarojs-taro-router-rn": "^${version}",
+    "@tencent/tarojs-taro-redux-rn": "^${version}",
     "react": "16.3.1",
     "react-native": "0.55.4",
     "redux": "^4.0.0",

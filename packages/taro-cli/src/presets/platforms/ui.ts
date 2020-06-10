@@ -1,7 +1,7 @@
 import * as path from 'path'
 
 import * as _ from 'lodash'
-import { IPluginContext } from '@tarojs/service'
+import { IPluginContext } from '@tencent/tarojs-service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({

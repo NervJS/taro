@@ -1,5 +1,5 @@
-import { TaroElement, Style, document, FormElement } from '@tarojs/runtime'
-import { isFunction, isString, isObject, isNumber } from '@tarojs/shared'
+import { TaroElement, Style, document, FormElement } from '@tencent/tarojs-runtime'
+import { isFunction, isString, isObject, isNumber } from '@tencent/tarojs-shared'
 import { CommonEvent } from '@tarojs/components'
 
 export type Props = Record<string, unknown>

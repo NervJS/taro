@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import { processTypeEnum, REG_TYPESCRIPT, printLog, resolveScriptPath, chalk } from '@tarojs/helper'
+import { processTypeEnum, REG_TYPESCRIPT, printLog, resolveScriptPath, chalk } from '@tencent/tarojs-helper'
 
 import { Compiler as RNCompiler } from '../rn'
 import { analyzeFiles, analyzeStyleFilesImport, copyFileToDist, RN_OUTPUT_NAME, parseEntryAst } from './common'

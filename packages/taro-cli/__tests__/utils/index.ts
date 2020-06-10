@@ -1,5 +1,5 @@
 import * as path from 'path'
-import { Kernel } from '@tarojs/service'
+import { Kernel } from '@tencent/tarojs-service'
 
 interface IRunOptions {
   options?: Record<string, string | boolean>,

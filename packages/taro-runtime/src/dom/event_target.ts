@@ -1,4 +1,4 @@
-import { isArray, isObject, warn } from '@tarojs/shared'
+import { isArray, isObject, warn } from '@tencent/tarojs-shared'
 
 interface EventListenerOptions {
   capture?: boolean;

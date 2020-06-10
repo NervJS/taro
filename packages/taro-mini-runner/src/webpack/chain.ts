@@ -9,7 +9,7 @@ import { partial, cloneDeep } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
-import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
+import { PostcssOption, ICopyOptions, IPostcssOption } from '@tencent/tarojs-taro/types/compile'
 import {
   recursiveMerge,
   isNodeModule,
@@ -27,14 +27,14 @@ import {
   REG_CSS,
   REG_TEMPLATE,
   chalk
-} from '@tarojs/helper'
-import { getSassLoaderOption } from '@tarojs/runner-utils'
+} from '@tencent/tarojs-helper'
+import { getSassLoaderOption } from '@tencent/tarojs-runner-utils'
 
 import { getPostcssPlugins } from './postcss.conf'
 
 import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption, IBuildConfig } from '../utils/types'
-import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
+import { toCamelCase, internalComponents, capitalize } from '@tencent/tarojs-shared'
 import { componentConfig } from '../template/component'
 import defaultTerserOptions from '../config/terserOptions'
 

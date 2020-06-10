@@ -1,5 +1,5 @@
-import Taro from '@tarojs/api'
-import { history, navigateBack, navigateTo, createRouter, reLaunch, redirectTo, getCurrentPages, switchTab } from '@tarojs/router'
+import Taro from '@tencent/tarojs-api'
+import { history, navigateBack, navigateTo, createRouter, reLaunch, redirectTo, getCurrentPages, switchTab } from '@tencent/tarojs-router'
 import { permanentlyNotSupport } from '../api/utils'
 // import { onPageScroll } from '../api/privateApis/onPageScroll'
 // import { onReachBottom } from '../api/privateApis/onReachBottom'

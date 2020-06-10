@@ -132,23 +132,23 @@ export const UPDATE_PACKAGE_LIST = [
   'eslint-plugin-taro',
   'postcss-plugin-constparse',
   'postcss-pxtransform',
-  '@tarojs/shared',
-  '@tarojs/taro',
-  '@tarojs/api',
-  '@tarojs/cli',
+  '@tencent/tarojs-shared',
+  '@tencent/tarojs-taro',
+  '@tencent/tarojs-api',
+  '@tencent/tarojs-cli',
   '@tarojs/components',
-  '@tarojs/taro-h5',
-  '@tarojs/helper',
-  '@tarojs/taro-loader',
-  '@tarojs/mini-runner',
-  '@tarojs/react',
-  '@tarojs/router',
-  '@tarojs/runner-utils',
-  '@tarojs/runtime',
-  '@tarojs/service',
-  '@tarojs/webpack-runner',
-  '@tarojs/with-weapp',
-  '@tarojs/taroize',
+  '@tencent/tarojs-taro-h5',
+  '@tencent/tarojs-helper',
+  '@tencent/tarojs-taro-loader',
+  '@tencent/tarojs-mini-runner',
+  '@tencent/tarojs-react',
+  '@tencent/tarojs-router',
+  '@tencent/tarojs-runner-utils',
+  '@tencent/tarojs-runtime',
+  '@tencent/tarojs-service',
+  '@tencent/tarojs-webpack-runner',
+  '@tencent/tarojs-with-weapp',
+  '@tencent/tarojs-taroize',
   'nervjs',
   'nerv-devtools'
 ]
@@ -165,7 +165,7 @@ export enum META_TYPE {
 
 export const taroJsComponents = '@tarojs/components'
 export const taroJsQuickAppComponents = '@tarojs/components-qa'
-export const taroJsFramework = '@tarojs/taro'
+export const taroJsFramework = '@tencent/tarojs-taro'
 export const taroJsRedux = '@tarojs/redux'
 export const taroJsMobx = '@tarojs/mobx'
 export const taroJsMobxCommon = '@tarojs/mobx-common'

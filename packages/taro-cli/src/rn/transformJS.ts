@@ -17,7 +17,7 @@ import {
   isNpmPkg,
   generateEnvList,
   generateConstantsList
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 
 import babylonConfig from '../config/babylon'
 import { convertSourceStringToAstExpression as toAst, convertAstExpressionToVariable as toVar } from '../util/astConvert'
@@ -25,7 +25,7 @@ import { convertSourceStringToAstExpression as toAst, convertAstExpressionToVari
 const template = require('babel-template')
 
 const reactImportDefaultName = 'React'
-let taroImportDefaultName // import default from @tarojs/taro
+let taroImportDefaultName // import default from @tencent/tarojs-taro
 let componentClassName // get app.js class name
 const providerComponentName = 'Provider'
 const taroComponentsRNProviderName = 'TCRNProvider'
@@ -36,15 +36,15 @@ const DEVICE_RATIO = 'deviceRatio'
 const taroApis = ['getEnv', 'ENV_TYPE', 'eventCenter', 'Events', 'internal_safe_get', 'internal_dynamic_recursive']
 
 const PACKAGES = {
-  '@tarojs/taro': '@tarojs/taro',
-  '@tarojs/taro-rn': '@tarojs/taro-rn',
-  '@tarojs/taro-router-rn': '@tarojs/taro-router-rn',
+  '@tencent/tarojs-taro': '@tencent/tarojs-taro',
+  '@tencent/tarojs-taro-rn': '@tencent/tarojs-taro-rn',
+  '@tencent/tarojs-taro-router-rn': '@tencent/tarojs-taro-router-rn',
   '@tarojs/redux': '@tarojs/redux',
   '@tarojs/components': '@tarojs/components',
   '@tarojs/components-rn': '@tarojs/components-rn',
   react: 'react',
   'react-native': 'react-native',
-  'react-redux-rn': '@tarojs/taro-redux-rn',
+  'react-redux-rn': '@tencent/tarojs-taro-redux-rn',
   '@tarojs/mobx': '@tarojs/mobx',
   '@tarojs/mobx-rn': '@tarojs/mobx-rn'
 }
@@ -281,7 +281,7 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
         }
         return
       }
-      if (value === PACKAGES['@tarojs/taro']) {
+      if (value === PACKAGES['@tencent/tarojs-taro']) {
         const specifier = specifiers.find(item => item.type === 'ImportDefaultSpecifier')
         if (specifier) {
           hasAddReactImportDefaultName = true
@@ -291,7 +291,7 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
           hasAddReactImportDefaultName = true
           node.specifiers.unshift(t.importDefaultSpecifier(t.identifier(reactImportDefaultName)))
         }
-        // 删除从@tarojs/taro引入的 React
+        // 删除从@tencent/tarojs-taro引入的 React
         specifiers.forEach((item, index) => {
           if (item.type === 'ImportDefaultSpecifier') {
             specifiers.splice(index, 1)
@@ -312,10 +312,10 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
             specifiers.splice(index, 1)
           }
         })
-        source.value = PACKAGES['@tarojs/taro-rn']
+        source.value = PACKAGES['@tencent/tarojs-taro-rn']
 
         if (taroApisSpecifiers.length) {
-          astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tarojs/taro-rn'])))
+          astPath.insertBefore(t.importDeclaration(taroApisSpecifiers, t.stringLiteral(PACKAGES['@tencent/tarojs-taro-rn'])))
         }
         if (!specifiers.length) {
           astPath.remove()
@@ -536,10 +536,10 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
         if (hasJSX) {
           node.body.unshift(template("import React from 'react'", babylonConfig as any)())
         }
-        // import Taro from @tarojs/taro-rn
+        // import Taro from @tencent/tarojs-taro-rn
         if (taroImportDefaultName) {
           const importTaro = template(
-            `import ${taroImportDefaultName} from '${PACKAGES['@tarojs/taro-rn']}'`,
+            `import ${taroImportDefaultName} from '${PACKAGES['@tencent/tarojs-taro-rn']}'`,
             babylonConfig as any
           )()
           node.body.unshift(importTaro as any)
@@ -585,9 +585,9 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
           )()
           node.body.push(initNativeApi as any)
 
-          // import @tarojs/taro-router-rn
+          // import @tencent/tarojs-taro-router-rn
           const importTaroRouter = template(
-            `import TaroRouter from '${PACKAGES['@tarojs/taro-router-rn']}'`,
+            `import TaroRouter from '${PACKAGES['@tencent/tarojs-taro-router-rn']}'`,
             babylonConfig as any
           )()
           node.body.unshift(importTaroRouter as any)
@@ -622,7 +622,7 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
 
   const plugins = [
     [require('babel-plugin-transform-jsx-to-stylesheet'), { filePath }],
-    [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tarojs/taro', 'react', 'react-native', 'nervjs'] }],
+    [require('babel-plugin-danger-remove-unused-import'), { ignore: ['@tencent/tarojs-taro', 'react', 'react-native', 'nervjs'] }],
     [require('babel-plugin-transform-define').default, constantsReplaceList]
   ]
 

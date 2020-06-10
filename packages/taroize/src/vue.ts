@@ -60,10 +60,10 @@ export function parseVue (dirPath: string, wxml: string, jsCode = ''): Result {
     traverse(ast, vistor)
   }
 
-  const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
+  const taroImport = buildImportStatement('@tencent/tarojs-taro', [], 'Taro')
 
   const withWeappImport = buildImportStatement(
-    '@tarojs/with-weapp',
+    '@tencent/tarojs-with-weapp',
     [],
     'withWeapp'
   )

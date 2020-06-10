@@ -12,7 +12,7 @@ export default function (this: webpack.loader.LoaderContext) {
 if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
 }`
-  return `import { ${method}, window } from '@tarojs/runtime'
+  return `import { ${method}, window } from '@tencent/tarojs-runtime'
 import component from ${stringify(this.request.split('!').slice(1).join('!'))}
 ${importFramework(options.framework)}
 var config = ${config};

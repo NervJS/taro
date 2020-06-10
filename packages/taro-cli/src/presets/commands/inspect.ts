@@ -1,11 +1,11 @@
 import * as path from 'path'
-import { IPluginContext } from '@tarojs/service'
+import { IPluginContext } from '@tencent/tarojs-service'
 import {
   SOURCE_DIR,
   OUTPUT_DIR,
   ENTRY,
   resolveScriptPath
-} from '@tarojs/helper'
+} from '@tencent/tarojs-helper'
 import highlight from 'cli-highlight'
 
 export default (ctx: IPluginContext) => {

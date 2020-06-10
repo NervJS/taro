@@ -101,9 +101,9 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
   webpackChain.merge({
     resolve: {
       alias: {
-        '@tarojs/runtime': path.resolve(__dirname, '../mocks/taro-runtime'),
-        '@tarojs/shared': path.resolve(__dirname, '../mocks/taro-shared'),
-        '@tarojs/taro-h5': path.resolve(__dirname, '../mocks/taro-h5'),
+        '@tencent/tarojs-runtime': path.resolve(__dirname, '../mocks/taro-runtime'),
+        '@tencent/tarojs-shared': path.resolve(__dirname, '../mocks/taro-shared'),
+        '@tencent/tarojs-taro-h5': path.resolve(__dirname, '../mocks/taro-h5'),
         '@tarojs/components$': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/loader': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/dist/taro-components/taro-components.css': path.resolve(__dirname, '../mocks/taro-components.css'),

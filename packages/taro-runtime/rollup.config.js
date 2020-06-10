@@ -19,7 +19,7 @@ const baseConfig = {
     alias({
       entries: [
         {
-          find: '@tarojs/shared',
+          find: '@tencent/tarojs-shared',
           replacement: join(cwd, '../shared/dist/shared.esm')
         }
       ]

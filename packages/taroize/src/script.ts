@@ -92,10 +92,10 @@ export function parseScript (
   const taroComponentsImport = buildImportStatement('@tarojs/components', [
     ...usedComponents
   ])
-  const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
+  const taroImport = buildImportStatement('@tencent/tarojs-taro', [], 'Taro')
   const reactImport = buildImportStatement('react', [], 'React')
   const withWeappImport = buildImportStatement(
-    '@tarojs/with-weapp',
+    '@tencent/tarojs-with-weapp',
     [],
     'withWeapp'
   )

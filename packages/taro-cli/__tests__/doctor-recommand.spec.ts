@@ -1,5 +1,5 @@
 import * as path from 'path'
-import { chalk } from '@tarojs/helper'
+import { chalk } from '@tencent/tarojs-helper'
 import * as fs from 'fs-extra'
 import validator from '../src/doctor/recommandValidator'
 

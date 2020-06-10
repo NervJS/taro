@@ -1,5 +1,5 @@
 import * as path from 'path'
-import { IPluginContext } from '@tarojs/service'
+import { IPluginContext } from '@tencent/tarojs-service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({

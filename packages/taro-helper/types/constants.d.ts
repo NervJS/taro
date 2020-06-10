@@ -67,7 +67,7 @@ export declare const FILE_PROCESSOR_MAP: {
 export declare const UPDATE_PACKAGE_LIST: string[];
 export declare const taroJsComponents = "@tarojs/components";
 export declare const taroJsQuickAppComponents = "@tarojs/components-qa";
-export declare const taroJsFramework = "@tarojs/taro";
+export declare const taroJsFramework = "@tencent/tarojs-taro";
 export declare const taroJsRedux = "@tarojs/redux";
 export declare const taroJsMobx = "@tarojs/mobx";
 export declare const taroJsMobxCommon = "@tarojs/mobx-common";

@@ -1,5 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors */
-import { Current } from '@tarojs/runtime'
+import { Current } from '@tencent/tarojs-runtime'
 
 function shouleBeObject (target) {
   if (target && typeof target === 'object') return { res: true }

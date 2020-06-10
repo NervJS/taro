@@ -2,12 +2,12 @@
 import type { ComponentOptions, VueConstructor, VNode } from 'vue'
 import type VueCtor from 'vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { AppConfig } from '@tarojs/taro'
+import type { AppConfig } from '@tencent/tarojs-taro'
 import { AppInstance, VueAppInstance, VueInstance } from './instance'
 import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { isFunction, noop, ensure } from '@tarojs/shared'
+import { isFunction, noop, ensure } from '@tencent/tarojs-shared'
 import { isBrowser } from '../env'
 
 export type V = typeof VueCtor

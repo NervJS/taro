@@ -1,4 +1,4 @@
-import { IPluginContext } from '@tarojs/service'
+import { IPluginContext } from '@tencent/tarojs-service'
 import { recursiveReplaceObjectKeys } from '../../util'
 
 export default (ctx: IPluginContext) => {
@@ -60,7 +60,7 @@ export default (ctx: IPluginContext) => {
       })
 
       // build with webpack
-      const miniRunner = await npm.getNpmPkg('@tarojs/mini-runner', appPath)
+      const miniRunner = await npm.getNpmPkg('@tencent/tarojs-mini-runner', appPath)
       await miniRunner(appPath, miniRunnerOpts)
     }
   })

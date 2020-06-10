@@ -4,8 +4,8 @@ import * as autoprefixer from 'autoprefixer'
 import * as pxtransform from 'postcss-pxtransform'
 import { sync as resolveSync } from 'resolve'
 import * as url from 'postcss-url'
-import { IPostcssOption } from '@tarojs/taro/types/compile'
-import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
+import { IPostcssOption } from '@tencent/tarojs-taro/types/compile'
+import { isNpmPkg, recursiveMerge } from '@tencent/tarojs-helper'
 
 const defaultAutoprefixerOption = {
   enable: true,

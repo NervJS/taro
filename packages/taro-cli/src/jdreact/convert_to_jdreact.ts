@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as klaw from 'klaw'
 import * as _ from 'lodash'
 
-import { processTypeEnum, printLog } from '@tarojs/helper'
+import { processTypeEnum, printLog } from '@tencent/tarojs-helper'
 
 const JDREACT_DIR = '.jdreact'
 const NATIVE_BUNDLES_DIR = 'bundle'
