@@ -24,13 +24,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: restore lerna
-      uses: actions/cache@v2
-      with:
-        path: |
-          node_modules
-          */*/node_modules
-        key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+    # - name: restore lerna
+    #   uses: actions/cache@v2
+    #   with:
+    #     path: |
+    #       node_modules
+    #       */*/node_modules
+    #     key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
