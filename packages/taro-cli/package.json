@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "env NODE_ENV=test jest",
+    "test:ci": "env NODE_ENV=test jest -i",
     "test:dev": "env NODE_ENV=test jest --watch",
     "test:coverage": "env NODE_ENV=test jest --coverage",
     "updateSnapshot": "env NODE_ENV=test jest --updateSnapshot",
