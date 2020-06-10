@@ -24,7 +24,7 @@ function replaceIdentifier (callee: NodePath<t.Node>) {
 function replaceMemberExpression (callee: NodePath<t.Node>) {
   if (callee.isMemberExpression()) {
     const object = callee.get('object')
-    if (object.isIdentifier({ name: 'wx' })) {
+    if (object.isIdentifier({ name: 'wx' }) || object.isIdentifier({ name: 'jd' })) {
       object.replaceWith(t.identifier('Taro'))
     }
   }
@@ -49,9 +49,10 @@ export function parseScript (
   const vistor: Visitor = {
     BlockStatement (path) {
       path.scope.rename('wx', 'Taro')
+      path.scope.rename('jd', 'Taro')
     },
     Identifier (path) {
-      if (path.isReferenced() && path.node.name === 'wx') {
+      if (path.isReferenced() && (path.node.name === 'wx' || path.node.name === 'jd')) {
         path.replaceWith(t.identifier('Taro'))
       }
     },

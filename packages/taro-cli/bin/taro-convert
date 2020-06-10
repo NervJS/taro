@@ -5,8 +5,14 @@ const program = require('commander')
 const Convertor = require('../dist/convertor').default
 
 program
+  .option('--type [typeName]', 'Convert type, weapp/jd')
   .parse(process.argv)
 
-const convertor = new Convertor(process.cwd())
+const { type = 'weapp' } = program
+
+const convertor = new Convertor({
+  root: process.cwd(),
+  type
+})
 
 convertor.run()

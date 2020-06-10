@@ -73,11 +73,13 @@ interface ITaroizeOptions {
   script?: string,
   wxml?: string,
   path?: string,
-  rootPath?: string
+  rootPath?: string,
+  type?: string
 }
 
 export default class Convertor {
   root: string
+  type: string
   convertRoot: string
   convertDir: string
   importsDir: string
@@ -93,12 +95,13 @@ export default class Convertor {
   entryJSON: AppConfig
   entryStyle: string
 
-  constructor (root) {
+  constructor ({ root, type }) {
     this.root = root
+    this.type = type || 'weapp'
     this.convertRoot = path.join(this.root, 'taroConvert')
     this.convertDir = path.join(this.convertRoot, 'src')
     this.importsDir = path.join(this.convertDir, 'imports')
-    this.fileTypes = MINI_APP_FILES[BUILD_TYPES.WEAPP]
+    this.fileTypes = MINI_APP_FILES[this.type]
     this.pages = new Set<string>()
     this.components = new Set<IComponent>()
     this.hadBeenCopyedFiles = new Set<string>()
@@ -245,7 +248,7 @@ export default class Convertor {
             MemberExpression (astPath) {
               const node = astPath.node
               const object = node.object
-              if (t.isIdentifier(object) && object.name === 'wx') {
+              if (t.isIdentifier(object) && (object.name === 'wx' || object.name === 'jd')) {
                 node.object = t.identifier('Taro')
                 needInsertImportTaro = true
               }
@@ -458,7 +461,8 @@ export default class Convertor {
         json: entryJSON,
         script: entryJS,
         path: this.root,
-        rootPath: this.root
+        rootPath: this.root,
+        type: this.type
       })
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
@@ -564,6 +568,7 @@ export default class Convertor {
         }
         param.path = path.dirname(pageJSPath)
         param.rootPath = this.root
+        param.type = this.type
         const taroizeResult = taroize(param)
         const { ast, scriptFiles } = this.parseAst({
           ast: taroizeResult.ast,
@@ -643,6 +648,7 @@ export default class Convertor {
         }
         param.path = path.dirname(componentJSPath)
         param.rootPath = this.root
+        param.type = this.type
         const taroizeResult = taroize(param)
         const { ast, scriptFiles } = this.parseAst({
           ast: taroizeResult.ast,

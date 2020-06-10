@@ -33,7 +33,8 @@ import {
   useImperativeHandle,
   useContext,
   createContext,
-  memo
+  memo,
+  setIsUsingDiff
 } from '@tarojs/taro'
 import { shallowEqual } from '@tarojs/utils'
 
@@ -87,7 +88,8 @@ export const Taro = {
   useContext,
   createContext,
   memo,
-  shallowEqual
+  shallowEqual,
+  setIsUsingDiff
 }
 
 export default Taro

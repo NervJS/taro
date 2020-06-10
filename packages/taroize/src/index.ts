@@ -4,17 +4,20 @@ import { parseScript } from './script'
 import { parseJSON } from './json'
 import { errors, resetGlobals, THIRD_PARTY_COMPONENTS } from './global'
 import { setting } from './utils'
+import { setTemplateType } from './constant'
 
 interface Option {
   json?: string,
   script?: string,
   wxml?: string,
   path: string
-  rootPath: string
+  rootPath: string,
+  type?: 'weapp' | 'jd'
 }
 
 export function parse (option: Option) {
   resetGlobals()
+  setTemplateType(option.type || 'weapp')
   setting.rootPath = option.rootPath
   if (option.json) {
     const config = JSON.parse(option.json)
