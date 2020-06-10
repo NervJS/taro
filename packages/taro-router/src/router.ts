@@ -15,7 +15,12 @@ export interface Route extends PageConfig {
 }
 
 export interface RouterConfig extends AppConfig {
-  routes: Route[]
+  routes: Route[],
+  router: {
+    mode: 'hash' | 'browser'
+    basename: 'string',
+    customRoutes?: Record<string, string>
+  }
 }
 
 function addLeadingSlash (path?: string) {
@@ -99,11 +104,13 @@ export function createRouter (
   init(config)
 
   const routes: Routes = []
+  const alias = config.router.customRoutes ?? {}
 
   for (let i = 0; i < config.routes.length; i++) {
     const route = config.routes[i]
+    const path = addLeadingSlash(route.path)
     routes.push({
-      path: addLeadingSlash(route.path),
+      path: alias[path] ? alias[path] : path,
       action: route.load
     })
   }
@@ -114,7 +121,10 @@ export function createRouter (
 
   const render: LocationListener<LocationState> = async (location, action) => {
     const element = await router.resolve(location.pathname)
-    const pageConfig = config.routes.find(r => addLeadingSlash(r.path) === location.pathname)
+    const pageConfig = config.routes.find(r => {
+      const path = addLeadingSlash(r.path)
+      return path === location.pathname || alias[path] === location.pathname
+    })
     let enablePullDownRefresh = false
 
     eventCenter.trigger('__taroRouterChange', {
@@ -157,7 +167,7 @@ export function createRouter (
   }
 
   if (history.location.pathname === '/') {
-    history.replace(config.pages![0])
+    history.replace(routes[0].path as string)
   }
 
   render(history.location, 'PUSH')

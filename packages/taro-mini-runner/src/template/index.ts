@@ -12,7 +12,7 @@
  * ^1: packages/taro-runtime/src/hydrate.ts
 */
 
-import { internalComponents, Shortcuts, createMiniComponents, focusComponents, isArray, capitalize } from '@tarojs/shared'
+import { internalComponents, Shortcuts, createMiniComponents, focusComponents, isArray, capitalize, toCamelCase } from '@tarojs/shared'
 import { PLATFORMS } from '@tarojs/helper'
 
 import { Adapter } from './adapters'
@@ -70,6 +70,7 @@ function buildStandardComponentTemplate (comp: Component, level: number, support
   const child = Adapter.type === PLATFORMS.SWAN && comp.nodeName === 'text'
     ? `<block>{{ i.${Shortcuts.Childnodes}[index].${Shortcuts.Text} }}</block>`
     : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${dataKeymap('i: item')}}}" />`
+  const nodeName = comp.nodeName === 'slot' || comp.nodeName === 'slot-view' ? 'view' : comp.nodeName
   const children = voidElements.has(comp.nodeName)
     ? ''
     : `
@@ -79,7 +80,7 @@ function buildStandardComponentTemplate (comp: Component, level: number, support
   `
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
-  <${comp.nodeName} ${buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}">${children}</${comp.nodeName}>
+  <${nodeName} ${buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}">${children}</${nodeName}>
 </template>
 `
 }
@@ -194,7 +195,7 @@ function buildThirdPartyAttr (attrs: Set<string>) {
       return str + `bind${attr.slice(2).toLowerCase()}="eh" `
     }
 
-    return str + `${attr}="{{ i.${attr} }}" `
+    return str + `${attr}="{{ i.${toCamelCase(attr)} }}" `
   }, '')
 }
 
