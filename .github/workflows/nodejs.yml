@@ -51,7 +51,7 @@ jobs:
     - name: lint
       run: yarn run lint
     - name: build
-      run: yarn build
+      run: yarn run build:parallel
     - name: test
       run: yarn test
       env:
