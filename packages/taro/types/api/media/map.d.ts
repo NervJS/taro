@@ -19,7 +19,7 @@ declare namespace Taro {
    * `MapContext` 通过 id 跟一个 map 组件绑定，操作对应的 map 组件。
    */
   interface MapContext {
-    /** 获取当前地图中心的经纬度。返回的是 gcj02 坐标系，可以用于 [wx.openLocation()](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html)
+    /** 获取当前地图中心的经纬度。返回的是 gcj02 坐标系，可以用于 [Taro.openLocation()](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html)
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getCenterLocation.html
      */
