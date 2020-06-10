@@ -9,7 +9,10 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [],
+  plugins: [<% if (css !== 'none') {%>
+    '@tarojs/plugin-<%= css %>',<%}%>
+    '@tarojs/plugin-terser'
+  ],
   defineConstants: {
   },
   copy: {
