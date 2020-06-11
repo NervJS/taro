@@ -67,7 +67,7 @@ export default class Index extends Component {
 }
 ```
 
-> 由于微信小程序端的限制，有极少数 JSX 的优秀用法暂时不能得到很好地支持，同时，为了遵循 React 语法，Taro 在写法上也有一些自己的规范，具体可以参考：[Taro 开发最佳实践](best-practice) 。
+> 由于微信小程序端的限制，有极少数 JSX 的优秀用法暂时不能得到很好地支持，同时，为了遵循 React 语法，Taro 在写法上也有一些自己的规范，具体可以参考：[Taro 开发最佳实践](./best-practice) 。
 
 #### 快速开发微信小程序
 
