@@ -81,7 +81,15 @@ Taro.navigateTo({
   }
 })
 ```
-
+```tsx
+被打开页面添加一个监听器，获取前一个页面传送的数据
+useEffect(()=>{
+  const eventChannel = this.$scope.getOpenerEventChannel()
+  eventChannel.on("acceptDataFromOpenerPage",(res)=>{
+    console.log(res)
+  })
+},[])
+```
 ## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
