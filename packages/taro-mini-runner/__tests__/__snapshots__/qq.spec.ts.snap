@@ -540,6 +540,7 @@ Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursive
 /* unused harmony export Block */
 /* unused harmony export MovableArea */
 /* unused harmony export MovableView */
+/* unused harmony export Slot */
 var View = 'view';
 var Icon = 'icon';
 var Progress = 'progress';
@@ -585,6 +586,7 @@ var NavigationBar = 'navigation-bar';
 var Block = 'block';
 var MovableArea = 'movable-area';
 var MovableView = 'movable-view';
+var Slot = 'slot';
 
 /***/ }),
 /* 3 */,
@@ -2671,6 +2673,7 @@ Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursive
 /* unused harmony export Block */
 /* unused harmony export MovableArea */
 /* unused harmony export MovableView */
+/* unused harmony export Slot */
 var View = 'view';
 var Icon = 'icon';
 var Progress = 'progress';
@@ -2716,6 +2719,7 @@ var NavigationBar = 'navigation-bar';
 var Block = 'block';
 var MovableArea = 'movable-area';
 var MovableView = 'movable-view';
+var Slot = 'slot';
 
 /***/ }),
 /* 3 */,

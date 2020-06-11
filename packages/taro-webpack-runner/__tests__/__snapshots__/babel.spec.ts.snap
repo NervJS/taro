@@ -659,7 +659,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+  
 
 
 
@@ -668,7 +668,7 @@ Object(_tarojs_components_loader__WEBPACK_IMPORTED_MODULE_3__[/* applyPolyfills 
   Object(_tarojs_components_loader__WEBPACK_IMPORTED_MODULE_3__[/* defineCustomElements */ \\"d\\"])(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_2__[/* window */ \\"a\\"])
 })
 
-const config = {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
+const config = {\\"router\\":{\\"mode\\":\\"hash\\",\\"customRoutes\\":{},\\"basename\\":\\"/\\"},\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 _tarojs_runtime__WEBPACK_IMPORTED_MODULE_2__[/* window */ \\"a\\"].__taroAppConfig = config
 
 if (config.tabBar) {
@@ -684,7 +684,7 @@ if (config.tabBar) {
   }
 }
 config.routes = [
-
+  
   Object.assign({
       path: 'pages/index/index',
       load: () => {
@@ -1131,197 +1131,7 @@ function toComment(sourceMap) {
   return \\"/*# \\".concat(data, \\" */\\");
 }
 
-/***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-\\"use strict\\";
-__webpack_require__.r(__webpack_exports__);
-
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/__tests__/mocks/taro-h5.ts
-/* harmony default export */ var taro_h5 = ('taro-h5-mock');
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro/h5.js
-
-
-/* harmony default export */ var h5 = (taro_h5);
-// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/classCallCheck.js
-var classCallCheck = __webpack_require__(2);
-
-// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__(3);
-
-// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(5);
-
-// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/node_modules/@babel/runtime/helpers/esm/createSuper.js + 5 modules
-var createSuper = __webpack_require__(4);
-
-// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/__tests__/mocks/react.ts
-var react = __webpack_require__(0);
-
-// EXTERNAL MODULE: ./src/app.css
-var app = __webpack_require__(7);
-
-// CONCATENATED MODULE: ./src/app.js
-
-
-
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-
-
-var app_App = /*#__PURE__*/function (_Component) {
-  Object(inherits[\\"a\\" /* default */])(App, _Component);
-
-  var _super = Object(createSuper[\\"a\\" /* default */])(App);
-
-  function App() {
-    Object(classCallCheck[\\"a\\" /* default */])(this, App);
-
-    return _super.apply(this, arguments);
-  }
-
-  Object(createClass[\\"a\\" /* default */])(App, [{
-    key: \\"componentDidMount\\",
-    value: function componentDidMount() {}
-  }, {
-    key: \\"componentDidShow\\",
-    value: function componentDidShow() {}
-  }, {
-    key: \\"componentDidHide\\",
-    value: function componentDidHide() {}
-  }, {
-    key: \\"componentDidCatchError\\",
-    value: function componentDidCatchError() {} // this.props.children 是将要会渲染的页面
-
-  }, {
-    key: \\"render\\",
-    value: function render() {
-      return this.props.children;
-    }
-  }]);
-
-  return App;
-}(react[\\"Component\\"]);
-
-/* harmony default export */ var src_app = (app_App);
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/__tests__/mocks/taro-runtime.ts
-/* harmony default export */ var taro_runtime = ('taro-runtime-mock');
-var taro_runtime_window = {};
-// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/__tests__/mocks/taro-components.ts
-var taro_components = __webpack_require__(1);
-
-// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/__tests__/mocks/taro-components.css
-var mocks_taro_components = __webpack_require__(8);
-
-// CONCATENATED MODULE: ./src/app.config.js
-
-
-
-
-
-
-
-
-
-
-Object(taro_components[\\"c\\" /* applyPolyfills */])().then(() => {
-  Object(taro_components[\\"d\\" /* defineCustomElements */])(taro_runtime_window)
-})
-
-const config = {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
-taro_runtime_window.__taroAppConfig = config
-
-if (config.tabBar) {
-  const tabbarList = config.tabBar.list
-  for (let i = 0; i < tabbarList.length; i++) {
-    const t = tabbarList[i]
-    if (t.iconPath) {
-      t.iconPath = tabbarIconPath[i]
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    var taro_h5 = \\"taro-h5-mock\\";
-    var h5 = taro_h5;
-    var classCallCheck = __webpack_require__(2);
-    var createClass = __webpack_require__(3);
-    var possibleConstructorReturn = __webpack_require__(5);
-    var getPrototypeOf = __webpack_require__(4);
-    var inherits = __webpack_require__(6);
-    var react = __webpack_require__(0);
-    var app = __webpack_require__(8);
-    var app_App = function(_Component) {
-        Object(inherits[\\"a\\"])(App, _Component);
-        function App() {
-            Object(classCallCheck[\\"a\\"])(this, App);
-            return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(App).apply(this, arguments));
-        }
-        Object(createClass[\\"a\\"])(App, [ {
-            \\"key\\": \\"componentDidMount\\",
-            \\"value\\": function componentDidMount() {}
-        }, {
-            \\"key\\": \\"componentDidShow\\",
-            \\"value\\": function componentDidShow() {}
-        }, {
-            \\"key\\": \\"componentDidHide\\",
-            \\"value\\": function componentDidHide() {}
-        }, {
-            \\"key\\": \\"componentDidCatchError\\",
-            \\"value\\": function componentDidCatchError() {}
-        }, {
-            \\"key\\": \\"render\\",
-            \\"value\\": function render() {
-                return this.props.children;
-            }
-        } ]);
-        return App;
-    }(react[\\"Component\\"]);
-    var src_app = app_App;
-    var taro_runtime = \\"taro-runtime-mock\\";
-    var taro_runtime_window = {};
-    var taro_components = __webpack_require__(1);
-    var mocks_taro_components = __webpack_require__(9);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
-    var config = {
-        \\"router\\": {
-            \\"mode\\": \\"hash\\",
-            \\"customRoutes\\": {},
-            \\"basename\\": \\"/\\"
-        },
-        \\"pages\\": [ \\"pages/index/index\\" ],
-        \\"window\\": {
-            \\"backgroundTextStyle\\": \\"light\\",
-            \\"navigationBarBackgroundColor\\": \\"#fff\\",
-            \\"navigationBarTitleText\\": \\"WeChat\\",
-            \\"navigationBarTextStyle\\": \\"black\\"
-        }
-    };
-    taro_runtime_window.__taroAppConfig = config;
-    if (config.tabBar) {
-        var tabbarList = config.tabBar.list;
-        for (let i = 0; i < tabbarList.length; i++) {
-            var t = tabbarList[i];
-            if (t.iconPath) {
-                t.iconPath = tabbarIconPath[i];
-            }
-            if (t.selectedIconPath) {
-                t.selectedIconPath = tabbarSelectedIconPath[i];
-            }
-        }
-    }
-    config.routes = [ Object.assign({
-        \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
-        }
-    }, {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    } || {}) ];
-    h5.createRouter(src_app, config, \\"react\\", react, react[\\"default\\"], config);
-} ]);
+/***/ })
+/******/ ]);
 "
 `;

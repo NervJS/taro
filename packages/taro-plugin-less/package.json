@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-less",
-  "version": "3.0.0-rc.3",
+  "version": "3.0.0-rc.4",
   "description": "Taro webpack less config plugin",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,8 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runner-utils": "3.0.0-rc.3",
-    "@tarojs/service": "3.0.0-rc.3",
+    "@tarojs/runner-utils": "3.0.0-rc.4",
+    "@tarojs/service": "3.0.0-rc.4",
     "less": "3.11.1",
     "less-loader": "6.1.0"
   }

@@ -956,6 +956,7 @@ __webpack_require__.r(__webpack_exports__);
 /* unused harmony export Block */
 /* unused harmony export MovableArea */
 /* unused harmony export MovableView */
+/* unused harmony export Slot */
 var View = 'view';
 var Icon = 'icon';
 var Progress = 'progress';
@@ -1001,6 +1002,7 @@ var NavigationBar = 'navigation-bar';
 var Block = 'block';
 var MovableArea = 'movable-area';
 var MovableView = 'movable-view';
+var Slot = 'slot';
 
 /***/ }),
 /* 2 */
@@ -3961,6 +3963,7 @@ __webpack_require__.r(__webpack_exports__);
 /* unused harmony export Block */
 /* unused harmony export MovableArea */
 /* unused harmony export MovableView */
+/* unused harmony export Slot */
 var View = 'view';
 var Icon = 'icon';
 var Progress = 'progress';
@@ -4006,6 +4009,7 @@ var NavigationBar = 'navigation-bar';
 var Block = 'block';
 var MovableArea = 'movable-area';
 var MovableView = 'movable-view';
+var Slot = 'slot';
 
 /***/ }),
 /* 2 */
@@ -6966,6 +6970,7 @@ __webpack_require__.r(__webpack_exports__);
 /* unused harmony export Block */
 /* unused harmony export MovableArea */
 /* unused harmony export MovableView */
+/* unused harmony export Slot */
 var View = 'view';
 var Icon = 'icon';
 var Progress = 'progress';
@@ -7011,6 +7016,7 @@ var NavigationBar = 'navigation-bar';
 var Block = 'block';
 var MovableArea = 'movable-area';
 var MovableView = 'movable-view';
+var Slot = 'slot';
 
 /***/ }),
 /* 2 */

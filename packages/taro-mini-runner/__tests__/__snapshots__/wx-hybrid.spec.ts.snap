@@ -1021,6 +1021,7 @@ var Index = /*#__PURE__*/function (_React$Component) {
 /* unused harmony export Block */
 /* unused harmony export MovableArea */
 /* unused harmony export MovableView */
+/* unused harmony export Slot */
 const View = 'view'
 const Icon = 'icon'
 const Progress = 'progress'
@@ -1066,6 +1067,7 @@ const NavigationBar = 'navigation-bar'
 const Block = 'block'
 const MovableArea = 'movable-area'
 const MovableView = 'movable-view'
+const Slot = 'slot'
 
 
 /***/ }),

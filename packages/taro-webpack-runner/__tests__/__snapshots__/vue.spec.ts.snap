@@ -47,7 +47,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   null,
   null,
   null
-
+  
 )
 
 /* hot reload */
@@ -62,7 +62,7 @@ component.options.__file = \\"src/pages/index/index.vue\\"
 
 \\"use strict\\";
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_5_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
- /* harmony default export */ __webpack_exports__[\\"a\\"] = (_node_modules_babel_loader_lib_index_js_ref_5_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"]);
+ /* harmony default export */ __webpack_exports__[\\"a\\"] = (_node_modules_babel_loader_lib_index_js_ref_5_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"]); 
 
 /***/ }),
 /* 17 */
@@ -178,7 +178,7 @@ render._withStripped = true
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a);
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 /* 23 */
@@ -201,7 +201,7 @@ module.exports = exports;
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a);
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_postcss_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 /* 25 */
@@ -221,49 +221,7 @@ module.exports = exports;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
-__webpack_require__.r(__webpack_exports__);
-
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!/Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/node_modules/vue-loader/lib??vue-loader-options!./src/pages/index/index.vue?vue&type=template&id=1badc801&
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    \\"taro-view\\",
-    { staticClass: \\"index\\" },
-    [_c(\\"taro-text\\", [_vm._v(_vm._s(_vm.msg))])],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-// CONCATENATED MODULE: ./src/pages/index/index.vue?vue&type=template&id=1badc801&
-
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/node_modules/babel-loader/lib??ref--5-0!/Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/node_modules/vue-loader/lib??vue-loader-options!./src/pages/index/index.vue?vue&type=script&lang=js&
-//
-//
-//
-//
-//
-//
-/* harmony default export */ var indexvue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      msg: 'Hello world!'
-    };
-  }
-});
-// CONCATENATED MODULE: ./src/pages/index/index.vue?vue&type=script&lang=js&
- /* harmony default export */ var pages_indexvue_type_script_lang_js_ = (indexvue_type_script_lang_js_);
-// EXTERNAL MODULE: ./src/pages/index/index.vue?vue&type=style&index=0&lang=css&
-var indexvue_type_style_index_0_lang_css_ = __webpack_require__(11);
-
-// EXTERNAL MODULE: ./src/pages/index/index.vue?vue&type=style&index=1&lang=css&
-var indexvue_type_style_index_1_lang_css_ = __webpack_require__(13);
-
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/node_modules/vue-loader/lib/runtime/componentNormalizer.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return normalizeComponent; });
 /* globals __VUE_SSR_CONTEXT__ */
 
 // IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
@@ -358,31 +316,6 @@ function normalizeComponent (
   }
 }
 
-// CONCATENATED MODULE: ./src/pages/index/index.vue
-
-
-
-
-
-
-
-/* normalize component */
-
-var component = normalizeComponent(
-  pages_indexvue_type_script_lang_js_,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  null,
-  null
-
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = \\"src/pages/index/index.vue\\"
-/* harmony default export */ var index = __webpack_exports__[\\"default\\"] = (component.exports);
 
 /***/ })
 ]]);
@@ -1084,7 +1017,7 @@ Object(_tarojs_components_loader__WEBPACK_IMPORTED_MODULE_3__[/* applyPolyfills 
   Object(_tarojs_components_loader__WEBPACK_IMPORTED_MODULE_3__[/* defineCustomElements */ \\"b\\"])(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_2__[/* window */ \\"a\\"])
 })
 
-const config = {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
+const config = {\\"router\\":{\\"mode\\":\\"hash\\",\\"customRoutes\\":{},\\"basename\\":\\"/\\"},\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 _tarojs_runtime__WEBPACK_IMPORTED_MODULE_2__[/* window */ \\"a\\"].__taroAppConfig = config
 
 if (config.tabBar) {
@@ -1100,7 +1033,7 @@ if (config.tabBar) {
   }
 }
 config.routes = [
-
+  
   Object.assign({
       path: 'pages/index/index',
       load: () => {
@@ -1205,154 +1138,7 @@ exports.push([module.i, \\"\\", \\"\\"]);
 module.exports = exports;
 
 
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-\\"use strict\\";
-__webpack_require__.r(__webpack_exports__);
-
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/__tests__/mocks/taro-h5.ts
-/* harmony default export */ var taro_h5 = ('taro-h5-mock');
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro/h5.js
-
-
-/* harmony default export */ var h5 = (taro_h5);
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/__tests__/mocks/vue.ts
-/* harmony default export */ var vue = ('vue-mock');
-// EXTERNAL MODULE: ./src/app.css
-var app = __webpack_require__(3);
-
-// CONCATENATED MODULE: ./src/app.js
-
-
-var App = new vue({
-  onShow: function onShow() {},
-  render: function render(h) {
-    // this.$slots.default 是将要会渲染的页面
-    return h('block', this.$slots.default);
-  }
-});
-/* harmony default export */ var src_app = (App);
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/__tests__/mocks/taro-runtime.ts
-/* harmony default export */ var taro_runtime = ('taro-runtime-mock');
-var taro_runtime_window = {};
-// CONCATENATED MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/__tests__/mocks/taro-components.ts
-/* harmony default export */ var taro_components = ('taro-components-mock');
-function defineCustomElements() {}
-function applyPolyfills() {}
-// EXTERNAL MODULE: /Users/luckyadam/Dev/jdc/taro/packages/taro-webpack-runner/__tests__/mocks/taro-components.css
-var mocks_taro_components = __webpack_require__(5);
-
-// CONCATENATED MODULE: ./src/app.config.js
-
-
-
-
-
-
-
-
-
-
-
-applyPolyfills().then(() => {
-  defineCustomElements(taro_runtime_window)
-})
-
-const config = {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
-taro_runtime_window.__taroAppConfig = config
-
-if (config.tabBar) {
-  const tabbarList = config.tabBar.list
-  for (let i = 0; i < tabbarList.length; i++) {
-    const t = tabbarList[i]
-    if (t.iconPath) {
-      t.iconPath = tabbarIconPath[i]
-    }
-    var options = {};
-    options.insert = function insertAtTop(element) {
-        const parent = document.querySelector(\\"head\\");
-        if (parent) {
-            const lastInsertedElement = window._lastElementInsertedByStyleLoader;
-            if (!lastInsertedElement) {
-                parent.insertBefore(element, parent.firstChild);
-            } else if (lastInsertedElement.nextSibling) {
-                parent.insertBefore(element, lastInsertedElement.nextSibling);
-            } else {
-                parent.appendChild(element);
-            }
-            window._lastElementInsertedByStyleLoader = element;
-        }
-    };
-    options.singleton = false;
-    var update = api(content, options);
-    var exported = content.locals ? content.locals : {};
-    module.exports = exported;
-}, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(1);
-    exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\"\\", \\"\\" ]);
-    module.exports = exports;
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    var taro_h5 = \\"taro-h5-mock\\";
-    var h5 = taro_h5;
-    var vue = \\"vue-mock\\";
-    var app = __webpack_require__(3);
-    var App = new vue({
-        \\"onShow\\": function onShow() {},
-        \\"render\\": function render(h) {
-            return h(\\"block\\", this.$slots.default);
-        }
-    });
-    var src_app = App;
-    var taro_runtime = \\"taro-runtime-mock\\";
-    var taro_runtime_window = {};
-    var taro_components = \\"taro-components-mock\\";
-    function defineCustomElements() {}
-    function applyPolyfills() {}
-    var mocks_taro_components = __webpack_require__(5);
-    applyPolyfills().then((function() {
-        defineCustomElements(taro_runtime_window);
-    }));
-    var config = {
-        \\"router\\": {
-            \\"mode\\": \\"hash\\",
-            \\"customRoutes\\": {},
-            \\"basename\\": \\"/\\"
-        },
-        \\"pages\\": [ \\"pages/index/index\\" ],
-        \\"window\\": {
-            \\"backgroundTextStyle\\": \\"light\\",
-            \\"navigationBarBackgroundColor\\": \\"#fff\\",
-            \\"navigationBarTitleText\\": \\"WeChat\\",
-            \\"navigationBarTextStyle\\": \\"black\\"
-        }
-    };
-    taro_runtime_window.__taroAppConfig = config;
-    if (config.tabBar) {
-        var tabbarList = config.tabBar.list;
-        for (let i = 0; i < tabbarList.length; i++) {
-            var t = tabbarList[i];
-            if (t.iconPath) {
-                t.iconPath = tabbarIconPath[i];
-            }
-            if (t.selectedIconPath) {
-                t.selectedIconPath = tabbarSelectedIconPath[i];
-            }
-        }
-    }
-    config.routes = [ Object.assign({
-        \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
-        }
-    }, {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    } || {}) ];
-    h5.createRouter(src_app, config, \\"vue\\", vue, config);
-} ]);
+/***/ })
+/******/ ]);
 "
 `;
