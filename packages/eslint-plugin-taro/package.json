@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-taro",
-  "version": "3.0.0-rc.3",
+  "version": "3.0.0-rc.4",
   "description": "Taro specific linting plugin for ESLint",
   "main": "index.js",
   "files": [

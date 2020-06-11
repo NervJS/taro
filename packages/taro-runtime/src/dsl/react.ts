@@ -8,6 +8,12 @@ import { document } from '../bom/document'
 import { injectPageInstance } from './common'
 import { isBrowser } from '../env'
 
+function isClassComponent (R: typeof React, component): boolean {
+  return isFunction(component.render) ||
+  !!component.prototype?.isReactComponent ||
+  component.prototype instanceof R.Component // compat for some others react-like library
+}
+
 export function connectReactPage (
   R: typeof React,
   id: string
@@ -15,9 +21,7 @@ export function connectReactPage (
   const h = R.createElement
   return (component: ReactPageComponent): React.ComponentClass<PageProps> => {
     // eslint-disable-next-line dot-notation
-    const isReactComponent = isFunction(component['render']) ||
-      !!component.prototype?.isReactComponent ||
-      component.prototype instanceof R.Component // compat for some others react-like library
+    const isReactComponent = isClassComponent(R, component)
 
     const inject = (node?: Instance) => node && injectPageInstance(node, id)
     const refs = isReactComponent ? { ref: inject } : { forwardedRef: inject }
@@ -83,6 +87,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
 
   const ref = R.createRef<ReactAppInstance>()
+  const isReactComponent = isClassComponent(R, App)
 
   let wrapper: AppWrapper
 
@@ -115,9 +120,15 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         this.elements.push(page())
       }
 
+      let props: React.Props<any> | null = null
+
+      if (isReactComponent) {
+        props = { ref }
+      }
+
       return R.createElement(
         App,
-        { ref },
+        props,
         isBrowser ? R.createElement('div', null, this.elements.slice()) : this.elements.slice()
       )
     }

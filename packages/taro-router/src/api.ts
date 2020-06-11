@@ -8,27 +8,51 @@ interface Option {
   complete?: Function
 }
 
-// TODO: 传递 success, fail, complete
+function navigate (option: Option, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
+  const { url, success, complete, fail } = option
+  let failReason
+  try {
+    if (method === 'navigateTo') {
+      history.push(url)
+    } else if (method === 'redirectTo') {
+      history.replace(url)
+    } else if (method === 'navigateBack') {
+      history.goBack()
+    }
+  } catch (error) {
+    failReason = error
+  }
+  return new Promise((resolve, reject) => {
+    if (failReason) {
+      fail && fail(failReason)
+      complete && complete()
+      reject(failReason)
+    } else {
+      success && success()
+      complete && complete()
+      resolve()
+    }
+  })
+}
+
 export function navigateTo (option: Option) {
-  const { url } = option
-  history.push(url)
+  return navigate(option, 'navigateTo')
 }
 
 export function redirectTo (option: Option) {
-  const { url } = option
-  history.replace(url)
+  return navigate(option, 'redirectTo')
 }
 
-export function navigateBack (_: Option) {
-  history.goBack()
+export function navigateBack (options: Option) {
+  return navigate(options, 'navigateBack')
 }
 
 export function switchTab (option: Option) {
-  navigateTo(option)
+  return navigateTo(option)
 }
 
 export function reLaunch (option: Option) {
-  redirectTo(option)
+  return redirectTo(option)
 }
 
 export function getCurrentPages () {
