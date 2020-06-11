@@ -14,7 +14,8 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "jest --collectCoverage"
+    "test": "jest --collectCoverage",
+    "test:ci": "jest --i --coverage false"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
