@@ -27,7 +27,8 @@ module.exports = {
     'no-prototype-builtins': 0,
     'react/jsx-uses-vars': 'warn',
     'react/prop-types': 0,
-    'react/no-find-dom-node': 0
+    'react/no-find-dom-node': 0,
+    'no-unused-expressions': 0
     // 'camelcase': ['error', {allow: ['^internal_', '^unstable_']}]
   },
   'env': {

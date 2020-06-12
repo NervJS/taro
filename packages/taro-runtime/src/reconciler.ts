@@ -1,15 +1,19 @@
 import type { TaroElement } from './dom/element'
 import type { TaroText } from './dom/text'
-import type { DataTree } from './dom/node'
+import type { DataTree, TaroNode } from './dom/node'
 import type { TaroRootElement } from './dom/root'
 import type { PageInstance } from './dsl/instance'
 
-export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = TaroText> {
-  appendChild?(parent: DOMElement, child: DOMElement | TextElement): void
+export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = TaroText, DOMNode = TaroNode> {
+  appendChild?(parent: DOMNode, child: DOMNode | TextElement): void
 
-  removeChild?(parent: DOMElement, child: DOMElement | TextElement): void
+  removeChild?(parent: DOMNode, child: DOMNode | TextElement, oldChild: DOMNode | TextElement): void
 
-  insertBefore?(parent: DOMElement, child: DOMElement | TextElement, refChild: DOMElement | TextElement): void
+  insertBefore?(parent: DOMNode, child: DOMNode | TextElement, refChild?: DOMNode | TextElement | null): void
+
+  removeAttribute?(element: DOMElement, qualifiedName: string): void
+
+  setAttribute?(element: DOMElement, qualifiedName: string, value: unknown): void
 
   prepareUpdateData?(data: DataTree, page: TaroRootElement): DataTree
 

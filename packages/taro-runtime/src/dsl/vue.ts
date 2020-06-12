@@ -3,13 +3,14 @@ import type { ComponentOptions, VueConstructor, VNode } from 'vue'
 import type VueCtor from 'vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { AppConfig } from '@tarojs/taro'
-import { AppInstance, VueAppInstance, VueInstance, PageInstance, ReactPageComponent } from './instance'
+import type { AppInstance, VueAppInstance, VueInstance } from './instance'
 import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { isFunction, noop, ensure } from '@tarojs/shared'
+import { isFunction, noop, ensure, capitalize, toCamelCase, internalComponents, hasOwn } from '@tarojs/shared'
 import { isBrowser } from '../env'
 import { options } from '../options'
+import { isBooleanLiteral } from 'babel-types'
 
 export type V = typeof VueCtor
 
@@ -51,6 +52,19 @@ function setReconciler () {
   options.reconciler<VueInstance>({
     getLifecyle (instance, lifecycle) {
       return instance.$options[lifecycle]
+    },
+    removeAttribute (dom, qualifiedName) {
+      const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
+      if (
+        compName in internalComponents &&
+        hasOwn(internalComponents[compName], qualifiedName) &&
+        isBooleanLiteral(internalComponents[compName][qualifiedName])
+      ) {
+        // avoid attribute being removed because set false value in vue
+        dom.setAttribute(qualifiedName, false)
+      } else {
+        delete dom.props[qualifiedName]
+      }
     }
   })
 }
