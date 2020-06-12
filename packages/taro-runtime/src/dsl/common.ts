@@ -12,7 +12,7 @@ import { PAGE_INIT } from '../constants'
 import { isBrowser } from '../env'
 import { eventCenter } from '../emitter/emitter'
 import { raf } from '../bom/raf'
-import { options } from '../options'
+import { CurrentReconciler } from '../reconciler'
 
 const instances = new Map<string, Instance>()
 
@@ -40,7 +40,7 @@ function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unkn
     return
   }
 
-  const func = options.UNSAFE_getFrameworkLifecycle(instance, lifecycle)
+  const func = CurrentReconciler.getLifecyle(instance, lifecycle)
 
   if (isArray(func)) {
     for (let i = 0; i < func.length; i++) {

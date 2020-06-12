@@ -3,12 +3,13 @@ import type { ComponentOptions, VueConstructor, VNode } from 'vue'
 import type VueCtor from 'vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { AppConfig } from '@tarojs/taro'
-import { AppInstance, VueAppInstance, VueInstance } from './instance'
+import { AppInstance, VueAppInstance, VueInstance, PageInstance, ReactPageComponent } from './instance'
 import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
 import { isFunction, noop, ensure } from '@tarojs/shared'
 import { isBrowser } from '../env'
+import { options } from '../options'
 
 export type V = typeof VueCtor
 
@@ -46,11 +47,21 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
   }
 }
 
+function setReconciler () {
+  options.reconciler<VueInstance>({
+    getLifecyle (instance, lifecycle) {
+      return instance.$options[lifecycle]
+    }
+  })
+}
+
 let Vue
 
 export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
   Vue = vue
   ensure(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
+
+  setReconciler()
 
   Vue.config.getTagNamespace = noop
 

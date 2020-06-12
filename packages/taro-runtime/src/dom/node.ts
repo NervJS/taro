@@ -16,6 +16,7 @@ export interface UpdatePayload {
 }
 
 export type UpdatePayloadValue = string | boolean | HydratedData
+export type DataTree = Record<string, UpdatePayloadValue | ReturnType<HydratedData>>
 
 export class TaroNode extends TaroEventTarget {
   public nodeType: NodeType

@@ -1,9 +1,9 @@
 import { TaroText } from './dom/text'
 import { Text, Element } from './dom/html/parser'
 import { TaroElement } from './dom/element'
-import { PageInstance } from './dsl/instance'
+import { Reconciler, CurrentReconciler } from './reconciler'
 
-interface Options<T> {
+export interface Options {
   prerender: boolean
   debug: boolean
   html: {
@@ -13,10 +13,10 @@ interface Options<T> {
     transformText?: (taroText: TaroText, text: Text) => TaroText
     transformElement?: (taroElement: TaroElement, element: Element) => TaroElement
   },
-  UNSAFE_getFrameworkLifecycle: (instance: T, lifecyle: keyof PageInstance) => Function | undefined | Array<Function>
+  reconciler: (reconciler: Reconciler<any>) => void
 }
 
-export const options: Options<any> = {
+export const options = {
   prerender: true,
   debug: false,
   // html 只影响 Element#innerHTML API
@@ -32,16 +32,7 @@ export const options: Options<any> = {
       'thead', 'th', 'tbody', 'tr', 'td', 'tfoot', 'colgroup'
     ])
   },
-  UNSAFE_getFrameworkLifecycle (instance, lifecycle: keyof PageInstance) {
-    const isReact = process.env.FRAMEWORK !== 'vue' // isReact means all kind of react-like library
-    if (isReact) {
-      if (lifecycle === 'onShow') {
-        lifecycle = 'componentDidShow'
-      } else if (lifecycle === 'onHide') {
-        lifecycle = 'componentDidHide'
-      }
-    }
-
-    return isReact ? instance[lifecycle] : instance.$options[lifecycle]
+  reconciler<T> (reconciler: Reconciler<T>) {
+    Object.assign(CurrentReconciler, reconciler)
   }
 }

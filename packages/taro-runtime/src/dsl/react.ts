@@ -3,10 +3,11 @@ import type * as React from 'react'
 import type { AppConfig } from '@tarojs/taro'
 import { isFunction, ensure, EMPTY_OBJ } from '@tarojs/shared'
 import { Current } from '../current'
-import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance } from './instance'
+import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance, ReactPageInstance } from './instance'
 import { document } from '../bom/document'
 import { injectPageInstance } from './common'
 import { isBrowser } from '../env'
+import { options } from '../options'
 
 function isClassComponent (R: typeof React, component): boolean {
   return isFunction(component.render) ||
@@ -81,6 +82,19 @@ let ReactDOM
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
+function setReconciler () {
+  options.reconciler<ReactPageInstance>({
+    getLifecyle (instance, lifecycle) {
+      if (lifecycle === 'onShow') {
+        lifecycle = 'componentDidShow'
+      } else if (lifecycle === 'onHide') {
+        lifecycle = 'componentDidHide'
+      }
+      return instance[lifecycle] as Function
+    }
+  })
+}
+
 export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfig) {
   R = react
   ReactDOM = reactdom
@@ -88,6 +102,8 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
 
   const ref = R.createRef<ReactAppInstance>()
   const isReactComponent = isClassComponent(R, App)
+
+  setReconciler()
 
   let wrapper: AppWrapper
 
