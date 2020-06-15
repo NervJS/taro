@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taroize",
-  "version": "1.3.44",
+  "version": "1.3.45",
   "description": "转换原生微信小程序代码为 Taro 代码",
   "main": "index.js",
   "files": [
