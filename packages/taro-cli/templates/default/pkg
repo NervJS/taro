@@ -51,7 +51,7 @@
   "devDependencies": {
     "@types/react": "^16.4.6",
     "@types/webpack-env": "^1.13.6",
-    "@tarojs/mini-runner": "<%= version %>",
+    "@tarojs/mini-runner": "<%= version %>",<% if (css !== 'none') {%>
     "@tarojs/plugin-<%= css %>": "<%= version %>",<%}%>
     "@tarojs/plugin-terser": "<%= version %>",
     "@tarojs/webpack-runner": "<%= version %>",
