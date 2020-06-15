@@ -1,5 +1,8 @@
-.swiper-container {
+.swiper-container-wrapper {
     height: 150px;
+}
+.swiper-container {
+    height: 100%;
 }
 .swiper-pagination {
     font-size: 0;
