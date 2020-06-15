@@ -7,7 +7,7 @@ export default function (this: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(this, s)
   // raw is a placeholder loader to locate changed .vue resource
   const raw = path.join(__dirname, 'raw.js')
-  const componentPath = options.framework === 'vue'
+  const componentPath = options.framework === 'vue' || options.framework === 'vue3'
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(1).join('!')
   const prerender = `
