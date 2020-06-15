@@ -2,7 +2,7 @@
 import UniversalRouter, { Routes } from 'universal-router'
 import { AppConfig, PageConfig } from '@tarojs/taro'
 import { LocationListener, LocationState } from 'history'
-import { createReactApp, createPageConfig, Current, createVueApp, PageInstance, eventCenter, CurrentReconciler } from '@tarojs/runtime'
+import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance } from '@tarojs/runtime'
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
@@ -94,11 +94,9 @@ function loadPage (page: PageInstance | null) {
 }
 
 export function createRouter (
-  App,
+  app: AppInstance,
   config: RouterConfig,
-  type: 'react' | 'vue' | 'nerv',
-  framework,
-  reactdom
+  framework
 ) {
   init(config)
 
@@ -115,7 +113,6 @@ export function createRouter (
   }
 
   const router = new UniversalRouter(routes)
-  const app = type === 'vue' ? createVueApp(App, framework, config) : createReactApp(App, framework, reactdom, config)
   app.onLaunch!()
 
   const render: LocationListener<LocationState> = async (location, action) => {
