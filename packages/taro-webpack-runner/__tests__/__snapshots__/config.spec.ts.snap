@@ -762,7 +762,9 @@ exports[`config should build from origin and pipe to output 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5.createRouter(origin_app, config, \\"nerv\\", nerv, nerv, config);
+    var inst = undefined(origin_app, nerv, nerv, config);
+    console.log(\\"fuckyou\\");
+    undefined(inst, config, nerv);
 } ]);
 "
 `;
@@ -1533,7 +1535,9 @@ I m irrelevant.
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5.createRouter(origin_app, config, \\"nerv\\", nerv, nerv, config);
+    var inst = undefined(origin_app, nerv, nerv, config);
+    console.log(\\"fuckyou\\");
+    undefined(inst, config, nerv);
 } ]);
 
 /** filePath: dist/weapp/index.wxml **/
@@ -2304,7 +2308,9 @@ exports[`config should resolved alias 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5.createRouter(origin_app, config, \\"nerv\\", nerv, nerv, config);
+    var inst = undefined(origin_app, nerv, nerv, config);
+    console.log(\\"fuckyou\\");
+    undefined(inst, config, nerv);
 } ]);
 
 /** filePath: dist/js/extra.js **/

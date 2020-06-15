@@ -779,7 +779,9 @@ exports[`css modules should use css modules with global mode 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5.createRouter(src_app, config, \\"react\\", react, react[\\"default\\"], config);
+    var inst = undefined(src_app, react, react[\\"default\\"], config);
+    console.log(\\"fuckyou\\");
+    undefined(inst, config, react);
 } ]);
 "
 `;
@@ -1559,7 +1561,9 @@ exports[`css modules should use css modules with module mode 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5.createRouter(src_app, config, \\"react\\", react, react[\\"default\\"], config);
+    var inst = undefined(src_app, react, react[\\"default\\"], config);
+    console.log(\\"fuckyou\\");
+    undefined(inst, config, react);
 } ]);
 "
 `;

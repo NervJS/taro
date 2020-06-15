@@ -679,7 +679,9 @@ exports[`vue should build vue app 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5.createRouter(src_app, config, \\"vue\\", vue, config);
+    var inst = undefined(src_app, vue, config);
+    console.log(\\"fuckyou\\");
+    undefined(inst, config, vue);
 } ]);
 "
 `;

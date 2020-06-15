@@ -97,7 +97,7 @@ exports[`subpackages should process subpackages 2`] = `
                         \\"className\\": \\"index\\"
                     }, react__WEBPACK_IMPORTED_MODULE_5__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__[\\"Text\\"], {
                         \\"onClick\\": function onClick() {
-                            _tarojs_taro__WEBPACK_IMPORTED_MODULE_7__[\\"a\\"].navigateTo({
+                            _tarojs_taro__WEBPACK_IMPORTED_MODULE_7__[\\"b\\"].navigateTo({
                                 \\"url\\": \\"/packageA/detail/index\\"
                             });
                         }
@@ -447,7 +447,7 @@ exports[`subpackages should process subpackages 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     var taro_h5 = \\"taro-h5-mock\\";
-    var h5 = __webpack_exports__[\\"a\\"] = taro_h5;
+    var h5 = __webpack_exports__[\\"b\\"] = taro_h5;
 }, function(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(14);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
@@ -836,7 +836,9 @@ exports[`subpackages should process subpackages 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"详情页\\"
     } || {}) ];
-    h5[\\"a\\"].createRouter(src_app, config, \\"react\\", react, react[\\"default\\"], config);
+    var inst = undefined(src_app, react, react[\\"default\\"], config);
+    console.log(\\"fuckyou\\");
+    Object(h5[\\"createRouter\\"])(inst, config, react);
 } ]);
 "
 `;
