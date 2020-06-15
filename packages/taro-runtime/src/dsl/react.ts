@@ -83,7 +83,7 @@ let ReactDOM
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
 function setReconciler () {
-  options.reconciler<ReactPageInstance>({
+  options.reconciler({
     getLifecyle (instance, lifecycle) {
       if (lifecycle === 'onShow') {
         lifecycle = 'componentDidShow'

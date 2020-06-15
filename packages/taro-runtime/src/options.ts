@@ -16,7 +16,7 @@ export interface Options {
   reconciler: (reconciler: Reconciler<any>) => void
 }
 
-export const options = {
+export const options: Options = {
   prerender: true,
   debug: false,
   // html 只影响 Element#innerHTML API

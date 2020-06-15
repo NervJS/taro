@@ -49,7 +49,7 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
 }
 
 function setReconciler () {
-  options.reconciler<VueInstance>({
+  options.reconciler({
     getLifecyle (instance, lifecycle) {
       return instance.$options[lifecycle]
     },
