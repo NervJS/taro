@@ -1,5 +1,7 @@
 import { Kernel } from '@tarojs/service'
 
+import { getPkgVersion } from '../util'
+
 export default function customCommand (
   command: string,
   kernel: Kernel,
@@ -18,7 +20,8 @@ export default function customCommand (
       opts: {
         _: args._,
         options,
-        isHelp: args.h
+        isHelp: args.h,
+        cliVersion: getPkgVersion()
       }
     })
   }

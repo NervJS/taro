@@ -25,6 +25,7 @@ export interface IPaths {
 
 export interface IPlugin {
   id: string
+  name: string
   path: string
   opts: any
   type: PluginType
@@ -58,5 +59,5 @@ export interface IFileType {
 
 export interface IPlatform extends IHook {
   fileType: IFileType
-  useConfigName: String
+  useConfigName: string
 }

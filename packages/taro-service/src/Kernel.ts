@@ -188,6 +188,7 @@ export default class Kernel extends EventEmitter {
     const kernelApis = [
       'appPath',
       'plugins',
+      'platforms',
       'paths',
       'helper',
       'runOpts',

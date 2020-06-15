@@ -1,7 +1,7 @@
-import * as path from 'path';
+import * as path from 'path'
 import { get, mapValues, merge } from 'lodash'
 
-import { addTrailingSlash, emptyObj } from '../util';
+import { addTrailingSlash, emptyObj } from '../util'
 import {
   getCopyWebpackPlugin,
   getCssoWebpackPlugin,
@@ -13,12 +13,10 @@ import {
   getOutput,
   getUglifyPlugin,
   processEnvOption
-} from '../util/chain';
-import { BuildConfig } from '../util/types';
-import getBaseChain from './base.conf';
+} from '../util/chain'
+import { BuildConfig } from '../util/types'
 
-export default function (appPath: string, config: Partial<BuildConfig>): any {
-  const chain = getBaseChain(appPath)
+export default function (appPath: string, config: Partial<BuildConfig>, chain: any): any {
   const {
     alias = emptyObj,
     copy,
@@ -41,9 +39,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     env = emptyObj,
     styleLoaderOption = emptyObj,
     cssLoaderOption = emptyObj,
-    sassLoaderOption = emptyObj,
-    lessLoaderOption = emptyObj,
-    stylusLoaderOption = emptyObj,
     mediaUrlLoaderOption = emptyObj,
     fontUrlLoaderOption = emptyObj,
     imageUrlLoaderOption = emptyObj,
@@ -111,7 +106,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     ]))
   }
 
-  chain.merge({
+  return {
     mode,
     devtool: getDevtool({ enableSourceMap, sourceMapType }),
     entry,
@@ -129,9 +124,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
       styleLoaderOption,
       cssLoaderOption,
-      lessLoaderOption,
-      sassLoaderOption,
-      stylusLoaderOption,
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
@@ -140,7 +132,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       postcss,
       babel,
       staticDirectory
-    }),
+    }, chain),
     plugin,
     optimization: {
       minimizer,
@@ -148,6 +140,5 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
         name: false
       }
     }
-  })
-  return chain
+  }
 }

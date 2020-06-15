@@ -915,7 +915,7 @@ export default class MiniPlugin {
   }
 
   async generateMiniFiles (compilation: webpack.compilation.Compilation, commonStyles: Set<string>) {
-    const { isBuildQuickapp, fileType, buildAdapter, commonChunks, modifyBuildTempFileContent, modifyBuildAssets } = this.options
+    const { isBuildQuickapp, fileType, buildAdapter, commonChunks, modifyBuildTempFileContent, modifyBuildAssets, isBuildPlugin } = this.options
     if (typeof modifyBuildTempFileContent === 'function') {
       await modifyBuildTempFileContent(taroFileTypeMap)
     }
@@ -1069,6 +1069,20 @@ export default class MiniPlugin {
         }
       }
     })
+    if (isBuildPlugin) {
+      const pluginJSONPath = path.join(this.sourceDir, 'plugin', 'plugin.json')
+      if (pluginJSONPath) {
+        const pluginJSON = fs.readJSONSync(pluginJSONPath)
+        if (pluginJSON.main) {
+          pluginJSON.main = path.basename(pluginJSON.main, path.extname(pluginJSON.main)) + '.js'
+        }
+        const relativePath = this.getRelativePath(pluginJSONPath).replace(/\\/g, '/')
+        compilation.assets[relativePath] = {
+          size: () => JSON.stringify(pluginJSON).length,
+          source: () => JSON.stringify(pluginJSON)
+        }
+      }
+    }
     if (typeof modifyBuildAssets === 'function') {
       await modifyBuildAssets(compilation.assets)
     }

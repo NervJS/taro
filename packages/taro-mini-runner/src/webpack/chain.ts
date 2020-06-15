@@ -4,16 +4,11 @@ import * as path from 'path'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as sass from 'node-sass'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
-  REG_SASS,
-  REG_LESS,
-  REG_STYLUS,
   REG_STYLE,
   REG_MEDIA,
   REG_FONT,
@@ -31,16 +26,6 @@ import { getPostcssPlugins } from './postcss.conf'
 import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption } from '../utils/types'
 
-const defaultUglifyJsOption = {
-  keep_fnames: true,
-  output: {
-    comments: false,
-    keep_quoted_props: true,
-    quote_keys: true,
-    beautify: false
-  },
-  warnings: false
-}
 const defaultCSSCompressOption = {
   mergeRules: false,
   mergeIdents: false,
@@ -91,16 +76,10 @@ export const mergeOption = ([...options]: IOption[]): IOption => {
   return recursiveMerge({}, ...options)
 }
 
-const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
-const styleGlobalReg = /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/
-
 export const processEnvOption = partial(mapKeys as any, (key: string) => `process.env.${key}`) as any
 
 export const getCssLoader = pipe(mergeOption, partial(getLoader, 'css-loader'))
 export const getPostcssLoader = pipe(mergeOption, partial(getLoader, 'postcss-loader'))
-export const getSassLoader = pipe(mergeOption, partial(getLoader, 'sass-loader'))
-export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader'))
-export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/wxTransformerLoader')))
@@ -118,14 +97,6 @@ const getQuickappStyleLoader = () => {
 }
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
 export const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
-export const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
-  return new UglifyJsPlugin({
-    cache: true,
-    parallel: true,
-    sourceMap: enableSourceMap,
-    uglifyOptions: recursiveMerge({}, defaultUglifyJsOption, uglifyOptions)
-  })
-}
 export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(listify, partial(getPlugin, CssoWebpackPlugin))([mergeOption([defaultCSSCompressOption, cssoOption]), REG_STYLE])
 }
@@ -164,9 +135,6 @@ export const getModule = (appPath: string, {
   enableSourceMap,
 
   cssLoaderOption,
-  lessLoaderOption,
-  sassLoaderOption,
-  stylusLoaderOption,
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
@@ -175,7 +143,8 @@ export const getModule = (appPath: string, {
   babel,
   alias,
   nodeModulesPath
-}) => {
+}, chain) => {
+
   const postcssOption: IPostcssOption = postcss || {}
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
@@ -222,6 +191,21 @@ export const getModule = (appPath: string, {
   const compileExclude = compile.exclude || []
   const compileInclude = compile.include || []
 
+  const styleExtRegs = [/\.css$/]
+  styleExtRegs.push(new RegExp(`${fileType.style}$`))
+  const rules = chain.module.rules.entries()
+  if (rules) {
+    Object.keys(rules).forEach(item => {
+      if (/^addChainStyle/.test(item) && rules[item].get('test')) {
+        styleExtRegs.push(rules[item].get('test'))
+      }
+    })
+  }
+  const styleReg = new RegExp(styleExtRegs.map(reg => new RegExp(reg).source).join('|'))
+
+  const styleModuleReg = new RegExp(`(.*\.module).*${styleReg.source}`)
+  const styleGlobalReg = new RegExp(`(.*\.global).*${styleReg.source}`)
+
   if (cssModuleOptions.enable) {
     const cssLoaderWithModule = getCssLoader(cssOptionsWithModule)
     let cssModuleCondition
@@ -255,14 +239,6 @@ export const getModule = (appPath: string, {
       })
     }
   ])
-  const sassLoader = getSassLoader([{
-    sourceMap: true,
-    implementation: sass,
-    outputStyle: 'expanded'
-  }, sassLoaderOption])
-  const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
-
-  const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
   const parsedConstantsReplaceList = {}
   Object.keys(constantsReplaceList).forEach(key => {
@@ -310,35 +286,16 @@ export const getModule = (appPath: string, {
   }
 
   const rule: any = {
-    sass: {
-      test: REG_SASS,
-      enforce: 'pre',
-      use: [sassLoader]
-    },
-    less: {
-      test: REG_LESS,
-      enforce: 'pre',
-      use: [lessLoader]
-    },
-    stylus: {
-      test: REG_STYLUS,
-      enforce: 'pre',
-      use: [stylusLoader]
-    },
     css: {
-      test: REG_STYLE,
+      test: styleReg,
       oneOf: cssLoaders
     },
-    // styleFiles: {
-    //   test: REG_STYLE,
-    //   use: [fileLoader]
-    // },
     postcss: {
-      test: REG_STYLE,
+      test: styleReg,
       use: [postcssLoader]
     },
     customStyle: {
-      test: REG_STYLE,
+      test: styleReg,
       enforce: 'post',
       use: [extractCssLoader]
     },
