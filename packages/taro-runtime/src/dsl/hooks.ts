@@ -1,12 +1,16 @@
-import type { DependencyList } from 'react'
 import { PageContext, R as React } from './react'
 import { getPageInstance, injectPageInstance } from './common'
 import { PageLifeCycle } from './instance'
 import { Current } from '../current'
 
 const taroHooks = (lifecycle: keyof PageLifeCycle) => {
-  return (fn: Function, deps: DependencyList = []) => {
+  return (fn: Function) => {
     const id = React.useContext(PageContext)
+
+    // hold fn ref and keep up to date
+    const fnRef = React.useRef(fn)
+    if (fnRef.current !== fn) fnRef.current = fn
+
     React.useLayoutEffect(() => {
       let inst = getPageInstance(id)
       let first = false
@@ -17,7 +21,8 @@ const taroHooks = (lifecycle: keyof PageLifeCycle) => {
       if (lifecycle !== 'onShareAppMessage') {
         (inst![lifecycle] as any) = [
           ...((inst![lifecycle] as any) || []),
-          fn.bind(null)
+          // callback is immutable but inner function is up to date
+          (...args: any) => fnRef.current(...args)
         ]
       } else {
         inst![lifecycle] = fn.bind(null)
@@ -25,7 +30,7 @@ const taroHooks = (lifecycle: keyof PageLifeCycle) => {
       if (first) {
         injectPageInstance(inst!, id)
       }
-    }, deps)
+    }, [])
   }
 }
 
