@@ -99,7 +99,7 @@ class Router extends Taro.Component<Props, State> {
     this.setState({ routeStack, location: toLocation })
   }
 
-  pop (toLocation: Types.Location, fromLocation: Types.Location) {
+  pop (toLocation: Types.Location, fromLocation: Types.Location, isTabBar = false) {
     let routeStack: Types.RouteObj[] = [...this.state.routeStack]
     const fromKey = Number(fromLocation.state.key)
     const toKey = Number(toLocation.state.key)
@@ -112,19 +112,21 @@ class Router extends Taro.Component<Props, State> {
       const matchedRoute = this.computeMatch(toLocation)
       routeStack = [assign({}, matchedRoute, {
         key: toLocation.state.key,
-        isRedirect: false
+        isRedirect: false,
+        isTabBar
       })]
     }
 
     this.setState({ routeStack, location: toLocation })
   }
 
-  replace (toLocation: Types.Location) {
+  replace (toLocation: Types.Location, isTabBar = false) {
     const routeStack: Types.RouteObj[] = [...this.state.routeStack]
     const matchedRoute = this.computeMatch(toLocation)
     routeStack.splice(-1, 1, assign({}, matchedRoute, {
       key: toLocation.state.key,
-      isRedirect: true
+      isRedirect: true,
+      isTabBar
     }))
     this.setState({ routeStack, location: toLocation })
   }
@@ -169,15 +171,16 @@ class Router extends Taro.Component<Props, State> {
       toLocation,
       action
     }) => {
+      const isTabBar = this.isTabBar(toLocation.path)
       if (action === "POP") {
-        this.pop(toLocation, fromLocation);
-      } else if (this.isTabBar(toLocation.path)) {
-        this.switch(toLocation, true);
+        this.pop(toLocation, fromLocation, isTabBar);
+      } else if (isTabBar) {
+        this.switch(toLocation, isTabBar);
       } else {
         if (action === "PUSH") {
-          this.push(toLocation);
+          this.push(toLocation, isTabBar);
         } else {
-          this.replace(toLocation);
+          this.replace(toLocation, isTabBar);
         }
       }
 
