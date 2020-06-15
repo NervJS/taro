@@ -5,6 +5,7 @@ import type { TaroRootElement } from './dom/root'
 import type { PageInstance } from './dsl/instance'
 
 export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = TaroText, DOMNode = TaroNode> {
+  // mini apps
   appendChild?(parent: DOMNode, child: DOMNode | TextElement): void
 
   removeChild?(parent: DOMNode, child: DOMNode | TextElement, oldChild: DOMNode | TextElement): void
@@ -21,7 +22,10 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
 
   getLifecyle(instance: Instance, lifecyle: keyof PageInstance): Function | undefined | Array<Function>
 
+  // h5
   createPullDownComponent?(el: Instance, path: string, framework)
+
+  findDOMNode?(instance: Instance): DOMElement | undefined
 }
 
 export const CurrentReconciler: Reconciler<any> = {

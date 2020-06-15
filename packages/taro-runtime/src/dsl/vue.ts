@@ -91,6 +91,10 @@ function setReconciler () {
 
       return options
     }
+
+    hostConfig.findDOMNode = (el) => {
+      return el.$el as any
+    }
   }
 
   options.reconciler(hostConfig)

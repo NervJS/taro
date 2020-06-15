@@ -108,6 +108,10 @@ function setReconciler () {
         return R.createElement('taro-pull-to-refresh', null, R.createElement(el, newProps))
       })
     }
+
+    hostConfig.findDOMNode = (inst) => {
+      return ReactDOM.findDOMNode(inst)
+    }
   }
 
   options.reconciler(hostConfig)
