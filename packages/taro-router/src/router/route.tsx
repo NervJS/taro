@@ -61,11 +61,9 @@ class Route extends Taro.Component<RouteProps, {}> {
     }
   }
 
-  computeMatch (currentLocation: Location) {
+  computeMatch (currentLocation: Location, isIndex = this.props.isIndex, isTabBar = this.props.isTabBar) {
     let pathname = currentLocation.path;
     const key = currentLocation.state.key;
-    const isIndex = this.props.isIndex;
-    const isTabBar = this.props.isTabBar;
 
     const foundRoute = this.customRoutes.filter(([originalRoute, mappedRoute]) => {
       return currentLocation.path === mappedRoute
@@ -129,7 +127,9 @@ class Route extends Taro.Component<RouteProps, {}> {
   componentWillReceiveProps (nProps: RouteProps) {
     const isRedirect = nProps.isRedirect
     const lastMatched = this.matched
-    const nextMatched = this.computeMatch(nProps.currentLocation)
+    const nextMatched = this.computeMatch(nProps.currentLocation, nProps.isIndex, nProps.isTabBar)
+
+    this.matched = nextMatched
 
     if (isRedirect) {
       this.updateComponent(nProps)
@@ -137,17 +137,13 @@ class Route extends Taro.Component<RouteProps, {}> {
       return
     }
 
-    this.matched = nextMatched
-
     if (nextMatched) {
-      if (!isRedirect) {
-        nextTick(() => {
-          this.showPage()
-          scroller = scroller || getScroller()
-          scroller.set(this.scrollPos)
-        })
-        tryToCall(this.componentRef.componentDidShow, this.componentRef)
-      }
+      nextTick(() => {
+        this.showPage()
+        scroller = scroller || getScroller()
+        scroller.set(this.scrollPos)
+      })
+      tryToCall(this.componentRef.componentDidShow, this.componentRef)
     } else {
       scroller = scroller || getScroller()
       this.scrollPos = scroller.get()
