@@ -11,7 +11,7 @@ require(\\"./vendors\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([[3],{
 
-/***/ 14:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
@@ -19,7 +19,7 @@ require(\\"./vendors\\");
 
 /***/ }),
 
-/***/ 18:
+/***/ 16:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
@@ -27,7 +27,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(12);
 
 
 
@@ -42,7 +42,7 @@ var inst = App(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createReac
 
 /***/ }),
 
-/***/ 19:
+/***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
@@ -53,24 +53,59 @@ var inst = App(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createReac
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
-/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-/* harmony import */ var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-/* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(19);
-/* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_app_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+/* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+/* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(2);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
+/* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(17);
+/* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_app_css__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
 
 
 
+function _createSuper(Derived) {
+  function isNativeReflectConstruct() {
+    if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === \\"function\\") return true;
 
-var App = /*#__PURE__*/function (_Component) {
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  return function () {
+    var Super = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__[/* default */ \\"a\\"])(Derived),
+        result;
+
+    if (isNativeReflectConstruct()) {
+      var NewTarget = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__[/* default */ \\"a\\"])(this).constructor;
+
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+
+    return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__[/* default */ \\"a\\"])(this, result);
+  };
+}
+
+
+
+
+var App =
+/*#__PURE__*/
+function (_Component) {
   Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[/* default */ \\"a\\"])(App, _Component);
 
-  var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[/* default */ \\"a\\"])(App);
+  var _super = _createSuper(App);
 
   function App() {
     Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(this, App);
@@ -99,13 +134,13 @@ var App = /*#__PURE__*/function (_Component) {
   }]);
 
   return App;
-}(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
+}(react__WEBPACK_IMPORTED_MODULE_5__[\\"Component\\"]);
 
 /* harmony default export */ __webpack_exports__[\\"a\\"] = (App);
 
 /***/ })
 
-},[[18,0,2,1]]]);;
+},[[16,0,2,1]]]);;
 
 /** filePath: dist/app.json **/
 {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
@@ -656,7 +691,7 @@ __webpack_require__.r(__webpack_exports__);
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([[5],{
 
-/***/ 20:
+/***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
@@ -670,7 +705,7 @@ Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursive
 
 /***/ })
 
-},[[20,0,1]]]);
+},[[18,0,1]]]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
@@ -682,31 +717,66 @@ Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursive
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([[6],{
 
-/***/ 15:
+/***/ 13:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return Index; });
-/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-/* harmony import */ var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-/* harmony import */ var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
-/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(22);
-/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+/* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+/* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(2);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
+/* harmony import */ var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(20);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
 
 
 
 
 
 
+function _createSuper(Derived) {
+  function isNativeReflectConstruct() {
+    if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === \\"function\\") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  return function () {
+    var Super = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__[/* default */ \\"a\\"])(Derived),
+        result;
+
+    if (isNativeReflectConstruct()) {
+      var NewTarget = Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__[/* default */ \\"a\\"])(this).constructor;
+
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+
+    return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__[/* default */ \\"a\\"])(this, result);
+  };
+}
 
 
-var Index = /*#__PURE__*/function (_Component) {
+
+
+
+var Index =
+/*#__PURE__*/
+function (_Component) {
   Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[/* default */ \\"a\\"])(Index, _Component);
 
-  var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[/* default */ \\"a\\"])(Index);
+  var _super = _createSuper(Index);
 
   function Index() {
     Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(this, Index);
@@ -718,30 +788,35 @@ var Index = /*#__PURE__*/function (_Component) {
     key: \\"render\\",
     value: function render() {
       var html = \\"<div class=\\\\\\"page\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"></div>\\\\n    <div class=\\\\\\"page__hd\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><span class=\\\\\\"page__title\\\\\\"><span\\\\n          style=\\\\\\"display:none;\\\\\\">image</span><span>image</span></span><span class=\\\\\\"page__desc\\\\\\"><span\\\\n          style=\\\\\\"display:none;\\\\\\">\\\\u56FE\\\\u7247</span><span>\\\\u56FE\\\\u7247</span></span></div>\\\\n    <div class=\\\\\\"page__bd\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">scaleToFill\\\\uFF1A\\\\u4E0D\\\\u4FDD\\\\u6301\\\\u7EB5\\\\u6A2A\\\\u6BD4\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u4F7F\\\\u56FE\\\\u7247\\\\u5B8C\\\\u5168\\\\u9002\\\\u5E94</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"scaleToFill\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: 100% 100%; background-position: 0% 0%; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">aspectFit\\\\uFF1A\\\\u4FDD\\\\u6301\\\\u7EB5\\\\u6A2A\\\\u6BD4\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u4F7F\\\\u56FE\\\\u7247\\\\u7684\\\\u957F\\\\u8FB9\\\\u80FD\\\\u5B8C\\\\u5168\\\\u663E\\\\u793A\\\\u51FA\\\\u6765</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"aspectFit\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: contain; background-position: center center; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">aspectFill\\\\uFF1A\\\\u4FDD\\\\u6301\\\\u7EB5\\\\u6A2A\\\\u6BD4\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u53EA\\\\u4FDD\\\\u8BC1\\\\u56FE\\\\u7247\\\\u7684\\\\u77ED\\\\u8FB9\\\\u80FD\\\\u5B8C\\\\u5168\\\\u663E\\\\u793A\\\\u51FA\\\\u6765</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"aspectFill\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: cover; background-position: center center; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">top\\\\uFF1A\\\\u4E0D\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u53EA\\\\u663E\\\\u793A\\\\u56FE\\\\u7247\\\\u7684\\\\u9876\\\\u90E8\\\\u533A\\\\u57DF</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"top\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: auto; background-position: center top; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">bottom\\\\uFF1A\\\\u4E0D\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u53EA\\\\u663E\\\\u793A\\\\u56FE\\\\u7247\\\\u7684\\\\u5E95\\\\u90E8\\\\u533A\\\\u57DF</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"bottom\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: auto; background-position: center bottom; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">center\\\\uFF1A\\\\u4E0D\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u53EA\\\\u663E\\\\u793A\\\\u56FE\\\\u7247\\\\u7684\\\\u4E2D\\\\u95F4\\\\u533A\\\\u57DF</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"center\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: auto; background-position: center center; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">left\\\\uFF1A\\\\u4E0D\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u53EA\\\\u663E\\\\u793A\\\\u56FE\\\\u7247\\\\u7684\\\\u5DE6\\\\u8FB9\\\\u533A\\\\u57DF</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"left\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: auto; background-position: left center; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">right\\\\uFF1A\\\\u4E0D\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u53EA\\\\u663E\\\\u793A\\\\u56FE\\\\u7247\\\\u7684\\\\u53F3\\\\u8FB9\\\\u8FB9\\\\u533A\\\\u57DF</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"right\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: auto; background-position: right center; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">top left\\\\uFF1A\\\\u4E0D\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u53EA\\\\u663E\\\\u793A\\\\u56FE\\\\u7247\\\\u7684\\\\u5DE6\\\\u4E0A\\\\u8FB9\\\\u533A\\\\u57DF</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"top left\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: auto; background-position: left top; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">top right\\\\uFF1A\\\\u4E0D\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u53EA\\\\u663E\\\\u793A\\\\u56FE\\\\u7247\\\\u7684\\\\u53F3\\\\u4E0A\\\\u8FB9\\\\u533A\\\\u57DF</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"top right\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: auto; background-position: right top; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">bottom left\\\\uFF1A\\\\u4E0D\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u53EA\\\\u663E\\\\u793A\\\\u56FE\\\\u7247\\\\u7684\\\\u5DE6\\\\u4E0B\\\\u8FB9\\\\u533A\\\\u57DF</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"bottom left\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: auto; background-position: left bottom; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n      <div class=\\\\\\"section section_gap\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">\\\\n        <div class=\\\\\\"section__title\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\">bottom right\\\\uFF1A\\\\u4E0D\\\\u7F29\\\\u653E\\\\u56FE\\\\u7247\\\\uFF0C\\\\u53EA\\\\u663E\\\\u793A\\\\u56FE\\\\u7247\\\\u7684\\\\u53F3\\\\u4E0B\\\\u8FB9\\\\u533A\\\\u57DF</div>\\\\n        <div class=\\\\\\"section__ctn\\\\\\" role=\\\\\\"\\\\\\" aria-label=\\\\\\"\\\\\\"><img mode=\\\\\\"bottom right\\\\\\"\\\\n            src=\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\"\\\\n            style=\\\\\\"width: 200px; height: 200px; background-color: #eeeeee;\\\\\\">\\\\n          <div role=\\\\\\"img\\\\\\" aria-label=\\\\\\"\\\\\\"\\\\n            style='background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-image: url(\\\\\\"https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg\\\\\\");'>\\\\n          </div>\\\\n          <span></span></img>\\\\n        </div>\\\\n      </div>\\\\n    </div>\\\\n  </div>\\";
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[/* View */ \\"a\\"], {
-        className: \\"index\\"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[/* View */ \\"a\\"], {
-        dangerouslySetInnerHTML: {
-          __html: html
-        }
-      }));
+      return (
+        /*#__PURE__*/
+        react__WEBPACK_IMPORTED_MODULE_5__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__[/* View */ \\"a\\"], {
+          className: \\"index\\"
+        },
+        /*#__PURE__*/
+        react__WEBPACK_IMPORTED_MODULE_5__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__[/* View */ \\"a\\"], {
+          dangerouslySetInnerHTML: {
+            __html: html
+          }
+        }))
+      );
     }
   }]);
 
   return Index;
-}(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
+}(react__WEBPACK_IMPORTED_MODULE_5__[\\"Component\\"]);
 
 
 
 /***/ }),
 
-/***/ 21:
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
 
 
 var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[/* default */ \\"a\\"], 'pages/index/index'))
@@ -750,7 +825,7 @@ var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPag
 
 /***/ }),
 
-/***/ 22:
+/***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
@@ -856,7 +931,7 @@ var Slot = 'slot';
 
 /***/ })
 
-},[[21,0,2,1]]]);
+},[[19,0,2,1]]]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
@@ -1032,6 +1107,19 @@ var Slot = 'slot';
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _getPrototypeOf; });
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+\\"use strict\\";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _classCallCheck; });
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -1040,7 +1128,7 @@ function _classCallCheck(instance, Constructor) {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
@@ -1062,7 +1150,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
@@ -1085,45 +1173,21 @@ function _inherits(subClass, superClass) {
 }
 
 /***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-\\"use strict\\";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _createSuper; });
-/* harmony import */ var _getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var _isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
-/* harmony import */ var _possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
-
-
-
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = Object(_isNativeReflectConstruct__WEBPACK_IMPORTED_MODULE_1__[/* default */ \\"a\\"])();
-  return function _createSuperInternal() {
-    var Super = Object(_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(Derived),
-        result;
-
-    if (hasNativeReflectConstruct) {
-      var NewTarget = Object(_getPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(this).constructor;
-      result = Reflect.construct(Super, arguments, NewTarget);
-    } else {
-      result = Super.apply(this, arguments);
-    }
-
-    return Object(_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[/* default */ \\"a\\"])(this, result);
-  };
-}
-
-/***/ }),
 /* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _getPrototypeOf; });
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _possibleConstructorReturn; });
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
+
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
+    return call;
+  }
+
+  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ \\"a\\"])(self);
 }
 
 /***/ }),
@@ -1148,43 +1212,6 @@ function _setPrototypeOf(o, p) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _isNativeReflectConstruct; });
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === \\"function\\") return true;
-
-  try {
-    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-/***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-\\"use strict\\";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
-/* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
-
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ \\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
-    return call;
-  }
-
-  return Object(_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ \\"a\\"])(self);
-}
-
-/***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-\\"use strict\\";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \\"a\\", function() { return _typeof; });
 function _typeof(obj) {
   \\"@babel/helpers - typeof\\";
@@ -1203,7 +1230,7 @@ function _typeof(obj) {
 }
 
 /***/ }),
-/* 13 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 \\"use strict\\";

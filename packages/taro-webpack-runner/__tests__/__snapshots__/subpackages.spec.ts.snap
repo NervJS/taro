@@ -755,17 +755,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-Object(_tarojs_components_loader__WEBPACK_IMPORTED_MODULE_3__[/* applyPolyfills */ \\"c\\"])().then(() => {
+Object(_tarojs_components_loader__WEBPACK_IMPORTED_MODULE_3__[/* applyPolyfills */ \\"c\\"])().then(function () {
   Object(_tarojs_components_loader__WEBPACK_IMPORTED_MODULE_3__[/* defineCustomElements */ \\"d\\"])(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_2__[/* window */ \\"a\\"])
 })
 
-const config = {\\"router\\":{\\"mode\\":\\"hash\\",\\"customRoutes\\":{},\\"basename\\":\\"/\\"},\\"pages\\":[\\"pages/index/index\\",\\"packageA/detail/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"},\\"subpackages\\":[{\\"root\\":\\"packageA\\",\\"pages\\":[\\"detail/index\\"]}]}
+var config = {\\"router\\":{\\"mode\\":\\"hash\\",\\"customRoutes\\":{},\\"basename\\":\\"/\\"},\\"pages\\":[\\"pages/index/index\\",\\"packageA/detail/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"},\\"subpackages\\":[{\\"root\\":\\"packageA\\",\\"pages\\":[\\"detail/index\\"]}]}
 _tarojs_runtime__WEBPACK_IMPORTED_MODULE_2__[/* window */ \\"a\\"].__taroAppConfig = config
 
 if (config.tabBar) {
-  const tabbarList = config.tabBar.list
+  var tabbarList = config.tabBar.list
   for (let i = 0; i < tabbarList.length; i++) {
-    const t = tabbarList[i]
+    var t = tabbarList[i]
     if (t.iconPath) {
       t.iconPath = tabbarIconPath[i]
     }
@@ -778,14 +778,14 @@ config.routes = [
   
   Object.assign({
       path: 'pages/index/index',
-      load: () => {
+      load: function() {
           return __webpack_require__.e(/* import() */ 2).then(__webpack_require__.bind(null, 23))
       }
   }, {\\"navigationBarTitleText\\":\\"首页\\"} || {}),
 
   Object.assign({
       path: 'packageA/detail/index',
-      load: () => {
+      load: function() {
           return __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, 24))
       }
   }, {\\"navigationBarTitleText\\":\\"详情页\\"} || {}),
