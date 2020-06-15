@@ -167,7 +167,7 @@ async function checkPlugin (ctx, isWatch) {
   const lessFiles = findFilesWithExt(ctx.paths.sourcePath, '.less')
   if (lessFiles.length && !hadAddPlugin(plugins, PLUGIN_LESS)) {
     console.log()
-    console.log(ctx.helper.chalk.red(`当前项目使用了 sass，请安装插件 ${PLUGIN_LESS}，并且在 plugins 中进行配置，否则将无法编译 less 文件！`))
+    console.log(ctx.helper.chalk.red(`当前项目使用了 less，请安装插件 ${PLUGIN_LESS}，并且在 plugins 中进行配置，否则将无法编译 less 文件！`))
     console.log(ctx.helper.chalk.red(`参考文档：${PLUGINS_CONFIG_DOC}`))
     console.log()
     process.exit(1)
@@ -176,7 +176,7 @@ async function checkPlugin (ctx, isWatch) {
   const stylusFiles = findFilesWithExt(ctx.paths.sourcePath, '.styl')
   if (stylusFiles.length && !hadAddPlugin(plugins, PLUGIN_STYLUS)) {
     console.log()
-    console.log(ctx.helper.chalk.red(`当前项目使用了 sass，请安装插件 ${PLUGIN_STYLUS}，并且在 plugins 中进行配置，否则将无法编译 stylus 文件！`))
+    console.log(ctx.helper.chalk.red(`当前项目使用了 stylus，请安装插件 ${PLUGIN_STYLUS}，并且在 plugins 中进行配置，否则将无法编译 stylus 文件！`))
     console.log(ctx.helper.chalk.red(`参考文档：${PLUGINS_CONFIG_DOC}`))
     console.log()
     process.exit(1)
