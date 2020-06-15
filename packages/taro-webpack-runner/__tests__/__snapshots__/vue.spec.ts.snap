@@ -680,7 +680,6 @@ exports[`vue should build vue app 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(src_app, vue, config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, vue);
 } ]);
 "

@@ -837,7 +837,6 @@ exports[`subpackages should process subpackages 2`] = `
         \\"navigationBarTitleText\\": \\"详情页\\"
     } || {}) ];
     var inst = undefined(src_app, react, react[\\"default\\"], config);
-    console.log(\\"fuckyou\\");
     Object(h5[\\"createRouter\\"])(inst, config, react);
 } ]);
 "

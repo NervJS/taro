@@ -756,7 +756,6 @@ exports[`babel should convert do expressions 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(src_app, react, react[\\"default\\"], config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, react);
 } ]);
 "

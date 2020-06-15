@@ -763,7 +763,6 @@ exports[`react should build react app 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(src_app, react, react[\\"default\\"], config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, react);
 } ]);
 "

@@ -735,7 +735,6 @@ exports[`sass should build app with sass 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(app, nerv, nerv, config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, nerv);
 } ]);
 "
@@ -1504,7 +1503,6 @@ exports[`sass should build app with scss 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(src_app, react, react[\\"default\\"], config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, react);
 } ]);
 "
@@ -2273,7 +2271,6 @@ exports[`sass should set global sass content with data 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(src_app, react, react[\\"default\\"], config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, react);
 } ]);
 "
@@ -3042,7 +3039,6 @@ exports[`sass should set global sass content with source & dir 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(src_app, react, react[\\"default\\"], config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, react);
 } ]);
 "
@@ -3811,7 +3807,6 @@ exports[`sass should set global sass content with source 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(src_app, react, react[\\"default\\"], config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, react);
 } ]);
 "

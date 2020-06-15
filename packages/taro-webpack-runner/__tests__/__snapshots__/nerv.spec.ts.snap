@@ -762,7 +762,6 @@ exports[`nerv should build nerv app 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(src_app, nerv[\\"b\\"], nerv[\\"b\\"], config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, nerv[\\"b\\"]);
 } ]);
 "

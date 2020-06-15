@@ -763,7 +763,6 @@ exports[`config should build from origin and pipe to output 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(origin_app, nerv, nerv, config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, nerv);
 } ]);
 "
@@ -1536,7 +1535,6 @@ I m irrelevant.
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(origin_app, nerv, nerv, config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, nerv);
 } ]);
 
@@ -2309,7 +2307,6 @@ exports[`config should resolved alias 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(origin_app, nerv, nerv, config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, nerv);
 } ]);
 

@@ -780,7 +780,6 @@ exports[`css modules should use css modules with global mode 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(src_app, react, react[\\"default\\"], config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, react);
 } ]);
 "
@@ -1562,7 +1561,6 @@ exports[`css modules should use css modules with module mode 2`] = `
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
     var inst = undefined(src_app, react, react[\\"default\\"], config);
-    console.log(\\"fuckyou\\");
     undefined(inst, config, react);
 } ]);
 "
