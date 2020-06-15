@@ -11,6 +11,7 @@ import { isFunction, noop, ensure, capitalize, toCamelCase, internalComponents, 
 import { isBrowser } from '../env'
 import { options } from '../options'
 import { isBooleanLiteral } from 'babel-types'
+import { Reconciler } from '../reconciler'
 
 export type V = typeof VueCtor
 
@@ -49,7 +50,7 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
 }
 
 function setReconciler () {
-  options.reconciler({
+  const hostConfig: Reconciler<VueInstance> = {
     getLifecyle (instance, lifecycle) {
       return instance.$options[lifecycle]
     },
@@ -66,7 +67,33 @@ function setReconciler () {
         delete dom.props[qualifiedName]
       }
     }
-  })
+  }
+
+  if (isBrowser) {
+    hostConfig.createPullDownComponent = (el, path, vue: VueConstructor) => {
+      const injectedPage = vue.extend({
+        props: {
+          tid: String
+        },
+        mixins: [el as ComponentOptions<Vue>, {
+          created () {
+            injectPageInstance(this, path)
+          }
+        }]
+      })
+
+      const options: ComponentOptions<Vue> = {
+        name: 'PullToRefresh',
+        render (h) {
+          return h('taro-pull-to-refresh', { class: ['hydrated'] }, [h(injectedPage, this.$slots.default)])
+        }
+      }
+
+      return options
+    }
+  }
+
+  options.reconciler(hostConfig)
 }
 
 let Vue

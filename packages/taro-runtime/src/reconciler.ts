@@ -20,6 +20,8 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
   appendInitialPage?(data: DataTree, page: TaroRootElement): DataTree
 
   getLifecyle(instance: Instance, lifecyle: keyof PageInstance): Function | undefined | Array<Function>
+
+  createPullDownComponent?(el: Instance, path: string, framework)
 }
 
 export const CurrentReconciler: Reconciler<any> = {
