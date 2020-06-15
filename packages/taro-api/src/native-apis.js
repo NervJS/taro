@@ -47,7 +47,17 @@ const onAndSyncApis = {
   onAudioInterruptionEnd: true,
   onAudioInterruptionBegin: true,
   onLocationChange: true,
-  offLocationChange: true
+  offLocationChange: true,
+
+  // 基础
+  onUnhandledRejection: true,
+  offUnhandledRejection: true,
+  onThemeChange: true,
+  offThemeChange: true,
+
+  // 界面
+  onKeyboardHeightChange: true,
+  offKeyboardHeightChange: true
 }
 const noPromiseApis = {
   // 媒体
