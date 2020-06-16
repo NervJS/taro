@@ -58,7 +58,7 @@ class Swiper extends Nerv.Component {
     const that = this
     const opt = {
       // 指示器
-      pagination: { el: `.taro-swiper-${this._id} .swiper-container .swiper-pagination.swiper-pagination-${this._id}` },
+      pagination: { el: `.taro-swiper-${this._id}.swiper-container > .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: true,
       slidesPerView: parseFloat(displayMultipleItems, 10),
@@ -204,7 +204,7 @@ class Swiper extends Nerv.Component {
       overflow: 'hidden'
     }, style)
     const paginationCls = classNames(
-      'swiper-pagination', `swiper-pagination-${this._id}`,
+      'swiper-pagination',
       {
         'swiper-pagination-hidden': !this.props.indicatorDots,
         'swiper-pagination-bullets': this.props.indicatorDots
@@ -216,8 +216,8 @@ class Swiper extends Nerv.Component {
           <div
             dangerouslySetInnerHTML={{
               __html: `<style type='text/css'>
-              .taro-swiper-${this._id} .swiper-container .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
-              .taro-swiper-${this._id} .swiper-container .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} }
+              .taro-swiper-${this._id}.swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
+              .taro-swiper-${this._id}.swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} }
               </style>`
             }}
           />
