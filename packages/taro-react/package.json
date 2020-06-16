@@ -16,6 +16,7 @@
   },
   "scripts": {
     "test": "jest --collectCoverage",
+    "test:ci": "jest -i --coverage false",
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },
