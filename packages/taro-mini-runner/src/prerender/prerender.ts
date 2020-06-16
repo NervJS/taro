@@ -181,6 +181,7 @@ export class Prerender {
       getCurrentPages: noop,
       getApp: noop,
       requirePlugin: noop,
+      __wxConfig: {},
       PRERENDER: true,
       ...mock
     }
