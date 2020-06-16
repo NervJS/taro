@@ -12,6 +12,7 @@ import { PAGE_INIT } from '../constants'
 import { isBrowser } from '../env'
 import { eventCenter } from '../emitter/emitter'
 import { raf } from '../bom/raf'
+import { CurrentReconciler } from '../reconciler'
 
 const instances = new Map<string, Instance>()
 
@@ -33,23 +34,13 @@ function addLeadingSlash (path?: string) {
 const pageId = incrementId()
 
 function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unknown[]) {
-  const isReact = process.env.FRAMEWORK !== 'vue' // isReact means all kind of react-like library
-
   const instance = instances.get(path)
 
   if (instance == null) {
     return
   }
 
-  if (isReact) {
-    if (lifecycle === 'onShow') {
-      lifecycle = 'componentDidShow'
-    } else if (lifecycle === 'onHide') {
-      lifecycle = 'componentDidHide'
-    }
-  }
-
-  const func = isReact ? instance[lifecycle] : instance.$options[lifecycle]
+  const func = CurrentReconciler.getLifecyle(instance, lifecycle)
 
   if (isArray(func)) {
     for (let i = 0; i < func.length; i++) {

@@ -5,6 +5,7 @@ import { UpdatePayload, UpdatePayloadValue } from './node'
 import { isFunction, Shortcuts } from '@tarojs/shared'
 import { perf } from '../perf'
 import { SET_DATA, PAGE_INIT } from '../constants'
+import { CurrentReconciler } from '../reconciler'
 
 export class TaroRootElement extends TaroElement {
   private pendingUpdate = false
@@ -72,6 +73,12 @@ export class TaroRootElement extends TaroElement {
         if (isFunction(value)) {
           data[path] = value()
         }
+      }
+
+      CurrentReconciler.prepareUpdateData?.(data, this)
+
+      if (initRender) {
+        CurrentReconciler.appendInitialPage?.(data, this)
       }
 
       if (isFunction(prerender)) {

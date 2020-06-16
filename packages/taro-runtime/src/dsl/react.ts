@@ -7,6 +7,8 @@ import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance 
 import { document } from '../bom/document'
 import { injectPageInstance } from './common'
 import { isBrowser } from '../env'
+import { options } from '../options'
+import { Reconciler } from '../reconciler'
 
 function isClassComponent (R: typeof React, component): boolean {
   return isFunction(component.render) ||
@@ -81,6 +83,40 @@ let ReactDOM
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
+function setReconciler () {
+  const hostConfig: Reconciler<React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>> = {
+    getLifecyle (instance, lifecycle) {
+      if (lifecycle === 'onShow') {
+        lifecycle = 'componentDidShow'
+      } else if (lifecycle === 'onHide') {
+        lifecycle = 'componentDidHide'
+      }
+      return instance[lifecycle] as Function
+    }
+  }
+
+  if (isBrowser) {
+    hostConfig.createPullDownComponent = (el, _, R: typeof React) => {
+      const isReactComponent = isClassComponent(R, el)
+
+      return R.forwardRef((props, ref) => {
+        const newProps: React.Props<any> = { ...props }
+        if (isReactComponent) {
+          newProps.ref = ref
+        }
+
+        return R.createElement('taro-pull-to-refresh', null, R.createElement(el, newProps))
+      })
+    }
+
+    hostConfig.findDOMNode = (inst) => {
+      return ReactDOM.findDOMNode(inst)
+    }
+  }
+
+  options.reconciler(hostConfig)
+}
+
 export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfig) {
   R = react
   ReactDOM = reactdom
@@ -88,6 +124,8 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
 
   const ref = R.createRef<ReactAppInstance>()
   const isReactComponent = isClassComponent(R, App)
+
+  setReconciler()
 
   let wrapper: AppWrapper
 

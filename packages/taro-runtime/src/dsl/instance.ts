@@ -31,7 +31,8 @@ export interface ReactPageComponent<T = PageProps> extends ComponentClass<T>, Sh
 }
 
 export interface ReactPageInstance<T = PageProps> extends Component<T>, Show, PageInstance {
-  //
+  componentDidShow?(): void
+  componentDidHide?(): void
 }
 
 export interface ReactAppInstance<T = AppInstance> extends Component<T>, Show, AppInstance {

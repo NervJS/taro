@@ -7,6 +7,7 @@ import { Shortcuts, ensure } from '@tarojs/shared'
 import { hydrate, HydratedData } from '../hydrate'
 import { TaroElement } from './element'
 import { setInnerHTML } from './html/html'
+import { CurrentReconciler } from '../reconciler'
 
 const nodeId = incrementId()
 
@@ -16,6 +17,7 @@ export interface UpdatePayload {
 }
 
 export type UpdatePayloadValue = string | boolean | HydratedData
+export type DataTree = Record<string, UpdatePayloadValue | ReturnType<HydratedData>>
 
 export class TaroNode extends TaroEventTarget {
   public nodeType: NodeType
@@ -100,6 +102,8 @@ export class TaroNode extends TaroEventTarget {
       }
     }
 
+    CurrentReconciler.insertBefore?.(this, newChild, refChild)
+
     this.enqueueUpdate(payload)
     return newChild
   }
@@ -108,6 +112,7 @@ export class TaroNode extends TaroEventTarget {
 
   public appendChild (child: TaroNode) {
     this.insertBefore(child)
+    CurrentReconciler.appendChild?.(this, child)
   }
 
   public replaceChild (newChild: TaroNode, oldChild: TaroNode) {
@@ -116,6 +121,7 @@ export class TaroNode extends TaroEventTarget {
       oldChild.remove(true)
       return oldChild
     }
+    CurrentReconciler.removeChild?.(this, newChild, oldChild)
   }
 
   public removeChild<T extends TaroNode> (child: T, isReplace?: boolean): T {
