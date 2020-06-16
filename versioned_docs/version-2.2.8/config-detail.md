@@ -208,6 +208,24 @@ env: {
 
 这样就能在代码中通过 `process.env.NODE_ENV === 'development'` 来判断环境。
 
+注意 Taro 在小程序中只暴露 `TARO_ENV` 以及在 `config/*` 下配置文件中 `env` 字段定义的环境变量，若需要通过 `npm script` 的方式通过命令行设置环境变量，可在 `config/*` 下配置文件中获取到对应的值，然后设置到配置文件中：
+
+在 `config/dev.js` 中:
+
+```jsx
+env: {
+  CUSTOM_ENV: `"${process.env.CUSTOM_ENV}"`
+}
+```
+
+在`yarn`/`npm`中：
+
+```json
+"scripts": {
+  "custom_command": "cross-env CUSTOM_ENV=xxx yarn dev:weapp"
+}
+```
+
 ## defineConstants
 
 用来配置一些全局变量供代码中进行使用，配置方式与 [Webpack DefinePlugin](https://webpack.js.org/plugins/define-plugin/) 类似，例如：
