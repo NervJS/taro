@@ -1,5 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors */
-import { Current } from '@tarojs/runtime'
+import { Current, CurrentReconciler } from '@tarojs/runtime'
 
 function shouleBeObject (target) {
   if (target && typeof target === 'object') return { res: true }
@@ -12,25 +12,11 @@ function shouleBeObject (target) {
   }
 }
 
-let ReactDOM
-
-if (process.env.FRAMEWORK === 'nerv') {
-  ReactDOM = require('nervjs')
-}
-
-// 其它 react-like 框架走 react 模式，在 webpack.resolve.alias 设置 react/react-dom 到对应包
-if (process.env.FRAMEWORK === 'react') {
-  ReactDOM = require('react-dom')
-}
-
 export function findDOM (inst) {
   if (inst) {
-    if (process.env.FRAMEWORK === 'vue') {
-      return inst.$el
-    }
-
-    if (ReactDOM) {
-      return ReactDOM.findDOMNode(inst)
+    const find = CurrentReconciler.findDOMNode
+    if (typeof find === 'function') {
+      return find(inst)
     }
   }
 

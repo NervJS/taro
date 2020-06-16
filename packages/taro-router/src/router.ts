@@ -2,12 +2,11 @@
 import UniversalRouter, { Routes } from 'universal-router'
 import { AppConfig, PageConfig } from '@tarojs/taro'
 import { LocationListener, LocationState } from 'history'
-import { createReactApp, createPageConfig, Current, createVueApp, PageInstance, eventCenter } from '@tarojs/runtime'
+import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance } from '@tarojs/runtime'
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
-import { createPullDownRefresh, R, V } from './pull-down'
 
 export interface Route extends PageConfig {
   path: string
@@ -96,11 +95,9 @@ function loadPage (page: PageInstance | null) {
 }
 
 export function createRouter (
-  App,
+  app: AppInstance,
   config: RouterConfig,
-  type: 'react' | 'vue' | 'nerv',
-  framework: R | V,
-  reactdom
+  framework
 ) {
   init(config)
 
@@ -117,7 +114,6 @@ export function createRouter (
   }
 
   const router = new UniversalRouter(routes)
-  const app = type === 'vue' ? createVueApp(App, framework as V, config) : createReactApp(App, framework as R, reactdom, config)
   app.onLaunch!()
 
   const render: LocationListener<LocationState> = async (location, action) => {
@@ -161,7 +157,7 @@ export function createRouter (
     if (shouldLoad) {
       const el = element.default ?? element
       const page = createPageConfig(
-        enablePullDownRefresh ? createPullDownRefresh(el, type, location.pathname, framework) : el,
+        enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework) : el,
         location.pathname
       )
       loadPage(page)

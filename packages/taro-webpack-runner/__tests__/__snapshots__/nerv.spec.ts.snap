@@ -761,7 +761,8 @@ exports[`nerv should build nerv app 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5.createRouter(src_app, config, \\"nerv\\", nerv[\\"b\\"], nerv[\\"b\\"], config);
+    var inst = undefined(src_app, nerv[\\"b\\"], nerv[\\"b\\"], config);
+    undefined(inst, config, nerv[\\"b\\"]);
 } ]);
 "
 `;

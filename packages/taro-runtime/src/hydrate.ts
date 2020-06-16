@@ -54,7 +54,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
       prop !== 'style' &&
       prop !== 'id'
     ) {
-      data[process.env.FRAMEWORK === 'vue' ? toCamelCase(prop) : prop] = props[prop]
+      data[toCamelCase(prop)] = props[prop]
     }
   }
 

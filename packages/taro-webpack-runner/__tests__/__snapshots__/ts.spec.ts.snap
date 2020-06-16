@@ -765,7 +765,8 @@ exports[`typescript should build project with ts 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5.createRouter(src_app, config, \\"react\\", react, react[\\"default\\"], config);
+    var inst = undefined(src_app, react, react[\\"default\\"], config);
+    undefined(inst, config, react);
 } ]);
 "
 `;
