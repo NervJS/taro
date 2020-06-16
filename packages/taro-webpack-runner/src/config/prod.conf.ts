@@ -11,7 +11,6 @@ import {
   getMiniCssExtractPlugin,
   getModule,
   getOutput,
-  getUglifyPlugin,
   processEnvOption
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
@@ -48,8 +47,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, chain: a
 
     postcss,
     babel,
-    csso,
-    uglify
+    csso
   } = config
 
   const isMultiRouterMode = get(router, 'mode') === 'multi'
@@ -95,16 +93,6 @@ export default function (appPath: string, config: Partial<BuildConfig>, chain: a
   const mode = 'production'
 
   const minimizer: any[] = []
-  const isUglifyEnabled = (uglify && uglify.enable === false)
-    ? false
-    : true
-
-  if (isUglifyEnabled) {
-    minimizer.push(getUglifyPlugin([
-      enableSourceMap,
-      uglify ? uglify.config : {}
-    ]))
-  }
 
   return {
     mode,
