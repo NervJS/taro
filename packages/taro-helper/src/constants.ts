@@ -1,7 +1,8 @@
 import * as os from 'os'
 import * as chalk from 'chalk'
 
-export const PLATFORMS = {}
+// eslint-disable-next-line dot-notation
+export const PLATFORMS = global['PLATFORMS'] = global['PLATFORMS'] || {}
 
 export const enum processTypeEnum {
   START = 'start',
@@ -94,7 +95,7 @@ export const REG_SASS_SASS = /\.sass$/
 export const REG_SASS_SCSS = /\.scss$/
 export const REG_LESS = /\.less$/
 export const REG_STYLUS = /\.styl$/
-export const REG_STYLE = /\.(css|scss|sass|less|styl|wxss|acss|ttss|jxss)(\?.*)?$/
+export const REG_STYLE = /\.(css|scss|sass|less|styl|wxss|acss|ttss|jxss|qss)(\?.*)?$/
 export const REG_CSS = /\.(css|wxss|acss|ttss)(\?.*)?$/
 export const REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
 export const REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/

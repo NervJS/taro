@@ -6,7 +6,7 @@ import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
-import { init } from './init'
+import { init, routerConfig } from './init'
 
 export interface Route extends PageConfig {
   path: string
@@ -18,7 +18,8 @@ export interface RouterConfig extends AppConfig {
   router: {
     mode: 'hash' | 'browser'
     basename: 'string',
-    customRoutes?: Record<string, string>
+    customRoutes?: Record<string, string>,
+    pathname: string
   }
 }
 
@@ -116,6 +117,7 @@ export function createRouter (
   app.onLaunch!()
 
   const render: LocationListener<LocationState> = async (location, action) => {
+    routerConfig.router.pathname = location.pathname
     const element = await router.resolve(location.pathname)
     const pageConfig = config.routes.find(r => {
       const path = addLeadingSlash(r.path)

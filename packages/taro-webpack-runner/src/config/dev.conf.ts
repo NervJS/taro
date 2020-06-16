@@ -37,6 +37,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     designWidth = 750,
     deviceRatio,
     enableSourceMap = true,
+    sourceMapType,
     enableExtract = false,
 
     defineConstants = emptyObj,
@@ -113,7 +114,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
   chain.merge({
     mode,
-    devtool: getDevtool([enableSourceMap]),
+    devtool: getDevtool({ enableSourceMap, sourceMapType }),
     entry,
     output: getOutput(appPath, [{
       outputRoot,

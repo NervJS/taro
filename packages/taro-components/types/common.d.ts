@@ -1,4 +1,4 @@
-import {CSSProperties} from 'react';
+import {CSSProperties, LegacyRef} from 'react';
 
 export type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: never } & { [x: string]: never })[keyof T]>;
 
@@ -18,7 +18,7 @@ export interface StandardProps extends EventProps {
   /** 动画属性 */
   animation?: { actions: object[] }
   /** 引用 */
-  ref?: string | ((node: any) => any)
+  ref?: LegacyRef<any>
 }
 
 export interface FormItemProps {

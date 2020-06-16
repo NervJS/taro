@@ -74,9 +74,9 @@ function buildStandardComponentTemplate (comp: Component, level: number, support
   const children = voidElements.has(comp.nodeName)
     ? ''
     : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
+    <${Adapter.type === PLATFORMS.ALIPAY && comp.nodeName === 'picker' ? 'view' : 'block'} ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
       ${child}
-    </block>
+    </${Adapter.type === PLATFORMS.ALIPAY && comp.nodeName === 'picker' ? 'view' : 'block'}>
   `
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
