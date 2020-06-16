@@ -23,6 +23,7 @@ module.exports = {
       'plugin',
       'debug-config',
       'hooks',
+      'jquery-like',
       'html',
       'css-in-js',
       'prerender',

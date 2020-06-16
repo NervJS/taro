@@ -2,10 +2,7 @@
 title: jQuery-like API
 ---
 
-Taro 目前支持官方使用 React 或 Vue 构建视图，它们有两个最大的共同点：
-
-1. 数据驱动渲染
-2. 声明式渲染
+Taro 目前官方支持使用 React 或 Vue 构建视图，它们都是数据驱动的声明式渲染方式。
 
 但在少数情况下，我们需要显式地操纵 DOM，而小程序提供的 `createQuerySelector` API 的用法又较为复杂难懂。在这样的情况下，我们提供了类似 jQuery 的系列 API。使用这个系列 API 很简单，只需要通过 NPM 安装依赖：
 
@@ -20,7 +17,7 @@ import { $ } from '@tarojs/extend'
 ```
 
 :::info 了解更多
-你还可以通过访问 [jQuery-like API RFC] 了解更多实现 jQuery-like API 背后的原因与设计。
+你还可以通过访问 [jQuery-like API RFC](https://github.com/NervJS/taro-rfcs/pull/1) 了解更多实现 jQuery-like API 背后的原因与设计。
 :::
 
 ## 核心方法
@@ -52,11 +49,11 @@ $("<text />", { text:"Hello", id:"greeting", css:{color:'darkblue'} })
 ```
 
 
-:::warn 请注意
+:::caution 请注意
 此不支持 [jQuery CSS 扩展](https://www.html.cn/jqapi-1.9/category/selectors/jquery-selector-extensions/)， 然而，可选的“selector”模块有限提供了支持几个最常用的伪选择器，而且可以被丢弃，与现有的代码或插件的兼容执行。
 :::
 
-:::warn 请注意
+:::caution 请注意
 和 React 或 Vue 不一样的是，在 Taro 的 `jQuery-like API` 中可以使用像 `div` 这样的 HTML 元素，但使用小程序规范的组件（例如 `view`）在 Taro 应用中运行会更顺畅。但在接下来的的案例中可能会出现 HTML 元素，仅代表使用方法，不代表实际可用。
 :::
 
@@ -331,6 +328,10 @@ $("li").hasClass("test")
 const height = await $('#foo').height() // => 123
 ```
 
+:::caution 请注意
+`height()` 返回的 `Promise` 对象。
+:::
+
 ### hide
 
 - `hide()   ⇒ self`
@@ -415,8 +416,287 @@ elements.map(function(){ return $(this).text() }).get().join(', ')
 
 ### not
 
+- `not(selector)   ⇒ collection`
+- `not(collection)   ⇒ collection`
+- `not(function(index){ ... })   ⇒ collection`
+
+过滤当前对象集合，获取一个新的对象集合，它里面的元素不能匹配css选择器。如果另一个参数为Zepto对象集合，那么返回的新Zepto对象中的元素都不包含在该参数对象中。如果参数是一个函数。仅仅包含函数执行为`false`值得时候的元素，函数的 `this` 关键字指向当前循环元素。
+
+与它相反的功能，查看 `filter`。
+
+### offset
+
+- `offset()   ⇒ Promise<object>`
+- `offset(coordinates)   ⇒ self`
+- `offset(function(index, oldOffset){ ... })   ⇒ self`
+
+获得当前元素相对于document的位置。返回一个对象含有： `top`, `left`, `width`和`height`。
+
+### offsetParent
+
+- `offsetParent()   ⇒ collection`
+
+找到第一个定位过的祖先元素，意味着它的css中的 `position` 属性值为“relative”, “absolute” or “fixed”
+
+### parent
+
+- `parent([selector])   ⇒ collection`
+
+获取对象集合中每个元素的直接父元素。如果css选择器参数给出。过滤出符合条件的元素。
+
+### parents
+
+- `parents([selector])   ⇒ collection`
+
+获取对象集合每个元素所有的祖先元素。如果css选择器参数给出，过滤出符合条件的元素。
+
+如果想获取直接父级元素，使用 `parent`。如果只想获取到第一个符合css选择器的元素，使用`closest`。
+
+```js
+$('h1').parents()   //=> [<div#container>, <body>, <html>]
+```
+
+### position
+
+- `position()   ⇒ object`
+
+获取对象集合中第一个元素的位置。相对于 `offsetParent`。当绝对定位的一个元素靠近另一个元素的时候，这个方法是有用的。
+
+```js
+var pos = element.position()
+
+// position a tooltip relative to the element
+$('#tooltip').css({
+  position: 'absolute',
+  top: pos.top - 30,
+  left: pos.left
+})
+```
+
+### prepend
+
+- `prepend(content)   ⇒ self`
+
+将参数内容插入到每个匹配元素的前面（注：元素内部插入）。插入d的元素可以试html字符串片段，一个dom节点，或者一个节点的数组。
+
+```js
+$('ul').prepend('<li>first list item</li>')
+```
+
+### prependTo
+
+- `prependTo(target)   ⇒ self`
+
+将所有元素插入到目标前面（注：元素内部插入）。这有点像`prepend`，但是是相反的方式。
+
+```js
+$('<li>first list item</li>').prependTo('ul')
+```
+
+### prev
+
+- `prev()   ⇒ collection`
+- `prev(selector)   ⇒ collection`
+
+获取对象集合中每一个元素的前一个兄弟节点，通过选择器来进行过滤。
+
+### prop
+
+- `prop(name)   ⇒ value`
+- `prop(name, value)   ⇒ self`
+- `prop(name, function(index, oldValue){ ... })   ⇒ self`
+
+读取或设置dom元素的属性值。它在读取属性值的情况下优先于 `attr`，因为这些属性值会因为用户的交互发生改变，如`checked` 和 `selected`。
+
+简写或小写名称，比如`for`, `class`, `readonly`及类似的属性，将被映射到实际的属性上，比如`htmlFor`, `className`, `readOnly`, 等等。
+
+### remove
+
+- `remove()   ⇒ self`
+
+从其父节点中删除当前集合中的元素，有效的从dom中移除。
 
 
+### removeAttr
+
+- `removeAttr(name)   ⇒ self`
+
+移除当前对象集合中所有元素的指定属性。
+
+### removeClass
+
+- `removeClass([name])   ⇒ self`
+- `removeClass(function(index, oldClassName){ ... })   ⇒ self`
+
+移除当前对象集合中所有元素的指定class。如果没有指定name参数，将移出所有的class。多个class参数名称可以利用空格分隔。下例移除了两个class。
+
+```js
+$("#check1").removeClass("test")
+```
+
+### removeProp
+
+- `removeProp(name)   ⇒ self`
+
+从集合的每个DOM节点中删除一个属性。这是用JavaScript的`delete`操作符完成。值得注意的是如果尝试删除DOM的一些内置属性，如`className`或`maxLength`，将不会有任何效果，因为浏览器禁止删除这些属性。
+
+### replaceWith
+
+- `replaceWith(content)   ⇒ self`
+
+用给定的内容替换所有匹配的元素。(包含元素本身)。content参数可以为 `before`中描述的类型。
+
+### scrollLeft
+
+- `scrollLeft() => Promise<number>`
+- `scrollLeft(value)   ⇒ self`
+
+获取或设置页面上的滚动元素或者整个窗口向右滚动的像素值。
+
+```js
+const height = await $('#foo').scrollLeft() // => 123
+```
+
+### scrollTop
+
+- `scrollTop() => Promise<number>`
+- `scrollTop(value)   ⇒ self`
+
+获取或设置页面上的滚动元素或者整个窗口向下滚动的像素值。
+
+```js
+const height = await $('#foo').scrollTop() // => 123
+```
+
+### show
+
+- `show()   ⇒ self`
+
+### siblings
+
+- `siblings([selector])   ⇒ collection`
+
+获取对象集合中所有元素的兄弟节点。如果给定CSS选择器参数，过滤出符合选择器的元素。
 
 
+### size
 
+- `size()   ⇒ number`
+
+获取对象集合中元素的数量。
+
+
+### slice
+
+- `slice(start, [end])   ⇒ array`
+
+提取这个数组array的子集，从`start`开始，如果给定`end`，提取从从`start`开始到`end`结束的元素，但是不包含`end`位置的元素。
+
+### text
+
+- `text()   ⇒ string`
+- `text(content)   ⇒ self`
+- `text(function(index, oldText){ ... })   ⇒ self`
+
+获取或者设置所有对象集合中元素的文本内容。当没有给定content参数时，返回当前对象集合中第一个元素的文本内容（包含子节点中的文本内容）。当给定content参数时，使用它替换对象集合中所有元素的文本内容。它有待点似 html，与它不同的是它不能用来获取或设置 HTML。
+
+### toggle
+
+- `toggle([setting])   ⇒ self`
+
+显示或隐藏匹配元素。如果 `setting` 为 `true`，相当于 `show()` 。如果`setting`为`false`。相当于 `hide()`。
+
+### toggleClass
+
+- `toggleClass(names, [setting])   ⇒ self`
+- `toggleClass(function(index, oldClassNames){ ... }, [setting])   ⇒ self`
+
+在匹配的元素集合中的每个元素上添加或删除一个或多个样式类。如果class的名称存在则删除它，如果不存在，就添加它。如果 setting的值为真，这个功能类似于 addClass，如果为假，这个功能类似与 removeClass。
+
+### unwrap
+
+- `unwrap()   ⇒ self`
+
+移除集合中每个元素的直接父节点，并把他们的子元素保留在原来的位置。 基本上，这种方法删除上一的祖先元素，同时保持DOM中的当前元素。
+
+### val
+
+- `val()   ⇒ string`
+- `val(value)   ⇒ self`
+- `val(function(index, oldValue){ ... })   ⇒ self`
+
+获取或设置匹配元素的值。当没有给定value参数，返回第一个元素的值。当给定value参数，那么将设置所有元素的值。
+
+### width
+
+- `width()   ⇒ Promise<number>`
+- `width(value)   ⇒ self`
+- `width(function(index, oldWidth){ ... })   ⇒ self`
+
+获取对象集合中第一个元素的宽；或者设置对象集合中所有元素的宽。
+
+```js
+await $('#foo').width()   // => 123
+```
+
+## 事件
+
+### off
+
+- `off(type, [selector], function(e){ ... })   ⇒ self`
+- `off({ type: handler, type2: handler2, ... }, [selector])   ⇒ self`
+- `off(type, [selector])   ⇒ self`
+- `off()   ⇒ self`
+
+移除通过 on 添加的事件.移除一个特定的事件处理程序， 必须通过用`on()`添加的那个相同的函数。否则，只通过事件类型调用此方法将移除该类型的所有处理程序。如果没有参数，将移出当前元素上全部的注册事件。
+
+### on
+
+- `on(type, [selector], function(e){ ... })   ⇒ self`
+- `on(type, [selector], [data], function(e){ ... })   ⇒ self`
+- `on({ type: handler, type2: handler2, ... }, [selector])   ⇒ self`
+- `on({ type: handler, type2: handler2, ... }, [selector], [data])   ⇒ self`
+
+添加事件处理程序到对象集合中得元素上。多个事件可以通过空格的字符串方式添加，或者以事件类型为键、以函数为值的对象 方式。如果给定css选择器，当事件在匹配该选择器的元素上发起时，事件才会被触发（注：即事件委派，或者说事件代理）。
+
+如果给定`data`参数，这个值将在事件处理程序执行期间被作为有用的 `event.data` 属性
+
+事件处理程序在添加该处理程序的元素、或在给定选择器情况下匹配该选择器的元素的上下文中执行(注：this指向触发事件的元素)。 当一个事件处理程序返回false，preventDefault() 和 stopPropagation()被当前事件调用的情况下，  将防止默认浏览器操作，如链接。
+
+
+```js
+var elem = $('#content')
+// observe all clicks inside #content:
+elem.on('click', function(e){ ... })
+// observe clicks inside navigation links in #content
+elem.on('click', 'nav a', function(e){ ... })
+// all clicks inside links in the document
+$('#test').on('click', 'a', function(e){ ... })
+// disable following any navigation link on the page
+$('#test').on('click', 'nav a', false)
+```
+
+### one
+
+- `one(type, [selector], function(e){ ... })   ⇒ self`
+- `one(type, [selector], [data], function(e){ ... })   ⇒ self`
+- `one({ type: handler, type2: handler2, ... }, [selector])   ⇒ self`
+- `one({ type: handler, type2: handler2, ... }, [selector], [data])   ⇒ self`
+
+和 `on()` 一样，添加一个处理事件到元素，当第一次执行事件以后，该事件将自动解除绑定，保证处理函数在每个元素上最多执行一次。
+
+### trigger
+
+- `trigger(event, [args])   ⇒ self`
+
+在对象集合的元素上触发指定的事件。如果给定args参数，它会作为参数传递给事件函数。
+
+```js
+$('#test').trigger('tap', ['one', 'two'])
+```
+
+### triggerHandler
+
+- triggerHandler(event, [args])   ⇒ self
+
+和 `trigger` 一样，它只在当前元素上触发事件，但不冒泡。
