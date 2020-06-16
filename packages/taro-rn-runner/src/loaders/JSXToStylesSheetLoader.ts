@@ -269,10 +269,10 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
           }
           // 第一个引入的样式文件
           if (cssFileCount === 0) {
-            const cssFileBaseName = path.basename(jsFilePath, path.extname(jsFilePath))
+            const cssFileBaseName = path.basename(jsFilePath, path.extname(jsFilePath)).replace('.rn','')
             // 引入样式对应的变量名
             const styleSheetIdentifierValue = `${cssFileBaseName.replace(/[-.]/g, '_') + NAME_SUFFIX}`
-            const styleSheetIdentifierPath = `./index_styles`
+            const styleSheetIdentifierPath = `./${cssFileBaseName}_styles`
             const styleSheetIdentifier = t.identifier(styleSheetIdentifierValue)
             // const indexStyleSheet = __non_webpack_require__('./index_styles').default
             const webpackNode = template(

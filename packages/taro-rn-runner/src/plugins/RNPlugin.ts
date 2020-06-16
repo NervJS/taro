@@ -853,9 +853,9 @@ export default class RNPlugin {
       const fileInfo = compilation.assets[fileName]
       if (!REG_STYLE.test(fileName)) return
       const relativePath = this.getRelativePath(fileName)
-      // const extname = path.extname(fileName)
-      // const styleSheetPath = relativePath.replace(extname, '_styles.js').replace(/\\/g, '/')
-      const styleSheetPath = path.join(path.dirname(relativePath), 'index_styles.js')
+      const extname = path.extname(fileName)
+      const styleSheetPath = relativePath.replace(extname, '_styles.js').replace(/\\/g, '/')
+      // const styleSheetPath = path.join(path.dirname(relativePath), 'index_styles.js')
       delete compilation.assets[fileName]
       const css = fileInfo.source()
       // cache
