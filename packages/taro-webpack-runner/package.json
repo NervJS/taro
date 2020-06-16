@@ -60,7 +60,7 @@
     "resolve-url-loader": "2.3.0",
     "style-loader": "0.21.0",
     "url-loader": "1.1.2",
-    "webpack": "4.41.6",
+    "webpack": "4.43.0",
     "webpack-chain": "4.9.0",
     "webpack-dev-server": "3.1.14",
     "webpack-format-messages": "2.0.3"
