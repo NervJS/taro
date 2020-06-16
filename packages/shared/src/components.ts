@@ -396,7 +396,8 @@ const Swiper = {
   'easing-function': singleQuote('default'),
   bindChange: '',
   bindTransition: '',
-  bindAnimationFinish: ''
+  bindAnimationFinish: '',
+  ...touchEvents
 }
 
 const SwiperItem = {
