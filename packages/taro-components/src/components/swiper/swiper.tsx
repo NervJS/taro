@@ -191,13 +191,15 @@ export class Swiper implements ComponentInterface {
       }
     )
 
+    const hostStyle: Record<string, string> = {}
     const style: Record<string, string> = {}
     if (this.full) {
+      hostStyle.height = '100%'
       style.height = '100%'
     }
 
     return (
-      <Host>
+      <Host style={hostStyle}>
         <div class={cls} style={style}>
           <style type='text/css'>
             {`
