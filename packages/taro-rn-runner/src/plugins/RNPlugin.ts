@@ -262,6 +262,7 @@ export default class RNPlugin {
         await this.generateMiniFiles(compilation)
         await this.generateStyleSheet(compilation)
         await this.generateRNEntry(compilation)
+        await this.linkCommonBundle(compilation)
         this.addedComponents.clear()
       })
     )
@@ -767,7 +768,7 @@ export default class RNPlugin {
 
   async generateMiniFiles (compilation: webpack.compilation.Compilation) {
     // const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
-    const { modifyBuildTempFileContent, modifyBuildAssets } = this.options
+    const {modifyBuildTempFileContent, modifyBuildAssets} = this.options
 
     if (typeof modifyBuildTempFileContent === 'function') {
       await modifyBuildTempFileContent(taroFileTypeMap)
@@ -804,6 +805,16 @@ export default class RNPlugin {
 
     if (typeof modifyBuildAssets === 'function') {
       await modifyBuildAssets(compilation.assets)
+    }
+  }
+
+  linkCommonBundle (compilation: webpack.compilation.Compilation) {
+    if (compilation.assets['common.js']) {
+      const newAppCode = `require('./common');` + compilation.assets['app.js'].source()
+      compilation.assets['app.js'] = {
+        size: () => newAppCode.length,
+        source: () => newAppCode
+      }
     }
   }
 
