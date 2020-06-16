@@ -27,9 +27,6 @@ export async function previewImage (options) {
   })
 
   const swiper = document.createElement('taro-swiper-core')
-  swiper.indicatorDots = true
-  swiper.indicatorActiveColor = '#777'
-  swiper.indicatorColor = 'rgba(255, 255, 0, .1)'
   swiper.full = true
 
   const { urls = [], current = '' } = options
