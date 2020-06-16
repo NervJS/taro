@@ -1,7 +1,8 @@
 import * as os from 'os'
 import * as chalk from 'chalk'
 
-export const PLATFORMS = {}
+// eslint-disable-next-line dot-notation
+export const PLATFORMS = global['PLATFORMS'] = global['PLATFORMS'] || {}
 
 export const enum processTypeEnum {
   START = 'start',
