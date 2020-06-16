@@ -1,5 +1,27 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.2.6...v) (2020-06-04)
+# [](https://github.com/NervJS/taro/compare/v2.2.7...v) (2020-06-15)
+
+
+### Bug Fixes
+
+* 修复小程序插件编译错误，close [#6627](https://github.com/NervJS/taro/issues/6627) ([5524f8b](https://github.com/NervJS/taro/commit/5524f8b))
+* **component:** for vertical swiper ([b43046c](https://github.com/NervJS/taro/commit/b43046c))
+* types ([193e64c](https://github.com/NervJS/taro/commit/193e64c))
+* unless height ([3dd8807](https://github.com/NervJS/taro/commit/3dd8807))
+
+
+### Features
+
+* **cli:** build 命令增加运行时对 plugin 的检测 ([def496c](https://github.com/NervJS/taro/commit/def496c))
+* **cli:** 自定义命令增加获取当前 cli 版本号 ([3aa015e](https://github.com/NervJS/taro/commit/3aa015e))
+* **mini-runner:** 添加对小程序特定的样式文件处理 ([be04811](https://github.com/NervJS/taro/commit/be04811))
+* **service:** 插件对象增加 name 来标识通过 npm 安装的插件 ([7c0baac](https://github.com/NervJS/taro/commit/7c0baac))
+* **service:** 插件环境信息中增加当前运行环境上挂载的编译平台 platforms 信息 ([8af19c1](https://github.com/NervJS/taro/commit/8af19c1))
+
+
+
+<a name="2.2.7"></a>
+## [2.2.7](https://github.com/NervJS/taro/compare/v2.2.6...v2.2.7) (2020-06-04)
 
 
 ### Bug Fixes

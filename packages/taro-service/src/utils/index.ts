@@ -2,14 +2,12 @@ import * as path from 'path'
 
 import { merge } from 'lodash'
 import * as resolve from 'resolve'
-import { getModuleDefaultExport } from '@tarojs/helper'
+import { getModuleDefaultExport, NODE_MODULES_REG, isNpmPkg } from '@tarojs/helper'
 
 import { PluginItem } from '@tarojs/taro/types/compile'
 
 import { PluginType } from './constants'
 import { IPlugin } from './types'
-
-export const isNpmPkg: (name: string) => boolean = name => !(/^(\.|\/)/.test(name))
 
 export function getPluginPath (pluginPath: string) {
   if (isNpmPkg(pluginPath) || path.isAbsolute(pluginPath)) return pluginPath
@@ -45,13 +43,22 @@ export function mergePlugins (dist: PluginItem[], src: PluginItem[]) {
 // getModuleDefaultExport
 export function resolvePresetsOrPlugins (root: string, args, type: PluginType): IPlugin[] {
   return Object.keys(args).map(item => {
+    let pkgInfo
     const fPath = resolve.sync(item, {
       basedir: root,
-      extensions: ['.js', '.ts']
+      extensions: ['.js', '.ts'],
+      packageFilter (pkg) {
+        pkgInfo = pkg
+      }
     })
+    let name = fPath
+    if (NODE_MODULES_REG.test(fPath) && isNpmPkg(item)) {
+      name = pkgInfo.name || fPath
+    }
     return {
       id: fPath,
       path: fPath,
+      name,
       type,
       opts: args[item] || {},
       apply () {

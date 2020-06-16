@@ -14,12 +14,10 @@ import {
   processEnvOption
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
-import getBaseChain from './base.conf'
 
 const emptyObj = {}
 
-export default function (appPath: string, config: Partial<BuildConfig>): any {
-  const chain = getBaseChain(appPath)
+export default function (appPath: string, config: Partial<BuildConfig>, chain: any): any {
   const {
     alias = emptyObj,
     copy,
@@ -42,9 +40,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     env = emptyObj,
     styleLoaderOption = emptyObj,
     cssLoaderOption = emptyObj,
-    sassLoaderOption = emptyObj,
-    lessLoaderOption = emptyObj,
-    stylusLoaderOption = emptyObj,
     mediaUrlLoaderOption = emptyObj,
     fontUrlLoaderOption = emptyObj,
     imageUrlLoaderOption = emptyObj,
@@ -90,7 +85,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
   const mode = 'development'
 
-  chain.merge({
+  return {
     mode,
     devtool: getDevtool({ enableSourceMap, sourceMapType }),
     entry,
@@ -108,9 +103,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
       styleLoaderOption,
       cssLoaderOption,
-      lessLoaderOption,
-      sassLoaderOption,
-      stylusLoaderOption,
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
@@ -119,12 +111,10 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       postcss,
       babel,
       staticDirectory
-    }),
+    }, chain),
     plugin,
     optimization: {
       noEmitOnErrors: true
     }
-  })
-
-  return chain
+  }
 }

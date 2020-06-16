@@ -157,7 +157,11 @@ class Swiper extends Nerv.Component {
     }
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (preProps) {
+    if (preProps.children.length === 0 && this.props.children.length > 0) {
+      this.mySwiper.loopDestroy()
+      this.mySwiper.loopCreate()
+    }
     if (!this.mySwiper) return
     if (this.props.autoplay) {
       if (this._$width !== this.mySwiper.width || this._$height !== this.mySwiper.height) {

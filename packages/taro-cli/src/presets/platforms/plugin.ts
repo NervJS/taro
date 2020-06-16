@@ -10,7 +10,7 @@ export default (ctx) => {
         isWatch
       } = ctx.runOpts
       const { sourcePath, outputPath } = ctx.paths
-      const { chalk, fs, PLATFORMS } = ctx.helper
+      const { emptyDirectory, chalk, fs, PLATFORMS } = ctx.helper
       const { WEAPP, ALIPAY } = PLATFORMS
 
       const PLUGIN_JSON = 'plugin.json'
@@ -20,6 +20,8 @@ export default (ctx) => {
         [WEAPP]: '微信',
         [ALIPAY]: '支付宝'
       }
+      emptyDirectory(outputPath)
+
       if (plugin !== WEAPP && plugin !== ALIPAY) {
         console.log(chalk.red('目前插件编译仅支持 微信/支付宝 小程序！'))
         return
@@ -30,19 +32,29 @@ export default (ctx) => {
         await ctx.applyPlugins({
           name: 'build',
           opts: {
-            platform: 'weapp',
-            isBuildPlugin: true,
-            isWatch,
-            outputRoot: `${config.outputRoot}/miniprogram`
+            config: {
+              ...config,
+              isBuildPlugin: true,
+              isWatch,
+              outputRoot: `${config.outputRoot}/miniprogram`,
+              platform: 'weapp',
+              needClearOutput: false
+            },
+            platform: 'weapp'
           }
         })
         await ctx.applyPlugins({
           name: 'build',
           opts: {
-            platform: 'weapp',
-            isBuildPlugin: false,
-            isWatch,
-            outputRoot: `${config.outputRoot}/miniprogram`
+            config: {
+              ...config,
+              isBuildPlugin: false,
+              isWatch,
+              outputRoot: `${config.outputRoot}`,
+              platform: 'weapp',
+              needClearOutput: false
+            },
+            platform: 'weapp'
           }
         })
       }
@@ -51,8 +63,12 @@ export default (ctx) => {
         await ctx.applyPlugins({
           name: 'build',
           opts: {
-            platform: 'alipay',
-            isWatch
+            config: {
+              ...config,
+              isWatch,
+              platform: 'alipay'
+            },
+            platform: 'alipay'
           }
         })
         const pluginJson = path.join(sourcePath, PLUGIN_JSON)
