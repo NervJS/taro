@@ -19,3 +19,5 @@ export const Current: Current = {
   router: null,
   page: null
 }
+
+export const getCurrentInstance = () => Current
