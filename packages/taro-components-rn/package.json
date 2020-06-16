@@ -76,7 +76,7 @@
     "react-test-renderer": "^16.2.0",
     "sinon": "^6.0.0",
     "ts-jest": "^23.10.5",
-    "tsc-watch": "^1.0.30",
+    "tsc-watch": "^4.2.8",
     "typescript": "^3.5.2"
   }
 }
