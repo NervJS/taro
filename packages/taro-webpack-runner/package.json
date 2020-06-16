@@ -7,6 +7,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "test": "env NODE_ENV=jest jest",
+    "test:ci": "env NODE_ENV=jest jest -i",
     "test:dev": "env NODE_ENV=jest jest --watch",
     "test:coverage": "env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "env NODE_ENV=jest jest --updateSnapshot"

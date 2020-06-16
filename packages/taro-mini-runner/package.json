@@ -11,6 +11,7 @@
     "lint": "tslint src/**/*.ts --fix",
     "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
     "test": "env NODE_ENV=jest jest",
+    "test:ci": "env NODE_ENV=jest jest -i",
     "test:dev": "env NODE_ENV=jest jest --watch",
     "test:coverage": "env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "env NODE_ENV=jest jest --updateSnapshot"
