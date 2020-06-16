@@ -58,6 +58,7 @@
       "version-2.2.8/config-detail",
       "version-2.2.8/plugin",
       "version-2.2.8/styles-processor",
+      "version-2.2.8/script-compressor",
       "version-2.2.8/debug-config",
       "version-2.2.8/hooks",
       "version-2.2.8/ui-lib",

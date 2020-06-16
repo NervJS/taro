@@ -83,6 +83,8 @@ babel: {
 
 ## uglify
 
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-uglify` 插件才能使用此配置
+
 用来配置 `UgligyJS` 工具，设置打包过程中的 JS 代码压缩。可以通过 `uglify.enable` 来设置是否开启压缩，若设置开启，则可以通过 `uglify.config` 来设置 `UgligyJS` 的配置项，具体配置方式如下：
 
 ```jsx
@@ -90,6 +92,21 @@ uglify: {
   enable: true,
   config: {
     // 配置项同 https://github.com/mishoo/UglifyJS2#minify-options
+  }
+}
+```
+
+## terser
+
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-terser` 插件才能使用此配置
+
+用来配置 `terser` 工具，设置打包过程中的 JS 代码压缩。可以通过 `terser.enable` 来设置是否开启压缩，若设置开启，则可以通过 `terser.config` 来设置 `terser` 的配置项，具体配置方式如下：
+
+```jsx
+terser: {
+  enable: true,
+  config: {
+    // 配置项同 https://github.com/terser/terser#minify-options
   }
 }
 ```
@@ -108,6 +125,8 @@ csso: {
 ```
 
 ## sass
+
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-sass` 插件才能使用此配置
 
 用来配置 `sass` 工具，设置打包过程中的 SCSS 代码编译。  
 具体配置可以参考[node-sass](https://www.npmjs.com/package/node-sass)  
@@ -524,6 +543,8 @@ style-loader 的附加配置。配置项参考[官方文档](https://github.com/
 
 ### mini.sassLoaderOption
 
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-sass` 插件才能使用此配置
+
 sass-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/sass-loader)，例如：
 
 ```jsx
@@ -535,6 +556,8 @@ sass-loader 的附加配置。配置项参考[官方文档](https://github.com/w
 ```
 
 ### mini.lessLoaderOption
+
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-less` 插件才能使用此配置
 
 less-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
 
@@ -548,6 +571,8 @@ less-loader 的附加配置。配置项参考[官方文档](https://github.com/w
 ```
 
 ### mini.stylusLoaderOption
+
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-stylus` 插件才能使用此配置
 
 stylus-loader 的附加配置。配置项参考[官方文档](https://github.com/shama/stylus-loader)。
 
@@ -839,6 +864,8 @@ style-loader 的附加配置。配置项参考[官方文档](https://github.com/
 
 ### h5.sassLoaderOption
 
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-sass` 插件才能使用此配置
+
 sass-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/sass-loader)，例如：
 
 ```jsx
@@ -850,6 +877,8 @@ sass-loader 的附加配置。配置项参考[官方文档](https://github.com/w
 ```
 
 ### h5.lessLoaderOption
+
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-less` 插件才能使用此配置
 
 less-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
 
@@ -863,6 +892,8 @@ less-loader 的附加配置。配置项参考[官方文档](https://github.com/w
 ```
 
 ### h5.stylusLoaderOption
+
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-stylus` 插件才能使用此配置
 
 stylus-loader 的附加配置。配置项参考[官方文档](https://github.com/shama/stylus-loader)。
 
@@ -1001,7 +1032,7 @@ const config = {
 
 配置额外需要经过 Taro 编译的文件，例如 Taro 默认不编译 `node_modules` 包中文件，可以通过这个配置让 Taro 编译  `node_modules` 包中文件，使用方式与 `rn.compile.exclude` 一致，同 [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude)。
 
-### mini.webpackChain
+### rn.webpackChain
 
 自定义 Webpack 配置，接受函数形式的配置。
 
@@ -1065,7 +1096,7 @@ export enum PARSE_AST_TYPE {
 }
 ```
 
-### mini.cssLoaderOption
+### rn.cssLoaderOption
 
 css-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/css-loader)，例如：
 
@@ -1077,7 +1108,7 @@ css-loader 的附加配置。配置项参考[官方文档](https://github.com/we
 }
 ```
 
-### mini.styleLoaderOption
+### rn.styleLoaderOption
 
 style-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/style-loader)，例如：
 
@@ -1089,7 +1120,9 @@ style-loader 的附加配置。配置项参考[官方文档](https://github.com/
 }
 ```
 
-### mini.sassLoaderOption
+### rn.sassLoaderOption
+
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-sass` 插件才能使用此配置
 
 sass-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/sass-loader)，例如：
 
@@ -1101,7 +1134,9 @@ sass-loader 的附加配置。配置项参考[官方文档](https://github.com/w
 }
 ```
 
-### mini.lessLoaderOption
+### rn.lessLoaderOption
+
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-less` 插件才能使用此配置
 
 less-loader 的附加配置。配置项参考[官方文档](https://github.com/webpack-contrib/less-loader)，例如：
 
@@ -1114,11 +1149,13 @@ less-loader 的附加配置。配置项参考[官方文档](https://github.com/w
 }
 ```
 
-### mini.stylusLoaderOption
+### rn.stylusLoaderOption
+
+> 自 2.2.8 开始，需要安装 `@tarojs/plugin-stylus` 插件才能使用此配置
 
 stylus-loader 的附加配置。配置项参考[官方文档](https://github.com/shama/stylus-loader)。
 
-### mini.mediaUrlLoaderOption
+### rn.mediaUrlLoaderOption
 
 针对 `mp4 | webm | ogg | mp3 | wav | flac | aac` 文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)，例如：
 
@@ -1130,15 +1167,15 @@ stylus-loader 的附加配置。配置项参考[官方文档](https://github.com
 }
 ```
 
-### mini.fontUrlLoaderOption
+### rn.fontUrlLoaderOption
 
 针对 `woff | woff2 | eot | ttf | otf` 文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
 
-### mini.imageUrlLoaderOption
+### rn.imageUrlLoaderOption
 
 针对 `png | jpg | jpeg | gif | bpm | svg` 文件的 url-loader 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
 
-### mini.miniCssExtractPluginOption
+### rn.miniCssExtractPluginOption
 
 `mini-css-extract-plugin` 的附加配置，在 `enableExtract` 为 `true` 的情况下生效。
 配置项参考[官方文档](https://github.com/webpack-contrib/mini-css-extract-plugin)，例如：
@@ -1152,7 +1189,7 @@ stylus-loader 的附加配置。配置项参考[官方文档](https://github.com
 }
 ```
 
-### mini.postcss
+### rn.postcss
 
 配置 `postcss` 相关插件：
 
