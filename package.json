@@ -10,12 +10,14 @@
     "bootstrap:ci": "lerna bootstrap --npm-client=yarn",
     "bootstrap:lerna": "lerna bootstrap",
     "bootstrap": "npm-run-all clear-all bootstrap:lerna",
+    "build:shared": "lerna run build --scope @tarojs/shared --scope @tarojs/runtime",
+    "build:parallel": "npm run build:shared && lerna run build --parallel --ignore @tarojs/shared --ignore @tarojs/runtime",
     "build": "lerna run build",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "release:lerna": "lerna publish --force-publish=* --exact --skip-temp-tag",
+    "release:lerna": "lerna version --exact --no-git-tag-version",
     "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
     "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
-    "test": "lerna run --scope babel-preset-taro  --scope @tarojs/components --scope @tarojs/loader --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/cli test"
+    "test": "lerna run --parallel --scope babel-preset-taro  --scope @tarojs/components --scope @tarojs/loader --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/cli test:ci"
   },
   "repository": {
     "type": "git",

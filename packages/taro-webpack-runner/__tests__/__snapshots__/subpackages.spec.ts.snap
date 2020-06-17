@@ -97,7 +97,7 @@ exports[`subpackages should process subpackages 2`] = `
                         \\"className\\": \\"index\\"
                     }, react__WEBPACK_IMPORTED_MODULE_5__[\\"default\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__[\\"Text\\"], {
                         \\"onClick\\": function onClick() {
-                            _tarojs_taro__WEBPACK_IMPORTED_MODULE_7__[\\"a\\"].navigateTo({
+                            _tarojs_taro__WEBPACK_IMPORTED_MODULE_7__[\\"b\\"].navigateTo({
                                 \\"url\\": \\"/packageA/detail/index\\"
                             });
                         }
@@ -447,7 +447,7 @@ exports[`subpackages should process subpackages 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     var taro_h5 = \\"taro-h5-mock\\";
-    var h5 = __webpack_exports__[\\"a\\"] = taro_h5;
+    var h5 = __webpack_exports__[\\"b\\"] = taro_h5;
 }, function(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(14);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
@@ -787,10 +787,15 @@ exports[`subpackages should process subpackages 2`] = `
     var taro_runtime_window = {};
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(10);
-    Object(taro_components[\\"c\\"])().then(() => {
+    Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
-    });
-    const config = {
+    }));
+    var config = {
+        \\"router\\": {
+            \\"mode\\": \\"hash\\",
+            \\"customRoutes\\": {},
+            \\"basename\\": \\"/\\"
+        },
         \\"pages\\": [ \\"pages/index/index\\", \\"packageA/detail/index\\" ],
         \\"window\\": {
             \\"backgroundTextStyle\\": \\"light\\",
@@ -805,9 +810,9 @@ exports[`subpackages should process subpackages 2`] = `
     };
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
-        const tabbarList = config.tabBar.list;
+        var tabbarList = config.tabBar.list;
         for (let i = 0; i < tabbarList.length; i++) {
-            const t = tabbarList[i];
+            var t = tabbarList[i];
             if (t.iconPath) {
                 t.iconPath = tabbarIconPath[i];
             }
@@ -818,16 +823,21 @@ exports[`subpackages should process subpackages 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": () => __webpack_require__.e(2).then(__webpack_require__.bind(null, 17))
+        \\"load\\": function() {
+            return __webpack_require__.e(2).then(__webpack_require__.bind(null, 17));
+        }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}), Object.assign({
         \\"path\\": \\"packageA/detail/index\\",
-        \\"load\\": () => __webpack_require__.e(1).then(__webpack_require__.bind(null, 18))
+        \\"load\\": function() {
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 18));
+        }
     }, {
         \\"navigationBarTitleText\\": \\"详情页\\"
     } || {}) ];
-    h5[\\"a\\"].createRouter(src_app, config, \\"react\\", react, react[\\"default\\"], config);
+    var inst = undefined(src_app, react, react[\\"default\\"], config);
+    Object(h5[\\"createRouter\\"])(inst, config, react);
 } ]);
 "
 `;

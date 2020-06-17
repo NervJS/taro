@@ -723,10 +723,15 @@ exports[`nerv should build nerv app 2`] = `
     var taro_runtime_window = {};
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(9);
-    Object(taro_components[\\"c\\"])().then(() => {
+    Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
-    });
-    const config = {
+    }));
+    var config = {
+        \\"router\\": {
+            \\"mode\\": \\"hash\\",
+            \\"customRoutes\\": {},
+            \\"basename\\": \\"/\\"
+        },
         \\"pages\\": [ \\"pages/index/index\\" ],
         \\"window\\": {
             \\"backgroundTextStyle\\": \\"light\\",
@@ -737,9 +742,9 @@ exports[`nerv should build nerv app 2`] = `
     };
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
-        const tabbarList = config.tabBar.list;
+        var tabbarList = config.tabBar.list;
         for (let i = 0; i < tabbarList.length; i++) {
-            const t = tabbarList[i];
+            var t = tabbarList[i];
             if (t.iconPath) {
                 t.iconPath = tabbarIconPath[i];
             }
@@ -750,11 +755,14 @@ exports[`nerv should build nerv app 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": () => __webpack_require__.e(1).then(__webpack_require__.bind(null, 15))
+        \\"load\\": function() {
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
+        }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    h5.createRouter(src_app, config, \\"nerv\\", nerv[\\"b\\"], nerv[\\"b\\"], config);
+    var inst = undefined(src_app, nerv[\\"b\\"], nerv[\\"b\\"], config);
+    undefined(inst, config, nerv[\\"b\\"]);
 } ]);
 "
 `;

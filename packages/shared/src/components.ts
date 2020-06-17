@@ -34,6 +34,7 @@ const View = {
   'hover-stay-time': '400',
   animation: '',
   bindAnimationEnd: '',
+  bindTransitionEnd: '',
   ...touchEvents
 }
 
@@ -395,7 +396,8 @@ const Swiper = {
   'easing-function': singleQuote('default'),
   bindChange: '',
   bindTransition: '',
-  bindAnimationFinish: ''
+  bindAnimationFinish: '',
+  ...touchEvents
 }
 
 const SwiperItem = {
@@ -629,6 +631,19 @@ const PageMeta = {
 
 const Block = {}
 
+// For Vue，因为 slot 标签被 vue 占用了
+const SlotView = {
+  name: ''
+}
+
+// For React
+// Slot 和 SlotView 最终都会编译成 <view slot={{ i.name }} />
+// 因为 <slot name="{{ i.name }}" /> 适用性没有前者高（无法添加类和样式）
+// 不给 View 直接加 slot 属性的原因是性能损耗
+const Slot = {
+  name: ''
+}
+
 interface Components {
   [key: string]: Record<string, string>;
 }
@@ -665,7 +680,14 @@ export function createMiniComponents (components: Components, buildType: string)
       if (compName !== 'block') {
         Object.assign(newComp, styles, isAlipay ? alipayEvents : events)
       }
-      result[compName] = newComp
+
+      if (compName === 'slot' || compName === 'slot-view') {
+        result[compName] = {
+          slot: 'i.name'
+        }
+      } else {
+        result[compName] = newComp
+      }
     }
   }
 
@@ -716,7 +738,9 @@ export const internalComponents = {
   NavigationBar,
   PageMeta,
   Block,
-  Map
+  Map,
+  Slot,
+  SlotView
 }
 
 export const controlledComponent = new Set([

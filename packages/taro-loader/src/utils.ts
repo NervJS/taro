@@ -24,37 +24,42 @@ export function getFrameworkArgs (framework: string) {
 }
 
 export const frameworkMeta: Record<string, {
-  importFramework: string
+  importFrameworkStatement: string
   frameworkArgs: string
   creator: string
+  importFrameworkName: string
 }> = {
   vue: {
-    importFramework: `
+    importFrameworkStatement: `
 import Vue from 'vue';
 `,
     frameworkArgs: 'Vue, config',
-    creator: 'createVueApp'
+    creator: 'createVueApp',
+    importFrameworkName: 'Vue'
   },
   vue3: {
-    importFramework: `
+    importFrameworkStatement: `
 import { h } from 'vue'
 `,
     frameworkArgs: 'h, config',
-    creator: 'createVue3App'
+    creator: 'createVue3App',
+    importFrameworkName: 'h'
   },
   nerv: {
-    importFramework: `
+    importFrameworkStatement: `
 import Nerv from 'nervjs';
 `,
     frameworkArgs: 'Nerv, Nerv, config',
-    creator: 'createReactApp'
+    creator: 'createReactApp',
+    importFrameworkName: 'Nerv'
   },
   react: {
-    importFramework: `
+    importFrameworkStatement: `
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 `,
     frameworkArgs: 'React, ReactDOM, config',
-    creator: 'createReactApp'
+    creator: 'createReactApp',
+    importFrameworkName: 'React'
   }
 }

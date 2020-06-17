@@ -7,6 +7,14 @@ import { AppInstance, ReactPageComponent, PageProps, Instance, ReactAppInstance 
 import { document } from '../bom/document'
 import { injectPageInstance } from './common'
 import { isBrowser } from '../env'
+import { options } from '../options'
+import { Reconciler } from '../reconciler'
+
+function isClassComponent (R: typeof React, component): boolean {
+  return isFunction(component.render) ||
+  !!component.prototype?.isReactComponent ||
+  component.prototype instanceof R.Component // compat for some others react-like library
+}
 
 export function connectReactPage (
   R: typeof React,
@@ -15,9 +23,7 @@ export function connectReactPage (
   const h = R.createElement
   return (component: ReactPageComponent): React.ComponentClass<PageProps> => {
     // eslint-disable-next-line dot-notation
-    const isReactComponent = isFunction(component['render']) ||
-      !!component.prototype?.isReactComponent ||
-      component.prototype instanceof R.Component // compat for some others react-like library
+    const isReactComponent = isClassComponent(R, component)
 
     const inject = (node?: Instance) => node && injectPageInstance(node, id)
     const refs = isReactComponent ? { ref: inject } : { forwardedRef: inject }
@@ -77,12 +83,49 @@ let ReactDOM
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
+function setReconciler () {
+  const hostConfig: Reconciler<React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>> = {
+    getLifecyle (instance, lifecycle) {
+      if (lifecycle === 'onShow') {
+        lifecycle = 'componentDidShow'
+      } else if (lifecycle === 'onHide') {
+        lifecycle = 'componentDidHide'
+      }
+      return instance[lifecycle] as Function
+    }
+  }
+
+  if (isBrowser) {
+    hostConfig.createPullDownComponent = (el, _, R: typeof React) => {
+      const isReactComponent = isClassComponent(R, el)
+
+      return R.forwardRef((props, ref) => {
+        const newProps: React.Props<any> = { ...props }
+        if (isReactComponent) {
+          newProps.ref = ref
+        }
+
+        return R.createElement('taro-pull-to-refresh', null, R.createElement(el, newProps))
+      })
+    }
+
+    hostConfig.findDOMNode = (inst) => {
+      return ReactDOM.findDOMNode(inst)
+    }
+  }
+
+  options.reconciler(hostConfig)
+}
+
 export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfig) {
   R = react
   ReactDOM = reactdom
   ensure(!!ReactDOM, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
 
   const ref = R.createRef<ReactAppInstance>()
+  const isReactComponent = isClassComponent(R, App)
+
+  setReconciler()
 
   let wrapper: AppWrapper
 
@@ -115,9 +158,15 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
         this.elements.push(page())
       }
 
+      let props: React.Props<any> | null = null
+
+      if (isReactComponent) {
+        props = { ref }
+      }
+
       return R.createElement(
         App,
-        { ref },
+        props,
         isBrowser ? R.createElement('div', null, this.elements.slice()) : this.elements.slice()
       )
     }

@@ -2,12 +2,11 @@
 import UniversalRouter, { Routes } from 'universal-router'
 import { AppConfig, PageConfig } from '@tarojs/taro'
 import { LocationListener, LocationState } from 'history'
-import { createReactApp, createPageConfig, Current, createVueApp, PageInstance, eventCenter } from '@tarojs/runtime'
+import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance } from '@tarojs/runtime'
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
-import { init } from './init'
-import { createPullDownRefresh, R, V } from './pull-down'
+import { init, routerConfig } from './init'
 
 export interface Route extends PageConfig {
   path: string
@@ -15,7 +14,13 @@ export interface Route extends PageConfig {
 }
 
 export interface RouterConfig extends AppConfig {
-  routes: Route[]
+  routes: Route[],
+  router: {
+    mode: 'hash' | 'browser'
+    basename: 'string',
+    customRoutes?: Record<string, string>,
+    pathname: string
+  }
 }
 
 function addLeadingSlash (path?: string) {
@@ -90,31 +95,34 @@ function loadPage (page: PageInstance | null) {
 }
 
 export function createRouter (
-  App,
+  app: AppInstance,
   config: RouterConfig,
-  type: 'react' | 'vue' | 'nerv',
-  framework: R | V,
-  reactdom
+  framework
 ) {
   init(config)
 
   const routes: Routes = []
+  const alias = config.router.customRoutes ?? {}
 
   for (let i = 0; i < config.routes.length; i++) {
     const route = config.routes[i]
+    const path = addLeadingSlash(route.path)
     routes.push({
-      path: addLeadingSlash(route.path),
+      path: alias[path] ? alias[path] : path,
       action: route.load
     })
   }
 
   const router = new UniversalRouter(routes)
-  const app = type === 'vue' ? createVueApp(App, framework as V, config) : createReactApp(App, framework as R, reactdom, config)
   app.onLaunch!()
 
   const render: LocationListener<LocationState> = async (location, action) => {
+    routerConfig.router.pathname = location.pathname
     const element = await router.resolve(location.pathname)
-    const pageConfig = config.routes.find(r => addLeadingSlash(r.path) === location.pathname)
+    const pageConfig = config.routes.find(r => {
+      const path = addLeadingSlash(r.path)
+      return path === location.pathname || alias[path] === location.pathname
+    })
     let enablePullDownRefresh = false
 
     eventCenter.trigger('__taroRouterChange', {
@@ -149,7 +157,7 @@ export function createRouter (
     if (shouldLoad) {
       const el = element.default ?? element
       const page = createPageConfig(
-        enablePullDownRefresh ? createPullDownRefresh(el, type, location.pathname, framework) : el,
+        enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework) : el,
         location.pathname
       )
       loadPage(page)
@@ -157,7 +165,7 @@ export function createRouter (
   }
 
   if (history.location.pathname === '/') {
-    history.replace(config.pages![0])
+    history.replace(routes[0].path as string)
   }
 
   render(history.location, 'PUSH')

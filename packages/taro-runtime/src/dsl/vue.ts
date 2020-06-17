@@ -3,12 +3,15 @@ import type { ComponentOptions, VueConstructor, VNode } from 'vue'
 import type VueCtor from 'vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { AppConfig } from '@tarojs/taro'
-import { AppInstance, VueAppInstance, VueInstance } from './instance'
+import type { AppInstance, VueAppInstance, VueInstance } from './instance'
 import { injectPageInstance } from './common'
 import { Current } from '../current'
 import { document } from '../bom/document'
-import { isFunction, noop, ensure } from '@tarojs/shared'
+import { isFunction, noop, ensure, capitalize, toCamelCase, internalComponents, hasOwn } from '@tarojs/shared'
 import { isBrowser } from '../env'
+import { options } from '../options'
+import { isBooleanLiteral } from 'babel-types'
+import { Reconciler } from '../reconciler'
 
 export type V = typeof VueCtor
 
@@ -46,11 +49,64 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
   }
 }
 
+function setReconciler () {
+  const hostConfig: Reconciler<VueInstance> = {
+    getLifecyle (instance, lifecycle) {
+      return instance.$options[lifecycle]
+    },
+    removeAttribute (dom, qualifiedName) {
+      const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
+      if (
+        compName in internalComponents &&
+        hasOwn(internalComponents[compName], qualifiedName) &&
+        isBooleanLiteral(internalComponents[compName][qualifiedName])
+      ) {
+        // avoid attribute being removed because set false value in vue
+        dom.setAttribute(qualifiedName, false)
+      } else {
+        delete dom.props[qualifiedName]
+      }
+    }
+  }
+
+  if (isBrowser) {
+    hostConfig.createPullDownComponent = (el, path, vue: VueConstructor) => {
+      const injectedPage = vue.extend({
+        props: {
+          tid: String
+        },
+        mixins: [el as ComponentOptions<Vue>, {
+          created () {
+            injectPageInstance(this, path)
+          }
+        }]
+      })
+
+      const options: ComponentOptions<Vue> = {
+        name: 'PullToRefresh',
+        render (h) {
+          return h('taro-pull-to-refresh', { class: ['hydrated'] }, [h(injectedPage, this.$slots.default)])
+        }
+      }
+
+      return options
+    }
+
+    hostConfig.findDOMNode = (el) => {
+      return el.$el as any
+    }
+  }
+
+  options.reconciler(hostConfig)
+}
+
 let Vue
 
 export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
   Vue = vue
   ensure(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
+
+  setReconciler()
 
   Vue.config.getTagNamespace = noop
 

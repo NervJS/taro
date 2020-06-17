@@ -1,12 +1,13 @@
 {
   "name": "@tarojs/webpack-runner",
-  "version": "3.0.0-rc.3",
+  "version": "3.0.0-rc.5",
   "description": "webpack runner for taro",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
     "test": "env NODE_ENV=jest jest",
+    "test:ci": "env NODE_ENV=jest jest -i",
     "test:dev": "env NODE_ENV=jest jest --watch",
     "test:coverage": "env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "env NODE_ENV=jest jest --updateSnapshot"
@@ -30,11 +31,11 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@babel/core": "7.6.4",
-    "@tarojs/helper": "3.0.0-rc.3",
-    "@tarojs/runner-utils": "3.0.0-rc.3",
-    "@tarojs/runtime": "3.0.0-rc.3",
-    "@tarojs/shared": "3.0.0-rc.3",
-    "@tarojs/taro-loader": "3.0.0-rc.3",
+    "@tarojs/helper": "3.0.0-rc.5",
+    "@tarojs/runner-utils": "3.0.0-rc.5",
+    "@tarojs/runtime": "3.0.0-rc.5",
+    "@tarojs/shared": "3.0.0-rc.5",
+    "@tarojs/taro-loader": "3.0.0-rc.5",
     "autoprefixer": "9.7.4",
     "babel-loader": "8.0.6",
     "copy-webpack-plugin": "5.1.1",
@@ -52,8 +53,8 @@
     "open": "7.0.2",
     "ora": "4.0.3",
     "postcss-loader": "3.0.0",
-    "postcss-plugin-constparse": "3.0.0-rc.3",
-    "postcss-pxtransform": "3.0.0-rc.3",
+    "postcss-plugin-constparse": "3.0.0-rc.5",
+    "postcss-pxtransform": "3.0.0-rc.5",
     "resolve": "1.15.1",
     "resolve-url-loader": "3.1.1",
     "sass": "^1.25.0",
@@ -71,8 +72,8 @@
     "webpack-format-messages": "2.0.3"
   },
   "devDependencies": {
-    "@tarojs/components": "3.0.0-rc.3",
-    "@tarojs/taro": "3.0.0-rc.3",
+    "@tarojs/components": "3.0.0-rc.5",
+    "@tarojs/taro": "3.0.0-rc.5",
     "@types/autoprefixer": "9.7.0",
     "@types/detect-port": "1.1.0",
     "@types/lodash": "4.14.149",
@@ -80,7 +81,7 @@
     "@types/resolve": "1.14.0",
     "@types/webpack": "4.41.6",
     "@types/webpack-dev-server": "3.10.0",
-    "babel-plugin-transform-taroapi": "3.0.0-rc.3",
-    "babel-preset-taro": "3.0.0-rc.3"
+    "babel-plugin-transform-taroapi": "3.0.0-rc.5",
+    "babel-preset-taro": "3.0.0-rc.5"
   }
 }
