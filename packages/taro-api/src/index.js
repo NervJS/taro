@@ -12,6 +12,7 @@ import {
 } from './native-apis'
 import {
   Current,
+  getCurrentInstance,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -43,6 +44,7 @@ const Taro = {
   Link,
   interceptors,
   Current,
+  getCurrentInstance,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
