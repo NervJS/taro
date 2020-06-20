@@ -3,39 +3,71 @@
 
 declare namespace Taro {
   /**
-   * 页面展示时的回调
+   * 页面展示时的回调。
    */
   function useDidShow(callback: () => any): void
+
   /**
-   * 页面隐藏时的回调
+   * 页面隐藏时的回调。
    */
   function useDidHide(callback: () => any): void
+
   /**
-   * 监听用户下拉刷新事件
+   * 下拉刷新时的回调。
    */
   function usePullDownRefresh(callback: () => any): void
+
   /**
-   * 监听用户上拉触底事件
+   * 上拉触底时的回调。
    */
   function useReachBottom(callback: () => any): void
+
   /**
-   * 监听用户滑动页面事件
+   * 页面滚动时的回调。
    */
-  function usePageScroll(callback: (obj: PageScrollObject) => any): void
+  function usePageScroll(callback: (payload: PageScrollObject) => any): void
+
   /**
-   * 小程序屏幕旋转时触发
+   * 页面尺寸改变时的回调。
    */
-  function useResize(callback: (obj: any) => any): void
+  function useResize(callback: () => any): void
+
   /**
-   * 监听用户点击页面内转发按钮（button 组件 open-type="share"）或右上角菜单“转发”按钮的行为，并自定义转发内容
+   * 页面转发时的回调。
    */
-  function useShareAppMessage(callback: (obj: ShareAppMessageObject) => ShareAppMessageReturn): void
+  function useShareAppMessage(callback: (payload: ShareAppMessageObject) => ShareAppMessageReturn): void
+
   /**
-   * 点击 tab 时触发
+   * 当前是 tab 页时，tab 被点击时的回调。
    */
-  function useTabItemTap(callback: (obj: TabItemTapObject) => any): void
+  function useTabItemTap(callback: (payload: TabItemTapObject) => any): void
+
   /**
-   * 获取页面传入路由相关参数
+   * 页面初次渲染完成的回调。
+   * 此时页面已经准备妥当，可以和视图层进行交互。
    */
-  function useRouter(): RouterInfo
+  function useReady(callback: () => any): void
+
+  /**
+   * 获取当前路由参数。
+   */
+  function useRouter<TParams extends Record<string, string> = Record<string, string>>(): RouterInfo<TParams>
+
+  /**
+   * 导航栏的标题被点击时的回调。
+   * **仅支付宝小程序支持。**
+   */
+  function useTitleClick(callback: () => any): void
+
+  /**
+   * 导航栏的额外图标被点击时的回调。
+   * **仅支付宝小程序支持。**
+   */
+  function useOptionMenuClick(callback: () => any): void
+
+  /**
+   * 下拉中断时的回调。
+   * **仅支付宝小程序支持。**
+   */
+  function usePullIntercept(callback: () => any): void
 }
