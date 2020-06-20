@@ -29,7 +29,7 @@ declare namespace Taro {
   /**
    * 监听用户点击页面内转发按钮（button 组件 open-type="share"）或右上角菜单“转发”按钮的行为，并自定义转发内容
    */
-  function useShareAppMessage(callback: (obj: ShareAppMessageObject) => any): void
+  function useShareAppMessage(callback: (obj: ShareAppMessageObject) => ShareAppMessageReturn): void
   /**
    * 点击 tab 时触发
    */
