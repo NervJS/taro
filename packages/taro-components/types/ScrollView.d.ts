@@ -3,14 +3,14 @@ import { StandardProps, CommonEventFunction, BaseEventOrigFunction } from './com
 
 interface ScrollViewProps extends StandardProps {
   /** 允许横向滚动
-   * @default fasle
+   * @default false
    * @supported weapp, swan, alipay, tt, h5, rn
    * @rn 二选一
    */
   scrollX?: boolean
 
   /** 允许纵向滚动
-   * @default fasle
+   * @default false
    * @supported weapp, swan, alipay, tt, h5, rn
    * @rn 二选一
    */
@@ -45,31 +45,31 @@ interface ScrollViewProps extends StandardProps {
 
   /** 在设置滚动条位置时使用动画过渡
    * @supported weapp, swan, alipay, tt, h5, rn
-   * @default fasle
+   * @default false
    */
   scrollWithAnimation?: boolean
 
   /** iOS 点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向
    * @supported weapp, alipay, rn
-   * @default fasle
+   * @default false
    */
   enableBackToTop?: boolean
 
   /** 启用 flexbox 布局。开启后，当前节点声明了 `display: flex` 就会成为 flex container，并作用于其孩子节点。
    * @supported weapp
-   * @default fasle
+   * @default false
    */
   enableFlex?: boolean
 
   /** 开启 scroll anchoring 特性，即控制滚动位置不随内容变化而抖动，仅在 iOS 下生效，安卓下可参考 CSS `overflow-anchor` 属性。
    * @supported weapp
-   * @default fasle
+   * @default false
    */
   scrollAnchoring?: boolean
 
   /** 开启自定义下拉刷新
    * @supported weapp
-   * @default fasle
+   * @default false
    */
   refresherEnabled?: boolean
 
@@ -93,7 +93,7 @@ interface ScrollViewProps extends StandardProps {
 
   /** 设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发
    * @supported weapp
-   * @default fasle
+   * @default false
    */
   refresherTriggered?: boolean
 
