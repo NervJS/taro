@@ -22,6 +22,9 @@ export default (appPath: string) => {
       modules: [
         'node_modules'
       ]
+    },
+    optimization: {
+      sideEffects: true
     }
   })
 
