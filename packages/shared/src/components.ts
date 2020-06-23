@@ -662,7 +662,7 @@ export function createMiniComponents (components: Components, buildType: string)
           let propValue = component[prop]
           if (prop.startsWith('bind') || specialEvents.has(prop)) {
             prop = isAlipay ? prop.replace('bind', 'on') : prop.toLowerCase()
-            if (buildType === 'weapp' && prop === 'bindlongtap') {
+            if ((buildType === 'weapp' || buildType === 'qq') && prop === 'bindlongtap') {
               prop = 'bindlongpress'
             }
             propValue = 'eh'
