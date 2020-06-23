@@ -87,7 +87,7 @@ const schema = Joi.object().keys({
     resource: Joi.alternatives(Joi.array(), Joi.string()),
     projectDirectory: Joi.string(),
     data: Joi.string()
-  }),
+  }).unknown(),
 
   h5: Joi.object().keys({
     devServer: Joi.object(), // 第三方配置
