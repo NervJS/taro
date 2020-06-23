@@ -56,14 +56,14 @@ function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unkn
   return func.apply(instance, args)
 }
 
-function stringify (obj?: Record<string, unknown>) {
+export function stringify (obj?: Record<string, unknown>) {
   if (obj == null) {
     return ''
   }
   const path = Object.keys(obj).map((key) => {
     return key + '=' + obj[key]
   }).join('&')
-  return !path ? path : '?' + path
+  return path === '' ? path : '?' + path
 }
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
