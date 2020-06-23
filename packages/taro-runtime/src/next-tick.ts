@@ -3,7 +3,6 @@ import { getPath } from './dsl/common'
 import { TaroRootElement } from './dom/root'
 import { document } from './bom/document'
 import { isBrowser } from './env'
-import { raf } from './bom/raf'
 
 function removeLeadingSlash (path?: string) {
   if (path == null) {
