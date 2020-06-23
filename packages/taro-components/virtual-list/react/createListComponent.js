@@ -346,7 +346,8 @@ export default function createListComponent ({
         ...rest
       } = this.props
       const {
-        isScrolling
+        isScrolling,
+        scrollOffset
       } = this.state // TODO Deprecate direction "horizontal"
 
       const isHorizontal = direction === 'horizontal' || layout === 'horizontal'
@@ -370,7 +371,7 @@ export default function createListComponent ({
       // So their actual sizes (if variable) are taken into consideration.
 
       const estimatedTotalSize = getEstimatedTotalSize(this.props, this._instanceProps)
-      return createElement(outerElementType || outerTagName || 'div', {
+      const outerElementProps = {
         ...rest,
         className,
         onScroll,
@@ -386,7 +387,13 @@ export default function createListComponent ({
           direction,
           ...style
         }
-      }, createElement(innerElementType || innerTagName || 'div', {
+      }
+      if (isHorizontal) {
+        outerElementProps.scrollLeft = scrollOffset
+      } else {
+        outerElementProps.scrollTop = scrollOffset
+      }
+      return createElement(outerElementType || outerTagName || 'div', outerElementProps, createElement(innerElementType || innerTagName || 'div', {
         children: items,
         ref: innerRef,
         style: {
