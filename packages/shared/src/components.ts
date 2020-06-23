@@ -192,7 +192,7 @@ const Input = {
   focus: 'false',
   'confirm-type': singleQuote('done'),
   'confirm-hold': 'false',
-  cursor: '',
+  cursor: 'i.value.length',
   'selection-start': '-1',
   'selection-end': '-1',
   'adjust-position': 'true',
