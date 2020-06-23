@@ -174,17 +174,16 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>, chain: any
     optimization: {
       minimizer,
       // not support node
-      // splitChunks: {
-      //   chunks: 'all',
-      //   cacheGroups: {
-      //     common: {
-      //       name: 'common',
-      //       chunks: 'initial',
-      //       priority: 2,
-      //       minChunks: 2
-      //     }
-      //   }
-      // }
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          common: {
+            name: 'common',
+            chunks: 'initial',
+            minChunks: 2
+          }
+        }
+      }
     }
   }
 }

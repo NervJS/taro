@@ -1,5 +1,27 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.2.7...v) (2020-06-15)
+# [](https://github.com/NervJS/taro/compare/v2.2.8...v) (2020-06-16)
+
+
+### Bug Fixes
+
+* **cli:** 修复模板 ([43cf194](https://github.com/NervJS/taro/commit/43cf194))
+* **helper:** 更新依赖包 ([6afafce](https://github.com/NervJS/taro/commit/6afafce))
+* **rn:** swiper 问题，close [#6495](https://github.com/NervJS/taro/issues/6495), [#6494](https://github.com/NervJS/taro/issues/6494),  [#6269](https://github.com/NervJS/taro/issues/6269), [#5545](https://github.com/NervJS/taro/issues/5545), [#4048](https://github.com/NervJS/taro/issues/4048) ([6877a94](https://github.com/NervJS/taro/commit/6877a94))
+* **rn:** 同一目录下多个页面导致样式覆盖 ([#6689](https://github.com/NervJS/taro/issues/6689)) ([5150da8](https://github.com/NervJS/taro/commit/5150da8))
+* **webpack-runner:** 修复 H5 编译报错，close [#6688](https://github.com/NervJS/taro/issues/6688) ([d47cab5](https://github.com/NervJS/taro/commit/d47cab5))
+* pop 重新构建参数缺失问题 fix [#6657](https://github.com/NervJS/taro/issues/6657) ([f1b4606](https://github.com/NervJS/taro/commit/f1b4606))
+* route redirect show page fix [#6625](https://github.com/NervJS/taro/issues/6625) ([c35d577](https://github.com/NervJS/taro/commit/c35d577))
+* swiper init error [#6674](https://github.com/NervJS/taro/issues/6674) ([15119fd](https://github.com/NervJS/taro/commit/15119fd))
+
+
+### Features
+
+* **rn:** rn 默认开启 splitChunks ([#6704](https://github.com/NervJS/taro/issues/6704)) ([72ce8c4](https://github.com/NervJS/taro/commit/72ce8c4))
+
+
+
+<a name="2.2.8"></a>
+## [2.2.8](https://github.com/NervJS/taro/compare/v2.2.7...v2.2.8) (2020-06-15)
 
 
 ### Bug Fixes
