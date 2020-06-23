@@ -1,5 +1,49 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.2.6...v) (2020-06-04)
+# [](https://github.com/NervJS/taro/compare/v2.2.8...v) (2020-06-16)
+
+
+### Bug Fixes
+
+* **cli:** 修复模板 ([43cf194](https://github.com/NervJS/taro/commit/43cf194))
+* **helper:** 更新依赖包 ([6afafce](https://github.com/NervJS/taro/commit/6afafce))
+* **rn:** swiper 问题，close [#6495](https://github.com/NervJS/taro/issues/6495), [#6494](https://github.com/NervJS/taro/issues/6494),  [#6269](https://github.com/NervJS/taro/issues/6269), [#5545](https://github.com/NervJS/taro/issues/5545), [#4048](https://github.com/NervJS/taro/issues/4048) ([6877a94](https://github.com/NervJS/taro/commit/6877a94))
+* **rn:** 同一目录下多个页面导致样式覆盖 ([#6689](https://github.com/NervJS/taro/issues/6689)) ([5150da8](https://github.com/NervJS/taro/commit/5150da8))
+* **webpack-runner:** 修复 H5 编译报错，close [#6688](https://github.com/NervJS/taro/issues/6688) ([d47cab5](https://github.com/NervJS/taro/commit/d47cab5))
+* pop 重新构建参数缺失问题 fix [#6657](https://github.com/NervJS/taro/issues/6657) ([f1b4606](https://github.com/NervJS/taro/commit/f1b4606))
+* route redirect show page fix [#6625](https://github.com/NervJS/taro/issues/6625) ([c35d577](https://github.com/NervJS/taro/commit/c35d577))
+* swiper init error [#6674](https://github.com/NervJS/taro/issues/6674) ([15119fd](https://github.com/NervJS/taro/commit/15119fd))
+
+
+### Features
+
+* **rn:** rn 默认开启 splitChunks ([#6704](https://github.com/NervJS/taro/issues/6704)) ([72ce8c4](https://github.com/NervJS/taro/commit/72ce8c4))
+
+
+
+<a name="2.2.8"></a>
+## [2.2.8](https://github.com/NervJS/taro/compare/v2.2.7...v2.2.8) (2020-06-15)
+
+
+### Bug Fixes
+
+* 修复小程序插件编译错误，close [#6627](https://github.com/NervJS/taro/issues/6627) ([5524f8b](https://github.com/NervJS/taro/commit/5524f8b))
+* **component:** for vertical swiper ([b43046c](https://github.com/NervJS/taro/commit/b43046c))
+* types ([193e64c](https://github.com/NervJS/taro/commit/193e64c))
+* unless height ([3dd8807](https://github.com/NervJS/taro/commit/3dd8807))
+
+
+### Features
+
+* **cli:** build 命令增加运行时对 plugin 的检测 ([def496c](https://github.com/NervJS/taro/commit/def496c))
+* **cli:** 自定义命令增加获取当前 cli 版本号 ([3aa015e](https://github.com/NervJS/taro/commit/3aa015e))
+* **mini-runner:** 添加对小程序特定的样式文件处理 ([be04811](https://github.com/NervJS/taro/commit/be04811))
+* **service:** 插件对象增加 name 来标识通过 npm 安装的插件 ([7c0baac](https://github.com/NervJS/taro/commit/7c0baac))
+* **service:** 插件环境信息中增加当前运行环境上挂载的编译平台 platforms 信息 ([8af19c1](https://github.com/NervJS/taro/commit/8af19c1))
+
+
+
+<a name="2.2.7"></a>
+## [2.2.7](https://github.com/NervJS/taro/compare/v2.2.6...v2.2.7) (2020-06-04)
 
 
 ### Bug Fixes
