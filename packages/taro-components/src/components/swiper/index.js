@@ -80,15 +80,20 @@ class Swiper extends Nerv.Component {
           that._$current = this.realIndex
           that.handleOnChange(e)
         },
-        transitionEnd () {
+        transitionEnd: () => {
           const e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
               value: {
-                current: this.realIndex
+                current: this.mySwiper.realIndex
               }
             })
+            if (this.mySwiper.isBeginning) {
+              this.mySwiper.slideToLoop(this.props.children.length - 1, 0)
+            } else if (this.mySwiper.isEnd) {
+              this.mySwiper.slideToLoop(0, 0)
+            }
           } catch (err) {}
           that.handleOnAnimationFinish(e)
         },
