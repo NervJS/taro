@@ -24,9 +24,7 @@ function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | '
     } else if (method === 'redirectTo') {
       history.replace((option as Option).url)
     } else if (method === 'navigateBack') {
-      for (let i = 0; i < (option as NavigateBackOption).delta; i++) {
-        history.goBack()
-      }
+      history.go(-(option as NavigateBackOption).delta)
     }
   } catch (error) {
     failReason = error
