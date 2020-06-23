@@ -1,23 +1,30 @@
 import { stacks } from './stack'
 import { history } from './history'
 
-interface Option {
-  url: string
+interface Base {
   success?: Function
   fail?: Function
   complete?: Function
 }
 
-function navigate (option: Option, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
-  const { url, success, complete, fail } = option
+interface Option extends Base {
+  url: string
+}
+
+interface NavigateBackOption extends Base {
+  delta: number
+}
+
+function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
+  const { success, complete, fail } = option
   let failReason
   try {
     if (method === 'navigateTo') {
-      history.push(url)
+      history.push((option as Option).url)
     } else if (method === 'redirectTo') {
-      history.replace(url)
+      history.replace((option as Option).url)
     } else if (method === 'navigateBack') {
-      history.goBack()
+      history.go(-(option as NavigateBackOption).delta)
     }
   } catch (error) {
     failReason = error
@@ -43,7 +50,10 @@ export function redirectTo (option: Option) {
   return navigate(option, 'redirectTo')
 }
 
-export function navigateBack (options: Option) {
+export function navigateBack (options: NavigateBackOption = { delta: 1 }) {
+  if (!options.delta || options.delta < 1) {
+    options.delta = 1
+  }
   return navigate(options, 'navigateBack')
 }
 
