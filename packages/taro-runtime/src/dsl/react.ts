@@ -9,6 +9,7 @@ import { injectPageInstance } from './common'
 import { isBrowser } from '../env'
 import { options } from '../options'
 import { Reconciler } from '../reconciler'
+import { incrementId } from '../utils'
 
 function isClassComponent (R: typeof React, component): boolean {
   return isFunction(component.render) ||
@@ -117,6 +118,8 @@ function setReconciler () {
   options.reconciler(hostConfig)
 }
 
+const tabbarId = incrementId()
+
 export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfig) {
   R = react
   ReactDOM = reactdom
@@ -135,7 +138,11 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     private elements: Array<PageComponent> = []
 
     public mount (component: React.ComponentClass<PageProps>, id: string, cb: () => void) {
-      const page = () => R.createElement(component, { key: id, tid: id })
+      let key = id
+      if (id.startsWith('custom-tab-bar')) {
+        key += tabbarId()
+      }
+      const page = () => R.createElement(component, { key, tid: id })
       this.pages.push(page)
       this.forceUpdate(cb)
     }
