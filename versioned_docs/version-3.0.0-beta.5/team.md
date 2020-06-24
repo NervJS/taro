@@ -26,7 +26,13 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
 ## 战略合作伙伴（联合团队）
 
 共同参与 Taro 的研发和推广，监督 Taro 的发展流程，推动 Taro 在各领域真实业务场景中的落地和实践，促进 Taro 在业界的广泛应用。
-
+<a
+  href="https://youshu.tencent.com/"
+  target="_blank"
+  style={{display: "inline-block", margin: "0 10px 10px 0"}}
+>
+  <img src="https://mp.zhls.qq.com/sdk/img/youshu-logo.jpeg" style={{height: "88px"}}
+/></a>
 <a
   href="//cdc.tencent.com"
   target="_blank"
