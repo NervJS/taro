@@ -50,6 +50,8 @@ declare namespace Taro {
       statusBarHeight: number
       /** 操作系统及版本 */
       system: string
+      /** 系统当前主题，取值为light或dark，全局配置"darkmode":true时才能获取，否则为 undefined */
+      theme: string
       /** 微信版本号 */
       version: string
       /** Wi-Fi 的系统开关 */
@@ -58,8 +60,6 @@ declare namespace Taro {
       windowHeight: number
       /** 可使用窗口宽度，单位px */
       windowWidth: number
-      /** 系统当前主题，取值为light或dark，全局配置"darkmode":true时才能获取，否则为 undefined */
-      theme: string
     }
   }
 
@@ -144,6 +144,8 @@ declare namespace Taro {
       statusBarHeight: number
       /** 操作系统及版本 */
       system: string
+      /** 系统当前主题，取值为light或dark，全局配置"darkmode":true时才能获取，否则为 undefined */
+      theme: string
       /** 微信版本号 */
       version: string
       /** Wi-Fi 的系统开关 */
@@ -152,8 +154,6 @@ declare namespace Taro {
       windowHeight: number
       /** 可使用窗口宽度，单位px */
       windowWidth: number
-      /** 系统当前主题，取值为light或dark，全局配置"darkmode":true时才能获取，否则为 undefined */
-      theme: string
       /** 调用结果 */
       errMsg: string
   }
