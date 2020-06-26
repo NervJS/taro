@@ -136,3 +136,25 @@ export default {
   pages
 }
 ```
+
+### 让 node_modules 中的依赖也能解析多端文件
+
+Taro 3 里的多端文件由 [MultiPlatformPlugin](https://github.com/NervJS/taro/blob/next/packages/taro-runner-utils/src/resolve/MultiPlatformPlugin.ts) 插件进行解析。
+
+它是一个 [enhanced-resolve](https://github.com/webpack/enhanced-resolve) 插件，taro 内部会默认加载它。但插件默认不解析 node_modules 中的文件。
+
+假如我们有一个 npm 包名叫 @taro-mobile，需要解析里面的多端文件，可以在 taro 的配置文件中这样修改 MultiPlatformPlugin 的配置：
+
+```js
+// mini 也可改为 h5，分别对应小程序与 h5 端配置
+mini: {
+  webpackChain (chain) {
+    chain.resolve.plugin('MultiPlatformPlugin')
+      .tap(args => {
+        return [...args, {
+          include: ['@taro-mobile']
+        }]
+      })
+  }
+}
+```
