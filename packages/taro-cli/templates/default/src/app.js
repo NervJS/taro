@@ -4,6 +4,8 @@ import { Component } from 'react'
 import { Component } from 'nervjs'
 <%} else if (framework === 'vue') { -%>
 import Vue from 'vue'
+<%} else if (framework === 'vue3') { -%>
+import { createApp } from 'vue'
 <%}-%>
 import './app.<%= cssExt %>'
 
@@ -32,6 +34,12 @@ const App = new Vue({
     // this.$slots.default 是将要会渲染的页面
     return h('block', this.$slots.default)
   }
+})
+<%}-%>
+<% if (framework === 'vue3') { -%>
+const App = createApp({
+  onShow (options) {},
+  // 入口组件不需要实现 render 方法，即使实现了也会被 taro 所覆盖
 })
 <%}-%>
 

@@ -56,11 +56,11 @@ function createFiles (
     const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
     let externalConfig: any = null
 
-    if (framework === 'vue' && file.endsWith('.jsx')) {
+    if ((framework === 'vue' || framework === 'vue3') && file.endsWith('.jsx')) {
       return
     }
 
-    if (framework !== 'vue' && file.endsWith('.vue')) {
+    if (framework !== 'vue' && framework !== 'vue3' && file.endsWith('.vue')) {
       return
     }
 

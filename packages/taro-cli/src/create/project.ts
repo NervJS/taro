@@ -29,7 +29,7 @@ export interface IProjectConf {
   sourceRoot?: string;
   env?: string;
   autoInstall?: boolean,
-  framework: 'nerv' | 'react' | 'vue'
+  framework: 'nerv' | 'react' | 'vue' | 'vue3'
 }
 
 interface AskMethods {
@@ -124,8 +124,9 @@ export default class Project extends Creator {
 
     return inquirer.prompt(prompts).then(answers => {
       const newTemplateChoices: string[] = templateChoices.filter(templateChoice => {
-        if (['react', 'nerv'].includes(answers.framework)) return templateChoice !== 'vuex'
-        if (answers.framework === 'vue') return !['redux', 'mobx'].includes(templateChoice)
+        if (['react', 'nerv'].includes(answers.framework)) return !['vuex', 'vue3-vuex'].includes(templateChoice)
+        if (answers.framework === 'vue') return !['redux', 'mobx', 'vue3-vuex'].includes(templateChoice)
+        if (answers.framework === 'vue3') return ['vue3-vuex'].includes(templateChoice)
         return true
       })
       this.askTemplate(conf, templateChoicesPrompts, newTemplateChoices)
@@ -236,6 +237,10 @@ export default class Project extends Creator {
       {
         name: 'Vue',
         value: 'vue'
+      },
+      {
+        name: 'Vue3',
+        value: 'vue3'
       }
     ]
 
