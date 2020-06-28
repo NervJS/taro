@@ -7,8 +7,7 @@ import {
   resolveMainFilePath,
   isEmptyObject,
   FRAMEWORK_MAP,
-  VUE_EXT,
-  SCRIPT_EXT
+  FRAMEWORK_EXT_MAP
 } from '@tarojs/helper'
 
 const PLUGIN_NAME = 'MainPlugin'
@@ -126,7 +125,7 @@ export default class MainPlugin {
       ...this.pages,
       ...appPages.map(item => ({
         name: item,
-        path: resolveMainFilePath(path.join(this.options.sourceDir, item), framework === FRAMEWORK_MAP.VUE ? VUE_EXT : SCRIPT_EXT)
+        path: resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
       }))
     ])
     this.getSubPackages()
@@ -150,7 +149,7 @@ export default class MainPlugin {
               }
             })
             if (!hasPageIn) {
-              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), framework === FRAMEWORK_MAP.VUE ? VUE_EXT : SCRIPT_EXT)
+              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), FRAMEWORK_EXT_MAP[framework])
               this.pages.add({
                 name: pageItem,
                 path: pagePath
