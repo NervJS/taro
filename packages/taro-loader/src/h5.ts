@@ -19,7 +19,14 @@ function genResource (path: string, pages: Map<string, PageConfig>, loaderContex
 export default function (this: webpack.loader.LoaderContext) {
   const options = getOptions(this)
   const stringify = (s: string): string => stringifyRequest(this, s)
-  const { importFrameworkStatement, frameworkArgs, creator, importFrameworkName } = frameworkMeta[options.framework]
+  const {
+    importFrameworkStatement,
+    frameworkArgs,
+    creator,
+    importFrameworkName,
+    extraImportForWeb,
+    execBeforeCreateWebApp
+  } = frameworkMeta[options.framework]
   const config: AppConfig = options.config
   const pages: Map<string, PageConfig> = options.pages
   let tabBarCode = `var tabbarIconPath = []
@@ -42,9 +49,6 @@ var tabbarSelectedIconPath = []
   defineCustomElements(window)
 })
 `
-  const vue = `
-import '@tarojs/components/h5/vue'
-`
 
   const code = `import { createRouter } from '@tarojs/taro'
 import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
@@ -52,7 +56,7 @@ import { ${creator}, window } from '@tarojs/runtime'
 import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
 ${importFrameworkStatement}
 import '@tarojs/components/dist/taro-components/taro-components.css'
-${options.framework === 'vue' ? vue : ''}
+${extraImportForWeb || ''}
 ${webComponents}
 var config = ${JSON.stringify(config)}
 window.__taroAppConfig = config
@@ -72,6 +76,7 @@ if (config.tabBar) {
 config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join('')}
 ]
+${execBeforeCreateWebApp}
 var inst = ${creator}(component, ${frameworkArgs})
 createRouter(inst, config, ${importFrameworkName})
 `

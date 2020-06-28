@@ -6,7 +6,7 @@ export default function (this: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(this, s)
 
   const options = getOptions(this)
-  const { importFramework, frameworkArgs, creator } = frameworkMeta[options.framework]
+  const { importFrameworkStatement, frameworkArgs, creator } = frameworkMeta[options.framework]
   const config = JSON.stringify(options.config)
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
@@ -14,7 +14,7 @@ if (typeof PRERENDER !== 'undefined') {
 }`
   return `import { ${creator}, window } from '@tarojs/runtime'
 import component from ${stringify(this.request.split('!').slice(1).join('!'))}
-${importFramework}
+${importFrameworkStatement}
 var config = ${config};
 window.__taroAppConfig = config
 var inst = App(${creator}(component, ${frameworkArgs}))
