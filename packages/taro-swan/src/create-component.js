@@ -281,6 +281,10 @@ function createComponent (ComponentClass, isPage) {
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
       Object.assign(this.$component.$router.params, options)
+      if (isPage && cacheDataHas(PRELOAD_DATA_KEY)) {
+        const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+        this.$component.$router.preload = data
+      }
     },
     attached () {},
     ready () {},
@@ -301,10 +305,6 @@ function createComponent (ComponentClass, isPage) {
   if (isPage) {
     weappComponentConf.methods = weappComponentConf.methods || {}
     weappComponentConf.methods['onLoad'] = function (options = {}) {
-      if (cacheDataHas(PRELOAD_DATA_KEY)) {
-        const data = cacheDataGet(PRELOAD_DATA_KEY, true)
-        this.$component.$router.preload = data
-      }
       Object.assign(this.$component.$router.params, options)
       this.$component.$router.path = getCurrentPageUrl()
       initComponent.apply(this, [ComponentClass, isPage])
