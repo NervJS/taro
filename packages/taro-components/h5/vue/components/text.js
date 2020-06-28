@@ -8,7 +8,7 @@ export default {
   },
   render (createElement) {
     return createElement('taro-text-core', {
-      class: ['hydrated taro-text', {
+      class: ['hydrated', {
         'taro-text__selectable': this.selectable
       }],
       attrs: {
