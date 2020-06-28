@@ -24,6 +24,7 @@ import {
   useTitleClick,
   useOptionMenuClick,
   usePullIntercept,
+  useReady,
   useRouter,
   options,
   nextTick,
@@ -56,6 +57,7 @@ const Taro = {
   useTitleClick,
   useOptionMenuClick,
   usePullIntercept,
+  useReady,
   useRouter,
   options,
   nextTick
