@@ -1,4 +1,3 @@
-<script>
 import { listeners } from '../mixins/listeners'
 import { refs } from '../mixins/refs'
 export default {
@@ -20,6 +19,7 @@ export default {
     }
   },
   render (createElement) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
 
     return createElement('taro-picker-core', {
@@ -37,4 +37,3 @@ export default {
     }, self.$slots.default)
   }
 }
-</script>
