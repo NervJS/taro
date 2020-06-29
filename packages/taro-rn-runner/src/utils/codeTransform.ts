@@ -48,6 +48,7 @@ export function getTransformResult (options: Options): TransformResult {
       return t.isClassDeclaration(v)
     }) as t.ClassDeclaration | undefined
     if (mainClassNode) {
+      // @ts-ignore
       resetTSClassProperty(mainClassNode.body.body)
     }
   }
