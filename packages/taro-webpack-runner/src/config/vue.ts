@@ -1,7 +1,7 @@
 import { REG_VUE, chalk } from '@tarojs/helper'
 import { DEFAULT_Components } from '../util/chain'
 
-export function customVueChain (chain) {
+export function customVueChain (chain, config) {
   let vueLoaderPath: string
   try {
     vueLoaderPath = require.resolve('vue-loader', {
@@ -13,6 +13,7 @@ export function customVueChain (chain) {
   }
 
   const { VueLoaderPlugin } = require(vueLoaderPath)
+  const { styleLoaderOption = {} } = config
 
   chain.resolve.alias
     .set('@tarojs/components$', '@tarojs/components/h5/vue')
@@ -20,6 +21,15 @@ export function customVueChain (chain) {
   chain
     .plugin('vueLoaderPlugin')
     .use(VueLoaderPlugin)
+
+  chain.module
+    .rule('customStyle')
+    .merge({
+      use: [{
+        loader: 'style-loader',
+        options: styleLoaderOption
+      }]
+    })
 
   chain.module
     .rule('vue')

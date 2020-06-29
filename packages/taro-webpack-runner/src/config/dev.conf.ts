@@ -136,8 +136,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       esnextModules,
 
       postcss,
-      staticDirectory,
-      framework: config.framework
+      staticDirectory
     }),
     plugin,
     optimization: {
@@ -147,10 +146,14 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
   switch (config.framework) {
     case FRAMEWORK_MAP.VUE:
-      customVueChain(chain)
+      customVueChain(chain, {
+        styleLoaderOption
+      })
       break
     case FRAMEWORK_MAP.VUE3:
-      customVue3Chain(chain)
+      customVue3Chain(chain, {
+        styleLoaderOption
+      })
       break
     default:
   }

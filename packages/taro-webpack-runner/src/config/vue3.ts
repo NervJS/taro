@@ -2,7 +2,7 @@ import { REG_VUE, chalk } from '@tarojs/helper'
 import { DEFAULT_Components } from '../util/chain'
 import type { RootNode, TemplateChildNode, ElementNode } from '@vue/compiler-core'
 
-export function customVue3Chain (chain) {
+export function customVue3Chain (chain, config) {
   let vueLoaderPath: string
   try {
     vueLoaderPath = require.resolve('vue-loader', {
@@ -14,6 +14,7 @@ export function customVue3Chain (chain) {
   }
 
   const { VueLoaderPlugin } = require(vueLoaderPath)
+  const { styleLoaderOption = {} } = config
 
   chain.resolve.alias
     .set('vue', '@vue/runtime-dom')
@@ -22,6 +23,15 @@ export function customVue3Chain (chain) {
   chain
     .plugin('vueLoaderPlugin')
     .use(VueLoaderPlugin)
+
+  chain.module
+    .rule('customStyle')
+    .merge({
+      use: [{
+        loader: 'style-loader',
+        options: styleLoaderOption
+      }]
+    })
 
   chain.module
     .rule('vue')
