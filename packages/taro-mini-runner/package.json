@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "3.0.0-rc.5",
+  "version": "3.0.0-rc.6",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -37,12 +37,12 @@
     "@babel/core": "7.6.4",
     "@babel/plugin-proposal-class-properties": "7.5.5",
     "@babel/preset-env": "7.6.3",
-    "@tarojs/helper": "3.0.0-rc.5",
-    "@tarojs/runner-utils": "3.0.0-rc.5",
-    "@tarojs/runtime": "3.0.0-rc.5",
-    "@tarojs/shared": "3.0.0-rc.5",
-    "@tarojs/taro": "3.0.0-rc.5",
-    "@tarojs/taro-loader": "3.0.0-rc.5",
+    "@tarojs/helper": "3.0.0-rc.6",
+    "@tarojs/runner-utils": "3.0.0-rc.6",
+    "@tarojs/runtime": "3.0.0-rc.6",
+    "@tarojs/shared": "3.0.0-rc.6",
+    "@tarojs/taro": "3.0.0-rc.6",
+    "@tarojs/taro-loader": "3.0.0-rc.6",
     "babel-loader": "8.0.6",
     "babel-types": "^6.26.0",
     "copy-webpack-plugin": "^5.0.3",
@@ -84,8 +84,8 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
-    "@tarojs/components": "3.0.0-rc.5",
-    "@tarojs/react": "3.0.0-rc.5",
-    "babel-preset-taro": "3.0.0-rc.5"
+    "@tarojs/components": "3.0.0-rc.6",
+    "@tarojs/react": "3.0.0-rc.6",
+    "babel-preset-taro": "3.0.0-rc.6"
   }
 }
