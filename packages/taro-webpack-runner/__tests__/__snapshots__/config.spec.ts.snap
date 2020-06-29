@@ -285,6 +285,7 @@ exports[`config should build from origin and pipe to output 2`] = `
     var _unused_webpack_default_export = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -684,6 +685,7 @@ exports[`config should build from origin and pipe to output 2`] = `
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(1);
     var createClass = __webpack_require__(2);
@@ -721,6 +723,9 @@ exports[`config should build from origin and pipe to output 2`] = `
     var origin_app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
     var mocks_taro_components = __webpack_require__(9);
@@ -762,8 +767,8 @@ exports[`config should build from origin and pipe to output 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    var inst = undefined(origin_app, nerv, nerv, config);
-    undefined(inst, config, nerv);
+    var inst = createReactApp(origin_app, nerv, nerv, config);
+    createRouter(inst, config, nerv);
 } ]);
 "
 `;
@@ -1057,6 +1062,7 @@ I m irrelevant.
     var _unused_webpack_default_export = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -1456,6 +1462,7 @@ I m irrelevant.
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(1);
     var createClass = __webpack_require__(2);
@@ -1493,6 +1500,9 @@ I m irrelevant.
     var origin_app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
     var mocks_taro_components = __webpack_require__(9);
@@ -1534,8 +1544,8 @@ I m irrelevant.
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    var inst = undefined(origin_app, nerv, nerv, config);
-    undefined(inst, config, nerv);
+    var inst = createReactApp(origin_app, nerv, nerv, config);
+    createRouter(inst, config, nerv);
 } ]);
 
 /** filePath: dist/weapp/index.wxml **/
@@ -1829,6 +1839,7 @@ exports[`config should resolved alias 2`] = `
     var _unused_webpack_default_export = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -2228,6 +2239,7 @@ exports[`config should resolved alias 2`] = `
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(1);
     var createClass = __webpack_require__(2);
@@ -2265,6 +2277,9 @@ exports[`config should resolved alias 2`] = `
     var origin_app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
     var mocks_taro_components = __webpack_require__(9);
@@ -2306,8 +2321,8 @@ exports[`config should resolved alias 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    var inst = undefined(origin_app, nerv, nerv, config);
-    undefined(inst, config, nerv);
+    var inst = createReactApp(origin_app, nerv, nerv, config);
+    createRouter(inst, config, nerv);
 } ]);
 
 /** filePath: dist/js/extra.js **/

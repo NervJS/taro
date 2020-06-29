@@ -104,7 +104,7 @@ exports[`vue should build vue app 2`] = `
             options._ssrRegister = hook;
         } else if (injectStyles) {
             hook = shadowMode ? function() {
-                injectStyles.call(this, this.$root.$options.shadowRoot);
+                injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
             } : injectStyles;
         }
         if (hook) {
@@ -625,6 +625,7 @@ exports[`vue should build vue app 2`] = `
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
     var h5 = taro_h5;
     var vue = \\"vue-mock\\";
     var app = __webpack_require__(3);
@@ -637,9 +638,13 @@ exports[`vue should build vue app 2`] = `
     var src_app = App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
     var mocks_taro_components = __webpack_require__(5);
     applyPolyfills().then((function() {
         defineCustomElements(taro_runtime_window);
@@ -679,8 +684,8 @@ exports[`vue should build vue app 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    var inst = undefined(src_app, vue, config);
-    undefined(inst, config, vue);
+    var inst = createVueApp(src_app, vue, config);
+    createRouter(inst, config, vue);
 } ]);
 "
 `;

@@ -288,6 +288,7 @@ exports[`nerv should build nerv app 2`] = `
     var _unused_webpack_default_export = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -684,6 +685,7 @@ exports[`nerv should build nerv app 2`] = `
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
@@ -721,6 +723,9 @@ exports[`nerv should build nerv app 2`] = `
     var src_app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(9);
     Object(taro_components[\\"c\\"])().then((function() {
@@ -761,8 +766,8 @@ exports[`nerv should build nerv app 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    var inst = undefined(src_app, nerv[\\"b\\"], nerv[\\"b\\"], config);
-    undefined(inst, config, nerv[\\"b\\"]);
+    var inst = createReactApp(src_app, nerv[\\"b\\"], nerv[\\"b\\"], config);
+    createRouter(inst, config, nerv[\\"b\\"]);
 } ]);
 "
 `;

@@ -76,7 +76,7 @@ if (config.tabBar) {
 config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join('')}
 ]
-${execBeforeCreateWebApp}
+${execBeforeCreateWebApp || ''}
 var inst = ${creator}(component, ${frameworkArgs})
 createRouter(inst, config, ${importFrameworkName})
 `
