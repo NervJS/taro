@@ -273,7 +273,7 @@ export function get (key) {
 }
 ```
 
-随后就可以在任意位置进行使用啦
+随后就可以在任意位置进行使用了。
 
 ```jsx
 import { set as setGlobalData, get as getGlobalData } from './path/name/global_data'
