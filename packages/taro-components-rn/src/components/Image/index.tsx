@@ -87,7 +87,9 @@ class _Image extends React.Component<ImageProps, ImageState> {
         layoutWidth
       })
     }
-    this.hasLayout = true
+    if (!!this.state.ratio) {
+      this.hasLayout = true
+    }
   }
 
   loadImg = (props: ImageProps) => {
