@@ -53,7 +53,7 @@
     "eslint-config-standard": "^11.0.0",
     "eslint-config-standard-jsx": "^4.0.2",
     "jest": "24.0.0",
-    "jest-fetch-mock": "^1.6.5",
+    "jest-fetch-mock": "^3.0.3",
     "jest-localstorage-mock": "^2.2.0",
     "jest-mock-console": "^0.3.5",
     "lodash": "^4.17.11",
