@@ -9,7 +9,7 @@ export default (ctx: IPluginContext, opts) => {
       if (!currentPlatform) return
       const less = require('less')
       const platformConfig = ctx.initialConfig[currentPlatform.useConfigName]
-      const lessLoaderOption = platformConfig.lessLoaderOption
+      const lessLoaderOption = platformConfig?.lessLoaderOption
       const defaultLessLoaderOption = {
         sourceMap: enableSourceMap,
         implementation: less
