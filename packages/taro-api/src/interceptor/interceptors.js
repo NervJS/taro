@@ -7,19 +7,18 @@ export function timeoutInterceptor (chain) {
       reject(new Error('网络链接超时,请稍后再试！'))
     }, (requestParams && requestParams.timeout) || 60000)
 
-    chain
-      .proceed(requestParams)
-      .then(res => {
-        if (!timeout) return
-        clearTimeout(timeout)
-        resolve(res)
-      })
-      .catch(err => {
-        timeout && clearTimeout(timeout)
-        reject(err)
-      })
+    p = chain.proceed(requestParams)
+    p.then(res => {
+      if (!timeout) return
+      clearTimeout(timeout)
+      resolve(res)
+    }).catch(err => {
+      timeout && clearTimeout(timeout)
+      reject(err)
+    })
   })
-  if (typeof p.abort === 'function') res.abort = p.abort
+
+  if (p !== undefined && typeof p.abort === 'function') res.abort = p.abort
   return res
 }
 

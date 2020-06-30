@@ -10,7 +10,7 @@ import { IPageConf } from './page'
 import Creator from './creator'
 
 const CONFIG_DIR_NAME = 'config'
-const TEMPLATE_CREATOR = 'template_creator.js'
+export const TEMPLATE_CREATOR = 'template_creator.js'
 
 const styleExtMap = {
   sass: 'scss',

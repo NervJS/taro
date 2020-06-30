@@ -10,10 +10,13 @@ import {
   chalk,
   SOURCE_DIR
 } from '@tarojs/helper'
+import { isArray } from '@tarojs/shared'
 
 import { createApp } from './init'
 import fetchTemplate from './fetchTemplate'
 import Creator from './creator'
+
+import type { ITemplates } from './fetchTemplate'
 
 export interface IProjectConf {
   projectName: string;
@@ -33,7 +36,7 @@ export interface IProjectConf {
 }
 
 interface AskMethods {
-  (conf: IProjectConf, prompts: object[], choices?: string[]): void;
+  (conf: IProjectConf, prompts: object[], choices?: ITemplates[]): void;
 }
 
 export default class Project extends Creator {
@@ -67,7 +70,7 @@ export default class Project extends Creator {
 
   create () {
     this.fetchTemplates()
-      .then((templateChoices: string[]) => {
+      .then((templateChoices: ITemplates[]) => {
         return this.ask(templateChoices)
       })
       .then(answers => {
@@ -79,7 +82,7 @@ export default class Project extends Creator {
       .catch(err => console.log(chalk.red('创建项目失败: ', err)))
   }
 
-  async fetchTemplates (): Promise<string[]> {
+  async fetchTemplates (): Promise<ITemplates[]> {
     const conf = this.conf
     // 使用默认模版
     if (conf.template && conf.template === 'default') {
@@ -111,7 +114,7 @@ export default class Project extends Creator {
     return fetchTemplate(this.conf.templateSource, this.templatePath(''), this.conf.clone)
   }
 
-  ask (templateChoices: string[]) {
+  ask (templateChoices: ITemplates[]) {
     const prompts: object[] = []
     const templateChoicesPrompts: object[] = []
     const conf = this.conf
@@ -123,12 +126,17 @@ export default class Project extends Creator {
     this.askCSS(conf, prompts)
 
     return inquirer.prompt(prompts).then(answers => {
-      const newTemplateChoices: string[] = templateChoices.filter(templateChoice => {
-        if (['react', 'nerv'].includes(answers.framework)) return !['vuex', 'vue3-vuex'].includes(templateChoice)
-        if (answers.framework === 'vue') return !['redux', 'mobx', 'vue3-vuex'].includes(templateChoice)
-        if (answers.framework === 'vue3') return ['vue3-vuex'].includes(templateChoice)
-        return true
-      })
+      const newTemplateChoices: ITemplates[] = templateChoices
+        .filter(templateChoice => {
+          const { platforms } = templateChoice
+          if (typeof platforms === 'string') {
+            return answers.framework === templateChoice.platforms
+          } else if (isArray(platforms)) {
+            return templateChoice.platforms?.includes(answers.framework)
+          } else {
+            return true
+          }
+        })
       this.askTemplate(conf, templateChoicesPrompts, newTemplateChoices)
       return inquirer.prompt(templateChoicesPrompts)
         .then(templateChoiceAnswer => {
@@ -260,7 +268,10 @@ export default class Project extends Creator {
         name: '默认模板',
         value: 'default'
       },
-      ...list.map(item => ({ name: item, value: item }))
+      ...list.map(item => ({
+        name: item.desc ? `${item.name}（${item.desc}）` : item.name,
+        value: item.name
+      }))
     ]
 
     if ((typeof conf.template as 'string' | undefined) !== 'string') {

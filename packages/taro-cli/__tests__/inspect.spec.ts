@@ -98,17 +98,21 @@ describe('inspect', () => {
     const logSpy = jest.spyOn(console, 'log')
     const errorSpy = jest.spyOn(console, 'error')
 
-    exitSpy.mockImplementation(() => {})
+    exitSpy.mockImplementation(() => {
+      throw new Error()
+    })
     logSpy.mockImplementation(() => {})
     errorSpy.mockImplementation(() => {})
 
-    const appPath = path.resolve(__dirname, 'fixtures/default')
-    await runInspect(appPath, {
-      options: {
-        type: 'h5'
-      },
-      args: ['resolve.mainFields.0']
-    })
+    try {
+      const appPath = path.resolve(__dirname, 'fixtures/default')
+      await runInspect(appPath, {
+        options: {
+          type: 'h5'
+        },
+        args: ['resolve.mainFields.0']
+      })
+    } catch (error) {}
 
     expect(exitSpy).toBeCalledWith(0)
     expect(logSpy).toBeCalledTimes(1)

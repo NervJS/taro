@@ -131,7 +131,7 @@ declare interface helper {
   taroJsMobxCommon: "@tarojs/mobx-common";
   DEVICE_RATIO_NAME: "deviceRatio";
   isWindows: boolean;
-  DEFAULT_TEMPLATE_SRC: "github:NervJS/taro-project-templates#2.0";
+  DEFAULT_TEMPLATE_SRC: "github:NervJS/taro-project-templates#v3";
   TARO_CONFIG_FLODER: ".taro3";
   TARO_BASE_CONFIG: "index.json";
   OUTPUT_DIR: "dist";
