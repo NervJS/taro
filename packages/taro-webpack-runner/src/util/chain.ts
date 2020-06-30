@@ -1,4 +1,4 @@
-import { recursiveMerge, REG_SCRIPTS, REG_SASS_SASS, REG_SASS_SCSS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE, REG_VUE } from '@tarojs/helper'
+import { recursiveMerge, REG_SCRIPTS, REG_SASS_SASS, REG_SASS_SCSS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
@@ -163,10 +163,6 @@ const getBabelLoader = pipe(
   mergeOption,
   partial(getLoader, 'babel-loader')
 )
-const getVueLoader = pipe(
-  mergeOption,
-  partial(getLoader, 'vue-loader')
-)
 
 const getUrlLoader = pipe(
   mergeOption,
@@ -267,8 +263,7 @@ export const getModule = (appPath: string, {
   mediaUrlLoaderOption,
   esnextModules = [] as (string | RegExp)[],
 
-  postcss,
-  framework
+  postcss
 }) => {
   const postcssOption: IPostcssOption = postcss || {}
 
@@ -349,7 +344,7 @@ export const getModule = (appPath: string, {
 
   const extractCssLoader = getExtractCssLoader()
 
-  const lastStyleLoader = enableExtract && framework !== 'vue' ? extractCssLoader : styleLoader
+  const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
 
   /**
    * css-loader 1.0.0版本移除了minimize选项...升级需谨慎
@@ -468,37 +463,6 @@ export const getModule = (appPath: string, {
   rule.styl = {
     test: REG_STYLUS,
     use: [stylusLoader]
-  }
-  rule.vue = {
-    test: REG_VUE,
-    use: {
-      vueLoader: getVueLoader([{
-        transformAssetUrls: {
-          video: ['src', 'poster'],
-          'live-player': 'src',
-          audio: 'src',
-          source: 'src',
-          image: 'src',
-          'cover-image': 'src',
-          'taro-video': ['src', 'poster'],
-          'taro-live-player': 'src',
-          'taro-audio': 'src',
-          'taro-source': 'src',
-          'taro-image': 'src',
-          'taro-cover-image': 'src'
-        },
-        compilerOptions: {
-          modules: [{
-            preTransformNode (el) {
-              if (DEFAULT_Components.has(el.tag)) {
-                el.tag = 'taro-' + el.tag
-              }
-              return el
-            }
-          }]
-        }
-      }])
-    }
   }
   rule.script = {
     test: REG_SCRIPTS,

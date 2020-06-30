@@ -20,6 +20,8 @@ import {
 import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
 import { weixinAdapter } from '../template/adapters'
+import { customVueChain } from './vue'
+import { customVue3Chain } from './vue3'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
@@ -94,12 +96,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   }
   if (copy) {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
-  }
-  if (framework === FRAMEWORK_MAP.VUE) {
-    const VueLoaderPlugin = require('vue-loader/lib/plugin')
-    plugin.vueLoaderPlugin = {
-      plugin: new VueLoaderPlugin()
-    }
   }
   alias[taroJsComponents + '$'] = `${taroJsComponents}/mini`
   if (framework === 'react') {
@@ -252,5 +248,16 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       }
     }
   })
+
+  switch (framework) {
+    case FRAMEWORK_MAP.VUE:
+      customVueChain(chain)
+      break
+    case FRAMEWORK_MAP.VUE3:
+      customVue3Chain(chain)
+      break
+    default:
+  }
+
   return chain
 }

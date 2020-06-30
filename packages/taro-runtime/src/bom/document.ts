@@ -4,7 +4,7 @@ import { TaroElement } from '../dom/element'
 import { FormElement } from '../dom/form'
 import { NodeType } from '../dom/node_types'
 import { TaroRootElement } from '../dom/root'
-import { eventSource } from '../dom/event'
+import { eventSource, createEvent } from '../dom/event'
 import { isBrowser, doc } from '../env'
 
 export class TaroDocument extends TaroElement {
@@ -28,9 +28,17 @@ export class TaroDocument extends TaroElement {
     return new TaroText(text)
   }
 
-  public getElementById<T extends TaroElement> (id: string) {
+  public getElementById<T extends TaroElement> (id: string | undefined | null) {
     const el = eventSource.get(id)
     return isUndefined(el) ? null : el as T
+  }
+
+  public querySelector (query: string) {
+    // 为了 Vue3 的乞丐版实现
+    if (/^#/.test(query)) {
+      return this.getElementById(query.slice(1))
+    }
+    return null
   }
 
   // @TODO: @PERF: 在 hydrate 移除掉空的 node
@@ -44,6 +52,7 @@ interface TaroDocumentInstance extends TaroDocument {
   documentElement: TaroElement;
   head: TaroElement;
   body: TaroElement;
+  createEvent: typeof createEvent
 }
 
 export function createDocument () {
@@ -61,6 +70,7 @@ export function createDocument () {
   container.appendChild(app)
 
   doc.documentElement.lastChild.appendChild(container)
+  doc.createEvent = createEvent
 
   return doc
 }

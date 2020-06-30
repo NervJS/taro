@@ -766,7 +766,7 @@ require(\\"./taro\\");
                 options._ssrRegister = hook;
             } else if (injectStyles) {
                 hook = shadowMode ? function() {
-                    injectStyles.call(this, this.$root.$options.shadowRoot);
+                    injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
                 } : injectStyles;
             }
             if (hook) {

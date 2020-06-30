@@ -79,10 +79,15 @@ describe('config validator of doctor', () => {
     expect(res.lines.length).toEqual(0)
 
     res = await validator(getConfig({
+      framework: 'vue3'
+    }))
+    expect(res.lines.length).toEqual(0)
+
+    res = await validator(getConfig({
       framework: 'other'
     }))
     expect(res.lines.length).toEqual(1)
-    expect(res.lines[0].desc).toEqual('framework "framework" must be one of [nerv, react, vue]')
+    expect(res.lines[0].desc).toEqual('framework "framework" must be one of [nerv, react, vue, vue3]')
   })
 
   it('designWidth', async () => {
