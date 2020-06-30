@@ -48,7 +48,6 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.3",
     "@stencil/sass": "^1.1.1",
     "jquery": "^3.4.1",
     "simulant": "^0.2.2",
