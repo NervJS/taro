@@ -33,6 +33,8 @@ const View = {
   'hover-start-time': '50',
   'hover-stay-time': '400',
   animation: '',
+  bindAnimationStart: '',
+  bindAnimationIteration: '',
   bindAnimationEnd: '',
   bindTransitionEnd: '',
   ...touchEvents
