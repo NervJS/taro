@@ -58,6 +58,7 @@ function NavLink({ activeBasePath, activeRegxp, to, href, label, position, ...pr
 
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
+
   // console.log(toUrl)
   return (
     <Link
