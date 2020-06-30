@@ -21,19 +21,19 @@ export default (ctx: IPluginContext, opts) => {
       }
       const newSassLoaderOption = await getSassLoaderOption({
         sass: sassOption,
-        sassLoaderOption: platformConfig!.sassLoaderOption
+        sassLoaderOption: platformConfig?.sassLoaderOption
       })
       chain.module
         .rule('addChainStyleSass')
-          .test(ctx.helper.REG_SASS)
-          .pre()
-          .use('resolveUrl')
-            .loader(require.resolve('resolve-url-loader'))
-            .end()
-          .use('sass')
-            .loader(require.resolve('sass-loader'))
-            .options(Object.assign({}, defaultSassLoaderOption, newSassLoaderOption))
-            .end()
+        .test(ctx.helper.REG_SASS)
+        .pre()
+        .use('resolveUrl')
+        .loader(require.resolve('resolve-url-loader'))
+        .end()
+        .use('sass')
+        .loader(require.resolve('sass-loader'))
+        .options(Object.assign({}, defaultSassLoaderOption, newSassLoaderOption))
+        .end()
     }
   })
 }
