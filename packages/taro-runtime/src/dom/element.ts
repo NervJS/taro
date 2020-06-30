@@ -7,6 +7,8 @@ import { isElement } from '../utils'
 import { Style } from './style'
 import { PROPERTY_THRESHOLD } from '../constants'
 import { CurrentReconciler } from '../reconciler'
+import { treeToArray } from './tree'
+import { ClassList } from './class-list'
 
 interface Attributes {
   name: string;
@@ -38,6 +40,10 @@ export class TaroElement extends TaroNode {
 
   public set id (val: string) {
     this.setAttribute('id', val)
+  }
+
+  public get classList () {
+    return new ClassList(this.className, this)
   }
 
   public get className () {
@@ -134,11 +140,18 @@ export class TaroElement extends TaroNode {
     return attrs.concat(style ? { name: 'style', value: style } : [])
   }
 
-  public get parentElement () {
-    if (this.parentNode instanceof TaroElement) {
-      return this.parentNode
-    }
-    return null
+  public getElementsByTagName (tagName: string): TaroElement[] {
+    return treeToArray(this, (el) => {
+      return el.nodeName === tagName || (tagName === '*' && this !== el)
+    })
+  }
+
+  public getElementsByClassName (className: string): TaroElement[] {
+    return treeToArray(this, (el) => {
+      const classList = el.classList
+      const classNames = className.trim().split(/\s+/)
+      return classNames.every(c => classList.has(c))
+    })
   }
 
   public dispatchEvent (event: TaroEvent) {

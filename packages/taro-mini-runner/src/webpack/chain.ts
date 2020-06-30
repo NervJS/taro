@@ -23,7 +23,6 @@ import {
   REG_FONT,
   REG_IMAGE,
   REG_SCRIPTS,
-  REG_VUE,
   REG_CSS,
   REG_TEMPLATE,
   chalk
@@ -34,8 +33,6 @@ import { getPostcssPlugins } from './postcss.conf'
 
 import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption, IBuildConfig } from '../utils/types'
-import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
-import { componentConfig } from '../template/component'
 import defaultTerserOptions from '../config/terserOptions'
 
 interface IRule {
@@ -138,7 +135,6 @@ export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-load
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
-export const getVueLoader = pipe(mergeOption, partial(getLoader, 'vue-loader'))
 export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
 
 const getExtractCssLoader = () => {
@@ -374,41 +370,6 @@ export const getModule = (appPath: string, {
     nomorlCss: {
       test: REG_CSS,
       oneOf: cssLoaders
-    },
-    vue: {
-      test: REG_VUE,
-      use: {
-        vueLoader: getVueLoader([{
-          optimizeSSR: false,
-          transformAssetUrls: {
-            video: ['src', 'poster'],
-            'live-player': 'src',
-            audio: 'src',
-            source: 'src',
-            image: 'src',
-            'cover-image': 'src'
-          },
-          compilerOptions: {
-            modules: [{
-              preTransformNode (el) {
-                const nodeName = el.tag
-                if (capitalize(toCamelCase(nodeName)) in internalComponents) {
-                  componentConfig.includes.add(nodeName)
-                }
-
-                const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)
-                if (usingComponent != null) {
-                  el.attrsList
-                    .filter(a => !a.dynamic)
-                    .forEach(a => usingComponent.add(a.name.startsWith(':') ? a.name.slice(1) : a.name))
-                }
-
-                return el
-              }
-            }]
-          }
-        }])
-      }
     },
     script: scriptRule,
     template: {

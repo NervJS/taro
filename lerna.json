@@ -23,7 +23,8 @@
     "packages/taro-service",
     "packages/taro-webpack-runner",
     "packages/taro-with-weapp",
-    "packages/taroize"
+    "packages/taroize",
+    "packages/taro-extend"
   ],
   "command": {
     "publish": {

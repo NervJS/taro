@@ -18,9 +18,7 @@ import {
   META_TYPE,
   REG_STYLE,
   NODE_MODULES_REG,
-  FRAMEWORK_MAP,
-  VUE_EXT,
-  SCRIPT_EXT,
+  FRAMEWORK_EXT_MAP,
   printLog,
   processTypeEnum
 } from '@tarojs/helper'
@@ -359,7 +357,7 @@ export default class TaroMiniPlugin {
     this.pages = new Set([
       ...this.pages,
       ...appPages.map<IComponent>(item => {
-        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), framework === FRAMEWORK_MAP.VUE ? VUE_EXT : SCRIPT_EXT)
+        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
         const pageTemplatePath = this.getTemplatePath(pagePath)
         const isNative = this.isNativePageORComponent(pageTemplatePath)
         return {
@@ -531,7 +529,7 @@ export default class TaroMiniPlugin {
               }
             })
             if (!hasPageIn) {
-              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), framework === FRAMEWORK_MAP.VUE ? VUE_EXT : SCRIPT_EXT)
+              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), FRAMEWORK_EXT_MAP[framework])
               const templatePath = this.getTemplatePath(pagePath)
               const isNative = this.isNativePageORComponent(templatePath)
               this.pages.add({

@@ -1,5 +1,6 @@
 import type { Component, ComponentClass } from 'react'
 import VueCtor, { ComponentOptions, VNode } from 'vue'
+import { Component as Vue3Component } from '@vue/runtime-core'
 import { CombinedVueInstance } from 'vue/types/vue'
 import { MpEvent } from '../dom/event'
 import { TaroElement } from '../dom/element'
@@ -72,6 +73,6 @@ interface Show {
 
 export interface AppInstance extends Show {
   onLaunch? (options?: string): void
-  mount? (component: React.ComponentClass | ComponentOptions<VueCtor>, id: string, cb: () => void): void
+  mount? (component: React.ComponentClass | ComponentOptions<VueCtor> | Vue3Component, id: string, cb: () => void): void
   unmount? (id: string, cb: () => void): void
 }

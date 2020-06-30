@@ -16,9 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name : GITHUB CONTEXT
-        env: 
-          GITHUB_CONTEXT: ${{ toJson(github) }} 
-        run: echo "$GITHUB_CONTEXT" 
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Get commit message
         run: |
            echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
@@ -98,7 +98,7 @@ jobs:
       - name: Publish
         if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' )
         run: |
-          yarn lerna publish from-package --dist-tag next --yes
+          yarn lerna publish from-package  --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

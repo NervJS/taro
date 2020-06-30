@@ -349,6 +349,7 @@ exports[`subpackages should process subpackages 2`] = `
     var _unused_webpack_default_export = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -447,6 +448,10 @@ exports[`subpackages should process subpackages 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return createRouter;
+    }));
     var h5 = __webpack_exports__[\\"b\\"] = taro_h5;
 }, function(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(14);
@@ -785,6 +790,9 @@ exports[`subpackages should process subpackages 2`] = `
     var src_app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(10);
     Object(taro_components[\\"c\\"])().then((function() {
@@ -836,8 +844,8 @@ exports[`subpackages should process subpackages 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"详情页\\"
     } || {}) ];
-    var inst = undefined(src_app, react, react[\\"default\\"], config);
-    Object(h5[\\"createRouter\\"])(inst, config, react);
+    var inst = createReactApp(src_app, react, react[\\"default\\"], config);
+    Object(h5[\\"a\\"])(inst, config, react);
 } ]);
 "
 `;
