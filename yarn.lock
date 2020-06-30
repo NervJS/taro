@@ -966,11 +966,18 @@
   version "2.1.0"
   resolved "https://registry.npmjs.org/@types/linkify-it/-/linkify-it-2.1.0.tgz#ea3dd64c4805597311790b61e872cbd1ed2cd806"
 
-"@types/markdown-it@0.0.9":
-  version "0.0.9"
-  resolved "https://registry.npmjs.org/@types/markdown-it/-/markdown-it-0.0.9.tgz#a5d552f95216c478e0a27a5acc1b28dcffd989ce"
+"@types/markdown-it@10.0.1":
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/@types/markdown-it/-/markdown-it-10.0.1.tgz#94e252ab689c8e9ceb9aff2946e0a458390105eb"
+  integrity sha512-L1ibTdA5IUe/cRBlf3N3syAOBQSN1WCMGtAWir6mKxibiRl4LmpZM4jLz+7zAqiMnhQuAP1sqZOF9wXgn2kpEg==
   dependencies:
     "@types/linkify-it" "*"
+    "@types/mdurl" "*"
+
+"@types/mdurl@*":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/mdurl/-/mdurl-1.0.2.tgz#e2ce9d83a613bacf284c7be7d491945e39e1f8e9"
+  integrity sha512-eC4U9MlIcu2q0KQmXszyn5Akca/0jrQmwDRgpAMJai7qBWq4amIQhZyNau4VYGtCeALvW1/NtjzJJ567aZxfKA==
 
 "@types/minimatch@*":
   version "3.0.3"
