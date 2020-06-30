@@ -12,6 +12,10 @@ export declare interface IPluginContext {
    */
   plugins: Map<string, IPlugin>
   /**
+   * 获取当前所有挂载的平台
+   */
+  platforms: Map<string, IPlatform>
+  /**
    * 包含当前执行命令的相关路径集合
    */
   paths: IPaths
