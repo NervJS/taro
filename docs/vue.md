@@ -52,7 +52,7 @@ export default {
 
 监听程序初始化，初始化完成时触发（全局只触发一次）
 
-在此生命周期中通过 `Current.router.params`，可以访问到程序初始化参数
+在此生命周期中通过 `getCurrentInstance().router.params`，可以访问到程序初始化参数
 
 参数格式如下
 
@@ -177,11 +177,11 @@ export default {
   <view id="only" />
 </template>
 <script>
-  import { eventCenter, Current } from '@tarojs/taro'
+  import { eventCenter, getCurrentInstance } from '@tarojs/taro'
 
   export default {
     mounted () {
-      eventCenter.once(Current.router.onReady, () => {
+      eventCenter.once(getCurrentInstance().router.onReady, () => {
         const query = Taro.createSelectorQuery()
         query.select('#only').boundingClientRect()
         query.exec(res => {
@@ -196,7 +196,7 @@ export default {
 
 #### onLoad(options)
 
-页面创建时执行，此生命周期在小程序端对应小程序页面的 `onLoad` 生命周期。此生命周期可以访问 `Current.router`。
+页面创建时执行，此生命周期在小程序端对应小程序页面的 `onLoad` 生命周期。此生命周期可以访问 `getCurrentInstance().router`。
 
 #### created()
 
@@ -226,7 +226,7 @@ export default {
 
 页面隐藏/切入后台时触发， 如 navigateTo 或底部 tab 切换到其他页面，小程序切入后台等
 
-**在以上所有的生命周期方法中，都可以通过 `Current.router` 获取打开当前页面路径中的参数**。
+**在以上所有的生命周期方法中，都可以通过 `getCurrentInstance().router` 获取打开当前页面路径中的参数**。
 
 
 ### 页面事件处理函数

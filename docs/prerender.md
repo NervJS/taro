@@ -52,7 +52,7 @@ module.exports = config
 // PageConfig 是开发者在 prerender.includes 配置的页面参数
 interface PageConfig {
   path: string // 页面路径
-  params: Record<string, unknown> // 页面的路由参数，对应 `Current.router.params`
+  params: Record<string, unknown> // 页面的路由参数，对应 `getCurrentInstance().router.params`
 }
 
 // DOM 树数据，Taro 通过遍历它动态渲染数据

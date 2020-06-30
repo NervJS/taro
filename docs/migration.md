@@ -183,21 +183,24 @@ function Excited () {
 
 ## 路由
 
-在旧版本中可以通过 `this.$router` 访问当前组件/页面路由的详情。在 Taro Next 对应的 API 是在 `@tarojs/taro` 中的 `Current.router`，两者的属性一模一样。
+在旧版本中可以通过 `this.$router` 访问当前组件/页面路由的详情。在 Taro Next 对应的 API 是在 `@tarojs/taro` 中的 `getCurrentInstance().router`，两者的属性一模一样。
 
 ```jsx
-import { Current } from '@tarojs/taro'
+import { getCurrentInstance } from '@tarojs/taro'
 class C extends Component {
+  current = getCurrentInstance()
+
   componentWillMount () {
-    // Current.router 和 this.$router 和属性一样
-    console.log(Current.router)
+    // getCurrentInstance().router 和 this.$router 和属性一样
+    console.log(this.current.router)
   }
 }
 
 // 函数式组件
+import { getCurrentInstance } from '@tarojs/taro'
 function C () {
-  const router = Current.router
-  // Current.router 和 useRouter 返回的内容也一样
+  const { router } = getCurrentInstance()
+  // getCurrentInstance().router 和 useRouter 返回的内容也一样
   // const router = useRouter()
 }
 ```
@@ -216,7 +219,7 @@ class App extends Component {
 }
 ```
 
-> 聪明的读者已经猜到了，`Current.router` 其实是访问小程序当前页面 `onLoad` 生命周期参数的快捷方式。
+> 聪明的读者已经猜到了，`getCurrentInstance().router` 其实是访问小程序当前页面 `onLoad` 生命周期参数的快捷方式。
 
 ## 样式
 
@@ -320,4 +323,4 @@ import { useState, useEffect } from 'react' // 框架 Hooks （基础 Hooks）
 
 ## $scope 和 $componentType
 
-由于 Taro Next 没有自定义组件，所以也没有了 `this.$scope` 和 `this.$componentType` 的概念。`Current.page` 可以返回当前小程序页面的实例。
+由于 Taro Next 没有自定义组件，所以也没有了 `this.$scope` 和 `this.$componentType` 的概念。`getCurrentInstance().page` 可以返回当前小程序页面的实例。

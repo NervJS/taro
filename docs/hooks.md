@@ -478,7 +478,7 @@ useTabItemTap(item => {
 const router = useRouter() // { path: '', params: { ... } }
 ```
 
-`useRouter` 是 Taro 专有的 Hook，等同于页面为类时的 `Current.router`
+`useRouter` 是 Taro 专有的 Hook，等同于页面为类时的 `getCurrentInstance().router`
 
 ### `useReady`
 
