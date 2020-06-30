@@ -43,7 +43,7 @@
     "@babel/preset-env": "7.1.5",
     "@tarojs/taro-h5": "^2.2.10",
     "@types/history": "4.7.2",
-    "@types/jasmine": "2.8.11",
+    "@types/jasmine": "3.5.11",
     "@types/jest": "23.3.9",
     "@types/lodash": "4.14.117",
     "@types/webpack": "4.41.0",
