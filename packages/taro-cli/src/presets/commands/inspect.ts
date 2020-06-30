@@ -30,18 +30,25 @@ export default (ctx: IPluginContext) => {
 
       process.env.TARO_ENV = platform
 
-      const config = getConfig(ctx, platform)
+      let config = getConfig(ctx, platform)
       const isProduction = process.env.NODE_ENV === 'production'
       const outputPath = options.output || options.o
       const mode = outputPath ? 'output' : 'console'
       const extractPath = _[1]
+
+      config = {
+        ...config,
+        ...config[ctx.platforms.get(platform)?.useConfigName || '']
+      }
+      delete config.mini
+      delete config.h5
 
       await ctx.applyPlugins({
         name: platform,
         opts: {
           config: {
             ...config,
-            isWatch: false,
+            isWatch: !isProduction,
             mode: isProduction ? 'production' : 'development',
             async modifyWebpackChain (chain, webpack) {
               await ctx.applyPlugins({
