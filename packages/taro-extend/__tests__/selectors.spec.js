@@ -246,14 +246,6 @@ describe('selector', () => {
     })
   }
 
-  it('testfuck', () => {
-    // debugger
-    const $target = Sizzle('p > a.blog')
-    expect($target.length).toBeGreaterThan(0)
-    expect($target.map(t => t.id)).toEqual(['mark', 'simon'])
-    // console.log(document.get('ap').getElementsByClassName('blog'))
-  })
-
   testById('#first', ['first'])
   testById('p > a', ['simon1', 'google', 'groups', 'mark', 'yahoo', 'simon'])
   testById('p> a', ['simon1', 'google', 'groups', 'mark', 'yahoo', 'simon'])

@@ -11,7 +11,7 @@ interface Options {
     closingElements: Set<string>
     transformText?: (taroText: TaroText, text: Text) => TaroText
     transformElement?: (taroElement: TaroElement, element: Element) => TaroElement,
-    renderHTMLTag: false
+    renderHTMLTag: boolean
   }
 }
 
