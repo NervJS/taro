@@ -29,7 +29,7 @@ function buildData (offset = 0) {
   return Array(100).fill(0).map((_, i) => i + offset);
 }
 
-const Row = React.memo(({ index, style, data }) => {
+const Row = Taro.memo(({ index, style, data }) => {
   return (
     <View className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
       Row {index}
