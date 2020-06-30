@@ -106,7 +106,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   const mode = 'development'
 
   if (config.framework === FRAMEWORK_MAP.REACT || config.framework === FRAMEWORK_MAP.NERV) {
-    alias['@tarojs/components$'] = '@tarojs/components/h5/react'
+    alias['@tarojs/components$'] = '@tarojs/components/dist-h5/react'
   }
 
   chain.merge({

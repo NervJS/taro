@@ -16,7 +16,7 @@ import Vue from 'vue';
     importFrameworkName: 'Vue',
     isNeedRawLoader: true,
     extraImportForWeb: `
-import '@tarojs/components/h5/vue'
+import '@tarojs/components/dist-h5/vue'
 `
   },
   vue3: {
@@ -28,7 +28,7 @@ import { h } from 'vue'
     importFrameworkName: 'h',
     isNeedRawLoader: true,
     extraImportForWeb: `
-import { initVue3Components } from '@tarojs/components/h5/vue3'
+import { initVue3Components } from '@tarojs/components/dist-h5/vue3'
 `,
     execBeforeCreateWebApp: `
 initVue3Components(component)
