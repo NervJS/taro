@@ -69,11 +69,9 @@ const reportIssue = '如有疑问，请提交 issue 至：https://github.com/ner
  * @param msg error message.
  */
 export function ensure (condition: boolean, msg: string): asserts condition {
-  if (condition) {
-    return
+  if (!condition) {
+    throw new Error(msg + '\n' + reportIssue)
   }
-
-  throw new Error(msg + '\n' + reportIssue)
 }
 
 export function warn (condition: boolean, msg: string) {

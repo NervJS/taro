@@ -28,7 +28,7 @@ export class TaroDocument extends TaroElement {
     return new TaroText(text)
   }
 
-  public getElementById<T extends TaroElement> (id: string) {
+  public getElementById<T extends TaroElement> (id: string | undefined | null) {
     const el = eventSource.get(id)
     return isUndefined(el) ? null : el as T
   }
@@ -37,9 +37,8 @@ export class TaroDocument extends TaroElement {
     // 为了 Vue3 的乞丐版实现
     if (/^#/.test(query)) {
       return this.getElementById(query.slice(1))
-    } else {
-      return null
     }
+    return null
   }
 
   // @TODO: @PERF: 在 hydrate 移除掉空的 node

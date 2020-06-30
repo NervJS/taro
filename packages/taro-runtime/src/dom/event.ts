@@ -10,7 +10,7 @@ interface EventOptions {
 
 type Target = Record<string, unknown> & { dataset: Record<string, unknown>, id: string }
 
-export const eventSource = new Map<string, TaroNode>()
+export const eventSource = new Map<string | undefined | null, TaroNode>()
 
 export class TaroEvent {
   public type: string
@@ -51,12 +51,12 @@ export class TaroEvent {
   }
 
   get target () {
-    const element = document.getElementById(this.mpEvent?.target.id || '')
+    const element = document.getElementById(this.mpEvent?.target.id)
     return { ...this.mpEvent?.target, ...this.mpEvent?.detail, dataset: element !== null ? element.dataset : EMPTY_OBJ }
   }
 
   get currentTarget () {
-    const element = document.getElementById(this.mpEvent?.currentTarget.id || '')
+    const element = document.getElementById(this.mpEvent?.currentTarget.id)
 
     if (element === null) {
       return this.target
