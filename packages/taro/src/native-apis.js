@@ -59,7 +59,10 @@ const onAndSyncApis = {
   offLocalServiceResolveFail: true,
   offLocalServiceLost: true,
   offLocalServiceFound: true,
-  offLocalServiceDiscoveryStop: true
+  offLocalServiceDiscoveryStop: true,
+
+  onGyroscopeChange: true,
+  offGyroscopeChange: true
 }
 const noPromiseApis = {
   // 媒体
@@ -223,6 +226,9 @@ const otherApis = {
   getConnectedWifi: true,
   startDeviceMotionListening: true,
   stopDeviceMotionListening: true,
+
+  startGyroscope: true,
+  stopGyroscope: true,
 
   // 界面
   pageScrollTo: true,
