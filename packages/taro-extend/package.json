@@ -6,10 +6,6 @@
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-extend#readme",
   "license": "MIT",
   "main": "dist/extend.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
   "files": [
     "dist"
   ],
@@ -27,8 +23,7 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "dependencies": {
-    "@tarojs/runtime": "3.0.0-rc.0",
-    "@tarojs/taro": "3.0.0-rc.0"
+  "publishConfig": {
+    "access": "public"
   }
 }
