@@ -34,7 +34,7 @@
     "react-dom": "^16.4.0",
     "react-mixin": "^5.0.0",
     "react-native-animatable": "^1.3.0",
-    "react-native-maps": "^0.25.0",
+    "react-native-maps": "^0.27.1",
     "react-native-swiper": "^1.6.0",
     "react-native-webview": "^9.4.0",
     "react-timer-mixin": "^0.13.4",
