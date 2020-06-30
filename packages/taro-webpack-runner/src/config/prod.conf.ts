@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { get, mapValues, merge } from 'lodash'
-
+import { FRAMEWORK_MAP } from '@tarojs/helper'
 import { addTrailingSlash, emptyObj } from '../util'
 import {
   getCopyWebpackPlugin,
@@ -17,6 +17,8 @@ import {
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
 import getBaseChain from './base.conf'
+import { customVueChain } from './vue'
+import { customVue3Chain } from './vue3'
 
 export default function (appPath: string, config: Partial<BuildConfig>): any {
   const chain = getBaseChain(appPath, config)
@@ -122,13 +124,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     ]))
   }
 
-  alias['@tarojs/components$'] = `@tarojs/components/h5/${config.framework === 'vue' ? 'vue' : 'react'}`
-
-  if (config.framework === 'vue') {
-    const VueLoaderPlugin = require('vue-loader/lib/plugin')
-    plugin.vueLoaderPlugin = {
-      plugin: new VueLoaderPlugin()
-    }
+  if (config.framework === FRAMEWORK_MAP.REACT || config.framework === FRAMEWORK_MAP.NERV) {
+    alias['@tarojs/components$'] = '@tarojs/components/h5/react}'
   }
 
   chain.merge({
@@ -158,8 +155,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       esnextModules,
 
       postcss,
-      staticDirectory,
-      framework: config.framework
+      staticDirectory
     }),
     plugin,
     optimization: {
@@ -169,5 +165,20 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       }
     }
   })
+
+  switch (config.framework) {
+    case FRAMEWORK_MAP.VUE:
+      customVueChain(chain, {
+        styleLoaderOption
+      })
+      break
+    case FRAMEWORK_MAP.VUE3:
+      customVue3Chain(chain, {
+        styleLoaderOption
+      })
+      break
+    default:
+  }
+
   return chain
 }

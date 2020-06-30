@@ -8,6 +8,7 @@ import { hydrate, HydratedData } from '../hydrate'
 import { TaroElement } from './element'
 import { setInnerHTML } from './html/html'
 import { CurrentReconciler } from '../reconciler'
+import { document } from '../bom/document'
 
 const nodeId = incrementId()
 
@@ -192,13 +193,14 @@ export class TaroNode extends TaroEventTarget {
    * @TODO 等待完整 innerHTML 实现
    */
   public set textContent (text: string) {
+    this._empty()
     if (text === '') {
-      this._empty()
-
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.Childnodes}`,
         value: () => []
       })
+    } else {
+      this.appendChild(document.createTextNode(text))
     }
   }
 
@@ -215,5 +217,34 @@ export class TaroNode extends TaroEventTarget {
     ensure(index !== -1, 'The node to be replaced is not a child of this node.')
 
     return index
+  }
+
+  public cloneNode (isDeep = false) {
+    const constructor: any = this.constructor
+    let newNode
+
+    if (this.nodeType === NodeType.ELEMENT_NODE) {
+      newNode = new constructor(this.nodeType, this.nodeName)
+    } else if (this.nodeType === NodeType.TEXT_NODE) {
+      newNode = new constructor('')
+    }
+
+    for (const key in this) {
+      const value: any = this[key]
+      if (['props', 'dataset'].includes(key) && typeof value === 'object') {
+        newNode[key] = { ...value }
+      } else if (key === '_value') {
+        newNode[key] = value
+      } else if (key === 'style') {
+        newNode.style._value = { ...value._value }
+        newNode.style._usedStyleProp = new Set(Array.from(value._usedStyleProp))
+      }
+    }
+
+    if (isDeep) {
+      newNode.childNodes = this.childNodes.map(node => node.cloneNode(true))
+    }
+
+    return newNode
   }
 }

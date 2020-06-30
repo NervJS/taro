@@ -32,7 +32,7 @@ export interface IProjectConf {
   sourceRoot?: string;
   env?: string;
   autoInstall?: boolean,
-  framework: 'nerv' | 'react' | 'vue'
+  framework: 'nerv' | 'react' | 'vue' | 'vue3'
 }
 
 interface AskMethods {
@@ -245,6 +245,10 @@ export default class Project extends Creator {
       {
         name: 'Vue',
         value: 'vue'
+      },
+      {
+        name: 'Vue3',
+        value: 'vue3'
       }
     ]
 

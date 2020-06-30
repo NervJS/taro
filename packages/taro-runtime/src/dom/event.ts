@@ -10,7 +10,7 @@ interface EventOptions {
 
 type Target = Record<string, unknown> & { dataset: Record<string, unknown>, id: string }
 
-export const eventSource = new Map<string, TaroNode>()
+export const eventSource = new Map<string | undefined | null, TaroNode>()
 
 export class TaroEvent {
   public type: string
@@ -25,9 +25,13 @@ export class TaroEvent {
 
   public defaultPrevented = false
 
-  public mpEvent: MpEvent
+  // timestamp can either be hi-res ( relative to page load) or low-res (relative to UNIX epoch)
+  // here use hi-res timestamp
+  public timeStamp = Date.now()
 
-  public constructor (type: string, opts: EventOptions, event: MpEvent) {
+  public mpEvent: MpEvent | undefined
+
+  public constructor (type: string, opts: EventOptions, event?: MpEvent) {
     this.type = type.toLowerCase()
     this.mpEvent = event
     this.bubbles = Boolean(opts && opts.bubbles)
@@ -47,18 +51,18 @@ export class TaroEvent {
   }
 
   get target () {
-    const element = document.getElementById(this.mpEvent.target.id)
-    return { ...this.mpEvent.target, ...this.mpEvent.detail, dataset: element !== null ? element.dataset : EMPTY_OBJ }
+    const element = document.getElementById(this.mpEvent?.target.id)
+    return { ...this.mpEvent?.target, ...this.mpEvent?.detail, dataset: element !== null ? element.dataset : EMPTY_OBJ }
   }
 
   get currentTarget () {
-    const element = document.getElementById(this.mpEvent.currentTarget.id)
+    const element = document.getElementById(this.mpEvent?.currentTarget.id)
 
     if (element === null) {
       return this.target
     }
 
-    return { ...this.mpEvent.currentTarget, ...this.mpEvent.detail, dataset: element.dataset }
+    return { ...this.mpEvent?.currentTarget, ...this.mpEvent?.detail, dataset: element.dataset }
   }
 }
 
@@ -69,10 +73,14 @@ export interface MpEvent {
   currentTarget: Target
 }
 
-export function createEvent (event: MpEvent, _?: TaroElement) {
+export function createEvent (event: MpEvent | string, _?: TaroElement) {
+  if (typeof event === 'string') {
+    return new TaroEvent(event, { bubbles: true, cancelable: true })
+  }
+
   const domEv = new TaroEvent(event.type, { bubbles: true, cancelable: true }, event)
   for (const key in event) {
-    if (key === 'currentTarget' || key === 'target' || key === 'type') {
+    if (key === 'currentTarget' || key === 'target' || key === 'type' || key === 'timeStamp') {
       continue
     } else {
       domEv[key] = event[key]

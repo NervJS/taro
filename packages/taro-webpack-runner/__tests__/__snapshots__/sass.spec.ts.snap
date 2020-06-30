@@ -270,6 +270,7 @@ exports[`sass should build app with sass 2`] = `
     var _unused_webpack_default_export = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -669,6 +670,7 @@ exports[`sass should build app with sass 2`] = `
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(1);
     var createClass = __webpack_require__(2);
@@ -693,6 +695,9 @@ exports[`sass should build app with sass 2`] = `
     var app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
     var mocks_taro_components = __webpack_require__(8);
@@ -734,8 +739,8 @@ exports[`sass should build app with sass 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    var inst = undefined(app, nerv, nerv, config);
-    undefined(inst, config, nerv);
+    var inst = createReactApp(app, nerv, nerv, config);
+    createRouter(inst, config, nerv);
 } ]);
 "
 `;
@@ -1029,6 +1034,7 @@ exports[`sass should build app with scss 2`] = `
     var _unused_webpack_default_export = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -1425,6 +1431,7 @@ exports[`sass should build app with scss 2`] = `
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
@@ -1462,6 +1469,9 @@ exports[`sass should build app with scss 2`] = `
     var src_app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(9);
     Object(taro_components[\\"c\\"])().then((function() {
@@ -1502,8 +1512,8 @@ exports[`sass should build app with scss 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    var inst = undefined(src_app, react, react[\\"default\\"], config);
-    undefined(inst, config, react);
+    var inst = createReactApp(src_app, react, react[\\"default\\"], config);
+    createRouter(inst, config, react);
 } ]);
 "
 `;
@@ -1797,6 +1807,7 @@ exports[`sass should set global sass content with data 2`] = `
     var _unused_webpack_default_export = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -2193,6 +2204,7 @@ exports[`sass should set global sass content with data 2`] = `
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
@@ -2230,6 +2242,9 @@ exports[`sass should set global sass content with data 2`] = `
     var src_app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(9);
     Object(taro_components[\\"c\\"])().then((function() {
@@ -2270,8 +2285,8 @@ exports[`sass should set global sass content with data 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    var inst = undefined(src_app, react, react[\\"default\\"], config);
-    undefined(inst, config, react);
+    var inst = createReactApp(src_app, react, react[\\"default\\"], config);
+    createRouter(inst, config, react);
 } ]);
 "
 `;
@@ -2565,6 +2580,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
     var _unused_webpack_default_export = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -2961,6 +2977,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
@@ -2998,6 +3015,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
     var src_app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(9);
     Object(taro_components[\\"c\\"])().then((function() {
@@ -3038,8 +3058,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    var inst = undefined(src_app, react, react[\\"default\\"], config);
-    undefined(inst, config, react);
+    var inst = createReactApp(src_app, react, react[\\"default\\"], config);
+    createRouter(inst, config, react);
 } ]);
 "
 `;
@@ -3333,6 +3353,7 @@ exports[`sass should set global sass content with source 2`] = `
     var _unused_webpack_default_export = \\"taro-components-mock\\";
     function defineCustomElements() {}
     function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -3729,6 +3750,7 @@ exports[`sass should set global sass content with source 2`] = `
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
+    function createRouter() {}
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
@@ -3766,6 +3788,9 @@ exports[`sass should set global sass content with source 2`] = `
     var src_app = app_App;
     var taro_runtime = \\"taro-runtime-mock\\";
     var taro_runtime_window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(9);
     Object(taro_components[\\"c\\"])().then((function() {
@@ -3806,8 +3831,8 @@ exports[`sass should set global sass content with source 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     } || {}) ];
-    var inst = undefined(src_app, react, react[\\"default\\"], config);
-    undefined(inst, config, react);
+    var inst = createReactApp(src_app, react, react[\\"default\\"], config);
+    createRouter(inst, config, react);
 } ]);
 "
 `;

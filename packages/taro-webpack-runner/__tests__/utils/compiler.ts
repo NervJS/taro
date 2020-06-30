@@ -105,6 +105,8 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
         '@tarojs/shared': path.resolve(__dirname, '../mocks/taro-shared'),
         '@tarojs/taro-h5': path.resolve(__dirname, '../mocks/taro-h5'),
         '@tarojs/components$': path.resolve(__dirname, '../mocks/taro-components'),
+        '@tarojs/components/dist-h5/vue': path.resolve(__dirname, '../mocks/taro-components'),
+        '@tarojs/components/dist-h5/vue3': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/loader': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/dist/taro-components/taro-components.css': path.resolve(__dirname, '../mocks/taro-components.css'),
         'react-dom': path.resolve(__dirname, '../mocks/react'),
