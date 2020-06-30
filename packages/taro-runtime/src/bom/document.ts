@@ -33,6 +33,20 @@ export class TaroDocument extends TaroElement {
     return isUndefined(el) ? null : el as T
   }
 
+  public getElementsByTagName<T extends TaroElement> (tagName: string) {
+    const elements: T[] = []
+    eventSource.forEach((node) => {
+      if (node.nodeType !== NodeType.ELEMENT_NODE) {
+        return
+      }
+      if (node.nodeName === tagName || (tagName === '*' && node !== this)) {
+        elements.push(node as T)
+      }
+    })
+
+    return elements
+  }
+
   public querySelector (query: string) {
     // 为了 Vue3 的乞丐版实现
     if (/^#/.test(query)) {
@@ -62,7 +76,9 @@ export function createDocument () {
 
   doc.documentElement.appendChild((doc.head = doc.createElement('head')))
 
-  doc.documentElement.appendChild((doc.createElement('body')))
+  const body = doc.createElement('body')
+  doc.documentElement.appendChild(body)
+  doc.body = body
 
   const app = doc.createElement('app')
   app.id = 'app'

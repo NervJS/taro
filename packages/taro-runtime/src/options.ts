@@ -12,6 +12,7 @@ export interface Options {
     closingElements: Set<string>
     transformText?: (taroText: TaroText, text: Text) => TaroText
     transformElement?: (taroElement: TaroElement, element: Element) => TaroElement
+    renderHTMLTag: boolean
   },
   reconciler: (reconciler: Reconciler<any>) => void
 }
@@ -30,7 +31,8 @@ export const options: Options = {
     closingElements: new Set([
       'html', 'head', 'body', 'p', 'dt', 'dd', 'li', 'option',
       'thead', 'th', 'tbody', 'tr', 'td', 'tfoot', 'colgroup'
-    ])
+    ]),
+    renderHTMLTag: false
   },
   reconciler<T> (reconciler: Reconciler<T>) {
     Object.assign(CurrentReconciler, reconciler)

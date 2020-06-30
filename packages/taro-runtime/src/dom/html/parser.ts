@@ -73,6 +73,10 @@ function unquote (str: string) {
 }
 
 function getTagName (tag: string) {
+  if (options.html.renderHTMLTag) {
+    return tag
+  }
+
   if (specialMiniElements[tag]) {
     return specialMiniElements[tag]
   } else if (isMiniElements(tag)) {
@@ -111,7 +115,9 @@ function format (children: ChildNode[]) {
     }
 
     const el = document.createElement(getTagName(child.tagName))
-    el.className = child.tagName
+    if (!options.html.renderHTMLTag) {
+      el.className = child.tagName
+    }
     for (let i = 0; i < child.attributes.length; i++) {
       const attr = child.attributes[i]
       const [key, value] = splitEqual(attr)

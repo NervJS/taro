@@ -59,6 +59,14 @@ export class TaroNode extends TaroEventTarget {
     return null
   }
 
+  public get parentElement (): TaroElement | null {
+    const parentNode = this.parentNode
+    if (parentNode != null && parentNode.nodeType === NodeType.ELEMENT_NODE) {
+      return parentNode as TaroElement
+    }
+    return null
+  }
+
   public get nextSibling () {
     const parentNode = this.parentNode
     if (parentNode) {
