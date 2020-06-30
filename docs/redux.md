@@ -243,6 +243,7 @@ Selector 函数大致相当于 `connect` 函数的 `mapStateToProps` 参数。Se
 * 不像 `mapStateToProps` 只返回对象一样，Selector 可能会返回任何值。
 * 当一个 action dispatch 时，`useSelector` 会把 selector 的前后返回值做一次浅对比，如果不同，组件会强制更新。
 * Selector 函数不接受 `ownProps` 参数。但 selector 可以通过闭包访问函数式组件传递下来的 props。
+* H5 环境不支持
 
 
 #### 使用案例
@@ -281,6 +282,7 @@ const dispatch = useDispatch()
 ```
 
 这个 Hook 返回 Redux store 的 `dispatch` 引用。你可以使用它来 dispatch actions。
+* H5 环境不支持
 
 #### 使用案例
 
