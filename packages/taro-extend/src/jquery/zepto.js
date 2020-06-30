@@ -9,6 +9,7 @@
 //     Zepto.js
 //     (c) 2010-2017 Thomas Fuchs
 //     Zepto.js may be freely distributed under the MIT license.
+import Taro from '@tarojs/taro'
 import { window } from '@tarojs/runtime'
 import { Sizzle } from './sizzle'
 import { initEvent } from './event'
@@ -16,6 +17,7 @@ import { initEvent } from './event'
 export const Zepto = (function () {
   let undefined; let key; let $; let classList; const emptyArray = []; const concat = emptyArray.concat; const filter = emptyArray.filter; const slice = emptyArray.slice
   const document = window.document
+  const isBrowser = typeof document !== 'undefined' && !!document.scripts
   const elementDisplay = {}; const classCache = {}
   const cssNumber = { 'column-count': 1, columns: 1, 'font-weight': 1, 'line-height': 1, opacity: 1, 'z-index': 1, zoom: 1 }
   const fragmentRE = /^\s*<(\w+|!)[^>]*>/
@@ -708,13 +710,28 @@ export const Zepto = (function () {
       }
       if (!this.length) return null
       if (document.documentElement !== this[0] && !$.contains(document.documentElement, this[0])) { return { top: 0, left: 0 } }
-      const obj = this[0].getBoundingClientRect()
-      return {
-        left: obj.left + window.pageXOffset,
-        top: obj.top + window.pageYOffset,
-        width: Math.round(obj.width),
-        height: Math.round(obj.height)
+      if (!isBrowser) {
+        return new Promise((resolve) => {
+          Taro.createSelectorQuery().select(this[0].uid).boundingClientRect(function (rect) {
+            resolve({
+              left: rect.left,
+              top: rect.top,
+              width: rect.height,
+              height: rect.height
+            })
+          }).exec()
+        })
       }
+
+      const obj = this[0].getBoundingClientRect()
+      return new Promise((resolve) => {
+        resolve({
+          left: obj.left + window.pageXOffset,
+          top: obj.top + window.pageYOffset,
+          width: Math.round(obj.width),
+          height: Math.round(obj.height)
+        })
+      })
     },
     css: function (property, value) {
       if (arguments.length < 2) {
@@ -789,7 +806,16 @@ export const Zepto = (function () {
     scrollTop: function (value) {
       if (!this.length) return
       const hasScrollTop = 'scrollTop' in this[0]
-      if (value === undefined) return hasScrollTop ? this[0].scrollTop : this[0].pageYOffset
+      if (value === undefined) {
+        if (isBrowser) {
+          return Promise.resolve(hasScrollTop ? this[0].scrollTop : this[0].pageYOffset)
+        }
+        return hasScrollTop ? Promise.resolve(this[0].scrollTop) : new Promise((resolve) => {
+          Taro.createSelectorQuery().select(this[0].uid).scrollOffset(function (res) {
+            resolve(res.scrollTop)
+          }).exec()
+        })
+      }
       return this.each(hasScrollTop
         ? function () { this.scrollTop = value }
         : function () { this.scrollTo(this.scrollX, value) })
@@ -797,7 +823,17 @@ export const Zepto = (function () {
     scrollLeft: function (value) {
       if (!this.length) return
       const hasScrollLeft = 'scrollLeft' in this[0]
-      if (value === undefined) return hasScrollLeft ? this[0].scrollLeft : this[0].pageXOffset
+      if (value === undefined) {
+        if (isBrowser) {
+          return Promise.resolve(hasScrollLeft ? this[0].scrollLeft : this[0].pageXOffset)
+        }
+
+        return hasScrollLeft ? Promise.resolve(this[0].scrollLeft) : new Promise(resolve => {
+          Taro.createSelectorQuery().select(this[0].uid).scrollOffset(function (res) {
+            resolve(res.scrollLeft)
+          }).exec()
+        })
+      }
       return this.each(hasScrollLeft
         ? function () { this.scrollLeft = value }
         : function () { this.scrollTo(value, this.scrollY) })
@@ -846,11 +882,18 @@ export const Zepto = (function () {
       dimension.replace(/./, function (m) { return m[0].toUpperCase() })
 
     $.fn[dimension] = function (value) {
-      let offset; let el = this[0]
+      let el = this[0]
       if (value === undefined) {
-        return isWindow(el) ? el['inner' + dimensionProperty]
-          : isDocument(el) ? el.documentElement['scroll' + dimensionProperty]
-            : (offset = this.offset()) && offset[dimension]
+        if (isBrowser) {
+          let v
+          if (isWindow) {
+            v = el['inner' + dimensionProperty]
+          } else if (isDocument) {
+            v = el.documentElement['scroll' + dimensionProperty]
+          }
+          return Promise.resolve(v)
+        }
+        return this.offset().then(rect => rect[dimension])
       } else {
         return this.each(function (idx) {
           el = $(this)

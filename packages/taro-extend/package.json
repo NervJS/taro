@@ -5,9 +5,9 @@
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-extend#readme",
   "license": "MIT",
-  "main": "dist/extend.js",
+  "main": "src/index.js",
   "files": [
-    "dist"
+    "src"
   ],
   "repository": {
     "type": "git",
@@ -16,9 +16,7 @@
   "scripts": {
     "test": "TARO_ENV=weapp jest --coverage false",
     "test:dev": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "build": "rollup -c",
-    "dev": "rollup -cw"
+    "test:coverage": "jest --coverage"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
