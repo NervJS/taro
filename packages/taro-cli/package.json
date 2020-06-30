@@ -46,6 +46,7 @@
     "@hapi/joi": "17.1.1",
     "@tarojs/helper": "3.0.0-rc.6",
     "@tarojs/service": "3.0.0-rc.6",
+    "@tarojs/shared": "^3.0.0-rc.6",
     "@tarojs/taro": "3.0.0-rc.6",
     "@tarojs/taroize": "3.0.0-rc.6",
     "@tarojs/transformer-wx": "^2.0.4",
