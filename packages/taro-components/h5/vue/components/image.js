@@ -1,4 +1,3 @@
-<script>
 import { listeners } from '../mixins/listeners'
 import { refs } from '../mixins/refs'
 export default {
@@ -9,14 +8,13 @@ export default {
   },
   render (createElement) {
     return createElement('taro-image-core', {
-      'class': ['hydrated', {
+      class: ['hydrated', {
         'taro-img__widthfix': this.mode === 'widthFix'
       }],
       attrs: {
         mode: this.mode
       },
-      'on': this.listeners
+      on: this.listeners
     }, this.$slots.default)
   }
 }
-</script>

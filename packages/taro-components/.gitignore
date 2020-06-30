@@ -12,6 +12,7 @@ src/demo
 
 # build
 dist
+dist-h5
 build
 
 # jest

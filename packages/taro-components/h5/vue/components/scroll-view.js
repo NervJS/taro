@@ -1,4 +1,3 @@
-<script>
 import { listeners } from '../mixins/listeners'
 import { refs } from '../mixins/refs'
 export default {
@@ -9,6 +8,7 @@ export default {
     scrollY: Boolean
   },
   render (createElement) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
 
     const attrs = {}
@@ -32,4 +32,3 @@ export default {
     }, self.$slots.default)
   }
 }
-</script>

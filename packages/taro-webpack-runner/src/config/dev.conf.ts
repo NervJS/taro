@@ -103,7 +103,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
   const mode = 'development'
 
-  alias['@tarojs/components$'] = `@tarojs/components/h5/${config.framework === 'vue' ? 'vue' : 'react'}`
+  alias['@tarojs/components$'] = `@tarojs/components/dist-h5/${config.framework === 'vue' ? 'vue' : 'react'}`
 
   if (config.framework === 'vue') {
     const VueLoaderPlugin = require('vue-loader/lib/plugin')

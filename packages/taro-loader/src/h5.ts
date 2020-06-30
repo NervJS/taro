@@ -43,7 +43,7 @@ var tabbarSelectedIconPath = []
 })
 `
   const vue = `
-import '@tarojs/components/h5/vue'
+import '@tarojs/components/dist-h5/vue'
 `
 
   const code = `import { createRouter } from '@tarojs/taro'
