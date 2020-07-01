@@ -16,7 +16,7 @@ export function customVueChain (chain, config) {
   const { styleLoaderOption = {} } = config
 
   chain.resolve.alias
-    .set('@tarojs/components$', '@tarojs/components/h5/vue')
+    .set('@tarojs/components$', '@tarojs/components/dist-h5/vue')
 
   chain
     .plugin('vueLoaderPlugin')

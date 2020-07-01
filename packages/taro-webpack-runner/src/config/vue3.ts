@@ -18,7 +18,7 @@ export function customVue3Chain (chain, config) {
 
   chain.resolve.alias
     .set('vue', '@vue/runtime-dom')
-    .set('@tarojs/components$', '@tarojs/components/h5/vue3')
+    .set('@tarojs/components$', '@tarojs/components/dist-h5/vue3')
 
   chain
     .plugin('vueLoaderPlugin')
