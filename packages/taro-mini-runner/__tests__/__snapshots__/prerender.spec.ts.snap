@@ -4807,7 +4807,7 @@ require(\\"./taro\\");
   <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 </block>
 <block wx:else>
-<video src=\\"https://pornhub.com/av8871239\\" ></video>
+<video src=\\"https://github.com/taro\\" ></video>
 </block>
 
 /** filePath: dist/others/normal/index.js **/
@@ -7407,7 +7407,7 @@ require(\\"./taro\\");
   <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 </block>
 <block wx:else>
-<video src=\\"https://pornhub.com/av8871239\\" />
+<video src=\\"https://github.com/taro\\" />
 </block>
 
 /** filePath: dist/others/normal/index.js **/

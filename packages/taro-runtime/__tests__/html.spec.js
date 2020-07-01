@@ -3,7 +3,7 @@
 import { parser } from '../src/dom/html/parser'
 describe('html', () => {
   test('tt', () => {
-    const s = '<h1 style="color:red" class="fuckyou">This is a Heading</h1>'
+    const s = '<h1 style="color:red" class="fork">This is a Heading</h1>'
     // const tokens = new Scaner(s).scan()
     // debugger
     // const html = parser(tokens)

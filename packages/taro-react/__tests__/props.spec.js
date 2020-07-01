@@ -72,7 +72,7 @@ describe('Context', () => {
       const createEvent = runtime.createEvent
       const container = document.createElement('div')
       const spy = jest.fn()
-      render(<div type="button" onClick={spy} id='fuck2' />, container)
+      render(<div type="button" onClick={spy} id='fork' />, container)
       const event = createEvent({ type: 'tap', currentTarget: { id: container.firstChild.uid }, target: { id: container.firstChild.uid } })
       container.firstChild.dispatchEvent(event)
       expect(spy).toBeCalled()
