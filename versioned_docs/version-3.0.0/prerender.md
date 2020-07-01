@@ -146,7 +146,7 @@ const config = {
       tranformXML (data, { path }, xml) {
         if (path === 'pages/video/index') {
           // 如果是页面是 'page/video/index' 页面只预渲染一个 video 组件
-          return `<video src="https://pornhub.com/av8871239" />`
+          return `<video src="https://taro.jd.com/av8871239" />`
         }
 
         return xml
