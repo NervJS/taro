@@ -124,7 +124,7 @@ const config = {
           // 关于 data 的数据结构可以参看上文的数据类型签名
           data.nn = 'video'
           data.cn = []
-          data.src = 'https://pornhub.com/av8871239'
+          data.src = 'https://v.qq.com/iframe/player.html?vid=y08180lrvth&tiny=0&auto=0'
           return data
         }
 
@@ -146,7 +146,7 @@ const config = {
       tranformXML (data, { path }, xml) {
         if (path === 'pages/video/index') {
           // 如果是页面是 'page/video/index' 页面只预渲染一个 video 组件
-          return `<video src="https://taro.jd.com/av8871239" />`
+          return `<video src="https://v.qq.com/iframe/player.html?vid=y08180lrvth&tiny=0&auto=0" />`
         }
 
         return xml
