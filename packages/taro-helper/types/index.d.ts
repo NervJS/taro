@@ -19,6 +19,7 @@ export declare enum META_TYPE {
 
 export declare enum FRAMEWORK_MAP {
   VUE = 'vue',
+  VUE3 = 'vue3',
   REACT = 'react',
   NERV = 'nerv'
 }
@@ -130,14 +131,15 @@ declare interface helper {
   taroJsMobxCommon: "@tarojs/mobx-common";
   DEVICE_RATIO_NAME: "deviceRatio";
   isWindows: boolean;
-  DEFAULT_TEMPLATE_SRC: "github:NervJS/taro-project-templates#2.0";
-  TARO_CONFIG_FLODER: ".taro2";
+  DEFAULT_TEMPLATE_SRC: "github:NervJS/taro-project-templates#v3";
+  TARO_CONFIG_FLODER: ".taro3";
   TARO_BASE_CONFIG: "index.json";
   OUTPUT_DIR: "dist";
   SOURCE_DIR: "src";
   TEMP_DIR: ".temp";
   NPM_DIR: "npm";
   ENTRY: "app";
+  FRAMEWORK_EXT_MAP: Record<FRAMEWORK_MAP, string[]>
 }
 declare const helper: helper
 // @ts-ignore

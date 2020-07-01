@@ -40,7 +40,7 @@ const schema = Joi.object().keys({
     })
   }),
 
-  framework: Joi.any().valid('nerv', 'react', 'vue'),
+  framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3'),
 
   mini: Joi.object().keys({
     compile: Joi.object().keys({
@@ -87,7 +87,7 @@ const schema = Joi.object().keys({
     resource: Joi.alternatives(Joi.array(), Joi.string()),
     projectDirectory: Joi.string(),
     data: Joi.string()
-  }),
+  }).unknown(),
 
   h5: Joi.object().keys({
     devServer: Joi.object(), // 第三方配置

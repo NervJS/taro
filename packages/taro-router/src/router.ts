@@ -2,7 +2,7 @@
 import UniversalRouter, { Routes } from 'universal-router'
 import { AppConfig, PageConfig } from '@tarojs/taro'
 import { LocationListener, LocationState } from 'history'
-import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance } from '@tarojs/runtime'
+import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance, stringify } from '@tarojs/runtime'
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
@@ -158,7 +158,7 @@ export function createRouter (
       const el = element.default ?? element
       const page = createPageConfig(
         enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework) : el,
-        location.pathname
+        location.pathname + stringify(qs())
       )
       loadPage(page)
     }

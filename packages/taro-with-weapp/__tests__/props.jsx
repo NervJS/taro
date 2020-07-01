@@ -174,6 +174,7 @@ describe('lifecycle', () => {
     class B extends TaroComponent {
       render () {
         return <A on富强={this.富强} />
+        return <A onFork={this.fork} />
       }
     }
 

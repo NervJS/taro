@@ -25,10 +25,7 @@ export const simpleComponents = [
   'taro-web-view',
   'taro-navigation-bar',
   'taro-block',
-  {
-    name: 'taro-canvas',
-    classNames: ['taro-canvas']
-  },
+  'taro-canvas',
   {
     name: 'taro-checkbox',
     classNames: ['weui-cells_checkbox']

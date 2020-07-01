@@ -12,6 +12,7 @@ import {
 } from './native-apis'
 import {
   Current,
+  getCurrentInstance,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -23,6 +24,7 @@ import {
   useTitleClick,
   useOptionMenuClick,
   usePullIntercept,
+  useReady,
   useRouter,
   options,
   nextTick,
@@ -43,6 +45,7 @@ const Taro = {
   Link,
   interceptors,
   Current,
+  getCurrentInstance,
   useDidShow,
   useDidHide,
   usePullDownRefresh,
@@ -54,6 +57,7 @@ const Taro = {
   useTitleClick,
   useOptionMenuClick,
   usePullIntercept,
+  useReady,
   useRouter,
   options,
   nextTick

@@ -37,7 +37,8 @@ export class MultiPlatformPlugin {
       .getHook(this.source)
       .tapAsync('MultiPlatformPlugin', (request, resolveContext, callback) => {
         const innerRequest: string = request.request || request.path
-        if (!innerRequest) return callback()
+        // request.directory will be true when is using require.context
+        if (!innerRequest || request.directory) return callback()
 
         if (!path.extname(innerRequest)) {
           let srcRequest: string

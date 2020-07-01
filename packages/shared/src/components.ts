@@ -33,6 +33,8 @@ const View = {
   'hover-start-time': '50',
   'hover-stay-time': '400',
   animation: '',
+  bindAnimationStart: '',
+  bindAnimationIteration: '',
   bindAnimationEnd: '',
   bindTransitionEnd: '',
   ...touchEvents
@@ -192,7 +194,7 @@ const Input = {
   focus: 'false',
   'confirm-type': singleQuote('done'),
   'confirm-hold': 'false',
-  cursor: '',
+  cursor: 'i.value.length',
   'selection-start': '-1',
   'selection-end': '-1',
   'adjust-position': 'true',
@@ -662,7 +664,7 @@ export function createMiniComponents (components: Components, buildType: string)
           let propValue = component[prop]
           if (prop.startsWith('bind') || specialEvents.has(prop)) {
             prop = isAlipay ? prop.replace('bind', 'on') : prop.toLowerCase()
-            if (buildType === 'weapp' && prop === 'bindlongtap') {
+            if ((buildType === 'weapp' || buildType === 'qq') && prop === 'bindlongtap') {
               prop = 'bindlongpress'
             }
             propValue = 'eh'
@@ -746,9 +748,11 @@ export const internalComponents = {
 export const controlledComponent = new Set([
   'input',
   'checkbox',
+  'picker',
   'picker-view',
   'radio',
   'slider',
+  'switch',
   'textarea'
 ])
 

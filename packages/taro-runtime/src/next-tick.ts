@@ -19,12 +19,18 @@ export const nextTick = (cb: Function, ctx?: Record<string, any>) => {
     }, 1)
   }
 
-  if (!isBrowser && router !== null) {
+  if (router !== null) {
     let pageElement: TaroRootElement | null = null
     const path = getPath(removeLeadingSlash(router.path), router.params)
     pageElement = document.getElementById<TaroRootElement>(path)
     if (pageElement !== null) {
-      pageElement.enqueueUpdateCallbak(cb, ctx)
+      if (isBrowser) {
+        pageElement.firstChild?.['componentOnReady']?.().then(() => {
+          timerFunc()
+        }) ?? timerFunc()
+      } else {
+        pageElement.enqueueUpdateCallbak(cb, ctx)
+      }
     } else {
       timerFunc()
     }

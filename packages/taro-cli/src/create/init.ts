@@ -10,7 +10,7 @@ import { IPageConf } from './page'
 import Creator from './creator'
 
 const CONFIG_DIR_NAME = 'config'
-const TEMPLATE_CREATOR = 'template_creator.js'
+export const TEMPLATE_CREATOR = 'template_creator.js'
 
 const styleExtMap = {
   sass: 'scss',
@@ -56,11 +56,12 @@ function createFiles (
     const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
     let externalConfig: any = null
 
-    if (framework === 'vue' && file.endsWith('.jsx')) {
+    const isVueFramework = /^vue/.test(framework)
+    if (isVueFramework && file.endsWith('.jsx')) {
       return
     }
 
-    if (framework !== 'vue' && file.endsWith('.vue')) {
+    if (!isVueFramework && file.endsWith('.vue')) {
       return
     }
 

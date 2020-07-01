@@ -85,7 +85,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -125,7 +125,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -165,7 +165,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -205,7 +205,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -245,7 +245,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -285,7 +285,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -325,7 +325,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -365,7 +365,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -405,7 +405,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -445,7 +445,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -485,7 +485,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -525,7 +525,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -565,7 +565,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -605,7 +605,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -645,7 +645,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -685,7 +685,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_16_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -725,7 +725,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_16_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_17_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -765,7 +765,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_17_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_18_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -805,7 +805,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_18_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_19_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -845,7 +845,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_19_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_20_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1283,7 +1283,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1323,7 +1323,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1363,7 +1363,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1403,7 +1403,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1443,7 +1443,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1483,7 +1483,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1523,7 +1523,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1563,7 +1563,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1603,7 +1603,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1643,7 +1643,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1683,7 +1683,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1723,7 +1723,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1763,7 +1763,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1803,7 +1803,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1843,7 +1843,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -1883,7 +1883,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_16_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2321,7 +2321,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2361,7 +2361,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2401,7 +2401,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2441,7 +2441,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2481,7 +2481,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2521,7 +2521,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2561,7 +2561,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2601,7 +2601,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2641,7 +2641,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2681,7 +2681,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2721,7 +2721,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2761,7 +2761,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2801,7 +2801,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2841,7 +2841,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2881,7 +2881,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i: item}}\\" />
     </block>
@@ -2921,7 +2921,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
       <template is=\\"tmpl_16_container\\" data=\\"{{i: item}}\\" />
     </block>

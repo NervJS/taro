@@ -37,52 +37,21 @@ declare namespace Taro {
     displayName?: string
   }
 
-  interface RouterInfo {
+  // ref: packages/taro-runtime/src/current.ts
+  interface RouterInfo<TParams extends Record<string, string> = Record<string, string>> {
     /**
-     * 在跳转成功的目标页的生命周期方法里通过 `this.$router.params` 获取到传入的参数
-     *
-     * @example
-     * componentWillMount () {
-     *   console.log(this.$router.params)
-     * }
-     *
-     * @see 参考[路由功能：路由传参](https://nervjs.github.io/taro/docs/router.html#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82)一节
-    */
-    params: {
-      [key: string]: string
-    } & {
-      scene?: number | string
-      query?: {[key: string]: string} | string
-      shareTicket?: string
-      referrerInfo?: {[key: string]: any} | string
-    }
-
-    /**
-     * 可以于 `this.$router.path` 中获取当前页面路径
-     * 
-     * @example
-     * componentWillMount () {
-     *   console.log(this.$router.path)
-     * }
+     * 路由参数。
      */
-    path?: string
+    params: TParams
 
     /**
-    * 可以于 `this.$router.preload` 中访问到 `this.$preload` 传入的参数
-    *
-    * **注意** 上一页面没有使用 `this.$preload` 传入任何参数时 `this.$router` 不存在 `preload` 字段
-    * 请开发者在使用时自行判断
-    *
-    * @example
-    * componentWillMount () {
-    *   console.log('preload: ', this.$router.preload)
-    * }
-    *
-    * @see 参考[性能优化实践：在小程序中，可以使用 `this.$preload` 函数进行页面跳转传参](https://nervjs.github.io/taro/docs/optimized-practice.html#%E5%9C%A8%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD-%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-this-preload-%E5%87%BD%E6%95%B0%E8%BF%9B%E8%A1%8C%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E4%BC%A0%E5%8F%82)一节
-    */
-    preload?: {
-      [key: string]: string
-    }
+     * 页面路径。
+     */
+    path: string
+
+    onReady: string
+    onHide: string
+    onShow: string
   }
 
   interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
@@ -119,7 +88,10 @@ declare namespace Taro {
     $preload(key: string, value: any): void
     $preload(key: object): void
 
-    setState<K extends keyof S>(state: ((prevState: Readonly<S>, props: P) => Pick<S, K> | S) | (Pick<S, K> | S), callback?: () => any): void
+    setState<K extends keyof S>(
+      state: ((prevState: Readonly<S>, props: P) => Pick<S, K> | S) | (Pick<S, K> | S),
+      callback?: () => any
+    ): void
 
     forceUpdate(callBack?: () => any): void
 
@@ -133,7 +105,7 @@ declare namespace Taro {
     }
   }
 
-  type PropsWithChildren<P> = P & { children?: React.ReactNode };
+  type PropsWithChildren<P> = P & { children?: React.ReactNode }
 
   interface FunctionComponent<P = {}> {
     (props: PropsWithChildren<P>, context?: any): React.ReactElement | null
@@ -141,7 +113,7 @@ declare namespace Taro {
     defaultProps?: Partial<P>
     config?: Config
     options?: ComponentOptions
-		externalClasses?: string[]
+    externalClasses?: string[]
   }
 
   type FC<P = {}> = FunctionComponent<P>
@@ -171,10 +143,10 @@ declare namespace Taro {
     unmount(id: string, cb: () => void): void
   }
 
-  type Target = Record<string, unknown> & { dataset: Record<string, unknown>, id: string }
+  type Target = Record<string, unknown> & { dataset: Record<string, unknown>; id: string }
 
   interface MpEvent {
-    type: string;
+    type: string
     detail: Record<string, unknown>
     target: Target
     currentTarget: Target
@@ -184,9 +156,9 @@ declare namespace Taro {
     onPullDownRefresh?(): void
     onReachBottom?(): void
     onPageScroll?(obj: { scrollTop: number }): void
-    onShareAppMessage?(obj: { from: string, target?: any, webViewUrl: string }): void
+    onShareAppMessage?(obj: { from: string; target?: any; webViewUrl: string }): void
     onResize?(options: unknown): void
-    onTabItemTap?(obj: { index: string, pagePath: string, text: string }): void
+    onTabItemTap?(obj: { index: string; pagePath: string; text: string }): void
     componentWillPreload?(): void
     onTitleClick?(): void
     onOptionMenuClick?(): void
@@ -206,12 +178,7 @@ declare namespace Taro {
      *
      * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      **/
-    animate?(
-      selector: string,
-      keyFrames: KeyFrame[],
-      duration: number,
-      callback: () => void,
-    ): void
+    animate?(selector: string, keyFrames: KeyFrame[], duration: number, callback: () => void): void
     /**
      * 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
      *
@@ -221,7 +188,7 @@ declare namespace Taro {
       selector: string,
       keyFrames: ScrollTimelineKeyframe[],
       duration: number,
-      scrollTimeline: ScrollTimelineOption,
+      scrollTimeline: ScrollTimelineOption
     ): void
     /**
      * 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
@@ -234,10 +201,6 @@ declare namespace Taro {
      *
      * 最低基础库版本：[`2.9.0`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
      **/
-    clearAnimation?(
-      selector: string,
-      options: ClearAnimationOptions,
-      callback: () => void,
-    ): void
+    clearAnimation?(selector: string, options: ClearAnimationOptions, callback: () => void): void
   }
 }

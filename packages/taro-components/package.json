@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.0.0-rc.5",
+  "version": "3.0.0",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -21,7 +21,8 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "scripts": {
-    "build": "stencil build --config stencil.config.ts",
+    "build-h5": "babel -d dist-h5 h5",
+    "build": "npm run build-h5 & stencil build --config stencil.config.ts",
     "dev": "stencil build --config stencil.config.ts --watch",
     "test": "karmatic --files '__tests__/**.spec.js' --coverage false",
     "test:ci": "karmatic --files '__tests__/**.spec.js' --coverage false",
@@ -37,7 +38,7 @@
   "license": "MIT",
   "dependencies": {
     "@stencil/core": "^1.8.1",
-    "@tarojs/taro": "3.0.0-rc.5",
+    "@tarojs/taro": "3.0.0",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",

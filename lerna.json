@@ -23,7 +23,8 @@
     "packages/taro-service",
     "packages/taro-webpack-runner",
     "packages/taro-with-weapp",
-    "packages/taroize"
+    "packages/taroize",
+    "packages/taro-extend"
   ],
   "command": {
     "publish": {
@@ -34,6 +35,6 @@
       "license": "MIT"
     }
   },
-  "version": "3.0.0-rc.5",
+  "version": "3.0.0",
   "npmClient": "yarn"
 }

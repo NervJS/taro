@@ -69,7 +69,7 @@ describe('prerender', () => {
           if (path === 'others/detail/index') {
             data.nn = 'video'
             data.cn = []
-            data.src = 'https://pornhub.com/av8871239'
+            data.src = 'https://github.com/taro'
             return data
           }
 
@@ -94,7 +94,7 @@ describe('prerender', () => {
         exclude: ['others/normal/index'],
         transformXML (data, { path }, xml) {
           if (path === 'others/detail/index') {
-            return '<video src="https://pornhub.com/av8871239" />'
+            return '<video src="https://github.com/taro" />'
           }
 
           return xml
