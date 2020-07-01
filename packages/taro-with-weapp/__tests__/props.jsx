@@ -135,6 +135,7 @@ describe('lifecycle', () => {
         super(props)
         inst = this
       }
+
       render () {
         return <A a={this.data.a} />
       }
@@ -156,7 +157,7 @@ describe('lifecycle', () => {
 
     @withWeapp({
       ready () {
-        this.triggerEvent('fuck', 'a', 'b', 'c')
+        this.triggerEvent('fork', 'a', 'b', 'c')
       }
     })
     class A extends TaroComponent {
@@ -166,13 +167,13 @@ describe('lifecycle', () => {
     }
 
     @withWeapp({
-      fuck (...args) {
+      fork (...args) {
         spy(...args)
       }
     })
     class B extends TaroComponent {
       render () {
-        return <A onFuck={this.fuck} />
+        return <A onFork={this.fork} />
       }
     }
 
