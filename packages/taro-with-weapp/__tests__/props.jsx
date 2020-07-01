@@ -21,7 +21,7 @@ describe('lifecycle', () => {
       properties: {
         a: {
           type: String,
-          value: 'a'
+          value: '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善'
         }
       }
     })
@@ -34,7 +34,7 @@ describe('lifecycle', () => {
     render(<A />, scratch)
 
     delay(() => {
-      expect(scratch.textContent).toBe('a')
+      expect(scratch.textContent).toBe('富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善')
       done()
     })
   })
@@ -44,7 +44,7 @@ describe('lifecycle', () => {
       properties: {
         a: {
           type: String,
-          value: 'a'
+          value: '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善'
         }
       }
     })
@@ -76,7 +76,7 @@ describe('lifecycle', () => {
       properties: {
         a: {
           type: String,
-          value: 'a',
+          value: '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善',
           observer: (newVal, oldVal) => {
             spy(newVal, oldVal)
           }
@@ -92,15 +92,15 @@ describe('lifecycle', () => {
     @withWeapp({})
     class B extends TaroComponent {
       render () {
-        return <A a='b' />
+        return <A a='富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善' />
       }
     }
 
     render(<B />, scratch)
 
-    expect(scratch.textContent).toBe('b')
+    expect(scratch.textContent).toBe('富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善')
     expect(spy).toBeCalled()
-    expect(spy).toBeCalledWith('b', 'b')
+    expect(spy).toBeCalledWith('富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善', '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善')
   })
 
   test('observer should work', () => {
@@ -110,7 +110,7 @@ describe('lifecycle', () => {
       properties: {
         a: {
           type: String,
-          value: 'a',
+          value: '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善',
           observer: (newVal, oldVal) => {
             spy(newVal, oldVal)
           }
@@ -127,7 +127,7 @@ describe('lifecycle', () => {
 
     @withWeapp({
       data: {
-        a: 'a'
+        a: '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善'
       }
     })
     class B extends TaroComponent {
@@ -135,6 +135,7 @@ describe('lifecycle', () => {
         super(props)
         inst = this
       }
+
       render () {
         return <A a={this.data.a} />
       }
@@ -142,13 +143,13 @@ describe('lifecycle', () => {
 
     render(<B />, scratch)
 
-    expect(scratch.textContent).toBe('a')
+    expect(scratch.textContent).toBe('富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善')
     expect(spy).toBeCalled()
-    expect(spy).toBeCalledWith('a', 'a')
+    expect(spy).toBeCalledWith('富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善', '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善')
 
-    inst.setData({ a: 'b' })
+    inst.setData({ a: '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善 * 2' })
     inst.forceUpdate()
-    expect(spy).toBeCalledWith('b', 'a')
+    expect(spy).toBeCalledWith('富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善', 'a')
   })
 
   test('trigger event should work', () => {
@@ -156,7 +157,7 @@ describe('lifecycle', () => {
 
     @withWeapp({
       ready () {
-        this.triggerEvent('fuck', 'a', 'b', 'c')
+        this.triggerEvent('富强', '民主', '文明', '和谐')
       }
     })
     class A extends TaroComponent {
@@ -166,18 +167,18 @@ describe('lifecycle', () => {
     }
 
     @withWeapp({
-      fuck (...args) {
+      富强 (...args) {
         spy(...args)
       }
     })
     class B extends TaroComponent {
       render () {
-        return <A onFuck={this.fuck} />
+        return <A on富强={this.富强} />
       }
     }
 
     render(<B />, scratch)
 
-    expect(spy).toBeCalledWith(...['a', 'b', 'c'].map(s => ({ detail: s })))
+    expect(spy).toBeCalledWith(...['民主', '文明', '和谐'].map(s => ({ detail: s })))
   })
 })

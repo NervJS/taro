@@ -2,12 +2,10 @@
 // import { parser } from '../src/html/oparser'
 import { parser } from '../src/dom/html/parser'
 describe('html', () => {
-  test('tt', () => {
-    const s = '<h1 style="color:red" class="fuckyou">This is a Heading</h1>'
-    // const tokens = new Scaner(s).scan()
-    // debugger
-    // const html = parser(tokens)
-
-    parser(s)
+  test('should not throw', () => {
+    const s = '<h1 style="color:red" class="富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善">This is a Heading</h1>'
+    expect(() => {
+      parser(s)
+    }).not.toThrow()
   })
 })

@@ -48,7 +48,7 @@ describe('View', () => {
   })
 
   it('should update props successfully', async () => {
-    let hoverClass = 'hover'
+    let hoverClass = '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善'
     let hoverStartTime = 100
     let hoverStayTime = 300
 
@@ -83,7 +83,7 @@ describe('View', () => {
   })
 
   it('should hover perform correctly', async () => {
-    const hoverClass = 'hover'
+    const hoverClass = '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善'
     const hoverStartTime = 50
     const hoverStayTime = 400
 

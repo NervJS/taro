@@ -19,7 +19,7 @@ describe('lifecycle', () => {
   test('state can destruct from this', (done) => {
     @withWeapp({
       data: {
-        a: 'a'
+        a: '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善'
       }
     })
     class A extends TaroComponent {
@@ -31,7 +31,7 @@ describe('lifecycle', () => {
     render(<A />, scratch)
 
     delay(() => {
-      expect(scratch.textContent).toBe('a')
+      expect(scratch.textContent).toBe('富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善')
       done()
     })
   })
@@ -43,7 +43,7 @@ describe('lifecycle', () => {
       },
       ready () {
         this.setData({
-          a: 'b'
+          a: '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善'
         })
       }
     })
@@ -56,7 +56,7 @@ describe('lifecycle', () => {
     render(<A />, scratch)
 
     delay(() => {
-      expect(scratch.textContent).toBe('b')
+      expect(scratch.textContent).toBe('富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善')
       done()
     })
   })
@@ -70,7 +70,7 @@ describe('lifecycle', () => {
       },
       ready () {
         this.setData({
-          'a.b': 'b'
+          'a.b': '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善'
         })
       }
     })
@@ -83,7 +83,7 @@ describe('lifecycle', () => {
     render(<A />, scratch)
 
     delay(() => {
-      expect(scratch.textContent).toBe('b')
+      expect(scratch.textContent).toBe('富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善')
       done()
     })
   })
@@ -94,7 +94,7 @@ describe('lifecycle', () => {
       },
       ready () {
         this.setData({
-          'a': 'b'
+          a: '富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善'
         })
       }
     })
@@ -107,7 +107,7 @@ describe('lifecycle', () => {
     render(<A />, scratch)
 
     delay(() => {
-      expect(scratch.textContent).toBe('b')
+      expect(scratch.textContent).toBe('富强、民主、文明、和谐、自由、平等、公正、法治、爱国、敬业、诚信、友善')
       done()
     })
   })
