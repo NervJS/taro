@@ -45,7 +45,7 @@
     "omit.js": "^1.0.0",
     "resolve-pathname": "^3.0.0",
     "swiper": "4.4.2",
-    "weui": "^1.1.2"
+    "weui": "^2.3.0"
   },
   "devDependencies": {
     "@stencil/sass": "^1.1.1",
