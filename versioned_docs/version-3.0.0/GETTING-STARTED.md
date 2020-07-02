@@ -12,11 +12,11 @@ Taro 项目基于 node，请确保已具备较新的 node 环境（>=8.0.0），
 
 ```bash
 # 使用 npm 安装 CLI
-$ npm install -g @tarojs/cli@next
+$ npm install -g @tarojs/cli
 # OR 使用 yarn 安装 CLI
-$ yarn global add @tarojs/cli@next
+$ yarn global add @tarojs/cli
 # OR 安装了 cnpm，使用 cnpm 安装 CLI
-$ cnpm install -g @tarojs/cli@next
+$ cnpm install -g @tarojs/cli
 ```
 ### 注意事项
 
