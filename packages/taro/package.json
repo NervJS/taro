@@ -29,7 +29,7 @@
     "nervjs": "^1.5.0"
   },
   "dependencies": {
-    "@tarojs/utils": "^2.2.10"
+    "@tarojs/utils": "2.2.10"
   },
   "devDependencies": {
     "@types/react": "^16.9.4",

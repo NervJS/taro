@@ -22,7 +22,7 @@
   "author": "yuche",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "^2.2.10",
+    "@tarojs/taro": "2.2.10",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
