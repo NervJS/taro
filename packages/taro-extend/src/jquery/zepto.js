@@ -712,7 +712,7 @@ export const Zepto = (function () {
       if (document.documentElement !== this[0] && !$.contains(document.documentElement, this[0])) { return { top: 0, left: 0 } }
       if (!isBrowser) {
         return new Promise((resolve) => {
-          Taro.createSelectorQuery().select(this[0].uid).boundingClientRect(function (rect) {
+          Taro.createSelectorQuery().select('#' + this[0].uid).boundingClientRect(function (rect) {
             resolve({
               left: rect.left,
               top: rect.top,
@@ -811,7 +811,7 @@ export const Zepto = (function () {
           return Promise.resolve(hasScrollTop ? this[0].scrollTop : this[0].pageYOffset)
         }
         return hasScrollTop ? Promise.resolve(this[0].scrollTop) : new Promise((resolve) => {
-          Taro.createSelectorQuery().select(this[0].uid).scrollOffset(function (res) {
+          Taro.createSelectorQuery().select('#' + this[0].uid).scrollOffset(function (res) {
             resolve(res.scrollTop)
           }).exec()
         })
@@ -829,7 +829,7 @@ export const Zepto = (function () {
         }
 
         return hasScrollLeft ? Promise.resolve(this[0].scrollLeft) : new Promise(resolve => {
-          Taro.createSelectorQuery().select(this[0].uid).scrollOffset(function (res) {
+          Taro.createSelectorQuery().select('#' + this[0].uid).scrollOffset(function (res) {
             resolve(res.scrollLeft)
           }).exec()
         })
