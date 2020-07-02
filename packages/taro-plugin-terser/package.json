@@ -27,8 +27,8 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runner-utils": "^2.2.10",
-    "@tarojs/service": "^2.2.10",
+    "@tarojs/runner-utils": "2.2.10",
+    "@tarojs/service": "2.2.10",
     "terser-webpack-plugin": "3.0.2"
   },
   "devDependencies": {

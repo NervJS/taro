@@ -28,8 +28,8 @@
     "nervjs": "^1.5.0"
   },
   "dependencies": {
-    "@tarojs/mobx-common": "^2.2.10",
-    "@tarojs/taro-h5": "^2.2.10"
+    "@tarojs/mobx-common": "2.2.10",
+    "@tarojs/taro-h5": "2.2.10"
   },
   "devDependencies": {
     "rimraf": "^2.6.2",

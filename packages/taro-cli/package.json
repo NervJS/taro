@@ -41,10 +41,10 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "17.1.1",
-    "@tarojs/helper": "^2.2.10",
-    "@tarojs/service": "^2.2.10",
-    "@tarojs/taroize": "^2.2.10",
-    "@tarojs/transformer-wx": "^2.2.10",
+    "@tarojs/helper": "2.2.10",
+    "@tarojs/service": "2.2.10",
+    "@tarojs/taroize": "2.2.10",
+    "@tarojs/transformer-wx": "2.2.10",
     "@types/request": "^2.48.1",
     "@typescript-eslint/parser": "^2.0.0",
     "adm-zip": "^0.4.13",
@@ -109,7 +109,7 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
-    "@tarojs/taro": "^2.2.10",
+    "@tarojs/taro": "2.2.10",
     "@types/babel-core": "^6.25.5",
     "@types/babel-generator": "^6.25.2",
     "@types/babel-traverse": "^6.25.4",

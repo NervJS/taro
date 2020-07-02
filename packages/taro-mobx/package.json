@@ -24,8 +24,8 @@
     "clear": "rimraf dist"
   },
   "dependencies": {
-    "@tarojs/mobx-common": "^2.2.10",
-    "@tarojs/taro": "^2.2.10"
+    "@tarojs/mobx-common": "2.2.10",
+    "@tarojs/taro": "2.2.10"
   },
   "devDependencies": {
     "rimraf": "^2.6.2",

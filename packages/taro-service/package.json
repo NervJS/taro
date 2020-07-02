@@ -36,8 +36,8 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@hapi/joi": "17.1.1",
-    "@tarojs/helper": "^2.2.10",
-    "@tarojs/taro": "^2.2.10",
+    "@tarojs/helper": "2.2.10",
+    "@tarojs/taro": "2.2.10",
     "fs-extra": "8.1.0",
     "lodash": "4.17.15",
     "resolve": "1.15.1",
