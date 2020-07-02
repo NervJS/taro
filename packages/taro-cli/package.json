@@ -83,7 +83,7 @@
     "eslint-plugin-taro": "3.0.2",
     "eslint-plugin-vue": "^6.2.2",
     "fbjs": "^1.0.0",
-    "find-yarn-workspace-root": "1.2.1",
+    "find-yarn-workspace-root": "2.0.0",
     "fs-extra": "^5.0.0",
     "generic-names": "^2.0.1",
     "glob": "^7.1.2",
