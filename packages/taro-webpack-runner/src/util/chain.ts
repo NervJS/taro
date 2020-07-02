@@ -51,7 +51,6 @@ const defaultImageUrlLoaderOption = {
 const defaultCssModuleOption: PostcssOption.cssModules = {
   enable: false,
   config: {
-    namingPattern: 'global',
     generateScopedName: '[name]__[local]___[hash:base64:5]'
   }
 }
@@ -172,31 +171,20 @@ const getModule = (appPath: string, {
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
 
-  const { namingPattern, generateScopedName } = cssModuleOptions.config!
+  const { generateScopedName } = cssModuleOptions.config!
+
+  const modules = Object.assign({
+    auto: cssModuleOptions.enable
+  }, typeof generateScopedName === 'function'
+  ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
+  : { localIdentName: generateScopedName })
 
   const cssOptions = [
     {
       importLoaders: 1,
       sourceMap: enableSourceMap,
-      modules: false
+      modules
     },
-    cssLoaderOption
-  ]
-  const cssOptionsWithModule = [
-    Object.assign(
-      {
-        importLoaders: 1,
-        sourceMap: enableSourceMap,
-        modules: {
-          mode: namingPattern === 'module' ? 'local' : 'global'
-        }
-      },
-      {
-        modules: typeof generateScopedName === 'function'
-        ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
-        : { localIdentName: generateScopedName }
-      }
-    ),
     cssLoaderOption
   ]
   const additionalBabelOptions = {
@@ -258,30 +246,6 @@ const getModule = (appPath: string, {
     }
   }
   const styleReg = new RegExp(styleExtRegs.map(reg => new RegExp(reg).source).join('|'))
-
-  const styleModuleReg = new RegExp(`(.*\.module).*(${styleReg.source})`)
-  const styleGlobalReg = new RegExp(`(.*\.global).*(${styleReg.source})`)
-
-  if (cssModuleOptions.enable) {
-    const cssLoaderWithModule = getCssLoader(cssOptionsWithModule)
-    let cssModuleCondition
-
-    if (cssModuleOptions.config!.namingPattern === 'module') {
-      /* 不排除 node_modules 内的样式 */
-      cssModuleCondition = styleModuleReg
-    } else {
-      cssModuleCondition = {
-        and: [
-          { exclude: styleGlobalReg },
-          { exclude: [isNodeModule] }
-        ]
-      }
-    }
-    cssLoaders.unshift({
-      include: [cssModuleCondition],
-      use: [cssLoaderWithModule]
-    })
-  }
 
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
