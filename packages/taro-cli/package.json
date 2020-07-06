@@ -114,7 +114,7 @@
     "sax": "^1.2.4",
     "semver": "^5.5.0",
     "shelljs": "^0.8.1",
-    "stylelint": "9.3.0",
+    "stylelint": "13.6.1",
     "tapable": "^1.1.3",
     "taro-css-to-react-native": "^2.0.4",
     "through2": "^2.0.3",

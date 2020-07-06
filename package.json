@@ -151,7 +151,7 @@
     "shelljs": "^0.8.1",
     "sinon": "^7.5.0",
     "style-loader": "^0.20.3",
-    "stylelint": "^11.0.0",
+    "stylelint": "^13.6.1",
     "ts-jest": "23",
     "typescript": "^3.8.3",
     "vue": "^2.6.11",
