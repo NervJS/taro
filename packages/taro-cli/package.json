@@ -69,7 +69,7 @@
     "babylon": "^6.18.0",
     "better-babel-generator": "^6.26.1",
     "cli-highlight": "^2.1.4",
-    "cross-spawn": "^6.0.5",
+    "cross-spawn": "^7.0.3",
     "css-to-react-native-transform": "^1.4.0",
     "css-what": "^3.2.0",
     "download-git-repo": "^2.0.0",
