@@ -1,5 +1,27 @@
 <a name=""></a>
-# [](https://github.com/NervJS/taro/compare/v2.2.8...v) (2020-06-16)
+# [](https://github.com/NervJS/taro/compare/v2.2.9...v) (2020-06-30)
+
+
+### Bug Fixes
+
+* **cli:** 修复 convertor 报错，close [#6754](https://github.com/NervJS/taro/issues/6754) ([9f36fe6](https://github.com/NervJS/taro/commit/9f36fe6))
+* **component:**  修复swiper 指示点问题 ([ba6a6e9](https://github.com/NervJS/taro/commit/ba6a6e9))
+* **component:** fix the pagination conflict ([93e9b9f](https://github.com/NervJS/taro/commit/93e9b9f))
+* **component:** 修复css子类错误 ([3a4d396](https://github.com/NervJS/taro/commit/3a4d396))
+* **mini-runner:** 修复 css modules 支持，close [#6731](https://github.com/NervJS/taro/issues/6731) ([c0b3ab3](https://github.com/NervJS/taro/commit/c0b3ab3))
+* **plugin:** 修复配置中没有相应端的配置的情况 ([b3a294f](https://github.com/NervJS/taro/commit/b3a294f))
+* **plugin-sass:** platformConfig 为空的报错 ([93c8308](https://github.com/NervJS/taro/commit/93c8308))
+* **rn:** RN Image 组件 widthFix 时,部分图片不显示问题 ([dc9ed53](https://github.com/NervJS/taro/commit/dc9ed53))
+* **swan:** 修复在 componentDidShow 中获取不到 preload 数据 ([#6481](https://github.com/NervJS/taro/issues/6481)) ([cab1636](https://github.com/NervJS/taro/commit/cab1636))
+* **taro:** 支持陀螺仪相关 API，close [#6827](https://github.com/NervJS/taro/issues/6827) ([3e4c41e](https://github.com/NervJS/taro/commit/3e4c41e))
+* **taro-quickapp:** 修复快应用获取system相关API返回undefined ([0ba54b2](https://github.com/NervJS/taro/commit/0ba54b2))
+* ci on push ([#6770](https://github.com/NervJS/taro/issues/6770)) ([c8e1b50](https://github.com/NervJS/taro/commit/c8e1b50))
+* ci type error ([fb7a364](https://github.com/NervJS/taro/commit/fb7a364))
+
+
+
+<a name="2.2.9"></a>
+## [2.2.9](https://github.com/NervJS/taro/compare/v2.2.8...v2.2.9) (2020-06-16)
 
 
 ### Bug Fixes

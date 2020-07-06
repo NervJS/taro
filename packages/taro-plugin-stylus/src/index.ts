@@ -8,7 +8,7 @@ export default (ctx: IPluginContext, opts) => {
       const currentPlatform = ctx.platforms.get(taroEnv)
       if (!currentPlatform) return
       const platformConfig = ctx.initialConfig[currentPlatform.useConfigName]
-      const stylusLoaderOption = platformConfig.stylusLoaderOption
+      const stylusLoaderOption = platformConfig?.stylusLoaderOption
       const defaultStylusLoaderOption = {
         sourceMap: enableSourceMap
       }

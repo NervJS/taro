@@ -91,7 +91,6 @@ export interface ICopyArgOptions {
 
 export namespace PostcssOption {
   export type cssModules = TogglableOptions<{
-    namingPattern: 'global' | string
     generateScopedName: string | ((localName: string, absoluteFilePath: string) => string)
   }>
   export type url = TogglableOptions<{
