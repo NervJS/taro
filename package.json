@@ -119,7 +119,7 @@
     "jest-mock-console": "^1.0.0",
     "karmatic": "^1.4.0",
     "lerna": "3.20.1",
-    "lint-staged": "^8.1.0",
+    "lint-staged": "^10.2.11",
     "memfs": "^3.1.2",
     "memory-fs": "^0.5.0",
     "mocha": "^6.2.1",
