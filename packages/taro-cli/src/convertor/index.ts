@@ -745,6 +745,7 @@ export default class Convertor {
     })
     creator.template(templateName, path.join('config', 'index.js'), path.join(configDir, 'index.js'), {
       date,
+      css: 'sass',
       projectName
     })
     creator.template(templateName, path.join('config', 'dev.js'), path.join(configDir, 'dev.js'))
