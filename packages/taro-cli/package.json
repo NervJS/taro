@@ -92,7 +92,7 @@
     "latest-version": "^5.1.0",
     "lodash": "^4.17.5",
     "mem-fs": "^1.1.3",
-    "mem-fs-editor": "^4.0.0",
+    "mem-fs-editor": "^7.0.1",
     "minimatch": "^3.0.4",
     "minimist": "1.2.5",
     "npm-check": "^5.9.0",
