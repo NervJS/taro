@@ -239,6 +239,7 @@ export default class MiniPlugin {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
     let taroLoadChunksPlugin
+    let changedFiles
     const commonStyles: Set<string> = new Set()
     const {
       commonChunks,
@@ -269,7 +270,7 @@ export default class MiniPlugin {
     compiler.hooks.watchRun.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
-        const changedFiles = this.getChangedFiles(compiler)
+        changedFiles = this.getChangedFiles(compiler)
         if (!changedFiles.length) {
           await this.run(compiler)
         } else {
@@ -343,7 +344,7 @@ export default class MiniPlugin {
       PLUGIN_NAME,
       this.tryAsync(async compilation => {
         compilation.errors = compilation.errors.concat(this.errors)
-        await this.generateMiniFiles(compilation, commonStyles)
+        await this.generateMiniFiles(compilation, commonStyles, changedFiles)
         this.addedComponents.clear()
       })
     )
@@ -914,12 +915,12 @@ export default class MiniPlugin {
     })
   }
 
-  async generateMiniFiles (compilation: webpack.compilation.Compilation, commonStyles: Set<string>) {
+  async generateMiniFiles (compilation: webpack.compilation.Compilation, commonStyles: Set<string>, changedFiles: Array<string>) {
     const { isBuildQuickapp, fileType, buildAdapter, commonChunks, modifyBuildTempFileContent, modifyBuildAssets, isBuildPlugin } = this.options
     if (typeof modifyBuildTempFileContent === 'function') {
       await modifyBuildTempFileContent(taroFileTypeMap)
     }
-    Object.keys(taroFileTypeMap).forEach(item => {
+    (changedFiles.length ? changedFiles : Object.keys(taroFileTypeMap)).forEach(item => {
       const relativePath = this.getRelativePath(item)
       const extname = path.extname(item)
       let jsonPath = relativePath.replace(extname, fileType.config).replace(/\\/g, '/').replace(/^\//, '')
