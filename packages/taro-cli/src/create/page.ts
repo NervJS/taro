@@ -54,8 +54,11 @@ export default class Page extends Creator {
       css: 'none',
       typescript: false
     }
+
+    // set template name
     templateInfo.template = templateInfo.name
     delete templateInfo.name
+
     this.conf = Object.assign(this.conf, templateInfo)
   }
 

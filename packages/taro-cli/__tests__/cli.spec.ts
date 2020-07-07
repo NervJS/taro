@@ -143,48 +143,6 @@ describe('inspect', () => {
     })
   })
 
-  describe('create', () => {
-    const baseOpts = {
-      appPath: APP_PATH,
-      type: undefined,
-      name: undefined,
-      description: undefined,
-      isHelp: false
-    }
-
-    it('should make configs', () => {
-      const type = 'component'
-      const name = 'detail'
-      const description = 'chore'
-      setProcessArgv('taro create component detail --description=chore')
-      cli.run()
-      const ins = MockedKernel.mock.instances[0]
-      expect(ins.run).toHaveBeenCalledWith({
-        name: 'create',
-        opts: Object.assign({}, baseOpts, {
-          type,
-          name,
-          description
-        })
-      })
-    })
-
-    it('should set type and name', () => {
-      const type = 'page'
-      const name = 'my'
-      setProcessArgv('taro create --name my')
-      cli.run()
-      const ins = MockedKernel.mock.instances[0]
-      expect(ins.run).toHaveBeenCalledWith({
-        name: 'create',
-        opts: Object.assign({}, baseOpts, {
-          type,
-          name
-        })
-      })
-    })
-  })
-
   describe('convert', () => {
     it('should make configs', () => {
       setProcessArgv('taro convert')

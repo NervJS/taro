@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import Nerv, { Component } from 'nervjs'
 <%}-%>
 import { View, Text } from '@tarojs/components'
-import './<%= pageName %>.<%= cssExt %>'
+import './index.<%= cssExt %>'
 
 export default class <%= _.capitalize(pageName) %> extends Component {
 
