@@ -36,7 +36,7 @@ export default (ctx: IPluginContext) => {
         } else {
           try {
             targetTaroVersion = await getLatestVersion(pkgName, {
-              version: 'next'
+              version: 'latest'
             })
           } catch (e) {
             targetTaroVersion = await getLatestVersion(pkgName)
