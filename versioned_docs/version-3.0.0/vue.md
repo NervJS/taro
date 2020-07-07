@@ -428,4 +428,5 @@ export default {
 
 ## 其它限制
 
-由于小程序访问元素位置为异步 API，因此小程序中无法使用内置的 `transition-group` 组件。
+* 由于小程序访问元素位置为异步 API，因此小程序中无法使用内置的 `transition-group` 组件。
+* 小程序中不支持 `<style scoped>`，，建议使用 cssModules 代替。[#6662](https://github.com/NervJS/taro/issues/6662)
