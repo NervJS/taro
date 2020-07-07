@@ -95,6 +95,10 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
     onLoad (this: MpInstance, options, cb?: Function) {
       perf.start(PAGE_INIT)
 
+      if (this.options == null) {
+        this.options = options
+      }
+
       const path = getPath(id, options)
 
       Current.router = {
