@@ -355,7 +355,6 @@ export default class TaroMiniPlugin {
     this.getSubPackages(this.appConfig)
     this.getTabBarFiles(this.appConfig)
     this.pages = new Set([
-      ...this.pages,
       ...appPages.map<IComponent>(item => {
         const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
         const pageTemplatePath = this.getTemplatePath(pagePath)

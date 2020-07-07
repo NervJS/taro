@@ -122,7 +122,6 @@ export default class MainPlugin {
     const { framework } = this.options
 
     this.pages = new Set([
-      ...this.pages,
       ...appPages.map(item => ({
         name: item,
         path: resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
