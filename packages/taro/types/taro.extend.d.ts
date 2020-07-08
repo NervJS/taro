@@ -106,15 +106,6 @@ declare namespace Taro {
 
   function setIsUsingDiff (flag: boolean)
 
-  const Current: {
-    app: AppInstance | null,
-    router: RouterInfo | null,
-    page: PageInstance | null,
-    onReady: string,
-    onHide: string,
-    onShow: string
-  }
-
   interface Current {
     app: AppInstance | null,
     router: RouterInfo | null,
@@ -123,6 +114,8 @@ declare namespace Taro {
     onHide: string,
     onShow: string
   }
+
+  const Current: Current
 
   function getCurrentInstance(): Current
 }
