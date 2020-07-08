@@ -2,13 +2,13 @@ import './style.css'
 
 function createLocaltionChooser (handler) {
   const html = `
-<div className='taro_chooselocation'>
-  <div className='taro_chooselocation_bar'>
-    <div className='taro_chooselocation_back' />
-    <p className='taro_chooselocation_title'>位置</p>
-    <button className='taro_chooselocation_submit'>完成</button>
+<div class='taro_chooselocation'>
+  <div class='taro_chooselocation_bar'>
+    <div class='taro_chooselocation_back'></div>
+    <p class='taro_chooselocation_title'>位置</p>
+    <button class='taro_chooselocation_submit'>完成</button>
   </div>
-  <iframe className='taro_chooselocation_frame' frameborder='0' src='https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=${LOCATION_APIKEY}&referer=myapp' />
+  <iframe class='taro_chooselocation_frame' frameborder='0' src='https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=${LOCATION_APIKEY}&referer=myapp'></iframe>
 </div>
 `
   const container = document.createElement('div')
