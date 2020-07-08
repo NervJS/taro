@@ -1,6 +1,5 @@
 import * as path from 'path'
-import * as webpack from 'webpack'
-import * as SingleEntryDependency from 'webpack/lib/dependencies/SingleEntryDependency'
+
 import { defaults } from 'lodash'
 import { AppConfig, Config as IConfig } from '@tarojs/taro'
 import {
@@ -34,7 +33,6 @@ export default class MainPlugin {
   outputDir: string
   pagesConfigList: Map<string, IConfigObject>
   pages: Set<{name: string, path: string}>
-  dependencies = new Map<string, any>()
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -64,33 +62,17 @@ export default class MainPlugin {
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(() => {
-        this.run(compiler)
+        this.run()
       })
     )
     compiler.hooks.watchRun.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(() => {
-        this.run(compiler)
+        this.run()
       })
     )
 
-    compiler.hooks.make.tapAsync(
-      PLUGIN_NAME,
-      this.tryAsync(async (compilation: webpack.compilation.Compilation) => {
-        const dependencies = this.dependencies
-        const promises: Promise<null>[] = []
-        dependencies.forEach(dep => {
-          promises.push(new Promise((resolve, reject) => {
-            compilation.addEntry(this.options.sourceDir, dep, dep.name, err => err ? reject(err) : resolve())
-          }))
-        })
-        await Promise.all(promises)
-      })
-    )
-
-    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, { normalModuleFactory }) => {
-      compilation.dependencyFactories.set(SingleEntryDependency, normalModuleFactory)
-
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
         const { framework, entryFileName } = this.options
         const { dir, name } = path.parse(module.resource)
@@ -126,11 +108,10 @@ export default class MainPlugin {
     return appEntryPath
   }
 
-  run (compiler: webpack.Compiler) {
+  run () {
     this.getAppConfig()
     this.getPages()
     this.getPagesConfigList()
-    this.addPagesConfigEntries(compiler)
   }
 
   getPages () {
@@ -187,37 +168,6 @@ export default class MainPlugin {
       const pageConfigPath = this.getConfigFilePath(path)
       const pageConfg = readConfig(pageConfigPath)
       this.pagesConfigList.set(name, pageConfg)
-    })
-  }
-
-  /**
-   * 往 this.dependencies 中新增或修改所有 page config 配置模块
-   * 原因是为了监听 page config 的变动
-   */
-  addPagesConfigEntries (compiler: webpack.Compiler) {
-    this.pages.forEach(({ path }) => {
-      const pageConfigPath = this.getConfigFilePath(path)
-
-      let dep
-      if (this.dependencies.has(pageConfigPath)) {
-        dep = this.dependencies.get(pageConfigPath)
-        dep.name = pageConfigPath
-      } else {
-        dep = new SingleEntryDependency(pageConfigPath)
-        dep.name = pageConfigPath
-      }
-      this.dependencies.set(pageConfigPath, dep)
-    })
-    // webpack createChunkAssets 前一刻，去除所有 page config chunks
-    compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      compilation.hooks.beforeChunkAssets.tap(PLUGIN_NAME, () => {
-        this.dependencies.forEach((_value, configPath) => {
-          const assetsChunkIndex = compilation.chunks.findIndex(({ name }) => name === configPath)
-          if (assetsChunkIndex > -1) {
-            compilation.chunks.splice(assetsChunkIndex, 1)
-          }
-        })
-      })
     })
   }
 
