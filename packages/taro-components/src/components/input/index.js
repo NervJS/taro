@@ -3,7 +3,7 @@ import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
 
-import './index.scss'
+import './style/index.css'
 
 function getTrueType (type, confirmType, password) {
   if (!type) {

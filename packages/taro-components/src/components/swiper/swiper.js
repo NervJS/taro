@@ -1,6 +1,6 @@
 import Nerv from 'nervjs'
 import classNames from 'classnames'
-import './style/swiper.scss'
+import './style/swiper.css'
 import { isNumber } from '../../../utils/parse-type'
 
 /**

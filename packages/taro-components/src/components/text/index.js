@@ -2,7 +2,7 @@ import 'weui'
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
-import './style/index.scss'
+import './style/index.css'
 class Text extends Nerv.Component {
   constructor () {
     super(...arguments)

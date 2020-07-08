@@ -9,7 +9,7 @@ import Danmu from './danmu'
 import Controls from './controls'
 import { formatTime, calcDist, normalizeNumber } from './utils'
 
-import './style/index.scss'
+import './style/index.css'
 import 'weui'
 
 /**
