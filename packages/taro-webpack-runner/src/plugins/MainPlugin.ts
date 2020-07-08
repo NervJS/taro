@@ -1,7 +1,6 @@
 import * as path from 'path'
-
 import { defaults } from 'lodash'
-import { AppConfig, Config as IConfig } from '@tarojs/taro'
+import { AppConfig } from '@tarojs/taro'
 import {
   readConfig,
   resolveMainFilePath,
@@ -20,19 +19,14 @@ interface IMainPluginOptions {
   framework: FRAMEWORK_MAP
 }
 
-interface IConfigObject {
-  content: IConfig,
-  path: string
-}
-
 export default class MainPlugin {
   options: IMainPluginOptions
   appEntry: string
   appConfig: AppConfig
   sourceDir: string
   outputDir: string
-  pagesConfigList: Map<string, IConfigObject>
-  pages: Set<{name: string, path: string}>
+  pagesConfigList = new Map<string, string>()
+  pages = new Set<{name: string, path: string}>()
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -44,8 +38,6 @@ export default class MainPlugin {
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
-    this.pagesConfigList = new Map<string, IConfigObject>()
-    this.pages = new Set()
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -72,7 +64,7 @@ export default class MainPlugin {
       })
     )
 
-    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
+    compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
         const { framework, entryFileName } = this.options
         const { dir, name } = path.parse(module.resource)
@@ -166,8 +158,7 @@ export default class MainPlugin {
     const pages = this.pages
     pages.forEach(({ name, path }) => {
       const pageConfigPath = this.getConfigFilePath(path)
-      const pageConfg = readConfig(pageConfigPath)
-      this.pagesConfigList.set(name, pageConfg)
+      this.pagesConfigList.set(name, pageConfigPath)
     })
   }
 
