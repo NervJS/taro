@@ -34,7 +34,6 @@ const voidElements = new Set([
   'slider',
   'switch',
   'audio',
-  'camera',
   'live-player',
   'live-pusher',
   'video'
