@@ -1,5 +1,4 @@
-import { isFunction, isArray, ensure, capitalize, toCamelCase, internalComponents, hasOwn } from '@tarojs/shared'
-import { isBooleanLiteral } from 'babel-types'
+import { isFunction, isArray, ensure, capitalize, toCamelCase, internalComponents, hasOwn, isBooleanStringLiteral } from '@tarojs/shared'
 import { AppInstance } from './instance'
 import { Current } from '../current'
 import { injectPageInstance } from './common'
@@ -57,7 +56,7 @@ function setReconciler () {
       if (
         compName in internalComponents &&
         hasOwn(internalComponents[compName], qualifiedName) &&
-        isBooleanLiteral(internalComponents[compName][qualifiedName])
+        isBooleanStringLiteral(internalComponents[compName][qualifiedName])
       ) {
         // avoid attribute being removed because set false value in vue
         dom.setAttribute(qualifiedName, false)
