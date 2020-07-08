@@ -89,6 +89,12 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
   ><img src="https://storage.jd.com/taro-jd-com/static/yx.png" style={{height: "100px"}}
 /></a>
+<a
+  href="//www.16888.com"
+  target="_blank"
+  style={{display: "inline-block", margin: "0 10px 10px 0"}}
+  ><img src="//img12.360buyimg.com/ling/jfs/t1/150151/24/2373/15562/5f05ad52Ec372ce39/80b555a4d0a0a929.png" style={{height: "100px"}}
+/></a>
 
 
 ## 个人贡献者

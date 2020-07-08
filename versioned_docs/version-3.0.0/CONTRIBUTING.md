@@ -52,6 +52,7 @@
 ```bash
 $ npm install # or yarn
 $ npm run bootstrap
+$ npm run build
 ```
 
 ## 提交 commit
