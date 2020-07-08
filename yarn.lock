@@ -349,7 +349,7 @@
   resolved "https://registry.yarnpkg.com/@babel/helper-validator-identifier/-/helper-validator-identifier-7.10.4.tgz#a78c7a7251e01f616512d31b10adcf52ada5e0d2"
   integrity sha512-3U9y+43hz7ZM+rzG24Qe2mufW5KhvFg/NhnNph+i9mgCtdTCtMJuI1TMkrIUiK7Ix4PYlRF9I5dhqaLYA/ADXw==
 
-"@babel/helper-validator-identifier@^7.9.0", "@babel/helper-validator-identifier@^7.9.5":
+"@babel/helper-validator-identifier@^7.9.0":
   version "7.9.5"
   resolved "https://registry.npm.taobao.org/@babel/helper-validator-identifier/download/@babel/helper-validator-identifier-7.9.5.tgz#90977a8e6fbf6b431a7dc31752eee233bf052d80"
 
@@ -396,11 +396,7 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.0.0", "@babel/parser@^7.1.0", "@babel/parser@^7.4.3", "@babel/parser@^7.7.0", "@babel/parser@^7.8.6", "@babel/parser@^7.9.6":
-  version "7.9.6"
-  resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.9.6.tgz#3b1bbb30dabe600cd72db58720998376ff653bc7"
-
-"@babel/parser@^7.10.4":
+"@babel/parser@^7.0.0", "@babel/parser@^7.1.0", "@babel/parser@^7.10.4", "@babel/parser@^7.4.3", "@babel/parser@^7.7.0", "@babel/parser@^7.8.6", "@babel/parser@^7.9.6":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.10.4.tgz#9eedf27e1998d87739fb5028a5120557c06a1a64"
   integrity sha512-8jHII4hf+YVDsskTF6WuMB3X4Eh+PsUkC2ljq22so5rHvH+T8BzyL94VOdyFLNR8tBSVXOTbNHOKpR4TfRxVtA==
@@ -1093,15 +1089,7 @@
     globals "^11.1.0"
     lodash "^4.17.13"
 
-"@babel/types@^7.0.0", "@babel/types@^7.3.0", "@babel/types@^7.3.3", "@babel/types@^7.4.0", "@babel/types@^7.4.4", "@babel/types@^7.7.0", "@babel/types@^7.8.3", "@babel/types@^7.8.6", "@babel/types@^7.9.0", "@babel/types@^7.9.5", "@babel/types@^7.9.6":
-  version "7.9.6"
-  resolved "https://registry.npm.taobao.org/@babel/types/download/@babel/types-7.9.6.tgz?cache=0&sync_timestamp=1588185868018&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Ftypes%2Fdownload%2F%40babel%2Ftypes-7.9.6.tgz#2c5502b427251e9de1bd2dff95add646d95cc9f7"
-  dependencies:
-    "@babel/helper-validator-identifier" "^7.9.5"
-    lodash "^4.17.13"
-    to-fast-properties "^2.0.0"
-
-"@babel/types@^7.10.4":
+"@babel/types@^7.0.0", "@babel/types@^7.10.4", "@babel/types@^7.3.0", "@babel/types@^7.3.3", "@babel/types@^7.4.0", "@babel/types@^7.4.4", "@babel/types@^7.7.0", "@babel/types@^7.8.3", "@babel/types@^7.8.6", "@babel/types@^7.9.0", "@babel/types@^7.9.5", "@babel/types@^7.9.6":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.10.4.tgz#369517188352e18219981efd156bfdb199fff1ee"
   integrity sha512-UTCFOxC3FsFHb7lkRMVvgLzaRVamXuAs2Tz4wajva4WxtVY82eZeaUBtC2Zt95FU9TiznuC0Zk35tsim8jeVpg==
@@ -2794,12 +2782,13 @@
     tsutils "^3.17.1"
 
 "@vue/compiler-core@^3.0.0-beta.14":
-  version "3.0.0-beta.14"
-  resolved "https://registry.npm.taobao.org/@vue/compiler-core/download/@vue/compiler-core-3.0.0-beta.14.tgz#69019b5c3da8335e6d83f81b37648caf120dbacd"
+  version "3.0.0-beta.19"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.0.0-beta.19.tgz#54dc70e29048e95876b349bd628c79fe57a4e2cf"
+  integrity sha512-GWOJGDn3Ci/dJfiIkE1lBNXYrWhCe+j8tcTGVctriBF0d7ciWZ1G4r65SidYgwrvv9QpbroR5YVSv2XnOEwqHQ==
   dependencies:
     "@babel/parser" "^7.8.6"
     "@babel/types" "^7.8.6"
-    "@vue/shared" "3.0.0-beta.14"
+    "@vue/shared" "3.0.0-beta.19"
     estree-walker "^0.8.1"
     source-map "^0.6.1"
 
@@ -2842,6 +2831,11 @@
 "@vue/shared@3.0.0-beta.14":
   version "3.0.0-beta.14"
   resolved "https://registry.npm.taobao.org/@vue/shared/download/@vue/shared-3.0.0-beta.14.tgz#886afe5c233a5b255c186142324c40f114958af5"
+
+"@vue/shared@3.0.0-beta.19":
+  version "3.0.0-beta.19"
+  resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.0-beta.19.tgz#41e596eb831e0fd3d537b68c24fdafacc7a74033"
+  integrity sha512-LDW+oDcVFoFHCR8V2vkOz+s/GZUtu9Wi3W5IwsFgTaV62YfCBF1gT57Ee1PAawDnMvzg86UhMkBaLIUly9waRw==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
