@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import Swipers from 'swiper'
 
 import 'swiper/dist/css/swiper.min.css'
-import './style/index.scss'
+import './style/index.css'
 
 let INSTANCE_ID = 0
 

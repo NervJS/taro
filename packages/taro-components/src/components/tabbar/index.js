@@ -6,7 +6,7 @@ import resolvePathname from 'resolve-pathname'
 
 import TabbarItem from './tabbarItem'
 import { splitUrl } from '../../utils'
-import './style/index.scss'
+import './style/index.css'
 
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
 // const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
