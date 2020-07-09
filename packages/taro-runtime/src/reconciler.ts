@@ -2,7 +2,9 @@ import type { TaroElement } from './dom/element'
 import type { TaroText } from './dom/text'
 import type { DataTree, TaroNode } from './dom/node'
 import type { TaroRootElement } from './dom/root'
-import type { PageInstance } from './dsl/instance'
+import type { Instance, PageInstance, PageProps } from './dsl/instance'
+
+type Inst = Instance<PageProps>
 
 export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = TaroText, DOMNode = TaroNode> {
   // mini apps
@@ -26,6 +28,8 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
   createPullDownComponent?(el: Instance, path: string, framework)
 
   findDOMNode?(instance: Instance): DOMElement | undefined
+
+  mergePageInstance?(prev: Inst | undefined, next: Inst): void
 }
 
 export const CurrentReconciler: Reconciler<any> = {

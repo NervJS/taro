@@ -17,6 +17,7 @@ import { CurrentReconciler } from '../reconciler'
 const instances = new Map<string, Instance>()
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
+  CurrentReconciler.mergePageInstance?.(instances.get(id), inst)
   instances.set(id, inst)
 }
 
