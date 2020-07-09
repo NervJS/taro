@@ -21,7 +21,7 @@
     "release:lerna": "lerna version --exact --no-git-tag-version",
     "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
     "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
-    "test": "lerna run --scope eslint-plugin-taro  --scope @tarojs/transformer-wx --@scope @tarojs/with-weapp test"
+    "test": "lerna run --scope eslint-plugin-taro  --scope @tarojs/transformer-wx --scope @tarojs/with-weapp test"
   },
   "repository": {
     "type": "git",
