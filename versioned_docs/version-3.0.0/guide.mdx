@@ -1724,55 +1724,10 @@ const config = {
 
 某些情况下我们需要复用小程序既有生态，而小程序的组件/库通常是针对特定小程序写的，并不能直接在 Taro 上使用，需要一些额外的操作。
 
-例如我们的论坛应用，在帖子详情可能服务端返回的是 MarkDown 格式，我们就需要 `towxml` 来渲染的我们的帖子：
-
-首先我们需要在帖子详情页面的配置文件中引用 `towxml`:
-
-```js
-export default {
-  "usingComponents": {
-    "towxml":"../../towxml/towxml"
-  }
-}
-```
-
-然后使用 `towxml` 组件，这里必须记住的是不管是 React 还是 Vue，原生小程序组件声明需要是小写的
-
-<Tabs
-  defaultValue="React"
-  values={[
-    { label: <ReactIcon />, value: 'React', },
-    { label: <VueIcon />, value: 'Vue', }
-  ]
-}>
-
-<TabItem value="React">
-
-```diff title="src/pages/thread_detail/thread_detail.jsx"
-- <View dangerouslySetInnerHTML={{ __html: reply.content }} className='content'></View>
-+ <towxml nodes="{{reply.content}}" />
-```
-
-</TabItem>
+例如我们的论坛应用，在帖子详情可能服务端返回的是 MarkDown 格式，我们就需要 `towxml
 
 <TabItem value="Vue">
 
-```diff title="src/pages/thread_detail/thread_detail.vue"
-- <view v-html="reply.content_rendered | html" class='content' />
-+ <towxml :nodes="reply.content_rendered | html" />
-```
-
-</TabItem>
-
-</Tabs>
-
-最后按照 [towxml](./https://github.com/sbfkcel/towxml/wiki/3.0-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8) 文档调用即可。
-
-
-:::caution 请注意
-一旦使用了原生小程序组件，Taro 应用就失去了跨端的能力。
-:::
-
-:::info 了解更多
+`=多
 Taro 还支持使用小程序插件，详情可以访问文档[使用小程序原生第三方组件和插件](./mini-third-party)。
 :::
