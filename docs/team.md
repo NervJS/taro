@@ -39,55 +39,55 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
 >
-  <img src="//taro.aotu.io/static/images/cdc.png" style={{height: "100px"}}
+  <img src="https://taro.aotu.io/static/images/cdc.png" style={{height: "100px"}}
 /></a>
 <a
   href="//cloud.tencent.com"
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
-  ><img src="//taro.aotu.io/static/images/tencent.png" style={{height: "100px"}}
+  ><img src=" https://storage.jd.com/taro-jd-com/static/tencent.png" style={{height: "100px"}}
 /></a>
 <a
   href="//www.quickapp.cn/"
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
-  ><img src="//taro.aotu.io/static/images/quick.png" style={{height: "100px"}}
+  ><img src="https://storage.jd.com/taro-jd-com/static/quick.png" style={{height: "100px"}}
 /></a>
 <a
   href="//smartprogram.baidu.com/developer/index.html"
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
-  ><img src="//taro.aotu.io/static/images/baidu.png" style={{height: "100px"}}
+  ><img src="https://storage.jd.com/taro-jd-com/static/baidu.png" style={{height: "100px"}}
 /></a>
 <a
   href="//q.qq.com/"
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
-  ><img src="//taro.aotu.io/static/images/qq.png" style={{height: "100px"}}
+  ><img src="https://storage.jd.com/taro-jd-com/static/qq.png" style={{height: "100px"}}
 /></a>
 <a
   href="//open.alipay.com/channel/miniIndex.htm"
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
-  ><img src="//taro.aotu.io/static/images/zfb.png" style={{height: "100px"}}
+  ><img src="https://storage.jd.com/taro-jd-com/static/zfb.png" style={{height: "100px"}}
 /></a>
 <a
   href="//www.midea.cn"
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
-  ><img src="//taro.aotu.io/static/images/midea.png" style={{height: "100px"}}
+  ><img src="https://storage.jd.com/taro-jd-com/static/midea.png" style={{height: "100px"}}
 /></a>
 <a
   href="//www.sxl.cn"
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
-  ><img src="//taro.aotu.io/static/images/sxl.png" style={{height: "100px"}}
+  ><img src="https://storage.jd.com/taro-jd-com/static/sxl.png" style={{height: "100px"}}
 /></a>
 <a
   href="#"
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
-  ><img src="//taro.aotu.io/static/images/yx.png" style={{height: "100px"}}
+  ><img src="https://storage.jd.com/taro-jd-com/static/yx.png" style={{height: "100px"}}
 /></a>
 <a
   href="//www.16888.com"
