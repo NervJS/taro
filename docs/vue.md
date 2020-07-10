@@ -334,6 +334,60 @@ Object 参数说明：
 | pagePath | String | 被点击 tabItem 的页面路径 |
 | text | String | 被点击 tabItem 的按钮文字 |
 
+#### onAddToFavorites(Object)
+
+> Taro 3.0.3 版本开始支持
+> 只有微信小程序支持，本接口为 Beta 版本，安卓 7.0.15 版本起支持，暂只在安卓平台支持
+
+监听用户点击右上角菜单“收藏”按钮的行为，并自定义收藏内容。
+
+Object 参数说明：
+
+| 参数 | 类型 | 说明 |
+| - | - | - |
+| webviewUrl | String | 页面中包含web-view组件时，返回当前web-view的url |
+
+此事件处理函数需要 return 一个 Object，用于自定义收藏内容：
+
+| 字段 | 说明 | 默认值 |
+| - | - | - |
+| title	| 自定义标题 | 页面标题或账号名称 |
+| imageUrl | 自定义图片，显示图片长宽比为 1：1 | 页面截图 |
+| query | 自定义query字段 | 当前页面的query |
+
+示例代码
+
+```js
+onAddToFavorites(res) {
+  // webview 页面返回 webviewUrl
+  console.log('WebviewUrl: ', res.webviewUrl)
+  return {
+    title: '自定义标题',
+    imageUrl: 'http://demo.png',
+    query: 'name=xxx&age=xxx',
+  }
+}
+```
+
+#### onShareTimeline()
+
+> Taro 3.0.3 版本开始支持
+> 只有微信小程序支持，基础库 2.11.3 开始支持，本接口为 Beta 版本，暂只在 Android 平台支持
+
+监听右上角菜单“分享到朋友圈”按钮的行为，并自定义发享内容。
+
+**注意：只有定义了此事件处理函数，右上角菜单才会显示“分享到朋友圈”按钮**
+
+自定义转发内容
+
+事件处理函数返回一个 Object，用于自定义分享内容，不支持自定义页面路径，返回内容如下：
+
+| 字段 | 说明 | 默认值 |
+| - | - | - |
+| title	| 自定义标题 | 当前小程序名称 |
+| query | 自定义页面路径中携带的参数 | 当前页面路径携带的参数 |
+| imageUrl | 自定义图片路径，可以是本地文件或者网络图片。支持 PNG 及 JPG，显示图片长宽比是 1:1。 | 默认使用小程序 Logo |
+
 #### componentWillPreload()
 
 > 目前只有微信小程序支持

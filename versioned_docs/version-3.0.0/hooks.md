@@ -2,8 +2,6 @@
 title: Hooks
 ---
 
-> 自 `v1.3.0-beta-0` 起支持
-
 `Hooks` 是一套全新的 API，可以让你在不编写类，不使用 `state` 的情况下使用 Class 的状态管理，生命周期等功能。
 
 关于 `Hooks` 的概述、动机和规则，我们强烈建议你阅读 React 的官方文档。和其它大部分 React 特性不同，Hooks 没有 RFC 介绍，相反，所有说明都在文档中：
@@ -366,8 +364,6 @@ const value = useContext(MyContext)
 
 ### `useDidShow`
 
-> 自 `1.3.14` 开始支持
-
 ```jsx
 useDidShow(() => {
   console.log('componentDidShow')
@@ -377,8 +373,6 @@ useDidShow(() => {
 `useDidShow` 是 Taro 专有的 Hook，等同于 `componentDidShow` 页面生命周期钩子
 
 ### `useDidHide`
-
-> 自 `1.3.14` 开始支持
 
 ```jsx
 useDidHide(() => {
@@ -390,8 +384,6 @@ useDidHide(() => {
 
 ### `usePullDownRefresh`
 
-> 自 `1.3.14` 开始支持
-
 ```jsx
 usePullDownRefresh(() => {
   console.log('onPullDownRefresh')
@@ -401,8 +393,6 @@ usePullDownRefresh(() => {
 `usePullDownRefresh` 是 Taro 专有的 Hook，等同于 `onPullDownRefresh` 页面生命周期钩子
 
 ### `useReachBottom`
-
-> 自 `1.3.14` 开始支持
 
 ```jsx
 useReachBottom(() => {
@@ -414,8 +404,6 @@ useReachBottom(() => {
 
 ### `usePageScroll`
 
-> 自 `1.3.14` 开始支持
-
 ```jsx
 usePageScroll(res => {
   console.log(res.scrollTop)
@@ -425,8 +413,6 @@ usePageScroll(res => {
 `usePageScroll` 是 Taro 专有的 Hook，等同于 `onPageScroll` 页面生命周期钩子
 
 ### `useResize`
-
-> 自 `1.3.14` 开始支持
 
 ```jsx
 useResize(res => {
@@ -439,26 +425,27 @@ useResize(res => {
 
 ### `useShareAppMessage`
 
-> 自 `1.3.14` 开始支持
+**【Breaking】Taro 3.0.3 开始，使用此 Hook 时必须为页面函数设置 `enableShareAppMessage = true`**
 
 ```jsx
-useShareAppMessage(res => {
-  if (res.from === 'button') {
-    // 来自页面内转发按钮
-    console.log(res.target)
-  }
-  return {
-    title: '自定义转发标题',
-    path: '/page/user?id=123'
-  }
-})
+function Index () {
+  useShareAppMessage(res => {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '自定义转发标题',
+      path: '/page/user?id=123'
+    }
+  })
+}
+Index.enableShareAppMessage = true
 ```
 
 `useShareAppMessage` 是 Taro 专有的 Hook，等同于 `onShareAppMessage` 页面生命周期钩子
 
 ### `useTabItemTap`
-
-> 自 `1.3.14` 开始支持
 
 ```jsx
 useTabItemTap(item => {
@@ -470,9 +457,42 @@ useTabItemTap(item => {
 
 `useTabItemTap` 是 Taro 专有的 Hook，等同于 `onTabItemTap` 页面生命周期钩子
 
-### `useRouter`
+### `useAddToFavorites`
 
-> 自 `1.3.14` 开始支持
+> Taro 3.0.3 开始支持
+
+```jsx
+useAddToFavorites(res => {
+  // webview 页面返回 webviewUrl
+  console.log('WebviewUrl: ', res.webviewUrl)
+  return {
+    title: '自定义标题',
+    imageUrl: 'http://demo.png',
+    query: 'name=xxx&age=xxx',
+  }
+})
+```
+
+`useAddToFavorites` 是 Taro 专有的 Hook，等同于 `onAddToFavorites` 页面生命周期钩子
+
+### `useShareTimeline`
+
+> Taro 3.0.3 开始支持
+
+**使用时，必须为页面函数设置 `enableShareTimeline = true`**
+
+```jsx
+function Index () {
+  useShareTimeline(() => {
+    console.log('onShareTimeline')
+  })
+}
+Index.enableShareTimeline = true
+```
+
+`useShareTimeline` 是 Taro 专有的 Hook，等同于 `onShareTimeline` 页面生命周期钩子
+
+### `useRouter`
 
 ```jsx
 const router = useRouter() // { path: '', params: { ... } }
