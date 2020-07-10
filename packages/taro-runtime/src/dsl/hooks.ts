@@ -73,6 +73,10 @@ export const useOptionMenuClick = taroHooks('onOptionMenuClick')
 
 export const usePullIntercept = taroHooks('onPullIntercept')
 
+export const useShareTimeline = taroHooks('onShareTimeline')
+
+export const useAddToFavorites = taroHooks('onAddToFavorites')
+
 export const useReady = taroHooks('onReady')
 
 export const useRouter = (dynamic = false) => {
