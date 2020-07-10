@@ -90,6 +90,10 @@ export function useTabItemTap (callback) {
   usePageLifecycle(callback, 'onTabItemTap')
 }
 
+export function useShareTimeline (callback) {
+  usePageLifecycle(callback, 'onShareTimeline')
+}
+
 export function useRouter () {
   const hook = getHooks(Current.index++)
   if (!hook.router) {
