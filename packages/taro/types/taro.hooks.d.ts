@@ -264,6 +264,10 @@ declare namespace Taro {
    */
   function useTabItemTap (callback: (obj: TabItemTapObject) => any)
   /**
+   * 监听右上角菜单“分享到朋友圈”按钮的行为，并自定义发享内容。
+   */
+  function useShareTimeline (callback: () => ShareTimelineReturn)
+  /**
    * 获取页面传入路由相关参数
    */
   function useRouter (): RouterInfo
