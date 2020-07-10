@@ -68,9 +68,9 @@ export default class Index extends Component {
 }
 ```
 
-#### Vue 支持
+#### Vue/Vue3 支持
 
-在 Taro 3 中可以使用完整的 Vue 开发体验，具体请参考[基础教程——Vue](https://nervjs.github.io/taro/docs/vue)
+在 Taro 3 中可以使用完整的 Vue/Vue3 开发体验，具体请参考[基础教程——Vue](./vue)、[基础教程——Vue3](./vue3)
 
 代码示例
 

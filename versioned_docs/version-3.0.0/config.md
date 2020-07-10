@@ -39,7 +39,7 @@ const config = {
     options: {
     }
   },
-  // 框架，react，nerv，vue 三选一
+  // 框架，react，nerv，vue, vue3 等
   framework: 'react',
   // 小程序端专用配置
   mini: {

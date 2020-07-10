@@ -5,6 +5,7 @@ module.exports = {
     基础教程: [
       'react',
       'vue',
+      'vue3',
       'nerv',
       'tutorial',
       'project-config',
