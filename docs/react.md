@@ -304,7 +304,7 @@ Object 参数说明：
 **注意：**
 
 1. 只有定义了此事件处理函数，右上角菜单才会显示“转发”按钮
-2. 【Breaking】Taro 3.0.3 开始，使用时必须为页面组件设置 `static enableShareAppMessage = true`
+2. 【Breaking】Taro 3.0.3 开始，使用时必须为页面配置 `enableShareAppMessage: true`
 
 Object 参数说明：
 
@@ -327,9 +327,8 @@ Object 参数说明：
 示例代码
 
 ```jsx
+// page.js
 export default class Index extends Component {
-  static enableShareAppMessage = true
-
   onShareAppMessage (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
@@ -340,6 +339,10 @@ export default class Index extends Component {
       path: '/page/user?id=123'
     }
   }
+}
+// page.config.js
+export default {
+  enableShareAppMessage: true
 }
 ```
 
@@ -408,7 +411,7 @@ onAddToFavorites(res) {
 **注意：**
 
 1. 只有定义了此事件处理函数，右上角菜单才会显示“分享到朋友圈”按钮
-2. 使用时，必须为页面组件设置 `static enableShareTimeline = true`
+2. 使用时，必须为页面配置 `enableShareTimeline: true`
 
 自定义转发内容
 
@@ -421,12 +424,15 @@ onAddToFavorites(res) {
 | imageUrl | 自定义图片路径，可以是本地文件或者网络图片。支持 PNG 及 JPG，显示图片长宽比是 1:1。 | 默认使用小程序 Logo |
 
 ```jsx
+// page.js
 class Index extends Component {
-  static enableShareTimeline = true
-
   onShareTimeline () {
     console.log('onShareTimeline')
   }
+}
+// page.config.js
+export default {
+  enableShareTimeline: true
 }
 ```
 

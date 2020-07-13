@@ -425,9 +425,10 @@ useResize(res => {
 
 ### `useShareAppMessage`
 
-**【Breaking】Taro 3.0.3 开始，使用此 Hook 时必须为页面函数设置 `enableShareAppMessage = true`**
+**【Breaking】Taro 3.0.3 开始，使用此 Hook 时必须为页面配置 `enableShareAppMessage: true`**
 
 ```jsx
+// page.js
 function Index () {
   useShareAppMessage(res => {
     if (res.from === 'button') {
@@ -440,7 +441,10 @@ function Index () {
     }
   })
 }
-Index.enableShareAppMessage = true
+// page.config.js
+export default {
+  enableShareAppMessage: true
+}
 ```
 
 `useShareAppMessage` 是 Taro 专有的 Hook，等同于 `onShareAppMessage` 页面生命周期钩子
@@ -460,6 +464,7 @@ useTabItemTap(item => {
 ### `useAddToFavorites`
 
 > Taro 3.0.3 开始支持
+> 只有微信小程序支持，本接口为 Beta 版本，安卓 7.0.15 版本起支持，暂只在安卓平台支持
 
 ```jsx
 useAddToFavorites(res => {
@@ -478,16 +483,21 @@ useAddToFavorites(res => {
 ### `useShareTimeline`
 
 > Taro 3.0.3 开始支持
+> 只有微信小程序支持，基础库 2.11.3 开始支持，本接口为 Beta 版本，暂只在 Android 平台支持
 
-**使用时，必须为页面函数设置 `enableShareTimeline = true`**
+**使用时，必须为页面配置 `enableShareTimeline: true`**
 
 ```jsx
+// page.js
 function Index () {
   useShareTimeline(() => {
     console.log('onShareTimeline')
   })
 }
-Index.enableShareTimeline = true
+// page.config.js
+export default {
+  enableShareTimeline: true
+}
 ```
 
 `useShareTimeline` 是 Taro 专有的 Hook，等同于 `onShareTimeline` 页面生命周期钩子
