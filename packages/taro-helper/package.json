@@ -52,7 +52,7 @@
     "debug": "4.1.1",
     "find-yarn-workspace-root": "1.2.1",
     "fs-extra": "8.1.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "resolve": "^2.0.0-next.0",
     "yauzl": "2.10.0"
   },
