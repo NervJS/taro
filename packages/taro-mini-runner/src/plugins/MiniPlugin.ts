@@ -352,7 +352,6 @@ export default class TaroMiniPlugin {
     }
     const { framework, prerender } = this.options
     this.prerenderPages = new Set(validatePrerenderPages(appPages, prerender).map(p => p.path))
-    this.getSubPackages(this.appConfig)
     this.getTabBarFiles(this.appConfig)
     this.pages = new Set([
       ...appPages.map<IComponent>(item => {
@@ -368,6 +367,7 @@ export default class TaroMiniPlugin {
         }
       })
     ])
+    this.getSubPackages(this.appConfig)
   }
 
   /**
