@@ -10,7 +10,7 @@ export function bind (fn /*: Function */, ctx /*: Object */) /*: Function */ {
   }
 
   // record original fn length
-  boundFn._length = fn.length
+  (boundFn as any)._length = fn.length
   return boundFn
 }
 
