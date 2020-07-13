@@ -17,12 +17,14 @@ export class FormElement extends TaroElement {
   }
 
   public dispatchEvent (event: TaroEvent) {
-    if (
-      (event.type === 'input' || event.type === 'change') &&
-      event.mpEvent &&
-      (isString(event.mpEvent.detail.value) || isBoolean(event.mpEvent.detail.value) || isNumber(event.mpEvent.detail.value) || isArray(event.mpEvent.detail.value))
-    ) {
-      this.value = event.mpEvent.detail.value
+    if ((event.type === 'input' || event.type === 'change') && event.mpEvent) {
+      let val = event.mpEvent.detail.value
+      if (isNumber(val) || isArray(val)) {
+        val = JSON.stringify(val)
+      }
+      if (isString(val) || isBoolean(val)) {
+        this.props.value = val as string
+      }
     }
     return super.dispatchEvent(event)
   }

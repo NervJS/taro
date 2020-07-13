@@ -36,7 +36,7 @@ export default (ctx: IPluginContext) => {
         } else {
           try {
             targetTaroVersion = await getLatestVersion(pkgName, {
-              version: 'next'
+              version: 'latest'
             })
           } catch (e) {
             targetTaroVersion = await getLatestVersion(pkgName)
@@ -93,7 +93,7 @@ export default (ctx: IPluginContext) => {
         const nervJSVersion = `^${await getLatestVersion('nervjs')}`
 
         // 更新 @tarojs/* 版本和 NervJS 版本
-        Object.keys(packageMap.dependencies).forEach((key) => {
+        Object.keys(packageMap.dependencies || {}).forEach((key) => {
           if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
             if (key.includes('nerv')) {
               packageMap.dependencies[key] = nervJSVersion
@@ -102,7 +102,7 @@ export default (ctx: IPluginContext) => {
             }
           }
         })
-        Object.keys(packageMap.devDependencies).forEach((key) => {
+        Object.keys(packageMap.devDependencies || {}).forEach((key) => {
           if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
             if (key.includes('nerv')) {
               packageMap.devDependencies[key] = nervJSVersion
