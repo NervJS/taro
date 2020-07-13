@@ -42,8 +42,9 @@ const taroHooks = (lifecycle: keyof PageLifeCycle) => {
       return () => {
         const inst = getPageInstance(id)
         const list = inst![lifecycle]
-        if (list === callback) (inst![lifecycle] as any) = undefined
-        if (isArray(list)) {
+        if (list === callback) {
+          (inst![lifecycle] as any) = undefined
+        } else if (isArray(list)) {
           (inst![lifecycle] as any) = list.filter(item => item !== callback)
         }
       }

@@ -654,6 +654,10 @@ export default class TaroMiniPlugin {
 
   generateConfigFile (compilation: webpack.compilation.Compilation, filePath: string, config: Config & { component?: boolean }) {
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
+    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline']
+    unOfficalConfigs.forEach(item => {
+      delete config[item]
+    })
     const fileConfigStr = JSON.stringify(config)
     compilation.assets[fileConfigName] = {
       size: () => fileConfigStr.length,
