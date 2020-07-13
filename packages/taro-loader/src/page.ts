@@ -39,6 +39,7 @@ function getPageConfig (configs: Record<string, PageConfig>, resourcePath: strin
       return config.content
     }
   }
+  return {}
 }
 
 function removeExt (file: string) {
