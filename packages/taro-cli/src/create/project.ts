@@ -129,7 +129,7 @@ export default class Project extends Creator {
       const newTemplateChoices: ITemplates[] = templateChoices
         .filter(templateChoice => {
           const { platforms } = templateChoice
-          if (typeof platforms === 'string') {
+          if (typeof platforms === 'string' && platforms) {
             return answers.framework === templateChoice.platforms
           } else if (isArray(platforms)) {
             return templateChoice.platforms?.includes(answers.framework)
