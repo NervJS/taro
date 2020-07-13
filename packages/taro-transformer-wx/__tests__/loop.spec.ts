@@ -2904,4 +2904,69 @@ describe('loop', () => {
       )
     })
   })
+
+  describe('百度小程序循环', () => {
+    describe('key', () => {
+      test('使用 key 1', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          adapter: 'swan',
+          isRoot: true,
+          code: buildComponent(
+            `
+            const array = [{id: 1}, {id: 2}, {id: 3}]
+            return (
+              <View>{array.map(item => <Custom key={item.id} />)}</View>
+            )
+          `,
+            ``,
+            `import { Custom } from './utils'`
+          )
+        })
+
+        expect(template).toMatch(
+          prettyPrint(`
+            <block>
+                <view>
+                    <custom s-key="privateOriginal.id" s-for="loopArray0 trackBy item.privateOriginal.id" s-for-item="item" compid="{{item.$compid__2}}"></custom>
+                </view>
+            </block>
+        `)
+        )
+      })
+
+      test('使用 key 2', () => {
+        const { template, ast, code } = transform({
+          ...baseOptions,
+          adapter: 'swan',
+          isRoot: true,
+          code: buildComponent(
+            `
+            const array = [{id: 1}, {id: 2}, {id: 3}]
+            return (
+              <View>
+                {array.map(item => {
+                  const key = item.id
+                  return <Custom key={key} />
+                })}
+              </View>
+            )
+          `,
+            ``,
+            `import { Custom } from './utils'`
+          )
+        })
+
+        expect(template).toMatch(
+          prettyPrint(`
+            <block>
+                <view>
+                    <custom s-key="key" s-for="loopArray0 trackBy item.key" s-for-item="item" compid="{{item.$compid__3}}"></custom>
+                </view>
+            </block>
+        `)
+        )
+      })
+    })
+  })
 })
