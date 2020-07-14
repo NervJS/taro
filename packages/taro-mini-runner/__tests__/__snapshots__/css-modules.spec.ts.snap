@@ -803,7 +803,10 @@ require(\\"./taro\\");
             } ]);
             return Index;
         }(react[\\"Component\\"]);
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\"));
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+        };
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
     },
     8: function(module, exports, __webpack_require__) {
         module.exports = {
@@ -1855,7 +1858,10 @@ require(\\"./taro\\");
             } ]);
             return Index;
         }(react[\\"Component\\"]);
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\"));
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+        };
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
     },
     8: function(module, exports, __webpack_require__) {
         module.exports = {
