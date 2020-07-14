@@ -10,7 +10,7 @@ import { document } from '../bom/document'
 import { isFunction, noop, ensure, capitalize, toCamelCase, internalComponents, hasOwn } from '@tarojs/shared'
 import { isBrowser } from '../env'
 import { options } from '../options'
-import { isBooleanLiteral } from 'babel-types'
+import { isBooleanStringLiteral } from '@tarojs/shared'
 import { Reconciler } from '../reconciler'
 
 export type V = typeof VueCtor
@@ -59,7 +59,7 @@ function setReconciler () {
       if (
         compName in internalComponents &&
         hasOwn(internalComponents[compName], qualifiedName) &&
-        isBooleanLiteral(internalComponents[compName][qualifiedName])
+        isBooleanStringLiteral(internalComponents[compName][qualifiedName])
       ) {
         // avoid attribute being removed because set false value in vue
         dom.setAttribute(qualifiedName, false)

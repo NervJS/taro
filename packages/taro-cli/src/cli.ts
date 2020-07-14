@@ -5,7 +5,6 @@ import { Kernel } from '@tarojs/service'
 
 import build from './commands/build'
 import init from './commands/init'
-import create from './commands/create'
 import convert from './commands/convert'
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
@@ -64,18 +63,6 @@ export default class CLI {
             clone: !!args.clone,
             template: args.template,
             css: args.css,
-            isHelp: args.h
-          })
-          break
-        }
-        case 'create': {
-          const type = _[1] || 'page'
-          const name = _[2] || args.name
-          create(kernel, {
-            appPath: this.appPath,
-            type,
-            name,
-            description: args.description,
             isHelp: args.h
           })
           break

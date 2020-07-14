@@ -1,3 +1,4 @@
+import { isFunction, isArray } from '@tarojs/shared'
 import { PageContext, R as React } from './react'
 import { getPageInstance, injectPageInstance } from './common'
 import { PageLifeCycle } from './instance'
@@ -19,18 +20,33 @@ const taroHooks = (lifecycle: keyof PageLifeCycle) => {
         inst = Object.create(null)
       }
 
+      inst = inst!
+
       // callback is immutable but inner function is up to date
       const callback = (...args: any) => fnRef.current(...args)
-      if (lifecycle !== 'onShareAppMessage') {
-        (inst![lifecycle] as any) = [
-          ...((inst![lifecycle] as any) || []),
-          callback
-        ]
+      if (lifecycle === 'onShareAppMessage') {
+        inst[lifecycle] = callback
       } else {
-        inst![lifecycle] = callback
+        if (isFunction(inst[lifecycle])) {
+          (inst[lifecycle] as any) = [inst[lifecycle], callback]
+        } else {
+          (inst[lifecycle] as any) = [
+            ...((inst[lifecycle] as any) || []),
+            callback
+          ]
+        }
       }
       if (first) {
         injectPageInstance(inst!, id)
+      }
+      return () => {
+        const inst = getPageInstance(id)
+        const list = inst![lifecycle]
+        if (list === callback) {
+          (inst![lifecycle] as any) = undefined
+        } else if (isArray(list)) {
+          (inst![lifecycle] as any) = list.filter(item => item !== callback)
+        }
       }
     }, [])
   }
@@ -57,6 +73,10 @@ export const useTitleClick = taroHooks('onTitleClick')
 export const useOptionMenuClick = taroHooks('onOptionMenuClick')
 
 export const usePullIntercept = taroHooks('onPullIntercept')
+
+export const useShareTimeline = taroHooks('onShareTimeline')
+
+export const useAddToFavorites = taroHooks('onAddToFavorites')
 
 export const useReady = taroHooks('onReady')
 
