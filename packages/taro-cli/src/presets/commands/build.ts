@@ -62,10 +62,10 @@ export default (ctx: IPluginContext) => {
 example:
   Mac OS:
     export NODE_ENV=production
-    taro build --type weapp --watch
+    taro build --type ${platform} --watch
   Windows:
     set NODE_ENV=production
-    taro build --type weapp --watch
+    taro build --type ${platform} --watch
 `))
       }
 
