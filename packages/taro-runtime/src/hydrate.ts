@@ -9,6 +9,7 @@ export interface MpInstance {
   setData: (data: unknown, cb: () => void) => void;
   route?: string;
   __route__: string;
+  options?: Record<string, unknown>
 }
 
 interface MiniElementData {

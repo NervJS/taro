@@ -100,6 +100,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       Current.page = this as any
       this.config = pageConfig || {}
+      if (this.options == null) {
+        this.options = options
+      }
+
       const path = getPath(id, options)
 
       Current.router = {

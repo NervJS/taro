@@ -12,7 +12,7 @@ function genResource (path: string, pages: Map<string, PageConfig>, loaderContex
       load: function() {
           return import(${stringify(join(loaderContext.context, path))})
       }
-  }, ${JSON.stringify(pages.get(path))} || {}),
+  }, require('${pages.get(path)}').default || {}),
 `
 }
 
