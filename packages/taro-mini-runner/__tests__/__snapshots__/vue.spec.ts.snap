@@ -793,7 +793,10 @@ require(\\"./taro\\");
         }
         component.options.__file = \\"src/pages/index/index.vue\\";
         var index = component.exports;
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index, \\"pages/index/index\\"));
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+        };
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index, \\"pages/index/index\\", {}, config || {}));
     }
 }, [ [ 5, 0, 1 ] ] ]);
 
