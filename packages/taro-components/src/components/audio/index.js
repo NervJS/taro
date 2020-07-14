@@ -1,6 +1,6 @@
 import 'weui'
 import Nerv from 'nervjs'
-import './style/index.scss'
+import './style/index.css'
 
 class Audio extends Nerv.Component {
   constructor () {

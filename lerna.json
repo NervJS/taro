@@ -1,5 +1,5 @@
 {
-  "lerna": "2.10.0",
+  "lerna": "3.20.1",
   "packages": [
     "packages/taro",
     "packages/taro-utils",
@@ -60,5 +60,5 @@
     }
   },
   "version": "2.2.10",
-  "npmClient": "npm"
+  "npmClient": "yarn"
 }

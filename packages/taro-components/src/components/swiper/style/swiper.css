@@ -1,0 +1,58 @@
+.swiper__container {
+  position: relative;
+  overflow: hidden;
+  min-height: 150px;
+  height: 100%;
+  width: 100%;
+}
+
+.swiper__wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.swiper__item {
+  height: 100%;
+  width: 100%;
+}
+
+.swiper__pagination {
+  position: absolute;
+  text-align: center;
+  transition: all 0.3s;
+  z-index: 10;
+}
+
+.swiper__pagination-bullet {
+  border-radius: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+}
+
+.swiper__pagination-bullet.active {
+  background: #000000;
+}
+
+.swiper__container-horizontal .swiper__pagination {
+  bottom: 10px;
+  width: 100%;
+}
+
+.swiper__container-horizontal .swiper__pagination .swiper__pagination-bullet {
+  margin: 0 2.5px;
+}
+
+.swiper__container-vertical .swiper__pagination {
+  right: 10px;
+  top: 50%;
+  transform: translate3d(0, -50%, 0);
+}
+
+.swiper__container-vertical .swiper__pagination .swiper__pagination-bullet {
+  margin: 4px 0;
+  display: block;
+}
+  
