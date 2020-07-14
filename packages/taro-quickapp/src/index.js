@@ -26,6 +26,8 @@ import {
   useMemo,
   useImperativeHandle,
   useContext,
+  useShareTimeline,
+  useAddToFavorites,
   createContext,
   memo
 } from '@tarojs/taro'
@@ -73,6 +75,8 @@ export const Taro = {
   useMemo,
   useImperativeHandle,
   useContext,
+  useShareTimeline,
+  useAddToFavorites,
   createContext,
   memo,
   shallowEqual

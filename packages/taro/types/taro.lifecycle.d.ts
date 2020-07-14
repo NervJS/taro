@@ -28,19 +28,19 @@ declare namespace Taro {
      * 转发事件来源
      * `button`：页面内转发按钮
      * `menu`：右上角转发菜单
-     * 
+     *
      * @since 1.2.4
      */
     from?: 'button' | 'menu' | string
     /**
      * 如果 `from` 值是 `button`，则 `target` 是触发这次转发事件的 `button`，否则为 `undefined`
-     * 
+     *
      * @since 1.2.4
      */
     target?: object
     /**
      * 页面中包含 `<web-view>` 组件时，返回当前 `<web-view>` 的 url
-     * 
+     *
      * @since 1.6.4
      */
     webViewUrl?: string
@@ -62,7 +62,7 @@ declare namespace Taro {
      * 支持PNG及JPG
      * 显示图片长宽比是 5:4
      * 默认使用截图
-     * 
+     *
      * @since 1.5.0
      */
     imageUrl?: string
@@ -71,21 +71,21 @@ declare namespace Taro {
   interface TabItemTapObject {
     /**
      * 被点击tabItem的序号，从 0 开始
-     * 
+     *
      * @since 1.9.0
      */
     index: string
 
     /**
      * 被点击tabItem的页面路径
-     * 
+     *
      * @since 1.9.0
      */
     pagePath: string
 
     /**
      * 被点击tabItem的按钮文字
-     * 
+     *
      * @since 1.9.0
      */
     text: string
@@ -107,6 +107,30 @@ declare namespace Taro {
      * 支持PNG及JPG
      * 显示图片长宽比是 1:1
      * 默认使用小程序 Logo
+     */
+    imageUrl?: string
+  }
+
+  interface AddToFavoritesObject {
+    /**
+     * 页面中包含web-view组件时，返回当前web-view的url
+     */
+    webviewUrl: string
+  }
+
+  interface AddToFavoritesReturn {
+    /**
+     * 	自定义标题
+     */
+    title?: string
+
+    /**
+     * 自定义query字段
+     */
+    query?: string
+
+    /**
+     * 自定义图片，显示图片长宽比为 1：1
      */
     imageUrl?: string
   }
