@@ -57,6 +57,18 @@ export default (ctx: IPluginContext) => {
         isProduction = process.env.NODE_ENV === 'production' || !isWatch
       }
 
+      if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
+        console.log(chalk.yellowBright(`tips: 设置 NODE_ENV 为 production 可以开启压缩。
+example:
+  Mac OS:
+    export NODE_ENV=production
+    taro build --type weapp --watch
+  Windows:
+    set NODE_ENV=production
+    taro build --type weapp --watch
+`))
+      }
+
       await ctx.applyPlugins('onBuildStart')
       await ctx.applyPlugins({
         name: platform,
