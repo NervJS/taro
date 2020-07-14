@@ -46,10 +46,8 @@ function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unkn
   const func = CurrentReconciler.getLifecyle(instance, lifecycle)
 
   if (isArray(func)) {
-    for (let i = 0; i < func.length; i++) {
-      func[i].apply(instance, args)
-    }
-    return
+    const res = func.map(fn => fn.apply(instance, args))
+    return res[0]
   }
 
   if (!isFunction(func)) {
