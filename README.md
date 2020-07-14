@@ -140,11 +140,11 @@ Taro 非常欢迎社区开发者为 Taro 贡献代码，在贡献之前请先阅
 
 ## 开发计划
 
-[开发计划](./PLANS.md)
+[Milestones](https://github.com/NervJS/taro/milestones)
 
 ## 更新日志
 
-本项目遵从 [Angular Style Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)，更新日志由 `conventional-changelog` 自动生成。完整日志请点击 [CHANGELOG.md](./CHANGELOG.md)。
+本项目遵从 [Angular Style Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)，更新日志请查阅 [Release](https://github.com/NervJS/taro/releases)。
 
 ## 开发交流
 
