@@ -94,6 +94,10 @@ export function useShareTimeline (callback) {
   usePageLifecycle(callback, 'onShareTimeline')
 }
 
+export function useAddToFavorites (callback) {
+  usePageLifecycle(callback, 'onAddToFavorites')
+}
+
 export function useRouter () {
   const hook = getHooks(Current.index++)
   if (!hook.router) {
