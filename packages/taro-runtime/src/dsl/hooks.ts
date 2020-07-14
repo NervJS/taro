@@ -4,6 +4,9 @@ import { getPageInstance, injectPageInstance } from './common'
 import { PageLifeCycle } from './instance'
 import { Current } from '../current'
 
+export type HasReturnLifecycle = 'onShareAppMessage' | 'onAddToFavorites' | 'onShareTimeline'
+export const hasReturnLifecycle = ['onShareAppMessage', 'onAddToFavorites', 'onShareTimeline']
+
 const taroHooks = (lifecycle: keyof PageLifeCycle) => {
   return (fn: Function) => {
     const id = React.useContext(PageContext)
@@ -24,8 +27,8 @@ const taroHooks = (lifecycle: keyof PageLifeCycle) => {
 
       // callback is immutable but inner function is up to date
       const callback = (...args: any) => fnRef.current(...args)
-      if (lifecycle === 'onShareAppMessage') {
-        inst[lifecycle] = callback
+      if (hasReturnLifecycle.includes(lifecycle)) {
+        inst[lifecycle as HasReturnLifecycle] = callback
       } else {
         if (isFunction(inst[lifecycle])) {
           (inst[lifecycle] as any) = [inst[lifecycle], callback]

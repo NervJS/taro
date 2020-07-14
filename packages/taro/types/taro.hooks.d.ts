@@ -50,7 +50,7 @@ declare namespace Taro {
   /**
    * 用户点击右上角菜单“分享到朋友圈”按钮时的回调。
    */
-  function useShareTimeline(callback: () => any): void
+  function useShareTimeline(callback: () => ShareTimelineReturnObject): void
 
   /**
    * 页面初次渲染完成的回调。

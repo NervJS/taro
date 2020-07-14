@@ -10,6 +10,7 @@ import { isBrowser } from '../env'
 import { options } from '../options'
 import { Reconciler } from '../reconciler'
 import { incrementId } from '../utils'
+import { hasReturnLifecycle, HasReturnLifecycle } from './hooks'
 
 function isClassComponent (R: typeof React, component): boolean {
   return isFunction(component.render) ||
@@ -99,7 +100,8 @@ function setReconciler () {
 
       // 子组件使用 lifecycle hooks 注册了生命周期后，会存在 prev，里面是注册的生命周期回调。
       Object.keys(prev).forEach(item => {
-        if (item === 'onShareAppMessage') {
+        if (hasReturnLifecycle.includes(item)) {
+          item = item as HasReturnLifecycle
           if (!isFunction(next[item])) next[item] = prev[item]
           return
         }
