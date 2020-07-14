@@ -71,6 +71,18 @@ declare namespace Taro {
      * @since 微信客户端 7.0.0
      */
     disableSwipeBack?: boolean
+    /**
+     * 是否启用分享给好友。
+     *
+     * @default false
+     */
+    enableShareAppMessage?: boolean
+    /**
+     * 是否启用分享到朋友圈。
+     *
+     * @default false
+     */
+    enableShareTimeline?: boolean
   }
 
   interface WindowConfig extends CommonPageConfig {
@@ -91,7 +103,7 @@ declare namespace Taro {
      * 是否允许向下拉拽
      * default: YES
      */
-    allowsBounceVertical?:  'YES' | 'NO'
+    allowsBounceVertical?: 'YES' | 'NO'
   }
 
   interface TarbarList {
