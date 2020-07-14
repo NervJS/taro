@@ -109,6 +109,23 @@ declare namespace Taro {
     query?: string
   }
 
+  interface ShareTimelineReturnObject {
+    /**
+     * 自定义标题
+     */
+    title?: string
+
+    /**
+     * 自定义页面路径中携带的参数
+     */
+    query?: string
+
+    /**
+     * 自定义图片路径，可以是本地文件或者网络图片。支持 PNG 及 JPG，显示图片长宽比是 1:1
+     */
+    imageUrl?: string
+  }
+
   type GetDerivedStateFromProps<P, S> =
   /**
    * Returns an update to a component's state based on its new props and old state.

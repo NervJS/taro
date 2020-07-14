@@ -24,18 +24,16 @@ const taroHooks = (lifecycle: keyof PageLifeCycle) => {
 
       // callback is immutable but inner function is up to date
       const callback = (...args: any) => fnRef.current(...args)
-      if (lifecycle === 'onShareAppMessage') {
-        inst[lifecycle] = callback
+
+      if (isFunction(inst[lifecycle])) {
+        (inst[lifecycle] as any) = [inst[lifecycle], callback]
       } else {
-        if (isFunction(inst[lifecycle])) {
-          (inst[lifecycle] as any) = [inst[lifecycle], callback]
-        } else {
-          (inst[lifecycle] as any) = [
-            ...((inst[lifecycle] as any) || []),
-            callback
-          ]
-        }
+        (inst[lifecycle] as any) = [
+          ...((inst[lifecycle] as any) || []),
+          callback
+        ]
       }
+
       if (first) {
         injectPageInstance(inst!, id)
       }
