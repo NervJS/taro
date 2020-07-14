@@ -978,7 +978,8 @@ require(\\"./taro\\");
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
             var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\"));
+            var config = {};
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {}, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
@@ -2236,7 +2237,8 @@ require(\\"./taro\\");
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
-        var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/normal/index\\"));
+        var config = {};
+        var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/normal/index\\", {}, config || {}));
     }
 }, [ [ 28, 0, 1, 3, 2 ] ] ]);
 
@@ -2286,7 +2288,10 @@ require(\\"./taro\\");
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
             var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\"));
+            var config = {
+                navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+            };
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {}, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
@@ -4787,7 +4792,8 @@ require(\\"./taro\\");
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
             var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\"));
+            var config = {};
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {}, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
@@ -4848,7 +4854,8 @@ require(\\"./taro\\");
             } ]);
             return Index;
         }(react[\\"Component\\"]);
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(normal_Index, \\"others/normal/index\\"));
+        var config = {};
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(normal_Index, \\"others/normal/index\\", {}, config || {}));
     }
 }, [ [ 24, 0, 1, 3, 2 ] ] ]);
 
@@ -4898,7 +4905,10 @@ require(\\"./taro\\");
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
             var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\"));
+            var config = {
+                navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+            };
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {}, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
@@ -7387,7 +7397,8 @@ require(\\"./taro\\");
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
             var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\"));
+            var config = {};
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"others/detail/index\\", {}, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
@@ -7448,7 +7459,8 @@ require(\\"./taro\\");
             } ]);
             return Index;
         }(react[\\"Component\\"]);
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(normal_Index, \\"others/normal/index\\"));
+        var config = {};
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(normal_Index, \\"others/normal/index\\", {}, config || {}));
     }
 }, [ [ 24, 0, 1, 3, 2 ] ] ]);
 
@@ -7498,7 +7510,10 @@ require(\\"./taro\\");
         (function(global) {
             var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
             var _node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
-            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\"));
+            var config = {
+                navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+            };
+            var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_jsx__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"], \\"pages/index/index\\", {}, config || {}));
             if (typeof PRERENDER !== \\"undefined\\") {
                 global._prerender = inst;
             }
