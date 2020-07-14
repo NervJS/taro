@@ -6,7 +6,7 @@ exports[`vue3 should build vue3 app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"9\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"10\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var render = function() {
@@ -530,7 +530,7 @@ exports[`vue3 should build vue3 app 2`] = `
         return \\"/*# \\".concat(data, \\" */\\");
     }
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(8);
+    module.exports = __webpack_require__(9);
 }, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(1);
     var content = __webpack_require__(5);
@@ -580,6 +580,12 @@ exports[`vue3 should build vue3 app 2`] = `
     exports = ___CSS_LOADER_API_IMPORT___(false);
     exports.push([ module.i, \\"\\", \\"\\" ]);
     module.exports = exports;
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = {
+        \\"navigationBarTitleText\\": \\"首页\\"
+    };
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
@@ -635,11 +641,9 @@ exports[`vue3 should build vue3 app 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 9));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 10));
         }
-    }, {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    } || {}) ];
+    }, __webpack_require__(8).default || {}) ];
     initVue3Components(src_app);
     var inst = createVue3App(src_app, vue[\\"h\\"], config);
     createRouter(inst, config, vue[\\"h\\"]);
