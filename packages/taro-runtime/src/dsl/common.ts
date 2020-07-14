@@ -14,6 +14,8 @@ import { eventCenter } from '../emitter/emitter'
 import { raf } from '../bom/raf'
 import { CurrentReconciler } from '../reconciler'
 
+import type { PageConfig } from '@tarojs/taro'
+
 const instances = new Map<string, Instance>()
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
@@ -87,7 +89,7 @@ export function getOnHideEventKey (path: string) {
   return path + '.' + 'onHide'
 }
 
-export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>) {
+export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>, pageConfig?: PageConfig) {
   const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let pageElement: TaroRootElement | null = null
@@ -96,6 +98,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     onLoad (this: MpInstance, options, cb?: Function) {
       perf.start(PAGE_INIT)
 
+      Current.page = this as any
+      this.config = pageConfig || {}
       const path = getPath(id, options)
 
       Current.router = {
@@ -137,6 +141,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     },
     onShow () {
       Current.page = this as any
+      this.config = pageConfig || {}
       const path = getPath(id, this.options)
 
       Current.router = {

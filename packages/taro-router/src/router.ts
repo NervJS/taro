@@ -156,9 +156,14 @@ export function createRouter (
 
     if (shouldLoad) {
       const el = element.default ?? element
+      const config = { ...pageConfig }
+      delete config['path']
+      delete config['load']
       const page = createPageConfig(
         enablePullDownRefresh ? CurrentReconciler.createPullDownComponent?.(el, location.pathname, framework) : el,
-        location.pathname + stringify(qs())
+        location.pathname + stringify(qs()),
+        {},
+        config
       )
       loadPage(page)
     }

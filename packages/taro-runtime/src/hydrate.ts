@@ -2,8 +2,10 @@ import { isText } from './utils'
 import { TaroElement } from './dom/element'
 import { TaroText } from './dom/text'
 import { Shortcuts, toCamelCase } from '@tarojs/shared'
+import type { PageConfig } from '@tarojs/taro'
 
 export interface MpInstance {
+  config: PageConfig
   setData: (data: unknown, cb: () => void) => void;
   route?: string;
   __route__: string;

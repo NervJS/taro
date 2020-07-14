@@ -11,6 +11,7 @@ interface PageConfig {
 export default function (this: webpack.loader.LoaderContext) {
   const options = getOptions(this)
   const config = getPageConfig(options.config, this.resourcePath)
+  const configString = JSON.stringify(config)
   const stringify = (s: string): string => stringifyRequest(this, s)
   const { isNeedRawLoader } = frameworkMeta[options.framework]
   // raw is a placeholder loader to locate changed .vue resource
@@ -24,9 +25,10 @@ if (typeof PRERENDER !== 'undefined') {
 }`
   return `import { createPageConfig } from '@tarojs/runtime'
 import component from ${stringify(componentPath)}
+var config = ${configString};
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
-var inst = Page(createPageConfig(component, '${options.name}'))
+var inst = Page(createPageConfig(component, '${options.name}', {}, config || {}))
 ${options.prerender ? prerender : ''}
 `
 }
