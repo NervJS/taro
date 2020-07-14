@@ -170,6 +170,10 @@ declare namespace Taro {
   }
 
   interface PageInstance extends PageLifeCycle {
+    /**
+     * 页面配置。
+     */
+    config?: PageConfig
     data?: Record<string, unknown>
     path?: string
     options?: Record<string, unknown>
