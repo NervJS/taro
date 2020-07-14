@@ -176,7 +176,9 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 export default async (appPath: string, config: BuildConfig): Promise<void> => {
   const newConfig: BuildConfig = await makeConfig(config)
   if (newConfig.isWatch) {
-    process.env.NODE_ENV !== 'production' && console.log(chalk.yellowBright('tips: 设置 NODE_ENV 为 production 可以开启压缩。'))
+    if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
+      console.log(chalk.yellowBright('tips: 设置 NODE_ENV 为 production 可以开启压缩。'))
+    }
     try {
       await buildDev(appPath, newConfig)
     } catch (e) {
