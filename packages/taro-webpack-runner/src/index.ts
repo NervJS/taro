@@ -3,7 +3,7 @@ import * as path from 'path'
 import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
-import { recursiveMerge } from '@tarojs/helper'
+import { recursiveMerge, chalk } from '@tarojs/helper'
 
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
@@ -176,6 +176,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 export default async (appPath: string, config: BuildConfig): Promise<void> => {
   const newConfig: BuildConfig = await makeConfig(config)
   if (newConfig.isWatch) {
+    process.env.NODE_ENV !== 'production' && console.log(chalk.yellowBright('tips: 设置 NODE_ENV 为 production 可以开启压缩。'))
     try {
       await buildDev(appPath, newConfig)
     } catch (e) {

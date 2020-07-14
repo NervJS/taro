@@ -1,5 +1,5 @@
 import * as webpack from 'webpack'
-import { META_TYPE } from '@tarojs/helper'
+import { META_TYPE, chalk } from '@tarojs/helper'
 
 import { IBuildConfig } from './utils/types'
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
@@ -68,6 +68,7 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
     }
 
     if (newConfig.isWatch) {
+      process.env.NODE_ENV !== 'production' && console.log(chalk.yellowBright('\ntips: 设置 NODE_ENV 为 production 可以开启压缩。'))
       bindDevLogger(compiler)
       compiler.watch({
         aggregateTimeout: 300,
