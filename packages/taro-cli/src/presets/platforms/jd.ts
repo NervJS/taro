@@ -1,5 +1,7 @@
 import { IPluginContext } from '@tarojs/service'
 
+import { printDevelopmentTip } from '../../util'
+
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
     name: 'jd',
@@ -9,6 +11,10 @@ export default (ctx: IPluginContext) => {
       const { npm, emptyDirectory } = ctx.helper
 
       emptyDirectory(outputPath)
+
+      if (config.isWatch && config.mode === 'development') {
+        printDevelopmentTip('jd')
+      }
 
       // 生成 project.config.json
       ctx.generateProjectConfig({
