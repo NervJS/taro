@@ -63,7 +63,9 @@ const siteConfig = {
           position: 'left',
         },
         {
-          to: 'docs/guide',
+          href: 'https://taro-docs.jd.com/taro/docs/guide',
+          activeBasePath: 'docs/guide',
+          activeRegxp: true,
           label: '教程',
           position: 'left',
         },
