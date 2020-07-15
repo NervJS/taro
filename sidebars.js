@@ -1,6 +1,6 @@
 module.exports = {
   docs: {
-    关于Taro: ['README', 'team'],
+    关于Taro: ['README', 'team', 'CONTRIBUTING'],
     快速开始: ['GETTING-STARTED', 'composition', 'before-dev-remind'],
     基础教程: [
       'react',
@@ -15,7 +15,7 @@ module.exports = {
       {
         label: '多端开发',
         type: 'category',
-        items: ['envs', 'envs-debug', 'wxcloud', 'miniprogram-plugin'],
+        items: ['envs', 'envs-debug', 'wxcloudbase', 'miniprogram-plugin'],
       },
     ],
     进阶指南: [

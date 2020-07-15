@@ -64,8 +64,6 @@ const siteConfig = {
         },
         {
           to: 'docs/guide',
-          activeBasePath: 'docs/guide',
-          activeRegxp: true,
           label: '教程',
           position: 'left',
         },

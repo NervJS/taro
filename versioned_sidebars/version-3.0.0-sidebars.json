@@ -11,6 +11,10 @@
         {
           "type": "doc",
           "id": "version-3.0.0/team"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.0.0/CONTRIBUTING"
         }
       ]
     },
@@ -86,7 +90,7 @@
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/wxcloud"
+              "id": "version-3.0.0/wxcloudbase"
             },
             {
               "type": "doc",
