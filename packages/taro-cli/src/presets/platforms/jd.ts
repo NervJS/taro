@@ -9,12 +9,9 @@ export default (ctx: IPluginContext) => {
     async fn ({ config }) {
       const { appPath, nodeModulesPath, outputPath } = ctx.paths
       const { npm, emptyDirectory } = ctx.helper
-
       emptyDirectory(outputPath)
 
-      if (config.isWatch && config.mode === 'development') {
-        printDevelopmentTip('jd')
-      }
+      printDevelopmentTip('jd')
 
       // 生成 project.config.json
       ctx.generateProjectConfig({

@@ -11,9 +11,7 @@ export default (ctx: IPluginContext) => {
       const { npm, emptyDirectory } = ctx.helper
       emptyDirectory(outputPath)
 
-      if (config.isWatch && config.mode === 'development') {
-        printDevelopmentTip('tt')
-      }
+      printDevelopmentTip('tt')
 
       // 生成 project.config.json
       ctx.generateProjectConfig({

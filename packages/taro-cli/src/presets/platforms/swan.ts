@@ -15,9 +15,7 @@ export default (ctx: IPluginContext) => {
       //   platform: config.platform
       // })
 
-      if (config.isWatch && config.mode === 'development') {
-        printDevelopmentTip('swan')
-      }
+      printDevelopmentTip('swan')
 
       // 生成 project.swan.json
       ctx.generateProjectConfig({
