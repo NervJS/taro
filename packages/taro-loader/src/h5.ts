@@ -1,10 +1,10 @@
 import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
-import { AppConfig, PageConfig } from '@tarojs/taro'
+import { AppConfig } from '@tarojs/taro'
 import { join, dirname } from 'path'
 import { frameworkMeta } from './utils'
 
-function genResource (path: string, pages: Map<string, PageConfig>, loaderContext: webpack.loader.LoaderContext) {
+function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.loader.LoaderContext) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
   return `
   Object.assign({
@@ -12,7 +12,7 @@ function genResource (path: string, pages: Map<string, PageConfig>, loaderContex
       load: function() {
           return import(${stringify(join(loaderContext.context, path))})
       }
-  }, require('${pages.get(path)}').default || {}),
+  }, require(${stringify(pages.get(path)!)}).default || {}),
 `
 }
 
@@ -28,7 +28,7 @@ export default function (this: webpack.loader.LoaderContext) {
     execBeforeCreateWebApp
   } = frameworkMeta[options.framework]
   const config: AppConfig = options.config
-  const pages: Map<string, PageConfig> = options.pages
+  const pages: Map<string, string> = options.pages
   let tabBarCode = `var tabbarIconPath = []
 var tabbarSelectedIconPath = []
 `
