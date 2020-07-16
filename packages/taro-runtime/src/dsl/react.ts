@@ -192,54 +192,68 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     }
   }
 
-  class AppConfig implements AppInstance {
-    config = config
-
-    onLaunch (options) {
-      // eslint-disable-next-line react/no-render-return-value
-      wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
-      const app = ref.current
-      Current.router = {
-        params: options?.query,
-        ...options
-      }
-      if (app != null && isFunction(app.onLaunch)) {
-        app.onLaunch(options)
-      }
-    }
-
-    onShow (options) {
-      const app = ref.current
-      Current.router = {
-        params: options?.query,
-        ...options
-      }
-      if (app != null && isFunction(app.componentDidShow)) {
-        app.componentDidShow(options)
-      }
-    }
-
-    onHide (options: unknown) {
-      const app = ref.current
-      if (app != null && isFunction(app.componentDidHide)) {
-        app.componentDidHide(options)
-      }
-    }
-
+  const app: AppInstance = Object.create({
     render (cb: () => void) {
       wrapper.forceUpdate(cb)
-    }
+    },
 
     mount (component: ReactPageComponent, id: string, cb: () => void) {
       const page = connectReactPage(R, id)(component)
       wrapper.mount(page, id, cb)
-    }
+    },
 
     unmount (id: string, cb: () => void) {
       wrapper.unmount(id, cb)
     }
-  }
+  }, {
+    config: {
+      writable: true,
+      enumerable: true,
+      configurable: true,
+      value: config
+    },
 
-  Current.app = new AppConfig()
+    onLaunch: {
+      enumerable: true,
+      value (options) {
+        // eslint-disable-next-line react/no-render-return-value
+        wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+        const app = ref.current
+        Current.router = {
+          params: options?.query,
+          ...options
+        }
+        if (app != null && isFunction(app.onLaunch)) {
+          app.onLaunch(options)
+        }
+      }
+    },
+
+    onShow: {
+      enumerable: true,
+      value (options) {
+        const app = ref.current
+        Current.router = {
+          params: options?.query,
+          ...options
+        }
+        if (app != null && isFunction(app.componentDidShow)) {
+          app.componentDidShow(options)
+        }
+      }
+    },
+
+    onHide: {
+      enumerable: true,
+      value (options: unknown) {
+        const app = ref.current
+        if (app != null && isFunction(app.componentDidHide)) {
+          app.componentDidHide(options)
+        }
+      }
+    }
+  })
+
+  Current.app = app
   return Current.app
 }
