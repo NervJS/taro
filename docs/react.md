@@ -304,7 +304,6 @@ Object 参数说明：
 **注意：**
 
 1. 只有定义了此事件处理函数，右上角菜单才会显示“转发”按钮
-2. 【Breaking】Taro 3.0.3 开始，使用时必须为页面配置 `enableShareAppMessage: true`
 
 Object 参数说明：
 
@@ -339,10 +338,6 @@ export default class Index extends Component {
       path: '/page/user?id=123'
     }
   }
-}
-// page.config.js
-export default {
-  enableShareAppMessage: true
 }
 ```
 
@@ -411,7 +406,6 @@ onAddToFavorites(res) {
 **注意：**
 
 1. 只有定义了此事件处理函数，右上角菜单才会显示“分享到朋友圈”按钮
-2. 使用时，必须为页面配置 `enableShareTimeline: true`
 
 自定义转发内容
 
@@ -429,10 +423,6 @@ class Index extends Component {
   onShareTimeline () {
     console.log('onShareTimeline')
   }
-}
-// page.config.js
-export default {
-  enableShareTimeline: true
 }
 ```
 
