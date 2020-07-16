@@ -31,6 +31,8 @@ import {
   useMemo,
   useImperativeHandle,
   useContext,
+  useShareTimeline,
+  useAddToFavorites,
   createContext,
   memo,
   setIsUsingDiff
@@ -85,6 +87,8 @@ export const Taro = {
   useMemo,
   useImperativeHandle,
   useContext,
+  useShareTimeline,
+  useAddToFavorites,
   createContext,
   memo,
   shallowEqual,

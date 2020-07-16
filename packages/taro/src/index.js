@@ -38,6 +38,8 @@ import {
   useTabItemTap,
   useRouter,
   useScope,
+  useShareTimeline,
+  useAddToFavorites,
   forceUpdateCallback as internal_force_update
 } from './hooks'
 import { Current } from './current'
@@ -99,6 +101,8 @@ export {
   useImperativeHandle,
   invokeEffects,
   useContext,
+  useShareTimeline,
+  useAddToFavorites,
   createContext,
   memo,
   getIsUsingDiff,
@@ -149,6 +153,8 @@ export default {
   useImperativeHandle,
   invokeEffects,
   useContext,
+  useShareTimeline,
+  useAddToFavorites,
   createContext,
   memo,
   getIsUsingDiff,
