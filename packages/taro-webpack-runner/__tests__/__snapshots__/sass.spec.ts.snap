@@ -6,8 +6,8 @@ exports[`sass should build app with sass 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"13\\": function(module, exports, __webpack_require__) {},
-    \\"14\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"14\\": function(module, exports, __webpack_require__) {},
+    \\"15\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -20,7 +20,7 @@ exports[`sass should build app with sass 2`] = `
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(0);
-        var _index_sass__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(13);
+        var _index_sass__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(14);
         var _index_sass__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_sass__WEBPACK_IMPORTED_MODULE_7__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
@@ -370,7 +370,7 @@ exports[`sass should build app with sass 2`] = `
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(12);
+    module.exports = __webpack_require__(13);
 }, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(9);
     var content = __webpack_require__(10);
@@ -669,6 +669,12 @@ exports[`sass should build app with sass 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = {
+        \\"navigationBarTitleText\\": \\"首页\\"
+    };
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     var h5 = taro_h5;
@@ -734,11 +740,9 @@ exports[`sass should build app with sass 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
         }
-    }, {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    } || {}) ];
+    }, __webpack_require__(12).default || {}) ];
     var inst = createReactApp(app, nerv, nerv, config);
     createRouter(inst, config, nerv);
 } ]);
@@ -751,8 +755,8 @@ exports[`sass should build app with scss 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"14\\": function(module, exports, __webpack_require__) {},
-    \\"15\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"15\\": function(module, exports, __webpack_require__) {},
+    \\"16\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -765,7 +769,7 @@ exports[`sass should build app with scss 2`] = `
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1);
-        var _index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(14);
+        var _index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
         var _index_scss__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_7__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
@@ -1131,7 +1135,7 @@ exports[`sass should build app with scss 2`] = `
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(13);
+    module.exports = __webpack_require__(14);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(10);
     var content = __webpack_require__(11);
@@ -1430,6 +1434,12 @@ exports[`sass should build app with scss 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = {
+        \\"navigationBarTitleText\\": \\"首页\\"
+    };
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     var h5 = taro_h5;
@@ -1507,11 +1517,9 @@ exports[`sass should build app with scss 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 16));
         }
-    }, {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    } || {}) ];
+    }, __webpack_require__(13).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
 } ]);
@@ -1524,8 +1532,8 @@ exports[`sass should set global sass content with data 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"14\\": function(module, exports, __webpack_require__) {},
-    \\"15\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"15\\": function(module, exports, __webpack_require__) {},
+    \\"16\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -1538,7 +1546,7 @@ exports[`sass should set global sass content with data 2`] = `
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1);
-        var _index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(14);
+        var _index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
         var _index_scss__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_7__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
@@ -1904,7 +1912,7 @@ exports[`sass should set global sass content with data 2`] = `
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(13);
+    module.exports = __webpack_require__(14);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(10);
     var content = __webpack_require__(11);
@@ -2203,6 +2211,12 @@ exports[`sass should set global sass content with data 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = {
+        \\"navigationBarTitleText\\": \\"首页\\"
+    };
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     var h5 = taro_h5;
@@ -2280,11 +2294,9 @@ exports[`sass should set global sass content with data 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 16));
         }
-    }, {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    } || {}) ];
+    }, __webpack_require__(13).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
 } ]);
@@ -2297,8 +2309,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"14\\": function(module, exports, __webpack_require__) {},
-    \\"15\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"15\\": function(module, exports, __webpack_require__) {},
+    \\"16\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -2311,7 +2323,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1);
-        var _index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(14);
+        var _index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
         var _index_scss__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_7__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
@@ -2677,7 +2689,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(13);
+    module.exports = __webpack_require__(14);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(10);
     var content = __webpack_require__(11);
@@ -2976,6 +2988,12 @@ exports[`sass should set global sass content with source & dir 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = {
+        \\"navigationBarTitleText\\": \\"首页\\"
+    };
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     var h5 = taro_h5;
@@ -3053,11 +3071,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 16));
         }
-    }, {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    } || {}) ];
+    }, __webpack_require__(13).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
 } ]);
@@ -3070,8 +3086,8 @@ exports[`sass should set global sass content with source 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"14\\": function(module, exports, __webpack_require__) {},
-    \\"15\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"15\\": function(module, exports, __webpack_require__) {},
+    \\"16\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -3084,7 +3100,7 @@ exports[`sass should set global sass content with source 2`] = `
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
         var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1);
-        var _index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(14);
+        var _index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
         var _index_scss__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_scss__WEBPACK_IMPORTED_MODULE_7__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
@@ -3450,7 +3466,7 @@ exports[`sass should set global sass content with source 2`] = `
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(13);
+    module.exports = __webpack_require__(14);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(10);
     var content = __webpack_require__(11);
@@ -3749,6 +3765,12 @@ exports[`sass should set global sass content with source 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = {
+        \\"navigationBarTitleText\\": \\"首页\\"
+    };
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
     var taro_h5 = \\"taro-h5-mock\\";
     function createRouter() {}
     var h5 = taro_h5;
@@ -3826,11 +3848,9 @@ exports[`sass should set global sass content with source 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 16));
         }
-    }, {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    } || {}) ];
+    }, __webpack_require__(13).default || {}) ];
     var inst = createReactApp(src_app, react, react[\\"default\\"], config);
     createRouter(inst, config, react);
 } ]);

@@ -792,7 +792,10 @@ require(\\"../../sub-utils\\");
             } ]);
             return Detail;
         }(react[\\"Component\\"]);
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(detail_Detail, \\"packageA/detail/index\\"));
+        var config = {
+            navigationBarTitleText: \\"\\\\u8be6\\\\u60c5\\\\u9875\\"
+        };
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(detail_Detail, \\"packageA/detail/index\\", {}, config || {}));
     }
 }, [ [ 19, 0, 4, 1, 3, 2 ] ] ]);
 
@@ -843,7 +846,10 @@ require(\\"../../sub-utils\\");
             } ]);
             return My;
         }(react[\\"Component\\"]);
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(my_My, \\"packageA/my/index\\"));
+        var config = {
+            navigationBarTitleText: \\"\\\\u4e2a\\\\u4eba\\\\u4e2d\\\\u5fc3\\\\u9875\\"
+        };
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(my_My, \\"packageA/my/index\\", {}, config || {}));
     }
 }, [ [ 20, 0, 4, 1, 3, 2 ] ] ]);
 
@@ -898,7 +904,10 @@ require(\\"../../sub-utils\\");
             } ]);
             return Index;
         }(react[\\"Component\\"]);
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\"));
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+        };
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
     }
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
 

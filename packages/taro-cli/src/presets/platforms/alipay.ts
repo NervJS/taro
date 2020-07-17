@@ -1,5 +1,6 @@
 import { IPluginContext } from '@tarojs/service'
-import { recursiveReplaceObjectKeys } from '../../util'
+
+import { recursiveReplaceObjectKeys, printDevelopmentTip } from '../../util'
 
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
@@ -9,6 +10,8 @@ export default (ctx: IPluginContext) => {
       const { appPath, nodeModulesPath, outputPath } = ctx.paths
       const { npm, emptyDirectory } = ctx.helper
       emptyDirectory(outputPath)
+
+      printDevelopmentTip('alipay')
 
       // 准备 miniRunner 参数
       const miniRunnerOpts = {

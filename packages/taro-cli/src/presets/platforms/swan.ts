@@ -1,5 +1,7 @@
 import { IPluginContext } from '@tarojs/service'
 
+import { printDevelopmentTip } from '../../util'
+
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
     name: 'swan',
@@ -12,6 +14,8 @@ export default (ctx: IPluginContext) => {
       // ctx.generateFrameworkInfo({
       //   platform: config.platform
       // })
+
+      printDevelopmentTip('swan')
 
       // 生成 project.swan.json
       ctx.generateProjectConfig({

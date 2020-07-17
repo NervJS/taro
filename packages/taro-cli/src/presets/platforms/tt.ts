@@ -1,5 +1,7 @@
 import { IPluginContext } from '@tarojs/service'
 
+import { printDevelopmentTip } from '../../util'
+
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
     name: 'tt',
@@ -8,6 +10,8 @@ export default (ctx: IPluginContext) => {
       const { appPath, nodeModulesPath, outputPath } = ctx.paths
       const { npm, emptyDirectory } = ctx.helper
       emptyDirectory(outputPath)
+
+      printDevelopmentTip('tt')
 
       // 生成 project.config.json
       ctx.generateProjectConfig({
