@@ -181,7 +181,8 @@ export interface IH5Config {
   miniCssExtractPluginOption?: IOption,
   esnextModules?: string[],
 
-  postcss?: IPostcssOption
+  postcss?: IPostcssOption,
+  babelLoaderOption?: IOption
 }
 
 type FeatureItem = {
