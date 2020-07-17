@@ -2,12 +2,10 @@ import * as t from 'babel-types'
 import traverse, { NodePath } from 'babel-traverse'
 import generate from 'better-babel-generator'
 import babylonConfig from '../config/babylon'
-// import { PARSE_AST_TYPE } from '../utils/constants'
 
 const template = require('babel-template')
 
 const path = require('path')
-const _ = require('lodash')
 
 const STYLE_SHEET_NAME = '_styleSheet'
 const GET_STYLE_FUNC_NAME = '_getStyle'
@@ -16,7 +14,6 @@ const GET_CLS_NAME_FUNC_NAME = '_getClassName'
 const NAME_SUFFIX = 'StyleSheet'
 const cssSuffixs = ['.css', '.scss', '.sass', '.less', '.styl']
 let styleNames = [] // css module 写法中 import 的 Identifier
-let styleNameSet: string[] = []
 
 export default function JSXToStylesSheetLoader (source, ast) {
   // const filePath = this.resourcePath
@@ -82,15 +79,6 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
 }
   `)
 
-  // 不知道 class 来自于引入的哪个 css，挨个找。
-  const getStyleQueue = (className) => {
-    let string = ''
-    styleNameSet.forEach(styleName => {
-      string += `${styleName}["${className}"] ||`
-    })
-    return string
-  }
-
   const getClassNameFunctionAst = getClassNameFunctionTemplate()
   // const mergeStylesFunctionAst = mergeStylesFunctionTemplate()
   const getStyleFunctionAst = getStyleFunctionTemplete()
@@ -112,9 +100,9 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
       // className={'container'}
       str = (value.expression ? value.expression.value : value.value).trim()
     }
+
     return str === '' ? [] : str.split(/\s+/).map((className) => {
-      // return template(`${STYLE_SHEET_NAME}["${className}"]`)().expression
-      return template(`${STYLE_SHEET_NAME}[${getStyleQueue(className)} "${className}"]`)().expression
+      return template(`${STYLE_SHEET_NAME}["${className}"]`)().expression
     })
   }
 
@@ -177,7 +165,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
                       MemberExpression ({node}) {
                         // @ts-ignore
                         if (node.object.type === 'Identifier' && styleNames.indexOf(node.object.name) > -1) {
-                          // node.object.name = STYLE_SHEET_NAME
+                          node.object.name = STYLE_SHEET_NAME
                         }
                       }
                     })
@@ -188,7 +176,6 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
           })
           // 清除该 js 文件的 styleNames
           styleNames = []
-          styleNameSet = []
         }
       },
       JSXOpeningElement ({container}: NodePath) {
@@ -272,7 +259,6 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
         const cssIndex = cssSuffixs.indexOf(extname)
         let cssFileCount = file.get('cssFileCount') || 0
         let cssParamIdentifiers = file.get('cssParamIdentifiers') || []
-        const cssFileBaseName = path.basename(jsFilePath, path.extname(jsFilePath))
 
         if (cssIndex > -1) {
           // `import styles from './foo.css'` kind
@@ -280,21 +266,13 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
           if (node.importKind === 'value' && specifiers.length > 0) {
             // @ts-ignore
             styleNames.push(specifiers[0].local.name)
-          } else {
-            // 不论 styleName 是第几个，最后都会被合成一个
-            const styleIdentifierName = _.camelCase(sourceValue) + styleNameSet.length
-            styleNameSet.push(styleIdentifierName)
-            node.specifiers = [
-              t.importDefaultSpecifier(
-                t.identifier(styleIdentifierName)
-              )
-            ]
           }
           // 第一个引入的样式文件
           if (cssFileCount === 0) {
+            const cssFileBaseName = path.basename(jsFilePath, path.extname(jsFilePath)).replace('.rn','')
             // 引入样式对应的变量名
             const styleSheetIdentifierValue = `${cssFileBaseName.replace(/[-.]/g, '_') + NAME_SUFFIX}`
-            const styleSheetIdentifierPath = `./index_styles`
+            const styleSheetIdentifierPath = `./${cssFileBaseName}_styles`
             const styleSheetIdentifier = t.identifier(styleSheetIdentifierValue)
             // const indexStyleSheet = __non_webpack_require__('./index_styles').default
             const webpackNode = template(
@@ -305,7 +283,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
             astPath.insertBefore(webpackNode)
             cssParamIdentifiers.push(styleSheetIdentifier)
           } else {
-            // not remove , used by mini-extract-css-plugin
+            // not remove
             // astPath.remove()
           }
           cssFileCount++

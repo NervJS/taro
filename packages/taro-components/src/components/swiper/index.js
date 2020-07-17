@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import Swipers from 'swiper'
 
 import 'swiper/dist/css/swiper.min.css'
-import './style/index.scss'
+import './style/index.css'
 
 let INSTANCE_ID = 0
 
@@ -51,7 +51,6 @@ class Swiper extends Nerv.Component {
       duration = 500,
       current = 0,
       displayMultipleItems = 1,
-      circular,
       vertical,
       spaceBetween
     } = this.props
@@ -59,9 +58,9 @@ class Swiper extends Nerv.Component {
     const that = this
     const opt = {
       // 指示器
-      pagination: { el: `.taro-swiper-${this._id} .swiper-container .swiper-pagination` },
+      pagination: { el: `.taro-swiper-${this._id} > .swiper-container > .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
-      loop: circular,
+      loop: true,
       slidesPerView: parseFloat(displayMultipleItems, 10),
       initialSlide: parseInt(current, 10),
       speed: parseInt(duration, 10),
@@ -81,15 +80,20 @@ class Swiper extends Nerv.Component {
           that._$current = this.realIndex
           that.handleOnChange(e)
         },
-        transitionEnd () {
+        transitionEnd: () => {
           const e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
               value: {
-                current: this.realIndex
+                current: this.mySwiper.realIndex
               }
             })
+            if (this.mySwiper.isBeginning) {
+              this.mySwiper.slideToLoop(this.props.children.length - 1, 0)
+            } else if (this.mySwiper.isEnd) {
+              this.mySwiper.slideToLoop(0, 0)
+            }
           } catch (err) {}
           that.handleOnAnimationFinish(e)
         },
@@ -129,15 +133,15 @@ class Swiper extends Nerv.Component {
     if (this.mySwiper) {
       const nextCurrent = typeof nextProps.current === 'number' ? nextProps.current : this._$current || 0
 
+      this.mySwiper.loopDestroy()
+      this.mySwiper.loopCreate()
       // 是否衔接滚动模式
       if (nextProps.circular) {
         if (!this.mySwiper.isBeginning && !this.mySwiper.isEnd) {
-          this.mySwiper.loopDestroy()
-          this.mySwiper.loopCreate()
           this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
         }
       } else {
-        this.mySwiper.slideTo(parseInt(nextCurrent, 10)) // 更新下标
+        this.mySwiper.slideTo(parseInt(nextCurrent, 10) + 1) // 更新下标
       }
 
       const autoplay = this.mySwiper.autoplay
@@ -158,7 +162,11 @@ class Swiper extends Nerv.Component {
     }
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (preProps) {
+    if (preProps.children.length === 0 && this.props.children.length > 0) {
+      this.mySwiper.loopDestroy()
+      this.mySwiper.loopCreate()
+    }
     if (!this.mySwiper) return
     if (this.props.autoplay) {
       if (this._$width !== this.mySwiper.width || this._$height !== this.mySwiper.height) {
@@ -208,13 +216,13 @@ class Swiper extends Nerv.Component {
       }
     )
     return (
-      <div className={cls} style={sty}>
+      <div className={`swiper-container-wrapper ${cls}`} style={sty}>
         <div className='swiper-container' style={{ overflow: 'visible' }} ref={(el) => { this.$el = el }}>
           <div
             dangerouslySetInnerHTML={{
               __html: `<style type='text/css'>
-              .taro-swiper-${this._id} .swiper-container .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
-              .taro-swiper-${this._id} .swiper-container .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} }
+              .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
+              .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} }
               </style>`
             }}
           />

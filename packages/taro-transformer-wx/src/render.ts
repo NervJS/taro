@@ -1222,7 +1222,7 @@ export class RenderParser {
             return false
           }) as NodePath<t.JSXElement>
           if (loopBlock) {
-            setJSXAttr(loopBlock.node, Adapter.key, value)
+            setJSXAttr(loopBlock.node, Adapter.key, value!)
             path.remove()
           } else {
             path.get('name').replaceWith(t.jSXIdentifier(Adapter.key))
@@ -1859,7 +1859,7 @@ export class RenderParser {
           JSXElement: path => {
             const element = path.node.openingElement
             if (this.isInternalComponent(element)) {
-              if (this.isEmptyProps(element.attributes)) {
+              if (this.isEmptyProps(element.attributes) && Adapter.type !== Adapters.swan) {
                 return
               }
 

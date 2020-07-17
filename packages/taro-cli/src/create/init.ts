@@ -67,8 +67,8 @@ function createFiles (
     }
 
     let changeExt = globalChangeExt
-    if (externalConfig && typeof externalConfig === 'object') {
-      if (externalConfig.changeExt === false) {
+    if (handler && typeof handler[fileRePath] === 'object') {
+      if (handler[fileRePath].changeExt === false) {
         changeExt = false
       }
     }

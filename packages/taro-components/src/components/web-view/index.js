@@ -1,6 +1,6 @@
 import Nerv from 'nervjs'
 import omit from 'omit.js'
-import './style/index.scss'
+import './style/index.css'
 
 class WebView extends Nerv.Component {
   constructor () {

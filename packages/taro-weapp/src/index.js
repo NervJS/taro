@@ -32,6 +32,8 @@ import {
   useMemo,
   useImperativeHandle,
   useContext,
+  useShareTimeline,
+  useAddToFavorites,
   createContext,
   memo,
   setIsUsingDiff
@@ -79,6 +81,8 @@ export const Taro = {
   useResize,
   useShareAppMessage,
   useTabItemTap,
+  useShareTimeline,
+  useAddToFavorites,
   useRouter,
   useScope,
   useRef,
