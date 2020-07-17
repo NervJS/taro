@@ -229,7 +229,8 @@ class App extends Component {
 
 ## 编译配置
 
-[jsxAttributeNameReplace](https://nervjs.github.io/taro/docs/1.3.24/config.html) 配置已被移除。因为我们不需要配置 `externalClasses`，这个属性也失去了它存在的意义。
+* 需要添加 [framework 配置](https://nervjs.github.io/taro/docs/config)，取值为使用的框架（react, nerv, vue, vue3）
+* [jsxAttributeNameReplace](https://nervjs.github.io/taro/docs/1.3.24/config.html) 配置已被移除。因为我们不需要配置
 
 ## 编译依赖库
 
