@@ -17,10 +17,27 @@ sidebar_label: onBLEConnectionStateChange
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| connected | `boolean` | 是否处于已连接状态 |
-| deviceId | `string` | 蓝牙设备ID |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>connected</td>
+      <td><code>boolean</code></td>
+      <td>是否处于已连接状态</td>
+    </tr>
+    <tr>
+      <td>deviceId</td>
+      <td><code>string</code></td>
+      <td>蓝牙设备ID</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Callback
 
@@ -30,9 +47,20 @@ sidebar_label: onBLEConnectionStateChange
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

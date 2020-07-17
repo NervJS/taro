@@ -9,20 +9,90 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 
 ## 方法
 
-| 参数 | 类型 | 只读 | 说明 |
-| --- | --- | :---: | --- |
-| buffered | `number` | 是 | 音频已缓冲的时间，仅保证当前播放时间点到此时间点内容已缓冲。 |
-| coverImgUrl | `string` | 否 | 封面图 URL，用于做原生音频播放器背景图。原生音频播放器中的分享功能，分享出去的卡片配图及背景也将使用该图。 |
-| currentTime | `number` | 是 | 当前音频的播放位置（单位：s），只有在有合法 src 时返回。 |
-| duration | `number` | 是 | 当前音频的长度（单位：s），只有在有合法 src 时返回。 |
-| epname | `string` | 否 | 专辑名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。 |
-| paused | `boolean` | 是 | 当前是否暂停或停止。 |
-| protocol | `string` | 否 | 音频协议。默认值为 'http'，设置 'hls' 可以支持播放 HLS 协议的直播音频。 |
-| singer | `string` | 否 | 歌手名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。 |
-| src | `string` | 否 | 音频的数据源（[2.2.3](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 开始支持云文件ID）。默认为空字符串，**当设置了新的 src 时，会自动开始播放**，目前支持的格式有 m4a, aac, mp3, wav。 |
-| startTime | `number` | 否 | 音频开始播放的位置（单位：s）。 |
-| title | `string` | 否 | 音频标题，用于原生音频播放器音频标题（必填）。原生音频播放器中的分享功能，分享出去的卡片标题，也将使用该值。 |
-| webUrl | `string` | 否 | 页面链接，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">只读</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>buffered</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">是</td>
+      <td>音频已缓冲的时间，仅保证当前播放时间点到此时间点内容已缓冲。</td>
+    </tr>
+    <tr>
+      <td>coverImgUrl</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>封面图 URL，用于做原生音频播放器背景图。原生音频播放器中的分享功能，分享出去的卡片配图及背景也将使用该图。</td>
+    </tr>
+    <tr>
+      <td>currentTime</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">是</td>
+      <td>当前音频的播放位置（单位：s），只有在有合法 src 时返回。</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">是</td>
+      <td>当前音频的长度（单位：s），只有在有合法 src 时返回。</td>
+    </tr>
+    <tr>
+      <td>epname</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>专辑名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。</td>
+    </tr>
+    <tr>
+      <td>paused</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">是</td>
+      <td>当前是否暂停或停止。</td>
+    </tr>
+    <tr>
+      <td>protocol</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>音频协议。默认值为 'http'，设置 'hls' 可以支持播放 HLS 协议的直播音频。</td>
+    </tr>
+    <tr>
+      <td>singer</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>歌手名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。</td>
+    </tr>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>音频的数据源（<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html">2.2.3</a> 开始支持云文件ID）。默认为空字符串，<strong>当设置了新的 src 时，会自动开始播放</strong>，目前支持的格式有 m4a, aac, mp3, wav。</td>
+    </tr>
+    <tr>
+      <td>startTime</td>
+      <td><code>number</code></td>
+      <td style="text-align:center">否</td>
+      <td>音频开始播放的位置（单位：s）。</td>
+    </tr>
+    <tr>
+      <td>title</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>音频标题，用于原生音频播放器音频标题（必填）。原生音频播放器中的分享功能，分享出去的卡片标题，也将使用该值。</td>
+    </tr>
+    <tr>
+      <td>webUrl</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>页面链接，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。</td>
+    </tr>
+  </tbody>
+</table>
 
 ### play
 
@@ -64,9 +134,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onPlay
 
@@ -76,9 +157,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onPause
 
@@ -88,9 +180,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onStop
 
@@ -100,9 +203,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onEnded
 
@@ -112,9 +226,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onTimeUpdate
 
@@ -124,9 +249,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onPrev
 
@@ -136,9 +272,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onNext
 
@@ -148,9 +295,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onError
 
@@ -160,9 +318,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onWaiting
 
@@ -172,9 +341,20 @@ BackgroundAudioManager 实例，可通过 [Taro.getBackgroundAudioManager](https
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

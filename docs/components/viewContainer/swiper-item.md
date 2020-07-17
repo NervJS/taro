@@ -44,9 +44,24 @@ class App extends Component {
 
 ## SwiperItemProps
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| itemId | `string` | 否 | 该 swiper-item 的标识符 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>itemId</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>该 swiper-item 的标识符</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 

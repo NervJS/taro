@@ -15,16 +15,17 @@ const previewImage = ({ urls, current, success, fail, complete } = {}) => {
   const currentIndex = urls.reduce((prev, curr, index) => curr === current ? index : prev, -1)
   const onSuccess = res => {
     success && success(res)
-    complete && complete()
+    complete && complete(res)
     Promise.resolve(res)
   }
   const onError = res => {
     fail && fail(res)
-    complete && complete()
+    complete && complete(res)
     Promise.reject(res)
   }
   const props = {
     urls,
+    onError,
     onClose () {
       unmountComponentAtNode(div)
     }

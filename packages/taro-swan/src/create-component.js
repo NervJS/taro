@@ -76,6 +76,8 @@ function processEvent (eventHandlerName, obj) {
     }
 
     const scope = this.$component
+    if (!scope || !scope[eventHandlerName]) return
+
     let callScope = scope
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []
@@ -279,6 +281,10 @@ function createComponent (ComponentClass, isPage) {
       this.$component.render = this.$component._createData
       this.$component.__propTypes = ComponentClass.propTypes
       Object.assign(this.$component.$router.params, options)
+      if (isPage && cacheDataHas(PRELOAD_DATA_KEY)) {
+        const data = cacheDataGet(PRELOAD_DATA_KEY, true)
+        this.$component.$router.preload = data
+      }
     },
     attached () {},
     ready () {},
@@ -299,10 +305,6 @@ function createComponent (ComponentClass, isPage) {
   if (isPage) {
     weappComponentConf.methods = weappComponentConf.methods || {}
     weappComponentConf.methods['onLoad'] = function (options = {}) {
-      if (cacheDataHas(PRELOAD_DATA_KEY)) {
-        const data = cacheDataGet(PRELOAD_DATA_KEY, true)
-        this.$component.$router.preload = data
-      }
       Object.assign(this.$component.$router.params, options)
       this.$component.$router.path = getCurrentPageUrl()
       initComponent.apply(this, [ComponentClass, isPage])

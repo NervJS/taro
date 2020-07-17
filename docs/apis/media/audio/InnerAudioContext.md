@@ -26,18 +26,89 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 
 ## 方法
 
-| 参数 | 类型 | 默认值 | 只读 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| autoplay | `boolean` | `false` | 否 | 是否自动开始播放 |
-| buffered | `number` |  | 是 | 音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲 |
-| currentTime | `number` |  | 是 | 当前音频的播放位置（单位 s）。只有在当前有合法的 src 时返回，时间保留小数点后 6 位 |
-| duration | `number` |  | 是 | 当前音频的长度（单位 s）。只有在当前有合法的 src 时返回 |
-| loop | `boolean` | `false` | 否 | 是否循环播放 |
-| obeyMuteSwitch | `boolean` | `true` | 否 | 是否遵循系统静音开关。当此参数为 `false` 时，即使用户打开了静音开关，也能继续发出声音。从 2.3.0 版本开始此参数不生效，使用 [Taro.setInnerAudioOption](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.setInnerAudioOption.html) 接口统一设置。 |
-| paused | `boolean` |  | 是 | 当前是是否暂停或停止状态 |
-| src | `string` |  | 否 | 音频资源的地址，用于直接播放。 |
-| startTime | `number` | `0` | 否 | 开始播放的位置（单位：s） |
-| volume | `number` | `1` | 否 | 音量。范围 0~1。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">只读</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>autoplay</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否自动开始播放</td>
+    </tr>
+    <tr>
+      <td>buffered</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>音频缓冲的时间点，仅保证当前播放时间点到此时间点内容已缓冲</td>
+    </tr>
+    <tr>
+      <td>currentTime</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>当前音频的播放位置（单位 s）。只有在当前有合法的 src 时返回，时间保留小数点后 6 位</td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>当前音频的长度（单位 s）。只有在当前有合法的 src 时返回</td>
+    </tr>
+    <tr>
+      <td>loop</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>false</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否循环播放</td>
+    </tr>
+    <tr>
+      <td>obeyMuteSwitch</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>true</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否遵循系统静音开关。当此参数为 <code>false</code> 时，即使用户打开了静音开关，也能继续发出声音。从 2.3.0 版本开始此参数不生效，使用 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.setInnerAudioOption.html">Taro.setInnerAudioOption</a> 接口统一设置。</td>
+    </tr>
+    <tr>
+      <td>paused</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">是</td>
+      <td>当前是是否暂停或停止状态</td>
+    </tr>
+    <tr>
+      <td>src</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>音频资源的地址，用于直接播放。</td>
+    </tr>
+    <tr>
+      <td>startTime</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"><code>0</code></td>
+      <td style="text-align:center">否</td>
+      <td>开始播放的位置（单位：s）</td>
+    </tr>
+    <tr>
+      <td>volume</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"><code>1</code></td>
+      <td style="text-align:center">否</td>
+      <td>音量。范围 0~1。</td>
+    </tr>
+  </tbody>
+</table>
 
 ### play
 
@@ -71,9 +142,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (position: number) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| position | `number` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>position</td>
+      <td><code>number</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### destroy
 
@@ -91,9 +173,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onPlay
 
@@ -103,9 +196,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onPause
 
@@ -115,9 +219,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onStop
 
@@ -127,9 +242,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onEnded
 
@@ -139,9 +265,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onTimeUpdate
 
@@ -151,21 +288,43 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onError
 
 音频播放错误事件
 
 ```tsx
-(callback?: () => void) => void
+(callback?: (res: onErrorDetail) => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(res: onErrorDetail) =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onWaiting
 
@@ -175,9 +334,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onSeeking
 
@@ -187,9 +357,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### onSeeked
 
@@ -199,9 +380,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### offCanplay
 
@@ -211,9 +403,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### offPlay
 
@@ -223,9 +426,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### offPause
 
@@ -235,9 +449,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### offStop
 
@@ -247,9 +472,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### offEnded
 
@@ -259,9 +495,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### offTimeUpdate
 
@@ -271,9 +518,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### offError
 
@@ -283,9 +541,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### offWaiting
 
@@ -295,9 +564,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### offSeeking
 
@@ -307,9 +587,20 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### offSeeked
 
@@ -319,9 +610,79 @@ InnerAudioContext 实例，可通过 Taro.createInnerAudioContext 接口获取�
 (callback?: () => void) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| callback | `() => void` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>() =&gt; void</code></td>
+    </tr>
+  </tbody>
+</table>
+
+## 参数
+
+### onErrorDetail
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>errCode</td>
+      <td><code>number</code></td>
+      <td>错误码</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>错误信息</td>
+    </tr>
+  </tbody>
+</table>
+
+### onErrorDetailErrCode
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10001</td>
+      <td>系统错误</td>
+    </tr>
+    <tr>
+      <td>10002</td>
+      <td>网络错误</td>
+    </tr>
+    <tr>
+      <td>10003</td>
+      <td>文件错误</td>
+    </tr>
+    <tr>
+      <td>10004</td>
+      <td>格式错误</td>
+    </tr>
+    <tr>
+      <td>-1</td>
+      <td>未知错误</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

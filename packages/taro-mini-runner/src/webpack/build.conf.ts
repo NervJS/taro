@@ -1,12 +1,13 @@
 import * as path from 'path'
 
+import { PARSE_AST_TYPE } from '@tarojs/helper'
+
 import { IBuildConfig } from '../utils/types'
 import {
   getCopyWebpackPlugin,
   getDefinePlugin,
   processEnvOption,
   getCssoWebpackPlugin,
-  getUglifyPlugin,
   getDevtool,
   getOutput,
   getModule,
@@ -15,16 +16,20 @@ import {
   getMiniCssExtractPlugin,
   getEntry,
 } from './chain'
-import getBaseConf from './base.conf'
-import { BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES } from '../utils/constants'
-import { Targets } from '../plugins/MiniPlugin'
+import { createTarget } from '../plugins/MiniPlugin'
 
 const emptyObj = {}
 
-export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
-  const chain = getBaseConf(appPath)
+export default (appPath: string, mode, config: Partial<IBuildConfig>, chain: any): any => {
   const {
-    buildAdapter = BUILD_TYPES.WEAPP,
+    buildAdapter,
+    fileType = {
+      style: '.wxss',
+      config: '.json',
+      script: '.js',
+      templ: '.wxml'
+    },
+    globalObject = 'wx',
     alias = emptyObj,
     entry = emptyObj,
     output = emptyObj,
@@ -38,9 +43,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     defineConstants = emptyObj,
     env = emptyObj,
     cssLoaderOption = emptyObj,
-    sassLoaderOption = emptyObj,
-    lessLoaderOption = emptyObj,
-    stylusLoaderOption = emptyObj,
     mediaUrlLoaderOption = emptyObj,
     fontUrlLoaderOption = emptyObj,
     imageUrlLoaderOption = emptyObj,
@@ -50,14 +52,17 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     postcss = emptyObj,
     nodeModulesPath,
     quickappJSON,
+    isBuildQuickapp = false,
+    isUseComponentBuildPage = false,
 
     babel,
     csso,
-    uglify,
     commonChunks,
-    addChunkPages
-  } = config
+    addChunkPages,
 
+    modifyBuildAssets,
+    modifyBuildTempFileContent
+  } = config
   let { copy } = config
 
   const plugin: any = {}
@@ -69,10 +74,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     patterns.push({
       from: path.join(sourceRoot, 'plugin', 'doc'),
       to: path.join(outputRoot, 'doc')
-    })
-    patterns.push({
-      from: path.join(sourceRoot, 'plugin', 'plugin.json'),
-      to: path.join(outputRoot, 'plugin', 'plugin.json')
     })
     copy = Object.assign({}, copy, { patterns })
   }
@@ -102,42 +103,36 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     constantsReplaceList,
     nodeModulesPath,
     quickappJSON,
+    isBuildQuickapp,
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
+    pluginMainEntry: entryRes!.pluginMainEntry,
     isBuildPlugin: !!config.isBuildPlugin,
     commonChunks: customCommonChunks,
     addChunkPages,
-    alias
+    alias,
+    fileType,
+    modifyBuildAssets,
+    modifyBuildTempFileContent
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
-    filename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`,
-    chunkFilename: `[name]${MINI_APP_FILES[buildAdapter].STYLE}`
+    filename: `[name]${fileType.style}`,
+    chunkFilename: `[name]${fileType.style}`
   }, miniCssExtractPluginOption])
 
   const isCssoEnabled = (csso && csso.enable === false)
     ? false
     : true
 
-  const isUglifyEnabled = (uglify && uglify.enable === false)
-    ? false
-    : true
-
   if (mode === 'production') {
-    if (isUglifyEnabled) {
-      minimizer.push(getUglifyPlugin([
-        enableSourceMap,
-        uglify ? uglify.config : {}
-      ]))
-    }
-
     if (isCssoEnabled) {
       const cssoConfig: any = csso ? csso.config : {}
       plugin.cssoWebpackPlugin = getCssoWebpackPlugin([cssoConfig])
     }
   }
   const taroBaseReg = new RegExp(`@tarojs[\\/]taro|@tarojs[\\/]${buildAdapter}`)
-  chain.merge({
+  return {
     mode,
     devtool: getDevtool(enableSourceMap),
     watch: mode === 'development',
@@ -145,13 +140,15 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     output: getOutput(appPath, [{
       outputRoot,
       publicPath: '/',
-      buildAdapter,
-      isBuildPlugin: config.isBuildPlugin
+      globalObject
     }, output]),
-    target: Targets[buildAdapter],
+    target: createTarget[buildAdapter!],
     resolve: { alias },
     module: getModule(appPath, {
       sourceDir,
+      fileType,
+      isBuildQuickapp,
+      isUseComponentBuildPage,
 
       buildAdapter,
       constantsReplaceList,
@@ -160,9 +157,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       enableSourceMap,
 
       cssLoaderOption,
-      lessLoaderOption,
-      sassLoaderOption,
-      stylusLoaderOption,
       fontUrlLoaderOption,
       imageUrlLoaderOption,
       mediaUrlLoaderOption,
@@ -170,8 +164,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       postcss,
       compile,
       babel,
-      alias
-    }),
+      alias,
+      nodeModulesPath
+    }, chain),
     plugin,
     optimization: {
       minimizer,
@@ -206,6 +201,5 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         }
       }
     }
-  })
-  return chain
+  }
 }

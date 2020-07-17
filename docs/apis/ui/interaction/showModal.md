@@ -20,26 +20,107 @@ sidebar_label: showModal
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| cancelColor | `string` | 否 | 取消按钮的文字颜色，必须是 16 进制格式的颜色字符串 |
-| cancelText | `string` | 否 | 取消按钮的文字，最多 4 个字符 |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| confirmColor | `string` | 否 | 确认按钮的文字颜色，必须是 16 进制格式的颜色字符串 |
-| confirmText | `string` | 否 | 确认按钮的文字，最多 4 个字符 |
-| content | `string` | 否 | 提示的内容 |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| showCancel | `boolean` | 否 | 是否显示取消按钮 |
-| success | `(result: SuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
-| title | `string` | 否 | 提示的标题 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cancelColor</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>取消按钮的文字颜色，必须是 16 进制格式的颜色字符串</td>
+    </tr>
+    <tr>
+      <td>cancelText</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>取消按钮的文字，最多 4 个字符</td>
+    </tr>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>confirmColor</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>确认按钮的文字颜色，必须是 16 进制格式的颜色字符串</td>
+    </tr>
+    <tr>
+      <td>confirmText</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>确认按钮的文字，最多 4 个字符</td>
+    </tr>
+    <tr>
+      <td>content</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>提示的内容</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>showCancel</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>是否显示取消按钮</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: SuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+    <tr>
+      <td>title</td>
+      <td><code>string</code></td>
+      <td style="text-align:center">否</td>
+      <td>提示的标题</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| cancel | `boolean` | 为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭） |
-| confirm | `boolean` | 为 true 时，表示用户点击了确定按钮 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cancel</td>
+      <td><code>boolean</code></td>
+      <td>为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭）</td>
+    </tr>
+    <tr>
+      <td>confirm</td>
+      <td><code>boolean</code></td>
+      <td>为 true 时，表示用户点击了确定按钮</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

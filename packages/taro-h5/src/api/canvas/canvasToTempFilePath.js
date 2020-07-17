@@ -41,14 +41,14 @@ const canvasToTempFilePath = ({ canvasId, fileType, quality, success, fail, comp
     }
 
     success && success(res)
-    complete && complete()
+    complete && complete(res)
     return Promise.resolve(res)
   } catch (e) {
     const res = {
       errMsg: e.message
     }
     fail && fail(res)
-    complete && complete()
+    complete && complete(res)
     return Promise.reject(res)
   }
 }

@@ -23,16 +23,44 @@ iBeacon 服务状态变化事件的回调函数
 (result: CallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `CallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>CallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### CallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| available | `boolean` | 服务目前是否可用 |
-| discovering | `boolean` | 目前是否处于搜索状态 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>available</td>
+      <td><code>boolean</code></td>
+      <td>服务目前是否可用</td>
+    </tr>
+    <tr>
+      <td>discovering</td>
+      <td><code>boolean</code></td>
+      <td>目前是否处于搜索状态</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

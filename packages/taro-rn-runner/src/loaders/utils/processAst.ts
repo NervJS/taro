@@ -16,7 +16,7 @@ let componentClassName // get app.js class name
 const providerComponentName = 'Provider'
 const taroComponentsRNProviderName = 'TCRNProvider'
 const setStoreFuncName = 'setStore'
-const routerImportDefaultName = 'TaroRouter'
+// const routerImportDefaultName = 'TaroRouter'
 const DEVICE_RATIO = 'deviceRatio'
 
 const taroApis = [
@@ -54,6 +54,39 @@ const superNode = t.expressionStatement(
   )
 )
 
+function getInitRouterAst (pages, configAst) {
+  const routerPages = pages
+    .map(item => {
+      const pagePath = item.startsWith('/') ? item : `/${item}`
+      const screenName = _.camelCase(pagePath)
+      return `['${item}',${screenName}]`
+    })
+    .join(',')
+
+  return t.expressionStatement(
+    t.assignmentExpression(
+      '=',
+      t.memberExpression(
+        t.thisExpression(),
+        t.identifier('RootStack'),
+        false
+      ),
+      t.callExpression(
+        t.memberExpression(
+          t.identifier('TaroRouter'),
+          t.identifier('initRouter'),
+          false
+        ),
+        [
+          template(`[${routerPages}]`)().expression,
+          template(`${taroImportDefaultName}`)().expression,
+          configAst[0]
+        ]
+      )
+    )
+  )
+}
+
 function getInitPxTransformNode ({designWidth, deviceRatio}) {
   const pxTransformConfig = {designWidth: designWidth || 750}
 
@@ -64,7 +97,7 @@ function getInitPxTransformNode ({designWidth, deviceRatio}) {
   return initPxTransformNode
 }
 
-function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
+function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile, configAst}) {
   return (astPath) => {
     const node = astPath.node
     const key = node.key
@@ -79,7 +112,7 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
           const key = node.key
           const value = node.value
           // if (key.name !== 'pages' || !t.isArrayExpression(value)) return
-          if (key.name === 'pages' && t.isArrayExpression(value)) {
+          if ((key.name === 'pages' || key.value === 'pages') && t.isArrayExpression(value)) {
             // 分包
             let root = ''
             const rootNode = astPath.parent.properties.find(v => {
@@ -96,10 +129,10 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
             astPath.remove()
           }
           // window
-          if (key.name === 'window' && t.isObjectExpression(value)) {
+          if ((key.name === 'window' || key.value === 'window') && t.isObjectExpression(value)) {
             return
           }
-          if (key.name === 'tabBar' && t.isObjectExpression(value)) {
+          if ((key.name === 'tabBar' || key.value === 'tabBar') && t.isObjectExpression(value)) {
             astPath.traverse({
               ObjectProperty (astPath) {
                 const node = astPath.node
@@ -123,10 +156,21 @@ function getClassPropertyVisitor ({filePath, pages, iconPaths, isEntryFile}) {
               }
             })
           }
+        },
+        MemberExpression (astPath) {
+          const node = astPath.node
+          // if has this.XXX in config
+          if (t.isThisExpression(node.object)) {
+            // replace this
+            astPath.replaceWith(node.property)
+          }
         }
       })
+      configAst.push(value)
+      astPath.remove()
+    } else {
+      astPath.node.static = 'true'
     }
-    astPath.node.static = 'true'
   }
 }
 
@@ -230,19 +274,20 @@ interface IProcessAstArgs {
  * @param alias
  */
 export function processAst ({
-                               ast,
-                               buildAdapter,
-                               type,
-                               designWidth,
-                               deviceRatio,
-                               sourceFilePath: filePath,
-                               sourceDir,
-                               alias
-                             }: IProcessAstArgs) {
+                              ast,
+                              buildAdapter,
+                              type,
+                              designWidth,
+                              deviceRatio,
+                              sourceFilePath: filePath,
+                              sourceDir,
+                              alias
+                            }: IProcessAstArgs) {
   const isEntryFile = type === PARSE_AST_TYPE.ENTRY
   const styleFiles: string[] = []
   const pages: string[] = [] // app.js 里面的config 配置里面的 pages
   const iconPaths: string[] = [] // app.js 里面的config 配置里面的需要引入的 iconPath
+  const configAst = []
   let hasAddReactImportDefaultName = false
   let providorImportName
   let storeName
@@ -256,22 +301,34 @@ export function processAst ({
   let hasComponentWillUnmount = false
   let hasJSX = false
 
+  // process package alias
+  if (alias) {
+    const prefixList = Object.keys(alias)
+    const packageList = Object.keys(PACKAGES)
+    prefixList.forEach(key => {
+      if (packageList.includes(key)) {
+        PACKAGES[key] = alias[key]
+      }
+    })
+  }
+
   traverse(ast, {
     ClassExpression: ClassDeclarationOrExpression,
     ClassDeclaration: ClassDeclarationOrExpression,
-    ExpressionStatement (astPath) {
-      const node = astPath.node as t.ExpressionStatement
-      const expression = node.expression as t.CallExpression
-      const callee = expression.callee as t.Identifier
-      if (callee && callee.name === 'require') {
-        const argument = expression.arguments[0] as t.StringLiteral
-        const value = argument.value
-        const valueExtname = path.extname(value)
-        if (REG_STYLE.test(valueExtname)) {
-          astPath.replaceWith(t.importDeclaration([], t.stringLiteral(value)))
-        }
-      }
-    },
+    // replace  require('styles') to import
+    // ExpressionStatement (astPath) {
+    //   const node = astPath.node as t.ExpressionStatement
+    //   const expression = node.expression as t.CallExpression
+    //   const callee = expression.callee as t.Identifier
+    //   if (callee && callee.name === 'require') {
+    //     const argument = expression.arguments[0] as t.StringLiteral
+    //     const value = argument.value
+    //     const valueExtname = path.extname(value)
+    //     if (REG_STYLE.test(valueExtname)) {
+    //       astPath.replaceWith(t.importDeclaration([], t.stringLiteral(value)))
+    //     }
+    //   }
+    // },
     ImportDeclaration (astPath) {
       const node = astPath.node as t.ImportDeclaration
       const source = node.source
@@ -369,7 +426,7 @@ export function processAst ({
         source.value = PACKAGES['@tarojs/components-rn']
       }
     },
-    ClassProperty: getClassPropertyVisitor({filePath, pages, iconPaths, isEntryFile}),
+    ClassProperty: getClassPropertyVisitor({filePath, pages, iconPaths, isEntryFile, configAst}),
     ClassMethod: {
       enter (astPath: NodePath<t.ClassMethod>) {
         const node = astPath.node
@@ -484,7 +541,7 @@ export function processAst ({
                   ${funcBody}
                 </${providorImportName}>`
               }
-              node.body = template(`{return (${funcBody});}`, babylonConfig as any)() as any
+              node.body = template(`{const RootStack = this.RootStack;return (${funcBody});}`, babylonConfig as any)() as any
             }
           },
 
@@ -512,7 +569,11 @@ export function processAst ({
                     'constructor',
                     t.identifier('constructor'),
                     [t.identifier('props'), t.identifier('context')],
-                    t.blockStatement([superNode, additionalConstructorNode] as t.Statement[]),
+                    t.blockStatement([
+                      superNode,
+                      additionalConstructorNode,
+                      getInitRouterAst(pages, configAst)
+                    ] as t.Statement[]),
                     false,
                     false
                   )
@@ -527,7 +588,9 @@ export function processAst ({
             const parentPath = astPath.parentPath
 
             if (t.isMemberExpression(callee)) {
+              // @ts-ignore
               const object = callee.object as t.Identifier
+              // @ts-ignore
               const property = callee.property as t.Identifier
               if (object.name === taroImportDefaultName && property.name === 'render') {
                 astPath.remove()
@@ -563,11 +626,13 @@ export function processAst ({
             const pagePath = item.startsWith('/') ? item : `/${item}`
             // 1. Get Resolved Page Relative Path
             const absolutePath = path.resolve(filePath, '..', pagePath.substr(1))
-            const dirname = path.dirname(absolutePath)
-            const extname = path.extname(absolutePath)
-            const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
-            const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
-            const resolvedPagePath = promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/')
+            // const dirname = path.dirname(absolutePath)
+            // const extname = path.extname(absolutePath)
+            // const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+            // const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
+            // const resolvedPagePath = promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/')
+            /* page do not replace by XXX.rn */
+            const resolvedPagePath = promoteRelativePath(path.relative(filePath, absolutePath)).replace(/\\/g, '/')
             // 2. Inject import ${screenName} from '.${resolvedPagePath}'
             const screenName = _.camelCase(pagePath)
             const importScreen = template(
@@ -589,21 +654,7 @@ export function processAst ({
           })
 
           // TODO Taro.initRouter  生成 RootStack
-          const routerPages = pages
-            .map(item => {
-              const pagePath = item.startsWith('/') ? item : `/${item}`
-              const screenName = _.camelCase(pagePath)
-              return `['${item}',${screenName}]`
-            })
-            .join(',')
-          node.body.push(template(
-            `const RootStack = ${routerImportDefaultName}.initRouter(
-            [${routerPages}],
-            ${taroImportDefaultName},
-            App.config
-            )`,
-            babylonConfig as any
-          )() as any)
+
           // initNativeApi
           const initNativeApi = template(
             `${taroImportDefaultName}.initNativeApi(${taroImportDefaultName})`,

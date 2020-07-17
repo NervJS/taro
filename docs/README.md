@@ -2,7 +2,7 @@
 title: Taro 介绍
 ---
 
-> 这是 Taro 2.x 版本的文档，若要查看 1.x 版本的文档，请[点击这里选择版本](/taro/versions.html)。
+> 这是 Taro 2.x 版本的文档，若要查看 1.x 版本的文档，请[点击这里选择版本](/taro/versions.md)。
 
 ## 简介
 
@@ -10,7 +10,7 @@ title: Taro 介绍
 
 现如今市面上端的形态多种多样，Web、React-Native、微信小程序等各种端大行其道，当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。
 
-使用 **Taro**，我们可以只书写一套代码，再通过 **Taro** 的编译工具，将源代码分别编译出可以在不同端（微信/百度/支付宝/字节跳动/QQ/京东小程序、快应用、H5、React-Native 等）运行的代码。
+使用 **Taro**，我们可以只书写一套代码，再通过 **Taro** 的编译工具，将源代码分别编译出可以在不同端（[微信](https://mp.weixin.qq.com/) / [京东](https://mp.jd.com/?entrance=taro) / [百度](https://smartprogram.baidu.com/) / [支付宝](https://mini.open.alipay.com/) / [字节跳动](https://developer.toutiao.com/) 小程序、[快应用](https://www.quickapp.cn/)、H5、React-Native 等）运行的代码。
 
 ## 特性
 

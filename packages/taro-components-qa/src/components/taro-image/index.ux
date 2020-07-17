@@ -51,7 +51,7 @@
     }),
 
     onInit () {
-      let imageStyle = {}
+      this.imageStyle = Object.assign({}, this.customstyle)
       switch (this.mode) {
         case 'scaleToFill':
           this.imageStyle['object-fit'] = 'fill';
@@ -65,7 +65,6 @@
         default:
           this.imageStyle['object-fit'] = 'fill';
       }
-      this.imageStyle = Object.assign({}, this.customstyle)
     },
 
     handleClick () {

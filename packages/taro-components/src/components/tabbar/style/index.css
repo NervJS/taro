@@ -1,0 +1,54 @@
+html, body {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
+
+.taro-tabbar__border-white::before {
+  border-top-color: #fff !important;
+}
+
+.taro-tabbar__container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.taro-tabbar__panel {
+  flex: 1;
+  position: relative;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.taro-tabbar__tabbar {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  transition: bottom .2s, top .2s;
+}
+
+.taro-tabbar__tabbar-top {
+  top: 0;
+}
+
+.taro-tabbar__tabbar-bottom {
+  bottom: 0;
+}
+
+.taro-tabbar__tabbar-hide {
+  display: none;
+}
+
+.taro-tabbar__tabbar-slideout {
+  top: -52px;
+  flex: 0 0;
+}
+
+.taro-tabbar__panel + .taro-tabbar__tabbar-slideout {
+  top: auto;
+  bottom: -52px;
+}

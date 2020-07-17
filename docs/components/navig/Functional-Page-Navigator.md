@@ -15,14 +15,61 @@ ComponentType<FunctionalPageNavigatorProps>
 
 ## FunctionalPageNavigatorProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| version | "develop" or "trial" or "release" | `"release"` | 否 | 跳转到的小程序版本，有效值 develop（开发版），trial（体验版），release（正式版）；线上版本必须设置为 release |
-| name | "loginAndGetUserInfo" or "requestPayment" or "chooseAddress" |  | 否 | 要跳转到的功能页 |
-| args | `object` |  | 否 | 功能页参数，参数格式与具体功能页相关 |
-| onSuccess | `BaseEventOrigFunction<any>` |  | 否 | 功能页返回，且操作成功时触发， detail 格式与具体功能页相关 |
-| onFail | `BaseEventOrigFunction<any>` |  | 否 | 功能页返回，且操作失败时触发， detail 格式与具体功能页相关 |
-| onCancel | `BaseEventOrigFunction<any>` |  | 否 | 因用户操作从功能页返回时触发 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>version</td>
+      <td><code>&quot;develop&quot; | &quot;trial&quot; | &quot;release&quot;</code></td>
+      <td style="text-align:center"><code>&quot;release&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>跳转到的小程序版本，有效值 develop（开发版），trial（体验版），release（正式版）；线上版本必须设置为 release</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td><code>&quot;loginAndGetUserInfo&quot; | &quot;requestPayment&quot; | &quot;chooseAddress&quot;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>要跳转到的功能页</td>
+    </tr>
+    <tr>
+      <td>args</td>
+      <td><code>object</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>功能页参数，参数格式与具体功能页相关</td>
+    </tr>
+    <tr>
+      <td>onSuccess</td>
+      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>功能页返回，且操作成功时触发， detail 格式与具体功能页相关</td>
+    </tr>
+    <tr>
+      <td>onFail</td>
+      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>功能页返回，且操作失败时触发， detail 格式与具体功能页相关</td>
+    </tr>
+    <tr>
+      <td>onCancel</td>
+      <td><code>BaseEventOrigFunction&lt;any&gt;</code></td>
+      <td style="text-align:center"></td>
+      <td style="text-align:center">否</td>
+      <td>因用户操作从功能页返回时触发</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 
@@ -39,21 +86,55 @@ ComponentType<FunctionalPageNavigatorProps>
 
 version 的合法值
 
-| 参数 | 说明 |
-| --- | --- |
-| develop | 开发版 |
-| trial | 体验版 |
-| release | 正式版 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>develop</td>
+      <td>开发版</td>
+    </tr>
+    <tr>
+      <td>trial</td>
+      <td>体验版</td>
+    </tr>
+    <tr>
+      <td>release</td>
+      <td>正式版</td>
+    </tr>
+  </tbody>
+</table>
 
 ### name
 
 name 的合法值
 
-| 参数 | 说明 |
-| --- | --- |
-| loginAndGetUserInfo | [用户信息功能页](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages/user-info.html) |
-| requestPayment | [支付功能页](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages/request-payment.html) |
-| chooseAddress | [收货地址功能页](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages/choose-address.html) |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>loginAndGetUserInfo</td>
+      <td><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages/user-info.html">用户信息功能页</a></td>
+    </tr>
+    <tr>
+      <td>requestPayment</td>
+      <td><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages/request-payment.html">支付功能页</a></td>
+    </tr>
+    <tr>
+      <td>chooseAddress</td>
+      <td><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/functional-pages/choose-address.html">收货地址功能页</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

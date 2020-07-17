@@ -1,13 +1,13 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
-import wxTransformer from '@tarojs/transformer-wx'
+import { getTransformResult } from '../utils/codeTransform'
 import * as webpack from 'webpack'
 import * as SingleEntryDependency from 'webpack/lib/dependencies/SingleEntryDependency'
 import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
 import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
-import {defaults, kebabCase } from 'lodash'
+import { defaults, kebabCase } from 'lodash'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { Config as IConfig, PageConfig } from '@tarojs/taro'
@@ -16,7 +16,7 @@ import * as _ from 'lodash'
 import { compileStyle } from '../style'
 
 import {
-  REG_TYPESCRIPT,
+  // REG_TYPESCRIPT,
   BUILD_TYPES,
   PARSE_AST_TYPE,
   MINI_APP_FILES,
@@ -58,7 +58,11 @@ interface IRNPluginOptions {
   isBuildPlugin: boolean,
   alias: object,
   addChunkPages?: AddPageChunks,
-  appJson?: object
+  appJson?: object,
+
+  // custome plugin hooks
+  modifyBuildAssets?: Function,
+  modifyBuildTempFileContent?: Function
 }
 
 export interface ITaroFileInfo {
@@ -112,16 +116,13 @@ export function isFileToBeTaroComponent (
   buildAdapter: BUILD_TYPES
 ) {
   try {
-    const transformResult = wxTransformer({
+    const transformResult = getTransformResult({
       code,
-      sourcePath: sourcePath,
-      isTyped: REG_TYPESCRIPT.test(sourcePath),
-      adapter: buildAdapter,
-      isNormal: true
+      sourcePath: sourcePath
     })
     const {ast} = transformResult
     let isTaroComponent = false
-
+    // @ts-ignore
     traverse(ast, {
       ClassDeclaration (astPath) {
         astPath.traverse({
@@ -261,6 +262,7 @@ export default class RNPlugin {
         await this.generateMiniFiles(compilation)
         await this.generateStyleSheet(compilation)
         await this.generateRNEntry(compilation)
+        await this.linkCommonBundle(compilation)
         this.addedComponents.clear()
       })
     )
@@ -512,15 +514,13 @@ export default class RNPlugin {
     const appEntry = this.appEntry
     const code = fs.readFileSync(appEntry).toString()
     try {
-      const transformResult = wxTransformer({
+      const transformResult = getTransformResult({
         code,
         sourcePath: appEntry,
-        sourceDir: this.sourceDir,
-        isTyped: REG_TYPESCRIPT.test(appEntry),
-        isNormal: true,
-        adapter: buildAdapter
+        sourceDir: this.sourceDir
       })
       // get appEntry configObj , inject pages , config
+      // @ts-ignore
       const {configObj} = parseAst(transformResult.ast, buildAdapter)
       const appPages = configObj.pages
       this.appConfig = configObj
@@ -631,13 +631,13 @@ export default class RNPlugin {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.PAGE)
       }
     })
-    this.components.forEach(item => {
-      if (item.isNative) {
-        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
-      } else {
-        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
-      }
-    })
+    // this.components.forEach(item => {
+    //   if (item.isNative) {
+    //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+    //   } else {
+    //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
+    //   }
+    // })
   }
 
   isNativePageOrComponent (templatePath, jsContent) {
@@ -665,17 +665,23 @@ export default class RNPlugin {
         // let template
         let code = fs.readFileSync(file.path).toString()
         // get ast and components
-        const transformResult = wxTransformer({
+        const transformResult = getTransformResult({
           code,
           sourcePath: file.path,
           sourceDir: this.sourceDir,
-          isTyped: REG_TYPESCRIPT.test(file.path),
-          isRoot,
-          // isNormal: true,
-          // rootProps: isEmptyObject(rootProps) || rootProps,
-          adapter: buildAdapter
+          isRoot
         })
+        const {alias} = this.options
+        // replace alias to relative path
+        transformResult.components = transformResult.components.map((item => {
+          if (isAliasPath(item.path, alias)) {
+            item.path = replaceAliasPath(file.path, item.path, alias)
+          }
+          return item
+        }))
+        // console.log('RNPlugin getComponents',transformResult.components)
         transformResult.components = transformResult.components.filter((item) => !isNpmPkg(item.path))
+        // @ts-ignore
         let parseAstRes = parseAst(transformResult.ast, buildAdapter)
         configObj = parseAstRes.configObj
         if (isRoot) {
@@ -686,6 +692,7 @@ export default class RNPlugin {
         const usingComponents = configObj.usingComponents
         if (usingComponents) {
           Object.keys(usingComponents).forEach(item => {
+            // @ts-ignore
             transformResult.components.push({
               name: item,
               path: usingComponents[item]
@@ -709,20 +716,20 @@ export default class RNPlugin {
           // template,
           code
         }
-        if (depComponents && depComponents.length) {
-          depComponents.forEach(item => {
-            const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
-            if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
-              const componentName = this.getComponentName(componentPath)
-              const componentTempPath = this.getTemplatePath(componentPath)
-              const isNative = this.isNativePageOrComponent(componentTempPath, fs.readFileSync(componentPath).toString())
-              const componentObj = {name: componentName, path: componentPath, isNative}
-              this.components.add(componentObj)
-              this.addedComponents.add(componentObj)
-              this.getComponents(compiler, new Set([componentObj]), false)
-            }
-          })
-        }
+        // if (depComponents && depComponents.length) {
+        //   depComponents.forEach(item => {
+        //     const componentPath = resolveScriptPath(path.resolve(path.dirname(file.path), item.path))
+        //     if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
+        //       const componentName = this.getComponentName(componentPath)
+        //       const componentTempPath = this.getTemplatePath(componentPath)
+        //       const isNative = this.isNativePageOrComponent(componentTempPath, fs.readFileSync(componentPath).toString())
+        //       const componentObj = {name: componentName, path: componentPath, isNative}
+        //       this.components.add(componentObj)
+        //       this.addedComponents.add(componentObj)
+        //       this.getComponents(compiler, new Set([componentObj]), false)
+        //     }
+        //   })
+        // }
       } catch (error) {
         console.log(chalk.red(error.stack))
         if (error.codeFrame) {
@@ -750,17 +757,23 @@ export default class RNPlugin {
         this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.PAGE)
       }
     })
-    this.components.forEach(item => {
-      if (item.isNative) {
-        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
-      } else {
-        this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
-      }
-    })
+    // this.components.forEach(item => {
+    //   if (item.isNative) {
+    //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+    //   } else {
+    //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
+    //   }
+    // })
   }
 
-  generateMiniFiles (compilation: webpack.compilation.Compilation) {
+  async generateMiniFiles (compilation: webpack.compilation.Compilation) {
     // const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
+    const {modifyBuildTempFileContent, modifyBuildAssets} = this.options
+
+    if (typeof modifyBuildTempFileContent === 'function') {
+      await modifyBuildTempFileContent(taroFileTypeMap)
+    }
+
     Object.keys(taroFileTypeMap).forEach(item => {
       // console.log('generateMiniFiles', taroFileTypeMap)
       const itemInfo = taroFileTypeMap[item]
@@ -789,6 +802,20 @@ export default class RNPlugin {
         }
       }
     })
+
+    if (typeof modifyBuildAssets === 'function') {
+      await modifyBuildAssets(compilation.assets)
+    }
+  }
+
+  linkCommonBundle (compilation: webpack.compilation.Compilation) {
+    if (compilation.assets['common.js']) {
+      const newAppCode = `require('./common');` + compilation.assets['app.js'].source()
+      compilation.assets['app.js'] = {
+        size: () => newAppCode.length,
+        source: () => newAppCode
+      }
+    }
   }
 
   generateRNEntry (compilation: webpack.compilation.Compilation) {
@@ -828,6 +855,7 @@ export default class RNPlugin {
       const relativePath = this.getRelativePath(fileName)
       const extname = path.extname(fileName)
       const styleSheetPath = relativePath.replace(extname, '_styles.js').replace(/\\/g, '/')
+      // const styleSheetPath = path.join(path.dirname(relativePath), 'index_styles.js')
       delete compilation.assets[fileName]
       const css = fileInfo.source()
       // cache
@@ -928,33 +956,33 @@ export default class RNPlugin {
       if (this.changedFileType === PARSE_AST_TYPE.ENTRY
         || this.changedFileType === PARSE_AST_TYPE.PAGE
         || this.changedFileType === PARSE_AST_TYPE.COMPONENT) {
-        this.components.forEach(component => {
-          if (component.path === changedFile) {
-            this.components.delete(component)
-          }
-        })
+        // this.components.forEach(component => {
+        //   if (component.path === changedFile) {
+        //     this.components.delete(component)
+        //   }
+        // })
         if (this.changedFileType === PARSE_AST_TYPE.ENTRY) {
           this.run(compiler)
         } else {
           if (!this.options.isBuildPlugin) {
             this.getComponents(compiler, new Set([obj]), this.changedFileType === PARSE_AST_TYPE.PAGE)
             if (this.addedComponents.size) {
-              this.addedComponents.forEach(item => {
-                if (item.isNative) {
-                  this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
-                } else {
-                  this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
-                }
-              })
+              // this.addedComponents.forEach(item => {
+              //   if (item.isNative) {
+              //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.NORMAL)
+              //   } else {
+              //     this.addEntry(compiler, item.path, item.name, PARSE_AST_TYPE.COMPONENT)
+              //   }
+              // })
             }
           } else {
             this.getPluginFiles(compiler)
           }
           this.transferFileContent(compiler)
         }
-        if (obj && type === PARSE_AST_TYPE.COMPONENT && !this.components.has(obj)) {
-          this.components.add(obj)
-        }
+        // if (obj && type === PARSE_AST_TYPE.COMPONENT && !this.components.has(obj)) {
+        //   this.components.add(obj)
+        // }
       }
     }
   }
@@ -968,12 +996,12 @@ export default class RNPlugin {
         obj = page
       }
     })
-    this.components.forEach(component => {
-      if (component.path === filePath) {
-        type = PARSE_AST_TYPE.COMPONENT
-        obj = component
-      }
-    })
+    // this.components.forEach(component => {
+    //   if (component.path === filePath) {
+    //     type = PARSE_AST_TYPE.COMPONENT
+    //     obj = component
+    //   }
+    // })
     if (filePath === this.appEntry) {
       type = PARSE_AST_TYPE.ENTRY
     }

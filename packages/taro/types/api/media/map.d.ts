@@ -19,46 +19,46 @@ declare namespace Taro {
    * `MapContext` 通过 id 跟一个 map 组件绑定，操作对应的 map 组件。
    */
   interface MapContext {
-    /** 获取当前地图中心的经纬度。返回的是 gcj02 坐标系，可以用于 [wx.openLocation()](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html)
+    /** 获取当前地图中心的经纬度。返回的是 gcj02 坐标系，可以用于 [Taro.openLocation()](https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html)
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getCenterLocation.html
      */
-    getCenterLocation(option?: MapContext.GetCenterLocationOption): void
+    getCenterLocation(option?: MapContext.GetCenterLocationOption): Promise<MapContext.GetCenterLocationSuccessCallbackResult>
     /** 获取当前地图的视野范围
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRegion.html
      */
-    getRegion(option?: MapContext.GetRegionOption): void
+    getRegion(option?: MapContext.GetRegionOption): Promise<MapContext.GetRegionSuccessCallbackResult>
     /** 获取当前地图的旋转角
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRotate.html
      */
-    getRotate(option?: MapContext.GetRotateOption): void
+    getRotate(option?: MapContext.GetRotateOption): Promise<MapContext.GetRotateSuccessCallbackResult>
     /** 获取当前地图的缩放级别
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getScale.html
      */
-    getScale(option?: MapContext.GetScaleOption): void
+    getScale(option?: MapContext.GetScaleOption): Promise<MapContext.GetScaleSuccessCallbackResult>
     /** 获取当前地图的倾斜角
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getSkew.html
      */
-    getSkew(option?: MapContext.GetSkewOption): void
+    getSkew(option?: MapContext.GetSkewOption): Promise<MapContext.GetSkewSuccessCallbackResult>
     /** 缩放视野展示所有经纬度
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.includePoints.html
      */
-    includePoints(option: MapContext.IncludePointsOption): void
+    includePoints(option: MapContext.IncludePointsOption): Promise<General.CallbackResult>
     /** 将地图中心移置当前定位点，此时需设置地图组件 show-location 为true。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.moveToLocation.html
      */
-    moveToLocation(option: MapContext.MoveToLocationOption): void
+    moveToLocation(option: MapContext.MoveToLocationOption): Promise<General.CallbackResult>
     /** 平移marker，带动画
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.translateMarker.html
      */
-    translateMarker(option: MapContext.TranslateMarkerOption): void
+    translateMarker(option: MapContext.TranslateMarkerOption): Promise<General.CallbackResult>
   }
   namespace MapContext {
     interface GetCenterLocationOption {
@@ -95,9 +95,15 @@ declare namespace Taro {
     ) => void
     interface GetRegionSuccessCallbackResult extends General.CallbackResult {
       /** 东北角经纬度 */
-      northeast: number
+      northeast: {
+        latitude: number
+        longitude: number
+      }
       /** 西南角经纬度 */
-      southwest: number
+      southwest: {
+        latitude: number
+        longitude: number
+      }
       /** 调用结果 */
       errMsg: string
     }

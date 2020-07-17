@@ -90,7 +90,7 @@ const taro = {
 
 class Component extends Nerv.Component {
   get $router () {
-    return getRouter()
+    return getRouter(this.props.location)
   }
   set $router (args) {
     console.warn('Property "$router" is read-only.')
@@ -115,7 +115,7 @@ class Component extends Nerv.Component {
 
 class PureComponent extends Nerv.PureComponent {
   get $router () {
-    return getRouter()
+    return getRouter(this.props.location)
   }
   set $router (args) {
     console.warn('Property "$router" is read-only.')
@@ -160,8 +160,8 @@ const getApp = function () {
  *
  * @returns {RouterParams} router router参数
  */
-const getRouter = function () {
-  const { path, params } = taro._$router
+const getRouter = function (location = taro._$router) {
+  const { path, params } = location
   return {
     path,
     scene: 1000,

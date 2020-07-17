@@ -15,9 +15,22 @@ sidebar_label: offUserCaptureScreen
 
 ## 参数
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `(...args: any[]) => any` | 用户主动截屏事件的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>(...args: any[]) =&gt; any</code></td>
+      <td>用户主动截屏事件的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

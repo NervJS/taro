@@ -1,10 +1,13 @@
 import * as path from "path"
 import { spawn } from "child_process"
 import * as ts from "typescript"
+import * as Markdownit from 'markdown-it'
 import compile, { DocEntry, envMap } from "./parser"
 import writeFile from "./write"
 import { childrenMerge, splicing, parseLineFeed, isShowMembers, isShowAPI, isNotAPI, isFunction, isOptional } from "./parser/utils"
 
+import pretty = require('pretty')
+const MarkIt = new Markdownit({ html: true })
 const taro_apis: (string | undefined)[] = []
 
 type TCallback = (routepath: string, doc: DocEntry[], withGeneral?: boolean) => void
@@ -81,73 +84,77 @@ const get = {
       const hasCodeRate = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'codeRate'))
       const hasRemarks = paramTabs.some(v => !!v.jsTags && v.jsTags.some(vv => vv.name === 'remarks'))
 
-      hasName && [hasType, hasDef, hasAbnormal, hasReason, hasSolution, hasDes, hasCodeRate].reduce((s, b) => {
+      if (hasName && [hasType, hasDef, hasAbnormal, hasReason, hasSolution, hasDes, hasCodeRate].reduce((s, b) => {
         b && s++
         return s
-      }, 0) > 0 && methods.push(splicing([
-        `| ${hasName ? '参数 |' : ''}${hasType? ' 类型 |' :''}${hasDef? ' 默认值 |' :''}${hasReadonly? ' 只读 |' :''}${hasOptional? ' 必填 |' :''}${hasAbnormal? ' 异常情况 |' :''}${hasReason? ' 理由 |' :''}${hasSolution? ' 解决方案 |' :''}${hasDes? ' 说明 |' :''}${hasCodeRate? ' 编码码率 |' :''}${hasRemarks? ' 备注 |' :''}`,
-        `|${hasName? ' --- |' :''}${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasReadonly? ' :---: |' :''}${hasOptional? ' :---: |' :''}${hasAbnormal? ' :---: |' :''}${hasReason? ' :---: |' :''}${hasSolution? ' :---: |' :''}${hasDes? ' --- |' :''}${hasCodeRate? ' --- |' :''}${hasRemarks? ' --- |' :''}`,
-        ...paramTabs.map(v => {
-          let name = v.name || ''
-          let type = v.type || ''
-          const isMethod = TaroMethod.includes(v.flags || -1)
-          const vtags = v.jsTags || [];
-          const def = vtags.find(tag => tag.name === 'default') || { text: '' }
-          const readonly = vtags.find(tag => tag.name === 'readonly')
-          const abnormal = vtags.find(tag => tag.name === 'abnormal') || { text: '' }
-          const reason = vtags.find(tag => tag.name === 'reason') || { text: '' }
-          const solution = vtags.find(tag => tag.name === 'solution') || { text: '' }
-          const codeRate = vtags.find(tag => tag.name === 'codeRate') || { text: '' }
-          const remarks = vtags.find(tag => tag.name === 'remarks') || { text: '' }
-          if (needLessDeclarationsName.includes(name)) {
-            const tag_name = vtags.find(tag => tag.name === 'name') || { text: '' }
-            const tag_type = vtags.find(tag => tag.name === 'type') || { text: '' }
-            if (vtags.find(tag => tag.name === 'ignore')) return undefined
-            name = tag_name.text || name
-            type = tag_type.text ? tag_type.text.trim() : type === 'any' && v.name || ''
-          }
-          return `| ${name} |${
-            hasType? ` ${parseLineFeed(type, true)} |` :''
-          }${
-            hasDef? ` ${parseLineFeed(def.text, true)} |` :''
-          }${
-            hasReadonly? ` ${readonly ? '是' : '否'} |` :''
-          }${
-            hasOptional? ` ${!isOptional(v.flags) ? '是' : '否'} |` :''
-          }${
-            hasAbnormal? ` ${parseLineFeed(abnormal.text, true)} |` :''
-          }${
-            hasReason? ` ${parseLineFeed(reason.text, true)} |` :''
-          }${
-            hasSolution? ` ${parseLineFeed(solution.text, true)} |` :''
-          }${
-            hasDes? ` ${
-              parseLineFeed(v.documentation)
+      }, 0) > 0) {
+        const table = [
+          `| ${hasName ? '参数 |' : ''}${hasType? ' 类型 |' :''}${hasDef? ' 默认值 |' :''}${hasReadonly? ' 只读 |' :''}${hasOptional? ' 必填 |' :''}${hasAbnormal? ' 异常情况 |' :''}${hasReason? ' 理由 |' :''}${hasSolution? ' 解决方案 |' :''}${hasDes? ' 说明 |' :''}${hasCodeRate? ' 编码码率 |' :''}${hasRemarks? ' 备注 |' :''}`,
+          `|${hasName? ' --- |' :''}${hasType? ' --- |' :''}${hasDef? ' :---: |' :''}${hasReadonly? ' :---: |' :''}${hasOptional? ' :---: |' :''}${hasAbnormal? ' :---: |' :''}${hasReason? ' :---: |' :''}${hasSolution? ' :---: |' :''}${hasDes? ' --- |' :''}${hasCodeRate? ' --- |' :''}${hasRemarks? ' --- |' :''}`,
+          ...paramTabs.map(v => {
+            let name = v.name || ''
+            let type = v.type || ''
+            const isMethod = TaroMethod.includes(v.flags || -1)
+            const vtags = v.jsTags || [];
+            const def = vtags.find(tag => tag.name === 'default') || { text: '' }
+            const readonly = vtags.find(tag => tag.name === 'readonly')
+            const abnormal = vtags.find(tag => tag.name === 'abnormal') || { text: '' }
+            const reason = vtags.find(tag => tag.name === 'reason') || { text: '' }
+            const solution = vtags.find(tag => tag.name === 'solution') || { text: '' }
+            const codeRate = vtags.find(tag => tag.name === 'codeRate') || { text: '' }
+            const remarks = vtags.find(tag => tag.name === 'remarks') || { text: '' }
+            if (needLessDeclarationsName.includes(name)) {
+              const tag_name = vtags.find(tag => tag.name === 'name') || { text: '' }
+              const tag_type = vtags.find(tag => tag.name === 'type') || { text: '' }
+              if (vtags.find(tag => tag.name === 'ignore')) return undefined
+              name = tag_name.text || name
+              type = tag_type.text ? tag_type.text.trim() : type === 'any' && v.name || ''
+            }
+            return `| ${name} |${
+              hasType? ` ${parseLineFeed(type, true)} |` :''
             }${
-              vtags.length > 0 ? `${vtags
-                .filter(arrs => !descTags.includes(arrs.name) || !isMethod && arrs.name === 'supported')
-                .map(arrs => {
-                  if (arrs.name === 'see') {
-                    return `<br />[参考地址](${arrs.text})`
-                  } else if (arrs.name === 'supported') {
-                    if (!isComp) return `<br />API 支持度: ${arrs.text}`
-                  } else if (arrs.name === 'deprecated') {
-                    return arrs.text ? `<br />不推荐: ${arrs.text}` : '<br />**不推荐使用**'
-                  } else {
-                    if (!isComp || !Object.values(envMap).find(env => env.name === arrs.name)) {
-                      return `<br />${arrs.name}: ${parseLineFeed(arrs.text)}`
+              hasDef? ` ${parseLineFeed(def.text, true)} |` :''
+            }${
+              hasReadonly? ` ${readonly ? '是' : '否'} |` :''
+            }${
+              hasOptional? ` ${!isOptional(v.flags) ? '是' : '否'} |` :''
+            }${
+              hasAbnormal? ` ${parseLineFeed(abnormal.text, true)} |` :''
+            }${
+              hasReason? ` ${parseLineFeed(reason.text, true)} |` :''
+            }${
+              hasSolution? ` ${parseLineFeed(solution.text, true)} |` :''
+            }${
+              hasDes? ` ${
+                parseLineFeed(v.documentation)
+              }${
+                vtags.length > 0 ? `${vtags
+                  .filter(arrs => !descTags.includes(arrs.name) || !isMethod && arrs.name === 'supported')
+                  .map(arrs => {
+                    if (arrs.name === 'see') {
+                      return `<br />[参考地址](${arrs.text})`
+                    } else if (arrs.name === 'supported') {
+                      if (!isComp) return `<br />API 支持度: ${arrs.text}`
+                    } else if (arrs.name === 'deprecated') {
+                      return arrs.text ? `<br />不推荐: ${arrs.text}` : '<br />**不推荐使用**'
+                    } else {
+                      if (!isComp || !Object.values(envMap).find(env => env.name === arrs.name)) {
+                        return `<br />${arrs.name}: ${parseLineFeed(arrs.text)}`
+                      }
                     }
-                  }
-                }).join('')
-            }` : ''
-          } |` :''
-        }${
-            hasCodeRate? ` ${parseLineFeed(codeRate.text, true)} |` :''
+                  }).join('')
+              }` : ''
+            } |` :''
           }${
-            hasRemarks? ` ${parseLineFeed(remarks.text, true)} |` :''
-          }`
-        }),
-      '']))
+              hasCodeRate? ` ${parseLineFeed(codeRate.text, true)} |` :''
+            }${
+              hasRemarks? ` ${parseLineFeed(remarks.text, true)} |` :''
+            }`
+          })
+        ]
+
+        methods.push(pretty(MarkIt.render(table.join('\n'))).toString(), '')
+      }
     }
     const componentApis = {}
     methods.push(...data.map(param => {
@@ -295,9 +302,9 @@ export default function docsAPI (
           const pe = path.resolve(cwd, e)
           if (route.indexOf(pe) > -1) {
             compile(cwd, s, [generalParh], async (route, doc) => {
-              withLog && console.log(route)
               if (doc.length < 1) return
               await callback(output, doc, route === generalParh)
+              withLog && console.log(route)
             })
           }
         }
@@ -312,9 +319,9 @@ export default function docsAPI (
         const output = route
           .replace(path.resolve(cwd, base), path.resolve(cwd, out))
           .replace(/(\.[a-z]+)$|\.d\.ts$/ig, '')
-        withLog && console.log(route)
         if (doc.length < 1) return
         await callback(output, doc, route === generalParh)
+        withLog && console.log(route)
       })
     }
   }
@@ -420,7 +427,7 @@ export async function writeDoc (routepath: string, doc: DocEntry[]) {
         if (!isFunction(e.flags) && !TaroMethod.includes(e.flags || -1) && !isntTaroMethod.includes(e.flags || -1)) {
           console.warn(`WARN: Symbol flags ${e.flags} is missing parse! Watch symbol name:${name}.`)
         }
-    
+
         md.push(
           `## ${name}\n`,
           get.since(tags.find(tag => tag.name === 'since')),

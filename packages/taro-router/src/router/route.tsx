@@ -1,14 +1,18 @@
 import Taro from '@tarojs/taro-h5'
 import Nerv, { nextTick } from 'nervjs'
+import toPairs from 'lodash/toPairs'
 
 import { tryToCall } from '../utils'
 import { Location, RouteObj } from '../utils/types'
 import createWrappedComponent from './createWrappedComponent'
 
+import * as Types from '../utils/types'
+
 type RouteProps = RouteObj & {
   currentLocation: Location;
   k: number;
   collectComponent: Function;
+  customRoutes: Types.CustomRoutes;
 }
 
 const getScroller = () => {
@@ -32,6 +36,9 @@ const getScroller = () => {
 }
 let scroller
 
+type OriginalRoute = string;
+type MappedRoute = string;
+
 class Route extends Taro.Component<RouteProps, {}> {
   matched = false;
   wrappedComponent;
@@ -39,20 +46,40 @@ class Route extends Taro.Component<RouteProps, {}> {
   containerRef;
   isRoute = true;
   scrollPos = 0;
+  customRoutes: [OriginalRoute, MappedRoute][] = [];
+
+  state = {
+    location: {}
+  }
 
   constructor (props, context) {
     super(props, context)
+    this.customRoutes = toPairs(this.props.customRoutes)
     this.matched = this.computeMatch(this.props.currentLocation)
+    if (this.matched) {
+      this.state = { location: this.props.currentLocation }
+    }
   }
 
-  computeMatch (currentLocation) {
-    const path = currentLocation.path;
+  computeMatch (currentLocation: Location, isIndex = this.props.isIndex, isTabBar = this.props.isTabBar) {
+    let pathname = currentLocation.path;
     const key = currentLocation.state.key;
-    const isIndex = this.props.isIndex;
+
+    const foundRoute = this.customRoutes.filter(([originalRoute, mappedRoute]) => {
+      return currentLocation.path === mappedRoute
+    })
+    if (foundRoute.length) {
+      pathname = foundRoute[0][0]
+    }
+
     if (key !== undefined) {
-      return key === this.props.key
+      if (isTabBar) {
+        return key === this.props.key && pathname === this.props.path
+      } else {
+        return key === this.props.key
+      }
     } else {
-      return isIndex && path === '/'
+      return isIndex && pathname === '/'
     }
   }
 
@@ -62,12 +89,22 @@ class Route extends Taro.Component<RouteProps, {}> {
 
   getRef = ref => {
     if (ref) {
+      if (ref.props.location !== this.state.location) {
+        ref.props.location = this.state.location
+      }
       this.componentRef = ref
-      this.props.collectComponent(ref, this.props.k)
+      this.props.collectComponent(ref, this.props.key)
     }
   }
 
   updateComponent (props = this.props) {
+    if (this.matched && this.componentRef) {
+      this.setState({
+        location: props.currentLocation
+      }, () => {
+        this.componentRef.props.location = this.state.location
+      })
+    }
     props.componentLoader()
       .then(({ default: component }) => {
         if (!component) {
@@ -87,10 +124,12 @@ class Route extends Taro.Component<RouteProps, {}> {
     this.updateComponent()
   }
 
-  componentWillReceiveProps (nProps, nContext) {
-    const lastMatched = this.matched
-    const nextMatched = this.computeMatch(nProps.currentLocation)
+  componentWillReceiveProps (nProps: RouteProps) {
     const isRedirect = nProps.isRedirect
+    const lastMatched = this.matched
+    const nextMatched = this.computeMatch(nProps.currentLocation, nProps.isIndex, nProps.isTabBar)
+
+    this.matched = nextMatched
 
     if (isRedirect) {
       this.updateComponent(nProps)
@@ -98,18 +137,13 @@ class Route extends Taro.Component<RouteProps, {}> {
       return
     }
 
-    this.matched = nextMatched
-
-    
     if (nextMatched) {
-      if (!isRedirect) {
-        nextTick(() => {
-          this.showPage()
-          scroller = scroller || getScroller()
-          scroller.set(this.scrollPos)
-        })
-        tryToCall(this.componentRef.componentDidShow, this.componentRef)
-      }
+      nextTick(() => {
+        this.showPage()
+        scroller = scroller || getScroller()
+        scroller.set(this.scrollPos)
+      })
+      tryToCall(this.componentRef.componentDidShow, this.componentRef)
     } else {
       scroller = scroller || getScroller()
       this.scrollPos = scroller.get()
@@ -145,12 +179,13 @@ class Route extends Taro.Component<RouteProps, {}> {
     if (!this.wrappedComponent) return null
 
     const WrappedComponent = this.wrappedComponent
+
     return (
       <div
         className="taro_page"
         ref={this.getWrapRef}
         style={{ minHeight: '100%' }}>
-        <WrappedComponent ref={this.getRef} />
+        <WrappedComponent ref={this.getRef} location={this.state.location} />
       </div>
     )
   }

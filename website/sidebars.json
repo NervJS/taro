@@ -56,6 +56,7 @@
     "进阶指南": [
       "config",
       "config-detail",
+      "plugin",
       "debug-config",
       "hooks",
       "ui-lib",
@@ -73,6 +74,7 @@
       "css-modules",
       "template",
       "report",
+      "learn",
       "join-in",
       "CONTRIBUTING"
     ]

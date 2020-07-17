@@ -1,5 +1,5 @@
 import * as NormalModule from 'webpack/lib/NormalModule'
-import { PARSE_AST_TYPE } from '../utils/constants'
+import { PARSE_AST_TYPE } from '@tarojs/helper'
 
 export default class TaroNormalModule extends NormalModule {
   name: string

@@ -3,11 +3,11 @@ import { StandardProps } from './common'
 
 interface RichTextProps extends StandardProps {
   /** 节点列表/ HTML String */
-  nodes: Nodes
+  nodes?: Nodes
   /** 显示连续空格
    * @supported weapp
    */
-  space: keyof RichTextProps.TSpace
+  space?: keyof RichTextProps.TSpace
 }
 
 /** 节点类型
@@ -25,36 +25,36 @@ declare namespace RichTextProps {
     /** 根据字体设置的空格大小 */
     nbsp
   }
-  
+
   /** 文本节点 */
   interface Text {
     /** 文本类型 */
     type: 'text'
-  
+
     /** 文本字符串
      * @remarks 支持 entities
      * @default ""
      */
     text: string
   }
-  
+
   /** 元素节点，默认为元素节点
    * 全局支持class和style属性，不支持 id 属性。
    */
   interface HTMLElement {
     /** HTML 类型 */
     type?: 'node'
-  
+
     /** 标签名
      * @remarks 支持部分受信任的 HTML 节点
      */
     name: string
-  
+
     /** 属性
      * @remarks 支持部分受信任的属性，遵循 Pascal 命名法
      */
     attrs?: Object
-  
+
     /** 子节点列表
      * @remarks 结构和 nodes 一致
      */

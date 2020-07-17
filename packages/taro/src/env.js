@@ -31,10 +31,6 @@ export function getEnv () {
     _env = ENV_TYPE.WEAPP
     return ENV_TYPE.WEAPP
   }
-  if (typeof qa !== 'undefined' && qa.getSystemInfo) {
-    _env = ENV_TYPE.QUICKAPP
-    return ENV_TYPE.QUICKAPP
-  }
   if (typeof swan !== 'undefined' && swan.getSystemInfo) {
     _env = ENV_TYPE.SWAN
     return ENV_TYPE.SWAN
@@ -46,6 +42,10 @@ export function getEnv () {
   if (typeof global !== 'undefined' && global.__fbGenNativeModule) {
     _env = ENV_TYPE.RN
     return ENV_TYPE.RN
+  }
+  if (typeof global !== 'undefined' && global.getManifestField) {
+    _env = ENV_TYPE.QUICKAPP
+    return ENV_TYPE.QUICKAPP
   }
   if (typeof window !== 'undefined') {
     _env = ENV_TYPE.WEB

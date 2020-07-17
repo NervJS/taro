@@ -1,4 +1,4 @@
-export function timeoutInterceptor(chain) {
+export function timeoutInterceptor (chain) {
   const requestParams = chain.requestParams
   let p
   const res = new Promise((resolve, reject) => {
@@ -20,7 +20,7 @@ export function timeoutInterceptor(chain) {
   return res
 }
 
-export function logInterceptor(chain) {
+export function logInterceptor (chain) {
   const requestParams = chain.requestParams
   const { method, data, url } = requestParams
   console.log(`http ${method || 'GET'} --> ${url} data: `, data)

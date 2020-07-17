@@ -51,7 +51,7 @@ export const setHeader = (xhr, header) => {
 /**
  * 将 blob url 转化为文件
  * @param {string} url 要转换的 blob url
- * @returns {Promise<File>}
+ * @returns {Promise<Blob>}
  */
 export const convertObjectUrlToBlob = url => {
   return new Promise((resolve, reject) => {

@@ -35,7 +35,7 @@ class _CheckboxGroup extends React.Component<CheckboxGroupProps> {
   }
 
   findAndAttachCb = (children: any): React.ReactNode => {
-    return React.Children.toArray(children).map((child) => {
+    return React.Children.toArray(children).map((child: any) => {
       if (!child.type) return child
 
       const childTypeName = child.type.name

@@ -37,14 +37,14 @@ const canvasPutImageData = ({ canvasId, data, x, y, success, fail, complete }, c
       errMsg: 'canvasPutImageData:ok'
     }
     success && success(res)
-    complete && complete()
+    complete && complete(res)
     return Promise.resolve(res)
   } catch (e) {
     const res = {
       errMsg: e.message
     }
     fail && fail(res)
-    complete && complete()
+    complete && complete(res)
     return Promise.reject(res)
   }
 }

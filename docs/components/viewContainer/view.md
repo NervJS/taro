@@ -44,13 +44,54 @@ export default class PageView extends Component {
 
 ## ViewProps
 
-| 参数 | 类型 | 默认值 | 必填 | 说明 |
-| --- | --- | :---: | :---: | --- |
-| hoverClass | `string` | `none` | 否 | 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果 |
-| hoverStyle | `string` | `none` | 否 | 由于 RN 不支持 Class，故 RN 端的 View 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。 |
-| hoverStopPropagation | `boolean` | `fasle` | 否 | 指定是否阻止本节点的祖先节点出现点击态 |
-| hoverStartTime | `number` | `50` | 否 | 按住后多久出现点击态，单位毫秒 |
-| hoverStayTime | `number` | `400` | 否 | 手指松开后点击态保留时间，单位毫秒 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">默认值</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>hoverClass</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"><code>none</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定按下去的样式类。当 <code>hover-class=&quot;none&quot;</code> 时，没有点击态效果</td>
+    </tr>
+    <tr>
+      <td>hoverStyle</td>
+      <td><code>string</code></td>
+      <td style="text-align:center"><code>none</code></td>
+      <td style="text-align:center">否</td>
+      <td>由于 RN 不支持 Class，故 RN 端的 View 组件实现了 <code>hoverStyle</code>属性，写法和 style 类似，只不过 <code>hoverStyle</code> 的样式是指定按下去的样式。</td>
+    </tr>
+    <tr>
+      <td>hoverStopPropagation</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center"><code>fasle</code></td>
+      <td style="text-align:center">否</td>
+      <td>指定是否阻止本节点的祖先节点出现点击态</td>
+    </tr>
+    <tr>
+      <td>hoverStartTime</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"><code>50</code></td>
+      <td style="text-align:center">否</td>
+      <td>按住后多久出现点击态，单位毫秒</td>
+    </tr>
+    <tr>
+      <td>hoverStayTime</td>
+      <td><code>number</code></td>
+      <td style="text-align:center"><code>400</code></td>
+      <td style="text-align:center">否</td>
+      <td>手指松开后点击态保留时间，单位毫秒</td>
+    </tr>
+  </tbody>
+</table>
 
 ### API 支持度
 

@@ -17,9 +17,20 @@ sidebar_label: CameraContext
 (option: StartRecordOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `StartRecordOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>StartRecordOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -37,9 +48,20 @@ sidebar_label: CameraContext
 (option?: StopRecordOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `StopRecordOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>StopRecordOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -57,9 +79,20 @@ sidebar_label: CameraContext
 (option: TakePhotoOption) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| option | `TakePhotoOption` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>option</td>
+      <td><code>TakePhotoOption</code></td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -81,9 +114,22 @@ sidebar_label: CameraContext
 (callback: OnCameraFrameCallback) => CameraFrameListener
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| callback | `OnCameraFrameCallback` | 回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>callback</td>
+      <td><code>OnCameraFrameCallback</code></td>
+      <td>回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -105,12 +151,42 @@ listener.start()
 
 ### StartRecordOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(res: CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
-| timeoutCallback | `StartRecordTimeoutCallback` | 否 | 超过30s或页面 `onHide` 时会结束录像 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+    <tr>
+      <td>timeoutCallback</td>
+      <td><code>StartRecordTimeoutCallback</code></td>
+      <td style="text-align:center">否</td>
+      <td>超过30s或页面 <code>onHide</code> 时会结束录像</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StartRecordTimeoutCallback
 
@@ -120,48 +196,169 @@ listener.start()
 (result: StartRecordTimeoutCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `StartRecordTimeoutCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>StartRecordTimeoutCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### StartRecordTimeoutCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| tempThumbPath | `string` | 封面图片文件的临时路径 |
-| tempVideoPath | `string` | 视频的文件的临时路径 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tempThumbPath</td>
+      <td><code>string</code></td>
+      <td>封面图片文件的临时路径</td>
+    </tr>
+    <tr>
+      <td>tempVideoPath</td>
+      <td><code>string</code></td>
+      <td>视频的文件的临时路径</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StopRecordOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| success | `(result: StopRecordSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: StopRecordSuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### StopRecordSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| tempThumbPath | `string` | 封面图片文件的临时路径 |
-| tempVideoPath | `string` | 视频的文件的临时路径 |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tempThumbPath</td>
+      <td><code>string</code></td>
+      <td>封面图片文件的临时路径</td>
+    </tr>
+    <tr>
+      <td>tempVideoPath</td>
+      <td><code>string</code></td>
+      <td>视频的文件的临时路径</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### TakePhotoOption
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| complete | `(res: CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
-| fail | `(res: CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
-| quality | "high" or "normal" or "low" | 否 | 成像质量 |
-| success | `(result: TakePhotoSuccessCallbackResult) => void` | 否 | 接口调用成功的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>complete</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用结束的回调函数（调用成功、失败都会执行）</td>
+    </tr>
+    <tr>
+      <td>fail</td>
+      <td><code>(res: CallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用失败的回调函数</td>
+    </tr>
+    <tr>
+      <td>quality</td>
+      <td><code>&quot;high&quot; | &quot;normal&quot; | &quot;low&quot;</code></td>
+      <td style="text-align:center">否</td>
+      <td>成像质量</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td><code>(result: TakePhotoSuccessCallbackResult) =&gt; void</code></td>
+      <td style="text-align:center">否</td>
+      <td>接口调用成功的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 ### TakePhotoSuccessCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| tempImagePath | `string` | 照片文件的临时路径，安卓是jpg图片格式，ios是png |
-| errMsg | `string` | 调用结果 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tempImagePath</td>
+      <td><code>string</code></td>
+      <td>照片文件的临时路径，安卓是jpg图片格式，ios是png</td>
+    </tr>
+    <tr>
+      <td>errMsg</td>
+      <td><code>string</code></td>
+      <td>调用结果</td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnCameraFrameCallback
 
@@ -171,25 +368,74 @@ listener.start()
 (result: OnCameraFrameCallbackResult) => void
 ```
 
-| 参数 | 类型 |
-| --- | --- |
-| result | `OnCameraFrameCallbackResult` |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>result</td>
+      <td><code>OnCameraFrameCallbackResult</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ### OnCameraFrameCallbackResult
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| data | `ArrayBuffer` | 图像像素点数据，一维数组，每四项表示一个像素点的 rgba |
-| height | `number` | 图像数据矩形的高度 |
-| width | `number` | 图像数据矩形的宽度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>data</td>
+      <td><code>ArrayBuffer</code></td>
+      <td>图像像素点数据，一维数组，每四项表示一个像素点的 rgba</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>图像数据矩形的高度</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>number</code></td>
+      <td>图像数据矩形的宽度</td>
+    </tr>
+  </tbody>
+</table>
 
 ### quality
 
-| 参数 | 说明 |
-| --- | --- |
-| high | 高质量 |
-| normal | 普通质量 |
-| low | 低质量 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>high</td>
+      <td>高质量</td>
+    </tr>
+    <tr>
+      <td>normal</td>
+      <td>普通质量</td>
+    </tr>
+    <tr>
+      <td>low</td>
+      <td>低质量</td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

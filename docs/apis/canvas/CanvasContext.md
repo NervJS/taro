@@ -9,22 +9,87 @@ canvas 组件的绘图上下文
 
 ## 方法
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| fillStyle | `string` | 填充颜色。用法同 [CanvasContext.setFillStyle()]。 |
-| font | `string` | 当前字体样式的属性。符合 [CSS font 语法](https://developer.mozilla.org/zh-CN/docs/Web/CSS/font) 的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif。 |
-| globalAlpha | `number` | 全局画笔透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 |
-| globalCompositeOperation | `string` | 在绘制新形状时应用的合成操作的类型。目前安卓版本只适用于 `fill` 填充块的合成，用于 `stroke` 线段的合成效果都是 `source-over`。<br /><br />目前支持的操作有<br />- 安卓：xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light<br />- iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity |
-| lineCap | `number` | 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 |
-| lineDashOffset | `number` | 虚线偏移量，初始值为0 |
-| lineJoin | `number` | 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 |
-| lineWidth | `number` | 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 |
-| miterLimit | `number` | 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 |
-| shadowBlur | `number` | 阴影的模糊级别 |
-| shadowColor | `number` | 阴影的颜色 |
-| shadowOffsetX | `number` | 阴影相对于形状在水平方向的偏移 |
-| shadowOffsetY | `number` | 阴影相对于形状在竖直方向的偏移 |
-| strokeStyle | `string` | 边框颜色。用法同 [CanvasContext.setFillStyle()]。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>fillStyle</td>
+      <td><code>string</code></td>
+      <td>填充颜色。用法同 [CanvasContext.setFillStyle()]。</td>
+    </tr>
+    <tr>
+      <td>font</td>
+      <td><code>string</code></td>
+      <td>当前字体样式的属性。符合 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/font">CSS font 语法</a> 的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif。</td>
+    </tr>
+    <tr>
+      <td>globalAlpha</td>
+      <td><code>number</code></td>
+      <td>全局画笔透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。</td>
+    </tr>
+    <tr>
+      <td>globalCompositeOperation</td>
+      <td><code>string</code></td>
+      <td>在绘制新形状时应用的合成操作的类型。目前安卓版本只适用于 <code>fill</code> 填充块的合成，用于 <code>stroke</code> 线段的合成效果都是 <code>source-over</code>。<br /><br />目前支持的操作有<br />- 安卓：xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light<br />- iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity</td>
+    </tr>
+    <tr>
+      <td>lineCap</td>
+      <td><code>&quot;butt&quot; | &quot;round&quot; | &quot;square&quot;</code></td>
+      <td>线条的端点样式。用法同 [CanvasContext.setLineCap()]。</td>
+    </tr>
+    <tr>
+      <td>lineDashOffset</td>
+      <td><code>number</code></td>
+      <td>虚线偏移量，初始值为0</td>
+    </tr>
+    <tr>
+      <td>lineJoin</td>
+      <td><code>&quot;round&quot; | &quot;bevel&quot; | &quot;miter&quot;</code></td>
+      <td>线条的交点样式。用法同 [CanvasContext.setLineJoin()]。</td>
+    </tr>
+    <tr>
+      <td>lineWidth</td>
+      <td><code>number</code></td>
+      <td>线条的宽度。用法同 [CanvasContext.setLineWidth()]。</td>
+    </tr>
+    <tr>
+      <td>miterLimit</td>
+      <td><code>number</code></td>
+      <td>最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。</td>
+    </tr>
+    <tr>
+      <td>shadowBlur</td>
+      <td><code>number</code></td>
+      <td>阴影的模糊级别</td>
+    </tr>
+    <tr>
+      <td>shadowColor</td>
+      <td><code>number</code></td>
+      <td>阴影的颜色</td>
+    </tr>
+    <tr>
+      <td>shadowOffsetX</td>
+      <td><code>number</code></td>
+      <td>阴影相对于形状在水平方向的偏移</td>
+    </tr>
+    <tr>
+      <td>shadowOffsetY</td>
+      <td><code>number</code></td>
+      <td>阴影相对于形状在竖直方向的偏移</td>
+    </tr>
+    <tr>
+      <td>strokeStyle</td>
+      <td><code>string</code></td>
+      <td>边框颜色。用法同 [CanvasContext.setFillStyle()]。</td>
+    </tr>
+  </tbody>
+</table>
 
 ### arc
 
@@ -45,14 +110,47 @@ canvas 组件的绘图上下文
 (x: number, y: number, r: number, sAngle: number, eAngle: number, counterclockwise?: boolean) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 圆心的 x 坐标 |
-| y | `number` | 圆心的 y 坐标 |
-| r | `number` | 圆的半径 |
-| sAngle | `number` | 起始弧度，单位弧度（在3点钟方向） |
-| eAngle | `number` | 终止弧度 |
-| counterclockwise | `boolean` | 弧度的方向是否是逆时针 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>圆心的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>圆心的 y 坐标</td>
+    </tr>
+    <tr>
+      <td>r</td>
+      <td><code>number</code></td>
+      <td>圆的半径</td>
+    </tr>
+    <tr>
+      <td>sAngle</td>
+      <td><code>number</code></td>
+      <td>起始弧度，单位弧度（在3点钟方向）</td>
+    </tr>
+    <tr>
+      <td>eAngle</td>
+      <td><code>number</code></td>
+      <td>终止弧度</td>
+    </tr>
+    <tr>
+      <td>counterclockwise</td>
+      <td><code>boolean</code></td>
+      <td>弧度的方向是否是逆时针</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -112,13 +210,42 @@ ctx.draw()
 (x1: number, y1: number, x2: number, y2: number, radius: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x1 | `number` | 第一个控制点的 x 轴坐标 |
-| y1 | `number` | 第一个控制点的 y 轴坐标 |
-| x2 | `number` | 第二个控制点的 x 轴坐标 |
-| y2 | `number` | 第二个控制点的 y 轴坐标 |
-| radius | `number` | 圆弧的半径 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x1</td>
+      <td><code>number</code></td>
+      <td>第一个控制点的 x 轴坐标</td>
+    </tr>
+    <tr>
+      <td>y1</td>
+      <td><code>number</code></td>
+      <td>第一个控制点的 y 轴坐标</td>
+    </tr>
+    <tr>
+      <td>x2</td>
+      <td><code>number</code></td>
+      <td>第二个控制点的 x 轴坐标</td>
+    </tr>
+    <tr>
+      <td>y2</td>
+      <td><code>number</code></td>
+      <td>第二个控制点的 y 轴坐标</td>
+    </tr>
+    <tr>
+      <td>radius</td>
+      <td><code>number</code></td>
+      <td>圆弧的半径</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -182,14 +309,47 @@ ctx.draw()
 (cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| cp1x | `number` | 第一个贝塞尔控制点的 x 坐标 |
-| cp1y | `number` | 第一个贝塞尔控制点的 y 坐标 |
-| cp2x | `number` | 第二个贝塞尔控制点的 x 坐标 |
-| cp2y | `number` | 第二个贝塞尔控制点的 y 坐标 |
-| x | `number` | 结束点的 x 坐标 |
-| y | `number` | 结束点的 y 坐标 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cp1x</td>
+      <td><code>number</code></td>
+      <td>第一个贝塞尔控制点的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>cp1y</td>
+      <td><code>number</code></td>
+      <td>第一个贝塞尔控制点的 y 坐标</td>
+    </tr>
+    <tr>
+      <td>cp2x</td>
+      <td><code>number</code></td>
+      <td>第二个贝塞尔控制点的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>cp2y</td>
+      <td><code>number</code></td>
+      <td>第二个贝塞尔控制点的 y 坐标</td>
+    </tr>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>结束点的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>结束点的 y 坐标</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -246,12 +406,37 @@ ctx.draw()
 (x: number, y: number, width: number, height: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 矩形路径左上角的横坐标 |
-| y | `number` | 矩形路径左上角的纵坐标 |
-| width | `number` | 矩形路径的宽度 |
-| height | `number` | 矩形路径的高度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>矩形路径左上角的横坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>矩形路径左上角的纵坐标</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>number</code></td>
+      <td>矩形路径的宽度</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>矩形路径的高度</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -369,10 +554,27 @@ ctx.draw()
 (image: string, repetition: "repeat" | "repeat-x" | "repeat-y" | "no-repeat") => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| image | `string` | 重复的图像源，仅支持包内路径和临时路径 |
-| repetition | "repeat" or "repeat-x" or "repeat-y" or "no-repeat" | 如何重复图像 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>image</td>
+      <td><code>string</code></td>
+      <td>重复的图像源，仅支持包内路径和临时路径</td>
+    </tr>
+    <tr>
+      <td>repetition</td>
+      <td><code>&quot;repeat&quot; | &quot;repeat-x&quot; | &quot;repeat-y&quot; | &quot;no-repeat&quot;</code></td>
+      <td>如何重复图像</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -390,10 +592,27 @@ ctx.draw()
 (reserve?: boolean, callback?: (...args: any[]) => any) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| reserve | `boolean` | 本次绘制是否接着上一次绘制。即 reserve 参数为 false，则在本次调用绘制之前 native 层会先清空画布再继续绘制；若 reserve 参数为 true，则保留当前画布上的内容，本次调用 drawCanvas 绘制的内容覆盖在上面，默认 false。 |
-| callback | `(...args: any[]) => any` | 绘制完成后执行的回调函数 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>reserve</td>
+      <td><code>boolean</code></td>
+      <td>本次绘制是否接着上一次绘制。即 reserve 参数为 false，则在本次调用绘制之前 native 层会先清空画布再继续绘制；若 reserve 参数为 true，则保留当前画布上的内容，本次调用 drawCanvas 绘制的内容覆盖在上面，默认 false。</td>
+    </tr>
+    <tr>
+      <td>callback</td>
+      <td><code>(...args: any[]) =&gt; any</code></td>
+      <td>绘制完成后执行的回调函数</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -441,17 +660,62 @@ ctx.draw()
 { (imageResource: string, dx: number, dy: number): void; (imageResource: string, dx: number, dy: number, dWidth: number, dHeight: number): void; (imageResource: string, sx: number, sy: number, sWidth: number, sHeight: number, dx: number, dy: number, dWidth: number, dHeight: number): void; }
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| imageResource | `string` | 所要绘制的图片资源（网络图片要通过 getImageInfo / downloadFile 先下载） |
-| sx | `number` | 需要绘制到画布中的，imageResource的矩形（裁剪）选择框的左上角 x 坐标 |
-| sy | `number` | 需要绘制到画布中的，imageResource的矩形（裁剪）选择框的左上角 y 坐标 |
-| sWidth | `number` | 需要绘制到画布中的，imageResource的矩形（裁剪）选择框的宽度 |
-| sHeight | `number` | 需要绘制到画布中的，imageResource的矩形（裁剪）选择框的高度 |
-| dx | `number` | imageResource的左上角在目标 canvas 上 x 轴的位置 |
-| dy | `number` | imageResource的左上角在目标 canvas 上 y 轴的位置 |
-| dWidth | `number` | 在目标画布上绘制imageResource的宽度，允许对绘制的imageResource进行缩放 |
-| dHeight | `number` | 在目标画布上绘制imageResource的高度，允许对绘制的imageResource进行缩放 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>imageResource</td>
+      <td><code>string</code></td>
+      <td>所要绘制的图片资源（网络图片要通过 getImageInfo / downloadFile 先下载）</td>
+    </tr>
+    <tr>
+      <td>sx</td>
+      <td><code>number</code></td>
+      <td>需要绘制到画布中的，imageResource的矩形（裁剪）选择框的左上角 x 坐标</td>
+    </tr>
+    <tr>
+      <td>sy</td>
+      <td><code>number</code></td>
+      <td>需要绘制到画布中的，imageResource的矩形（裁剪）选择框的左上角 y 坐标</td>
+    </tr>
+    <tr>
+      <td>sWidth</td>
+      <td><code>number</code></td>
+      <td>需要绘制到画布中的，imageResource的矩形（裁剪）选择框的宽度</td>
+    </tr>
+    <tr>
+      <td>sHeight</td>
+      <td><code>number</code></td>
+      <td>需要绘制到画布中的，imageResource的矩形（裁剪）选择框的高度</td>
+    </tr>
+    <tr>
+      <td>dx</td>
+      <td><code>number</code></td>
+      <td>imageResource的左上角在目标 canvas 上 x 轴的位置</td>
+    </tr>
+    <tr>
+      <td>dy</td>
+      <td><code>number</code></td>
+      <td>imageResource的左上角在目标 canvas 上 y 轴的位置</td>
+    </tr>
+    <tr>
+      <td>dWidth</td>
+      <td><code>number</code></td>
+      <td>在目标画布上绘制imageResource的宽度，允许对绘制的imageResource进行缩放</td>
+    </tr>
+    <tr>
+      <td>dHeight</td>
+      <td><code>number</code></td>
+      <td>在目标画布上绘制imageResource的高度，允许对绘制的imageResource进行缩放</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -579,12 +843,37 @@ ctx.draw()
 (x: number, y: number, width: number, height: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 矩形路径左上角的横坐标 |
-| y | `number` | 矩形路径左上角的纵坐标 |
-| width | `number` | 矩形路径的宽度 |
-| height | `number` | 矩形路径的高度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>矩形路径左上角的横坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>矩形路径左上角的纵坐标</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>number</code></td>
+      <td>矩形路径的宽度</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>矩形路径的高度</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -611,12 +900,37 @@ ctx.draw()
 (text: string, x: number, y: number, maxWidth?: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| text | `string` | 在画布上输出的文本 |
-| x | `number` | 绘制文本的左上角 x 坐标位置 |
-| y | `number` | 绘制文本的左上角 y 坐标位置 |
-| maxWidth | `number` | 需要绘制的最大宽度，可选 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>text</td>
+      <td><code>string</code></td>
+      <td>在画布上输出的文本</td>
+    </tr>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>绘制文本的左上角 x 坐标位置</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>绘制文本的左上角 y 坐标位置</td>
+    </tr>
+    <tr>
+      <td>maxWidth</td>
+      <td><code>number</code></td>
+      <td>需要绘制的最大宽度，可选</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -644,10 +958,27 @@ ctx.draw()
 (x: number, y: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 目标位置的 x 坐标 |
-| y | `number` | 目标位置的 y 坐标 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>目标位置的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>目标位置的 y 坐标</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -676,10 +1007,27 @@ ctx.draw()
 (x: number, y: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 目标位置的 x 坐标 |
-| y | `number` | 目标位置的 y 坐标 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>目标位置的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>目标位置的 y 坐标</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -715,12 +1063,37 @@ ctx.draw()
 (cpx: number, cpy: number, x: number, y: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| cpx | `number` | 贝塞尔控制点的 x 坐标 |
-| cpy | `number` | 贝塞尔控制点的 y 坐标 |
-| x | `number` | 结束点的 x 坐标 |
-| y | `number` | 结束点的 y 坐标 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cpx</td>
+      <td><code>number</code></td>
+      <td>贝塞尔控制点的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>cpy</td>
+      <td><code>number</code></td>
+      <td>贝塞尔控制点的 y 坐标</td>
+    </tr>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>结束点的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>结束点的 y 坐标</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -773,12 +1146,37 @@ ctx.draw()
 (x: number, y: number, width: number, height: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 矩形路径左上角的横坐标 |
-| y | `number` | 矩形路径左上角的纵坐标 |
-| width | `number` | 矩形路径的宽度 |
-| height | `number` | 矩形路径的高度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>矩形路径左上角的横坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>矩形路径左上角的纵坐标</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>number</code></td>
+      <td>矩形路径的宽度</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>矩形路径的高度</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -836,9 +1234,22 @@ ctx.draw()
 (rotate: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| rotate | `number` | 旋转角度，以弧度计 degrees * Math.PI/180；degrees 范围为 0-360 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>rotate</td>
+      <td><code>number</code></td>
+      <td>旋转角度，以弧度计 degrees * Math.PI/180；degrees 范围为 0-360</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -898,10 +1309,27 @@ ctx.draw()
 (scaleWidth: number, scaleHeight: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| scaleWidth | `number` | 横坐标缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%) |
-| scaleHeight | `number` | 纵坐标轴缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%) |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scaleWidth</td>
+      <td><code>number</code></td>
+      <td>横坐标缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%)</td>
+    </tr>
+    <tr>
+      <td>scaleHeight</td>
+      <td><code>number</code></td>
+      <td>纵坐标轴缩放的倍数 (1 = 100%，0.5 = 50%，2 = 200%)</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -931,9 +1359,22 @@ ctx.draw()
 (color: string | CanvasGradient) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| color | string or CanvasGradient | 填充的颜色，默认颜色为 black。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>color</td>
+      <td><code>string | CanvasGradient</code></td>
+      <td>填充的颜色，默认颜色为 black。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -960,9 +1401,22 @@ ctx.draw()
 (fontSize: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| fontSize | `number` | 字体的字号 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>fontSize</td>
+      <td><code>number</code></td>
+      <td>字体的字号</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -995,9 +1449,22 @@ ctx.draw()
 (alpha: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| alpha | `number` | 透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>alpha</td>
+      <td><code>number</code></td>
+      <td>透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1029,9 +1496,22 @@ ctx.draw()
 (lineCap: "butt" | "round" | "square") => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| lineCap | "butt" or "round" or "square" | 线条的结束端点样式 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>lineCap</td>
+      <td><code>&quot;butt&quot; | &quot;round&quot; | &quot;square&quot;</code></td>
+      <td>线条的结束端点样式</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1078,10 +1558,27 @@ ctx.draw()
 (pattern: number[], offset: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| pattern | `number[]` | 一组描述交替绘制线段和间距（坐标空间单位）长度的数字 |
-| offset | `number` | 虚线偏移量 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pattern</td>
+      <td><code>number[]</code></td>
+      <td>一组描述交替绘制线段和间距（坐标空间单位）长度的数字</td>
+    </tr>
+    <tr>
+      <td>offset</td>
+      <td><code>number</code></td>
+      <td>虚线偏移量</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1111,9 +1608,22 @@ ctx.draw()
 (lineJoin: "round" | "bevel" | "miter") => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| lineJoin | "round" or "bevel" or "miter" | 线条的结束交点样式 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>lineJoin</td>
+      <td><code>&quot;round&quot; | &quot;bevel&quot; | &quot;miter&quot;</code></td>
+      <td>线条的结束交点样式</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1164,9 +1674,22 @@ ctx.draw()
 (lineWidth: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| lineWidth | `number` | 线条的宽度，单位px |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>lineWidth</td>
+      <td><code>number</code></td>
+      <td>线条的宽度，单位px</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1210,9 +1733,22 @@ ctx.draw()
 (miterLimit: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| miterLimit | `number` | 最大斜接长度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>miterLimit</td>
+      <td><code>number</code></td>
+      <td>最大斜接长度</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1269,12 +1805,37 @@ ctx.draw()
 (offsetX: number, offsetY: number, blur: number, color: string) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| offsetX | `number` | 阴影相对于形状在水平方向的偏移，默认值为 0。 |
-| offsetY | `number` | 阴影相对于形状在竖直方向的偏移，默认值为 0。 |
-| blur | `number` | 阴影的模糊级别，数值越大越模糊。范围 0- 100。，默认值为 0。 |
-| color | `string` | 阴影的颜色。默认值为 black。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>offsetX</td>
+      <td><code>number</code></td>
+      <td>阴影相对于形状在水平方向的偏移，默认值为 0。</td>
+    </tr>
+    <tr>
+      <td>offsetY</td>
+      <td><code>number</code></td>
+      <td>阴影相对于形状在竖直方向的偏移，默认值为 0。</td>
+    </tr>
+    <tr>
+      <td>blur</td>
+      <td><code>number</code></td>
+      <td>阴影的模糊级别，数值越大越模糊。范围 0- 100。，默认值为 0。</td>
+    </tr>
+    <tr>
+      <td>color</td>
+      <td><code>string</code></td>
+      <td>阴影的颜色。默认值为 black。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1302,9 +1863,22 @@ ctx.draw()
 (color: string | CanvasGradient) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| color | string or CanvasGradient | 描边的颜色，默认颜色为 black。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>color</td>
+      <td><code>string | CanvasGradient</code></td>
+      <td>描边的颜色，默认颜色为 black。</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1331,9 +1905,22 @@ ctx.draw()
 (align: "left" | "center" | "right") => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| align | "left" or "center" or "right" | 文字的对齐方式 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>align</td>
+      <td><code>&quot;left&quot; | &quot;center&quot; | &quot;right&quot;</code></td>
+      <td>文字的对齐方式</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1369,9 +1956,22 @@ ctx.draw()
 (textBaseline: "top" | "bottom" | "middle" | "normal") => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| textBaseline | "top" or "bottom" or "middle" or "normal" | 文字的竖直对齐方式 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>textBaseline</td>
+      <td><code>&quot;top&quot; | &quot;bottom&quot; | &quot;middle&quot; | &quot;normal&quot;</code></td>
+      <td>文字的竖直对齐方式</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1409,14 +2009,47 @@ ctx.draw()
 (scaleX: number, scaleY: number, skewX: number, skewY: number, translateX: number, translateY: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| scaleX | `number` | 水平缩放 |
-| scaleY | `number` | 垂直缩放 |
-| skewX | `number` | 水平倾斜 |
-| skewY | `number` | 垂直倾斜 |
-| translateX | `number` | 水平移动 |
-| translateY | `number` | 垂直移动 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scaleX</td>
+      <td><code>number</code></td>
+      <td>水平缩放</td>
+    </tr>
+    <tr>
+      <td>scaleY</td>
+      <td><code>number</code></td>
+      <td>垂直缩放</td>
+    </tr>
+    <tr>
+      <td>skewX</td>
+      <td><code>number</code></td>
+      <td>水平倾斜</td>
+    </tr>
+    <tr>
+      <td>skewY</td>
+      <td><code>number</code></td>
+      <td>垂直倾斜</td>
+    </tr>
+    <tr>
+      <td>translateX</td>
+      <td><code>number</code></td>
+      <td>水平移动</td>
+    </tr>
+    <tr>
+      <td>translateY</td>
+      <td><code>number</code></td>
+      <td>垂直移动</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -1486,12 +2119,37 @@ ctx.draw()
 (x: number, y: number, width: number, height: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 矩形路径左上角的横坐标 |
-| y | `number` | 矩形路径左上角的纵坐标 |
-| width | `number` | 矩形路径的宽度 |
-| height | `number` | 矩形路径的高度 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>矩形路径左上角的横坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>矩形路径左上角的纵坐标</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td><code>number</code></td>
+      <td>矩形路径的宽度</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td><code>number</code></td>
+      <td>矩形路径的高度</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1518,12 +2176,37 @@ ctx.draw()
 (text: string, x: number, y: number, maxWidth?: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| text | `string` | 要绘制的文本 |
-| x | `number` | 文本起始点的 x 轴坐标 |
-| y | `number` | 文本起始点的 y 轴坐标 |
-| maxWidth | `number` | 需要绘制的最大宽度，可选 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>text</td>
+      <td><code>string</code></td>
+      <td>要绘制的文本</td>
+    </tr>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>文本起始点的 x 轴坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>文本起始点的 y 轴坐标</td>
+    </tr>
+    <tr>
+      <td>maxWidth</td>
+      <td><code>number</code></td>
+      <td>需要绘制的最大宽度，可选</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -1541,14 +2224,47 @@ ctx.draw()
 (scaleX: number, scaleY: number, skewX: number, skewY: number, translateX: number, translateY: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| scaleX | `number` | 水平缩放 |
-| scaleY | `number` | 垂直缩放 |
-| skewX | `number` | 水平倾斜 |
-| skewY | `number` | 垂直倾斜 |
-| translateX | `number` | 水平移动 |
-| translateY | `number` | 垂直移动 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scaleX</td>
+      <td><code>number</code></td>
+      <td>水平缩放</td>
+    </tr>
+    <tr>
+      <td>scaleY</td>
+      <td><code>number</code></td>
+      <td>垂直缩放</td>
+    </tr>
+    <tr>
+      <td>skewX</td>
+      <td><code>number</code></td>
+      <td>水平倾斜</td>
+    </tr>
+    <tr>
+      <td>skewY</td>
+      <td><code>number</code></td>
+      <td>垂直倾斜</td>
+    </tr>
+    <tr>
+      <td>translateX</td>
+      <td><code>number</code></td>
+      <td>水平移动</td>
+    </tr>
+    <tr>
+      <td>translateY</td>
+      <td><code>number</code></td>
+      <td>垂直移动</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -1566,10 +2282,27 @@ ctx.draw()
 (x: number, y: number) => void
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 水平坐标平移量 |
-| y | `number` | 竖直坐标平移量 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>水平坐标平移量</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>竖直坐标平移量</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1599,9 +2332,22 @@ ctx.draw()
 (text: string) => TextMetrics
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| text | `string` | 要测量的文本 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>text</td>
+      <td><code>string</code></td>
+      <td>要测量的文本</td>
+    </tr>
+  </tbody>
+</table>
 
 #### API 支持度
 
@@ -1619,11 +2365,32 @@ ctx.draw()
 (x: number, y: number, r: number) => CanvasGradient
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x | `number` | 圆心的 x 坐标 |
-| y | `number` | 圆心的 y 坐标 |
-| r | `number` | 圆的半径 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x</td>
+      <td><code>number</code></td>
+      <td>圆心的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td><code>number</code></td>
+      <td>圆心的 y 坐标</td>
+    </tr>
+    <tr>
+      <td>r</td>
+      <td><code>number</code></td>
+      <td>圆的半径</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1655,12 +2422,37 @@ ctx.draw()
 (x0: number, y0: number, x1: number, y1: number) => CanvasGradient
 ```
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| x0 | `number` | 起点的 x 坐标 |
-| y0 | `number` | 起点的 y 坐标 |
-| x1 | `number` | 终点的 x 坐标 |
-| y1 | `number` | 终点的 y 坐标 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>x0</td>
+      <td><code>number</code></td>
+      <td>起点的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>y0</td>
+      <td><code>number</code></td>
+      <td>起点的 y 坐标</td>
+    </tr>
+    <tr>
+      <td>x1</td>
+      <td><code>number</code></td>
+      <td>终点的 x 坐标</td>
+    </tr>
+    <tr>
+      <td>y1</td>
+      <td><code>number</code></td>
+      <td>终点的 y 坐标</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 示例代码
 
@@ -1688,53 +2480,144 @@ ctx.draw()
 
 参数 repetition 可选值
 
-| 参数 | 说明 |
-| --- | --- |
-| repeat | 水平竖直方向都重复 |
-| repeat-x | 水平方向重复 |
-| repeat-y | 竖直方向重复 |
-| no-repeat | 不重复 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>repeat</td>
+      <td>水平竖直方向都重复</td>
+    </tr>
+    <tr>
+      <td>repeat-x</td>
+      <td>水平方向重复</td>
+    </tr>
+    <tr>
+      <td>repeat-y</td>
+      <td>竖直方向重复</td>
+    </tr>
+    <tr>
+      <td>no-repeat</td>
+      <td>不重复</td>
+    </tr>
+  </tbody>
+</table>
 
 ### lineCap
 
 参数 lineCap 可选值
 
-| 参数 | 说明 |
-| --- | --- |
-| butt | 向线条的每个末端添加平直的边缘。 |
-| round | 向线条的每个末端添加圆形线帽。 |
-| square | 向线条的每个末端添加正方形线帽。 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>butt</td>
+      <td>向线条的每个末端添加平直的边缘。</td>
+    </tr>
+    <tr>
+      <td>round</td>
+      <td>向线条的每个末端添加圆形线帽。</td>
+    </tr>
+    <tr>
+      <td>square</td>
+      <td>向线条的每个末端添加正方形线帽。</td>
+    </tr>
+  </tbody>
+</table>
 
 ### lineJoin
 
 参数 lineJoin 可选值
 
-| 参数 | 说明 |
-| --- | --- |
-| bevel | 斜角 |
-| round | 圆角 |
-| miter | 尖角 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bevel</td>
+      <td>斜角</td>
+    </tr>
+    <tr>
+      <td>round</td>
+      <td>圆角</td>
+    </tr>
+    <tr>
+      <td>miter</td>
+      <td>尖角</td>
+    </tr>
+  </tbody>
+</table>
 
 ### align
 
 参数 align 可选值
 
-| 参数 | 说明 |
-| --- | --- |
-| left | 左对齐 |
-| center | 居中对齐 |
-| right | 右对齐 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>left</td>
+      <td>左对齐</td>
+    </tr>
+    <tr>
+      <td>center</td>
+      <td>居中对齐</td>
+    </tr>
+    <tr>
+      <td>right</td>
+      <td>右对齐</td>
+    </tr>
+  </tbody>
+</table>
 
 ### textBaseline
 
 参数 textBaseline 可选值
 
-| 参数 | 说明 |
-| --- | --- |
-| top | 顶部对齐 |
-| bottom | 底部对齐 |
-| middle | 居中对齐 |
-| normal |  |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>top</td>
+      <td>顶部对齐</td>
+    </tr>
+    <tr>
+      <td>bottom</td>
+      <td>底部对齐</td>
+    </tr>
+    <tr>
+      <td>middle</td>
+      <td>居中对齐</td>
+    </tr>
+    <tr>
+      <td>normal</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 ## API 支持度
 

@@ -3,23 +3,32 @@ import * as path from 'path'
 import { exec, spawn, spawnSync, execSync, SpawnSyncOptions } from 'child_process'
 import { performance } from 'perf_hooks'
 import * as chokidar from 'chokidar'
-import chalk from 'chalk'
 import * as _ from 'lodash'
 import * as klaw from 'klaw'
-import { TogglableOptions, ICommonPlugin, IOption } from '@tarojs/taro/types/compile'
+import { TogglableOptions, IOption } from '@tarojs/taro/types/compile'
+import {
+  PROJECT_CONFIG,
+  processTypeEnum,
+  REG_STYLE,
+  REG_SCRIPTS,
+  REG_TYPESCRIPT,
+  resolveScriptPath,
+  printLog,
+  shouldUseYarn,
+  shouldUseCnpm,
+  chalk
+} from '@tarojs/helper'
 
-import * as Util from './util'
+import { getPkgVersion, checkCliAndFrameworkVersion } from './util'
 import CONFIG from './config'
-// import * as StyleProcess from './rn/styleProcess'
+import * as StyleProcess from './rn/styleProcess'
 import { parseJSCode as transformJSCode } from './rn/transformJS'
-import { PROJECT_CONFIG, processTypeEnum, REG_STYLE, REG_SCRIPTS, REG_TYPESCRIPT, BUILD_TYPES } from './util/constants'
 import { convertToJDReact } from './jdreact/convert_to_jdreact'
 import { IBuildOptions } from './util/types'
 // import { Error } from 'tslint/lib/error'
 
-// @ts-ignore
 let isBuildingStyles = {}
-// const styleDenpendencyTree = {}
+const styleDenpendencyTree = {}
 
 const depTree: {
   [key: string]: string[]
@@ -52,7 +61,7 @@ class Compiler {
   sass: IOption
   less: IOption
   stylus: IOption
-  plugins: ICommonPlugin[]
+  plugins: any[]
   rnConfig
   hasJDReactOutput: boolean
   // babelConfig: any
@@ -61,10 +70,10 @@ class Compiler {
 
   constructor (appPath) {
     this.appPath = appPath
-    this.projectConfig = require(path.join(appPath, PROJECT_CONFIG))(_.merge)
+    this.projectConfig = require(resolveScriptPath(path.join(appPath, PROJECT_CONFIG)))(_.merge)
     const sourceDirName = this.projectConfig.sourceRoot || CONFIG.SOURCE_DIR
     this.sourceDir = path.join(appPath, sourceDirName)
-    this.entryFilePath = Util.resolveScriptPath(path.join(this.sourceDir, CONFIG.ENTRY))
+    this.entryFilePath = resolveScriptPath(path.join(this.sourceDir, CONFIG.ENTRY))
     this.entryFileName = path.basename(this.entryFilePath)
     this.entryBaseName = path.basename(this.entryFilePath, path.extname(this.entryFileName))
     this.babel = this.projectConfig.babel
@@ -94,54 +103,54 @@ class Compiler {
     return path.basename(filePath) === this.entryFileName
   }
 
-  // compileDepStyles (filePath, styleFiles) {
-  //   if (isBuildingStyles[filePath] || styleFiles.length === 0) {
-  //     return Promise.resolve({})
-  //   }
-  //   isBuildingStyles[filePath] = true
-  //   return Promise.all(styleFiles.map(async p => { // to css string
-  //     const filePath = path.join(p)
-  //     const fileExt = path.extname(filePath)
-  //     Util.printLog(processTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
-  //     return StyleProcess.loadStyle({
-  //       filePath,
-  //       pluginsConfig: {
-  //         sass: this.sass,
-  //         less: this.less,
-  //         stylus: this.stylus
-  //       }
-  //     }, this.appPath)
-  //   })).then(resList => { // postcss
-  //     return Promise.all(resList.map(item => {
-  //       return StyleProcess.postCSS({...item as { css: string, filePath: string }, projectConfig: this.projectConfig})
-  //     }))
-  //   }).then(resList => {
-  //     const styleObjectEntire = {}
-  //     resList.forEach(item => {
-  //       const styleObject = StyleProcess.getStyleObject({css: item.css, filePath: item.filePath})
-  //       // validate styleObject
-  //       StyleProcess.validateStyle({styleObject, filePath: item.filePath})
-  //
-  //       Object.assign(styleObjectEntire, styleObject)
-  //       if (filePath !== this.entryFilePath) { // 非入口文件，合并全局样式
-  //         Object.assign(styleObjectEntire, _.get(styleDenpendencyTree, [this.entryFilePath, 'styleObjectEntire'], {}))
-  //       }
-  //       styleDenpendencyTree[filePath] = {
-  //         styleFiles,
-  //         styleObjectEntire
-  //       }
-  //     })
-  //     return JSON.stringify(styleObjectEntire, null, 2)
-  //   }).then(css => {
-  //     let tempFilePath = filePath.replace(this.sourceDir, this.tempPath)
-  //     const basename = path.basename(tempFilePath, path.extname(tempFilePath))
-  //     tempFilePath = path.join(path.dirname(tempFilePath), `${basename}_styles.js`)
-  //
-  //     StyleProcess.writeStyleFile({css, tempFilePath})
-  //   }).catch((e) => {
-  //     throw new Error(e)
-  //   })
-  // }
+  compileDepStyles (filePath, styleFiles) {
+    if (isBuildingStyles[filePath] || styleFiles.length === 0) {
+      return Promise.resolve({})
+    }
+    isBuildingStyles[filePath] = true
+    return Promise.all(styleFiles.map(async p => { // to css string
+      const filePath = path.join(p)
+      const fileExt = path.extname(filePath)
+      printLog(processTypeEnum.COMPILE, _.camelCase(fileExt).toUpperCase(), filePath)
+      return StyleProcess.loadStyle({
+        filePath,
+        pluginsConfig: {
+          sass: this.sass,
+          less: this.less,
+          stylus: this.stylus
+        }
+      }, this.appPath)
+    })).then(resList => { // postcss
+      return Promise.all(resList.map(item => {
+        return StyleProcess.postCSS({...item as { css: string, filePath: string }, projectConfig: this.projectConfig})
+      }))
+    }).then(resList => {
+      const styleObjectEntire = {}
+      resList.forEach(item => {
+        const styleObject = StyleProcess.getStyleObject({css: item.css, filePath: item.filePath})
+        // validate styleObject
+        StyleProcess.validateStyle({styleObject, filePath: item.filePath})
+
+        Object.assign(styleObjectEntire, styleObject)
+        if (filePath !== this.entryFilePath) { // 非入口文件，合并全局样式
+          Object.assign(styleObjectEntire, _.get(styleDenpendencyTree, [this.entryFilePath, 'styleObjectEntire'], {}))
+        }
+        styleDenpendencyTree[filePath] = {
+          styleFiles,
+          styleObjectEntire
+        }
+      })
+      return JSON.stringify(styleObjectEntire, null, 2)
+    }).then(css => {
+      let tempFilePath = filePath.replace(this.sourceDir, this.tempPath)
+      const basename = path.basename(tempFilePath, path.extname(tempFilePath))
+      tempFilePath = path.join(path.dirname(tempFilePath), `${basename}_styles.js`)
+
+      StyleProcess.writeStyleFile({css, tempFilePath})
+    }).catch((e) => {
+      throw new Error(e)
+    })
+  }
 
   initProjectFile () {
     // generator app.json
@@ -157,9 +166,9 @@ class Compiler {
     AppRegistry.registerComponent(appName, () => App);`
 
     fs.writeFileSync(path.join(this.tempPath, 'index.js'), indexJsStr)
-    Util.printLog(processTypeEnum.GENERATE, 'index.js', path.join(this.tempPath, 'index.js'))
+    printLog(processTypeEnum.GENERATE, 'index.js', path.join(this.tempPath, 'index.js'))
     fs.writeFileSync(path.join(this.tempPath, 'app.json'), JSON.stringify(appJsonObject, null, 2))
-    Util.printLog(processTypeEnum.GENERATE, 'app.json', path.join(this.tempPath, 'app.json'))
+    printLog(processTypeEnum.GENERATE, 'app.json', path.join(this.tempPath, 'app.json'))
     return Promise.resolve()
   }
 
@@ -180,7 +189,7 @@ class Compiler {
       if (REG_TYPESCRIPT.test(filePath)) {
         distPath = distPath.replace(/\.(tsx|ts)(\?.*)?$/, '.js')
       }
-      Util.printLog(processTypeEnum.COMPILE, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
+      printLog(processTypeEnum.COMPILE, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
       // transformJSCode
       const transformResult = transformJSCode({
         code, filePath, isEntryFile: this.isEntryFile(filePath), projectConfig: this.projectConfig
@@ -188,16 +197,16 @@ class Compiler {
       const jsCode = transformResult.code
       fs.ensureDirSync(distDirname)
       fs.writeFileSync(distPath, Buffer.from(jsCode))
-      Util.printLog(processTypeEnum.GENERATE, _.camelCase(path.extname(filePath)).toUpperCase(), distPath)
+      printLog(processTypeEnum.GENERATE, _.camelCase(path.extname(filePath)).toUpperCase(), distPath)
       // compileDepStyles
       const styleFiles = transformResult.styleFiles
       depTree[filePath] = styleFiles
-      // await this.compileDepStyles(filePath, styleFiles)
+      await this.compileDepStyles(filePath, styleFiles)
     } else {
       fs.ensureDirSync(distDirname)
-      Util.printLog(processTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
+      printLog(processTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
       fs.copySync(filePath, distPath)
-      Util.printLog(processTypeEnum.GENERATE, _.camelCase(path.extname(filePath)).toUpperCase(), distPath)
+      printLog(processTypeEnum.GENERATE, _.camelCase(path.extname(filePath)).toUpperCase(), distPath)
     }
   }
 
@@ -260,7 +269,7 @@ class Compiler {
     const t0 = performance.now()
     await callback(args)
     const t1 = performance.now()
-    Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
+    printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
     console.log()
   }
 
@@ -279,12 +288,12 @@ class Compiler {
       })
       .on('add', filePath => {
         const relativePath = path.relative(this.appPath, filePath)
-        Util.printLog(processTypeEnum.CREATE, '添加文件', relativePath)
+        printLog(processTypeEnum.CREATE, '添加文件', relativePath)
         this.perfWrap(this.buildTemp.bind(this))
       })
       .on('change', filePath => {
         const relativePath = path.relative(this.appPath, filePath)
-        Util.printLog(processTypeEnum.MODIFY, '文件变动', relativePath)
+        printLog(processTypeEnum.MODIFY, '文件变动', relativePath)
         if (REG_SCRIPTS.test(filePath)) {
           this.perfWrap(this.processFile.bind(this), filePath)
         }
@@ -298,7 +307,7 @@ class Compiler {
       })
       .on('unlink', filePath => {
         const relativePath = path.relative(this.appPath, filePath)
-        Util.printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
+        printLog(processTypeEnum.UNLINK, '删除文件', relativePath)
         this.perfWrap(this.buildTemp.bind(this))
       })
       .on('error', error => console.log(`Watcher error: ${error}`))
@@ -311,7 +320,7 @@ function hasRNDep (appPath) {
 }
 
 function updatePkgJson (appPath) {
-  const version = Util.getPkgVersion()
+  const version = getPkgVersion()
   const RNDep = `{
     "@tarojs/components-rn": "^${version}",
     "@tarojs/taro-rn": "^${version}",
@@ -329,7 +338,7 @@ function updatePkgJson (appPath) {
     if (!hasRNDep(appPath)) {
       pkgJson.dependencies = Object.assign({}, pkgJson.dependencies, JSON.parse(RNDep.replace(/(\r\n|\n|\r|\s+)/gm, '')))
       fs.writeFileSync(path.join(appPath, 'package.json'), JSON.stringify(pkgJson, null, 2))
-      Util.printLog(processTypeEnum.GENERATE, 'package.json', path.join(appPath, 'package.json'))
+      printLog(processTypeEnum.GENERATE, 'package.json', path.join(appPath, 'package.json'))
       installDep(appPath).then(() => {
         resolve()
       })
@@ -345,9 +354,9 @@ function installDep (path: string) {
     console.log(chalk.yellow('开始安装依赖~'))
     process.chdir(path)
     let command
-    if (Util.shouldUseYarn()) {
+    if (shouldUseYarn()) {
       command = 'yarn'
-    } else if (Util.shouldUseCnpm()) {
+    } else if (shouldUseCnpm()) {
       command = 'cnpm install'
     } else {
       command = 'npm install'
@@ -367,8 +376,8 @@ export { Compiler }
 
 export async function build (appPath: string, buildConfig: IBuildOptions) {
   const {watch, port} = buildConfig
-  process.env.TARO_ENV = BUILD_TYPES.RN
-  await Util.checkCliAndFrameworkVersion(appPath, BUILD_TYPES.RN)
+  process.env.TARO_ENV = 'rn'
+  await checkCliAndFrameworkVersion(appPath, 'rn')
   const compiler = new Compiler(appPath)
   fs.ensureDirSync(compiler.tempPath)
   const t0 = performance.now()
@@ -382,7 +391,7 @@ export async function build (appPath: string, buildConfig: IBuildOptions) {
     throw e
   }
   const t1 = performance.now()
-  Util.printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
+  printLog(processTypeEnum.COMPILE, `编译完成，花费${Math.round(t1 - t0)} ms`)
   // rn 配置添加onlyTaroToRn字段,支持项目构建只编译不打包
   if (compiler.rnConfig.onlyTaroToRn) return
   if (watch) {

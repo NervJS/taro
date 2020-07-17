@@ -11,7 +11,7 @@ const routerParamsPrivateKey = '__key_'
 const preloadPrivateKey = '__preload_'
 const PRELOAD_DATA_KEY = 'preload'
 const preloadInitedComponent = '$preloadComponent'
-const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap', 'onResize']
+const pageExtraFns = ['onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap', 'onResize', 'onShareTimeline']
 
 function bindProperties (weappComponentConf, ComponentClass, isPage) {
   weappComponentConf.properties = {}
@@ -125,6 +125,8 @@ function processEvent (eventHandlerName, obj) {
     }
 
     const scope = this.$component
+    if (!scope || !scope[eventHandlerName]) return
+
     let callScope = scope
     const isAnonymousFn = eventHandlerName.indexOf(anonymousFnNamePreffix) > -1
     let realArgs = []

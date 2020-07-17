@@ -32,8 +32,11 @@ import {
   useMemo,
   useImperativeHandle,
   useContext,
+  useShareTimeline,
+  useAddToFavorites,
   createContext,
-  memo
+  memo,
+  setIsUsingDiff
 } from '@tarojs/taro'
 import { shallowEqual } from '@tarojs/utils'
 
@@ -85,9 +88,12 @@ export const Taro = {
   useMemo,
   useImperativeHandle,
   useContext,
+  useShareTimeline,
+  useAddToFavorites,
   createContext,
   memo,
-  shallowEqual
+  shallowEqual,
+  setIsUsingDiff
 }
 
 export default Taro

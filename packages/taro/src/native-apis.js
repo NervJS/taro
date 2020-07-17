@@ -50,7 +50,19 @@ const onAndSyncApis = {
   onAudioInterruptionEnd: true,
   onAudioInterruptionBegin: true,
   onLocationChange: true,
-  offLocationChange: true
+  offLocationChange: true,
+
+  onLocalServiceResolveFail: true,
+  onLocalServiceLost: true,
+  onLocalServiceFound: true,
+  onLocalServiceDiscoveryStop: true,
+  offLocalServiceResolveFail: true,
+  offLocalServiceLost: true,
+  offLocalServiceFound: true,
+  offLocalServiceDiscoveryStop: true,
+
+  onGyroscopeChange: true,
+  offGyroscopeChange: true
 }
 const noPromiseApis = {
   // 媒体
@@ -126,6 +138,7 @@ const otherApis = {
   // 媒体
   chooseImage: true,
   chooseMessageFile: true,
+  chooseMedia: true,
   previewImage: true,
   getImageInfo: true,
   compressImage: true,
@@ -214,6 +227,9 @@ const otherApis = {
   startDeviceMotionListening: true,
   stopDeviceMotionListening: true,
 
+  startGyroscope: true,
+  stopGyroscope: true,
+
   // 界面
   pageScrollTo: true,
   showToast: true,
@@ -240,6 +256,9 @@ const otherApis = {
   setBackgroundTextStyle: true,
   getSelectedTextRange: true,
   hideHomeButton: true,
+
+  stopLocalServiceDiscovery: true,
+  startLocalServiceDiscovery: true,
 
   // 第三方平台
   getExtConfig: true,

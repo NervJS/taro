@@ -1,10 +1,10 @@
-import { matchesStringOrRegExp } from "./matchesStringOrRegExp";
+import { matchesStringOrRegExp } from './matchesStringOrRegExp'
 
 /**
  * Check if an options object's propertyName contains a user-defined string or
  * regex that matches the passed in input.
  */
-export function optionsMatches(
+export function optionsMatches (
   options /*: Object */,
   propertyName /*: string */,
   input /*: string */
@@ -12,7 +12,7 @@ export function optionsMatches(
   return !!(
     options &&
     options[propertyName] &&
-    typeof input === "string" &&
+    typeof input === 'string' &&
     matchesStringOrRegExp(input, options[propertyName])
-  );
+  )
 }

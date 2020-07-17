@@ -13,16 +13,29 @@ Taro.getExtConfig 的同步版本。
 ## 类型
 
 ```tsx
-() => ExtInfo
+() => Record<string, any>
 ```
 
 ## 参数
 
 ### ExtInfo
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| extConfig | `Record<string, any>` | 第三方平台自定义的数据 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>extConfig</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>第三方平台自定义的数据</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

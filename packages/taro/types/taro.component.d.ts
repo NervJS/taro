@@ -22,10 +22,23 @@ declare namespace Taro {
     onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn
     onTabItemTap?(obj: TabItemTapObject): void
     onResize?(obj: any): void
+    /**
+     * 微信小程序，监听右上角菜单“分享到朋友圈”按钮的行为，并自定义发享内容。
+     * @since 2.11.3
+     * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onShareTimeline
+     */
+    onShareTimeline?(): ShareTimelineReturn
+    /**
+     * 微信小程序，监听用户点击右上角菜单“收藏”按钮的行为，并自定义收藏内容。
+     * @since 2.11.3
+     * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onAddToFavorites-Object-object
+     */
+    onAddToFavorites?(obj: AddToFavoritesObject): AddToFavoritesReturn
   }
 
   interface ComponentOptions {
     addGlobalClass?: boolean
+    styleIsolation?: 'isolated' | 'apply-shared' | 'shared'
   }
 
   interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
@@ -57,7 +70,7 @@ declare namespace Taro {
 
     /**
      * 可以于 `this.$router.path` 中获取当前页面路径
-     * 
+     *
      * @example
      * componentWillMount () {
      *   console.log(this.$router.path)

@@ -29,6 +29,7 @@ describe('Regs', () => {
   })
 
   it('should get a correct webpackConfig.module object', () => {
+    const chain = {}
     const { rule } = getModule('', {
       staticDirectory: '',
       designWidth: 750,
@@ -38,9 +39,6 @@ describe('Regs', () => {
 
       styleLoaderOption: {},
       cssLoaderOption: {},
-      lessLoaderOption: {},
-      sassLoaderOption: {},
-      stylusLoaderOption: {},
       fontUrlLoaderOption: {},
       imageUrlLoaderOption: {},
       mediaUrlLoaderOption: {},
@@ -48,39 +46,24 @@ describe('Regs', () => {
 
       postcss: {},
       babel: {}
-    })
-    expect(rule.sass).toMatchObject({
-      test: /\.(s[ac]ss)\b/,
-      enforce: 'pre',
-      use: expect.any(Array)
-    })
-    expect(rule.less).toMatchObject({
-      test: /\.less\b/,
-      enforce: 'pre',
-      use: expect.any(Array)
-    })
-    expect(rule.styl).toMatchObject({
-      test: /\.styl\b/,
-      enforce: 'pre',
-      use: expect.any(Array)
-    })
+    }, chain)
     expect(rule.css).toMatchObject({
-      test: /\.(css|s[ac]ss|less|styl)\b/,
+      test: /\.css$/,
       oneOf: expect.any(Array)
     })
     expect(rule.postcss).toMatchObject({
-      test: /\.(css|s[ac]ss|less|styl)\b/,
+      test: /\.css$/,
       use: expect.any(Array),
       exclude: expect.any(Array)
     })
     expect(rule.taroStyle).toMatchObject({
-      test: /\.(css|s[ac]ss|less|styl)\b/,
+      test: /\.css$/,
       enforce: 'post',
       use: expect.any(Array),
       include: expect.any(Array)
     })
     expect(rule.customStyle).toMatchObject({
-      test: /\.(css|s[ac]ss|less|styl)\b/,
+      test: /\.css$/,
       enforce: 'post',
       use: expect.any(Array),
       exclude: expect.any(Array)

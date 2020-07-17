@@ -16,10 +16,27 @@ sidebar_label: createAudioContext
 
 ## 参数
 
-| 参数 | 类型 | 说明 |
-| --- | --- | --- |
-| id | `string` | [audio](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html) 组件的 id |
-| component | `Record<string, any>` | 在自定义组件下，当前组件实例的this，以操作组件内 [audio](https://developers.weixin.qq.com/miniprogram/dev/component/audio.html) 组件 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>id</td>
+      <td><code>string</code></td>
+      <td><a href="https://developers.weixin.qq.com/miniprogram/dev/component/audio.html">audio</a> 组件的 id</td>
+    </tr>
+    <tr>
+      <td>component</td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>在自定义组件下，当前组件实例的this，以操作组件内 <a href="https://developers.weixin.qq.com/miniprogram/dev/component/audio.html">audio</a> 组件</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 示例代码
 

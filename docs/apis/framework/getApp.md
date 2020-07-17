@@ -17,9 +17,24 @@ sidebar_label: getApp
 
 ### Option
 
-| 参数 | 类型 | 必填 | 说明 |
-| --- | --- | :---: | --- |
-| allowDefault | `boolean` | 否 | 在 `App` 未定义时返回默认实现。当App被调用时，默认实现中定义的属性会被覆盖合并到App中。一般用于独立分包 |
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th style="text-align:center">必填</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>allowDefault</td>
+      <td><code>boolean</code></td>
+      <td style="text-align:center">否</td>
+      <td>在 <code>App</code> 未定义时返回默认实现。当App被调用时，默认实现中定义的属性会被覆盖合并到App中。一般用于独立分包</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Instance
 

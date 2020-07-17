@@ -1,4 +1,22 @@
 declare namespace Taro {
+  namespace onThemeChange {
+    interface Result {
+      /** 系统当前的主题，取值为light或dark */
+      theme: string
+    }
+    /** 系统主题改变事件的回调函数 */
+    type Callback = (res: Result) => void
+  }
+  /**
+   * 监听系统主题改变事件。该事件与 App.onThemeChange 的回调时机一致。
+   *
+   * **注意**
+   * - 只有在全局配置 "darkmode": true 时才会触发此事件。
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onThemeChange.html
+   */
+  function onThemeCahnge(callback: onThemeChange.Callback): void
+
   namespace onPageNotFound {
     interface Result {
       /** 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面） */
@@ -7,7 +25,7 @@ declare namespace Taro {
       path: string
       /** 打开不存在页面的 query 参数 */
       query: General.IAnyObject
-  }
+    }
     /** 小程序要打开的页面不存在事件的回调函数 */
     type Callback = (res: Result) => void
   }
@@ -107,6 +125,14 @@ declare namespace Taro {
    */
   function onAppHide(
     /** 小程序切后台事件的回调函数 */
+    callback: (res: General.CallbackResult) => void,
+  ): void
+  /** 取消监听系统主题改变事件
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offThemeChange.html
+   */
+  function offThemeChange(
+    /** 系统主题改变事件的回调函数 */
     callback: (res: General.CallbackResult) => void,
   ): void
   /** 取消监听小程序要打开的页面不存在事件

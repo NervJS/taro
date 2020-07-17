@@ -5,8 +5,11 @@ import * as pxtransform from 'postcss-pxtransform'
 import * as url from 'postcss-url'
 import { sync as resolveSync } from 'resolve'
 import { IPostcssOption } from '@tarojs/taro/types/compile'
+import {
+  recursiveMerge,
+  isNpmPkg,
+} from '@tarojs/helper'
 
-import { isNpmPkg, recursiveMerge } from '../utils'
 import browserList from '../config/browser_list'
 
 const defaultAutoprefixerOption = {
@@ -21,7 +24,7 @@ const defaultPxtransformOption: {
 } = {
   enable: true,
   config: {
-    platform: 'weapp'
+    platform: process.env.TARO_ENV
   }
 }
 
@@ -38,7 +41,7 @@ const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules', 'url']
 const plugins = [] as any[]
 
 export const getPostcssPlugins = function (appPath: string, {
-  isQuickapp = false,
+  isBuildQuickapp = false,
   designWidth,
   deviceRatio,
   postcssOption = {} as IPostcssOption
@@ -59,7 +62,7 @@ export const getPostcssPlugins = function (appPath: string, {
     plugins.push(autoprefixer(autoprefixerOption.config))
   }
 
-  if (pxtransformOption.enable && !isQuickapp) {
+  if (pxtransformOption.enable && !isBuildQuickapp) {
     plugins.push(pxtransform(pxtransformOption.config))
   }
   if (urlOption.enable) {
