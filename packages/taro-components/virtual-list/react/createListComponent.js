@@ -347,7 +347,8 @@ export default function createListComponent ({
       } = this.props
       const {
         isScrolling,
-        scrollOffset
+        scrollOffset,
+        scrollUpdateWasRequested
       } = this.state // TODO Deprecate direction "horizontal"
 
       const isHorizontal = direction === 'horizontal' || layout === 'horizontal'
@@ -388,10 +389,12 @@ export default function createListComponent ({
           ...style
         }
       }
-      if (isHorizontal) {
-        outerElementProps.scrollLeft = scrollOffset
-      } else {
-        outerElementProps.scrollTop = scrollOffset
+      if (scrollUpdateWasRequested) {
+        if (isHorizontal) {
+          outerElementProps.scrollLeft = scrollOffset
+        } else {
+          outerElementProps.scrollTop = scrollOffset
+        }
       }
       return createElement(outerElementType || outerTagName || 'div', outerElementProps, createElement(innerElementType || innerTagName || 'div', {
         children: items,
