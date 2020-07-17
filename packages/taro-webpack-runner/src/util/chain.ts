@@ -263,7 +263,8 @@ export const getModule = (appPath: string, {
   mediaUrlLoaderOption,
   esnextModules = [] as (string | RegExp)[],
 
-  postcss
+  postcss,
+  babelLoaderOption
 }) => {
   const postcssOption: IPostcssOption = postcss || {}
 
@@ -465,13 +466,16 @@ export const getModule = (appPath: string, {
     use: [stylusLoader]
   }
   rule.script = {
-    test: REG_SCRIPTS,
-    exclude: [filename => /@tarojs\/components/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))],
-    use: {
-      babelLoader: getBabelLoader([{
-        compact: false
-      }])
-    }
+    ...{
+      test: REG_SCRIPTS,
+      exclude: [filename => /@tarojs\/components/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))],
+      use: {
+        babelLoader: getBabelLoader([{
+          compact: false
+        }])
+      }
+    },
+    ...babelLoaderOption
   }
   rule.media = {
     test: REG_MEDIA,

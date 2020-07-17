@@ -58,7 +58,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     postcss,
     csso,
     uglify,
-    terser
+    terser,
+    babelLoaderOption = emptyObj
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
@@ -155,7 +156,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       esnextModules,
 
       postcss,
-      staticDirectory
+      staticDirectory,
+      babelLoaderOption
     }),
     plugin,
     optimization: {

@@ -56,7 +56,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     miniCssExtractPluginOption = emptyObj,
     esnextModules = [],
 
-    postcss = emptyObj
+    postcss = emptyObj,
+    babelLoaderOption = emptyObj
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
@@ -136,7 +137,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       esnextModules,
 
       postcss,
-      staticDirectory
+      staticDirectory,
+      babelLoaderOption
     }),
     plugin,
     optimization: {
