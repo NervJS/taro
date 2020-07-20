@@ -30,7 +30,8 @@ import {
   setAncestorCondition,
   replaceJSXTextWithTextComponent,
   createRandomLetters,
-  isDerivedFromProps
+  isDerivedFromProps,
+  generateMemberExpressionArray
 } from './utils'
 import { difference, get as safeGet, cloneDeep, uniq, snakeCase } from 'lodash'
 import {
