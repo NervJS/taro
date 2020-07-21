@@ -243,6 +243,13 @@ export default function initNativeApi (taro) {
   taro.request = link.request.bind(link)
   taro.addInterceptor = link.addInterceptor.bind(link)
   taro.cleanInterceptors = link.cleanInterceptors.bind(link)
+  taro.Request = function () {
+    const link = new Link(taroInterceptor)
+    const request = link.request.bind(link)
+    request.addInterceptor = link.addInterceptor.bind(link)
+    request.cleanInterceptors = link.cleanInterceptors.bind(link)
+    return request
+  }
   taro.getCurrentPages = getCurrentPages
   taro.getApp = getApp
   taro.requirePlugin = requirePlugin

@@ -116,3 +116,9 @@ const link = new Link(taroInterceptor)
 /** @type {TaroH5.request} */
 export const request = link.request.bind(link)
 export const addInterceptor = link.addInterceptor.bind(link)
+export const Request = function () {
+  const link = new Link(taroInterceptor)
+  const request = link.request.bind(link)
+  request.addInterceptor = link.addInterceptor.bind(link)
+  return request
+}
