@@ -44,6 +44,7 @@ export default class Page extends Creator {
     if (fs.existsSync(pkgPath)) {
       return pkgPath
     }
+    chalk.yellow('请确认是在正确的项目目录下执行 Taro 命令.')
     return path.join(projectDir, 'client', 'package.json')
   }
 
