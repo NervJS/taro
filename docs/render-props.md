@@ -27,7 +27,7 @@ class Cat extends Taro.Component {
   render() {
     const { mouse } = this.props;
     return (
-      <Image src={catImage} style={{ position: 'absolute', left: mouse.x, top: mouse.y }} />
+      <Image src={catImage} style={{ position: 'absolute', left: `${mouse.x}px`, top: `${mouse.y}px` }} />
     );
   }
 }
@@ -65,7 +65,7 @@ class Mouse extends Taro.Component {
 class MouseTracker extends Taro.Component {
   render() {
     return (
-      <View>
+      <View style='height: 100%'>
         <View>点击鼠标!</View>
         {/*
           Mouse 如何渲染由 MouseTracker 的状态控制

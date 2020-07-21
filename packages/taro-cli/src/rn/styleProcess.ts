@@ -1,14 +1,17 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as postcss from 'postcss'
-import chalk from 'chalk'
 import * as pxtransform from 'postcss-pxtransform'
 import transformCSS from 'taro-css-to-react-native'
+import {
+  printLog,
+  npm as npmProcess,
+  FILE_PROCESSOR_MAP,
+  processTypeEnum,
+  chalk
+} from '@tarojs/helper'
 
 import { StyleSheetValidation } from './StyleSheet/index'
-import * as Util from '../util'
-import * as npmProcess from '../util/npm'
-import { FILE_PROCESSOR_MAP, processTypeEnum } from '../util/constants'
 
 import * as stylelintConfig from '../config/rn-stylelint.json'
 
@@ -48,7 +51,7 @@ function loadStyle ({filePath, pluginsConfig}, appPath) {
           filePath
         }
       }).catch((e) => {
-        Util.printLog(processTypeEnum.ERROR, '样式预处理', filePath)
+        printLog(processTypeEnum.ERROR, '样式预处理', filePath)
         console.log(e.stack)
       })
   }
@@ -96,7 +99,7 @@ function postCSS ({css, filePath, projectConfig}) {
         filePath
       }
     }).catch((e) => {
-      Util.printLog(processTypeEnum.ERROR, '样式转换', filePath)
+      printLog(processTypeEnum.ERROR, '样式转换', filePath)
       console.log(e.stack)
     })
 }
@@ -106,7 +109,7 @@ function getStyleObject ({css, filePath}) {
   try {
     styleObject = transformCSS(css)
   } catch (err) {
-    Util.printLog(processTypeEnum.WARNING, 'css-to-react-native 报错', filePath)
+    printLog(processTypeEnum.WARNING, 'css-to-react-native 报错', filePath)
     console.log(chalk.red(err.stack))
   }
   return styleObject
@@ -119,7 +122,7 @@ function validateStyle ({styleObject, filePath}) {
     } catch (err) {
       // 先忽略掉 scalePx2dp 的报错
       if (/Invalid prop `.*` of type `string` supplied to `.*`, expected `number`[^]*/g.test(err.message)) return
-      Util.printLog(processTypeEnum.WARNING, '样式不支持', filePath)
+      printLog(processTypeEnum.WARNING, '样式不支持', filePath)
       console.log(chalk.red(err.message))
     }
   }
@@ -129,7 +132,7 @@ function writeStyleFile ({css, tempFilePath}) {
   const fileContent = getWrapedCSS(css.replace(/"(scalePx2dp\(.*?\))"/g, '$1'))
   fs.ensureDirSync(path.dirname(tempFilePath))
   fs.writeFileSync(tempFilePath, fileContent)
-  Util.printLog(processTypeEnum.GENERATE, '生成样式文件', tempFilePath)
+  printLog(processTypeEnum.GENERATE, '生成样式文件', tempFilePath)
 }
 
 export {

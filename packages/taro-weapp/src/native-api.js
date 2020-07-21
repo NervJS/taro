@@ -80,6 +80,20 @@ function request (options) {
     }
     return p
   }
+  p.onHeadersReceived = function (cb) {
+    cb && cb();
+    if (requestTask) {
+      requestTask.onHeadersReceived();
+    }
+    return p;
+  };
+  p.offHeadersReceived = function (cb) {
+    cb && cb();
+    if (requestTask) {
+      requestTask.offHeadersReceived();
+    }
+    return p;
+  };
   return p
 }
 

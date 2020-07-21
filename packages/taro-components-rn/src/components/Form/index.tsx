@@ -53,7 +53,7 @@ class _Form extends React.Component<FormProps> {
   }
 
   deppDiveIntoChildren = (children: any): React.ReactNode => {
-    return React.Children.toArray(children).map((child) => {
+    return React.Children.toArray(children).map((child: any) => {
       const childTypeName = child.type && child.type.name
       if (!child.type) return child
       if (childTypeName === '_Button' && ['submit', 'reset'].indexOf(child.props.formType) >= 0) {

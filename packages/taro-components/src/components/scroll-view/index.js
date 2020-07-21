@@ -2,7 +2,7 @@ import 'weui'
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
-import './style/index.scss'
+import './style/index.css'
 
 function easeOutScroll (from = 0, to = 0, callback) {
   if (from === to || typeof from !== 'number') {
@@ -46,7 +46,6 @@ function scrollIntoView (id) {
 function scrollVertical (top, isAnimation) {
   if (isAnimation) {
     easeOutScroll(this._scrollTop, top, pos => {
-      console.log('props.scrollY', this.container, this._scrollTop)
       if (this.container) this.container.scrollTop = pos
     })
   } else {

@@ -9,7 +9,8 @@ const createDownloadTask = ({ url, header, success, error }) => {
     headersReceived: createCallbackManager(),
     progressUpdate: createCallbackManager()
   }
-
+  
+  xhr.withCredentials = true
   xhr.open('GET', url, true)
   xhr.responseType = 'blob'
   setHeader(xhr, header)

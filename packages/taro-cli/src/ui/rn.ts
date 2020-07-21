@@ -1,12 +1,11 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import chalk from 'chalk'
 
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
+import { processTypeEnum, REG_TYPESCRIPT, printLog, resolveScriptPath, chalk } from '@tarojs/helper'
+
 import { Compiler as RNCompiler } from '../rn_bak'
 import { analyzeFiles, analyzeStyleFilesImport, copyFileToDist, RN_OUTPUT_NAME, parseEntryAst } from './common'
-import { printLog, resolveScriptPath } from '../util'
 import { IBuildData } from './ui.types'
 
 export async function buildForRN (uiIndex = 'index', buildData) {

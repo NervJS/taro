@@ -16,10 +16,27 @@ import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import * as _ from 'lodash'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
+import {
+  REG_TYPESCRIPT,
+  NODE_MODULES_REG,
+  PARSE_AST_TYPE,
+  taroJsFramework,
+  taroJsQuickAppComponents,
+  REG_SCRIPTS,
+  processTypeEnum,
+  resolveScriptPath,
+  isNpmPkg,
+  npm as npmUtils,
+  isEmptyObject,
+  promoteRelativePath,
+  printLog,
+  isAliasPath,
+  replaceAliasPath,
+  REG_STYLE
+} from '@tarojs/helper'
 
-import { REG_TYPESCRIPT, BUILD_TYPES, PARSE_AST_TYPE, MINI_APP_FILES, NODE_MODULES_REG, CONFIG_MAP, taroJsFramework, taroJsQuickAppComponents, REG_SCRIPTS, processTypeEnum, REG_STYLE } from '../utils/constants'
-import { IComponentObj, AddPageChunks, IComponent } from '../utils/types'
-import { resolveScriptPath, buildUsingComponents, isNpmPkg, resolveNpmSync, isEmptyObject, promoteRelativePath, printLog, isAliasPath, replaceAliasPath } from '../utils'
+import { IComponentObj, AddPageChunks, IComponent, IFileType } from '../utils/types'
+import { buildUsingComponents } from '../utils'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { getTaroJsQuickAppComponentsPath, generateQuickAppUx, getImportTaroSelfComponents, getImportCustomComponents, generateQuickAppManifest } from '../utils/helper'
 import parseAst from '../utils/parseAst'
@@ -31,11 +48,12 @@ import MiniLoaderPlugin from './MiniLoaderPlugin'
 
 interface IMiniPluginOptions {
   appEntry?: string,
-  buildAdapter: BUILD_TYPES,
+  buildAdapter: string,
   nodeModulesPath: string,
   sourceDir: string,
   outputDir: string,
   quickappJSON?: any,
+  isBuildQuickapp: boolean,
   designWidth: number,
   commonChunks: string[],
   pluginConfig?: object,
@@ -44,6 +62,9 @@ interface IMiniPluginOptions {
   alias: object
   addChunkPages?: AddPageChunks,
   constantsReplaceList: object,
+  fileType: IFileType,
+  modifyBuildAssets?: Function,
+  modifyBuildTempFileContent?: Function
 }
 
 export interface ITaroFileInfo {
@@ -76,19 +97,10 @@ export const createTarget = function createTarget (name) {
   }
 }
 
-export const Targets = {
-  [BUILD_TYPES.WEAPP]: createTarget(BUILD_TYPES.WEAPP),
-  [BUILD_TYPES.ALIPAY]: createTarget(BUILD_TYPES.ALIPAY),
-  [BUILD_TYPES.SWAN]: createTarget(BUILD_TYPES.SWAN),
-  [BUILD_TYPES.TT]: createTarget(BUILD_TYPES.TT),
-  [BUILD_TYPES.QQ]: createTarget(BUILD_TYPES.QQ),
-  [BUILD_TYPES.QUICKAPP]: createTarget(BUILD_TYPES.QUICKAPP)
-}
-
 export function isFileToBeTaroComponent (
   code: string,
   sourcePath: string,
-  buildAdapter: BUILD_TYPES,
+  buildAdapter: string,
   constantsReplaceList: object
 ) {
   try {
@@ -166,15 +178,22 @@ export default class MiniPlugin {
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
-      buildAdapter: BUILD_TYPES.WEAPP,
+      buildAdapter: 'weapp',
       nodeModulesPath: '',
       sourceDir: '',
       outputDir: '',
       designWidth: 750,
+      isBuildQuickapp: false,
       commonChunks: ['runtime', 'vendors', 'taro', 'common'],
       isBuildPlugin: false,
       alias: {},
-      constantsReplaceList:{}
+      constantsReplaceList:{},
+      fileType: {
+        style: '.wxss',
+        config: '.json',
+        script: '.js',
+        templ: '.wxml'
+      }
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
@@ -221,20 +240,27 @@ export default class MiniPlugin {
     this.appEntry = this.getAppEntry(compiler)
     let taroLoadChunksPlugin
     const commonStyles: Set<string> = new Set()
+    const {
+      commonChunks,
+      isBuildPlugin,
+      addChunkPages,
+      fileType,
+      isBuildQuickapp
+    } = this.options
     compiler.hooks.run.tapAsync(
 			PLUGIN_NAME,
 			this.tryAsync(async (compiler: webpack.Compiler) => {
         await this.run(compiler)
         if(taroLoadChunksPlugin) taroLoadChunksPlugin.destroy()
         taroLoadChunksPlugin = new TaroLoadChunksPlugin({
-          commonChunks: this.options.commonChunks,
-          buildAdapter: this.options.buildAdapter,
-          isBuildPlugin: this.options.isBuildPlugin,
-          addChunkPages: this.options.addChunkPages,
+          commonChunks: commonChunks,
+          isBuildPlugin: isBuildPlugin,
+          addChunkPages: addChunkPages,
           pages: this.pages,
           depsMap: this.pageComponentsDependenciesMap,
           sourceDir: this.sourceDir,
-          subPackages: this.subPackages
+          subPackages: this.subPackages,
+          isBuildQuickapp
         })
         taroLoadChunksPlugin.apply(compiler)
 			})
@@ -251,14 +277,14 @@ export default class MiniPlugin {
         }
         if(taroLoadChunksPlugin) taroLoadChunksPlugin.destroy()
         taroLoadChunksPlugin = new TaroLoadChunksPlugin({
-          commonChunks: this.options.commonChunks,
-          buildAdapter: this.options.buildAdapter,
-          isBuildPlugin: this.options.isBuildPlugin,
-          addChunkPages: this.options.addChunkPages,
+          commonChunks: commonChunks,
+          isBuildPlugin: isBuildPlugin,
+          addChunkPages: addChunkPages,
           pages: this.pages,
           depsMap: this.pageComponentsDependenciesMap,
           sourceDir: this.sourceDir,
-          subPackages: this.subPackages
+          subPackages: this.subPackages,
+          isBuildQuickapp
         })
         taroLoadChunksPlugin.apply(compiler)
 			})
@@ -281,7 +307,7 @@ export default class MiniPlugin {
 
       compilation.hooks.afterOptimizeChunkAssets.tap(PLUGIN_NAME, chunks => {
         chunks.forEach(chunk => {
-          const id = chunk.id
+          const id = typeof chunk.id === 'string' ? chunk.id : chunk.name
           this.options.commonChunks.forEach(commonName => {
             if (id === commonName) {
               const _modules = chunk._modules
@@ -300,7 +326,7 @@ export default class MiniPlugin {
 
       compilation.hooks.afterOptimizeAssets.tap(PLUGIN_NAME, (assets) => {
         Object.keys(assets).forEach(assetPath => {
-          const styleExt = MINI_APP_FILES[this.options.buildAdapter].STYLE
+          const styleExt = fileType.style
           if (new RegExp(`${styleExt}.js$`).test(assetPath)) {
             delete assets[assetPath]
           } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
@@ -331,8 +357,8 @@ export default class MiniPlugin {
 
     new TaroNormalModulesPlugin().apply(compiler)
     new MiniLoaderPlugin({
-      buildAdapter: this.options.buildAdapter,
-      sourceDir: this.sourceDir
+      sourceDir: this.sourceDir,
+      fileType
     }).apply(compiler)
   }
 
@@ -366,7 +392,7 @@ export default class MiniPlugin {
     return appEntryPath
   }
 
-  getNpmComponentRealPath (code: string, component: IComponentObj, adapter: BUILD_TYPES): string | null {
+  getNpmComponentRealPath (code: string, component: IComponentObj, adapter: string): string | null {
     let componentRealPath: string | null = null
     let importExportName
     const isTaroComponentRes = this.judgeFileToBeTaroComponent(code, component.path as string, adapter)
@@ -459,7 +485,7 @@ export default class MiniPlugin {
               componentPath = replaceAliasPath(filePath, componentPath, alias)
               realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
             } else {
-              realComponentPath = resolveNpmSync(componentPath, this.options.nodeModulesPath)
+              realComponentPath = npmUtils.resolveNpmSync(componentPath, this.options.nodeModulesPath)
             }
           } else {
             realComponentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
@@ -481,18 +507,11 @@ export default class MiniPlugin {
 
   getTabBarFiles (compiler: webpack.Compiler,appConfig) {
     const tabBar = appConfig.tabBar
-    const { buildAdapter } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
-      const {
-        list: listConfig,
-        iconPath: pathConfig,
-        selectedIconPath: selectedPathConfig
-      } = CONFIG_MAP[buildAdapter]
-
-      const list = tabBar[listConfig] || []
+      const list = tabBar['list'] || []
       list.forEach(item => {
-        item[pathConfig] && this.tabBarIcons.add(item[pathConfig])
-        item[selectedPathConfig] && this.tabBarIcons.add(item[selectedPathConfig])
+        item['iconPath'] && this.tabBarIcons.add(item['iconPath'])
+        item['selectedIconPath'] && this.tabBarIcons.add(item['selectedIconPath'])
       })
       if (tabBar.custom) {
         const customTabBarPath = path.join(this.sourceDir, 'custom-tab-bar')
@@ -556,7 +575,7 @@ export default class MiniPlugin {
   }
 
   getPages (compiler) {
-    const { buildAdapter, constantsReplaceList, nodeModulesPath, alias } = this.options
+    const { buildAdapter, constantsReplaceList, nodeModulesPath, alias, isBuildQuickapp } = this.options
     const appEntry = this.appEntry
     const code = fs.readFileSync(appEntry).toString()
     try {
@@ -569,7 +588,7 @@ export default class MiniPlugin {
         adapter: buildAdapter,
         env: constantsReplaceList
       })
-      const { configObj, importStyles } = parseAst(transformResult.ast, buildAdapter, appEntry, nodeModulesPath, alias)
+      const { configObj, importStyles } = parseAst(transformResult.ast, appEntry, nodeModulesPath, alias, isBuildQuickapp)
       const appPages = configObj.pages
       this.appConfig = configObj
       compiler.appConfig = configObj
@@ -717,13 +736,11 @@ export default class MiniPlugin {
   }
 
   getComponents (compiler: webpack.Compiler, fileList: Set<IComponent>, isRoot: boolean) {
-    const { buildAdapter, alias, constantsReplaceList, nodeModulesPath } = this.options
-    const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
-    const isSwanApp = buildAdapter === BUILD_TYPES.SWAN
+    const { buildAdapter, alias, isBuildQuickapp, fileType, constantsReplaceList, nodeModulesPath } = this.options
     fileList.forEach(file => {
       try {
         const isNative = file.isNative
-        const isComponentConfig = isRoot && !isSwanApp ? {} : { component: true }
+        const isComponentConfig = isRoot ? {} : { component: true }
 
         let configObj
         let taroSelfComponents
@@ -741,7 +758,7 @@ export default class MiniPlugin {
             })) : []
           }
         } else {
-          if (isQuickApp && isRoot) {
+          if (isBuildQuickapp && isRoot) {
             const styleName = this.getStylePath(quickappCommonStyle)
             const taroJsQuickAppStylesPath = path.resolve(this.options.nodeModulesPath, taroJsQuickAppComponents, 'src/common/css')
             const sourceStylePath = path.resolve(taroJsQuickAppStylesPath, styleName)
@@ -759,7 +776,7 @@ export default class MiniPlugin {
             adapter: buildAdapter,
             env: constantsReplaceList
           })
-          let parseAstRes = parseAst(transformResult.ast, buildAdapter, file.path, nodeModulesPath, alias)
+          let parseAstRes = parseAst(transformResult.ast, file.path, nodeModulesPath, alias, isBuildQuickapp)
           configObj = parseAstRes.configObj
           importStyles = parseAstRes.importStyles
           if (isRoot) {
@@ -782,11 +799,11 @@ export default class MiniPlugin {
           depComponents = transformResult.components
           code = transformResult.code
         }
-        depComponents = depComponents.filter(item => !/^(plugin|dynamicLib):\/\//.test(item.path))
+        depComponents = depComponents.filter(item => !/^(plugin|dynamicLib|plugin-private):\/\//.test(item.path))
         this.transformComponentsPath(file.path, depComponents)
-        if (isQuickApp) {
+        if (isBuildQuickapp) {
           const scriptPath = file.path
-          const outputScriptPath = scriptPath.replace(this.sourceDir, this.outputDir).replace(path.extname(scriptPath), MINI_APP_FILES[buildAdapter].SCRIPT)
+          const outputScriptPath = scriptPath.replace(this.sourceDir, this.outputDir).replace(path.extname(scriptPath), fileType.script)
           const importTaroSelfComponents = getImportTaroSelfComponents(outputScriptPath, this.options.nodeModulesPath, this.outputDir, taroSelfComponents)
           const importCustomComponents = getImportCustomComponents(file.path, depComponents)
           const usingComponents = configObj.usingComponents
@@ -810,10 +827,10 @@ export default class MiniPlugin {
           code,
           importStyles
         }
-        if (isQuickApp && taroSelfComponents) {
+        if (isBuildQuickapp && taroSelfComponents) {
           taroFileTypeMap[file.path].taroSelfComponents = new Set(Array.from(taroSelfComponents).map(item => {
             const taroJsQuickAppComponentsPath = getTaroJsQuickAppComponentsPath(this.options.nodeModulesPath)
-            const componentPath = path.join(taroJsQuickAppComponentsPath, item as string, `index${MINI_APP_FILES[buildAdapter].TEMPL}`)
+            const componentPath = path.join(taroJsQuickAppComponentsPath, item as string, `index${fileType.templ}`)
             return {
               name: item as string,
               path: componentPath
@@ -897,21 +914,23 @@ export default class MiniPlugin {
     })
   }
 
-  generateMiniFiles (compilation: webpack.compilation.Compilation, commonStyles: Set<string>) {
-    const { buildAdapter, commonChunks } = this.options
-    const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
+  async generateMiniFiles (compilation: webpack.compilation.Compilation, commonStyles: Set<string>) {
+    const { isBuildQuickapp, fileType, buildAdapter, commonChunks, modifyBuildTempFileContent, modifyBuildAssets, isBuildPlugin } = this.options
+    if (typeof modifyBuildTempFileContent === 'function') {
+      await modifyBuildTempFileContent(taroFileTypeMap)
+    }
     Object.keys(taroFileTypeMap).forEach(item => {
       const relativePath = this.getRelativePath(item)
       const extname = path.extname(item)
-      let jsonPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].CONFIG).replace(/\\/g, '/').replace(/^\//, '')
-      const scriptPath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].SCRIPT).replace(/\\/g, '/').replace(/^\//, '')
-      const templatePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].TEMPL).replace(/\\/g, '/').replace(/^\//, '')
-      const stylePath = relativePath.replace(extname, MINI_APP_FILES[buildAdapter].STYLE).replace(/\\/g, '/').replace(/^\//, '')
+      let jsonPath = relativePath.replace(extname, fileType.config).replace(/\\/g, '/').replace(/^\//, '')
+      const scriptPath = relativePath.replace(extname, fileType.script).replace(/\\/g, '/').replace(/^\//, '')
+      const templatePath = relativePath.replace(extname, fileType.templ).replace(/\\/g, '/').replace(/^\//, '')
+      const stylePath = relativePath.replace(extname, fileType.style).replace(/\\/g, '/').replace(/^\//, '')
       const itemInfo = taroFileTypeMap[item]
       if (itemInfo.type === PARSE_AST_TYPE.ENTRY) {
-        jsonPath = relativePath.replace(RegExp(`(.${buildAdapter})?${extname}$`), MINI_APP_FILES[buildAdapter].CONFIG).replace(/\\/g, '/').replace(/^\//, '')
+        jsonPath = relativePath.replace(RegExp(`(.${buildAdapter})?${extname}$`), fileType.config).replace(/\\/g, '/').replace(/^\//, '')
       }
-      if (!isQuickApp) {
+      if (!isBuildQuickapp) {
         const jsonStr = JSON.stringify(itemInfo.config)
         compilation.assets[jsonPath] = {
           size: () => jsonStr.length,
@@ -940,17 +959,6 @@ export default class MiniPlugin {
         })
         if (hitScriptItem) {
           delete compilation.assets[hitScriptItem]
-        }
-        const quickappJSON = generateQuickAppManifest({
-          appConfig: this.appConfig,
-          designWidth: this.options.designWidth,
-          pageConfigs: this.pageConfigs,
-          quickappJSON: this.options.quickappJSON
-        })
-        const quickappJSONStr = JSON.stringify(quickappJSON).replace(/\\\\/g, '/')
-        compilation.assets['./manifest.json'] = {
-          size: () => quickappJSONStr.length,
-          source: () => quickappJSONStr
         }
         compilation.assets[templatePath] = {
           size: () => template.length,
@@ -1025,6 +1033,20 @@ export default class MiniPlugin {
       }
     })
 
+    if (isBuildQuickapp) {
+      const quickappJSON = generateQuickAppManifest({
+        sourceDir: this.sourceDir,
+        taroFileTypeMap,
+        designWidth: this.options.designWidth,
+        quickappJSON: this.options.quickappJSON
+      })
+      const quickappJSONStr = JSON.stringify(quickappJSON).replace(/\\\\/g, '/')
+      compilation.assets['./manifest.json'] = {
+        size: () => quickappJSONStr.length,
+        source: () => quickappJSONStr
+      }
+    }
+
     this.tabBarIcons.forEach(icon => {
       const iconPath = path.resolve(this.sourceDir, icon)
       if (fs.existsSync(iconPath)) {
@@ -1047,6 +1069,23 @@ export default class MiniPlugin {
         }
       }
     })
+    if (isBuildPlugin) {
+      const pluginJSONPath = path.join(this.sourceDir, 'plugin', 'plugin.json')
+      if (pluginJSONPath) {
+        const pluginJSON = fs.readJSONSync(pluginJSONPath)
+        if (pluginJSON.main) {
+          pluginJSON.main = path.basename(pluginJSON.main, path.extname(pluginJSON.main)) + '.js'
+        }
+        const relativePath = this.getRelativePath(pluginJSONPath).replace(/\\/g, '/')
+        compilation.assets[relativePath] = {
+          size: () => JSON.stringify(pluginJSON).length,
+          source: () => JSON.stringify(pluginJSON)
+        }
+      }
+    }
+    if (typeof modifyBuildAssets === 'function') {
+      await modifyBuildAssets(compilation.assets)
+    }
   }
 
   getRelativePath (filePath) {
@@ -1071,7 +1110,7 @@ export default class MiniPlugin {
   judgeFileToBeTaroComponent (
     code: string,
     sourcePath: string,
-    buildAdapter: BUILD_TYPES
+    buildAdapter: string
   ) {
     const { constantsReplaceList } = this.options
     const isTaroComponentRes = isFileToBeTaroComponent(code, sourcePath, buildAdapter, constantsReplaceList)
@@ -1202,15 +1241,15 @@ export default class MiniPlugin {
   }
 
   getTemplatePath (filePath) {
-    return this.getTargetFilePath(filePath, MINI_APP_FILES[this.options.buildAdapter].TEMPL)
+    return this.getTargetFilePath(filePath, this.options.fileType.templ)
   }
 
   getConfigPath (filePath) {
-    return this.getTargetFilePath(filePath, MINI_APP_FILES[this.options.buildAdapter].CONFIG)
+    return this.getTargetFilePath(filePath, this.options.fileType.config)
   }
 
   getStylePath (filePath) {
-    return this.getTargetFilePath(filePath, MINI_APP_FILES[this.options.buildAdapter].STYLE)
+    return this.getTargetFilePath(filePath, this.options.fileType.style)
   }
 
   static getTaroFileTypeMap () {

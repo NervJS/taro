@@ -58,7 +58,11 @@ interface IRNPluginOptions {
   isBuildPlugin: boolean,
   alias: object,
   addChunkPages?: AddPageChunks,
-  appJson?: object
+  appJson?: object,
+
+  // custome plugin hooks
+  modifyBuildAssets?: Function,
+  modifyBuildTempFileContent?: Function
 }
 
 export interface ITaroFileInfo {
@@ -258,6 +262,7 @@ export default class RNPlugin {
         await this.generateMiniFiles(compilation)
         await this.generateStyleSheet(compilation)
         await this.generateRNEntry(compilation)
+        await this.linkCommonBundle(compilation)
         this.addedComponents.clear()
       })
     )
@@ -761,8 +766,14 @@ export default class RNPlugin {
     // })
   }
 
-  generateMiniFiles (compilation: webpack.compilation.Compilation) {
+  async generateMiniFiles (compilation: webpack.compilation.Compilation) {
     // const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
+    const {modifyBuildTempFileContent, modifyBuildAssets} = this.options
+
+    if (typeof modifyBuildTempFileContent === 'function') {
+      await modifyBuildTempFileContent(taroFileTypeMap)
+    }
+
     Object.keys(taroFileTypeMap).forEach(item => {
       // console.log('generateMiniFiles', taroFileTypeMap)
       const itemInfo = taroFileTypeMap[item]
@@ -791,6 +802,20 @@ export default class RNPlugin {
         }
       }
     })
+
+    if (typeof modifyBuildAssets === 'function') {
+      await modifyBuildAssets(compilation.assets)
+    }
+  }
+
+  linkCommonBundle (compilation: webpack.compilation.Compilation) {
+    if (compilation.assets['common.js']) {
+      const newAppCode = `require('./common');` + compilation.assets['app.js'].source()
+      compilation.assets['app.js'] = {
+        size: () => newAppCode.length,
+        source: () => newAppCode
+      }
+    }
   }
 
   generateRNEntry (compilation: webpack.compilation.Compilation) {
@@ -828,9 +853,9 @@ export default class RNPlugin {
       const fileInfo = compilation.assets[fileName]
       if (!REG_STYLE.test(fileName)) return
       const relativePath = this.getRelativePath(fileName)
-      // const extname = path.extname(fileName)
-      // const styleSheetPath = relativePath.replace(extname, '_styles.js').replace(/\\/g, '/')
-      const styleSheetPath = path.join(path.dirname(relativePath), 'index_styles.js')
+      const extname = path.extname(fileName)
+      const styleSheetPath = relativePath.replace(extname, '_styles.js').replace(/\\/g, '/')
+      // const styleSheetPath = path.join(path.dirname(relativePath), 'index_styles.js')
       delete compilation.assets[fileName]
       const css = fileInfo.source()
       // cache

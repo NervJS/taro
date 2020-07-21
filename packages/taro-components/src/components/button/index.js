@@ -3,7 +3,7 @@ import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
 
-import './style/index.scss'
+import './style/index.css'
 
 class Button extends Nerv.Component {
   constructor () {

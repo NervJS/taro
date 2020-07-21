@@ -6,12 +6,12 @@ import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
+import baseConf from './config/base.conf'
 import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
 import { addLeadingSlash, addTrailingSlash, recursiveMerge, formatOpenHost } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
-import { makeConfig } from './util/chain';
 
 const stripTrailingSlash = (path: string): string =>
   path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path
@@ -25,26 +25,49 @@ const addHtmlExtname = (str: string) => {
     : `${str}.html`
 }
 
-const customizeChain = (chain, customizeFunc: Function) => {
+const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
+  if (modifyWebpackChainFunc instanceof Function) {
+    await modifyWebpackChainFunc(chain, webpack)
+  }
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack)
   }
 }
 
-const buildProd = (appPath: string, config: BuildConfig): Promise<void> => {
+const buildProd = async (appPath: string, config: BuildConfig): Promise<void> => {
+  const baseWebpackChain = baseConf(appPath)
+  await customizeChain(baseWebpackChain, config.modifyWebpackChain, config.webpackChain)
+  const prodWebpackConf = prodConf(appPath, config, baseWebpackChain)
+  const webpackChain = baseWebpackChain.merge(prodWebpackConf)
+  const webpackConfig = webpackChain.toConfig()
+  const compiler = webpack(webpackConfig)
+  const onBuildFinish = config.onBuildFinish
+  compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
+    if (typeof config.modifyBuildAssets === 'function') {
+      await config.modifyBuildAssets(compilation.assets)
+    }
+    callback()
+  })
   return new Promise((resolve, reject) => {
-    const webpackChain = prodConf(appPath, config)
-
-    customizeChain(webpackChain, config.webpackChain)
-
-    const webpackConfig = webpackChain.toConfig()
-    const compiler = webpack(webpackConfig)
     bindProdLogger(compiler)
-
-    compiler.run((err) => {
+    compiler.run((err, stats) => {
       if (err) {
-        printBuildError(err);
+        printBuildError(err)
+        if (typeof onBuildFinish === 'function') {
+          onBuildFinish({
+            error: err,
+            stats: null,
+            isWatch: false
+          })
+        }
         return reject(err)
+      }
+      if (typeof onBuildFinish === 'function') {
+        onBuildFinish({
+          error: err,
+          stats,
+          isWatch: false
+        })
       }
       resolve()
     })
@@ -59,10 +82,12 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const publicPath = conf.publicPath ? addLeadingSlash(addTrailingSlash(conf.publicPath)) : '/'
   const outputPath = path.join(appPath, conf.outputRoot as string)
   const customDevServerOption = config.devServer || {}
-  const webpackChain = devConf(appPath, config)
   const homePage = config.homePage || []
-
-  customizeChain(webpackChain, config.webpackChain)
+  const onBuildFinish = config.onBuildFinish
+  const baseWebpackChain = baseConf(appPath)
+  await customizeChain(baseWebpackChain, config.modifyWebpackChain, config.webpackChain)
+  const devWebpackConf = devConf(appPath, config, baseWebpackChain)
+  const webpackChain = baseWebpackChain.merge(devWebpackConf)
 
   const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
     {
@@ -110,7 +135,30 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const compiler = webpack(webpackConfig)
   bindDevLogger(devUrl, compiler)
   const server = new WebpackDevServer(compiler, devServerOptions)
-
+  compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
+    if (typeof config.modifyBuildAssets === 'function') {
+      await config.modifyBuildAssets(compilation.assets)
+    }
+    callback()
+  })
+  compiler.hooks.done.tap('taroBuildDone', stats => {
+    if (typeof onBuildFinish === 'function') {
+      onBuildFinish({
+        error: null,
+        stats,
+        isWatch: true
+      })
+    }
+  })
+  compiler.hooks.failed.tap('taroBuildDone', error => {
+    if (typeof onBuildFinish === 'function') {
+      onBuildFinish({
+        error,
+        stats: null,
+        isWatch: true
+      })
+    }
+  })
   return new Promise((resolve, reject) => {
     server.listen(devServerOptions.port, (devServerOptions.host as string), err => {
       if (err) {
@@ -134,16 +182,15 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 }
 
 export default async (appPath: string, config: BuildConfig): Promise<void> => {
-  const newConfig: BuildConfig = await makeConfig(config)
-  if (newConfig.isWatch) {
+  if (config.isWatch) {
     try {
-      await buildDev(appPath, newConfig)
+      await buildDev(appPath, config)
     } catch (e) {
       console.error(e)
     }
   } else {
     try {
-      await buildProd(appPath, newConfig)
+      await buildProd(appPath, config)
     } catch (e) {
       console.error(e)
       process.exit(1);

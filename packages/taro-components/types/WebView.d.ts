@@ -3,7 +3,7 @@ import { StandardProps, CommonEventFunction } from './common'
 
 interface WebViewProps extends StandardProps {
   /** webview 指向网页的链接。可打开关联的公众号的文章，其它网页需登录小程序管理后台配置业务域名。
-   * @supported weapp
+   * @supported weapp, h5
    */
   src: string
 
@@ -13,12 +13,12 @@ interface WebViewProps extends StandardProps {
   onMessage?: CommonEventFunction<WebViewProps.onMessageEventDetail>
 
   /** 网页加载成功时候触发此事件。e.detail = { src }
-   * @supported weapp
+   * @supported weapp, h5
    */
   onLoad?: CommonEventFunction<WebViewProps.onLoadEventDetail>
 
   /** 网页加载失败的时候触发此事件。e.detail = { src }
-   * @supported weapp
+   * @supported weapp, h5
    */
   onError?: CommonEventFunction<WebViewProps.onErrorEventDetail>
 }
@@ -40,7 +40,7 @@ declare namespace WebViewProps {
 
 /** web-view 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用。
  * @classification open
- * @supported weapp, rn
+ * @supported weapp, h5, rn
  * @example
  * ```tsx
  * class App extends Component {

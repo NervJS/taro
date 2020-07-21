@@ -12,7 +12,7 @@ sidebar_label: Animation
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/Animation.export.html)
 
 ```tsx
-() => Record<string, any>[]
+() => { actions: Record<string, any>[]; }
 ```
 
 #### API 支持度

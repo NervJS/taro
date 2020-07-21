@@ -991,6 +991,7 @@ export class RenderParser {
     const properties: Array<t.ObjectProperty | t.SpreadProperty> = []
     openingElement.attributes = attrs.filter(attr => {
       if (t.isJSXSpreadAttribute(attr)) {
+        // @ts-ignore
         properties.push(t.spreadProperty(attr.argument))
         return false
       } else if (t.isJSXAttribute(attr)) {
@@ -1221,7 +1222,7 @@ export class RenderParser {
             return false
           }) as NodePath<t.JSXElement>
           if (loopBlock) {
-            setJSXAttr(loopBlock.node, Adapter.key, value)
+            setJSXAttr(loopBlock.node, Adapter.key, value!)
             path.remove()
           } else {
             path.get('name').replaceWith(t.jSXIdentifier(Adapter.key))
@@ -1511,12 +1512,15 @@ export class RenderParser {
           const { properties } = id.node
           for (const p of properties) {
             if (t.isIdentifier(p)) {
+              // @ts-ignore
               if (this.initState.has(p.name)) {
                 // tslint:disable-next-line
                 console.log(codeFrameError(id.node, errMsg).message)
               }
             }
+            // @ts-ignore
             if (t.isSpreadProperty(p) && t.isIdentifier(p.argument)) {
+              // @ts-ignore
               if (this.initState.has(p.argument.name)) {
                 // tslint:disable-next-line
                 console.log(codeFrameError(id.node, errMsg).message)
@@ -1855,7 +1859,7 @@ export class RenderParser {
           JSXElement: path => {
             const element = path.node.openingElement
             if (this.isInternalComponent(element)) {
-              if (this.isEmptyProps(element.attributes)) {
+              if (this.isEmptyProps(element.attributes) && Adapter.type !== Adapters.swan) {
                 return
               }
 

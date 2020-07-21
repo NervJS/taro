@@ -62,7 +62,7 @@ export default class PageView extends Component {
     </tr>
     <tr>
       <td>mode</td>
-      <td><code>&quot;scaleToFill&quot; | &quot;aspectFit&quot; | &quot;aspectFill&quot; | &quot;widthFix&quot; | &quot;top&quot; | &quot;bottom&quot; | &quot;center&quot; | &quot;left&quot; | &quot;right&quot; | &quot;top left&quot; | &quot;top right&quot; | &quot;bottom left&quot; | &quot;bottom right&quot;</code></td>
+      <td><code>&quot;scaleToFill&quot; | &quot;aspectFit&quot; | &quot;aspectFill&quot; | &quot;widthFix&quot; | &quot;heightFix&quot; | &quot;top&quot; | &quot;bottom&quot; | &quot;center&quot; | &quot;left&quot; | &quot;right&quot; | &quot;top left&quot; | &quot;top right&quot; | &quot;bottom left&quot; | &quot;bottom right&quot;</code></td>
       <td style="text-align:center"><code>&quot;scaleToFill&quot;</code></td>
       <td style="text-align:center">否</td>
       <td>图片裁剪、缩放的模式</td>
@@ -152,6 +152,10 @@ mode 的合法值
     <tr>
       <td>widthFix</td>
       <td>缩放模式，宽度不变，高度自动变化，保持原图宽高比不变</td>
+    </tr>
+    <tr>
+      <td>heightFix</td>
+      <td>缩放模式，高度不变，宽度自动变化，保持原图宽高比不变</td>
     </tr>
     <tr>
       <td>top</td>

@@ -277,20 +277,18 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
             location: nextLocation
           })
         } else {
-          revertPop(nextLocation)
+          revertPop()
         }
       }
     )
   }
 
-  const revertPop = (fromLocation: Location): void => {
+  const revertPop = (): void => {
     const toLocation = history.location
 
     const key = toLocation.state.key
 
-    const location = createLocation(toLocation.path, key, fromLocation)
-
-    const href = createHref(location)
+    const href = createHref(toLocation)
 
     globalHistory.pushState({ key }, '', href)
   }

@@ -186,8 +186,8 @@ function doUpdate (component, prevProps, prevState) {
   }
 
   const cb = function () {
+    invokeEffects(component)
     if (component.__mounted) {
-      invokeEffects(component)
       if (component['$$refs'] && component['$$refs'].length > 0) {
         component['$$refs'].forEach(ref => {
           if (ref.type !== 'component') return
@@ -241,6 +241,7 @@ function doUpdate (component, prevProps, prevState) {
 
   if (Object.keys(dataDiff).length === 0) {
     cb()
+    invokeEffects(component)
   } else {
     component.$scope.setData(dataDiff, cb)
   }

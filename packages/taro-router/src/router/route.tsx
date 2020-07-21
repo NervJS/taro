@@ -1,14 +1,18 @@
 import Taro from '@tarojs/taro-h5'
 import Nerv, { nextTick } from 'nervjs'
+import toPairs from 'lodash/toPairs'
 
 import { tryToCall } from '../utils'
 import { Location, RouteObj } from '../utils/types'
 import createWrappedComponent from './createWrappedComponent'
 
+import * as Types from '../utils/types'
+
 type RouteProps = RouteObj & {
   currentLocation: Location;
   k: number;
   collectComponent: Function;
+  customRoutes: Types.CustomRoutes;
 }
 
 const getScroller = () => {
@@ -32,6 +36,9 @@ const getScroller = () => {
 }
 let scroller
 
+type OriginalRoute = string;
+type MappedRoute = string;
+
 class Route extends Taro.Component<RouteProps, {}> {
   matched = false;
   wrappedComponent;
@@ -39,6 +46,7 @@ class Route extends Taro.Component<RouteProps, {}> {
   containerRef;
   isRoute = true;
   scrollPos = 0;
+  customRoutes: [OriginalRoute, MappedRoute][] = [];
 
   state = {
     location: {}
@@ -46,26 +54,32 @@ class Route extends Taro.Component<RouteProps, {}> {
 
   constructor (props, context) {
     super(props, context)
+    this.customRoutes = toPairs(this.props.customRoutes)
     this.matched = this.computeMatch(this.props.currentLocation)
     if (this.matched) {
       this.state = { location: this.props.currentLocation }
     }
   }
 
-  computeMatch (currentLocation) {
-    const path = currentLocation.path;
+  computeMatch (currentLocation: Location, isIndex = this.props.isIndex, isTabBar = this.props.isTabBar) {
+    let pathname = currentLocation.path;
     const key = currentLocation.state.key;
-    const isIndex = this.props.isIndex;
-    const isTabBar = this.props.isTabBar;
+
+    const foundRoute = this.customRoutes.filter(([originalRoute, mappedRoute]) => {
+      return currentLocation.path === mappedRoute
+    })
+    if (foundRoute.length) {
+      pathname = foundRoute[0][0]
+    }
 
     if (key !== undefined) {
       if (isTabBar) {
-        return key === this.props.key && path === this.props.path
+        return key === this.props.key && pathname === this.props.path
       } else {
         return key === this.props.key
       }
     } else {
-      return isIndex && path === '/'
+      return isIndex && pathname === '/'
     }
   }
 
@@ -79,27 +93,25 @@ class Route extends Taro.Component<RouteProps, {}> {
         ref.props.location = this.state.location
       }
       this.componentRef = ref
-      this.props.collectComponent(ref, this.props.k)
+      this.props.collectComponent(ref, this.props.key)
     }
   }
 
   updateComponent (props = this.props) {
+    if (this.matched && this.componentRef) {
+      this.setState({
+        location: props.currentLocation
+      }, () => {
+        this.componentRef.props.location = this.state.location
+      })
+    }
     props.componentLoader()
       .then(({ default: component }) => {
         if (!component) {
           throw Error(`Received a falsy component for route "${props.path}". Forget to export it?`)
         }
-        const path = props.currentLocation.path
-        const key = props.currentLocation.state.key
         const WrappedComponent = createWrappedComponent(component)
         this.wrappedComponent = WrappedComponent
-        if (key === props.key && path === props.path) {
-          this.setState({ location: props.currentLocation }, () => {
-            if (this.componentRef) {
-              this.componentRef.props.location = this.state.location
-            }
-          })
-        }
         this.forceUpdate()
       }).catch((e) => {
         console.error(e)
@@ -109,16 +121,15 @@ class Route extends Taro.Component<RouteProps, {}> {
   componentDidMount () {
     scroller = scroller || getScroller()
     scroller.set(0)
-    if (this.matched && this.componentRef) {
-      this.componentRef.props.location = this.state.location
-    }
     this.updateComponent()
   }
 
-  componentWillReceiveProps (nProps, nContext) {
+  componentWillReceiveProps (nProps: RouteProps) {
     const isRedirect = nProps.isRedirect
     const lastMatched = this.matched
-    const nextMatched = this.computeMatch(nProps.currentLocation)
+    const nextMatched = this.computeMatch(nProps.currentLocation, nProps.isIndex, nProps.isTabBar)
+
+    this.matched = nextMatched
 
     if (isRedirect) {
       this.updateComponent(nProps)
@@ -126,17 +137,13 @@ class Route extends Taro.Component<RouteProps, {}> {
       return
     }
 
-    this.matched = nextMatched
-
     if (nextMatched) {
-      if (!isRedirect) {
-        nextTick(() => {
-          this.showPage()
-          scroller = scroller || getScroller()
-          scroller.set(this.scrollPos)
-        })
-        tryToCall(this.componentRef.componentDidShow, this.componentRef)
-      }
+      nextTick(() => {
+        this.showPage()
+        scroller = scroller || getScroller()
+        scroller.set(this.scrollPos)
+      })
+      tryToCall(this.componentRef.componentDidShow, this.componentRef)
     } else {
       scroller = scroller || getScroller()
       this.scrollPos = scroller.get()

@@ -5,7 +5,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
   /** 输入框的内容
    * @supported weapp, h5, rn
    */
-  value: string
+  value?: string
 
   /** 输入框为空时占位符
    * @supported weapp, h5, rn
@@ -187,7 +187,7 @@ declare namespace TextareaProps {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>

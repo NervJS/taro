@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mobx-h5",
-  "version": "2.1.3",
+  "version": "2.2.11",
   "description": "mobx-h5 for taro",
   "keywords": [
     "mobx",
@@ -28,8 +28,8 @@
     "nervjs": "^1.5.0"
   },
   "dependencies": {
-    "@tarojs/mobx-common": "2.1.3",
-    "@tarojs/taro-h5": "2.1.3"
+    "@tarojs/mobx-common": "2.2.11",
+    "@tarojs/taro-h5": "2.2.11"
   },
   "devDependencies": {
     "rimraf": "^2.6.2",

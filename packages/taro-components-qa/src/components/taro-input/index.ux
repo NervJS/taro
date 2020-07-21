@@ -6,7 +6,7 @@
     id="{{id}}"
     maxlength="{{maxlength}}"
     type="{{type}}"
-    class="{{classname}}"
+    class="{{class}}"
     disabled="{{disabled}}"
     style="{{inputStyle}}"
     enterkeytype="{{confirmType}}"
@@ -30,7 +30,7 @@
         required: false,
         default: ''
       },
-      classname: {
+      class: {
         type: String,
         required: false,
         default: 'taro_input'
