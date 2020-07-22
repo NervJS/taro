@@ -16,7 +16,7 @@ import Vue from 'vue';
     importFrameworkName: 'Vue',
     isNeedRawLoader: true,
     extraImportForWeb: `
-import '@tarojs/components/dist-h5/vue'
+require('@tarojs/components/dist-h5/vue')
 `
   },
   vue3: {
