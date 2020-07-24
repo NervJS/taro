@@ -1,6 +1,34 @@
 import { IPluginContext } from '@tarojs/service'
-
+import { UnRecursiveTemplate } from '@tarojs/shared'
 import { printDevelopmentTip } from '../../util'
+
+class Template extends UnRecursiveTemplate {
+  supportXS = true
+  Adapter = {
+    if: 'wx:if',
+    else: 'wx:else',
+    elseif: 'wx:elif',
+    for: 'wx:for',
+    forItem: 'wx:for-item',
+    forIndex: 'wx:for-index',
+    key: 'wx:key',
+    xs: 'wxs',
+    type: 'weapp'
+  }
+
+  buildXsTemplate () {
+    return '<wxs module="xs" src="./utils.wxs" />'
+  }
+
+  replacePropName (name: string, value: string) {
+    if (value === 'eh') {
+      const nameLowerCase = name.toLowerCase()
+      if (nameLowerCase === 'bindlongtap') return 'bindlongpress'
+      return nameLowerCase
+    }
+    return name
+  }
+}
 
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
@@ -34,19 +62,7 @@ export default (ctx: IPluginContext) => {
           xs: '.wxs'
         },
         isUseComponentBuildPage: true,
-        templateAdapter: {
-          if: 'wx:if',
-          else: 'wx:else',
-          elseif: 'wx:elif',
-          for: 'wx:for',
-          forItem: 'wx:for-item',
-          forIndex: 'wx:for-index',
-          key: 'wx:key',
-          xs: 'wxs',
-          type: 'weapp'
-        },
-        isSupportRecursive: false,
-        isSupportXS: true
+        template: new Template()
       }
 
       // build with webpack

@@ -6,9 +6,11 @@ import * as webpack from 'webpack'
 import * as fs from 'fs'
 import { join } from 'path'
 import { IBuildConfig } from '../utils/types'
-import { Adapter } from '../template/adapters'
 import { printPrerenderSuccess, printPrerenderFail } from '../utils/logHelper'
-import { Attributes } from '../template'
+
+import type { IAdapter } from '@tarojs/shared'
+
+type Attributes = Record<string, string>
 
 const { JSDOM } = require('jsdom')
 const wx = require('miniprogram-simulate/src/api')
@@ -111,13 +113,15 @@ export class Prerender {
   private stat: webpack.Stats.ToJsonOutput
   private vm: NodeVM
   private appLoaded = false
+  private adapter: IAdapter
 
-  public constructor (buildConfig: IBuildConfig, webpackConfig: webpack.Configuration, stat: webpack.Stats) {
+  public constructor (buildConfig: IBuildConfig, webpackConfig: webpack.Configuration, stat: webpack.Stats, adapter) {
     this.buildConfig = buildConfig
     this.outputPath = webpackConfig.output!.path!
     this.globalObject = webpackConfig.output!.globalObject!
     this.prerenderConfig = buildConfig.prerender!
     this.stat = stat.toJson()
+    this.adapter = adapter
     this.vm = new NodeVM({
       console: this.prerenderConfig.console ? 'inherit' : 'off',
       require: {
@@ -236,10 +240,10 @@ export class Prerender {
     const [importTemplate, template] = fs.readFileSync(templatePath, 'utf-8').split('\n')
 
     let str = `${importTemplate}\n`
-    str += `<block ${Adapter.if}="{{root.uid}}">\n`
+    str += `<block ${this.adapter.if}="{{root.uid}}">\n`
     str += `  ${template}\n`
     str += '</block>\n'
-    str += `<block ${Adapter.else}>\n`
+    str += `<block ${this.adapter.else}>\n`
     str += `${xml}\n`
     str += '</block>'
     fs.writeFileSync(templatePath, str, 'utf-8')

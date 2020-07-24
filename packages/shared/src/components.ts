@@ -1,13 +1,11 @@
 import { Shortcuts } from './shortcuts'
-import { toDashed, hasOwn, toCamelCase } from './utils'
-import { isBooleanStringLiteral, isNumber } from './is'
 
-const styles = {
+export const styles = {
   style: `i.${Shortcuts.Style}`,
   class: `i.${Shortcuts.Class}`
 }
 
-const events = {
+export const events = {
   bindtap: 'eh'
 }
 
@@ -19,12 +17,21 @@ const touchEvents = {
   bindLongTap: ''
 }
 
-const alipayEvents = {
+export const alipayEvents = {
   onTap: 'eh',
   onTouchMove: 'eh',
   onTouchEnd: 'eh',
   onTouchCancel: 'eh',
   onLongTap: 'eh'
+}
+
+export const specialEvents = new Set([
+  'htouchmove',
+  'vtouchmove'
+])
+
+export function singleQuote (s: string) {
+  return `'${s}'`
 }
 
 const View = {
@@ -377,10 +384,6 @@ const ScrollView = {
   ...touchEvents
 }
 
-function singleQuote (s: string) {
-  return `'${s}'`
-}
-
 const Swiper = {
   'indicator-dots': 'false',
   'indicator-color': singleQuote('rgba(0, 0, 0, .3)'),
@@ -447,11 +450,6 @@ const Audio = {
   bindTimeUpdate: '',
   bindEnded: ''
 }
-
-const specialEvents = new Set([
-  'htouchmove',
-  'vtouchmove'
-])
 
 const Camera = {
   mode: singleQuote('normal'),
@@ -644,56 +642,6 @@ const SlotView = {
 // 不给 View 直接加 slot 属性的原因是性能损耗
 const Slot = {
   name: ''
-}
-
-interface Components {
-  [key: string]: Record<string, string>;
-}
-
-export function createMiniComponents (components: Components, buildType: string) {
-  const result: Components = Object.create(null)
-  const isAlipay = buildType === 'alipay'
-
-  for (const key in components) {
-    if (hasOwn(components, key)) {
-      const component = components[key]
-      const compName = toDashed(key)
-      const newComp: Record<string, string> = Object.create(null)
-      for (let prop in component) {
-        if (hasOwn(component, prop)) {
-          let propValue = component[prop]
-          if (prop.startsWith('bind') || specialEvents.has(prop)) {
-            prop = isAlipay ? prop.replace('bind', 'on') : prop.toLowerCase()
-            if ((buildType === 'weapp' || buildType === 'qq') && prop === 'bindlongtap') {
-              prop = 'bindlongpress'
-            }
-            propValue = 'eh'
-          } else if (propValue === '') {
-            propValue = `i.${toCamelCase(prop)}`
-          } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-            propValue = `i.${toCamelCase(prop)} === undefined ? ${propValue} : i.${toCamelCase(prop)}`
-          } else {
-            propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
-          }
-
-          newComp[prop] = propValue
-        }
-      }
-      if (compName !== 'block') {
-        Object.assign(newComp, styles, isAlipay ? alipayEvents : events)
-      }
-
-      if (compName === 'slot' || compName === 'slot-view') {
-        result[compName] = {
-          slot: 'i.name'
-        }
-      } else {
-        result[compName] = newComp
-      }
-    }
-  }
-
-  return result
 }
 
 export const internalComponents = {

@@ -1,6 +1,26 @@
 import { IPluginContext } from '@tarojs/service'
-
+import { UnRecursiveTemplate } from '@tarojs/shared'
 import { printDevelopmentTip } from '../../util'
+
+class Template extends UnRecursiveTemplate {
+  supportXS = false
+  Adapter = {
+    if: 'jd:if',
+    else: 'jd:else',
+    elseif: 'jd:elif',
+    for: 'jd:for',
+    forItem: 'jd:for-item',
+    forIndex: 'jd:for-index',
+    key: 'jd:key',
+    type: 'jd'
+  }
+
+  replacePropName (name, value) {
+    if (name === 'bingdlongtap') return 'bindlongpress'
+    if (value === 'eh') return name.toLowerCase()
+    return name
+  }
+}
 
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
@@ -33,18 +53,7 @@ export default (ctx: IPluginContext) => {
           script: '.js'
         },
         isUseComponentBuildPage: false,
-        templateAdapter: {
-          if: 'jd:if',
-          else: 'jd:else',
-          elseif: 'jd:elif',
-          for: 'jd:for',
-          forItem: 'jd:for-item',
-          forIndex: 'jd:for-index',
-          key: 'jd:key',
-          type: 'jd'
-        },
-        isSupportRecursive: false,
-        isSupportXS: false
+        template: new Template()
       }
 
       // build with webpack

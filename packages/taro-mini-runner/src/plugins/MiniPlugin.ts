@@ -24,18 +24,17 @@ import {
 } from '@tarojs/helper'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { buildBaseTemplate, buildPageTemplate, buildXScript, buildBaseComponentTemplate } from '../template'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
-import { setAdapter, IAdapter, weixinAdapter } from '../template/adapters'
 import { componentConfig } from '../template/component'
 import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
 import { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared'
+
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
 interface ITaroMiniPluginOptions {
-  buildAdapter: string
   sourceDir: string
   commonChunks: string[]
   framework: string
@@ -43,11 +42,9 @@ interface ITaroMiniPluginOptions {
   prerender?: PrerenderConfig
   addChunkPages?: AddPageChunks
   isBuildQuickapp: boolean
-  isSupportRecursive: boolean
-  isSupportXS: boolean
   fileType: IFileType
-  templateAdapter: IAdapter
-  modifyBuildAssets?: Function,
+  template: RecursiveTemplate | UnRecursiveTemplate
+  modifyBuildAssets?: Function
   modifyMiniConfigs?: Function
 }
 
@@ -100,26 +97,21 @@ export default class TaroMiniPlugin {
   dependencies = new Map<string, TaroSingleEntryDependency>()
   loadChunksPlugin: TaroLoadChunksPlugin
 
-  constructor (options = {}) {
+  constructor (options = {} as ITaroMiniPluginOptions) {
     this.options = Object.assign({
-      buildAdapter: 'weapp',
       sourceDir: '',
       framework: 'nerv',
       commonChunks: ['runtime', 'vendors'],
       baseLevel: 16,
       isBuildQuickapp: false,
-      isSupportRecursive: false,
-      isSupportXS: true,
       fileType: {
         style: '.wxss',
         config: '.json',
         script: '.js',
         templ: '.wxml',
         xs: '.wxs'
-      },
-      templateAdapter: weixinAdapter
+      }
     }, options)
-    setAdapter(this.options.templateAdapter)
   }
 
   /**
@@ -598,7 +590,7 @@ export default class TaroMiniPlugin {
   async generateMiniFiles (compilation: webpack.compilation.Compilation) {
     const baseTemplateName = 'base'
     const baseCompName = 'comp'
-    const { baseLevel, isSupportRecursive, modifyBuildAssets, modifyMiniConfigs } = this.options
+    const { template, modifyBuildAssets, modifyMiniConfigs } = this.options
     if (typeof modifyMiniConfigs === 'function') {
       await modifyMiniConfigs(this.filesConfig)
     }
@@ -611,10 +603,10 @@ export default class TaroMiniPlugin {
         [baseCompName]: `./${baseCompName}`
       }
     })
-    this.generateTemplateFile(compilation, baseTemplateName, buildBaseTemplate, baseLevel, isSupportRecursive)
-    if (!isSupportRecursive) {
+    this.generateTemplateFile(compilation, baseTemplateName, template.buildTemplate, componentConfig)
+    if (!template.isSupportRecursive) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
-      this.generateTemplateFile(compilation, baseCompName, buildBaseComponentTemplate)
+      this.generateTemplateFile(compilation, baseCompName, template.buildBaseComponentTemplate)
     }
     this.generateXSFile(compilation)
     this.components.forEach(component => {
@@ -624,14 +616,14 @@ export default class TaroMiniPlugin {
         this.generateConfigFile(compilation, component.path, config.content)
       }
       if (!component.isNative) {
-        this.generateTemplateFile(compilation, component.path, buildPageTemplate, importBaseTemplatePath)
+        this.generateTemplateFile(compilation, component.path, template.buildPageTemplate, importBaseTemplatePath)
       }
     })
     this.pages.forEach(page => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
       if (config) {
-        if (!isSupportRecursive) {
+        if (!template.isSupportRecursive) {
           const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(baseCompName, ''))))
           config.content.usingComponents = {
             [baseCompName]: importBaseCompPath,
@@ -641,7 +633,7 @@ export default class TaroMiniPlugin {
         this.generateConfigFile(compilation, page.path, config.content)
       }
       if (!page.isNative) {
-        this.generateTemplateFile(compilation, page.path, buildPageTemplate, importBaseTemplatePath)
+        this.generateTemplateFile(compilation, page.path, template.buildPageTemplate, importBaseTemplatePath)
       }
     })
     this.generateTabBarFiles(compilation)
@@ -679,7 +671,7 @@ export default class TaroMiniPlugin {
       return
     }
 
-    const xs = buildXScript()
+    const xs = this.options.template.buildXScript()
     const filePath = this.getTargetFilePath('utils', ext)
     compilation.assets[filePath] = {
       size: () => xs.length,

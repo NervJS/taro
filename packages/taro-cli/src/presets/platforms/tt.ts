@@ -1,6 +1,20 @@
 import { IPluginContext } from '@tarojs/service'
-
+import { RecursiveTemplate } from '@tarojs/shared'
 import { printDevelopmentTip } from '../../util'
+
+class Template extends RecursiveTemplate {
+  supportXS = false
+  Adapter = {
+    if: 'tt:if',
+    else: 'tt:else',
+    elseif: 'tt:elif',
+    for: 'tt:for',
+    forItem: 'tt:for-item',
+    forIndex: 'tt:for-index',
+    key: 'tt:key',
+    type: 'tt'
+  }
+}
 
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
@@ -33,18 +47,7 @@ export default (ctx: IPluginContext) => {
           script: '.js'
         },
         isUseComponentBuildPage: false,
-        templateAdapter: {
-          if: 'tt:if',
-          else: 'tt:else',
-          elseif: 'tt:elif',
-          for: 'tt:for',
-          forItem: 'tt:for-item',
-          forIndex: 'tt:for-index',
-          key: 'tt:key',
-          type: 'tt'
-        },
-        isSupportRecursive: true,
-        isSupportXS: false
+        template: new Template()
       }
 
       // build with webpack
