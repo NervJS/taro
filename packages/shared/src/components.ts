@@ -78,7 +78,7 @@ const Map = {
   'enable-rotate': 'false',
   'enable-satellite': 'false',
   'enable-traffic': 'false',
-  setting: '',
+  setting: '[]',
   bindMarkerTap: '',
   bindLabelTap: '',
   bindControlTap: '',
