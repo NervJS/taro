@@ -10,6 +10,7 @@ import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 import { AppConfig, Config } from '@tarojs/taro'
+import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared'
 import {
   resolveMainFilePath,
   readConfig,
@@ -29,8 +30,6 @@ import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import { componentConfig } from '../template/component'
 import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
 import { AddPageChunks, IComponent, IFileType } from '../utils/types'
-
-import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -102,7 +101,6 @@ export default class TaroMiniPlugin {
       sourceDir: '',
       framework: 'nerv',
       commonChunks: ['runtime', 'vendors'],
-      baseLevel: 16,
       isBuildQuickapp: false,
       fileType: {
         style: '.wxss',
@@ -112,6 +110,11 @@ export default class TaroMiniPlugin {
         xs: '.wxs'
       }
     }, options)
+
+    const { template, baseLevel } = this.options
+    if (template instanceof UnRecursiveTemplate && baseLevel > 0) {
+      template.baseLevel = baseLevel
+    }
   }
 
   /**

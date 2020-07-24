@@ -77,7 +77,6 @@ export class BaseTemplate {
   protected exportExpr = 'module.exports ='
   protected isSupportRecursive: boolean
   protected supportXS = false
-  protected baseLevel = 16
   protected miniComponents: Components
   protected modifyTemplateChild?: (child: string, nodeName: string) => string
   protected modifyTemplateChildren?: (children: string, nodeName: string) => string
@@ -339,6 +338,15 @@ export class RecursiveTemplate extends BaseTemplate {
 
 export class UnRecursiveTemplate extends BaseTemplate {
   isSupportRecursive = false
+  private _baseLevel = 16
+
+  set baseLevel (lv) {
+    this._baseLevel = lv
+  }
+
+  get baseLevel () {
+    return this._baseLevel
+  }
 
   public buildTemplate = componentConfig => {
     let template = this.buildBaseTemplate()
