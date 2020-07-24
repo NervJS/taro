@@ -410,6 +410,18 @@ module.exports = {
 
 专属于小程序的配置。
 
+### mini.baseLevel
+
+`number`
+
+默认值：`16`
+
+对于 `template` 模板不支持递归的小程序（如：微信、QQ、京东），Taro 会对所有模板**循环 baseLevel 次**，以支持同类模板的循环调用。
+
+但是循环太多次也会导致生成的 `base` 模板体积相当大，因此当你的嵌套层级并不太深时可以使用 `baseLevel` 配置项配置较少的循环层数。
+
+当然在嵌套层级较深时，也可以增大 baseLevel。以避免到达循环上限后，Taro 会调用一个自定义组件重新开始循环所带来一些问题。
+
 ### mini.compile
 
 `object`
