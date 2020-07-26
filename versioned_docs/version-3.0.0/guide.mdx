@@ -203,13 +203,13 @@ export default {
 
 </Tabs>
 
-你可能会注意到，不管是 <ReactIcon /> 还是 <VueIcon />，两者的全局配置是一样的。这是在配置文件中，Taro 并不关心框架的区别，Taro CLI 会直接在编译时在 Node.js 环境直接执行全局配置的代码，并把 `export default` 导出的对象序列化为一个 JSON 文件。接下来我们要讲到 [页面配置](./guide#页面配置) 也是同样的执行逻辑。
+你可能会注意到，不管是 <ReactIcon /> 还是 <VueIcon />，两者的全局配置是一样的。这是在配置文件中，Taro 并不关心框架的区别，Taro CLI 会直接在编译时在 Node.js 环境直接执行全局配置的代码，并把 `export default` 导出的对象序列化为一个 JSON 文件。接下来我们要讲到 [页面配置](#页面配置) 也是同样的执行逻辑。
 
 因此，我们必须保证配置文件是在 Node.js 环境中是可以执行的，不能使用一些在 H5 环境或小程序环境才能运行的包或者代码，否则编译将会失败。
 
 :::info 了解更多
 Taro 的入口组件和全局配置规范是基于微信小程序而制定的，并对全平台进行统一。
-你可以通过访问 [React 入口组件](./react#入口组件) 和 [Vue 入口组件](./vue#入口组件)，以及 [全局配置](./tutorial#全局配置) 了解入口组件和全局配置的详情。
+你可以通过访问 [React 入口组件](./react.md#入口组件) 和 [Vue 入口组件](./vue.md#入口组件)，以及 [全局配置](./tutorial.md#全局配置) 了解入口组件和全局配置的详情。
 :::
 
 ### 页面组件
@@ -291,7 +291,7 @@ export default {
 
 :::info 了解更多
 Taro 的页面钩子函数和页面配置规范是基于微信小程序而制定的，并对全平台进行统一。
-你可以通过访问 [React 页面组件](./react#页面组件) 和 [Vue 页面组件](./vue#页面组件) 了解全部页面钩子函数和页面配置规范。
+你可以通过访问 [React 页面组件](./react.md#页面组件) 和 [Vue 页面组件](./vue.md#页面组件) 了解全部页面钩子函数和页面配置规范。
 :::
 
 ### 自定义组件
@@ -414,7 +414,7 @@ export default {
 :::info 了解更多
 可能你会注意到在一个 Taro 应用中发送请求是 `Taro.request()` 完成的。
 和页面配置、全局配置一样，Taro 的 API 规范也是基于微信小程序而制定的，并对全平台进行统一。
-你可以通过在 [API 文档](./apis/about/desc) 找到所有 API。
+你可以通过在 [API 文档](./apis/about/desc.md) 找到所有 API。
 :::
 
 在我们的首页组件里，还引用了一个 `ThreadList` 组件，我们现在来实现它：
@@ -654,7 +654,7 @@ export default {
 另外一个值得注意的点是：我们并没有使用 `div`/`span` 这样的 HTML 组件，而是使用了 `View`/`Text` 这样的跨平台组件。
 
 :::info 了解更多
-Taro 文档的[跨平台组件库](./components-desc) 包含了所有组件参数和用法。但目前组件库文档中的参数和组件名都是针对 React 的（除了 React 的点击事件是 `onClick` 之外）。
+Taro 文档的[跨平台组件库](./components-desc.md) 包含了所有组件参数和用法。但目前组件库文档中的参数和组件名都是针对 React 的（除了 React 的点击事件是 `onClick` 之外）。
 对于 Vue 而言，组件名和组件参数都采用短横线风格（kebab-case）的命名方式，例如：`<picker-view indicator-class="myclass" />`
 :::
 
@@ -1182,7 +1182,7 @@ module.exports = function (merge) {
 ```
 
 :::info 了解更多
-除了 CSS 预处理器之外，Taro 还支持 [CSS Modules](./css-modules) 和 [CSS-in-JS](./css-in-js)。
+除了 CSS 预处理器之外，Taro 还支持 [CSS Modules](./css-modules.md) 和 [CSS-in-JS](./css-in-js.md)。
 原理上还支持更多 CSS 工具，我们将在 [自定义编译](#自定义编译) 继续讨论这个问题。
 :::
 
@@ -1222,7 +1222,7 @@ module.exports = function (merge) {
 
 :::info 了解更多
 Taro 内置的 HTML 渲染功能不仅可以按 Web 开发的方式去使用，也支持自定义样式、自定义渲染、自定义事件这样的高级功能。
-你可以访问 [HTML 渲染文档](./html) 了解更多。
+你可以访问 [HTML 渲染文档](./html.md) 了解更多。
 :::
 
 ### 性能优化
@@ -1382,7 +1382,7 @@ export default {
 </Tabs>
 
 :::info 了解更多
-在文档[虚拟列表](./virtual-list) 你可以找到虚拟列表的一些高级用法，例如：无限滚动、滚动偏移、滚动事件等。
+在文档[虚拟列表](./virtual-list.md) 你可以找到虚拟列表的一些高级用法，例如：无限滚动、滚动偏移、滚动事件等。
 :::
 
 #### 预渲染
@@ -1514,7 +1514,7 @@ module.exports = config
 ```
 
 :::info 了解更多
-预渲染的配置支持条件渲染页面、条件渲染逻辑、自定义渲染函数等功能，详情可以访问[预渲染文档](./prerender)。
+预渲染的配置支持条件渲染页面、条件渲染逻辑、自定义渲染函数等功能，详情可以访问[预渲染文档](./prerender.md)。
 :::
 
 ### 打包体积
@@ -1633,7 +1633,7 @@ export default {
 
 #### 使用 Webpack 进行拓展
 
-在[打包体积分析](./guide#打包体积分析) 中我们在 [mini.webpackChain](./config-detail/#miniwebpackchain-1) 添加了一个 Webpack 插件，达到了打包体积/依赖分析的效果。
+在[打包体积分析](#打包体积分析) 中我们在 [mini.webpackChain](./config-detail.md/#miniwebpackchain-1) 添加了一个 Webpack 插件，达到了打包体积/依赖分析的效果。
 
 事实上通过 `mini.webpackChain` 这个配置我们可以几乎使用任何 Webpack 生态的插件和 `loader`，例如我们想使用 `CoffeeScript` 来进行开发：
 
@@ -1659,12 +1659,12 @@ const config = {
 
 #### 使用插件化系统进行拓展
 
-在 [CSS 工具](./guide#CSS 工具) 我们已经使用了名为 `@tarojs/plugin-sass` 的插件来实现对 `Sass` 的支持。比起使用 Webpack 拓展编译，Taro 的插件功能不用在每个端都对 Webpack 进行配置，只用使用插件即可。
+在 [CSS 工具](#CSS 工具) 我们已经使用了名为 `@tarojs/plugin-sass` 的插件来实现对 `Sass` 的支持。比起使用 Webpack 拓展编译，Taro 的插件功能不用在每个端都对 Webpack 进行配置，只用使用插件即可。
 
-除此之外，Taro 的插件化功能还可以拓展 Taro CLI 编译命令，拓展编译流程，拓展编译平台，你可以访问 [插件功能文档](./plugin) 了解更多自定义配置的信息。
+除此之外，Taro 的插件化功能还可以拓展 Taro CLI 编译命令，拓展编译流程，拓展编译平台，你可以访问 [插件功能文档](./plugin.md) 了解更多自定义配置的信息。
 
 :::info 了解更多
-除了以上两种方式外，Taro 还提供大量的编译相关选项，你可以访问 [编译配置详情](./config-detail) 文档了解更多。
+除了以上两种方式外，Taro 还提供大量的编译相关选项，你可以访问 [编译配置详情](./config-detail.md) 文档了解更多。
 :::
 
 ## 多端开发
@@ -1686,7 +1686,7 @@ const config = {
 + }
 ```
 
-Taro 还提供了[统一接口的多端文件](./envs#统一接口的多端文件)，通过不同的命名方式寻找依赖，在这类情况下，我们可以保留：
+Taro 还提供了[统一接口的多端文件](./envs.md#统一接口的多端文件)，通过不同的命名方式寻找依赖，在这类情况下，我们可以保留：
 
 ```js
 import api from '../../utils/api'
@@ -1766,7 +1766,7 @@ export default {
 
 </Tabs>
 
-最后按照 [towxml](./https://github.com/sbfkcel/towxml/wiki/3.0-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8) 文档调用即可。
+最后按照 [towxml](https://github.com/sbfkcel/towxml/wiki/3.0-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8) 文档调用即可。
 
 
 :::caution 请注意
@@ -1774,5 +1774,5 @@ export default {
 :::
 
 :::info 了解更多
-Taro 还支持使用小程序插件，详情可以访问文档[使用小程序原生第三方组件和插件](./mini-third-party)。
+Taro 还支持使用小程序插件，详情可以访问文档[使用小程序原生第三方组件和插件](./mini-third-party.md)。
 :::
