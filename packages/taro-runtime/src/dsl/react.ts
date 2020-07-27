@@ -194,9 +194,12 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
   class AppConfig implements AppInstance {
     config = config
 
-    onLaunch (options) {
+    constructor () {
       // eslint-disable-next-line react/no-render-return-value
       wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+    }
+
+    onLaunch (options) {
       const app = ref.current
       Current.router = {
         params: options?.query,

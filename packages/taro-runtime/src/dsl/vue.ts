@@ -149,8 +149,11 @@ export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
   class AppConfig implements AppInstance {
     config = config
 
-    onLaunch (options) {
+    constructor () {
       wrapper.$mount(document.getElementById('app') as any)
+    }
+
+    onLaunch (options) {
       appInstance = wrapper.$refs.app as VueAppInstance
       Current.router = {
         params: options?.query,

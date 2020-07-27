@@ -1,5 +1,6 @@
 export const frameworkMeta: Record<string, {
   importFrameworkStatement: string
+  mockAppStatement: string
   frameworkArgs: string
   creator: string
   importFrameworkName: string
@@ -11,6 +12,13 @@ export const frameworkMeta: Record<string, {
     importFrameworkStatement: `
 import Vue from 'vue';
 `,
+    mockAppStatement: `
+const App = new Vue({
+  render (h) {
+    return h('block', this.$slots.default)
+  }
+})
+`,
     frameworkArgs: 'Vue, config',
     creator: 'createVueApp',
     importFrameworkName: 'Vue',
@@ -21,7 +29,10 @@ require('@tarojs/components/dist-h5/vue')
   },
   vue3: {
     importFrameworkStatement: `
-import { h } from 'vue'
+import { h, createApp } from 'vue'
+`,
+mockAppStatement: `
+const App = createApp({})
 `,
     frameworkArgs: 'h, config',
     creator: 'createVue3App',
@@ -38,6 +49,13 @@ initVue3Components(component)
     importFrameworkStatement: `
 import Nerv from 'nervjs';
 `,
+mockAppStatement: `
+class App extends Nerv.Component {
+  render () {
+    return this.props.children
+  }
+}
+`,
     frameworkArgs: 'Nerv, Nerv, config',
     creator: 'createReactApp',
     importFrameworkName: 'Nerv'
@@ -46,6 +64,13 @@ import Nerv from 'nervjs';
     importFrameworkStatement: `
 import * as React from 'react'
 import ReactDOM from 'react-dom'
+`,
+mockAppStatement: `
+class App extends React.Component {
+  render () {
+    return this.props.children
+  }
+}
 `,
     frameworkArgs: 'React, ReactDOM, config',
     creator: 'createReactApp',
