@@ -2,7 +2,7 @@ import { IPluginContext } from '@tarojs/service'
 import { RecursiveTemplate } from '@tarojs/shared'
 import { printDevelopmentTip } from '../../util'
 
-class Template extends RecursiveTemplate {
+export class Template extends RecursiveTemplate {
   supportXS = false
   Adapter = {
     if: 'tt:if',

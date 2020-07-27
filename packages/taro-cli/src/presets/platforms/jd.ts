@@ -2,7 +2,7 @@ import { IPluginContext } from '@tarojs/service'
 import { UnRecursiveTemplate } from '@tarojs/shared'
 import { printDevelopmentTip } from '../../util'
 
-class Template extends UnRecursiveTemplate {
+export class Template extends UnRecursiveTemplate {
   supportXS = false
   Adapter = {
     if: 'jd:if',

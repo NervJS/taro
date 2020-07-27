@@ -77,7 +77,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/base.wxml **/
-
+<wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"id\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
@@ -101,7 +101,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_0_input_focus' : 'tmpl_0_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_0_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_0_input_focus\\">
@@ -113,7 +113,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_0_textarea_focus' : 'tmpl_0_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_0_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_0_textarea_focus\\">
@@ -165,7 +165,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_1_input_focus' : 'tmpl_1_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_1_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_1_input_focus\\">
@@ -177,7 +177,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_1_textarea_focus' : 'tmpl_1_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_1_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_1_textarea_focus\\">
@@ -229,7 +229,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_2_input_focus' : 'tmpl_2_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_2_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_2_input_focus\\">
@@ -241,7 +241,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_2_textarea_focus' : 'tmpl_2_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_2_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_2_textarea_focus\\">
@@ -293,7 +293,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_3_input_focus' : 'tmpl_3_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_3_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_3_input_focus\\">
@@ -305,7 +305,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_3_textarea_focus' : 'tmpl_3_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_3_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_3_textarea_focus\\">
@@ -357,7 +357,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_4_input_focus' : 'tmpl_4_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_4_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_4_input_focus\\">
@@ -369,7 +369,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_4_textarea_focus' : 'tmpl_4_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_4_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_4_textarea_focus\\">
@@ -421,7 +421,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_5_input_focus' : 'tmpl_5_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_5_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_5_input_focus\\">
@@ -433,7 +433,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_5_textarea_focus' : 'tmpl_5_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_5_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_5_textarea_focus\\">
@@ -485,7 +485,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_6_input_focus' : 'tmpl_6_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_6_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_6_input_focus\\">
@@ -497,7 +497,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_6_textarea_focus' : 'tmpl_6_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_6_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_6_textarea_focus\\">
@@ -549,7 +549,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_7_input_focus' : 'tmpl_7_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_7_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_7_input_focus\\">
@@ -561,7 +561,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_7_textarea_focus' : 'tmpl_7_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_7_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_7_textarea_focus\\">
@@ -613,7 +613,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_8_input_focus' : 'tmpl_8_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_8_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_8_input_focus\\">
@@ -625,7 +625,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_8_textarea_focus' : 'tmpl_8_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_8_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_8_textarea_focus\\">
@@ -677,7 +677,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_9_input_focus' : 'tmpl_9_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_9_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_9_input_focus\\">
@@ -689,7 +689,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_9_textarea_focus' : 'tmpl_9_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_9_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_9_textarea_focus\\">
@@ -741,7 +741,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_10_input_focus' : 'tmpl_10_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_10_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_10_input_focus\\">
@@ -753,7 +753,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_10_textarea_focus' : 'tmpl_10_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_10_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_10_textarea_focus\\">
@@ -805,7 +805,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_11_input_focus' : 'tmpl_11_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_11_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_11_input_focus\\">
@@ -817,7 +817,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_11_textarea_focus' : 'tmpl_11_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_11_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_11_textarea_focus\\">
@@ -869,7 +869,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_12_input_focus' : 'tmpl_12_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_12_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_12_input_focus\\">
@@ -881,7 +881,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_12_textarea_focus' : 'tmpl_12_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_12_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_12_textarea_focus\\">
@@ -933,7 +933,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_13_input_focus' : 'tmpl_13_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_13_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_13_input_focus\\">
@@ -945,7 +945,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_13_textarea_focus' : 'tmpl_13_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_13_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_13_textarea_focus\\">
@@ -997,7 +997,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_14_input_focus' : 'tmpl_14_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_14_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_14_input_focus\\">
@@ -1009,7 +1009,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_14_textarea_focus' : 'tmpl_14_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_14_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_14_textarea_focus\\">
@@ -1061,7 +1061,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_input\\">
-  <template is=\\"{{ i.focus ? 'tmpl_15_input_focus' : 'tmpl_15_input_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_15_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_15_input_focus\\">
@@ -1073,7 +1073,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_textarea\\">
-  <template is=\\"{{ i.focus ? 'tmpl_15_textarea_focus' : 'tmpl_15_textarea_blur' }}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{ xs.c(i, 'tmpl_15_') }}\\" data=\\"{{i: i}}\\" />
 </template>
 
 <template name=\\"tmpl_15_textarea_focus\\">
@@ -1131,7 +1131,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
-<template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
+  <template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], [ , , , , , , , , function(module, exports, __webpack_require__) {
@@ -1769,7 +1769,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 
 /** filePath: dist/pages/index/index.wxss **/
 

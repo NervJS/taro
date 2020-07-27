@@ -13,7 +13,7 @@ require(\\"./vendors\\");
 
 require(\\"./taro\\");
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
+(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
     12: function(module, exports, __webpack_require__) {},
     20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -73,20 +73,20 @@ require(\\"./taro\\");
 /** filePath: dist/app.json **/
 {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist/app.wxss **/
+/** filePath: dist/app.jxss **/
 
 
-/** filePath: dist/base.wxml **/
+/** filePath: dist/base.jxml **/
 
 <template name=\\"taro_tmpl\\">
-  <block wx:for=\\"{{root.cn}}\\" wx:key=\\"id\\">
+  <block jd:for=\\"{{root.cn}}\\" jd:key=\\"id\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
   </block>
 </template>
 
 <template name=\\"tmpl_0_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -94,7 +94,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_0_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -125,8 +125,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -134,7 +134,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_0_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_1_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -149,8 +149,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -158,7 +158,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_1_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -189,8 +189,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_1_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -198,7 +198,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_1_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_2_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -213,8 +213,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -222,7 +222,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_2_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -253,8 +253,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_2_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -262,7 +262,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_2_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_3_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -277,8 +277,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -286,7 +286,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_3_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -317,8 +317,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_3_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -326,7 +326,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_3_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_4_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -341,8 +341,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -350,7 +350,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_4_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -381,8 +381,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_4_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -390,7 +390,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_4_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_5_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -405,8 +405,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -414,7 +414,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_5_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -445,8 +445,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_5_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -454,7 +454,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_5_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_6_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -469,8 +469,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -478,7 +478,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_6_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -509,8 +509,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_6_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -518,7 +518,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_6_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_7_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -533,8 +533,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -542,7 +542,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_7_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -573,8 +573,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_7_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -582,7 +582,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_7_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_8_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -597,8 +597,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -606,7 +606,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_8_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -637,8 +637,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_8_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -646,7 +646,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_8_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_9_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -661,8 +661,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -670,7 +670,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_9_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -701,8 +701,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_9_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -710,7 +710,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_9_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_10_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -725,8 +725,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -734,7 +734,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_10_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -765,8 +765,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_10_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -774,7 +774,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_10_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_11_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -789,8 +789,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -798,7 +798,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_11_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -829,8 +829,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_11_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -838,7 +838,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_11_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_12_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -853,8 +853,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -862,7 +862,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_12_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -893,8 +893,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_12_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -902,7 +902,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_12_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_13_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -917,8 +917,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -926,7 +926,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_13_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -957,8 +957,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_13_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -966,7 +966,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_13_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_14_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -981,8 +981,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -990,7 +990,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_14_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -1021,8 +1021,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_14_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -1030,7 +1030,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_14_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_15_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -1045,8 +1045,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_view\\">
-  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <view hover-class=\\"{{ i.hoverClass === undefined ? 'none' : i.hoverClass }}\\" hover-stop-propagation=\\"{{ i.hoverStopPropagation === undefined ? false : i.hoverStopPropagation }}\\" hover-start-time=\\"{{ i.hoverStartTime === undefined ? 50 : i.hoverStartTime }}\\" hover-stay-time=\\"{{ i.hoverStayTime === undefined ? 400 : i.hoverStayTime }}\\" animation=\\"{{ i.animation }}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_16_container\\" data=\\"{{i: item}}\\" />
     </block>
   </view>
@@ -1054,7 +1054,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_15_text\\">
   <text selectable=\\"{{ i.selectable === undefined ? false : i.selectable }}\\" space=\\"{{ i.space }}\\" decode=\\"{{ i.decode === undefined ? false : i.decode }}\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_16_container\\" data=\\"{{i: item}}\\" />
     </block>
   </text>
@@ -1085,8 +1085,8 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_15_scroll-view\\">
-  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+  <scroll-view scroll-x=\\"{{ i.scrollX === undefined ? false : i.scrollX }}\\" scroll-y=\\"{{ i.scrollY === undefined ? false : i.scrollY }}\\" upper-threshold=\\"{{ i.upperThreshold === undefined ? 50 : i.upperThreshold }}\\" lower-threshold=\\"{{ i.lowerThreshold === undefined ? 50 : i.lowerThreshold }}\\" scroll-top=\\"{{ i.scrollTop }}\\" scroll-left=\\"{{ i.scrollLeft }}\\" scroll-into-view=\\"{{ i.scrollIntoView }}\\" scroll-with-animation=\\"{{ i.scrollWithAnimation === undefined ? false : i.scrollWithAnimation }}\\" enable-back-to-top=\\"{{ i.enableBackToTop === undefined ? false : i.enableBackToTop }}\\" enable-flex=\\"{{ i.enableFlex === undefined ? false : i.enableFlex }}\\" scroll-anchoring=\\"{{ i.scrollAnchoring === undefined ? false : i.scrollAnchoring }}\\" refresher-enabled=\\"{{ i.refresherEnabled === undefined ? false : i.refresherEnabled }}\\" refresher-threshold=\\"{{ i.refresherThreshold === undefined ? 45 : i.refresherThreshold }}\\" refresher-default-style=\\"{{ i.refresherDefaultStyle === undefined ? 'black' : i.refresherDefaultStyle }}\\" refresher-background=\\"{{ i.refresherBackground === undefined ? '#FFF' : i.refresherBackground }}\\" refresher-triggered=\\"{{ i.refresherTriggered === undefined ? false : i.refresherTriggered }}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_16_container\\" data=\\"{{i: item}}\\" />
     </block>
   </scroll-view>
@@ -1094,7 +1094,7 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_15_image\\">
   <image src=\\"{{ i.src }}\\" mode=\\"{{ i.mode === undefined ? 'scaleToFill' : i.mode }}\\" webp=\\"{{ i.webp === undefined ? false : i.webp }}\\" lazy-load=\\"{{ i.lazyLoad === undefined ? false : i.lazyLoad }}\\" show-menu-by-longpress=\\"{{ i.showMenuByLongpress === undefined ? false : i.showMenuByLongpress }}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{ i.st }}\\" class=\\"{{ i.cl }}\\" bindtap=\\"eh\\"  id=\\"{{ i.uid }}\\">
-    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"id\\">
+    <block jd:for=\\"{{i.cn}}\\" jd:key=\\"id\\">
       <template is=\\"tmpl_16_container\\" data=\\"{{i: item}}\\" />
     </block>
   </image>
@@ -1110,14 +1110,14 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
+(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
 /** filePath: dist/comp.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -1129,12 +1129,12 @@ require(\\"./taro\\");
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
 
-/** filePath: dist/comp.wxml **/
+/** filePath: dist/comp.jxml **/
 <import src=\\"./base.wxml\\" />
-<template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
+  <template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
 
 /** filePath: dist/pages/index/index.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], [ , , , , , , , , function(module, exports, __webpack_require__) {
+(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 7 ], [ , , , , , , , , function(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(14);
 }, , , , , , function(module, exports, __webpack_require__) {
     var g = function() {
@@ -1767,11 +1767,11 @@ require(\\"./taro\\");
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist/pages/index/index.wxml **/
-<import src=\\"../../base.wxml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+/** filePath: dist/pages/index/index.jxml **/
+<import src=\\"../../base.jxml\\"/>
+  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 
-/** filePath: dist/pages/index/index.wxss **/
+/** filePath: dist/pages/index/index.jxss **/
 
 
 /** filePath: dist/runtime.js **/
@@ -1882,7 +1882,7 @@ require(\\"./taro\\");
         return Object.prototype.hasOwnProperty.call(object, property);
     };
     __webpack_require__.p = \\"/\\";
-    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
+    var jsonpArray = jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || [];
     var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
     jsonpArray.push = webpackJsonpCallback;
     jsonpArray = jsonpArray.slice();
@@ -1892,7 +1892,7 @@ require(\\"./taro\\");
 })([]);
 
 /** filePath: dist/taro.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
+(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-runtime-mock\\";
@@ -1908,7 +1908,7 @@ require(\\"./taro\\");
 } ]);
 
 /** filePath: dist/vendors.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
+(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _classCallCheck;

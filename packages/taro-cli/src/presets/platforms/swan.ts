@@ -10,7 +10,7 @@ const swanSpecialAttrs = {
   textarea: ['value']
 }
 
-class Template extends RecursiveTemplate {
+export class Template extends RecursiveTemplate {
   supportXS = true
   Adapter = {
     if: 's-if',

@@ -2,7 +2,7 @@ import { IPluginContext } from '@tarojs/service'
 import { RecursiveTemplate, alipayEvents, capitalize, toCamelCase } from '@tarojs/shared'
 import { recursiveReplaceObjectKeys, printDevelopmentTip } from '../../util'
 
-class Template extends RecursiveTemplate {
+export class Template extends RecursiveTemplate {
   exportExpr = 'export default'
   supportXS = true
   Adapter = {

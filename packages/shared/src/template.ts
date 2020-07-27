@@ -33,6 +33,13 @@ interface Components {
   [key: string]: Record<string, string>;
 }
 
+interface ComponentConfig {
+  includes: Set<string>
+  exclude: Set<string>
+  thirdPartyComponents: Map<string, Set<string>>
+  includeAll: boolean
+}
+
 export interface IAdapter {
   if: string;
   else: string;
@@ -151,7 +158,7 @@ export class BaseTemplate {
   }
 
   protected buildThirdPartyAttr (attrs: Set<string>) {
-    return [...attrs].reduce((str, attr) => {
+    return Array.from(attrs).reduce((str, attr) => {
       if (attr.startsWith('@')) { // vue event
         return str + `bind${attr.slice(1)}="eh" `
       } else if (attr.startsWith('bind')) {
@@ -236,7 +243,7 @@ export class BaseTemplate {
 `
   }
 
-  protected buildThirdPartyTemplate (level: number, componentConfig) {
+  protected buildThirdPartyTemplate (level: number, componentConfig: ComponentConfig) {
     const { Adapter, isSupportRecursive } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
     let template = ''
@@ -314,7 +321,7 @@ export class BaseTemplate {
 export class RecursiveTemplate extends BaseTemplate {
   isSupportRecursive = true
 
-  public buildTemplate = componentConfig => {
+  public buildTemplate = (componentConfig: ComponentConfig) => {
     let template = this.buildBaseTemplate()
     if (!this.miniComponents) {
       this.miniComponents = this.createMiniComponents(internalComponents)
@@ -348,7 +355,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
     return this._baseLevel
   }
 
-  public buildTemplate = componentConfig => {
+  public buildTemplate = (componentConfig: ComponentConfig) => {
     let template = this.buildBaseTemplate()
     if (!this.miniComponents) {
       this.miniComponents = this.createMiniComponents(internalComponents)
@@ -363,7 +370,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
     return template
   }
 
-  protected buildFloor (level: number, components: string[], componentConfig, restart = false) {
+  protected buildFloor (level: number, components: string[], componentConfig: ComponentConfig, restart = false) {
     let template = components.reduce((current, nodeName) => {
       const attributes: Attributes = this.miniComponents[nodeName]
       return current + this.buildComponentTemplate({ nodeName, attributes }, level)

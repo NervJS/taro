@@ -91,7 +91,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/base.wxml **/
-
+<wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"id\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
@@ -889,7 +889,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
-<template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
+  <template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
 
 /** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
@@ -2186,7 +2186,7 @@ require(\\"./taro\\");
 /** filePath: dist/others/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
-  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+    <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 </block>
 <block wx:else>
 <view ><view class=\\"taro-region-picker taro-region-picker-gray\\" ><picker mode=\\"multiSelector\\" range='[[\\"北京市\\",\\"天津市\\",\\"上海市\\",\\"重庆市\\",\\"河北省\\",\\"山西省\\",\\"内蒙古\\",\\"辽宁省\\",\\"吉林省\\",\\"黑龙江省\\",\\"江苏省\\",\\"浙江省\\",\\"安徽省\\",\\"福建省\\",\\"江西省\\",\\"山东省\\",\\"河南省\\",\\"湖北省\\",\\"湖南省\\",\\"广东省\\",\\"广西\\",\\"海南省\\",\\"四川省\\",\\"贵州省\\",\\"云南省\\",\\"西藏\\",\\"陕西省\\",\\"甘肃省\\",\\"青海省\\",\\"宁夏\\",\\"新疆\\",\\"香港\\",\\"澳门\\",\\"台湾省\\"],[\\"北京市\\"],[\\"东城区\\",\\"西城区\\",\\"崇文区\\",\\"宣武区\\",\\"朝阳区\\",\\"丰台区\\",\\"石景山区\\",\\"海淀区\\",\\"门头沟区\\",\\"房山区\\",\\"通州区\\",\\"顺义区\\",\\"昌平区\\",\\"大兴区\\",\\"怀柔区\\",\\"平谷区\\",\\"密云县\\",\\"延庆县\\",\\"延庆镇\\"]]' value='[0,0,0]' ><view style=\\"width: 100%;height: 44px;\\" ><text >请选择省市区</text></view></picker></view></view>
@@ -2247,7 +2247,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/others/normal/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
@@ -2309,7 +2309,7 @@ require(\\"./taro\\");
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
-  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+    <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 </block>
 <block wx:else>
 <view class=\\"index\\" ><text >Hello world!</text></view>
@@ -2454,14 +2454,14 @@ require(\\"./taro\\");
 
 /** filePath: dist/utils.wxs **/
 module.exports = {
-  c: function(i, prefix) {
-    var s = i.focus !== undefined ? 'focus' : 'blur'
-    return prefix + i.nn + '_' + s
-  },
-  d: function (i, v) {
-    return i === undefined ? v : i
+    c: function(i, prefix) {
+      var s = i.focus !== undefined ? 'focus' : 'blur'
+      return prefix + i.nn + '_' + s
+    },
+    d: function (i, v) {
+      return i === undefined ? v : i
+    }
   }
-}
 
 /** filePath: dist/vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
@@ -2719,7 +2719,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/base.wxml **/
-
+<wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"id\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
@@ -3517,7 +3517,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
-<template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
+  <template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
 
 /** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
@@ -4810,7 +4810,7 @@ require(\\"./taro\\");
 /** filePath: dist/others/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
-  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+    <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 </block>
 <block wx:else>
 <video src=\\"https://github.com/taro\\" ></video>
@@ -4864,7 +4864,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/others/normal/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
@@ -4926,7 +4926,7 @@ require(\\"./taro\\");
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
-  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+    <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 </block>
 <block wx:else>
 <view class=\\"index\\" ><text >Hello world!</text></view>
@@ -5071,14 +5071,14 @@ require(\\"./taro\\");
 
 /** filePath: dist/utils.wxs **/
 module.exports = {
-  c: function(i, prefix) {
-    var s = i.focus !== undefined ? 'focus' : 'blur'
-    return prefix + i.nn + '_' + s
-  },
-  d: function (i, v) {
-    return i === undefined ? v : i
+    c: function(i, prefix) {
+      var s = i.focus !== undefined ? 'focus' : 'blur'
+      return prefix + i.nn + '_' + s
+    },
+    d: function (i, v) {
+      return i === undefined ? v : i
+    }
   }
-}
 
 /** filePath: dist/vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
@@ -5324,7 +5324,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/base.wxml **/
-
+<wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"id\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
@@ -6122,7 +6122,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
-<template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
+  <template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
 
 /** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
@@ -7415,7 +7415,7 @@ require(\\"./taro\\");
 /** filePath: dist/others/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
-  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+    <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 </block>
 <block wx:else>
 <video src=\\"https://github.com/taro\\" />
@@ -7469,7 +7469,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/others/normal/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
@@ -7531,7 +7531,7 @@ require(\\"./taro\\");
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
-  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+    <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 </block>
 <block wx:else>
 <view class=\\"index\\" ><text >Hello world!</text></view>
@@ -7676,14 +7676,14 @@ require(\\"./taro\\");
 
 /** filePath: dist/utils.wxs **/
 module.exports = {
-  c: function(i, prefix) {
-    var s = i.focus !== undefined ? 'focus' : 'blur'
-    return prefix + i.nn + '_' + s
-  },
-  d: function (i, v) {
-    return i === undefined ? v : i
+    c: function(i, prefix) {
+      var s = i.focus !== undefined ? 'focus' : 'blur'
+      return prefix + i.nn + '_' + s
+    },
+    d: function (i, v) {
+      return i === undefined ? v : i
+    }
   }
-}
 
 /** filePath: dist/vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {

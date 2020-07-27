@@ -76,7 +76,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/base.wxml **/
-
+<wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"id\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
@@ -745,7 +745,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
-<template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
+  <template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
@@ -802,7 +802,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
 
 /** filePath: dist/pages/index/index.wxss **/
 
