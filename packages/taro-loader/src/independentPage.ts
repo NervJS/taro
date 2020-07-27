@@ -33,11 +33,12 @@ export default function (this: webpack.loader.LoaderContext) {
 if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
 }`
-  return `import { createPageConfig, createReactApp } from '@tarojs/runtime'
+  return `import { createPageConfig, ${creator}, window } from '@tarojs/runtime'
 import component from ${stringify(componentPath)}
 ${importFrameworkStatement}
 var config = ${configString};
 var appConfig = ${JSON.stringify(appConfig)};
+window.__taroAppConfig = appConfig
 ${mockAppStatement}
 ${creator}(App, ${frameworkArgsCopy})
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}

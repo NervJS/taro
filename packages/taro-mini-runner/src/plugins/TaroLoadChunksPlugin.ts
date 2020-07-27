@@ -21,7 +21,8 @@ interface IOptions {
   framework: string,
   addChunkPages?: AddPageChunks,
   pages: Set<IComponent>,
-  isBuildQuickapp: boolean
+  isBuildQuickapp: boolean,
+  needAddCommon?: string[]
 }
 
 interface NormalModule {
@@ -36,6 +37,7 @@ export default class TaroLoadChunksPlugin {
   addChunkPages?: AddPageChunks
   pages: Set<IComponent>
   isBuildQuickapp: boolean
+  needAddCommon: string[]
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
@@ -44,6 +46,7 @@ export default class TaroLoadChunksPlugin {
     this.addChunkPages = options.addChunkPages
     this.pages = options.pages
     this.isBuildQuickapp = options.isBuildQuickapp
+    this.needAddCommon = options.needAddCommon || []
   }
 
   apply (compiler: webpack.Compiler) {
@@ -100,6 +103,13 @@ export default class TaroLoadChunksPlugin {
 
           const entryModule: TaroNormalModule = chunk.entryModule.rootModule ? chunk.entryModule.rootModule : chunk.entryModule
           const { miniType } = entryModule
+          if (this.needAddCommon.length) {
+            for (const item of this.needAddCommon) {
+              if (getIdOrName(chunk) === item) {
+                return addRequireToSource(item, modules, commonChunks)
+              }
+            }
+          }
 
           if (miniType === META_TYPE.ENTRY) {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)

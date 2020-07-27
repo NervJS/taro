@@ -594,6 +594,7 @@ export default class TaroMiniPlugin {
         const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
           path: `${compiler.options.output}/${name}`
         })
+        const compPath = path.resolve(__dirname, '..', 'template/comp')
         childCompiler.inputFileSystem = compiler.inputFileSystem
         childCompiler.outputFileSystem = compiler.outputFileSystem
         childCompiler.context = compiler.context
@@ -614,7 +615,7 @@ export default class TaroMiniPlugin {
                 name: `${name}/vendors`,
                 minChunks: 1,
                 test: module => {
-                  return /[\\/]node_modules[\\/]/.test(module.resource)
+                  return (/[\\/]node_modules[\\/]/.test(module.resource) && module.resource.indexOf(compPath) < 0)
                 },
                 priority: 10
               }
@@ -643,7 +644,8 @@ export default class TaroMiniPlugin {
           addChunkPages: this.options.addChunkPages,
           pages: childPages,
           framework: this.options.framework,
-          isBuildQuickapp: true
+          isBuildQuickapp: true,
+          needAddCommon: [`${name}/comp`]
         }).apply(childCompiler)
         // 添加 comp 组件
         new TaroSingleEntryPlugin(compiler.context, path.resolve(__dirname, '..', 'template/comp'), `${name}/comp`, META_TYPE.STATIC).apply(childCompiler)
