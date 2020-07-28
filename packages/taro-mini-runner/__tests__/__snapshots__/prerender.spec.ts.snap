@@ -80,7 +80,7 @@ require(\\"./taro\\");
 }, [ [ 21, 0, 1, 3, 2 ] ] ]);
 
 
-      if (typeof PRERENDER !== 'undefiend') {
+      if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
 
@@ -2176,7 +2176,7 @@ require(\\"./taro\\");
         __webpack_exports__[\\"a\\"] = region;
     }
 }, [ [ 27, 0, 1, 3, 2 ] ] ]);
-      if (typeof PRERENDER !== 'undefiend') {
+      if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
 
@@ -2299,7 +2299,7 @@ require(\\"./taro\\");
     },
     26: function(module, exports, __webpack_require__) {}
 }, [ [ 25, 0, 1, 3, 2 ] ] ]);
-      if (typeof PRERENDER !== 'undefiend') {
+      if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
 
@@ -2708,7 +2708,7 @@ require(\\"./taro\\");
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 
-      if (typeof PRERENDER !== 'undefiend') {
+      if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
 
@@ -4800,7 +4800,7 @@ require(\\"./taro\\");
         }).call(this, __webpack_require__(10));
     }
 }, [ [ 23, 0, 1, 3, 2 ] ] ]);
-      if (typeof PRERENDER !== 'undefiend') {
+      if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
 
@@ -4916,7 +4916,7 @@ require(\\"./taro\\");
     },
     22: function(module, exports, __webpack_require__) {}
 }, [ [ 21, 0, 1, 3, 2 ] ] ]);
-      if (typeof PRERENDER !== 'undefiend') {
+      if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
 
@@ -5313,7 +5313,7 @@ require(\\"./taro\\");
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 
-      if (typeof PRERENDER !== 'undefiend') {
+      if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
 
@@ -7405,7 +7405,7 @@ require(\\"./taro\\");
         }).call(this, __webpack_require__(10));
     }
 }, [ [ 23, 0, 1, 3, 2 ] ] ]);
-      if (typeof PRERENDER !== 'undefiend') {
+      if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
 
@@ -7521,7 +7521,7 @@ require(\\"./taro\\");
     },
     22: function(module, exports, __webpack_require__) {}
 }, [ [ 21, 0, 1, 3, 2 ] ] ]);
-      if (typeof PRERENDER !== 'undefiend') {
+      if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }
 
