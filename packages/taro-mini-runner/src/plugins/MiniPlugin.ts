@@ -294,8 +294,9 @@ export default class TaroMiniPlugin {
    */
   getAppEntry (compiler: webpack.Compiler) {
     const originalEntry = compiler.options.entry as webpack.Entry
+    const entryFileName = Object.keys(originalEntry)[0]
     compiler.options.entry = {}
-    return path.resolve(this.context, originalEntry.app[0])
+    return path.resolve(this.context, originalEntry[entryFileName]?.[0])
   }
 
   getChangedFiles (compiler) {
