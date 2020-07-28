@@ -77,9 +77,9 @@ function _request (options) {
     .then(response => {
       res.statusCode = response.status
       res.header = {}
-      response.headers.forEach((val, key) => {
-        res.header[key] = val
-      })
+      for (const key of response.headers.keys()) {
+        res.header[key] = response.headers.get(key)
+      }
       if (!response.ok) {
         throw response
       }
