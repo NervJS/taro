@@ -134,7 +134,7 @@ function setReconciler () {
   options.reconciler(hostConfig)
 }
 
-const tabbarId = incrementId()
+const pageKeyId = incrementId()
 
 export function createReactApp (App: React.ComponentClass, react: typeof React, reactdom, config: AppConfig) {
   R = react
@@ -154,10 +154,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     private elements: Array<PageComponent> = []
 
     public mount (component: React.ComponentClass<PageProps>, id: string, cb: () => void) {
-      let key = id
-      if (id.startsWith('custom-tab-bar')) {
-        key += tabbarId()
-      }
+      const key = id + pageKeyId()
       const page = () => R.createElement(component, { key, tid: id })
       this.pages.push(page)
       this.forceUpdate(cb)
