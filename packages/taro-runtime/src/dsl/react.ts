@@ -27,7 +27,11 @@ export function connectReactPage (
     const isReactComponent = isClassComponent(R, component)
 
     const inject = (node?: Instance) => node && injectPageInstance(node, id)
-    const refs = isReactComponent ? { ref: inject } : { forwardedRef: inject }
+    const refs = isReactComponent ? { ref: inject } : {
+      forwardedRef: inject,
+      // 兼容 react-redux 7.20.1+
+      reactReduxForwardedRef: inject
+    }
 
     if (PageContext === EMPTY_OBJ) {
       PageContext = R.createContext('')
