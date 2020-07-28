@@ -10,10 +10,10 @@ title: 从旧版本迁移到 Taro Next
 
 ```bash
 # 更新 CLI
-$ npm i -g @tarojs/cli@next
+$ npm i -g @tarojs/cli
 # 在项目目录更新项目依赖
-$ npm i @tarojs/runtime@next @tarojs/mini-runner@next @tarojs/components@next @tarojs/taro@next
-$ npm i react @tarojs/react@next # 如果使用 React
+$ npm i @tarojs/runtime @tarojs/mini-runner @tarojs/components @tarojs/taro
+$ npm i react @tarojs/react # 如果使用 React
 $ npm i nervjs # 如果使用 Nerv
 # CLI 命令和以前一模一样
 $ taro build --type weapp --watch

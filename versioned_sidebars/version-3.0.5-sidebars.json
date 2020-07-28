@@ -1,20 +1,20 @@
 {
-  "version-3.0.0/docs": [
+  "version-3.0.5/docs": [
     {
       "type": "category",
       "label": "关于Taro",
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/README"
+          "id": "version-3.0.5/README"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/team"
+          "id": "version-3.0.5/team"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/CONTRIBUTING"
+          "id": "version-3.0.5/CONTRIBUTING"
         }
       ]
     },
@@ -24,15 +24,15 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/GETTING-STARTED"
+          "id": "version-3.0.5/GETTING-STARTED"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/composition"
+          "id": "version-3.0.5/composition"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/before-dev-remind"
+          "id": "version-3.0.5/before-dev-remind"
         }
       ]
     },
@@ -42,39 +42,39 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/react"
+          "id": "version-3.0.5/react"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/vue"
+          "id": "version-3.0.5/vue"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/vue3"
+          "id": "version-3.0.5/vue3"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/nerv"
+          "id": "version-3.0.5/nerv"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/tutorial"
+          "id": "version-3.0.5/tutorial"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/project-config"
+          "id": "version-3.0.5/project-config"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/router"
+          "id": "version-3.0.5/router"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/size"
+          "id": "version-3.0.5/size"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/static-reference"
+          "id": "version-3.0.5/static-reference"
         },
         {
           "label": "多端开发",
@@ -82,19 +82,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/envs"
+              "id": "version-3.0.5/envs"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/envs-debug"
+              "id": "version-3.0.5/envs-debug"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/wxcloudbase"
+              "id": "version-3.0.5/wxcloudbase"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/miniprogram-plugin"
+              "id": "version-3.0.5/miniprogram-plugin"
             }
           ]
         }
@@ -106,51 +106,51 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/config"
+          "id": "version-3.0.5/config"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/config-detail"
+          "id": "version-3.0.5/config-detail"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/plugin"
+          "id": "version-3.0.5/plugin"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/debug-config"
+          "id": "version-3.0.5/debug-config"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/hooks"
+          "id": "version-3.0.5/hooks"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/jquery-like"
+          "id": "version-3.0.5/jquery-like"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/html"
+          "id": "version-3.0.5/html"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/css-in-js"
+          "id": "version-3.0.5/css-in-js"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/prerender"
+          "id": "version-3.0.5/prerender"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/virtual-list"
+          "id": "version-3.0.5/virtual-list"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/mini-third-party"
+          "id": "version-3.0.5/mini-third-party"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/hybrid"
+          "id": "version-3.0.5/hybrid"
         }
       ]
     },
@@ -160,7 +160,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/migration"
+          "id": "version-3.0.5/migration"
         }
       ]
     },
@@ -170,43 +170,43 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/redux"
+          "id": "version-3.0.5/redux"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/css-modules"
+          "id": "version-3.0.5/css-modules"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/template"
+          "id": "version-3.0.5/template"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/youshu"
+          "id": "version-3.0.5/youshu"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/report"
+          "id": "version-3.0.5/report"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/join-in"
+          "id": "version-3.0.5/join-in"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/CONTRIBUTING"
+          "id": "version-3.0.5/CONTRIBUTING"
         }
       ]
     }
   ],
-  "version-3.0.0/components": [
+  "version-3.0.5/components": [
     {
       "type": "category",
       "label": "关于组件库",
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/components-desc"
+          "id": "version-3.0.5/components-desc"
         }
       ]
     },
@@ -216,23 +216,23 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/components/viewContainer/view"
+          "id": "version-3.0.5/components/viewContainer/view"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/viewContainer/scroll-view"
+          "id": "version-3.0.5/components/viewContainer/scroll-view"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/viewContainer/swiper"
+          "id": "version-3.0.5/components/viewContainer/swiper"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/viewContainer/movable-view"
+          "id": "version-3.0.5/components/viewContainer/movable-view"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/viewContainer/cover-view"
+          "id": "version-3.0.5/components/viewContainer/cover-view"
         }
       ]
     },
@@ -242,19 +242,19 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/components/base/icon"
+          "id": "version-3.0.5/components/base/icon"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/base/text"
+          "id": "version-3.0.5/components/base/text"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/base/progress"
+          "id": "version-3.0.5/components/base/progress"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/base/rich-text"
+          "id": "version-3.0.5/components/base/rich-text"
         }
       ]
     },
@@ -264,47 +264,47 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/button"
+          "id": "version-3.0.5/components/forms/button"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/checkbox"
+          "id": "version-3.0.5/components/forms/checkbox"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/form"
+          "id": "version-3.0.5/components/forms/form"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/input"
+          "id": "version-3.0.5/components/forms/input"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/label"
+          "id": "version-3.0.5/components/forms/label"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/picker"
+          "id": "version-3.0.5/components/forms/picker"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/picker-view"
+          "id": "version-3.0.5/components/forms/picker-view"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/radio"
+          "id": "version-3.0.5/components/forms/radio"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/slider"
+          "id": "version-3.0.5/components/forms/slider"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/switch"
+          "id": "version-3.0.5/components/forms/switch"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/forms/textarea"
+          "id": "version-3.0.5/components/forms/textarea"
         }
       ]
     },
@@ -314,7 +314,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/components/navig/navigator"
+          "id": "version-3.0.5/components/navig/navigator"
         }
       ]
     },
@@ -324,19 +324,19 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/components/media/audio"
+          "id": "version-3.0.5/components/media/audio"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/media/image"
+          "id": "version-3.0.5/components/media/image"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/media/video"
+          "id": "version-3.0.5/components/media/video"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/media/camera"
+          "id": "version-3.0.5/components/media/camera"
         }
       ]
     },
@@ -346,7 +346,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/components/maps/map"
+          "id": "version-3.0.5/components/maps/map"
         }
       ]
     },
@@ -356,7 +356,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/components/canvas/canvas"
+          "id": "version-3.0.5/components/canvas/canvas"
         }
       ]
     },
@@ -366,47 +366,47 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/components/open/ad"
+          "id": "version-3.0.5/components/open/ad"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/open/official-account"
+          "id": "version-3.0.5/components/open/official-account"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/open/open-data"
+          "id": "version-3.0.5/components/open/open-data"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/open/web-view"
+          "id": "version-3.0.5/components/open/web-view"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/components/open/others"
+          "id": "version-3.0.5/components/open/others"
         }
       ]
     }
   ],
-  "version-3.0.0/API": [
+  "version-3.0.5/API": [
     {
       "type": "category",
       "label": "关于API",
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/about/desc"
+          "id": "version-3.0.5/apis/about/desc"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/about/env"
+          "id": "version-3.0.5/apis/about/env"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/about/events"
+          "id": "version-3.0.5/apis/about/events"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/General"
+          "id": "version-3.0.5/apis/General"
         }
       ]
     },
@@ -416,15 +416,15 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/base/canIUse"
+          "id": "version-3.0.5/apis/base/canIUse"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/base/base64ToArrayBuffer"
+          "id": "version-3.0.5/apis/base/base64ToArrayBuffer"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/base/arrayBufferToBase64"
+          "id": "version-3.0.5/apis/base/arrayBufferToBase64"
         },
         {
           "label": "系统",
@@ -432,11 +432,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/base/system/getSystemInfo"
+              "id": "version-3.0.5/apis/base/system/getSystemInfo"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/base/system/getSystemInfoSync"
+              "id": "version-3.0.5/apis/base/system/getSystemInfoSync"
             }
           ]
         },
@@ -446,11 +446,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/base/update/getUpdateManager"
+              "id": "version-3.0.5/apis/base/update/getUpdateManager"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/base/update/UpdateManager"
+              "id": "version-3.0.5/apis/base/update/UpdateManager"
             }
           ]
         },
@@ -464,7 +464,7 @@
               "items": [
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/life-cycle/getLaunchOptionsSync"
+                  "id": "version-3.0.5/apis/base/weapp/life-cycle/getLaunchOptionsSync"
                 }
               ]
             },
@@ -474,51 +474,51 @@
               "items": [
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/onPageNotFound"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/onPageNotFound"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/onError"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/onError"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/onAudioInterruptionEnd"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/onAudioInterruptionEnd"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/onAudioInterruptionBegin"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/onAudioInterruptionBegin"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/onAppShow"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/onAppShow"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/onAppHide"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/onAppHide"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/offPageNotFound"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/offPageNotFound"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/offError"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/offError"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/offAudioInterruptionEnd"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/offAudioInterruptionEnd"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/offAudioInterruptionBegin"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/offAudioInterruptionBegin"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/offAppShow"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/offAppShow"
                 },
                 {
                   "type": "doc",
-                  "id": "version-3.0.0/apis/base/weapp/app-event/offAppHide"
+                  "id": "version-3.0.5/apis/base/weapp/app-event/offAppHide"
                 }
               ]
             }
@@ -530,29 +530,29 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/base/debug/setEnableDebug"
+              "id": "version-3.0.5/apis/base/debug/setEnableDebug"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/base/debug/getRealtimeLogManager"
+              "id": "version-3.0.5/apis/base/debug/getRealtimeLogManager"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/base/debug/getLogManager"
+              "id": "version-3.0.5/apis/base/debug/getLogManager"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/base/debug/LogManager"
+              "id": "version-3.0.5/apis/base/debug/LogManager"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/base/debug/RealtimeLogManager"
+              "id": "version-3.0.5/apis/base/debug/RealtimeLogManager"
             }
           ]
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/base/env/env"
+          "id": "version-3.0.5/apis/base/env/env"
         }
       ]
     },
@@ -562,27 +562,27 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/route/switchTab"
+          "id": "version-3.0.5/apis/route/switchTab"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/route/reLaunch"
+          "id": "version-3.0.5/apis/route/reLaunch"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/route/redirectTo"
+          "id": "version-3.0.5/apis/route/redirectTo"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/route/navigateTo"
+          "id": "version-3.0.5/apis/route/navigateTo"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/route/navigateBack"
+          "id": "version-3.0.5/apis/route/navigateBack"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/route/EventChannel"
+          "id": "version-3.0.5/apis/route/EventChannel"
         }
       ]
     },
@@ -592,19 +592,19 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/framework/App"
+          "id": "version-3.0.5/apis/framework/App"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/framework/getApp"
+          "id": "version-3.0.5/apis/framework/getApp"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/framework/getCurrentPages"
+          "id": "version-3.0.5/apis/framework/getCurrentPages"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/framework/Page"
+          "id": "version-3.0.5/apis/framework/Page"
         }
       ]
     },
@@ -618,27 +618,27 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/interaction/showToast"
+              "id": "version-3.0.5/apis/ui/interaction/showToast"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/interaction/showModal"
+              "id": "version-3.0.5/apis/ui/interaction/showModal"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/interaction/showLoading"
+              "id": "version-3.0.5/apis/ui/interaction/showLoading"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/interaction/showActionSheet"
+              "id": "version-3.0.5/apis/ui/interaction/showActionSheet"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/interaction/hideToast"
+              "id": "version-3.0.5/apis/ui/interaction/hideToast"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/interaction/hideLoading"
+              "id": "version-3.0.5/apis/ui/interaction/hideLoading"
             }
           ]
         },
@@ -648,23 +648,23 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/navigation-bar/showNavigationBarLoading"
+              "id": "version-3.0.5/apis/ui/navigation-bar/showNavigationBarLoading"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/navigation-bar/setNavigationBarTitle"
+              "id": "version-3.0.5/apis/ui/navigation-bar/setNavigationBarTitle"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/navigation-bar/setNavigationBarColor"
+              "id": "version-3.0.5/apis/ui/navigation-bar/setNavigationBarColor"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/navigation-bar/hideNavigationBarLoading"
+              "id": "version-3.0.5/apis/ui/navigation-bar/hideNavigationBarLoading"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/navigation-bar/hideHomeButton"
+              "id": "version-3.0.5/apis/ui/navigation-bar/hideHomeButton"
             }
           ]
         },
@@ -674,11 +674,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/background/setBackgroundTextStyle"
+              "id": "version-3.0.5/apis/ui/background/setBackgroundTextStyle"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/background/setBackgroundColor"
+              "id": "version-3.0.5/apis/ui/background/setBackgroundColor"
             }
           ]
         },
@@ -688,35 +688,35 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/tab-bar/showTabBarRedDot"
+              "id": "version-3.0.5/apis/ui/tab-bar/showTabBarRedDot"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/tab-bar/showTabBar"
+              "id": "version-3.0.5/apis/ui/tab-bar/showTabBar"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/tab-bar/setTabBarStyle"
+              "id": "version-3.0.5/apis/ui/tab-bar/setTabBarStyle"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/tab-bar/setTabBarItem"
+              "id": "version-3.0.5/apis/ui/tab-bar/setTabBarItem"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/tab-bar/setTabBarBadge"
+              "id": "version-3.0.5/apis/ui/tab-bar/setTabBarBadge"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/tab-bar/removeTabBarBadge"
+              "id": "version-3.0.5/apis/ui/tab-bar/removeTabBarBadge"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/tab-bar/hideTabBarRedDot"
+              "id": "version-3.0.5/apis/ui/tab-bar/hideTabBarRedDot"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/tab-bar/hideTabBar"
+              "id": "version-3.0.5/apis/ui/tab-bar/hideTabBar"
             }
           ]
         },
@@ -726,7 +726,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/fonts/loadFontFace"
+              "id": "version-3.0.5/apis/ui/fonts/loadFontFace"
             }
           ]
         },
@@ -736,11 +736,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/pull-down-refresh/stopPullDownRefresh"
+              "id": "version-3.0.5/apis/ui/pull-down-refresh/stopPullDownRefresh"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/pull-down-refresh/startPullDownRefresh"
+              "id": "version-3.0.5/apis/ui/pull-down-refresh/startPullDownRefresh"
             }
           ]
         },
@@ -750,7 +750,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/scroll/pageScrollTo"
+              "id": "version-3.0.5/apis/ui/scroll/pageScrollTo"
             }
           ]
         },
@@ -760,11 +760,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/animation/createAnimation"
+              "id": "version-3.0.5/apis/ui/animation/createAnimation"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/animation/Animation"
+              "id": "version-3.0.5/apis/ui/animation/Animation"
             }
           ]
         },
@@ -774,7 +774,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/sticky/setTopBarText"
+              "id": "version-3.0.5/apis/ui/sticky/setTopBarText"
             }
           ]
         },
@@ -784,7 +784,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/custom-component/nextTick"
+              "id": "version-3.0.5/apis/ui/custom-component/nextTick"
             }
           ]
         },
@@ -794,7 +794,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/menu/getMenuButtonBoundingClientRect"
+              "id": "version-3.0.5/apis/ui/menu/getMenuButtonBoundingClientRect"
             }
           ]
         },
@@ -804,11 +804,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/window/onWindowResize"
+              "id": "version-3.0.5/apis/ui/window/onWindowResize"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/window/offWindowResize"
+              "id": "version-3.0.5/apis/ui/window/offWindowResize"
             }
           ]
         },
@@ -818,15 +818,15 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/keyboard/onKeyboardHeightChange"
+              "id": "version-3.0.5/apis/ui/keyboard/onKeyboardHeightChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/keyboard/hideKeyboard"
+              "id": "version-3.0.5/apis/ui/keyboard/hideKeyboard"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/ui/keyboard/getSelectedTextRange"
+              "id": "version-3.0.5/apis/ui/keyboard/getSelectedTextRange"
             }
           ]
         }
@@ -842,15 +842,15 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/request/request"
+              "id": "version-3.0.5/apis/network/request/request"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/request/RequestTask"
+              "id": "version-3.0.5/apis/network/request/RequestTask"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/request/addInterceptor"
+              "id": "version-3.0.5/apis/network/request/addInterceptor"
             }
           ]
         },
@@ -860,11 +860,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/download/downloadFile"
+              "id": "version-3.0.5/apis/network/download/downloadFile"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/download/DownloadTask"
+              "id": "version-3.0.5/apis/network/download/DownloadTask"
             }
           ]
         },
@@ -874,11 +874,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/upload/uploadFile"
+              "id": "version-3.0.5/apis/network/upload/uploadFile"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/upload/UploadTask"
+              "id": "version-3.0.5/apis/network/upload/UploadTask"
             }
           ]
         },
@@ -888,35 +888,35 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/webSocket/sendSocketMessage"
+              "id": "version-3.0.5/apis/network/webSocket/sendSocketMessage"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/webSocket/onSocketOpen"
+              "id": "version-3.0.5/apis/network/webSocket/onSocketOpen"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/webSocket/onSocketMessage"
+              "id": "version-3.0.5/apis/network/webSocket/onSocketMessage"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/webSocket/onSocketError"
+              "id": "version-3.0.5/apis/network/webSocket/onSocketError"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/webSocket/onSocketClose"
+              "id": "version-3.0.5/apis/network/webSocket/onSocketClose"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/webSocket/connectSocket"
+              "id": "version-3.0.5/apis/network/webSocket/connectSocket"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/webSocket/closeSocket"
+              "id": "version-3.0.5/apis/network/webSocket/closeSocket"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/webSocket/SocketTask"
+              "id": "version-3.0.5/apis/network/webSocket/SocketTask"
             }
           ]
         },
@@ -926,43 +926,43 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/mdns/stopLocalServiceDiscovery"
+              "id": "version-3.0.5/apis/network/mdns/stopLocalServiceDiscovery"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/mdns/startLocalServiceDiscovery"
+              "id": "version-3.0.5/apis/network/mdns/startLocalServiceDiscovery"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/mdns/onLocalServiceResolveFail"
+              "id": "version-3.0.5/apis/network/mdns/onLocalServiceResolveFail"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/mdns/onLocalServiceLost"
+              "id": "version-3.0.5/apis/network/mdns/onLocalServiceLost"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/mdns/onLocalServiceFound"
+              "id": "version-3.0.5/apis/network/mdns/onLocalServiceFound"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/mdns/onLocalServiceDiscoveryStop"
+              "id": "version-3.0.5/apis/network/mdns/onLocalServiceDiscoveryStop"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/mdns/offLocalServiceResolveFail"
+              "id": "version-3.0.5/apis/network/mdns/offLocalServiceResolveFail"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/mdns/offLocalServiceLost"
+              "id": "version-3.0.5/apis/network/mdns/offLocalServiceLost"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/mdns/offLocalServiceFound"
+              "id": "version-3.0.5/apis/network/mdns/offLocalServiceFound"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/mdns/offLocalServiceDiscoveryStop"
+              "id": "version-3.0.5/apis/network/mdns/offLocalServiceDiscoveryStop"
             }
           ]
         },
@@ -972,11 +972,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/udp/createUDPSocket"
+              "id": "version-3.0.5/apis/network/udp/createUDPSocket"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/network/udp/UDPSocket"
+              "id": "version-3.0.5/apis/network/udp/UDPSocket"
             }
           ]
         }
@@ -988,43 +988,43 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/storage/setStorageSync"
+          "id": "version-3.0.5/apis/storage/setStorageSync"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/storage/setStorage"
+          "id": "version-3.0.5/apis/storage/setStorage"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/storage/removeStorageSync"
+          "id": "version-3.0.5/apis/storage/removeStorageSync"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/storage/removeStorage"
+          "id": "version-3.0.5/apis/storage/removeStorage"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/storage/getStorageSync"
+          "id": "version-3.0.5/apis/storage/getStorageSync"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/storage/getStorageInfoSync"
+          "id": "version-3.0.5/apis/storage/getStorageInfoSync"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/storage/getStorageInfo"
+          "id": "version-3.0.5/apis/storage/getStorageInfo"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/storage/getStorage"
+          "id": "version-3.0.5/apis/storage/getStorage"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/storage/clearStorageSync"
+          "id": "version-3.0.5/apis/storage/clearStorageSync"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/storage/clearStorage"
+          "id": "version-3.0.5/apis/storage/clearStorage"
         },
         {
           "label": "周期性更新",
@@ -1032,19 +1032,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/storage/background-fetch/setBackgroundFetchToken"
+              "id": "version-3.0.5/apis/storage/background-fetch/setBackgroundFetchToken"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/storage/background-fetch/onBackgroundFetchData"
+              "id": "version-3.0.5/apis/storage/background-fetch/onBackgroundFetchData"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/storage/background-fetch/getBackgroundFetchToken"
+              "id": "version-3.0.5/apis/storage/background-fetch/getBackgroundFetchToken"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/storage/background-fetch/getBackgroundFetchData"
+              "id": "version-3.0.5/apis/storage/background-fetch/getBackgroundFetchData"
             }
           ]
         }
@@ -1060,11 +1060,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/map/createMapContext"
+              "id": "version-3.0.5/apis/media/map/createMapContext"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/map/MapContext"
+              "id": "version-3.0.5/apis/media/map/MapContext"
             }
           ]
         },
@@ -1074,27 +1074,27 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/image/saveImageToPhotosAlbum"
+              "id": "version-3.0.5/apis/media/image/saveImageToPhotosAlbum"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/image/previewImage"
+              "id": "version-3.0.5/apis/media/image/previewImage"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/image/getImageInfo"
+              "id": "version-3.0.5/apis/media/image/getImageInfo"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/image/compressImage"
+              "id": "version-3.0.5/apis/media/image/compressImage"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/image/chooseMessageFile"
+              "id": "version-3.0.5/apis/media/image/chooseMessageFile"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/image/chooseImage"
+              "id": "version-3.0.5/apis/media/image/chooseImage"
             }
           ]
         },
@@ -1104,19 +1104,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/video/saveVideoToPhotosAlbum"
+              "id": "version-3.0.5/apis/media/video/saveVideoToPhotosAlbum"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/video/createVideoContext"
+              "id": "version-3.0.5/apis/media/video/createVideoContext"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/video/chooseVideo"
+              "id": "version-3.0.5/apis/media/video/chooseVideo"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/video/VideoContext"
+              "id": "version-3.0.5/apis/media/video/VideoContext"
             }
           ]
         },
@@ -1126,39 +1126,39 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/audio/stopVoice"
+              "id": "version-3.0.5/apis/media/audio/stopVoice"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/audio/setInnerAudioOption"
+              "id": "version-3.0.5/apis/media/audio/setInnerAudioOption"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/audio/playVoice"
+              "id": "version-3.0.5/apis/media/audio/playVoice"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/audio/pauseVoice"
+              "id": "version-3.0.5/apis/media/audio/pauseVoice"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/audio/getAvailableAudioSources"
+              "id": "version-3.0.5/apis/media/audio/getAvailableAudioSources"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/audio/createInnerAudioContext"
+              "id": "version-3.0.5/apis/media/audio/createInnerAudioContext"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/audio/createAudioContext"
+              "id": "version-3.0.5/apis/media/audio/createAudioContext"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/audio/AudioContext"
+              "id": "version-3.0.5/apis/media/audio/AudioContext"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/audio/InnerAudioContext"
+              "id": "version-3.0.5/apis/media/audio/InnerAudioContext"
             }
           ]
         },
@@ -1168,43 +1168,43 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/background-audio/stopBackgroundAudio"
+              "id": "version-3.0.5/apis/media/background-audio/stopBackgroundAudio"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/background-audio/seekBackgroundAudio"
+              "id": "version-3.0.5/apis/media/background-audio/seekBackgroundAudio"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/background-audio/playBackgroundAudio"
+              "id": "version-3.0.5/apis/media/background-audio/playBackgroundAudio"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/background-audio/pauseBackgroundAudio"
+              "id": "version-3.0.5/apis/media/background-audio/pauseBackgroundAudio"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/background-audio/onBackgroundAudioStop"
+              "id": "version-3.0.5/apis/media/background-audio/onBackgroundAudioStop"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/background-audio/onBackgroundAudioPlay"
+              "id": "version-3.0.5/apis/media/background-audio/onBackgroundAudioPlay"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/background-audio/onBackgroundAudioPause"
+              "id": "version-3.0.5/apis/media/background-audio/onBackgroundAudioPause"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/background-audio/getBackgroundAudioPlayerState"
+              "id": "version-3.0.5/apis/media/background-audio/getBackgroundAudioPlayerState"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/background-audio/getBackgroundAudioManager"
+              "id": "version-3.0.5/apis/media/background-audio/getBackgroundAudioManager"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/background-audio/BackgroundAudioManager"
+              "id": "version-3.0.5/apis/media/background-audio/BackgroundAudioManager"
             }
           ]
         },
@@ -1214,19 +1214,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/live/createLivePusherContext"
+              "id": "version-3.0.5/apis/media/live/createLivePusherContext"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/live/createLivePlayerContext"
+              "id": "version-3.0.5/apis/media/live/createLivePlayerContext"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/live/LivePlayerContext"
+              "id": "version-3.0.5/apis/media/live/LivePlayerContext"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/live/LivePusherContext"
+              "id": "version-3.0.5/apis/media/live/LivePusherContext"
             }
           ]
         },
@@ -1236,19 +1236,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/recorder/stopRecord"
+              "id": "version-3.0.5/apis/media/recorder/stopRecord"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/recorder/startRecord"
+              "id": "version-3.0.5/apis/media/recorder/startRecord"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/recorder/getRecorderManager"
+              "id": "version-3.0.5/apis/media/recorder/getRecorderManager"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/recorder/RecorderManager"
+              "id": "version-3.0.5/apis/media/recorder/RecorderManager"
             }
           ]
         },
@@ -1258,11 +1258,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/camera/createCameraContext"
+              "id": "version-3.0.5/apis/media/camera/createCameraContext"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/camera/CameraContext"
+              "id": "version-3.0.5/apis/media/camera/CameraContext"
             }
           ]
         },
@@ -1272,7 +1272,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/editor/EditorContext"
+              "id": "version-3.0.5/apis/media/editor/EditorContext"
             }
           ]
         },
@@ -1282,15 +1282,15 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/video-processing/createMediaContainer"
+              "id": "version-3.0.5/apis/media/video-processing/createMediaContainer"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/video-processing/MediaContainer"
+              "id": "version-3.0.5/apis/media/video-processing/MediaContainer"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/media/video-processing/MediaTrack"
+              "id": "version-3.0.5/apis/media/video-processing/MediaTrack"
             }
           ]
         }
@@ -1302,35 +1302,35 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/location/stopLocationUpdate"
+          "id": "version-3.0.5/apis/location/stopLocationUpdate"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/location/startLocationUpdateBackground"
+          "id": "version-3.0.5/apis/location/startLocationUpdateBackground"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/location/startLocationUpdate"
+          "id": "version-3.0.5/apis/location/startLocationUpdate"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/location/openLocation"
+          "id": "version-3.0.5/apis/location/openLocation"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/location/onLocationChange"
+          "id": "version-3.0.5/apis/location/onLocationChange"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/location/offLocationChange"
+          "id": "version-3.0.5/apis/location/offLocationChange"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/location/getLocation"
+          "id": "version-3.0.5/apis/location/getLocation"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/location/chooseLocation"
+          "id": "version-3.0.5/apis/location/chooseLocation"
         }
       ]
     },
@@ -1340,19 +1340,19 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/share/updateShareMenu"
+          "id": "version-3.0.5/apis/share/updateShareMenu"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/share/showShareMenu"
+          "id": "version-3.0.5/apis/share/showShareMenu"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/share/hideShareMenu"
+          "id": "version-3.0.5/apis/share/hideShareMenu"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/share/getShareInfo"
+          "id": "version-3.0.5/apis/share/getShareInfo"
         }
       ]
     },
@@ -1362,55 +1362,55 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/createOffscreenCanvas"
+          "id": "version-3.0.5/apis/canvas/createOffscreenCanvas"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/createCanvasContext"
+          "id": "version-3.0.5/apis/canvas/createCanvasContext"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/canvasToTempFilePath"
+          "id": "version-3.0.5/apis/canvas/canvasToTempFilePath"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/canvasPutImageData"
+          "id": "version-3.0.5/apis/canvas/canvasPutImageData"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/canvasGetImageData"
+          "id": "version-3.0.5/apis/canvas/canvasGetImageData"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/Canvas"
+          "id": "version-3.0.5/apis/canvas/Canvas"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/CanvasContext"
+          "id": "version-3.0.5/apis/canvas/CanvasContext"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/CanvasGradient"
+          "id": "version-3.0.5/apis/canvas/CanvasGradient"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/Color"
+          "id": "version-3.0.5/apis/canvas/Color"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/Image"
+          "id": "version-3.0.5/apis/canvas/Image"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/ImageData"
+          "id": "version-3.0.5/apis/canvas/ImageData"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/OffscreenCanvas"
+          "id": "version-3.0.5/apis/canvas/OffscreenCanvas"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/canvas/RenderingContext"
+          "id": "version-3.0.5/apis/canvas/RenderingContext"
         }
       ]
     },
@@ -1420,39 +1420,39 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/files/saveFile"
+          "id": "version-3.0.5/apis/files/saveFile"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/files/removeSavedFile"
+          "id": "version-3.0.5/apis/files/removeSavedFile"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/files/openDocument"
+          "id": "version-3.0.5/apis/files/openDocument"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/files/getSavedFileList"
+          "id": "version-3.0.5/apis/files/getSavedFileList"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/files/getSavedFileInfo"
+          "id": "version-3.0.5/apis/files/getSavedFileInfo"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/files/getFileSystemManager"
+          "id": "version-3.0.5/apis/files/getFileSystemManager"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/files/getFileInfo"
+          "id": "version-3.0.5/apis/files/getFileInfo"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/files/FileSystemManager"
+          "id": "version-3.0.5/apis/files/FileSystemManager"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/files/Stats"
+          "id": "version-3.0.5/apis/files/Stats"
         }
       ]
     },
@@ -1466,11 +1466,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/login/login"
+              "id": "version-3.0.5/apis/open-api/login/login"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/login/checkSession"
+              "id": "version-3.0.5/apis/open-api/login/checkSession"
             }
           ]
         },
@@ -1480,11 +1480,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/navigate/navigateToMiniProgram"
+              "id": "version-3.0.5/apis/open-api/navigate/navigateToMiniProgram"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/navigate/navigateBackMiniProgram"
+              "id": "version-3.0.5/apis/open-api/navigate/navigateBackMiniProgram"
             }
           ]
         },
@@ -1494,7 +1494,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/account/getAccountInfoSync"
+              "id": "version-3.0.5/apis/open-api/account/getAccountInfoSync"
             }
           ]
         },
@@ -1504,11 +1504,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/user-info/getUserInfo"
+              "id": "version-3.0.5/apis/open-api/user-info/getUserInfo"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/user-info/UserInfo"
+              "id": "version-3.0.5/apis/open-api/user-info/UserInfo"
             }
           ]
         },
@@ -1518,7 +1518,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/report/reportMonitor"
+              "id": "version-3.0.5/apis/open-api/report/reportMonitor"
             }
           ]
         },
@@ -1528,7 +1528,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/data-analysis/reportAnalytics"
+              "id": "version-3.0.5/apis/open-api/data-analysis/reportAnalytics"
             }
           ]
         },
@@ -1538,11 +1538,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/payment/requestPayment"
+              "id": "version-3.0.5/apis/open-api/payment/requestPayment"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/payment/faceVerifyForPay"
+              "id": "version-3.0.5/apis/open-api/payment/faceVerifyForPay"
             }
           ]
         },
@@ -1552,7 +1552,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/authorize/authorize"
+              "id": "version-3.0.5/apis/open-api/authorize/authorize"
             }
           ]
         },
@@ -1562,15 +1562,15 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/settings/openSetting"
+              "id": "version-3.0.5/apis/open-api/settings/openSetting"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/settings/getSetting"
+              "id": "version-3.0.5/apis/open-api/settings/getSetting"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/settings/AuthSetting"
+              "id": "version-3.0.5/apis/open-api/settings/AuthSetting"
             }
           ]
         },
@@ -1580,7 +1580,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/address/chooseAddress"
+              "id": "version-3.0.5/apis/open-api/address/chooseAddress"
             }
           ]
         },
@@ -1590,11 +1590,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/card/openCard"
+              "id": "version-3.0.5/apis/open-api/card/openCard"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/card/addCard"
+              "id": "version-3.0.5/apis/open-api/card/addCard"
             }
           ]
         },
@@ -1604,11 +1604,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/invoice/chooseInvoiceTitle"
+              "id": "version-3.0.5/apis/open-api/invoice/chooseInvoiceTitle"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/invoice/chooseInvoice"
+              "id": "version-3.0.5/apis/open-api/invoice/chooseInvoice"
             }
           ]
         },
@@ -1618,27 +1618,27 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/soter/startSoterAuthentication"
+              "id": "version-3.0.5/apis/open-api/soter/startSoterAuthentication"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/soter/checkIsSupportSoterAuthentication"
+              "id": "version-3.0.5/apis/open-api/soter/checkIsSupportSoterAuthentication"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/soter/checkIsSoterEnrolledInDevice"
+              "id": "version-3.0.5/apis/open-api/soter/checkIsSoterEnrolledInDevice"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/facial/checkIsSupportFacialRecognition"
+              "id": "version-3.0.5/apis/open-api/facial/checkIsSupportFacialRecognition"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/facial/startFacialRecognitionVerify"
+              "id": "version-3.0.5/apis/open-api/facial/startFacialRecognitionVerify"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/facial/startFacialRecognitionVerifyAndUploadVideo"
+              "id": "version-3.0.5/apis/open-api/facial/startFacialRecognitionVerifyAndUploadVideo"
             }
           ]
         },
@@ -1648,7 +1648,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/werun/getWeRunData"
+              "id": "version-3.0.5/apis/open-api/werun/getWeRunData"
             }
           ]
         },
@@ -1658,7 +1658,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/open-api/subscribe-message/requestSubscribeMessage"
+              "id": "version-3.0.5/apis/open-api/subscribe-message/requestSubscribeMessage"
             }
           ]
         }
@@ -1674,35 +1674,35 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ibeacon/stopBeaconDiscovery"
+              "id": "version-3.0.5/apis/device/ibeacon/stopBeaconDiscovery"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ibeacon/startBeaconDiscovery"
+              "id": "version-3.0.5/apis/device/ibeacon/startBeaconDiscovery"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ibeacon/onBeaconUpdate"
+              "id": "version-3.0.5/apis/device/ibeacon/onBeaconUpdate"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ibeacon/onBeaconServiceChange"
+              "id": "version-3.0.5/apis/device/ibeacon/onBeaconServiceChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ibeacon/offBeaconUpdate"
+              "id": "version-3.0.5/apis/device/ibeacon/offBeaconUpdate"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ibeacon/offBeaconServiceChange"
+              "id": "version-3.0.5/apis/device/ibeacon/offBeaconServiceChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ibeacon/getBeacons"
+              "id": "version-3.0.5/apis/device/ibeacon/getBeacons"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ibeacon/IBeaconInfo"
+              "id": "version-3.0.5/apis/device/ibeacon/IBeaconInfo"
             }
           ]
         },
@@ -1712,47 +1712,47 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/stopWifi"
+              "id": "version-3.0.5/apis/device/wifi/stopWifi"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/startWifi"
+              "id": "version-3.0.5/apis/device/wifi/startWifi"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/setWifiList"
+              "id": "version-3.0.5/apis/device/wifi/setWifiList"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/onWifiConnected"
+              "id": "version-3.0.5/apis/device/wifi/onWifiConnected"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/onGetWifiList"
+              "id": "version-3.0.5/apis/device/wifi/onGetWifiList"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/offWifiConnected"
+              "id": "version-3.0.5/apis/device/wifi/offWifiConnected"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/offGetWifiList"
+              "id": "version-3.0.5/apis/device/wifi/offGetWifiList"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/getWifiList"
+              "id": "version-3.0.5/apis/device/wifi/getWifiList"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/getConnectedWifi"
+              "id": "version-3.0.5/apis/device/wifi/getConnectedWifi"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/connectWifi"
+              "id": "version-3.0.5/apis/device/wifi/connectWifi"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/wifi/WifiInfo"
+              "id": "version-3.0.5/apis/device/wifi/WifiInfo"
             }
           ]
         },
@@ -1762,7 +1762,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/contact/addPhoneContact"
+              "id": "version-3.0.5/apis/device/contact/addPhoneContact"
             }
           ]
         },
@@ -1772,39 +1772,39 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ble/writeBLECharacteristicValue"
+              "id": "version-3.0.5/apis/device/ble/writeBLECharacteristicValue"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ble/readBLECharacteristicValue"
+              "id": "version-3.0.5/apis/device/ble/readBLECharacteristicValue"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ble/onBLEConnectionStateChange"
+              "id": "version-3.0.5/apis/device/ble/onBLEConnectionStateChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ble/onBLECharacteristicValueChange"
+              "id": "version-3.0.5/apis/device/ble/onBLECharacteristicValueChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ble/notifyBLECharacteristicValueChange"
+              "id": "version-3.0.5/apis/device/ble/notifyBLECharacteristicValueChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ble/getBLEDeviceServices"
+              "id": "version-3.0.5/apis/device/ble/getBLEDeviceServices"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ble/getBLEDeviceCharacteristics"
+              "id": "version-3.0.5/apis/device/ble/getBLEDeviceCharacteristics"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ble/createBLEConnection"
+              "id": "version-3.0.5/apis/device/ble/createBLEConnection"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/ble/closeBLEConnection"
+              "id": "version-3.0.5/apis/device/ble/closeBLEConnection"
             }
           ]
         },
@@ -1814,39 +1814,39 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/bluetooth/stopBluetoothDevicesDiscovery"
+              "id": "version-3.0.5/apis/device/bluetooth/stopBluetoothDevicesDiscovery"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/bluetooth/startBluetoothDevicesDiscovery"
+              "id": "version-3.0.5/apis/device/bluetooth/startBluetoothDevicesDiscovery"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/bluetooth/openBluetoothAdapter"
+              "id": "version-3.0.5/apis/device/bluetooth/openBluetoothAdapter"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/bluetooth/onBluetoothDeviceFound"
+              "id": "version-3.0.5/apis/device/bluetooth/onBluetoothDeviceFound"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/bluetooth/onBluetoothAdapterStateChange"
+              "id": "version-3.0.5/apis/device/bluetooth/onBluetoothAdapterStateChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/bluetooth/getConnectedBluetoothDevices"
+              "id": "version-3.0.5/apis/device/bluetooth/getConnectedBluetoothDevices"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/bluetooth/getBluetoothDevices"
+              "id": "version-3.0.5/apis/device/bluetooth/getBluetoothDevices"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/bluetooth/getBluetoothAdapterState"
+              "id": "version-3.0.5/apis/device/bluetooth/getBluetoothAdapterState"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/bluetooth/closeBluetoothAdapter"
+              "id": "version-3.0.5/apis/device/bluetooth/closeBluetoothAdapter"
             }
           ]
         },
@@ -1856,11 +1856,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/battery/getBatteryInfoSync"
+              "id": "version-3.0.5/apis/device/battery/getBatteryInfoSync"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/battery/getBatteryInfo"
+              "id": "version-3.0.5/apis/device/battery/getBatteryInfo"
             }
           ]
         },
@@ -1870,11 +1870,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/clipboard/setClipboardData"
+              "id": "version-3.0.5/apis/device/clipboard/setClipboardData"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/clipboard/getClipboardData"
+              "id": "version-3.0.5/apis/device/clipboard/getClipboardData"
             }
           ]
         },
@@ -1884,27 +1884,27 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/nfc/stopHCE"
+              "id": "version-3.0.5/apis/device/nfc/stopHCE"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/nfc/startHCE"
+              "id": "version-3.0.5/apis/device/nfc/startHCE"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/nfc/sendHCEMessage"
+              "id": "version-3.0.5/apis/device/nfc/sendHCEMessage"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/nfc/onHCEMessage"
+              "id": "version-3.0.5/apis/device/nfc/onHCEMessage"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/nfc/offHCEMessage"
+              "id": "version-3.0.5/apis/device/nfc/offHCEMessage"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/nfc/getHCEState"
+              "id": "version-3.0.5/apis/device/nfc/getHCEState"
             }
           ]
         },
@@ -1914,15 +1914,15 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/network/onNetworkStatusChange"
+              "id": "version-3.0.5/apis/device/network/onNetworkStatusChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/network/offNetworkStatusChange"
+              "id": "version-3.0.5/apis/device/network/offNetworkStatusChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/network/getNetworkType"
+              "id": "version-3.0.5/apis/device/network/getNetworkType"
             }
           ]
         },
@@ -1932,23 +1932,23 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/screen/setScreenBrightness"
+              "id": "version-3.0.5/apis/device/screen/setScreenBrightness"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/screen/setKeepScreenOn"
+              "id": "version-3.0.5/apis/device/screen/setKeepScreenOn"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/screen/onUserCaptureScreen"
+              "id": "version-3.0.5/apis/device/screen/onUserCaptureScreen"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/screen/offUserCaptureScreen"
+              "id": "version-3.0.5/apis/device/screen/offUserCaptureScreen"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/screen/getScreenBrightness"
+              "id": "version-3.0.5/apis/device/screen/getScreenBrightness"
             }
           ]
         },
@@ -1958,7 +1958,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/phone/makePhoneCall"
+              "id": "version-3.0.5/apis/device/phone/makePhoneCall"
             }
           ]
         },
@@ -1968,19 +1968,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/accelerometer/stopAccelerometer"
+              "id": "version-3.0.5/apis/device/accelerometer/stopAccelerometer"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/accelerometer/startAccelerometer"
+              "id": "version-3.0.5/apis/device/accelerometer/startAccelerometer"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/accelerometer/onAccelerometerChange"
+              "id": "version-3.0.5/apis/device/accelerometer/onAccelerometerChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/accelerometer/offAccelerometerChange"
+              "id": "version-3.0.5/apis/device/accelerometer/offAccelerometerChange"
             }
           ]
         },
@@ -1990,19 +1990,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/compass/stopCompass"
+              "id": "version-3.0.5/apis/device/compass/stopCompass"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/compass/startCompass"
+              "id": "version-3.0.5/apis/device/compass/startCompass"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/compass/onCompassChange"
+              "id": "version-3.0.5/apis/device/compass/onCompassChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/compass/offCompassChange"
+              "id": "version-3.0.5/apis/device/compass/offCompassChange"
             }
           ]
         },
@@ -2012,19 +2012,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/motion/stopDeviceMotionListening"
+              "id": "version-3.0.5/apis/device/motion/stopDeviceMotionListening"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/motion/startDeviceMotionListening"
+              "id": "version-3.0.5/apis/device/motion/startDeviceMotionListening"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/motion/onDeviceMotionChange"
+              "id": "version-3.0.5/apis/device/motion/onDeviceMotionChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/motion/offDeviceMotionChange"
+              "id": "version-3.0.5/apis/device/motion/offDeviceMotionChange"
             }
           ]
         },
@@ -2034,19 +2034,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/gyroscope/stopGyroscope"
+              "id": "version-3.0.5/apis/device/gyroscope/stopGyroscope"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/gyroscope/startGyroscope"
+              "id": "version-3.0.5/apis/device/gyroscope/startGyroscope"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/gyroscope/onGyroscopeChange"
+              "id": "version-3.0.5/apis/device/gyroscope/onGyroscopeChange"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/gyroscope/offGyroscopeChange"
+              "id": "version-3.0.5/apis/device/gyroscope/offGyroscopeChange"
             }
           ]
         },
@@ -2056,7 +2056,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/performance/onMemoryWarning"
+              "id": "version-3.0.5/apis/device/performance/onMemoryWarning"
             }
           ]
         },
@@ -2066,7 +2066,7 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/scan/scancode"
+              "id": "version-3.0.5/apis/device/scan/scancode"
             }
           ]
         },
@@ -2076,11 +2076,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/vibrate/vibrateShort"
+              "id": "version-3.0.5/apis/device/vibrate/vibrateShort"
             },
             {
               "type": "doc",
-              "id": "version-3.0.0/apis/device/vibrate/vibrateLong"
+              "id": "version-3.0.5/apis/device/vibrate/vibrateLong"
             }
           ]
         }
@@ -2092,11 +2092,11 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/worker/createWorker"
+          "id": "version-3.0.5/apis/worker/createWorker"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/worker/Worker"
+          "id": "version-3.0.5/apis/worker/Worker"
         }
       ]
     },
@@ -2106,11 +2106,11 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/ext/getExtConfigSync"
+          "id": "version-3.0.5/apis/ext/getExtConfigSync"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/ext/getExtConfig"
+          "id": "version-3.0.5/apis/ext/getExtConfig"
         }
       ]
     },
@@ -2120,11 +2120,11 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/cloud/cloud"
+          "id": "version-3.0.5/apis/cloud/cloud"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/cloud/DB"
+          "id": "version-3.0.5/apis/cloud/DB"
         }
       ]
     },
@@ -2134,23 +2134,23 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/wxml/createSelectorQuery"
+          "id": "version-3.0.5/apis/wxml/createSelectorQuery"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/wxml/createIntersectionObserver"
+          "id": "version-3.0.5/apis/wxml/createIntersectionObserver"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/wxml/IntersectionObserver"
+          "id": "version-3.0.5/apis/wxml/IntersectionObserver"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/wxml/NodesRef"
+          "id": "version-3.0.5/apis/wxml/NodesRef"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/wxml/SelectorQuery"
+          "id": "version-3.0.5/apis/wxml/SelectorQuery"
         }
       ]
     },
@@ -2160,19 +2160,19 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/ad/createRewardedVideoAd"
+          "id": "version-3.0.5/apis/ad/createRewardedVideoAd"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/ad/createInterstitialAd"
+          "id": "version-3.0.5/apis/ad/createInterstitialAd"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/ad/InterstitialAd"
+          "id": "version-3.0.5/apis/ad/InterstitialAd"
         },
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/ad/RewardedVideoAd"
+          "id": "version-3.0.5/apis/ad/RewardedVideoAd"
         }
       ]
     },
@@ -2182,7 +2182,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/alipay/getOpenUserInfo"
+          "id": "version-3.0.5/apis/alipay/getOpenUserInfo"
         }
       ]
     },
@@ -2192,7 +2192,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-3.0.0/apis/swan/setPageInfo"
+          "id": "version-3.0.5/apis/swan/setPageInfo"
         }
       ]
     }
