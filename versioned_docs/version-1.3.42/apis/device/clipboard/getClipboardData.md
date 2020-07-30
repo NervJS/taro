@@ -1,6 +1,6 @@
 ---
 title: Taro.getClipboardData(param)
-sidebar_label: getClipboardData
+sidebar_label: getClipBoardData
 ---
 
 获取系统剪贴板的内容。
@@ -30,7 +30,7 @@ data|string|剪贴板的内容
 ```jsx
 import Taro from '@tarojs/taro'
 
-Taro.getClipboardData(params).then(...)
+Taro.getClipBoardData(params).then(...)
 ```
 
 ## API支持度
@@ -38,5 +38,5 @@ Taro.getClipboardData(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.getClipboardData | ✔️ | ✔️(部分实现) | ✔️ |
+| Taro.getClipBoardData | ✔️ | ✔️(部分实现) | ✔️ |
 
