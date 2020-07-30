@@ -564,6 +564,21 @@ export function findFirstIdentifierFromMemberExpression (node: t.MemberExpressio
   return id
 }
 
+export function generateMemberExpressionArray (node: t.MemberExpression): string[] {
+  let {object, property}: {object: any, property: any} = node
+  let result = [property]
+  while (true) {
+    if (t.identifier(object) && !t.isMemberExpression(object)) {
+      result.push(object);
+      break
+    }
+    property = object.property
+    result.push(property)
+    object = object.object
+  }
+  return result.reverse().map((a: t.Identifier) => a.name)
+}
+
 export function getArgumentName (arg) {
   if (t.isThisExpression(arg)) {
     return 'this'
