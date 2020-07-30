@@ -30,7 +30,8 @@ import {
   setAncestorCondition,
   replaceJSXTextWithTextComponent,
   createRandomLetters,
-  isDerivedFromProps
+  isDerivedFromProps,
+  generateMemberExpressionArray
 } from './utils'
 import { difference, get as safeGet, cloneDeep, uniq, snakeCase } from 'lodash'
 import {
@@ -2143,6 +2144,19 @@ export class RenderParser {
                   forExpr = `(${indexName}, ${itemName}) in ${stateName}`
                 }
                 setJSXAttr(component.node, Adapter.for, t.stringLiteral(`{{${forExpr}}}`))
+              }
+            } if (Adapters.swan === Adapter.type) {
+              const attributes = component.node.openingElement.attributes
+              const keyAttribute: t.JSXAttribute | undefined = attributes.find(a => t.isJSXIdentifier(a.name, {name: 'key'}))
+              if (keyAttribute && t.isJSXExpressionContainer(keyAttribute.value)) {
+                let itemName = itemId!.name;
+                const expressionArray =  generateMemberExpressionArray(keyAttribute.value.expression as t.MemberExpression)
+                expressionArray[0] = itemName // 将key属性的值MemberExpression的首位（对象）替换成forItem
+                const memberExpressionString = expressionArray.join('.')
+                const forExpr = `${stateName} trackBy ${memberExpressionString}`
+                setJSXAttr(component.node, Adapter.for, t.stringLiteral(forExpr))
+              } else {
+                setJSXAttr(component.node, Adapter.for, t.jSXExpressionContainer(t.identifier(stateName)))
               }
             } else {
               setJSXAttr(component.node, Adapter.for, t.jSXExpressionContainer(t.identifier(stateName)))
