@@ -1,5 +1,5 @@
 import { TaroElement, Style, document, FormElement } from '@tarojs/runtime'
-import { isFunction, isString, isObject, isNumber } from '@tarojs/shared'
+import { isFunction, isString, isObject, isNumber, internalComponents, capitalize, toCamelCase } from '@tarojs/shared'
 import { CommonEvent } from '@tarojs/components'
 
 export type Props = Record<string, unknown>
@@ -39,7 +39,11 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
     eventName = eventName.slice(0, -7)
   }
 
-  if (eventName === 'click') {
+  const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
+
+  console.log('compName: ', compName, compName in internalComponents)
+
+  if (eventName === 'click' && compName in internalComponents) {
     eventName = 'tap'
   }
 
