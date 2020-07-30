@@ -41,8 +41,6 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 
   const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
 
-  console.log('compName: ', compName, compName in internalComponents)
-
   if (eventName === 'click' && compName in internalComponents) {
     eventName = 'tap'
   }
