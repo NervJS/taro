@@ -25,6 +25,8 @@ declare namespace Taro {
       success?: (
         result: SuccessCallbackResult,
       ) => void
+      /** （仅H5）表示跨域请求时是否需要使用凭证 */
+      withCredentials?: boolean
     }
     interface SuccessCallbackResult extends General.CallbackResult {
       /** 开发者服务器返回的数据 */

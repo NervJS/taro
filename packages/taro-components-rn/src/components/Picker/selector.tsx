@@ -26,6 +26,7 @@ export default class Selector extends React.Component<SelectorProps, any> {
     pRange: [],
     range: [],
     value: 0,
+    preValue: ''
   }
 
   static getDerivedStateFromProps (nextProps: SelectorProps, lastState: any) {
@@ -38,9 +39,10 @@ export default class Selector extends React.Component<SelectorProps, any> {
         })
       }
     }
-    if (nextProps.value !== lastState.value) {
+    if (nextProps.value !== lastState.preValue) {
       ret = ret || {}
       ret.value = nextProps.value
+      ret.preValue = nextProps.value
     }
     return ret
   }

@@ -1,7 +1,7 @@
 import { createCallbackManager } from '../utils'
 import { convertObjectUrlToBlob, NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
 
-const createUploadTask = ({ url, filePath, fileName, formData, name, header, success, error }) => {
+const createUploadTask = ({ url, filePath, fileName, formData, name, header, success, error, withCredentials }) => {
   let timeout
   let formKey
   const apiName = 'uploadFile'
@@ -12,7 +12,7 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
     progressUpdate: createCallbackManager()
   }
 
-  xhr.withCredentials = true
+  xhr.withCredentials = withCredentials
 
   xhr.open('POST', url)
   setHeader(xhr, header)
@@ -39,6 +39,7 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
 
   xhr.onload = () => {
     const status = xhr.status
+    clearTimeout(timeout)
     success({
       errMsg: `${apiName}:ok`,
       statusCode: status,
@@ -140,9 +141,10 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
  * @param {function} [object.success] 接口调用成功的回调函数
  * @param {function} [object.fail] 接口调用失败的回调函数
  * @param {function} [object.complete] 接口调用结束的回调函数（调用成功、失败都会执行）
+ * @param {Boolean} [object.withCredentials] （仅H5）表示跨域请求时是否需要使用凭证
  * @returns {UploadTask}
  */
-const uploadFile = ({ url, filePath, fileName, name, header, formData, success, fail, complete }) => {
+const uploadFile = ({ url, filePath, fileName, name, header, formData, success, fail, complete, withCredentials = true }) => {
   let task
   const promise = new Promise((resolve, reject) => {
     task = createUploadTask({
@@ -161,7 +163,8 @@ const uploadFile = ({ url, filePath, fileName, name, header, formData, success, 
         fail && fail(res)
         complete && complete(res)
         reject(res)
-      }
+      },
+      withCredentials
     })
   })
 

@@ -14,6 +14,7 @@ import { Config as IConfig, PageConfig } from '@tarojs/taro'
 import { SyncHook } from 'tapable'
 import * as _ from 'lodash'
 import { compileStyle } from '../style'
+import { assetsDebug, pluginDebug } from '../utils/debug'
 
 import {
   // REG_TYPESCRIPT,
@@ -58,7 +59,11 @@ interface IRNPluginOptions {
   isBuildPlugin: boolean,
   alias: object,
   addChunkPages?: AddPageChunks,
-  appJson?: object
+  appJson?: object,
+
+  // custome plugin hooks
+  modifyBuildAssets?: Function,
+  modifyBuildTempFileContent?: Function
 }
 
 export interface ITaroFileInfo {
@@ -238,6 +243,18 @@ export default class RNPlugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, {normalModuleFactory}) => {
+      compilation.hooks.afterOptimizeChunkAssets.tap(PLUGIN_NAME, chunks => {
+        pluginDebug('afterOptimizeChunkAssets', chunks)
+      })
+      compilation.mainTemplate.hooks.renderManifest.tap(
+        PLUGIN_NAME,
+        (result, {chunk}) => {
+          pluginDebug('renderManifest', result)
+        }
+      )
+    })
+
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, {normalModuleFactory}) => {
       compilation.hooks.finishModules.tap(PLUGIN_NAME, (modules) => {
         // console.log(modules)
       })
@@ -258,6 +275,7 @@ export default class RNPlugin {
         await this.generateMiniFiles(compilation)
         await this.generateStyleSheet(compilation)
         await this.generateRNEntry(compilation)
+        await this.linkCommonBundle(compilation)
         this.addedComponents.clear()
       })
     )
@@ -761,8 +779,15 @@ export default class RNPlugin {
     // })
   }
 
-  generateMiniFiles (compilation: webpack.compilation.Compilation) {
+  async generateMiniFiles (compilation: webpack.compilation.Compilation) {
     // const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
+    assetsDebug('before', Object.keys(compilation.assets))
+    const {modifyBuildTempFileContent, modifyBuildAssets} = this.options
+
+    if (typeof modifyBuildTempFileContent === 'function') {
+      await modifyBuildTempFileContent(taroFileTypeMap)
+    }
+
     Object.keys(taroFileTypeMap).forEach(item => {
       // console.log('generateMiniFiles', taroFileTypeMap)
       const itemInfo = taroFileTypeMap[item]
@@ -791,6 +816,30 @@ export default class RNPlugin {
         }
       }
     })
+
+    if (typeof modifyBuildAssets === 'function') {
+      await modifyBuildAssets(compilation.assets)
+    }
+  }
+
+  linkCommonBundle (compilation: webpack.compilation.Compilation) {
+    assetsDebug('after', Object.keys(compilation.assets))
+    if (compilation.assets['common.js']) {
+      const newAppCode = `require('./common');` + compilation.assets['app.js'].source()
+      compilation.assets['app.js'] = {
+        size: () => newAppCode.length,
+        source: () => newAppCode
+      }
+
+      // TODO optimization
+      const newCommonCode = compilation.assets['common.js'].source().replace(/require\('\.\/(.+?)_styles/g, (match, p1) => {
+        return match.replace(p1, 'common')
+      })
+      compilation.assets['common.js'] = {
+        size: () => newCommonCode.length,
+        source: () => newCommonCode
+      }
+    }
   }
 
   generateRNEntry (compilation: webpack.compilation.Compilation) {
@@ -828,9 +877,9 @@ export default class RNPlugin {
       const fileInfo = compilation.assets[fileName]
       if (!REG_STYLE.test(fileName)) return
       const relativePath = this.getRelativePath(fileName)
-      // const extname = path.extname(fileName)
-      // const styleSheetPath = relativePath.replace(extname, '_styles.js').replace(/\\/g, '/')
-      const styleSheetPath = path.join(path.dirname(relativePath), 'index_styles.js')
+      const extname = path.extname(fileName)
+      const styleSheetPath = relativePath.replace(extname, '_styles.js').replace(/\\/g, '/')
+      // const styleSheetPath = path.join(path.dirname(relativePath), 'index_styles.js')
       delete compilation.assets[fileName]
       const css = fileInfo.source()
       // cache

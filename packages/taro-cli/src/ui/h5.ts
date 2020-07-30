@@ -1,13 +1,9 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import chalk from 'chalk'
 import * as wxTransformer from '@tarojs/transformer-wx'
+import { printLog, resolveScriptPath, npm as npmProcess, processTypeEnum, REG_TYPESCRIPT, chalk } from '@tarojs/helper'
 
 import { Compiler } from '../h5'
-import * as npmProcess from '../util/npm'
-import { printLog, resolveScriptPath } from '../util'
-import { processTypeEnum, REG_TYPESCRIPT } from '../util/constants'
-
 import { IBuildData, IH5BuildConfig } from './ui.types'
 import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME, copyAllInterfaceFiles } from './common'
 
@@ -33,6 +29,10 @@ async function buildH5Script (buildData: IBuildData) {
   h5Config.env = projectConfig.env
   h5Config.defineConstants = projectConfig.defineConstants
   h5Config.plugins = projectConfig.plugins
+  h5Config.babel = projectConfig.babel
+  h5Config.csso = projectConfig.csso
+  h5Config.uglify = projectConfig.uglify
+  h5Config.sass = projectConfig.sass
   h5Config.designWidth = projectConfig.designWidth
   if (projectConfig.deviceRatio) {
     h5Config.deviceRatio = projectConfig.deviceRatio

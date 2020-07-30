@@ -4,10 +4,8 @@ import { ProvidePlugin } from 'webpack'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as sass from 'node-sass'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import chalk from 'chalk'
@@ -16,11 +14,8 @@ import { getPostcssPlugins } from './postcss.conf'
 
 import RNPlugin from '../plugins/RNPlugin'
 import { IOption } from '../utils/types'
-import { recursiveMerge, isNodeModule, resolveScriptPath } from '../utils'
+import { recursiveMerge, resolveScriptPath } from '../utils'
 import {
-  REG_SASS,
-  REG_LESS,
-  REG_STYLUS,
   REG_STYLE,
   REG_MEDIA,
   REG_FONT,
@@ -42,16 +37,6 @@ const globalObjectMap = {
   [BUILD_TYPES.RN]: 'global'
 }
 
-const defaultUglifyJsOption = {
-  keep_fnames: true,
-  output: {
-    comments: false,
-    keep_quoted_props: true,
-    quote_keys: true,
-    beautify: false
-  },
-  warnings: false
-}
 const defaultCSSCompressOption = {
   mergeRules: false,
   mergeIdents: false,
@@ -72,7 +57,6 @@ const defaultImageUrlLoaderOption = {
 const defaultCssModuleOption: PostcssOption.cssModules = {
   enable: false,
   config: {
-    namingPattern: 'global',
     generateScopedName: '[name]__[local]___[hash:base64:5]'
   }
 }
@@ -104,20 +88,14 @@ export const mergeOption = ([...options]: IOption[]): IOption => {
   return recursiveMerge({}, ...options)
 }
 
-const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
-const styleGlobalReg = /(.*\.global).*\.(css|s[ac]ss|less|styl)\b/
-
 export const processEnvOption = partial(mapKeys as any, (key: string) => `process.env.${key}`) as any
 
 export const getCssLoader = pipe(mergeOption, partial(getLoader, 'css-loader'))
 export const getPostcssLoader = pipe(mergeOption, partial(getLoader, 'postcss-loader'))
-export const getSassLoader = pipe(mergeOption, partial(getLoader, 'sass-loader'))
-export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader'))
-export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getFileParseLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/fileParseLoader')))
-export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/tsTransformerLoader')))
+export const getTsTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/tsTransformerLoader')))
 export const getJSXToStylesSheetLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/JSXToStylesSheetLoader')))
 export const getBabelLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/babelLoader')))
 const getExtractCssLoader = () => {
@@ -127,14 +105,7 @@ const getExtractCssLoader = () => {
 }
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
 export const getDefinePlugin = pipe(mergeOption, listify, partial(getPlugin, webpack.DefinePlugin))
-export const getUglifyPlugin = ([enableSourceMap, uglifyOptions]) => {
-  return new UglifyJsPlugin({
-    cache: true,
-    parallel: true,
-    sourceMap: enableSourceMap,
-    uglifyOptions: recursiveMerge({}, defaultUglifyJsOption, uglifyOptions)
-  })
-}
+
 export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(listify, partial(getPlugin, CssoWebpackPlugin))([mergeOption([defaultCSSCompressOption, cssoOption]), REG_STYLE])
 }
@@ -179,9 +150,6 @@ export const getModule = (appPath: string, {
   enableSourceMap,
 
   cssLoaderOption,
-  lessLoaderOption,
-  sassLoaderOption,
-  stylusLoaderOption,
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
@@ -189,54 +157,26 @@ export const getModule = (appPath: string, {
   compile,
   babel,
   alias
-}) => {
+}, chain) => {
   const postcssOption: IPostcssOption = postcss || {}
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
 
-  const {namingPattern, generateScopedName} = cssModuleOptions.config!
+  const { generateScopedName } = cssModuleOptions.config!
+
+  const modules = Object.assign({
+    auto: cssModuleOptions.enable
+  }, typeof generateScopedName === 'function'
+  ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
+  : { localIdentName: generateScopedName })
 
   // RN default convert to CSS Modules
   const cssOptions = [
     {
       importLoaders: 1,
       sourceMap: enableSourceMap,
-      modules: {
-        localIdentName: '[path][name]__[local]--[hash:base64:5]',
-        getLocalIdent: (context, localIdentName, localName, options) => {
-          const parse = path.parse(entry.app[0])
-          // if is enrty style
-          if (context.resourcePath.startsWith(path.join(parse.dir,parse.name))) {
-            return localName
-          }
-        }
-      }
+      modules
     },
-    cssLoaderOption
-  ]
-  const cssOptionsWithModule = [
-    Object.assign(
-      {
-        importLoaders: 1,
-        sourceMap: enableSourceMap,
-        modules: {
-          localIdentName: '[path][name]__[local]--[hash:base64:5]',
-          mode: namingPattern === 'module' ? 'local' : 'global',
-          getLocalIdent: (context, localIdentName, localName, options) => {
-            const parse = path.parse(entry.app[0])
-            // if is enrty style
-            if (context.resourcePath.startsWith(path.join(parse.dir,parse.name))) {
-              return localName
-            }
-          }
-        }
-      },
-      {
-        modules: typeof generateScopedName === 'function'
-          ? {getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath)}
-          : {localIdentName: generateScopedName}
-      }
-    ),
     cssLoaderOption
   ]
 
@@ -254,26 +194,16 @@ export const getModule = (appPath: string, {
   const compileExclude = compile.exclude || []
   const compileInclude = compile.include || []
 
-  if (cssModuleOptions.enable) {
-    const cssLoaderWithModule = getCssLoader(cssOptionsWithModule)
-    let cssModuleCondition
-
-    if (cssModuleOptions.config!.namingPattern === 'module') {
-      /* 不排除 node_modules 内的样式 */
-      cssModuleCondition = styleModuleReg
-    } else {
-      cssModuleCondition = {
-        and: [
-          {exclude: styleGlobalReg},
-          {exclude: [isNodeModule]}
-        ]
+  const styleExtRegs = [/\.css$/]
+  const rules = chain.module.rules.entries()
+  if (rules) {
+    Object.keys(rules).forEach(item => {
+      if (/^addChainStyle/.test(item) && rules[item].get('test')) {
+        styleExtRegs.push(rules[item].get('test'))
       }
-    }
-    cssLoaders.unshift({
-      include: [cssModuleCondition],
-      use: [cssLoaderWithModule]
     })
   }
+  const styleReg = new RegExp(styleExtRegs.map(reg => new RegExp(reg).source).join('|'))
 
   const postcssLoader = getPostcssLoader([
     {sourceMap: enableSourceMap},
@@ -286,14 +216,6 @@ export const getModule = (appPath: string, {
       })
     }
   ])
-  const sassLoader = getSassLoader([
-    {
-      sourceMap: true,
-      implementation: sass
-    }, sassLoaderOption])
-  const lessLoader = getLessLoader([{sourceMap: enableSourceMap}, lessLoaderOption])
-
-  const stylusLoader = getStylusLoader([{sourceMap: enableSourceMap}, stylusLoaderOption])
 
   // const fileLoader = getFileLoader([
   //   {
@@ -313,7 +235,7 @@ export const getModule = (appPath: string, {
       sourceDir
     }])
 
-  const wxTransformerLoader = getWxTransformerLoader([
+  const tsTransformerLoader = getTsTransformerLoader([
     {
       buildAdapter
     }])
@@ -337,7 +259,7 @@ export const getModule = (appPath: string, {
       babelLoader,
       JSXToStylesSheetLoader,
       fileParseLoader,
-      wxTransformerLoader
+      tsTransformerLoader
     ]
   }
 
@@ -354,36 +276,21 @@ export const getModule = (appPath: string, {
   }
 
   const rule: any = {
-    sass: {
-      test: REG_SASS,
-      enforce: 'pre',
-      use: [sassLoader]
-    },
-    less: {
-      test: REG_LESS,
-      enforce: 'pre',
-      use: [lessLoader]
-    },
-    stylus: {
-      test: REG_STYLUS,
-      enforce: 'pre',
-      use: [stylusLoader]
-    },
     css: {
-      test: REG_STYLE,
+      test: styleReg,
       oneOf: cssLoaders
     },
     // styleFiles: {
-    //   test: REG_STYLE,
+    //   test: styleReg,
     //   use: [fileLoader]
     // },
     postcss: {
-      test: REG_STYLE,
+      test: styleReg,
       use: [postcssLoader]
     },
     // miniCssExtractPlugin
     customStyle: {
-      test: REG_STYLE,
+      test: styleReg,
       enforce: 'post',
       use: [extractCssLoader]
     },
@@ -418,7 +325,7 @@ export const getModule = (appPath: string, {
           defaultImageUrlLoaderOption, {
             name: `${staticDirectory}/images/[name].[ext]`,
             ...imageUrlLoaderOption,
-            limit: false
+            limit: 8192 * 1024
           }])
       }
     }

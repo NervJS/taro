@@ -2,10 +2,7 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as klaw from 'klaw'
 import * as _ from 'lodash'
-
-import * as Util from '../util'
-
-import { processTypeEnum } from '../util/constants'
+import { processTypeEnum, printLog } from '@tarojs/helper'
 
 const JDREACT_DIR = '.jdreact'
 const NATIVE_BUNDLES_DIR = 'bundle'
@@ -38,7 +35,7 @@ async function processFile ({ filePath, tempPath, entryBaseName }) {
     const indexDistFilePath = path.join(indexDistDirPath, `${moduleName}.js`)
     fs.ensureDirSync(indexDistDirPath)
     fs.writeFileSync(indexDistFilePath, indexJsStr)
-    Util.printLog(processTypeEnum.GENERATE, `${moduleName}.js`, indexDistFilePath)
+    printLog(processTypeEnum.GENERATE, `${moduleName}.js`, indexDistFilePath)
     return
   }
 
@@ -51,13 +48,13 @@ async function processFile ({ filePath, tempPath, entryBaseName }) {
     templatePkgObject.name = `jdreact-jsbundle-${moduleName}`
     templatePkgObject.dependencies = Object.assign({}, tempPkgObject.dependencies, templatePkgObject.dependencies)
     fs.writeJsonSync(destPkgPath, templatePkgObject, {spaces: 2})
-    Util.printLog(processTypeEnum.GENERATE, 'package.json', destPkgPath)
+    printLog(processTypeEnum.GENERATE, 'package.json', destPkgPath)
     return
   }
 
   fs.ensureDirSync(destDirname)
   fs.copySync(filePath, destFilePath)
-  Util.printLog(processTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
+  printLog(processTypeEnum.COPY, _.camelCase(path.extname(filePath)).toUpperCase(), filePath)
 }
 
 export function convertToJDReact ({tempPath, entryBaseName}) {
@@ -80,6 +77,6 @@ export function convertToJDReact ({tempPath, entryBaseName}) {
       // not overwrite
       fs.copySync(path.join(templateSrcDirname, 'JDReact.version'), path.join(indexDistDirPath, `${moduleName}.version`), {overwrite: false})
       fs.copySync(path.join(templateSrcDirname, 'JDReact.web.js'), path.join(indexDistDirPath, `${moduleName}.web.js`), {overwrite: false})
-      Util.printLog(processTypeEnum.COPY, 'templates', templateSrcDirname)
+      printLog(processTypeEnum.COPY, 'templates', templateSrcDirname)
     })
 }

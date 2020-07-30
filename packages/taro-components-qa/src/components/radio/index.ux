@@ -5,7 +5,7 @@
       name="{{name}}"
       id="{{id}}"
       type="radio"
-      class="{{classname}}"
+      class="{{class}}"
       disabled="{{disabled}}"
       style="{{customstyle}}"
       @change="handleChange"
@@ -37,7 +37,7 @@
         required: false,
         default: ''
       },
-      classname: {
+      class: {
         type: String,
         required: false,
         default: 'taro_input'

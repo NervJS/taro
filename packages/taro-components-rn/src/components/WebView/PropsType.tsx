@@ -14,7 +14,7 @@ export type CommonCallbackEvent = {
 
 export interface WebViewProps {
   style?: StyleProp<ViewStyle>;
-  src?: string;
+  src: string;
   onMessage?: (event: OnMessageCallbackEvent) => void;
   onLoad?: (event: CommonCallbackEvent) => void;
   onError?: (event: CommonCallbackEvent) => void;

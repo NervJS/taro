@@ -211,6 +211,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
     attributesTrans = attributes.reduce((obj, attr) => {
       if (t.isJSXSpreadAttribute(attr)) {
         if (isNewPropsSystem()) return {}
+        // @ts-ignore
         throw codeFrameError(attr.loc, 'JSX 参数暂不支持 ...spread 表达式')
       }
       let name = attr.name.name

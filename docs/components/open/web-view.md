@@ -70,10 +70,10 @@ class App extends Component {
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| WebViewProps.src | ✔️ |  |  |
+| WebViewProps.src | ✔️ | ✔️ |  |
 | WebViewProps.onMessage | ✔️ |  |  |
-| WebViewProps.onLoad | ✔️ |  |  |
-| WebViewProps.onError | ✔️ |  |  |
+| WebViewProps.onLoad | ✔️ | ✔️ |  |
+| WebViewProps.onError | ✔️ | ✔️ |  |
 
 ### onMessageEventDetail
 
@@ -136,4 +136,4 @@ class App extends Component {
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| WebView | ✔️ |  | ✔️ |
+| WebView | ✔️ | ✔️ | ✔️ |

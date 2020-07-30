@@ -36,7 +36,7 @@ declare namespace Taro {
    *    })
    *  }
    * })
-   * ``` 
+   * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.openLocation.html
    */
   function openLocation(option: openLocation.Option): Promise<General.CallbackResult>

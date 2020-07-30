@@ -1,20 +1,6 @@
 #! /usr/bin/env node
 
-const program = require('commander')
-const { getPkgVersion, printPkgVersion, printVersionTip } = require('../dist/util')
+require('../dist/util').printPkgVersion()
 
-printPkgVersion()
-printVersionTip()
-
-program
-  .version(getPkgVersion())
-  .usage('<command> [options]')
-  .command('init [projectName]', 'Init a project with default templete')
-  .command('config <cmd>', 'Taro config')
-  .command('create', 'Create page for project')
-  .command('build', 'Build a project with options')
-  .command('update', 'Update packages of taro')
-  .command('convert', 'Convert weapp to taro')
-  .command('info', 'Diagnostics Taro env info')
-  .command('doctor', 'Diagnose taro project')
-  .parse(process.argv)
+const CLI = require('../dist/cli').default
+new CLI().run()

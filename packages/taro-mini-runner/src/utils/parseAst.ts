@@ -4,17 +4,25 @@ import { Config as IConfig } from '@tarojs/taro'
 import * as t from 'babel-types'
 import traverse from 'babel-traverse'
 import { transformFromAst } from 'babel-core'
+import {
+  taroJsComponents,
+  REG_STYLE,
+  isNpmPkg,
+  isAliasPath,
+  replaceAliasPath,
+  npm as npmUtils
+} from '@tarojs/helper'
 
-import { BUILD_TYPES, taroJsComponents, QUICKAPP_SPECIAL_COMPONENTS, REG_STYLE } from './constants'
-import { traverseObjectNode, isNpmPkg, isAliasPath, replaceAliasPath, resolveNpmSync } from '../utils'
+import { QUICKAPP_SPECIAL_COMPONENTS } from './constants'
+import { traverseObjectNode } from '../utils'
 import * as _ from 'lodash'
 
 export default function parseAst (
   ast: t.File,
-  buildAdapter: BUILD_TYPES,
   sourceFilePath: string,
   nodeModulesPath: string,
   alias: object,
+  isBuildquickapp: boolean
 ): {
   configObj: IConfig,
   importStyles: Set<string>,
@@ -24,7 +32,6 @@ export default function parseAst (
   let configObj = {}
   let hasEnablePageScroll
   const taroSelfComponents = new Set<string>()
-  const isQuickApp = buildAdapter === BUILD_TYPES.QUICKAPP
   const importStyles: Set<string> = new Set<string>()
   let componentClassName: string = ''
 
@@ -62,7 +69,7 @@ export default function parseAst (
                         left.object.type === 'ThisExpression' &&
                         left.property.type === 'Identifier' &&
                         left.property.name === 'config') {
-                        configObj = traverseObjectNode(node.expression.right, buildAdapter)
+                        configObj = traverseObjectNode(node.expression.right)
                       }
                     }
                   }
@@ -117,7 +124,7 @@ export default function parseAst (
       const node = astPath.node
       const keyName = node.key.name
       if (keyName === 'config') {
-        configObj = traverseObjectNode(node, buildAdapter)
+        configObj = traverseObjectNode(node)
       }
     },
     ImportDeclaration (astPath) {
@@ -133,7 +140,7 @@ export default function parseAst (
           alias
         }))
       }
-      if (isNpmPkg(value) && isQuickApp && value === taroJsComponents) {
+      if (isNpmPkg(value) && isBuildquickapp && value === taroJsComponents) {
         specifiers.forEach(specifier => {
           const name = specifier.local.name
           if (!QUICKAPP_SPECIAL_COMPONENTS.has(name)) {
@@ -158,7 +165,7 @@ export default function parseAst (
             alias
           }))
         }
-        if (isNpmPkg(value) && isQuickApp && value === taroJsComponents) {
+        if (isNpmPkg(value) && isBuildquickapp && value === taroJsComponents) {
           if (parentNode.declarations.length === 1 && parentNode.declarations[0].init) {
             const id = parentNode.declarations[0].id
             if (id.type === 'ObjectPattern') {
@@ -178,10 +185,13 @@ export default function parseAst (
       const node = astPath.node
       const left = node.left
       if (t.isMemberExpression(left) && t.isIdentifier(left.object)) {
-        if (left.object.name === componentClassName
+        // 当 App 的 config 为静态属性(static prop)时,
+        // componentClassName(_App) 与 left.object.name(App)
+        // 不匹配, 造成获取不到 config 对象的问题
+        if ((left.object.name === componentClassName || left.object.name === 'App')
             && t.isIdentifier(left.property)
             && left.property.name === 'config') {
-          configObj = traverseObjectNode(node.right, buildAdapter)
+          configObj = traverseObjectNode(node.right)
         }
       }
     }
@@ -200,7 +210,7 @@ function getAbsPath ({ rPath, source, alias, nodeModulesPath }) {
     rPath = replaceAliasPath(source, rPath, alias)
   }
   if (isNpmPkg(rPath)) {
-    return resolveNpmSync(rPath, nodeModulesPath) || ''
+    return npmUtils.resolveNpmSync(rPath, nodeModulesPath) || ''
   }
   return path.resolve(source, '..', rPath)
 }
