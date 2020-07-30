@@ -2145,12 +2145,12 @@ export class RenderParser {
                 }
                 setJSXAttr(component.node, Adapter.for, t.stringLiteral(`{{${forExpr}}}`))
               }
-            } if (Adapters.swan === Adapter.type) {
+            } else if (Adapters.swan === Adapter.type) {
               const attributes = component.node.openingElement.attributes
-              const keyAttribute: t.JSXAttribute | undefined = attributes.find(a => t.isJSXIdentifier(a.name, {name: 'key'}))
+              const keyAttribute: t.JSXAttribute | undefined = attributes.find(a => t.isJSXIdentifier(a.name, { name: 'key' }))
               if (keyAttribute && t.isJSXExpressionContainer(keyAttribute.value)) {
-                let itemName = itemId!.name;
-                const expressionArray =  generateMemberExpressionArray(keyAttribute.value.expression as t.MemberExpression)
+                let itemName = itemId!.name
+                const expressionArray = generateMemberExpressionArray(keyAttribute.value.expression as t.MemberExpression)
                 expressionArray[0] = itemName // 将key属性的值MemberExpression的首位（对象）替换成forItem
                 const memberExpressionString = expressionArray.join('.')
                 const forExpr = `${stateName} trackBy ${memberExpressionString}`
