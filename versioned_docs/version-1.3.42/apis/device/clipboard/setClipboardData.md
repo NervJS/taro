@@ -1,6 +1,6 @@
 ---
 title: Taro.setClipboardData(OBJECT)
-sidebar_label: setClipboardData
+sidebar_label: setClipBoardData
 ---
 
 设置系统剪贴板的内容。
@@ -24,7 +24,7 @@ complete|function| |否|接口调用结束的回调函数（调用成功、失�
 ```jsx
 import Taro from '@tarojs/taro'
 
-Taro.setClipboardData(params).then(...)
+Taro.setClipBoardData(params).then(...)
 ```
 
 
@@ -34,5 +34,5 @@ Taro.setClipboardData(params).then(...)
 
 | API | 微信小程序 | H5 | React Native |
 | :-: | :-: | :-: | :-: |
-| Taro.setClipboardData | ✔️ | ✔️(部分实现) | ✔️ |
+| Taro.setClipBoardData | ✔️ | ✔️(部分实现) | ✔️ |
 
