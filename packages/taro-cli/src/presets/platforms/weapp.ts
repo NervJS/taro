@@ -29,7 +29,11 @@ export default (ctx) => {
     async fn ({ config }) {
       const { appPath, nodeModulesPath, outputPath } = ctx.paths
       const { npm, emptyDirectory } = ctx.helper
-      emptyDirectory(outputPath)
+      const isBuildPlugin = config.isBuildPlugin || false
+
+      if (!('needClearOutput' in config) || config.needClearOutput) {
+        emptyDirectory(outputPath)
+      }
 
       // 生成 project.config.json
       ctx.generateProjectConfig({
@@ -42,7 +46,7 @@ export default (ctx) => {
         ...config,
         nodeModulesPath,
         buildAdapter: config.platform,
-        isBuildPlugin: false,
+        isBuildPlugin,
         globalObject: 'wx',
         fileType: {
           templ: '.wxml',

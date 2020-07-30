@@ -2,7 +2,7 @@ import 'weui'
 import Nerv from 'nervjs'
 import omit from 'omit.js'
 import classNames from 'classnames'
-import './style/index.scss'
+import './style/index.css'
 
 function easeOutScroll (from = 0, to = 0, callback) {
   if (from === to || typeof from !== 'number') {

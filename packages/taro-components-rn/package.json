@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "2.2.7",
+  "version": "2.2.11",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "react-mixin": "^5.0.0",
     "react-native-animatable": "^1.3.0",
     "react-native-maps": "^0.25.0",
-    "react-native-swiper": "^1.5.14",
+    "react-native-swiper": "^1.6.0",
     "react-native-webview": "^9.4.0",
     "react-timer-mixin": "^0.13.4",
     "utility-types": "^3.4.1"

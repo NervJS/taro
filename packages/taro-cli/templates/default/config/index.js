@@ -28,7 +28,10 @@ const config = {
       }]
     ]
   },
-  plugins: [],
+  plugins: [<% if (css !== 'none') {%>
+    '@tarojs/plugin-<%= css %>',<%}%>
+    '@tarojs/plugin-terser'
+  ],
   defineConstants: {
   },
   mini: {

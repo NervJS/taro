@@ -98,7 +98,7 @@ jobs:
       - name: Publish
         if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
         run: |
-          npm run release:only
+          yarn lerna publish from-package --dist-tag 2.x  --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

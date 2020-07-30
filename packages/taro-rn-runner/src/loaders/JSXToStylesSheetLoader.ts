@@ -2,6 +2,7 @@ import * as t from 'babel-types'
 import traverse, { NodePath } from 'babel-traverse'
 import generate from 'better-babel-generator'
 import babylonConfig from '../config/babylon'
+import {loaderDebug} from '../utils/debug'
 
 const template = require('babel-template')
 
@@ -16,7 +17,7 @@ const cssSuffixs = ['.css', '.scss', '.sass', '.less', '.styl']
 let styleNames = [] // css module 写法中 import 的 Identifier
 
 export default function JSXToStylesSheetLoader (source, ast) {
-  // const filePath = this.resourcePath
+  const filePath = this.resourcePath
   const entryPath = this._module.resource
   // const miniType = this._module.miniType || PARSE_AST_TYPE.NORMAL
   const file = new Map()
@@ -40,7 +41,7 @@ export default function JSXToStylesSheetLoader (source, ast) {
       var className = [];
       var args = arguments[0];
       var type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase();
-    
+
       if (type === 'string') {
         args = args.trim();
         args && className.push(args);
@@ -57,12 +58,12 @@ export default function JSXToStylesSheetLoader (source, ast) {
           }
         }
       }
-    
+
       return className.join(' ').trim();
     }
   `)
   const getStyleFunctionTemplete = template(`
-function ${GET_STYLE_FUNC_NAME}(classNameExpression) { 
+function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
   var className = ${GET_CLS_NAME_FUNC_NAME}(classNameExpression);
   var classNameArr = className.split(/\\s+/);
 
@@ -269,10 +270,10 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
           }
           // 第一个引入的样式文件
           if (cssFileCount === 0) {
-            const cssFileBaseName = path.basename(jsFilePath, path.extname(jsFilePath))
+            const cssFileBaseName = path.basename(jsFilePath, path.extname(jsFilePath)).replace('.rn','')
             // 引入样式对应的变量名
             const styleSheetIdentifierValue = `${cssFileBaseName.replace(/[-.]/g, '_') + NAME_SUFFIX}`
-            const styleSheetIdentifierPath = `./index_styles`
+            const styleSheetIdentifierPath = `./${cssFileBaseName}_styles`
             const styleSheetIdentifier = t.identifier(styleSheetIdentifierValue)
             // const indexStyleSheet = __non_webpack_require__('./index_styles').default
             const webpackNode = template(
@@ -295,6 +296,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
     })
     // this.callback(null, source, ast)
     const code = generate(ast).code
+    loaderDebug('style', filePath)
     // if (filePath.includes('pages/index/index.js')) console.log('JSXToStylesSheetLoader', code)
     return code
   } catch (e) {

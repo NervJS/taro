@@ -238,7 +238,7 @@ export default function withWeapp (weappConf: WxOptions) {
           const keys = observerKey.split(',').map(k => k.trim())
           const args: any = []
           for (let i = 0; i < keys.length; i++) {
-            const key = keys[i];
+            const key = keys[i]
             for (let j = 0; j < resultKeys.length; j++) {
               const resultKey = resultKeys[j]
               if (

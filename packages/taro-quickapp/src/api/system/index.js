@@ -32,7 +32,7 @@ export function getSystemId (options = {}) {
     device.getId({
       type,
       success (data) {
-        res.result = data.result
+        res.result = data
         success && success(res)
         resolve(res)
       },
@@ -55,7 +55,7 @@ export function getSystemDeviceId (options = {}) {
   return new Promise((resolve, reject) => {
     device.getDeviceId({
       success (data) {
-        res.result = data.result
+        res.result = data
         success && success(res)
         resolve(res)
       },
@@ -76,7 +76,7 @@ export function getSystemUserId (options = {}) {
   return new Promise((resolve, reject) => {
     device.getDeviceId({
       success (data) {
-        res.result = data.result
+        res.result = data
         success && success(res)
         resolve(res)
       },
@@ -97,7 +97,7 @@ export function getSystemAdvertisingId (options = {}) {
   return new Promise((resolve, reject) => {
     device.getAdvertisingId({
       success (data) {
-        res.result = data.result
+        res.result = data
         success && success(res)
         resolve(res)
       },
@@ -118,7 +118,7 @@ export function getSystemSerial (options = {}) {
   return new Promise((resolve, reject) => {
     device.getSerial({
       success (data) {
-        res.result = data.result
+        res.result = data
         success && success(res)
         resolve(res)
       },
@@ -139,7 +139,7 @@ export function getSystemTotalStorage (options = {}) {
   return new Promise((resolve, reject) => {
     device.getTotalStorage({
       success (data) {
-        res.result = data.result
+        res.result = data
         success && success(res)
         resolve(res)
       },
@@ -160,7 +160,7 @@ export function getSystemAvailableStorage (options = {}) {
   return new Promise((resolve, reject) => {
     device.getAvailableStorage({
       success (data) {
-        res.result = data.result
+        res.result = data
         success && success(res)
         resolve(res)
       },
@@ -181,7 +181,7 @@ export function getSystemCpuInfo (options = {}) {
   return new Promise((resolve, reject) => {
     device.getCpuInfo({
       success (data) {
-        res.result = data.result
+        res.result = data
         success && success(res)
         resolve(res)
       },
