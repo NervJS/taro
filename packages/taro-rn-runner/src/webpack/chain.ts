@@ -95,7 +95,7 @@ export const getPostcssLoader = pipe(mergeOption, partial(getLoader, 'postcss-lo
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getFileParseLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/fileParseLoader')))
-export const getWxTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/tsTransformerLoader')))
+export const getTsTransformerLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/tsTransformerLoader')))
 export const getJSXToStylesSheetLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/JSXToStylesSheetLoader')))
 export const getBabelLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/babelLoader')))
 const getExtractCssLoader = () => {
@@ -235,7 +235,7 @@ export const getModule = (appPath: string, {
       sourceDir
     }])
 
-  const wxTransformerLoader = getWxTransformerLoader([
+  const tsTransformerLoader = getTsTransformerLoader([
     {
       buildAdapter
     }])
@@ -259,7 +259,7 @@ export const getModule = (appPath: string, {
       babelLoader,
       JSXToStylesSheetLoader,
       fileParseLoader,
-      wxTransformerLoader
+      tsTransformerLoader
     ]
   }
 
