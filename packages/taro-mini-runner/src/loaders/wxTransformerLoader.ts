@@ -107,6 +107,7 @@ export default function wxTransformerLoader (source) {
         isUseComponentBuildPage
       })
       const code = generate(result).code
+      babelConfig.filename = filePath;
       const res = transform(code, babelConfig)
       if (NODE_MODULES_REG.test(filePath) && res.code) {
         res.code = npmCodeHack(filePath, res.code)

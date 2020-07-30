@@ -50,6 +50,7 @@
     "css-loader": "3.6.0",
     "css-what": "3.2.0",
     "csso-webpack-plugin": "^2.0.0-beta.1",
+    "debug": "^4.1.1",
     "fbjs": "^1.0.0",
     "file-loader": "^4.0.0",
     "fs-extra": "^8.0.1",
