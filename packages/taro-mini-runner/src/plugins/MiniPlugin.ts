@@ -358,7 +358,8 @@ export default class MiniPlugin {
     new TaroNormalModulesPlugin().apply(compiler)
     new MiniLoaderPlugin({
       sourceDir: this.sourceDir,
-      fileType
+      fileType,
+      isBuildPlugin
     }).apply(compiler)
   }
 
@@ -1091,7 +1092,8 @@ export default class MiniPlugin {
   getRelativePath (filePath) {
     let relativePath
     if (NODE_MODULES_REG.test(filePath)) {
-      relativePath = filePath.replace(this.options.nodeModulesPath, 'npm')
+      const npmDir = this.options.isBuildPlugin ? 'plugin/npm' : 'npm'
+      relativePath = filePath.replace(this.options.nodeModulesPath, npmDir)
     } else {
       relativePath = filePath.replace(this.sourceDir, '')
     }
