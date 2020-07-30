@@ -9,7 +9,8 @@ const NS = 'TARO'
 
 interface IOptions {
   sourceDir: string,
-  fileType: IFileType
+  fileType: IFileType,
+  isBuildPlugin: boolean
 }
 
 export default class MiniLoaderPlugin {
@@ -21,7 +22,8 @@ export default class MiniLoaderPlugin {
   apply (compiler) {
     const {
       sourceDir,
-      fileType
+      fileType,
+      isBuildPlugin
     } = this.options
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       const normalModuleLoader = compilation.hooks.normalModuleLoader
@@ -40,7 +42,8 @@ export default class MiniLoaderPlugin {
       },
       options: {
         sourceDir,
-        fileType
+        fileType,
+        isBuildPlugin
       }
     }
     compiler.options.module.rules = [
