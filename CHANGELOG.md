@@ -1,4 +1,14 @@
-# [](https://github.com/NervJS/taro/compare/v2.2.11...v) (2020-07-30)
+# [](https://github.com/NervJS/taro/compare/v2.2.12...v) (2020-07-31)
+
+
+### Bug Fixes
+
+* **taro-h5:** 修复pageScrollTo方法滚动的实际位置与给定的目标位置不符 ([#6059](https://github.com/NervJS/taro/issues/6059)) ([57fafed](https://github.com/NervJS/taro/commit/57fafed8d08358de54567344edb44cfff254a144))
+* **transformer-wx:** 循环体事件绑定 ([1617733](https://github.com/NervJS/taro/commit/1617733febb2b10d94ec6ec38b23bb740d0bbc5a))
+
+
+
+## [2.2.12](https://github.com/NervJS/taro/compare/v2.2.11...v2.2.12) (2020-07-30)
 
 
 ### Bug Fixes
