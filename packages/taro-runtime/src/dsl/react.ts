@@ -163,7 +163,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
     public unmount (id: string, cb: () => void) {
       for (let i = 0; i < this.elements.length; i++) {
         const element = this.elements[i]
-        if (element.key === id) {
+        if (element.props.tid === id) {
           this.elements.splice(i, 1)
           break
         }
