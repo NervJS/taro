@@ -1,4 +1,32 @@
-# [](https://github.com/NervJS/taro/compare/v2.2.10...v) (2020-07-14)
+# [](https://github.com/NervJS/taro/compare/v2.2.12...v) (2020-07-31)
+
+
+### Bug Fixes
+
+* **taro-h5:** 修复pageScrollTo方法滚动的实际位置与给定的目标位置不符 ([#6059](https://github.com/NervJS/taro/issues/6059)) ([57fafed](https://github.com/NervJS/taro/commit/57fafed8d08358de54567344edb44cfff254a144))
+* **transformer-wx:** 循环体事件绑定 ([1617733](https://github.com/NervJS/taro/commit/1617733febb2b10d94ec6ec38b23bb740d0bbc5a))
+
+
+
+## [2.2.12](https://github.com/NervJS/taro/compare/v2.2.11...v2.2.12) (2020-07-30)
+
+
+### Bug Fixes
+
+* **plugin:** 修复小程序插件运行及引入taro-ui等第三方组件库报错问题，close [#6730](https://github.com/NervJS/taro/issues/6730) ([748986f](https://github.com/NervJS/taro/commit/748986f6c8f2d1cce9e122a79598cec3745df42b))
+* **transformer:** 修复二维数组渲染时绑定事件不正确的问题 ([2a897f0](https://github.com/NervJS/taro/commit/2a897f084012cb1cb63c1374514d4c0ddeecbba8))
+* **transformer-wx:** 修复 render.ts ts 报错 ([b3b5327](https://github.com/NervJS/taro/commit/b3b5327817d5de3cd90074e9344063d6c40f6461))
+* fix the picker in android webview of low version ([0508ec3](https://github.com/NervJS/taro/commit/0508ec38cb037ad4007d69e7a069a62813060917))
+* 修复Image在mode为widthFix时图片首次加载不显示的bug ([6bb1901](https://github.com/NervJS/taro/commit/6bb19016ba41512bc683fe04c0b000a66e844940))
+* 修复在传了scrollTop属性后ScrollView页面滚动时抖动的问题 ([f28f2f7](https://github.com/NervJS/taro/commit/f28f2f7de40e2466138ce85e71e3ca9a56ddbd79))
+* 修复没有外部传入scrollTop的ScrollView，组件更新后会自动返回顶部的bug ([c49aa98](https://github.com/NervJS/taro/commit/c49aa987943fd12843c01b62d9e1921084230698))
+* **component-rn:** RadioGroup组件Radio设置checked 不生效 ([a7258bd](https://github.com/NervJS/taro/commit/a7258bdfe9a5d6826831cfa6a1ef124c1f310666))
+* **rn:** common js 样式路径错误的问题 ([8e413c9](https://github.com/NervJS/taro/commit/8e413c93b14e873f175e6a24713afc3e0362ea34))
+* **taro-mini-runner:** 修复babel.transform 未传递 config.filename问题 ([0cd843c](https://github.com/NervJS/taro/commit/0cd843ccd2e4f3544d7cd13478241e828c595977)), closes [#2168](https://github.com/NervJS/taro/issues/2168)
+
+
+
+## [2.2.11](https://github.com/NervJS/taro/compare/v2.2.10...v2.2.11) (2020-07-14)
 
 
 ### Bug Fixes

@@ -49,7 +49,7 @@ export const pageScrollTo = ({ scrollTop, duration = 300, success, fail, complet
       const to = scrollTop
       const delta = to - from
 
-      const frameCnt = duration / FRAME_DURATION
+      const frameCnt = duration / FRAME_DURATION - 1
       const easeFunc = getTimingFunc(easeInOut, frameCnt)
 
       const scroll = (frame = 0) => {
@@ -64,6 +64,7 @@ export const pageScrollTo = ({ scrollTop, duration = 300, success, fail, complet
           const res = {
             errMsg: 'pageScrollTo:ok'
           }
+          scrollFunc(to)
           success && success(res)
           complete && complete(res)
           resolve(res)
