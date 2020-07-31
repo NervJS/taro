@@ -50,12 +50,12 @@ const Map = {
   longitude: '',
   latitude: '',
   scale: '16',
-  markers: '',
+  markers: '[]',
   covers: '',
-  polyline: '',
-  circles: '',
+  polyline: '[]',
+  circles: '[]',
   controls: '',
-  'include-point': 'false',
+  'include-point': '[]',
   'show-location': '',
   polygons: '',
   subkey: '',
@@ -569,7 +569,7 @@ const Video = {
 }
 
 const Canvas = {
-  type: '',
+  type: singleQuote('2d'),
   'canvas-id': '',
   'disable-scroll': 'false',
   bindTouchStart: '',
