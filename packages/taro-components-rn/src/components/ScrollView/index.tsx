@@ -43,15 +43,13 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
   static defaultProps = {
     upperThreshold: 50,
     lowerThreshold: 50,
-    scrollTop: 0,
-    scrollLeft: 0,
     enableBackToTop: false,
   }
 
   static getDerivedStateFromProps (props: ScrollViewProps<any>, state: ScrollViewState) {
     return state.snapScrollTop !== props.scrollTop || state.snapScrollLeft !== props.scrollLeft ? {
-      snapScrollTop: props.scrollTop,
-      snapScrollLeft: props.scrollLeft
+      snapScrollTop: props.scrollTop || 0,
+      snapScrollLeft: props.scrollLeft || 0
     } : null
   }
 
@@ -201,6 +199,9 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
   }
 
   getSnapshotBeforeUpdate (prevProps: ScrollViewProps<any>, prevState: ScrollViewState) {
+    if (prevProps.scrollTop !== undefined) {
+      return this._scrollMetrics.offsetY !== this.state.snapScrollTop || this._scrollMetrics.offsetX !== this.state.snapScrollLeft;
+    }
     return prevState.snapScrollTop !== this.state.snapScrollTop || prevState.snapScrollLeft !== this.state.snapScrollLeft
   }
 
