@@ -55,7 +55,7 @@ const Map = {
   polyline: '[]',
   circles: '[]',
   controls: '',
-  'include-point': '[]',
+  'include-points': '[]',
   'show-location': '',
   polygons: '',
   subkey: '',
