@@ -20,10 +20,10 @@ export class Template extends UnRecursiveTemplate {
     return '<wxs module="xs" src="./utils.wxs" />'
   }
 
-  replacePropName (name: string, value: string) {
+  replacePropName (name: string, value: string, componentName: string) {
     if (value === 'eh') {
       const nameLowerCase = name.toLowerCase()
-      if (nameLowerCase === 'bindlongtap') return 'bindlongpress'
+      if (nameLowerCase === 'bindlongtap' && componentName !== 'canvas') return 'bindlongpress'
       return nameLowerCase
     }
     return name

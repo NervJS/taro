@@ -97,7 +97,7 @@ export class BaseTemplate {
       .join('')
   }
 
-  protected replacePropName (name: string, value: string) {
+  protected replacePropName (name: string, value: string, _componentName?: string) {
     if (value === 'eh') return name.toLowerCase()
     return name
   }
@@ -123,7 +123,7 @@ export class BaseTemplate {
               propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
             }
 
-            prop = this.replacePropName(prop, propValue)
+            prop = this.replacePropName(prop, propValue, compName)
 
             newComp[prop] = propValue
           }
