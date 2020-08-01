@@ -1316,13 +1316,13 @@ Vue.use(VirtualList)
 ```html title="src/components/row.vue"
 <template>
   <thread
-    :key="data.id"
-    :node="data.node"
-    :title="data.title"
-    :last_modified="data.last_modified"
-    :replies="data.replies"
-    :tid="data.id"
-    :member="data.member"
+    :key="thread.id"
+    :node="thread.node"
+    :title="thread.title"
+    :last_modified="thread.last_modified"
+    :replies="thread.replies"
+    :tid="thread.id"
+    :member="thread.member"
   />
 </template>
 
@@ -1332,7 +1332,12 @@ export default {
   components: {
     'thread': Thread
   },
-  props: ['index', 'data', 'css']
+  props: ['index', 'data', 'css'],
+  computed:{
+    thread(){
+      return this.data[this.index]
+    }
+  }
 }
 </script>
 ```
