@@ -225,7 +225,7 @@ export default function withWeapp (weappConf: WxOptions) {
           }
         })
         this.safeExecute(super.componentWillMount)
-        this.executeLifeCycles(this.willMounts, router && router.params || {})
+        this.executeLifeCycles(this.willMounts, (router && router.params) || {})
       }
 
       public componentDidMount () {
@@ -245,7 +245,7 @@ export default function withWeapp (weappConf: WxOptions) {
 
       public componentDidShow () {
         this.safeExecute(super.componentDidShow)
-        this.executeLifeCycles(this.willMounts, router && router.params || {})
+        this.executeLifeCycles(this.willMounts, (router && router.params) || {})
       }
 
       public componentWillReceiveProps (nextProps: P) {
