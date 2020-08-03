@@ -22,7 +22,6 @@
   "author": "yuche",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "3.0.6",
     "@tarojs/runtime": "3.0.6",
     "@tarojs/taro": "3.0.6",
     "lodash": "^4.17.11"

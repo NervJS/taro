@@ -1,5 +1,7 @@
-import { Component, ComponentLifecycle, internal_safe_set as safeSet, getCurrentInstance } from '@tarojs/taro'
+import { Component, ComponentLifecycle } from '@tarojs/taro'
+import { getCurrentInstance } from '@tarojs/runtime'
 import { lifecycles, lifecycleMap, TaroLifeCycles } from './lifecycle'
+import { baseSet } from './common'
 import { bind, proxy, isEqual } from './utils'
 
 type Observer = (newProps, oldProps, changePath: string) => void
@@ -23,6 +25,10 @@ interface WxOptions {
   properties?: Record<string, Record<string, unknown> | Function>
   props?: Record<string, unknown>
   data?: Record<string, unknown>
+}
+
+function safeSet (object, path, value) {
+  return object == null ? object : baseSet(object, path, value)
 }
 
 const { router } = getCurrentInstance()
