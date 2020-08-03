@@ -5,7 +5,7 @@ import { bind, proxy, isEqual } from './utils'
 type Observer = (newProps, oldProps, changePath: string) => void
 
 interface ObserverProperties {
-  name: string,
+  name: string,  
   observer: string | Observer
 }
 
