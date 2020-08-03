@@ -374,6 +374,11 @@ const ScrollView = {
   bindScrolltoUpper: '',
   bindScrolltoLower: '',
   bindScroll: '',
+  animation: '',
+  bindTransitionEnd: '',
+  bindAnimationStart: '',
+  bindAnimationIteration: '',
+  bindAnimationEnd: '',
   ...touchEvents
 }
 
