@@ -583,6 +583,8 @@ const Canvas = {
 const Ad = {
   'unit-id': '',
   'ad-intervals': '',
+  'ad-type': singleQuote('banner'),
+  'ad-theme': singleQuote('white'),
   bindLoad: '',
   bindError: '',
   bindClose: ''
