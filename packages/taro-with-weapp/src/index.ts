@@ -1,4 +1,4 @@
-import { Component, ComponentLifecycle, internal_safe_set as safeSet } from '@tarojs/taro'
+import { Component, ComponentLifecycle, internal_safe_set as safeSet, getCurrentInstance } from '@tarojs/taro'
 import { lifecycles, lifecycleMap, TaroLifeCycles } from './lifecycle'
 import { bind, proxy, isEqual } from './utils'
 
@@ -24,6 +24,8 @@ interface WxOptions {
   props?: Record<string, unknown>
   data?: Record<string, unknown>
 }
+
+const { router } = getCurrentInstance()
 
 function defineGetter (component: Component, key: string, getter: string) {
   Object.defineProperty(component, key, {
@@ -223,7 +225,7 @@ export default function withWeapp (weappConf: WxOptions) {
           }
         })
         this.safeExecute(super.componentWillMount)
-        this.executeLifeCycles(this.willMounts, this.$router.params || {})
+        this.executeLifeCycles(this.willMounts, router && router.params || {})
       }
 
       public componentDidMount () {
@@ -243,7 +245,7 @@ export default function withWeapp (weappConf: WxOptions) {
 
       public componentDidShow () {
         this.safeExecute(super.componentDidShow)
-        this.executeLifeCycles(this.didShows, this.$router.params || {})
+        this.executeLifeCycles(this.willMounts, router && router.params || {})
       }
 
       public componentWillReceiveProps (nextProps: P) {
