@@ -683,6 +683,10 @@ export function createMiniComponents (components: Components, buildType: string)
         Object.assign(newComp, styles, isAlipay ? alipayEvents : events)
       }
 
+      if (compName === 'swiper-item') {
+        delete newComp.style
+      }
+
       if (compName === 'slot' || compName === 'slot-view') {
         result[compName] = {
           slot: 'i.name'
