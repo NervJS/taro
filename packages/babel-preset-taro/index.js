@@ -116,6 +116,8 @@ module.exports = (_, options = {}) => {
       packageName: '@tarojs/taro',
       apis
     }])
+  } else {
+    plugins.push([require('babel-plugin-dynamic-import-node')])
   }
 
   return {
