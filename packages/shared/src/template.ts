@@ -118,9 +118,9 @@ export class BaseTemplate {
             } else if (propValue === '') {
               propValue = `i.${toCamelCase(prop)}`
             } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-              propValue = `i.${toCamelCase(prop)} === undefined ? ${propValue} : i.${toCamelCase(prop)}`
+              propValue = `i.${toCamelCase(prop)}===undefined?${propValue}:i.${toCamelCase(prop)}`
             } else {
-              propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
+              propValue = `i.${toCamelCase(prop)}||${propValue || singleQuote('')}`
             }
 
             prop = this.replacePropName(prop, propValue, compName)
@@ -167,7 +167,7 @@ export class BaseTemplate {
         return str + `bind${attr.slice(2).toLowerCase()}="eh" `
       }
 
-      return str + `${attr}="{{ i.${toCamelCase(attr)} }}" `
+      return str + `${attr}="{{i.${toCamelCase(attr)}}}" `
     }, '')
   }
 
@@ -185,15 +185,15 @@ export class BaseTemplate {
     delete attrs.focus
     return `
 <template name="tmpl_${level}_${comp.nodeName}">
-  <template is="{{ ${templateName} }}" data="{{${this.dataKeymap('i: i')}}}" />
+  <template is="{{${templateName}}}" data="{{${this.dataKeymap('i: i')}}}" />
 </template>
 
 <template name="tmpl_${level}_${comp.nodeName}_focus">
-  <${comp.nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}" />
+  <${comp.nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid}}" />
 </template>
 
 <template name="tmpl_${level}_${comp.nodeName}_blur">
-  <${comp.nodeName} ${this.buildAttribute(attrs, comp.nodeName)} id="{{ i.uid }}" />
+  <${comp.nodeName} ${this.buildAttribute(attrs, comp.nodeName)} id="{{i.uid}}" />
 </template>
 `
   }
@@ -224,7 +224,7 @@ export class BaseTemplate {
 
     let res = `
 <template name="tmpl_${level}_${comp.nodeName}">
-  <${nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{ i.uid }}">${children}</${nodeName}>
+  <${nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid}}">${children}</${nodeName}>
 </template>
 `
 
@@ -251,7 +251,7 @@ export class BaseTemplate {
     componentConfig.thirdPartyComponents.forEach((attrs, compName) => {
       template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName} ${this.buildThirdPartyAttr(attrs)} id="{{ i.uid }}">
+  <${compName} ${this.buildThirdPartyAttr(attrs)} id="{{i.uid}}">
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
       <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${this.dataKeymap('i: item')}}}" />
     </block>
@@ -286,7 +286,7 @@ export class BaseTemplate {
   }
 
   protected getAttrValue (value: string, _key: string, _nodeName: string) {
-    return `{ ${value} }`
+    return `{${value}}`
   }
 
   protected buildXsTemplate () {
