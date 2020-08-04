@@ -19,6 +19,13 @@ export interface StandardProps extends EventProps {
   animation?: { actions: object[] }
   /** 引用 */
   ref?: LegacyRef<any>
+  /**
+   * 渲染 HTML
+   * @see https://taro-docs.jd.com/taro/docs/html
+   */
+  dangerouslySetInnerHTML?: {
+    __html: string;
+  }
 }
 
 export interface FormItemProps {
