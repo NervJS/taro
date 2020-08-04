@@ -9,6 +9,7 @@ import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
+import { minify } from 'html-minifier'
 import { AppConfig, Config } from '@tarojs/taro'
 import {
   resolveMainFilePath,
@@ -45,6 +46,9 @@ interface ITaroMiniPluginOptions {
   isBuildQuickapp: boolean
   isSupportRecursive: boolean
   isSupportXS: boolean
+  minifyXML?: {
+    collapseWhitespace?: boolean
+  }
   fileType: IFileType
   templateAdapter: IAdapter
   modifyBuildAssets?: Function,
@@ -117,7 +121,8 @@ export default class TaroMiniPlugin {
         templ: '.wxml',
         xs: '.wxs'
       },
-      templateAdapter: weixinAdapter
+      templateAdapter: weixinAdapter,
+      minifyXML: {}
     }, options)
     setAdapter(this.options.templateAdapter)
   }
@@ -665,8 +670,16 @@ export default class TaroMiniPlugin {
   }
 
   generateTemplateFile (compilation: webpack.compilation.Compilation, filePath: string, templateFn: (...args) => string, ...options) {
-    const templStr = templateFn(...options)
+    let templStr = templateFn(...options)
     const fileTemplName = this.getTemplatePath(this.getComponentName(filePath))
+
+    if (this.options.minifyXML?.collapseWhitespace) {
+      templStr = minify(templStr, {
+        collapseWhitespace: true,
+        keepClosingSlash: true
+      })
+    }
+
     compilation.assets[fileTemplName] = {
       size: () => templStr.length,
       source: () => templStr

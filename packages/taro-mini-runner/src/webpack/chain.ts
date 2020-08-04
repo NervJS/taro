@@ -472,6 +472,6 @@ export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObj
   }
 }
 
-export function getDevtool (enableSourceMap) {
-  return enableSourceMap ? 'source-map' : 'none'
+export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-source-map') {
+  return enableSourceMap ? sourceMapType : 'none'
 }
