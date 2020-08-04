@@ -492,9 +492,13 @@ const LivePlayer = {
   'sound-mode': singleQuote('speaker'),
   'auto-pause-if-navigate': 'true',
   'auto-pause-if-open-native': 'true',
+  'picture-in-picture-mode': '[]',
   bindStateChange: '',
   bindFullScreenChange: '',
-  bindNetStatus: ''
+  bindNetStatus: '',
+  bindAudioVolumeNotify: '',
+  bindEnterPictureInPicture: '',
+  bindLeavePictureInPicture: ''
 }
 
 const LivePusher = {
