@@ -321,3 +321,7 @@ class App extends Component {
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | Swiper | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+## 注意
+
+* 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
