@@ -568,7 +568,7 @@ module.exports = {
 
 `string`
 
-默认值：`'cheap-module-eval-source-map'`
+默认值：`'cheap-module-source-map'`
 
 具体配置请参考 [Webpack devtool 配置](https://webpack.js.org/configuration/devtool/#devtool)。
 
