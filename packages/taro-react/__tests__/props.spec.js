@@ -64,7 +64,7 @@ describe('Context', () => {
     it('onClick should work like onTap', () => {
       const container = document.createElement('div')
       const spy = jest.fn()
-      render(<div type="button" onClick={spy} />, container)
+      render(<view type="button" onClick={spy} />, container)
       expect('tap' in container.firstChild.__handlers).toBe(true)
     })
 
@@ -72,7 +72,7 @@ describe('Context', () => {
       const createEvent = runtime.createEvent
       const container = document.createElement('div')
       const spy = jest.fn()
-      render(<div type="button" onClick={spy} id='fork' />, container)
+      render(<view type="button" onClick={spy} id='fork' />, container)
       const event = createEvent({ type: 'tap', currentTarget: { id: container.firstChild.uid }, target: { id: container.firstChild.uid } })
       container.firstChild.dispatchEvent(event)
       expect(spy).toBeCalled()

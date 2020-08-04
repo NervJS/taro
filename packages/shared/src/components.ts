@@ -50,12 +50,12 @@ const Map = {
   longitude: '',
   latitude: '',
   scale: '16',
-  markers: '',
+  markers: '[]',
   covers: '',
-  polyline: '',
-  circles: '',
+  polyline: '[]',
+  circles: '[]',
   controls: '',
-  'include-point': 'false',
+  'include-points': '[]',
   'show-location': '',
   polygons: '',
   subkey: '',
@@ -574,7 +574,7 @@ const Video = {
 }
 
 const Canvas = {
-  type: '',
+  type: singleQuote('2d'),
   'canvas-id': '',
   'disable-scroll': 'false',
   bindTouchStart: '',
@@ -588,6 +588,8 @@ const Canvas = {
 const Ad = {
   'unit-id': '',
   'ad-intervals': '',
+  'ad-type': singleQuote('banner'),
+  'ad-theme': singleQuote('white'),
   bindLoad: '',
   bindError: '',
   bindClose: ''
@@ -686,6 +688,10 @@ export function createMiniComponents (components: Components, buildType: string)
       }
       if (compName !== 'block') {
         Object.assign(newComp, styles, isAlipay ? alipayEvents : events)
+      }
+
+      if (compName === 'swiper-item') {
+        delete newComp.style
       }
 
       if (compName === 'slot' || compName === 'slot-view') {
