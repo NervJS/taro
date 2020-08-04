@@ -198,7 +198,7 @@ interface VideoProps extends StandardProps {
    * 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]）
    * @supported weapp
    */
-  pictureInPictureMode?: ('push'|'pop')[]
+  pictureInPictureMode?: ('push' | 'pop')[] | 'push' | 'pop' | ''
 
   /**
    * 是否在小窗模式下显示播放进度（目前有bug，先注释掉）
