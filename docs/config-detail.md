@@ -582,6 +582,22 @@ module.exports = {
 
 指定 React 框架相关的代码是否使用开发环境（未压缩）代码，默认使用生产环境（压缩后）代码。
 
+### mini.minifyXML
+
+> 自 v3.0.8 开始支持
+
+`object`
+
+关于压缩小程序 xml 文件的相关配置。
+
+#### mini.minifyXML.collapseWhitespace
+
+`boolean`
+
+默认值：`false`。
+
+是否合并 xml 文件中的空格。
+
 ### mini.postcss
 
 `object`
