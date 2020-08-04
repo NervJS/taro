@@ -556,6 +556,14 @@ module.exports = {
 
 可用于修改、拓展 Webpack 的 **output** 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/)。
 
+### mini.enableSourceMap
+
+`boolean`
+
+默认值：watch 模式下为 `true`，否则为 `false`。
+
+用于控制是否生成 js、css 对应的 sourceMap。
+
 ### mini.postcss
 
 `object`
