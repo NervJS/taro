@@ -572,6 +572,16 @@ module.exports = {
 
 具体配置请参考 [Webpack devtool 配置](https://webpack.js.org/configuration/devtool/#devtool)。
 
+### mini.debugReact
+
+> 自 v3.0.8 开始支持
+
+`boolean`
+
+默认值：`false`。
+
+指定 React 框架相关的代码是否使用开发环境（未压缩）代码，默认使用生产环境（压缩后）代码。
+
 ### mini.postcss
 
 `object`
