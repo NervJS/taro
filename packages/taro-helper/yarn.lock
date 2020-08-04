@@ -752,36 +752,36 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@tarojs/api@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@tarojs/api/-/api-3.0.2.tgz#655f2fbdeeaedea683f480abf8b47ec2960886e1"
-  integrity sha512-tbBquuMLhtz05zwoBmPLdYPUQPO8C/p/OdrypK4y6fSlKX2DwCnFUQ1+nZkZgnv5iMsiPnnr0Hh4AhihH/wUHA==
+"@tarojs/api@3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@tarojs/api/-/api-3.0.6.tgz#1a3f2ddd3076fc76cc3da21deff68eaa118c1821"
+  integrity sha512-SmECIVm+94kVNZuYNu9Ksqm9tUJhV/ydqPQkwPsBxe19r9KjmOOPx3oLAcGEcg2RxmYnoYwAsUyIi0ICX1Pnvw==
   dependencies:
-    "@tarojs/runtime" "3.0.2"
+    "@tarojs/runtime" "3.0.6"
 
-"@tarojs/router@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@tarojs/router/-/router-3.0.2.tgz#5b58933b123a415e30630234336af5f88bce4621"
-  integrity sha512-tx42HZ/h+3AyhQsWGp5JDl/AEKa6jKdNOJAxZFr+dlchve02ePe2juln6p56ES4wHOCPZtopaQmpbZt6QgYijg==
+"@tarojs/router@3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@tarojs/router/-/router-3.0.6.tgz#a9d9257cd62ad6959ceedc63a201c32ca3b5e4d0"
+  integrity sha512-BDAl/9HO9Vjzz2yFFsbyTmKqJ6XdMXqJy9UyHQxlREEKy3J9xqeEyADPuO43D8t+ZdGhFMDEO42aQniSqCUVrA==
   dependencies:
-    "@tarojs/runtime" "3.0.2"
+    "@tarojs/runtime" "3.0.6"
     history "^4.10.1"
     universal-router "^8.3.0"
     url-parse "^1.4.7"
 
-"@tarojs/runtime@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@tarojs/runtime/-/runtime-3.0.2.tgz#48036df156eb2c60dfe4bd750944855ed79b8232"
-  integrity sha512-akW32kGKeRm9bfLTTo3WAeOU/IoWlFFrxw+m7mtjBSm4Q50r/GUMf2jtSyGhIxoWegPMKKRIizPyqf0E5ws0GA==
+"@tarojs/runtime@3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@tarojs/runtime/-/runtime-3.0.6.tgz#3fbfec2333f5a1c72450cdd78a0bf5bae9c7f0a0"
+  integrity sha512-3Q8mhkuf3pkyLTEyoDcFQqep1foVRWolwxdd4a7uFOe7GykErMjOhPrIO13/d+gr3/H/rU42r1xQijDXIGlgww==
 
-"@tarojs/taro-h5@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro-h5/-/taro-h5-3.0.2.tgz#ce108d6c5c538cda6136a6a66f047db80ed872b1"
-  integrity sha512-NpHDrG5nKd/3cN/abud/OEpHXRaUWLP8N1ruVLxvB8rPoxqSOs85Vx7p5Opk+oWCqZxrwojcUq4Pr9dXjPhM2w==
+"@tarojs/taro-h5@3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro-h5/-/taro-h5-3.0.6.tgz#a00bf8b2dbc14e3f58aedf58b8956992e91563cd"
+  integrity sha512-dPPJEb7WA26aDQFXEE3/nknmSDgIYAf357aw6s7TV7zf0fMEMHupAAiEMZN7Xs7w5jDSnvrEbaD2BtCTf1Xs/w==
   dependencies:
-    "@tarojs/api" "3.0.2"
-    "@tarojs/router" "3.0.2"
-    "@tarojs/runtime" "3.0.2"
+    "@tarojs/api" "3.0.6"
+    "@tarojs/router" "3.0.6"
+    "@tarojs/runtime" "3.0.6"
     base64-js "^1.3.0"
     jsonp-retry "^1.0.3"
     mobile-detect "^1.4.2"
@@ -789,13 +789,13 @@
     unfetch "^4.1.0"
     whatwg-fetch "^2.0.4"
 
-"@tarojs/taro@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-3.0.2.tgz#67ff99a588923675de34dca027cefdfb85743e88"
-  integrity sha512-KIfeA+Y2u3vQ1bt86ucvcQKKMGyguhY+vuTV+G8hFCb32YXunhQBFEEq6kIlvz/K5xf0m2hkyTNIH6+zhck1gw==
+"@tarojs/taro@3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-3.0.6.tgz#b399fd7c0579d6cbe6bac73db1f2f246d69864c8"
+  integrity sha512-ObFlZYVgHhx2lZnaT7fSsvm5vTsjtYsmQjYtuCKB4FSRkaBEFnNG7ceSPw19lw/tNuepCSkw7ouf3Pre85m1PA==
   dependencies:
-    "@tarojs/api" "3.0.2"
-    "@tarojs/taro-h5" "3.0.2"
+    "@tarojs/api" "3.0.6"
+    "@tarojs/taro-h5" "3.0.6"
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
@@ -1502,9 +1502,10 @@ locate-path@^3.0.0:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
 
-lodash@4.17.15, lodash@^4.17.13, lodash@^4.17.4:
-  version "4.17.15"
-  resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.15.tgz?cache=0&sync_timestamp=1571657272199&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flodash%2Fdownload%2Flodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+lodash@4.17.19, lodash@^4.17.13, lodash@^4.17.4:
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 loose-envify@^1.0.0, loose-envify@^1.2.0:
   version "1.4.0"

@@ -37,7 +37,7 @@
     "@tarojs/helper": "3.0.6",
     "@tarojs/taro": "3.0.6",
     "fs-extra": "8.1.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "resolve": "1.15.1",
     "tapable": "1.1.3"
   }
