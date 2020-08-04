@@ -94,7 +94,9 @@ function splitEqual (str: string) {
   const sep = '='
   const idx = str.indexOf(sep)
   if (idx === -1) return [str]
-  return [str.slice(0, idx), str.slice(idx + sep.length)]
+  const key = str.slice(0, idx).trim()
+  const value = str.slice(idx + sep.length).trim()
+  return [key, value]
 }
 
 function format (children: ChildNode[]) {
