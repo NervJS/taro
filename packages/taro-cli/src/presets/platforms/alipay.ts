@@ -52,6 +52,13 @@ export class Template extends RecursiveTemplate {
         </view>
       </picker-view-column>`
     }
+    if (nodeName === 'swiper') {
+      return `<swiper-item>
+        <view a:for="{{item.cn}}" a:key="id">
+          ${child}
+        </view>
+      </swiper-item>`
+    }
     return child
   }
 
@@ -65,7 +72,7 @@ export class Template extends RecursiveTemplate {
   }
 
   modifyTemplateResult = (res: string, nodeName: string) => {
-    if (nodeName === 'picker-view-column') return ''
+    if (nodeName === 'picker-view-column' || nodeName === 'swiper-item') return ''
     return res
   }
 }
