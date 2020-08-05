@@ -203,7 +203,7 @@ export default {
 
 页面首次渲染完毕时执行，此生命周期在小程序端对应小程序页面的 `onReady` 生命周期。从此生命周期开始可以使用 `createCanvasContext` 或 `createselectorquery` 等 API 访问真实 DOM。
 
-在可以非页面组件中，可以使用 Taro 内置的 [消息机制](./apis/about/events) 访问页面组件的 `onReady()` 生命周期：
+在非页面组件中，可以使用 Taro 内置的 [消息机制](./apis/about/events) 访问页面组件的 `onReady()` 生命周期：
 
 ```jsx
 import { eventCenter, getCurrentInstance } from '@tarojs/taro'
