@@ -354,7 +354,7 @@ export default class Project extends Creator {
 function getOpenSourceTemplates (platform) {
   return new Promise((resolve, reject) => {
     const spinner = ora('正在拉取开源模板列表...').start()
-    request.get('https://raw.githubusercontent.com/NervJS/awesome-taro/next/index.json', (error, _response, body) => {
+    request.get('https://gitee.com/NervJS/awesome-taro/raw/next/index.json', (error, _response, body) => {
       if (error) {
         spinner.fail(chalk.red('拉取开源模板列表失败！'))
         return reject(new Error())
