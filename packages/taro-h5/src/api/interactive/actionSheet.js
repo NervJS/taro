@@ -74,14 +74,17 @@ export default class ActionSheet {
 
     // mask
     const mask = document.createElement('div')
+    mask.className = 'taro-actionsheet__mask'
     mask.setAttribute('style', inlineStyle(maskStyle))
 
     // actionSheet
     this.actionSheet = document.createElement('div')
+    this.actionSheet.className = 'taro-actionsheet__content'
     this.actionSheet.setAttribute('style', inlineStyle(actionSheetStyle))
 
     // menu
     this.menu = document.createElement('div')
+    this.menu.className = 'taro-actionsheet__menu'
     this.menu.setAttribute('style', inlineStyle({
       ...menuStyle,
       color: config.itemColor
@@ -100,6 +103,7 @@ export default class ActionSheet {
 
     // cancel
     this.cancel = document.createElement('div')
+    this.cancel.className = 'taro-actionsheet__btn taro-actionsheet__cancel'
     this.cancel.setAttribute('style', inlineStyle(cancelStyle))
     this.cancel.textContent = '取消'
 
