@@ -104,7 +104,7 @@ class App extends Component {
       <td>是否禁用</td>
     </tr>
     <tr>
-      <td>maxLength</td>
+      <td>maxlength</td>
       <td><code>number</code></td>
       <td style={{ textAlign: "center"}}><code>140</code></td>
       <td style={{ textAlign: "center"}}>否</td>
