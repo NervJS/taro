@@ -93,11 +93,13 @@ export default class Toast {
 
     // mask
     this.mask = document.createElement('div')
+    this.mask.className = 'taro-toast__mask'
     this.mask.setAttribute('style', inlineStyle(maskStyle))
     this.mask.style.display = config.mask ? 'block' : 'none'
 
     // icon
     this.icon = document.createElement('p')
+    this.icon.className = 'taro-toast__icon'
     if (config.image) {
       this.icon.setAttribute('style', inlineStyle({
         ...imageStyle,
@@ -114,6 +116,7 @@ export default class Toast {
 
     // toast
     this.toast = document.createElement('div')
+    this.toast.className = 'taro-toast__content'
     this.toast.setAttribute('style', inlineStyle({
       ...toastStyle,
       ...(config.icon === 'none' ? {
@@ -124,6 +127,7 @@ export default class Toast {
 
     // title
     this.title = document.createElement('p')
+    this.title.className = 'taro-toast__title'
     this.title.setAttribute('style', inlineStyle(textStyle))
     this.title.textContent = config.title
 
