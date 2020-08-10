@@ -249,7 +249,7 @@ export class Prerender {
     path = this.getRealPath(path)
     return new Promise((resolve) => {
       const s = `
-      if (typeof PRERENDER !== 'undefiend') {
+      if (typeof PRERENDER !== 'undefined') {
         module.exports = global._prerender
       }`
       fs.appendFile(path, s, 'utf8', () => {

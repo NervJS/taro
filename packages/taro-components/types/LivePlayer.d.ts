@@ -74,6 +74,11 @@ interface LivePlayerProps extends StandardProps {
    */
   autoPauseIfOpenNavigate?: boolean
 
+  /** 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]）
+   * @supported weapp
+   */
+  pictureInPictureMode?: ('push' | 'pop')[] | 'push' | 'pop' | ''
+
   /** 播放状态变化事件，detail = {code}
    * @supported weapp
    */
@@ -87,12 +92,22 @@ interface LivePlayerProps extends StandardProps {
   /** 网络状态通知，detail = {info}
    * @supported weapp
    */
-  onNetstatus?: CommonEventFunction<LivePlayerProps.onNetStatusEventDetail>
+  onNetStatus?: CommonEventFunction<LivePlayerProps.onNetStatusEventDetail>
 
   /** 播放音量大小通知，detail = {}
    * @supported weapp
    */
-  onAudioVolumenotify?: CommonEventFunction<{}>
+  onAudioVolumeNotify?: CommonEventFunction<{}>
+
+  /** 播放器进入小窗
+   * @supported weapp
+   */
+  onEnterPictureInPicture?: CommonEventFunction
+
+  /** 播放器退出小窗
+   * @supported weapp
+   */
+  onLeavePictureInPicture?: CommonEventFunction
 }
 
 declare namespace LivePlayerProps {
