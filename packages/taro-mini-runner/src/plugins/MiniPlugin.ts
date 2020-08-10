@@ -749,7 +749,7 @@ export default class TaroMiniPlugin {
 
   /**
    * 输出 themeLocation 文件
-   * @param compilation 
+   * @param compilation
    */
   generateDarkModeFile (compilation: webpack.compilation.Compilation) {
     const themeLocationPath = path.resolve(this.options.sourceDir, this.themeLocation)
