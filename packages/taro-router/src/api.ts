@@ -1,5 +1,6 @@
 import { stacks } from './stack'
 import { history } from './history'
+import { routesAlias, addLeadingSlash } from './utils'
 
 interface Base {
   success?: Function
@@ -15,9 +16,20 @@ interface NavigateBackOption extends Base {
   delta: number
 }
 
+function processNavigateUrl (option: Option) {
+  Object.keys(routesAlias).forEach(key => {
+    if (addLeadingSlash(key) === addLeadingSlash(option.url)) {
+      option.url = routesAlias[key]
+    }
+  })
+}
+
 function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
   const { success, complete, fail } = option
   let failReason
+  if ((option as Option).url) {
+    processNavigateUrl(option as Option)
+  }
   try {
     if (method === 'navigateTo') {
       history.push((option as Option).url)
