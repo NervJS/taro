@@ -83,8 +83,21 @@ function loadPage (page: PageInstance | null) {
       pageOnReady(pageEl, page)
     }
     page.onShow!()
+    bindPageScroll(page)
     stacks.push(page)
   }
+}
+
+let pageScrollFn
+
+function bindPageScroll (page) {
+  window.removeEventListener('scroll', pageScrollFn)
+  pageScrollFn = function () {
+    if (document.documentElement.scrollHeight === window.pageYOffset + window.innerHeight) {
+      page.onReachBottom.call(page)
+    }
+  }
+  window.addEventListener('scroll', pageScrollFn, false)
 }
 
 export function createRouter (
