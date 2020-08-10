@@ -40,12 +40,15 @@ export default class Page extends Creator {
 
   getPkgPath () {
     const projectDir = this.conf.projectDir as string
-    const pkgPath = path.join(projectDir, 'package.json')
-    if (fs.existsSync(pkgPath)) {
-      return pkgPath
+    let pkgPath = path.join(projectDir, 'package.json')
+    if (!fs.existsSync(pkgPath)) {
+      // 适配 云开发 项目
+      pkgPath = path.join(projectDir, 'client', 'package.json')
+      if (!fs.existsSync(pkgPath)) {
+        chalk.yellow('请确认是在正确的项目目录下执行 Taro 命令.')
+      }
     }
-    chalk.yellow('请确认是在正确的项目目录下执行 Taro 命令.')
-    return path.join(projectDir, 'client', 'package.json')
+    return pkgPath
   }
 
   getTemplateInfo () {
