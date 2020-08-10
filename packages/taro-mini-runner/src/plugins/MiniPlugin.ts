@@ -99,6 +99,7 @@ export default class TaroMiniPlugin {
   prerenderPages: Set<string>
   dependencies = new Map<string, TaroSingleEntryDependency>()
   loadChunksPlugin: TaroLoadChunksPlugin
+  themeLocation: string
 
   constructor (options = {}) {
     this.options = Object.assign({
@@ -313,6 +314,7 @@ export default class TaroMiniPlugin {
     this.appConfig = this.getAppConfig()
     this.getPages()
     this.getPagesConfig()
+    this.getDarkMode()
     this.getConfigFiles(compiler)
     this.addEntries()
   }
@@ -547,6 +549,17 @@ export default class TaroMiniPlugin {
   }
 
   /**
+   * 收集 dark mode 配置中的文件
+   */
+  getDarkMode () {
+    const themeLocation = this.appConfig.themeLocation
+    const darkMode = this.appConfig.darkmode
+    if (darkMode && themeLocation && typeof themeLocation === 'string') {
+      this.themeLocation = themeLocation
+    }
+  }
+
+  /**
    * 搜集 tabbar icon 图标路径
    * 收集自定义 tabbar 组件
    */
@@ -646,6 +659,9 @@ export default class TaroMiniPlugin {
     })
     this.generateTabBarFiles(compilation)
     this.injectCommonStyles(compilation)
+    if (this.themeLocation) {
+      this.generateDarkModeFile(compilation)
+    }
     if (typeof modifyBuildAssets === 'function') {
       await modifyBuildAssets(compilation.assets)
     }
@@ -729,6 +745,22 @@ export default class TaroMiniPlugin {
       return filePath.replace(extname, targetExtname)
     }
     return filePath + targetExtname
+  }
+
+  /**
+   * 输出 themeLocation 文件
+   * @param compilation 
+   */
+  generateDarkModeFile (compilation: webpack.compilation.Compilation) {
+    const themeLocationPath = path.resolve(this.options.sourceDir, this.themeLocation)
+    if (fs.existsSync(themeLocationPath)) {
+      const themeLocationStat = fs.statSync(themeLocationPath)
+      const themeLocationSource = fs.readFileSync(themeLocationPath)
+      compilation.assets[this.themeLocation] = {
+        size: () => themeLocationStat.size,
+        source: () => themeLocationSource
+      }
+    }
   }
 
   /**
