@@ -1,6 +1,9 @@
-import { Component, ComponentLifecycle, internal_safe_set as safeSet } from '@tarojs/taro'
+import { Component, ComponentLifecycle } from '@tarojs/taro'
+import { getCurrentInstance } from '@tarojs/runtime'
 import { lifecycles, lifecycleMap, TaroLifeCycles } from './lifecycle'
-import { bind, proxy, isEqual } from './utils'
+import { bind, proxy, isEqual, safeGet, safeSet } from './utils'
+import { diff } from './diff'
+import { clone } from './clone'
 
 type Observer = (newProps, oldProps, changePath: string) => void
 
@@ -14,6 +17,7 @@ interface ComponentClass<P = {}, S = {}> extends ComponentLifecycle<P, S> {
   externalClasses: Record<string, unknown>
   defaultProps?: Partial<P>
   _observeProps?: ObserverProperties[]
+  observers?: Record<string, Function>
 }
 
 interface WxOptions {
@@ -22,7 +26,8 @@ interface WxOptions {
   }
   properties?: Record<string, Record<string, unknown> | Function>
   props?: Record<string, unknown>
-  data?: Record<string, unknown>
+  data?: Record<string, unknown>,
+  observers?: Record<string, Function>
 }
 
 function defineGetter (component: Component, key: string, getter: string) {
@@ -46,6 +51,7 @@ function isFunction (o): o is Function {
 }
 
 export default function withWeapp (weappConf: WxOptions) {
+
   return (ConnectComponent: ComponentClass) => {
     class BaseComponent<P = {}, S = {}> extends ConnectComponent {
       private _observeProps: ObserverProperties[] = []
@@ -61,6 +67,8 @@ export default function withWeapp (weappConf: WxOptions) {
 
       private willUnmounts: Function[] = []
 
+      public observers?: Record<string, Function>
+
       constructor (props) {
         super(props)
         this.init(weappConf)
@@ -68,7 +76,7 @@ export default function withWeapp (weappConf: WxOptions) {
         defineGetter(this, 'properties', 'props')
       }
 
-      private initProps (props: Record<string, any>) {
+      private initProps (props: Object) {
         for (const propKey in props) {
           if (props.hasOwnProperty(propKey)) {
             const propValue = props[propKey]
@@ -91,16 +99,15 @@ export default function withWeapp (weappConf: WxOptions) {
           switch (confKey) {
             case 'externalClasses':
               break
-            case 'data': {
+            case 'data':
+              this.state = confValue
               const keys = Object.keys(this.state)
               let i = keys.length
-              this.state = confValue
               while (i--) {
                 const key = keys[i]
-                proxy(this, 'state', key)
+                proxy(this, `state`, key)
               }
               break
-            }
             case 'properties':
               this.initProps(confValue)
               break
@@ -111,7 +118,7 @@ export default function withWeapp (weappConf: WxOptions) {
               }
               break
             case 'behaviors':
-            // this.initMixins(confValue, options);
+              // this.initMixins(confValue, options);
               break
             case 'lifetimes':
               for (const key in confValue) {
@@ -177,30 +184,76 @@ export default function withWeapp (weappConf: WxOptions) {
       }
 
       public selectComponent = (...args: unknown[]) => {
-        if (this.$scope && this.$scope.selectComponent) {
-          this.$scope.selectComponent(...args)
+        const page = getCurrentInstance().page
+        if (page && page.selectComponent) {
+          page.selectComponent(...args)
         } else {
           // tslint:disable-next-line: no-console
-          console.error('this.$scope 下没有 selectComponent 方法')
+          console.error(`page 下没有 selectComponent 方法`)
         }
       }
 
       public getRelationNodes = (...args: unknown[]) => {
-        if (this.$scope && this.$scope.getRelationNodes) {
-          this.$scope.getRelationNodes(...args)
+        const page = getCurrentInstance().page
+        if (page && page.getRelationNodes) {
+          page.getRelationNodes(...args)
         } else {
           // tslint:disable-next-line: no-console
-          console.error('this.$scope 下没有 getRelationNodes 方法')
+          console.error(`page 下没有 getRelationNodes 方法`)
         }
       }
 
       setData = (obj: S, callback?: () => void) => {
-        const state = Object.assign({}, this.state)
+        let oldState
+        if (this.observers && Object.keys(Object.keys(this.observers))) {
+          oldState = clone(this.state)
+        }
         Object.keys(obj).forEach(key => {
-          safeSet(state, key, obj[key])
+          safeSet(this.state, key, obj[key])
         })
-        Object.assign(this.state, state)
-        this.setState(state, callback)
+        this.setState(this.state, () => {
+          this.triggerObservers(this.state, oldState)
+          if (callback) {
+            callback.call(this)
+          }
+        })
+      }
+
+      private triggerObservers (current, prev) {
+        const observers = this.observers
+        if (observers == null) {
+          return
+        }
+
+        if (Object.keys(observers).length === 0) {
+          return
+        }
+
+        const result = diff(current, prev)
+        const resultKeys = Object.keys(result)
+        if (resultKeys.length === 0) {
+          return
+        }
+
+        for (const observerKey in observers) {
+          const keys = observerKey.split(',').map(k => k.trim())
+          const args: any = []
+          for (let i = 0; i < keys.length; i++) {
+            const key = keys[i]
+            for (let j = 0; j < resultKeys.length; j++) {
+              const resultKey = resultKeys[j]
+              if (
+                resultKey.startsWith(key) ||
+                (key.startsWith(resultKey) && key.endsWith(']'))
+              ) {
+                args.push(safeGet(current, key))
+              }
+            }
+          }
+          if (args.length) {
+            observers[observerKey].apply(this, args)
+          }
+        }
       }
 
       public triggerEvent = (eventName: string, ...args: unknown[]) => {
@@ -223,7 +276,7 @@ export default function withWeapp (weappConf: WxOptions) {
           }
         })
         this.safeExecute(super.componentWillMount)
-        this.executeLifeCycles(this.willMounts, this.$router.params || {})
+        this.executeLifeCycles(this.willMounts, getCurrentInstance().router || {})
       }
 
       public componentDidMount () {
@@ -243,10 +296,11 @@ export default function withWeapp (weappConf: WxOptions) {
 
       public componentDidShow () {
         this.safeExecute(super.componentDidShow)
-        this.executeLifeCycles(this.didShows, this.$router.params || {})
+        this.executeLifeCycles(this.didShows, getCurrentInstance().router || {})
       }
 
       public componentWillReceiveProps (nextProps: P) {
+        this.triggerObservers(nextProps, this.props)
         this._observeProps.forEach(({ name: key, observer }) => {
           const prop = this.props[key]
           const nextProp = nextProps[key]
@@ -266,7 +320,7 @@ export default function withWeapp (weappConf: WxOptions) {
       }
     }
 
-    const props = weappConf.properties
+    const props = weappConf['properties']
 
     if (props) {
       for (const propKey in props) {
