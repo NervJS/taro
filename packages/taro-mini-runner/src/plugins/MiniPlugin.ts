@@ -324,17 +324,18 @@ export default class TaroMiniPlugin {
    * @returns app config 配置内容
    */
   getAppConfig (): AppConfig {
-    const appConfigPath = this.getConfigFilePath(this.appEntry)
-    const appConfig: AppConfig = readConfig(appConfigPath)
-    const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
-    this.filesConfig[appConfigName] = {
-      content: appConfig,
-      path: appConfigPath
-    }
+    const appName = path.basename(this.appEntry).replace(path.extname(this.appEntry), '')
+    this.compileFile({
+      name: appName,
+      path: this.appEntry,
+      isNative: false
+    })
+    const fileConfig = this.filesConfig[this.getConfigFilePath(appName)]
+    const appConfig = fileConfig ? fileConfig.content || {} : {}
     if (isEmptyObject(appConfig)) {
       throw new Error('缺少 app 全局配置，请检查！')
     }
-    return appConfig
+    return appConfig as AppConfig
   }
 
   /**
