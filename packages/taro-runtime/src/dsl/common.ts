@@ -17,6 +17,7 @@ import { CurrentReconciler } from '../reconciler'
 const instances = new Map<string, Instance>()
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
+  CurrentReconciler.mergePageInstance?.(instances.get(id), inst)
   instances.set(id, inst)
 }
 
@@ -86,7 +87,7 @@ export function getOnHideEventKey (path: string) {
   return path + '.' + 'onHide'
 }
 
-export function createPageConfig (component: React.ComponentClass, pageName?: string, data?: Record<string, unknown>) {
+export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>) {
   const id = pageName ?? `taro_page_${pageId()}`
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   let pageElement: TaroRootElement | null = null
@@ -175,18 +176,6 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
       const path = getPath(id, this.options)
       return safeExecute(path, 'onPageScroll', options)
     },
-    onShareAppMessage (options) {
-      const target = options.target
-      if (target != null) {
-        const id = target.id
-        const element = document.getElementById(id)
-        if (element != null) {
-          options.target!.dataset = element.dataset
-        }
-      }
-      const path = getPath(id, this.options)
-      return safeExecute(path, 'onShareAppMessage', options)
-    },
     onResize (options) {
       const path = getPath(id, this.options)
       return safeExecute(path, 'onResize', options)
@@ -210,6 +199,32 @@ export function createPageConfig (component: React.ComponentClass, pageName?: st
     onPullIntercept () {
       const path = getPath(id, this.options)
       return safeExecute(path, 'onPullIntercept')
+    },
+    onAddToFavorites () {
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onAddToFavorites')
+    }
+  }
+
+  // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
+  if (component.onShareAppMessage || component.enableShareAppMessage) {
+    config.onShareAppMessage = function (options) {
+      const target = options.target
+      if (target != null) {
+        const id = target.id
+        const element = document.getElementById(id)
+        if (element != null) {
+          options.target!.dataset = element.dataset
+        }
+      }
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onShareAppMessage', options)
+    }
+  }
+  if (component.onShareTimeline || component.enableShareTimeline) {
+    config.onShareTimeline = function () {
+      const path = getPath(id, this.options)
+      return safeExecute(path, 'onShareTimeline')
     }
   }
 

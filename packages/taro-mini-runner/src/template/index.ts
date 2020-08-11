@@ -34,7 +34,6 @@ const voidElements = new Set([
   'slider',
   'switch',
   'audio',
-  'camera',
   'live-player',
   'live-pusher',
   'video'
@@ -74,9 +73,9 @@ function buildStandardComponentTemplate (comp: Component, level: number, support
   const children = voidElements.has(comp.nodeName)
     ? ''
     : `
-    <${Adapter.type === PLATFORMS.ALIPAY && comp.nodeName === 'picker' ? 'view' : 'block'} ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
+    ${Adapter.type === PLATFORMS.ALIPAY && comp.nodeName === 'picker' ? '<view>\n' : ''}<block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
       ${child}
-    </${Adapter.type === PLATFORMS.ALIPAY && comp.nodeName === 'picker' ? 'view' : 'block'}>
+    </block>${Adapter.type === PLATFORMS.ALIPAY && comp.nodeName === 'picker' ? '\n</view>' : ''}
   `
   return `
 <template name="tmpl_${level}_${comp.nodeName}">
