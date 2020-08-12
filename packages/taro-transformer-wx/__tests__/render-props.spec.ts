@@ -173,4 +173,35 @@ describe('render props', () => {
     `)
     )
   })
+
+  test('fix #7315', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      isRoot: true,
+      code: buildComponent(`
+      const {renderHeader, renderFooter} = this.props
+
+      return (
+        <View>
+          <Block>{renderHeader}</Block>
+          <Block>{renderFooter}</Block>
+        </View>
+      )
+      `, ``)
+    })
+    expect(template).toMatch(
+      prettyPrint(`
+      <block>
+          <view>
+              <block>
+                  <slot name="header"></slot>
+              </block>
+              <block>
+                  <slot name="footer"></slot>
+              </block>
+          </view>
+      </block>
+    `)
+    )
+  })
 })

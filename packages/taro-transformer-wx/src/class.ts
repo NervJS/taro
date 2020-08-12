@@ -776,7 +776,7 @@ class Transformer {
               }
             }
           } else if (path.isReferencedIdentifier()) {
-            if (isDerivedFromProps(path.scope, 'children')) {
+            if (isDerivedFromProps(path.scope, path.node.name)) {
               parentPath.replaceWith(slot)
             }
           }
