@@ -630,7 +630,7 @@ export default class Picker extends Nerv.Component {
     const { name = '' } = this.props
 
     return (
-      <div className={this.props.className}>
+      <div className={classNames('taro-picker', this.props.className)}>
         <div onClick={showPicker}>
           {this.props.children}
         </div>
