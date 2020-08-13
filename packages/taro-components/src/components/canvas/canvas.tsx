@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, State, Element, Event } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Element, Event } from '@stencil/core'
 
 const LONG_TAP_DELAY = 500
 
@@ -9,13 +9,8 @@ const LONG_TAP_DELAY = 500
 })
 export class Canvas implements ComponentInterface {
   private timer: NodeJS.Timeout
-  // @Prop() type: '2d' | 'webgl'
-  @Prop() canvasId: string
 
-  @State() width = 300
-  @State() height = 150
-  @State() klass: string
-  @State() css: string
+  @Prop() canvasId: string
 
   @Element() el: HTMLElement
 
@@ -24,26 +19,6 @@ export class Canvas implements ComponentInterface {
   })
 
   onLongTap
-
-  private canvas?: HTMLCanvasElement
-
-  componentDidLoad () {
-    const { width, height } = this.el.getBoundingClientRect()
-    this.width = width
-    this.height = height
-    this.klass = this.el.className
-    this.css = this.el.style.cssText
-  }
-
-  componentDidUpdate () {
-    const { width, height } = this.el.getBoundingClientRect()
-    if (this.width !== width) this.width = width
-    if (this.height !== height) this.height = height
-    if (this.canvas) {
-      this.canvas.className = this.el.className
-      this.canvas.style.cssText = this.el.style.cssText
-    }
-  }
 
   onTouchStart = () => {
     this.timer = setTimeout(() => {
@@ -60,18 +35,15 @@ export class Canvas implements ComponentInterface {
   }
 
   render () {
-    const {
-      canvasId,
-      width,
-      height
-    } = this
+    const { canvasId } = this
 
     return (
       <canvas
         canvas-id={canvasId}
-        ref={node => (this.canvas = node!)}
-        width={width}
-        height={height}
+        style={{
+          width: '100%',
+          height: '100%'
+        }}
         onTouchStart={this.onTouchStart}
         onTouchMove={this.onTouchMove}
         onTouchEnd={this.onTouchEnd}

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.0.5",
+  "version": "3.0.7",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -20,7 +20,8 @@
   "files": [
     "index.js",
     "dist",
-    "types"
+    "types",
+    "src"
   ],
   "keywords": [
     "taro"
@@ -33,8 +34,8 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@hapi/joi": "17.1.1",
-    "@tarojs/helper": "3.0.5",
-    "@tarojs/taro": "3.0.5",
+    "@tarojs/helper": "3.0.7",
+    "@tarojs/taro": "3.0.7",
     "fs-extra": "8.1.0",
     "lodash": "4.17.15",
     "resolve": "1.15.1",
