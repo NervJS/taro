@@ -14,11 +14,12 @@ class RadioGroup extends Nerv.Component {
   }
 
   toggleChange (e, i) {
+    const val = e.target.value || e.target.querySelector('input[type=radio]').value
     let checkValue
     let _value = this.radioValue.map((item, idx) => {
       let curValue = item.value
       if (isNumber(item.value)) curValue = item.value.toString()
-      if (e.target.value === curValue) {
+      if (val === curValue) {
         checkValue = item.value
         return {
           name: item.name,
@@ -45,67 +46,45 @@ class RadioGroup extends Nerv.Component {
     const children = Nerv.Children.toArray(this.props.children).map(
       (item, i) => {
         let _key = item.props.for || i
-        const chd = Nerv.Children.toArray(item.props.children).map(ch => {
-          if (ch.name === 'Radio') {
-            if (ch.props.checked) {
-              this.radioValue[i] = {
-                name: ch.props.name,
-                value: ch.props.value,
-                checked: true
-              }
-            } else {
-              this.radioValue[i] = {
-                name: ch.props.name,
-                value: ch.props.value,
-                checked: false
-              }
-            }
-            return Nerv.cloneElement(ch, {
-              onChange: e => this.toggleChange(e, i),
-              for: _key,
-              name: name
-            })
+        if (item.name === 'Radio') {
+          this.radioValue[i] = {
+            name: item.props.name,
+            value: item.props.value,
+            checked: !!item.props.checked
           }
-          return ch
-        })
-        return Nerv.cloneElement(item, { for: _key }, chd)
+          return Nerv.cloneElement(item, {
+            onChange: e => this.toggleChange(e, i),
+            for: _key,
+            name: name
+          })
+        } else {
+          const chd = Nerv.Children.toArray(item.props.children).map(ch => {
+            if (ch.name === 'Radio') {
+              this.radioValue[i] = {
+                name: ch.props.name,
+                value: ch.props.value,
+                checked: !!ch.props.checked
+              }
+              return Nerv.cloneElement(ch, {
+                onChange: e => this.toggleChange(e, i),
+                for: _key,
+                name: name
+              })
+            }
+            return ch
+          })
+          return Nerv.cloneElement(item, { for: _key }, chd)
+        }
       }
     )
 
-    function isChildOf (child, parent) {
-      // console.log('参数child=' + child + '-' + child.nodeName, '参数parent=' + parent + '-' + parent.nodeName)
-      if (child && parent) {
-        if (child === parent) return true
-        var myParentNode = child.parentNode // 定义临时变量，并初始化为child参数的父节点
-        while (myParentNode) {
-          // console.log('myParentNode=' + myParentNode + '-' + myParentNode.nodeName)
-          if (myParentNode === parent) {
-            // 如果myParentNode等于parent参数，则证明child参数是parent参数的后代
-            return true
-          } else {
-            // 找myParentNode的上一代
-            myParentNode = myParentNode.parentNode
-          }
-        }
-      }
-      // 遍历结束后，都没有返回true，则说明child参数找不到它的祖先parent参数
-      return false
-    }
     /* TODO 规避Nerv数组diff问题 */
     return (<div className='weui-cells_radiogroup'
+      name={name}
       {...omit(this.props, [
+        'name',
         'onChange'
-      ])}
-      onClick={e => {
-        let index = -1
-        const cs = (e && e.currentTarget && e.currentTarget.children) || []
-        for (let i = 0; i < cs.length; i++) {
-          if (isChildOf(e.toElement, cs[i])) index = i
-        }
-        if (index > -1 && this.props.onChange && typeof this.props.onChange === 'function') {
-          this.props.onChange(e, index)
-        }
-      }}>{children}
+      ])}>{children}
     </div>)
   }
 }
