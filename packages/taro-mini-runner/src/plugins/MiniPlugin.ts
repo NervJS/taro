@@ -488,7 +488,7 @@ export default class TaroMiniPlugin {
           path: usingComponents[compName]
         })
 
-        if (!componentConfig.thirdPartyComponents.has(compName)) {
+        if (!componentConfig.thirdPartyComponents.has(compName) && !file.isNative) {
           componentConfig.thirdPartyComponents.set(compName, new Set())
         }
       }
@@ -647,9 +647,11 @@ export default class TaroMiniPlugin {
       if (config) {
         if (!isSupportRecursive) {
           const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(baseCompName, ''))))
-          config.content.usingComponents = {
-            [baseCompName]: importBaseCompPath,
-            ...config.content.usingComponents
+          if (!page.isNative) {
+            config.content.usingComponents = {
+              [baseCompName]: importBaseCompPath,
+              ...config.content.usingComponents
+            }
           }
         }
         this.generateConfigFile(compilation, page.path, config.content)
