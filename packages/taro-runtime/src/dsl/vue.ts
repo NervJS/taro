@@ -146,48 +146,62 @@ export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
     }
   })
 
-  class AppConfig implements AppInstance {
-    config = config
-
-    onLaunch (options) {
-      wrapper.$mount(document.getElementById('app') as any)
-      appInstance = wrapper.$refs.app as VueAppInstance
-      Current.router = {
-        params: options?.query,
-        ...options
-      }
-      if (appInstance != null && isFunction(appInstance.$options.onLaunch)) {
-        appInstance.$options.onLaunch.call(appInstance, options)
-      }
-    }
-
-    onShow (options) {
-      Current.router = {
-        params: options?.query,
-        ...options
-      }
-      if (appInstance != null && isFunction(appInstance.$options.onShow)) {
-        appInstance.$options.onShow.call(appInstance, options)
-      }
-    }
-
-    onHide (options: unknown) {
-      if (appInstance != null && isFunction(appInstance.$options.onHide)) {
-        appInstance.$options.onHide.call(appInstance, options)
-      }
-    }
-
+  const app: AppInstance = Object.create({
     mount (component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
       const page = connectVuePage(Vue, id)(component)
       wrapper.mount(page, id, cb)
-    }
+    },
 
     unmount (id: string, cb: () => void) {
       wrapper.unmount(id, cb)
     }
-  }
+  }, {
+    config: {
+      writable: true,
+      enumerable: true,
+      configurable: true,
+      value: config
+    },
 
-  Current.app = new AppConfig()
+    onLaunch: {
+      enumerable: true,
+      value (options) {
+        wrapper.$mount(document.getElementById('app') as any)
+        appInstance = wrapper.$refs.app as VueAppInstance
+        Current.router = {
+          params: options?.query,
+          ...options
+        }
+        if (appInstance != null && isFunction(appInstance.$options.onLaunch)) {
+          appInstance.$options.onLaunch.call(appInstance, options)
+        }
+      }
+    },
+
+    onShow: {
+      enumerable: true,
+      value (options) {
+        Current.router = {
+          params: options?.query,
+          ...options
+        }
+        if (appInstance != null && isFunction(appInstance.$options.onShow)) {
+          appInstance.$options.onShow.call(appInstance, options)
+        }
+      }
+    },
+
+    onHide: {
+      enumerable: true,
+      value (options) {
+        if (appInstance != null && isFunction(appInstance.$options.onHide)) {
+          appInstance.$options.onHide.call(appInstance, options)
+        }
+      }
+    }
+  })
+
+  Current.app = app
 
   return Current.app
 }

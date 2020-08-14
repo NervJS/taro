@@ -62,6 +62,11 @@ function isWhitespaceChar (char: string) {
   return whitespace.test(char)
 }
 
+const equalSign = /=/
+function isEqualSignChar (char: string) {
+  return equalSign.test(char)
+}
+
 function shouldBeIgnore (tagName: string) {
   const name = tagName.toLowerCase()
   if (options.html.skipElements.has(name)) {
@@ -83,6 +88,30 @@ function findTextEnd (str: string, index: number) {
       return textEnd
     }
     index = textEnd + 1
+  }
+}
+
+function isWordEnd (cursor: number, wordBegin: number, html: string) {
+  if (!isWhitespaceChar(html.charAt(cursor))) return false
+
+  const len = html.length
+
+  // backwrad
+  for (let i = cursor - 1; i > wordBegin; i--) {
+    const char = html.charAt(i)
+    if (!isWhitespaceChar(char)) {
+      if (isEqualSignChar(char)) return false
+      break
+    }
+  }
+
+  // forward
+  for (let i = cursor + 1; i < len; i++) {
+    const char = html.charAt(i)
+    if (!isWhitespaceChar(char)) {
+      if (isEqualSignChar(char)) return false
+      return true
+    }
   }
 }
 
@@ -248,8 +277,7 @@ export class Scaner {
         break
       }
 
-      const isWordEnd = isWhitespaceChar(char)
-      if (isWordEnd) {
+      if (isWordEnd(cursor, wordBegin, html)) {
         if (cursor !== wordBegin) {
           words.push(html.slice(wordBegin, cursor))
         }
