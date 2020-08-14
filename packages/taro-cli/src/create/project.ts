@@ -69,7 +69,7 @@ export default class Project extends Creator {
 
   init () {
     console.log(chalk.green('Taro 即将创建一个新项目!'))
-    console.log(`Need help? Go and open issue: ${chalk.blueBright('https://nervjs.github.io/taro-issue-helper')}`)
+    console.log(`Need help? Go and open issue: ${chalk.blueBright('https://tls.jd.com/taro-issue-helper')}`)
     console.log()
   }
 
