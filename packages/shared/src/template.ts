@@ -132,6 +132,10 @@ export class BaseTemplate {
           Object.assign(newComp, styles, this.getEvents())
         }
 
+        if (compName === 'swiper-item') {
+          delete newComp.style
+        }
+
         if (compName === 'slot' || compName === 'slot-view') {
           result[compName] = {
             slot: 'i.name'

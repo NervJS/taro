@@ -57,12 +57,12 @@ const Map = {
   longitude: '',
   latitude: '',
   scale: '16',
-  markers: '',
+  markers: '[]',
   covers: '',
-  polyline: '',
-  circles: '',
+  polyline: '[]',
+  circles: '[]',
   controls: '',
-  'include-point': 'false',
+  'include-points': '[]',
   'show-location': '',
   polygons: '',
   subkey: '',
@@ -381,6 +381,11 @@ const ScrollView = {
   bindScrolltoUpper: '',
   bindScrolltoLower: '',
   bindScroll: '',
+  animation: '',
+  bindTransitionEnd: '',
+  bindAnimationStart: '',
+  bindAnimationIteration: '',
+  bindAnimationEnd: '',
   ...touchEvents
 }
 
@@ -485,9 +490,13 @@ const LivePlayer = {
   'sound-mode': singleQuote('speaker'),
   'auto-pause-if-navigate': 'true',
   'auto-pause-if-open-native': 'true',
+  'picture-in-picture-mode': '[]',
   bindStateChange: '',
   bindFullScreenChange: '',
-  bindNetStatus: ''
+  bindNetStatus: '',
+  bindAudioVolumeNotify: '',
+  bindEnterPictureInPicture: '',
+  bindLeavePictureInPicture: ''
 }
 
 const LivePusher = {
@@ -555,6 +564,16 @@ const Video = {
   'vslide-gesture': 'false',
   'vslide-gesture-in-fullscreen': 'true',
   'ad-unit-id': '',
+  'poster-for-crawler': '',
+  'show-casting-button': 'false',
+  'picture-in-picture-mode': '[]',
+  // picture-in-picture-show-progress 属性先注释掉的原因如下：
+  // 该属性超过了 wxml 属性的长度限制，实际无法使用且导致编译报错。可等微信官方修复后再放开。
+  // 参考1：https://developers.weixin.qq.com/community/develop/doc/000a429beb87f0eac07acc0fc5b400
+  // 参考2: https://developers.weixin.qq.com/community/develop/doc/0006883619c48054286a4308258c00?_at=vyxqpllafi
+  // 'picture-in-picture-show-progress': 'false',
+  'enable-auto-rotation': 'false',
+  'show-screen-lock-button': 'false',
   bindPlay: '',
   bindPause: '',
   bindEnded: '',
@@ -563,11 +582,15 @@ const Video = {
   bindWaiting: '',
   bindError: '',
   bindProgress: '',
-  bindLoadedMetadata: ''
+  bindLoadedMetadata: '',
+  bindControlsToggle: '',
+  bindEnterPictureInPicture: '',
+  bindLeavePictureInPicture: '',
+  bindSeekComplete: ''
 }
 
 const Canvas = {
-  type: '',
+  type: singleQuote('2d'),
   'canvas-id': '',
   'disable-scroll': 'false',
   bindTouchStart: '',
@@ -581,6 +604,8 @@ const Canvas = {
 const Ad = {
   'unit-id': '',
   'ad-intervals': '',
+  'ad-type': singleQuote('banner'),
+  'ad-theme': singleQuote('white'),
   bindLoad: '',
   bindError: '',
   bindClose: ''
