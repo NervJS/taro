@@ -36,13 +36,17 @@ export default class PickerGroup extends Nerv.Component {
   render () {
     const onTouchStart = e => {
       // 记录第一次的点击位置
-      this.startY = e.changedTouches[0].clientY
-      this.preY = e.changedTouches[0].clientY
+      this.isMoving = true
+      const has = /touch/.test(e.type)
+      this.startY = has ? e.changedTouches[0].clientY : e.clientY
+      this.preY = has ? e.changedTouches[0].clientY : e.clientY
       this.hadMove = false
     }
 
     const onTouchMove = e => {
-      const y = e.changedTouches[0].clientY
+      if (!this.isMoving) return
+      const has = /touch/.test(e.type)
+      const y = has ? e.changedTouches[0].clientY : e.clientY
       const deltaY = y - this.preY
       this.preY = y
       this.touchEnd = false
@@ -76,6 +80,8 @@ export default class PickerGroup extends Nerv.Component {
     }
 
     const onTouchEnd = e => {
+      if (!this.isMoving) return
+      this.isMoving = false
       const {
         mode,
         range,
@@ -86,7 +92,8 @@ export default class PickerGroup extends Nerv.Component {
       } = this.props
       const max = 0
       const min = -LINE_HEIGHT * (range.length - 1)
-      const endY = e.changedTouches[0].clientY
+      const has = /touch/.test(e.type)
+      const endY = has ? e.changedTouches[0].clientY : e.clientY
 
       this.touchEnd = true
 
@@ -181,6 +188,10 @@ export default class PickerGroup extends Nerv.Component {
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
+        onMouseDown={onTouchStart}
+        onMouseMove={onTouchMove}
+        onMouseUp={onTouchEnd}
+        onMouseLeave={onTouchEnd}
       >
         <div className='weui-picker__mask' />
         <div className='weui-picker__indicator' />
