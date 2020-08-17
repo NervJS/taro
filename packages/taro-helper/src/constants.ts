@@ -97,7 +97,7 @@ export const REG_LESS = /\.less$/
 export const REG_STYLUS = /\.styl$/
 export const REG_STYLE = /\.(css|scss|sass|less|styl|wxss|acss|ttss|jxss|qss)(\?.*)?$/
 export const REG_CSS = /\.(css|wxss|acss|ttss)(\?.*)?$/
-export const REG_MEDIA = /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/
+export const REG_MEDIA = /\.(mp4|webm|ogg|mp3|m4a|wav|flac|aac)(\?.*)?$/
 export const REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
 export const REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
 export const REG_JSON = /\.json(\?.*)?$/
@@ -175,6 +175,7 @@ export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
 
 export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3'
+export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3'
 export const TARO_CONFIG_FLODER = '.taro3'
 export const TARO_BASE_CONFIG = 'index.json'
 
