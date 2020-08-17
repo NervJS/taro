@@ -43,7 +43,6 @@ function hidePage (page: PageInstance | null) {
 function showPage (page: PageInstance | null) {
   if (page != null) {
     page.onShow!()
-    stacks.push(page)
     const pageEl = document.getElementById(page.path!)
     if (pageEl) {
       pageEl.style.display = 'block'
@@ -140,7 +139,7 @@ export function createRouter (
 
     if (action === 'POP') {
       unloadPage(Current.page)
-      const prev = stacks.find(s => s.path === location.pathname)
+      const prev = stacks.find(s => s.path === location.pathname + stringify(qs()))
       if (prev) {
         showPage(prev)
       } else {
