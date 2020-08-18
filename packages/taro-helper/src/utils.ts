@@ -436,9 +436,11 @@ let babelConfig
 
 export function getBabelConfig (babel) {
   if (!babelConfig) {
+    const getName = (i: any) => Array.isArray(i) ? i[0] : i
     babelConfig = mergeWith({}, defaultBabelConfig, babel, (objValue, srcValue) => {
       if (Array.isArray(objValue)) {
-        return Array.from(new Set(srcValue.concat(objValue)))
+        const set = new Set(srcValue.map(i => getName(i)))
+        return srcValue.concat(objValue.filter(i => !set.has(getName(i))))
       }
     })
   }
