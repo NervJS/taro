@@ -4,7 +4,7 @@ import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
 import type { RootNode, TemplateChildNode, ElementNode, AttributeNode, DirectiveNode, SimpleExpressionNode } from '@vue/compiler-core'
 
-export function customVue3Chain (chain) {
+export function customVue3Chain(chain) {
   let vueLoaderPath: string
   try {
     vueLoaderPath = require.resolve('vue-loader', {
@@ -59,7 +59,7 @@ export function customVue3Chain (chain) {
 
             const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)
             if (usingComponent != null) {
-              node.props.forEach((prop:any) => {
+              node.props.forEach((prop: any) => {
                 if (prop.type === 6 /* ATTRIBUTE */) {
                   usingComponent.add((prop as AttributeNode).name)
                 } else if (prop.type === 7 /* DIRECTIVE */) {
