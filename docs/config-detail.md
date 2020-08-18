@@ -505,7 +505,7 @@ module.exports = {
     webpackChain (chain, webpack) {
       chain.merge({
         module: {
-          rules: {
+          rule: {
             myloader: {
               test: /\.md$/,
               use: [{
@@ -975,7 +975,7 @@ module.exports = {
     webpackChain (chain, webpack) {
       chain.merge({
         module: {
-          rules: {
+          rule: {
             myloader: {
               test: /\.md$/,
               use: [{
