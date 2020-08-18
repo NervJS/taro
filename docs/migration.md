@@ -272,7 +272,7 @@ Taro Next 在底层会维护一个精简的 DOM 系统，在框架中使用 `ref
 另外，如果你使用的是 React，就将无法使用字符串的形式来使用 `ref`。(Nerv 不受此影响)
 
 ```jsx
-class C extends Components {
+class C extends Component {
   input = React.createRef()
 
   componentDidMount () {
@@ -280,7 +280,7 @@ class C extends Components {
     node.focus() // ok, 在 Web 开发中常见做法
 
     // 以下写法也能更新视图，但不推荐这么做，更推荐使用数据来驱动视图更新
-    node.setProerty('class', 'input-css-class')
+    node.setAttribute('class', 'input-css-class')
     node.className = 'input-css-class'
     node.style.fontSize = '16px'
     node.value = 'excited!'
@@ -290,7 +290,7 @@ class C extends Components {
   }
 
   render () {
-    return <Input ref={this.input} />
+    return <Input ref={this.input} id='input' />
   }
 }
 ```
