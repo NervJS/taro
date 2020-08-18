@@ -44,6 +44,17 @@ export class Template extends RecursiveTemplate {
     }, '')
   }
 
+  modifyCompProps = (compName: string, target: Record<string, string>) => {
+    if (compName === 'canvas') {
+      return {
+        ...target,
+        width: '',
+        height: ''
+      }
+    }
+    return target
+  }
+
   modifyTemplateChild = (child: string, nodeName: string) => {
     if (nodeName === 'picker-view') {
       return `<picker-view-column>

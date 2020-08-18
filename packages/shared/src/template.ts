@@ -85,6 +85,7 @@ export class BaseTemplate {
   protected isSupportRecursive: boolean
   protected supportXS = false
   protected miniComponents: Components
+  protected modifyCompProps?: (compName: string, target: Record<string, string>) => Record<string, string>
   protected modifyTemplateChild?: (child: string, nodeName: string) => string
   protected modifyTemplateChildren?: (children: string, nodeName: string) => string
   protected modifyTemplateResult?: (res: string, nodeName: string, level: number, children: string) => string
@@ -107,9 +108,14 @@ export class BaseTemplate {
 
     for (const key in components) {
       if (hasOwn(components, key)) {
-        const component = components[key]
+        let component = components[key]
         const compName = toDashed(key)
         const newComp: Record<string, string> = Object.create(null)
+
+        if (isFunction(this.modifyCompProps)) {
+          component = this.modifyCompProps(compName, component)
+        }
+
         for (let prop in component) {
           if (hasOwn(component, prop)) {
             let propValue = component[prop]
