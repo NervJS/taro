@@ -315,6 +315,16 @@ declare namespace Taro {
      * @since 2.8.0
      */
     style?: 'v2'
+    /** 
+     * 配置 darkmode 为 true，即表示当前小程序已适配 DarkMode
+     * @since 2.11.0
+     */
+    darkmode?: boolean
+    /**
+     * 指定 darkmode 变量配置文件 theme.json 路径
+     * @since 2.11.0
+     */
+    themeLocation?: string
   }
 
   interface Config extends PageConfig, AppConfig {
