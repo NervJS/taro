@@ -4,7 +4,7 @@ import { toCamelCase, internalComponents, capitalize } from '@tarojs/shared'
 import { componentConfig } from '../template/component'
 import type { RootNode, TemplateChildNode, ElementNode, AttributeNode, DirectiveNode, SimpleExpressionNode } from '@vue/compiler-core'
 
-export function customVue3Chain(chain) {
+export function customVue3Chain (chain) {
   let vueLoaderPath: string
   try {
     vueLoaderPath = require.resolve('vue-loader', {
