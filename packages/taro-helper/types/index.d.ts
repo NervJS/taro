@@ -132,6 +132,7 @@ declare interface helper {
   DEVICE_RATIO_NAME: "deviceRatio";
   isWindows: boolean;
   DEFAULT_TEMPLATE_SRC: "github:NervJS/taro-project-templates#v3";
+  DEFAULT_TEMPLATE_SRC_GITEE: "direct:https://gitee.com/o2team/taro-project-templates.git#v3";
   TARO_CONFIG_FLODER: ".taro3";
   TARO_BASE_CONFIG: "index.json";
   OUTPUT_DIR: "dist";
