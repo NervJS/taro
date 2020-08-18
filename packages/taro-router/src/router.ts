@@ -94,7 +94,7 @@ function bindPageScroll (page) {
   window.removeEventListener('scroll', pageScrollFn)
   pageScrollFn = function () {
     if (document.documentElement.scrollHeight === window.pageYOffset + window.innerHeight) {
-      page.onReachBottom.call(page)
+      page.onReachBottom()
     }
   }
   window.addEventListener('scroll', pageScrollFn, false)
