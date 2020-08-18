@@ -9,16 +9,14 @@ Taro 中内置了 [CSS Modules](https://github.com/css-modules/css-modules) 的�
 小程序端开启
 
 ```js
-weapp: {
-  module: {
-    postcss: {
-      // css modules 功能开关与相关配置
-      cssModules: {
-        enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
-        config: {
-          namingPattern: 'module', // 转换模式，取值为 global/module，下文详细说明
-          generateScopedName: '[name]__[local]___[hash:base64:5]'
-        }
+mini: {
+  postcss: {
+    // css modules 功能开关与相关配置
+    cssModules: {
+      enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
+      config: {
+        namingPattern: 'module', // 转换模式，取值为 global/module，下文详细说明
+        generateScopedName: '[name]__[local]___[hash:base64:5]'
       }
     }
   }
@@ -29,15 +27,13 @@ H5 端开启
 
 ```js
 h5: {
-  module: {
-    postcss: {
-      // css modules 功能开关与相关配置
-      cssModules: {
-        enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
-        config: {
-          namingPattern: 'module', // 转换模式，取值为 global/module，下文详细说明
-          generateScopedName: '[name]__[local]___[hash:base64:5]'
-        }
+  postcss: {
+    // css modules 功能开关与相关配置
+    cssModules: {
+      enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
+      config: {
+        namingPattern: 'module', // 转换模式，取值为 global/module，下文详细说明
+        generateScopedName: '[name]__[local]___[hash:base64:5]'
       }
     }
   }
