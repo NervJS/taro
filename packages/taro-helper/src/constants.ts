@@ -77,7 +77,7 @@ export const processTypeMap: IProcessTypeMap = {
   }
 }
 
-export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl','.stylus', '.wxss', '.acss']
+export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus', '.wxss', '.acss']
 export const SCSS_EXT: string[] = ['.scss']
 export const JS_EXT: string[] = ['.js', '.jsx']
 export const TS_EXT: string[] = ['.ts', '.tsx']
