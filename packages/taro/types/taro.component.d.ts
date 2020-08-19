@@ -38,7 +38,7 @@ declare namespace Taro {
   }
 
   // ref: packages/taro-runtime/src/current.ts
-  interface RouterInfo<TParams extends Record<string, string> = Record<string, string>> {
+  interface RouterInfo<TParams extends Partial<Record<string, string>> = Partial<Record<string, string>>> {
     /**
      * 路由参数。
      */
