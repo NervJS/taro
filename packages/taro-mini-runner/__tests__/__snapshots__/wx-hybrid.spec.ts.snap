@@ -1059,7 +1059,7 @@ require(\\"./taro\\");
 }, [ [ 17, 0 ] ] ]);
 
 /** filePath: dist/pages/native/native.json **/
-{\\"navigationBarBackgroundColor\\":\\"#ffffff\\",\\"navigationBarTextStyle\\":\\"black\\",\\"navigationBarTitleText\\":\\"混写页面示例\\",\\"backgroundColor\\":\\"#eeeeee\\",\\"backgroundTextStyle\\":\\"light\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\",\\"tab\\":\\"../../components/tab/tab\\"}}
+{\\"navigationBarBackgroundColor\\":\\"#ffffff\\",\\"navigationBarTextStyle\\":\\"black\\",\\"navigationBarTitleText\\":\\"混写页面示例\\",\\"backgroundColor\\":\\"#eeeeee\\",\\"backgroundTextStyle\\":\\"light\\",\\"usingComponents\\":{\\"tab\\":\\"../../components/tab/tab\\"}}
 
 /** filePath: dist/pages/native/native.wxml **/
 <view class=\\"native\\" bindtap=\\"viewTap\\">
