@@ -62,7 +62,7 @@ export function customVue3Chain (chain) {
               node.props.forEach(prop => {
                 if (prop.type === 6 /* ATTRIBUTE */) {
                   usingComponent.add((prop as AttributeNode).name)
-                } else if (prop.type === 7 /* DIRECTIVE */) {
+                } else if ((prop as any).type === 7 /* DIRECTIVE */) {
                   prop = prop as DirectiveNode
                   if (prop.arg?.type === 4 /* SimpleExpression */) {
                     usingComponent.add((prop.arg as SimpleExpressionNode).content)
