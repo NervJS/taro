@@ -23,6 +23,7 @@ export default function createBabelRegister ({ only }) {
     ],
     extensions: ['.jsx', '.js', '.ts', '.tsx'],
     babelrc: false,
+    configFile: false,
     cache: false
   })
 }

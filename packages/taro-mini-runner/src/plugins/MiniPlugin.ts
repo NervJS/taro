@@ -99,6 +99,7 @@ export default class TaroMiniPlugin {
   prerenderPages: Set<string>
   dependencies = new Map<string, TaroSingleEntryDependency>()
   loadChunksPlugin: TaroLoadChunksPlugin
+  themeLocation: string
 
   constructor (options = {}) {
     this.options = Object.assign({
@@ -313,6 +314,7 @@ export default class TaroMiniPlugin {
     this.appConfig = this.getAppConfig()
     this.getPages()
     this.getPagesConfig()
+    this.getDarkMode()
     this.getConfigFiles(compiler)
     this.addEntries()
   }
@@ -322,17 +324,18 @@ export default class TaroMiniPlugin {
    * @returns app config 配置内容
    */
   getAppConfig (): AppConfig {
-    const appConfigPath = this.getConfigFilePath(this.appEntry)
-    const appConfig: AppConfig = readConfig(appConfigPath)
-    const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
-    this.filesConfig[appConfigName] = {
-      content: appConfig,
-      path: appConfigPath
-    }
+    const appName = path.basename(this.appEntry).replace(path.extname(this.appEntry), '')
+    this.compileFile({
+      name: appName,
+      path: this.appEntry,
+      isNative: false
+    })
+    const fileConfig = this.filesConfig[this.getConfigFilePath(appName)]
+    const appConfig = fileConfig ? fileConfig.content || {} : {}
     if (isEmptyObject(appConfig)) {
       throw new Error('缺少 app 全局配置，请检查！')
     }
-    return appConfig
+    return appConfig as AppConfig
   }
 
   /**
@@ -485,7 +488,7 @@ export default class TaroMiniPlugin {
           path: usingComponents[compName]
         })
 
-        if (!componentConfig.thirdPartyComponents.has(compName)) {
+        if (!componentConfig.thirdPartyComponents.has(compName) && !file.isNative) {
           componentConfig.thirdPartyComponents.set(compName, new Set())
         }
       }
@@ -543,6 +546,17 @@ export default class TaroMiniPlugin {
           })
         }
       })
+    }
+  }
+
+  /**
+   * 收集 dark mode 配置中的文件
+   */
+  getDarkMode () {
+    const themeLocation = this.appConfig.themeLocation
+    const darkMode = this.appConfig.darkmode
+    if (darkMode && themeLocation && typeof themeLocation === 'string') {
+      this.themeLocation = themeLocation
     }
   }
 
@@ -633,9 +647,11 @@ export default class TaroMiniPlugin {
       if (config) {
         if (!isSupportRecursive) {
           const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(baseCompName, ''))))
-          config.content.usingComponents = {
-            [baseCompName]: importBaseCompPath,
-            ...config.content.usingComponents
+          if (!page.isNative) {
+            config.content.usingComponents = {
+              [baseCompName]: importBaseCompPath,
+              ...config.content.usingComponents
+            }
           }
         }
         this.generateConfigFile(compilation, page.path, config.content)
@@ -646,6 +662,9 @@ export default class TaroMiniPlugin {
     })
     this.generateTabBarFiles(compilation)
     this.injectCommonStyles(compilation)
+    if (this.themeLocation) {
+      this.generateDarkModeFile(compilation)
+    }
     if (typeof modifyBuildAssets === 'function') {
       await modifyBuildAssets(compilation.assets)
     }
@@ -729,6 +748,22 @@ export default class TaroMiniPlugin {
       return filePath.replace(extname, targetExtname)
     }
     return filePath + targetExtname
+  }
+
+  /**
+   * 输出 themeLocation 文件
+   * @param compilation
+   */
+  generateDarkModeFile (compilation: webpack.compilation.Compilation) {
+    const themeLocationPath = path.resolve(this.options.sourceDir, this.themeLocation)
+    if (fs.existsSync(themeLocationPath)) {
+      const themeLocationStat = fs.statSync(themeLocationPath)
+      const themeLocationSource = fs.readFileSync(themeLocationPath)
+      compilation.assets[this.themeLocation] = {
+        size: () => themeLocationStat.size,
+        source: () => themeLocationSource
+      }
+    }
   }
 
   /**
