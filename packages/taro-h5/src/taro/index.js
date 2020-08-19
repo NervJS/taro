@@ -83,5 +83,12 @@ export {
   pxTransform,
   canIUseWebp,
   interceptors,
-  history, navigateBack, navigateTo, createRouter, reLaunch, redirectTo, getCurrentPages
+  history,
+  navigateBack,
+  navigateTo,
+  createRouter,
+  reLaunch,
+  redirectTo,
+  getCurrentPages,
+  switchTab
 }
