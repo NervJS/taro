@@ -86,8 +86,8 @@ export class BaseTemplate {
   protected supportXS = false
   protected miniComponents: Components
   protected modifyCompProps?: (compName: string, target: Record<string, string>) => Record<string, string>
-  protected modifyTemplateChild?: (child: string, nodeName: string) => string
-  protected modifyTemplateChildren?: (children: string, nodeName: string) => string
+  protected modifyLoopBody?: (child: string, nodeName: string) => string
+  protected modifyLoopContainer?: (children: string, nodeName: string) => string
   protected modifyTemplateResult?: (res: string, nodeName: string, level: number, children: string) => string
 
   public Adapter = weixinAdapter
@@ -214,8 +214,8 @@ export class BaseTemplate {
 
     let child = `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${this.dataKeymap('i: item')}}}" />`
 
-    if (isFunction(this.modifyTemplateChild)) {
-      child = this.modifyTemplateChild(child, comp.nodeName)
+    if (isFunction(this.modifyLoopBody)) {
+      child = this.modifyLoopBody(child, comp.nodeName)
     }
 
     let children = voidElements.has(comp.nodeName)
@@ -226,8 +226,8 @@ export class BaseTemplate {
     </block>
   `
 
-    if (isFunction(this.modifyTemplateChildren)) {
-      children = this.modifyTemplateChildren(children, comp.nodeName)
+    if (isFunction(this.modifyLoopContainer)) {
+      children = this.modifyLoopContainer(children, comp.nodeName)
     }
 
     const nodeName = comp.nodeName === 'slot' || comp.nodeName === 'slot-view' ? 'view' : comp.nodeName

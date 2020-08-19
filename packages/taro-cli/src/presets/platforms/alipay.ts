@@ -1,5 +1,5 @@
 import { IPluginContext } from '@tarojs/service'
-import { RecursiveTemplate, alipayEvents, capitalize, toCamelCase } from '@tarojs/shared'
+import { RecursiveTemplate, capitalize, toCamelCase } from '@tarojs/shared'
 import { recursiveReplaceObjectKeys, printDevelopmentTip } from '../../util'
 
 export class Template extends RecursiveTemplate {
@@ -27,7 +27,13 @@ export class Template extends RecursiveTemplate {
   }
 
   getEvents () {
-    return alipayEvents
+    return {
+      onTap: 'eh',
+      onTouchMove: 'eh',
+      onTouchEnd: 'eh',
+      onTouchCancel: 'eh',
+      onLongTap: 'eh'
+    }
   }
 
   buildThirdPartyAttr (attrs: Set<string>) {
@@ -55,7 +61,7 @@ export class Template extends RecursiveTemplate {
     return target
   }
 
-  modifyTemplateChild = (child: string, nodeName: string) => {
+  modifyLoopBody = (child: string, nodeName: string) => {
     if (nodeName === 'picker-view') {
       return `<picker-view-column>
         <view a:for="{{item.cn}}" a:key="id">
@@ -73,7 +79,7 @@ export class Template extends RecursiveTemplate {
     return child
   }
 
-  modifyTemplateChildren = (children: string, nodeName: string) => {
+  modifyLoopContainer = (children: string, nodeName: string) => {
     if (nodeName === 'picker') {
       return `
   <view>${children}</view>

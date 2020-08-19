@@ -17,14 +17,6 @@ const touchEvents = {
   bindLongTap: ''
 }
 
-export const alipayEvents = {
-  onTap: 'eh',
-  onTouchMove: 'eh',
-  onTouchEnd: 'eh',
-  onTouchCancel: 'eh',
-  onLongTap: 'eh'
-}
-
 export const specialEvents = new Set([
   'htouchmove',
   'vtouchmove'
