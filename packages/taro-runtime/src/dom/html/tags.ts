@@ -1,3 +1,5 @@
+import { internalComponents } from '@tarojs/shared'
+
 export function makeMap (
   str: string,
   expectsLowerCase?: boolean
@@ -15,8 +17,12 @@ export const specialMiniElements = {
   iframe: 'web-view'
 }
 
+const internalCompsList = Object.keys(internalComponents)
+  .map(i => i.toLowerCase())
+  .join(',')
+
 // https://developers.weixin.qq.com/miniprogram/dev/component
-export const isMiniElements = makeMap('input,canvas,progress,video,audio,form', true)
+export const isMiniElements = makeMap(internalCompsList, true)
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
 export const isInlineElements = makeMap('a,i,abbr,iframe,select,acronym,slot,small,bdi,kbd,strong,big,map,sub,sup,br,mark,mark,meter,template,canvas,textarea,cite,object,time,code,output,u,data,picture,tt,datalist,var,dfn,del,q,em,s,embed,samp', true)
