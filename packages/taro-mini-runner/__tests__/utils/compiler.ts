@@ -2,6 +2,7 @@ import * as path from 'path'
 import * as merge from 'webpack-merge'
 import { resolveMainFilePath } from '@tarojs/helper'
 import { IFs } from 'memfs'
+import { Template } from '@tarojs/cli/src/presets/platforms/weapp'
 
 import baseConfig from './config'
 import { IBuildConfig } from '../../src/utils/types'
@@ -99,7 +100,8 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
           beautify: true
         }
       }
-    }
+    },
+    template: new Template()
   }, customConfig)
 
   const stats = await build(appPath, config)
