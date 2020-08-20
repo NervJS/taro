@@ -7,6 +7,7 @@ import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
+import { setRoutesAlias, addLeadingSlash } from './utils'
 
 export interface Route extends PageConfig {
   path: string
@@ -21,13 +22,6 @@ export interface RouterConfig extends AppConfig {
     customRoutes?: Record<string, string>,
     pathname: string
   }
-}
-
-function addLeadingSlash (path?: string) {
-  if (path == null) {
-    return ''
-  }
-  return path.charAt(0) === '/' ? path : '/' + path
 }
 
 function hidePage (page: PageInstance | null) {
@@ -61,7 +55,7 @@ function unloadPage (page: PageInstance | null) {
   }
 }
 
-function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = false) {
+function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = true) {
   if (pageEl && !pageEl?.['__isReady']) {
     const el = pageEl.firstElementChild
     // eslint-disable-next-line no-unused-expressions
@@ -89,8 +83,21 @@ function loadPage (page: PageInstance | null) {
       pageOnReady(pageEl, page)
     }
     page.onShow!()
+    bindPageScroll(page)
     stacks.push(page)
   }
+}
+
+let pageScrollFn
+
+function bindPageScroll (page) {
+  window.removeEventListener('scroll', pageScrollFn)
+  pageScrollFn = function () {
+    if (document.documentElement.scrollHeight === window.pageYOffset + window.innerHeight) {
+      page.onReachBottom()
+    }
+  }
+  window.addEventListener('scroll', pageScrollFn, false)
 }
 
 export function createRouter (
@@ -103,6 +110,7 @@ export function createRouter (
   const routes: Routes = []
   const alias = config.router.customRoutes ?? {}
 
+  setRoutesAlias(alias)
   for (let i = 0; i < config.routes.length; i++) {
     const route = config.routes[i]
     const path = addLeadingSlash(route.path)

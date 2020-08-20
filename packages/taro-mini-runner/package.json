@@ -34,9 +34,9 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
-    "@babel/core": "7.6.4",
-    "@babel/plugin-proposal-class-properties": "7.5.5",
-    "@babel/preset-env": "7.6.3",
+    "@babel/core": "7.11.1",
+    "@babel/plugin-proposal-class-properties": "7.10.4",
+    "@babel/preset-env": "7.11.0",
     "@tarojs/helper": "3.0.7",
     "@tarojs/runner-utils": "3.0.7",
     "@tarojs/runtime": "3.0.7",
@@ -83,6 +83,7 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
+    "@tarojs/cli": "3.0.7",
     "@tarojs/components": "3.0.7",
     "@tarojs/react": "3.0.7",
     "babel-preset-taro": "3.0.7"

@@ -1,6 +1,34 @@
 import { IPluginContext } from '@tarojs/service'
-
+import { UnRecursiveTemplate } from '@tarojs/shared'
 import { printDevelopmentTip } from '../../util'
+
+export class Template extends UnRecursiveTemplate {
+  supportXS = true
+  Adapter = {
+    if: 'qq:if',
+    else: 'qq:else',
+    elseif: 'qq:elif',
+    for: 'qq:for',
+    forItem: 'qq:for-item',
+    forIndex: 'qq:for-index',
+    key: 'qq:key',
+    xs: 'wxs',
+    type: 'qq'
+  }
+
+  buildXsTemplate () {
+    return '<wxs module="xs" src="./utils.wxs" />'
+  }
+
+  replacePropName (name: string, value: string, componentName: string) {
+    if (value === 'eh') {
+      const nameLowerCase = name.toLowerCase()
+      if (nameLowerCase === 'bindlongtap' && componentName !== 'canvas') return 'bindlongpress'
+      return nameLowerCase
+    }
+    return name
+  }
+}
 
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
@@ -34,19 +62,7 @@ export default (ctx: IPluginContext) => {
           xs: '.wxs'
         },
         isUseComponentBuildPage: true,
-        templateAdapter: {
-          if: 'qq:if',
-          else: 'qq:else',
-          elseif: 'qq:elif',
-          for: 'qq:for',
-          forItem: 'qq:for-item',
-          forIndex: 'qq:for-index',
-          key: 'qq:key',
-          xs: 'wxs',
-          type: 'qq'
-        },
-        isSupportRecursive: false,
-        isSupportXS: true
+        template: new Template()
       }
 
       // build with webpack
