@@ -55,7 +55,7 @@ function unloadPage (page: PageInstance | null) {
   }
 }
 
-function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = false) {
+function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = true) {
   if (pageEl && !pageEl?.['__isReady']) {
     const el = pageEl.firstElementChild
     // eslint-disable-next-line no-unused-expressions
