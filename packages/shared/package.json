@@ -16,7 +16,8 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
