@@ -75,7 +75,7 @@
     "@types/autoprefixer": "9.7.0",
     "@types/detect-port": "1.1.0",
     "@types/lodash": "4.14.149",
-    "@types/node": "13.7.2",
+    "@types/node": "14.6.0",
     "@types/resolve": "1.14.0",
     "@types/webpack": "4.41.6",
     "@types/webpack-dev-server": "3.10.0",
