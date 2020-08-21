@@ -2,7 +2,7 @@ import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitte
 import classNames from 'classnames'
 const Taro = require('@tarojs/taro')
 
-function setTransform(nodeStyle, value) {
+function setTransform (nodeStyle, value) {
   nodeStyle.transform = value
   nodeStyle.webkitTransform = value
   nodeStyle.MozTransform = value
@@ -21,7 +21,7 @@ const INDICATOR = {
 let supportsPassive = false
 try {
   const opts = Object.defineProperty({}, 'passive', {
-    get() {
+    get () {
       supportsPassive = true
     }
   })
@@ -59,7 +59,7 @@ export class PullToRefresh implements ComponentInterface {
   private scrollContainer = document.querySelector('.taro-tabbar__panel') || document.body
 
   @Watch('currSt')
-  statusChange() {
+  statusChange () {
     if (this.currSt === 'release') {
       const pageEl: any = this.el.closest('.taro_page')
       if (pageEl && pageEl.__page) {
@@ -68,11 +68,11 @@ export class PullToRefresh implements ComponentInterface {
     }
   }
 
-  componentDidUnload() {
+  componentDidUnload () {
     this.destroy()
   }
 
-  componentDidLoad() {
+  componentDidLoad () {
     this.init()
     this._isMounted = true
     Taro.eventCenter.on('__taroStartPullDownRefresh', ({ successHandler, errorHandler }) => {
@@ -242,13 +242,13 @@ export class PullToRefresh implements ComponentInterface {
       // translate3d 不清理 会影响内部元素 定位
       if (ty) {
         setTransform(this.contentRef.style, `translate3d(0px,${ty}px,0)`)
-      }else{
-        setTransform(this.contentRef.style, ``)
+      } else {
+        setTransform(this.contentRef.style, '')
       }
     }
   }
 
-  render() {
+  render () {
     const renderRefresh = (cls: string) => {
       const { currSt, dragOnEdge, prefixCls } = this
       const cla = classNames(cls, !dragOnEdge && `${prefixCls}-transition`)
