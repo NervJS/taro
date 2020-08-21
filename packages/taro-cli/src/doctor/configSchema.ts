@@ -43,6 +43,7 @@ const schema = Joi.object().keys({
   framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3'),
 
   mini: Joi.object().keys({
+    baseLevel: Joi.number().integer().positive(),
     compile: Joi.object().keys({
       exclude: Joi.array().items(Joi.string(), Joi.function()),
       include: Joi.array().items(Joi.string(), Joi.function())

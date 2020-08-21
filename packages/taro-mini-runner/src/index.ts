@@ -60,7 +60,7 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
       }
 
       if (!isEmpty(newConfig.prerender)) {
-        prerender = prerender ?? new Prerender(newConfig, webpackConfig, stats)
+        prerender = prerender ?? new Prerender(newConfig, webpackConfig, stats, config.template.Adapter)
         await prerender.render()
       }
       onFinish(null, stats)

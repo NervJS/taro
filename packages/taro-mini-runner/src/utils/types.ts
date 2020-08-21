@@ -1,7 +1,8 @@
 import * as webpack from 'webpack'
 import { IProjectBaseConfig, IMiniAppConfig } from '@tarojs/taro/types/compile'
 import { PrerenderConfig } from '../prerender/prerender'
-import { IAdapter } from 'src/template/adapters'
+
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
@@ -47,7 +48,6 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   isBuildQuickapp: boolean,
   isSupportRecursive: boolean,
   fileType: IFileType,
-  templateAdapter: IAdapter,
   isSupportXS: boolean,
   globalObject: string,
   isUseComponentBuildPage: boolean,
@@ -59,6 +59,7 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   framework: string,
   baseLevel: number,
   prerender?: PrerenderConfig
+  template: RecursiveTemplate | UnRecursiveTemplate
 }
 
 export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)

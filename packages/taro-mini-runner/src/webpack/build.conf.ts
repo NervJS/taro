@@ -19,7 +19,6 @@ import {
 } from './chain'
 import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
-import { weixinAdapter } from '../template/adapters'
 import { customVueChain } from './vue'
 import { customVue3Chain } from './vue3'
 
@@ -36,8 +35,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       script: '.js',
       templ: '.wxml'
     },
-    templateAdapter = weixinAdapter,
-    isSupportXS = true,
     globalObject = 'wx',
     outputRoot = 'dist',
     sourceRoot = 'src',
@@ -66,7 +63,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     postcss = {},
     nodeModulesPath,
     isBuildQuickapp = false,
-    isSupportRecursive = false,
+    template,
     quickappJSON,
 
     csso,
@@ -137,14 +134,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   plugin.miniPlugin = getMiniPlugin({
     sourceDir,
     outputDir,
-    buildAdapter,
     constantsReplaceList,
     nodeModulesPath,
     isBuildQuickapp,
-    isSupportRecursive,
+    template,
     fileType,
-    templateAdapter,
-    isSupportXS,
     quickappJSON,
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
