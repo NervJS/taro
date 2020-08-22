@@ -310,8 +310,8 @@ export class BaseTemplate {
     return template
   }
 
-  public buildBaseComponentTemplate = () => {
-    return `<import src="./base.wxml" />
+  public buildBaseComponentTemplate = (ext: string) => {
+    return `<import src="./base${ext}" />
   <template is="tmpl_0_container" data="{{${this.dataKeymap('i: i')}}}" />`
   }
 

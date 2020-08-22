@@ -2753,7 +2753,7 @@ require(\\"./taro\\");
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
 
 /** filePath: dist/comp.qml **/
-<import src=\\"./base.wxml\\" />
+<import src=\\"./base.qml\\" />
   <template is=\\"tmpl_0_container\\" data=\\"{{i: i}}\\" />
 
 /** filePath: dist/pages/index/index.js **/
