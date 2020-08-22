@@ -628,7 +628,7 @@ export default class TaroMiniPlugin {
     this.generateTemplateFile(compilation, baseTemplateName, template.buildTemplate, componentConfig)
     if (!template.isSupportRecursive) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
-      this.generateTemplateFile(compilation, baseCompName, template.buildBaseComponentTemplate)
+      this.generateTemplateFile(compilation, baseCompName, template.buildBaseComponentTemplate, this.options.fileType.templ)
     }
     this.generateXSFile(compilation)
     this.components.forEach(component => {
