@@ -10,41 +10,6 @@ export function initTabBarApis (_App = {}) {
 }
 
 /**
- * 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
- * @param {Object} options
- * @param {string} options.url 需要跳转的 tabBar 页面的路径（需在 app.json 的 tabBar 字段定义的页面），路径后不能带参数。
- * @param {function} [options.success] 接口调用成功的回调函数
- * @param {function} [options.fail] 接口调用失败的回调函数
- * @param {function} [options.complete] 接口调用结束的回调函数（调用成功、失败都会执行）
- */
-export function switchTab (options = {}) {
-  // options must be an Object
-  const isObject = shouleBeObject(options)
-  if (!isObject.res) {
-    const res = { errMsg: `showTabBarRedDot${isObject.msg}` }
-    console.error(res.errMsg)
-    return Promise.reject(res)
-  }
-
-  const { url, success, fail, complete } = options
-  return new Promise((resolve, reject) => {
-    Taro.eventCenter.trigger('__taroSwitchTab', {
-      url,
-      successHandler: res => {
-        success && success(res)
-        complete && complete(res)
-        resolve(res)
-      },
-      errorHandler: res => {
-        fail && fail(res)
-        complete && complete(res)
-        reject(res)
-      }
-    })
-  })
-}
-
-/**
  * 为 tabBar 某一项的右上角添加文本
  * @param {Object} options
  * @param {number} options.index tabBar 的哪一项，从左边算起

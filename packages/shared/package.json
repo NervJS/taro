@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/shared",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
@@ -16,7 +16,8 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
