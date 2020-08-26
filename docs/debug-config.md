@@ -22,7 +22,7 @@ title: 单步调测配置
 
 #### 4. 全局安装 Node-sass 、Lerna 和 Rollup
 ```shell
-npm i -g node-sass --sass_binary site=https://npm.taobao.org/mirrors/node_sass/
+npm i -g node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node_sass/
 yarn global add lerna
 yarn global add rollup
 ```
@@ -133,7 +133,7 @@ launch.json 有以下预设配置：
 
 #### 3.链接未发布的库
 
-如果当前开发的子包依赖于其它子包，可以把其它子包 link 过来使用。[开发环境搭建](./debug-config#开发环境搭建) 里介绍的 `yarn run boostrap` 命令已经为所有子包创建好软连接。
+如果当前开发的子包依赖于其它子包，可以把其它子包 link 过来使用。[开发环境搭建](./debug-config#开发环境搭建) 里介绍的 `yarn run bootstrap` 命令已经为所有子包创建好软连接。
 
 如果需要为当前子包增加其它子包作为依赖，可以在 Taro 源码根目录执行 `lerna add [package] --scope=[target] [--dev]`，之后 lerna 会自动创建好软链。
 
