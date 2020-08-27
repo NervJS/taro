@@ -65,7 +65,23 @@ const voidElements = new Set([
   'audio',
   'live-player',
   'live-pusher',
-  'video'
+  'video',
+  'ad',
+  'official-account',
+  'open-data',
+  'navigation-bar'
+])
+
+const nestElements = new Map([
+  ['view', -1],
+  ['cover-view', -1],
+  ['block', -1],
+  ['text', -1],
+  ['slot', 8],
+  ['slot-view', 8],
+  ['label', 6],
+  ['form', 4],
+  ['scroll-view', 4]
 ])
 
 const weixinAdapter: IAdapter = {
@@ -124,7 +140,9 @@ export class BaseTemplate {
             } else if (propValue === '') {
               propValue = `i.${toCamelCase(prop)}`
             } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-              propValue = `i.${toCamelCase(prop)}===undefined?${propValue}:i.${toCamelCase(prop)}`
+              propValue = this.supportXS
+                ? `xs.b(i.${toCamelCase(prop)},${propValue})`
+                : `i.${toCamelCase(prop)}===undefined?${propValue}:i.${toCamelCase(prop)}`
             } else {
               propValue = `i.${toCamelCase(prop)}||${propValue || singleQuote('')}`
             }
@@ -158,10 +176,14 @@ export class BaseTemplate {
   protected buildBaseTemplate () {
     const Adapter = this.Adapter
 
+    const data = !this.isSupportRecursive && this.supportXS
+      ? `${this.dataKeymap('i:item,l:\'\'')}`
+      : this.dataKeymap('i:item')
+
     return `${this.buildXsTemplate()}
 <template name="taro_tmpl">
   <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="id">
-    <template is="tmpl_0_${Shortcuts.Container}" data="{{${this.dataKeymap('i: item')}}}" />
+    <template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />
   </block>
 </template>
 `
@@ -195,7 +217,7 @@ export class BaseTemplate {
     delete attrs.focus
     return `
 <template name="tmpl_${level}_${comp.nodeName}">
-  <template is="{{${templateName}}}" data="{{${this.dataKeymap('i: i')}}}" />
+  <template is="{{${templateName}}}" data="{{${this.dataKeymap('i:i')}}}" />
 </template>
 
 <template name="tmpl_${level}_${comp.nodeName}_focus">
@@ -212,7 +234,13 @@ export class BaseTemplate {
     const { isSupportRecursive, Adapter } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
 
-    let child = `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${this.dataKeymap('i: item')}}}" />`
+    const data = !this.isSupportRecursive
+      ? `${this.dataKeymap('i:item,l:l')}`
+      : this.dataKeymap('i:item')
+
+    let child = this.supportXS
+      ? `<template is="{{xs.e(${isSupportRecursive ? 0 : 'cid+1'})}}" data="{{${data}}}" />`
+      : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${this.dataKeymap('i:item')}}}" />`
 
     if (isFunction(this.modifyLoopBody)) {
       child = this.modifyLoopBody(child, comp.nodeName)
@@ -247,7 +275,7 @@ export class BaseTemplate {
 
   protected buildPlainTextTemplate (level: number): string {
     return `
-<template name="tmpl_${level}_#text" data="{{${this.dataKeymap('i: i')}}}">
+<template name="tmpl_${level}_#text" data="{{${this.dataKeymap('i:i')}}}">
   <block>{{i.${Shortcuts.Text}}}</block>
 </template>
 `
@@ -258,12 +286,16 @@ export class BaseTemplate {
     const nextLevel = isSupportRecursive ? 0 : level + 1
     let template = ''
 
+    const data = !this.isSupportRecursive && this.supportXS
+      ? `${this.dataKeymap('i:item,l:l')}`
+      : this.dataKeymap('i:item')
+
     componentConfig.thirdPartyComponents.forEach((attrs, compName) => {
       template += `
 <template name="tmpl_${level}_${compName}">
   <${compName} ${this.buildThirdPartyAttr(attrs)} id="{{i.uid}}">
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
-      <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${this.dataKeymap('i: item')}}}" />
+      <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${data}}}" />
     </block>
   </${compName}>
 </template>
@@ -276,12 +308,26 @@ export class BaseTemplate {
   protected buildContainerTemplate (level: number, restart = false) {
     let tmpl = ''
     if (restart) {
-      tmpl = '<comp i="{{i}}" />'
+      if (!this.isSupportRecursive && this.supportXS) {
+        tmpl = '<comp i="{{i}}" l="{{l}}" />'
+      } else {
+        tmpl = '<comp i="{{i}}" />'
+      }
     } else {
-      tmpl = `<template is="{{'tmpl_${level}_' + i.${Shortcuts.NodeName}}}" data="{{${this.dataKeymap('i: i')}}}" />`
+      const xs = !this.isSupportRecursive
+        ? `xs.a(${level}, i.${Shortcuts.NodeName}, l)`
+        : `xs.a(${level}, i.${Shortcuts.NodeName})`
+
+      const data = !this.isSupportRecursive
+        ? `${this.dataKeymap(`i:i,cid:${level},l:xs.f(l,i.${Shortcuts.NodeName})`)}`
+        : `${this.dataKeymap('i:i')}`
+
+      tmpl = this.supportXS
+        ? `<template is="{{${xs}}}" data="{{${data}}}" />`
+        : `<template is="{{'tmpl_${level}_' + i.${Shortcuts.NodeName}}}" data="{{${this.dataKeymap('i:i')}}}" />`
     }
     return `
-<template name="tmpl_${level}_${Shortcuts.Container}" data="{{${this.dataKeymap('i: i')}}}">
+<template name="tmpl_${level}_${Shortcuts.Container}">
   ${tmpl}
 </template>
 `
@@ -305,26 +351,48 @@ export class BaseTemplate {
 
   public buildPageTemplate = (baseTempPath: string) => {
     const template = `<import src="${baseTempPath}"/>
-  <template is="taro_tmpl" data="{{${this.dataKeymap('root: root')}}}" />`
+  <template is="taro_tmpl" data="{{${this.dataKeymap('root:root')}}}" />`
 
     return template
   }
 
   public buildBaseComponentTemplate = (ext: string) => {
+    const data = !this.isSupportRecursive && this.supportXS
+      ? this.dataKeymap('i:i,l:l')
+      : this.dataKeymap('i:i')
+
     return `<import src="./base${ext}" />
-  <template is="tmpl_0_container" data="{{${this.dataKeymap('i: i')}}}" />`
+  <template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />`
   }
 
   public buildXScript = () => {
     return `${this.exportExpr} {
-    c: function(i, prefix) {
-      var s = i.focus !== undefined ? 'focus' : 'blur'
-      return prefix + i.${Shortcuts.NodeName} + '_' + s
-    },
-    d: function (i, v) {
-      return i === undefined ? v : i
-    }
+  a: ${this.buildXSTmplName()},
+  b: function (a, b) {
+    return a === undefined ? b : a
+  },
+  c: function(i, prefix) {
+    var s = i.focus !== undefined ? 'focus' : 'blur'
+    return prefix + i.${Shortcuts.NodeName} + '_' + s
+  },
+  d: function (i, v) {
+    return i === undefined ? v : i
+  },
+  e: function (n) {
+    return 'tmpl_' + n + '_${Shortcuts.Container}'
+  },
+  ${this.buildXSTmpExtra()}
+}`
+  }
+
+  protected buildXSTmplName () {
+    return `function (l, n) {
+    return 'tmpl_' + l + '_' + n
   }`
+  }
+
+  protected buildXSTmpExtra () {
+    return ''
   }
 }
 
@@ -356,6 +424,7 @@ export class RecursiveTemplate extends BaseTemplate {
 export class UnRecursiveTemplate extends BaseTemplate {
   isSupportRecursive = false
   private _baseLevel = 16
+  private componentConfig: ComponentConfig
 
   set baseLevel (lv) {
     this._baseLevel = lv
@@ -366,30 +435,104 @@ export class UnRecursiveTemplate extends BaseTemplate {
   }
 
   public buildTemplate = (componentConfig: ComponentConfig) => {
-    let template = this.buildBaseTemplate()
+    this.componentConfig = componentConfig
     if (!this.miniComponents) {
       this.miniComponents = this.createMiniComponents(internalComponents)
     }
     const components = Object.keys(this.miniComponents)
       .filter(c => componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true)
 
+    let template = this.buildBaseTemplate()
     for (let i = 0; i < this.baseLevel; i++) {
-      template += this.buildFloor(i, components, componentConfig, this.baseLevel === i + 1)
+      template += this.supportXS
+        ? this.buildOptimizeFloor(i, components, this.baseLevel === i + 1)
+        : this.buildFloor(i, components, this.baseLevel === i + 1)
     }
 
     return template
   }
 
-  protected buildFloor (level: number, components: string[], componentConfig: ComponentConfig, restart = false) {
+  protected buildFloor (level: number, components: string[], restart = false) {
+    if (restart) return this.buildContainerTemplate(level, restart)
+
     let template = components.reduce((current, nodeName) => {
       const attributes: Attributes = this.miniComponents[nodeName]
       return current + this.buildComponentTemplate({ nodeName, attributes }, level)
     }, '')
 
     template += this.buildPlainTextTemplate(level)
-    template += this.buildThirdPartyTemplate(level, componentConfig)
+    template += this.buildThirdPartyTemplate(level, this.componentConfig)
     template += this.buildContainerTemplate(level, restart)
 
     return template
+  }
+
+  protected buildOptimizeFloor (level: number, components: string[], restart = false) {
+    if (restart) return this.buildContainerTemplate(level, restart)
+
+    let template = components.reduce((current, nodeName) => {
+      if (level !== 0) {
+        if (!nestElements.has(nodeName)) {
+          // 不可嵌套自身的组件只需输出一层模板
+          return current
+        } else {
+          // 部分可嵌套自身的组件实际上不会嵌套过深，这里按阈值限制层数
+          const max = nestElements.get(nodeName)!
+          if (max > 0 && level >= max) {
+            return current
+          }
+        }
+      }
+      const attributes: Attributes = this.miniComponents[nodeName]
+      return current + this.buildComponentTemplate({ nodeName, attributes }, level)
+    }, '')
+
+    if (level === 0) template += this.buildPlainTextTemplate(level)
+    template += this.buildThirdPartyTemplate(level, this.componentConfig)
+    template += this.buildContainerTemplate(level)
+
+    return template
+  }
+
+  protected buildXSTmplName () {
+    const comps = [
+      ...Array.from(nestElements.keys()),
+      ...Array.from(this.componentConfig.thirdPartyComponents.keys())
+    ]
+    const hasMaxComps: string[] = []
+    nestElements.forEach((max, comp) => {
+      if (max > -1) hasMaxComps.push(comp)
+    })
+    return `function (l, n, s) {
+    var a = ${JSON.stringify(comps)}
+    var b = ${JSON.stringify(hasMaxComps)}
+    if (a.indexOf(n) === -1) {
+      l = 0
+    }
+    if (b.indexOf(n) > -1) {
+      var u = s.split(',')
+      var depth = 0
+      for (var i = 0; i < u.length; i++) {
+        if (u[i] === n) depth++
+      }
+      l = depth
+    }
+    return 'tmpl_' + l + '_' + n
+  }`
+  }
+
+  protected buildXSTmpExtra () {
+    const hasMaxComps: string[] = []
+    nestElements.forEach((max, comp) => {
+      if (max > -1) hasMaxComps.push(comp)
+    })
+    return `f: function (l, n) {
+    var b = ${JSON.stringify(hasMaxComps)}
+    if (b.indexOf(n) > -1) {
+      if (l) l += ','
+      l += n
+    }
+    return l
+  }`
   }
 }
