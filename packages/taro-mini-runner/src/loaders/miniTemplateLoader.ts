@@ -12,7 +12,7 @@ export default function miniTemplateLoader (source) {
    *
    * 推荐方案1，这样在构建时会正常打入需要的包，但是若用户有 SrC 类似的写法导致引用失败，则可直接修正，不会认为是打包出现了问题
    **/
-  source = `<root>${source}</root>`
+  const sourceWithRoot = `<root>${source}</root>`
   const parser = sax.parser(false, { lowercase: true })
   const requests: Set<string> = new Set()
   const callback = this.async()
@@ -47,5 +47,5 @@ export default function miniTemplateLoader (source) {
       callback(error, source)
     }
   }
-  parser.write(source).close()
+  parser.write(sourceWithRoot).close()
 }
