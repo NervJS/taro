@@ -17,9 +17,16 @@ interface NavigateBackOption extends Base {
 }
 
 function processNavigateUrl (option: Option) {
+  let url = option.url
+  const matches = option.url.match(/[?&?].*/)
+  let parameters = ''
+  if (matches && matches.length) {
+    parameters = matches[0]
+    url = url.replace(parameters, '')
+  }
   Object.keys(routesAlias).forEach(key => {
-    if (addLeadingSlash(key) === addLeadingSlash(option.url)) {
-      option.url = routesAlias[key]
+    if (addLeadingSlash(key) === addLeadingSlash(url)) {
+      option.url = routesAlias[key] + parameters
     }
   })
 }
