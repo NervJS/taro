@@ -215,6 +215,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
 
     onLaunch: {
       enumerable: true,
+      writable: true,
       value (options) {
         // eslint-disable-next-line react/no-render-return-value
         wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
@@ -231,6 +232,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
 
     onShow: {
       enumerable: true,
+      writable: true,
       value (options) {
         const app = ref.current
         Current.router = {
@@ -245,6 +247,7 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
 
     onHide: {
       enumerable: true,
+      writable: true,
       value (options: unknown) {
         const app = ref.current
         if (app != null && isFunction(app.componentDidHide)) {
