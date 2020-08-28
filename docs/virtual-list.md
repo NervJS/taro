@@ -137,7 +137,7 @@ export default class Index extends Component {
 
 ### props
 
-### `children: ReactComponent`
+#### `children: ReactComponent`
 
 将要渲染的列表单项组件。组件的 `props` 有 4 个属性：
 
@@ -408,7 +408,7 @@ export default {
 
 ### props
 
-### `item: VueComponent`
+#### `item: VueComponent`
 
 将要渲染的列表单项组件。组件的 `props` 有 4 个属性：
 
