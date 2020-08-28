@@ -182,7 +182,7 @@ export class BaseTemplate {
 
     return `${this.buildXsTemplate()}
 <template name="taro_tmpl">
-  <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="id">
+  <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="uid">
     <template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />
   </block>
 </template>
@@ -249,7 +249,7 @@ export class BaseTemplate {
     let children = voidElements.has(comp.nodeName)
       ? ''
       : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
+    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
       ${child}
     </block>
   `
@@ -294,7 +294,7 @@ export class BaseTemplate {
       template += `
 <template name="tmpl_${level}_${compName}">
   <${compName} ${this.buildThirdPartyAttr(attrs)} id="{{i.uid}}">
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="id">
+    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
       <template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${data}}}" />
     </block>
   </${compName}>
