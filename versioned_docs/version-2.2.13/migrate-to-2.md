@@ -15,21 +15,21 @@ Taro 2.0 整体上与 1.0 是完全兼容的，迁移并不困难，本指南将
 ```bash
 # 使用 Taro 自己
 
-$ taro update self 2.0.0
+$ taro update self 2.0.0(请修改为 Taro 2.x 最新版本)
 
 # 如果你使用 NPM
 
-$ npm update -g @tarojs/cli@2.0.0
+$ npm update -g @tarojs/cli@2.x
 
 # 如果你使用 Yarn
 
-$ yarn global upgrade @tarojs/cli@2.0.0
+$ yarn global upgrade @tarojs/cli@2.x
 ```
 
 之后在你的项目目录里运行以下命令来升级依赖：
 
 ```bash
-$ taro update project 2.0.0
+$ taro update project 2.0.0(请修改为 Taro 2.x 最新版本)
 ```
 
 ### 单独为某一个项目升级
@@ -40,11 +40,11 @@ $ taro update project 2.0.0
 ```bash
 # 如果你使用 NPM
 
-$ npm install --save-dev @tarojs/cli@2.0.0
+$ npm install --save-dev @tarojs/cli@2.x
 
 # 如果你使用 Yarn
 
-$ yarn add -D @tarojs/cli@2.0.0
+$ yarn add -D @tarojs/cli@2.x
 ```
 
 然后在你的项目目录里运行以下命令来升级依赖：
@@ -52,11 +52,11 @@ $ yarn add -D @tarojs/cli@2.0.0
 ```bash
 # 如果你使用 NPM
 
-$ node ./node_modules/.bin/taro update project 2.0.0
+$ node ./node_modules/.bin/taro update project 2.0.0(请修改为 Taro 2.x 最新版本)
 
 # 如果你使用 Yarn
 
-$ yarn taro update project 2.0.0
+$ yarn taro update project 2.0.0(请修改为 Taro 2.x 最新版本)
 ```
 
 ## 安装 `@tarojs/mini-runner` 依赖
@@ -66,11 +66,11 @@ Taro 2.0 新增了 `@tarojs/mini-runner` 作为小程序的编译依赖，所以
 ```bash
 # 如果你使用 NPM
 
-$ npm install --save-dev @tarojs/mini-runner@2.0.0
+$ npm install --save-dev @tarojs/mini-runner@2.x
 
 # 如果你使用 Yarn
 
-$ yarn add -D @tarojs/mini-runner@2.0.0
+$ yarn add -D @tarojs/mini-runner@2.x
 ```
 
 ## 编译配置调整
