@@ -494,3 +494,7 @@ export default {
 #### `useIsScrolling: boolean`
 
 是否注入 `isScrolling` 属性到 `item` 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。
+
+## 相关问题
+
+* 百度小程序暂时不支持使用虚拟列表组件，详见 [#7254](https://github.com/NervJS/taro/issues/7254)
