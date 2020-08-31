@@ -132,7 +132,7 @@ icon 的类型
     </tr>
     <tr>
       <td>clear</td>
-      <td>清楚图标</td>
+      <td>清除图标</td>
     </tr>
   </tbody>
 </table>
