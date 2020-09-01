@@ -401,7 +401,7 @@ export default function createListComponent ({
         ref: innerRef,
         style: {
           height: this._getStyleValue(isHorizontal ? '100%' : estimatedTotalSize),
-          pointerEvents: isScrolling ? 'none' : undefined,
+          pointerEvents: isScrolling ? 'none' : 'auto',
           width: this._getStyleValue(isHorizontal ? estimatedTotalSize : '100%')
         }
       }))
