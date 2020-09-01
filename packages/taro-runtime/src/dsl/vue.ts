@@ -164,6 +164,7 @@ export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
     },
 
     onLaunch: {
+      writable: true,
       enumerable: true,
       value (options) {
         wrapper.$mount(document.getElementById('app') as any)
@@ -179,6 +180,7 @@ export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
     },
 
     onShow: {
+      writable: true,
       enumerable: true,
       value (options) {
         Current.router = {
@@ -192,6 +194,7 @@ export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
     },
 
     onHide: {
+      writable: true,
       enumerable: true,
       value (options) {
         if (appInstance != null && isFunction(appInstance.$options.onHide)) {
