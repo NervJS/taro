@@ -96,6 +96,10 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
     customDevServerOption
   )
 
+  if (devServerOptions.host === 'localhost') {
+    devServerOptions.useLocalIp = false
+  }
+
   const originalPort = devServerOptions.port
   const availablePort = await detectPort(originalPort)
 
