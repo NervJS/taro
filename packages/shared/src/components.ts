@@ -582,7 +582,7 @@ const Video = {
 }
 
 const Canvas = {
-  type: singleQuote('2d'),
+  type: '',
   'canvas-id': '',
   'disable-scroll': 'false',
   bindTouchStart: '',
