@@ -9,7 +9,8 @@
     "types"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "tsc -w"
   },
   "repository": {
     "type": "git",
