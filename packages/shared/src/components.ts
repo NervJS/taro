@@ -366,6 +366,11 @@ const ScrollView = {
   'refresher-default-style': singleQuote('black'),
   'refresher-background': singleQuote('#FFF'),
   'refresher-triggered': 'false',
+  enhanced: 'false',
+  bounces: 'true',
+  'show-scrollbar': 'true',
+  'paging-enabled': 'false',
+  'fast-deceleration': 'false',
   bindRefresherPulling: '',
   bindRefresherRefresh: '',
   bindRefresherRestore: '',
@@ -378,6 +383,9 @@ const ScrollView = {
   bindAnimationStart: '',
   bindAnimationIteration: '',
   bindAnimationEnd: '',
+  bindDragStart: '',
+  bindDragging: '',
+  bindDragEnd: '',
   ...touchEvents
 }
 
