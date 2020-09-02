@@ -1,4 +1,5 @@
 import {CSSProperties} from 'react';
+import {MutableRefObject} from '@tarojs/taro';
 
 export type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: never } & { [x: string]: never })[keyof T]>;
 
@@ -18,7 +19,7 @@ export interface StandardProps extends EventProps {
   /** 动画属性 */
   animation?: { actions: object[] }
   /** 引用 */
-  ref?: string | ((node: any) => any)
+  ref?: string | ((node: any) => any) | MutableRefObject<any>
 }
 
 export interface FormItemProps {
