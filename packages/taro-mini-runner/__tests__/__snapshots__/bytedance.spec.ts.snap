@@ -79,29 +79,29 @@ require(\\"./taro\\");
 /** filePath: dist/base.ttml **/
 
 <template name=\\"taro_tmpl\\">
-  <block tt:for=\\"{{root.cn}}\\" tt:key=\\"id\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
+  <block tt:for=\\"{{root.cn}}\\" tt:key=\\"uid\\">
+    <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
   </block>
 </template>
 
 <template name=\\"tmpl_0_view\\">
   <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"id\\">
-      <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
 </template>
 
 <template name=\\"tmpl_0_text\\">
   <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"id\\">
-      <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </text>
 </template>
 
 <template name=\\"tmpl_0_input\\">
-  <template is=\\"{{i.focus ? 'tmpl_0_input_focus' : 'tmpl_0_input_blur'}}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{i.focus ? 'tmpl_0_input_focus' : 'tmpl_0_input_blur'}}\\" data=\\"{{i:i}}\\" />
 </template>
 
 <template name=\\"tmpl_0_input_focus\\">
@@ -113,7 +113,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_textarea\\">
-  <template is=\\"{{i.focus ? 'tmpl_0_textarea_focus' : 'tmpl_0_textarea_blur'}}\\" data=\\"{{i: i}}\\" />
+  <template is=\\"{{i.focus ? 'tmpl_0_textarea_focus' : 'tmpl_0_textarea_blur'}}\\" data=\\"{{i:i}}\\" />
 </template>
 
 <template name=\\"tmpl_0_textarea_focus\\">
@@ -126,26 +126,26 @@ require(\\"./taro\\");
 
 <template name=\\"tmpl_0_scroll-view\\">
   <scroll-view scroll-x=\\"{{i.scrollX===undefined?false:i.scrollX}}\\" scroll-y=\\"{{i.scrollY===undefined?false:i.scrollY}}\\" upper-threshold=\\"{{i.upperThreshold===undefined?50:i.upperThreshold}}\\" lower-threshold=\\"{{i.lowerThreshold===undefined?50:i.lowerThreshold}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{i.scrollWithAnimation===undefined?false:i.scrollWithAnimation}}\\" enable-back-to-top=\\"{{i.enableBackToTop===undefined?false:i.enableBackToTop}}\\" enable-flex=\\"{{i.enableFlex===undefined?false:i.enableFlex}}\\" scroll-anchoring=\\"{{i.scrollAnchoring===undefined?false:i.scrollAnchoring}}\\" refresher-enabled=\\"{{i.refresherEnabled===undefined?false:i.refresherEnabled}}\\" refresher-threshold=\\"{{i.refresherThreshold===undefined?45:i.refresherThreshold}}\\" refresher-default-style=\\"{{i.refresherDefaultStyle===undefined?'black':i.refresherDefaultStyle}}\\" refresher-background=\\"{{i.refresherBackground===undefined?'#FFF':i.refresherBackground}}\\" refresher-triggered=\\"{{i.refresherTriggered===undefined?false:i.refresherTriggered}}\\" bindrefresherpulling=\\"eh\\" bindrefresherrefresh=\\"eh\\" bindrefresherrestore=\\"eh\\" bindrefresherabort=\\"eh\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" animation=\\"{{i.animation}}\\" bindtransitionend=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"id\\">
-      <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
 </template>
 
 <template name=\\"tmpl_0_image\\">
   <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" webp=\\"{{i.webp===undefined?false:i.webp}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" show-menu-by-longpress=\\"{{i.showMenuByLongpress===undefined?false:i.showMenuByLongpress}}\\" binderror=\\"eh\\" bindload=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
-    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"id\\">
-      <template is=\\"tmpl_0_container\\" data=\\"{{i: item}}\\" />
+    <block tt:for=\\"{{i.cn}}\\" tt:key=\\"uid\\">
+      <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </image>
 </template>
 
-<template name=\\"tmpl_0_#text\\" data=\\"{{i: i}}\\">
+<template name=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\">
   <block>{{i.v}}</block>
 </template>
 
-<template name=\\"tmpl_0_container\\" data=\\"{{i: i}}\\">
-  <template is=\\"{{'tmpl_0_' + i.nn}}\\" data=\\"{{i: i}}\\" />
+<template name=\\"tmpl_0_container\\">
+  <template is=\\"{{'tmpl_0_' + i.nn}}\\" data=\\"{{i:i}}\\" />
 </template>
 
 
@@ -805,7 +805,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.ttml **/
 <import src=\\"../../base.ttml\\"/>
-  <template is=\\"taro_tmpl\\" data=\\"{{root: root}}\\" />
+  <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/pages/index/index.ttss **/
 
