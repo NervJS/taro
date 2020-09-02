@@ -509,7 +509,7 @@ export function parseJSCode ({ code, filePath, isEntryFile, projectConfig }) {
           },
           CallExpression (astPath) {
             const node = astPath.node
-            const callee = node.callee as t.Identifier
+            const callee = node.callee as any
             const calleeName = callee.name
             const parentPath = astPath.parentPath
 

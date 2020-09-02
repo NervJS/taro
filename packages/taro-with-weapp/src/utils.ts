@@ -47,10 +47,10 @@ export function safeGet (obj, propsArg, defaultValue?) {
   if (Array.isArray(propsArg)) {
     props = propsArg.slice(0)
   }
-  if (typeof propsArg == 'string') {
+  if (typeof propsArg === 'string') {
     props = propsArg.split('.')
   }
-  if (typeof propsArg == 'symbol') {
+  if (typeof propsArg === 'symbol') {
     props = [propsArg]
   }
   if (!Array.isArray(props)) {
@@ -70,10 +70,10 @@ export function safeGet (obj, propsArg, defaultValue?) {
 }
 
 export function safeSet (obj, props, value) {
-  if (typeof props == 'string') {
+  if (typeof props === 'string') {
     props = props.split('.')
   }
-  if (typeof props == 'symbol') {
+  if (typeof props === 'symbol') {
     props = [props]
   }
   const lastProp = props.pop()
@@ -82,11 +82,11 @@ export function safeSet (obj, props, value) {
   }
   let thisProp
   while ((thisProp = props.shift())) {
-    if (typeof obj[thisProp] == 'undefined') {
+    if (typeof obj[thisProp] === 'undefined') {
       obj[thisProp] = {}
     }
     obj = obj[thisProp]
-    if (!obj || typeof obj != 'object') {
+    if (!obj || typeof obj !== 'object') {
       return false
     }
   }
