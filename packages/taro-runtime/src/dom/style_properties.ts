@@ -385,6 +385,7 @@ export const styleProperties = [
   'placeItems',
   'placeSelf',
   'playDuring',
+  'pointerEvents',
   'position',
   'quotes',
   'regionFragment',
