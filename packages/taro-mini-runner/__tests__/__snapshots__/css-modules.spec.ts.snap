@@ -518,8 +518,8 @@ require(\\"./taro\\");
     },
     8: function(module, exports, __webpack_require__) {
         module.exports = {
-            cbody: \\"index.module__cbody___3Vfl2\\",
-            ctext: \\"index.module__ctext___Dq1RJ\\"
+            cbody: \\"index-module__cbody___3Vfl2\\",
+            ctext: \\"index-module__ctext___Dq1RJ\\"
         };
     }
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
@@ -532,7 +532,7 @@ require(\\"./taro\\");
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/pages/index/index.wxss **/
-.index\\\\.module__cbody___3Vfl2{height:300rpx;background-color:#e8e8ed}.index\\\\.module__ctext___Dq1RJ{display:inline-block;width:100%;color:#ff0}.index__cwrapper___oXrpd{font-size:36rpx}.chomepage{background:gray}
+.index-module__cbody___3Vfl2{height:300rpx;background-color:#e8e8ed}.index-module__ctext___Dq1RJ{display:inline-block;width:100%;color:#ff0}.index__cwrapper___oXrpd{font-size:36rpx}.chomepage{background:gray}
 
 /** filePath: dist/runtime.js **/
 (function(modules) {
@@ -1281,8 +1281,8 @@ require(\\"./taro\\");
     },
     8: function(module, exports, __webpack_require__) {
         module.exports = {
-            cbody: \\"index.module__cbody___3Vfl2\\",
-            ctext: \\"index.module__ctext___Dq1RJ\\"
+            cbody: \\"index-module__cbody___3Vfl2\\",
+            ctext: \\"index-module__ctext___Dq1RJ\\"
         };
     }
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
@@ -1295,7 +1295,7 @@ require(\\"./taro\\");
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
 /** filePath: dist/pages/index/index.wxss **/
-.index\\\\.module__cbody___3Vfl2{height:300rpx;background-color:#e8e8ed}.index\\\\.module__ctext___Dq1RJ{display:inline-block;width:100%;color:#ff0}.cwrapper{font-size:36rpx}.chomepage{background:gray}
+.index-module__cbody___3Vfl2{height:300rpx;background-color:#e8e8ed}.index-module__ctext___Dq1RJ{display:inline-block;width:100%;color:#ff0}.cwrapper{font-size:36rpx}.chomepage{background:gray}
 
 /** filePath: dist/runtime.js **/
 (function(modules) {
