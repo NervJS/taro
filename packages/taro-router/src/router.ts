@@ -7,6 +7,7 @@ import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
 import { init, routerConfig } from './init'
+import { bindPageScroll } from './scroll'
 import { setRoutesAlias, addLeadingSlash } from './utils'
 
 export interface Route extends PageConfig {
@@ -34,7 +35,7 @@ function hidePage (page: PageInstance | null) {
   }
 }
 
-function showPage (page: PageInstance | null) {
+function showPage (page: PageInstance | null, pageConfig: Route | undefined) {
   if (page != null) {
     page.onShow!()
     const pageEl = document.getElementById(page.path!)
@@ -44,6 +45,7 @@ function showPage (page: PageInstance | null) {
       page.onLoad(qs())
       pageOnReady(pageEl, page, false)
     }
+    bindPageScroll(page, pageConfig || {})
   }
 }
 
@@ -69,7 +71,7 @@ function pageOnReady (pageEl: Element | null, page: PageInstance, onLoad = true)
   }
 }
 
-function loadPage (page: PageInstance | null) {
+function loadPage (page: PageInstance | null, pageConfig: Route | undefined) {
   if (page !== null) {
     let pageEl = document.getElementById(page.path!)
     if (pageEl) {
@@ -83,21 +85,9 @@ function loadPage (page: PageInstance | null) {
       pageOnReady(pageEl, page)
     }
     page.onShow!()
-    bindPageScroll(page)
+    bindPageScroll(page, pageConfig || {})
     stacks.push(page)
   }
-}
-
-let pageScrollFn
-
-function bindPageScroll (page) {
-  window.removeEventListener('scroll', pageScrollFn)
-  pageScrollFn = function () {
-    if (document.documentElement.scrollHeight === window.pageYOffset + window.innerHeight) {
-      page.onReachBottom()
-    }
-  }
-  window.addEventListener('scroll', pageScrollFn, false)
 }
 
 export function createRouter (
@@ -149,7 +139,7 @@ export function createRouter (
       unloadPage(Current.page)
       const prev = stacks.find(s => s.path === location.pathname + stringify(qs()))
       if (prev) {
-        showPage(prev)
+        showPage(prev, pageConfig)
       } else {
         shouldLoad = true
       }
@@ -172,7 +162,7 @@ export function createRouter (
         {},
         config
       )
-      loadPage(page)
+      loadPage(page, pageConfig)
     }
   }
 
