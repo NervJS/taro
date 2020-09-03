@@ -133,7 +133,7 @@ require(\\"./taro\\");
 </template>
 
 <template name=\\"tmpl_0_image\\">
-  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" webp=\\"{{xs.b(i.webp,false)}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" show-menu-by-longpress=\\"{{xs.b(i.showMenuByLongpress,false)}}\\" onError=\\"eh\\" onLoad=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid}}\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" webp=\\"{{xs.b(i.webp,false)}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" show-menu-by-longpress=\\"{{xs.b(i.showMenuByLongpress,false)}}\\" onError=\\"eh\\" onLoad=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"uid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
     </block>
