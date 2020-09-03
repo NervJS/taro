@@ -259,10 +259,11 @@ export function createComponentConfig (component: React.ComponentClass, componen
   const config: any = {
     attached () {
       perf.start(PAGE_INIT)
-      Current.app!.mount!(component, id, () => {
-        componentElement = document.getElementById<TaroRootElement>(id)
+      const path = getPath(id, { id: this.getPageId() })
+      Current.app!.mount!(component, path, () => {
+        componentElement = document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
-        safeExecute(id, 'onLoad')
+        safeExecute(path, 'onLoad')
         if (!isBrowser) {
           componentElement.ctx = this
           componentElement.performUpdate(true)
@@ -270,7 +271,9 @@ export function createComponentConfig (component: React.ComponentClass, componen
       })
     },
     detached () {
-      Current.app!.unmount!(id, () => {
+      const path = getPath(id, { id: this.getPageId() })
+      Current.app!.unmount!(path, () => {
+        instances.delete(path)
         if (componentElement) {
           componentElement.ctx = null
         }
@@ -306,6 +309,10 @@ export function createRecursiveComponentConfig () {
         value: {
           [Shortcuts.NodeName]: 'view'
         }
+      },
+      l: {
+        type: String,
+        value: ''
       }
     },
     observers: {

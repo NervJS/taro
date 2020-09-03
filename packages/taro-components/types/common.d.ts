@@ -2,7 +2,7 @@ import {CSSProperties, LegacyRef} from 'react';
 
 export type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: never } & { [x: string]: never })[keyof T]>;
 
-export interface StandardProps extends EventProps {
+export interface StandardProps<T = any> extends EventProps {
   /** 组件的唯一标示, 保持整个页面唯一 */
   id?: string
   /** 同 `class`，在 React/Nerv 里一般使用 `className` 作为 `class` 的代称 */
@@ -18,7 +18,7 @@ export interface StandardProps extends EventProps {
   /** 动画属性 */
   animation?: { actions: object[] }
   /** 引用 */
-  ref?: LegacyRef<any>
+  ref?: LegacyRef<T>
   /**
    * 渲染 HTML
    * @see https://taro-docs.jd.com/taro/docs/html
@@ -35,47 +35,47 @@ export interface FormItemProps {
 
 export interface EventProps {
   /** 手指触摸动作开始 */
-  onTouchStart?: (event: ITouchEvent) => any
+  onTouchStart?: (event: ITouchEvent) => void
 
   /** 手指触摸后移动 */
-  onTouchMove?: (event: ITouchEvent) => any
+  onTouchMove?: (event: ITouchEvent) => void
 
   /** 手指触摸动作被打断，如来电提醒，弹窗 */
-  onTouchCancel?: (event: ITouchEvent) => any
+  onTouchCancel?: (event: ITouchEvent) => void
 
   /** 手指触摸动作结束 */
-  onTouchEnd?: (event: ITouchEvent) => any
+  onTouchEnd?: (event: ITouchEvent) => void
 
   /** 手指触摸后马上离开 */
-  onClick?: (event: ITouchEvent) => any
+  onClick?: (event: ITouchEvent) => void
 
   /** 手指触摸后，超过350ms再离开，如果指定了事件回调函数并触发了这个事件，tap事件将不被触发 */
-  onLongPress?: (event: CommonEvent) => any
+  onLongPress?: (event: CommonEvent) => void
 
-  /** 手指触摸后，超过350ms再离开（推荐使用longpress事件代替） */
-  onLongClick?: (event: CommonEvent) => any
+  /** 手指触摸后，超过350ms再离开（推荐使用 longpress 事件代替） */
+  onLongClick?: (event: CommonEvent) => void
 
   /** 会在 WXSS transition 或 Taro.createAnimation 动画结束后触发 */
-  onTransitionEnd?: (event: CommonEvent) => any
+  onTransitionEnd?: (event: CommonEvent) => void
 
   /** 会在一个 WXSS animation 动画开始时触发 */
-  onAnimationStart?: (event: CommonEvent) => any
+  onAnimationStart?: (event: CommonEvent) => void
 
   /** 会在一个 WXSS animation 一次迭代结束时触发 */
-  onAnimationIteration?: (event: CommonEvent) => any
+  onAnimationIteration?: (event: CommonEvent) => void
 
   /** 会在一个 WXSS animation 动画完成时触发 */
-  onAnimationEnd?: (event: CommonEvent) => any
+  onAnimationEnd?: (event: CommonEvent) => void
 
   /** 在支持 3D Touch 的 iPhone 设备，重按时会触发 */
-  onTouchForceChange?: (event: CommonEvent) => any
+  onTouchForceChange?: (event: CommonEvent) => void
 }
 
-export type BaseEventOrigFunction<T> = (event: BaseEventOrig<T>) => any
+export type BaseEventOrigFunction<T> = (event: BaseEventOrig<T>) => void
 
-export type TouchEventFunction = (event: ITouchEvent) => any
+export type TouchEventFunction = (event: ITouchEvent) => void
 
-export type CommonEvent = BaseEventOrig<any>
+export type CommonEvent<T = any> = BaseEventOrig<T>
 
 export type CommonEventFunction<T = any> = BaseEventOrigFunction<T>
 
@@ -102,7 +102,7 @@ export interface BaseEventOrig<T> {
   stopPropagation: () => void
 }
 
-export interface ITouchEvent extends BaseEventOrig<any> {
+export interface ITouchEvent<T = any> extends BaseEventOrig<T> {
   /** 触摸事件，当前停留在屏幕中的触摸点信息的数组 */
   touches: Array<ITouch>
 

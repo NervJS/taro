@@ -248,12 +248,16 @@ export const getModule = (appPath: string, {
     sourceMap: true,
     implementation: sass,
     sassOptions: {
-      indentedSyntax: true
+      indentedSyntax: true,
+      outputStyle: 'expanded'
     }
   }, sassLoaderOption])
   const scssLoader = getSassLoader([{
     sourceMap: true,
-    implementation: sass
+    implementation: sass,
+    sassOptions: {
+      outputStyle: 'expanded'
+    }
   }, sassLoaderOption])
 
   const postcssLoader = getPostcssLoader([
@@ -472,6 +476,6 @@ export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObj
   }
 }
 
-export function getDevtool (enableSourceMap) {
-  return enableSourceMap ? 'source-map' : 'none'
+export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-source-map') {
+  return enableSourceMap ? sourceMapType : 'none'
 }

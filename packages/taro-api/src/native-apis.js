@@ -106,6 +106,11 @@ const noPromiseApis = {
   onWindowResize: true,
   offWindowResize: true,
 
+  // 调试
+  setEnableDebug: true,
+  getRealtimeLogManager: true,
+  getLogManager: true,
+
   // 拓展接口
   arrayBufferToBase64: true,
   base64ToArrayBuffer: true,

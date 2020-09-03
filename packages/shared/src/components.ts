@@ -1,13 +1,11 @@
 import { Shortcuts } from './shortcuts'
-import { toDashed, hasOwn, toCamelCase } from './utils'
-import { isBooleanStringLiteral, isNumber } from './is'
 
-const styles = {
+export const styles = {
   style: `i.${Shortcuts.Style}`,
   class: `i.${Shortcuts.Class}`
 }
 
-const events = {
+export const events = {
   bindtap: 'eh'
 }
 
@@ -19,12 +17,13 @@ const touchEvents = {
   bindLongTap: ''
 }
 
-const alipayEvents = {
-  onTap: 'eh',
-  onTouchMove: 'eh',
-  onTouchEnd: 'eh',
-  onTouchCancel: 'eh',
-  onLongTap: 'eh'
+export const specialEvents = new Set([
+  'htouchmove',
+  'vtouchmove'
+])
+
+export function singleQuote (s: string) {
+  return `'${s}'`
 }
 
 const View = {
@@ -322,6 +321,16 @@ const CoverView = {
   ...touchEvents
 }
 
+const MatchMedia = {
+  'min-width': '',
+  'max-width': '',
+  width: '',
+  'min-height': '',
+  'max-height': '',
+  height: '',
+  orientation: ''
+}
+
 const MovableArea = {
   'scale-area': 'false'
 }
@@ -367,23 +376,27 @@ const ScrollView = {
   'refresher-default-style': singleQuote('black'),
   'refresher-background': singleQuote('#FFF'),
   'refresher-triggered': 'false',
+  enhanced: 'false',
+  bounces: 'true',
+  'show-scrollbar': 'true',
+  'paging-enabled': 'false',
+  'fast-deceleration': 'false',
   bindRefresherPulling: '',
   bindRefresherRefresh: '',
   bindRefresherRestore: '',
   bindRefresherAbort: '',
-  bindScrolltoUpper: '',
-  bindScrolltoLower: '',
+  bindScrollToUpper: '',
+  bindScrollToLower: '',
   bindScroll: '',
   animation: '',
   bindTransitionEnd: '',
   bindAnimationStart: '',
   bindAnimationIteration: '',
   bindAnimationEnd: '',
+  bindDragStart: '',
+  bindDragging: '',
+  bindDragEnd: '',
   ...touchEvents
-}
-
-function singleQuote (s: string) {
-  return `'${s}'`
 }
 
 const Swiper = {
@@ -453,11 +466,6 @@ const Audio = {
   bindEnded: ''
 }
 
-const specialEvents = new Set([
-  'htouchmove',
-  'vtouchmove'
-])
-
 const Camera = {
   mode: singleQuote('normal'),
   'device-position': singleQuote('back'),
@@ -476,7 +484,8 @@ const Image = {
   'lazy-load': 'false',
   'show-menu-by-longpress': 'false',
   bindError: '',
-  bindLoad: ''
+  bindLoad: '',
+  ...touchEvents
 }
 
 const LivePlayer = {
@@ -492,9 +501,14 @@ const LivePlayer = {
   'sound-mode': singleQuote('speaker'),
   'auto-pause-if-navigate': 'true',
   'auto-pause-if-open-native': 'true',
+  'picture-in-picture-mode': '[]',
+  animation: '',
   bindStateChange: '',
   bindFullScreenChange: '',
-  bindNetStatus: ''
+  bindNetStatus: '',
+  bindAudioVolumeNotify: '',
+  bindEnterPictureInPicture: '',
+  bindLeavePictureInPicture: ''
 }
 
 const LivePusher = {
@@ -526,6 +540,7 @@ const LivePusher = {
   'audio-volume-type': singleQuote('voicecall'),
   'video-width': '360',
   'video-height': '640',
+  animation: '',
   bindStateChange: '',
   bindNetStatus: '',
   bindBgmStart: '',
@@ -572,6 +587,7 @@ const Video = {
   // 'picture-in-picture-show-progress': 'false',
   'enable-auto-rotation': 'false',
   'show-screen-lock-button': 'false',
+  animation: '',
   bindPlay: '',
   bindPause: '',
   bindEnded: '',
@@ -588,7 +604,7 @@ const Video = {
 }
 
 const Canvas = {
-  type: singleQuote('2d'),
+  type: '',
   'canvas-id': '',
   'disable-scroll': 'false',
   bindTouchStart: '',
@@ -667,60 +683,6 @@ const Slot = {
   name: ''
 }
 
-interface Components {
-  [key: string]: Record<string, string>;
-}
-
-export function createMiniComponents (components: Components, buildType: string) {
-  const result: Components = Object.create(null)
-  const isAlipay = buildType === 'alipay'
-
-  for (const key in components) {
-    if (hasOwn(components, key)) {
-      const component = components[key]
-      const compName = toDashed(key)
-      const newComp: Record<string, string> = Object.create(null)
-      for (let prop in component) {
-        if (hasOwn(component, prop)) {
-          let propValue = component[prop]
-          if (prop.startsWith('bind') || specialEvents.has(prop)) {
-            prop = isAlipay ? prop.replace('bind', 'on') : prop.toLowerCase()
-            if ((buildType === 'weapp' || buildType === 'qq') && prop === 'bindlongtap') {
-              prop = 'bindlongpress'
-            }
-            propValue = 'eh'
-          } else if (propValue === '') {
-            propValue = `i.${toCamelCase(prop)}`
-          } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-            propValue = `i.${toCamelCase(prop)} === undefined ? ${propValue} : i.${toCamelCase(prop)}`
-          } else {
-            propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
-          }
-
-          newComp[prop] = propValue
-        }
-      }
-      if (compName !== 'block') {
-        Object.assign(newComp, styles, isAlipay ? alipayEvents : events)
-      }
-
-      if (compName === 'swiper-item') {
-        delete newComp.style
-      }
-
-      if (compName === 'slot' || compName === 'slot-view') {
-        result[compName] = {
-          slot: 'i.name'
-        }
-      } else {
-        result[compName] = newComp
-      }
-    }
-  }
-
-  return result
-}
-
 export const internalComponents = {
   View,
   Icon,
@@ -744,6 +706,7 @@ export const internalComponents = {
   CoverImage,
   Textarea,
   CoverView,
+  MatchMedia,
   MovableArea,
   MovableView,
   ScrollView,
