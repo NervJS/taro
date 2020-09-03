@@ -398,7 +398,8 @@ export const getModule = (appPath: string, {
       sourceMap: true,
       implementation: sass,
       sassOptions: {
-        indentedSyntax: true
+        indentedSyntax: true,
+        outputStyle: 'expanded'
       }
     },
     sassLoaderOption
@@ -406,7 +407,10 @@ export const getModule = (appPath: string, {
   const scssLoader = getSassLoader([
     {
       sourceMap: true,
-      implementation: sass
+      implementation: sass,
+      sassOptions: {
+        outputStyle: 'expanded'
+      }
     },
     sassLoaderOption
   ])
