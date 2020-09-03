@@ -321,6 +321,16 @@ const CoverView = {
   ...touchEvents
 }
 
+const MatchMedia = {
+  'min-width': '',
+  'max-width': '',
+  width: '',
+  'min-height': '',
+  'max-height': '',
+  height: '',
+  orientation: ''
+}
+
 const MovableArea = {
   'scale-area': 'false'
 }
@@ -692,6 +702,7 @@ export const internalComponents = {
   CoverImage,
   Textarea,
   CoverView,
+  MatchMedia,
   MovableArea,
   MovableView,
   ScrollView,
