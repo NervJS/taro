@@ -484,7 +484,8 @@ const Image = {
   'lazy-load': 'false',
   'show-menu-by-longpress': 'false',
   bindError: '',
-  bindLoad: ''
+  bindLoad: '',
+  ...touchEvents
 }
 
 const LivePlayer = {
