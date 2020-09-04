@@ -327,9 +327,10 @@ export const getModule = (appPath: string, {
   const styleLoader = getStyleLoader([defaultStyleLoaderOption, styleLoaderOption])
   const topStyleLoader = getStyleLoader([defaultStyleLoaderOption, {
     insert: function insertAtTop (element) {
-      const parent = document.querySelector('head')
+      var parent = document.querySelector('head')
       if (parent) {
-        const lastInsertedElement = (window as any)._lastElementInsertedByStyleLoader
+        // @ts-ignore
+        var lastInsertedElement = window._lastElementInsertedByStyleLoader
         if (!lastInsertedElement) {
           parent.insertBefore(element, parent.firstChild)
         } else if (lastInsertedElement.nextSibling) {
@@ -337,7 +338,8 @@ export const getModule = (appPath: string, {
         } else {
           parent.appendChild(element)
         }
-        (window as any)._lastElementInsertedByStyleLoader = element
+        // @ts-ignore
+        window._lastElementInsertedByStyleLoader = element
       }
     }
   }, styleLoaderOption])
