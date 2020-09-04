@@ -327,9 +327,10 @@ export const getModule = (appPath: string, {
   const styleLoader = getStyleLoader([defaultStyleLoaderOption, styleLoaderOption])
   const topStyleLoader = getStyleLoader([defaultStyleLoaderOption, {
     insert: function insertAtTop (element) {
+      // eslint-disable-next-line no-var
       var parent = document.querySelector('head')
       if (parent) {
-        // @ts-ignore
+        // eslint-disable-next-line no-var
         var lastInsertedElement = window._lastElementInsertedByStyleLoader
         if (!lastInsertedElement) {
           parent.insertBefore(element, parent.firstChild)
@@ -338,7 +339,6 @@ export const getModule = (appPath: string, {
         } else {
           parent.appendChild(element)
         }
-        // @ts-ignore
         window._lastElementInsertedByStyleLoader = element
       }
     }
