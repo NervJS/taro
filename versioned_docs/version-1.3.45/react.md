@@ -96,7 +96,7 @@ export default {
 
 #### componentDidMount()
 
-页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。此生命周期可以无法访问 `Current.router`。此生命周期可以访问 Taro DOM 并且更改 DOM 或添加事件，但无法通过 `Taro.createSelectorQuery` 查找小程序 DOM。
+页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。此生命周期可以访问 `Current.router`。此生命周期可以访问 Taro DOM 并且更改 DOM 或添加事件，但无法通过 `Taro.createSelectorQuery` 查找小程序 DOM。
 
 #### componentDidShow(options)
 
@@ -213,7 +213,7 @@ export default {
 
 #### componentDidMount()
 
-页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。此生命周期可以无法访问 `Current.router`。此生命周期可以访问 Taro DOM 并且更改 DOM 或添加事件，但无法通过 `Taro.createSelectorQuery` 查找小程序 DOM。
+页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。此生命周期可以访问 `Current.router`。此生命周期可以访问 Taro DOM 并且更改 DOM 或添加事件，但无法通过 `Taro.createSelectorQuery` 查找小程序 DOM。
 
 #### shouldComponentUpdate(nextProps, nextState)
 
