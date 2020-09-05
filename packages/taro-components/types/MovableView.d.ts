@@ -81,12 +81,12 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   /** 拖动过程中触发的事件
    * @supported weapp
    */
-  onChange?: CommonEventFunction<MovableViewProps.onChangeEventDeatil>
+  onChange?: CommonEventFunction<MovableViewProps.onChangeEventDetail>
 
   /** 缩放过程中触发的事件
    * @supported weapp
    */
-  onScale?: CommonEventFunction<MovableViewProps.onScaleEventDeatil>
+  onScale?: CommonEventFunction<MovableViewProps.onScaleEventDetail>
 
   /** 初次手指触摸后移动为横向的移动，如果 catch 此事件，则意味着 touchmove 事件也被 catch
    * @supported weapp
@@ -114,7 +114,7 @@ declare namespace MovableViewProps {
     ''
   }
 
-  interface onChangeEventDeatil {
+  interface onChangeEventDetail {
     /** X 坐标 */
     x: number
     /** Y 坐标 */
@@ -123,7 +123,7 @@ declare namespace MovableViewProps {
     source: keyof MovableViewProps.TChangeSource
   }
 
-  interface onScaleEventDeatil {
+  interface onScaleEventDetail {
     /** X 坐标 */
     x: number
     /** Y 坐标 */
