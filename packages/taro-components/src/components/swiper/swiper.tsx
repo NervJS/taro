@@ -90,9 +90,7 @@ export class Swiper implements ComponentInterface {
     if (isNaN(n)) return
 
     if (this.circular) {
-      if (!this.swiper.isBeginning && !this.swiper.isEnd) {
-        this.swiper.slideToLoop(n) // 更新下标
-      }
+      this.swiper.slideToLoop(n) // 更新下标
     } else {
       this.swiper.slideTo(n + 1) // 更新下标
     }
@@ -166,6 +164,11 @@ export class Swiper implements ComponentInterface {
             current: this.realIndex,
             source: ''
           })
+          if (this.isBeginning) {
+            this.slideToLoop(this.realIndex, 0)
+          } else if (this.isEnd) {
+            this.slideToLoop(0, 0)
+          }
         },
         observerUpdate (e) {
           if (e.target && e.target.className === 'taro_page' && e.target.style.display === 'block') {
