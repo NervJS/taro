@@ -67,6 +67,11 @@ export class Swiper implements ComponentInterface {
   @Prop() previousMargin = '0px'
 
   /**
+   * 后边距，可用于露出后一项的一小部分，接受 px 值
+   */
+  @Prop() nextMargin = '0px'
+
+  /**
    * 同时显示的滑块数量
    */
   @Prop() displayMultipleItems = 1
@@ -180,11 +185,6 @@ export class Swiper implements ComponentInterface {
       }
     }
 
-    const previousMargin = /^(\d+)px/.exec(this.previousMargin)
-    if (previousMargin?.length && !isNaN(parseInt(previousMargin[1]))) {
-      options.slidesOffsetBefore = parseInt(previousMargin[1])
-    }
-
     // 自动播放
     if (autoplay) {
       options.autoplay = {
@@ -206,16 +206,29 @@ export class Swiper implements ComponentInterface {
 
   render () {
     const {
+      vertical,
       indicatorDots,
       indicatorColor,
       indicatorActiveColor
     } = this
 
-    const hostStyle: Record<string, string> = {}
-    const style: Record<string, string> = {}
+    const hostStyle: Record<string, string> = { overflow: 'hidden' }
+    const style: Record<string, string> = { overflow: 'visible' }
     if (this.full) {
       hostStyle.height = '100%'
       style.height = '100%'
+    }
+
+    const [, previousMargin] = /^(\d+)px/.exec(this.previousMargin) || []
+    const [, nextMargin] = /^(\d+)px/.exec(this.nextMargin) || []
+    const pM = parseInt(previousMargin) || 0
+    const nM = parseInt(nextMargin) || 0
+    if (vertical) {
+      hostStyle.paddingTop = `${pM}px`
+      hostStyle.paddingBottom = `${nM}px`
+    } else {
+      hostStyle.paddingRight = `${nM}px`
+      hostStyle.paddingLeft = `${pM}px`
     }
 
     return (
