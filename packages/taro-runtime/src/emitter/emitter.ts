@@ -9,6 +9,8 @@ type Callback6Rest<T1, T2, T3, T4, T5, T6> = (arg1: T1, arg2: T2, arg3: T3,
   arg4: T4, arg5: T5, arg6: T6,
   ...rest: any[]) => any;
 
+const EVENTS_ONCE = Symbol('events.once')
+
 export class Events {
   private callbacks: Record<string, unknown>
   static eventSplitter = /\s+/
@@ -53,6 +55,7 @@ export class Events {
       callback.apply(this, args)
       this.off(events, wrapper, context)
     }
+    wrapper[EVENTS_ONCE] = callback
 
     this.on(events, wrapper, context)
 
@@ -79,7 +82,7 @@ export class Events {
       while ((node = node.next) !== tail) {
         cb = node.callback
         ctx = node.context
-        if ((callback && cb !== callback) || (context && ctx !== context)) {
+        if ((callback && cb !== callback && cb[EVENTS_ONCE] !== callback) || (context && ctx !== context)) {
           this.on(event, cb, ctx)
         }
       }
