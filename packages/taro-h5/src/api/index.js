@@ -28,5 +28,3 @@ export * from './vibrate'
 export * from './video'
 export * from './webSocket'
 export * from './window'
-
-export * from './privateApis'

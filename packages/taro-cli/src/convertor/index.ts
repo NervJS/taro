@@ -9,7 +9,7 @@ import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
 import * as postcss from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
-import * as inquirer from 'inquirer'
+// import * as inquirer from 'inquirer'
 
 import {
   printLog,
@@ -862,17 +862,17 @@ ${code}
   }
 
   run () {
-    inquirer.prompt([{
-      type: 'list',
-      name: 'framework',
-      message: '你想转换为哪种框架？',
-      choices: ['react', 'vue'],
-      default: 'react'
-    }]).then(({ framework }) => {
-      this.framework = framework
-      this.generateEntry()
-      this.traversePages()
-      this.generateConfigFiles()
-    })
+    // inquirer.prompt([{
+    //   type: 'list',
+    //   name: 'framework',
+    //   message: '你想转换为哪种框架？',
+    //   choices: ['react', 'vue'],
+    //   default: 'react'
+    // }]).then(({ framework }) => {
+    this.framework = 'react'
+    this.generateEntry()
+    this.traversePages()
+    this.generateConfigFiles()
+    // })
   }
 }

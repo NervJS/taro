@@ -321,6 +321,16 @@ const CoverView = {
   ...touchEvents
 }
 
+const MatchMedia = {
+  'min-width': '',
+  'max-width': '',
+  width: '',
+  'min-height': '',
+  'max-height': '',
+  height: '',
+  orientation: ''
+}
+
 const MovableArea = {
   'scale-area': 'false'
 }
@@ -366,6 +376,11 @@ const ScrollView = {
   'refresher-default-style': singleQuote('black'),
   'refresher-background': singleQuote('#FFF'),
   'refresher-triggered': 'false',
+  enhanced: 'false',
+  bounces: 'true',
+  'show-scrollbar': 'true',
+  'paging-enabled': 'false',
+  'fast-deceleration': 'false',
   bindRefresherPulling: '',
   bindRefresherRefresh: '',
   bindRefresherRestore: '',
@@ -378,6 +393,9 @@ const ScrollView = {
   bindAnimationStart: '',
   bindAnimationIteration: '',
   bindAnimationEnd: '',
+  bindDragStart: '',
+  bindDragging: '',
+  bindDragEnd: '',
   ...touchEvents
 }
 
@@ -466,7 +484,8 @@ const Image = {
   'lazy-load': 'false',
   'show-menu-by-longpress': 'false',
   bindError: '',
-  bindLoad: ''
+  bindLoad: '',
+  ...touchEvents
 }
 
 const LivePlayer = {
@@ -483,6 +502,7 @@ const LivePlayer = {
   'auto-pause-if-navigate': 'true',
   'auto-pause-if-open-native': 'true',
   'picture-in-picture-mode': '[]',
+  animation: '',
   bindStateChange: '',
   bindFullScreenChange: '',
   bindNetStatus: '',
@@ -520,6 +540,7 @@ const LivePusher = {
   'audio-volume-type': singleQuote('voicecall'),
   'video-width': '360',
   'video-height': '640',
+  animation: '',
   bindStateChange: '',
   bindNetStatus: '',
   bindBgmStart: '',
@@ -566,6 +587,7 @@ const Video = {
   // 'picture-in-picture-show-progress': 'false',
   'enable-auto-rotation': 'false',
   'show-screen-lock-button': 'false',
+  animation: '',
   bindPlay: '',
   bindPause: '',
   bindEnded: '',
@@ -582,7 +604,7 @@ const Video = {
 }
 
 const Canvas = {
-  type: singleQuote('2d'),
+  type: '',
   'canvas-id': '',
   'disable-scroll': 'false',
   bindTouchStart: '',
@@ -684,6 +706,7 @@ export const internalComponents = {
   CoverImage,
   Textarea,
   CoverView,
+  MatchMedia,
   MovableArea,
   MovableView,
   ScrollView,
