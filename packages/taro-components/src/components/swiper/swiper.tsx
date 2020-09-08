@@ -97,7 +97,7 @@ export class Swiper implements ComponentInterface {
     if (this.circular) {
       this.swiper.slideToLoop(n) // 更新下标
     } else {
-      this.swiper.slideTo(n + 1) // 更新下标
+      this.swiper.slideTo(n) // 更新下标
     }
   }
 
@@ -132,6 +132,7 @@ export class Swiper implements ComponentInterface {
       current,
       interval,
       duration,
+      circular,
       vertical,
       displayMultipleItems
     } = this
@@ -142,7 +143,7 @@ export class Swiper implements ComponentInterface {
     const options: any = {
       pagination: { el: `.taro-swiper-${this._id} > .swiper-container > .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
-      loop: true,
+      loop: circular,
       slidesPerView: displayMultipleItems,
       initialSlide: current,
       speed: duration,
@@ -156,24 +157,11 @@ export class Swiper implements ComponentInterface {
             source: ''
           })
         },
-        toEdge () {
-          if (that.circular) return
-          if (this.isBeginning) {
-            this.slideToLoop(this.realIndex + 1)
-          } else if (this.isEnd) {
-            this.slideToLoop(0)
-          }
-        },
         transitionEnd () {
           that.onAnimationFinish.emit({
             current: this.realIndex,
             source: ''
           })
-          if (this.isBeginning) {
-            this.slideToLoop(this.realIndex, 0)
-          } else if (this.isEnd) {
-            this.slideToLoop(0, 0)
-          }
         },
         observerUpdate (e) {
           if (e.target && e.target.className === 'taro_page' && e.target.style.display === 'block') {
@@ -224,11 +212,11 @@ export class Swiper implements ComponentInterface {
     const pM = parseInt(previousMargin) || 0
     const nM = parseInt(nextMargin) || 0
     if (vertical) {
-      hostStyle.paddingTop = `${pM}px`
-      hostStyle.paddingBottom = `${nM}px`
+      style.marginTop = `${pM}px`
+      style.marginBottom = `${nM}px`
     } else {
-      hostStyle.paddingRight = `${nM}px`
-      hostStyle.paddingLeft = `${pM}px`
+      style.marginRight = `${nM}px`
+      style.marginLeft = `${pM}px`
     }
 
     return (
