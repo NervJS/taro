@@ -75,7 +75,7 @@ declare namespace Taro {
 
   function atMessage(options: AtMessageOptions): void
 
-  function pxTransform(size: number): string
+  function pxTransform(size: number, designWidth?: number): string
   function initPxTransform(config: { designWidth: number; deviceRatio: object })
 
   interface RequestParams extends request.Option<any> {

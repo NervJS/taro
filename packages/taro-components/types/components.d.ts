@@ -214,6 +214,10 @@ export namespace Components {
     */
     'interval': number;
     /**
+    * 后边距，可用于露出后一项的一小部分，接受 px 值
+    */
+    'nextMargin': string;
+    /**
     * 前边距，可用于露出前一项的一小部分，接受 px 值
     */
     'previousMargin': string;
@@ -864,6 +868,10 @@ declare namespace LocalJSX {
     * 自动切换时间间隔
     */
     'interval'?: number;
+    /**
+    * 后边距，可用于露出后一项的一小部分，接受 px 值
+    */
+    'nextMargin'?: string;
     'onAnimationfinish'?: (event: CustomEvent<any>) => void;
     'onChange'?: (event: CustomEvent<any>) => void;
     /**
