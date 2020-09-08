@@ -1,120 +1,85 @@
-/* eslint-disable no-dupe-class-members */
-type Callback1<T1> = (arg1: T1) => any;
-type Callback2<T1, T2> = (arg1: T1, arg2: T2) => any;
-type Callback3<T1, T2, T3> = (arg1: T1, arg2: T2, arg3: T3) => any;
-type Callback4<T1, T2, T3, T4> = (arg1: T1, arg2: T2, arg3: T3, arg4: T4) => any;
-type Callback5<T1, T2, T3, T4, T5> = (arg1: T1, arg2: T2, arg3: T3,
-  arg4: T4, arg5: T5) => any;
-type Callback6Rest<T1, T2, T3, T4, T5, T6> = (arg1: T1, arg2: T2, arg3: T3,
-  arg4: T4, arg5: T5, arg6: T6,
-  ...rest: any[]) => any;
+const ONCE_LISTENER = Symbol('events.once')
 
-const EVENTS_ONCE = Symbol('events.once')
+type Listener = (...args: any[]) => void
+
+type EventMap = {
+  [K in keyof string | symbol]: Listener | Listener[]
+}
 
 export class Events {
-  private callbacks: Record<string, unknown>
-  static eventSplitter = /\s+/
+  private events: EventMap = Object.create(null)
 
-  constructor (opts?) {
-    if (typeof opts !== 'undefined' && opts.callbacks) {
-      this.callbacks = opts.callbacks
+  on (eventName: string | symbol, listener: Listener): this {
+    const existing = this.events[eventName]
+
+    if (existing == null) {
+      this.events[eventName] = listener
     } else {
-      this.callbacks = {}
-    }
-  }
-
-  on<T>(event: string, callback: Callback1<T>, context): this
-  on<T1, T2>(event: string, callback: Callback2<T1, T2>, context): this
-  on<T1, T2, T3>(event: string, callback: Callback3<T1, T2, T3>, context): this
-  on<T1, T2, T3, T4>(event: string, callback: Callback4<T1, T2, T3, T4>, comtext): this
-  on<T1, T2, T3, T4, T5>(event: string, callback: Callback5<T1, T2, T3, T4, T5>, context): this
-  on<T1, T2, T3, T4, T5, T6>(event: string, callback: Callback6Rest<T1, T2, T3, T4, T5, T6>, context): this
-  on (eventName, callback, context): this {
-    let event, node, tail, list
-    if (!callback) {
-      return this
-    }
-    eventName = eventName.split(Events.eventSplitter)
-    const calls = this.callbacks
-    while ((event = eventName.shift())) {
-      list = calls[event]
-      node = list ? list.tail : {}
-      node.next = tail = {}
-      node.context = context
-      node.callback = callback
-      calls[event] = {
-        tail,
-        next: list ? list.next : node
+      if (typeof existing === 'function') {
+        this.events[eventName] = [existing, listener]
+      } else {
+        existing.push(listener)
       }
     }
+
     return this
   }
 
-  once (events, callback, context) {
+  once (eventName: string | symbol, listener: Listener): this {
     const wrapper = (...args) => {
-      callback.apply(this, args)
-      this.off(events, wrapper, context)
+      listener(...args)
+      this.off(eventName, wrapper)
     }
-    wrapper[EVENTS_ONCE] = callback
+    wrapper[ONCE_LISTENER] = listener
 
-    this.on(events, wrapper, context)
+    this.on(eventName, wrapper)
 
     return this
   }
 
-  off (events, callback, context) {
-    let event, calls, node, tail, cb, ctx
-    if (!(calls = this.callbacks)) {
+  off (eventName?: string | symbol, listener?: Listener): this {
+    if (!eventName) {
+      this.events = Object.create(null)
       return this
     }
-    if (!(events || callback || context)) {
-      delete this.callbacks
+
+    const existing = this.events[eventName]
+
+    if (!listener) {
+      if (existing) {
+        delete this.events[eventName]
+      }
       return this
     }
-    events = events ? events.split(Events.eventSplitter) : Object.keys(calls)
-    while ((event = events.shift())) {
-      node = calls[event]
-      delete calls[event]
-      if (!node || !(callback || context)) {
-        continue
-      }
-      tail = node.tail
-      while ((node = node.next) !== tail) {
-        cb = node.callback
-        ctx = node.context
-        if ((callback && cb !== callback && cb[EVENTS_ONCE] !== callback) || (context && ctx !== context)) {
-          this.on(event, cb, ctx)
-        }
+
+    if (existing === listener || existing[ONCE_LISTENER] === listener) {
+      delete this.events[eventName]
+    } else if (typeof existing !== 'function') {
+      this.events[eventName] = existing.filter(x => x !== listener)
+
+      if (this.events[eventName].length === 1) {
+        this.events[eventName] = this.events[eventName][0]
       }
     }
+
     return this
   }
 
-  trigger(event: string)
-  trigger<T1>(event: string, arg: T1)
-  trigger<T1, T2>(event: string, arg1: T1, arg2: T2)
-  trigger<T1, T2, T3>(event: string, arg1: T1, arg2: T2, arg3: T3)
-  trigger<T1, T2, T3, T4>(event: string, arg1: T1, arg2: T2, arg3: T3, arg4: T4)
-  trigger<T1, T2, T3, T4, T5>(event: string, arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5)
-  trigger<T1, T2, T3, T4, T5, T6>(event: string, arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5,
-    arg6: T6, ...rest: any[])
+  trigger (eventName: string | symbol, ...args: any[]): boolean {
+    const existing = this.events[eventName]
+    if (existing == null) {
+      return false
+    }
 
-  trigger (events) {
-    let event, node, calls, tail
-    if (!(calls = this.callbacks)) {
-      return this
+    if (typeof existing === 'function') {
+      existing(...args)
+    } else {
+      existing.slice().forEach(listener => {
+        listener(...args)
+      })
     }
-    events = events.split(Events.eventSplitter)
-    const rest = [].slice.call(arguments, 1)
-    while ((event = events.shift())) {
-      if ((node = calls[event])) {
-        tail = node.tail
-        while ((node = node.next) !== tail) {
-          node.callback.apply(node.context || this, rest)
-        }
-      }
-    }
-    return this
+
+    return true
   }
 }
 
