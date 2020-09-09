@@ -505,7 +505,7 @@ module.exports = {
     webpackChain (chain, webpack) {
       chain.merge({
         module: {
-          rules: {
+          rule: {
             myloader: {
               test: /\.md$/,
               use: [{
@@ -563,6 +563,40 @@ module.exports = {
 默认值：watch 模式下为 `true`，否则为 `false`。
 
 用于控制是否生成 js、css 对应的 sourceMap。
+
+### mini.sourceMapType
+
+`string`
+
+默认值：`'cheap-module-source-map'`
+
+具体配置请参考 [Webpack devtool 配置](https://webpack.js.org/configuration/devtool/#devtool)。
+
+### mini.debugReact
+
+> 自 v3.0.8 开始支持
+
+`boolean`
+
+默认值：`false`。
+
+指定 React 框架相关的代码是否使用开发环境（未压缩）代码，默认使用生产环境（压缩后）代码。
+
+### mini.minifyXML
+
+> 自 v3.0.8 开始支持
+
+`object`
+
+关于压缩小程序 xml 文件的相关配置。
+
+#### mini.minifyXML.collapseWhitespace
+
+`boolean`
+
+默认值：`false`。
+
+是否合并 xml 文件中的空格。
 
 ### mini.postcss
 
@@ -941,7 +975,7 @@ module.exports = {
     webpackChain (chain, webpack) {
       chain.merge({
         module: {
-          rules: {
+          rule: {
             myloader: {
               test: /\.md$/,
               use: [{

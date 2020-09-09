@@ -32,7 +32,7 @@ function buildData (offset = 0) {
 const Row = React.memo(({ index, style, data }) => {
   return (
     <View className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
-      Row {index}
+      Row {index} : {data[index]}
     </View>
   );
 })
@@ -68,7 +68,7 @@ export default class Index extends Component {
 const Row = React.memo(({ index, style, data }) => {
   return (
     <View className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
-      Row {index}
+      Row {index} : {data[index]}
     </View>
   );
 })
@@ -137,12 +137,12 @@ export default class Index extends Component {
 
 ### props
 
-### `children: ReactComponent`
+#### `children: ReactComponent`
 
 将要渲染的列表单项组件。组件的 `props` 有 4 个属性：
 
 * `style`: 单项的样式，样式必须传入组件的 `style` 中
-* `data`: 组件渲染的数据
+* `data`: 组件渲染的数据，同虚拟列表 `itemData`
 * `index`: 组件渲染数据的索引
 * `isScrolling`: 组件是否正在滚动，当 `useIsScrolling` 值为 `true` 时返回布尔值，否则返回 `undefined`
 
@@ -292,7 +292,7 @@ Vue.use(VirtualList)
     :class="index % 2 ? 'ListItemOdd' : 'ListItemEven'"
     :style="css"
   >
-    Row {{ index }}
+    Row {{ index }} : {{ data[index] }}
   </view>
 </template>
 
@@ -408,12 +408,12 @@ export default {
 
 ### props
 
-### `item: VueComponent`
+#### `item: VueComponent`
 
 将要渲染的列表单项组件。组件的 `props` 有 4 个属性：
 
 * `css`: 单项的样式，样式必须传入组件的 `style` 中
-* `data`: 组件渲染的数据
+* `data`: 组件渲染的数据，同虚拟列表 `itemData`
 * `index`: 组件渲染数据的索引
 * `isScrolling`: 组件是否正在滚动，当 `useIsScrolling` 值为 `true` 时返回布尔值，否则返回 `undefined`
 
@@ -494,3 +494,7 @@ export default {
 #### `useIsScrolling: boolean`
 
 是否注入 `isScrolling` 属性到 `item` 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。
+
+## 相关问题
+
+* 百度小程序暂时不支持使用虚拟列表组件，详见 [#7254](https://github.com/NervJS/taro/issues/7254)

@@ -38,10 +38,9 @@ Taro.navigateTo({
 
 ```jsx
 import { getCurrentInstance } from '@tarojs/taro'
-import React, { Component } from 'react'
 
-export default class C extends Component {
-  componentDidMount () {
+class C extends Taro.Component {
+  onReady () {
     console.log(getCurrentInstance().router.params) // 输出 { id: 2, type: 'test' }
   }
 }

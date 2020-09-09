@@ -39,7 +39,7 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
 >
-  <img src=" https://storage.jd.com/taro-jd-com/static/cdc.png" style={{height: "100px"}}
+  <img src="https://storage.jd.com/taro-jd-com/static/cdc.png" style={{height: "100px"}}
 /></a>
 <a
   href="//cloud.tencent.com"
