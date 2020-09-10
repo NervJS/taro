@@ -67,6 +67,11 @@ export class Swiper implements ComponentInterface {
   @Prop() previousMargin = '0px'
 
   /**
+   * 后边距，可用于露出后一项的一小部分，接受 px 值
+   */
+  @Prop() nextMargin = '0px'
+
+  /**
    * 同时显示的滑块数量
    */
   @Prop() displayMultipleItems = 1
@@ -86,12 +91,13 @@ export class Swiper implements ComponentInterface {
 
   @Watch('current')
   watchCurrent (newVal) {
-    if (typeof newVal !== 'number' && !isNaN(newVal)) return
+    const n = parseInt(newVal, 10)
+    if (isNaN(n)) return
 
     if (this.circular) {
-      this.swiper.slideToLoop(newVal)
+      this.swiper.slideToLoop(n) // 更新下标
     } else {
-      this.swiper.slideTo(newVal)
+      this.swiper.slideTo(n) // 更新下标
     }
   }
 
@@ -135,13 +141,14 @@ export class Swiper implements ComponentInterface {
     const that = this
 
     const options: any = {
-      pagination: { el: `.taro-swiper-${this._id} .swiper-pagination` },
+      pagination: { el: `.taro-swiper-${this._id} > .swiper-container > .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
       slidesPerView: displayMultipleItems,
       initialSlide: current,
       speed: duration,
       observer: true,
+      observeParents: true,
       on: {
         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
         slideChangeTransitionEnd () {
@@ -155,13 +162,15 @@ export class Swiper implements ComponentInterface {
             current: this.realIndex,
             source: ''
           })
+        },
+        observerUpdate (e) {
+          if (e.target && e.target.className === 'taro_page' && e.target.style.display === 'block') {
+            if (that.autoplay && e.target.contains(this.$el[0])) {
+              this.slideTo(that.current)
+            }
+          }
         }
       }
-    }
-
-    const previousMargin = /^(\d+)px/.exec(this.previousMargin)
-    if (previousMargin?.length && !isNaN(parseInt(previousMargin[1]))) {
-      options.slidesOffsetBefore = parseInt(previousMargin[1])
     }
 
     // 自动播放
@@ -172,45 +181,62 @@ export class Swiper implements ComponentInterface {
       }
     }
 
-    this.swiper = new Swipers(`.taro-swiper-${this._id}`, options)
+    this.swiper = new Swipers(`.taro-swiper-${this._id} > .swiper-container`, options)
+  }
+
+  componentWillUpdate () {
+    if (this.autoplay && !this.swiper.autoplay.paused) {
+      this.swiper.autoplay.run()
+      this.swiper.autoplay.paused = false
+    }
+    this.swiper.update() // 更新子元素
   }
 
   render () {
     const {
+      vertical,
       indicatorDots,
       indicatorColor,
       indicatorActiveColor
     } = this
 
-    const cls = classNames(`taro-swiper-${this._id}`, 'swiper-container')
-    const paginationCls = classNames(
-      'swiper-pagination',
-      {
-        'swiper-pagination-hidden': !indicatorDots,
-        'swiper-pagination-bullets': indicatorDots
-      }
-    )
-
-    const hostStyle: Record<string, string> = {}
-    const style: Record<string, string> = {}
+    const hostStyle: Record<string, string> = { overflow: 'hidden' }
+    const style: Record<string, string> = { overflow: 'visible' }
     if (this.full) {
       hostStyle.height = '100%'
       style.height = '100%'
     }
 
+    const [, previousMargin] = /^(\d+)px/.exec(this.previousMargin) || []
+    const [, nextMargin] = /^(\d+)px/.exec(this.nextMargin) || []
+    const pM = parseInt(previousMargin) || 0
+    const nM = parseInt(nextMargin) || 0
+    if (vertical) {
+      style.marginTop = `${pM}px`
+      style.marginBottom = `${nM}px`
+    } else {
+      style.marginRight = `${nM}px`
+      style.marginLeft = `${pM}px`
+    }
+
     return (
-      <Host style={hostStyle}>
-        <div class={cls} style={style}>
+      <Host class={`taro-swiper-${this._id}`} style={hostStyle}>
+        <div class='swiper-container' style={style}>
           <style type='text/css'>
             {`
-              .taro-swiper-${this._id} .swiper-pagination-bullet { background: ${indicatorColor} }
-              .taro-swiper-${this._id} .swiper-pagination-bullet-active { background: ${indicatorActiveColor} }
+              .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: ${indicatorColor} }
+              .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: ${indicatorActiveColor} }
             `}
           </style>
           <div class='swiper-wrapper'>
             <slot />
           </div>
-          <div class={paginationCls} />
+          <div class={classNames('swiper-pagination',
+            {
+              'swiper-pagination-hidden': !indicatorDots,
+              'swiper-pagination-bullets': indicatorDots
+            }
+          )} />
         </div>
       </Host>
     )
