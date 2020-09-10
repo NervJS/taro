@@ -94,7 +94,7 @@ interface SwiperProps extends StandardProps {
   /** current 改变时会触发 change 事件
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  onChange?: CommonEventFunction<SwiperProps.onChangeEventDeatil>
+  onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
 
   /** swiper-item 的位置发生改变时会触发 transition 事件
    * @supported weapp
@@ -132,7 +132,7 @@ declare namespace SwiperProps {
     easeInOutCubic
   }
 
-  interface onChangeEventDeatil {
+  interface onChangeEventDetail {
     /** 当前所在滑块的索引 */
     current: number
     /** 导致变更的原因 */
