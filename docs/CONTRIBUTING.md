@@ -3,38 +3,24 @@
 ## Taro 组成
 | NPM 包           |   描述 |
 | ------------- |:------------- |
-| [`@tarojs/taro`](https://www.npmjs.com/package/@tarojs/taro)      |  Taro 运行时框架  |
-| [`@tarojs/taro-h5`](https://www.npmjs.com/package/@tarojs/taro-h5) |  Taro H5 运行时框架  |
-| [`@tarojs/taro-rn`](https://www.npmjs.com/package/@tarojs/taro-rn) |  Taro React Native 运行时框架  |
-| [`@tarojs/taro-weapp`](https://www.npmjs.com/package/@tarojs/taro-weapp) |  Taro 微信小程序运行时框架  |
-| [`@tarojs/taro-swan`](https://www.npmjs.com/package/@tarojs/taro-swan) |  Taro 百度智能小程序运行时框架  |
-| [`@tarojs/taro-tt`](https://www.npmjs.com/package/@tarojs/taro-tt) |  Taro 字节跳动小程序运行时框架  |
-| [`@tarojs/taro-alipay`](https://www.npmjs.com/package/@tarojs/taro-alipay) |  Taro 支付宝小程序运行时框架  |
-| [`@tarojs/taro-qq`](https://www.npmjs.com/package/@tarojs/taro-qq) |  Taro QQ 小程序运行时框架  |
-| [`@tarojs/taro-quickapp`](https://www.npmjs.com/package/@tarojs/taro-quiciapp) |  Taro 快应用 运行时框架  |
-| [`@tarojs/redux`](https://www.npmjs.com/package/@tarojs/redux) |  Taro 小程序 Redux 支持  |
-| [`@tarojs/redux-h5`](https://www.npmjs.com/package/@tarojs/redux-h5) |  Taro H5 Redux 支持  |
-| [`@tarojs/redux-rn`](https://www.npmjs.com/package/@tarojs/redux-rn) |  Taro React Native Redux 支持  |
-| [`@tarojs/mobx-common`](https://www.npmjs.com/package/@tarojs/mobx-common) |  Taro MobX 公共模块  |
-| [`@tarojs/mobx`](https://www.npmjs.com/package/@tarojs/mobx) |  Taro 小程序 MobX 支持  |
-| [`@tarojs/mobx-h5`](https://www.npmjs.com/package/@tarojs/mobx-h5) |  Taro H5 MobX 支持  |
-| [`@tarojs/mobx-rn`](https://www.npmjs.com/package/@tarojs/mobx-rn) |  Taro React Native MobX 支持  |
+| [`babel-preset-taro`](https://www.npmjs.com/package/babel-preset-taro)      |  给 Taro 项目使用的 babel preset |
+| [`@tarojs/taro`](https://www.npmjs.com/package/@tarojs/taro)      |  暴露给应用开发者的 Taro 核心 API  |
+| [`@tarojs/shared`](https://www.npmjs.com/package/@tarojs/shared)      |  Taro 内部使用的 utils  |
+| [`@tarojs/api`](https://www.npmjs.com/package/@tarojs/api)      |  暴露给 @tarojs/taro 的所有端的公有 API  |
+| [`@tarojs/taro-h5`](https://www.npmjs.com/package/@tarojs/taro-h5) |  暴露给 @tarojs/taro 的 H5 端 API  |
 | [`@tarojs/router`](https://www.npmjs.com/package/@tarojs/router) |  Taro H5 路由  |
-| [`@tarojs/async-await`](https://www.npmjs.com/package/@tarojs/async-await)      |  支持使用 async/await 语法  |
+| [`@tarojs/react`](https://www.npmjs.com/package/@tarojs/react) | 基于 react-reconciler 的小程序专用 React 渲染器  |
 | [`@tarojs/cli`](https://www.npmjs.com/package/@tarojs/cli) | Taro 开发工具   |
-| [`@tarojs/transformer-wx`](https://www.npmjs.com/package/@tarojs/transformer-wx) | Taro 小程序转换器  |
-| [`@tarojs/taroize`](https://www.npmjs.com/package/@tarojs/taroize) | Taro 小程序编译器  |
-| [`@tarojs/taro-rn-runner`](https://www.npmjs.com/package/@tarojs/rn-runner) |  Taro React Native 打包编译工具  |
+| [`@tarojs/extend`](https://www.npmjs.com/package/@tarojs/extend) | Taro 扩展，包含 jQuery API 等   |
+| [`@tarojs/helper`](https://www.npmjs.com/package/@tarojs/helper) | 内部给 CLI 和 runner 使用辅助方法集  |
+| [`@tarojs/service`](https://www.npmjs.com/package/@tarojs/service) | Taro 插件化内核  |
+| [`@tarojs/taro-loader`](https://www.npmjs.com/package/@tarojs/taro-loader) | 露给 @tarojs/mini-runner 和 @tarojs/webpack-runner 使用的 Webpack loader  |
+| [`@tarojs/runner-utils`](https://www.npmjs.com/package/@tarojs/runner-utils) | 暴露给 @tarojs/mini-runner 和 @tarojs/webpack-runner 的公用工具函数  |
 | [`@tarojs/webpack-runner`](https://www.npmjs.com/package/@tarojs/webpack-runner) |  Taro H5 端 Webpack 打包编译工具  |
+| [`@tarojs/mini-runner`](https://www.npmjs.com/package/@tarojs/mini-runner) |  Taro 小程序 端 Webpack 打包编译工具  |
 | [`@tarojs/components`](https://www.npmjs.com/package/@tarojs/components) | Taro 标准组件库，H5 版 |
-| [`@tarojs/components-rn`](https://www.npmjs.com/package/@tarojs/components-rn) |  Taro 标准组件库，React Native 版  |
-| [`@tarojs/components-qa`](https://www.npmjs.com/package/@tarojs/components-qa) |  Taro 标准组件库，快应用 版  |
-| [`@tarojs/plugin-babel`](https://www.npmjs.com/package/@tarojs/plugin-babel) |  Taro Babel 编译插件  |
-| [`@tarojs/plugin-sass`](https://www.npmjs.com/package/@tarojs/plugin-sass) |  Taro Sass 编译插件  |
-| [`@tarojs/plugin-less`](https://www.npmjs.com/package/@tarojs/plugin-less) |  Taro Less 编译插件  |
-| [`@tarojs/plugin-stylus`](https://www.npmjs.com/package/@tarojs/plugin-stylus) |  Taro Stylus 编译插件  |
-| [`@tarojs/plugin-csso`](https://www.npmjs.com/package/@tarojs/plugin-csso) |  Taro CSS 压缩插件  |
-| [`@tarojs/plugin-uglifyjs`](https://www.npmjs.com/package/@tarojs/plugin-uglifyjs) |  Taro JS 压缩插件  |
+| [`@tarojs/taroize`](https://www.npmjs.com/package/@tarojs/taroize) | Taro 小程序反向编译器  |
+| [`@tarojs/with-weapp`](https://www.npmjs.com/package/@tarojs/with-weapp) | 反向转换的运行时适配器  |
 | [`eslint-config-taro`](https://www.npmjs.com/package/eslint-config-taro)      |  Taro ESLint 规则  |
 | [`eslint-plugin-taro`](https://www.npmjs.com/package/eslint-plugin-taro)      |  Taro ESLint 插件  |
 

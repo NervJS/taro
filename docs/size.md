@@ -113,29 +113,25 @@ REM 单位允许的小数位。
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
-    module: {
-      postcss: {
-        autoprefixer: {
-          enable: true
-        },
-        pxtransform: {
-          enable: true,
-          config: {
-            selectorBlackList: ['body']
-          }
+    postcss: {
+      autoprefixer: {
+        enable: true
+      },
+      pxtransform: {
+        enable: true,
+        config: {
+          selectorBlackList: ['body']
         }
       }
     }
   },
-  weapp: {
+  mini: {
     // ...
-    module: {
-      postcss: {
-        pxtransform: {
-          enable: true,
-          config: {
-            selectorBlackList: ['body']
-          }
+    postcss: {
+      pxtransform: {
+        enable: true,
+        config: {
+          selectorBlackList: ['body']
         }
       }
     }
