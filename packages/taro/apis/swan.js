@@ -8,35 +8,6 @@ const {
   Link
 } = Taro
 
-const RequestQueue = {
-  MAX_REQUEST: 5,
-  queue: [],
-  request (options) {
-    this.push(options)
-    // 返回request task
-    return this.run()
-  },
-
-  push (options) {
-    this.queue.push(options)
-  },
-
-  run () {
-    if (!this.queue.length) {
-      return
-    }
-    if (this.queue.length <= this.MAX_REQUEST) {
-      const options = this.queue.shift()
-      const completeFn = options.complete
-      options.complete = () => {
-        completeFn && completeFn.apply(options, [...arguments])
-        this.run()
-      }
-      return swan.request(options)
-    }
-  }
-}
-
 function taroInterceptor (chain) {
   return request(chain.requestParams)
 }
@@ -68,7 +39,7 @@ function request (options) {
       originComplete && originComplete(res)
     }
 
-    requestTask = RequestQueue.request(options)
+    requestTask = swan.request(options)
   })
   p.abort = (cb) => {
     cb && cb()
