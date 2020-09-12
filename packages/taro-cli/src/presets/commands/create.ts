@@ -1,4 +1,5 @@
 import { IPluginContext } from '@tarojs/service'
+import scanPageName from '../../create/scanPageName'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -12,13 +13,19 @@ export default (ctx: IPluginContext) => {
       'taro create --name=page --description=desc'
     ],
     fn ({ _, options }) {
-      const name = _[1] || options.name
+      let name = _[1] || options.name
       const description = options.description || ''
       const { chalk } = ctx.helper
       const { appPath } = ctx.paths
 
       if (typeof name !== 'string') {
         return console.log(chalk.red('请输入需要创建的页面名称'))
+      }
+
+      try {
+        name = scanPageName(name)
+      } catch (error) {
+        console.log(chalk.red(error.message))
       }
 
       const Page = require('../../create/page').default
