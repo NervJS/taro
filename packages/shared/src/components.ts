@@ -210,12 +210,12 @@ const Form = {
 
 const Input = {
   value: '',
-  type: singleQuote(''),
+  type: singleQuote('text'),
   password: 'false',
   placeholder: '',
   'placeholder-style': '',
   'placeholder-class': singleQuote('input-placeholder'),
-  disabled: '',
+  disabled: 'false',
   maxlength: '140',
   'cursor-spacing': '0',
   'auto-focus': 'false',
@@ -236,6 +236,10 @@ const Input = {
   ...selectEnv({
     weapp: {
       'always-embed': 'false'
+    },
+    alipay: {
+      'random-number': 'false',
+      controlled: 'false'
     }
   })
 }
