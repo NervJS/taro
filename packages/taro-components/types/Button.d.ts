@@ -119,7 +119,7 @@ interface ButtonProps extends StandardProps {
   appParameter?: string
 
   /** 支付宝小程序 scope
-   * 
+   *
    * 生效时机：`open-type="getAuthorize"`
    * @supported weapp
    */
@@ -132,6 +132,27 @@ interface ButtonProps extends StandardProps {
    */
   showMessageCard?: boolean
 
+  /**
+   * 应用的包名 （安卓）
+   * 生效时机：`open-type="launchApp"`
+   * @supported qq
+   */
+  appPackagename: string,
+
+  /**
+   * 应用的bundleid （iOS）
+   * 生效时机：`open-type="launchApp"`
+   * @supported qq
+   */
+  appBundleid: string,
+
+  /**
+   * QQ互联中的AppID
+   * 生效时机：`open-type="launchApp"`
+   * @supported qq
+   */
+  appConnectId: string,
+
   /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
    *
    * 生效时机: `open-type="getUserInfo"`
@@ -140,7 +161,7 @@ interface ButtonProps extends StandardProps {
   onGetUserInfo?: CommonEventFunction<ButtonProps.onGetUserInfoEventDetail>
 
   /** 支付宝获取会员基础信息授权回调
-   * 
+   *
    * 生效时机：`open-type="getAuthorize"`
    * @supported alipay
    */
@@ -182,7 +203,7 @@ interface ButtonProps extends StandardProps {
   onOpenSetting?: CommonEventFunction<ButtonProps.onOpenSettingEventDetail>
 
   /** 打开 APP 成功的回调
-   * 
+   *
    * 生效时机：`open-type="launchApp"`
    * @supported weapp
    */
@@ -343,7 +364,7 @@ declare namespace ButtonProps {
     /** 小程序消息指定的查询参数 */
     query: Record<string, any>
   }
-  
+
   interface onGetPhoneNumberEventDetail {
     /* 获取用户手机号的调用状态 */
     errMsg: string
@@ -352,7 +373,7 @@ declare namespace ButtonProps {
     /** 加密算法的初始向量 */
     iv: string
   }
-  
+
   interface onOpenSettingEventDetail {
     /* 打开授权设置页的调用状态 */
     errMsg: string
