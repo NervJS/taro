@@ -4,17 +4,14 @@ export default () => {
   return {
     plugins: [
       // platforms
-      path.resolve(__dirname, 'platforms', 'weapp.js'),
-      path.resolve(__dirname, 'platforms', 'tt.js'),
-      path.resolve(__dirname, 'platforms', 'alipay.js'),
-      path.resolve(__dirname, 'platforms', 'swan.js'),
-      path.resolve(__dirname, 'platforms', 'jd.js'),
-      path.resolve(__dirname, 'platforms', 'qq.js'),
-      // path.resolve(__dirname, 'platforms', 'quickapp.js'),
+      require.resolve('@tarojs/plugin-platform-weapp'),
+      require.resolve('@tarojs/plugin-platform-alipay'),
+      require.resolve('@tarojs/plugin-platform-swan'),
+      require.resolve('@tarojs/plugin-platform-tt'),
+      require.resolve('@tarojs/plugin-platform-qq'),
+      require.resolve('@tarojs/plugin-platform-jd'),
       path.resolve(__dirname, 'platforms', 'h5.js'),
-      // path.resolve(__dirname, 'platforms', 'rn.js'),
       path.resolve(__dirname, 'platforms', 'plugin.js'),
-      // path.resolve(__dirname, 'platforms', 'ui.js'),
 
       // commands
       path.resolve(__dirname, 'commands', 'build.js'),

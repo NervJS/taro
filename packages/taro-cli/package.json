@@ -45,6 +45,12 @@
   "dependencies": {
     "@hapi/joi": "17.1.1",
     "@tarojs/helper": "3.0.9",
+    "@tarojs/plugin-platform-alipay": "3.0.9",
+    "@tarojs/plugin-platform-jd": "3.0.9",
+    "@tarojs/plugin-platform-qq": "3.0.9",
+    "@tarojs/plugin-platform-swan": "3.0.9",
+    "@tarojs/plugin-platform-tt": "3.0.9",
+    "@tarojs/plugin-platform-weapp": "3.0.9",
     "@tarojs/service": "3.0.9",
     "@tarojs/shared": "3.0.9",
     "@tarojs/taro": "3.0.9",
