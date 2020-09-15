@@ -50,7 +50,6 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   fileType: IFileType,
   isSupportXS: boolean,
   globalObject: string,
-  isUseComponentBuildPage: boolean,
   modifyWebpackChain: Function,
   modifyBuildAssets: Function,
   modifyMiniConfigs: Function,

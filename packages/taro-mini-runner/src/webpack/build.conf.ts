@@ -38,6 +38,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     globalObject = 'wx',
     outputRoot = 'dist',
     sourceRoot = 'src',
+    isBuildPlugin = false,
 
     designWidth = 750,
     deviceRatio,
@@ -82,7 +83,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
   const taroBaseReg = /@tarojs[\\/][a-z]+/
-  if (config.isBuildPlugin) {
+  if (isBuildPlugin) {
     const patterns = copy ? copy.patterns : []
     patterns.push({
       from: path.join(sourceRoot, 'plugin', 'doc'),
@@ -119,9 +120,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const entryRes = getEntry({
     sourceDir,
     entry,
-    isBuildPlugin: config.isBuildPlugin
+    isBuildPlugin
   })
-  const defaultCommonChunks = config.isBuildPlugin
+  const defaultCommonChunks = isBuildPlugin
     ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
     : ['runtime', 'vendors', 'taro', 'common']
   let customCommonChunks = defaultCommonChunks
@@ -142,7 +143,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     quickappJSON,
     designWidth,
     pluginConfig: entryRes!.pluginConfig,
-    isBuildPlugin: !!config.isBuildPlugin,
+    isBuildPlugin: Boolean(isBuildPlugin),
     commonChunks: customCommonChunks,
     baseLevel,
     framework,
@@ -222,7 +223,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       usedExports: true,
       minimizer,
       runtimeChunk: {
-        name: config.isBuildPlugin ? 'plugin/runtime' : 'runtime'
+        name: isBuildPlugin ? 'plugin/runtime' : 'runtime'
       },
       splitChunks: {
         chunks: 'all',
@@ -230,12 +231,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
         minSize: 0,
         cacheGroups: {
           common: {
-            name: config.isBuildPlugin ? 'plugin/common' : 'common',
+            name: isBuildPlugin ? 'plugin/common' : 'common',
             minChunks: 2,
             priority: 1
           },
           vendors: {
-            name: config.isBuildPlugin ? 'plugin/vendors' : 'vendors',
+            name: isBuildPlugin ? 'plugin/vendors' : 'vendors',
             minChunks: 2,
             test: module => {
               return /[\\/]node_modules[\\/]/.test(module.resource)
@@ -243,7 +244,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
             priority: 10
           },
           taro: {
-            name: config.isBuildPlugin ? 'plugin/taro' : 'taro',
+            name: isBuildPlugin ? 'plugin/taro' : 'taro',
             test: module => {
               return taroBaseReg.test(module.context)
             },
