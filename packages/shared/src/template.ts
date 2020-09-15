@@ -15,6 +15,8 @@
 import {
   internalComponents,
   focusComponents,
+  voidElements,
+  nestElements,
   styles,
   events,
   specialEvents,
@@ -54,36 +56,6 @@ export interface IAdapter {
 
 export type Attributes = Record<string, string>
 
-const voidElements = new Set([
-  'progress',
-  'icon',
-  'rich-text',
-  'input',
-  'textarea',
-  'slider',
-  'switch',
-  'audio',
-  'live-player',
-  'live-pusher',
-  'video',
-  'ad',
-  'official-account',
-  'open-data',
-  'navigation-bar'
-])
-
-const nestElements = new Map([
-  ['view', -1],
-  ['cover-view', -1],
-  ['block', -1],
-  ['text', -1],
-  ['slot', 8],
-  ['slot-view', 8],
-  ['label', 6],
-  ['form', 4],
-  ['scroll-view', 4]
-])
-
 const weixinAdapter: IAdapter = {
   if: 'wx:if',
   else: 'wx:else',
@@ -107,6 +79,14 @@ export class BaseTemplate {
   protected modifyTemplateResult?: (res: string, nodeName: string, level: number, children: string) => string
 
   public Adapter = weixinAdapter
+  /** 组件列表 */
+  public internalComponents: Record<string, Record<string, string>> = internalComponents
+  /** 可以 focus 聚焦的组件 */
+  public focusComponents: Set<string> = focusComponents
+  /** 不需要渲染子节点的元素 */
+  public voidElements: Set<string> = voidElements
+  /** 可以递归调用自身的组件 */
+  public nestElements: Map<string, number> = nestElements
 
   private buildAttribute (attrs: Attributes, nodeName: string): string {
     return Object.keys(attrs)
@@ -204,7 +184,7 @@ export class BaseTemplate {
   }
 
   protected buildComponentTemplate (comp: Component, level: number) {
-    return focusComponents.has(comp.nodeName)
+    return this.focusComponents.has(comp.nodeName)
       ? this.buildFocusComponentTemplte(comp, level)
       : this.buildStandardComponentTemplate(comp, level)
   }
@@ -246,7 +226,7 @@ export class BaseTemplate {
       child = this.modifyLoopBody(child, comp.nodeName)
     }
 
-    let children = voidElements.has(comp.nodeName)
+    let children = this.voidElements.has(comp.nodeName)
       ? ''
       : `
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="uid">
@@ -402,7 +382,7 @@ export class RecursiveTemplate extends BaseTemplate {
   public buildTemplate = (componentConfig: ComponentConfig) => {
     let template = this.buildBaseTemplate()
     if (!this.miniComponents) {
-      this.miniComponents = this.createMiniComponents(internalComponents)
+      this.miniComponents = this.createMiniComponents(this.internalComponents)
     }
     const ZERO_FLOOR = 0
     const components = Object.keys(this.miniComponents)
@@ -437,7 +417,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
   public buildTemplate = (componentConfig: ComponentConfig) => {
     this.componentConfig = componentConfig
     if (!this.miniComponents) {
-      this.miniComponents = this.createMiniComponents(internalComponents)
+      this.miniComponents = this.createMiniComponents(this.internalComponents)
     }
     const components = Object.keys(this.miniComponents)
       .filter(c => componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true)
@@ -472,12 +452,12 @@ export class UnRecursiveTemplate extends BaseTemplate {
 
     let template = components.reduce((current, nodeName) => {
       if (level !== 0) {
-        if (!nestElements.has(nodeName)) {
+        if (!this.nestElements.has(nodeName)) {
           // 不可嵌套自身的组件只需输出一层模板
           return current
         } else {
           // 部分可嵌套自身的组件实际上不会嵌套过深，这里按阈值限制层数
-          const max = nestElements.get(nodeName)!
+          const max = this.nestElements.get(nodeName)!
           if (max > 0 && level >= max) {
             return current
           }
@@ -496,11 +476,11 @@ export class UnRecursiveTemplate extends BaseTemplate {
 
   protected buildXSTmplName () {
     const comps = [
-      ...Array.from(nestElements.keys()),
+      ...Array.from(this.nestElements.keys()),
       ...Array.from(this.componentConfig.thirdPartyComponents.keys())
     ]
     const hasMaxComps: string[] = []
-    nestElements.forEach((max, comp) => {
+    this.nestElements.forEach((max, comp) => {
       if (max > -1) hasMaxComps.push(comp)
     })
     return `function (l, n, s) {
@@ -523,7 +503,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
 
   protected buildXSTmpExtra () {
     const hasMaxComps: string[] = []
-    nestElements.forEach((max, comp) => {
+    this.nestElements.forEach((max, comp) => {
       if (max > -1) hasMaxComps.push(comp)
     })
     return `f: function (l, n) {
