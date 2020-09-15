@@ -13,6 +13,14 @@ export function initTabbar (config: AppConfig) {
   tabbar.conf.homePage = history.location.pathname === '/' ? homePage : history.location.pathname
   const routerConfig = (config as any).router
   tabbar.conf.mode = routerConfig && routerConfig.mode ? routerConfig.mode : 'hash'
+  tabbar.conf.custom = !!routerConfig.customRoutes
+  if (routerConfig.customRoutes) {
+    tabbar.conf.custom = true
+    tabbar.conf.customRoutes = routerConfig.customRoutes
+  } else {
+    tabbar.conf.custom = false
+    tabbar.conf.customRoutes = {}
+  }
   const container = document.getElementById('container')
   // eslint-disable-next-line no-unused-expressions
   container?.appendChild(tabbar)
