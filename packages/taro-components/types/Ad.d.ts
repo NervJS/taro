@@ -11,6 +11,11 @@ interface AdProps extends StandardProps {
    * @supported weapp
    */
   adIntervals?: number
+  
+  /** 广告主题样式设置
+   * @supported weapp
+   */
+  adTheme?: 'white' | 'black'
 
   /** 广告加载成功的回调
    * @supported weapp
