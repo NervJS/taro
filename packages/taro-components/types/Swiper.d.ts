@@ -73,6 +73,13 @@ interface SwiperProps extends StandardProps {
    */
   nextMargin?: string
 
+  /**
+   * 当 swiper-item 的个数大于等于 2，关闭 circular 并且开启 previous-margin 或 next-margin 的时候，可以指定这个边距是否应用到第一个、最后一个元素
+   * @default false
+   * @supported weapp
+   */
+  snapToEdge?: boolean
+
   /** 同时显示的滑块数量
    * @default 1
    * @supported weapp, swan, tt, h5
@@ -117,7 +124,7 @@ declare namespace SwiperProps {
     /** 其它原因 */
     ''
   }
-  
+
   /** 指定 swiper 切换缓动动画类型 */
   interface TEasingFunction {
     /** 默认缓动函数 */
