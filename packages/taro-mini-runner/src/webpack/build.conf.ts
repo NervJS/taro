@@ -42,9 +42,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     designWidth = 750,
     deviceRatio,
     enableSourceMap = process.env.NODE_ENV !== 'production',
+    sourceMapType,
+    debugReact = false,
     baseLevel = 16,
     framework = 'nerv',
     prerender,
+    minifyXML = {},
 
     defineConstants = {},
     env = {},
@@ -97,6 +100,13 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   alias[taroJsComponents + '$'] = `${taroJsComponents}/mini`
   if (framework === 'react') {
     alias['react-dom'] = '@tarojs/react'
+    if (process.env.NODE_ENV !== 'production' && !debugReact) {
+      alias['react-reconciler'] = 'react-reconciler/cjs/react-reconciler.production.min.js'
+      // eslint-disable-next-line dot-notation
+      alias['react'] = 'react/cjs/react.production.min.js'
+      // eslint-disable-next-line dot-notation
+      alias['scheduler'] = 'scheduler/cjs/scheduler.production.min.js'
+    }
   }
   if (framework === 'nerv') {
     alias['react-dom'] = 'nervjs'
@@ -139,7 +149,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     prerender,
     addChunkPages,
     modifyMiniConfigs,
-    modifyBuildAssets
+    modifyBuildAssets,
+    minifyXML
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{
@@ -175,7 +186,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   chain.merge({
     mode,
-    devtool: getDevtool(enableSourceMap),
+    devtool: getDevtool(enableSourceMap, sourceMapType),
     entry: entryRes!.entry,
     output: getOutput(appPath, [{
       outputRoot,

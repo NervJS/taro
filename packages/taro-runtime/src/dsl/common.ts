@@ -309,6 +309,10 @@ export function createRecursiveComponentConfig () {
         value: {
           [Shortcuts.NodeName]: 'view'
         }
+      },
+      l: {
+        type: String,
+        value: ''
       }
     },
     observers: {

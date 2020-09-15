@@ -141,6 +141,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
     },
 
     onLaunch: {
+      writable: true,
       enumerable: true,
       value (options) {
         Current.router = {
@@ -154,6 +155,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
     },
 
     onShow: {
+      writable: true,
       enumerable: true,
       value (options) {
         Current.router = {
@@ -166,6 +168,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
     },
 
     onHide: {
+      writable: true,
       enumerable: true,
       value (options) {
         const onHide = appInstance?.$options?.onHide

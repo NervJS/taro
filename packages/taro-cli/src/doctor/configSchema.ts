@@ -52,6 +52,12 @@ const schema = Joi.object().keys({
     commonChunks: Joi.alternatives(Joi.func(), Joi.array().items(Joi.string())),
     addChunkPages: Joi.func(),
     output: Joi.object(),
+    enableSourceMap: Joi.bool(),
+    sourceMapType: Joi.string(),
+    debugReact: Joi.bool(),
+    minifyXML: Joi.object().keys({
+      collapseWhitespace: Joi.bool()
+    }),
     postcss: Joi.object().pattern(
       Joi.string(),
       Joi.object().keys({
@@ -115,6 +121,7 @@ const schema = Joi.object().keys({
       Joi.func()
     ),
     enableSourceMap: Joi.bool(),
+    sourceMapType: Joi.string(),
     enableExtract: Joi.bool(),
     cssLoaderOption: Joi.object(), // 第三方配置
     styleLoaderOption: Joi.object(), // 第三方配置

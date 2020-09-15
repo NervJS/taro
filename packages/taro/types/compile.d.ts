@@ -115,6 +115,11 @@ export interface ICompileOption {
 export interface IMiniAppConfig {
   appOutput?: boolean,
   enableSourceMap?: boolean,
+  sourceMapType?: string,
+  debugReact?: boolean,
+  minifyXML?: {
+    collapseWhitespace?: boolean
+  },
 
   webpackChain?: (chain: any, webpack: any, PARSE_AST_TYPE: any) => void,
   entry?: webpack.Entry,
