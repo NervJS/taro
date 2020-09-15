@@ -4,6 +4,15 @@ import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, p
 import { WXS } from './wxml'
 import { usedComponents } from './global'
 
+interface Property {
+  key?: { name?: string },
+  value?: {
+    type?: string,
+    properties?: typeof t.objectExpression[]
+  },
+  type: string,
+}
+
 const defaultClassName = '_C'
 
 const buildDecorator = (id: t.Identifier | t.ObjectExpression) => t.decorator(
@@ -143,6 +152,38 @@ function parsePage (
   }
 
   const wxsNames = new Set(wxses ? wxses.map(w => w.module) : [])
+
+  if (arg.isObjectExpression()) {
+    arg.node.properties.forEach((property) => {
+      const {
+        key = {},
+        value: propsList = {},
+        type = ''
+      } = property as Property
+
+      if (
+        type === 'ObjectProperty' &&
+        key.name === 'properties' &&
+        propsList.type === 'ObjectExpression'
+      ) {
+        (propsList.properties || []).forEach((propsKeyObjectExpression) => {
+          const {
+            key: {
+              name = ''
+            } = {}
+          } = propsKeyObjectExpression as {
+            key?: {
+              name?: string
+            }
+          }
+
+          if (name) {
+            propsKeys.push(name)
+          }
+        })
+      }
+    })
+  }
 
   const renderFunc = buildRender(
     componentType === 'App'
