@@ -68,3 +68,36 @@ const Taro = {
 }
 
 export default Taro
+
+export {
+  Events,
+  eventCenter,
+  getEnv,
+  ENV_TYPE,
+  render,
+  noPromiseApis,
+  onAndSyncApis,
+  otherApis,
+  initPxTransform,
+  Link,
+  interceptors,
+  Current,
+  getCurrentInstance,
+  useDidShow,
+  useDidHide,
+  usePullDownRefresh,
+  useReachBottom,
+  usePageScroll,
+  useResize,
+  useShareAppMessage,
+  useTabItemTap,
+  useTitleClick,
+  useOptionMenuClick,
+  usePullIntercept,
+  useShareTimeline,
+  useAddToFavorites,
+  useReady,
+  useRouter,
+  options,
+  nextTick
+}

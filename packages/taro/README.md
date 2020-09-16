@@ -1,14 +1,14 @@
-# @tarojs/taro
+# `@tarojs/api`
 
-暴露给应用开发者的 Taro 核心 API。包含以下文件：
+暴露给 @tarojs/taro 的所有端的公有 API。`@tarojs/api` 会跨 node/浏览器/小程序/React Native 使用，不得使用/包含平台特有特性。
 
-## index.js
+## dist/index.esm.js
 
 小程序端入口文件
 
-## apis
+## dist/h5.esm.js
 
-各小程序平台 API
+H5 端入口文件
 
 ## html.css
 
@@ -17,7 +17,3 @@ W3C HTML4 的内置样式，用于 [渲染 HTML](https://taro-docs.jd.com/taro/n
 ## html5.css
 
 Chrome(Blink) HTML5 的内置样式，用于 [渲染 HTML](https://taro-docs.jd.com/taro/next/docs/html.html)。
-
-## h5.js
-
-H5 端入口文件

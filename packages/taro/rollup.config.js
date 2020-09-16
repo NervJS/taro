@@ -5,23 +5,7 @@ const babel = require('rollup-plugin-babel')
 const cwd = __dirname
 
 const baseConfig = {
-  input: join(cwd, 'src/index.js'),
-  external: ['nervjs', '@tarojs/runtime'],
-  output: [
-    {
-      file: join(cwd, 'dist/index.js'),
-      format: 'cjs',
-      sourcemap: true,
-      exports: 'named'
-    },
-    {
-      file: join(cwd, 'dist/taro.js'),
-      format: 'umd',
-      name: 'Taro',
-      sourcemap: true,
-      exports: 'named'
-    }
-  ],
+  external: ['nervjs', '@tarojs/runtime', '@tarojs/taro-h5'],
   plugins: [
     resolve({
       preferBuiltins: false
@@ -44,23 +28,63 @@ const baseConfig = {
     })
   ]
 }
-const esmConfig = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output, {
+
+const miniUmdConfig = Object.assign({}, baseConfig, {
+  input: join(cwd, 'src/index.js'),
+  output: [
+    {
+      file: join(cwd, 'dist/index.js'),
+      format: 'cjs',
+      sourcemap: true,
+      exports: 'named'
+    },
+    {
+      file: join(cwd, 'dist/taro.js'),
+      format: 'umd',
+      name: 'Taro',
+      sourcemap: true,
+      exports: 'named'
+    }
+  ]
+})
+
+const miniEsmConfig = Object.assign({}, baseConfig, {
+  input: join(cwd, 'src/index.js'),
+  output: {
     sourcemap: true,
     format: 'es',
     file: join(cwd, 'dist/index.esm.js')
-  })
+  }
+})
+
+const h5CjsConfig = Object.assign({}, baseConfig, {
+  input: join(cwd, 'src/h5-cjs.js'),
+  output: {
+    file: join(cwd, 'dist/h5.js'),
+    format: 'cjs',
+    sourcemap: true,
+    exports: 'named'
+  }
+})
+
+const h5EsmConfig = Object.assign({}, baseConfig, {
+  input: join(cwd, 'src/h5.js'),
+  output: {
+    sourcemap: true,
+    format: 'es',
+    file: join(cwd, 'dist/h5.esm.js')
+  }
 })
 
 function rollup () {
   const target = process.env.TARGET
 
   if (target === 'umd') {
-    return baseConfig
+    return [miniUmdConfig, h5CjsConfig]
   } else if (target === 'esm') {
-    return esmConfig
+    return [miniEsmConfig, h5EsmConfig]
   } else {
-    return [baseConfig, esmConfig]
+    return [miniUmdConfig, miniEsmConfig, h5EsmConfig, h5CjsConfig]
   }
 }
 module.exports = rollup()

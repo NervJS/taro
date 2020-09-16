@@ -9,7 +9,6 @@
     "packages/postcss-pxtransform",
     "packages/shared",
     "packages/taro",
-    "packages/taro-api",
     "packages/taro-cli",
     "packages/taro-components",
     "packages/taro-extend",

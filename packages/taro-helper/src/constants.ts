@@ -135,7 +135,6 @@ export const UPDATE_PACKAGE_LIST = [
   'postcss-pxtransform',
   '@tarojs/shared',
   '@tarojs/taro',
-  '@tarojs/api',
   '@tarojs/cli',
   '@tarojs/components',
   '@tarojs/taro-h5',
@@ -150,6 +149,12 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/webpack-runner',
   '@tarojs/with-weapp',
   '@tarojs/taroize',
+  '@tarojs/plugin-platform-weapp',
+  '@tarojs/plugin-platform-alipay',
+  '@tarojs/plugin-platform-swan',
+  '@tarojs/plugin-platform-tt',
+  '@tarojs/plugin-platform-qq',
+  '@tarojs/plugin-platform-jd',
   'nervjs',
   'nerv-devtools'
 ]
