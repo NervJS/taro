@@ -47,6 +47,9 @@ class Canvas extends Taro.PureComponent {
       this.height = h
     }
   }
+  componentWillUpdate () {
+    this.canvasRef.setAttribute('canvas-block', false)
+  }
   componentDidMount () {
     if (!this.wrapDom) return
     const { width, height } = this.wrapDom.getBoundingClientRect()
