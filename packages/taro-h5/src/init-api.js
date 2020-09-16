@@ -1,27 +1,4 @@
-import Taro from '@tarojs/api'
-import { history, navigateBack, navigateTo, createRouter, reLaunch, redirectTo, getCurrentPages, switchTab } from '@tarojs/router'
-import { permanentlyNotSupport } from '../api/utils'
-
-const {
-  ENV_TYPE,
-  eventCenter,
-  Events,
-  getEnv,
-  initPxTransform: originalInitPxTransform,
-  render,
-  interceptors,
-  Current,
-  ...rest
-} = Taro
-
-const taro = {
-  ...rest,
-  getEnv,
-  ENV_TYPE,
-  Events,
-  eventCenter,
-  Current,
-  render,
+import {
   history,
   navigateBack,
   navigateTo,
@@ -30,13 +7,10 @@ const taro = {
   redirectTo,
   getCurrentPages,
   switchTab
-}
+} from '@tarojs/router'
+import { permanentlyNotSupport } from './api/utils'
 
-const initPxTransform = originalInitPxTransform.bind(taro)
 const requirePlugin = permanentlyNotSupport('requirePlugin')
-const getApp = function () {
-  return taro._$app
-}
 
 /**
  * RouterParams
@@ -60,27 +34,34 @@ const canIUseWebp = function () {
   return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
 }
 
-taro.initPxTransform = initPxTransform
-taro.requirePlugin = requirePlugin
-taro.getApp = getApp
-taro.pxTransform = pxTransform
-taro.canIUseWebp = canIUseWebp
-taro.interceptors = interceptors
-
-export default taro
+export function initNativeApi (taro) {
+  const getApp = function () {
+    return taro._$app
+  }
+  Object.assign(taro, {
+    // bind
+    initPxTransform: taro.initPxTransform.bind(taro),
+    // extra
+    requirePlugin,
+    getApp,
+    pxTransform,
+    canIUseWebp,
+    // router
+    history,
+    navigateBack,
+    navigateTo,
+    createRouter,
+    reLaunch,
+    redirectTo,
+    getCurrentPages,
+    switchTab
+  })
+}
 
 export {
-  getEnv,
-  ENV_TYPE,
-  Events,
-  eventCenter,
-  render,
-  initPxTransform,
   requirePlugin,
-  getApp,
   pxTransform,
   canIUseWebp,
-  interceptors,
   history,
   navigateBack,
   navigateTo,
