@@ -1,4 +1,33 @@
-# [](https://github.com/NervJS/taro/compare/v2.2.12...v) (2020-07-31)
+# [](https://github.com/NervJS/taro/compare/v2.2.14...v) (2020-09-18)
+
+
+
+## [2.2.14](https://github.com/NervJS/taro/compare/v2.2.13...v2.2.14) (2020-09-18)
+
+
+### Bug Fixes
+
+* **size:** 尺寸计算错误 ([#7644](https://github.com/NervJS/taro/issues/7644)) ([53f5bc7](https://github.com/NervJS/taro/commit/53f5bc70430a71fbb9350b60a46b9ffa6427e867))
+* h5 set attr rewrite width & height fix [#7585](https://github.com/NervJS/taro/issues/7585) ([b4b2d03](https://github.com/NervJS/taro/commit/b4b2d038767982e6b1c79debe52f93e38bb319fd))
+* interactive classname ([e4d5b9c](https://github.com/NervJS/taro/commit/e4d5b9cd0e4d4851c8903ed5ae8e51a904eec308))
+* picker classname fix [#6719](https://github.com/NervJS/taro/issues/6719) ([d4314df](https://github.com/NervJS/taro/commit/d4314df165bb278b9f0017ac439256fc6842891d))
+* relanch logic change for fix [#6733](https://github.com/NervJS/taro/issues/6733) ([440be56](https://github.com/NervJS/taro/commit/440be5620e14c9a19ea3d25ab2123a7036bca6f9))
+* 优化 iOS 输入体验 fix [#6790](https://github.com/NervJS/taro/issues/6790) ([698843a](https://github.com/NervJS/taro/commit/698843adad4617e2a940ebb9bfd61fd1854c373d))
+* 修复 radio-group 子组件 wrapper 导致事件错误问题 fix [#6475](https://github.com/NervJS/taro/issues/6475) ([751f52a](https://github.com/NervJS/taro/commit/751f52ae2f33bc5e0f3a64740c6e78f3ea1ea4f5))
+* 完善ref类型推导 ([#7506](https://github.com/NervJS/taro/issues/7506)) ([b2ca04a](https://github.com/NervJS/taro/commit/b2ca04a2ef0c2a8eaf6cbef0f3d1a4ecec164ec2))
+* **helper:** babel-preset-env 配置不起作用 close 7345 ([#7360](https://github.com/NervJS/taro/issues/7360)) ([3453ca7](https://github.com/NervJS/taro/commit/3453ca7e9e0a9dc75b98dfc62265bf366e9926ae))
+* **mini-runner:** 修复小程序混写时模板引入只有第一个生效的问题 ([#7454](https://github.com/NervJS/taro/issues/7454)) ([e981c93](https://github.com/NervJS/taro/commit/e981c93ecf0bed47b12f5793d1c51a81fb28eebf)), closes [#5824](https://github.com/NervJS/taro/issues/5824)
+
+
+### Features
+
+* block canvas draw before complete ([430e786](https://github.com/NervJS/taro/commit/430e7866ba29949beb022d0da8ac75fe320a3622))
+* switchTab on pages route to fix [#6878](https://github.com/NervJS/taro/issues/6878) ([b3465bb](https://github.com/NervJS/taro/commit/b3465bb662915bde3395a7eb5cd67c90888a3b55))
+* **taro-components:** 增加 Picker 鼠标事件响应 ([ac5e462](https://github.com/NervJS/taro/commit/ac5e4624133393fa1da0e21dfe1358beb07c4976))
+
+
+
+## [2.2.13](https://github.com/NervJS/taro/compare/v2.2.12...v2.2.13) (2020-07-31)
 
 
 ### Bug Fixes
