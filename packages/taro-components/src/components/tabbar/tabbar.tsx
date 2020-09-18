@@ -43,6 +43,7 @@ export interface Conf {
   customRoutes: Record<string, string>
   mode: 'hash' | 'browser'
   basename: string
+  homePage: string
   currentPagename: string
 }
 
@@ -91,7 +92,7 @@ export class Tabbar implements ComponentInterface {
       throw new Error('tabBar 配置错误')
     }
 
-    this.homePage = addLeadingSlash(this.homePage)
+    this.homePage = addLeadingSlash(this.conf.homePage)
     for (const key in customRoutes) {
       this.customRoutes.push([key, customRoutes[key]])
     }
