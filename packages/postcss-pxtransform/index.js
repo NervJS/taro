@@ -45,7 +45,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
 
   switch (options.platform) {
     case 'weapp': {
-      options.rootValue = options.deviceRatio[options.designWidth]
+      options.rootValue = 1 / options.deviceRatio[options.designWidth]
       targetUnit = 'rpx'
       break
     }
