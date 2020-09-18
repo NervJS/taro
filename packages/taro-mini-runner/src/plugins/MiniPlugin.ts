@@ -118,8 +118,8 @@ export default class TaroMiniPlugin {
     }, options)
 
     const { template, baseLevel } = this.options
-    if (template instanceof UnRecursiveTemplate && baseLevel > 0) {
-      template.baseLevel = baseLevel
+    if (template.isSupportRecursive === false && baseLevel > 0) {
+      (template as UnRecursiveTemplate).baseLevel = baseLevel
     }
   }
 
