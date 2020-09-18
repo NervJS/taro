@@ -81,19 +81,19 @@ function request (options) {
     return p
   }
   p.onHeadersReceived = function (cb) {
-    cb && cb();
+    cb && cb()
     if (requestTask) {
-      requestTask.onHeadersReceived();
+      requestTask.onHeadersReceived()
     }
-    return p;
-  };
+    return p
+  }
   p.offHeadersReceived = function (cb) {
-    cb && cb();
+    cb && cb()
     if (requestTask) {
-      requestTask.offHeadersReceived();
+      requestTask.offHeadersReceived()
     }
-    return p;
-  };
+    return p
+  }
   return p
 }
 
@@ -230,7 +230,7 @@ function pxTransform (size) {
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
-  return parseInt(size, 10) / deviceRatio[designWidth] + 'rpx'
+  return (parseInt(size, 10) * deviceRatio[designWidth]) + 'rpx'
 }
 
 function canIUseWebp () {
@@ -265,7 +265,7 @@ function wxEnvObj (taro) {
   const wxEnv = wx.env || {}
   const taroEnv = {}
   const envList = ['USER_DATA_PATH']
-  envList.forEach(key => taroEnv[key] = wxEnv[key])
+  envList.forEach(key => (taroEnv[key] = wxEnv[key]))
   taro.env = taroEnv
 }
 
