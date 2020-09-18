@@ -63,7 +63,6 @@ const voidElements = new Set([
   'slider',
   'switch',
   'audio',
-  'live-player',
   'live-pusher',
   'video',
   'ad',
