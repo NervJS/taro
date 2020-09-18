@@ -11,6 +11,16 @@ interface AdProps extends StandardProps {
    * @supported weapp
    */
   adIntervals?: number
+  
+  /** 广告类型，默认为展示`banner`，可通过设置该属性为`video`展示视频广告, `grid`为格子广告
+   * @supported weapp
+   */
+  adType?: 'banner' | 'video' | 'grid'
+  
+  /** 广告主题样式设置
+   * @supported weapp
+   */
+  adTheme?: 'white' | 'black'
 
   /** 广告加载成功的回调
    * @supported weapp
