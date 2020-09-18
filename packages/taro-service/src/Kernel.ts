@@ -307,5 +307,6 @@ export default class Kernel extends EventEmitter {
       name,
       opts
     })
+    process.exit(0)
   }
 }
