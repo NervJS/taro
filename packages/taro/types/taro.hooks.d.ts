@@ -61,7 +61,7 @@ declare namespace Taro {
   /**
    * 获取当前路由参数。
    */
-  function useRouter<TParams extends Partial<Record<string, string>> = Partial<Record<string, string>>>(): RouterInfo<TParams>
+  function useRouter<TParams extends Partial<Record<string, string>> = Partial<Record<string, string>>>(dynamic?: boolean): RouterInfo<TParams>
 
   /**
    * 导航栏的标题被点击时的回调。
