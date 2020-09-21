@@ -8,6 +8,7 @@ import {
   findMethodName,
   pathResolver,
   createRandomLetters,
+  createUniPathID,
   isContainJSXElement,
   getSlotName,
   isArrayMapCallExpression,
@@ -384,7 +385,7 @@ class Transformer {
           return
         }
         const idAttr = findJSXAttrByName(attrs, 'id')
-        let id: string = createRandomLetters(5)
+        let id: string = createUniPathID(this.sourcePath.replace(this.sourceDir, ''))
         let idExpr: t.Expression
         if (!idAttr) {
           if (loopCallExpr && loopCallExpr.isCallExpression()) {
