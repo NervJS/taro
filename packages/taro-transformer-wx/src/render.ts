@@ -1412,7 +1412,7 @@ export class RenderParser {
         }
         const code = generate(path.node).code
         if (code.includes('this.$router.params') && t.isIdentifier(property)) {
-          const name = this.renderScope.generateUid(property.name)
+          const name = this.renderScope.generateUid(property.name || 'render')
           const dcl = buildConstVariableDeclaration(name, path.node)
           this.renderPath.node.body.body.unshift(dcl)
           path.replaceWith(t.identifier(name))

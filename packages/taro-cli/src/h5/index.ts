@@ -1337,7 +1337,7 @@ class Compiler {
             })
             returnStatement.forEach(returnAstPath => {
               const statement = returnAstPath.node
-              const varName = returnAstPath.scope.generateUid()
+              const varName = returnAstPath.scope.generateUid('var')
               const returnValue = statement.argument
               const pullDownRefreshNode = t.variableDeclaration(
                 'const',
