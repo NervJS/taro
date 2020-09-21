@@ -4,6 +4,7 @@ export default class JD extends TaroPlatformBase {
     platform: string;
     globalObject: string;
     projectConfigJson: string;
+    runtimePath: string;
     fileType: {
         templ: string;
         style: string;

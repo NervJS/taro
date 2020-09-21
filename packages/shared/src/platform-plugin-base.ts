@@ -68,8 +68,9 @@ ${exampleCommand}
 
   /**
    * 准备 mini-runner 参数
+   * @param extraOptions 需要额外合入 Options 的配置项
    */
-  getBaseOptions () {
+  getOptions (extraOptions = {}) {
     const { ctx, config, globalObject, fileType, template } = this
 
     return {
@@ -78,7 +79,8 @@ ${exampleCommand}
       buildAdapter: config.platform,
       globalObject,
       fileType,
-      template
+      template,
+      ...extraOptions
     }
   }
 

@@ -20,5 +20,13 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@tarojs/plugin-platform-alipay": "3.0.9",
+    "@tarojs/plugin-platform-jd": "3.0.9",
+    "@tarojs/plugin-platform-qq": "3.0.9",
+    "@tarojs/plugin-platform-swan": "3.0.9",
+    "@tarojs/plugin-platform-tt": "3.0.9",
+    "@tarojs/plugin-platform-weapp": "3.0.9"
   }
 }

@@ -1,10 +1,13 @@
 import { TaroPlatformBase } from '@tarojs/shared'
 import { Template } from './template'
 
+const PACKAGE_NAME = '@tarojs/plugin-platform-jd'
+
 export default class JD extends TaroPlatformBase {
   platform = 'jd'
   globalObject = 'jd'
   projectConfigJson = 'project.jd.json'
+  runtimePath = `${PACKAGE_NAME}/dist/runtime`
   fileType = {
     templ: '.jxml',
     style: '.jxss',
@@ -22,7 +25,9 @@ export default class JD extends TaroPlatformBase {
     this.generateProjectConfig(this.projectConfigJson)
 
     const runner = await this.getRunner()
-    const options = this.getBaseOptions()
+    const options = this.getOptions({
+      hostConfig: this.runtimePath
+    })
     runner(options)
   }
 }

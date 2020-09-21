@@ -1,10 +1,13 @@
 import { Weapp } from '@tarojs/plugin-platform-weapp'
 import { components } from './components'
 
+const PACKAGE_NAME = '@tarojs/plugin-platform-qq'
+
 export default class QQ extends Weapp {
   platform = 'qq'
   globalObject = 'qq'
   projectConfigJson = 'project.qq.json'
+  runtimePath = `${PACKAGE_NAME}/dist/runtime`
   fileType = {
     templ: '.qml',
     style: '.qss',

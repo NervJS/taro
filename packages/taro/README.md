@@ -2,13 +2,17 @@
 
 暴露给 @tarojs/taro 的所有端的公有 API。`@tarojs/api` 会跨 node/浏览器/小程序/React Native 使用，不得使用/包含平台特有特性。
 
-## dist/index.esm.js
+## index.js
 
 小程序端入口文件
 
 ## dist/h5.esm.js
 
 H5 端入口文件
+
+## dist/h5.js
+
+H5 端入口文件（当不使用 babel-plugin-transform-taroapi 时）
 
 ## html.css
 

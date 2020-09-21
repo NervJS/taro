@@ -49,6 +49,7 @@ interface ITaroMiniPluginOptions {
   template: RecursiveTemplate | UnRecursiveTemplate
   modifyBuildAssets?: Function
   modifyMiniConfigs?: Function
+  hostConfig?: string
 }
 
 export interface IComponentObj {
@@ -221,7 +222,8 @@ export default class TaroMiniPlugin {
               options: {
                 framework,
                 prerender: this.prerenderPages.size > 0,
-                config: this.appConfig
+                config: this.appConfig,
+                hostConfig: this.options.hostConfig
               }
             })
           }

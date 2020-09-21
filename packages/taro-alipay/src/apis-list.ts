@@ -1,0 +1,61 @@
+export const _onAndSyncApis = new Set([
+  'offSocketClose',
+  'offSocketError',
+  'offSocketMessage',
+  'offSocketOpen',
+  'getAppIdSync'
+])
+
+export const _noPromiseApis = new Set([
+  'calculateRoute',
+  'createWebViewContext',
+  'hideAddToDesktopMenu',
+  'hideAllAddToDesktopMenu',
+  'hideAllFavoriteMenu',
+  'hideBackHome',
+  'hideFavoriteMenu',
+  'openCardDetail',
+  'openCardList',
+  'openKBVoucherDetail',
+  'openMerchantCardList',
+  'openMerchantTicketList',
+  'openMerchantVoucherList',
+  'openTicketDetail',
+  'openTicketList',
+  'openVoucherDetail',
+  'openVoucherList',
+  'setCanPullDown',
+  'setOptionMenu',
+  'showSharePanel'
+])
+
+export const _otherApis = new Set([
+  'addCardAuth',
+  'getOpenUserInfo',
+  'chooseAlipayContact',
+  'chooseCity',
+  'chooseContact',
+  'choosePhoneContact',
+  'datePicker',
+  'getAddress',
+  'getAuthCode',
+  'getPhoneNumber',
+  'getRunData',
+  'getRunScene',
+  'getServerTime',
+  'getTitleColor',
+  'rsa',
+  'paySignCenter',
+  'tradePay',
+  'isCollected',
+  'multiLevelSelect',
+  'onLocatedComplete',
+  'optionsSelect',
+  'prompt',
+  'regionPicker',
+  'setLocatedCity',
+  'showAuthGuide',
+  'textRiskIdentification',
+  'vibrate',
+  'watchShake'
+])

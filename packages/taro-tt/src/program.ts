@@ -2,10 +2,13 @@ import { TaroPlatformBase } from '@tarojs/shared'
 import { Template } from './template'
 import { components } from './components'
 
+const PACKAGE_NAME = '@tarojs/plugin-platform-tt'
+
 export default class TT extends TaroPlatformBase {
   platform = 'tt'
   globalObject = 'tt'
   projectConfigJson = 'project.tt.json'
+  runtimePath = `${PACKAGE_NAME}/dist/runtime`
   fileType = {
     templ: '.ttml',
     style: '.ttss',
@@ -24,7 +27,9 @@ export default class TT extends TaroPlatformBase {
     this.modifyComponents()
 
     const runner = await this.getRunner()
-    const options = this.getBaseOptions()
+    const options = this.getOptions({
+      hostConfig: this.runtimePath
+    })
     runner(options)
   }
 

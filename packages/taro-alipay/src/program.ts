@@ -2,9 +2,13 @@ import { TaroPlatformBase } from '@tarojs/shared'
 import { Template } from './template'
 import { components } from './components'
 
+const PACKAGE_NAME = '@tarojs/plugin-platform-alipay'
+
 export default class Alipay extends TaroPlatformBase {
   platform = 'alipay'
   globalObject = 'my'
+  runtimePath = `${PACKAGE_NAME}/dist/runtime`
+  reactComponents = `${PACKAGE_NAME}/dist/components-react`
   fileType = {
     templ: '.axml',
     style: '.acss',
@@ -25,7 +29,9 @@ export default class Alipay extends TaroPlatformBase {
     this.modifyWebpackChain()
 
     const runner = await this.getRunner()
-    const options = this.getBaseOptions()
+    const options = this.getOptions({
+      hostConfig: this.runtimePath
+    })
     runner(options)
   }
 
@@ -78,7 +84,7 @@ export default class Alipay extends TaroPlatformBase {
   modifyWebpackChain () {
     this.ctx.modifyWebpackChain(({ chain }) => {
       const { taroJsComponents } = this.helper
-      chain.resolve.alias.set(taroJsComponents + '$', '@tarojs/plugin-platform-alipay/dist/components-react.js')
+      chain.resolve.alias.set(taroJsComponents + '$', this.reactComponents)
     })
   }
 }

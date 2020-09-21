@@ -2,12 +2,15 @@ import { TaroPlatformBase } from '@tarojs/shared'
 import { Template } from './template'
 import { components } from './components'
 
+const PACKAGE_NAME = '@tarojs/plugin-platform-swan'
 const PROJECT_JSON = 'project.swan.json'
 
 export default class Swan extends TaroPlatformBase {
   platform = 'swan'
   globalObject = 'swan'
   projectConfigJson = PROJECT_JSON
+  runtimePath = `${PACKAGE_NAME}/dist/runtime`
+  reactComponents = `${PACKAGE_NAME}/dist/components-react`
   fileType = {
     templ: '.swan',
     style: '.css',
@@ -28,7 +31,9 @@ export default class Swan extends TaroPlatformBase {
     this.modifyWebpackChain()
 
     const runner = await this.getRunner()
-    const options = this.getBaseOptions()
+    const options = this.getOptions({
+      hostConfig: this.runtimePath
+    })
     runner(options)
   }
 
@@ -48,7 +53,7 @@ export default class Swan extends TaroPlatformBase {
   modifyWebpackChain () {
     this.ctx.modifyWebpackChain(({ chain }) => {
       const { taroJsComponents } = this.helper
-      chain.resolve.alias.set(taroJsComponents + '$', '@tarojs/plugin-platform-swan/dist/components-react.js')
+      chain.resolve.alias.set(taroJsComponents + '$', this.reactComponents)
     })
   }
 }

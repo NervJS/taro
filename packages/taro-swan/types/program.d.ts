@@ -4,6 +4,8 @@ export default class Swan extends TaroPlatformBase {
     platform: string;
     globalObject: string;
     projectConfigJson: string;
+    runtimePath: string;
+    reactComponents: string;
     fileType: {
         templ: string;
         style: string;

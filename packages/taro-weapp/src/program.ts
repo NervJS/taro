@@ -2,10 +2,14 @@ import { TaroPlatformBase } from '@tarojs/shared'
 import { Template } from './template'
 import { components } from './components'
 
+const PACKAGE_NAME = '@tarojs/plugin-platform-weapp'
+
 export default class Weapp extends TaroPlatformBase {
   platform = 'weapp'
   globalObject = 'wx'
   projectConfigJson = 'project.config.json'
+  runtimePath = `${PACKAGE_NAME}/dist/runtime`
+  reactComponents = `${PACKAGE_NAME}/dist/components-react`
   fileType = {
     templ: '.wxml',
     style: '.wxss',
@@ -26,7 +30,9 @@ export default class Weapp extends TaroPlatformBase {
     this.modifyWebpackChain()
 
     const runner = await this.getRunner()
-    const options = this.getBaseOptions()
+    const options = this.getOptions({
+      hostConfig: this.runtimePath
+    })
     runner(options)
   }
 
@@ -48,7 +54,7 @@ export default class Weapp extends TaroPlatformBase {
   modifyWebpackChain () {
     this.ctx.modifyWebpackChain(({ chain }) => {
       const { taroJsComponents } = this.helper
-      chain.resolve.alias.set(taroJsComponents + '$', '@tarojs/plugin-platform-weapp/dist/components-react.js')
+      chain.resolve.alias.set(taroJsComponents + '$', this.reactComponents)
     })
   }
 }

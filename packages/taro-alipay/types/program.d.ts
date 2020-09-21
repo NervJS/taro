@@ -3,6 +3,8 @@ import { Template } from './template';
 export default class Alipay extends TaroPlatformBase {
     platform: string;
     globalObject: string;
+    runtimePath: string;
+    reactComponents: string;
     fileType: {
         templ: string;
         style: string;

@@ -12,12 +12,28 @@ export default function (this: webpack.loader.LoaderContext) {
 if (typeof PRERENDER !== 'undefined') {
   global._prerender = inst
 }`
+
+  const setReconciler = mergeHostConfig(options)
+
   return `import { ${creator}, window } from '@tarojs/runtime'
 import component from ${stringify(this.request.split('!').slice(1).join('!'))}
 ${importFrameworkStatement}
+${setReconciler}
 var config = ${config};
 window.__taroAppConfig = config
 var inst = App(${creator}(component, ${frameworkArgs}))
 ${options.prerender ? prerender : ''}
 `
+}
+
+function mergeHostConfig (options) {
+  if (options.hostConfig) {
+    return `
+  import { CurrentReconciler } from '@tarojs/runtime'
+  import { hostConfig } from '${options.hostConfig}'
+  Object.assign(CurrentReconciler, hostConfig)
+`
+  } else {
+    return ''
+  }
 }

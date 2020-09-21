@@ -1,3 +1,4 @@
+import { initNativeApi } from './apis';
 export declare const hostConfig: {
-    log: () => void;
+    initNativeApi: typeof initNativeApi;
 };

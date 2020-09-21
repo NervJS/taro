@@ -1,5 +1,5 @@
+import { initNativeApi } from './apis'
+
 export const hostConfig = {
-  log: function () {
-    console.log('ok')
-  }
+  initNativeApi
 }

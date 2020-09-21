@@ -6,7 +6,7 @@
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
   "license": "MIT",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/shared.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
