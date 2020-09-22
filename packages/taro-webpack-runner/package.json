@@ -78,7 +78,7 @@
     "@types/node": "13.7.2",
     "@types/resolve": "1.14.0",
     "@types/webpack": "4.41.6",
-    "@types/webpack-dev-server": "3.10.0",
+    "@types/webpack-dev-server": "3.11.0",
     "babel-plugin-transform-taroapi": "^3.0.11",
     "babel-preset-taro": "^3.0.11"
   }
