@@ -434,7 +434,9 @@ export default class TaroMiniPlugin {
    */
   addEntries () {
     this.addEntry(this.appEntry, 'app', META_TYPE.ENTRY)
-    this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+    if (!this.options.template.isSupportRecursive) {
+      this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+    }
     this.pages.forEach(item => {
       if (item.isNative) {
         this.addEntry(item.path, item.name, META_TYPE.NORMAL)
@@ -621,16 +623,16 @@ export default class TaroMiniPlugin {
     const appConfigPath = this.getConfigFilePath(this.appEntry)
     const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
     this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
-    this.generateConfigFile(compilation, baseCompName, {
-      component: true,
-      usingComponents: {
-        [baseCompName]: `./${baseCompName}`
-      }
-    })
     this.generateTemplateFile(compilation, baseTemplateName, template.buildTemplate, componentConfig)
     if (!template.isSupportRecursive) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
       this.generateTemplateFile(compilation, baseCompName, template.buildBaseComponentTemplate, this.options.fileType.templ)
+      this.generateConfigFile(compilation, baseCompName, {
+        component: true,
+        usingComponents: {
+          [baseCompName]: `./${baseCompName}`
+        }
+      })
     }
     this.generateXSFile(compilation)
     this.components.forEach(component => {
@@ -668,7 +670,7 @@ export default class TaroMiniPlugin {
       this.generateDarkModeFile(compilation)
     }
     if (typeof modifyBuildAssets === 'function') {
-      await modifyBuildAssets(compilation.assets)
+      await modifyBuildAssets(compilation.assets, this)
     }
   }
 

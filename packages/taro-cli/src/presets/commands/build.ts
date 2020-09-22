@@ -75,12 +75,13 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
-            async modifyBuildAssets (assets) {
+            async modifyBuildAssets (assets, miniPlugin) {
               await ctx.applyPlugins({
                 name: 'modifyBuildAssets',
                 initialVal: assets,
                 opts: {
-                  assets
+                  assets,
+                  miniPlugin
                 }
               })
             },

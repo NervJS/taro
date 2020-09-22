@@ -331,7 +331,7 @@ export class BaseTemplate {
 
   public buildPageTemplate = (baseTempPath: string) => {
     const template = `<import src="${baseTempPath}"/>
-  <template is="taro_tmpl" data="{{${this.dataKeymap('root:root')}}}" />`
+<template is="taro_tmpl" data="{{${this.dataKeymap('root:root')}}}" />`
 
     return template
   }
