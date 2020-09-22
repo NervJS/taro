@@ -6,11 +6,11 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "test": "env NODE_ENV=jest jest",
-    "test:ci": "env NODE_ENV=jest jest -i",
-    "test:dev": "env NODE_ENV=jest jest --watch",
-    "test:coverage": "env NODE_ENV=jest jest --coverage",
-    "updateSnapshot": "env NODE_ENV=jest jest --updateSnapshot"
+    "test": "cross-env NODE_ENV=jest jest",
+    "test:ci": "cross-env NODE_ENV=jest jest -i",
+    "test:dev": "cross-env NODE_ENV=jest jest --watch",
+    "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
+    "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
   },
   "repository": {
     "type": "git",
