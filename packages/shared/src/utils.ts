@@ -1,8 +1,12 @@
+import { internalComponents } from './components'
+
 export const EMPTY_OBJ: any = {}
 
 export const EMPTY_ARR = []
 
 export const noop = (..._: unknown[]) => {}
+
+export const defaultReconciler = {}
 
 /**
  * Boxed value.
@@ -134,4 +138,18 @@ export function cacheDataGet (key, delelteAfterGet?) {
 
 export function cacheDataHas (key) {
   return key in cacheData
+}
+
+export function mergeInternalComponents (components) {
+  Object.keys(components).forEach(name => {
+    if (name in internalComponents) {
+      Object.assign(internalComponents[name], components[name])
+    } else {
+      internalComponents[name] = components[name]
+    }
+  })
+}
+
+export function mergeReconciler (hostConfig) {
+  Object.assign(defaultReconciler, hostConfig)
 }

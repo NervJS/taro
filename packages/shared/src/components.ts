@@ -449,7 +449,7 @@ const Slot = {
   name: ''
 }
 
-export const internalComponents = {
+export const internalComponents: Record<string, Record<string, string>> = {
   View,
   Icon,
   Progress,

@@ -39,7 +39,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     outputRoot = 'dist',
     sourceRoot = 'src',
     isBuildPlugin = false,
-    hostConfig,
+    runtimePath,
 
     designWidth = 750,
     deviceRatio,
@@ -153,7 +153,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     modifyMiniConfigs,
     modifyBuildAssets,
     minifyXML,
-    hostConfig
+    runtimePath
   })
 
   plugin.miniCssExtractPlugin = getMiniCssExtractPlugin([{

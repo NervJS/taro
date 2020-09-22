@@ -1,3 +1,5 @@
+import { CurrentReconciler } from '../reconciler'
+
 /* eslint-disable no-dupe-class-members */
 type Callback1<T1> = (arg1: T1) => any;
 type Callback2<T1, T2> = (arg1: T1, arg2: T2) => any;
@@ -115,15 +117,6 @@ export class Events {
   }
 }
 
-declare let my: any
+export type EventsType = typeof Events
 
-export let eventCenter: Events
-
-if (process.env.TARO_ENV === 'alipay') {
-  if (!my.taroEventCenter) {
-    my.taroEventCenter = new Events()
-  }
-  eventCenter = my.taroEventCenter
-} else {
-  eventCenter = new Events()
-}
+export const eventCenter = CurrentReconciler.getEventCenter(Events)

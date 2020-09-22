@@ -26,7 +26,7 @@ export default class JD extends TaroPlatformBase {
 
     const runner = await this.getRunner()
     const options = this.getOptions({
-      hostConfig: this.runtimePath
+      runtimePath: this.runtimePath
     })
     runner(options)
   }

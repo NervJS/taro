@@ -50,7 +50,7 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
 }
 
 function setReconciler () {
-  const hostConfig: Reconciler<VueInstance> = {
+  const hostConfig: Partial<Reconciler<VueInstance>> = {
     getLifecyle (instance, lifecycle) {
       return instance.$options[lifecycle]
     },

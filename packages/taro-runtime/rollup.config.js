@@ -1,12 +1,11 @@
 const { join } = require('path')
 const buble = require('rollup-plugin-buble')
-const alias = require('rollup-plugin-alias')
 const typescript = require('rollup-plugin-typescript2')
 const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.ts'),
-  external: ['react', 'nervjs', 'react-dom', 'vue'],
+  external: ['react', 'nervjs', 'react-dom', 'vue', '@tarojs/shared'],
   output: [
     {
       file: join(cwd, 'dist/index.js'),
@@ -16,14 +15,6 @@ const baseConfig = {
     }
   ],
   plugins: [
-    alias({
-      entries: [
-        {
-          find: '@tarojs/shared',
-          replacement: join(cwd, '../shared/dist/shared.esm')
-        }
-      ]
-    }),
     typescript(),
     buble({
       transforms: {

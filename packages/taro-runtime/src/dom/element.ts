@@ -28,10 +28,7 @@ export class TaroElement extends TaroNode {
     super(nodeType || NodeType.ELEMENT_NODE, nodeName)
     this.tagName = nodeName.toUpperCase()
     this.style = new Style(this)
-    warn(
-      this.tagName === 'MAP' && process.env.TARO_ENV === 'weapp',
-      '微信小程序 map 组件的 `setting` 属性需要传递一个默认值。详情：\n https://developers.weixin.qq.com/miniprogram/dev/component/map.html'
-    )
+    CurrentReconciler.onTaroElementCreate?.(this.tagName, nodeType)
   }
 
   public get id () {
