@@ -8,7 +8,7 @@ import ScrollView from './components/scroll-view'
 
 const componentMap = {}
 
-function genSimpleComponents(components) {
+function genSimpleComponents (components) {
   components.map(component => {
     if (typeof component === 'string') {
       componentMap[component] = createComponent(component)
@@ -65,7 +65,7 @@ export const Picker = createFormsComponent('taro-picker', 'change')
 export const Switch = createFormsComponent('taro-switch', 'change', 'checked')
 export const Slider = createFormsComponent('taro-slider', 'change', 'value', ['weui-slider-box'])
 
-export function initVue3Components(app) {
+export function initVue3Components (app) {
   app.config.isCustomElement = tag => /^taro-/.test(tag) || tag === 'root' || tag === 'block'
 
   simpleComponents.map(component => {
