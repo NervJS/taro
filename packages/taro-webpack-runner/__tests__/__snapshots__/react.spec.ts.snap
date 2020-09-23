@@ -774,7 +774,7 @@ exports[`react should build react app 2`] = `
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
-        for (let i = 0; i < tabbarList.length; i++) {
+        for (var i = 0; i < tabbarList.length; i++) {
             var t = tabbarList[i];
             if (t.iconPath) {
                 t.iconPath = tabbarIconPath[i];
