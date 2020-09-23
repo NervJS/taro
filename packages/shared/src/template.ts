@@ -342,7 +342,7 @@ export class BaseTemplate {
       : this.dataKeymap('i:i')
 
     return `<import src="./base${ext}" />
-  <template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />`
+<template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />`
   }
 
   public buildXScript = () => {

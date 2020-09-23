@@ -16,11 +16,7 @@ const baseConfig = {
   ],
   plugins: [
     typescript(),
-    buble({
-      transforms: {
-        asyncAwait: false
-      }
-    })
+    buble()
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {

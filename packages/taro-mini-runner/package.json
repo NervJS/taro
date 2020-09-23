@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run clean && npm run prod",
-    "dev": "tsc -w",
-    "prod": "tsc",
+    "dev": "npm run mv:comp && tsc -w",
+    "prod": "tsc && npm run mv:comp",
+    "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf dist",
     "lint": "tslint src/**/*.ts --fix",
     "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
