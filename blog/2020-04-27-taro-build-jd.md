@@ -54,7 +54,7 @@ npm install -g @tarojs/cli
 taro init [projectName]
 ```
 
-3.进入项目根目录，使用 CLI 编译项目，根据 [Taro 文档](https://taro-docs.jd.com/taro/docs/README.html) 进行开发：
+3.进入项目根目录，使用 CLI 编译项目，根据 [Taro 文档](https://docs.taro.zone/taro/docs/README.html) 进行开发：
 
 ```bash
 taro build --type jd [--watch]

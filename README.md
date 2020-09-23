@@ -24,7 +24,7 @@
 1. 从最新版本的 `docs` 分支新建一个分支：`git checkout -b docs/fix-something`
 2. 提交新建的分支发起 Pull Request
 3. 在 Pull Request 页面中如果编译成功，则会自动部署一个预览站点
-4. 预览站点确认修改无误后 Merge 到 `docs` 分支，则会自动部署到 GitHub Pages 和 taro-docs.jd.com
+4. 预览站点确认修改无误后 Merge 到 `docs` 分支，则会自动部署到 GitHub Pages 和 docs.taro.zone
 
 ## 修改文档
 

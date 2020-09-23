@@ -10,7 +10,7 @@ author_image_url: https://storage.jd.com/cjj-pub-images/11807297.png
 
 [Taro](https://github.com/NervJS/taro) 是一款多端开发框架。开发者只需编写一份代码，即可生成各小程序端、H5 以及 React Native 的应用。
 
-> [Taro Next](https://taro-docs.jd.com/taro/docs/README.html) 近期已发布 beta 版本，全面完善对小程序以及 H5 的支持，欢迎体验！
+> [Taro Next](https://docs.taro.zone/taro/docs/README.html) 近期已发布 beta 版本，全面完善对小程序以及 H5 的支持，欢迎体验！
 
 本文将重点介绍对 **Taro H5 端组件库**的改造工作。
 

@@ -28,6 +28,13 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
 共同参与 Taro 的研发和推广，监督 Taro 的发展流程，推动 Taro 在各领域真实业务场景中的落地和实践，促进 Taro 在业界的广泛应用。
 
 <a
+  href="//www.58.com"
+  target="_blank"
+  style={{display: "inline-block", margin: "0 10px 10px 0"}}
+  ><img src="//storage.jd.com/taro-jd-com/static/58.png" style={{height: "88px"}}
+/></a>
+
+<a
   href="https://youshu.tencent.com/"
   target="_blank"
   style={{display: "inline-block", margin: "0 10px 10px 0"}}
@@ -105,6 +112,9 @@ Taro 各个模块的核心开发者。设计并实现 Taro 的核心功能，把
 
 ## 特别鸣谢
 
-[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/)
-:---:|:---:
-[nanjingboy](https://github.com/nanjingboy/) | [jsNewbee](https://github.com/js-newbee/)
+[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Garfield550/) | [![zhiqingchen](https://avatars3.githubusercontent.com/u/1876158?s=100&v=4)](https://github.com/zhiqingchen)
+:---:|:---:|:---:|:---:|:---:
+[nanjingboy](https://github.com/nanjingboy/) | [jsNewbee](https://github.com/js-newbee/) |  [Qiyu8](https://github.com/Qiyu8/) |  [Garfield Lee](https://github.com/Garfield550/) |  [zhiqingchen](https://github.com/zhiqingchen)
+
+
+

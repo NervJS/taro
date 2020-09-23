@@ -6,7 +6,7 @@ Taro 可以使用 Vue 3 进行开发，开发者可以使用 `taro init` 命令�
 
 具体用法可以参考 [Taro Vue 文档](./vue.md)，本篇将着重介绍在 Taro 中使用 Vue3 与使用 Vue 的主要差别。
 
-Vue3 新特性可参阅 [Vue RFC](https://github.com/vuejs/rfcs/tree/sfc-improvements/active-rfcs)。
+Vue3 新特性可参阅 [Vue3 文档](https://v3.vuejs.org/guide/migration/introduction.html#notable-new-features)。
 
 Taro 是如何兼容 Vue3 的，可参阅 [Taro RFC](https://github.com/NervJS/taro-rfcs/blob/master/rfcs/0001-vue-3-support.md)。
 
@@ -32,7 +32,7 @@ export app
 
 页面组件使用 Vue SFC 正常导出一个 Vue3 组件即可。
 
-开发者可以自行选择使用 options 式配置或 [Composition API](https://github.com/vuejs/rfcs/blob/sfc-improvements/active-rfcs/0013-composition-api.md) 组织逻辑，浏览 [Vue RFC](https://github.com/vuejs/rfcs/tree/sfc-improvements/active-rfcs) 以了解更多的 Vue3 改动。
+开发者可以自行选择使用 options 式配置或 [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) 组织逻辑，浏览 [Vue 3 文档](https://v3.vuejs.org/) 以了解更多的 Vue3 改动。
 
 ```html
 <template>

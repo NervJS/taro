@@ -4,7 +4,7 @@ title: 安装及使用
 
 ## 安装
 
-Taro 项目基于 node，请确保已具备较新的 node 环境（>=8.0.0），推荐使用 node 版本管理工具 [nvm](https://github.com/creationix/nvm) 来管理 node，这样不仅可以很方便地切换 node 版本，而且全局安装时候也不用加 sudo 了。
+Taro 项目基于 node，请确保已具备较新的 node 环境（>=12.0.0），推荐使用 node 版本管理工具 [nvm](https://github.com/creationix/nvm) 来管理 node，这样不仅可以很方便地切换 node 版本，而且全局安装时候也不用加 sudo 了。
 
 ### CLI 工具安装
 
@@ -18,13 +18,14 @@ $ yarn global add @tarojs/cli
 # OR 安装了 cnpm，使用 cnpm 安装 CLI
 $ cnpm install -g @tarojs/cli
 ```
-### 注意事项
 
-值得一提的是，如果安装过程出现`sass`相关的安装错误，请在安装[`mirror-config-china`](https://www.npmjs.com/package/mirror-config-china)后重试。
+:::caution 请注意
+值得一提的是，如果安装过程出现`sass`相关的安装错误，请在安装 [mirror-config-china](https://www.npmjs.com/package/mirror-config-china) 后重试。
 
 ```bash
 $ npm install -g mirror-config-china
 ```
+:::
 
 ## 项目初始化
 
@@ -53,9 +54,10 @@ $ cnpm install
 $ npm install
 ```
 
-进入项目目录开始开发，目前已经支持 微信/百度/支付宝/字节跳动/QQ 小程序、H5、快应用以及 ReactNative 等端的代码转换，针对不同端的启动以及预览、打包方式并不一致
+进入项目目录开始开发，目前已经支持 微信 / 京东 / 百度 / 支付宝 / 字节跳动 / QQ 小程序、H5 等端的代码转换，针对不同端的启动以及预览、打包方式并不一致
 
 ## 运行
+
 Taro 需要运行不同的命令，将 Taro 代码编译成不同端的代码，然后在对应的开发工具中查看效果。
 
 ![image](https://storage.360buyimg.com/taro-resource/platforms.jpg)
@@ -165,6 +167,27 @@ $ npx taro build --type qq --watch
 $ npx taro build --type qq
 ```
 
+### 京东小程序
+
+选择京东小程序模式，需要自行下载并打开京东小程序开发者工具（前往https://mp.jd.com 注册，申请成功后将会获得开发者工具），然后在项目编译完后选择项目根目录下 `dist` 目录进行预览。
+
+京东小程序编译预览及打包（去掉 --watch 将不会监听文件修改，并会对代码进行压缩打包）
+
+```bash
+# yarn
+$ yarn dev:jd
+$ yarn build:jd
+# npm script
+$ npm run dev:jd
+$ npm run build:jd
+# 仅限全局安装
+$ taro build --type jd --watch
+$ taro build --type jd
+# npx 用户也可以使用
+$ npx taro build --type jd --watch
+$ npx taro build --type jd
+```
+
 ## 常用 CLI 命令
 
 ### 查看 Taro 所有命令及帮助
@@ -177,35 +200,31 @@ $ taro --help
 
 Taro 提供了命令来一键检测 Taro 环境及依赖的版本等信息，方便大家查看项目的环境及依赖，排查环境问题。在提 issue 的时候，请附上 `taro info` 打印的信息，帮助开发人员快速定位问题。
 
-```bash
+``` bash
 $ taro info
-👽 Taro v1.2.0-beta.15
+👽 Taro v3.0.7
 
 
-  Taro CLI 1.2.0-beta.15 environment info:
+
+  Taro CLI 3.0.7 environment info:
     System:
-      OS: macOS High Sierra 10.13.5
+      OS: macOS High Sierra 10.13.6
       Shell: 5.3 - /bin/zsh
     Binaries:
-      Node: 8.11.2 - /usr/local/bin/node
-      Yarn: 1.8.0 - /usr/local/bin/yarn
-      npm: 5.6.0 - /usr/local/bin/npm
+      Node: 13.14.0 - ~/.nvm/versions/node/v13.14.0/bin/node
+      Yarn: 1.22.4 - ~/.nvm/versions/node/v13.14.0/bin/yarn
+      npm: 6.14.4 - ~/.nvm/versions/node/v13.14.0/bin/npm
     npmPackages:
-      @tarojs/components: ^1.2.0-beta.3 => 1.2.0-beta.3
-      @tarojs/plugin-babel: ^1.2.0-beta.3 => 1.2.0-beta.3
-      @tarojs/plugin-csso: ^1.2.0-beta.3 => 1.2.0-beta.3
-      @tarojs/plugin-sass: ^1.2.0-beta.4 => 1.2.0-beta.4
-      @tarojs/plugin-uglifyjs: ^1.2.0-beta.3 => 1.2.0-beta.3
-      @tarojs/rn-runner: ^1.2.0-beta.4 => 1.2.0-beta.4
-      @tarojs/router: ^1.2.0-beta.3 => 1.2.0-beta.3
-      @tarojs/taro: ^1.2.0-beta.3 => 1.2.0-beta.3
-      @tarojs/taro-alipay: ^1.2.0-beta.3 => 1.2.0-beta.3
-      @tarojs/taro-h5: ^1.2.0-beta.3 => 1.2.0-beta.3
-      @tarojs/taro-swan: ^1.2.0-beta.3 => 1.2.0-beta.3
-      @tarojs/taro-weapp: ^1.2.0-beta.3 => 1.2.0-beta.3
-      @tarojs/webpack-runner: ^1.2.0-beta.3 => 1.2.0-beta.3
-      eslint-config-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
-      eslint-plugin-taro: ^1.2.0-beta.3 => 1.2.0-beta.3
+      @tarojs/components: 1.3.27 => 1.3.27
+      @tarojs/router: 1.3.27 => 1.3.27
+      @tarojs/taro: 1.3.27 => 1.3.27
+      @tarojs/taro-h5: 1.3.27 => 1.3.27
+      @tarojs/webpack-runner: 1.3.27 => 1.3.27
+      eslint-config-taro: 1.3.27 => 1.3.27
+      eslint-plugin-taro: 1.3.27 => 1.3.27
+      nerv-devtools: 1.5.5 => 1.5.5
+      nervjs: 1.5.5 => 1.5.5
+
 ```
 
 ### Taro Doctor
@@ -243,6 +262,15 @@ $ taro config list [--json]
 
 ## 其他常见问题
 
+### Taro 多版本共存问题
+
+很多开发曾经使用 Taro 旧版本开发过项目，已经在全局安装了 Taro，但是想同时体验到 Taro 3，应该如何进行操作？
+
+我们提供了两种思路：
+
+- 如果是需要新创建 Taro 3 项目，可以使用 [nvm](https://github.com/nvm-sh/nvm) 来管理 node 版本，通过安装不同 node 版本来安装不同版本的 Taro CLI，从而解决 Taro 多版本共存的问题
+- 如果是部分已有项目需要升级到 Taro 3，可以在这些项目本地安装相应版本的 Taro CLI，这样通过 `yarn` 或者 `npm` 执行命令的话就会直接使用本地安装的 Taro CLI，安装方式 `yarn add @tarojs/cli`
+
 ### 回到某个版本
 
 需要安装某个固定版本，或者回到某个版本，例如我们要安装 `1.3.9` ， 则如下：
@@ -260,4 +288,4 @@ $ cnpm install -g @tarojs/cli@1.3.9
 
 在使用 Taro 进行多端开发中，请保持 Taro CLI 的版本与你项目的依赖版本一致，否则可能会出现编译错误或者运行时错误。
 
-如果你所使用的 Taro CLI 版本为 1.3.9，而项目里使用的依赖版本为 1.3.20，则有可能会出现问题，这时请将你的 Taro CLI 版本更新至项目依赖版本号相同的版本，如果还是出现问题，请向我们提出 [Issue](https://github.com/NervJS/taro/issues/new?assignees=&labels=&template=bug_report.md&title=)。
+如果你所使用的 Taro CLI 版本为 3.0.9，而项目里使用的依赖版本为 3.0.10，则有可能会出现问题，这时请将你的 Taro CLI 版本更新至项目依赖版本号相同的版本，如果还是出现问题，请向我们提出 [Issue](https://nervjs.github.io/taro-issue-helper/)。

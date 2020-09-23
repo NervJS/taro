@@ -14,7 +14,7 @@ title: Taro 介绍
 
 ## 学习资源
 
-[5 分钟上手 Taro 开发](https://taro-docs.jd.com/taro/docs/guide)
+[5 分钟上手 Taro 开发](https://docs.taro.zone/taro/docs/guide)
 
 [awesome-taro](https://github.com/NervJS/awesome-taro)
 

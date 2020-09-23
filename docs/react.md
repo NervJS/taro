@@ -490,7 +490,7 @@ import { View } from '@tarojs/components'
 对应小程序:
 
 ```html
-<view hover-class='' />
+<view hover-class='test' />
 ```
 
 ## 事件

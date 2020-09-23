@@ -15,7 +15,7 @@ const siteConfig = {
   favicon: './img/favicon.ico',
   tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝/QQ小程序、快应用、H5、React Native 等平台的应用。',
   title: 'Taro 文档' /* title for your website */,
-  url: 'https://nervjs.github.io' /* your website url */,
+  url: 'https://docs.taro.zone' /* your website url */,
   themes: ['@docusaurus/theme-live-codeblock'],
   organizationName: 'nervjs',
   projectName: 'taro',
@@ -32,10 +32,10 @@ const siteConfig = {
     scrollToTop: true,
     disableDarkMode: false,
     algolia: {
-      apiKey: '820a8e12c97e870d4e0785d52858230c',
-      indexName: 'taro_new',
-      algoliaOptions: {
-        // facetFilters: [`version:VERSIONS`],
+      apiKey: 'a18dc9e5c1c77d64032e48d38f418b0e',
+      indexName: 'taro.zone',
+      searchParameters: {
+        facetFilters: [`version:${versions[0]}`]
       },
     },
     prism: {
@@ -63,7 +63,7 @@ const siteConfig = {
           position: 'left',
         },
         {
-          href: 'https://taro-docs.jd.com/taro/docs/guide',
+          href: 'https://docs.taro.zone/taro/docs/guide',
           activeBasePath: 'docs/guide',
           activeRegxp: true,
           label: '教程',

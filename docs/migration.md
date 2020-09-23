@@ -261,7 +261,7 @@ function C () {
 }
 ```
 
-旧版本文档所提到的[最佳实践](https://taro-docs.jd.com/taro/docs/1.3.24/best-practice.html)也不必再遵循。也就是说，即便你不给组件设置 `defaultProps`，自定义事件名不以 `on` 开头（还有其它的旧版本代码风格最佳实践），你的代码也能运行。但值得注意的是，遵循这样的 **代码风格最佳实践** 可以让你的代码更健壮，你的应用也会因此而收益。而对于另外的一些由于旧版本 Taro 执行机制的 hack（例如 render 调用两次，state 和 props 无法重名，不要打印组件），这类最佳实践可以不必理会。
+旧版本文档所提到的[最佳实践](https://docs.taro.zone/taro/docs/1.3.24/best-practice.html)也不必再遵循。也就是说，即便你不给组件设置 `defaultProps`，自定义事件名不以 `on` 开头（还有其它的旧版本代码风格最佳实践），你的代码也能运行。但值得注意的是，遵循这样的 **代码风格最佳实践** 可以让你的代码更健壮，你的应用也会因此而收益。而对于另外的一些由于旧版本 Taro 执行机制的 hack（例如 render 调用两次，state 和 props 无法重名，不要打印组件），这类最佳实践可以不必理会。
 
 ## Ref & DOM
 
@@ -311,7 +311,7 @@ class C extends Component {
 
 ## Hooks
 
-在 Taro Next，Taro 的[专有 Hooks](https://nervjs.github.io/taro/docs/1.3.25/hooks.html)（例如 `usePageScroll`, `useReachBottom`）从 `@tarojs/taro` 中引入，框架自己的 Hooks （例如 `useEffect`, `useState`）从对应的框架引入。
+在 Taro Next，Taro 的[专有 Hooks](./hooks)（例如 `usePageScroll`, `useReachBottom`）从 `@tarojs/taro` 中引入，框架自己的 Hooks （例如 `useEffect`, `useState`）从对应的框架引入。
 
 另外，旧版本的 Taro 可以在 Class Component 中使用 Hooks，但 React 是不允许这样的行为的。
 

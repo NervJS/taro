@@ -3,7 +3,7 @@ on:
   # When Release Pull Request is merged
   push:
     branches:
-      - docs
+      - docs-vue
 
 env:
   CI: true

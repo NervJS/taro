@@ -1,4 +1,11 @@
-我们非常欢迎社区的开发者向 Taro 做出贡献。在提交贡献之前，请花一些时间阅读以下内容，保证贡献是符合规范并且能帮助到社区。
+我们非常欢迎社区的开发者向 Taro 做出贡献，我们的共建倡议[《Taro 邀你加入社区共建》](https://github.com/NervJS/taro/issues/4714)。
+
+- 分享你的案例，只需提交小程序码、二维码，你可以提交到 [taro-user-cases](https://github.com/NervJS/taro-user-cases)
+- 分享你的 “轮子” （SDK、组件、UI、项目）你可以提交到 [物料市场](https://taro-ext.jd.com)
+- 分享你的经验（开源项目、教程、文章）你可以提交到 [wesome-taro](https://github.com/NervJS/awesome-taro) 或者给 「Taro社区」公众号投稿
+
+
+在代码提交贡献之前，你需要花一些时间阅读以下内容，保证贡献是符合规范并且能帮助到社区。
 
 ## Taro 组成
 | NPM 包           |   描述 |
@@ -27,9 +34,9 @@
 
 ## Issue 报告指南
 
-如果提交的是 Bug 报告，请务必遵守 [`Bug report`](https://github.com/NervJS/taro/blob/master/.github/ISSUE_TEMPLATE/bug_report.md) 模板。
+如果提交的是 Bug 报告，请点击 [`New issue`](https://nervjs.github.io/taro-issue-helper/) 。
 
-如果提交的是功能需求，请在 issue 的标题的起始处增加 `[Feature request]` 字符。
+如果你想为 Taro 实现一个重要功能，需要先撰写 RFC 文档，按照 Taro 的[ RFC 机制](https://github.com/NervJS/taro-rfcs)进行操作，在经过社区讨论完善后才可以进行代码的提交。
 
 ## 开发配置
 

@@ -11,7 +11,7 @@ title: 长列表渲染（虚拟列表）
 
 如果按照此逻辑，当第一步我们生成或加载的数据量非常大时就可能会产生严重的性能问题，导致视图无法响应操作一段时间。为了解决这个问题，我们可以采用另一种方式：比起全量渲染数据生成的视图，可以只渲染**当前可视区域(visible viewport)**的视图，非可视区域的视图在用户滚动到可视区域再渲染：
 
-![virtual-list](https://web.dev/virtualize-long-lists-react-window/difference-in-scrolling.jpg)
+![virtual-list](https://img20.360buyimg.com/ling/jfs/t1/125645/6/13305/50138/5f6aaaa4E2f20eba7/d70a2d2da2d68de1.jpg)
 
 
 ## React/Nerv
