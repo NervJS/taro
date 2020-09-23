@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -10,11 +10,11 @@
     "clean": "rimraf dist",
     "lint": "tslint src/**/*.ts --fix",
     "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
-    "test": "env NODE_ENV=jest jest",
-    "test:ci": "env NODE_ENV=jest jest -i",
-    "test:dev": "env NODE_ENV=jest jest --watch",
-    "test:coverage": "env NODE_ENV=jest jest --coverage",
-    "updateSnapshot": "env NODE_ENV=jest jest --updateSnapshot"
+    "test": "cross-env NODE_ENV=jest jest",
+    "test:ci": "cross-env NODE_ENV=jest jest -i",
+    "test:dev": "cross-env NODE_ENV=jest jest --watch",
+    "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
+    "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
   },
   "repository": {
     "type": "git",
@@ -37,12 +37,12 @@
     "@babel/core": "7.11.1",
     "@babel/plugin-proposal-class-properties": "7.10.4",
     "@babel/preset-env": "7.11.0",
-    "@tarojs/helper": "3.0.10",
-    "@tarojs/runner-utils": "3.0.10",
-    "@tarojs/runtime": "3.0.10",
-    "@tarojs/shared": "3.0.10",
-    "@tarojs/taro": "3.0.10",
-    "@tarojs/taro-loader": "3.0.10",
+    "@tarojs/helper": "^3.0.11",
+    "@tarojs/runner-utils": "^3.0.11",
+    "@tarojs/runtime": "^3.0.11",
+    "@tarojs/shared": "^3.0.11",
+    "@tarojs/taro": "^3.0.11",
+    "@tarojs/taro-loader": "^3.0.11",
     "babel-loader": "8.0.6",
     "babel-types": "^6.26.0",
     "copy-webpack-plugin": "^5.0.3",
@@ -84,9 +84,9 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
-    "@tarojs/cli": "3.0.10",
-    "@tarojs/components": "3.0.10",
-    "@tarojs/react": "3.0.10",
-    "babel-preset-taro": "3.0.10"
+    "@tarojs/cli": "^3.0.11",
+    "@tarojs/components": "^3.0.11",
+    "@tarojs/react": "^3.0.11",
+    "babel-preset-taro": "^3.0.11"
   }
 }
