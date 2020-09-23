@@ -6,8 +6,8 @@ exports[`config should build from origin and pipe to output 2`] = `
 "
 /** filePath: output/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"15\\": function(module, exports, __webpack_require__) {},
-    \\"16\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"14\\": function(module, exports, __webpack_require__) {},
+    \\"15\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -15,18 +15,18 @@ exports[`config should build from origin and pipe to output 2`] = `
         }));
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-        var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
-        var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(0);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(14);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
         var Index = function(_Component) {
-            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index);
             function Index() {
                 Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Index);
-                return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Index, [ {
                 \\"key\\": \\"componentDidMount\\",
@@ -43,13 +43,13 @@ exports[`config should build from origin and pipe to output 2`] = `
             }, {
                 \\"key\\": \\"render\\",
                 \\"value\\": function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_5__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__[\\"View\\"], {
+                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
                         \\"className\\": \\"index\\"
-                    }, react__WEBPACK_IMPORTED_MODULE_5__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__[\\"Text\\"], null, \\"Hello world!\\"));
+                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"Hello world!\\"));
                 }
             } ]);
             return Index;
-        }(react__WEBPACK_IMPORTED_MODULE_5__[\\"Component\\"]);
+        }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     }
 } ]);
 
@@ -273,7 +273,7 @@ exports[`config should build from origin and pipe to output 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 7);
+    return __webpack_require__(__webpack_require__.s = 6);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
@@ -317,20 +317,26 @@ exports[`config should build from origin and pipe to output 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _getPrototypeOf;
-    }));
+    __webpack_exports__[\\"b\\"] = \\"react-mock\\";
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
     function _getPrototypeOf(o) {
         _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_exports__[\\"b\\"] = \\"react-mock\\";
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === \\"function\\") return true;
+        try {
+            Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
         if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -350,14 +356,27 @@ exports[`config should build from origin and pipe to output 2`] = `
         }
         return self;
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _possibleConstructorReturn;
-    }));
     function _possibleConstructorReturn(self, call) {
         if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         }
         return _assertThisInitialized(self);
+    }
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
@@ -385,10 +404,10 @@ exports[`config should build from origin and pipe to output 2`] = `
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(14);
+    module.exports = __webpack_require__(13);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(10);
-    var content = __webpack_require__(11);
+    var api = __webpack_require__(9);
+    var content = __webpack_require__(10);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -614,7 +633,7 @@ exports[`config should build from origin and pipe to output 2`] = `
         };
     };
 }, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(12);
+    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(11);
     exports = ___CSS_LOADER_API_IMPORT___(false);
     exports.push([ module.i, \\"\\", \\"\\" ]);
     module.exports = exports;
@@ -695,16 +714,16 @@ exports[`config should build from origin and pipe to output 2`] = `
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(1);
     var createClass = __webpack_require__(2);
-    var possibleConstructorReturn = __webpack_require__(5);
-    var getPrototypeOf = __webpack_require__(3);
-    var inherits = __webpack_require__(6);
-    var react = __webpack_require__(4);
-    var app = __webpack_require__(8);
+    var inherits = __webpack_require__(5);
+    var createSuper = __webpack_require__(4);
+    var react = __webpack_require__(3);
+    var app = __webpack_require__(7);
     var app_App = function(_Component) {
         Object(inherits[\\"a\\"])(App, _Component);
+        var _super = Object(createSuper[\\"a\\"])(App);
         function App() {
             Object(classCallCheck[\\"a\\"])(this, App);
-            return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(App).apply(this, arguments));
+            return _super.apply(this, arguments);
         }
         Object(createClass[\\"a\\"])(App, [ {
             \\"key\\": \\"componentDidMount\\",
@@ -734,7 +753,7 @@ exports[`config should build from origin and pipe to output 2`] = `
     function createVue3App() {}
     var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
-    var mocks_taro_components = __webpack_require__(9);
+    var mocks_taro_components = __webpack_require__(8);
     Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
@@ -768,9 +787,9 @@ exports[`config should build from origin and pipe to output 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 16));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
         }
-    }, __webpack_require__(13).default || {}) ];
+    }, __webpack_require__(12).default || {}) ];
     var inst = createReactApp(origin_app, nerv, nerv, config);
     createRouter(inst, config, nerv);
 } ]);
@@ -783,8 +802,8 @@ exports[`config should copy assets 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"15\\": function(module, exports, __webpack_require__) {},
-    \\"16\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"14\\": function(module, exports, __webpack_require__) {},
+    \\"15\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -792,18 +811,18 @@ exports[`config should copy assets 2`] = `
         }));
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-        var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
-        var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(0);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(14);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
         var Index = function(_Component) {
-            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index);
             function Index() {
                 Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Index);
-                return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Index, [ {
                 \\"key\\": \\"componentDidMount\\",
@@ -820,13 +839,13 @@ exports[`config should copy assets 2`] = `
             }, {
                 \\"key\\": \\"render\\",
                 \\"value\\": function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_5__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__[\\"View\\"], {
+                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
                         \\"className\\": \\"index\\"
-                    }, react__WEBPACK_IMPORTED_MODULE_5__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__[\\"Text\\"], null, \\"Hello world!\\"));
+                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"Hello world!\\"));
                 }
             } ]);
             return Index;
-        }(react__WEBPACK_IMPORTED_MODULE_5__[\\"Component\\"]);
+        }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     }
 } ]);
 
@@ -1054,7 +1073,7 @@ I m irrelevant.
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 7);
+    return __webpack_require__(__webpack_require__.s = 6);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
@@ -1098,20 +1117,26 @@ I m irrelevant.
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _getPrototypeOf;
-    }));
+    __webpack_exports__[\\"b\\"] = \\"react-mock\\";
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
     function _getPrototypeOf(o) {
         _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_exports__[\\"b\\"] = \\"react-mock\\";
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === \\"function\\") return true;
+        try {
+            Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
         if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -1131,14 +1156,27 @@ I m irrelevant.
         }
         return self;
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _possibleConstructorReturn;
-    }));
     function _possibleConstructorReturn(self, call) {
         if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         }
         return _assertThisInitialized(self);
+    }
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
@@ -1166,10 +1204,10 @@ I m irrelevant.
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(14);
+    module.exports = __webpack_require__(13);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(10);
-    var content = __webpack_require__(11);
+    var api = __webpack_require__(9);
+    var content = __webpack_require__(10);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -1395,7 +1433,7 @@ I m irrelevant.
         };
     };
 }, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(12);
+    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(11);
     exports = ___CSS_LOADER_API_IMPORT___(false);
     exports.push([ module.i, \\"\\", \\"\\" ]);
     module.exports = exports;
@@ -1476,16 +1514,16 @@ I m irrelevant.
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(1);
     var createClass = __webpack_require__(2);
-    var possibleConstructorReturn = __webpack_require__(5);
-    var getPrototypeOf = __webpack_require__(3);
-    var inherits = __webpack_require__(6);
-    var react = __webpack_require__(4);
-    var app = __webpack_require__(8);
+    var inherits = __webpack_require__(5);
+    var createSuper = __webpack_require__(4);
+    var react = __webpack_require__(3);
+    var app = __webpack_require__(7);
     var app_App = function(_Component) {
         Object(inherits[\\"a\\"])(App, _Component);
+        var _super = Object(createSuper[\\"a\\"])(App);
         function App() {
             Object(classCallCheck[\\"a\\"])(this, App);
-            return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(App).apply(this, arguments));
+            return _super.apply(this, arguments);
         }
         Object(createClass[\\"a\\"])(App, [ {
             \\"key\\": \\"componentDidMount\\",
@@ -1515,7 +1553,7 @@ I m irrelevant.
     function createVue3App() {}
     var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
-    var mocks_taro_components = __webpack_require__(9);
+    var mocks_taro_components = __webpack_require__(8);
     Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
@@ -1549,9 +1587,9 @@ I m irrelevant.
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 16));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
         }
-    }, __webpack_require__(13).default || {}) ];
+    }, __webpack_require__(12).default || {}) ];
     var inst = createReactApp(origin_app, nerv, nerv, config);
     createRouter(inst, config, nerv);
 } ]);
@@ -1568,8 +1606,8 @@ exports[`config should resolved alias 2`] = `
 "
 /** filePath: dist/chunk/2.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 2 ], {
-    \\"17\\": function(module, exports, __webpack_require__) {},
-    \\"18\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"16\\": function(module, exports, __webpack_require__) {},
+    \\"17\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -1577,18 +1615,18 @@ exports[`config should resolved alias 2`] = `
         }));
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-        var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
-        var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(0);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(17);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(0);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(16);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
         var Index = function(_Component) {
-            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__[\\"a\\"])(Index, _Component);
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index);
             function Index() {
                 Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[\\"a\\"])(this, Index);
-                return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__[\\"a\\"])(Index).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[\\"a\\"])(Index, [ {
                 \\"key\\": \\"componentDidMount\\",
@@ -1605,13 +1643,13 @@ exports[`config should resolved alias 2`] = `
             }, {
                 \\"key\\": \\"render\\",
                 \\"value\\": function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_5__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__[\\"View\\"], {
+                    return react__WEBPACK_IMPORTED_MODULE_4__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"View\\"], {
                         \\"className\\": \\"index\\"
-                    }, react__WEBPACK_IMPORTED_MODULE_5__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__[\\"Text\\"], null, \\"Hello world!\\"));
+                    }, react__WEBPACK_IMPORTED_MODULE_4__[\\"b\\"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__[\\"Text\\"], null, \\"Hello world!\\"));
                 }
             } ]);
             return Index;
-        }(react__WEBPACK_IMPORTED_MODULE_5__[\\"Component\\"]);
+        }(react__WEBPACK_IMPORTED_MODULE_4__[\\"Component\\"]);
     }
 } ]);
 
@@ -1835,7 +1873,7 @@ exports[`config should resolved alias 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 7);
+    return __webpack_require__(__webpack_require__.s = 6);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
@@ -1879,20 +1917,26 @@ exports[`config should resolved alias 2`] = `
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _getPrototypeOf;
-    }));
+    __webpack_exports__[\\"b\\"] = \\"react-mock\\";
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
     function _getPrototypeOf(o) {
         _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_exports__[\\"b\\"] = \\"react-mock\\";
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === \\"function\\") return true;
+        try {
+            Date.prototype.toString.call(Reflect.construct(Date, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
         if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
@@ -1912,14 +1956,27 @@ exports[`config should resolved alias 2`] = `
         }
         return self;
     }
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _possibleConstructorReturn;
-    }));
     function _possibleConstructorReturn(self, call) {
         if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         }
         return _assertThisInitialized(self);
+    }
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
@@ -1947,10 +2004,10 @@ exports[`config should resolved alias 2`] = `
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(15);
+    module.exports = __webpack_require__(14);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(10);
-    var content = __webpack_require__(11);
+    var api = __webpack_require__(9);
+    var content = __webpack_require__(10);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -2176,7 +2233,7 @@ exports[`config should resolved alias 2`] = `
         };
     };
 }, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(12);
+    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(11);
     exports = ___CSS_LOADER_API_IMPORT___(false);
     exports.push([ module.i, \\"\\", \\"\\" ]);
     module.exports = exports;
@@ -2257,16 +2314,16 @@ exports[`config should resolved alias 2`] = `
     var h5 = taro_h5;
     var classCallCheck = __webpack_require__(1);
     var createClass = __webpack_require__(2);
-    var possibleConstructorReturn = __webpack_require__(5);
-    var getPrototypeOf = __webpack_require__(3);
-    var inherits = __webpack_require__(6);
-    var react = __webpack_require__(4);
-    var app = __webpack_require__(8);
+    var inherits = __webpack_require__(5);
+    var createSuper = __webpack_require__(4);
+    var react = __webpack_require__(3);
+    var app = __webpack_require__(7);
     var app_App = function(_Component) {
         Object(inherits[\\"a\\"])(App, _Component);
+        var _super = Object(createSuper[\\"a\\"])(App);
         function App() {
             Object(classCallCheck[\\"a\\"])(this, App);
-            return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(App).apply(this, arguments));
+            return _super.apply(this, arguments);
         }
         Object(createClass[\\"a\\"])(App, [ {
             \\"key\\": \\"componentDidMount\\",
@@ -2296,7 +2353,7 @@ exports[`config should resolved alias 2`] = `
     function createVue3App() {}
     var taro_components = __webpack_require__(0);
     var nerv = \\"nervjs-mock\\";
-    var mocks_taro_components = __webpack_require__(9);
+    var mocks_taro_components = __webpack_require__(8);
     Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
@@ -2330,9 +2387,9 @@ exports[`config should resolved alias 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function() {
-            return __webpack_require__.e(2).then(__webpack_require__.bind(null, 18));
+            return __webpack_require__.e(2).then(__webpack_require__.bind(null, 17));
         }
-    }, __webpack_require__(13).default || {}) ];
+    }, __webpack_require__(12).default || {}) ];
     var inst = createReactApp(origin_app, nerv, nerv, config);
     createRouter(inst, config, nerv);
 } ]);
@@ -2401,12 +2458,12 @@ exports[`config should resolved alias 2`] = `
         return Object.prototype.hasOwnProperty.call(object, property);
     };
     __webpack_require__.p = \\"/\\";
-    return __webpack_require__(__webpack_require__.s = 14);
+    return __webpack_require__(__webpack_require__.s = 13);
 })({
-    \\"14\\": function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__(16);
+    \\"13\\": function(module, exports, __webpack_require__) {
+        module.exports = __webpack_require__(15);
     },
-    \\"16\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"15\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         function say() {
