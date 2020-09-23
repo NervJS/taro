@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import * as path from 'path'
 import chalk from 'chalk'
 import { run } from './utils'
@@ -30,7 +31,9 @@ describe('info', () => {
       await runInfo('')
     } catch (error) {}
 
+    // @ts-ignore
     expect(exitSpy).toBeCalledWith(1)
+    // @ts-ignore
     expect(logSpy).toBeCalledWith(chalk.red('找不到项目配置文件config/index，请确定当前目录是 Taro 项目根目录!'))
 
     exitSpy.mockRestore()
@@ -44,6 +47,7 @@ describe('info', () => {
     const appPath = path.resolve(__dirname, 'fixtures/default')
     await runInfo(appPath)
 
+    // @ts-ignore
     expect(logSpy).toBeCalledTimes(1)
     const res = logSpy.mock.calls[0][0]
     const title = `Taro CLI ${getPkgVersion()} environment info`
