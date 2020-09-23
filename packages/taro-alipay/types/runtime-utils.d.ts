@@ -4,5 +4,5 @@ export * from './components';
 export * from './apis-list';
 export declare const hostConfig: {
     initNativeApi: typeof initNativeApi;
-    onTaroElementCreate(tagName: string): void;
+    getEventCenter(Events: any): any;
 };

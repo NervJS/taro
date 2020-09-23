@@ -1,9 +1,9 @@
 import { warn } from '@tarojs/shared'
 import { initNativeApi } from './apis'
 
-export { components } from './components'
 export { initNativeApi }
-export { _noPromiseApis, _onAndSyncApis, _otherApis } from './apis-list'
+export * from './components'
+export * from './apis-list'
 export const hostConfig = {
   initNativeApi,
   onTaroElementCreate (tagName: string) {
