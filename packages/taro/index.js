@@ -1,9 +1,4 @@
-const reconciler = require('@tarojs/runtime').CurrentReconciler
-const taro = require('./dist/index.esm').default
-
-if (typeof reconciler.initNativeApi === 'function') {
-  reconciler.initNativeApi(taro)
-}
+const taro = require('./taro').default
 
 module.exports = taro
 module.exports.default = module.exports

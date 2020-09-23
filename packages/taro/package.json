@@ -9,6 +9,7 @@
   "files": [
     "dist",
     "index.js",
+    "taro.js",
     "types",
     "html.css",
     "html5.css"
