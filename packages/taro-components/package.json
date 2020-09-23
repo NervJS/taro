@@ -37,7 +37,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@stencil/core": "^1.8.1",
+    "@stencil/core": "~1.8.1",
     "@tarojs/taro": "^3.0.11",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
@@ -48,7 +48,7 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
-    "@stencil/sass": "^1.1.1",
+    "@stencil/sass": "~1.1.1",
     "jquery": "^3.4.1",
     "simulant": "^0.2.2",
     "workbox-build": "4.3.1"
