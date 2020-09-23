@@ -1,6 +1,8 @@
 const { join } = require('path')
 const resolve = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
+const typescript = require('rollup-plugin-typescript2')
+
 const cwd = __dirname
 
 const baseConfig = {
@@ -15,8 +17,10 @@ const baseConfig = {
     resolve({
       preferBuiltins: false
     }),
+    typescript(),
     babel({
       babelrc: false,
+      extensions: ['.js', '.ts'],
       presets: [
         ['@babel/preset-env', {
           modules: false
