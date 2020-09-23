@@ -1,8 +1,4 @@
 import { mergeReconciler } from '@tarojs/shared'
-import { initNativeApi } from './apis'
-
-export const hostConfig = {
-  initNativeApi
-}
+import { hostConfig } from './runtime-utils'
 
 mergeReconciler(hostConfig)
