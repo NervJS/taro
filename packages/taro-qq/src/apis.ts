@@ -8,7 +8,7 @@ import {
   _onAndSyncApis as wxOnAndSyncApis,
   _noPromiseApis as wxNoPromiseApis,
   _otherApis as wxOtherApis
-} from '@tarojs/plugin-platform-weapp/dist/apis-list'
+} from '@tarojs/plugin-platform-weapp/dist/runtime-utils'
 
 declare const qq: any
 declare const getCurrentPages: () => any
