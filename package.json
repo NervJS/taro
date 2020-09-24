@@ -16,7 +16,8 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "release:lerna": "lerna version --exact --no-git-tag-version",
     "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
-    "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js"
+    "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
+    "test": "lerna run --parallel --scope babel-preset-taro  --scope @tarojs/components --scope @tarojs/loader --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/cli test:ci"
   },
   "repository": {
     "type": "git",
