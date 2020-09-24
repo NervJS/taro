@@ -232,6 +232,7 @@ export namespace Components {
   interface TaroSwitchCore {
     'checked': boolean;
     'color': string;
+    'disabled': boolean;
     'name': string;
     'type': string;
   }
@@ -889,6 +890,7 @@ declare namespace LocalJSX {
   interface TaroSwitchCore {
     'checked'?: boolean;
     'color'?: string;
+    'disabled'?: boolean;
     'name'?: string;
     'onChange'?: (event: CustomEvent<any>) => void;
     'type'?: string;
