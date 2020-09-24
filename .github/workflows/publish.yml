@@ -1,6 +1,9 @@
 name: publish
 on:
   # When Release Pull Request is merged
+  push:
+    branches:
+      - chore/mini-program
   pull_request:
     branches:
       - chore/mini-program
