@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.0.9",
+  "version": "3.1.0-alpha.0",
   "description": "taro runtime for mini apps.",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
@@ -22,11 +22,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@tarojs/plugin-platform-alipay": "3.0.9",
-    "@tarojs/plugin-platform-jd": "3.0.9",
-    "@tarojs/plugin-platform-qq": "3.0.9",
-    "@tarojs/plugin-platform-swan": "3.0.9",
-    "@tarojs/plugin-platform-tt": "3.0.9",
-    "@tarojs/plugin-platform-weapp": "3.0.9"
+    "@tarojs/plugin-platform-alipay": "3.1.0-alpha.0",
+    "@tarojs/plugin-platform-jd": "3.1.0-alpha.0",
+    "@tarojs/plugin-platform-qq": "3.1.0-alpha.0",
+    "@tarojs/plugin-platform-swan": "3.1.0-alpha.0",
+    "@tarojs/plugin-platform-tt": "3.1.0-alpha.0",
+    "@tarojs/plugin-platform-weapp": "3.1.0-alpha.0"
   }
 }

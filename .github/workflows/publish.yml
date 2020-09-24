@@ -3,7 +3,7 @@ on:
   # When Release Pull Request is merged
   pull_request:
     branches:
-      - next
+      - chore/mini-program
     types: [closed]
 
 env:
@@ -98,7 +98,7 @@ jobs:
       - name: Publish
         if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' )
         run: |
-          yarn lerna publish from-package  --yes
+          yarn lerna publish from-package --dist-tag next --yes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
