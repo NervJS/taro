@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runner-utils",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "Taro runner utilities.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -22,8 +22,8 @@
   "author": "garfield550",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.8.4",
-    "@tarojs/helper": "3.0.10",
+    "@babel/core": "7.11.1",
+    "@tarojs/helper": "^3.0.11",
     "chalk": "^3.0.0",
     "fs-extra": "^8.1.0",
     "lodash": "^4.17.15",
