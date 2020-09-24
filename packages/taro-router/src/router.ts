@@ -19,7 +19,7 @@ export interface RouterConfig extends AppConfig {
   routes: Route[],
   router: {
     mode: 'hash' | 'browser'
-    basename: 'string',
+    basename: string,
     customRoutes?: Record<string, string>,
     pathname: string
   }
@@ -105,7 +105,7 @@ export function createRouter (
     const route = config.routes[i]
     const path = addLeadingSlash(route.path)
     routes.push({
-      path: alias[path] ? alias[path] : path,
+      path: alias[path] || path,
       action: route.load
     })
   }
