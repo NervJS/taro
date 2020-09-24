@@ -85,7 +85,6 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
-    "@tarojs/cli": "3.1.0-alpha.0",
     "@tarojs/components": "3.1.0-alpha.0",
     "@tarojs/react": "3.1.0-alpha.0",
     "babel-preset-taro": "3.1.0-alpha.0"
