@@ -2,16 +2,6 @@
 # yarn lockfile v1
 
 
-"@tarojs/api@3.0.9":
-  version "3.0.9"
-  resolved "https://registry.npm.taobao.org/@tarojs/api/download/@tarojs/api-3.0.9.tgz#8d76c1f2f2bb00520bd6130573b61f531e6494d8"
-  dependencies:
-    "@tarojs/runtime" "3.0.9"
-
-"@tarojs/runtime@3.0.9":
-  version "3.0.9"
-  resolved "https://registry.npm.taobao.org/@tarojs/runtime/download/@tarojs/runtime-3.0.9.tgz#912ed65b0845ed21a36ff272a3182f59d3063604"
-
 base64-js@^1.3.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.1.tgz#58ece8cb75dd07e71ed08c736abc5fac4dbf8df1"
