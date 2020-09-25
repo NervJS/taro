@@ -1,4 +1,4 @@
-import { TaroPlatformBase } from '@tarojs/shared';
+import { TaroPlatformBase } from '@tarojs/service';
 import { Template } from './template';
 export default class Alipay extends TaroPlatformBase {
     platform: string;

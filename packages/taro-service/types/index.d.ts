@@ -6,6 +6,8 @@ import { IPlugin, IPaths, IHook, ICommand, IPlatform } from '../src/utils/types'
 
 export { default as Kernel } from './Kernel'
 
+export { TaroPlatformBase } from './platform-plugin-base'
+
 export declare interface IPluginContext {
   /**
    * 获取当前所有挂载的插件

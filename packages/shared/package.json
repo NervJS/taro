@@ -26,6 +26,5 @@
     "access": "public"
   },
   "dependencies": {
-    "@tarojs/service": "3.1.0-alpha.0"
   }
 }
