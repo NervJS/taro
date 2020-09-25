@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import 'unfetch/polyfill'
+import 'whatwg-fetch'
 import jsonpRetry from 'jsonp-retry'
 import { serializeParams } from '../utils'
 const { Link } = Taro

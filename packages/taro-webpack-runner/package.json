@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
-    "@babel/core": "7.6.4",
+    "@babel/core": "7.11.1",
     "@tarojs/helper": "^3.0.11",
     "@tarojs/runner-utils": "^3.0.11",
     "@tarojs/runtime": "^3.0.11",
@@ -66,7 +66,7 @@
     "url-loader": "^4.1.0",
     "webpack": "4.41.6",
     "webpack-chain": "4.9.0",
-    "webpack-dev-server": "3.10.3",
+    "webpack-dev-server": "3.11.0",
     "webpack-format-messages": "2.0.3"
   },
   "devDependencies": {
@@ -78,7 +78,7 @@
     "@types/node": "13.7.2",
     "@types/resolve": "1.14.0",
     "@types/webpack": "4.41.6",
-    "@types/webpack-dev-server": "3.10.0",
+    "@types/webpack-dev-server": "3.11.0",
     "babel-plugin-transform-taroapi": "^3.0.11",
     "babel-preset-taro": "^3.0.11"
   }
