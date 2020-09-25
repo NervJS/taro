@@ -24,7 +24,7 @@ describe('subpackages', () => {
         pages.set('packageA/my/index', ['sub-utils'])
       }
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 

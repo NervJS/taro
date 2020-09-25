@@ -50,7 +50,7 @@ describe('prerender', () => {
         exclude: ['others/normal/index']
       }
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -77,7 +77,7 @@ describe('prerender', () => {
         }
       }
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -101,7 +101,7 @@ describe('prerender', () => {
         }
       }
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 

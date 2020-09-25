@@ -13,14 +13,12 @@
     "outDir": "dist/",
     "preserveConstEnums": true,
     "removeComments": false,
-    "rootDir": "./src",
+    "rootDir": ".",
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es2015",
     "traceResolution": false,
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["src"]
 }

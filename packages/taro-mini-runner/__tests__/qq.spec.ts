@@ -15,7 +15,7 @@ describe('qq', () => {
       },
       template: new Template()
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -28,7 +28,7 @@ describe('qq', () => {
       buildAdapter: 'qq',
       baseLevel: 10
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 

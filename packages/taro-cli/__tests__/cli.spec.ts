@@ -7,6 +7,8 @@ const MockedKernel = (Kernel as unknown) as (jest.Mock<Kernel>)
 const APP_PATH = '/a/b/c'
 
 function setProcessArgv (cmd: string) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
   process.argv = [null, ...cmd.split(' ')]
 }
 
