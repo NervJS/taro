@@ -17,7 +17,7 @@ describe('ScrollView', () => {
 
   beforeAll(() => {
     originTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 40000
   })
 
   beforeEach(() => {
