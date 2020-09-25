@@ -411,6 +411,7 @@ const Swiper = {
   vertical: 'false',
   'previous-margin': '\'0px\'',
   'next-margin': '\'0px\'',
+  'snap-to-edge': 'false',
   'display-multiple-items': '1',
   'skip-hidden-item-layout': 'false',
   'easing-function': singleQuote('default'),

@@ -13,6 +13,7 @@ import { addLeadingSlash, addTrailingSlash, formatOpenHost } from './util'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig } from './util/types'
 import { makeConfig } from './util/chain'
+import { Compiler } from 'webpack-dev-server/node_modules/@types/webpack'
 
 export const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
   if (modifyWebpackChainFunc instanceof Function) {
@@ -128,7 +129,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 
   const webpackConfig = webpackChain.toConfig()
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
-  const compiler = webpack(webpackConfig)
+  const compiler = webpack(webpackConfig) as Compiler
   bindDevLogger(devUrl, compiler)
   const server = new WebpackDevServer(compiler, devServerOptions)
   compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {

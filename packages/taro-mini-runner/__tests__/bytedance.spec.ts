@@ -14,7 +14,7 @@ describe('bytedance', () => {
       },
       template: new Template()
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 

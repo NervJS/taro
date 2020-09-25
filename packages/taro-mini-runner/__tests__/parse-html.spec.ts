@@ -3,7 +3,7 @@ import { compile, getOutput } from './utils/compiler'
 describe('parse html', () => {
   test('should parse dangerouslySetInnerHTML', async () => {
     const { stats, config } = await compile('parse-html')
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 

@@ -615,9 +615,9 @@ exports[`vue should build vue app 2`] = `
     }
     var options = {};
     options.insert = function insertAtTop(element) {
-        const parent = document.querySelector(\\"head\\");
+        var parent = document.querySelector(\\"head\\");
         if (parent) {
-            const lastInsertedElement = window._lastElementInsertedByStyleLoader;
+            var lastInsertedElement = window._lastElementInsertedByStyleLoader;
             if (!lastInsertedElement) {
                 parent.insertBefore(element, parent.firstChild);
             } else if (lastInsertedElement.nextSibling) {
@@ -686,7 +686,7 @@ exports[`vue should build vue app 2`] = `
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
-        for (let i = 0; i < tabbarList.length; i++) {
+        for (var i = 0; i < tabbarList.length; i++) {
             var t = tabbarList[i];
             if (t.iconPath) {
                 t.iconPath = tabbarIconPath[i];

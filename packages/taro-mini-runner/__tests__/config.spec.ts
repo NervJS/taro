@@ -15,7 +15,7 @@ describe('config', () => {
       },
       outputRoot
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -40,7 +40,7 @@ describe('config', () => {
         options: {}
       }
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -101,7 +101,7 @@ describe('config', () => {
       },
       baseLevel: 20
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
