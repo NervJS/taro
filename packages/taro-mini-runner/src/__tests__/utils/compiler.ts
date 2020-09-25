@@ -5,8 +5,8 @@ import { IFs } from 'memfs'
 import { Template } from '@tarojs/cli/src/presets/platforms/weapp'
 
 import baseConfig from './config'
-import { IBuildConfig } from '../../src/utils/types'
-import build from '../../src/index'
+import { IBuildConfig } from '../../utils/types'
+import build from '../../index'
 
 interface EnsuredFs extends IFs {
   join: () => string

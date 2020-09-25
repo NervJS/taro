@@ -1,5 +1,5 @@
 import * as path from 'path'
-import validator from '../src/doctor/eslintValidator'
+import validator from '../doctor/eslintValidator'
 
 describe('eslint validator of doctor', () => {
   it('should lint for react', () => {
