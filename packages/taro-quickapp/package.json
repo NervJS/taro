@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-quickapp",
-  "version": "2.2.14",
+  "version": "2.2.15",
   "description": "Taro quickapp framework",
   "main": "index.js",
   "files": [
@@ -24,8 +24,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "^2.2.14",
-    "@tarojs/utils": "^2.2.14",
+    "@tarojs/taro": "2.2.15",
+    "@tarojs/utils": "2.2.15",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.1"
   }
