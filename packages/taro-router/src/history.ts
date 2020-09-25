@@ -3,11 +3,13 @@ import { createBrowserHistory, createHashHistory, History } from 'history'
 export let history: History
 
 export function setHistoryMode (mode?: 'hash' | 'browser', basename?: string) {
-  const obj = basename ? { basename } : undefined
+  const options = {
+    basename
+  }
   if (mode === 'browser') {
-    history = createBrowserHistory(obj)
+    history = createBrowserHistory(options)
   } else {
     // default is hash
-    history = createHashHistory(obj)
+    history = createHashHistory(options)
   }
 }
