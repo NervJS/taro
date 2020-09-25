@@ -1,4 +1,4 @@
-import validator from '../src/doctor/configValidator'
+import validator from '../doctor/configValidator'
 
 const baseConfig = {
   projectName: 'test',

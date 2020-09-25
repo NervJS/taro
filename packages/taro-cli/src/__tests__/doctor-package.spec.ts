@@ -1,9 +1,9 @@
 import * as npmCheck from 'npm-check'
-import validator from '../src/doctor/packageValidator'
+import validator from '../doctor/packageValidator'
 
 jest.mock('npm-check', () => jest.fn())
 
-jest.mock('../src/util', () => {
+jest.mock('../util', () => {
   return {
     __esModule: true,
     getPkgVersion: jest.fn().mockReturnValue('3.0.0-rc.1')

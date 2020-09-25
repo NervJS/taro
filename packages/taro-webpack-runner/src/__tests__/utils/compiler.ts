@@ -5,10 +5,10 @@ import { createFsFromVolume, Volume, IFs } from 'memfs'
 import * as joinPath from 'memory-fs/lib/join'
 
 import baseConfig from './config'
-import prodConf from '../../src/config/prod.conf'
-import { BuildConfig } from '../../src/util/types'
-import { customizeChain } from '../../src/index'
-import { makeConfig } from '../../src/util/chain'
+import prodConf from '../../config/prod.conf'
+import { BuildConfig } from '../../util/types'
+import { customizeChain } from '../../index'
+import { makeConfig } from '../../util/chain'
 
 interface EnsuredFs extends IFs {
   join: () => string

@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { run } from './utils'
-import { getPkgVersion } from '../src/util'
+import { getPkgVersion } from '../util'
 import { exec } from 'child_process'
 import {
   chalk,
