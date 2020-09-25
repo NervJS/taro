@@ -1,12 +1,14 @@
 import * as path from 'path'
 import * as chokidar from 'chokidar'
-
 import * as _ from 'lodash'
+
+import { IBuildHooks } from '../../util/types'
 
 export default (ctx) => {
   ctx.registerPlatform({
     name: 'ui',
-    async fn () {
+    async fn ({ config }) {
+      const { modifyWebpackChain, modifyBuildAssets, onBuildFinish } = config
       const {
         H5_OUTPUT_NAME,
         RN_OUTPUT_NAME,
@@ -24,6 +26,7 @@ export default (ctx) => {
       const { buildForWeapp } = require('../../ui/weapp')
       const { buildForQuickapp } = require('../../ui/quickapp')
       const { Compiler: RNCompiler } = require('../../rn_bak')
+      const buildHooks: IBuildHooks = { modifyWebpackChain, modifyBuildAssets, onBuildFinish }
 
       const { uiIndex, isWatch } = ctx.runOpts
       const { appPath, sourcePath } = ctx.paths
@@ -91,7 +94,7 @@ export default (ctx) => {
           extraWatchFiles = uiConfig.extraWatchFiles
           extraWatchFiles.forEach(item => {
             watchList.push(path.join(appPath, item.path))
-            if (typeof item.handler === 'function') item.callback = item.handler({buildH5Script})
+            if (typeof item.handler === 'function') item.callback = item.handler({ buildH5Script })
           })
         }
 
@@ -133,7 +136,7 @@ export default (ctx) => {
           compiler.processFiles(filePath)
 
           if (process.env.TARO_BUILD_TYPE === 'script') {
-            buildH5Script(buildData)
+            buildH5Script(buildData, buildHooks)
           } else {
             copyFileToDist(fileTempPath, tempPath, outputDir, buildData)
             // 依赖分析
@@ -172,7 +175,7 @@ export default (ctx) => {
           extraWatchFiles && extraWatchFiles.forEach(item => {
             if (filePath.indexOf(item.path.substr(2)) < 0) return
             if (typeof item.callback === 'function') {
-              item.callback()
+              item.callback(buildData, buildHooks)
               processed = true
             }
           })
@@ -222,11 +225,11 @@ export default (ctx) => {
       if (platforms && Array.isArray(platforms)) {
         platforms.includes(PLATFORMS.WEAPP) && await buildForWeapp(buildData)
         platforms.includes(PLATFORMS.QUICKAPP) && await buildForQuickapp(buildData)
-        platforms.includes(PLATFORMS.H5) && await buildForH5(uiIndex, buildData)
+        platforms.includes(PLATFORMS.H5) && await buildForH5(uiIndex, buildData, buildHooks)
         platforms.includes(PLATFORMS.RN) && await buildForRN(uiIndex, buildData)
       } else {
         await buildForWeapp(buildData)
-        await buildForH5(uiIndex, buildData)
+        await buildForH5(uiIndex, buildData, buildHooks)
       }
       if (isWatch) {
         watchFiles()
