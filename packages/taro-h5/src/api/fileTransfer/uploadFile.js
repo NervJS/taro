@@ -55,6 +55,7 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
   }
 
   xhr.onerror = e => {
+    clearTimeout(timeout)
     error({
       errMsg: `${apiName}:fail ${e.message}`
     })
@@ -95,6 +96,7 @@ const createUploadTask = ({ url, filePath, fileName, formData, name, header, suc
    * 中断任务
    */
   const abort = () => {
+    clearTimeout(timeout)
     xhr.abort()
   }
 
