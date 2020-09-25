@@ -483,9 +483,9 @@ exports[`subpackages should process subpackages 2`] = `
     }
     var options = {};
     options.insert = function insertAtTop(element) {
-        const parent = document.querySelector(\\"head\\");
+        var parent = document.querySelector(\\"head\\");
         if (parent) {
-            const lastInsertedElement = window._lastElementInsertedByStyleLoader;
+            var lastInsertedElement = window._lastElementInsertedByStyleLoader;
             if (!lastInsertedElement) {
                 parent.insertBefore(element, parent.firstChild);
             } else if (lastInsertedElement.nextSibling) {
