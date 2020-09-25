@@ -11,7 +11,7 @@ describe('wx-hybrid', () => {
         )]
       }
     })
-    const assets = stats.toJson().assets
+    const assets = stats.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
