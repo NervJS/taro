@@ -54,6 +54,7 @@ type Props = {
   onTimeupdate?: Function,
   onWaiting?: Function,
   onError?: Function
+  isMuted?: boolean
 }
 
 class _Video extends React.Component<Props> {
