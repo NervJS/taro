@@ -114,7 +114,7 @@ interface ButtonProps extends StandardProps {
   /** 打开 APP 时，向 APP 传递的参数
    *
    * 生效时机：`open-type="launchApp"`
-   * @supported weapp
+   * @supported weapp, qq
    */
   appParameter?: string
 
@@ -136,22 +136,25 @@ interface ButtonProps extends StandardProps {
    * 应用的包名 （安卓）
    * 生效时机：`open-type="launchApp"`
    * @supported qq
+   * @see https://q.qq.com/wiki/develop/miniprogram/frame/open_ability/open_app.html
    */
-  appPackagename: string,
+  appPackagename: string
 
   /**
    * 应用的bundleid （iOS）
    * 生效时机：`open-type="launchApp"`
    * @supported qq
+   * @see https://q.qq.com/wiki/develop/miniprogram/frame/open_ability/open_app.html
    */
-  appBundleid: string,
+  appBundleid: string
 
   /**
    * QQ互联中的AppID
    * 生效时机：`open-type="launchApp"`
    * @supported qq
+   * @see https://q.qq.com/wiki/develop/miniprogram/frame/open_ability/open_app.html
    */
-  appConnectId: string,
+  appConnectId: string
 
   /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
    *
