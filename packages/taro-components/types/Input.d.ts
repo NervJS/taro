@@ -172,7 +172,7 @@ declare namespace InputProps {
  * @example
  * ```tsx
  * class App extends Component {
- * 
+ *
  *   render () {
  *     return (
  *         <View className='example-body'>
@@ -183,7 +183,7 @@ declare namespace InputProps {
  *             <Text>数字输入的 input</Text>
  *             <Input type='number' placeholder='这是一个数字输入框'/>
  *             <Text>密码输入的 input</Text>
- *             <Input type='password' password placeholder='这是一个密码输入框'/>
+ *             <Input type='text' password placeholder='这是一个密码输入框'/>
  *             <Text>带小数点的 input</Text>
  *             <Input type='digit' placeholder='带小数点的数字键盘'/>
  *             <Text>身份证输入的 input</Text>
