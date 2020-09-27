@@ -277,6 +277,10 @@ declare namespace MapProps {
     color: string
     /** 文字大小 */
     fontSize: number
+    /** 横向偏移量，向右为正数 */
+    anchorX: number
+    /** 纵向偏移量，向下为正数 */
+    anchorY: number
     /** 边框圆角 */
     borderRadius: number
     /** 边框宽度 */

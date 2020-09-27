@@ -82,12 +82,12 @@ const chooseLocation = ({ success, fail, complete } = {}) => {
     const choosenLocation = {}
     const onSuccess = res => {
       success && success(res)
-      complete && complete()
+      complete && complete(res)
       resolve(res)
     }
     const onError = res => {
       fail && fail(res)
-      complete && complete()
+      complete && complete(res)
       reject(res)
     }
 

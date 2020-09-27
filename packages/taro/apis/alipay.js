@@ -412,7 +412,7 @@ function pxTransform (size) {
 function generateSpecialApis (api, options) {
   let apiAlias = api
   if (api === 'showModal') {
-    options.cancelButtonText = options.cancelText
+    options.cancelButtonText = options.cancelText || '取消'
     options.confirmButtonText = options.confirmText || '确定'
     apiAlias = 'confirm'
     if (options.showCancel === false) {

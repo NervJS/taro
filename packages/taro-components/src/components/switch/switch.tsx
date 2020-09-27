@@ -10,6 +10,7 @@ export class Switch implements ComponentInterface {
   @Prop() checked = false
   @Prop() color = '#04BE02'
   @Prop() name: string
+  @Prop() disabled = false
   @State() isChecked: boolean
 
   @Element() el: HTMLElement
@@ -49,7 +50,8 @@ export class Switch implements ComponentInterface {
       type,
       color,
       isChecked,
-      name
+      name,
+      disabled
     } = this
 
     const style = isChecked
@@ -66,6 +68,7 @@ export class Switch implements ComponentInterface {
         style={style}
         checked={isChecked}
         name={name}
+        disabled={disabled}
         onChange={this.switchChange}
       />
     )
