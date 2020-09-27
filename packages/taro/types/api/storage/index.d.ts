@@ -155,10 +155,10 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageSync.html
    */
-  function getStorageSync(
+  function getStorageSync<T>(
     /** 本地缓存中指定的 key */
     key: string,
-  ): any
+  ): T
 
   namespace getStorageInfoSync {
     interface Option {
@@ -246,7 +246,7 @@ declare namespace Taro {
   function getStorageInfo(option?: getStorageInfo.Option): Promise<General.CallbackResult>
 
   namespace getStorage {
-    interface Option {
+    interface Option<T> {
       /** 本地缓存中指定的 key */
       key: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -254,11 +254,11 @@ declare namespace Taro {
       /** 接口调用失败的回调函数 */
       fail?: (res: General.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (result: SuccessCallbackResult) => void
+      success?: (result: SuccessCallbackResult<T>) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult<T> extends General.CallbackResult {
       /** key对应的内容 */
-      data: any
+      data: T
       /** 调用结果 */
       errMsg: string
     }
@@ -288,7 +288,7 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorage.html
    */
-  function getStorage(option: getStorage.Option): Promise<getStorage.SuccessCallbackResult>
+  function getStorage<T = any>(option: getStorage.Option<T>): Promise<getStorage.SuccessCallbackResult<T>>
 
   /** Taro.clearStorage 的同步版本
    * @supported weapp, h5

@@ -1,8 +1,8 @@
 /* eslint-disable dot-notation */
 import UniversalRouter, { Routes } from 'universal-router'
-import { AppConfig, PageConfig } from '@tarojs/taro'
 import { LocationListener, LocationState } from 'history'
-import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance, stringify } from '@tarojs/runtime'
+import { AppConfig, PageConfig } from '@tarojs/taro'
+import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance, stringify, requestAnimationFrame } from '@tarojs/runtime'
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
@@ -19,7 +19,7 @@ export interface RouterConfig extends AppConfig {
   routes: Route[],
   router: {
     mode: 'hash' | 'browser'
-    basename: 'string',
+    basename: string,
     customRoutes?: Record<string, string>,
     pathname: string
   }
@@ -105,7 +105,7 @@ export function createRouter (
     const route = config.routes[i]
     const path = addLeadingSlash(route.path)
     routes.push({
-      path: alias[path] ? alias[path] : path,
+      path: alias[path] || path,
       action: route.load
     })
   }
