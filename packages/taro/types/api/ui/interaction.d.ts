@@ -145,7 +145,7 @@ declare namespace Taro {
       /** 按钮的文字颜色 */
       itemColor?: string
       /** 接口调用成功的回调函数 */
-      success?: (result: General.CallbackResult) => void
+      success?: (result: SuccessCallbackResult) => void
     }
     interface SuccessCallbackResult extends General.CallbackResult {
       /** 用户点击的按钮序号，从上到下的顺序，从0开始 */
