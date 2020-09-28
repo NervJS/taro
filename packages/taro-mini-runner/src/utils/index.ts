@@ -48,6 +48,7 @@ export function buildUsingComponents (
   sourceDir: string,
   pathAlias: IOption,
   components: IComponentObj[],
+  isBuildPlugin: boolean,
   isComponent?: boolean
 ): IOption {
   const usingComponents = Object.create(null)
@@ -59,7 +60,8 @@ export function buildUsingComponents (
     componentPath = resolveScriptPath(path.resolve(filePath, '..', componentPath as string))
     if (fs.existsSync(componentPath)) {
       if (NODE_MODULES_REG.test(componentPath) && !NODE_MODULES_REG.test(filePath)) {
-        componentPath = componentPath!.replace(NODE_MODULES_REG, path.join(sourceDir, 'npm'))
+        const npmDir = isBuildPlugin ? 'plugin/npm' : 'npm'
+        componentPath = componentPath!.replace(NODE_MODULES_REG, path.join(sourceDir, npmDir))
       }
       componentPath = promoteRelativePath(path.relative(filePath, componentPath!))
     } else {

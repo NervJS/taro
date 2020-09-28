@@ -737,7 +737,7 @@ export default class MiniPlugin {
   }
 
   getComponents (compiler: webpack.Compiler, fileList: Set<IComponent>, isRoot: boolean) {
-    const { buildAdapter, alias, isBuildQuickapp, fileType, constantsReplaceList, nodeModulesPath } = this.options
+    const { buildAdapter, alias, isBuildQuickapp, fileType, constantsReplaceList, nodeModulesPath, isBuildPlugin } = this.options
     fileList.forEach(file => {
       try {
         const isNative = file.isNative
@@ -824,7 +824,7 @@ export default class MiniPlugin {
         }
         taroFileTypeMap[file.path] = {
           type: isRoot ? PARSE_AST_TYPE.PAGE : PARSE_AST_TYPE.COMPONENT,
-          config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, alias, depComponents), configObj),
+          config: merge({}, isComponentConfig, buildUsingComponents(file.path, this.sourceDir, alias, depComponents, isBuildPlugin), configObj),
           code,
           importStyles
         }
