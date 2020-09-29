@@ -22,7 +22,8 @@ import {
   NODE_MODULES_REG,
   FRAMEWORK_EXT_MAP,
   printLog,
-  processTypeEnum
+  processTypeEnum,
+  FRAMEWORK_MAP
 } from '@tarojs/helper'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -64,14 +65,19 @@ interface FilesConfig {
   }
 }
 
-export const createTarget = function createTarget (_) {
+export const createTarget = function createTarget ({ framework }) {
   return (compiler: webpack.compiler.Compiler) => {
     const { options } = compiler
     new JsonpTemplatePlugin().apply(compiler)
     new FunctionModulePlugin(options.output).apply(compiler)
     new NodeSourcePlugin(options.node).apply(compiler)
     if (process.env.NODE_ENV !== 'jest') {
-      new LoaderTargetPlugin('node').apply(compiler)
+      // 暂时性修复 vue3 兼容问题，后续再改进写法
+      if (framework === FRAMEWORK_MAP.VUE3) {
+        new LoaderTargetPlugin('web').apply(compiler)
+      } else {
+        new LoaderTargetPlugin('node').apply(compiler)
+      }
     }
   }
 }
@@ -118,8 +124,8 @@ export default class TaroMiniPlugin {
     }, options)
 
     const { template, baseLevel } = this.options
-    if (template instanceof UnRecursiveTemplate && baseLevel > 0) {
-      template.baseLevel = baseLevel
+    if (template.isSupportRecursive === false && baseLevel > 0) {
+      (template as UnRecursiveTemplate).baseLevel = baseLevel
     }
   }
 

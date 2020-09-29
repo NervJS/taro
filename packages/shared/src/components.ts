@@ -1,5 +1,33 @@
 import { Shortcuts } from './shortcuts'
 
+type SelectEnvOptions = {
+  default?: Record<string, string>,
+  alipay?: Record<string, string>,
+  jd?: Record<string, string>,
+  qq?: Record<string, string>,
+  swan?: Record<string, string>,
+  tt?: Record<string, string>,
+  weapp?: Record<string, string>
+}
+
+function selectEnv (options: SelectEnvOptions): Record<string, any> {
+  let option
+  if (process.env.TARO_ENV === 'alipay') {
+    option = options.alipay
+  } else if (process.env.TARO_ENV === 'jd') {
+    option = options.jd
+  } else if (process.env.TARO_ENV === 'qq') {
+    option = options.qq
+  } else if (process.env.TARO_ENV === 'swan') {
+    option = options.swan
+  } else if (process.env.TARO_ENV === 'tt') {
+    option = options.tt
+  } else if (process.env.TARO_ENV === 'weapp') {
+    option = options.weapp
+  }
+  return option || options.default || Object.create(null)
+}
+
 export const styles = {
   style: `i.${Shortcuts.Style}`,
   class: `i.${Shortcuts.Class}`
@@ -134,13 +162,14 @@ const Button = {
   bindOpenSetting: '',
   bindLaunchApp: '',
   scope: '',
-  name: ''
-}
-
-if (process.env.TARO_ENV === 'qq') {
-  Button['app-packagename'] = ''
-  Button['app-bundleid'] = ''
-  Button['app-connect-id'] = ''
+  name: '',
+  ...selectEnv({
+    qq: {
+      'app-packagename': '',
+      'app-bundleid': '',
+      'app-connect-id': ''
+    }
+  })
 }
 
 const Checkbox = {
@@ -203,7 +232,16 @@ const Input = {
   bindBlur: '',
   bindConfirm: '',
   bindKeyboardHeightChange: '',
-  name: ''
+  name: '',
+  ...selectEnv({
+    alipay: {
+      'random-number': 'false',
+      controlled: 'false'
+    },
+    weapp: {
+      'always-embed': 'false'
+    }
+  })
 }
 
 const Label = {
@@ -411,6 +449,7 @@ const Swiper = {
   vertical: 'false',
   'previous-margin': '\'0px\'',
   'next-margin': '\'0px\'',
+  'snap-to-edge': 'false',
   'display-multiple-items': '1',
   'skip-hidden-item-layout': 'false',
   'easing-function': singleQuote('default'),
