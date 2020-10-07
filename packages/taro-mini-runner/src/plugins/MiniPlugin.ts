@@ -145,6 +145,9 @@ export default class TaroMiniPlugin {
    * 插件入口
    */
   apply (compiler: webpack.Compiler) {
+    compiler.options.node = {
+      fs: 'empty'
+    }
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
     const {
