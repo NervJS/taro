@@ -53,7 +53,7 @@ function _request (options) {
     url = generateRequestUrlWithParams(url, options.data)
   } else if (typeof options.data === 'object') {
     const contentType = (options.header && (options.header['Content-Type'] || options.header['content-type'])) || 'application/json'
-    
+
     if (contentType.indexOf('application/json') >= 0) {
       params.body = JSON.stringify(options.data)
     } else if (contentType.indexOf('application/x-www-form-urlencoded') >= 0) {
