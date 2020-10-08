@@ -52,10 +52,11 @@ function _request (options) {
   if (methodUpper === 'GET' || methodUpper === 'HEAD') {
     url = generateRequestUrlWithParams(url, options.data)
   } else if (typeof options.data === 'object') {
-    const contentType = options.header && (options.header['Content-Type'] || options.header['content-type'])
-    if (contentType && contentType.indexOf('application/json') >= 0) {
+    const contentType = (options.header && (options.header['Content-Type'] || options.header['content-type'])) || 'application/json'
+    
+    if (contentType.indexOf('application/json') >= 0) {
       params.body = JSON.stringify(options.data)
-    } else if (contentType && contentType.indexOf('application/x-www-form-urlencoded') >= 0) {
+    } else if (contentType.indexOf('application/x-www-form-urlencoded') >= 0) {
       params.body = serializeParams(options.data)
     } else {
       params.body = options.data
