@@ -2,7 +2,7 @@
 import UniversalRouter, { Routes } from 'universal-router'
 import { LocationListener, LocationState } from 'history'
 import { AppConfig, PageConfig } from '@tarojs/taro'
-import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance, stringify } from '@tarojs/runtime'
+import { createPageConfig, Current, PageInstance, eventCenter, CurrentReconciler, AppInstance, stringify, requestAnimationFrame } from '@tarojs/runtime'
 import { qs } from './qs'
 import { history } from './history'
 import { stacks } from './stack'
