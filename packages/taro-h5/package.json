@@ -42,5 +42,8 @@
     "raf": "^3.4.1",
     "unfetch": "^4.1.0",
     "whatwg-fetch": "^2.0.4"
+  },
+  "devDependencies": {
+    "jest-fetch-mock": "^3.0.3"
   }
 }
