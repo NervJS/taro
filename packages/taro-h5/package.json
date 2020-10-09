@@ -41,5 +41,8 @@
     "mobile-detect": "^1.4.2",
     "raf": "^3.4.1",
     "whatwg-fetch": "^3.4.0"
+  },
+  "devDependencies": {
+    "jest-fetch-mock": "^3.0.3"
   }
 }
