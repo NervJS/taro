@@ -52,7 +52,9 @@ function _request (options) {
   if (methodUpper === 'GET' || methodUpper === 'HEAD') {
     url = generateRequestUrlWithParams(url, options.data)
   } else if (typeof options.data === 'object') {
-    const contentType = (options.header && (options.header['Content-Type'] || options.header['content-type'])) || 'application/json'
+    options.header = options.header || {};
+    options.header['Content-Type'] = options.header['Content-Type'] || options.header['content-type'] || 'application/json'
+    const contentType = options.header['Content-Type'];
 
     if (contentType.indexOf('application/json') >= 0) {
       params.body = JSON.stringify(options.data)
