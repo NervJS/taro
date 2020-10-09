@@ -69,11 +69,11 @@ class App extends Component {
 | :---: | :---: | :---: | :---: |
 | SwiperItemProps.itemId | ✔️ |  |  |
 
-## API 支持度
+<!-- ## API 支持度
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| SwiperItem | ✔️ |  |  |
+| SwiperItem | ✔️ |  |  | -->
 
 ## 注意
 

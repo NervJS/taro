@@ -15,17 +15,40 @@ ComponentType<MovableAreaProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 class App extends Components {
   render () {
     return (
       <MovableArea style='height: 200px; width: 200px; background: red;'>
-        <MovableView style='height: 50px; width: 50px; background: blue;' direction='all'></MovableView>
+        <MovableView style='height: 50px; width: 50px; background: blue;' direction='all'>旅行的意义</MovableView>
       </MovableArea>
     )
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+  <movable-area style='height: 200px; width: 200px; background: red;'>
+    <movable-view style='height: 50px; width: 50px; background: blue;' direction='all'>在路上</movable-view>
+  </movable-area>
+```
+
+</TabItem>
+</Tabs>
 
 ## MovableAreaProps
 

@@ -63,7 +63,7 @@ const siteConfig = {
           position: 'left',
         },
         {
-          href: 'https://docs.taro.zone/taro/docs/guide',
+          href: 'https://docs.taro.zone/docs/guide',
           activeBasePath: 'docs/guide',
           activeRegxp: true,
           label: '教程',
@@ -86,7 +86,7 @@ const siteConfig = {
           label: '博客',
           position: 'left',
         },
-        {href: 'https://taro-ui.jd.com', label: 'Taro UI', position: 'right'},
+        {href: 'https://taro-ui.taro.zone', label: 'Taro UI', position: 'right'},
         {href: 'https://taro-ext.jd.com', label: '物料市场', position: 'right'},
         {href: 'https://taro-club.jd.com', label: '论坛', position: 'right'},
         {href: 'https://taro.jd.com/jdmp/index.html', label: '京东小程序', position: 'right'},

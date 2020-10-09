@@ -15,7 +15,19 @@ ComponentType<ViewProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
+
 export default class PageView extends Component {
   constructor() {
     super(...arguments)
@@ -41,6 +53,45 @@ export default class PageView extends Component {
   }
 }
 ```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="components-page">
+    <text>flex-direction: row 横向布局</text>
+    <view class="flex-wrp flex-wrp-row" hoverClass="hover" >
+      <view class="flex-item demo-text-1" hoverStopPropagation="true" />
+      <view class="flex-item demo-text-2" hoverStartTime="1000" hoverClass="hover" />
+      <view class="flex-item demo-text-3" hoverStayTime="1000" hoverClass="hover" />
+    </view>
+    <text>flex-direction: column 纵向布局</text>
+    <view class="flex-wrp flex-wrp-column">
+      <view class="flex-item flex-item-V demo-text-1" />
+      <view class="flex-item flex-item-V demo-text-2" />
+      <view class="flex-item flex-item-V demo-text-3" />
+    </view>
+  </view>
+</template>
+
+<style>
+.flex-wrp { display: flex; }
+.flex-wrp-column{ flex-direction: column; }
+.flex-wrp-row { flex-direction:row; padding: 20px; background: #f1f1f1; }
+.flex-item { width: 180px; height: 90px; }
+.demo-text-1 { background: #ccc; }
+.demo-text-2 { background: #999; }
+.demo-text-3 { background: #666; }
+.hover {
+  background: #000;
+}
+</style>
+```
+
+</TabItem>
+</Tabs>
 
 ## ViewProps
 

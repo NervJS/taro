@@ -7,12 +7,22 @@ Taro 以 [微信小程序组件库](https://developers.weixin.qq.com/miniprogram
 基于以上原则，在小程序端，我们可以使用所有的小程序原生组件，而在其他端，我们提供了对应的组件库实现
 
 - H5 端，`@tarojs/components`，同时也是需要引入的默认标准组件库
-- RN 端为，`@tarojs/components-rn`
 
-在使用时，我们需要先从 Taro 标准组件库 `@tarojs/components` 引用组件，再进行使用，例如使用 `<View />`、 `<Text />` 组件
+在使用时，React 中我们需要先从 Taro 标准组件库 `@tarojs/components` 引用组件，再进行使用，例如使用 `<View />`、 `<Text />` 组件，而 Vue 我们则无需引入
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
 
 ```jsx
-import Taro, { Component } from '@tarojs/taro'
+import React, { Component } from 'react'
 import { View, Text } from '@tarojs/components'
 
 export default class C extends Component {
@@ -26,6 +36,23 @@ export default class C extends Component {
 }
 ```
 
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="c">
+    <text>c component</text>
+  </view>
+</template>
+```
+  
+</TabItem>
+
+
+</Tabs>
+
 ## 注意
 
 在组件的详细文档中列出了组件在不同端的支持程度，以及基本的使用示例。 部分未列出示例的，标明仅在小程序端支持的组件的用法可以直接参考[小程序组件文档](https://developers.weixin.qq.com/miniprogram/dev/component/)。
@@ -34,10 +61,11 @@ export default class C extends Component {
 
 ### 首字母大写与驼峰式命名
 
-例如使用 H5 端尚未支持 map 组件
+例如，使用 H5 端尚未支持的 map 组件
 
 ```jsx
-import Taro, { Component } from '@tarojs/taro'
+import React, { Component } from 'react'
+import Taro from '@tarojs/taro'
 // 引入 map 组件
 import { Map } from '@tarojs/components'
 
