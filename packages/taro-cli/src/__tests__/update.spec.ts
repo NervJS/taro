@@ -168,7 +168,7 @@ describe('update', () => {
     logSpy.mockRestore()
   })
 
-  it.skip('should update project', async () => {
+  it('should update project', async () => {
     const appPath = path.resolve(__dirname, 'fixtures/default')
     const pkgPath = path.join(appPath, 'package.json')
     const packageMap = updatePkg(pkgPath, lastestVersion)
@@ -186,7 +186,7 @@ describe('update', () => {
     logSpy.mockRestore()
   })
 
-  it.skip('should update project to specific version', async () => {
+  it('should update project to specific version', async () => {
     const version = '3.0.0-beta.4'
     const appPath = path.resolve(__dirname, 'fixtures/default')
     const pkgPath = path.join(appPath, 'package.json')
