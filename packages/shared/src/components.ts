@@ -524,6 +524,7 @@ const Image = {
   'show-menu-by-longpress': 'false',
   bindError: '',
   bindLoad: '',
+  animation: '',
   ...touchEvents
 }
 
