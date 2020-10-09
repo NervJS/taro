@@ -73,11 +73,10 @@ describe('request', () => {
         expect(fetch.mock.calls[0][0]).toBe('https://github.com')
         expect(fetch.mock.calls[0][1]).toEqual({
           method: 'POST',
-          body: {
-            arg: 123
-          },
+          body: JSON.stringify({ arg: 123 }),
           headers: {
-            'A': 'CCC'
+            'A': 'CCC',
+            'Content-Type': 'application/json'
           },
           mode: 'cors',
           cache: 'no-cache',
