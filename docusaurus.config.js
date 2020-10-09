@@ -32,8 +32,8 @@ const siteConfig = {
     scrollToTop: true,
     disableDarkMode: false,
     algolia: {
-      apiKey: 'a18dc9e5c1c77d64032e48d38f418b0e',
-      indexName: 'taro.zone',
+      apiKey: '820a8e12c97e870d4e0785d52858230c',
+      indexName: 'taro_new',
       searchParameters: {
         facetFilters: [`version:${versions[0]}`]
       },
