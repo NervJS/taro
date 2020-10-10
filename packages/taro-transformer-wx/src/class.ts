@@ -12,7 +12,7 @@ import {
   isContainJSXElement,
   getSlotName,
   isArrayMapCallExpression,
-  incrementId,
+  getScopeUid,
   isContainStopPropagation,
   isDerivedFromProps,
   findFirstIdentifierFromMemberExpression,
@@ -124,7 +124,6 @@ class Transformer {
   private sourceDir: string
   private refs: Ref[] = []
   private loopRefs: Map<t.JSXElement, LoopRef> = new Map()
-  private anonymousFuncCounter = incrementId()
   private importJSXs = new Set<String>()
   private refObjExpr: t.ObjectExpression[] = []
 
@@ -226,17 +225,17 @@ class Transformer {
   buildAnonyMousFunc = (jsxExpr: NodePath<t.JSXExpressionContainer>, attr: NodePath<t.JSXAttribute>, expr: t.Expression) => {
     const exprPath = attr.get('value.expression')
     const stemParent = jsxExpr.getStatementParent()
-    const counter = this.anonymousFuncCounter()
-    const anonymousFuncName = `${ANONYMOUS_FUNC}${counter}`
+    const getCounterId = () => getScopeUid(this.classPath.scope, ANONYMOUS_FUNC)
+    const counterId = getCounterId()
+    const anonymousFuncName = `${ANONYMOUS_FUNC}${counterId}`
     const isCatch = isContainStopPropagation(exprPath)
     const classBody = this.classPath.node.body.body
     const loopCallExpr = jsxExpr.findParent(p => isArrayMapCallExpression(p)) as NodePath<t.CallExpression>
     let index: t.Identifier
-    const self = this
     if (loopCallExpr) {
       index = safeGet(loopCallExpr, 'node.arguments[0].params[1]')
       if (!t.isIdentifier(index)) {
-        index = t.identifier('__index' + counter)
+        index = t.identifier('__index' + counterId)
         safeSet(loopCallExpr, 'node.arguments[0].params[1]', index)
       }
       classBody.push(t.classProperty(t.identifier(anonymousFuncName + 'Map'), t.objectExpression([])))
@@ -248,7 +247,7 @@ class Transformer {
         while (callExpr = callExpr.findParent(p => isArrayMapCallExpression(p) && p !== callExpr) as NodePath<t.CallExpression>) {
           let index = safeGet(callExpr, 'node.arguments[0].params[1]')
           if (!t.isIdentifier(index)) {
-            index = t.identifier('__index' + self.anonymousFuncCounter())
+            index = t.identifier('__index' + getCounterId())
             safeSet(callExpr, 'node.arguments[0].params[1]', index)
           }
           indices.add(index)

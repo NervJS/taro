@@ -13,7 +13,7 @@ import {
   setTemplate,
   isContainFunction,
   buildConstVariableDeclaration,
-  incrementId,
+  getScopeUid,
   isArrayMapCallExpression,
   generateAnonymousState,
   hasComplexExpression,
@@ -25,7 +25,6 @@ import {
   getSuperClassCode,
   isContainStopPropagation,
   noop,
-  genCompid,
   findParentLoops,
   setAncestorCondition,
   replaceJSXTextWithTextComponent,
@@ -44,6 +43,7 @@ import {
   MAP_CALL_ITERATOR,
   LOOP_STATE,
   LOOP_CALLEE,
+  LOOP_ARRAY,
   PREV_COMPID,
   COMPID,
   THIRD_PARTY_COMPONENTS,
@@ -111,9 +111,6 @@ function buildAssignState (
   )
 }
 
-const incrementCalleeId = incrementId()
-const incrementLoopArrayId = incrementId()
-
 export class RenderParser {
   public outputTemplate: string
 
@@ -132,8 +129,8 @@ export class RenderParser {
   private customComponentNames: Set<string>
   private loopCalleeId = new Set<t.Identifier>()
   private usedThisProperties = new Set<string>()
-  private incrementCalleeId = isTestEnv ? incrementId() : incrementCalleeId
-  private loopArrayId = isTestEnv ? incrementId() : incrementLoopArrayId
+  private incrementCalleeId = (path: NodePath<t.JSXElement>) => `${LOOP_CALLEE}_${getScopeUid(path.scope, LOOP_CALLEE)}`
+  private loopArrayId = (path: NodePath<t.JSXElement>) => `${LOOP_ARRAY}_${getScopeUid(path.scope, LOOP_ARRAY)}`
   private classComputedState = new Set<string>()
   private propsSettingExpressions = new Map<t.BlockStatement, (() => t.ExpressionStatement)[]>()
   private genCompidExprs = new Set<t.VariableDeclaration>()
@@ -495,7 +492,7 @@ export class RenderParser {
                   let ary = callee.object
                   if (t.isCallExpression(ary) || isContainFunction(callExpr.get('callee').get('object'))) {
                     this.loopCallees.add(ary)
-                    const variableName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
+                    const variableName = this.incrementCalleeId(jsxElementPath)
                     callExpr.getStatementParent().insertBefore(
                       buildConstVariableDeclaration(variableName, setParentCondition(jsxElementPath, ary, true))
                     )
@@ -569,7 +566,7 @@ export class RenderParser {
                         setJSXAttr(
                           needWrapper ? block : jsxElementPath.node,
                           Adapter.forIndex,
-                          t.stringLiteral(this.renderScope.generateUid('anonIdx'))
+                          t.stringLiteral(uid)
                         )
                       }
                     } else {
@@ -594,9 +591,9 @@ export class RenderParser {
                     let loopComponentName
                     const parentCallee = callExpr.findParent(c => isArrayMapCallExpression(c))
                     if (isArrayMapCallExpression(parentCallee)) {
-                      loopComponentName = `${LOOP_CALLEE}_${this.incrementCalleeId()}`
+                      loopComponentName = this.incrementCalleeId(jsxElementPath)
                     } else {
-                      loopComponentName = 'loopArray' + this.loopArrayId()
+                      loopComponentName = this.loopArrayId(jsxElementPath)
                     }
                     this.loopComponentNames.set(callExpr, loopComponentName)
                     // caller.replaceWith(jsxElementPath.node)
@@ -632,7 +629,7 @@ export class RenderParser {
           return
         }
         if (t.isIdentifier(id)) {
-          if (id.name.startsWith('loopArray') || id.name.startsWith(LOOP_CALLEE)) {
+          if (id.name.startsWith(LOOP_ARRAY) || id.name.startsWith(LOOP_CALLEE)) {
             this.renderPath.node.body.body.unshift(
               t.variableDeclaration('let', [t.variableDeclarator(t.identifier(id.name))])
             )
@@ -1045,7 +1042,7 @@ export class RenderParser {
       if (this.isEmptyProps(openingElement.attributes) && Adapter.type !== Adapters.swan) {
         return
       }
-      const compId = genCompid()
+      const compId = getScopeUid(jsxElementPath.scope, 'compId')
       const prevName = `${PREV_COMPID}__${compId}`
       const name = `${COMPID}__${compId}`
       const variableName = t.identifier(name)
@@ -1863,10 +1860,10 @@ export class RenderParser {
                 return
               }
 
-              // createData 函数里加入 compid 相关逻辑
-              const compid = genCompid()
-              const prevVariableName = `${PREV_COMPID}__${compid}`
-              const variableName = `${COMPID}__${compid}`
+              // createData 函数里加入 compId 相关逻辑
+              const compId = getScopeUid(path.scope, 'compId')
+              const prevVariableName = `${PREV_COMPID}__${compId}`
+              const variableName = `${COMPID}__${compId}`
               const tpmlExprs: t.Expression[] = []
               for (let index = 0; index < loopIndices.length; index++) {
                 const element = loopIndices[index]
@@ -1902,7 +1899,7 @@ export class RenderParser {
 
               body.splice(body.length - 1, 0, compidTempDecl, t.expressionStatement(expr))
 
-              // wxml 组件打上 compid
+              // wxml 组件打上 compId
               const [ func ] = callee.node.arguments
               let forItem: t.Identifier | null = null
               if (t.isFunctionExpression(func) || t.isArrowFunctionExpression(func)) {

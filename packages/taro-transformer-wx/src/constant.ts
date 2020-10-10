@@ -96,6 +96,8 @@ export const setLoopOriginal = (s: string) => LOOP_ORIGINAL = s
 
 export let LOOP_CALLEE = '$anonymousCallee_'
 
+export const LOOP_ARRAY = '$anonymousArray_'
+
 export let setLoopCallee = (s: string) => LOOP_CALLEE = s
 
 export const CONTEXT_PROVIDER = 'PrivateContextProvider'

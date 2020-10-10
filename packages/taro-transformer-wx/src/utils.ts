@@ -50,9 +50,8 @@ export function isDerivedFromThis (scope: Scope, bindingName: string) {
   return false
 }
 
-export const incrementId = () => {
-  let id = 0
-  return () => id++
+export const getScopeUid = (scope: NodePath['scope'], name = 'temp') => {
+  return Number(scope.generateUid(name).replace(name, '').replace(/^_+/, '')) || 1
 }
 
 // tslint:disable-next-line:no-empty
@@ -226,6 +225,7 @@ export function setParentCondition (jsx: NodePath<t.Node>, expr: t.Expression, a
   return expr
 }
 
+export const ANONYMOUS_STATE = 'anonymousState'
 export function generateAnonymousState (
   scope: Scope,
   expression: NodePath<t.Expression>,
@@ -243,7 +243,7 @@ export function generateAnonymousState (
   const expr = setParentCondition(jsx, cloneDeep(expression.node))
   let variableName
   if (!callExpr) {
-    variableName = `anonymousState_${scope.generateUid('anonymous')}`
+    variableName = `${ANONYMOUS_STATE}__${getScopeUid(scope, ANONYMOUS_STATE)}`
     refIds.add(t.identifier(variableName))
     statementParent.insertBefore(
       buildConstVariableDeclaration(variableName, expr)
@@ -285,7 +285,7 @@ export function generateAnonymousState (
       })
     }
   } else {
-    variableName = `${LOOP_STATE}_${callExpr.scope.generateUid('loop')}`
+    variableName = `${LOOP_STATE}__${getScopeUid(callExpr.scope, 'loop')}`
     const func = callExpr.node.arguments[0]
     if (t.isArrowFunctionExpression(func)) {
       if (!t.isBlockStatement(func.body)) {
@@ -646,11 +646,6 @@ export function findIdentifierFromStatement (statement: t.Node) {
     }
   }
   return '__return'
-}
-
-let id: number = 0
-export function genCompid (): string {
-  return String(id++)
 }
 
 export function findParentLoops (
