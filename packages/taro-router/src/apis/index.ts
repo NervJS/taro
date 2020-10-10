@@ -200,7 +200,10 @@ const createReLaunch = ({ customRoutes }: RouterConfig, history?: History) => {
           res.errMsg = 'reLaunch:ok'
           resolve(res)
         }, 50)
-        if (history) {
+        const key = window.history.state.key * 1
+        if (key > 0) {
+          window.history.go(-key)
+        } else if (history) {
           history.go(-(history.length - 1))
         } else {
           window.history.go(-(window.history.length - 1))

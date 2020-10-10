@@ -1,55 +1,57 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as wxTransformer from '@tarojs/transformer-wx'
-import { printLog, resolveScriptPath, npm as npmProcess, processTypeEnum, REG_TYPESCRIPT, chalk } from '@tarojs/helper'
+import { printLog, resolveScriptPath, npm as npmProcess, processTypeEnum, REG_TYPESCRIPT, chalk, recursiveMerge } from '@tarojs/helper'
 
 import { Compiler } from '../h5'
 import { IBuildData, IH5BuildConfig } from './ui.types'
 import { copyFileToDist, analyzeFiles, parseEntryAst, analyzeStyleFilesImport, H5_OUTPUT_NAME, copyAllInterfaceFiles } from './common'
+import { IBuildHooks } from '../util/types'
 
-async function buildForH5 (uiIndex = 'index', buildData: IBuildData) {
+async function buildForH5 (uiIndex = 'index', buildData: IBuildData, buildHooks: IBuildHooks) {
   const {appPath} = buildData
   const compiler = new Compiler(appPath, uiIndex, true)
   console.log()
   console.log(chalk.green('开始编译 H5 端组件库！'))
   await compiler.buildTemp()
   if (process.env.TARO_BUILD_TYPE === 'script') {
-    await buildH5Script(buildData)
+    await buildH5Script(buildData, buildHooks)
   } else {
     await buildH5Lib(uiIndex, buildData)
   }
 }
 
-async function buildH5Script (buildData: IBuildData) {
+async function buildH5Script (buildData: IBuildData, buildHooks: IBuildHooks) {
   const { appPath, projectConfig, entryFileName, sourceDirName, tempPath } = buildData
-  let { outputDirName } = buildData
-  const h5Config: IH5BuildConfig = Object.assign({}, projectConfig.h5)
+  const h5Config: IH5BuildConfig = Object.assign({}, projectConfig.h5, buildHooks)
   const entryFile = path.basename(entryFileName, path.extname(entryFileName)) + '.js'
-  outputDirName = `${outputDirName}/${H5_OUTPUT_NAME}`
-  h5Config.env = projectConfig.env
-  h5Config.defineConstants = projectConfig.defineConstants
-  h5Config.plugins = projectConfig.plugins
-  h5Config.babel = projectConfig.babel
-  h5Config.csso = projectConfig.csso
-  h5Config.uglify = projectConfig.uglify
-  h5Config.sass = projectConfig.sass
-  h5Config.designWidth = projectConfig.designWidth
+  h5Config.isWatch = false
+  recursiveMerge(h5Config, {
+    env: projectConfig.env,
+    defineConstants: projectConfig.defineConstants,
+    plugins: projectConfig.plugins,
+    babel: projectConfig.babel,
+    csso: projectConfig.csso,
+    uglify: projectConfig.uglify,
+    sass: projectConfig.sass,
+    designWidth: projectConfig.designWidth,
+    sourceRoot: sourceDirName,
+    outputRoot: `${buildData.outputDirName}/${H5_OUTPUT_NAME}`,
+    entry: Object.assign({
+      app: [path.join(tempPath, entryFile)]
+    }, h5Config.entry),
+    isWatch: false
+  })
   if (projectConfig.deviceRatio) {
     h5Config.deviceRatio = projectConfig.deviceRatio
   }
-  h5Config.sourceRoot = sourceDirName
-  h5Config.outputRoot = outputDirName
-  h5Config.entry = Object.assign({
-    app: [path.join(tempPath, entryFile)]
-  }, h5Config.entry)
-  h5Config.isWatch = false
   const webpackRunner = await npmProcess.getNpmPkg('@tarojs/webpack-runner', appPath)
   webpackRunner(appPath, h5Config)
 }
 
 async function buildH5Lib (uiIndex, buildData: IBuildData) {
   try {
-    const {sourceDir, appPath, outputDirName, tempPath} = buildData
+    const { sourceDir, appPath, outputDirName, tempPath } = buildData
     const outputDir = path.join(appPath, outputDirName, H5_OUTPUT_NAME)
     const tempEntryFilePath = resolveScriptPath(path.join(tempPath, uiIndex))
     const outputEntryFilePath = path.join(outputDir, path.basename(tempEntryFilePath))

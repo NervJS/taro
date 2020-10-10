@@ -36,10 +36,19 @@ class Canvas extends Taro.PureComponent {
     if (ref) this.canvasRef = ref
   }
   setSize = (width, height) => {
-    this.canvasRef.setAttribute('width', width)
-    this.canvasRef.setAttribute('height', height)
-    this.width = width
-    this.height = height
+    const w = this.wrapDom.getAttribute('width') || width
+    const h = this.wrapDom.getAttribute('height') || height
+    if (this.width !== w) {
+      this.canvasRef.setAttribute('width', w)
+      this.width = w
+    }
+    if (this.height !== h) {
+      this.canvasRef.setAttribute('height', h)
+      this.height = h
+    }
+  }
+  componentWillUpdate () {
+    this.canvasRef.setAttribute('canvas-block', false)
   }
   componentDidMount () {
     if (!this.wrapDom) return
@@ -48,9 +57,7 @@ class Canvas extends Taro.PureComponent {
   }
   componentDidUpdate () {
     const { width, height } = this.wrapDom.getBoundingClientRect()
-    if (this.width !== width || this.height !== height) {
-      this.setSize(width, height)
-    }
+    this.setSize(width, height)
   }
   componentDidCatch (e) {
     const onError = this.props.onError
