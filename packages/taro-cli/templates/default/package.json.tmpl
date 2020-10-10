@@ -45,7 +45,7 @@
     "nervjs": "^1.5.0"<%}%><% if (framework === 'vue') {%>
     "vue-template-compiler": "^2.5.0",
     "vue": "^2.5.0"<%}%><% if (framework === 'vue3') {%>
-    "vue": "^3.0.0-beta.15"<%}%>
+    "vue": "^3.0.0"<%}%>
   },
   "devDependencies": {
     "@types/webpack-env": "^1.13.6",<% if (framework === 'react' || framework === 'nerv') {%>
@@ -56,9 +56,9 @@
     "babel-preset-taro": "<%= version %>",<% if (framework === 'vue') {%>
     "vue-loader": "^15.9.2",
     "eslint-plugin-vue": "^6.x",<%}%><% if (framework === 'vue3') {%>
-    "@vue/compiler-sfc": "^3.0.0-beta.15",
-    "vue-loader": "^16.0.0-beta.3",
-    "eslint-plugin-vue": "^7.0.0-alpha.6",<%}%>
+    "@vue/compiler-sfc": "^3.0.0",
+    "vue-loader": "^16.0.0-beta.8",
+    "eslint-plugin-vue": "^7.0.0",<%}%>
     "eslint-config-taro": "<%= version %>",
     "eslint": "^6.8.0",<% if (framework === 'react' || framework === 'nerv') {%>
     "eslint-plugin-react": "^7.8.2",
