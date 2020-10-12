@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "3.1.0-alpha.1",
+  "version": "3.1.0-alpha.2",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -38,18 +38,18 @@
     "@babel/core": "7.11.1",
     "@babel/plugin-proposal-class-properties": "7.10.4",
     "@babel/preset-env": "7.11.0",
-    "@tarojs/helper": "3.1.0-alpha.1",
-    "@tarojs/plugin-platform-alipay": "3.1.0-alpha.1",
-    "@tarojs/plugin-platform-jd": "3.1.0-alpha.1",
-    "@tarojs/plugin-platform-qq": "3.1.0-alpha.1",
-    "@tarojs/plugin-platform-swan": "3.1.0-alpha.1",
-    "@tarojs/plugin-platform-tt": "3.1.0-alpha.1",
-    "@tarojs/plugin-platform-weapp": "3.1.0-alpha.1",
-    "@tarojs/runner-utils": "3.1.0-alpha.1",
-    "@tarojs/runtime": "3.1.0-alpha.1",
-    "@tarojs/shared": "3.1.0-alpha.1",
-    "@tarojs/taro": "3.1.0-alpha.1",
-    "@tarojs/taro-loader": "3.1.0-alpha.1",
+    "@tarojs/helper": "3.1.0-alpha.2",
+    "@tarojs/plugin-platform-alipay": "3.1.0-alpha.2",
+    "@tarojs/plugin-platform-jd": "3.1.0-alpha.2",
+    "@tarojs/plugin-platform-qq": "3.1.0-alpha.2",
+    "@tarojs/plugin-platform-swan": "3.1.0-alpha.2",
+    "@tarojs/plugin-platform-tt": "3.1.0-alpha.2",
+    "@tarojs/plugin-platform-weapp": "3.1.0-alpha.2",
+    "@tarojs/runner-utils": "3.1.0-alpha.2",
+    "@tarojs/runtime": "3.1.0-alpha.2",
+    "@tarojs/shared": "3.1.0-alpha.2",
+    "@tarojs/taro": "3.1.0-alpha.2",
+    "@tarojs/taro-loader": "3.1.0-alpha.2",
     "babel-loader": "8.0.6",
     "babel-types": "^6.26.0",
     "copy-webpack-plugin": "^5.0.3",
@@ -91,8 +91,8 @@
     "yauzl": "2.10.0"
   },
   "devDependencies": {
-    "@tarojs/components": "3.1.0-alpha.1",
-    "@tarojs/react": "3.1.0-alpha.1",
-    "babel-preset-taro": "3.1.0-alpha.1"
+    "@tarojs/components": "3.1.0-alpha.2",
+    "@tarojs/react": "3.1.0-alpha.2",
+    "babel-preset-taro": "3.1.0-alpha.2"
   }
 }

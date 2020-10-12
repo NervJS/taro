@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.1.0-alpha.1",
+  "version": "3.1.0-alpha.2",
   "description": "taro runtime for mini apps.",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
@@ -22,6 +22,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@tarojs/shared": "3.1.0-alpha.1"
+    "@tarojs/shared": "3.1.0-alpha.2"
   }
 }
