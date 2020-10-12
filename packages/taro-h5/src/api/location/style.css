@@ -7,6 +7,7 @@
   top: 100%;
   background-color: #fff;
   transition: ease top .3s;
+  z-index: 1;
 }
 
 .taro_chooselocation_bar {

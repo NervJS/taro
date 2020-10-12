@@ -49,6 +49,11 @@ const variesConfig = [{
     file: 'dist/taroApis.js'
   },
   plugins: exportNameOnly()
+}, {
+  input: 'src/index.cjs.js',
+  output: {
+    file: 'dist/index.cjs.js'
+  }
 }]
 
 export default variesConfig.map(v => {

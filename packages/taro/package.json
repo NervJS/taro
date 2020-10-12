@@ -4,19 +4,17 @@
   "description": "Taro framework",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro#readme",
   "main": "index.js",
-  "main:h5": "dist/h5.esm.js",
+  "main:h5": "h5.js",
   "typings": "types/index.d.ts",
   "files": [
-    "dist",
     "index.js",
-    "taro.js",
+    "h5.js",
     "types",
     "html.css",
     "html5.css"
   ],
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "rollup -c rollup.config.js"
+    "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -29,6 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/runtime": "3.1.0-alpha.1",
-    "@tarojs/taro-h5": "3.1.0-alpha.1"
+    "@tarojs/taro-h5": "3.1.0-alpha.1",
+    "@tarojs/api": "3.1.0-alpha.1"
   }
 }
