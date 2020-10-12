@@ -28,8 +28,8 @@ import {
   findParentLoops,
   setAncestorCondition,
   replaceJSXTextWithTextComponent,
-  createRandomLetters,
-  isDerivedFromProps
+  isDerivedFromProps,
+  createUniPathID
 } from './utils'
 import { difference, get as safeGet, cloneDeep, uniq, snakeCase } from 'lodash'
 import {
@@ -1872,6 +1872,7 @@ export class RenderParser {
                   tpmlExprs.push(t.stringLiteral('-'))
                 }
               }
+              const renderPath = this.renderPath.getPathLocation()
               const compidTempDecl = t.variableDeclaration('const', [
                 t.variableDeclarator(
                   t.arrayPattern([t.identifier(prevVariableName), t.identifier(variableName)]),
@@ -1880,7 +1881,7 @@ export class RenderParser {
                     [t.templateLiteral(
                       [
                         t.templateElement({ raw: '' }),
-                        t.templateElement({ raw: createRandomLetters(10) }),
+                        t.templateElement({ raw: createUniPathID(renderPath.replace(renderPath, '')) }),
                         ...tpmlExprs.map(() => t.templateElement({ raw: '' }))
                       ],
                       [

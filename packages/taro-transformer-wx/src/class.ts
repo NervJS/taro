@@ -352,7 +352,7 @@ class Transformer {
             methodName === 'render'
               ? t.identifier('__prefix')
               : t.identifier(CLASS_COMPONENT_UID),
-            t.stringLiteral(createRandomLetters(10))
+            t.stringLiteral(createUniPathID(this.sourcePath.replace(this.sourceDir, '')))
           )]),
           args
         )
