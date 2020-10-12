@@ -20,7 +20,7 @@ declare namespace Taro {
     /** 本地缓存中指定的 key */
     key: string,
     /** 需要存储的内容。只支持原生类型、Date、及能够通过`JSON.stringify`序列化的对象。 */
-    data: any,
+    data: any
   ): void
 
   namespace setStorage {
@@ -93,7 +93,7 @@ declare namespace Taro {
    */
   function removeStorageSync(
     /** 本地缓存中指定的 key */
-    key: string,
+    key: string
   ): void
 
   namespace removeStorage {
@@ -155,9 +155,9 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageSync.html
    */
-  function getStorageSync<T=any>(
+  function getStorageSync<T = any>(
     /** 本地缓存中指定的 key */
-    key: string,
+    key: string
   ): T
 
   namespace getStorageInfoSync {
