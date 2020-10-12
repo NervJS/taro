@@ -155,7 +155,7 @@ declare namespace Taro {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageSync.html
    */
-  function getStorageSync<T>(
+  function getStorageSync<T = any>(
     /** 本地缓存中指定的 key */
     key: string,
   ): T
