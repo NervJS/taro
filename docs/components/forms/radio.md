@@ -15,6 +15,18 @@ ComponentType<RadioProps>
 
 ## 示例代码
 
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 export default class PageRadio extends Component {
   state = {
@@ -81,6 +93,83 @@ export default class PageRadio extends Component {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="container">
+    <view class="page-section">
+      <text>默认样式</text>
+      <radio value="选中" checked="true">选中</radio>
+      <radio style="margin-left: 20rpx;" value="未选中">未选中</radio>
+    </view>
+    <view class="page-section">
+      <text>推荐展示样式(Taro 团队成员):</text>
+        <radio-group @change="onChange">
+          <label v-for="item in list" class="checkbox-list__label">
+            <radio class="checkbox-list__checkbox" :value="item.value" :checked="item.checked">{{ item.text }}</radio>
+          </label>
+        </radio-group>
+    </view>
+  </view>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      list: [
+        {
+          value: 'yuche',
+          text: 'yuche',
+          checked: false
+        },
+        {
+          value: 'cjj',
+          text: 'cjj',
+          checked: false
+        },
+        {
+          value: 'xiexiaoli',
+          text: 'xiexiaoli',
+          checked: false
+        },
+        {
+          value: 'honly',
+          text: 'honly',
+          checked: false
+        },
+        {
+          value: 'cs',
+          text: 'cs',
+          checked: false
+        },
+        {
+          value: 'zhutianjian',
+          text: 'zhutianjian',
+          checked: false
+        },
+        {
+          value: '隔壁老李',
+          text: '隔壁老李',
+          checked: true
+        }
+      ]
+    }
+  },
+  methods: {
+    onChange: function(e) {
+      console.log(e.detail.value)
+    }
+  }
+}
+</script>
+```
+  
+</TabItem>
+</Tabs>
 
 ## RadioProps
 

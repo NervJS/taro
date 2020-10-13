@@ -59,6 +59,7 @@ module.exports = {
     "表单组件": [
       "components/forms/button",
       "components/forms/checkbox",
+      "components/forms/editor",
       "components/forms/form",
       "components/forms/input",
       "components/forms/label",
@@ -75,6 +76,8 @@ module.exports = {
     "媒体组件": [
       "components/media/audio",
       "components/media/image",
+      "components/media/live-player",
+      "components/media/live-pusher",
       "components/media/video",
       "components/media/camera"
     ],

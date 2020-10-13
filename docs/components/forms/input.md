@@ -15,6 +15,17 @@ ComponentType<InputProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 class App extends Component {
 
@@ -40,6 +51,33 @@ class App extends Component {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="example-body">
+    <text>可以自动聚焦的 input</text>
+    <input type="text" placeholder="将会获取焦点" focus/>
+    <text>控制最大输入长度的 input</text>
+    <input type="text" placeholder="最大输入长度为 10" maxLength="10"/>
+    <text>数字输入的 input</text>
+    <input type="number" placeholder="这是一个数字输入框"/>
+    <text>密码输入的 input</text>
+    <input type="password" password placeholder="这是一个密码输入框"/>
+    <text>带小数点的 input</text>
+    <input type="digit" placeholder="带小数点的数字键盘"/>
+    <text>身份证输入的 input</text>
+    <input type="idcard" placeholder="身份证输入键盘"/>
+    <text>控制占位符颜色的 input</text>
+    <input type="text" placeholder="占位符字体是红色的" placeholder-style="color:red;"/>
+  </view>
+</template>
+```
+  
+</TabItem>
+</Tabs>
 
 ## InputProps
 

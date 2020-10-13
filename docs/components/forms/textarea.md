@@ -15,6 +15,18 @@ ComponentType<TextareaProps>
 
 ## 示例代码
 
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 export default class PageView extends Component {
   constructor() {
@@ -33,6 +45,24 @@ export default class PageView extends Component {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="components-page">
+    <text>输入区域高度自适应，不会出现滚动条</text>
+    <textarea style="background:#efefef;width:100%;min-height:80px;padding:0 30rpx;" auto-height="true" />
+    <text>这是一个可以自动聚焦的 textarea</text>
+    <textarea style="background:#efefef;width:100%;height:80px;padding:0 30rpx;" auto-focusd="true" />
+  </view>
+</template>
+```
+  
+</TabItem>
+</Tabs>
+
 
 ## TextareaProps
 

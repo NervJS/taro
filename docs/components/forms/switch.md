@@ -15,6 +15,17 @@ ComponentType<SwitchProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 export default class PageView extends Component {
   constructor() {
@@ -35,6 +46,26 @@ export default class PageView extends Component {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class='components-page'>
+    <text>默认样式</text>
+    <switch checked="true" />
+    <switch />
+    <text>推荐展示样式</text>
+    <switch checked="true" />
+    <switch />
+  </view>
+</template>
+```
+  
+</TabItem>
+</Tabs>
+
 
 ## SwitchProps
 

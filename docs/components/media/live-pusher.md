@@ -17,6 +17,17 @@ ComponentType<LivePusherProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 class App extends Components {
   render () {
@@ -26,6 +37,20 @@ class App extends Components {
   }
 }
 ```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <live-pusher url="url" mode="RTC" autopush  />
+</template>
+```
+  
+</TabItem>
+</Tabs>
+
 
 ## LivePusherProps
 

@@ -15,6 +15,18 @@ ComponentType<ProgressProps>
 
 ## 示例代码
 
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 export default class PageView extends Component {
   constructor() {
@@ -33,6 +45,24 @@ export default class PageView extends Component {
   }
 }
 ```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="components-page">
+    <progress percent="20" stroke-width="2" show-info="true"  />
+    <progress percent="40" stroke-width="2" active="true" />
+    <progress percent="60" stroke-width="2" active="true" />
+    <progress percent="80" stroke-width="2" active="true" activeColor="blue" />
+  </view>
+</template>
+```
+  
+</TabItem>
+</Tabs>
 
 ## ProgressProps
 

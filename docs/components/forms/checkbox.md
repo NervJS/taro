@@ -15,6 +15,17 @@ ComponentType<CheckboxProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 export default class PageCheckbox extends Component {
   state = {
@@ -74,6 +85,77 @@ export default class PageCheckbox extends Component {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="container">
+    <view class="page-section">
+          <text>默认样式</text>
+          <checkbox value="选中" checked="true">选中</checkbox>
+          <checkbox style="margin-left: 20rpx;" value="未选中">未选中</checkbox>
+        </view>
+        <view class="page-section">
+          <text>推荐展示样式(Taro 团队成员):</text>
+            <label v-for="item in list" class="checkbox-list__label">
+              <checkbox class="checkbox-list__checkbox" :value="item.value" :checked="item.checked">{{ item.text }}</checkbox>
+            </label>
+        </view>
+  </view>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      list: [
+        {
+          value: 'yuche',
+          text: 'yuche',
+          checked: false
+        },
+        {
+          value: 'cjj',
+          text: 'cjj',
+          checked: true
+        },
+        {
+          value: 'xiexiaoli',
+          text: 'xiexiaoli',
+          checked: true
+        },
+        {
+          value: 'honly',
+          text: 'honly',
+          checked: true
+        },
+        {
+          value: 'cs',
+          text: 'cs',
+          checked: true
+        },
+        {
+          value: 'zhutianjian',
+          text: 'zhutianjian',
+          checked: true
+        },
+        {
+          value: '隔壁老李',
+          text: '隔壁老李',
+          checked: true
+        }
+      ]
+    }
+  }
+}
+</script>
+
+```
+
+</TabItem>
+</Tabs>
 
 ## CheckboxProps
 

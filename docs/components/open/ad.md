@@ -15,6 +15,17 @@ ComponentType<AdProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 class App extends Component {
   render () {
@@ -30,6 +41,25 @@ class App extends Component {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <ad
+    unit-id=""
+    ad-intervals="60"
+    @load="onLoad"
+    @error="onError"
+    @close="onClose"
+  />
+</template>
+```
+  
+</TabItem>
+</Tabs>
+
 
 ## AdProps
 

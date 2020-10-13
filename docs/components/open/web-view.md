@@ -15,6 +15,17 @@ ComponentType<WebViewProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 class App extends Component {
   handleMessage () {}
@@ -26,6 +37,18 @@ class App extends Component {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <web-view src='https://mp.weixin.qq.com/' @message="handleMessage" />
+</template>
+```
+  
+</TabItem>
+</Tabs>
 
 ## WebViewProps
 

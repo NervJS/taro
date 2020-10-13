@@ -15,6 +15,17 @@ ComponentType<SwiperItemProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 class App extends Component {
   render () {
@@ -42,6 +53,36 @@ class App extends Component {
 }
 ```
 
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <swiper
+    class='test-h'
+    indicator-color='#999'
+    indicator-active-color='#333'
+    vertical
+    circular
+    indicator-dots
+    autoplay>
+    <swiper-item>
+      <view class='demo-text-1'>1</view>
+    </swiper-item>
+    <swiper-item>
+      <view class='demo-text-2'>2</view>
+    </swiper-item>
+    <swiper-item>
+      <view class='demo-text-3'>3</view>
+    </swiper-item>
+  </swiper>
+</template>
+```
+  
+</TabItem>
+</Tabs>
+
 ## SwiperItemProps
 
 <table>
@@ -64,10 +105,10 @@ class App extends Component {
 </table>
 
 ### API 支持度
+| API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| SwiperItemProps.itemId | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| SwiperItemProps.itemId | ✔️ |  |  |
 
 <!-- ## API 支持度
 

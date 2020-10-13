@@ -23,6 +23,82 @@ sidebar_label: Editor
 ComponentType<EditorProps>
 ```
 
+## 示例代码
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
+```tsx
+class App extends Components {
+  state = {
+    placeholder: '来，输入隔壁的名字试试...'
+  }
+
+  editorReady = e => {
+    Taro.createSelectorQuery().select('#editor').context((res) => {
+      this.editorCtx = res.context
+    }).exec()
+  }
+
+  undo = e => {
+    this.editorCtx.undo()
+  }
+
+  render () {
+    return (
+      <View>
+        <Editor id='editor' className='editor' placeholder={this.state.placeholder} onReady={this.editorReady}></Editor>
+        <Button type='warn' onClick={this.undo}>撤销</Button>
+      </View>
+    )
+  }
+}
+```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="container">
+    <editor id="editor" class="editor" :placeholder="placeholder" @ready="editorReady"></editor>
+    <button type="warn" @tap="undo">撤销</button>
+  </view>
+</template>
+
+<script>
+  import Taro from '@tarojs/taro'
+  export default {
+    data() {
+      return {
+        placeholder: '来，输入隔壁的名字试试...'
+      }
+    },
+    methods: {
+      editorReady() {
+        Taro.createSelectorQuery().select('#editor').context((res) => {
+          this.editorCtx = res.context
+        }).exec()
+      },
+      undo() {
+        this.editorCtx.undo()
+      }
+    }
+  }
+</script>
+```
+  
+</TabItem>
+</Tabs>
+
 ## EditorProps
 
 <table>

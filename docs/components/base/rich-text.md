@@ -15,6 +15,17 @@ ComponentType<RichTextProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 class App extends Components {
   state = {
@@ -37,6 +48,44 @@ class App extends Components {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="components-page">
+    <rich-text :nodes="nodes"></rich-text>
+  </view>
+</template>
+
+<script>
+export default {
+  name: 'Index',
+  data() {
+    return {
+      nodes: [{
+        name: 'div',
+        attrs: {
+          class: 'div_class',
+          style: 'line-height: 60px; color: red;'
+        },
+        children: [{
+          type: 'text',
+          text: 'Hello World!'
+        }]
+      }]
+    }
+  },
+  onReady () {
+    console.log('onReady')
+  }
+}
+</script>
+```
+  
+</TabItem>
+</Tabs>
 
 ## RichTextProps
 

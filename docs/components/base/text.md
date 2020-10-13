@@ -15,6 +15,17 @@ ComponentType<TextProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 export default class PageView extends Component {
   state = {
@@ -57,6 +68,48 @@ export default class PageView extends Component {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+``` html
+<template>
+  <view class="container">
+    <view v-for="(item, index) in contents">
+      <text>{{item.text}} line {{index + 1}}</text>
+    </view>
+    <button class="btn-max-w button_style" plain type="default" @tap="add">add line</button>
+    <button class="btn-max-w button_style" plain type="default" :disabled="contentsLen ? false : true" @tap="remove">remove line</button>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      contents: [],
+      contentsLen: 0
+    }
+  },
+  methods: {
+    add () {
+      const cot = this.contents.slice()
+      cot.push({ text: 'hello world' })
+      this.contents = cot
+      this.contentsLen = cot.length
+    },
+
+    remove () {
+      const cot = this.contents.slice()
+      cot.pop()
+      this.contents = cot
+      this.contentsLen = cot.length
+    }
+  }
+}
+</script>
+```
+</TabItem>
+</Tabs>
 
 ## TextProps
 

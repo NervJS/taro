@@ -212,6 +212,37 @@ a, a:hover {
   left: 100px;
 }
 
+@media (max-width: 996px) {
+  .grid_c1,
+  .footer_link_container,
+  .footer .footer_logo_container {
+    width: 100%;
+    max-width: 100%;
+  }
+  footer.footer,
+  .footer_cont {
+    height: auto;
+    padding-top: 0;
+  }
+  .footer_cont {
+    padding-top: 2rem;
+  }
+  .footer .footer_logo_container {
+    width: 50%;
+    margin-left: 10px;
+  }
+  .footer .footer_designedby {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: block;
+    margin: 1rem 0;
+  }
+  .footer .footer_link {
+    width: 45%;
+  }
+}
+
 .docusaurus-highlight-code-line {
   background-color: #eee;
   display: block;

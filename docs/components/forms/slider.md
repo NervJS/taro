@@ -15,6 +15,17 @@ ComponentType<SliderProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 export default class PageView extends Component {
   constructor() {
@@ -35,6 +46,26 @@ export default class PageView extends Component {
   }
 }
 ```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="components-page">
+    <text>设置 step</text>
+    <slider step="1" value="50"/>
+    <text>显示当前 value</text>
+    <slider step="1" value="50" show-value="true" />
+    <text>设置最小/最大值</text>
+    <slider step="1" value="100" show-value="true" min="50" max="200"/>
+  </view>
+</template>
+```
+  
+</TabItem>
+</Tabs>
 
 ## SliderProps
 

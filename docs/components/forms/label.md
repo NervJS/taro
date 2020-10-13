@@ -17,6 +17,17 @@ ComponentType<LabelProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 class App extends Components {
 
@@ -24,10 +35,10 @@ class App extends Components {
     return (
       <RadioGroup>
         <Label className='example-body__label' for='1' key='1'>
-          <Radio value='USA'>USA</Radio>
+          <Radio id='1' value='USA'>USA</Radio>
         </Label>
         <Label className='example-body__label' for='2' key='2'>
-          <Radio value='CHN' checked>
+          <Radio id='2' value='CHN' checked>
           CHN
           </Radio>
         </Label>
@@ -36,6 +47,28 @@ class App extends Components {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <radio-group>
+    <label class="example-body__label" for="1" key="1">
+      <radio id="1" value="USA" />
+      USA
+    </label>
+    <label class="example-body__label" for="2" key="2">
+      <radio id="2" value="CHN" checked="true" />
+      CHN
+    </label>
+  </radio-group>
+</template>
+```
+  
+</TabItem>
+</Tabs>
+
 
 ## LabelProps
 

@@ -19,6 +19,17 @@ ComponentType<MatchMediaProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 class App extends Components {
   render () {
@@ -35,6 +46,25 @@ class App extends Components {
   }
 }
 ```
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <view class="components-page">
+    <match-media min-width="300" max-width="500">
+      <view>当页面宽度在 300 ~ 500 px 之间时展示这里</view>
+    </match-media>
+    <match-media min-height="400" orientation="landscape">
+      <view>当页面高度不小于 400 px 且屏幕方向为纵向时展示这里</view>
+    </match-media>
+  </view>
+</template>
+```
+  
+</TabItem>
+</Tabs>
 
 ## CoverImageProps
 

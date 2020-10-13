@@ -17,6 +17,17 @@ ComponentType<FormProps>
 
 ## 示例代码
 
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+<Tabs
+  defaultValue="React"
+  values={[
+    {label: 'React', value: 'React'},
+    {label: 'Vue', value: 'Vue'}
+  ]}>
+<TabItem value="React">
+
 ```tsx
 class App extends Component {
 
@@ -39,6 +50,47 @@ class App extends Component {
   }
 }
 ```
+
+</TabItem>
+
+<TabItem value="Vue">
+
+```html
+<template>
+  <form @submit="formSubmit" @reset="formReset" >
+      <view class="taro-example-body">
+        <switch name="switch" class="form-switch"></Switch>
+      </view>
+      <view class="taro-example-btns">
+        <button form-type="submit">Submit</button>
+        <button type="default" form-type="reset">Reset</button>
+    </view>
+  </form>
+</template>
+
+<script>
+export default {
+  data() {
+    return {}
+  },
+  methods: {
+    formSubmit (e) {
+      console.log(e)
+    },
+
+    formReset (e) {
+      console.log(e)
+    }
+  }
+}
+</script>
+
+```
+  
+</TabItem>
+</Tabs>
+
+
 
 ## FormProps
 
