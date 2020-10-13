@@ -141,7 +141,7 @@ interface MapProps extends StandardProps {
   enableTraffic?: boolean
 
   /** 配置项
-   * 
+   *
    * 提供 setting 对象统一设置地图配置。同时对于一些动画属性如 rotate 和 skew，通过 setData 分开设置时无法同时生效，需通过 settting 统一修改。
    * @supported weapp, alipay
    */
@@ -177,10 +177,17 @@ interface MapProps extends StandardProps {
    */
   onUpdated?: CommonEventFunction
 
-  /** 视野发生变化时触发
+  /**
+   * 视野开始改变时触发
    * @supported weapp, swan, alipay
    */
-  onRegionChange?: CommonEventFunction<MapProps.onRegionChangeEventDetail>
+  onBegin?: CommonEventFunction<MapProps.onRegionChangeEventDetail>
+
+  /**
+   * 视野改变结束时触发
+   * @supported weapp, swan, alipay
+   */
+  onEnd?: CommonEventFunction<MapProps.onRegionChangeEventDetail>
 
   /** 点击地图poi点时触发，e.detail = {name, longitude, latitude}
    * @supported weapp, swan
@@ -465,15 +472,21 @@ declare namespace MapProps {
   interface onCalloutTapEventDetail {
     markerId: number | string
   }
+  type RegionChangeType = 'begin' | 'end' | string
+  type RegionChangeCausedBy = 'drag' | 'scale' | 'update' | 'gesture' | string
+  interface RegionChangeLocation {
+    latitude: number
+    longitude: number
+  }
   interface onRegionChangeEventDetail {
     /** 视野变化开始、结束时触发
      * @remarks 视野变化开始为begin，结束为end
      */
-    type: 'begin' | 'end' | string
+    type: RegionChangeType
     /** 导致视野变化的原因
      * @remarks 拖动地图导致(drag)、缩放导致(scale)、调用接口导致(update)
      */
-    causedBy: 'drag' | 'scale' | 'update' | string
+    causedBy: RegionChangeCausedBy
     /** 视野改变详情 */
     detail: regionChangeDetail
   }
@@ -482,6 +495,14 @@ declare namespace MapProps {
     rotate: number
     /** 倾斜角度 */
     skew: number
+    causedBy: RegionChangeCausedBy
+    type: RegionChangeType
+    scale: number
+    centerLocation: RegionChangeLocation
+    region: {
+      northeast: RegionChangeLocation
+      southeast: RegionChangeLocation
+    }
   }
   interface onPoiTapEventDetail {
     name: string
