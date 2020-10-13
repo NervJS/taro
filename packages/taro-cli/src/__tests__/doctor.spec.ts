@@ -2,7 +2,7 @@ import * as path from 'path'
 import chalk from 'chalk'
 import { run } from './utils'
 
-jest.mock('../src/doctor', () => {
+jest.mock('../doctor', () => {
   return {
     __esModule: true,
     default: {
