@@ -258,10 +258,24 @@ class App extends Component {
     </tr>
     <tr>
       <td>onRegionChange</td>
+      <td><code></code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td>不支持。使用 `onBegin` 和 `onEnd` 替代，https://github.com/NervJS/taro/issues/5766</td>
+    </tr>
+    <tr>
+      <td>onBegin</td>
       <td><code>BaseEventOrigFunction&lt;onRegionChangeEventDetail&gt;</code></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>视野发生变化时触发</td>
+      <td>视野开始变化时触发，等同于 `onRegionChange` 第一次触发</td>
+    </tr>
+    <tr>
+      <td>onEnd</td>
+      <td><code>BaseEventOrigFunction&lt;onRegionChangeEventDetail&gt;</code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>视野结束变化时触发，等同于 `onRegionChange` 第二次触发</td>
     </tr>
     <tr>
       <td>onPoiTap</td>
