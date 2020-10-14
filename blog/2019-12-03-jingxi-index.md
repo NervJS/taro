@@ -1,5 +1,5 @@
 ---
-id: 2019-12-03-jingxi-index
+slug: 2019-12-03-jingxi-index
 title: 京喜首页（微信购物入口）跨端开发与优化实践 
 author: aNd1coder
 author_url: https://github.com/aNd1coder

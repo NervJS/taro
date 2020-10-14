@@ -1,5 +1,5 @@
 ---
-id: 2018-06-25-the-birth-of-taro
+slug: 2018-06-25-the-birth-of-taro
 title: 为何我们要用 React 来写小程序 - Taro 诞生记
 author: luckyadam
 author_url: https://github.com/luckyadam

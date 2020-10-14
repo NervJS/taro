@@ -239,10 +239,10 @@ class App extends Component {
 
 | 属性 | 类型 |  必填 | 默认值 | 描述 |
 | - | - | - | - | - |
-| request | Number | 否 | 60000 | [Taro.request](./native-api.md#发起请求) 的超时时间，单位：毫秒 |
-| connectSocket | Number | 否 | 60000 | [Taro.connectSocket](./native-api.md#websocket) 的超时时间，单位：毫秒 |
-| uploadFile | Number | 否 | 60000 | [Taro.uploadFile](./native-api.md#上传-下载) 的超时时间，单位：毫秒 |
-| downloadFile | Number | 否 | 60000 | [Taro.downloadFile](./native-api.md#上传-下载) 的超时时间，单位：毫秒 |
+| request | Number | 否 | 60000 | [Taro.request](./apis/network/request/request.md) 的超时时间，单位：毫秒 |
+| connectSocket | Number | 否 | 60000 | [Taro.connectSocket](./apis/network/webSocket/connectSocket.md) 的超时时间，单位：毫秒 |
+| uploadFile | Number | 否 | 60000 | [Taro.uploadFile](./apis/network/upload/uploadFile.md) 的超时时间，单位：毫秒 |
+| downloadFile | Number | 否 | 60000 | [Taro.downloadFile](./apis/network/download/downloadFile.md) 的超时时间，单位：毫秒 |
 
 #### debug
 
@@ -634,8 +634,8 @@ export default class Index extends Component {
 监听用户下拉刷新事件
 
 - 需要在全局配置的 window 选项中或页面配置中开启 enablePullDownRefresh
-- 可以通过 [Taro.startPullDownRefresh](./native-api.md#tarostartpulldownrefreshobject) 触发下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。
-- 当处理完数据刷新后，[Taro.stopPullDownRefresh](./native-api.md#tarostoppulldownrefresh) 可以停止当前页面的下拉刷新
+- 可以通过 [Taro.startPullDownRefresh](./apis/interface/pulldownrefresh/startPullDownRefresh.md) 触发下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。
+- 当处理完数据刷新后，[Taro.stopPullDownRefresh](./apis/interface/pulldownrefresh/stopPullDownRefresh.md) 可以停止当前页面的下拉刷新
 
 #### onReachBottom()
 

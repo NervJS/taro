@@ -1,5 +1,5 @@
 ---
-id: 2020-09-01-taro-versions
+slug: 2020-09-01-taro-versions
 title: Taro 版本升级权威指南
 author: 隔壁老李
 author_url: https://github.com/luckyadam

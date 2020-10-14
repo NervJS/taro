@@ -1,5 +1,5 @@
 ---
-id: 2019-03-12-mini-program-framework-full-review
+slug: 2019-03-12-mini-program-framework-full-review
 title: 小程序框架全面测评 
 author: yuche
 author_url: https://github.com/yuche

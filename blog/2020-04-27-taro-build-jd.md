@@ -1,5 +1,5 @@
 ---
-id: 2020-04-27-taro-build-jd
+slug: 2020-04-27-taro-build-jd
 title: 使用 Taro 快速开发京东小程序
 author: JJ
 author_url: https://github.com/Chen-jj

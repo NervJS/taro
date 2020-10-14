@@ -1,5 +1,5 @@
 ---
-id: 2020-4-13-taro-components
+slug: 2020-4-13-taro-components
 title: Taro Next H5 跨框架组件库实践 
 author: JJ
 author_url: https://github.com/Chen-jj

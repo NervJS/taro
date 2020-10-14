@@ -1,5 +1,5 @@
 ---
-id: 2018-08-24-the-birth-of-taro-ui
+slug: 2018-08-24-the-birth-of-taro-ui
 title: 首个多端 UI 组件库 - Taro UI 发布
 author: jimczj
 author_url: https://github.com/jimczj

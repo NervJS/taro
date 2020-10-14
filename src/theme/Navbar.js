@@ -142,7 +142,7 @@ function Navbar() {
   const {
     siteConfig: {
       themeConfig: {
-        navbar: { title, links = [], hideOnScroll = false } = {},
+        navbar: { title, items = [], hideOnScroll = false } = {},
         disableDarkMode = false,
       },
     },
@@ -221,14 +221,14 @@ function Navbar() {
               </strong>
             )}
           </Link>
-          {links
+          {items
             .filter((linkItem) => linkItem.position === 'left')
             .map((linkItem, i) => (
               <NavItem {...linkItem} key={i} />
             ))}
         </div>
         <div className="navbar__items navbar__items--right">
-          {links
+          {items
             .filter((linkItem) => linkItem.position === 'right')
             .map((linkItem, i) => (
               <NavItem {...linkItem} key={i} />
@@ -282,7 +282,7 @@ function Navbar() {
         <div className="navbar-sidebar__items">
           <div className="menu">
             <ul className="menu__list">
-              {links.map((linkItem, i) => (
+              {items.map((linkItem, i) => (
                 <MobileNavItem {...linkItem} onClick={hideSidebar} key={i} />
               ))}
             </ul>

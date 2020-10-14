@@ -1,5 +1,5 @@
 ---
-id: 2019-06-21-taro-ext-club
+slug: 2019-06-21-taro-ext-club
 title: Taro 「物料市场」及「交流社区」 惊喜上线
 author: honlyHuang
 author_url: https://github.com/honlyHuang

@@ -1,5 +1,5 @@
 ---
-id: 2020-02-13-taro-next-alpha
+slug: 2020-02-13-taro-next-alpha
 title: Taro Next 发布预览版：同时支持 React / Vue / Nerv 
 author: yuche
 author_url: https://github.com/yuche

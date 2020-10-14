@@ -15,7 +15,7 @@ const siteConfig = {
   favicon: './img/favicon.ico',
   tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝/QQ小程序、快应用、H5、React Native 等平台的应用。',
   title: 'Taro 文档' /* title for your website */,
-  url: 'https://docs.taro.zone' /* your website url */,
+  url: 'https://nervjs.github.io' /* your website url */,
   themes: ['@docusaurus/theme-live-codeblock'],
   organizationName: 'nervjs',
   projectName: 'taro',
@@ -29,13 +29,16 @@ const siteConfig = {
     }
   ],
   themeConfig: {
-    scrollToTop: true,
-    disableDarkMode: false,
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
     algolia: {
       apiKey: '820a8e12c97e870d4e0785d52858230c',
       indexName: 'taro_new',
       searchParameters: {
-        facetFilters: [`version:${versions[0]}`]
+        // facetFilters: [`version:VERSIONS`],
       },
     },
     prism: {
@@ -43,12 +46,13 @@ const siteConfig = {
       darkTheme: require('prism-react-renderer/themes/dracula'),
     },
     navbar: {
+      hideOnScroll: true,
       title: 'Taro',
       logo: {
         alt: 'Taro logo',
         src: 'img/logo-taro.png',
       },
-      links: [
+      items: [
         {
           to: 'versions',
           label: `v${versions[0]}`,
@@ -63,7 +67,7 @@ const siteConfig = {
           position: 'left',
         },
         {
-          href: 'https://docs.taro.zone/docs/guide',
+          href: 'https://taro-docs.jd.com/taro/docs/guide',
           activeBasePath: 'docs/guide',
           activeRegxp: true,
           label: '教程',
@@ -86,7 +90,7 @@ const siteConfig = {
           label: '博客',
           position: 'left',
         },
-        {href: 'https://taro-ui.taro.zone', label: 'Taro UI', position: 'right'},
+        {href: 'https://taro-ui.jd.com', label: 'Taro UI', position: 'right'},
         {href: 'https://taro-ext.jd.com', label: '物料市场', position: 'right'},
         {href: 'https://taro-club.jd.com', label: '论坛', position: 'right'},
         {href: 'https://taro.jd.com/jdmp/index.html', label: '京东小程序', position: 'right'},

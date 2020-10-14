@@ -1,5 +1,5 @@
 ---
-id: 2019-07-10-taro-hooks
+slug: 2019-07-10-taro-hooks
 title: 使用 React Hooks 重构你的小程序 
 author: yuche
 author_url: https://github.com/yuche
