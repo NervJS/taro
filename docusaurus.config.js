@@ -46,7 +46,7 @@ const siteConfig = {
       darkTheme: require('prism-react-renderer/themes/dracula'),
     },
     navbar: {
-      hideOnScroll: true,
+      hideOnScroll: false,
       title: 'Taro',
       logo: {
         alt: 'Taro logo',

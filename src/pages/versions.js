@@ -70,7 +70,7 @@ function Version() {
             </tbody>
           </table>
         </div>
-        {taroNextVersions.length > 0 && (
+        {/* {taroNextVersions.length > 0 && (
           <div className="margin-bottom--lg">
             <h3 id="archive">Taro Next</h3>
             <p>
@@ -96,7 +96,7 @@ function Version() {
               </tbody>
             </table>
           </div>
-        )}
+        )} */}
         {pastVersions.length > 0 && (
           <div className="margin-bottom--lg">
             <h3 id="archive">历史版本</h3>
