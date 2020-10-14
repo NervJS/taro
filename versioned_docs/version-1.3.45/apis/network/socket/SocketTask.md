@@ -4,7 +4,7 @@ sidebar_label: SocketTask
 ---
 
 
-WebSocket 任务，可通过 [wx.connectSocket()](native-api.md#taroconnectsocketobject) 接口创建返回。
+WebSocket 任务，可通过 [wx.connectSocket()](connectSocket.md) 接口创建返回。
 
 属性
 
