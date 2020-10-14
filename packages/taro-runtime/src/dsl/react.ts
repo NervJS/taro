@@ -120,6 +120,10 @@ function setReconciler () {
         const newProps: React.Props<any> = { ...props }
         if (isReactComponent) {
           newProps.ref = ref
+        }else{
+          newProps.forwardedRef= ref
+          // 兼容 react-redux 7.20.1+
+          newProps.reactReduxForwardedRef= ref
         }
 
         return R.createElement('taro-pull-to-refresh', null, R.createElement(el, newProps))
