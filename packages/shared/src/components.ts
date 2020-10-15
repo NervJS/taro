@@ -456,7 +456,12 @@ const Swiper = {
   bindChange: '',
   bindTransition: '',
   bindAnimationFinish: '',
-  ...touchEvents
+  ...touchEvents,
+  ...selectEnv({
+    alipay: {
+      acceleration: 'false'
+    }
+  })
 }
 
 const SwiperItem = {
