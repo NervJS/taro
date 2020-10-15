@@ -320,7 +320,7 @@ export default {
     </tr>
     <tr>
       <td>onRegionChange</td>
-      <td><code></code></td>
+      <td></td>
       <td style={{ textAlign: "center"}}></td>
       <td style={{ textAlign: "center"}}></td>
       <td>不支持。使用 `onBegin` 和 `onEnd` 替代，https://github.com/NervJS/taro/issues/5766</td>

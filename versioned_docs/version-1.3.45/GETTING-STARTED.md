@@ -222,7 +222,7 @@ $ npx taro build --type h5
 
 ### React Native
 
-React Native 端运行需执行如下命令，React Native 端相关的运行说明请参见 [React Native 教程](./react-native.html)
+React Native 端运行需执行如下命令，React Native 端相关的运行说明请参见 [React Native 教程](./react-native)
 
 ```bash
 # yarn

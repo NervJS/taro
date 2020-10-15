@@ -16,7 +16,7 @@ Taro Next 在一个页面加载时需要经历以下步骤：
 
 ## 使用 Prerender
 
-使用 Prerender 非常简单，你可以找到项目根目录下的 `config` 文件夹，根据你的项目情况更改 `index.js`/`dev.js`/`prod.js` 三者中的任意一个[项目配置](./https://nervjs.github.io/taro/docs/config.html)，在编译时 Taro CLI 会根据你的配置自动启动 prerender：
+使用 Prerender 非常简单，你可以找到项目根目录下的 `config` 文件夹，根据你的项目情况更改 `index.js`/`dev.js`/`prod.js` 三者中的任意一个[项目配置](config.md)，在编译时 Taro CLI 会根据你的配置自动启动 prerender：
 
 ```js
 // /project/config/prod.js

@@ -7,7 +7,8 @@
     "build": "npm run build:github",
     "build:independent": "NODE_OPTIONS=--max-old-space-size=4096 docusaurus build --out-dir dist",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "serve": "docusaurus serve"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.65",

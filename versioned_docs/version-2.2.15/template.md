@@ -14,7 +14,7 @@ title: 项目模板
 
 ## 模板源
 
-模板源为 CLI 配置项的 **templateSource** 字段，可以使用 [taro config](./GETTING-STARTED.html#cli-%E9%85%8D%E7%BD%AE) 命令对其进行操作。
+模板源为 CLI 配置项的 **templateSource** 字段，可以使用 [taro config](./GETTING-STARTED.md#cli-%E9%85%8D%E7%BD%AE) 命令对其进行操作。
 
 ### 默认模版源
 

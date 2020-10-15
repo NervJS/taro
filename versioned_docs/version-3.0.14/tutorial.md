@@ -22,7 +22,7 @@ title: 框架
 
 入口文件默认是 `src` 目录下的 `app.js`。
 
-代码示例请根据你选择的框架进行查看：[React](./react.html), [Nerv](./nerv.html), [Vue](./vue.html), [Vue3](./vue3.html)。
+代码示例请根据你选择的框架进行查看：[React](./react), [Nerv](./nerv), [Vue](./vue), [Vue3](./vue3)。
 
 ### 全局配置
 

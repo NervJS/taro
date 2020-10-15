@@ -14,7 +14,7 @@ title: Taro 介绍
 
 #### React 语法风格
 
-**Taro** 遵循 [React](https://reactjs.org/) 语法规范，它采用与 React 一致的组件化思想，组件生命周期与 React 保持一致，同时支持使用 [JSX 语法](jsx.html)，让代码具有更丰富的表现力，使用 **Taro** 进行开发可以获得和 React 一致的开发体验。
+**Taro** 遵循 [React](https://reactjs.org/) 语法规范，它采用与 React 一致的组件化思想，组件生命周期与 React 保持一致，同时支持使用 [JSX 语法](jsx.md)，让代码具有更丰富的表现力，使用 **Taro** 进行开发可以获得和 React 一致的开发体验。
 
 代码示例
 
@@ -65,7 +65,7 @@ export default class Index extends Component {
 }
 ```
 
-> 由于微信小程序端的限制，有极少数 JSX 的优秀用法暂时不能得到很好地支持，同时，为了遵循 React 语法，Taro 在写法上也有一些自己的规范，具体可以参考：[Taro 开发最佳实践](best-practice.html) 。
+> 由于微信小程序端的限制，有极少数 JSX 的优秀用法暂时不能得到很好地支持，同时，为了遵循 React 语法，Taro 在写法上也有一些自己的规范，具体可以参考：[Taro 开发最佳实践](best-practice.md) 。
 
 #### 快速开发微信小程序
 

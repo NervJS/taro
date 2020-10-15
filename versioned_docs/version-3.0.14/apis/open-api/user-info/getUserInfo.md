@@ -82,12 +82,12 @@ sidebar_label: getUserInfo
     <tr>
       <td>encryptedData</td>
       <td><code>string</code></td>
-      <td>包括敏感数据在内的完整用户信息的加密数据，详见 <a href="(signature#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95)">用户数据的签名验证和加解密</a></td>
+      <td>包括敏感数据在内的完整用户信息的加密数据，详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95">用户数据的签名验证和加解密</a></td>
     </tr>
     <tr>
       <td>iv</td>
       <td><code>string</code></td>
-      <td>加密算法的初始向量，详见 <a href="(signature#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95)">用户数据的签名验证和加解密</a></td>
+      <td>加密算法的初始向量，详见 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95">用户数据的签名验证和加解密</a></td>
     </tr>
     <tr>
       <td>rawData</td>
@@ -129,7 +129,7 @@ Taro.getUserInfo({
 })
 ```
 
-敏感数据有两种获取方式，一是使用 [加密数据解密算法]((open-ability/signature#加密数据解密算法)) 。
+敏感数据有两种获取方式，一是使用 [加密数据解密算法](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95) 。
 获取得到的开放数据为以下 json 结构：
 
 ```json

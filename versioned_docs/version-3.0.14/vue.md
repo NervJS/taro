@@ -238,7 +238,7 @@ export default {
 监听用户下拉刷新事件
 
 - 需要在全局配置的 window 选项中或页面配置中开启 enablePullDownRefresh
-- 可以通过 [Taro.startPullDownRefresh](./apis/ui/pull-down-refresh/startpulldownrefreshobject) 触发下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。
+- 可以通过 [Taro.startPullDownRefresh](./apis/ui/pull-down-refresh/startPullDownRefresh) 触发下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。
 - 当处理完数据刷新后，[Taro.stopPullDownRefresh](./apis/ui/pull-down-refresh/stopPullDownRefresh) 可以停止当前页面的下拉刷新
 
 #### onReachBottom()

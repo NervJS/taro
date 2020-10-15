@@ -27,7 +27,7 @@ sidebar_label: Input
 | ✔ | ✔ | (onChange) onInput   | EventHandle | | 当键盘输入时，触发 input 事件，处理函数可以直接 return 一个字符串，将替换输入框的内容。  |
 | ✔ | ✔ | (onFocus)  onFocus | EventHandle |        | 输入框聚焦时触发，height 参数在基础库 1.9.90 起支持    |
 | ✔ | ✔ | (onBlur)   onBlur | EventHandle |        | 输入框失去焦点时触发  |
-|   | ✔ |  onConfirm       | EventHandle |        | 点击完成按钮时触发。H5 版中目前需借用[Form 组件](form.html)的`onSubmit`事件来替代   |
+|   | ✔ |  onConfirm       | EventHandle |        | 点击完成按钮时触发。H5 版中目前需借用[Form 组件](form.md)的`onSubmit`事件来替代   |
 
 >其他相关属性请看各小程序官方文档
 

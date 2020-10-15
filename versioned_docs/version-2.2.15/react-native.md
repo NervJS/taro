@@ -2,7 +2,7 @@
 title: React Native 端开发流程
 ---
 
-> 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](./before-dev-remind.html)
+> 本篇主要讲解 Taro React Native 端 环境安装-开发-调试-打包-发布 原理及流程，React Native 开发前注意事项请看 [开发前注意](./before-dev-remind.md)
 > 
 > 适配 RN 端可参考项目：[首个 Taro 多端统一实例 - 网易严选（小程序 + H5 + React Native） - By 趣店 FED](https://github.com/js-newbee/taro-yanxuan)
 >

@@ -323,7 +323,7 @@ function TextInputWithFocusButton() {
 
 本质上，`useRef` 就像是可以在其 `.current` 属性中保存一个可变值的“盒子”。
 
-你应该熟悉 ref 这一种[访问 DOM](/docs/refs.html) 的主要方式。如果你将 ref 对象以 `<View ref={myRef} />` Taro 都会将 ref 对象的 `.current` 属性设置为相应的 DOM 节点。
+你应该熟悉 ref 这一种[访问 DOM](ref.md) 的主要方式。如果你将 ref 对象以 `<View ref={myRef} />` Taro 都会将 ref 对象的 `.current` 属性设置为相应的 DOM 节点。
 
 然而，`useRef()` 比 `ref` 属性更有用。它可以[很方便地保存任何可变值](https://zh-hans.reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables)，其类似于在 class 中使用实例字段的方式。
 

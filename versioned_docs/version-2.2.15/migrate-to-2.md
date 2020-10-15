@@ -323,7 +323,7 @@ const config = {
 
 #### 在 JS 中引入的图片突然变成 base64 格式
 
-在升级到 2.x 后可能会遇到在 JS 中引入的图片突然变成 base64 格式了，是因为 2.x 小程序改用 Webpack 编译后图片都会经过 `url-loader` 进行处理，默认 10kb 大小以下的图片（包含以下格式，png | jpg | jpeg | gif | bmp）都会被转为 base64，如果不想这么做，可以通过配置 [mini.imageUrlLoaderOption](./config-detail.mdminiimageurlloaderoption) 来解决
+在升级到 2.x 后可能会遇到在 JS 中引入的图片突然变成 base64 格式了，是因为 2.x 小程序改用 Webpack 编译后图片都会经过 `url-loader` 进行处理，默认 10kb 大小以下的图片（包含以下格式，png | jpg | jpeg | gif | bmp）都会被转为 base64，如果不想这么做，可以通过配置 [mini.imageUrlLoaderOption](./config-detail.md#miniimageurlloaderoption) 来解决
 
 ```js
 const config = {

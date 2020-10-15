@@ -7,7 +7,7 @@ title: Debug 指南
 当你在 Taro 进行 debug 时，请先确认一下流程均已完成：
 
 1. ESLint 已经开启并且没有报错；
-2. 大致过了一遍包括[最佳实践](./best-practice.html)在内的文档，文档里没有对应问题的描述；
+2. 大致过了一遍包括[最佳实践](./best-practice.md)在内的文档，文档里没有对应问题的描述；
 3. 搜索过相关的 issue，issue 没有提到相关解决方案；
 4. 按项目使用的 Taro 版本往上查看 [changelog](https://github.com/NervJS/taro/blob/master/CHANGELOG.md)，changelog 中没有意见修复相关问题的提交；
 

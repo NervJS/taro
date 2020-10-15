@@ -82,4 +82,4 @@ class MouseTracker extends Taro.Component {
 ### 注意事项
 
 **`render props` 是基于小程序 `slot` 机制实现的。** 因此它受到的限制和 `children 与组合`的限制一样多，更多详情请查看文档[Children与组合
-](./children.html#注意事项)。
+](./children.md#注意事项)。

@@ -243,7 +243,7 @@ class App extends Component {
 | InputProps.onInput | ✔️ | ✔️ | ✔️ |
 | InputProps.onFocus | ✔️ | ✔️ | ✔️ |
 | InputProps.onBlur | ✔️ | ✔️ | ✔️ |
-| InputProps.onConfirm | ✔️ | (借用[Form 组件](form.html)的`onSubmit`事件来替代) | ✔️ |
+| InputProps.onConfirm | ✔️ | (借用[Form 组件](form.md)的`onSubmit`事件来替代) | ✔️ |
 | InputProps.onKeyboardHeightChange | ✔️ |  |  |
 
 ### inputEventDetail
