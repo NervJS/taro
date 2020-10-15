@@ -12,7 +12,7 @@ export declare const components: {
     Map: {
         skew: string;
         rotate: string;
-        polygon: string;
+        polygons: string;
         'include-padding': string;
         'ground-overlays': string;
         'tile-overlay': string;

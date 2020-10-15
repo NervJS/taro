@@ -14,7 +14,7 @@ export declare class Template extends RecursiveTemplate {
         type: string;
     };
     buildXsTemplate(): string;
-    replacePropName(name: any, value: any): any;
+    replacePropName(name: any, value: any, compName: any): any;
     getEvents(): {
         onTap: string;
         onTouchMove: string;

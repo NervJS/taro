@@ -15,12 +15,12 @@ export const components = {
   Map: {
     skew: '0',
     rotate: '0',
-    polygon: '[]',
+    polygons: '[]',
     'include-padding': '',
     'ground-overlays': '',
     'tile-overlay': '',
     'custom-map-style': '',
-    setting: '',
+    setting: '{}',
     bindRegionChange: '',
     bindPanelTap: ''
   },

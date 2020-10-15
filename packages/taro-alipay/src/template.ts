@@ -19,8 +19,11 @@ export class Template extends RecursiveTemplate {
     return '<import-sjs name="xs" from="./utils.sjs" />'
   }
 
-  replacePropName (name, value) {
+  replacePropName (name, value, compName) {
     if (value === 'eh') return name.replace('bind', 'on')
+    if (compName === 'map' && value.includes('polygons')) {
+      name = 'polygon'
+    }
     return name
   }
 
