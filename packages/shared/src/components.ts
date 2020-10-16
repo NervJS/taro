@@ -98,7 +98,7 @@ const Map = {
   'enable-rotate': 'false',
   'enable-satellite': 'false',
   'enable-traffic': 'false',
-  setting: '[]',
+  setting: '{}',
   bindMarkerTap: '',
   bindLabelTap: '',
   bindControlTap: '',
@@ -456,7 +456,12 @@ const Swiper = {
   bindChange: '',
   bindTransition: '',
   bindAnimationFinish: '',
-  ...touchEvents
+  ...touchEvents,
+  ...selectEnv({
+    alipay: {
+      acceleration: 'false'
+    }
+  })
 }
 
 const SwiperItem = {
