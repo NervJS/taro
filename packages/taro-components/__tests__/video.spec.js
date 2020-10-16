@@ -1,3 +1,4 @@
+import './polyfill'
 import React from 'react'
 import * as assert from 'assert'
 // import simulant from 'simulant'
