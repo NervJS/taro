@@ -5,77 +5,9 @@ import {
   formatTime,
   calcDist,
   normalizeNumber,
-  throttle
+  throttle,
+  screenFn
 } from './utils'
-
-/**
- * @returns: {requestFullscreen: 'requestFullscreen', exitFullscreen: 'exitFullscreen', ...}
- */
-const screenFn: {[key: string]: any} = (function () {
-  let val
-  const fnMap = [
-    [
-      'requestFullscreen',
-      'exitFullscreen',
-      'fullscreenElement',
-      'fullscreenEnabled',
-      'fullscreenchange',
-      'fullscreenerror'
-    ],
-    // New WebKit
-    [
-      'webkitRequestFullscreen',
-      'webkitExitFullscreen',
-      'webkitFullscreenElement',
-      'webkitFullscreenEnabled',
-      'webkitfullscreenchange',
-      'webkitfullscreenerror'
-
-    ],
-    // Old WebKit
-    [
-      'webkitRequestFullScreen',
-      'webkitCancelFullScreen',
-      'webkitCurrentFullScreenElement',
-      'webkitCancelFullScreen',
-      'webkitfullscreenchange',
-      'webkitfullscreenerror'
-    ],
-    [
-      'mozRequestFullScreen',
-      'mozCancelFullScreen',
-      'mozFullScreenElement',
-      'mozFullScreenEnabled',
-      'mozfullscreenchange',
-      'mozfullscreenerror'
-    ],
-    [
-      'msRequestFullscreen',
-      'msExitFullscreen',
-      'msFullscreenElement',
-      'msFullscreenEnabled',
-      'MSFullscreenChange',
-      'MSFullscreenError'
-    ]
-  ]
-
-  let i = 0
-  const l = fnMap.length
-  const ret = {}
-  // This for loop essentially checks the current document object for the property/methods above.
-  for (; i < l; i++) {
-    val = fnMap[i]
-    if (val && val[1] in document) {
-      for (i = 0; i < val.length; i++) {
-        ret[fnMap[0][i]] = val[i]
-      }
-      return ret
-    }
-  }
-  // If it doesn't find any of them, this whole function returns false
-  // and the fn variable is set to this returned value.
-  return ret
-})()
 
 @Component({
   tag: 'taro-video-core',
@@ -203,6 +135,11 @@ export class Video implements ComponentInterface {
    * 在全屏模式下，是否开启亮度与音量调节手势
    */
   @Prop() vslideGestureInFullscreen = true
+
+  /**
+   * 测试环境下，仅同步状态
+   */
+  @Prop() testing = false
 
   @State() _duration: number
   @State() _enableDanmu = false
@@ -477,9 +414,6 @@ export class Video implements ComponentInterface {
 
   @Method()
   async exitFullScreen () {
-    if (document[screenFn.fullscreenElement]) {
-      document[screenFn.exitFullScreen]()
-    }
     this.toggleFullScreen(false)
   }
 
@@ -505,25 +439,29 @@ export class Video implements ComponentInterface {
     this.toggleFullScreen()
   }
 
-  // 全屏后，"点击按钮退出"走的是浏览器事件，在此同步状态
+  // video 全屏后，走的是浏览器退出事件，在此同步状态
   @Listen('fullscreenchange')
   onNativeFullScreenExit (e: any) {
-    // 在接到下面的定制事件以及处于全屏状态时不处理
+    // 在接到定制事件以及处于全屏状态时不处理
     if (e.detail || document[screenFn.fullscreenElement]) return
-    this.toggleFullScreen(false)
+    this._toggleFullScreen(false)
   }
 
-  toggleFullScreen = (nextFullScreenState?) => {
-    const nextState = nextFullScreenState === undefined ? !this.isFullScreen : nextFullScreenState
-    if (nextState) {
-      this.videoRef[screenFn.requestFullscreen]()
-    }
+  _toggleFullScreen = (nextState) => {
     this.isFullScreen = nextState
     this.controlsRef.toggleVisibility(true)
     this.onFullScreenChange.emit({
       fullScreen: this.isFullScreen,
       direction: 'vertical'
     })
+  }
+
+  toggleFullScreen = (nextFullScreenState?) => {
+    const nextState = nextFullScreenState === undefined ? !this.isFullScreen : nextFullScreenState
+    if (nextState && !this.testing) {
+      this.videoRef[screenFn.requestFullscreen]()
+    }
+    this._toggleFullScreen(nextState)
   }
 
   toggleMute = (e: MouseEvent) => {
@@ -649,7 +587,7 @@ export class Video implements ComponentInterface {
 
         {isFirst && showCenterPlayBtn && !isPlaying && (
           <div class='taro-video-cover'>
-            <div class='taro-video-cover-play-button' onClick={this.play} />
+            <div class='taro-video-cover-play-button' onClick={() => this.play()} />
             <p class='taro-video-cover-duration'>{durationTime}</p>
           </div>
         )}
