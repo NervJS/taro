@@ -141,7 +141,7 @@ interface MapProps extends StandardProps {
   enableTraffic?: boolean
 
   /** 配置项
-   * 
+   *
    * 提供 setting 对象统一设置地图配置。同时对于一些动画属性如 rotate 和 skew，通过 setData 分开设置时无法同时生效，需通过 settting 统一修改。
    * @supported weapp, alipay
    */
@@ -180,7 +180,7 @@ interface MapProps extends StandardProps {
   /** 视野发生变化时触发
    * @supported weapp, swan, alipay
    */
-  onRegionChange?: CommonEventFunction<MapProps.onRegionChangeEventDetail>
+  onRegionChange?: CommonEventFunction<MapProps.onRegionEventDetail<'begin'> | MapProps.onRegionEventDetail<'end'>>
 
   /** 点击地图poi点时触发，e.detail = {name, longitude, latitude}
    * @supported weapp, swan
@@ -482,23 +482,54 @@ declare namespace MapProps {
   interface onCalloutTapEventDetail {
     markerId: number | string
   }
-  interface onRegionChangeEventDetail {
+
+  namespace RegionChangeDetail {
+    interface type {
+      begin
+      end
+    }
+
+    interface causedByBegin {
+      /** 手势触发 */
+      gesture
+      /** 接口触发 */
+      update
+    }
+
+    interface causedByEnd {
+      /** 拖动导致 */
+      drag
+      /** 缩放导致 */
+      scale
+      /** 调用更新接口导致 */
+      update
+    }
+  }
+  interface onRegionEventDetail<T = keyof RegionChangeDetail.type> {
     /** 视野变化开始、结束时触发
      * @remarks 视野变化开始为begin，结束为end
      */
-    type: 'begin' | 'end' | string
+    type: T
     /** 导致视野变化的原因
-     * @remarks 拖动地图导致(drag)、缩放导致(scale)、调用接口导致(update)
+     * @remarks 有效值为 gesture（手势触发）、update（接口触发或调用更新接口导致）、drag（拖动导致）、scale（缩放导致）
      */
-    causedBy: 'drag' | 'scale' | 'update' | string
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.causedByBegin : RegionChangeDetail.causedByEnd)
     /** 视野改变详情 */
-    detail: regionChangeDetail
+    detail: regionChangeDetail<RegionChangeDetail.type>
   }
-  interface regionChangeDetail {
+  interface regionChangeDetail<T = keyof RegionChangeDetail.type> {
     /** 旋转角度 */
     rotate: number
     /** 倾斜角度 */
     skew: number
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.causedByBegin : RegionChangeDetail.causedByEnd)
+    type: T | string
+    scale: number
+    centerLocation: point
+    region: {
+      northeast: point
+      southeast: point
+    }
   }
   interface onPoiTapEventDetail {
     name: string
