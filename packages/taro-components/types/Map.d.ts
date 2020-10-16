@@ -250,12 +250,16 @@ declare namespace MapProps {
      * @remarks 默认为图片实际高度
      */
     height?: number | string
-    /** 自定义标记点上方的气泡窗口
+    /** 标记点上方的气泡窗口
      * @remarks 支持的属性见下表，可识别换行符。
      */
     callout?: callout
-    /** 为标记点旁边增加标签
+    /** 自定义气泡窗口
      * @remarks 支持的属性见下表，可识别换行符。
+     */
+    customCallout?: customCallout
+    /** 为标记点旁边增加标签
+     * @remarks 支持的属性见下表
      */
     label?: label
     /** 经纬度在标注图标的锚点，默认底边中点
@@ -295,6 +299,19 @@ declare namespace MapProps {
     display: 'BYCLICK' | 'ALWAYS'
     /** 文本对齐方式。有效值: left, right, center */
     textAlign: 'left' | 'right' | 'center'
+  }
+
+  /** marker 上的自定义气泡 customCallout
+   * 
+   * `customCallout` 存在时将忽略 `callout` 与 `title` 属性。自定义气泡采用采用 `cover-view` 定制，灵活度更高。
+   */
+  interface customCallout {
+    /** 'BYCLICK':点击显示; 'ALWAYS':常显 */
+    display: 'BYCLICK' | 'ALWAYS' | string
+    /** 横向偏移量，向右为正数 */
+    anchorX: number
+    /** 纵向偏移量，向下为正数 */
+    anchorY: number
   }
 
   /** marker 上的气泡 label */
