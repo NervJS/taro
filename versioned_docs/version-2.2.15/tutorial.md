@@ -356,7 +356,7 @@ class App extends Component {
 }
 ```
 
-![image](https://ww1.sinaimg.cn/large/49320207gy1g0uiageahij20gf08dwer.jpg)
+![image](https://img10.360buyimg.com/ling/jfs/t1/132830/23/12399/20429/5f893793Ebafa6939/b5f6a390ac9bfd79.jpg)
 
 ### 生命周期
 

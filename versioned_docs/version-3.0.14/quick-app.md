@@ -51,7 +51,7 @@ $ taro build --type quickapp --watch
 
 在编译完成后会遇到如下输出结果
 
-![](https://ws1.sinaimg.cn/large/49320207gy1g2qeziw5ouj218m0vewkd.jpg)
+![](https://img11.360buyimg.com/ling/jfs/t1/133888/5/12321/688893/5f89398bE0ac357d2/066a38b5f13dc2fd.jpg)
 
 Taro 在将代码编译完后，会自动下载快应用的容器模板，同时安装好相关的依赖，随后就会自动启动快应用的服务，此时，只需要使用手机上安装的调试器扫码就能直接在手机上进行调试了。
 
