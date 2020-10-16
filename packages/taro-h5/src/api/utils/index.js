@@ -241,9 +241,9 @@ function processOpenapi (apiName, defaultOptions, formatResult = res => res, for
   }
 }
 
-const findRef = (refId, componentInstance) => {
-  if (componentInstance.isRoute) return
-  return componentInstance[refId] || findRef(refId, componentInstance.vnode._owner)
+const findRef = (refId) => {
+  const element = document.getElementById(refId)
+  return element
 }
 
 /**

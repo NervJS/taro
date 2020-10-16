@@ -82,7 +82,6 @@ export function chooseVideo (options) {
  * @param {string} id <video> 组件的 id
  * @param {object} componentInstance 在自定义组件下，当前组件实例的this，以操作组件内 <video> 组件
  */
-export function createVideoContext (id, componentInstance) {
-  const refId = `__taroref_${id}`
-  return findRef(refId, componentInstance)
+export function createVideoContext (id, _componentInstance) {
+  return findRef(id)
 }

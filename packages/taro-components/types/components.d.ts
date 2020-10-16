@@ -298,6 +298,7 @@ export namespace Components {
     * 是否开启控制进度的手势
     */
     'enableProgressGesture': boolean;
+    'exitFullScreen': () => Promise<void>;
     /**
     * 指定视频初始播放位置
     */
@@ -314,10 +315,14 @@ export namespace Components {
     * 当视频大小与 video 容器大小不一致时，视频的表现形式
     */
     'objectFit': 'contain' | 'fill' | 'cover';
+    'pause': () => Promise<void>;
+    'play': () => Promise<void>;
     /**
     * 视频封面的图片网络资源地址或云文件ID（2.3.0）。若 controls 属性值为 false 则设置 poster 无效
     */
     'poster': string;
+    'requestFullScreen': () => Promise<void>;
+    'seek': (position: number) => Promise<void>;
     /**
     * 是否显示视频中间的播放按钮
     */
@@ -339,6 +344,7 @@ export namespace Components {
     * 要播放视频的资源地址
     */
     'src': string;
+    'stop': () => Promise<void>;
     /**
     * 在非全屏模式下，是否开启亮度与音量调节手势
     */
