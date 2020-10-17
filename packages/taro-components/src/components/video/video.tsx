@@ -143,6 +143,7 @@ export class Video implements ComponentInterface {
   @State() isPlaying = false
   @State() isFirst = true
   @State() isFullScreen = false
+  @State() fullScreenTimestamp = new Date().getTime()
   @State() isMute = false
 
   @Event({
@@ -437,9 +438,9 @@ export class Video implements ComponentInterface {
   }
 
   // 全屏后，"点击按钮退出"走的是浏览器事件，在此同步状态
-  @Listen('fullscreenchange')
-  onNativeFullScreenExit (e) {
-    if (!e.detail && this.isFullScreen && document.fullscreenElement) {
+  @Listen('fullscreenchange') onNativeFullScreenExit (e) {
+    const timestamp = new Date().getTime()
+    if (!e.detail && this.isFullScreen && !document.fullscreenElement && timestamp - this.fullScreenTimestamp > 100) {
       this.toggleFullScreen(false)
     }
   }
@@ -447,13 +448,16 @@ export class Video implements ComponentInterface {
   toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
     this.isFullScreen = isFullScreen
     this.controlsRef.toggleVisibility(true)
-    if (isFullScreen) {
-      this.videoRef.requestFullscreen()
-    }
+    this.fullScreenTimestamp = new Date().getTime()
     this.onFullScreenChange.emit({
-      fullScreen: isFullScreen,
+      fullScreen: this.isFullScreen,
       direction: 'vertical'
     })
+    if (this.isFullScreen && !document.fullscreenElement) {
+      setTimeout(() => {
+        this.videoRef.requestFullscreen({ navigationUI: 'show' })
+      }, 0)
+    }
   }
 
   toggleMute = (e: MouseEvent) => {
