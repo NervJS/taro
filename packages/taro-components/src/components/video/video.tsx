@@ -5,7 +5,8 @@ import {
   formatTime,
   calcDist,
   normalizeNumber,
-  throttle
+  throttle,
+  screenFn
 } from './utils'
 
 @Component({
@@ -440,7 +441,7 @@ export class Video implements ComponentInterface {
   // 全屏后，"点击按钮退出"走的是浏览器事件，在此同步状态
   @Listen('fullscreenchange') onNativeFullScreenExit (e) {
     const timestamp = new Date().getTime()
-    if (!e.detail && this.isFullScreen && !document.fullscreenElement && timestamp - this.fullScreenTimestamp > 100) {
+    if (!e.detail && this.isFullScreen && !document[screenFn.fullscreenElement] && timestamp - this.fullScreenTimestamp > 100) {
       this.toggleFullScreen(false)
     }
   }
@@ -453,9 +454,9 @@ export class Video implements ComponentInterface {
       fullScreen: this.isFullScreen,
       direction: 'vertical'
     })
-    if (this.isFullScreen && !document.fullscreenElement) {
+    if (this.isFullScreen && !document[screenFn.fullscreenElement]) {
       setTimeout(() => {
-        this.videoRef.requestFullscreen({ navigationUI: 'show' })
+        this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'show' })
       }, 0)
     }
   }
