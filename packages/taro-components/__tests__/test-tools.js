@@ -21,14 +21,7 @@ export async function mount (node, wrapper) {
       async componentDidMount () {
         const ref = this.ref.current
         const dom = ref instanceof HTMLElement ? ref : ReactDOM.findDOMNode(ref)
-        const { ref: forwardRef } = node
-        if (typeof forwardRef === 'function') {
-          forwardRef(this.ref.current)
-        } else if (forwardRef && typeof forwardRef === 'object' && forwardRef.hasOwnProperty('current')) {
-          forwardRef.current = this.ref.current
-        } else if (typeof forwardRef === 'string') {
-          console.warn('内置组件不支持字符串 ref')
-        }
+
         await waitForChange(dom)
 
         resolve({

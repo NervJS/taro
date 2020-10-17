@@ -241,11 +241,6 @@ function processOpenapi (apiName, defaultOptions, formatResult = res => res, for
   }
 }
 
-const findRef = (refId) => {
-  const element = document.getElementById(refId)
-  return element
-}
-
 /**
  * ease-in-out的函数
  * @param {number} t 0-1的数字
@@ -275,7 +270,6 @@ export {
   createCallbackManager,
   createScroller,
   processOpenapi,
-  findRef,
   easeInOut,
   getTimingFunc
 }

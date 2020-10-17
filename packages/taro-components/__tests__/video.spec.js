@@ -96,23 +96,21 @@ describe('Video', () => {
   })
 
   it('should toggle full screen', async () => {
-    const fullScreenVideoRef = React.createRef()
     const onFullScreenChange = sinon.spy()
     const app = (
       <Video
         src='http://storage.jd.com/cjj-pub-images/bear.mp4'
-        ref={fullScreenVideoRef}
         onFullScreenChange={e => onFullScreenChange(e.detail)}
         onError={ev => ev.stopPropagation()}
-        testing
       />
     )
     const wrapper = await mount(app, scratch)
     const { node } = wrapper
     const box = document.querySelector('.taro-video')
+    const video = wrapper.find('video.taro-video-video')
     const fullscreenBtn = wrapper.find('.taro-video-fullscreen')
+    video.requestFullscreen = sinon.fake()
 
-    assert(fullScreenVideoRef.current !== null)
     assert(box.children.length === 1)
     assert(node.parentElement === box)
     assert(fullscreenBtn.classList.contains('taro-nodevideo-type-fullscreen') === false)

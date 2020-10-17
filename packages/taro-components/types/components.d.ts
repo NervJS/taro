@@ -298,6 +298,9 @@ export namespace Components {
     * 是否开启控制进度的手势
     */
     'enableProgressGesture': boolean;
+    /**
+    * 退出全屏
+    */
     'exitFullScreen': () => Promise<void>;
     /**
     * 指定视频初始播放位置
@@ -315,13 +318,25 @@ export namespace Components {
     * 当视频大小与 video 容器大小不一致时，视频的表现形式
     */
     'objectFit': 'contain' | 'fill' | 'cover';
+    /**
+    * 暂停视频
+    */
     'pause': () => Promise<void>;
+    /**
+    * 播放视频
+    */
     'play': () => Promise<void>;
     /**
     * 视频封面的图片网络资源地址或云文件ID（2.3.0）。若 controls 属性值为 false 则设置 poster 无效
     */
     'poster': string;
+    /**
+    * 进入全屏。若有自定义内容需在全屏时展示，需将内容节点放置到 video 节点内。
+    */
     'requestFullScreen': () => Promise<void>;
+    /**
+    * 跳转到指定位置
+    */
     'seek': (position: number) => Promise<void>;
     /**
     * 是否显示视频中间的播放按钮
@@ -339,16 +354,18 @@ export namespace Components {
     * 是否显示视频底部控制栏的播放按钮
     */
     'showPlayBtn': boolean;
+    /**
+    * 若不设置，宽度大于 240 时才会显示
+    */
     'showProgress': boolean;
     /**
     * 要播放视频的资源地址
     */
     'src': string;
-    'stop': () => Promise<void>;
     /**
-    * 测试环境下，仅同步状态
+    * 停止视频
     */
-    'testing': boolean;
+    'stop': () => Promise<void>;
     /**
     * 在非全屏模式下，是否开启亮度与音量调节手势
     */
@@ -1012,15 +1029,14 @@ declare namespace LocalJSX {
     * 是否显示视频底部控制栏的播放按钮
     */
     'showPlayBtn'?: boolean;
+    /**
+    * 若不设置，宽度大于 240 时才会显示
+    */
     'showProgress'?: boolean;
     /**
     * 要播放视频的资源地址
     */
     'src'?: string;
-    /**
-    * 测试环境下，仅同步状态
-    */
-    'testing'?: boolean;
     /**
     * 在非全屏模式下，是否开启亮度与音量调节手势
     */
