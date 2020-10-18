@@ -58,7 +58,7 @@
     "resolve": "1.15.1",
     "resolve-url-loader": "3.1.1",
     "sass": "^1.25.0",
-    "sass-loader": "8.0.2",
+    "sass-loader": "10.0.3",
     "style-loader": "1.1.3",
     "stylus": "0.54.7",
     "stylus-loader": "3.0.2",
