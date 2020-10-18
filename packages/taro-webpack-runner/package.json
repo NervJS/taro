@@ -49,7 +49,7 @@
     "less": "3.11.1",
     "less-loader": "5.0.0",
     "lodash": "4.17.20",
-    "mini-css-extract-plugin": "0.9.0",
+    "mini-css-extract-plugin": "1.0.0",
     "open": "7.0.2",
     "ora": "4.0.3",
     "postcss-loader": "3.0.0",

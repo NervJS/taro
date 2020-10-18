@@ -59,7 +59,7 @@
     "loader-utils": "^1.2.3",
     "lodash": "^4.17.11",
     "micromatch": "^4.0.2",
-    "mini-css-extract-plugin": "0.8.0",
+    "mini-css-extract-plugin": "1.0.0",
     "miniprogram-simulate": "^1.1.5",
     "node-sass": "^4.12.0",
     "ora": "^3.4.0",
