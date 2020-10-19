@@ -36,7 +36,7 @@ function addLeadingSlash (path?: string) {
 
 const pageId = incrementId()
 
-function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unknown[]) {
+export function safeExecute (path: string, lifecycle: keyof PageInstance, ...args: unknown[]) {
   const instance = instances.get(path)
 
   if (instance == null) {
