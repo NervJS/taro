@@ -40,6 +40,10 @@ declare namespace IconProps {
     search
     /** 清楚图标 */
     clear
+    /** 圆环图标(多选控件图标未选择) */
+    circle
+    /** 带圆环的信息图标 */
+    info_circle
   }
 }
 
@@ -52,7 +56,7 @@ declare namespace IconProps {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>
