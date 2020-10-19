@@ -241,11 +241,6 @@ function processOpenapi (apiName, defaultOptions, formatResult = res => res, for
   }
 }
 
-const findRef = (refId, componentInstance) => {
-  if (componentInstance.isRoute) return
-  return componentInstance[refId] || findRef(refId, componentInstance.vnode._owner)
-}
-
 /**
  * ease-in-out的函数
  * @param {number} t 0-1的数字
@@ -275,7 +270,6 @@ export {
   createCallbackManager,
   createScroller,
   processOpenapi,
-  findRef,
   easeInOut,
   getTimingFunc
 }
