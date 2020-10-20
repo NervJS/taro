@@ -10,9 +10,9 @@ title: Taro 介绍
 
 当前 Taro 已进入 3.x 时代，相较于 Taro 1/2 采用了重运行时的架构，让开发者可以获得完整的 React/Vue 等框架的开发体验，具体请参考 [《小程序跨框架开发的探索与实践》](https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247483770&idx=1&sn=ba2cdea5256e1c4e7bb513aa4c837834)。
 
-如果你想使用 Taro 1/2，可以访问[文档版本](/taro/versions)获得帮助。
+如果你想使用 Taro 1/2，可以访问[文档版本](/versions)获得帮助。
 
-版本相关更多的文档可以参考：[Taro 版本升级权威指南](/taro/blog/2020-09-01-taro-versions) 和 [从旧版本迁移到 Taro Next](./migration)
+版本相关更多的文档可以参考：[Taro 版本升级权威指南](/blog/2020-09-01-taro-versions) 和 [从旧版本迁移到 Taro Next](./migration)
 
 ## 学习资源
 
