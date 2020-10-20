@@ -13,7 +13,7 @@ const versions = require('./versions.json');
 const siteConfigGithub = {
   baseUrl: process.env.BASE === 'taro' ? '/taro/' : '/' /* base url for your project */,
   favicon: './img/favicon.ico',
-  tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝/QQ小程序、快应用、H5、React Native 等平台的应用。',
+  tagline: 'Taro 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5/React Native 等应用。',
   title: 'Taro 文档' /* title for your website */,
   url: 'https://nervjs.github.io' /* your website url */,
   themes: ['@docusaurus/theme-live-codeblock'],
@@ -174,7 +174,7 @@ const siteConfigGithub = {
 const siteConfigTaroZone = {
   baseUrl: process.env.BASE === 'taro' ? '/taro/' : '/' /* base url for your project */,
   favicon: './img/favicon.ico',
-  tagline: '多端统一开发框架，支持用 React 的开发方式编写一次代码，生成能运行在微信/百度/字节跳动/支付宝/QQ小程序、快应用、H5、React Native 等平台的应用。',
+  tagline: 'Taro 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5 等应用。',
   title: 'Taro 文档' /* title for your website */,
   url: 'https://docs.taro.zone' /* your website url */,
   themes: ['@docusaurus/theme-live-codeblock'],
@@ -190,8 +190,11 @@ const siteConfigTaroZone = {
     }
   ],
   themeConfig: {
-    scrollToTop: true,
-    disableDarkMode: false,
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
     algolia: {
       apiKey: '3f32982103f4e75dadd86900d26a9315',
       indexName: 'taro-zone',
@@ -204,12 +207,13 @@ const siteConfigTaroZone = {
       darkTheme: require('prism-react-renderer/themes/dracula'),
     },
     navbar: {
+      hideOnScroll: false,
       title: 'Taro',
       logo: {
         alt: 'Taro logo',
         src: 'img/logo-taro.png',
       },
-      links: [
+      items: [
         {
           to: 'versions',
           label: `v${versions[0]}`,
