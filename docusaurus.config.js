@@ -199,7 +199,7 @@ const siteConfigTaroZone = {
       apiKey: '3f32982103f4e75dadd86900d26a9315',
       indexName: 'taro-zone',
       searchParameters: {
-        facetFilters: [`version:${versions[0]}`]
+        // facetFilters: [`version:${versions[0]}`]
       },
     },
     prism: {
