@@ -3,7 +3,7 @@ on:
   # When Release Pull Request is merged
   push:
     branches:
-      - docs-vue
+      - docs
 
 env:
   CI: true
@@ -16,7 +16,7 @@ jobs:
       - name: build
         run: |
           yarn
-          yarn build:independent
+          yarn build:zone
       - name: Deploy static to Tencent CloudBase
         id: deployStatic
         uses: TencentCloudBase/cloudbase-action@v1.1.1
