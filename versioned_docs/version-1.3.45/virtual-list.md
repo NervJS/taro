@@ -19,7 +19,7 @@ title: 长列表渲染（虚拟列表）
 使用 React/Nerv 我们可以直接从 `@tarojs/components/virtual-list` 引入虚拟列表（VirtualList）组件：
 
 ```js
-import VirtualList from `@tarojs/components/virtual-list`
+import VirtualList from '@tarojs/components/virtual-list'
 ```
 
 一个最简单的长列表组件会像这样，`VirtualList` 的 5 个属性都是必填项：
@@ -278,7 +278,7 @@ export default class Index extends Component {
 ```js
 // app.js 入口文件
 import Vue from 'vue'
-import VirtualList from `@tarojs/components/virtual-list`
+import VirtualList from '@tarojs/components/virtual-list'
 
 Vue.use(VirtualList)
 ```
