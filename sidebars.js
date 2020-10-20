@@ -31,6 +31,17 @@ module.exports = {
       'virtual-list',
       'mini-third-party',
       'hybrid',
+      {
+        label: '扩展编译平台',
+        type: 'category',
+        items: [
+          'platform-plugin',
+          'platform-plugin-how',
+          'platform-plugin-base',
+          'platform-plugin-template',
+          'platform-plugin-reconciler'
+        ]
+      }
     ],
     迁移指南: ['migration'],
     社区生态: ['redux', 'css-modules', 'template', 'youshu', 'report', 'join-in', 'CONTRIBUTING'],
