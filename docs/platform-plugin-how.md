@@ -4,7 +4,7 @@ title: 编写端平台插件
 
 扩展一个编译平台，需要编写一个 [Taro 插件](./plugin)，对编译时和运行时分别进行兼容。
 
-## 插件架构
+## 端平台插件架构
 
 ### 插件目录组织
 
@@ -28,6 +28,8 @@ title: 编写端平台插件
     └── README.md
 
 ### 架构图
+
+![](http://storage.jd.com/cjj-pub-images/platform-plugin-construct.png)
 
 ## 编译时
 

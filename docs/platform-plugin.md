@@ -71,6 +71,8 @@ taro build --type iot --watch
 
 #### 开放式编译平台架构图
 
+![](http://storage.jd.com/cjj-pub-images/platform-plugin-all.png)
+
 ### 还可以做什么有意思的事
 
 除了扩展新的编译平台，我们还可以通过继承于现有的端平台插件，来编写自定义的端平台插件，为平台的编译过程注入自定义逻辑：
