@@ -37,10 +37,12 @@ var tabbarSelectedIconPath = []
     for (let i = 0; i < tabbarList.length; i++) {
       const t = tabbarList[i]
       if (t.iconPath) {
-        tabBarCode += `tabbarIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.iconPath))}).default\n`
+        const iconPath = stringify(join(dirname(this.resourcePath), t.iconPath))
+        tabBarCode += `tabbarIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
       if (t.selectedIconPath) {
-        tabBarCode += `tabbarSelectedIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.selectedIconPath))}).default\n`
+        const iconPath = stringify(join(dirname(this.resourcePath), t.selectedIconPath))
+        tabBarCode += `tabbarSelectedIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
     }
   }
