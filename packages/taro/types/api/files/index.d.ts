@@ -24,7 +24,7 @@ declare namespace Taro {
     }
     interface SuccessCallbackResult extends General.CallbackResult {
       /** 存储后的文件路径 */
-      savedFilePath: number
+      savedFilePath: string
       /** 调用结果 */
       errMsg: string
     }
