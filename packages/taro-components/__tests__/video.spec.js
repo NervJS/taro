@@ -1,3 +1,4 @@
+import './polyfill'
 import React from 'react'
 import * as assert from 'assert'
 // import simulant from 'simulant'
@@ -106,7 +107,9 @@ describe('Video', () => {
     const wrapper = await mount(app, scratch)
     const { node } = wrapper
     const box = document.querySelector('.taro-video')
+    const video = wrapper.find('video.taro-video-video')
     const fullscreenBtn = wrapper.find('.taro-video-fullscreen')
+    video.requestFullscreen = sinon.fake()
 
     assert(box.children.length === 1)
     assert(node.parentElement === box)
