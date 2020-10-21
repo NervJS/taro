@@ -816,7 +816,7 @@ class Transformer {
               if (t.isJSXElement(valueAttr.value)) {
                 throw codeFrameError(valueAttr.value, 'Provider 的 value 只能传入一个字符串或普通表达式，不能传入 JSX')
               } else {
-                const value = t.isStringLiteral(valueAttr.value) ? valueAttr.value : valueAttr.value.expression
+                const value = t.isStringLiteral(valueAttr.value) ? valueAttr.value : valueAttr.value!.expression
                 const expr = t.expressionStatement(t.callExpression(
                   t.memberExpression(t.identifier(contextName), t.identifier('Provider')),
                   [value]

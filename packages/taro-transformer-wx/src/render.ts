@@ -1219,7 +1219,7 @@ export class RenderParser {
             return false
           }) as NodePath<t.JSXElement>
           if (loopBlock) {
-            setJSXAttr(loopBlock.node, Adapter.key, value)
+            setJSXAttr(loopBlock.node, Adapter.key, value!)
             path.remove()
           } else {
             path.get('name').replaceWith(t.jSXIdentifier(Adapter.key))
