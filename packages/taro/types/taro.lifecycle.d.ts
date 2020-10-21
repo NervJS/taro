@@ -111,6 +111,30 @@ declare namespace Taro {
     imageUrl?: string
   }
 
+  interface AddToFavoritesObject {
+    /**
+     * 页面中包含web-view组件时，返回当前web-view的url
+     */
+    webviewUrl: string
+  }
+
+  interface AddToFavoritesReturn {
+    /**
+     * 	自定义标题
+     */
+    title?: string
+
+    /**
+     * 自定义query字段
+     */
+    query?: string
+
+    /**
+     * 自定义图片，显示图片长宽比为 1：1
+     */
+    imageUrl?: string
+  }
+
   type GetDerivedStateFromProps<P, S> =
   /**
    * Returns an update to a component's state based on its new props and old state.
