@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mobx-rn",
-  "version": "1.3.45",
+  "version": "1.3.46",
   "description": "mobx-rn for taro",
   "keywords": [
     "mobx",
@@ -18,7 +18,7 @@
     "src"
   ],
   "dependencies": {
-    "@tarojs/mobx-common": "1.3.45",
-    "@tarojs/taro-rn": "1.3.45"
+    "@tarojs/mobx-common": "1.3.46",
+    "@tarojs/taro-rn": "1.3.46"
   }
 }
