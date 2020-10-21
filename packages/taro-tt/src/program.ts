@@ -37,9 +37,6 @@ export default class TT extends TaroPlatformBase {
    * 增加组件或修改组件属性
    */
   modifyComponents () {
-    const { internalComponents } = this.template
-    const { recursiveMerge } = this.ctx.helper
-
-    recursiveMerge(internalComponents, components)
+    this.template.mergeComponents(this.ctx, components)
   }
 }

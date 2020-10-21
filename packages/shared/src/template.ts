@@ -80,7 +80,7 @@ export class BaseTemplate {
 
   public Adapter = weixinAdapter
   /** 组件列表 */
-  public internalComponents: Record<string, Record<string, string>> = internalComponents
+  public internalComponents = internalComponents
   /** 可以 focus 聚焦的组件 */
   public focusComponents: Set<string> = focusComponents
   /** 不需要渲染子节点的元素 */
@@ -363,6 +363,10 @@ export class BaseTemplate {
   },
   ${this.buildXSTmpExtra()}
 }`
+  }
+
+  public mergeComponents (ctx, patch: typeof internalComponents) {
+    ctx.helper.recursiveMerge(this.internalComponents, patch)
   }
 
   protected buildXSTmplName () {

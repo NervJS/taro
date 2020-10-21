@@ -29,7 +29,7 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
 
   onTaroElementCreate?(tagName: string, nodeType: NodeType): void
 
-  getPathIndex(indexOfNode: number): void
+  getPathIndex(indexOfNode: number): string
 
   getEventCenter(Events: EventsType): InstanceType<EventsType>
 
