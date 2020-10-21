@@ -106,37 +106,33 @@ describe('Video', () => {
     )
     const wrapper = await mount(app, scratch)
     const { node } = wrapper
-    const box = document.querySelector('.taro-video')
     const video = wrapper.find('video.taro-video-video')
     const fullscreenBtn = wrapper.find('.taro-video-fullscreen')
     video.requestFullscreen = sinon.fake()
 
-    assert(box.children.length === 1)
-    assert(node.parentElement === box)
     assert(fullscreenBtn.classList.contains('taro-nodevideo-type-fullscreen') === false)
-
     fullscreenBtn.click()
     await waitForChange(node)
 
-    assert(box.children.length === 0)
-    assert(node.parentElement === document.body)
     assert(fullscreenBtn.classList.contains('taro-video-type-fullscreen') === true)
     assert(onFullScreenChange.calledOnceWith({
       fullScreen: true,
       direction: 'vertical'
     }))
+    assert(video.requestFullscreen.calledOnceWith({
+      navigationUI: 'show'
+    }))
 
     fullscreenBtn.click()
     await waitForChange(node)
 
-    assert(box.children.length === 1)
-    assert(node.parentElement === box)
     assert(fullscreenBtn.classList.contains('taro-video-type-fullscreen') === false)
     assert(onFullScreenChange.callCount === 2)
     assert(onFullScreenChange.calledWith({
       fullScreen: false,
       direction: 'vertical'
     }))
+    assert(video.requestFullscreen.callCount === 1)
   })
 
   it('controls bar', async () => {

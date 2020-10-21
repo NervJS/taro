@@ -30,7 +30,6 @@ export class Video implements ComponentInterface {
   private lastPercentage
   private nextPercentage
   private gestureType = 'none'
-  private wrapperElement: HTMLElement
 
   @Element() el: HTMLTaroVideoCoreElement
 
@@ -192,28 +191,6 @@ export class Video implements ComponentInterface {
   }
 
   componentDidRender () {
-    const parentElement = this.el.parentElement as HTMLElement
-    const parentTagName = parentElement.tagName
-    if (this.isFullScreen) {
-      if (parentTagName !== 'BODY') {
-        parentElement.removeChild(this.el)
-        document.body.appendChild(this.el)
-      }
-    } else {
-      if (parentTagName !== 'DIV' || !parentElement.className.includes('taro-video')) {
-        if (!this.wrapperElement) {
-          const container = document.createElement('div')
-          container.className = 'taro-video'
-          parentElement.removeChild(this.el)
-          container.appendChild(this.el)
-          parentElement.appendChild(container)
-          this.wrapperElement = container
-        } else {
-          parentElement.removeChild(this.el)
-          this.wrapperElement.appendChild(this.el)
-        }
-      }
-    }
   }
 
   @Watch('enableDanmu')
@@ -438,12 +415,20 @@ export class Video implements ComponentInterface {
     this.toggleFullScreen()
   }
 
-  // 全屏后，"点击按钮退出"走的是浏览器事件，在此同步状态
-  @Listen('fullscreenchange') onNativeFullScreenExit (e) {
+  handleFullScreenChange = e => {
     const timestamp = new Date().getTime()
     if (!e.detail && this.isFullScreen && !document[screenFn.fullscreenElement] && timestamp - this.fullScreenTimestamp > 100) {
       this.toggleFullScreen(false)
     }
+  }
+
+  // 全屏后，"点击按钮退出"走的是浏览器事件，在此同步状态
+  @Listen('fullscreenchange') onNativeFullScreenExit (e) {
+    this.handleFullScreenChange(e)
+  }
+
+  @Listen('webkitfullscreenchange') onWebkitFullScreenChange (e) {
+    this.handleFullScreenChange(e)
   }
 
   toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
@@ -556,9 +541,9 @@ export class Video implements ComponentInterface {
           currentTime={this.currentTime}
           duration={this.duration || this._duration || undefined}
           isPlaying={this.isPlaying}
-          pauseFunc={this.pause}
-          playFunc={this.play}
-          seekFunc={this.seek}
+          pauseFunc={() => this.pause()}
+          playFunc={() => this.play()}
+          seekFunc={p => this.seek(p)}
           showPlayBtn={this.showPlayBtn}
           showProgress={this.showProgress}
         >
