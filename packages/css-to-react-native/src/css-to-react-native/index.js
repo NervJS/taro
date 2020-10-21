@@ -51,9 +51,7 @@ const transformShorthandValue =
           return baseTransformShorthandValue(propName, inputValue);
         } catch (e) {
           throw new Error(
-            `${
-              e.message
-            } Failed to parse declaration "${propName}: ${inputValue}"`,
+            `${e.message} Failed to parse declaration "${propName}: ${inputValue}"`,
           );
         }
       };
