@@ -1,0 +1,115 @@
+name: publish
+on:
+  # When Release Pull Request is merged
+  pull_request:
+    branches:
+      - master
+    types: [closed]
+
+env:
+  CI: true
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name : GITHUB CONTEXT
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Get commit message
+        run: |
+           echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
+      - name: Show commit message
+        run : echo $commitmsg
+      - name: Setup Node ${{ matrix.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          node_version: 12
+          registry-url: 'https://registry.npmjs.org'
+      - name: Git Identity
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: install
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
+        run: npm install
+      - name: bootstrap
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
+        run: npm run bootstrap:lerna
+      - name: build
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
+        run: npm run build
+      # Define ${CURRENT_VERSION}
+      - name: Set Current Version
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
+        shell: bash -ex {0}
+        run: |
+          CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
+          echo "::set-env name=CURRENT_VERSION::${CURRENT_VERSION}"
+      - name: Tag Check
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
+        id: tag_check
+        shell: bash -ex {0}
+        run: |
+          GET_API_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/git/ref/tags/v${CURRENT_VERSION}"
+          http_status_code=$(curl -LI $GET_API_URL -o /dev/null -w '%{http_code}\n' -s \
+            -H "Authorization: token ${GITHUB_TOKEN}")
+          if [ "$http_status_code" -ne "404" ] ; then
+            echo "::set-output name=exists_tag::true"
+          else
+            echo "::set-output name=exists_tag::false"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Git Tag
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false' && !contains( env.commitmsg , '[skip ci]' )
+        uses: azu/action-package-version-to-git-tag@v1
+        with:
+          version: ${{ env.CURRENT_VERSION }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_repo: ${{ github.repository }}
+          git_commit_sha: ${{ github.sha }}
+          git_tag_prefix: "v"
+      - name: Create Release
+        id: create_release
+        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false' && github.event.pull_request.merged == true && !contains( env.commitmsg , '[skip ci]' )
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.CURRENT_VERSION }}
+          # Copy Pull Request's tile and body to Release Note
+          release_name: ${{ github.event.pull_request.title }}
+          body: |
+            ${{ github.event.pull_request.body }}
+          draft: false
+          prerelease: false
+      - name: Drop current changes
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
+        run: |
+          git add .
+          git stash
+      - name: Publish
+        if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
+        run: |
+          yarn lerna publish from-package --dist-tag 1.x  --yes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/github-script@0.8.0
+        if: startsWith( env.commitmsg , 'chore(release):' ) && !contains( env.commitmsg , '[skip ci]' )
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'https://github.com/${{ github.repository }}/releases/tag/v${{ env.CURRENT_VERSION }} is released 🎉'
+            })
