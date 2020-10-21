@@ -22,6 +22,7 @@ declare namespace Taro {
     onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn
     onTabItemTap?(obj: TabItemTapObject): void
     onResize?(obj: any): void
+    onShareTimeline?(): ShareTimelineReturn
   }
 
   interface ComponentOptions {
