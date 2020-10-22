@@ -416,18 +416,26 @@ export class Video implements ComponentInterface {
   }
 
   handleFullScreenChange = e => {
+    // 全屏后，"退出"走的是浏览器事件，在此同步状态
     const timestamp = new Date().getTime()
     if (!e.detail && this.isFullScreen && !document[screenFn.fullscreenElement] && timestamp - this.fullScreenTimestamp > 100) {
       this.toggleFullScreen(false)
     }
   }
 
-  // 全屏后，"点击按钮退出"走的是浏览器事件，在此同步状态
-  @Listen('fullscreenchange') onNativeFullScreenExit (e) {
+  @Listen('fullscreenchange') onNativeFullScreenChange (e) {
     this.handleFullScreenChange(e)
   }
 
   @Listen('webkitfullscreenchange') onWebkitFullScreenChange (e) {
+    this.handleFullScreenChange(e)
+  }
+
+  @Listen('mozfullscreenchange') onMozFullScreenChange (e) {
+    this.handleFullScreenChange(e)
+  }
+
+  @Listen('MSFullscreenChange') onMSFullScreenChange (e) {
     this.handleFullScreenChange(e)
   }
 
