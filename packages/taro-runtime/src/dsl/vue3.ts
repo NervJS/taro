@@ -1,7 +1,7 @@
 import { isFunction, isArray, ensure, capitalize, toCamelCase, internalComponents, hasOwn, isBooleanStringLiteral } from '@tarojs/shared'
-import { AppInstance, Instance, PageProps } from './instance'
+import { AppInstance } from './instance'
 import { Current } from '../current'
-import { injectPageInstance } from './common'
+import { injectPageInstance, safeExecute } from './common'
 import { isBrowser } from '../env'
 import { options } from '../options'
 
@@ -18,19 +18,30 @@ import type { Reconciler } from '../reconciler'
 
 function createVue3Page (h: typeof createElement, id: string) {
   return function (component): VNode {
-    // vue3 组件 created 时机比小程序页面 onShow 慢，这里先插入一个实例以响应初始化时的小程序生命周期调用
-    injectPageInstance(({ $options: component } as Instance<PageProps>), id)
     const inject = {
       props: {
         tid: String
       },
       created () {
         injectPageInstance(this, id)
+        // vue3 组件 created 时机比小程序页面 onShow 慢，因此在 created 后再手动触发一次 onShow。
+        safeExecute(id, 'onShow')
       }
     }
-    component.mixins = isArray(component.mixins)
-      ? component.mixins.push(inject)
-      : [inject]
+
+    if (isArray(component.mixins)) {
+      const mixins = component.mixins
+      const idx = mixins.length - 1
+      if (!mixins[idx].props?.tid) {
+        // mixins 里还没注入过，直接推入数组
+        component.mixins.push(inject)
+      } else {
+        // mixins 里已经注入过，代替前者
+        component.mixins[idx] = inject
+      }
+    } else {
+      component.mixins = [inject]
+    }
 
     return h(
       isBrowser ? 'div' : 'root',

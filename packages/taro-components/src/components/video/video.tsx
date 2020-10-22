@@ -1,11 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element, Method } from '@stencil/core'
 import classNames from 'classnames'
 import {
   formatTime,
   calcDist,
   normalizeNumber,
-  throttle
+  throttle,
+  screenFn
 } from './utils'
 
 @Component({
@@ -78,6 +79,9 @@ export class Video implements ComponentInterface {
    */
   @Prop() objectFit: 'contain' | 'fill' | 'cover' = 'contain'
 
+  /**
+   * 若不设置，宽度大于 240 时才会显示
+   */
   @Prop() showProgress = true
 
   /**
@@ -140,6 +144,7 @@ export class Video implements ComponentInterface {
   @State() isPlaying = false
   @State() isFirst = true
   @State() isFullScreen = false
+  @State() fullScreenTimestamp = new Date().getTime()
   @State() isMute = false
 
   @Event({
@@ -380,21 +385,35 @@ export class Video implements ComponentInterface {
     })
   }
 
-  play = () => {
+  /** 播放视频 */
+  @Method() async play () {
     this.videoRef.play()
   }
 
-  pause = () => {
+  /** 暂停视频 */
+  @Method() async pause () {
     this.videoRef.pause()
   }
 
-  stop = () => {
+  /** 停止视频 */
+  @Method() async stop () {
     this.videoRef.pause()
     this.seek(0)
   }
 
-  seek = (position: number) => {
+  /** 跳转到指定位置 */
+  @Method() async seek (position: number) {
     this.videoRef.currentTime = position
+  }
+
+  /** 进入全屏。若有自定义内容需在全屏时展示，需将内容节点放置到 video 节点内。 */
+  @Method() async requestFullScreen () {
+    this.toggleFullScreen(true)
+  }
+
+  /** 退出全屏 */
+  @Method() async exitFullScreen () {
+    this.toggleFullScreen(false)
   }
 
   onTouchStartContainer = (e: TouchEvent) => {
@@ -419,14 +438,27 @@ export class Video implements ComponentInterface {
     this.toggleFullScreen()
   }
 
-  toggleFullScreen = (nextFullScreenState?) => {
-    const isFullScreen = nextFullScreenState === undefined ? !this.isFullScreen : nextFullScreenState
+  // 全屏后，"点击按钮退出"走的是浏览器事件，在此同步状态
+  @Listen('fullscreenchange') onNativeFullScreenExit (e) {
+    const timestamp = new Date().getTime()
+    if (!e.detail && this.isFullScreen && !document[screenFn.fullscreenElement] && timestamp - this.fullScreenTimestamp > 100) {
+      this.toggleFullScreen(false)
+    }
+  }
+
+  toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
     this.isFullScreen = isFullScreen
     this.controlsRef.toggleVisibility(true)
+    this.fullScreenTimestamp = new Date().getTime()
     this.onFullScreenChange.emit({
-      fullScreen: isFullScreen,
+      fullScreen: this.isFullScreen,
       direction: 'vertical'
     })
+    if (this.isFullScreen && !document[screenFn.fullscreenElement]) {
+      setTimeout(() => {
+        this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'show' })
+      }, 0)
+    }
   }
 
   toggleMute = (e: MouseEvent) => {
@@ -498,6 +530,22 @@ export class Video implements ComponentInterface {
           暂时不支持播放该视频
         </video>
 
+        <taro-video-danmu
+          ref={dom => {
+            if (dom) {
+              this.danmuRef = dom as HTMLTaroVideoDanmuElement
+            }
+          }}
+          enable={_enableDanmu}
+        />
+
+        {isFirst && showCenterPlayBtn && !isPlaying && (
+          <div class='taro-video-cover'>
+            <div class='taro-video-cover-play-button' onClick={() => this.play()} />
+            <p class='taro-video-cover-duration'>{durationTime}</p>
+          </div>
+        )}
+
         <taro-video-control
           ref={dom => {
             if (dom) {
@@ -540,22 +588,6 @@ export class Video implements ComponentInterface {
             />
           )}
         </taro-video-control>
-
-        <taro-video-danmu
-          ref={dom => {
-            if (dom) {
-              this.danmuRef = dom as HTMLTaroVideoDanmuElement
-            }
-          }}
-          enable={_enableDanmu}
-        />
-
-        {isFirst && showCenterPlayBtn && !isPlaying && (
-          <div class='taro-video-cover'>
-            <div class='taro-video-cover-play-button' onClick={this.play} />
-            <p class='taro-video-cover-duration'>{durationTime}</p>
-          </div>
-        )}
 
         <div class='taro-video-toast taro-video-toast-volume' ref={dom => {
           if (dom) {
