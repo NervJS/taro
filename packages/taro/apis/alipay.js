@@ -459,4 +459,5 @@ export default function initNativeApi (taro) {
   taro.getApp = getApp
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
+  taro.env = my.env
 }
