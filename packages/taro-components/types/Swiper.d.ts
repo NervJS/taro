@@ -112,6 +112,12 @@ interface SwiperProps extends StandardProps {
    * @supported weapp, swan, h5, rn
    */
   onAnimationFinish?: SwiperProps['onChange']
+  
+  /** 是否禁止用户 touch 操作
+   * @default false
+   * @supported alipay
+   */
+  disableTouch?: boolean
 }
 
 declare namespace SwiperProps {
