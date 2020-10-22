@@ -35,6 +35,7 @@ const siteConfigGithub = {
       respectPrefersColorScheme: true,
     },
     algolia: {
+      // contextualSearch: true,
       apiKey: '820a8e12c97e870d4e0785d52858230c',
       indexName: 'taro_new',
       searchParameters: {
@@ -54,10 +55,15 @@ const siteConfigGithub = {
       },
       items: [
         {
-          to: 'versions',
-          label: `v${versions[0]}`,
+          type: 'docsVersionDropdown',
           position: 'left',
-          version: 'true'
+          dropdownActiveClassDisabled: true,
+          dropdownItemsAfter: [
+            {
+              to: '/versions',
+              label: '全部版本',
+            },
+          ],
         },
         {
           to: 'docs/README',
@@ -115,8 +121,9 @@ const siteConfigGithub = {
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/nervjs/taro/edit/blog/',
+          editUrl: 'https://github.com/nervjs/taro/edit/blog/',
+          blogSidebarCount: 5,
+          blogSidebarTitle: '最近更新'
         },
         // For top-level user or org sites, the organization is still the same.
         // e.g., for the https://JoelMarcey.github.io site, it would be set like...
@@ -196,10 +203,11 @@ const siteConfigTaroZone = {
       respectPrefersColorScheme: true,
     },
     algolia: {
+      // contextualSearch: true,
       apiKey: '3f32982103f4e75dadd86900d26a9315',
       indexName: 'taro-zone',
       searchParameters: {
-        // facetFilters: [`version:${versions[0]}`]
+        // facetFilters: [`version:VERSIONS`],
       },
     },
     prism: {
@@ -215,10 +223,15 @@ const siteConfigTaroZone = {
       },
       items: [
         {
-          to: 'versions',
-          label: `v${versions[0]}`,
+          type: 'docsVersionDropdown',
           position: 'left',
-          version: 'true'
+          dropdownActiveClassDisabled: true,
+          dropdownItemsAfter: [
+            {
+              to: '/versions',
+              label: '全部版本',
+            },
+          ],
         },
         {
           to: 'docs/README',
@@ -276,8 +289,9 @@ const siteConfigTaroZone = {
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/nervjs/taro/edit/blog/',
+          editUrl: 'https://github.com/nervjs/taro/edit/blog/',
+          blogSidebarCount: 5,
+          blogSidebarTitle: '最近更新'
         },
         // For top-level user or org sites, the organization is still the same.
         // e.g., for the https://JoelMarcey.github.io site, it would be set like...
@@ -332,5 +346,5 @@ const siteConfigTaroZone = {
   //   repoUrl: 'https://github.com/facebook/test-site',
 }
 
-const siteConfig = process.env.BASE === 'zone' ? siteConfigTaroZone : siteConfigGithub
+const siteConfig = process.env.BASE == 'zone' ? siteConfigTaroZone : siteConfigGithub
 module.exports = siteConfig

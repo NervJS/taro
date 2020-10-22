@@ -12,10 +12,10 @@
     "serve": "docusaurus serve"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.65",
-    "@docusaurus/preset-classic": "2.0.0-alpha.65",
-    "@docusaurus/theme-classic": "^2.0.0-alpha.65",
-    "@docusaurus/theme-live-codeblock": "^2.0.0-alpha.65",
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/preset-classic": "2.0.0-alpha.66",
+    "@docusaurus/theme-classic": "^2.0.0-alpha.66",
+    "@docusaurus/theme-live-codeblock": "^2.0.0-alpha.66",
     "@mdx-js/react": "^1.5.8",
     "clsx": "^1.1.1",
     "classnames": "^2.2.6",
