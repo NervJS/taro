@@ -466,7 +466,8 @@ const Swiper = {
   ...touchEvents,
   ...selectEnv({
     alipay: {
-      acceleration: 'false'
+      acceleration: 'false',
+      'disable-touch': 'false'
     }
   })
 }
