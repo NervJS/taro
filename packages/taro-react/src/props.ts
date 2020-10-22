@@ -49,7 +49,12 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
     if (!oldValue) {
       dom.addEventListener(eventName, eventProxy, isCapture)
     }
-    dom.__handlers[eventName][0] = value
+    if (eventName === 'regionchange') {
+      dom.__handlers.begin[0] = value
+      dom.__handlers.end[0] = value
+    } else {
+      dom.__handlers[eventName][0] = value
+    }
   } else {
     dom.removeEventListener(eventName, eventProxy)
   }
