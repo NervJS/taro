@@ -8,22 +8,7 @@ const NAME_SUFFIX = 'StyleSheet'
 const cssSuffixs = ['.css', '.scss', '.sass', '.less', '.styl']
 let styleNames = [] // css module 写法中 import 的 Identifier
 
-module.exports = function ({types: t, template}) {
-  const mergeStylesFunctionTemplate = template(`
-function ${MERGE_STYLES_FUNC_NAME}() {
-  var newTarget = {};
-
-  for (var index = 0; index < arguments.length; index++) {
-    var target = arguments[index];
-
-    for (var key in target) {
-      newTarget[key] = Object.assign(newTarget[key] || {}, target[key]);
-    }
-  }
-
-  return newTarget;
-}
-  `)
+module.exports = function ({ types: t, template }) {
   const getClassNameFunctionTemplate = template(`
 function ${GET_CLS_NAME_FUNC_NAME}() {
   var className = [];
@@ -69,11 +54,9 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
   `)
 
   const getClassNameFunctionAst = getClassNameFunctionTemplate()
-  const mergeStylesFunctionAst = mergeStylesFunctionTemplate()
   const getStyleFunctionAst = getStyleFunctionTemplete()
 
   function getArrayExpression (value) {
-    let expression
     let str
 
     if (!value || value.value === '') {
@@ -113,12 +96,12 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
   return {
     visitor: {
       Program: {
-        exit (astPath, {file}) {
+        exit (astPath, { file }) {
           const node = astPath.node
           // const cssFileCount = file.get('cssFileCount')
           const injectGetStyle = file.get('injectGetStyle')
           const lastImportIndex = findLastImportIndex(node.body)
-          let cssParamIdentifiers = file.get('cssParamIdentifiers')
+          const cssParamIdentifiers = file.get('cssParamIdentifiers')
           let callExpression
 
           if (cssParamIdentifiers) {
@@ -147,10 +130,10 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
           astPath.traverse({
             JSXOpeningElement (astPath) {
               astPath.traverse({
-                JSXAttribute ({node}) {
+                JSXAttribute ({ node }) {
                   if (node.name && node.name.name === 'style') {
                     astPath.traverse({
-                      MemberExpression ({node}) {
+                      MemberExpression ({ node }) {
                         if (node.object.type === 'Identifier' && styleNames.indexOf(node.object.name) > -1) {
                           node.object.name = STYLE_SHEET_NAME
                         }
@@ -165,7 +148,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
           styleNames = []
         }
       },
-      JSXOpeningElement ({container}, {file}) {
+      JSXOpeningElement ({ container }, { file }) {
         const cssFileCount = file.get('cssFileCount') || 0
         if (cssFileCount < 1) {
           return
@@ -212,8 +195,8 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
           }
 
           if (hasStyleAttribute && styleAttribute.value) {
-            let expression = styleAttribute.value.expression
-            let expressionType = expression.type
+            const expression = styleAttribute.value.expression
+            const expressionType = expression.type
 
             // style={[styles.a, styles.b]} ArrayExpression
             if (expressionType === 'ArrayExpression') {
@@ -229,14 +212,14 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
               styleAttribute.value.expression = t.arrayExpression(arrayExpression.concat(expression))
             }
           } else {
-            let expression = arrayExpression.length === 1 ? arrayExpression[0] : t.arrayExpression(arrayExpression)
+            const expression = arrayExpression.length === 1 ? arrayExpression[0] : t.arrayExpression(arrayExpression)
             attributes.push(t.jSXAttribute(t.jSXIdentifier('style'), t.jSXExpressionContainer(expression)))
           }
         }
       },
       // 由于目前 js 引入的文件样式默认会全部合并，故进插入一个就好，其余的全部 remove
       ImportDeclaration (astPath, state) {
-        const {file} = state
+        const { file } = state
         const node = astPath.node
         const sourceValue = node.source.value
         const specifiers = node.specifiers
@@ -244,7 +227,7 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
         const extname = path.extname(sourceValue)
         const cssIndex = cssSuffixs.indexOf(extname)
         let cssFileCount = file.get('cssFileCount') || 0
-        let cssParamIdentifiers = file.get('cssParamIdentifiers') || []
+        const cssParamIdentifiers = file.get('cssParamIdentifiers') || []
 
         if (cssIndex > -1) {
           // `import styles from './foo.css'` kind
