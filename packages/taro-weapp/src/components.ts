@@ -28,7 +28,7 @@ export const components = {
     'enable-rotate': 'false',
     'enable-satellite': 'false',
     'enable-traffic': 'false',
-    setting: '{}',
+    setting: '[]',
     bindLabelTap: '',
     bindRegionChange: '',
     bindPoiTap: ''

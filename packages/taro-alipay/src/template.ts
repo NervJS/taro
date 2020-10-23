@@ -61,9 +61,9 @@ export class Template extends RecursiveTemplate {
     }
     if (nodeName === 'swiper') {
       return `<swiper-item>
-        <view a:for="{{item.cn}}" a:key="id">
+        <block a:for="{{item.cn}}" a:key="id">
           ${child}
-        </view>
+        </block>
       </swiper-item>`
     }
     return child
