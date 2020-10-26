@@ -140,6 +140,6 @@ Taro 非常欢迎社区开发者为 Taro 贡献代码，在贡献之前请先阅
 
 ## 开发交流
 
-扫码添加 `凹凸实验室-小助手` ，回复 `Taro` 即可进群。（Taro 开发交流 22 群 已满）
+扫码添加 `凹凸实验室-小助手` ，回复 `Taro` 即可进群。（Taro 开发交流 1 - 26 群 已满）
 
 ![image](https://storage.jd.com/taro-jd-com/static/wechaty.png)
