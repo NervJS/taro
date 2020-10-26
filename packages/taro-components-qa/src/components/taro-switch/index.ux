@@ -1,0 +1,82 @@
+<template>
+  <div class="taro_switch">
+    <input
+      if="{{type === 'checkbox'}}"
+      class="{{class}}"
+      id="{{id}}"
+      style="{{customstyle}}"
+      value="{{value}}"
+      type="checkbox"
+      checked="{{checked}}"
+      disabled="{{disabled}}"
+      @change="handleChange"
+    />
+    <switch
+      else
+      class="{{class}}"
+      style="{{customstyle}}"
+      id="{{id}}"
+      disabled="{{disabled}}"
+      checked="{{checked}}"
+      @change="handleChange">
+    </switch>
+  </div>
+</template>
+
+<script>
+  export default {
+    props: {
+      class: {
+        type: String,
+        required: false,
+        default: 'taro_switch'
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      customstyle: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+      type: {
+        type: String,
+        required: false,
+        default: 'switch',
+        validator (value) {
+          return ['switch','checkbox'].indexOf(value) > -1
+        }
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      checked: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+    },
+
+    data: () => ({
+
+    }),
+
+    onInit () {
+
+    },
+
+    handleChange (e) {
+      this.$emit('change', { value: e.value })
+    }
+  }
+</script>
+
+<style>
+  .taro_switch {
+
+  }
+</style>

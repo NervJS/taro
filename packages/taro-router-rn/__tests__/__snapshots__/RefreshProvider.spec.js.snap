@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RefreshProvider should render success 1`] = `
+<ScrollView
+  alwaysBounceVertical={false}
+  onScroll={[Function]}
+  refreshControl={null}
+  scrollEventThrottle={5}
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <HomeScreen />
+</ScrollView>
+`;

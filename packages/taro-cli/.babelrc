@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "env",
+    "react",
+    "stage-0"
+  ],
+  "plugins": [
+    "babel-plugin-transform-class-properties"
+  ]
+}

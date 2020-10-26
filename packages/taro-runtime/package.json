@@ -1,0 +1,24 @@
+{
+  "name": "@tarojs/runtime",
+  "version": "3.0.15",
+  "description": "taro runtime for mini apps.",
+  "main": "dist/runtime.esm.js",
+  "module": "dist/runtime.esm.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest",
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NervJS/taro/tree/master/packages/taro-runtime"
+  },
+  "author": "yuche",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

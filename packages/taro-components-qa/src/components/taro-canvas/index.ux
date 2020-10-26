@@ -1,0 +1,49 @@
+<template>
+  <canvas
+    class="{{class}}"
+    id="{{id}}"
+    style="{{customstyle}}"
+    onclick="handleClick"
+  >
+  </canvas>
+</template>
+
+<script>
+  export default {
+    props: {
+      class: {
+        type: String,
+        required: false,
+        default: 'taro_canvas'
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      customstyle: {
+        type: Object,
+        required: false,
+        default: {}
+      },
+    },
+
+    data: () => ({
+
+    }),
+
+    onInit () {
+
+    },
+
+    handleClick (e) {
+      this.$emit('click', e)
+    }
+  }
+</script>
+
+<style>
+  .taro_canvas {
+
+  }
+</style>

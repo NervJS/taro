@@ -1,0 +1,171 @@
+<template>
+  <map class="{{classname}}" 
+  id="{{id}}" 
+  style="{{customstyle}}" 
+  coordtype="{{coordtype}}" 
+  longitude="{{longitude}}" 
+  latitude="{{latitude}}"
+  scale="{{scale}}" 
+  markers="{{markers}}" 
+  controls="{{controls}}" 
+  circles="{{circles}}" 
+  polylines="{{polyline}}"
+  polygons="{{polygons}}" 
+  groundoverlays="{{groundoverlays}}" 
+  rotate="{{rotate}}" 
+  showmylocation="{{showLocation}}"
+  includePoints="{{includePoints}}"
+  showcompass="{{showCompass}}"
+  enableoverlooking="{{enableOverlooking}}"
+  enablezoom="{{enableZoom}}"
+  enablescroll="{{enableScroll}}"
+  enablerotate="{{enableRotate}}"
+  @loaded="loaded"
+  @regionchange="regionchange"
+  @tap="tap"
+  @markertap="markerTap"
+  @callouttap="calloutTap"
+  @controltap="controlTap"
+  @poitap="poitap">
+  </map>
+</template>
+
+<script>
+  export default {
+    props: {
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      classname: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      customstyle: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      coordtype: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      longitude: {
+        type: Number,
+        required: false,
+        default: 39.9073728469
+      },
+      latitude: {
+        type: Number,
+        required: false,
+        default: 116.3913445961
+      },
+      scale: {
+        type: Number,
+        required: false,
+        default: 11
+      },
+      markers: {
+        type: Array,
+        required: false,
+        default: []
+      },
+      controls: {
+        type: Array,
+        required: false,
+        default: []
+      },
+      circles: {
+        type: Array,
+        required: false,
+        default: []
+      },
+      polyline: {
+        type: Array,
+        required: false,
+        default: []
+      },
+      polygons: {
+        type: Array,
+        required: false,
+        default: []
+      },
+      groundoverlays: {
+        type: Array,
+        required: false,
+        default: []
+      },
+      rotate: {
+        type: Number,
+        required: false,
+        default: 0
+      },
+      showLocation: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      includePoints: {
+        type: Array,
+        required: false,
+        default: []
+      },
+      showCompass: {
+        type: Boolean,
+        required: false,
+        default: true
+      },
+      enableOverlooking: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      enableZoom: {
+        type: Boolean,
+        required: false,
+        default: true
+      },
+      enableScroll: {
+        type: Boolean,
+        required: false,
+        default: true
+      },
+      enableRotate: {
+        type: Boolean,
+        required: false,
+        default: true
+      }
+    },
+
+    loaded (e) {
+      this.$emit('updated', e)
+    },
+
+    regionchange (e) {
+      this.$emit('regionchange', e)
+    },
+
+    tap (e) {
+      this.$emit('tap', e)
+    },
+
+    markerTap (e) {
+      this.$emit('markertap', e)
+    },
+
+    calloutTap (e) {
+      this.$emit('callouttap', e)
+    },
+
+    controlTap (e) {
+      this.$emit('controltap', e)
+    },
+
+    poitap (e) {
+      this.$emit('poitap', e)
+    }
+  }
+</script>

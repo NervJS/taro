@@ -1,0 +1,22 @@
+# dependency
+node_modules
+webpack.config.js
+src/demo
+
+# macOS
+.DS_Store
+
+# ide
+.vs_code
+.idea
+
+# build
+dist
+dist-h5
+build
+
+# jest
+coverage
+__snapshots__
+.stencil
+loader

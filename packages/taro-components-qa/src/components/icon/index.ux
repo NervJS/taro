@@ -1,0 +1,126 @@
+<template>
+  <stack
+    class="taro_icon {{class}} icon_{{type}}"
+    id="{{id}}"
+    onclick="handleClick"
+    disabled="{{disabled}}"
+    style="{{customstyle}}"
+  >
+    <div class="thumb" if="{{['success', 'waiting'].indexOf(type) > -1}}"></div>
+    <div class="info" elif="{{['warn', 'info'].indexOf(type) > -1}}">{{typeFont}}</div>
+  </stack>
+</template>
+
+<script>
+  export default {
+    props: {
+      class: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      id: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      size: {
+        type: Number,
+        required: false,
+        default: 23
+      },
+      color: {
+        type: String,
+        required: false
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      type: {
+        type: String,
+        required: false,
+        default: 'success'
+      },
+      customstyle: {
+        type: Object,
+        required: false,
+        default: {}
+      }
+    },
+
+    data: () => ({
+      iconStyle: {},
+      typeFont: ''
+    }),
+
+    onInit () {
+      this.customstyle = Object.assign(this.customstyle, { 'font-size:': this.size, 'color:': '#' + this.color })
+      switch (this.type) {
+        case 'info':
+          this.typeFont = 'i'
+          break;
+        case 'warn':
+          this.typeFont = '!'
+          break;
+      }
+    },
+
+    handleClick (e) {
+      this.$emit('click', e)
+    }
+  }
+</script>
+
+<style>
+  .taro_icon {
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    border-width: 4px;
+  }
+  .thumb {
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    width: 15px;
+    height: 30px;
+    transform: rotate(45deg);
+    margin-top: -8px;
+  }
+  .icon_success {
+    background-color: #09bb07;
+    border-color: #09bb07;
+  }
+  .icon_success .thumb {
+    border-color: #fff;
+  }
+  .icon_waiting {
+    background-color: #10aeff;
+    border-color: #10aeff;
+  }
+  .icon_waiting .thumb {
+    border-color: #fff;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    width: 16px;
+    height: 16px;
+    transform: rotate(60deg);
+    margin-top: -8px;
+  }
+  .icon_info {
+    background-color: #10aeff;
+    border-color: #10aeff;
+    color: #fff;
+    font-size: 30px;
+  }
+  .icon_warn {
+    background-color: #f43530;
+    border-color: #f43530;
+    color: #fff;
+    font-size: 30px;
+  }
+
+</style>

@@ -1,0 +1,26 @@
+{
+  "name": "stylelint-config-taro-rn",
+  "version": "1.3.22",
+  "description": "Shareable stylelint config for React Native CSS modules",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "CHANGELOG.md",
+    "README.md"
+  ],
+  "keywords": [
+    "stylelint",
+    "stylelint-config",
+    "react-native",
+    "css-modules"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "author": "O2Team",
+  "license": "MIT"
+}

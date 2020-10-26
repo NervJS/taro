@@ -1,0 +1,37 @@
+{
+  "name": "@tarojs/taro-loader",
+  "version": "3.0.15",
+  "description": "> TODO: description",
+  "author": "yuche <i@yuche.me>",
+  "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
+  "license": "MIT",
+  "main": "lib/app.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "test": "jest --collectCoverage",
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "loader-utils": "^1.2.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@tarojs/taro": "3.0.15"
+  }
+}

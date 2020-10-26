@@ -1,0 +1,35 @@
+{
+  "package": "com.application.demo",
+  "name": "TaroQuickApp",
+  "versionName": "1.0.0",
+  "versionCode": 1,
+  "minPlatformVersion": 1040,
+  "features": [
+    { "name": "system.prompt" },
+    { "name": "system.router" },
+    { "name": "system.shortcut" },
+    { "name": "system.fetch" },
+    { "name": "system.storage" },
+    { "name": "system.barcode" },
+    { "name": "system.vibrator" },
+    { "name": "system.clipboard" },
+    { "name": "system.sensor" },
+    { "name": "system.geolocation" },
+    { "name": "system.share" },
+    { "name": "system.notification" },
+    { "name": "system.device" },
+    { "name": "system.webview" },
+    { "name": "system.request" },
+    { "name": "system.audio" },
+    { "name": "system.record" },
+    { "name": "system.contact" },
+    { "name": "system.sms" }
+  ],
+  "icon": "logo.png",
+  "permissions": [
+    { "origin": "*" }
+  ],
+  "config": {
+    "logLevel": "debug"
+  }
+}

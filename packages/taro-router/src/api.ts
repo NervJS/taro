@@ -1,0 +1,89 @@
+import { stacks } from './stack'
+import { history } from './history'
+import { routesAlias, addLeadingSlash } from './utils'
+
+interface Base {
+  success?: Function
+  fail?: Function
+  complete?: Function
+}
+
+interface Option extends Base {
+  url: string
+}
+
+interface NavigateBackOption extends Base {
+  delta: number
+}
+
+function processNavigateUrl (option: Option) {
+  let url = option.url
+  const matches = option.url.match(/[?&?].*/)
+  let parameters = ''
+  if (matches && matches.length) {
+    parameters = matches[0]
+    url = url.replace(parameters, '')
+  }
+  Object.keys(routesAlias).forEach(key => {
+    if (addLeadingSlash(key) === addLeadingSlash(url)) {
+      option.url = routesAlias[key] + parameters
+    }
+  })
+}
+
+function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
+  const { success, complete, fail } = option
+  let failReason
+  if ((option as Option).url) {
+    processNavigateUrl(option as Option)
+  }
+  try {
+    if (method === 'navigateTo') {
+      history.push((option as Option).url)
+    } else if (method === 'redirectTo') {
+      history.replace((option as Option).url)
+    } else if (method === 'navigateBack') {
+      history.go(-(option as NavigateBackOption).delta)
+    }
+  } catch (error) {
+    failReason = error
+  }
+  return new Promise((resolve, reject) => {
+    if (failReason) {
+      fail && fail(failReason)
+      complete && complete()
+      reject(failReason)
+    } else {
+      success && success()
+      complete && complete()
+      resolve()
+    }
+  })
+}
+
+export function navigateTo (option: Option) {
+  return navigate(option, 'navigateTo')
+}
+
+export function redirectTo (option: Option) {
+  return navigate(option, 'redirectTo')
+}
+
+export function navigateBack (options: NavigateBackOption = { delta: 1 }) {
+  if (!options.delta || options.delta < 1) {
+    options.delta = 1
+  }
+  return navigate(options, 'navigateBack')
+}
+
+export function switchTab (option: Option) {
+  return navigateTo(option)
+}
+
+export function reLaunch (option: Option) {
+  return redirectTo(option)
+}
+
+export function getCurrentPages () {
+  return stacks
+}

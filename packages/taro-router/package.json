@@ -1,0 +1,38 @@
+{
+  "name": "@tarojs/router",
+  "version": "3.0.15",
+  "description": "Taro-router",
+  "main:h5": "dist/router.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/router.esm.js",
+  "typings": "src/index.ts",
+  "files": [
+    "dist",
+    "types",
+    "index.js"
+  ],
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "dev": "rollup -c rollup.config.js --watch",
+    "test": "jest",
+    "test:dev": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "router"
+  ],
+  "author": "O2Team",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/runtime": "3.0.15",
+    "history": "^4.10.1",
+    "universal-router": "^8.3.0",
+    "url-parse": "^1.4.7"
+  },
+  "devDependencies": {
+    "@types/history": "^4.7.5"
+  }
+}

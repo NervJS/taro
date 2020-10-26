@@ -1,0 +1,37 @@
+{
+  "name": "eslint-config-taro",
+  "version": "3.0.15",
+  "description": "Taro specific linting rules for ESLint",
+  "main": "index.js",
+  "files": [
+    "rules",
+    "index.js",
+    "html-tags.js",
+    "react.js",
+    "nerv.js",
+    "vue.js",
+    "vue3.js",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro",
+    "react",
+    "jsx"
+  ],
+  "peerDependencies": {
+    "eslint": "*"
+  },
+  "dependencies": {
+    "@typescript-eslint/parser": "^2.x",
+    "babel-eslint": "^10.0.0"
+  },
+  "author": "O2Team",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  }
+}

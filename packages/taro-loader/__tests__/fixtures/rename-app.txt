@@ -1,0 +1,7 @@
+class App extends Component {
+  render () {
+    return null
+  }
+}
+
+export default App

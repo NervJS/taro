@@ -1,0 +1,76 @@
+{
+  "name": "stylelint-taro-rn",
+  "description": "A collection of React Native specific rules for stylelint",
+  "version": "1.3.22",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "src",
+    "CHANGELOG.md",
+    "README.md",
+    "!**/__tests__"
+  ],
+  "keywords": [
+    "css",
+    "csslint",
+    "lint",
+    "linter",
+    "stylelint",
+    "stylelint-plugin"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir ./dist",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "author": "O2Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6"
+  },
+  "jest": {
+    "clearMocks": true,
+    "collectCoverage": false,
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageDirectory": "./.coverage/",
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    },
+    "setupFiles": [
+      "./jest-setup.js"
+    ],
+    "testEnvironment": "node",
+    "roots": [
+      "src"
+    ],
+    "testRegex": ".*\\.test\\.js$|src/.*/__tests__/.*\\.js$"
+  },
+  "lint-staged": {
+    "**/*.{js,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": false,
+    "trailingComma": "none"
+  },
+  "dependencies": {
+    "react-native-known-styling-properties": "^1.0.4"
+  }
+}

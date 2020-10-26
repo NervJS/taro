@@ -1,0 +1,29 @@
+{
+  "name": "@tarojs/shared",
+  "version": "3.0.15",
+  "description": "> TODO: description",
+  "author": "yuche <i@yuche.me>",
+  "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

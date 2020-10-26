@@ -1,0 +1,40 @@
+{
+  "name": "@tarojs/taro",
+  "version": "3.0.15",
+  "description": "Taro framework",
+  "main": "index.js",
+  "main:h5": "h5.js",
+  "typings": "types/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "index.js",
+    "types",
+    "package.json",
+    "lib",
+    "h5.js",
+    "html.css",
+    "html5.css"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:api": "babel apis --out-dir lib --presets=@babel/preset-env",
+    "build": "babel apis --out-dir lib --presets=@babel/preset-env"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "O2Team",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/api": "3.0.15",
+    "@tarojs/taro-h5": "3.0.15"
+  },
+  "devDependencies": {
+    "@tarojs/runtime": "3.0.15"
+  }
+}

@@ -1,0 +1,990 @@
+/*
+ *  Default Styles for Chrome(blink):
+ * https://chromium.googlesource.com/chromium/blink/+/master/Source/core/css/html.css
+ * The default style sheet used to render HTML.
+ *
+ * Copyright (C) 2000 Lars Knoll (knoll@kde.org)
+ * Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Apple Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public License
+ * along with this library; see the file COPYING.LIB.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ *
+ */
+
+ .taro_html .html {
+  display: block;
+}
+.taro_html .head {
+  display: none;
+}
+.taro_html .meta {
+  display: none;
+}
+.taro_html .title {
+  display: none;
+}
+.taro_html .link {
+  display: none;
+}
+.taro_html .style {
+  display: none;
+}
+.taro_html .script {
+  display: none;
+}
+.taro_html .body {
+  display: block;
+  margin: 8px;
+}
+.taro_html .body:-webkit-full-page-media {
+  background-color: #000000;
+}
+.taro_html .p {
+  display: block;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1__qem;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+}
+.taro_html .div {
+  display: block;
+}
+.taro_html .layer {
+  display: block;
+}
+.taro_html .article,
+.taro_html .aside,
+.taro_html .footer,
+.taro_html .header,
+.taro_html .hgroup,
+.taro_html .main,
+.taro_html .nav,
+.taro_html .section {
+  display: block;
+}
+.taro_html .marquee {
+  display: inline-block;
+}
+.taro_html .address {
+  display: block;
+}
+.taro_html .blockquote {
+  display: block;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 40px;
+  -webkit-margin-end: 40px;
+}
+.taro_html .figcaption {
+  display: block;
+}
+.taro_html .figure {
+  display: block;
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 40px;
+  -webkit-margin-end: 40px;
+}
+.taro_html .q {
+  display: inline;
+}
+.taro_html .q:before {
+  content: open-quote;
+}
+.taro_html .q:after {
+  content: close-quote;
+}
+.taro_html .center {
+  display: block;
+  /* special centering to be able to emulate the html4/netscape behaviour */
+  text-align: -webkit-center;
+}
+.taro_html .hr {
+  display: block;
+  -webkit-margin-before: 0.5em;
+  -webkit-margin-after: 0.5em;
+  -webkit-margin-start: auto;
+  -webkit-margin-end: auto;
+  border-style: inset;
+  border-width: 1px;
+}
+.taro_html .map {
+  display: inline;
+}
+.taro_html .video {
+  object-fit: contain;
+}
+.taro_html .h1 {
+  display: block;
+  font-size: 2em;
+  -webkit-margin-before: 0.67__qem;
+  -webkit-margin-after: 0.67em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.taro_html :-webkit-any(.article) .h1 {
+  font-size: 1.5em;
+  -webkit-margin-before: 0.83__qem;
+  -webkit-margin-after: 0.83em;
+}
+.taro_html :-webkit-any(.article) :-webkit-any(.article) .h1 {
+  font-size: 1.17em;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+}
+.taro_html :-webkit-any(.article) :-webkit-any(.article) :-webkit-any(.article) .h1 {
+  font-size: 1em;
+  -webkit-margin-before: 1.33__qem;
+  -webkit-margin-after: 1.33em;
+}
+.taro_html :-webkit-any(.article) :-webkit-any(.article) :-webkit-any(.article) :-webkit-any(.article) .h1 {
+  font-size: 0.83em;
+  -webkit-margin-before: 1.67__qem;
+  -webkit-margin-after: 1.67em;
+}
+.taro_html :-webkit-any(.article) :-webkit-any(.article) :-webkit-any(.article) :-webkit-any(.article) :-webkit-any(.article) .h1 {
+  font-size: 0.67em;
+  -webkit-margin-before: 2.33__qem;
+  -webkit-margin-after: 2.33em;
+}
+.taro_html .h2 {
+  display: block;
+  font-size: 1.5em;
+  -webkit-margin-before: 0.83__qem;
+  -webkit-margin-after: 0.83em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.taro_html .h3 {
+  display: block;
+  font-size: 1.17em;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.taro_html .h4 {
+  display: block;
+  -webkit-margin-before: 1.33__qem;
+  -webkit-margin-after: 1.33em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.taro_html .h5 {
+  display: block;
+  font-size: 0.83em;
+  -webkit-margin-before: 1.67__qem;
+  -webkit-margin-after: 1.67em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.taro_html .h6 {
+  display: block;
+  font-size: 0.67em;
+  -webkit-margin-before: 2.33__qem;
+  -webkit-margin-after: 2.33em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.taro_html .table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border-color: gray;
+}
+.taro_html .thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+.taro_html .tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+.taro_html .tfoot {
+  display: table-footer-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+.taro_html .table > .tr {
+  vertical-align: middle;
+}
+.taro_html .col {
+  display: table-column;
+}
+.taro_html .colgroup {
+  display: table-column-group;
+}
+.taro_html .tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+.taro_html .td,
+.taro_html .th {
+  display: table-cell;
+  vertical-align: inherit;
+}
+.taro_html .th {
+  font-weight: bold;
+}
+.taro_html .caption {
+  display: table-caption;
+  text-align: -webkit-center;
+}
+.taro_html .ul,
+.taro_html .menu,
+.taro_html .dir {
+  display: block;
+  list-style-type: disc;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-start: 40px;
+}
+.taro_html .ol {
+  display: block;
+  list-style-type: decimal;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-start: 40px;
+}
+.taro_html .li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
+.taro_html .ul .ul,
+.taro_html .ol .ul {
+  list-style-type: circle;
+}
+.taro_html .ol .ol .ul,
+.taro_html .ol .ul .ul,
+.taro_html .ul .ol .ul,
+.taro_html .ul .ul .ul {
+  list-style-type: square;
+}
+.taro_html .dd {
+  display: block;
+  -webkit-margin-start: 40px;
+}
+.taro_html .dl {
+  display: block;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+}
+.taro_html .dt {
+  display: block;
+}
+.taro_html .ol .ul,
+.taro_html .ul .ol,
+.taro_html .ul .ul,
+.taro_html .ol .ol {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+.taro_html .form {
+  display: block;
+  margin-top: 0__qem;
+}
+.taro_html .label {
+  cursor: default;
+}
+.taro_html .legend {
+  display: block;
+  -webkit-padding-start: 2px;
+  -webkit-padding-end: 2px;
+  border: none;
+}
+.taro_html .fieldset {
+  display: block;
+  -webkit-margin-start: 2px;
+  -webkit-margin-end: 2px;
+  -webkit-padding-before: 0.35em;
+  -webkit-padding-start: 0.75em;
+  -webkit-padding-end: 0.75em;
+  -webkit-padding-after: 0.625em;
+  border: 2px groove ThreeDFace;
+  min-width: -webkit-min-content;
+}
+.taro_html .button {
+  -webkit-appearance: button;
+}
+.taro_html .input,
+.taro_html .textarea,
+.taro_html .keygen,
+.taro_html .select,
+.taro_html .button,
+.taro_html .meter,
+.taro_html .progress {
+  -webkit-writing-mode: horizontal-tb !important;
+}
+.taro_html .input,
+.taro_html .textarea,
+.taro_html .keygen,
+.taro_html .select,
+.taro_html .button {
+  margin: 0__qem;
+  font: -webkit-small-control;
+  text-rendering: auto;
+  /* FIXME: Remove when tabs work with optimizeLegibility. */
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  line-height: normal;
+  text-transform: none;
+  text-indent: 0;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+}
+.taro_html .input[type="hidden"] {
+  display: none;
+}
+.taro_html .input {
+  -webkit-appearance: textfield;
+  padding: 1px;
+  background-color: white;
+  border: 2px inset;
+  -webkit-rtl-ordering: logical;
+  -webkit-user-select: text;
+  cursor: auto;
+}
+.taro_html .input[type="search"] {
+  -webkit-appearance: searchfield;
+  box-sizing: border-box;
+}
+.taro_html .input::-webkit-textfield-decoration-container {
+  display: flex;
+  align-items: center;
+  -webkit-user-modify: read-only !important;
+  content: none !important;
+}
+.taro_html .input[type="search"]::-webkit-textfield-decoration-container {
+  direction: ltr;
+}
+.taro_html .input::-webkit-clear-button {
+  -webkit-appearance: searchfield-cancel-button;
+  display: inline-block;
+  flex: none;
+  -webkit-user-modify: read-only !important;
+  -webkit-margin-start: 2px;
+  opacity: 0;
+  pointer-events: none;
+}
+.taro_html .input:enabled:read-write::-webkit-clear-button {
+  opacity: 1;
+  pointer-events: auto;
+}
+.taro_html .input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
+  display: block;
+  flex: none;
+  -webkit-user-modify: read-only !important;
+  -webkit-margin-start: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.taro_html .input[type="search"]:enabled:read-write::-webkit-search-cancel-button {
+  opacity: 1;
+  pointer-events: auto;
+}
+.taro_html .input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: searchfield-decoration;
+  display: block;
+  flex: none;
+  -webkit-user-modify: read-only !important;
+  -webkit-align-self: flex-start;
+  margin: auto 0;
+}
+.taro_html .input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: searchfield-results-decoration;
+  display: block;
+  flex: none;
+  -webkit-user-modify: read-only !important;
+  -webkit-align-self: flex-start;
+  margin: auto 0;
+}
+.taro_html .input::-webkit-inner-spin-button {
+  -webkit-appearance: inner-spin-button;
+  display: inline-block;
+  cursor: default;
+  flex: none;
+  align-self: stretch;
+  -webkit-user-select: none;
+  -webkit-user-modify: read-only !important;
+  opacity: 0;
+  pointer-events: none;
+}
+.taro_html .input:enabled:read-write:-webkit-any(:focus)::-webkit-inner-spin-button {
+  opacity: 1;
+  pointer-events: auto;
+}
+.taro_html .keygen,
+.taro_html .select {
+  border-radius: 5px;
+}
+.taro_html .keygen::-webkit-keygen-select {
+  margin: 0px;
+}
+.taro_html .textarea {
+  -webkit-appearance: textarea;
+  background-color: white;
+  border: 1px solid;
+  -webkit-rtl-ordering: logical;
+  -webkit-user-select: text;
+  flex-direction: column;
+  resize: auto;
+  cursor: auto;
+  padding: 2px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.taro_html ::-webkit-input-placeholder {
+  -webkit-text-security: none;
+  color: darkGray;
+  pointer-events: none !important;
+}
+.taro_html .input::-webkit-input-placeholder {
+  white-space: pre;
+  word-wrap: normal;
+  overflow: hidden;
+  -webkit-user-modify: read-only !important;
+}
+.taro_html .input[type="password"] {
+  -webkit-text-security: disc !important;
+}
+.taro_html .input[type="hidden"],
+.taro_html .input[type="image"],
+.taro_html .input[type="file"] {
+  -webkit-appearance: initial;
+  padding: initial;
+  background-color: initial;
+  border: initial;
+}
+.taro_html .input[type="file"] {
+  align-items: baseline;
+  color: inherit;
+  text-align: start !important;
+}
+.taro_html .input:-webkit-autofill,
+.taro_html .textarea:-webkit-autofill,
+.taro_html .select:-webkit-autofill {
+  background-color: #faffbd !important;
+  background-image: none !important;
+  color: #000000 !important;
+}
+.taro_html .input[type="radio"],
+.taro_html .input[type="checkbox"] {
+  margin: 3px 0.5ex;
+  padding: initial;
+  background-color: initial;
+  border: initial;
+}
+.taro_html .input[type="button"],
+.taro_html .input[type="submit"],
+.taro_html .input[type="reset"] {
+  -webkit-appearance: push-button;
+  -webkit-user-select: none;
+  white-space: pre;
+}
+.taro_html .input[type="file"]::-webkit-file-upload-button {
+  -webkit-appearance: push-button;
+  -webkit-user-modify: read-only !important;
+  white-space: nowrap;
+  margin: 0;
+  font-size: inherit;
+}
+.taro_html .input[type="button"],
+.taro_html .input[type="submit"],
+.taro_html .input[type="reset"],
+.taro_html .input[type="file"]::-webkit-file-upload-button,
+.taro_html .button {
+  align-items: flex-start;
+  text-align: center;
+  cursor: default;
+  color: ButtonText;
+  padding: 2px 6px 3px 6px;
+  border: 2px outset ButtonFace;
+  background-color: ButtonFace;
+  box-sizing: border-box;
+}
+.taro_html .input[type="range"] {
+  -webkit-appearance: slider-horizontal;
+  padding: initial;
+  border: initial;
+  margin: 2px;
+  color: #909090;
+}
+.taro_html .input[type="range"]::-webkit-slider-container,
+.taro_html .input[type="range"]::-webkit-media-slider-container {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  -webkit-user-modify: read-only !important;
+  display: flex;
+}
+.taro_html .input[type="range"]::-webkit-slider-runnable-track {
+  flex: 1;
+  min-width: 0;
+  -webkit-align-self: center;
+  box-sizing: border-box;
+  -webkit-user-modify: read-only !important;
+  display: block;
+}
+.taro_html .input[type="range"]::-webkit-slider-thumb,
+.taro_html .input[type="range"]::-webkit-media-slider-thumb {
+  -webkit-appearance: sliderthumb-horizontal;
+  box-sizing: border-box;
+  -webkit-user-modify: read-only !important;
+  display: block;
+}
+.taro_html .input[type="button"]:disabled,
+.taro_html .input[type="submit"]:disabled,
+.taro_html .input[type="reset"]:disabled,
+.taro_html .input[type="file"]:disabled::-webkit-file-upload-button,
+.taro_html .button:disabled,
+.taro_html .select:disabled,
+.taro_html .keygen:disabled,
+.taro_html .optgroup:disabled,
+.taro_html .option:disabled,
+.taro_html .select[disabled] > .option {
+  color: GrayText;
+}
+.taro_html .input[type="button"]:active,
+.taro_html .input[type="submit"]:active,
+.taro_html .input[type="reset"]:active,
+.taro_html .input[type="file"]:active::-webkit-file-upload-button,
+.taro_html .button:active {
+  border-style: inset;
+}
+.taro_html .input[type="button"]:active:disabled,
+.taro_html .input[type="submit"]:active:disabled,
+.taro_html .input[type="reset"]:active:disabled,
+.taro_html .input[type="file"]:active:disabled::-webkit-file-upload-button,
+.taro_html .button:active:disabled {
+  border-style: outset;
+}
+.taro_html .option:-internal-spatial-navigation-focus {
+  outline: black dashed 1px;
+  outline-offset: -1px;
+}
+.taro_html .datalist {
+  display: none;
+}
+.taro_html .area {
+  display: inline;
+  cursor: pointer;
+}
+.taro_html .param {
+  display: none;
+}
+.taro_html .input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+  box-sizing: border-box;
+}
+.taro_html .input[type="radio"] {
+  -webkit-appearance: radio;
+  box-sizing: border-box;
+}
+.taro_html .input[type="color"] {
+  -webkit-appearance: square-button;
+  width: 44px;
+  height: 23px;
+  background-color: ButtonFace;
+  /* Same as native_theme_base. */
+  border: 1px #a9a9a9 solid;
+  padding: 1px 2px;
+}
+.taro_html .input[type="color"]::-webkit-color-swatch-wrapper {
+  display: flex;
+  padding: 4px 2px;
+  box-sizing: border-box;
+  -webkit-user-modify: read-only !important;
+  width: 100%;
+  height: 100%;
+}
+.taro_html .input[type="color"]::-webkit-color-swatch {
+  background-color: #000000;
+  border: 1px solid #777777;
+  flex: 1;
+  min-width: 0;
+  -webkit-user-modify: read-only !important;
+}
+.taro_html .input[type="color"][list] {
+  -webkit-appearance: menulist;
+  width: 88px;
+  height: 23px;
+}
+.taro_html .input[type="color"][list]::-webkit-color-swatch-wrapper {
+  padding-left: 8px;
+  padding-right: 24px;
+}
+.taro_html .input[type="color"][list]::-webkit-color-swatch {
+  border-color: #000000;
+}
+.taro_html .input::-webkit-calendar-picker-indicator {
+  display: inline-block;
+  width: 0.66em;
+  height: 0.66em;
+  padding: 0.17em 0.34em;
+  -webkit-user-modify: read-only !important;
+  opacity: 0;
+  pointer-events: none;
+}
+.taro_html .input::-webkit-calendar-picker-indicator:hover {
+  background-color: #eee;
+}
+.taro_html .input:enabled:read-write:-webkit-any(:focus)::-webkit-calendar-picker-indicator,
+.taro_html .input::-webkit-calendar-picker-indicator:focus {
+  opacity: 1;
+  pointer-events: auto;
+}
+.taro_html .input[type="date"]:disabled::-webkit-clear-button,
+.taro_html .input[type="date"]:disabled::-webkit-inner-spin-button,
+.taro_html .input[type="datetime-local"]:disabled::-webkit-clear-button,
+.taro_html .input[type="datetime-local"]:disabled::-webkit-inner-spin-button,
+.taro_html .input[type="month"]:disabled::-webkit-clear-button,
+.taro_html .input[type="month"]:disabled::-webkit-inner-spin-button,
+.taro_html .input[type="week"]:disabled::-webkit-clear-button,
+.taro_html .input[type="week"]:disabled::-webkit-inner-spin-button,
+.taro_html .input:disabled::-webkit-calendar-picker-indicator,
+.taro_html .input[type="date"][readonly]::-webkit-clear-button,
+.taro_html .input[type="date"][readonly]::-webkit-inner-spin-button,
+.taro_html .input[type="datetime-local"][readonly]::-webkit-clear-button,
+.taro_html .input[type="datetime-local"][readonly]::-webkit-inner-spin-button,
+.taro_html .input[type="month"][readonly]::-webkit-clear-button,
+.taro_html .input[type="month"][readonly]::-webkit-inner-spin-button,
+.taro_html .input[type="week"][readonly]::-webkit-clear-button,
+.taro_html .input[type="week"][readonly]::-webkit-inner-spin-button,
+.taro_html .input[readonly]::-webkit-calendar-picker-indicator {
+  visibility: hidden;
+}
+.taro_html .select {
+  -webkit-appearance: menulist;
+  box-sizing: border-box;
+  align-items: center;
+  border: 1px solid;
+  white-space: pre;
+  -webkit-rtl-ordering: logical;
+  color: black;
+  background-color: white;
+  cursor: default;
+}
+.taro_html .select:not(:-internal-list-box) {
+  overflow: visible !important;
+}
+.taro_html .select:-internal-list-box {
+  -webkit-appearance: listbox;
+  align-items: flex-start;
+  border: 1px inset gray;
+  border-radius: initial;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  vertical-align: text-bottom;
+  -webkit-user-select: none;
+  white-space: nowrap;
+}
+.taro_html .optgroup {
+  font-weight: bolder;
+  display: block;
+}
+.taro_html .option {
+  font-weight: normal;
+  display: block;
+  padding: 0 2px 1px 2px;
+  white-space: pre;
+  min-height: 1.2em;
+}
+.taro_html .select:-internal-list-box .optgroup .option:before {
+  content: "\00a0\00a0\00a0\00a0";
+}
+.taro_html .select:-internal-list-box .option,
+.taro_html .select:-internal-list-box .optgroup {
+  line-height: initial !important;
+}
+.taro_html .select:-internal-list-box:focus .option:checked {
+  background-color: -internal-active-list-box-selection !important;
+  color: -internal-active-list-box-selection-text !important;
+}
+.taro_html .select:-internal-list-box .option:checked {
+  background-color: -internal-inactive-list-box-selection !important;
+  color: -internal-inactive-list-box-selection-text !important;
+}
+.taro_html .select:-internal-list-box:disabled .option:checked,
+.taro_html .select:-internal-list-box .option:checked:disabled {
+  color: gray !important;
+}
+.taro_html .select:-internal-list-box .hr {
+  border-style: none;
+}
+.taro_html .output {
+  display: inline;
+}
+.taro_html .meter {
+  -webkit-appearance: meter;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 1em;
+  width: 5em;
+  vertical-align: -0.2em;
+}
+.taro_html .meter::-webkit-meter-inner-element {
+  -webkit-appearance: inherit;
+  box-sizing: inherit;
+  -webkit-user-modify: read-only !important;
+  height: 100%;
+  width: 100%;
+}
+.taro_html .meter::-webkit-meter-bar {
+  background: linear-gradient(to bottom, #ddd, #eee 20%, #ccc 45%, #ccc 55%, #ddd);
+  height: 100%;
+  width: 100%;
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.taro_html .meter::-webkit-meter-optimum-value {
+  background: linear-gradient(to bottom, #ad7, #cea 20%, #7a3 45%, #7a3 55%, #ad7);
+  height: 100%;
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.taro_html .meter::-webkit-meter-suboptimum-value {
+  background: linear-gradient(to bottom, #fe7, #ffc 20%, #db3 45%, #db3 55%, #fe7);
+  height: 100%;
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.taro_html .meter::-webkit-meter-even-less-good-value {
+  background: linear-gradient(to bottom, #f77, #fcc 20%, #d44 45%, #d44 55%, #f77);
+  height: 100%;
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.taro_html .progress {
+  -webkit-appearance: progress-bar;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 1em;
+  width: 10em;
+  vertical-align: -0.2em;
+}
+.taro_html .progress::-webkit-progress-inner-element {
+  -webkit-appearance: inherit;
+  box-sizing: inherit;
+  -webkit-user-modify: read-only;
+  height: 100%;
+  width: 100%;
+}
+.taro_html .progress::-webkit-progress-bar {
+  background-color: gray;
+  height: 100%;
+  width: 100%;
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.taro_html .progress::-webkit-progress-value {
+  background-color: green;
+  height: 100%;
+  width: 50%;
+  /* should be removed later */
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.taro_html .u,
+.taro_html .ins {
+  text-decoration: underline;
+}
+.taro_html .strong,
+.taro_html .b {
+  font-weight: bold;
+}
+.taro_html .i,
+.taro_html .cite,
+.taro_html .em,
+.taro_html .var,
+.taro_html .address,
+.taro_html .dfn {
+  font-style: italic;
+}
+.taro_html .tt,
+.taro_html .code,
+.taro_html .kbd,
+.taro_html .samp {
+  font-family: monospace;
+}
+.taro_html .pre,
+.taro_html .xmp,
+.taro_html .plaintext,
+.taro_html .listing {
+  display: block;
+  font-family: monospace;
+  white-space: pre;
+  margin: 1__qem 0;
+}
+.taro_html .mark {
+  background-color: yellow;
+  color: black;
+}
+.taro_html .big {
+  font-size: larger;
+}
+.taro_html .small {
+  font-size: smaller;
+}
+.taro_html .s,
+.taro_html .strike,
+.taro_html .del {
+  text-decoration: line-through;
+}
+.taro_html .sub {
+  vertical-align: sub;
+  font-size: smaller;
+}
+.taro_html .sup {
+  vertical-align: super;
+  font-size: smaller;
+}
+.taro_html .nobr {
+  white-space: nowrap;
+}
+.taro_html :focus {
+  outline: auto 5px -webkit-focus-ring-color;
+}
+.taro_html .html:focus,
+.taro_html .body:focus,
+.taro_html .input[readonly]:focus {
+  outline: none;
+}
+.taro_html .embed:focus,
+.taro_html .iframe:focus,
+.taro_html .object:focus {
+  outline: none;
+}
+.taro_html .input:focus,
+.taro_html .textarea:focus,
+.taro_html .keygen:focus,
+.taro_html .select:focus {
+  outline-offset: -2px;
+}
+.taro_html .input[type="button"]:focus,
+.taro_html .input[type="checkbox"]:focus,
+.taro_html .input[type="file"]:focus,
+.taro_html .input[type="hidden"]:focus,
+.taro_html .input[type="image"]:focus,
+.taro_html .input[type="radio"]:focus,
+.taro_html .input[type="reset"]:focus,
+.taro_html .input[type="search"]:focus,
+.taro_html .input[type="submit"]:focus,
+.taro_html .input[type="file"]:focus::-webkit-file-upload-button {
+  outline-offset: 0;
+}
+.taro_html .a:-webkit-any-link {
+  color: -webkit-link;
+  text-decoration: underline;
+  cursor: auto;
+}
+.taro_html .a:-webkit-any-link:active {
+  color: -webkit-activelink;
+}
+.taro_html .ruby,
+.taro_html .rt {
+  text-indent: 0;
+  /* blocks used for ruby rendering should not trigger this */
+}
+.taro_html .rt {
+  line-height: normal;
+  -webkit-text-emphasis: none;
+}
+.taro_html .ruby > .rt {
+  display: block;
+  font-size: 50%;
+  text-align: start;
+}
+.taro_html .ruby > .rp {
+  display: none;
+}
+.taro_html .noframes {
+  display: none;
+}
+.taro_html .frameset,
+.taro_html .frame {
+  display: block;
+}
+.taro_html .frameset {
+  border-color: inherit;
+}
+.taro_html .iframe {
+  border: 2px inset;
+}
+.taro_html .details {
+  display: block;
+}
+.taro_html .summary {
+  display: block;
+}
+.taro_html .summary::-webkit-details-marker {
+  display: inline-block;
+  width: 0.66em;
+  height: 0.66em;
+  -webkit-margin-end: 0.4em;
+}
+.taro_html .template {
+  display: none;
+}
+.taro_html .bdi,
+.taro_html .output {
+  unicode-bidi: -webkit-isolate;
+}
+.taro_html .bdo {
+  unicode-bidi: bidi-override;
+}
+.taro_html .textarea[dir="auto"] {
+  unicode-bidi: -webkit-plaintext;
+}
+.taro_html .dialog:not([open]) {
+  display: none;
+}
+.taro_html .dialog {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: -webkit-fit-content;
+  height: -webkit-fit-content;
+  margin: auto;
+  border: solid;
+  padding: 1em;
+  background: white;
+  color: black;
+}
+.taro_html .dialog::backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.1);
+}

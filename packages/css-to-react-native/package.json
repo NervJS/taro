@@ -1,0 +1,66 @@
+{
+  "name": "taro-css-to-react-native",
+  "description": "Convert CSS text to a React Native stylesheet object",
+  "version": "1.3.22",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "camelize": "^1.0.0",
+    "css": "^2.2.4",
+    "css-color-keywords": "^1.0.0",
+    "css-mediaquery": "^0.1.2",
+    "postcss-value-parser": "^3.3.0"
+  },
+  "scripts": {
+    "build": "babel src --ignore *.spec.js --out-dir ./dist",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "React",
+    "ReactNative",
+    "styles",
+    "CSS"
+  ],
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "coverageDirectory": "./.coverage/",
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist",
+      "<rootDir>/node_modules"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "all"
+  },
+  "files": [
+    "dist",
+    "src",
+    "index.d.ts",
+    "CHANGELOG.md",
+    "README.md"
+  ]
+}

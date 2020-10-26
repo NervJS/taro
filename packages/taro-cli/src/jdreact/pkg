@@ -1,0 +1,30 @@
+{
+  "name": "jdreact-jsbundle-JDReactTaroDemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf node_modules/@jdreact/* && rm -rf node_modules/react-native && rm -rf scripts",
+    "update": "npm run clean && npm install",
+    "postinstall": "cp -rf node_modules/@jdreact/jdreact-core-scripts/scripts . &&  cp -rf node_modules/@jdreact/jdreact-core-scripts/patch/* node_modules/",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "web-init": "node ./node_modules/@jdreact/jdreact-core-web/local-cli/cli.js init",
+    "web-start": "node ./node_modules/@jdreact/jdreact-core-web/local-cli/cli.js start",
+    "web-bundle": "rm -rf build-web && node ./node_modules/@jdreact/jdreact-core-web/local-cli/cli.js bundle"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "@jdreact/jdreact-core-lib": "^2.0.11",
+    "@jdreact/jdreact-core-packager": "^2.0.9",
+    "@jdreact/jdreact-core-scripts": "^2.0.3",
+    "react": "16.3.1",
+    "react-native": "0.55.4"
+  },
+  "devDependencies": {
+    "@jdreact/jdreact-core-web": "^2.0.2"
+  }
+}
