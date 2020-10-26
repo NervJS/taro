@@ -504,8 +504,7 @@ export const controlledComponent = new Set([
 
 export const focusComponents = new Set([
   'input',
-  'textarea',
-  'editor'
+  'textarea'
 ])
 
 export const voidElements = new Set([
