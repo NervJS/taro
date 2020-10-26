@@ -36,8 +36,8 @@ const siteConfigGithub = {
     },
     algolia: {
       // contextualSearch: true,
-      apiKey: '820a8e12c97e870d4e0785d52858230c',
-      indexName: 'taro_new',
+      apiKey: '57b9948bff42bc0dbc6c219556fbae35', /* (github.com)taro:57b9948bff42bc0dbc6c219556fbae35, (netlify)taro_new:820a8e12c97e870d4e0785d52858230c */
+      indexName: 'taro',
       searchParameters: {
         // facetFilters: [`version:VERSIONS`],
       },
