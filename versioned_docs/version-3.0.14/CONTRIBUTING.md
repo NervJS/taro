@@ -21,7 +21,7 @@
 | [`@tarojs/extend`](https://www.npmjs.com/package/@tarojs/extend) | Taro 扩展，包含 jQuery API 等   |
 | [`@tarojs/helper`](https://www.npmjs.com/package/@tarojs/helper) | 内部给 CLI 和 runner 使用辅助方法集  |
 | [`@tarojs/service`](https://www.npmjs.com/package/@tarojs/service) | Taro 插件化内核  |
-| [`@tarojs/taro-loader`](https://www.npmjs.com/package/@tarojs/taro-loader) | 露给 @tarojs/mini-runner 和 @tarojs/webpack-runner 使用的 Webpack loader  |
+| [`@tarojs/taro-loader`](https://www.npmjs.com/package/@tarojs/taro-loader) | 暴露给 @tarojs/mini-runner 和 @tarojs/webpack-runner 使用的 Webpack loader  |
 | [`@tarojs/runner-utils`](https://www.npmjs.com/package/@tarojs/runner-utils) | 暴露给 @tarojs/mini-runner 和 @tarojs/webpack-runner 的公用工具函数  |
 | [`@tarojs/webpack-runner`](https://www.npmjs.com/package/@tarojs/webpack-runner) |  Taro H5 端 Webpack 打包编译工具  |
 | [`@tarojs/mini-runner`](https://www.npmjs.com/package/@tarojs/mini-runner) |  Taro 小程序 端 Webpack 打包编译工具  |
