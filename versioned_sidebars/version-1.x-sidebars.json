@@ -1,0 +1,634 @@
+{
+  "version-1.x/docs": {
+    "关于Taro": [
+      "version-1.x/README",
+      "version-1.x/taroize",
+      "version-1.x/team"
+    ],
+    "快速开始": [
+      "version-1.x/GETTING-STARTED",
+      "version-1.x/composition",
+      "version-1.x/before-dev-remind",
+      "version-1.x/specials"
+    ],
+    "基础教程": [
+      "version-1.x/spec-for-taro",
+      "version-1.x/tutorial",
+      "version-1.x/project-config",
+      "version-1.x/best-practice",
+      "version-1.x/router",
+      "version-1.x/size",
+      "version-1.x/static-reference",
+      "version-1.x/component-style",
+      {
+        "label": "语法特性",
+        "type": "category",
+        "items": [
+          "version-1.x/jsx",
+          "version-1.x/props",
+          "version-1.x/state",
+          "version-1.x/event",
+          "version-1.x/condition",
+          "version-1.x/list",
+          "version-1.x/functional-component",
+          "version-1.x/context",
+          "version-1.x/children",
+          "version-1.x/render-props",
+          "version-1.x/ref"
+        ]
+      },
+      {
+        "label": "多端开发",
+        "type": "category",
+        "items": [
+          "version-1.x/envs",
+          "version-1.x/envs-debug",
+          "version-1.x/relations",
+          "version-1.x/wxcloud",
+          "version-1.x/miniprogram-plugin",
+          "version-1.x/quick-app",
+          "version-1.x/react-native"
+        ]
+      },
+      "version-1.x/debug"
+    ],
+    "进阶指南": [
+      "version-1.x/config",
+      "version-1.x/config-detail",
+      "version-1.x/hooks",
+      "version-1.x/ui-lib",
+      "version-1.x/async-await",
+      "version-1.x/mini-third-party",
+      "version-1.x/hybrid",
+      "version-1.x/optimized-practice"
+    ],
+    "社区生态": [
+      "version-1.x/redux",
+      "version-1.x/mobx",
+      "version-1.x/css-modules",
+      "version-1.x/template",
+      "version-1.x/report",
+      "version-1.x/CONTRIBUTING"
+    ]
+  },
+  "version-1.x/components": {
+    "关于组件库": [
+      "version-1.x/components-desc"
+    ],
+    "视图容器": [
+      "version-1.x/components/viewContainer/view",
+      "version-1.x/components/viewContainer/scroll-view",
+      "version-1.x/components/viewContainer/swiper",
+      "version-1.x/components/viewContainer/movable-view",
+      "version-1.x/components/viewContainer/cover-view"
+    ],
+    "基础内容": [
+      "version-1.x/components/base/icon",
+      "version-1.x/components/base/text",
+      "version-1.x/components/base/progress",
+      "version-1.x/components/base/rich-text"
+    ],
+    "表单组件": [
+      "version-1.x/components/forms/button",
+      "version-1.x/components/forms/checkbox",
+      "version-1.x/components/forms/form",
+      "version-1.x/components/forms/input",
+      "version-1.x/components/forms/label",
+      "version-1.x/components/forms/picker",
+      "version-1.x/components/forms/picker-view",
+      "version-1.x/components/forms/radio",
+      "version-1.x/components/forms/slider",
+      "version-1.x/components/forms/switch",
+      "version-1.x/components/forms/textarea"
+    ],
+    "导航": [
+      "version-1.x/components/navig/navigator"
+    ],
+    "媒体组件": [
+      "version-1.x/components/media/audio",
+      "version-1.x/components/media/image",
+      "version-1.x/components/media/video",
+      "version-1.x/components/media/camera"
+    ],
+    "地图": [
+      "version-1.x/components/maps/map"
+    ],
+    "画布": [
+      "version-1.x/components/canvas/canvas"
+    ],
+    "开放能力": [
+      "version-1.x/components/open/ad",
+      "version-1.x/components/open/official-account",
+      "version-1.x/components/open/open-data",
+      "version-1.x/components/open/web-view",
+      "version-1.x/components/open/others"
+    ]
+  },
+  "version-1.x/API": {
+    "关于API": [
+      "version-1.x/apis/about/desc",
+      "version-1.x/apis/about/tarocomponent",
+      "version-1.x/apis/about/env",
+      "version-1.x/apis/about/events"
+    ],
+    "设备": [
+      {
+        "label": "加速度计",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/accelerometer/startAccelerometer",
+          "version-1.x/apis/device/accelerometer/stopAccelerometer",
+          "version-1.x/apis/device/accelerometer/onAccelerometerChange"
+        ]
+      },
+      {
+        "label": "设备方向",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/deviceMotion/startDeviceMotionListening",
+          "version-1.x/apis/device/deviceMotion/stopDeviceMotionListening",
+          "version-1.x/apis/device/deviceMotion/onDeviceMotionChange"
+        ]
+      },
+      {
+        "label": "蓝牙",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/bluetooth/closeBluetoothAdapter",
+          "version-1.x/apis/device/bluetooth/getBluetoothAdapterState",
+          "version-1.x/apis/device/bluetooth/getBluetoothDevices",
+          "version-1.x/apis/device/bluetooth/getConnectedBluetoothDevices",
+          "version-1.x/apis/device/bluetooth/onBluetoothAdapterStateChange",
+          "version-1.x/apis/device/bluetooth/onBluetoothDeviceFound",
+          "version-1.x/apis/device/bluetooth/openBluetoothAdapter",
+          "version-1.x/apis/device/bluetooth/startBluetoothDevicesDiscovery",
+          "version-1.x/apis/device/bluetooth/stopBluetoothDevicesDiscovery"
+        ]
+      },
+      {
+        "label": "低功耗蓝牙",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/ble/closeBLEConnection",
+          "version-1.x/apis/device/ble/createBLEConnection",
+          "version-1.x/apis/device/ble/getBLEDeviceCharacteristics",
+          "version-1.x/apis/device/ble/getBLEDeviceServices",
+          "version-1.x/apis/device/ble/notifyBLECharacteristicValueChange",
+          "version-1.x/apis/device/ble/onBLECharacteristicValueChange",
+          "version-1.x/apis/device/ble/onBLEConnectionStateChange",
+          "version-1.x/apis/device/ble/readBLECharacteristicValue",
+          "version-1.x/apis/device/ble/writeBLECharacteristicValue"
+        ]
+      },
+      {
+        "label": "亮度",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/brightness/getScreenBrightness",
+          "version-1.x/apis/device/brightness/setKeepScreenOn",
+          "version-1.x/apis/device/brightness/setScreenBrightness"
+        ]
+      },
+      {
+        "label": "剪贴板",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/clipboard/getClipboardData",
+          "version-1.x/apis/device/clipboard/setClipboardData"
+        ]
+      },
+      {
+        "label": "罗盘",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/compass/onCompassChange",
+          "version-1.x/apis/device/compass/startCompass",
+          "version-1.x/apis/device/compass/stopCompass"
+        ]
+      },
+      {
+        "label": "联系人",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/contacts/addPhoneContact"
+        ]
+      },
+      {
+        "label": "iBeacon",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/ibeacon/getBeacons",
+          "version-1.x/apis/device/ibeacon/onBeaconServiceChange",
+          "version-1.x/apis/device/ibeacon/onBeaconUpdate",
+          "version-1.x/apis/device/ibeacon/startBeaconDiscovery",
+          "version-1.x/apis/device/ibeacon/stopBeaconDiscovery"
+        ]
+      },
+      {
+        "label": "网络",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/netstat/getNetworkType",
+          "version-1.x/apis/device/netstat/onNetworkStatusChange"
+        ]
+      },
+      {
+        "label": "NFC",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/nfc/getHCEState",
+          "version-1.x/apis/device/nfc/onHCEMessage",
+          "version-1.x/apis/device/nfc/sendHCEMessage",
+          "version-1.x/apis/device/nfc/startHCE",
+          "version-1.x/apis/device/nfc/stopHCE"
+        ]
+      },
+      {
+        "label": "电话",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/phone/makePhoneCall"
+        ]
+      },
+      {
+        "label": "扫码",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/scancode/scancode"
+        ]
+      },
+      {
+        "label": "屏幕",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/screenshot/onUserCaptureScreen"
+        ]
+      },
+      {
+        "label": "振动",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/vibrate/vibrateLong",
+          "version-1.x/apis/device/vibrate/vibrateShort"
+        ]
+      },
+      {
+        "label": "系统信息",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/systeminfo/canIUse",
+          "version-1.x/apis/device/systeminfo/getSystemInfo",
+          "version-1.x/apis/device/systeminfo/getSystemInfoSync"
+        ]
+      },
+      {
+        "label": "Wi-Fi",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/device/wifi/connectWifi",
+          "version-1.x/apis/device/wifi/getConnectedWifi",
+          "version-1.x/apis/device/wifi/getWifiList",
+          "version-1.x/apis/device/wifi/onGetWifiList",
+          "version-1.x/apis/device/wifi/onWifiConnected",
+          "version-1.x/apis/device/wifi/setWifiList",
+          "version-1.x/apis/device/wifi/startWifi",
+          "version-1.x/apis/device/wifi/stopWifi"
+        ]
+      }
+    ],
+    "扩展API": [
+      "version-1.x/apis/extend-apis/arrayBufferToBase64",
+      "version-1.x/apis/extend-apis/base64ToArrayBuffer"
+    ],
+    "文件": [
+      "version-1.x/apis/files/getFileInfo",
+      "version-1.x/apis/files/getSavedFileInfo",
+      "version-1.x/apis/files/getSavedFileList",
+      "version-1.x/apis/files/openDocument",
+      "version-1.x/apis/files/removeSavedFile",
+      "version-1.x/apis/files/saveFile"
+    ],
+    "界面": [
+      {
+        "label": "动画",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/animation/createAnimation"
+        ]
+      },
+      {
+        "label": "画布",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/canvas/createCanvasContext",
+          "version-1.x/apis/interface/canvas/canvasGetImageData",
+          "version-1.x/apis/interface/canvas/canvasPutImageData",
+          "version-1.x/apis/interface/canvas/canvasToTempFilePath",
+          "version-1.x/apis/interface/canvas/createContext",
+          "version-1.x/apis/interface/canvas/drawCanvas"
+        ]
+      },
+      {
+        "label": "交互",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/interactives/showToast",
+          "version-1.x/apis/interface/interactives/showLoading",
+          "version-1.x/apis/interface/interactives/hideToast",
+          "version-1.x/apis/interface/interactives/hideLoading",
+          "version-1.x/apis/interface/interactives/showModal",
+          "version-1.x/apis/interface/interactives/showActionSheet"
+        ]
+      },
+      {
+        "label": "导航",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/navigation/navigateTo",
+          "version-1.x/apis/interface/navigation/redirectTo",
+          "version-1.x/apis/interface/navigation/switchTab",
+          "version-1.x/apis/interface/navigation/navigateBack",
+          "version-1.x/apis/interface/navigation/reLaunch",
+          "version-1.x/apis/interface/navigation/getCurrentPages"
+        ]
+      },
+      {
+        "label": "导航栏",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/navigationbar/setNavigationBarTitle",
+          "version-1.x/apis/interface/navigationbar/showNavigationBarLoading",
+          "version-1.x/apis/interface/navigationbar/hideNavigationBarLoading",
+          "version-1.x/apis/interface/navigationbar/setNavigationBarColor"
+        ]
+      },
+      {
+        "label": "滚动",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/pagescroll/pageScrollTo"
+        ]
+      },
+      {
+        "label": "下拉刷新",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/pulldownrefresh/startPullDownRefresh",
+          "version-1.x/apis/interface/pulldownrefresh/stopPullDownRefresh"
+        ]
+      },
+      {
+        "label": "tabbar",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/tabbar/setTabBarBadge",
+          "version-1.x/apis/interface/tabbar/removeTabBarBadge",
+          "version-1.x/apis/interface/tabbar/showTabBarRedDot",
+          "version-1.x/apis/interface/tabbar/hideTabBarRedDot",
+          "version-1.x/apis/interface/tabbar/setTabBarStyle",
+          "version-1.x/apis/interface/tabbar/setTabBarItem",
+          "version-1.x/apis/interface/tabbar/showTabBar",
+          "version-1.x/apis/interface/tabbar/hideTabBar"
+        ]
+      },
+      {
+        "label": "顶栏",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/topbar/setTopBarText"
+        ]
+      },
+      {
+        "label": "窗口",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/window/onWindowResize",
+          "version-1.x/apis/interface/window/offWindowResize"
+        ]
+      },
+      {
+        "label": "wxml",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/interface/wxml/createSelectorQuery",
+          "version-1.x/apis/interface/wxml/selectorQuery_in",
+          "version-1.x/apis/interface/wxml/selectorQuery_select",
+          "version-1.x/apis/interface/wxml/selectorQuery_selectAll",
+          "version-1.x/apis/interface/wxml/selectorQuery_selectViewport",
+          "version-1.x/apis/interface/wxml/nodesRef_boundingClientRect",
+          "version-1.x/apis/interface/wxml/nodesRef_scrollOffset",
+          "version-1.x/apis/interface/wxml/nodesRef_fields",
+          "version-1.x/apis/interface/wxml/selectorQuery_exec"
+        ]
+      }
+    ],
+    "位置": [
+      "version-1.x/apis/location/getLocation",
+      "version-1.x/apis/location/openLocation",
+      "version-1.x/apis/location/chooseLocation"
+    ],
+    "媒体": [
+      {
+        "label": "音频",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/multimedia/audio/playVoice",
+          "version-1.x/apis/multimedia/audio/pauseVoice",
+          "version-1.x/apis/multimedia/audio/stopVoice",
+          "version-1.x/apis/multimedia/audio/createAudioContext",
+          "version-1.x/apis/multimedia/audio/createInnerAudioContext"
+        ]
+      },
+      {
+        "label": "背景音频",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/multimedia/backgroundaudio/getBackgroundAudioManager",
+          "version-1.x/apis/multimedia/backgroundaudio/getBackgroundAudioPlayerState",
+          "version-1.x/apis/multimedia/backgroundaudio/playBackgroundAudio",
+          "version-1.x/apis/multimedia/backgroundaudio/pauseBackgroundAudio",
+          "version-1.x/apis/multimedia/backgroundaudio/seekBackgroundAudio",
+          "version-1.x/apis/multimedia/backgroundaudio/stopBackgroundAudio",
+          "version-1.x/apis/multimedia/backgroundaudio/onBackgroundAudioPlay",
+          "version-1.x/apis/multimedia/backgroundaudio/onBackgroundAudioPause",
+          "version-1.x/apis/multimedia/backgroundaudio/onBackgroundAudioStop"
+        ]
+      },
+      {
+        "label": "相机",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/multimedia/camera/createCameraContext"
+        ]
+      },
+      {
+        "label": "图片",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/multimedia/images/chooseImage",
+          "version-1.x/apis/multimedia/images/previewImage",
+          "version-1.x/apis/multimedia/images/getImageInfo",
+          "version-1.x/apis/multimedia/images/saveImageToPhotosAlbum"
+        ]
+      },
+      {
+        "label": "地图",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/multimedia/map/createMapContext"
+        ]
+      },
+      {
+        "label": "录音",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/multimedia/recording/startRecord",
+          "version-1.x/apis/multimedia/recording/stopRecord"
+        ]
+      },
+      {
+        "label": "视频",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/multimedia/video/chooseVideo",
+          "version-1.x/apis/multimedia/video/saveVideoToPhotosAlbum",
+          "version-1.x/apis/multimedia/video/createVideoContext"
+        ]
+      }
+    ],
+    "网络": [
+      {
+        "label": "文件上传/下载",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/network/fileTransfer/uploadFile",
+          "version-1.x/apis/network/fileTransfer/downloadFile"
+        ]
+      },
+      {
+        "label": "请求",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/network/request/request",
+          "version-1.x/apis/network/request/addInterceptor"
+        ]
+      },
+      {
+        "label": "WebSocket",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/network/socket/connectSocket",
+          "version-1.x/apis/network/socket/sendSocketMessage",
+          "version-1.x/apis/network/socket/closeSocket",
+          "version-1.x/apis/network/socket/onSocketOpen",
+          "version-1.x/apis/network/socket/onSocketMessage",
+          "version-1.x/apis/network/socket/onSocketClose",
+          "version-1.x/apis/network/socket/onSocketError",
+          "version-1.x/apis/network/socket/SocketTask"
+        ]
+      }
+    ],
+    "开放接口": [
+      {
+        "label": "地址",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/address/chooseAddress"
+        ]
+      },
+      {
+        "label": "认证",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/auth/authorize"
+        ]
+      },
+      {
+        "label": "生物认证",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/bioauth/checkIsSoterEnrolledInDevice",
+          "version-1.x/apis/open-api/bioauth/checkIsSupportSoterAuthentication",
+          "version-1.x/apis/open-api/bioauth/startSoterAuthentication"
+        ]
+      },
+      {
+        "label": "卡券",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/card/addCard",
+          "version-1.x/apis/open-api/card/openCard"
+        ]
+      },
+      {
+        "label": "发票",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/invoice/chooseInvoice",
+          "version-1.x/apis/open-api/invoice/chooseInvoiceTitle"
+        ]
+      },
+      {
+        "label": "登录",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/login/login",
+          "version-1.x/apis/open-api/login/checkSession"
+        ]
+      },
+      {
+        "label": "支付",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/payment/faceVerifyForPay",
+          "version-1.x/apis/open-api/payment/requestPayment"
+        ]
+      },
+      {
+        "label": "跳转小程序",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/redirect/navigateBackMiniProgram",
+          "version-1.x/apis/open-api/redirect/navigateToMiniProgram"
+        ]
+      },
+      {
+        "label": "设置",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/settings/getSetting",
+          "version-1.x/apis/open-api/settings/openSetting"
+        ]
+      },
+      {
+        "label": "用户信息",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/userinfo/getUserInfo"
+        ]
+      },
+      {
+        "label": "微信运动",
+        "type": "category",
+        "items": [
+          "version-1.x/apis/open-api/werun/getWeRunData"
+        ]
+      }
+    ],
+    "数据缓存": [
+      "version-1.x/apis/storage/setStorage",
+      "version-1.x/apis/storage/setStorageSync",
+      "version-1.x/apis/storage/getStorage",
+      "version-1.x/apis/storage/getStorageSync",
+      "version-1.x/apis/storage/getStorageInfo",
+      "version-1.x/apis/storage/getStorageInfoSync",
+      "version-1.x/apis/storage/removeStorage",
+      "version-1.x/apis/storage/removeStorageSync",
+      "version-1.x/apis/storage/clearStorage",
+      "version-1.x/apis/storage/clearStorageSync"
+    ],
+    "更新": [
+      "version-1.x/apis/updates/getUpdateManager"
+    ]
+  }
+}
