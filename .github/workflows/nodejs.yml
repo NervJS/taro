@@ -3,7 +3,7 @@ name: Node CI
 on:
   push:
     branches:
-      - next
+      - chore/mini-program
   pull_request:
     branches:
       - next
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false      
+      fail-fast: false
       matrix:
         node-version: [12.x, 13.x, 14.x]
 

@@ -1,0 +1,2315 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`typescript should build project with ts 1`] = `16`;
+
+exports[`typescript should build project with ts 2`] = `
+"
+/** filePath: dist/app.js **/
+require(\\"./runtime\\");
+
+require(\\"./common\\");
+
+require(\\"./vendors\\");
+
+require(\\"./taro\\");
+
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
+    11: function(module, exports, __webpack_require__) {},
+    14: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        function _arrayLikeToArray(arr, len) {
+            if (len == null || len > arr.length) len = arr.length;
+            for (var i = 0, arr2 = new Array(len); i < len; i++) {
+                arr2[i] = arr[i];
+            }
+            return arr2;
+        }
+        function _arrayWithoutHoles(arr) {
+            if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+        }
+        function _iterableToArray(iter) {
+            if (typeof Symbol !== \\"undefined\\" && Symbol.iterator in Object(iter)) return Array.from(iter);
+        }
+        function _unsupportedIterableToArray(o, minLen) {
+            if (!o) return;
+            if (typeof o === \\"string\\") return _arrayLikeToArray(o, minLen);
+            var n = Object.prototype.toString.call(o).slice(8, -1);
+            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
+            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
+            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+        }
+        function _nonIterableSpread() {
+            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+        }
+        function _toConsumableArray(arr) {
+            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+        }
+        function _typeof(obj) {
+            \\"@babel/helpers - typeof\\";
+            if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+                _typeof = function _typeof(obj) {
+                    return typeof obj;
+                };
+            } else {
+                _typeof = function _typeof(obj) {
+                    return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+                };
+            }
+            return _typeof(obj);
+        }
+        function _assertThisInitialized(self) {
+            if (self === void 0) {
+                throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+            }
+            return self;
+        }
+        function _possibleConstructorReturn(self, call) {
+            if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
+                return call;
+            }
+            return _assertThisInitialized(self);
+        }
+        function _getPrototypeOf(o) {
+            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+                return o.__proto__ || Object.getPrototypeOf(o);
+            };
+            return _getPrototypeOf(o);
+        }
+        function _setPrototypeOf(o, p) {
+            _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+                o.__proto__ = p;
+                return o;
+            };
+            return _setPrototypeOf(o, p);
+        }
+        function _inherits(subClass, superClass) {
+            if (typeof superClass !== \\"function\\" && superClass !== null) {
+                throw new TypeError(\\"Super expression must either be null or a function\\");
+            }
+            subClass.prototype = Object.create(superClass && superClass.prototype, {
+                constructor: {
+                    value: subClass,
+                    writable: true,
+                    configurable: true
+                }
+            });
+            if (superClass) _setPrototypeOf(subClass, superClass);
+        }
+        function _classCallCheck(instance, Constructor) {
+            if (!(instance instanceof Constructor)) {
+                throw new TypeError(\\"Cannot call a class as a function\\");
+            }
+        }
+        function _defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+                var descriptor = props[i];
+                descriptor.enumerable = descriptor.enumerable || false;
+                descriptor.configurable = true;
+                if (\\"value\\" in descriptor) descriptor.writable = true;
+                Object.defineProperty(target, descriptor.key, descriptor);
+            }
+        }
+        function _createClass(Constructor, protoProps, staticProps) {
+            if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) _defineProperties(Constructor, staticProps);
+            return Constructor;
+        }
+        function isString(o) {
+            return typeof o === \\"string\\";
+        }
+        function isUndefined(o) {
+            return typeof o === \\"undefined\\";
+        }
+        function isNull(o) {
+            return o === null;
+        }
+        function isObject(o) {
+            return o !== null && _typeof(o) === \\"object\\";
+        }
+        function isBoolean(o) {
+            return o === true || o === false;
+        }
+        function isFunction(o) {
+            return typeof o === \\"function\\";
+        }
+        function isNumber(o) {
+            return typeof o === \\"number\\";
+        }
+        function isBooleanStringLiteral(o) {
+            return o === \\"true\\" || o === \\"false\\";
+        }
+        var isArray = Array.isArray;
+        var styles = {
+            style: \\"i.\\".concat(\\"st\\"),
+            class: \\"i.\\".concat(\\"cl\\")
+        };
+        var events = {
+            bindtap: \\"eh\\"
+        };
+        var touchEvents = {
+            bindTouchStart: \\"\\",
+            bindTouchMove: \\"\\",
+            bindTouchEnd: \\"\\",
+            bindTouchCancel: \\"\\",
+            bindLongTap: \\"\\"
+        };
+        var animationEvents = {
+            bindAnimationStart: \\"\\",
+            bindAnimationIteration: \\"\\",
+            bindAnimationEnd: \\"\\",
+            bindTransitionEnd: \\"\\"
+        };
+        var specialEvents = new Set([ \\"htouchmove\\", \\"vtouchmove\\" ]);
+        function singleQuote(s) {
+            return \\"'\\".concat(s, \\"'\\");
+        }
+        var View = Object.assign(Object.assign({
+            \\"hover-class\\": singleQuote(\\"none\\"),
+            \\"hover-stop-propagation\\": \\"false\\",
+            \\"hover-start-time\\": \\"50\\",
+            \\"hover-stay-time\\": \\"400\\",
+            animation: \\"\\"
+        }, touchEvents), animationEvents);
+        var Icon = {
+            type: \\"\\",
+            size: \\"23\\",
+            color: \\"\\"
+        };
+        var MapComp = Object.assign({
+            longitude: \\"\\",
+            latitude: \\"\\",
+            scale: \\"16\\",
+            markers: \\"[]\\",
+            covers: \\"\\",
+            polyline: \\"[]\\",
+            circles: \\"[]\\",
+            controls: \\"[]\\",
+            \\"include-points\\": \\"[]\\",
+            \\"show-location\\": \\"\\",
+            \\"layer-style\\": \\"1\\",
+            bindMarkerTap: \\"\\",
+            bindControlTap: \\"\\",
+            bindCalloutTap: \\"\\",
+            bindUpdated: \\"\\"
+        }, touchEvents);
+        var Progress = {
+            percent: \\"\\",
+            \\"stroke-width\\": \\"6\\",
+            color: singleQuote(\\"#09BB07\\"),
+            activeColor: singleQuote(\\"#09BB07\\"),
+            backgroundColor: singleQuote(\\"#EBEBEB\\"),
+            active: \\"false\\",
+            \\"active-mode\\": singleQuote(\\"backwards\\"),
+            \\"show-info\\": \\"false\\"
+        };
+        var RichText = {
+            nodes: \\"[]\\"
+        };
+        var Text = {
+            selectable: \\"false\\",
+            space: \\"\\",
+            decode: \\"false\\"
+        };
+        var Button = {
+            size: singleQuote(\\"default\\"),
+            type: \\"\\",
+            plain: \\"false\\",
+            disabled: \\"\\",
+            loading: \\"false\\",
+            \\"form-type\\": \\"\\",
+            \\"open-type\\": \\"\\",
+            \\"hover-class\\": singleQuote(\\"button-hover\\"),
+            \\"hover-stop-propagation\\": \\"false\\",
+            \\"hover-start-time\\": \\"20\\",
+            \\"hover-stay-time\\": \\"70\\",
+            name: \\"\\"
+        };
+        var Checkbox = {
+            value: \\"\\",
+            disabled: \\"\\",
+            checked: \\"false\\",
+            color: singleQuote(\\"#09BB07\\"),
+            name: \\"\\"
+        };
+        var CheckboxGroup = {
+            bindChange: \\"\\",
+            name: \\"\\"
+        };
+        var Form = {
+            \\"report-submit\\": \\"false\\",
+            bindSubmit: \\"\\",
+            bindReset: \\"\\",
+            name: \\"\\"
+        };
+        var Input = {
+            value: \\"\\",
+            type: singleQuote(\\"\\"),
+            password: \\"false\\",
+            placeholder: \\"\\",
+            \\"placeholder-style\\": \\"\\",
+            \\"placeholder-class\\": singleQuote(\\"input-placeholder\\"),
+            disabled: \\"\\",
+            maxlength: \\"140\\",
+            \\"cursor-spacing\\": \\"0\\",
+            focus: \\"false\\",
+            \\"confirm-type\\": singleQuote(\\"done\\"),
+            \\"confirm-hold\\": \\"false\\",
+            cursor: \\"i.value.length\\",
+            \\"selection-start\\": \\"-1\\",
+            \\"selection-end\\": \\"-1\\",
+            bindInput: \\"\\",
+            bindFocus: \\"\\",
+            bindBlur: \\"\\",
+            bindConfirm: \\"\\",
+            name: \\"\\"
+        };
+        var Label = {
+            for: \\"\\",
+            name: \\"\\"
+        };
+        var Picker = {
+            mode: singleQuote(\\"selector\\"),
+            disabled: \\"\\",
+            range: \\"\\",
+            \\"range-key\\": \\"\\",
+            value: \\"\\",
+            start: \\"\\",
+            end: \\"\\",
+            fields: singleQuote(\\"day\\"),
+            \\"custom-item\\": \\"\\",
+            name: \\"\\",
+            bindCancel: \\"\\",
+            bindChange: \\"\\",
+            bindColumnChange: \\"\\"
+        };
+        var PickerView = {
+            value: \\"\\",
+            \\"indicator-style\\": \\"\\",
+            \\"indicator-class\\": \\"\\",
+            \\"mask-style\\": \\"\\",
+            \\"mask-class\\": \\"\\",
+            bindChange: \\"\\",
+            name: \\"\\"
+        };
+        var PickerViewColumn = {
+            name: \\"\\"
+        };
+        var Radio = {
+            value: \\"\\",
+            checked: \\"false\\",
+            disabled: \\"\\",
+            color: singleQuote(\\"#09BB07\\"),
+            name: \\"\\"
+        };
+        var RadioGroup = {
+            bindChange: \\"\\",
+            name: \\"\\"
+        };
+        var Slider = {
+            min: \\"0\\",
+            max: \\"100\\",
+            step: \\"1\\",
+            disabled: \\"\\",
+            value: \\"0\\",
+            activeColor: singleQuote(\\"#1aad19\\"),
+            backgroundColor: singleQuote(\\"#e9e9e9\\"),
+            \\"block-size\\": \\"28\\",
+            \\"block-color\\": singleQuote(\\"#ffffff\\"),
+            \\"show-value\\": \\"false\\",
+            bindChange: \\"\\",
+            bindChanging: \\"\\",
+            name: \\"\\"
+        };
+        var Switch = {
+            checked: \\"false\\",
+            disabled: \\"\\",
+            type: singleQuote(\\"switch\\"),
+            color: singleQuote(\\"#04BE02\\"),
+            bindChange: \\"\\",
+            name: \\"\\"
+        };
+        var Textarea = {
+            value: \\"\\",
+            placeholder: \\"\\",
+            \\"placeholder-style\\": \\"\\",
+            \\"placeholder-class\\": singleQuote(\\"textarea-placeholder\\"),
+            disabled: \\"\\",
+            maxlength: \\"140\\",
+            \\"auto-focus\\": \\"false\\",
+            focus: \\"false\\",
+            \\"auto-height\\": \\"false\\",
+            fixed: \\"false\\",
+            \\"cursor-spacing\\": \\"0\\",
+            cursor: \\"-1\\",
+            \\"selection-start\\": \\"-1\\",
+            \\"selection-end\\": \\"-1\\",
+            bindFocus: \\"\\",
+            bindBlur: \\"\\",
+            bindLineChange: \\"\\",
+            bindInput: \\"\\",
+            bindConfirm: \\"\\",
+            name: \\"\\"
+        };
+        var CoverImage = {
+            src: \\"\\",
+            bindLoad: \\"eh\\",
+            bindError: \\"eh\\"
+        };
+        var CoverView = Object.assign({
+            \\"scroll-top\\": \\"false\\"
+        }, touchEvents);
+        var MovableArea = {
+            \\"scale-area\\": \\"false\\"
+        };
+        var MovableView = Object.assign(Object.assign({
+            direction: \\"none\\",
+            inertia: \\"false\\",
+            \\"out-of-bounds\\": \\"false\\",
+            x: \\"\\",
+            y: \\"\\",
+            damping: \\"20\\",
+            friction: \\"2\\",
+            disabled: \\"\\",
+            scale: \\"false\\",
+            \\"scale-min\\": \\"0.5\\",
+            \\"scale-max\\": \\"10\\",
+            \\"scale-value\\": \\"1\\",
+            animation: \\"true\\",
+            bindChange: \\"\\",
+            bindScale: \\"\\",
+            htouchmove: \\"\\",
+            vtouchmove: \\"\\",
+            width: singleQuote(\\"10px\\"),
+            height: singleQuote(\\"10px\\")
+        }, touchEvents), animationEvents);
+        var ScrollView = Object.assign(Object.assign({
+            \\"scroll-x\\": \\"false\\",
+            \\"scroll-y\\": \\"false\\",
+            \\"upper-threshold\\": \\"50\\",
+            \\"lower-threshold\\": \\"50\\",
+            \\"scroll-top\\": \\"\\",
+            \\"scroll-left\\": \\"\\",
+            \\"scroll-into-view\\": \\"\\",
+            \\"scroll-with-animation\\": \\"false\\",
+            \\"enable-back-to-top\\": \\"false\\",
+            bindScrollToUpper: \\"\\",
+            bindScrollToLower: \\"\\",
+            bindScroll: \\"\\"
+        }, touchEvents), animationEvents);
+        var Swiper = Object.assign({
+            \\"indicator-dots\\": \\"false\\",
+            \\"indicator-color\\": singleQuote(\\"rgba(0, 0, 0, .3)\\"),
+            \\"indicator-active-color\\": singleQuote(\\"#000000\\"),
+            autoplay: \\"false\\",
+            current: \\"0\\",
+            interval: \\"5000\\",
+            duration: \\"500\\",
+            circular: \\"false\\",
+            vertical: \\"false\\",
+            \\"previous-margin\\": \\"'0px'\\",
+            \\"next-margin\\": \\"'0px'\\",
+            \\"display-multiple-items\\": \\"1\\",
+            bindChange: \\"\\",
+            bindTransition: \\"\\",
+            bindAnimationFinish: \\"\\"
+        }, touchEvents);
+        var SwiperItem = {
+            \\"item-id\\": \\"\\"
+        };
+        var Navigator = {
+            url: \\"\\",
+            \\"open-type\\": singleQuote(\\"navigate\\"),
+            delta: \\"1\\",
+            \\"hover-class\\": singleQuote(\\"navigator-hover\\"),
+            \\"hover-stop-propagation\\": \\"false\\",
+            \\"hover-start-time\\": \\"50\\",
+            \\"hover-stay-time\\": \\"600\\",
+            bindSuccess: \\"\\",
+            bindFail: \\"\\",
+            bindComplete: \\"\\"
+        };
+        var Audio = {
+            id: \\"\\",
+            src: \\"\\",
+            loop: \\"false\\",
+            controls: \\"false\\",
+            poster: \\"\\",
+            name: \\"\\",
+            author: \\"\\",
+            bindError: \\"\\",
+            bindPlay: \\"\\",
+            bindPause: \\"\\",
+            bindTimeUpdate: \\"\\",
+            bindEnded: \\"\\"
+        };
+        var Camera = {
+            \\"device-position\\": singleQuote(\\"back\\"),
+            flash: singleQuote(\\"auto\\"),
+            bindStop: \\"\\",
+            bindError: \\"\\"
+        };
+        var Image = Object.assign({
+            src: \\"\\",
+            mode: singleQuote(\\"scaleToFill\\"),
+            \\"lazy-load\\": \\"false\\",
+            bindError: \\"\\",
+            bindLoad: \\"\\"
+        }, touchEvents);
+        var LivePlayer = {
+            src: \\"\\",
+            autoplay: \\"false\\",
+            muted: \\"false\\",
+            orientation: singleQuote(\\"vertical\\"),
+            \\"object-fit\\": singleQuote(\\"contain\\"),
+            \\"background-mute\\": \\"false\\",
+            \\"min-cache\\": \\"1\\",
+            \\"max-cache\\": \\"3\\",
+            animation: \\"\\",
+            bindStateChange: \\"\\",
+            bindFullScreenChange: \\"\\",
+            bindNetStatus: \\"\\"
+        };
+        var Video = {
+            src: \\"\\",
+            duration: \\"\\",
+            controls: \\"true\\",
+            \\"danmu-list\\": \\"\\",
+            \\"danmu-btn\\": \\"\\",
+            \\"enable-danmu\\": \\"\\",
+            autoplay: \\"false\\",
+            loop: \\"false\\",
+            muted: \\"false\\",
+            \\"initial-time\\": \\"0\\",
+            \\"page-gesture\\": \\"false\\",
+            direction: \\"\\",
+            \\"show-progress\\": \\"true\\",
+            \\"show-fullscreen-btn\\": \\"true\\",
+            \\"show-play-btn\\": \\"true\\",
+            \\"show-center-play-btn\\": \\"true\\",
+            \\"enable-progress-gesture\\": \\"true\\",
+            \\"object-fit\\": singleQuote(\\"contain\\"),
+            poster: \\"\\",
+            \\"show-mute-btn\\": \\"false\\",
+            animation: \\"\\",
+            bindPlay: \\"\\",
+            bindPause: \\"\\",
+            bindEnded: \\"\\",
+            bindTimeUpdate: \\"\\",
+            bindFullScreenChange: \\"\\",
+            bindWaiting: \\"\\",
+            bindError: \\"\\"
+        };
+        var Canvas = Object.assign({
+            \\"canvas-id\\": \\"\\",
+            \\"disable-scroll\\": \\"false\\",
+            bindError: \\"\\"
+        }, touchEvents);
+        var Ad = {
+            \\"unit-id\\": \\"\\",
+            \\"ad-intervals\\": \\"\\",
+            bindLoad: \\"\\",
+            bindError: \\"\\",
+            bindClose: \\"\\"
+        };
+        var WebView = {
+            src: \\"\\",
+            bindMessage: \\"\\",
+            bindLoad: \\"\\",
+            bindError: \\"\\"
+        };
+        var Block = {};
+        var SlotView = {
+            name: \\"\\"
+        };
+        var Slot = {
+            name: \\"\\"
+        };
+        var internalComponents = {
+            View: View,
+            Icon: Icon,
+            Progress: Progress,
+            RichText: RichText,
+            Text: Text,
+            Button: Button,
+            Checkbox: Checkbox,
+            CheckboxGroup: CheckboxGroup,
+            Form: Form,
+            Input: Input,
+            Label: Label,
+            Picker: Picker,
+            PickerView: PickerView,
+            PickerViewColumn: PickerViewColumn,
+            Radio: Radio,
+            RadioGroup: RadioGroup,
+            Slider: Slider,
+            Switch: Switch,
+            CoverImage: CoverImage,
+            Textarea: Textarea,
+            CoverView: CoverView,
+            MovableArea: MovableArea,
+            MovableView: MovableView,
+            ScrollView: ScrollView,
+            Swiper: Swiper,
+            SwiperItem: SwiperItem,
+            Navigator: Navigator,
+            Audio: Audio,
+            Camera: Camera,
+            Image: Image,
+            LivePlayer: LivePlayer,
+            Video: Video,
+            Canvas: Canvas,
+            Ad: Ad,
+            WebView: WebView,
+            Block: Block,
+            Map: MapComp,
+            Slot: Slot,
+            SlotView: SlotView
+        };
+        var controlledComponent = new Set([ \\"input\\", \\"checkbox\\", \\"picker\\", \\"picker-view\\", \\"radio\\", \\"slider\\", \\"switch\\", \\"textarea\\" ]);
+        var focusComponents = new Set([ \\"input\\", \\"textarea\\" ]);
+        var voidElements = new Set([ \\"progress\\", \\"icon\\", \\"rich-text\\", \\"input\\", \\"textarea\\", \\"slider\\", \\"switch\\", \\"audio\\", \\"live-pusher\\", \\"video\\", \\"ad\\", \\"official-account\\", \\"open-data\\", \\"navigation-bar\\" ]);
+        var nestElements = new Map([ [ \\"view\\", -1 ], [ \\"cover-view\\", -1 ], [ \\"block\\", -1 ], [ \\"text\\", -1 ], [ \\"slot\\", 8 ], [ \\"slot-view\\", 8 ], [ \\"label\\", 6 ], [ \\"form\\", 4 ], [ \\"scroll-view\\", 4 ] ]);
+        var EMPTY_OBJ = {};
+        var EMPTY_ARR = [];
+        var noop = function noop() {};
+        var defaultReconciler = {};
+        var box = function box(v) {
+            return {
+                v: v
+            };
+        };
+        var unbox = function unbox(b) {
+            return b.v;
+        };
+        function toDashed(s) {
+            return s.replace(/([a-z0-9])([A-Z])/g, \\"$1-$2\\").toLowerCase();
+        }
+        function toCamelCase(s) {
+            var camel = \\"\\";
+            var nextCap = false;
+            for (var i = 0; i < s.length; i++) {
+                if (s[i] !== \\"-\\") {
+                    camel += nextCap ? s[i].toUpperCase() : s[i];
+                    nextCap = false;
+                } else {
+                    nextCap = true;
+                }
+            }
+            return camel;
+        }
+        function capitalize(s) {
+            return s.charAt(0).toUpperCase() + s.slice(1);
+        }
+        var shared_esm_hasOwnProperty = Object.prototype.hasOwnProperty;
+        var hasOwn = function hasOwn(val, key) {
+            return shared_esm_hasOwnProperty.call(val, key);
+        };
+        var reportIssue = \\"\\\\u5982\\\\u6709\\\\u7591\\\\u95ee\\\\uff0c\\\\u8bf7\\\\u63d0\\\\u4ea4 issue \\\\u81f3\\\\uff1ahttps://github.com/nervjs/taro/issues\\";
+        function ensure(condition, msg) {
+            if (!condition) {
+                throw new Error(msg + \\"\\\\n\\" + reportIssue);
+            }
+        }
+        function warn(condition, msg) {
+            if (false) {}
+        }
+        function queryToJson(str) {
+            var dec = decodeURIComponent;
+            var qp = str.split(\\"&\\");
+            var ret = {};
+            var name;
+            var val;
+            for (var i = 0, l = qp.length, item; i < l; ++i) {
+                item = qp[i];
+                if (item.length) {
+                    var s = item.indexOf(\\"=\\");
+                    if (s < 0) {
+                        name = dec(item);
+                        val = \\"\\";
+                    } else {
+                        name = dec(item.slice(0, s));
+                        val = dec(item.slice(s + 1));
+                    }
+                    if (typeof ret[name] === \\"string\\") {
+                        ret[name] = [ ret[name] ];
+                    }
+                    if (Array.isArray(ret[name])) {
+                        ret[name].push(val);
+                    } else {
+                        ret[name] = val;
+                    }
+                }
+            }
+            return ret;
+        }
+        var _uniqueId = 1;
+        var _loadTime = (new Date).getTime().toString();
+        function getUniqueKey() {
+            return _loadTime + _uniqueId++;
+        }
+        var cacheData = {};
+        function cacheDataSet(key, val) {
+            cacheData[key] = val;
+        }
+        function cacheDataGet(key, delelteAfterGet) {
+            var temp = cacheData[key];
+            delelteAfterGet && delete cacheData[key];
+            return temp;
+        }
+        function cacheDataHas(key) {
+            return key in cacheData;
+        }
+        function mergeInternalComponents(components) {
+            Object.keys(components).forEach((function(name) {
+                if (name in internalComponents) {
+                    Object.assign(internalComponents[name], components[name]);
+                } else {
+                    internalComponents[name] = components[name];
+                }
+            }));
+        }
+        function mergeReconciler(hostConfig) {
+            Object.assign(defaultReconciler, hostConfig);
+        }
+        var weixinAdapter = {
+            if: \\"wx:if\\",
+            else: \\"wx:else\\",
+            elseif: \\"wx:elif\\",
+            for: \\"wx:for\\",
+            forItem: \\"wx:for-item\\",
+            forIndex: \\"wx:for-index\\",
+            key: \\"wx:key\\",
+            xs: \\"wxs\\",
+            type: \\"weapp\\"
+        };
+        var shared_esm_BaseTemplate = function() {
+            function BaseTemplate() {
+                var _this = this;
+                _classCallCheck(this, BaseTemplate);
+                this.exportExpr = \\"module.exports =\\";
+                this.supportXS = false;
+                this.Adapter = weixinAdapter;
+                this.internalComponents = internalComponents;
+                this.focusComponents = focusComponents;
+                this.voidElements = voidElements;
+                this.nestElements = nestElements;
+                this.buildPageTemplate = function(baseTempPath) {
+                    var template = '<import src=\\"'.concat(baseTempPath, '\\"/>\\\\n<template is=\\"taro_tmpl\\" data=\\"{{').concat(_this.dataKeymap(\\"root:root\\"), '}}\\" />');
+                    return template;
+                };
+                this.buildBaseComponentTemplate = function(ext) {
+                    var data = !_this.isSupportRecursive && _this.supportXS ? _this.dataKeymap(\\"i:i,l:l\\") : _this.dataKeymap(\\"i:i\\");
+                    return '<import src=\\"./base'.concat(ext, '\\" />\\\\n<template is=\\"tmpl_0_', \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />');
+                };
+                this.buildXScript = function() {
+                    return \\"\\".concat(_this.exportExpr, \\" {\\\\n  a: \\").concat(_this.buildXSTmplName(), \\",\\\\n  b: function (a, b) {\\\\n    return a === undefined ? b : a\\\\n  },\\\\n  c: function(i, prefix) {\\\\n    var s = i.focus !== undefined ? 'focus' : 'blur'\\\\n    return prefix + i.\\", \\"nn\\", \\" + '_' + s\\\\n  },\\\\n  d: function (i, v) {\\\\n    return i === undefined ? v : i\\\\n  },\\\\n  e: function (n) {\\\\n    return 'tmpl_' + n + '_\\", \\"container\\", \\"'\\\\n  },\\\\n  \\").concat(_this.buildXSTmpExtra(), \\"\\\\n}\\");
+                };
+            }
+            _createClass(BaseTemplate, [ {
+                key: \\"buildAttribute\\",
+                value: function buildAttribute(attrs, nodeName) {
+                    var _this2 = this;
+                    return Object.keys(attrs).map((function(k) {
+                        return \\"\\".concat(k, '=\\"').concat(k.startsWith(\\"bind\\") || k.startsWith(\\"on\\") ? attrs[k] : \\"{\\".concat(_this2.getAttrValue(attrs[k], k, nodeName), \\"}\\"), '\\" ');
+                    })).join(\\"\\");
+                }
+            }, {
+                key: \\"replacePropName\\",
+                value: function replacePropName(name, value, _componentName) {
+                    if (value === \\"eh\\") return name.toLowerCase();
+                    return name;
+                }
+            }, {
+                key: \\"createMiniComponents\\",
+                value: function createMiniComponents(components) {
+                    var result = Object.create(null);
+                    for (var key in components) {
+                        if (hasOwn(components, key)) {
+                            var component = components[key];
+                            var compName = toDashed(key);
+                            var newComp = Object.create(null);
+                            if (isFunction(this.modifyCompProps)) {
+                                component = this.modifyCompProps(compName, component);
+                            }
+                            for (var prop in component) {
+                                if (hasOwn(component, prop)) {
+                                    var propValue = component[prop];
+                                    if (prop.startsWith(\\"bind\\") || specialEvents.has(prop)) {
+                                        propValue = \\"eh\\";
+                                    } else if (propValue === \\"\\") {
+                                        propValue = \\"i.\\".concat(toCamelCase(prop));
+                                    } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
+                                        propValue = this.supportXS ? \\"xs.b(i.\\".concat(toCamelCase(prop), \\",\\").concat(propValue, \\")\\") : \\"i.\\".concat(toCamelCase(prop), \\"===undefined?\\").concat(propValue, \\":i.\\").concat(toCamelCase(prop));
+                                    } else {
+                                        propValue = \\"i.\\".concat(toCamelCase(prop), \\"||\\").concat(propValue || singleQuote(\\"\\"));
+                                    }
+                                    prop = this.replacePropName(prop, propValue, compName);
+                                    newComp[prop] = propValue;
+                                }
+                            }
+                            if (compName !== \\"block\\") {
+                                Object.assign(newComp, styles, this.getEvents());
+                            }
+                            if (compName === \\"swiper-item\\") {
+                                delete newComp.style;
+                            }
+                            if (compName === \\"slot\\" || compName === \\"slot-view\\") {
+                                result[compName] = {
+                                    slot: \\"i.name\\"
+                                };
+                            } else {
+                                result[compName] = newComp;
+                            }
+                        }
+                    }
+                    return result;
+                }
+            }, {
+                key: \\"buildBaseTemplate\\",
+                value: function buildBaseTemplate() {
+                    var Adapter = this.Adapter;
+                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:''\\")) : this.dataKeymap(\\"i:item\\");
+                    return \\"\\".concat(this.buildXsTemplate(), '\\\\n<template name=\\"taro_tmpl\\">\\\\n  <block ').concat(Adapter.for, '=\\"{{root.cn}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n    <template is=\\"tmpl_0_', \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />\\\\n  </block>\\\\n</template>\\\\n');
+                }
+            }, {
+                key: \\"buildThirdPartyAttr\\",
+                value: function buildThirdPartyAttr(attrs) {
+                    return Array.from(attrs).reduce((function(str, attr) {
+                        if (attr.startsWith(\\"@\\")) {
+                            return str + \\"bind\\".concat(attr.slice(1), '=\\"eh\\" ');
+                        } else if (attr.startsWith(\\"bind\\")) {
+                            return str + \\"\\".concat(attr, '=\\"eh\\" ');
+                        } else if (attr.startsWith(\\"on\\")) {
+                            return str + \\"bind\\".concat(attr.slice(2).toLowerCase(), '=\\"eh\\" ');
+                        }
+                        return str + \\"\\".concat(attr, '=\\"{{i.').concat(toCamelCase(attr), '}}\\" ');
+                    }), \\"\\");
+                }
+            }, {
+                key: \\"buildComponentTemplate\\",
+                value: function buildComponentTemplate(comp, level) {
+                    return this.focusComponents.has(comp.nodeName) ? this.buildFocusComponentTemplte(comp, level) : this.buildStandardComponentTemplate(comp, level);
+                }
+            }, {
+                key: \\"buildFocusComponentTemplte\\",
+                value: function buildFocusComponentTemplte(comp, level) {
+                    var attrs = Object.assign({}, comp.attributes);
+                    var templateName = this.supportXS ? \\"xs.c(i, 'tmpl_\\".concat(level, \\"_')\\") : \\"i.focus ? 'tmpl_\\".concat(level, \\"_\\").concat(comp.nodeName, \\"_focus' : 'tmpl_\\").concat(level, \\"_\\").concat(comp.nodeName, \\"_blur'\\");
+                    delete attrs.focus;
+                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <template is=\\"{{').concat(templateName, '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_focus\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n\\\\n<template name=\\"tmpl_').concat(level, \\"_\\").concat(comp.nodeName, '_blur\\">\\\\n  <').concat(comp.nodeName, \\" \\").concat(this.buildAttribute(attrs, comp.nodeName), ' id=\\"{{i.uid}}\\" />\\\\n</template>\\\\n');
+                }
+            }, {
+                key: \\"buildStandardComponentTemplate\\",
+                value: function buildStandardComponentTemplate(comp, level) {
+                    var isSupportRecursive = this.isSupportRecursive, Adapter = this.Adapter;
+                    var nextLevel = isSupportRecursive ? 0 : level + 1;
+                    var data = !this.isSupportRecursive ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    var child = this.supportXS ? '<template is=\\"{{xs.e('.concat(isSupportRecursive ? 0 : \\"cid+1\\", ')}}\\" data=\\"{{').concat(data, '}}\\" />') : '<template is=\\"tmpl_'.concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(this.dataKeymap(\\"i:item\\"), '}}\\" />');
+                    if (isFunction(this.modifyLoopBody)) {
+                        child = this.modifyLoopBody(child, comp.nodeName);
+                    }
+                    var children = this.voidElements.has(comp.nodeName) ? \\"\\" : \\"\\\\n    <block \\".concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      ').concat(child, \\"\\\\n    </block>\\\\n  \\");
+                    if (isFunction(this.modifyLoopContainer)) {
+                        children = this.modifyLoopContainer(children, comp.nodeName);
+                    }
+                    var nodeName = comp.nodeName === \\"slot\\" || comp.nodeName === \\"slot-view\\" ? \\"view\\" : comp.nodeName;
+                    var res = '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(comp.nodeName, '\\">\\\\n  <').concat(nodeName, \\" \\").concat(this.buildAttribute(comp.attributes, comp.nodeName), ' id=\\"{{i.uid}}\\">').concat(children, \\"</\\").concat(nodeName, \\">\\\\n</template>\\\\n\\");
+                    if (isFunction(this.modifyTemplateResult)) {
+                        res = this.modifyTemplateResult(res, comp.nodeName, level, children);
+                    }
+                    return res;
+                }
+            }, {
+                key: \\"buildPlainTextTemplate\\",
+                value: function buildPlainTextTemplate(level) {
+                    return '\\\\n<template name=\\"tmpl_'.concat(level, '_#text\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\">\\\\n  <block>{{i.', \\"v\\", \\"}}</block>\\\\n</template>\\\\n\\");
+                }
+            }, {
+                key: \\"buildThirdPartyTemplate\\",
+                value: function buildThirdPartyTemplate(level, componentConfig) {
+                    var _this3 = this;
+                    var Adapter = this.Adapter, isSupportRecursive = this.isSupportRecursive;
+                    var nextLevel = isSupportRecursive ? 0 : level + 1;
+                    var template = \\"\\";
+                    var data = !this.isSupportRecursive && this.supportXS ? \\"\\".concat(this.dataKeymap(\\"i:item,l:l\\")) : this.dataKeymap(\\"i:item\\");
+                    componentConfig.thirdPartyComponents.forEach((function(attrs, compName) {
+                        template += '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\").concat(compName, '\\">\\\\n  <').concat(compName, \\" \\").concat(_this3.buildThirdPartyAttr(attrs), ' id=\\"{{i.uid}}\\">\\\\n    <block ').concat(Adapter.for, '=\\"{{i.', \\"cn\\", '}}\\" ').concat(Adapter.key, '=\\"uid\\">\\\\n      <template is=\\"tmpl_').concat(nextLevel, \\"_\\", \\"container\\", '\\" data=\\"{{').concat(data, '}}\\" />\\\\n    </block>\\\\n  </').concat(compName, \\">\\\\n</template>\\\\n  \\");
+                    }));
+                    return template;
+                }
+            }, {
+                key: \\"buildContainerTemplate\\",
+                value: function buildContainerTemplate(level) {
+                    var restart = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+                    var tmpl = \\"\\";
+                    if (restart) {
+                        if (!this.isSupportRecursive && this.supportXS) {
+                            tmpl = '<comp i=\\"{{i}}\\" l=\\"{{l}}\\" />';
+                        } else {
+                            tmpl = '<comp i=\\"{{i}}\\" />';
+                        }
+                    } else {
+                        var xs = !this.isSupportRecursive ? \\"xs.a(\\".concat(level, \\", i.\\", \\"nn\\", \\", l)\\") : \\"xs.a(\\".concat(level, \\", i.\\", \\"nn\\", \\")\\");
+                        var data = !this.isSupportRecursive ? \\"\\".concat(this.dataKeymap(\\"i:i,cid:\\".concat(level, \\",l:xs.f(l,i.\\", \\"nn\\", \\")\\"))) : \\"\\".concat(this.dataKeymap(\\"i:i\\"));
+                        tmpl = this.supportXS ? '<template is=\\"{{'.concat(xs, '}}\\" data=\\"{{').concat(data, '}}\\" />') : \\"<template is=\\\\\\"{{'tmpl_\\".concat(level, \\"_' + i.\\", \\"nn\\", '}}\\" data=\\"{{').concat(this.dataKeymap(\\"i:i\\"), '}}\\" />');
+                    }
+                    return '\\\\n<template name=\\"tmpl_'.concat(level, \\"_\\", \\"container\\", '\\">\\\\n  ').concat(tmpl, \\"\\\\n</template>\\\\n\\");
+                }
+            }, {
+                key: \\"dataKeymap\\",
+                value: function dataKeymap(keymap) {
+                    return keymap;
+                }
+            }, {
+                key: \\"getEvents\\",
+                value: function getEvents() {
+                    return events;
+                }
+            }, {
+                key: \\"getAttrValue\\",
+                value: function getAttrValue(value, _key, _nodeName) {
+                    return \\"{\\".concat(value, \\"}\\");
+                }
+            }, {
+                key: \\"buildXsTemplate\\",
+                value: function buildXsTemplate() {
+                    return \\"\\";
+                }
+            }, {
+                key: \\"mergeComponents\\",
+                value: function mergeComponents(ctx, patch) {
+                    ctx.helper.recursiveMerge(this.internalComponents, patch);
+                }
+            }, {
+                key: \\"buildXSTmplName\\",
+                value: function buildXSTmplName() {
+                    return \\"function (l, n) {\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\";
+                }
+            }, {
+                key: \\"buildXSTmpExtra\\",
+                value: function buildXSTmpExtra() {
+                    return \\"\\";
+                }
+            } ]);
+            return BaseTemplate;
+        }();
+        var shared_esm_RecursiveTemplate = function(_BaseTemplate) {
+            _inherits(RecursiveTemplate, _BaseTemplate);
+            function RecursiveTemplate() {
+                var _this4;
+                _classCallCheck(this, RecursiveTemplate);
+                _this4 = _possibleConstructorReturn(this, _getPrototypeOf(RecursiveTemplate).apply(this, arguments));
+                _this4.isSupportRecursive = true;
+                _this4.buildTemplate = function(componentConfig) {
+                    var template = _this4.buildBaseTemplate();
+                    if (!_this4.miniComponents) {
+                        _this4.miniComponents = _this4.createMiniComponents(_this4.internalComponents);
+                    }
+                    var ZERO_FLOOR = 0;
+                    var components = Object.keys(_this4.miniComponents).filter((function(c) {
+                        return componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true;
+                    }));
+                    template = components.reduce((function(current, nodeName) {
+                        var attributes = _this4.miniComponents[nodeName];
+                        return current + _this4.buildComponentTemplate({
+                            nodeName: nodeName,
+                            attributes: attributes
+                        }, ZERO_FLOOR);
+                    }), template);
+                    template += _this4.buildPlainTextTemplate(ZERO_FLOOR);
+                    template += _this4.buildThirdPartyTemplate(ZERO_FLOOR, componentConfig);
+                    template += _this4.buildContainerTemplate(ZERO_FLOOR);
+                    return template;
+                };
+                return _this4;
+            }
+            return RecursiveTemplate;
+        }(shared_esm_BaseTemplate);
+        var shared_esm_UnRecursiveTemplate = function(_BaseTemplate2) {
+            _inherits(UnRecursiveTemplate, _BaseTemplate2);
+            function UnRecursiveTemplate() {
+                var _this5;
+                _classCallCheck(this, UnRecursiveTemplate);
+                _this5 = _possibleConstructorReturn(this, _getPrototypeOf(UnRecursiveTemplate).apply(this, arguments));
+                _this5.isSupportRecursive = false;
+                _this5._baseLevel = 16;
+                _this5.buildTemplate = function(componentConfig) {
+                    _this5.componentConfig = componentConfig;
+                    if (!_this5.miniComponents) {
+                        _this5.miniComponents = _this5.createMiniComponents(_this5.internalComponents);
+                    }
+                    var components = Object.keys(_this5.miniComponents).filter((function(c) {
+                        return componentConfig.includes.size && !componentConfig.includeAll ? componentConfig.includes.has(c) : true;
+                    }));
+                    var template = _this5.buildBaseTemplate();
+                    for (var i = 0; i < _this5.baseLevel; i++) {
+                        template += _this5.supportXS ? _this5.buildOptimizeFloor(i, components, _this5.baseLevel === i + 1) : _this5.buildFloor(i, components, _this5.baseLevel === i + 1);
+                    }
+                    return template;
+                };
+                return _this5;
+            }
+            _createClass(UnRecursiveTemplate, [ {
+                key: \\"buildFloor\\",
+                value: function buildFloor(level, components) {
+                    var _this6 = this;
+                    var restart = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+                    if (restart) return this.buildContainerTemplate(level, restart);
+                    var template = components.reduce((function(current, nodeName) {
+                        var attributes = _this6.miniComponents[nodeName];
+                        return current + _this6.buildComponentTemplate({
+                            nodeName: nodeName,
+                            attributes: attributes
+                        }, level);
+                    }), \\"\\");
+                    template += this.buildPlainTextTemplate(level);
+                    template += this.buildThirdPartyTemplate(level, this.componentConfig);
+                    template += this.buildContainerTemplate(level, restart);
+                    return template;
+                }
+            }, {
+                key: \\"buildOptimizeFloor\\",
+                value: function buildOptimizeFloor(level, components) {
+                    var _this7 = this;
+                    var restart = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+                    if (restart) return this.buildContainerTemplate(level, restart);
+                    var template = components.reduce((function(current, nodeName) {
+                        if (level !== 0) {
+                            if (!_this7.nestElements.has(nodeName)) {
+                                return current;
+                            } else {
+                                var max = _this7.nestElements.get(nodeName);
+                                if (max > 0 && level >= max) {
+                                    return current;
+                                }
+                            }
+                        }
+                        var attributes = _this7.miniComponents[nodeName];
+                        return current + _this7.buildComponentTemplate({
+                            nodeName: nodeName,
+                            attributes: attributes
+                        }, level);
+                    }), \\"\\");
+                    if (level === 0) template += this.buildPlainTextTemplate(level);
+                    template += this.buildThirdPartyTemplate(level, this.componentConfig);
+                    template += this.buildContainerTemplate(level);
+                    return template;
+                }
+            }, {
+                key: \\"buildXSTmplName\\",
+                value: function buildXSTmplName() {
+                    var comps = [].concat(_toConsumableArray(Array.from(this.nestElements.keys())), _toConsumableArray(Array.from(this.componentConfig.thirdPartyComponents.keys())));
+                    var hasMaxComps = [];
+                    this.nestElements.forEach((function(max, comp) {
+                        if (max > -1) hasMaxComps.push(comp);
+                    }));
+                    return \\"function (l, n, s) {\\\\n    var a = \\".concat(JSON.stringify(comps), \\"\\\\n    var b = \\").concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (a.indexOf(n) === -1) {\\\\n      l = 0\\\\n    }\\\\n    if (b.indexOf(n) > -1) {\\\\n      var u = s.split(',')\\\\n      var depth = 0\\\\n      for (var i = 0; i < u.length; i++) {\\\\n        if (u[i] === n) depth++\\\\n      }\\\\n      l = depth\\\\n    }\\\\n    return 'tmpl_' + l + '_' + n\\\\n  }\\");
+                }
+            }, {
+                key: \\"buildXSTmpExtra\\",
+                value: function buildXSTmpExtra() {
+                    var hasMaxComps = [];
+                    this.nestElements.forEach((function(max, comp) {
+                        if (max > -1) hasMaxComps.push(comp);
+                    }));
+                    return \\"f: function (l, n) {\\\\n    var b = \\".concat(JSON.stringify(hasMaxComps), \\"\\\\n    if (b.indexOf(n) > -1) {\\\\n      if (l) l += ','\\\\n      l += n\\\\n    }\\\\n    return l\\\\n  }\\");
+                }
+            }, {
+                key: \\"baseLevel\\",
+                set: function set(lv) {
+                    this._baseLevel = lv;
+                },
+                get: function get() {
+                    return this._baseLevel;
+                }
+            } ]);
+            return UnRecursiveTemplate;
+        }(shared_esm_BaseTemplate);
+        var _onAndSyncApis = new Set([ \\"getAccountInfoSync\\", \\"getEnterOptionsSync\\", \\"offBLEPeripheralConnectionStateChanged\\", \\"offBeaconServiceChange\\", \\"offBeaconUpdate\\", \\"offDeviceMotionChange\\", \\"offHCEMessage\\", \\"offKeyboardHeightChange\\", \\"offLocalServiceDiscoveryStop\\", \\"offLocalServiceFound\\", \\"offLocalServiceLost\\", \\"offLocalServiceResolveFail\\", \\"offLocationChange\\", \\"offThemeChange\\", \\"offVoIPChatInterrupted\\", \\"offVoIPChatMembersChanged\\", \\"offVoIPVideoMembersChanged\\", \\"offWifiConnected\\", \\"offWindowResize\\", \\"onBLEPeripheralConnectionStateChanged\\", \\"onBackgroundAudioPause\\", \\"onBackgroundAudioPlay\\", \\"onBackgroundAudioStop\\", \\"onBackgroundFetchData\\", \\"onHCEMessage\\", \\"onKeyboardHeightChange\\", \\"onLocalServiceDiscoveryStop\\", \\"onLocalServiceFound\\", \\"onLocalServiceLost\\", \\"onLocalServiceResolveFail\\", \\"onLocationChange\\", \\"onThemeChange\\", \\"onVoIPChatInterrupted\\", \\"onVoIPChatMembersChanged\\", \\"onVoIPChatSpeakersChanged\\", \\"onVoIPVideoMembersChanged\\", \\"onWifiConnected\\", \\"onWindowResize\\", \\"reportMonitor\\" ]);
+        var _noPromiseApis = new Set([ \\"createAudioContext\\", \\"createLivePusherContext\\", \\"createMediaContainer\\", \\"createMediaRecorder\\", \\"createOffscreenCanvas\\", \\"createRewardedVideoAd\\", \\"createUDPSocket\\", \\"createVideoDecoder\\", \\"createWorker\\", \\"getLogManager\\", \\"getNFCAdapter\\", \\"getPerformance\\", \\"getRealtimeLogManager\\", \\"pauseBackgroundAudio\\", \\"pauseVoice\\", \\"reportPerformance\\", \\"stopBackgroundAudio\\", \\"stopRecord\\", \\"stopVoice\\" ]);
+        var _otherApis = new Set([ \\"addCard\\", \\"authPrivateMessage\\", \\"checkIsOpenAccessibility\\", \\"checkIsSoterEnrolledInDevice\\", \\"checkIsSupportSoterAuthentication\\", \\"chooseInvoice\\", \\"chooseMedia\\", \\"chooseMessageFile\\", \\"compressVideo\\", \\"connectWifi\\", \\"createBLEPeripheralServer\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"exitVoIPChat\\", \\"getBLEDeviceRSSI\\", \\"getBackgroundAudioPlayerState\\", \\"getBackgroundFetchData\\", \\"getBackgroundFetchToken\\", \\"getGroupEnterInfo\\", \\"getHCEState\\", \\"getSelectedTextRange\\", \\"getShareInfo\\", \\"getVideoInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"joinVoIPChat\\", \\"makeBluetoothPair\\", \\"openCard\\", \\"openVideoEditor\\", \\"playBackgroundAudio\\", \\"playVoice\\", \\"previewMedia\\", \\"requestPayment\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"seekBackgroundAudio\\", \\"sendHCEMessage\\", \\"setBLEMTU\\", \\"setBackgroundFetchToken\\", \\"setEnable1v1Chat\\", \\"setTopBarText\\", \\"setWifiList\\", \\"setWindowSize\\", \\"showRedPackage\\", \\"startGyroscope\\", \\"startHCE\\", \\"startLocalServiceDiscovery\\", \\"startLocationUpdate\\", \\"startLocationUpdateBackground\\", \\"startRecord\\", \\"startSoterAuthentication\\", \\"startWifi\\", \\"stopGyroscope\\", \\"stopHCE\\", \\"stopLocalServiceDiscovery\\", \\"stopLocationUpdate\\", \\"stopWifi\\", \\"subscribeVoIPVideoMembers\\", \\"updateShareMenu\\", \\"updateVoIPChatMuteConfig\\", \\"updateWeChatApp\\" ]);
+        var RequestQueue = {
+            MAX_REQUEST: 5,
+            queue: [],
+            request: function request(options) {
+                this.push(options);
+                return this.run();
+            },
+            push: function push(options) {
+                this.queue.push(options);
+            },
+            run: function run() {
+                var _this = this;
+                if (!this.queue.length) {
+                    return;
+                }
+                if (this.queue.length <= this.MAX_REQUEST) {
+                    var options = this.queue.shift();
+                    var completeFn = options.complete;
+                    options.complete = function() {
+                        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+                            args[_key] = arguments[_key];
+                        }
+                        completeFn && completeFn.apply(options, args);
+                        _this.run();
+                    };
+                    return wx.request(options);
+                }
+            }
+        };
+        function taroInterceptor(chain) {
+            return request(chain.requestParams);
+        }
+        function request(options) {
+            options = options || {};
+            if (typeof options === \\"string\\") {
+                options = {
+                    url: options
+                };
+            }
+            var originSuccess = options.success;
+            var originFail = options.fail;
+            var originComplete = options.complete;
+            var requestTask;
+            var p = new Promise((function(resolve, reject) {
+                options.success = function(res) {
+                    originSuccess && originSuccess(res);
+                    resolve(res);
+                };
+                options.fail = function(res) {
+                    originFail && originFail(res);
+                    reject(res);
+                };
+                options.complete = function(res) {
+                    originComplete && originComplete(res);
+                };
+                requestTask = RequestQueue.request(options);
+            }));
+            p.abort = function(cb) {
+                cb && cb();
+                if (requestTask) {
+                    requestTask.abort();
+                }
+                return p;
+            };
+            return p;
+        }
+        function processApis(taro) {
+            var onAndSyncApis = new Set([].concat(_toConsumableArray(taro.onAndSyncApis), _toConsumableArray(_onAndSyncApis)));
+            var noPromiseApis = new Set([].concat(_toConsumableArray(taro.noPromiseApis), _toConsumableArray(_noPromiseApis)));
+            var otherApis = new Set([].concat(_toConsumableArray(taro.otherApis), _toConsumableArray(_otherApis)));
+            var apis = [].concat(_toConsumableArray(onAndSyncApis), _toConsumableArray(noPromiseApis), _toConsumableArray(otherApis));
+            var useDataCacheApis = {
+                navigateTo: true,
+                redirectTo: true,
+                reLaunch: true
+            };
+            var routerParamsPrivateKey = \\"__key_\\";
+            var preloadPrivateKey = \\"__preload_\\";
+            var preloadInitedComponent = \\"$preloadComponent\\";
+            apis.forEach((function(key) {
+                if (!(key in wx)) {
+                    taro[key] = function() {
+                        console.warn(\\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u6682\\\\u4e0d\\\\u652f\\\\u6301 \\".concat(key));
+                    };
+                    return;
+                }
+                if (otherApis.has(key)) {
+                    taro[key] = function(options) {
+                        for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                            args[_key2 - 1] = arguments[_key2];
+                        }
+                        options = options || {};
+                        var task = null;
+                        var obj = Object.assign({}, options);
+                        if (typeof options === \\"string\\") {
+                            if (args.length) {
+                                var _wx;
+                                return (_wx = wx)[key].apply(_wx, [ options ].concat(args));
+                            }
+                            return wx[key](options);
+                        }
+                        if (key === \\"navigateTo\\" || key === \\"redirectTo\\" || key === \\"switchTab\\") {
+                            var url = obj.url ? obj.url.replace(/^\\\\//, \\"\\") : \\"\\";
+                            if (url.indexOf(\\"?\\") > -1) url = url.split(\\"?\\")[0];
+                            var Component = cacheDataGet(url);
+                            if (Component) {
+                                var component = new Component;
+                                if (component.componentWillPreload) {
+                                    var cacheKey = getUniqueKey();
+                                    var MarkIndex = obj.url.indexOf(\\"?\\");
+                                    var hasMark = MarkIndex > -1;
+                                    var urlQueryStr = hasMark ? obj.url.substring(MarkIndex + 1, obj.url.length) : \\"\\";
+                                    var params = queryToJson(urlQueryStr);
+                                    obj.url += (hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(preloadPrivateKey, \\"=\\").concat(cacheKey);
+                                    cacheDataSet(cacheKey, component.componentWillPreload(params));
+                                    cacheDataSet(preloadInitedComponent, component);
+                                }
+                            }
+                        }
+                        if (useDataCacheApis[key]) {
+                            var _url = obj.url = obj.url || \\"\\";
+                            var _MarkIndex = _url.indexOf(\\"?\\");
+                            var _hasMark = _MarkIndex > -1;
+                            var _urlQueryStr = _hasMark ? _url.substring(_MarkIndex + 1, _url.length) : \\"\\";
+                            var _params = queryToJson(_urlQueryStr);
+                            var _cacheKey = getUniqueKey();
+                            obj.url += (_hasMark ? \\"&\\" : \\"?\\") + \\"\\".concat(routerParamsPrivateKey, \\"=\\").concat(_cacheKey);
+                            cacheDataSet(_cacheKey, _params);
+                        }
+                        var p = new Promise((function(resolve, reject) {
+                            [ \\"fail\\", \\"success\\", \\"complete\\" ].forEach((function(k) {
+                                obj[k] = function(res) {
+                                    options[k] && options[k](res);
+                                    if (k === \\"success\\") {
+                                        if (key === \\"connectSocket\\") {
+                                            resolve(Promise.resolve().then((function() {
+                                                return Object.assign(task, res);
+                                            })));
+                                        } else {
+                                            resolve(res);
+                                        }
+                                    } else if (k === \\"fail\\") {
+                                        reject(res);
+                                    }
+                                };
+                            }));
+                            if (args.length) {
+                                var _wx2;
+                                task = (_wx2 = wx)[key].apply(_wx2, [ obj ].concat(args));
+                            } else {
+                                task = wx[key](obj);
+                            }
+                        }));
+                        if (key === \\"uploadFile\\" || key === \\"downloadFile\\") {
+                            p.progress = function(cb) {
+                                if (task) {
+                                    task.onProgressUpdate(cb);
+                                }
+                                return p;
+                            };
+                            p.abort = function(cb) {
+                                cb && cb();
+                                if (task) {
+                                    task.abort();
+                                }
+                                return p;
+                            };
+                        }
+                        return p;
+                    };
+                } else {
+                    taro[key] = function() {
+                        for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                            args[_key3] = arguments[_key3];
+                        }
+                        var argsLen = args.length;
+                        var newArgs = args.concat();
+                        var lastArg = newArgs[argsLen - 1];
+                        if (lastArg && lastArg.isTaroComponent && lastArg.$scope) {
+                            newArgs.splice(argsLen - 1, 1, lastArg.$scope);
+                        }
+                        return wx[key].apply(wx, newArgs);
+                    };
+                }
+            }));
+        }
+        function pxTransform(size) {
+            var _ref = this.config || {}, _ref$designWidth = _ref.designWidth, designWidth = _ref$designWidth === void 0 ? 750 : _ref$designWidth, _ref$deviceRatio = _ref.deviceRatio, deviceRatio = _ref$deviceRatio === void 0 ? {
+                640: 2.34 / 2,
+                750: 1,
+                828: 1.81 / 2
+            } : _ref$deviceRatio;
+            if (!(designWidth in deviceRatio)) {
+                throw new Error(\\"deviceRatio \\\\u914d\\\\u7f6e\\\\u4e2d\\\\u4e0d\\\\u5b58\\\\u5728 \\".concat(designWidth, \\" \\\\u7684\\\\u8bbe\\\\u7f6e\\\\uff01\\"));
+            }
+            return parseInt(size, 10) * deviceRatio[designWidth] + \\"rpx\\";
+        }
+        function canIUseWebp() {
+            var _wx$getSystemInfoSync = wx.getSystemInfoSync(), platform = _wx$getSystemInfoSync.platform;
+            var platformLower = platform.toLowerCase();
+            if (platformLower === \\"android\\" || platformLower === \\"devtools\\") {
+                return true;
+            }
+            return false;
+        }
+        function wxCloud(taro) {
+            var wxC = wx.cloud || {};
+            var wxcloud = {};
+            var apiList = [ \\"init\\", \\"database\\", \\"uploadFile\\", \\"downloadFile\\", \\"getTempFileURL\\", \\"deleteFile\\", \\"callFunction\\", \\"CloudID\\" ];
+            apiList.forEach((function(v) {
+                wxcloud[v] = wxC[v];
+            }));
+            taro.cloud = wxcloud;
+        }
+        function initNativeApi(taro) {
+            processApis(taro);
+            var link = new taro.Link(taroInterceptor);
+            taro.request = link.request.bind(link);
+            taro.addInterceptor = link.addInterceptor.bind(link);
+            taro.cleanInterceptors = link.cleanInterceptors.bind(link);
+            taro.getCurrentPages = getCurrentPages;
+            taro.getApp = getApp;
+            taro.requirePlugin = requirePlugin;
+            taro.initPxTransform = taro.initPxTransform.bind(taro);
+            taro.pxTransform = pxTransform.bind(taro);
+            taro.canIUseWebp = canIUseWebp;
+            taro.env = wx.env;
+            wxCloud(taro);
+        }
+        var components = {
+            Progress: {
+                \\"border-radius\\": \\"0\\",
+                \\"font-size\\": \\"16\\",
+                duration: \\"30\\",
+                bindActiveEnd: \\"\\"
+            },
+            RichText: {
+                space: \\"\\"
+            },
+            Text: {
+                \\"user-select\\": \\"false\\"
+            },
+            Map: {
+                polygons: \\"[]\\",
+                subkey: \\"\\",
+                rotate: \\"0\\",
+                skew: \\"0\\",
+                \\"enable-3D\\": \\"false\\",
+                \\"show-compass\\": \\"false\\",
+                \\"show-scale\\": \\"false\\",
+                \\"enable-overlooking\\": \\"false\\",
+                \\"enable-zoom\\": \\"true\\",
+                \\"enable-scroll\\": \\"true\\",
+                \\"enable-rotate\\": \\"false\\",
+                \\"enable-satellite\\": \\"false\\",
+                \\"enable-traffic\\": \\"false\\",
+                setting: \\"[]\\",
+                bindLabelTap: \\"\\",
+                bindRegionChange: \\"\\",
+                bindPoiTap: \\"\\"
+            },
+            Button: {
+                lang: \\"en\\",
+                \\"session-from\\": \\"\\",
+                \\"send-message-title\\": \\"\\",
+                \\"send-message-path\\": \\"\\",
+                \\"send-message-img\\": \\"\\",
+                \\"app-parameter\\": \\"\\",
+                \\"show-message-card\\": \\"false\\",
+                bindGetUserInfo: \\"\\",
+                bindContact: \\"\\",
+                bindGetPhoneNumber: \\"\\",
+                bindError: \\"\\",
+                bindOpenSetting: \\"\\",
+                bindLaunchApp: \\"\\"
+            },
+            Form: {
+                \\"report-submit-timeout\\": \\"0\\"
+            },
+            Input: {
+                \\"auto-focus\\": \\"false\\",
+                \\"always-embed\\": \\"false\\",
+                \\"adjust-position\\": \\"true\\",
+                \\"hold-keyboard\\": \\"false\\",
+                bindKeyboardHeightChange: \\"\\"
+            },
+            Picker: {
+                \\"header-text\\": \\"\\"
+            },
+            PickerView: {
+                bindPickStart: \\"\\",
+                bindPickEnd: \\"\\"
+            },
+            Slider: {
+                color: singleQuote(\\"#e9e9e9\\"),
+                \\"selected-color\\": singleQuote(\\"#1aad19\\")
+            },
+            Textarea: {
+                \\"show-confirm-bar\\": \\"true\\",
+                \\"adjust-position\\": \\"true\\",
+                \\"hold-keyboard\\": \\"false\\",
+                \\"disable-default-padding\\": \\"false\\",
+                bindKeyboardHeightChange: \\"\\"
+            },
+            ScrollView: {
+                \\"enable-flex\\": \\"false\\",
+                \\"scroll-anchoring\\": \\"false\\",
+                \\"refresher-enabled\\": \\"false\\",
+                \\"refresher-threshold\\": \\"45\\",
+                \\"refresher-default-style\\": singleQuote(\\"black\\"),
+                \\"refresher-background\\": singleQuote(\\"#FFF\\"),
+                \\"refresher-triggered\\": \\"false\\",
+                enhanced: \\"false\\",
+                bounces: \\"true\\",
+                \\"show-scrollbar\\": \\"true\\",
+                \\"paging-enabled\\": \\"false\\",
+                \\"fast-deceleration\\": \\"false\\",
+                bindDragStart: \\"\\",
+                bindDragging: \\"\\",
+                bindDragEnd: \\"\\",
+                bindRefresherPulling: \\"\\",
+                bindRefresherRefresh: \\"\\",
+                bindRefresherRestore: \\"\\",
+                bindRefresherAbort: \\"\\"
+            },
+            Swiper: {
+                \\"snap-to-edge\\": \\"false\\",
+                \\"easing-function\\": singleQuote(\\"default\\")
+            },
+            SwiperItem: {
+                \\"skip-hidden-item-layout\\": \\"false\\"
+            },
+            Navigator: {
+                target: singleQuote(\\"self\\"),
+                \\"app-id\\": \\"\\",
+                path: \\"\\",
+                \\"extra-data\\": \\"\\",
+                version: singleQuote(\\"version\\")
+            },
+            Camera: {
+                mode: singleQuote(\\"normal\\"),
+                resolution: singleQuote(\\"medium\\"),
+                \\"frame-size\\": singleQuote(\\"medium\\"),
+                bindInitDone: \\"\\",
+                bindScanCode: \\"\\"
+            },
+            Image: {
+                webp: \\"false\\",
+                \\"show-menu-by-longpress\\": \\"false\\"
+            },
+            LivePlayer: {
+                mode: singleQuote(\\"live\\"),
+                \\"sound-mode\\": singleQuote(\\"speaker\\"),
+                \\"auto-pause-if-navigate\\": \\"true\\",
+                \\"auto-pause-if-open-native\\": \\"true\\",
+                \\"picture-in-picture-mode\\": \\"[]\\",
+                bindAudioVolumeNotify: \\"\\",
+                bindEnterPictureInPicture: \\"\\",
+                bindLeavePictureInPicture: \\"\\"
+            },
+            Video: {
+                title: \\"\\",
+                \\"play-btn-position\\": singleQuote(\\"bottom\\"),
+                \\"enable-play-gesture\\": \\"false\\",
+                \\"auto-pause-if-navigate\\": \\"true\\",
+                \\"auto-pause-if-open-native\\": \\"true\\",
+                \\"vslide-gesture\\": \\"false\\",
+                \\"vslide-gesture-in-fullscreen\\": \\"true\\",
+                \\"ad-unit-id\\": \\"\\",
+                \\"poster-for-crawler\\": \\"\\",
+                \\"show-casting-button\\": \\"false\\",
+                \\"picture-in-picture-mode\\": \\"[]\\",
+                \\"enable-auto-rotation\\": \\"false\\",
+                \\"show-screen-lock-button\\": \\"false\\",
+                bindProgress: \\"\\",
+                bindLoadedMetadata: \\"\\",
+                bindControlsToggle: \\"\\",
+                bindEnterPictureInPicture: \\"\\",
+                bindLeavePictureInPicture: \\"\\",
+                bindSeekComplete: \\"\\"
+            },
+            Canvas: {
+                type: \\"\\"
+            },
+            Ad: {
+                \\"ad-type\\": singleQuote(\\"banner\\"),
+                \\"ad-theme\\": singleQuote(\\"white\\")
+            },
+            Editor: {
+                \\"read-only\\": \\"false\\",
+                placeholder: \\"\\",
+                \\"show-img-size\\": \\"false\\",
+                \\"show-img-toolbar\\": \\"false\\",
+                \\"show-img-resize\\": \\"false\\",
+                focus: \\"false\\",
+                bindReady: \\"\\",
+                bindFocus: \\"\\",
+                bindBlur: \\"\\",
+                bindInput: \\"\\",
+                bindStatusChange: \\"\\",
+                name: \\"\\"
+            },
+            MatchMedia: {
+                \\"min-width\\": \\"\\",
+                \\"max-width\\": \\"\\",
+                width: \\"\\",
+                \\"min-height\\": \\"\\",
+                \\"max-height\\": \\"\\",
+                height: \\"\\",
+                orientation: \\"\\"
+            },
+            FunctionalPageNavigator: {
+                version: singleQuote(\\"release\\"),
+                name: \\"\\",
+                args: \\"\\",
+                bindSuccess: \\"\\",
+                bindFail: \\"\\",
+                bindCancel: \\"\\"
+            },
+            LivePusher: {
+                url: \\"\\",
+                mode: singleQuote(\\"RTC\\"),
+                autopush: \\"false\\",
+                muted: \\"false\\",
+                \\"enable-camera\\": \\"true\\",
+                \\"auto-focus\\": \\"true\\",
+                orientation: singleQuote(\\"vertical\\"),
+                beauty: \\"0\\",
+                whiteness: \\"0\\",
+                aspect: singleQuote(\\"9:16\\"),
+                \\"min-bitrate\\": \\"200\\",
+                \\"max-bitrate\\": \\"1000\\",
+                \\"audio-quality\\": singleQuote(\\"high\\"),
+                \\"waiting-image\\": \\"\\",
+                \\"waiting-image-hash\\": \\"\\",
+                zoom: \\"false\\",
+                \\"device-position\\": singleQuote(\\"front\\"),
+                \\"background-mute\\": \\"false\\",
+                mirror: \\"false\\",
+                \\"remote-mirror\\": \\"false\\",
+                \\"local-mirror\\": \\"false\\",
+                \\"audio-reverb-type\\": \\"0\\",
+                \\"enable-mic\\": \\"true\\",
+                \\"enable-agc\\": \\"false\\",
+                \\"enable-ans\\": \\"false\\",
+                \\"audio-volume-type\\": singleQuote(\\"voicecall\\"),
+                \\"video-width\\": \\"360\\",
+                \\"video-height\\": \\"640\\",
+                animation: \\"\\",
+                bindStateChange: \\"\\",
+                bindNetStatus: \\"\\",
+                bindBgmStart: \\"\\",
+                bindBgmProgress: \\"\\",
+                bindBgmComplete: \\"\\"
+            },
+            OfficialAccount: {
+                bindLoad: \\"\\",
+                bindError: \\"\\"
+            },
+            OpenData: {
+                type: \\"\\",
+                \\"open-gid\\": \\"\\",
+                lang: singleQuote(\\"en\\"),
+                \\"default-text\\": \\"\\",
+                \\"default-avatar\\": \\"\\",
+                bindError: \\"\\"
+            },
+            NavigationBar: {
+                title: \\"\\",
+                loading: \\"false\\",
+                \\"front-color\\": \\"\\",
+                \\"background-color\\": \\"\\",
+                \\"color-animation-duration\\": \\"0\\",
+                \\"color-animation-timing-func\\": singleQuote(\\"linear\\")
+            },
+            PageMeta: {
+                \\"background-text-style\\": \\"\\",
+                \\"background-color\\": \\"\\",
+                \\"background-color-top\\": \\"\\",
+                \\"background-color-bottom\\": \\"\\",
+                \\"scroll-top\\": singleQuote(\\"\\"),
+                \\"scroll-duration\\": \\"300\\",
+                \\"page-style\\": singleQuote(\\"\\"),
+                \\"root-font-size\\": singleQuote(\\"\\"),
+                bindResize: \\"\\",
+                bindScroll: \\"\\",
+                bindScrollDone: \\"\\"
+            },
+            VoipRoom: {
+                openid: \\"\\",
+                mode: singleQuote(\\"camera\\"),
+                \\"device-position\\": singleQuote(\\"front\\"),
+                bindError: \\"\\"
+            },
+            AdCustom: {
+                \\"unit-id\\": \\"\\",
+                \\"ad-intervals\\": \\"\\",
+                bindLoad: \\"\\",
+                bindError: \\"\\"
+            }
+        };
+        var hostConfig = {
+            initNativeApi: initNativeApi,
+            onTaroElementCreate: function onTaroElementCreate(tagName) {
+                warn(tagName === \\"MAP\\", \\"\\\\u5fae\\\\u4fe1\\\\u5c0f\\\\u7a0b\\\\u5e8f map \\\\u7ec4\\\\u4ef6\\\\u7684 \`setting\` \\\\u5c5e\\\\u6027\\\\u9700\\\\u8981\\\\u4f20\\\\u9012\\\\u4e00\\\\u4e2a\\\\u9ed8\\\\u8ba4\\\\u503c\\\\u3002\\\\u8be6\\\\u60c5\\\\uff1a\\\\n https://developers.weixin.qq.com/miniprogram/dev/component/map.html\\");
+            }
+        };
+        mergeReconciler(hostConfig);
+        mergeInternalComponents(components);
+        var taro_runtime = __webpack_require__(1);
+        var classCallCheck = __webpack_require__(2);
+        var createClass = __webpack_require__(3);
+        var possibleConstructorReturn = __webpack_require__(5);
+        var getPrototypeOf = __webpack_require__(4);
+        var inherits = __webpack_require__(6);
+        var react = __webpack_require__(0);
+        var app = __webpack_require__(11);
+        var app_App = function(_Component) {
+            Object(inherits[\\"a\\"])(App, _Component);
+            function App() {
+                Object(classCallCheck[\\"a\\"])(this, App);
+                return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(App).apply(this, arguments));
+            }
+            Object(createClass[\\"a\\"])(App, [ {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {}
+            }, {
+                key: \\"componentDidShow\\",
+                value: function componentDidShow() {}
+            }, {
+                key: \\"componentDidHide\\",
+                value: function componentDidHide() {}
+            }, {
+                key: \\"componentDidCatchError\\",
+                value: function componentDidCatchError() {}
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return this.props.children;
+                }
+            } ]);
+            return App;
+        }(react[\\"Component\\"]);
+        var lib_src_app = app_App;
+        var taro_react = __webpack_require__(8);
+        var config = {
+            pages: [ \\"pages/index/index\\" ],
+            window: {
+                backgroundTextStyle: \\"light\\",
+                navigationBarBackgroundColor: \\"#fff\\",
+                navigationBarTitleText: \\"WeChat\\",
+                navigationBarTextStyle: \\"black\\"
+            }
+        };
+        taro_runtime[\\"window\\"].__taroAppConfig = config;
+        var inst = App(Object(taro_runtime[\\"createReactApp\\"])(lib_src_app, react, taro_react[\\"a\\"], config));
+    }
+}, [ [ 14, 0, 1, 3, 2 ] ] ]);
+
+
+
+/** filePath: dist/app.json **/
+{\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
+
+/** filePath: dist/app.wxss **/
+
+
+/** filePath: dist/base.wxml **/
+<wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
+<template name=\\"taro_tmpl\\">
+  <block wx:for=\\"{{root.cn}}\\" wx:key=\\"uid\\">
+    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
+  </block>
+</template>
+
+<template name=\\"tmpl_0_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_0_scroll-view\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </scroll-view>
+</template>
+
+<template name=\\"tmpl_0_image\\">
+  <image src=\\"{{i.src}}\\" mode=\\"{{xs.b(i.mode,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.lazyLoad,false)}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </image>
+</template>
+
+<template name=\\"tmpl_0_#text\\" data=\\"{{i:i}}\\">
+  <block>{{i.v}}</block>
+</template>
+
+<template name=\\"tmpl_0_container\\">
+  <template is=\\"{{xs.a(0, i.nn, l)}}\\" data=\\"{{i:i,cid:0,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_1_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_1_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_1_scroll-view\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </scroll-view>
+</template>
+
+<template name=\\"tmpl_1_container\\">
+  <template is=\\"{{xs.a(1, i.nn, l)}}\\" data=\\"{{i:i,cid:1,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_2_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_2_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_2_scroll-view\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </scroll-view>
+</template>
+
+<template name=\\"tmpl_2_container\\">
+  <template is=\\"{{xs.a(2, i.nn, l)}}\\" data=\\"{{i:i,cid:2,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_3_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_3_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_3_scroll-view\\">
+  <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </scroll-view>
+</template>
+
+<template name=\\"tmpl_3_container\\">
+  <template is=\\"{{xs.a(3, i.nn, l)}}\\" data=\\"{{i:i,cid:3,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_4_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_4_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_4_container\\">
+  <template is=\\"{{xs.a(4, i.nn, l)}}\\" data=\\"{{i:i,cid:4,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_5_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_5_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_5_container\\">
+  <template is=\\"{{xs.a(5, i.nn, l)}}\\" data=\\"{{i:i,cid:5,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_6_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_6_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_6_container\\">
+  <template is=\\"{{xs.a(6, i.nn, l)}}\\" data=\\"{{i:i,cid:6,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_7_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_7_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_7_container\\">
+  <template is=\\"{{xs.a(7, i.nn, l)}}\\" data=\\"{{i:i,cid:7,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_8_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_8_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_8_container\\">
+  <template is=\\"{{xs.a(8, i.nn, l)}}\\" data=\\"{{i:i,cid:8,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_9_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_9_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_9_container\\">
+  <template is=\\"{{xs.a(9, i.nn, l)}}\\" data=\\"{{i:i,cid:9,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_10_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_10_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_10_container\\">
+  <template is=\\"{{xs.a(10, i.nn, l)}}\\" data=\\"{{i:i,cid:10,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_11_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_11_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_11_container\\">
+  <template is=\\"{{xs.a(11, i.nn, l)}}\\" data=\\"{{i:i,cid:11,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_12_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_12_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_12_container\\">
+  <template is=\\"{{xs.a(12, i.nn, l)}}\\" data=\\"{{i:i,cid:12,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_13_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_13_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_13_container\\">
+  <template is=\\"{{xs.a(13, i.nn, l)}}\\" data=\\"{{i:i,cid:13,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_14_view\\">
+  <view hover-class=\\"{{xs.b(i.hoverClass,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,400)}}\\" animation=\\"{{i.animation}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_14_text\\">
+  <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"uid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </text>
+</template>
+
+<template name=\\"tmpl_14_container\\">
+  <template is=\\"{{xs.a(14, i.nn, l)}}\\" data=\\"{{i:i,cid:14,l:xs.f(l,i.nn)}}\\" />
+</template>
+
+<template name=\\"tmpl_15_container\\">
+  <comp i=\\"{{i}}\\" l=\\"{{l}}\\" />
+</template>
+
+
+/** filePath: dist/common.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+} ] ]);
+
+/** filePath: dist/comp.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+    12: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+    }
+}, [ [ 12, 0, 1 ] ] ]);
+
+/** filePath: dist/comp.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
+
+/** filePath: dist/comp.wxml **/
+<import src=\\"./base.wxml\\" />
+<template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
+
+/** filePath: dist/pages/index/index.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
+    13: function(module, exports, __webpack_require__) {},
+    15: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var taro_runtime = __webpack_require__(1);
+        var classCallCheck = __webpack_require__(2);
+        var createClass = __webpack_require__(3);
+        var possibleConstructorReturn = __webpack_require__(5);
+        var getPrototypeOf = __webpack_require__(4);
+        var inherits = __webpack_require__(6);
+        var react = __webpack_require__(0);
+        var taro_components = __webpack_require__(7);
+        var index = __webpack_require__(13);
+        var index_Index = function(_Component) {
+            Object(inherits[\\"a\\"])(Index, _Component);
+            function Index() {
+                Object(classCallCheck[\\"a\\"])(this, Index);
+                return Object(possibleConstructorReturn[\\"a\\"])(this, Object(getPrototypeOf[\\"a\\"])(Index).apply(this, arguments));
+            }
+            Object(createClass[\\"a\\"])(Index, [ {
+                key: \\"componentWillMount\\",
+                value: function componentWillMount() {}
+            }, {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {}
+            }, {
+                key: \\"componentWillUnmount\\",
+                value: function componentWillUnmount() {}
+            }, {
+                key: \\"componentDidShow\\",
+                value: function componentDidShow() {}
+            }, {
+                key: \\"componentDidHide\\",
+                value: function componentDidHide() {}
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return react[\\"default\\"].createElement(taro_components[\\"View\\"], {
+                        className: \\"index\\"
+                    }, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Hello world!\\"));
+                }
+            } ]);
+            return Index;
+        }(react[\\"Component\\"]);
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+        };
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {}, config || {}));
+    }
+}, [ [ 15, 0, 1, 3, 2 ] ] ]);
+
+/** filePath: dist/pages/index/index.json **/
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
+
+/** filePath: dist/pages/index/index.wxml **/
+<import src=\\"../../base.wxml\\"/>
+<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+
+/** filePath: dist/pages/index/index.wxss **/
+.body #header{width:10rpx;height:20rpx}
+
+/** filePath: dist/runtime.js **/
+(function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var executeModules = data[2];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+        deferredModules.push.apply(deferredModules, executeModules || []);
+        return checkDeferredModules();
+    }
+    function checkDeferredModules() {
+        var result;
+        for (var i = 0; i < deferredModules.length; i++) {
+            var deferredModule = deferredModules[i];
+            var fulfilled = true;
+            for (var j = 1; j < deferredModule.length; j++) {
+                var depId = deferredModule[j];
+                if (installedChunks[depId] !== 0) fulfilled = false;
+            }
+            if (fulfilled) {
+                deferredModules.splice(i--, 1);
+                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+            }
+        }
+        return result;
+    }
+    var installedModules = {};
+    var installedChunks = {
+        0: 0
+    };
+    var deferredModules = [];
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+        }
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        };
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+    __webpack_require__.m = modules;
+    __webpack_require__.c = installedModules;
+    __webpack_require__.d = function(exports, name, getter) {
+        if (!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, {
+                enumerable: true,
+                get: getter
+            });
+        }
+    };
+    __webpack_require__.r = function(exports) {
+        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, {
+                value: \\"Module\\"
+            });
+        }
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+    };
+    __webpack_require__.t = function(value, mode) {
+        if (mode & 1) value = __webpack_require__(value);
+        if (mode & 8) return value;
+        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
+        var ns = Object.create(null);
+        __webpack_require__.r(ns);
+        Object.defineProperty(ns, \\"default\\", {
+            enumerable: true,
+            value: value
+        });
+        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+            return value[key];
+        }.bind(null, key));
+        return ns;
+    };
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function getDefault() {
+            return module[\\"default\\"];
+        } : function getModuleExports() {
+            return module;
+        };
+        __webpack_require__.d(getter, \\"a\\", getter);
+        return getter;
+    };
+    __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    };
+    __webpack_require__.p = \\"/\\";
+    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    checkDeferredModules();
+})([]);
+
+/** filePath: dist/taro.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
+    1: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+    },
+    7: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-components-mock\\";
+    },
+    8: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
+    }
+} ]);
+
+/** filePath: dist/utils.wxs **/
+module.exports = {
+  a: function (l, n, s) {
+    var a = [\\"view\\",\\"cover-view\\",\\"block\\",\\"text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\"]
+    var b = [\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\"]
+    if (a.indexOf(n) === -1) {
+      l = 0
+    }
+    if (b.indexOf(n) > -1) {
+      var u = s.split(',')
+      var depth = 0
+      for (var i = 0; i < u.length; i++) {
+        if (u[i] === n) depth++
+      }
+      l = depth
+    }
+    return 'tmpl_' + l + '_' + n
+  },
+  b: function (a, b) {
+    return a === undefined ? b : a
+  },
+  c: function(i, prefix) {
+    var s = i.focus !== undefined ? 'focus' : 'blur'
+    return prefix + i.nn + '_' + s
+  },
+  d: function (i, v) {
+    return i === undefined ? v : i
+  },
+  e: function (n) {
+    return 'tmpl_' + n + '_container'
+  },
+  f: function (l, n) {
+    var b = [\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\"]
+    if (b.indexOf(n) > -1) {
+      if (l) l += ','
+      l += n
+    }
+    return l
+  }
+}
+
+/** filePath: dist/vendors.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _classCallCheck;
+    }));
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError(\\"Cannot call a class as a function\\");
+        }
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createClass;
+    }));
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if (\\"value\\" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _getPrototypeOf;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _possibleConstructorReturn;
+    }));
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+            _typeof = function _typeof(obj) {
+                return typeof obj;
+            };
+        } else {
+            _typeof = function _typeof(obj) {
+                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            };
+        }
+        return _typeof(obj);
+    }
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+        }
+        return self;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
+            return call;
+        }
+        return _assertThisInitialized(self);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _inherits;
+    }));
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== \\"function\\" && superClass !== null) {
+            throw new TypeError(\\"Super expression must either be null or a function\\");
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                writable: true,
+                configurable: true
+            }
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+} ] ]);
+"
+`;

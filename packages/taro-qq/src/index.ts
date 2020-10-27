@@ -1,6 +1,8 @@
 import QQ from './program'
 import type { IPluginContext } from '@tarojs/service'
 
+export { QQ }
+
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
     name: 'qq',

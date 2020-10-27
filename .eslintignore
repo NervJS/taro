@@ -13,6 +13,6 @@ packages/taro-cli/templates
 /packages/taro-components/loader
 packages/taro-webpack-runner/src/__tests__/__snapshots__
 packages/taro-webpack-runner/src/__tests__/fixtures
-packages/taro-mini-runner/__tests__/__snapshots__
-packages/taro-mini-runner/__tests__/fixtures
+packages/taro-mini-runner/src/__tests__/__snapshots__
+packages/taro-mini-runner/src/__tests__/fixtures
 packages/taro-cli/src/__tests__/fixtures
