@@ -96,6 +96,11 @@ const siteConfigGithub = {
           label: '博客',
           position: 'left',
         },
+        {
+          to: 'showcase',
+          label: '案例',
+          position: 'left',
+        },
         {href: 'https://taro-ui.jd.com', label: 'Taro UI', position: 'right'},
         {href: 'https://taro-ext.jd.com', label: '物料市场', position: 'right'},
         {href: 'https://taro-club.jd.com', label: '论坛', position: 'right'},
@@ -267,6 +272,11 @@ const siteConfigTaroZone = {
         {
           to: 'blog',
           label: '博客',
+          position: 'left',
+        },
+        {
+          to: 'showcase',
+          label: '案例',
           position: 'left',
         },
         {href: 'https://taro-ui.taro.zone', label: 'Taro UI', position: 'right'},

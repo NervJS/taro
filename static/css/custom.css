@@ -364,3 +364,39 @@ pre {
 #back-to-top{
   opacity: 0.6;
 }
+
+/* 案例页面的样式 */
+
+.app_nav {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  height: 35px;
+  border-bottom: 1px solid #0000C2;
+  position: sticky;
+  top: 0px;
+  left: 100px;
+  background: #fff;
+  line-height: 35px;
+}
+.app_nav a {
+  display: inline-block;
+  padding: 0 10px;
+  font-size: 18px;
+  color: #000;
+}
+.app_nav a:hover {
+  text-decoration: none;
+  color: #0000c2;
+}
+
+.app_nav a span {
+  padding-left: 5px;
+}
+
+.app h2 {
+  margin-bottom: 30px;
+}
+
+.app table {
+  margin-bottom: 80px;
+}

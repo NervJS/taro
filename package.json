@@ -3,10 +3,10 @@
   "private": true,
   "scripts": {
     "start": "NODE_OPTIONS=--max-old-space-size=4096 BASE=taro docusaurus start",
-    "build:github": "NODE_OPTIONS=--max-old-space-size=4096 BASE=taro docusaurus build --out-dir build/taro",
+    "build:github": "NODE_OPTIONS=--max-old-space-size=5120 BASE=taro docusaurus build --out-dir build/taro",
     "build": "npm run build:github",
-    "build:independent": "NODE_OPTIONS=--max-old-space-size=4096 docusaurus build --out-dir dist",
-    "build:zone": "NODE_OPTIONS=--max-old-space-size=4096 BASE=zone docusaurus build --out-dir dist",
+    "build:independent": "NODE_OPTIONS=--max-old-space-size=5120 docusaurus build --out-dir dist",
+    "build:zone": "NODE_OPTIONS=--max-old-space-size=5120 BASE=zone docusaurus build --out-dir dist",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve"
