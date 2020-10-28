@@ -50,9 +50,17 @@ const config = {
 最后在项目根目录新建 `linaria.config.js`
 
 ```js
-// linaria 配置详见 https://github.com/callstack/linaria/blob/2eaef3f15b/docs/CONFIGURATION.md#options
+// linaria 配置详见 https://github.com/callstack/linaria/blob/master/docs/CONFIGURATION.md#options
 module.exports = {
-    ignore: /node_modules[\/\\](?!@tarojs[\/\\]components)/,
+  rules: [
+    {
+      action: require("linaria/evaluators").shaker,
+    },
+    {
+      test: /node_modules[\/\\](?!@tarojs[\/\\]components)/,
+      action: "ignore"
+    }
+  ]
 }
 ```
 
