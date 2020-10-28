@@ -383,7 +383,7 @@ function processApis (taro: ITaro) {
           if (arg1 != null) {
             return my[key]({ key: arg1 }).data || my[key]({ key: arg1 }).APDataStorage || ''
           }
-          return console.log('getStorageSync 传入参数错误')
+          return console.error('getStorageSync 传入参数错误')
         }
         if (key === 'setStorageSync') {
           const arg1 = args[0]
@@ -394,14 +394,14 @@ function processApis (taro: ITaro) {
               data: arg2
             })
           }
-          return console.log('setStorageSync 传入参数错误')
+          return console.error('setStorageSync 传入参数错误')
         }
         if (key === 'removeStorageSync') {
           const arg1 = args[0]
           if (arg1 != null) {
             return my[key]({ key: arg1 })
           }
-          return console.log('removeStorageSync 传入参数错误')
+          return console.error('removeStorageSync 传入参数错误')
         }
         if (key === 'createSelectorQuery') {
           const query = my[key]()
