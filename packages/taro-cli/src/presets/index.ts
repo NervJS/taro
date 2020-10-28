@@ -4,12 +4,12 @@ export default () => {
   return {
     plugins: [
       // platforms
-      require.resolve('@tarojs/plugin-platform-weapp'),
-      require.resolve('@tarojs/plugin-platform-alipay'),
-      require.resolve('@tarojs/plugin-platform-swan'),
-      require.resolve('@tarojs/plugin-platform-tt'),
-      require.resolve('@tarojs/plugin-platform-qq'),
-      require.resolve('@tarojs/plugin-platform-jd'),
+      '@tarojs/plugin-platform-weapp',
+      '@tarojs/plugin-platform-alipay',
+      '@tarojs/plugin-platform-swan',
+      '@tarojs/plugin-platform-tt',
+      '@tarojs/plugin-platform-qq',
+      '@tarojs/plugin-platform-jd',
       path.resolve(__dirname, 'platforms', 'h5.js'),
       path.resolve(__dirname, 'platforms', 'plugin.js'),
 
