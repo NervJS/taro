@@ -1397,7 +1397,7 @@ require(\\"./taro\\");
                                     key: arg1
                                 }).APDataStorage || \\"\\";
                             }
-                            return console.log(\\"getStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
+                            return console.error(\\"getStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
                         }
                         if (key === \\"setStorageSync\\") {
                             var _arg = args[0];
@@ -1408,7 +1408,7 @@ require(\\"./taro\\");
                                     data: arg2
                                 });
                             }
-                            return console.log(\\"setStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
+                            return console.error(\\"setStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
                         }
                         if (key === \\"removeStorageSync\\") {
                             var _arg2 = args[0];
@@ -1417,7 +1417,7 @@ require(\\"./taro\\");
                                     key: _arg2
                                 });
                             }
-                            return console.log(\\"removeStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
+                            return console.error(\\"removeStorageSync \\\\u4f20\\\\u5165\\\\u53c2\\\\u6570\\\\u9519\\\\u8bef\\");
                         }
                         if (key === \\"createSelectorQuery\\") {
                             var query = my[key]();
