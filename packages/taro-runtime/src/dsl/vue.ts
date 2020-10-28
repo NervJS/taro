@@ -102,7 +102,7 @@ function setReconciler () {
 
 let Vue
 
-export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
+export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: AppConfig) {
   Vue = vue
   ensure(!!Vue, '构建 Vue 项目请把 process.env.FRAMEWORK 设置为 \'vue\'')
 
@@ -120,7 +120,7 @@ export function createVueApp (App: VueInstance, vue: V, config: AppConfig) {
         const page = pages.pop()!
         elements.push(page(h))
       }
-      return h(App.$options, { ref: 'app' }, elements.slice())
+      return h(App, { ref: 'app' }, elements.slice())
     },
     methods: {
       mount (component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
