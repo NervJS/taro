@@ -251,5 +251,6 @@ export default function initNativeApi (taro) {
   taro.initPxTransform = initPxTransform.bind(taro)
   taro.pxTransform = pxTransform.bind(taro)
   taro.canIUseWebp = canIUseWebp
+  taro.env = wx.env
   wxCloud(taro)
 }

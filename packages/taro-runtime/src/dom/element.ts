@@ -78,7 +78,7 @@ export class TaroElement extends TaroNode {
     this.setAttribute('focus', false)
   }
 
-  public setAttribute (qualifiedName: string, value: string | boolean): void {
+  public setAttribute (qualifiedName: string, value: any): void {
     warn(
       isString(value) && value.length > PROPERTY_THRESHOLD,
       `元素 ${this.nodeName} 的 属性 ${qualifiedName} 的值数据量过大，可能会影响渲染性能。考虑降低图片转为 base64 的阈值或在 CSS 中使用 base64。`

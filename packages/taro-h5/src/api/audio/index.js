@@ -1,4 +1,3 @@
-// import { findRef } from '../utils/index'
 import Taro from '@tarojs/api'
 import { createCallbackManager } from '../utils/index'
 
@@ -136,26 +135,3 @@ export const createInnerAudioContext = () => {
 
   return iac
 }
-
-/**
- * @typedef {object} AudioContext
- * @property {(src: string) => void} setSrc 设置音频地址
- * @property {() => void} play 播放音频。
- * @property {() => void} pause 暂停音频。
- * @property {(position: number) => void} seek(number position) 跳转到指定位置。
- */
-
-/**
- * 创建 audio 上下文 AudioContext 对象。
- * @param {string} id <audio> 组件的 id
- * @param {Object} this 在自定义组件下，当前组件实例的this，以操作组件内 <audio> 组件
- * @returns {AudioContext}
- */
-// export const createAudioContext = (id, componentInstance) => {
-//   const refId = `__taroref_${id}`
-//   const audioComponent = findRef(refId, componentInstance)
-//   return audioComponent
-
-//   /** @type {AudioContext} */
-//   // const audioContext = {}
-// }

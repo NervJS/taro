@@ -17,7 +17,12 @@ export class TaroEventTarget {
   public __handlers: Record<string, EventHandler[]> = {}
 
   public addEventListener (type: string, handler: EventHandler, options?: boolean | AddEventListenerOptions) {
-    warn(type === 'regionchange', 'map 组件的 regionchange 事件非常特殊，请使用 begin/end 事件替代。详情：https://github.com/NervJS/taro/issues/5766')
+    if (type === 'regionchange') {
+      // map 组件的 regionchange 事件非常特殊，详情：https://github.com/NervJS/taro/issues/5766
+      this.addEventListener('begin', handler, options)
+      this.addEventListener('end', handler, options)
+      return
+    }
     type = type.toLowerCase()
     const handlers = this.__handlers[type]
     let isCapture = Boolean(options)
