@@ -116,8 +116,8 @@ const siteConfigGithub = {
     announcementBar: {
       id: 'support_us', // Any value that will identify this message.
       content:
-        '<div className="alert alert--warning margin-bottom--md" role="alert">Taro 正在参与 OSC 年度中国开源项目评选，您的鼓励是我们坚持不懈的动力，请为我们投上宝贵的一票吧！ <a href="https://www.oschina.net/project/top_cn_2020?utm_source=projectdetail#taro" target="_blank">去投票</a></div>',
-      backgroundColor: '#fafbfc', // Defaults to `#fff`.
+        '<div class="top_tip" role="alert">助力 Taro 参加 2020 年度最受欢迎中国开源软件评选，您的鼓励是我们坚持不懈的动力，请为我们投上宝贵的一票吧！ <a href="https://www.oschina.net/project/top_cn_2020?utm_source=projectdetail#taro" target="_blank">去投票</a></div>',
+      backgroundColor: '#ffba00', // Defaults to `#fff`.
       textColor: '#091E42', // Defaults to `#000`.
       isCloseable: true, // Defaults to `true`.
     }
@@ -303,8 +303,8 @@ const siteConfigTaroZone = {
     announcementBar: {
       id: 'support_us', // Any value that will identify this message.
       content:
-        '<div className="alert alert--warning margin-bottom--md" role="alert">Taro 正在参与 OSC 年度中国开源项目评选，您的鼓励是我们坚持不懈的动力，请为我们投上宝贵的一票吧！ <a href="https://www.oschina.net/project/top_cn_2020?utm_source=projectdetail#taro" target="_blank">去投票</a></div>',
-      backgroundColor: '#fafbfc', // Defaults to `#fff`.
+        '<div class="top_tip" role="alert">助力 Taro 参加 2020 年度最受欢迎中国开源软件评选，您的鼓励是我们坚持不懈的动力，请为我们投上宝贵的一票吧！ <a href="https://www.oschina.net/project/top_cn_2020?utm_source=projectdetail#taro" target="_blank">去投票</a></div>',
+      backgroundColor: '#ffba00', // Defaults to `#fff`.
       textColor: '#091E42', // Defaults to `#000`.
       isCloseable: true, // Defaults to `true`.
     }

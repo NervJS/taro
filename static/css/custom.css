@@ -401,11 +401,7 @@ pre {
   margin-bottom: 80px;
 }
 
-.announcementBarContent_node_modules-\@docusaurus-theme-classic-lib-theme-AnnouncementBar- {
-  background: var(--ifm-color-warning);
-}
-
-html .announcementBarContent_node_modules-\@docusaurus-theme-classic-lib-theme-AnnouncementBar- a {
+html .top_tip a {
   display: inline-block;
   padding: 0 10px;
   line-height: 22px;
@@ -421,4 +417,7 @@ html .announcementBarContent_node_modules-\@docusaurus-theme-classic-lib-theme-A
   top: -1px;
   width: auto;
   text-decoration: none;
+}
+html[data-theme="dark"] .top_tip a {
+color: var(--docsearch-muted-color);
 }
