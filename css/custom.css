@@ -400,3 +400,25 @@ pre {
 .app table {
   margin-bottom: 80px;
 }
+
+.announcementBarContent_node_modules-\@docusaurus-theme-classic-lib-theme-AnnouncementBar- {
+  background: var(--ifm-color-warning);
+}
+
+html .announcementBarContent_node_modules-\@docusaurus-theme-classic-lib-theme-AnnouncementBar- a {
+  display: inline-block;
+  padding: 0 10px;
+  line-height: 22px;
+  align-items: center;
+  background: var(--docsearch-key-gradient);
+  border-radius: 3px;
+  box-shadow: var(--docsearch-key-shadow);
+  height: 22px;
+  justify-content: center;
+  margin-right: .4em;
+  padding-bottom: 2px;
+  position: relative;
+  top: -1px;
+  width: auto;
+  text-decoration: none;
+}
