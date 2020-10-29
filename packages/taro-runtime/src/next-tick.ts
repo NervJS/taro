@@ -29,7 +29,7 @@ export const nextTick = (cb: Function, ctx?: Record<string, any>) => {
           timerFunc()
         }) ?? timerFunc()
       } else {
-        pageElement.enqueueUpdateCallbak(cb, ctx)
+        pageElement.enqueueUpdateCallback(cb, ctx)
       }
     } else {
       timerFunc()
