@@ -17,7 +17,8 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

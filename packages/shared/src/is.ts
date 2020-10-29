@@ -23,10 +23,10 @@ export function isFunction (o: unknown): o is Function {
 }
 
 export function isNumber (o: unknown): o is number {
-  return typeof o === 'number'
+  return typeof o === 'number' && !Number.isNaN(o) && Number.isFinite(o)
 }
 
-export function isBooleanStringLiteral (o: unknown): o is string {
+export function isBooleanStringLiteral (o: unknown): o is 'true' | 'false' {
   return o === 'true' || o === 'false'
 }
 
