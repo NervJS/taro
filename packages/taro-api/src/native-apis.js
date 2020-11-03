@@ -119,6 +119,9 @@ const noPromiseApis = {
   getUpdateManager: true,
   createWorker: true,
 
+  getPerformance: true,
+  reportPerformance: true,
+
   // 广告
   createRewardedVideoAd: true,
   createInterstitialAd: true
