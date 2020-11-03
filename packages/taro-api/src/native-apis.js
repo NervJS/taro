@@ -151,6 +151,7 @@ const otherApis = {
   chooseVideo: true,
   saveVideoToPhotosAlbum: true,
   loadFontFace: true,
+  chooseMedia: true,
 
   // 文件
   saveFile: true,
