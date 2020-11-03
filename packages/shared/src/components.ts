@@ -441,7 +441,13 @@ const ScrollView = {
   bindDragStart: '',
   bindDragging: '',
   bindDragEnd: '',
-  ...touchEvents
+  ...touchEvents,
+  ...selectEnv({
+    alipay: {
+      'scroll-animation-duration': '',
+      'trap-scroll': 'false'
+    }
+  })
 }
 
 const Swiper = {
