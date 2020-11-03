@@ -121,7 +121,7 @@ const createHistory = (props: { basename?: string, mode: "hash" | "browser" | "m
 
   serialize = createHistorySerializer(store)
 
-  globalHistory.replaceState(initialLocation.state, '')
+  globalHistory.replaceState(initialLocation.state, '', '')
 
   const createHref = props.mode === "hash"
     ? location => '#' + addLeadingSlash(basename + createPath(location))
