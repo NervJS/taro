@@ -26,7 +26,11 @@ const siteConfigGithub = {
     {
       src: 'https://storage.jd.com/taro-resource/tongji.js',
       async: true
-    }
+    },
+    {
+      src: 'https://storage.jd.com/taro-docs/taro-doc-hotjar.js',
+      async: true
+    },
   ],
   themeConfig: {
     hideableSidebar: true,
@@ -213,6 +217,10 @@ const siteConfigTaroZone = {
   scripts: [
     {
       src: 'https://storage.jd.com/taro-resource/tongji.js',
+      async: true
+    },
+    {
+      src: 'https://storage.jd.com/taro-docs/taro-doc-hotjar.js',
       async: true
     }
   ],
