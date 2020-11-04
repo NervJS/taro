@@ -119,6 +119,9 @@ const noPromiseApis = {
   getUpdateManager: true,
   createWorker: true,
 
+  getPerformance: true,
+  reportPerformance: true,
+
   // 广告
   createRewardedVideoAd: true,
   createInterstitialAd: true
@@ -148,6 +151,7 @@ const otherApis = {
   chooseVideo: true,
   saveVideoToPhotosAlbum: true,
   loadFontFace: true,
+  chooseMedia: true,
 
   // 文件
   saveFile: true,
