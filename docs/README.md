@@ -20,11 +20,9 @@ title: Taro 介绍
 
 [【视频】5分钟快速上手 Taro 开发小程序](https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247484205&idx=1&sn=935bb7a35c11c33563eeb7c3aaca3321&chksm=fd2bab04ca5c2212b4cd8aeb5858bd08517aeb31e20727b22d1eee00b394184e7e61359e7dd9&token=1180618535&lang=zh_CN#rd)
 
-[【案例合集】awesome-taro](https://github.com/NervJS/awesome-taro)
-
 [【掘金小册】Taro 多端开发实现原理与实战](https://juejin.im/book/5b73a131f265da28065fb1cd?referrer=5ba228f16fb9a05d3251492d)
 
-
+更多的资源 [点击查看 Awesome-Taro](./composition.md) ，如果您有好的资源或教程和大家分享，[点击提交资源到 awesome-taro](https://github.com/NervJS/awesome-taro)
 
 ## 社区共享
 
@@ -42,7 +40,9 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 <a href="https://nervjs.github.io/taro-user-cases/"><img src="https://raw.githubusercontent.com/NervJS/taro-user-cases/master/user-cases.jpg" /></a>
 
-[征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
+[查看更多的案例，请点击](./showcase)
+
+[我们正在征集更多优秀案例，欢迎点击提交](https://github.com/NervJS/taro/issues/244)
 
 ## Taro 特性
 

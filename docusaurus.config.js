@@ -29,6 +29,7 @@ const siteConfigGithub = {
     }
   ],
   themeConfig: {
+    hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
@@ -39,7 +40,7 @@ const siteConfigGithub = {
       apiKey: '57b9948bff42bc0dbc6c219556fbae35', /* (github.com)taro:57b9948bff42bc0dbc6c219556fbae35, (netlify)taro_new:820a8e12c97e870d4e0785d52858230c */
       indexName: 'taro',
       searchParameters: {
-        // facetFilters: [`version:VERSIONS`],
+        facetFilters: [`version: ${versions[0]}`],
       },
     },
     prism: {
@@ -216,13 +217,14 @@ const siteConfigTaroZone = {
     }
   ],
   themeConfig: {
+    hideableSidebar: true,
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
     algolia: {
-      // contextualSearch: true,
+      contextualSearch: true,
       apiKey: '3f32982103f4e75dadd86900d26a9315',
       indexName: 'taro-zone',
       searchParameters: {
