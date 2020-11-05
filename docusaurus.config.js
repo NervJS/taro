@@ -232,7 +232,7 @@ const siteConfigTaroZone = {
       respectPrefersColorScheme: true,
     },
     algolia: {
-      contextualSearch: true,
+      // contextualSearch: true,
       apiKey: '3f32982103f4e75dadd86900d26a9315',
       indexName: 'taro-zone',
       searchParameters: {
