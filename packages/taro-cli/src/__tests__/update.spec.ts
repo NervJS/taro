@@ -162,8 +162,8 @@ describe('update', () => {
         args: ['project']
       })
     } catch (error) {}
-    expect(chalkMocked).toBeCalledWith(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`)
     expect(exitSpy).toBeCalledWith(1)
+    expect(chalkMocked).toBeCalledWith(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`)
     exitSpy.mockRestore()
     logSpy.mockRestore()
   })

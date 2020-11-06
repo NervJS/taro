@@ -15,12 +15,8 @@ import { findDOM } from '../utils/index'
 /**
  * 获取 canvas 区域隐含的像素数据。
  * @param {Param} object 参数
- * @param {Object} componentInstance 在自定义组件下，当前组件实例的this，以操作组件内 <canvas> 组件
  */
 const canvasGetImageData = ({ canvasId, success, fail, complete, x, y, width, height }, inst) => {
-  // const refId = `__taroref_${canvasId}`
-  // const component = findRef(refId, componentInstance)
-
   /** @type {HTMLCanvasElement} */
   const canvas = findDOM(inst).querySelector(`[canvasId=${canvasId}]`)
 

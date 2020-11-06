@@ -54,6 +54,7 @@ export function customVue3Chain (chain) {
             const nodeName = node.tag
 
             if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+              node.tagType = 0
               componentConfig.includes.add(nodeName)
             }
 

@@ -73,6 +73,13 @@ interface SwiperProps extends StandardProps {
    */
   nextMargin?: string
 
+  /**
+   * 当 swiper-item 的个数大于等于 2，关闭 circular 并且开启 previous-margin 或 next-margin 的时候，可以指定这个边距是否应用到第一个、最后一个元素
+   * @default false
+   * @supported weapp
+   */
+  snapToEdge?: boolean
+
   /** 同时显示的滑块数量
    * @default 1
    * @supported weapp, swan, tt, h5
@@ -94,7 +101,7 @@ interface SwiperProps extends StandardProps {
   /** current 改变时会触发 change 事件
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  onChange?: CommonEventFunction<SwiperProps.onChangeEventDeatil>
+  onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
 
   /** swiper-item 的位置发生改变时会触发 transition 事件
    * @supported weapp
@@ -105,6 +112,12 @@ interface SwiperProps extends StandardProps {
    * @supported weapp, swan, h5, rn
    */
   onAnimationFinish?: SwiperProps['onChange']
+  
+  /** 是否禁止用户 touch 操作
+   * @default false
+   * @supported alipay
+   */
+  disableTouch?: boolean
 }
 
 declare namespace SwiperProps {
@@ -117,7 +130,7 @@ declare namespace SwiperProps {
     /** 其它原因 */
     ''
   }
-  
+
   /** 指定 swiper 切换缓动动画类型 */
   interface TEasingFunction {
     /** 默认缓动函数 */
@@ -132,7 +145,7 @@ declare namespace SwiperProps {
     easeInOutCubic
   }
 
-  interface onChangeEventDeatil {
+  interface onChangeEventDetail {
     /** 当前所在滑块的索引 */
     current: number
     /** 导致变更的原因 */

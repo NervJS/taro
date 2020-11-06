@@ -37,10 +37,12 @@ var tabbarSelectedIconPath = []
     for (let i = 0; i < tabbarList.length; i++) {
       const t = tabbarList[i]
       if (t.iconPath) {
-        tabBarCode += `tabbarIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.iconPath))}).default\n`
+        const iconPath = stringify(join(dirname(this.resourcePath), t.iconPath))
+        tabBarCode += `tabbarIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
       if (t.selectedIconPath) {
-        tabBarCode += `tabbarSelectedIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.selectedIconPath))}).default\n`
+        const iconPath = stringify(join(dirname(this.resourcePath), t.selectedIconPath))
+        tabBarCode += `tabbarSelectedIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
     }
   }
@@ -63,7 +65,7 @@ window.__taroAppConfig = config
 ${config.tabBar ? tabBarCode : ''}
 if (config.tabBar) {
   var tabbarList = config.tabBar.list
-  for (let i = 0; i < tabbarList.length; i++) {
+  for (var i = 0; i < tabbarList.length; i++) {
     var t = tabbarList[i]
     if (t.iconPath) {
       t.iconPath = tabbarIconPath[i]

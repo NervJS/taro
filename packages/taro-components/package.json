@@ -48,8 +48,9 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
-    "@stencil/sass": "^1.1.1",
+    "@stencil/sass": "~1.1.1",
     "jquery": "^3.4.1",
+    "karmatic": "^2.1.0",
     "simulant": "^0.2.2",
     "workbox-build": "4.3.1"
   }

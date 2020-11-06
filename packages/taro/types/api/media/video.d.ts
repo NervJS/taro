@@ -110,7 +110,7 @@ declare namespace Taro {
 
   interface VideoContext {
     /** 退出全屏
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitFullScreen.html
      */
     exitFullScreen(): void
@@ -120,12 +120,12 @@ declare namespace Taro {
      */
     hideStatusBar(): void
     /** 暂停视频
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.pause.html
      */
     pause(): void
     /** 播放视频
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.play.html
      */
     play(): void
@@ -138,12 +138,12 @@ declare namespace Taro {
       rate: number,
     ): void
     /** 进入全屏
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.requestFullScreen.html
      */
     requestFullScreen(option: VideoContext.RequestFullScreenOption): void
     /** 跳转到指定位置
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.seek.html
      */
     seek(
@@ -164,7 +164,7 @@ declare namespace Taro {
      */
     showStatusBar(): void
     /** 停止视频
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.stop.html
      */
     stop(): void

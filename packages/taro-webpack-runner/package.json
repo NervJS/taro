@@ -6,11 +6,11 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "test": "env NODE_ENV=jest jest",
-    "test:ci": "env NODE_ENV=jest jest -i",
-    "test:dev": "env NODE_ENV=jest jest --watch",
-    "test:coverage": "env NODE_ENV=jest jest --coverage",
-    "updateSnapshot": "env NODE_ENV=jest jest --updateSnapshot"
+    "test": "cross-env NODE_ENV=jest jest",
+    "test:ci": "cross-env NODE_ENV=jest jest -i",
+    "test:dev": "cross-env NODE_ENV=jest jest --watch",
+    "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
+    "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
   },
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
-    "@babel/core": "7.6.4",
+    "@babel/core": "7.11.1",
     "@tarojs/helper": "3.1.0-beta.0",
     "@tarojs/runner-utils": "3.1.0-beta.0",
     "@tarojs/runtime": "3.1.0-beta.0",
@@ -66,7 +66,7 @@
     "url-loader": "^4.1.0",
     "webpack": "4.41.6",
     "webpack-chain": "4.9.0",
-    "webpack-dev-server": "3.10.3",
+    "webpack-dev-server": "3.11.0",
     "webpack-format-messages": "2.0.3"
   },
   "devDependencies": {
@@ -78,7 +78,7 @@
     "@types/node": "13.7.2",
     "@types/resolve": "1.14.0",
     "@types/webpack": "4.41.6",
-    "@types/webpack-dev-server": "3.10.0",
+    "@types/webpack-dev-server": "3.11.0",
     "babel-plugin-transform-taroapi": "3.1.0-beta.0",
     "babel-preset-taro": "3.1.0-beta.0"
   }

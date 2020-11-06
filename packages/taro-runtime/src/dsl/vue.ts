@@ -167,12 +167,12 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
       writable: true,
       enumerable: true,
       value (options) {
-        wrapper.$mount(document.getElementById('app') as any)
-        appInstance = wrapper.$refs.app as VueAppInstance
         Current.router = {
           params: options?.query,
           ...options
         }
+        wrapper.$mount(document.getElementById('app') as any)
+        appInstance = wrapper.$refs.app as VueAppInstance
         if (appInstance != null && isFunction(appInstance.$options.onLaunch)) {
           appInstance.$options.onLaunch.call(appInstance, options)
         }

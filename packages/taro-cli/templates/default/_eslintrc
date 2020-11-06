@@ -3,5 +3,5 @@
 // https://eslint.vuejs.org/user-guide/#editor-integrations
 <%}-%>
 {
-  'extends': ['taro/<%= framework %>']
+  "extends": ["taro/<%= framework %>"]
 }

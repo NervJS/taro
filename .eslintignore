@@ -1,4 +1,5 @@
 dist
+dist-h5
 lib
 node_modules
 *.d.ts

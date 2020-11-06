@@ -113,6 +113,11 @@ export class TaroNode extends TaroEventTarget {
     CurrentReconciler.insertBefore?.(this, newChild, refChild)
 
     this.enqueueUpdate(payload)
+
+    if (!eventSource.has(newChild.uid)) {
+      eventSource.set(newChild.uid, newChild)
+    }
+
     return newChild
   }
 
