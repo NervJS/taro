@@ -95,9 +95,9 @@ shouldComponentUpdate (nextProps, nextState) {
 }
 ```
 
-### Ract.PureComponent
+### React.PureComponent
 
-在大多数情况下，开发者可以让组件继承于 `Ract.PureComponent` 类，而无需手动实现 `shouldComponentUpdate`。`Ract.PureComponent` 里实现了 `shouldComponentUpdate`，它会把新旧 props 和新旧 state 分别做一次浅对比，以避免不必要的渲染。
+在大多数情况下，开发者可以让组件继承于 `React.PureComponent` 类，而无需手动实现 `shouldComponentUpdate`。`React.PureComponent` 里实现了 `shouldComponentUpdate`，它会把新旧 props 和新旧 state 分别做一次浅对比，以避免不必要的渲染。
 
 [相关 React 文档](https://zh-hans.reactjs.org/docs/react-api.html#reactpurecomponent)
 

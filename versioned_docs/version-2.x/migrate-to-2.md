@@ -334,3 +334,7 @@ const config = {
   }
 }
 ```
+
+## 相关阅读
+
+[Taro 版本升级权威指南](/blog/2020-09-01-taro-versions)

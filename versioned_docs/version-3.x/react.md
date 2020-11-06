@@ -518,4 +518,11 @@ function Comp () {
 
 ## 其它限制
 
-由于小程序不支持动态引入，因此小程序中无法使用 `React.lazy` API。
+* 由于小程序不支持动态引入，因此小程序中无法使用 `React.lazy` API。
+* 所有组件的 `id` 必须在整个应用中保持唯一（即使他们在不同的页面），否则可能导致事件不触发的问题，[#7317](https://github.com/NervJS/taro/issues/7317)
+
+## 常见问题
+
+* `useEffect`、`componentDidMount` 中获取不到渲染层元素信息，[#7116](https://github.com/NervJS/taro/issues/7116)
+* `useEffect` 或 `useLayoutEffect` 中获取不到组件最新的宽高，[#7491](https://github.com/NervJS/taro/issues/7491)
+* 嵌套层级较深时，使用 `selectorQuery` 无法查询到子元素，[#7411](https://github.com/NervJS/taro/issues/7411)

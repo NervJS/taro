@@ -1,5 +1,6 @@
 我们非常欢迎社区的开发者向 Taro 做出贡献，我们的共建倡议[《Taro 邀你加入社区共建》](https://github.com/NervJS/taro/issues/4714)。
 
+- 提交 RFC 或者查看相关的 RFC，你可以查看 [taro-rfcs 仓库](https://github.com/NervJS/taro-rfcs)
 - 分享你的案例，只需提交小程序码、二维码，你可以提交到 [taro-user-cases](https://github.com/NervJS/taro-user-cases)
 - 分享你的 “轮子” （SDK、组件、UI、项目）你可以提交到 [物料市场](https://taro-ext.jd.com)
 - 分享你的经验（开源项目、教程、文章）你可以提交到 [wesome-taro](https://github.com/NervJS/awesome-taro) 或者给 「Taro社区」公众号投稿
@@ -8,6 +9,7 @@
 在代码提交贡献之前，你需要花一些时间阅读以下内容，保证贡献是符合规范并且能帮助到社区。
 
 ## Taro 组成
+
 | NPM 包           |   描述 |
 | ------------- |:------------- |
 | [`babel-preset-taro`](https://www.npmjs.com/package/babel-preset-taro)      |  给 Taro 项目使用的 babel preset |

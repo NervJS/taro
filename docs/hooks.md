@@ -520,3 +520,6 @@ useReady(() => {
 
 `useReady` 是 Taro 专有的 Hook，等同于页面的 `onReady` 生命周期钩子。
 
+## 相关阅读
+
+- [《使用 React Hooks 重构你的小程序》](/blog/2019-07-10-taro-hooks)
