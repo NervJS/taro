@@ -97,7 +97,8 @@ export class Swiper implements ComponentInterface {
     if (isNaN(n)) return
 
     if (this.circular) {
-      this.swiper.slideToLoop(n) // 更新下标
+      const interval = this.swiper.isBeginning || this.swiper.isBeginning ? this.interval : 0
+      this.swiper.slideToLoop(n, interval) // 更新下标
     } else {
       this.swiper.slideTo(n) // 更新下标
     }
@@ -127,6 +128,7 @@ export class Swiper implements ComponentInterface {
   watchInterval (newVal) {
     this.swiper.params.autoplay.delay = newVal
   }
+
   @Watch('swiperWrapper')
   watchSwiperWrapper (newVal?: HTMLElement) {
     if (!newVal) return
@@ -170,6 +172,7 @@ export class Swiper implements ComponentInterface {
       on: {
         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
         slideChangeTransitionEnd () {
+          that.current = this.realIndex
           that.onChange.emit({
             current: this.realIndex,
             source: ''
