@@ -14,10 +14,10 @@ let INSTANCE_ID = 0
 })
 export class Swiper implements ComponentInterface {
   private _id = INSTANCE_ID++
-  private swiper
 
   @Element() el: HTMLElement
   @State() swiperWrapper: HTMLElement | null
+  @State() private swiper: SwiperJS
   /**
    * 是否显示面板指示点
    */
@@ -97,8 +97,9 @@ export class Swiper implements ComponentInterface {
     if (isNaN(n)) return
 
     if (this.circular) {
-      const interval = this.swiper.isBeginning || this.swiper.isBeginning ? this.interval : 0
-      this.swiper.slideToLoop(n, interval) // 更新下标
+      if (!this.swiper.isBeginning && !this.swiper.isEnd) {
+        this.swiper.slideToLoop(n) // 更新下标
+      }
     } else {
       this.swiper.slideTo(n) // 更新下标
     }
@@ -217,11 +218,6 @@ export class Swiper implements ComponentInterface {
       this.swiper.autoplay.paused = false
     }
     this.swiper.update() // 更新子元素
-  }
-
-  disconnectedCallback () {
-    this.swiperWrapper = null
-    this.swiper.destroy()
   }
 
   render () {
