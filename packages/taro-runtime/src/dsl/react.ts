@@ -259,6 +259,17 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
           app.componentDidHide(options)
         }
       }
+    },
+
+    onPageNotFound: {
+      enumerable: true,
+      writable: true,
+      value (res: unknown) {
+        const app = ref.current
+        if (app != null && isFunction(app.onPageNotFound)) {
+          app.onPageNotFound(res)
+        }
+      }
     }
   })
 
