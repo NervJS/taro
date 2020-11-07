@@ -6,6 +6,7 @@ import type { TaroRootElement } from './dom/root'
 import type { Instance, PageInstance, PageProps } from './dsl/instance'
 import type { NodeType } from './dom/node_types'
 import type { EventsType } from './emitter/emitter'
+import { TaroEvent } from './dom/event'
 
 type Inst = Instance<PageProps>
 
@@ -32,6 +33,8 @@ export interface Reconciler<Instance, DOMElement = TaroElement, TextElement = Ta
   getPathIndex(indexOfNode: number): string
 
   getEventCenter(Events: EventsType): InstanceType<EventsType>
+
+  modifyDispatchEvent? (event: TaroEvent, tagName: string): void
 
   // h5
   createPullDownComponent?(el: Instance, path: string, framework)

@@ -63,8 +63,10 @@ export default class Alipay extends TaroPlatformBase {
    * 增加组件或修改组件属性
    */
   modifyComponents () {
+    const { internalComponents } = this.template
     this.template.mergeComponents(this.ctx, components)
-    this.modifySlider(this.template.internalComponents.Slider)
+    this.modifySlider(internalComponents.Slider)
+    this.modifySwiper(internalComponents.Swiper)
   }
 
   /**
@@ -73,6 +75,13 @@ export default class Alipay extends TaroPlatformBase {
   modifySlider (slider) {
     delete slider['block-size']
     delete slider['block-color']
+  }
+
+  /**
+   * 修改 Swiper 组件属性
+   */
+  modifySwiper (swiper) {
+    delete swiper.bindAnimationFinish
   }
 
   /**

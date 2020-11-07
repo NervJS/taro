@@ -30,6 +30,10 @@ export default class Alipay extends TaroPlatformBase {
      */
     modifySlider(slider: any): void;
     /**
+     * 修改 Swiper 组件属性
+     */
+    modifySwiper(swiper: any): void;
+    /**
      * 修改 webpack 配置
      */
     modifyWebpackChain(): void;

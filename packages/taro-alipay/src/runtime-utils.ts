@@ -13,5 +13,10 @@ export const hostConfig = {
       my.taroEventCenter = new Events()
     }
     return my.taroEventCenter
+  },
+  modifyDispatchEvent (event, tagName) {
+    if (tagName === 'SWIPER' && event.type === 'animationend') {
+      event.type = 'animationfinish'
+    }
   }
 }
