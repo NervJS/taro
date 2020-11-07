@@ -125,9 +125,9 @@ export default {
 
 程序发生脚本错误或 API 调用报错时触发，微信小程序中也可以使用 `Taro.onError` 绑定监听
 
-#### componentDidNotFound(Object)
+#### onPageNotFound(Object)
 
-> 在微信/字节跳动小程序中这一生命周期方法对应 `onPageNotFound`，其他端尚未实现<br/>
+> 在微信/字节跳动小程序中这一生命周期方法对应 `onPageNotFound`，H5 端也支持，其他端尚未实现<br/>
 > 微信小程序中，基础库 1.9.90 开始支持
 
 程序要打开的页面不存在时触发，微信小程序中也可以使用 `Taro.onPageNotFound` 绑定监听
