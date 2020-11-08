@@ -526,6 +526,7 @@ export const voidElements = new Set([
 
 export const nestElements = new Map([
   ['view', -1],
+  ['catch-view', -1],
   ['cover-view', -1],
   ['block', -1],
   ['text', -1],
