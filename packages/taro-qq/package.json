@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-qq",
-  "version": "3.1.0-beta.0",
+  "version": "3.1.0-beta.1",
   "description": "QQ 小程序平台插件",
   "author": "Chen-jj",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-qq#readme",
@@ -25,8 +25,8 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/plugin-platform-weapp": "3.1.0-beta.0",
-    "@tarojs/service": "3.1.0-beta.0",
-    "@tarojs/shared": "3.1.0-beta.0"
+    "@tarojs/plugin-platform-weapp": "3.1.0-beta.1",
+    "@tarojs/service": "3.1.0-beta.1",
+    "@tarojs/shared": "3.1.0-beta.1"
   }
 }
