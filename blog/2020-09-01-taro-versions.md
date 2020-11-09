@@ -50,7 +50,7 @@ Taro 3 则可以大致理解为解释型架构（相对于 Taro 1/2 而言），
 
 Taro 2 和 Taro 3 都有对应的迁移指南，根据迁移指南往往能规避大部分的问题。
 
-Taro 1 升级到 Taro 2 的[迁移指南](https://nervjs.github.io/taro/docs/2.2.15/migrate-to-2)。
+Taro 1 升级到 Taro 2 的[迁移指南](https://nervjs.github.io/taro/docs/2.x/migrate-to-2)。
 
 Taro 1/2 升级到 Taro 3 的[迁移指南](https://nervjs.github.io/taro/docs/migration)。
 
@@ -58,16 +58,16 @@ Taro 1/2 升级到 Taro 3 的[迁移指南](https://nervjs.github.io/taro/docs/m
 
 ### Taro 1 升级到 Taro 2
 
-Taro 1 升 Taro 2 所需要做的工作并不多，根据[迁移指南](https://nervjs.github.io/taro/docs/2.2.15/migrate-to-2)，主要是新增了一个 `@tarojs/mini-runner` 依赖，以及对编译配置的调整，而在这里容易出问题的往往是在编译配置调整中，所以我们总结了一下针对编译配置的调整内容。
+Taro 1 升 Taro 2 所需要做的工作并不多，根据[迁移指南](https://nervjs.github.io/taro/docs/2.x/migrate-to-2)，主要是新增了一个 `@tarojs/mini-runner` 依赖，以及对编译配置的调整，而在这里容易出问题的往往是在编译配置调整中，所以我们总结了一下针对编译配置的调整内容。
 
-- `plugins` 配置调整，调整前是一个对象，调整后为一个数组，用来配置 [Taro 插件](https://nervjs.github.io/taro/docs/2.2.15/config-detail#plugins)，非常值得注意的是这个配置请与 `babel` 配置里的 `plugins` 区分开来，后者是用来配置 babel 插件的，这是一个非常常见的配置错误
+- `plugins` 配置调整，调整前是一个对象，调整后为一个数组，用来配置 [Taro 插件](https://nervjs.github.io/taro/docs/2.x/config-detail#plugins)，非常值得注意的是这个配置请与 `babel` 配置里的 `plugins` 区分开来，后者是用来配置 babel 插件的，这是一个非常常见的配置错误
 - `babel`、`csso`、`uglify` 等配置从旧的 `plugins` 配置中移出来了，调整为与 `sourceRoot` 和 `outputRoot` 等同级的配置项
 - `weapp` 配置项改名为 `mini`
 - `postcss` 配置项下去掉 `module` 这一级配置，原 `module` 下的配置项直接置于 `postcss` 下
 
 #### 关于 async functions 的使用
 
-同时，从 Taro 2 开始，使用 async functions 不再需要安装 `@tarojs/async-await` 依赖了，而是通过安装 babel 插件 `babel-plugin-transform-runtime` 配合 `babel-runtime` 来实现支持，具体请查看文档[异步编程指南](https://nervjs.github.io/taro/docs/2.2.15/async-await)。
+同时，从 Taro 2 开始，使用 async functions 不再需要安装 `@tarojs/async-await` 依赖了，而是通过安装 babel 插件 `babel-plugin-transform-runtime` 配合 `babel-runtime` 来实现支持，具体请查看文档[异步编程指南](https://nervjs.github.io/taro/docs/2.x/async-await)。
 
 而在 Taro 3 中则不再需要手动安装配置，Taro 的官方 babel 预设 `babel-preset-taro` 已经内置了相关配置。
 

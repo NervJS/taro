@@ -230,7 +230,7 @@ class App extends Component {
 ## 编译配置
 
 * 需要添加 [framework 配置](https://nervjs.github.io/taro/docs/config)，取值为使用的框架（react, nerv, vue, vue3）
-* [jsxAttributeNameReplace](https://nervjs.github.io/taro/docs/1.3.24/config.html) 配置已被移除。因为我们不需要配置
+* [jsxAttributeNameReplace](https://nervjs.github.io/taro/docs/1.x/config) 配置已被移除。因为我们不需要配置
 
 ## 编译依赖库
 
@@ -261,7 +261,7 @@ function C () {
 }
 ```
 
-旧版本文档所提到的[最佳实践](https://docs.taro.zone/taro/docs/1.3.24/best-practice.html)也不必再遵循。也就是说，即便你不给组件设置 `defaultProps`，自定义事件名不以 `on` 开头（还有其它的旧版本代码风格最佳实践），你的代码也能运行。但值得注意的是，遵循这样的 **代码风格最佳实践** 可以让你的代码更健壮，你的应用也会因此而收益。而对于另外的一些由于旧版本 Taro 执行机制的 hack（例如 render 调用两次，state 和 props 无法重名，不要打印组件），这类最佳实践可以不必理会。
+旧版本文档所提到的[最佳实践](https://nervjs.github.io/taro/docs/1.x/best-practice.html)也不必再遵循。也就是说，即便你不给组件设置 `defaultProps`，自定义事件名不以 `on` 开头（还有其它的旧版本代码风格最佳实践），你的代码也能运行。但值得注意的是，遵循这样的 **代码风格最佳实践** 可以让你的代码更健壮，你的应用也会因此而收益。而对于另外的一些由于旧版本 Taro 执行机制的 hack（例如 render 调用两次，state 和 props 无法重名，不要打印组件），这类最佳实践可以不必理会。
 
 ## Ref & DOM
 
