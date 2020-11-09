@@ -1,4 +1,24 @@
 
+:root {
+  --ifm-font-family-base: "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji";
+  --ifm-line-height-base: 2;
+}
+
+.main-wrapper header h1 {
+  font-size: 2rem;
+}
+.markdown > h2 {
+  --ifm-h2-font-size: 1.75rem;
+}
+
+.markdown > h3 {
+  --ifm-h3-font-size: 1.375rem;
+}
+
+.menu__list-item .menu__list-item {
+  font-weight: normal;
+}
+
 .navbar a.navbar__link[version=true] {
   text-decoration: underline;
 }
