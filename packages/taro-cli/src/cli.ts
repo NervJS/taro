@@ -5,7 +5,6 @@ import { Kernel } from '@tarojs/service'
 
 import build from './commands/build'
 import init from './commands/init'
-import convert from './commands/convert'
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
@@ -38,6 +37,14 @@ export default class CLI {
       })
       switch (command) {
         case 'build': {
+          kernel.optsPlugins = [
+            '@tarojs/plugin-platform-weapp',
+            '@tarojs/plugin-platform-alipay',
+            '@tarojs/plugin-platform-swan',
+            '@tarojs/plugin-platform-tt',
+            '@tarojs/plugin-platform-qq',
+            '@tarojs/plugin-platform-jd'
+          ]
           build(kernel, {
             platform: args.type,
             isWatch: !!args.watch,
@@ -67,13 +74,6 @@ export default class CLI {
           })
           break
         }
-        case 'convert': {
-          convert(kernel, {
-            appPath: this.appPath,
-            isHelp: args.h
-          })
-          break
-        }
         default:
           customCommand(command, kernel, args)
           break
@@ -95,6 +95,7 @@ export default class CLI {
         console.log('  info                Diagnostics Taro env info')
         console.log('  doctor              Diagnose taro project')
         console.log('  inspect             Inspect the webpack config')
+        console.log('  convert             Convert native WeiXin-Mini-App to Taro app')
         console.log('  help [cmd]          display help for [cmd]')
       } else if (args.v) {
         console.log(getPkgVersion())
