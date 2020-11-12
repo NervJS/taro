@@ -191,7 +191,7 @@ $ npx taro build --type jd
 ### 京东小程序相关阅读
 
 - [《使用 Taro 快速开发京东小程序》](/blog/2020-04-27-taro-build-jd)
-- [《京东小程序 Taro 开发对比原生开发测评》](/blog/2020-04-27-taro-build-jd)
+- [《京东小程序 Taro 开发对比原生开发测评》](/blog/2020-04-27-taro-vs-jd)
 
 ## 常用 CLI 命令
 
