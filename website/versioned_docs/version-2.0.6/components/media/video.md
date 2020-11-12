@@ -82,8 +82,8 @@ export default class PageView extends Component {
 | onPause | `BaseEventOrigFunction<any>` |  | 否 | 当暂停播放时触发 pause 事件 |
 | onEnded | `BaseEventOrigFunction<any>` |  | 否 | 当播放到末尾时触发 ended 事件 |
 | onTimeUpdate | `BaseEventOrigFunction<onTimeUpdateEventDetail>` |  | 否 | 播放进度变化时触发, 触发频率 250ms 一次<br /><br />event.detail = {currentTime, duration} |
-| onFullscreenChange | `BaseEventOrigFunction<onFullscreenChangeEventDetail>` |  | 否 | 当视频进入和退出全屏是触发<br /><br />event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal |
-| onWaiting | `BaseEventOrigFunction<onWaitingEventDetail>` |  | 否 | 当视频进入和退出全屏是触发<br /><br />event.detail = {fullScreen, direction}，direction 取为 vertical 或 horizontal |
+| onFullscreenChange | `BaseEventOrigFunction<onFullscreenChangeEventDetail>` |  | 否 | 当视频进入和退出全屏时触发<br /><br />event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal |
+| onWaiting | `BaseEventOrigFunction<onWaitingEventDetail>` |  | 否 | 当视频进入和退出全屏时触发<br /><br />event.detail = {fullScreen, direction}，direction 取为 vertical 或 horizontal |
 | onError | `BaseEventOrigFunction<any>` |  | 否 | 视频播放出错时触发 |
 | onProgress | `BaseEventOrigFunction<onProgressEventDetail>` |  | 否 | 加载进度变化时触发，只支持一段加载 |
 | onLoadedMetaData | `BaseEventOrigFunction<any>` |  | 否 | 视频元数据加载完成时触发。event.detail = {width, height, duration} |
