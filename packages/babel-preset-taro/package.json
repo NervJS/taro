@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "3.0.14",
+  "version": "3.0.16",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
@@ -33,9 +33,9 @@
     "@babel/preset-react": "7.10.4",
     "@babel/preset-typescript": "7.10.4",
     "@babel/runtime": "^7.11.2",
-    "@tarojs/taro-h5": "3.0.14",
+    "@tarojs/taro-h5": "3.0.16",
     "babel-plugin-dynamic-import-node": "^2.3.3",
-    "babel-plugin-transform-taroapi": "3.0.14",
+    "babel-plugin-transform-taroapi": "3.0.16",
     "core-js": "^3.6.5"
   }
 }

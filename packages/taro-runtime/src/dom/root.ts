@@ -98,7 +98,7 @@ export class TaroRootElement extends TaroElement {
     }, 0)
   }
 
-  public enqueueUpdateCallbak (cb: Function, ctx?: Record<string, any>) {
+  public enqueueUpdateCallback (cb: Function, ctx?: Record<string, any>) {
     this.updateCallbacks.push(() => {
       ctx ? cb.call(ctx) : cb()
     })

@@ -42,13 +42,16 @@ const defaultCSSCompressOption = {
   minifySelectors: false
 }
 const defaultMediaUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultFontUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultImageUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultCssModuleOption: PostcssOption.cssModules = {
   enable: false,

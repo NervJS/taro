@@ -98,7 +98,6 @@ const Map = {
   'enable-rotate': 'false',
   'enable-satellite': 'false',
   'enable-traffic': 'false',
-  setting: '{}',
   bindMarkerTap: '',
   bindLabelTap: '',
   bindControlTap: '',
@@ -106,7 +105,15 @@ const Map = {
   bindUpdated: '',
   bindRegionChange: '',
   bindPoiTap: '',
-  ...touchEvents
+  ...touchEvents,
+  ...selectEnv({
+    alipay: {
+      setting: '{}'
+    },
+    default: {
+      setting: '[]'
+    }
+  })
 }
 
 const Progress = {
@@ -434,7 +441,13 @@ const ScrollView = {
   bindDragStart: '',
   bindDragging: '',
   bindDragEnd: '',
-  ...touchEvents
+  ...touchEvents,
+  ...selectEnv({
+    alipay: {
+      'scroll-animation-duration': '',
+      'trap-scroll': 'false'
+    }
+  })
 }
 
 const Swiper = {
@@ -459,7 +472,8 @@ const Swiper = {
   ...touchEvents,
   ...selectEnv({
     alipay: {
-      acceleration: 'false'
+      acceleration: 'false',
+      'disable-touch': 'false'
     }
   })
 }
