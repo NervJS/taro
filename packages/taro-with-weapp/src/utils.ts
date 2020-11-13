@@ -48,7 +48,8 @@ export function safeGet (obj, propsArg, defaultValue?) {
     props = propsArg.slice(0)
   }
   if (typeof propsArg === 'string') {
-    props = propsArg.split('.')
+    props = propsArg.replace(/\[(.+?)\]/g, '.$1')
+    props = props.split('.')
   }
   if (typeof propsArg === 'symbol') {
     props = [propsArg]
@@ -71,6 +72,7 @@ export function safeGet (obj, propsArg, defaultValue?) {
 
 export function safeSet (obj, props, value) {
   if (typeof props === 'string') {
+    props = props.replace(/\[(.+?)\]/g, '.$1')
     props = props.split('.')
   }
   if (typeof props === 'symbol') {
@@ -85,6 +87,15 @@ export function safeSet (obj, props, value) {
     if (typeof obj[thisProp] === 'undefined') {
       obj[thisProp] = {}
     }
+
+    // 直接按路径修改 this.state 可能会导致 nextProps 也被修改
+    // 因此按路径寻找时，每一层都复制一遍
+    if (Array.isArray(obj[thisProp])) {
+      obj[thisProp] = [...obj[thisProp]]
+    } else if (typeof obj[thisProp] === 'object') {
+      obj[thisProp] = { ...obj[thisProp] }
+    }
+
     obj = obj[thisProp]
     if (!obj || typeof obj !== 'object') {
       return false
@@ -93,3 +104,24 @@ export function safeSet (obj, props, value) {
   obj[lastProp] = value
   return true
 }
+
+export function report (msg) {
+  console.warn('[Taro Convert Warning] ' + msg)
+}
+
+export const unsupport = new Map([
+  ['onError', '不支持 App 的 onError 生命周期方法。'],
+  ['onPageNotFound', '不支持 App 的 onPageNotFound 生命周期方法。'],
+  ['onUnhandledRejection', '不支持 App 的 onUnhandledRejection 生命周期方法。'],
+  ['onThemeChange', '不支持 App 的 onThemeChange 生命周期方法。'],
+  ['moved', '不支持自定义组件的 moved 生命周期。'],
+  ['externalClasses', '不支持自定义组件的 externalClasses 功能。'],
+  ['behaviors', '不支持自定义组件的 behaviors 功能。'],
+  ['relations', '不支持自定义组件的 relations 功能。'],
+  ['options', '不支持自定义组件的 options 功能。'],
+  ['definitionFilter', '不支持自定义组件的 definitionFilter 功能。'],
+  ['selectComponent', 'selectComponent 方法产生不到目标效果，请使用 React 的 ref 进行重构。'],
+  ['selectAllComponents', 'selectAllComponents 方法产生不到目标效果，请使用 React 的 ref 进行重构。'],
+  ['selectOwnerComponent', 'selectOwnerComponent 方法产生不到目标效果，请使用 React 语法重构。'],
+  ['groupSetData', 'groupSetData 方法产生不到目标效果，请使用 React 语法重构。']
+])

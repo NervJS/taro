@@ -71,17 +71,10 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       // 使用 ...spread
       render = buildRender(block, [], Array.from(refIds), [])
     }
-    const classProp = t.classProperty(t.identifier('options'), t.objectExpression([
-      t.objectProperty(
-        t.identifier('addGlobalClass'),
-        t.booleanLiteral(true)
-      )
-    ])) as any
-    classProp.static = true
     const classDecl = t.classDeclaration(
       t.identifier(className),
       t.memberExpression(t.identifier('React'), t.identifier('Component')),
-      t.classBody([render, classProp]),
+      t.classBody([render]),
       []
     )
     path.remove()

@@ -2,12 +2,12 @@ const { join } = require('path')
 const resolve = require('rollup-plugin-node-resolve')
 const buble = require('rollup-plugin-buble')
 const common = require('rollup-plugin-commonjs')
-const alias = require('rollup-plugin-alias')
 const typescript = require('rollup-plugin-typescript2')
 const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.ts'),
+  external: ['@tarojs/runtime', '@tarojs/taro'],
   output: [
     {
       file: join(cwd, 'dist/index.js'),
@@ -25,9 +25,6 @@ const baseConfig = {
   ],
   plugins: [
     typescript(),
-    alias({
-      '@tarojs/taro': join(cwd, '../taro/src/index')
-    }),
     resolve({
       preferBuiltins: false
     }),

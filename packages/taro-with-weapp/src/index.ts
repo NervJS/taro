@@ -1,7 +1,7 @@
-import { Component, ComponentLifecycle } from '@tarojs/taro'
+import { Component, ComponentLifecycle, eventCenter } from '@tarojs/taro'
 import { getCurrentInstance } from '@tarojs/runtime'
-import { lifecycles, lifecycleMap, TaroLifeCycles } from './lifecycle'
-import { bind, proxy, isEqual, safeGet, safeSet } from './utils'
+import { lifecycles, lifecycleMap, TaroLifeCycles, uniquePageLifecycle } from './lifecycle'
+import { bind, isEqual, safeGet, safeSet, report, unsupport } from './utils'
 import { diff } from './diff'
 import { clone } from './clone'
 
@@ -28,6 +28,7 @@ interface WxOptions {
   props?: Record<string, unknown>
   data?: Record<string, unknown>,
   observers?: Record<string, Function>
+  lifetimes?: Record<string, Function>
 }
 
 function defineGetter (component: Component, key: string, getter: string) {
@@ -66,7 +67,13 @@ export default function withWeapp (weappConf: WxOptions) {
 
       private willUnmounts: Function[] = []
 
+      private eventDistoryList: Function[] = []
+
+      private current = getCurrentInstance()
+
       public observers?: Record<string, Function>
+
+      public data: any
 
       constructor (props) {
         super(props)
@@ -87,24 +94,25 @@ export default function withWeapp (weappConf: WxOptions) {
                 })
               }
             }
-            proxy(this, 'props', propKey)
           }
         }
       }
 
       private init (options: WxOptions) {
         for (const confKey in options) {
+          // 不支持的属性
+          if (unsupport.has(confKey)) {
+            const advise = unsupport.get(confKey)
+            report(advise)
+          }
+
           const confValue = options[confKey]
+
           switch (confKey) {
-            case 'externalClasses':
-              break
             case 'data': {
-              this.state = confValue
-              const keys = Object.keys(this.state)
-              let i = keys.length
-              while (i--) {
-                const key = keys[i]
-                proxy(this, 'state', key)
+              this.state = {
+                ...confValue,
+                ...this.state
               }
               break
             }
@@ -117,30 +125,66 @@ export default function withWeapp (weappConf: WxOptions) {
                 this[key] = bind(method, this)
               }
               break
-            case 'behaviors':
-              // this.initMixins(confValue, options);
-              break
             case 'lifetimes':
               for (const key in confValue) {
-                const lifecycle = confValue[key]
-                this.initLifeCycles(key, lifecycle)
+                this.initLifeCycles(key, confValue[key])
+              }
+              break
+            case 'pageLifetimes':
+              for (const key in confValue) {
+                const cb = confValue[key]
+                switch (key) {
+                  case 'show': {
+                    this.initLifeCycleListener('show', cb)
+                    break
+                  }
+                  case 'hide': {
+                    this.initLifeCycleListener('hide', cb)
+                    break
+                  }
+                  case 'resize': {
+                    report('不支持组件所在页面的生命周期 pageLifetimes.resize。')
+                    break
+                  }
+                }
               }
               break
             default:
               if (lifecycles.has(confKey)) {
+                // 优先使用 lifetimes 中定义的生命周期
+                if (options.lifetimes?.[confKey]) {
+                  break
+                }
+
                 const lifecycle = options[confKey]
                 this.initLifeCycles(confKey, lifecycle)
               } else if (isFunction(confValue)) {
                 this[confKey] = bind(confValue, this)
+
+                // 原生页面和 Taro 页面中共计只能定义一次的生命周期
+                if (uniquePageLifecycle.includes(confKey) && ConnectComponent.prototype[confKey]) {
+                  report(`生命周期 ${confKey} 已在原生部分进行定义，React 部分的定义将不会被执行。`)
+                }
               } else {
                 this[confKey] = confValue
               }
+
               break
           }
         }
       }
 
-      private initLifeCycles (lifecycleName: string, lifecycle: Function) {
+      private initLifeCycles (lifecycleName: string, lifecycle: (...args: any[]) => any) {
+        // 不支持的生命周期
+        if (unsupport.has(lifecycleName)) {
+          const advise = unsupport.get(lifecycleName)
+          return report(advise)
+        }
+
+        if (lifecycleName === 'ready') {
+          return this.initLifeCycleListener('ready', lifecycle)
+        }
+
         for (const lifecycleKey in lifecycleMap) {
           const cycleNames = lifecycleMap[lifecycleKey]
           if (cycleNames.indexOf(lifecycleName) !== -1) {
@@ -176,6 +220,15 @@ export default function withWeapp (weappConf: WxOptions) {
         if (isFunction(func)) func.apply(this, args)
       }
 
+      private initLifeCycleListener (name: string, cb: (...args: any[]) => void) {
+        // 组件的 ready、show、hide 需要利用页面事件触发
+        const { router } = this.current
+        const lifecycleName = `on${name[0].toUpperCase()}${name.slice(1)}`
+        router?.[lifecycleName] && eventCenter.on(router[lifecycleName], cb)
+        // unMount 时需要取消事件监听
+        this.eventDistoryList.push(() => eventCenter.off(router[lifecycleName], cb))
+      }
+
       private executeLifeCycles (funcs: Function[], ...args: unknown[]) {
         for (let i = 0; i < funcs.length; i++) {
           const func = funcs[i]
@@ -183,38 +236,20 @@ export default function withWeapp (weappConf: WxOptions) {
         }
       }
 
-      public selectComponent = (...args: unknown[]) => {
-        const page = getCurrentInstance().page
-        if (page && page.selectComponent) {
-          page.selectComponent(...args)
-        } else {
-          // tslint:disable-next-line: no-console
-          console.error('page 下没有 selectComponent 方法')
-        }
-      }
-
-      public getRelationNodes = (...args: unknown[]) => {
-        const page = getCurrentInstance().page
-        if (page && page.getRelationNodes) {
-          page.getRelationNodes(...args)
-        } else {
-          // tslint:disable-next-line: no-console
-          console.error('page 下没有 getRelationNodes 方法')
-        }
-      }
-
-      setData = (obj: S, callback?: () => void) => {
-        let oldState
-        if (this.observers && Object.keys(Object.keys(this.observers))) {
-          oldState = clone(this.state)
-        }
-        Object.keys(obj).forEach(key => {
-          safeSet(this.state, key, obj[key])
-        })
-        this.setState(this.state, () => {
-          this.triggerObservers(this.state, oldState)
-          if (callback) {
-            callback.call(this)
+      private triggerPropertiesObservers (prevProps, nextProps) {
+        this._observeProps.forEach(({ name: key, observer }) => {
+          const prop = prevProps[key]
+          const nextProp = nextProps[key]
+          // 小程序是深比较不同之后才 trigger observer
+          if (!isEqual(prop, nextProp)) {
+            if (typeof observer === 'string') {
+              const ob = this[observer]
+              if (isFunction(ob)) {
+                ob.call(this, nextProp, prop, key)
+              }
+            } else if (isFunction(observer)) {
+              observer.call(this, nextProp, prop, key)
+            }
           }
         })
       }
@@ -236,8 +271,14 @@ export default function withWeapp (weappConf: WxOptions) {
         }
 
         for (const observerKey in observers) {
+          if (/\*\*/.test(observerKey)) {
+            report('数据监听器 observers 不支持使用通配符 **。')
+            continue
+          }
+
           const keys = observerKey.split(',').map(k => k.trim())
-          const args: any = []
+          let isModified = false
+
           for (let i = 0; i < keys.length; i++) {
             const key = keys[i]
             for (let j = 0; j < resultKeys.length; j++) {
@@ -246,37 +287,23 @@ export default function withWeapp (weappConf: WxOptions) {
                 resultKey.startsWith(key) ||
                 (key.startsWith(resultKey) && key.endsWith(']'))
               ) {
-                args.push(safeGet(current, key))
+                isModified = true
               }
             }
           }
-          if (args.length) {
-            observers[observerKey].apply(this, args)
+          if (isModified) {
+            observers[observerKey].apply(this, keys.map(key => safeGet(current, key)))
           }
         }
       }
 
-      public triggerEvent = (eventName: string, ...args: unknown[]) => {
-        const func = this.props[`on${eventName[0].slice(0, 1).toUpperCase()}${eventName.slice(1)}`]
-        if (isFunction(func)) {
-          func.apply(this, args.map(a => ({ detail: a })))
-        }
-      }
+      // ================ React 生命周期 ================
 
       public componentWillMount () {
-        this._observeProps.forEach(({ name: key, observer }) => {
-          const prop = this.props[key]
-          if (typeof observer === 'string') {
-            const ob = this[observer]
-            if (isFunction(ob)) {
-              ob.call(this, prop, prop, key)
-            }
-          } else if (isFunction(observer)) {
-            observer.call(this, prop, prop, key)
-          }
-        })
         this.safeExecute(super.componentWillMount)
-        this.executeLifeCycles(this.willMounts, getCurrentInstance().router || {})
+        this.executeLifeCycles(this.willMounts, this.current.router || {})
+        this.triggerObservers(this.data, BaseComponent.defaultProps)
+        this.triggerPropertiesObservers(BaseComponent.defaultProps, this.props)
       }
 
       public componentDidMount () {
@@ -285,6 +312,7 @@ export default function withWeapp (weappConf: WxOptions) {
       }
 
       public componentWillUnmount () {
+        this.eventDistoryList.forEach(fn => fn())
         this.safeExecute(super.componentWillUnmount)
         this.executeLifeCycles(this.willUnmounts)
       }
@@ -296,27 +324,108 @@ export default function withWeapp (weappConf: WxOptions) {
 
       public componentDidShow () {
         this.safeExecute(super.componentDidShow)
-        this.executeLifeCycles(this.didShows, getCurrentInstance().router || {})
+        this.executeLifeCycles(this.didShows, this.current.router || {})
       }
 
       public componentWillReceiveProps (nextProps: P) {
         this.triggerObservers(nextProps, this.props)
-        this._observeProps.forEach(({ name: key, observer }) => {
-          const prop = this.props[key]
-          const nextProp = nextProps[key]
-          // 小程序是深比较不同之后才 trigger observer
-          if (!isEqual(prop, nextProp)) {
-            if (typeof observer === 'string') {
-              const ob = this[observer]
-              if (isFunction(ob)) {
-                ob.call(this, nextProp, prop, key)
-              }
-            } else if (isFunction(observer)) {
-              observer.call(this, nextProp, prop, key)
-            }
+        this.triggerPropertiesObservers(this.props, nextProps)
+        this.safeExecute(super.componentWillReceiveProps)
+      }
+
+      // ================ 小程序 App, Page, Component 实例属性与方法 ================
+
+      get is () {
+        return this.current.page.is
+      }
+
+      get id () {
+        return this.current.page.id
+      }
+
+      get dataset () {
+        return this.current.page.dataset
+      }
+
+      public setData = (obj: S, callback?: () => void) => {
+        let oldState
+        if (this.observers && Object.keys(Object.keys(this.observers))) {
+          oldState = clone(this.state)
+        }
+        Object.keys(obj).forEach(key => {
+          safeSet(this.state, key, obj[key])
+        })
+        this.setState(this.state, () => {
+          this.triggerObservers(this.state, oldState)
+          if (callback) {
+            callback.call(this)
           }
         })
-        this.safeExecute(super.componentWillReceiveProps)
+      }
+
+      public triggerEvent = (eventName: string, detail, options) => {
+        if (options) {
+          report('triggerEvent 不支持事件选项。')
+        }
+
+        const props = this.props
+        const dataset = {}
+        for (const key in props) {
+          if (!key.startsWith('data-')) continue
+          dataset[key.replace(/^data-/, '')] = props[key]
+        }
+
+        const func = props[`on${eventName[0].toUpperCase()}${eventName.slice(1)}`]
+        if (isFunction(func)) {
+          func.call(this, {
+            type: eventName,
+            detail,
+            target: {
+              dataset
+            },
+            currentTarget: {
+              dataset
+            }
+          })
+        }
+      }
+
+      private componentMethodsProxy (method: string) {
+        return (...args: any[]) => {
+          const page = this.current.page
+          if (page?.[method]) {
+            page[method](...args)
+          } else {
+            console.error(`page 下没有 ${method} 方法`)
+          }
+        }
+      }
+
+      public hasBehavior = this.componentMethodsProxy('hasBehavior')
+      public createSelectorQuery = this.componentMethodsProxy('createSelectorQuery')
+      public createIntersectionObserver = this.componentMethodsProxy('createIntersectionObserver')
+      public createMediaQueryObserver = this.componentMethodsProxy('createMediaQueryObserver')
+      public getRelationNodes = this.componentMethodsProxy('getRelationNodes')
+      public getTabBar = this.componentMethodsProxy('getTabBar')
+      public getPageId = this.componentMethodsProxy('getPageId')
+      public animate = this.componentMethodsProxy('animate')
+      public clearAnimation = this.componentMethodsProxy('clearAnimation')
+      public setUpdatePerformanceListener = this.componentMethodsProxy('setUpdatePerformanceListener')
+
+      public selectComponent () {
+        report(unsupport.get('selectComponent'))
+      }
+
+      public selectAllComponents () {
+        report(unsupport.get('selectAllComponents'))
+      }
+
+      public selectOwnerComponent () {
+        report(unsupport.get('selectOwnerComponent'))
+      }
+
+      public groupSetData () {
+        report(unsupport.get('groupSetData'))
       }
     }
 

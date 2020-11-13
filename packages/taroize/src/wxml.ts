@@ -122,14 +122,25 @@ export const createWxmlVistor = (
     const jsx = path.findParent(p => p.isJSXElement()) as NodePath<
     t.JSXElement
     >
+
+    // 把 hidden 转换为 wxif
+    if (name.name === 'hidden') {
+      const value = path.get('value') as NodePath<t.JSXExpressionContainer>
+      if (t.isJSXExpressionContainer(value)) {
+        const exclamation = t.unaryExpression('!', value.node.expression)
+        path.set('value', t.jSXExpressionContainer(exclamation))
+        path.set('name', t.jSXIdentifier(WX_IF))
+      }
+    }
+
     const valueCopy = cloneDeep(path.get('value').node)
     transformIf(name.name, path, jsx, valueCopy)
     const loopItem = transformLoop(name.name, path, jsx, valueCopy)
     if (loopItem) {
-      if (loopItem.index) {
+      if (loopItem.index && !refIds.has(loopItem.index)) {
         loopIds.add(loopItem.index)
       }
-      if (loopItem.item) {
+      if (loopItem.item && !refIds.has(loopItem.item)) {
         loopIds.add(loopItem.item)
       }
     }
