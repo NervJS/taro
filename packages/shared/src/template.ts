@@ -81,7 +81,8 @@ const nestElements = new Map([
   ['label', 6],
   ['form', 4],
   ['scroll-view', 4],
-  ['swiper', 4]
+  ['swiper', 4],
+  ['swiper-item', 4]
 ])
 
 const weixinAdapter: IAdapter = {
