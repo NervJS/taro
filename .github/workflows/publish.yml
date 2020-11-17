@@ -21,9 +21,9 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Get commit message
         run: |
-           echo "name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_ENV
+           echo "commitmsg=$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_ENV
       - name: Show commit message
-        run : echo $commitmsg
+        run : echo "$commitmsg"
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
@@ -51,7 +51,7 @@ jobs:
         shell: bash -ex {0}
         run: |
           CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
-          echo "name=CURRENT_VERSION::${CURRENT_VERSION}" >> $GITHUB_ENV
+          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
       - name: Tag Check
         if: startsWith( env.commitmsg , 'chore(release):' )
         id: tag_check
