@@ -18,7 +18,7 @@ jobs:
         run: echo "$GITHUB_CONTEXT" 
       - name: Get commit message
         run: |
-           echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
+          echo "name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})" >> $GITHUB_ENV
       - name: Show commit message
         run : echo $commitmsg
       - name: Auto reviews branches
