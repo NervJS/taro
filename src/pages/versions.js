@@ -114,7 +114,7 @@ function Version() {
                       </Link>
                     </td>
                     <td>
-                      <a href={`${repoUrl}/releases/tag/v${version}`}>
+                      <a href={`https://github.com/NervJS/taro/releases`}>
                         更新日志
                       </a>
                     </td>
