@@ -21,7 +21,7 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Get commit message
         run: |
-          COMMIT_MESSAGE="$(git log --format=%B -n 1) ${{ github.event.after }}"
+          COMMIT_MESSAGE=$(git log --format=%B -n 1)
           echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_ENV
       - name: Show commit message
         run : echo "$commitmsg"
