@@ -32,6 +32,6 @@
   "author": "O2Team",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^3.7.5"
+    "typescript": "^4.0.5"
   }
 }
