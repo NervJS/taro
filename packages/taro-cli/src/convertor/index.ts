@@ -542,6 +542,7 @@ ${code}
       this.generateScriptFiles(scriptFiles)
       if (this.entryJSON.tabBar) {
         this.generateTabBarIcon(this.entryJSON.tabBar)
+        this.generateCustomTabbar(this.entryJSON.tabBar)
       }
     } catch (err) {
       console.log(err)
@@ -565,6 +566,17 @@ ${code}
             printLog(processTypeEnum.COPY, 'TabBar 图标', this.generateShowPath(iconDistPath))
           })
       }
+    }
+  }
+
+  generateCustomTabbar (tabBar: TabBar) {
+    if (!tabBar.custom) return
+
+    const customTabbarPath = path.join(this.root, 'custom-tab-bar')
+    if (fs.existsSync(customTabbarPath)) {
+      const customTabbarDistPath = this.getDistFilePath(customTabbarPath)
+      this.copyFileToTaro(customTabbarPath, customTabbarDistPath)
+      printLog(processTypeEnum.COPY, '自定义 TabBar', this.generateShowPath(customTabbarDistPath))
     }
   }
 
