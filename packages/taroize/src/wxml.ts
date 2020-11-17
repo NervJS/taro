@@ -809,17 +809,26 @@ function parseAttribute (attr: Attribute) {
   }
 
   const jsxKey = handleAttrKey(key)
-  if (/^on[A-Z]/.test(jsxKey) && jsxValue && t.isStringLiteral(jsxValue)) {
+  if (/^on[A-Z]/.test(jsxKey) && !(/^catch/.test(key)) && jsxValue && t.isStringLiteral(jsxValue)) {
     jsxValue = t.jSXExpressionContainer(
       t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value))
     )
   }
 
-  if (key.startsWith('catch') && value && (value === 'true' || value.trim() === '')) {
-    jsxValue = t.jSXExpressionContainer(
-      t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop'))
-    )
-    globals.hasCatchTrue = true
+  if (key.startsWith('catch') && value) {
+    if (value === 'true' || value.trim() === '') {
+      jsxValue = t.jSXExpressionContainer(
+        t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop'))
+      )
+      globals.hasCatchTrue = true
+    } else if (t.isStringLiteral(jsxValue)) {
+      jsxValue = t.jSXExpressionContainer(
+        t.callExpression(
+          t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop')), t.identifier('bind')),
+          [t.thisExpression(), t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value))]
+        )
+      )
+    }
   }
   return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)
 }

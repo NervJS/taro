@@ -297,6 +297,22 @@ export default function withWeapp (weappConf: WxOptions) {
         }
       }
 
+      public privateStopNoop (...args) {
+        let e
+        let fn
+        if (args.length === 2) {
+          fn = args[0]
+          e = args[1]
+        } else if (args.length === 1) {
+          e = args[0]
+        }
+        if (e.type === 'touchmove') {
+          report('catchtouchmove 转换后只能停止回调函数的冒泡，不能阻止滚动穿透。如要阻止滚动穿透，可以手动给编译后的 View 组件加上 catchMove 属性')
+        }
+        e.stopPropagation()
+        isFunction(fn) && fn(e)
+      }
+
       // ================ React 生命周期 ================
 
       public componentWillMount () {
