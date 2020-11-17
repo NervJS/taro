@@ -139,6 +139,7 @@ export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
 export const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
 export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
+export const getResolveUrlLoader = pipe(mergeOption, partial(getLoader, 'resolve-url-loader'))
 
 const getExtractCssLoader = () => {
   return {
@@ -262,6 +263,7 @@ export const getModule = (appPath: string, {
       outputStyle: 'expanded'
     }
   }, sassLoaderOption])
+  const resolveUrlLoader = getResolveUrlLoader([{}])
 
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
@@ -327,10 +329,12 @@ export const getModule = (appPath: string, {
     postcssUrlOption = urlOptions.config
   }
 
-  function addCssLoader (cssLoaders, loader) {
+  function addCssLoader (cssLoaders, ...loader) {
     const cssLoadersCopy = cloneDeep(cssLoaders)
     cssLoadersCopy.forEach(item => {
-      item.use && item.use.push(loader)
+      if (item.use) {
+        item.use = [...item.use, ...loader]
+      }
     })
     return cssLoadersCopy
   }
@@ -360,11 +364,11 @@ export const getModule = (appPath: string, {
   const rule: Record<string, IRule> = {
     sass: {
       test: REG_SASS_SASS,
-      oneOf: addCssLoader(cssLoaders, sassLoader)
+      oneOf: addCssLoader(cssLoaders, resolveUrlLoader, sassLoader)
     },
     scss: {
       test: REG_SASS_SCSS,
-      oneOf: addCssLoader(cssLoaders, scssLoader)
+      oneOf: addCssLoader(cssLoaders, resolveUrlLoader, scssLoader)
     },
     less: {
       test: REG_LESS,

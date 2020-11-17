@@ -757,6 +757,43 @@ ${code}
     return postcssResult
   }
 
+  processStyleAssets (content: string, stylePath: string, styleDist: string) {
+    const reg = /url\(["'](.+?)["']\)/g
+    let token = reg.exec(content)
+    stylePath = path.dirname(stylePath)
+    styleDist = path.dirname(styleDist)
+
+    while (token?.length) {
+      let url = token[1]
+
+      if (
+        url &&
+        url.indexOf('data:') !== 0 &&
+        url.indexOf('#') !== 0 &&
+        !(/^[a-z]+:\/\//.test(url))
+      ) {
+        url = url.trim()
+        url.replace(/[/\\]/g, path.sep)
+        url = url.split('?')[0]
+        url = url.split('#')[0]
+
+        const originPath = path.resolve(stylePath, url)
+        const destPath = path.resolve(styleDist, url)
+        const destDir = path.dirname(destPath)
+
+        if (!fs.existsSync(originPath)) {
+          printLog(processTypeEnum.WARNING, '静态资源', `找不到资源：${originPath}`)
+        } else if (!fs.existsSync(destPath)) {
+          fs.ensureDirSync(destDir)
+          fs.copyFile(originPath, destPath)
+          printLog(processTypeEnum.COPY, '样式资源', this.generateShowPath(destPath))
+        }
+      }
+
+      token = reg.exec(content)
+    }
+  }
+
   async traverseStyle (filePath: string, style: string) {
     const { imports, content } = processStyleImports(style, (str, stylePath) => {
       let relativePath = stylePath
@@ -766,6 +803,7 @@ ${code}
       return str.replace(stylePath, relativePath).replace('.wxss', OUTPUT_STYLE_EXTNAME)
     })
     const styleDist = this.getDistFilePath(filePath, OUTPUT_STYLE_EXTNAME)
+    this.processStyleAssets(content, filePath, styleDist)
     const { css } = await this.styleUnitTransform(filePath, content)
     this.writeFileToTaro(styleDist, css)
     printLog(processTypeEnum.GENERATE, '样式文件', this.generateShowPath(styleDist))
