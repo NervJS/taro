@@ -677,10 +677,20 @@ function parseElement (element: Element): t.JSXElement {
         if (content.type === 'expression') {
           isSpread = true
           const str = content.content
+          const strLastIndex = str.length - 1
           if (str.includes('...') && str.includes(',')) {
-            attr.value = `{{${str.slice(1, str.length - 1)}}}`
+            attr.value = `{{${str.slice(1, strLastIndex)}}}`
           } else {
-            attr.value = `{{${str.slice(str.includes('...') ? 4 : 1, str.length - 1)}}}`
+            if (str.includes('...')) {
+              // (...a) => {{a}}
+              attr.value = `{{${str.slice(4, strLastIndex)}}}`
+            } else if (/^\(([A-Za-z]+)\)$/.test(str)) {
+              // (a) => {{a:a}}
+              attr.value = `{{${str.replace(/^\(([A-Za-z]+)\)$/, '$1:$1')}}}`
+            } else {
+              // (a:'a') => {{a:'a'}}
+              attr.value = `{{${str.slice(1, strLastIndex)}}}`
+            }
           }
         } else {
           attr.value = content.content

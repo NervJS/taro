@@ -66,7 +66,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       render = buildRender(block, [], [])
     } else if (refIds.size === 1) {
       // 只有一个数据源
-      render = buildRender(block, [], Array.from(refIds), firstId)
+      render = buildRender(block, [], Array.from(refIds), [])
     } else {
       // 使用 ...spread
       render = buildRender(block, [], Array.from(refIds), [])
