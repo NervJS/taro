@@ -109,9 +109,9 @@ export default (ctx) => {
           // 依赖分析
           const extname = path.extname(filePath)
           if (REG_STYLE.test(extname)) {
-            analyzeStyleFilesImport([filePath], sourceDir, outputDir, buildData)
+            analyzeStyleFilesImport([filePath], sourceDir, outputDir, buildData, 'weapp')
           } else {
-            analyzeFiles([filePath], sourceDir, outputDir, buildData)
+            analyzeFiles([filePath], sourceDir, outputDir, buildData, 'weapp')
           }
         }
 
@@ -121,9 +121,9 @@ export default (ctx) => {
           // 依赖分析
           const extname = path.extname(filePath)
           if (REG_STYLE.test(extname)) {
-            analyzeStyleFilesImport([filePath], sourceDir, outputDir, buildData)
+            analyzeStyleFilesImport([filePath], sourceDir, outputDir, buildData, 'quickapp')
           } else {
-            analyzeFiles([filePath], sourceDir, outputDir, buildData)
+            analyzeFiles([filePath], sourceDir, outputDir, buildData, 'quickapp')
           }
         }
 
@@ -159,9 +159,9 @@ export default (ctx) => {
           // 依赖分析
           const extname = path.extname(filePath)
           if (REG_STYLE.test(extname)) {
-            analyzeStyleFilesImport([fileTempPath], tempPath, outputDir, buildData)
+            analyzeStyleFilesImport([fileTempPath], tempPath, outputDir, buildData, 'rn')
           } else {
-            analyzeFiles([fileTempPath], tempPath, outputDir, buildData)
+            analyzeFiles([fileTempPath], tempPath, outputDir, buildData, 'rn')
           }
         }
 

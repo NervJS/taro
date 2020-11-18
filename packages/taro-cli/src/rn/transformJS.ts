@@ -278,7 +278,7 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
       const specifiers = node.specifiers
       const pathAlias = projectConfig.alias || {}
       if (isAliasPath(value, pathAlias)) {
-        source.value = value = replaceAliasPath(filePath, value, pathAlias)
+        source.value = value = replaceAliasPath(filePath, value, pathAlias, 'rn')
       }
       // 引入的包为非 npm 包
       if (!isNpmPkg(value)) {
@@ -300,7 +300,7 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
             const absolutePath = path.resolve(filePath, '..', value)
             const dirname = path.dirname(absolutePath)
             const extname = path.extname(absolutePath)
-            const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+            const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)), 'rn')
             const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
             node.source = t.stringLiteral(promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/'))
           }
@@ -562,7 +562,7 @@ export function parseJSCode ({code, filePath, isEntryFile, projectConfig}) {
             const absolutePath = path.resolve(filePath, '..', pagePath.substr(1))
             const dirname = path.dirname(absolutePath)
             const extname = path.extname(absolutePath)
-            const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)))
+            const realFilePath = resolveScriptPath(path.join(dirname, path.basename(absolutePath, extname)), 'rn')
             const removeExtPath = realFilePath.replace(path.extname(realFilePath), '')
             const resolvedPagePath = promoteRelativePath(path.relative(filePath, removeExtPath)).replace(/\\/g, '/')
             // 2. Inject import ${screenName} from '.${resolvedPagePath}'

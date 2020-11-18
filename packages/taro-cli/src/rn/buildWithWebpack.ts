@@ -83,14 +83,14 @@ export function setIsProduction (isProduction: boolean) {
 }
 
 export function setBuildData (appPath: string, adapter: string, options?: Partial<IBuildData> | null) {
-  const configDir = resolveScriptPath(path.join(appPath, PROJECT_CONFIG))
+  const configDir = resolveScriptPath(path.join(appPath, PROJECT_CONFIG), 'rn')
   const projectConfig = require(configDir)(_.merge)
   const rnConf = projectConfig.rn || {}
   const sourceDirName = projectConfig.sourceRoot || CONFIG.SOURCE_DIR
   const outputDirName = rnConf.outputRoot || CONFIG.RN_OUTPUT_DIR
   const sourceDir = path.join(appPath, sourceDirName)
   const outputDir = path.join(appPath, outputDirName)
-  const entryFilePath = resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY))
+  const entryFilePath = resolveScriptPath(path.join(sourceDir, CONFIG.ENTRY), 'rn')
   const entryFileName = path.basename(entryFilePath)
 
   const pathAlias = projectConfig.alias || {}

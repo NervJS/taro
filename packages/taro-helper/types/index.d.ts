@@ -29,7 +29,7 @@ declare interface helper {
   isNpmPkg(name: string): boolean;
   isQuickAppPkg(name: string): boolean;
   isAliasPath(name: string, pathAlias?: object): boolean;
-  replaceAliasPath(filePath: string, name: string, pathAlias?: object): string;
+  replaceAliasPath(filePath: string, name: string, pathAlias?: object, env?: string): string;
   promoteRelativePath(fPath: string): string;
   resolveStylePath(p: string): string;
   printLog(type: processTypeEnum, tag: string, filePath?: string | undefined): void;
@@ -41,7 +41,7 @@ declare interface helper {
   shouldUseYarn(): boolean;
   shouldUseCnpm(): boolean;
   isEmptyObject(obj: any): boolean;
-  resolveScriptPath(p: string): string;
+  resolveScriptPath(p: string, env?: string): string;
   generateEnvList(env: object): object;
   generateConstantsList(constants: object): object;
   cssImports(content: string): string[];

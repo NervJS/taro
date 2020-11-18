@@ -8,6 +8,8 @@ import { Compiler as RNCompiler } from '../rn_bak'
 import { analyzeFiles, analyzeStyleFilesImport, copyFileToDist, RN_OUTPUT_NAME, parseEntryAst } from './common'
 import { IBuildData } from './ui.types'
 
+const buildType = 'rn'
+
 export async function buildForRN (uiIndex = 'index', buildData) {
   const {appPath} = buildData
   const compiler = new RNCompiler(appPath)
@@ -21,8 +23,8 @@ export async function buildRNLib (uiIndex, buildData: IBuildData) {
   try {
     const { appPath, outputDirName, sourceDir ,rnTempPath} = buildData
     const outputDir = path.join(appPath, outputDirName, RN_OUTPUT_NAME)
-    const tempEntryFilePath = resolveScriptPath(path.join(sourceDir, uiIndex))
-    const baseEntryFilePath = resolveScriptPath(path.join(rnTempPath, uiIndex)) // base by rn_temp
+    const tempEntryFilePath = resolveScriptPath(path.join(sourceDir, uiIndex), buildType)
+    const baseEntryFilePath = resolveScriptPath(path.join(rnTempPath, uiIndex), buildType) // base by rn_temp
     const outputEntryFilePath = path.join(outputDir, path.basename(tempEntryFilePath))
     const code = fs.readFileSync(tempEntryFilePath).toString()
     const transformResult = wxTransformer({
@@ -32,7 +34,7 @@ export async function buildRNLib (uiIndex, buildData: IBuildData) {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(tempEntryFilePath)
     })
-    const {styleFiles, components, code: generateCode} = parseEntryAst(transformResult.ast, baseEntryFilePath)
+    const {styleFiles, components, code: generateCode} = parseEntryAst(transformResult.ast, baseEntryFilePath, buildType)
     const relativePath = path.relative(appPath, tempEntryFilePath)
     tempEntryFilePath.replace(path.extname(tempEntryFilePath),'.js')
     printLog(processTypeEnum.COPY, '发现文件', relativePath)
@@ -42,13 +44,13 @@ export async function buildRNLib (uiIndex, buildData: IBuildData) {
       components.forEach(item => {
         copyFileToDist(item.path as string, rnTempPath, outputDir, buildData)
       })
-      analyzeFiles(components.map(item => item.path as string), rnTempPath, outputDir, buildData)
+      analyzeFiles(components.map(item => item.path as string), rnTempPath, outputDir, buildData, buildType)
     }
     if (styleFiles.length) {
       styleFiles.forEach(item => {
         copyFileToDist(item, rnTempPath, path.join(appPath, outputDirName), buildData)
       })
-      analyzeStyleFilesImport(styleFiles, rnTempPath, path.join(appPath, outputDirName), buildData)
+      analyzeStyleFilesImport(styleFiles, rnTempPath, path.join(appPath, outputDirName), buildData, buildType)
     }
   } catch (err) {
     console.log(err)

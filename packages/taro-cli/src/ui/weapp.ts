@@ -7,6 +7,8 @@ import { processTypeEnum, REG_TYPESCRIPT, printLog, chalk } from '@tarojs/helper
 import { analyzeFiles, parseEntryAst, WEAPP_OUTPUT_NAME, copyFileToDist, copyAllInterfaceFiles } from './common'
 import { IBuildData } from './ui.types'
 
+const buildType = 'weapp'
+
 export async function buildForWeapp (buildData: IBuildData) {
   const { appPath, entryFilePath, outputDirName, entryFileName, sourceDir } = buildData
   console.log()
@@ -26,7 +28,7 @@ export async function buildForWeapp (buildData: IBuildData) {
       isNormal: true,
       isTyped: REG_TYPESCRIPT.test(entryFilePath)
     })
-    const { components } = parseEntryAst(transformResult.ast, entryFilePath)
+    const { components } = parseEntryAst(transformResult.ast, entryFilePath, buildType)
     const relativePath = path.relative(appPath, entryFilePath)
     printLog(processTypeEnum.COPY, '发现文件', relativePath)
     fs.ensureDirSync(path.dirname(outputEntryFilePath))
@@ -38,7 +40,7 @@ export async function buildForWeapp (buildData: IBuildData) {
       components.forEach(item => {
         copyFileToDist(item.path as string, sourceDir, outputDir, buildData)
       })
-      analyzeFiles(components.map(item => item.path as string), sourceDir, outputDir, buildData)
+      analyzeFiles(components.map(item => item.path as string), sourceDir, outputDir, buildData, buildType)
     }
     copyAllInterfaceFiles(sourceDir, outputDir, buildData)
   } catch (err) {
