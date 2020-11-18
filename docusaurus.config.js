@@ -40,11 +40,11 @@ const siteConfigGithub = {
       respectPrefersColorScheme: true,
     },
     algolia: {
-      // contextualSearch: true,
-      apiKey: '57b9948bff42bc0dbc6c219556fbae35', /* (github.com)taro:57b9948bff42bc0dbc6c219556fbae35, (netlify)taro_new:820a8e12c97e870d4e0785d52858230c */
-      indexName: 'taro',
+      contextualSearch: true,
+      apiKey: '3f32982103f4e75dadd86900d26a9315', /* (github.com)taro:57b9948bff42bc0dbc6c219556fbae35, (netlify)taro_new:820a8e12c97e870d4e0785d52858230c */
+      indexName: 'taro-zone',
       searchParameters: {
-        facetFilters: [`version: ${versions[0]}`],
+        // facetFilters: [`version: ${versions[0]}`],
       },
     },
     prism: {
