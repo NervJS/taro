@@ -47,7 +47,8 @@ export function analyzeImportUrl (
   sourceFilePath: string,
   scriptFiles: Set<string>,
   source: t.StringLiteral,
-  value: string
+  value: string,
+  env?: string
 ) {
   const valueExtname = path.extname(value)
   const rpath = getRelativePath(rootPath, sourceFilePath, value)
@@ -70,7 +71,7 @@ export function analyzeImportUrl (
       }
       scriptFiles.add(fPath)
     } else {
-      let vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+      let vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value), env)
       if (vpath) {
         if (!fs.existsSync(vpath)) {
           printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)

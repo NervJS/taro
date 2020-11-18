@@ -49,7 +49,8 @@ interface IParseAstReturn {
 
 function parseAst (
   ast: t.File,
-  sourceFilePath: string
+  sourceFilePath: string,
+  env?: string
 ): IParseAstReturn {
   const styleFiles: string[] = []
   const scriptFiles: string[] = []
@@ -67,7 +68,7 @@ function parseAst (
             const valueExtname = path.extname(value)
             if (value.indexOf('.') === 0) {
               let importPath = path.resolve(path.dirname(sourceFilePath), value)
-              importPath = resolveScriptPath(importPath)
+              importPath = resolveScriptPath(importPath, env)
               if (REG_SCRIPT.test(valueExtname) || REG_TYPESCRIPT.test(valueExtname)) {
                 const vpath = path.resolve(sourceFilePath, '..', value)
                 let fPath = value
@@ -93,7 +94,7 @@ function parseAst (
                   styleFiles.push(vpath)
                 }
               } else {
-                const vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+                const vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value), env)
                 if (fs.existsSync(vpath) && scriptFiles.indexOf(vpath) < 0) {
                   scriptFiles.push(vpath)
                 }
@@ -113,7 +114,7 @@ function parseAst (
   }
 }
 
-export function parseEntryAst (ast: t.File, relativeFile: string) {
+export function parseEntryAst (ast: t.File, relativeFile: string, env?: string) {
   const styleFiles: string[] = []
   const components: IComponentObj[] = []
   const importExportName: string[] = []
@@ -129,7 +130,7 @@ export function parseEntryAst (ast: t.File, relativeFile: string) {
           const exported = specifier.exported
           components.push({
             name: exported.name,
-            path: resolveScriptPath(path.resolve(path.dirname(relativeFile), source.value))
+            path: resolveScriptPath(path.resolve(path.dirname(relativeFile), source.value), env)
           })
         })
       } else {
@@ -171,7 +172,7 @@ export function parseEntryAst (ast: t.File, relativeFile: string) {
                     if (local.name === nameItem) {
                       components.push({
                         name: local.name,
-                        path: resolveScriptPath(path.resolve(path.dirname(relativeFile), source.value))
+                        path: resolveScriptPath(path.resolve(path.dirname(relativeFile), source.value), env)
                       })
                     }
                   })
@@ -183,7 +184,7 @@ export function parseEntryAst (ast: t.File, relativeFile: string) {
                   if (local.name === exportDefaultName) {
                     components.push({
                       name: local.name,
-                      path: resolveScriptPath(path.resolve(path.dirname(relativeFile), source.value))
+                      path: resolveScriptPath(path.resolve(path.dirname(relativeFile), source.value), env)
                     })
                   }
                 })
@@ -213,7 +214,7 @@ export function isFileToBeCSSModulesMap (filePath) {
   return isMap
 }
 
-export function copyFileToDist (filePath: string, sourceDir: string, outputDir: string, buildData: IBuildData) {
+export function copyFileToDist (filePath: string, sourceDir: string, outputDir: string, buildData: IBuildData, env = '') {
   if ((!filePath && !path.isAbsolute(filePath)) || isFileToBeCSSModulesMap(filePath)) {
     return
   }
@@ -223,14 +224,17 @@ export function copyFileToDist (filePath: string, sourceDir: string, outputDir: 
   const distDirname = dirname.replace(sourceDir, outputDir)
   const relativePath = path.relative(appPath, filePath)
   printLog(processTypeEnum.COPY, '发现文件', relativePath)
+  const distFileName = ['rn'].includes(env)
+    ? path.basename(filePath)
+    : path.basename(filePath).replace(new RegExp(`\\.${env}(\\.[a-z\\d]+)$`), '$1')
   fs.ensureDirSync(distDirname)
   fs.copyFileSync(filePath, path.format({
     dir: distDirname,
-    base: path.basename(filePath)
+    base: distFileName
   }))
 }
 
-function _analyzeFiles(files: string[], sourceDir: string, outputDir: string, buildData: IBuildData){
+function _analyzeFiles(files: string[], sourceDir: string, outputDir: string, buildData: IBuildData, env?: string){
   files.forEach(file => {
     if (fs.existsSync(file)) {
       if (processedScriptFiles.has(file)) {
@@ -250,31 +254,31 @@ function _analyzeFiles(files: string[], sourceDir: string, outputDir: string, bu
         scriptFiles,
         jsonFiles,
         mediaFiles
-      } = parseAst(transformResult.ast, file)
+      } = parseAst(transformResult.ast, file, env)
 
       const resFiles = styleFiles.concat(scriptFiles, jsonFiles, mediaFiles)
 
       if (resFiles.length) {
         resFiles.forEach(item => {
-          copyFileToDist(item, sourceDir, outputDir, buildData)
+          copyFileToDist(item, sourceDir, outputDir, buildData, env)
         })
       }
       if (scriptFiles.length) {
-        _analyzeFiles(scriptFiles, sourceDir, outputDir, buildData)
+        _analyzeFiles(scriptFiles, sourceDir, outputDir, buildData, env)
       }
       if (styleFiles.length) {
-        analyzeStyleFilesImport(styleFiles, sourceDir, outputDir, buildData)
+        analyzeStyleFilesImport(styleFiles, sourceDir, outputDir, buildData, env)
       }
     }
   })
 }
 
-export function analyzeFiles (files: string[], sourceDir: string, outputDir: string, buildData: IBuildData) {
-  _analyzeFiles(files, sourceDir, outputDir, buildData)
+export function analyzeFiles (files: string[], sourceDir: string, outputDir: string, buildData: IBuildData, env?: string) {
+  _analyzeFiles(files, sourceDir, outputDir, buildData, env)
   processedScriptFiles = new Set()
 }
 
-export function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir, buildData: IBuildData) {
+export function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir, buildData: IBuildData, env?: string) {
   styleFiles.forEach(item => {
     if (!fs.existsSync(item)) {
       return
@@ -286,7 +290,7 @@ export function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir, build
           let filePath = $1.replace(/'?"?/g, '')
           if (filePath.indexOf('.') === 0) {
             filePath = path.resolve(path.dirname(item), filePath)
-            copyFileToDist(filePath, sourceDir, outputDir, buildData)
+            copyFileToDist(filePath, sourceDir, outputDir, buildData, env)
           }
         }
         return m
@@ -298,10 +302,10 @@ export function analyzeStyleFilesImport (styleFiles, sourceDir, outputDir, build
           return ''
         }
         const filePath = resolveStylePath(path.resolve(path.dirname(item), importItem))
-        copyFileToDist(filePath, sourceDir, outputDir, buildData)
+        copyFileToDist(filePath, sourceDir, outputDir, buildData, env)
         return filePath
       }).filter(item => item)
-      analyzeStyleFilesImport(imports, sourceDir, outputDir, buildData)
+      analyzeStyleFilesImport(imports, sourceDir, outputDir, buildData, env)
     }
   })
 }

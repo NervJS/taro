@@ -178,7 +178,7 @@ class Compiler {
     function readFiles (sourcePath, originalFilePath) {
       readPromises.push(new Promise((resolve, reject) => {
         klaw(sourcePath)
-          .on('data', file => {
+          .on('data', async file => {
             const REG_IGNORE = /(\\|\/)\.(svn|git)\1/i;
             const relativePath = path.relative(appPath, file.path)
             if (file.stats.isSymbolicLink()) {
@@ -189,7 +189,7 @@ class Compiler {
               readFiles.call(this, linkFile, file.path)
             } else if (!file.stats.isDirectory() && !REG_IGNORE.test(relativePath)) {
               printLog(processTypeEnum.CREATE, '发现文件', relativePath)
-              this.processFiles(file.path, originalFilePath)
+              await this.processFiles(file.path, originalFilePath)
             }
           })
           .on('end', () => {
@@ -270,15 +270,15 @@ class Compiler {
       ignoreInitial: true
     })
     watcher
-      .on('add', filePath => {
+      .on('add', async filePath => {
         const relativePath = path.relative(appPath, filePath)
         printLog(processTypeEnum.CREATE, '添加文件', relativePath)
-        this.processFiles(filePath, filePath)
+        await this.processFiles(filePath, filePath)
       })
-      .on('change', filePath => {
+      .on('change', async filePath => {
         const relativePath = path.relative(appPath, filePath)
         printLog(processTypeEnum.MODIFY, '文件变动', relativePath)
-        this.processFiles(filePath, filePath)
+        await this.processFiles(filePath, filePath)
       })
       .on('unlink', filePath => {
         const relativePath = path.relative(appPath, filePath)
@@ -1418,12 +1418,16 @@ class Compiler {
       : path.resolve(this.tempPath, relPath)
   }
 
-  processFiles (filePath, originalFilePath) {
-    const original = fs.readFileSync(filePath, { encoding: 'utf8' })
+  async processFiles (filePath, originalFilePath) {
+    const h5Path = filePath.replace(/(\.[\da-z]+)$/ig, '.h5$1')
+    const hasH5 = await fs.pathExists(h5Path)
+    const original = fs.readFileSync(
+      hasH5 ? h5Path : filePath, { encoding: 'utf8' }
+    )
     const extname = path.extname(filePath)
     const distDirname = this.getTempDir(filePath, originalFilePath)
     const isScriptFile = REG_SCRIPTS.test(extname)
-    const distPath = this.getDist(distDirname, filePath, isScriptFile)
+    const distPath = this.getDist(distDirname, filePath.replace(/\.h5(\.[\da-z]+)$/ig, '$1'), isScriptFile)
     fs.ensureDirSync(distDirname)
 
     try {
@@ -1435,6 +1439,7 @@ class Compiler {
           const result = this.processEntry(original, filePath)
           if (Array.isArray(result)) {
             result.forEach(([pageName, code]) => {
+              pageName = pageName.replace(/\.h5$/ig, '')
               fs.writeFileSync(
                 path.join(distDirname, `${pageName}.js`),
                 code
