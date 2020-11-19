@@ -224,7 +224,7 @@ export function copyFileToDist (filePath: string, sourceDir: string, outputDir: 
   const distDirname = dirname.replace(sourceDir, outputDir)
   const relativePath = path.relative(appPath, filePath)
   printLog(processTypeEnum.COPY, '发现文件', relativePath)
-  const distFileName = ['rn'].includes(env)
+  const distFileName = ['h5', 'rn'].includes(env)
     ? path.basename(filePath)
     : path.basename(filePath).replace(new RegExp(`\\.${env}(\\.[a-z\\d]+)$`), '$1')
   fs.ensureDirSync(distDirname)

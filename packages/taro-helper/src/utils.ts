@@ -214,7 +214,11 @@ export function isEmptyObject (obj: any): boolean {
 
 export function resolveScriptPath (p: string, env?: string): string {
   const realPath = p
-  const taroEnv = env || process.env.TARO_ENV
+  let taroEnv = env || process.env.TARO_ENV || ''
+  // Note: H5 在拷贝文件时做了处理，不需要额外的转换
+  if (['h5'].includes(taroEnv)) {
+    taroEnv = ''
+  }
   const SCRIPT_EXT = JS_EXT.concat(TS_EXT)
   for (let i = 0; i < SCRIPT_EXT.length; i++) {
     const item = SCRIPT_EXT[i]
