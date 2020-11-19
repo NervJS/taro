@@ -48,4 +48,4 @@ recorderManager.start(options)
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.getRecorderManager | ✔️ |  |  |
+| Taro.getRecorderManager | ✔️ |  | ✔️ |

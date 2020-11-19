@@ -176,4 +176,4 @@ uploadTask.abort() // 取消上传任务
 
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| Taro.uploadFile | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| Taro.uploadFile | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

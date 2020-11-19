@@ -123,4 +123,4 @@ Taro.chooseImage({
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.saveFile | ✔️ |  |  |
+| Taro.saveFile | ✔️ |  | ✔️ |

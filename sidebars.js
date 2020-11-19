@@ -310,6 +310,7 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/ui/keyboard/onKeyboardHeightChange",
+          "apis/ui/keyboard/offKeyboardHeightChange",
           "apis/ui/keyboard/hideKeyboard",
           "apis/ui/keyboard/getSelectedTextRange"
         ]

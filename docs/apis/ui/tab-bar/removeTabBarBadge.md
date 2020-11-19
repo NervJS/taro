@@ -58,4 +58,4 @@ sidebar_label: removeTabBarBadge
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.removeTabBarBadge | ✔️ | ✔️ |  |
+| Taro.removeTabBarBadge | ✔️ | ✔️ | ✔️ |

@@ -62,4 +62,4 @@ Taro.hideKeyboard({
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.hideKeyboard | ✔️ |  |  |
+| Taro.hideKeyboard | ✔️ |  | ✔️ |

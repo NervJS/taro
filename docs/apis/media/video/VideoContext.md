@@ -19,7 +19,7 @@ sidebar_label: VideoContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| VideoContext.exitFullScreen | ✔️ |  |  |
+| VideoContext.exitFullScreen | ✔️ |  | ✔️ |
 
 ### hideStatusBar
 
@@ -51,7 +51,7 @@ sidebar_label: VideoContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| VideoContext.pause | ✔️ |  |  |
+| VideoContext.pause | ✔️ |  | ✔️ |
 
 ### play
 
@@ -67,7 +67,7 @@ sidebar_label: VideoContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| VideoContext.play | ✔️ |  |  |
+| VideoContext.play | ✔️ |  | ✔️ |
 
 ### playbackRate
 
@@ -100,7 +100,7 @@ sidebar_label: VideoContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| VideoContext.playbackRate | ✔️ |  |  |
+| VideoContext.playbackRate | ✔️ |  | ✔️ |
 
 ### requestFullScreen
 
@@ -131,7 +131,7 @@ sidebar_label: VideoContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| VideoContext.requestFullScreen | ✔️ |  |  |
+| VideoContext.requestFullScreen | ✔️ |  | ✔️ |
 
 ### seek
 
@@ -164,7 +164,7 @@ sidebar_label: VideoContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| VideoContext.seek | ✔️ |  |  |
+| VideoContext.seek | ✔️ |  | ✔️ |
 
 ### sendDanmu
 
@@ -229,7 +229,7 @@ sidebar_label: VideoContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| VideoContext.stop | ✔️ |  |  |
+| VideoContext.stop | ✔️ |  | ✔️ |
 
 ## 参数
 
@@ -287,13 +287,13 @@ sidebar_label: VideoContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| VideoContext.exitFullScreen | ✔️ |  |  |
+| VideoContext.exitFullScreen | ✔️ |  | ✔️ |
 | VideoContext.hideStatusBar | ✔️ |  |  |
-| VideoContext.pause | ✔️ |  |  |
-| VideoContext.play | ✔️ |  |  |
-| VideoContext.playbackRate | ✔️ |  |  |
-| VideoContext.requestFullScreen | ✔️ |  |  |
-| VideoContext.seek | ✔️ |  |  |
+| VideoContext.pause | ✔️ |  | ✔️ |
+| VideoContext.play | ✔️ |  | ✔️ |
+| VideoContext.playbackRate | ✔️ |  | ✔️ |
+| VideoContext.requestFullScreen | ✔️ |  | ✔️ |
+| VideoContext.seek | ✔️ |  | ✔️ |
 | VideoContext.sendDanmu | ✔️ |  |  |
 | VideoContext.showStatusBar | ✔️ |  |  |
-| VideoContext.stop | ✔️ |  |  |
+| VideoContext.stop | ✔️ |  | ✔️ |

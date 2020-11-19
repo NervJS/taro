@@ -20,3 +20,4 @@ yarn-debug.log*
 yarn-error.log*
 .now
 dist
+.history/
