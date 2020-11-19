@@ -248,6 +248,7 @@ const siteConfigTaroZone = {
       logo: {
         alt: 'Taro logo',
         src: 'img/logo-taro.png',
+        srcDark: 'img/logo-taro.png'
       },
       items: [
         {
