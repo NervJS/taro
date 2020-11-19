@@ -52,7 +52,10 @@ function isFunction (o): o is Function {
 }
 
 export default function withWeapp (weappConf: WxOptions) {
-  return (ConnectComponent: ComponentClass) => {
+  if (typeof weappConf === 'object' && Object.keys(weappConf).length === 0) {
+    report('withWeapp 请传入“App/页面/组件“的配置对象。如果原生写法使用了基类，请将基类组合后的配置对象传入，详情请参考文档。')
+  }
+  return (ConnectComponent: ComponentClass<any, any>) => {
     class BaseComponent<P = {}, S = {}> extends ConnectComponent {
       private _observeProps: ObserverProperties[] = []
 
@@ -77,6 +80,7 @@ export default function withWeapp (weappConf: WxOptions) {
 
       constructor (props) {
         super(props)
+        this.state = {}
         this.init(weappConf)
         defineGetter(this, 'data', 'state')
         defineGetter(this, 'properties', 'props')
@@ -86,7 +90,8 @@ export default function withWeapp (weappConf: WxOptions) {
         for (const propKey in props) {
           if (props.hasOwnProperty(propKey)) {
             const propValue = props[propKey]
-            if (!isFunction(propValue)) {
+            // propValue 可能是 null, 构造函数, 对象
+            if (propValue && !isFunction(propValue)) {
               if (propValue.observer) {
                 this._observeProps.push({
                   name: propKey,
@@ -224,6 +229,7 @@ export default function withWeapp (weappConf: WxOptions) {
         // 组件的 ready、show、hide 需要利用页面事件触发
         const { router } = this.current
         const lifecycleName = `on${name[0].toUpperCase()}${name.slice(1)}`
+        cb = cb.bind(this)
         router?.[lifecycleName] && eventCenter.on(router[lifecycleName], cb)
         // unMount 时需要取消事件监听
         this.eventDistoryList.push(() => eventCenter.off(router[lifecycleName], cb))
@@ -238,7 +244,7 @@ export default function withWeapp (weappConf: WxOptions) {
 
       private triggerPropertiesObservers (prevProps, nextProps) {
         this._observeProps.forEach(({ name: key, observer }) => {
-          const prop = prevProps[key]
+          const prop = prevProps?.[key]
           const nextProp = nextProps[key]
           // 小程序是深比较不同之后才 trigger observer
           if (!isEqual(prop, nextProp)) {
@@ -397,9 +403,11 @@ export default function withWeapp (weappConf: WxOptions) {
             type: eventName,
             detail,
             target: {
+              id: props.id || '',
               dataset
             },
             currentTarget: {
+              id: props.id || '',
               dataset
             }
           })
