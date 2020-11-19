@@ -1419,7 +1419,7 @@ class Compiler {
   }
 
   async processFiles (filePath, originalFilePath) {
-    const h5Path = filePath.replace(/(\.[\da-z]+)$/ig, '.h5$1')
+    const h5Path = filePath.replace(/(?![^(\.h5)])(\.[\da-z]+)$/ig, '.h5$1')
     const hasH5 = await fs.pathExists(h5Path)
     const original = fs.readFileSync(
       hasH5 ? h5Path : filePath, { encoding: 'utf8' }
