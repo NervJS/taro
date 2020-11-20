@@ -1,7 +1,11 @@
 const path = require('path')
 const apis = require('@tarojs/taro-h5/dist/taroApis')
+const presetForReactNative = require('./rn')
 
 module.exports = (_, options = {}) => {
+  if (process.env.TARO_ENV === 'rn') {
+    return presetForReactNative(_, options)
+  }
   const presets = []
   const plugins = []
   const isReact = options.framework === 'react'
