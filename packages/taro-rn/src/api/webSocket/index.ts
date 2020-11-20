@@ -1,25 +1,25 @@
 import SocketTask from './socketTask'
 
 let socketsCounter = 1
-let socketTasks = []
+let socketTasks: any[] = []
 
-export function connectSocket (opts = {}) {
+export function connectSocket(opts: Taro.connectSocket.Option): Promise<Taro.SocketTask> {
   return new Promise((resolve, reject) => {
     const { url, success, fail, complete } = opts
     let { protocols } = opts
-    const res = { errMsg: 'connectSocket:ok' }
+    const res: any = { errMsg: 'connectSocket:ok' }
 
     if (typeof url !== 'string') {
       const error = new Error('connectSocket:fail parameter error: parameter.url should be String')
       res.errMsg = error.message
       console.error(res.errMsg)
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
       return reject(res)
     }
 
     if (Object.prototype.toString.call(protocols) !== '[object Array]') {
-      protocols = null
+      protocols = undefined
     }
 
     // 最多同时存在两个SocketTask
@@ -27,12 +27,12 @@ export function connectSocket (opts = {}) {
       const error = new Error('同时最多发起 2 个 socket 请求，更多请参考文档。')
       res.errMsg = error.message
       console.error(res.errMsg)
-      fail && fail(res)
-      complete && complete(res)
+      fail?.(res)
+      complete?.(res)
       return reject(res)
     }
 
-    const task = new SocketTask(url, protocols)
+    const task: any = new SocketTask(url, protocols)
     task._destroyWhenClose = () => {
       socketTasks = socketTasks.filter(socketTask => { return socketTask !== task })
     }
@@ -41,35 +41,35 @@ export function connectSocket (opts = {}) {
     res.socketTaskId = socketsCounter++
     res.socketTask = task
 
-    success && success(res)
-    complete && complete(res)
+    success?.(res)
+    complete?.(res)
 
     return resolve(task)
   })
 }
 
-function onSocketOpen () {
+function onSocketOpen ():void {
   console.warn('已废弃。请使用socketTask.onOpen方法')
 }
 
-function onSocketError () {
+function onSocketError ():void {
   console.warn('已废弃。请使用socketTask.onError方法')
 }
 
-function sendSocketMessage () {
+function sendSocketMessage ():void {
   console.warn('已废弃。请使用socketTask.send方法')
 }
 
-function onSocketMessage () {
+function onSocketMessage ():void {
   console.warn('已废弃。请使用socketTask.onMessage方法')
 }
 
-function closeSocket () {
+function closeSocket ():void {
   console.warn('已废弃。请使用socketTask.close方法')
 }
 
-function onSocketClose () {
-  console.warn('已废弃.请使用socketTask.onClose方法')
+function onSocketClose ():void {
+  console.warn('已废弃。请使用socketTask.onClose方法')
 }
 
 export default {

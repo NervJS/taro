@@ -1,7 +1,7 @@
-import Popup from './Popup'
+// import Popup from './Popup'
 import PopupHeader from './PopupHeader'
 
 export {
-  Popup,
+  // Popup,
   PopupHeader
 }
