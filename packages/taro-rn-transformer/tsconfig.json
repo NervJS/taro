@@ -16,8 +16,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": "./src",
-    "lib": ["esnext"],
-    "types": ["react-native"]
+    "lib": ["esnext"]
   },
   "include": [
     "src"
