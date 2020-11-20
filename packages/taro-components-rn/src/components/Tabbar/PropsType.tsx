@@ -43,4 +43,5 @@ export type TabbarConf = {
 export interface TabbarProps {
   conf: TabbarConf;
   homePage: string;
+  onClick?: (...args: any[]) => void;
 }

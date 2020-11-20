@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 export type OnChangeEvent<T, E> = { detail: { value: T } & E }
-interface CommonProps<T, E = {}> {
+interface CommonProps<T, E = Record<string, unknown>> {
   children?: React.ReactNode;
   mode?: 'selector' | 'multiSelector' | 'time' | 'date' | 'region';
   value?: T;
@@ -31,6 +31,31 @@ export interface DateProps extends CommonProps<string> {
   start?: string;
   end?: string;
   fields?: 'year' | 'month' | 'day';
+}
+
+export interface DateState {
+  pValue: string | Date;
+  value: string | Date;
+}
+
+export interface RegionState {
+  pvalue: string[] | undefined;
+  value: string[] | undefined;
+}
+
+export interface SelectorState {
+  pRange: any[] | undefined;
+  range: any[];
+  value: number;
+  preValue: React.ReactText[] | undefined;
+}
+
+export interface MultiSelectorState {
+  cols: number;
+  pRange: any[];
+  pValue: any[];
+  range: any[];
+  value: any[];
 }
 
 type RegionOnChangeEventExtra = { code: string[]; postcode?: string[] }

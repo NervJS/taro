@@ -41,10 +41,10 @@ import {
   Dimensions
 } from 'react-native'
 // @ts-ignore // The type definitions for MapView have not been created.
-import MapView, { Callout, Polygon, Circle, Polyline, Marker } from 'react-native-maps'
+import MapView, { Callout, Polygon, Circle, Polyline, Marker, MapEvent } from 'react-native-maps'
 import utils from '../../utils'
 
-const {width, height} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
@@ -62,23 +62,6 @@ type Callouts = {
   bgColor?: string;
   padding?: number;
   display?: 'BYCLICK' | 'ALWAYS';
-  textAlign?: 'left' | 'right' | 'center';
-}
-
-/**
- * 标记点气泡 label
- */
-type Label = {
-  content?: string;
-  color?: string;
-  fontSize?: number;
-  anchorX?: number;
-  anchorY?: number;
-  borderWidth?: number;
-  borderColor?: string;
-  borderRadius?: number;
-  bgColor?: string;
-  padding?: number;
   textAlign?: 'left' | 'right' | 'center';
 }
 
@@ -146,16 +129,6 @@ type Coordinate = {
   longitude: number;
 }
 
-/**
- * 区域
- */
-type Region = {
-  latitude: Number;
-  longitude: Number;
-  latitudeDelta: Number;
-  longitudeDelta: Number;
-}
-
 export interface Props {
   longitude: number;
   latitude: number;
@@ -219,40 +192,40 @@ class _Map extends React.Component<Props, State> {
     networkState: ''
   }
 
-  _onRegionChange = (region: Region) => {
-    const {onRegionChange} = this.props
+  _onRegionChange = (): void => {
+    const { onRegionChange } = this.props
     onRegionChange && onRegionChange({
       type: 'begin',
       timeStamp: Date.now()
     })
   }
 
-  _onRegionChangeComplete = (region: Region) => {
-    const {onRegionChange} = this.props
+  _onRegionChangeComplete = (): void => {
+    const { onRegionChange } = this.props
     onRegionChange && onRegionChange({
       type: 'end',
       timeStamp: Date.now()
     })
   }
 
-  _onClick = (e: any) => {
-    const {onClick} = this.props
+  _onClick = (e: MapEvent): void => {
+    const { onClick } = this.props
     onClick && onClick(e.nativeEvent.coordinate)
   }
 
-  _onMapReady = () => {
-    const {onUpdated} = this.props
+  _onMapReady = (): void => {
+    const { onUpdated } = this.props
     onUpdated && onUpdated()
   }
 
-  _onPoiClick = () => {
-    const {onPoiClick} = this.props
+  _onPoiClick = (): void => {
+    const { onPoiClick } = this.props
     onPoiClick && onPoiClick()
   }
 
-  getCallout = (marker: Marker) => {
-    const {onCalloutClick} = this.props
-    const {id, callout} = marker
+  getCallout = (marker: Marker): JSX.Element | null => {
+    const { onCalloutClick } = this.props
+    const { id, callout } = marker
     if (!callout) return null
     return (
       <Callout
@@ -283,7 +256,7 @@ class _Map extends React.Component<Props, State> {
     )
   }
 
-  render () {
+  render (): JSX.Element {
     const {
       latitude,
       longitude,
@@ -301,7 +274,7 @@ class _Map extends React.Component<Props, State> {
 
     return (
       <MapView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         // provider={MapView.PROVIDER_GOOGLE}
         initialRegion={{
           latitude,
@@ -367,7 +340,7 @@ class _Map extends React.Component<Props, State> {
         {(circles || []).map((c, index) => (
           <Circle
             key={`circle_${index}`}
-            center={{latitude: c.latitude, longitude: c.longitude}}
+            center={{ latitude: c.latitude, longitude: c.longitude }}
             strokeColor={c.color}
             fillColor={c.fillColor}
             radius={c.radius}

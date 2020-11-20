@@ -5,10 +5,10 @@
  * ✘ hoverStopPropagation: Fixed value TRUE
  * ✔ onClick(tap)
  * ✔ onLongPress(longpress)
- * ✔ onTouchstart
- * ✘ onTouchmove
- * ✘ onTouchcancel
- * ✔ onTouchend
+ * ✔ onTouchStart
+ * ✘ onTouchMove
+ * ✘ onTouchCancel
+ * ✔ onTouchEnd
  */
 
 import * as React from 'react'
@@ -19,8 +19,9 @@ import {
 import { omit } from '../../utils'
 import { ClickableProps } from './PropsType'
 
-export default function (WrappedComponent: React.ComponentType<any>) {
-  return class _Clickable extends React.Component<ClickableProps> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export default function <P extends Record<string, any>>(WrappedComponent: React.ComponentType<P>) {
+  return class _Clickable extends React.Component<P & ClickableProps> {
     static defaultProps = {
       hoverStartTime: 20,
       hoverStayTime: 70
@@ -30,42 +31,42 @@ export default function (WrappedComponent: React.ComponentType<any>) {
       isHover: false
     }
 
-    startTimestamp: number = 0
+    startTimestamp = 0
     startTimer: any
     stayTimer: any
 
     panResponder: any = PanResponder.create({
-      onStartShouldSetPanResponder: (evt: GestureResponderEvent, gestureState) => {
+      onStartShouldSetPanResponder: () => {
         const {
           hoverStyle,
           onClick,
           onLongPress,
-          onTouchstart,
-          // onTouchmove,
-          // onTouchcancel,
-          onTouchend
+          onTouchStart,
+          // onTouchMove,
+          // onTouchCancel,
+          onTouchEnd
         } = this.props
-        return !!(hoverStyle || onClick || onLongPress || onTouchstart || onTouchend)
+        return !!(hoverStyle || onClick || onLongPress || onTouchStart || onTouchEnd)
       },
       onShouldBlockNativeResponder: () => false,
       // onMoveShouldSetPanResponder: (evt: GestureResponderEvent, gestureState) => {
-      //   const { onTouchmove, onTouchcancel, onTouchend } = this.props
-      //   return !!(onTouchmove || onTouchcancel || onTouchend)
+      //   const { onTouchMove, onTouchCancel, onTouchEnd } = this.props
+      //   return !!(onTouchMove || onTouchCancel || onTouchEnd)
       // },
-      onPanResponderGrant: (evt: GestureResponderEvent, gestureState) => {
-        const { onTouchstart } = this.props
-        onTouchstart && onTouchstart(this.getWxAppEvent(evt))
+      onPanResponderGrant: (evt: GestureResponderEvent) => {
+        const { onTouchStart } = this.props
+        onTouchStart && onTouchStart(this.getWxAppEvent(evt))
         this.startTimestamp = evt.nativeEvent.timestamp
         this.setStartTimer()
       },
       // onPanResponderMove: (evt: GestureResponderEvent, gestureState) => {
-      //   const { onTouchmove } = this.props
-      //   onTouchmove && onTouchmove(this.getWxAppEvent(evt))
+      //   const { onTouchMove } = this.props
+      //   onTouchMove && onTouchMove(this.getWxAppEvent(evt))
       // },
-      onPanResponderTerminationRequest: (evt: GestureResponderEvent, gestureState) => true,
+      onPanResponderTerminationRequest: () => true,
       onPanResponderRelease: (evt: GestureResponderEvent, gestureState) => {
-        const { onClick, onLongPress, onTouchend } = this.props
-        onTouchend && onTouchend(this.getWxAppEvent(evt))
+        const { onClick, onLongPress, onTouchEnd } = this.props
+        onTouchEnd && onTouchEnd(this.getWxAppEvent(evt))
         const endTimestamp = evt.nativeEvent.timestamp
         const gapTime = endTimestamp - this.startTimestamp
         const hasMove = Math.abs(gestureState.dx) >= 1 || Math.abs(gestureState.dy) >= 1
@@ -78,9 +79,9 @@ export default function (WrappedComponent: React.ComponentType<any>) {
         }
         this.setStayTimer()
       },
-      onPanResponderTerminate: (evt: GestureResponderEvent, gestureState) => {
-        // const { onTouchcancel } = this.props
-        // onTouchcancel && onTouchcancel(this.getWxAppEvent(evt))
+      onPanResponderTerminate: () => {
+        // const { onTouchCancel } = this.props
+        // onTouchCancel && onTouchCancel(this.getWxAppEvent(evt))
         this.setStayTimer()
       },
     })
@@ -158,10 +159,10 @@ export default function (WrappedComponent: React.ComponentType<any>) {
         // hoverStopPropagation,
         onClick,
         onLongPress,
-        onTouchstart,
-        // onTouchmove,
-        // onTouchcancel,
-        onTouchend,
+        onTouchStart,
+        // onTouchMove,
+        // onTouchCancel,
+        onTouchEnd,
       } = this.props
       const { isHover } = this.state
 
@@ -170,10 +171,10 @@ export default function (WrappedComponent: React.ComponentType<any>) {
         // !hoverStopPropagation &&
         !onClick &&
         !onLongPress &&
-        !onTouchstart &&
-        // !onTouchmove &&
-        // !onTouchcancel &&
-        !onTouchend
+        !onTouchStart &&
+        // !onTouchMove &&
+        // !onTouchCancel &&
+        !onTouchEnd
       ) {
         return (
           <WrappedComponent {...this.props} />
@@ -189,10 +190,10 @@ export default function (WrappedComponent: React.ComponentType<any>) {
             'hoverStayTime',
             'onClick',
             'onLongPress',
-            'onTouchstart',
-            // 'onTouchmove',
-            // 'onTouchcancel',
-            'onTouchend'
+            'onTouchStart',
+            // 'onTouchMove',
+            // 'onTouchCancel',
+            'onTouchEnd'
           ])}
           {...this.panResponder.panHandlers}
           style={[style, isHover && hoverStyle]}

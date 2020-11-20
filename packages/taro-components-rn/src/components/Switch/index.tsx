@@ -57,7 +57,7 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
     this.onCheckedChange(item.checked)
   }
 
-  render () {
+  render (): JSX.Element {
     const {
       style,
       type,
@@ -78,7 +78,8 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
       <Switch
         value={this.state.checked}
         onValueChange={this.onCheckedChange}
-        onTintColor={color}
+        trackColor={{ false: '#FFFFFF', true: color }}
+        ios_backgroundColor="#FFFFFF"
         style={style}
         ref={this.$touchable as React.RefObject<Switch>}
       />
