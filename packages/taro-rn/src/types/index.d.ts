@@ -1,0 +1,1 @@
+import '@tarojs/taro' // 引入 Taro 类型定义
