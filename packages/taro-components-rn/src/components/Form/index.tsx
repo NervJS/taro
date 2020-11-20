@@ -26,9 +26,10 @@ function isFormTypeElement (typeName: string): boolean {
 class _Form extends React.Component<FormProps> {
   formValues: FormValues = {}
 
-  bindValueChangeEvent = (child: any) => {
+  bindValueChangeEvent = (child: React.ReactElement): React.ReactNode => {
     // onChange: _CheckboxGroup _RadioGroup _Switch _Slider _Picker
     // onBlur: _Input _Textarea
+    // @ts-ignore
     const childTypeName = child.type && child.type.name
     const childPropsName = child.props.name
     const valueChangeCbName = childTypeName === '_Input' || childTypeName === '_Textarea' ? 'onBlur' : 'onChange'
@@ -43,17 +44,19 @@ class _Form extends React.Component<FormProps> {
         this.formValues[childPropsName] = value
       }
     }
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
     tmpProps[valueChangeCbName] = function (event: any) {
       const valueChangeCb = child.props[valueChangeCbName] || noop
       self.formValues[childPropsName] = event.detail.value
+      // eslint-disable-next-line prefer-rest-params
       valueChangeCb(...arguments)
     }
     return React.cloneElement(child, tmpProps, child.props.children)
   }
 
-  deppDiveIntoChildren = (children: any): React.ReactNode => {
-    return React.Children.toArray(children).map((child) => {
+  deppDiveIntoChildren = (children: React.ReactNode): React.ReactNode => {
+    return React.Children.toArray(children).map((child: any) => {
       const childTypeName = child.type && child.type.name
       if (!child.type) return child
       if (childTypeName === '_Button' && ['submit', 'reset'].indexOf(child.props.formType) >= 0) {
@@ -73,7 +76,7 @@ class _Form extends React.Component<FormProps> {
     })
   }
 
-  submit = () => {
+  submit = (): void => {
     const { onSubmit = noop } = this.props
     onSubmit({
       detail: {
@@ -82,10 +85,12 @@ class _Form extends React.Component<FormProps> {
     })
   }
 
-  reset = () => {
+  reset = (): void => {
+    const { onReset = noop } = this.props
+    onReset()
   }
 
-  render () {
+  render (): JSX.Element {
     const {
       children,
       style,

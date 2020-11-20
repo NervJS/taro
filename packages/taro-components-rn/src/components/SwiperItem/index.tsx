@@ -8,7 +8,7 @@ import styles from './styles'
 import { omit } from '../../utils'
 import { SwiperItemProps } from './PropsType'
 
-const _SwiperItem: React.SFC<SwiperItemProps> = (props) => {
+const _SwiperItem: React.FC<SwiperItemProps> = (props: SwiperItemProps) => {
   const { children, style } = props
   return (
     <View
