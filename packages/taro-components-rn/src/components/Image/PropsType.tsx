@@ -1,4 +1,4 @@
-import { StyleProp, ImageStyle } from 'react-native';
+import { StyleProp, ImageStyle } from 'react-native'
 
 export interface ImageState {
   ratio: number;
@@ -48,7 +48,7 @@ export type EventLoad = {
 export interface ImageProps {
   style?: StyleProp<ImageStyle>;
   src: string;
-  mode: Mode;
+  mode?: Mode;
   onError?: (event: EventError) => void;
   onLoad?: (event: EventLoad) => void;
 }

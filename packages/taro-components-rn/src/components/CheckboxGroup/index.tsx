@@ -9,19 +9,19 @@ import {
   View,
 } from 'react-native'
 import { noop } from '../../utils'
-import { CheckboxGroupProps, EventOnChange } from './PropsType'
+import { CheckboxGroupProps, EventOnChange, ValueProps } from './PropsType'
 
 class _CheckboxGroup extends React.Component<CheckboxGroupProps> {
-  values: Array<{ value: any, checked: boolean }> = []
-  tmpIndex: number = 0
+  values: ValueProps[] = []
+  tmpIndex = 0
 
-  getDataFromValues = () => {
+  getDataFromValues = (): ValueProps[] => {
     return this.values
       .filter((item) => item.checked)
       .map((item) => item.value)
   }
 
-  toggleChange = (e: EventOnChange, index: number) => {
+  toggleChange = (e: EventOnChange, index: number): void => {
     const { onChange = noop } = this.props
     this.values[index] = {
       value: e.value,
@@ -34,8 +34,8 @@ class _CheckboxGroup extends React.Component<CheckboxGroupProps> {
     })
   }
 
-  findAndAttachCb = (children: any): React.ReactNode => {
-    return React.Children.toArray(children).map((child) => {
+  findAndAttachCb = (children: React.ReactNode): React.ReactNode => {
+    return React.Children.toArray(children).map((child: any) => {
       if (!child.type) return child
 
       const childTypeName = child.type.name
@@ -56,7 +56,7 @@ class _CheckboxGroup extends React.Component<CheckboxGroupProps> {
     })
   }
 
-  render () {
+  render (): JSX.Element {
     const {
       children,
       style,

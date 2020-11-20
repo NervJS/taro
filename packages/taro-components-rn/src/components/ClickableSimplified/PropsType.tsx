@@ -20,14 +20,15 @@ export type ClickableEventRet = {
 }
 
 export interface ClickableProps {
+  className?: string;
   style?: StyleProp<ViewStyle>;
   hoverStyle?: StyleProp<ViewStyle>;
   hoverStartTime?: number;
   hoverStayTime?: number;
   onClick?: (event: ClickableEventRet) => void;
   onLongPress?: (event: ClickableEventRet) => void;
-  onTouchstart?: (event: ClickableEventRet) => void;
-  onTouchmove?: (event: ClickableEventRet) => void;
-  onTouchcancel?: (event: ClickableEventRet) => void;
-  onTouchend?: (event: ClickableEventRet) => void;
+  onTouchStart?: (event: ClickableEventRet) => void;
+  onTouchMove?: (event: ClickableEventRet) => void;
+  onTouchCancel?: (event: ClickableEventRet) => void;
+  onTouchEnd?: (event: ClickableEventRet) => void;
 }

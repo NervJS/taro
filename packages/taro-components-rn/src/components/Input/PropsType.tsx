@@ -25,8 +25,8 @@ export interface InputProps {
   password?: boolean;
   placeholder?: string;
   disabled?: boolean;
-  maxlength: number;
-  focus?: boolean;
+  maxLength: number;
+  autoFocus?: boolean;
   confirmType: 'done' | 'send' | 'search' | 'next' | 'go';
   confirmHold?: boolean;
   cursor?: number;

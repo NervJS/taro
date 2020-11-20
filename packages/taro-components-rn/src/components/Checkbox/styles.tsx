@@ -8,7 +8,8 @@ export default StyleSheet.create({
     height: 24,
     borderColor: '#f3f3f3',
     borderWidth: 2,
-    borderRadius: 4
+    borderRadius: 4,
+    backgroundColor: '#ffffff'
   },
   wrapperChecked: {
     // borderColor: '#2BA245',
@@ -19,5 +20,9 @@ export default StyleSheet.create({
   },
   wrapperCheckedIcon: {
     opacity: 1
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 })

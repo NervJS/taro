@@ -17,7 +17,8 @@ class _RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
     checkedValue: undefined
   }
 
-  onValueChange = (radioOnChangeFn: () => void = noop, e: EventOnChange) => {
+  // eslint-disable-next-line default-param-last
+  onValueChange = (radioOnChangeFn: () => void = noop, e: EventOnChange): void => {
     const { onChange = noop } = this.props
     this.setState({ checkedValue: e.value })
     radioOnChangeFn()
@@ -28,8 +29,8 @@ class _RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
     })
   }
 
-  findAndAttachCb = (children: any): React.ReactNode => {
-    return React.Children.toArray(children).map((child) => {
+  findAndAttachCb = (children: React.ReactNode): React.ReactNode => {
+    return React.Children.toArray(children).map((child: any) => {
       if (!child.type) return child
 
       const childTypeName = child.type.name
@@ -40,7 +41,7 @@ class _RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
           _onGroupDataInitial(child.props.value)
         }
         return React.cloneElement(child, {
-          checked: checkedValue === child.props.value,
+          checked: checkedValue ? checkedValue === child.props.value : child.props.checked,
           onChange: this.onValueChange.bind(this, child.props.onChange)
         })
       } else {
@@ -49,7 +50,7 @@ class _RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
     })
   }
 
-  render () {
+  render (): JSX.Element {
     const {
       children,
       style,
