@@ -1,5 +1,5 @@
 {
-    "name": "@babel/plugin-transform-jsx-to-stylesheet",
+    "name": "@babel/plugin-transform-react-jsx-to-rn-stylesheet",
     "version": "3.0.17",
     "description": "Transform stylesheet selector to style in JSX Elements.",
     "license": "MIT",
