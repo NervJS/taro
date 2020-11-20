@@ -11,7 +11,7 @@ describe('MovableArea', () => {
       onDragStart={jest.fn}
       onDragEnd={jest.fn}
       onMove={jest.fn}
-  >content</MovableArea>)
+    >content</MovableArea>)
     const view = wrapper.find('View').at(0)
     expect(view.props().style).toEqual([{ height: 100, overflow: 'hidden', width: 100 }, undefined])
   })

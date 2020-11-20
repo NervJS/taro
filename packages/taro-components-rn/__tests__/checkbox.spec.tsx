@@ -68,12 +68,12 @@ describe('<Checkbox />', () => {
           <Label><Checkbox value={2} /></Label>
         </CheckboxGroup>
       )
-      wrapper.find(Checkbox).at(0).props().onChange?.({ checked: true, value: 0 })
+      wrapper.find(Checkbox).at(0).props().onChange({ checked: true, value: 0 })
       expect(spy.calledOnce).toBe(true)
-      wrapper.find(Checkbox).at(0).props().onChange?.({ checked: false, value: 0 })
+      wrapper.find(Checkbox).at(0).props().onChange({ checked: false, value: 0 })
       expect(spy.calledTwice).toBe(true)
-      wrapper.find(Checkbox).at(1).props().onChange?.({ checked: true, value: 1 })
-      wrapper.find(Checkbox).at(2).props().onChange?.({ checked: true, value: 2 })
+      wrapper.find(Checkbox).at(1).props().onChange({ checked: true, value: 1 })
+      wrapper.find(Checkbox).at(2).props().onChange({ checked: true, value: 2 })
       expect(spy.callCount).toBe(4)
     })
   })
