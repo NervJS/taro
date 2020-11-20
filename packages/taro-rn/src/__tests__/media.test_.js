@@ -1,13 +1,20 @@
-import CameraRoll from './__mock__/mockCameraRoll'
-import Taro from '../index.js'
+// import CameraRoll from './__mock__/mockCameraRoll'
+import '@unimodules/core'
+import 'react-native'
+import 'react-native-unimodules'
+import { getImageInfo } from '../lib/getImageInfo'
+import { saveImageToPhotosAlbum } from '../lib/saveImageToPhotosAlbum'
+import { saveVideoToPhotosAlbum } from '../lib/saveVideoToPhotosAlbum'
 
-Taro.initNativeApi(Taro)
+const Taro = {
+  getImageInfo,
+  saveImageToPhotosAlbum,
+  saveVideoToPhotosAlbum,
+}
+
+// 原生模块导出缺少 react_native_1.NativeModules.RNCCameraRoll setup mock
 
 describe('media', () => {
-  beforeEach(() => {
-    jest.setMock('CameraRoll', CameraRoll)
-  })
-
   describe('getImageInfo', () => {
     test('能正确获取图片信息', () => {
       const url = 'https://img12.360buyimg.com/ling/jfs/t19387/224/2632923601/58290/3bbe4eda/5b03f63cN17d4a46c.png'

@@ -13,6 +13,7 @@ export default class MockStorage {
 
   getItem = jest.fn((key) => {
     return new Promise((resolve) => {
+      // eslint-disable-next-line
       return this.storageCache.hasOwnProperty(key)
         ? resolve(this.storageCache[key])
         : resolve(null)
@@ -21,22 +22,23 @@ export default class MockStorage {
 
   removeItem = jest.fn((key) => {
     return new Promise((resolve, reject) => {
+      // eslint-disable-next-line
       return this.storageCache.hasOwnProperty(key)
         ? resolve(delete this.storageCache[key])
         : reject(new Error('No such key!'))
     })
   })
 
-  clear = jest.fn(() => {
-    return new Promise((resolve) => resolve(this.storageCache = {}))
+  clear = jest.fn((key) => {
+    return new Promise((resolve, reject) => resolve(this.storageCache = {}))
   })
 
-  getAllKeys = jest.fn(() => {
-    return new Promise((resolve) => resolve(Object.keys(this.storageCache)))
+  getAllKeys = jest.fn((key) => {
+    return new Promise((resolve, reject) => resolve(Object.keys(this.storageCache)))
   })
 
   multiRemove = jest.fn((keys) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       keys.forEach(key => {
         this.removeItem(key)
       })

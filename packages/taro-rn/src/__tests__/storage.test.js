@@ -1,18 +1,23 @@
-import { AsyncStorage } from 'react-native'
-import MockStorage from './__mock__/mockAsyncStorage'
-import storage from '../api/storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { setStorage } from '../lib/setStorage'
+import { getStorage } from '../lib/getStorage'
+import { clearStorage } from '../lib/clearStorage'
+import { getStorageInfo } from '../lib/getStorageInfo'
+import { removeStorage } from '../lib/removeStorage'
 
-const Taro = Object.assign({}, storage)
+const Taro = {
+  setStorage,
+  getStorage,
+  clearStorage,
+  getStorageInfo,
+  removeStorage,
+}
 
+// NativeModules.RNCAsyncStorage setup mock
 describe('storage', () => {
-  beforeEach(() => {
-    const storageCache = {}
-    const AsyncStorage = new MockStorage(storageCache)
-    jest.setMock('AsyncStorage', AsyncStorage)
-  })
-
   describe('setStorage', () => {
     test('should set value into storage', async () => {
+      await Taro.clearStorage({})
       const key = 'bar'
       const data = 'foo'
       const success = jest.fn()
@@ -41,13 +46,16 @@ describe('storage', () => {
       expect(JSON.parse(getData)).toBe(data)
     })
 
-    test('should fail when error occur', () => {
+    test('should fail when error occur', async () => {
+      await Taro.clearStorage({})
       const data = {}
-      const success = jest.fn()
+      const success = jest.fn().mockImplementation(() => {
+        throw new Error('setStorage:fail')
+      })
       const fail = jest.fn()
       const complete = jest.fn()
 
-      expect.assertions(5)
+      expect.assertions(4)
 
       return Taro.setStorage({
         data,
@@ -56,7 +64,6 @@ describe('storage', () => {
         complete
       }).catch(err => {
         const expectErrMsg = err.message
-        expect(success.mock.calls.length).toBe(0)
         expect(fail.mock.calls.length).toBe(1)
         expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
         expect(complete.mock.calls.length).toBe(1)
@@ -67,6 +74,7 @@ describe('storage', () => {
 
   describe('getStorage', () => {
     test('should get value from storage by key', async () => {
+      await Taro.clearStorage({})
       const key = 'bar'
       const data = 'foo'
       const success = jest.fn()
@@ -96,6 +104,7 @@ describe('storage', () => {
 
   describe('removeStorage', () => {
     test('能根据key删除Storage里的值', async () => {
+      await Taro.clearStorage({})
       const key = 'bar'
       const data = 'foo'
       const success = jest.fn()
@@ -129,6 +138,7 @@ describe('storage', () => {
 
   describe('getStorageInfo', () => {
     test('获得正确的StorageInfo', async () => {
+      await Taro.clearStorage({})
       const key1 = 'bar'
       const key2 = 'foo'
       const data = 'data'
@@ -155,13 +165,14 @@ describe('storage', () => {
       expect(complete.mock.calls[0][0]).toEqual(res)
       expect(res.errMsg).toMatch(expectMsg)
       expect(res.keys).toEqual([key1, key2])
-      expect(res.currentSize).toBeNull()
-      expect(res.limitSize).toBeNull()
+      expect(res.currentSize).toBe(+(12 / 1024).toFixed(2))
+      expect(res.limitSize).toBe(Infinity)
     })
   })
 
   describe('clearStorage', () => {
     test('clearStorage能清楚所有的Storage', async () => {
+      await Taro.clearStorage({})
       const key1 = 'bar'
       const key2 = 'foo'
       const data = 'data'
@@ -175,7 +186,7 @@ describe('storage', () => {
       expect(JSON.parse(getData1)).toBe(data)
       expect(JSON.parse(getData2)).toBe(data)
 
-      await Taro.clearStorage()
+      await Taro.clearStorage({})
 
       const res = await AsyncStorage.getAllKeys()
 

@@ -1,4 +1,6 @@
+// eslint-disable-next-line
 const noop = () => {}
+const DEVICE_CONNECTIVITY_EVENT = 'netInfo.networkStatusDidChange'
 
 export default class NetInfo {
   constructor (connectionType = 'wifi', effectiveConnectionType = '4g') {
@@ -13,13 +15,15 @@ export default class NetInfo {
   }
 
   fetch () {
-    return new Promise((resolve) => {
-      resolve(this.connectedStatus)
+    return new Promise((resolve, reject) => {
+      resolve({
+        type: this.connectionType,
+      })
     })
   }
 
   getConnectionInfo () {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const res = {}
       res.type = this.connectionType
       res.effectiveType = this.effectiveConnectionType

@@ -1,4 +1,4 @@
-import system from '../api/system'
+import * as system from '../api/system'
 
 const Taro = Object.assign({}, system)
 
