@@ -65,7 +65,9 @@ describe('jsx style plugin', () => {
       configFile: false
     }).code
     if (debug) {
+      // eslint-disable-next-line
       console.log(source + '\n')
+      // eslint-disable-next-line
       console.log(code)
     }
     return code
@@ -429,8 +431,8 @@ render(<div style={{
   "height": 100,
   "backgroundColor": "rgba(0, 0, 0, 0.5)",
   "borderWidth": 1,
-  "borderColor": "black",
-  "borderStyle": "solid"
+  "borderStyle": "solid",
+  "borderColor": "black"
 }} />);`)
   })
 
@@ -447,8 +449,8 @@ render(<div style={[_styleSheet["header"], {
   "height": 100,
   "backgroundColor": "rgba(0, 0, 0, 0.5)",
   "borderWidth": 1,
-  "borderColor": "black",
-  "borderStyle": "solid"
+  "borderStyle": "solid",
+  "borderColor": "black"
 }]} />);`)
   })
 
