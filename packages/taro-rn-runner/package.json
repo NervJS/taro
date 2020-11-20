@@ -7,6 +7,14 @@
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint .",
+    "test": "jest --silent",
+    "test:dev": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
   "keywords": [
     "taro"
   ],
@@ -21,6 +29,8 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
+    "@react-native-community/cli-server-api": "^4.13.1",
+    "@tarojs/helper": "^3.0.17",
     "@tarojs/rn-style-transformer": "^3.0.17",
     "@tarojs/rn-transformer": "^3.0.17",
     "fs-extra": "^9.0.1",
