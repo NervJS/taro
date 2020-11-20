@@ -113,6 +113,10 @@ export default function transform (
 ) {
   let data = src
 
+  if (!data) {
+    data = `\n${data}` // fix empty file error. reference https://github.com/sass/node-sass/blob/91c40a0bf0a3923ab9f91b82dcd479c25486235a/lib/index.js#L430
+  }
+
   if (typeof config.additionalData !== 'undefined') {
     data =
       typeof config.additionalData === 'function'
