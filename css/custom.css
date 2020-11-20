@@ -237,6 +237,13 @@ a, a:hover {
 }
 
 @media (max-width: 996px) {
+  .navbar .navbar__toggle {
+    display: inherit;
+    color: #fff;
+  }
+  .navbar .navbar-sidebar__brand {
+    background-image: linear-gradient(180deg, #0000c2, #0000c2);
+  }
   .grid_c1,
   .footer_link_container,
   .footer .footer_logo_container {
