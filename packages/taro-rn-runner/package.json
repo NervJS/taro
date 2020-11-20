@@ -29,6 +29,8 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
+    "@react-native-community/cli-server-api": "^4.13.1",
+    "@tarojs/helper": "^3.0.17",
     "@tarojs/rn-style-transformer": "^3.0.17",
     "@tarojs/rn-transformer": "^3.0.17",
     "fs-extra": "^9.0.1",
