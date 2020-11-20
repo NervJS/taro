@@ -21,7 +21,7 @@
         "node"
       ],
       "typeRoots": [
-        "../../node_modules",
+        "./node_modules",
         "./src/types"
       ]
     }
