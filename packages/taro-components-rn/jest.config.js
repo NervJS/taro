@@ -1,16 +1,16 @@
 module.exports = {
+  ...require('jest-expo/jest-preset'),
   verbose: true,
   preset: 'react-native',
   transform: {
-    '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
+    '^.+\\.js$': '../../node_modules/react-native/jest/preprocessor.js', // 不是workspace模式下使用 <rootDir> 代替相对路径
     '^.+\\.tsx?$': 'ts-jest'
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|react-native-swiper|react-native-vertical-view-pager|react-native-animatable|react-native-collapsible|@bang88/react-native-ultimate-listview|react-native-modal-popover|react-native-modal-popover|react-native-safe-area-view)/)',
-    'node_modules/(?!(@manjiz/react-native-swiper)/)'
+    'node_modules/(?!(react-native|@bang88/react-native-ultimate-listview|react-native-.*|expo-.*|@expo/.*|@unimodules/.*|unimodules-.*|@react-native-community/.*)/)'
   ],
   testMatch: [
-    '**/__tests__/**/*.ts?(x)',
+    '**/__tests__/**/*.spec.ts?(x)',
     '**/?(*.)+(spec|test).ts?(x)'
   ],
   modulePathIgnorePatterns: [
@@ -31,5 +31,5 @@ module.exports = {
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/__mocks__/fileMock.js'
   },
-  setupTestFrameworkScriptFile: './setupTests.js'
+  setupFilesAfterEnv: ['./setup.js']
 }
