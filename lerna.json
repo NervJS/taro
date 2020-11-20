@@ -1,8 +1,10 @@
 {
   "lerna": "3.20.1",
   "packages": [
+    "packages/babel-plugin-transform-react-jsx-to-rn-stylesheet",
     "packages/babel-plugin-transform-taroapi",
     "packages/babel-preset-taro",
+    "packages/css-to-react-native",
     "packages/eslint-config-taro",
     "packages/eslint-plugin-taro",
     "packages/postcss-plugin-constparse",
@@ -18,6 +20,9 @@
     "packages/taro-loader",
     "packages/taro-mini-runner",
     "packages/taro-react",
+    "packages/taro-rn-runner",
+    "packages/taro-rn-style-transformer",
+    "packages/taro-rn-transformer",
     "packages/taro-router",
     "packages/taro-runner-utils",
     "packages/taro-runtime",
