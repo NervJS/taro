@@ -13,17 +13,17 @@
     "outDir": "./dist",
     "strictNullChecks": true,
     "sourceMap": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "target": "es2015",
-    "lib": [
-      "es2015"
-    ],
+    "target": "ES2015",
+    "lib": ["ES2015"],
+    "types": ["react-native", "jest"],
     "typeRoots": [
-      "./node_modules/@types",
+      "../../node_modules/@types",
       "./src/types"
     ]
   }
