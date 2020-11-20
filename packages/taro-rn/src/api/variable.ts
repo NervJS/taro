@@ -1,7 +1,3 @@
-import merge from 'lodash/merge'
-import _cell from './Cell/variable'
-import _dialog from './Dialog/variable'
-
 const _global = {
   // color
   weuiColorPrimary: '#1AAD19',
@@ -31,4 +27,4 @@ const _global = {
   baseLineHeight: 1.6
 }
 
-export default merge({}, _global, _cell, _dialog)
+export default _global
