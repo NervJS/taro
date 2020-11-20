@@ -62,7 +62,9 @@ async function run (src, config = {}, filename = './__test__/styles/a.css', opti
   const styleTransform = new StyleTransform(mergeConfig)
   const css = await styleTransform.transform(src, filename, options)
   if (debug) {
+    // eslint-disable-next-line
     console.log(filename + ' source: ', src)
+    // eslint-disable-next-line
     console.log(filename + ' target: ', css)
   }
   return css

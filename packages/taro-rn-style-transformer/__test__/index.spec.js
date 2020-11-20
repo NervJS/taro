@@ -7,7 +7,9 @@ async function run (src, filename = './__test__/styles/a.css', options, debug) {
   // const css = await styleTransform.transform2rn(src, filename, options)
   const css = await styleTransform.transform2rn(src, filename, options)
   if (debug) {
+    // eslint-disable-next-line
     console.log(filename + ' source: ', src)
+    // eslint-disable-next-line
     console.log(filename + ' target: ', css)
   }
   return css
