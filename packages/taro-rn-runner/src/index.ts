@@ -64,7 +64,7 @@ export default async function build (appPath: string, config: any): Promise<any>
 
       // bundle路由只识别/index.bundle
       return middleware.use((req, res, next) => {
-        const urlObj = new url.URL(req.url)
+        const urlObj = url.parse(req.url)
         if (/\/[^]+.bundle/.test(urlObj.pathname || '') && (urlObj.pathname || '').toLowerCase() !== '/index.bundle') {
           res.writeHead(400)
           res.end('Please access /index.bundle for entry bundling.')
