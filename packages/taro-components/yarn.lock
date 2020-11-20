@@ -5782,10 +5782,10 @@ void-elements@^2.0.0:
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
   integrity sha1-wGavtYK7HLQSjWDqkjkulNXp2+w=
 
-webdriver@6.9.0:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/webdriver/-/webdriver-6.9.0.tgz#8b5fd445ef324b6f57cbda612292d00fc94c86e8"
-  integrity sha512-P0Hv1JJYi5k7ZcWi53yba4VSA0D45WcmDT5TGZPA0qEp5D1dwYuHMboQtlBXVRMUQaiu3+9zeEFfwahCR0A+aw==
+webdriver@6.9.1:
+  version "6.9.1"
+  resolved "https://registry.yarnpkg.com/webdriver/-/webdriver-6.9.1.tgz#1d4aabefd756e281fedb7591ca7e16619d6421f4"
+  integrity sha512-2JMjwLKau/+nia6yzsnnHy4CRzc3nFZHBSNFfWxsTf+vqrLEGdaNgcWfXdpwCfGIVg4xgdMFFBaWxaZeVQUz8g==
   dependencies:
     "@types/lodash.merge" "^4.6.6"
     "@wdio/config" "6.9.0"
@@ -5796,9 +5796,9 @@ webdriver@6.9.0:
     lodash.merge "^4.6.1"
 
 webdriverio@^6.7.0:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/webdriverio/-/webdriverio-6.9.0.tgz#ca8d4d4f0affe37da01f0b725c9bfb7e986e03f6"
-  integrity sha512-M+hIXCv9u7m2yktsvlYC9X9vDgNrPN9kyMeD3jQiJDcmURu3SCv774g1cg/tzgmZRiGTY3leltUxapHnRJqazQ==
+  version "6.9.1"
+  resolved "https://registry.yarnpkg.com/webdriverio/-/webdriverio-6.9.1.tgz#34da0c0b4eeaaed028fa507867d716e1f0b3d313"
+  integrity sha512-ElDtA4rwyJE+BaJJuKKVEz4WQcVnb6r76YNmK5g1Mq97zoRMYhj9StJxhXbxY50yODdcbxSTOeMGjMyFx9ccZQ==
   dependencies:
     "@types/archiver" "^3.1.1"
     "@types/atob" "^2.1.2"
@@ -5826,7 +5826,7 @@ webdriverio@^6.7.0:
     resq "^1.9.1"
     rgb2hex "^0.2.0"
     serialize-error "^7.0.0"
-    webdriver "6.9.0"
+    webdriver "6.9.1"
 
 webpack-dev-middleware@^3.7.0:
   version "3.7.2"
