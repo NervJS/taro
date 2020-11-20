@@ -1,0 +1,48 @@
+{
+    "name": "@tarojs/router-rn",
+    "version": "3.0.17",
+    "description": "Taro-router-rn",
+    "main": "dist/index.js",
+    "typings": "src/index.ts",
+    "files": [
+      "src",
+      "dist",
+      "types"
+    ],
+    "scripts": {
+      "build": "tsc",
+      "dev": "tsc -w",
+      "lint": "eslint .",
+      "test": "jest",
+      "test:dev": "jest --watch",
+      "test:coverage": "jest --coverage"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/NervJS/taro.git"
+    },
+    "keywords": [
+      "taro",
+      "router-rn"
+    ],
+    "author": "yechunxi",
+    "license": "MIT",
+    "peerDependencies": {
+      "react": "*",
+      "react-native": "*"
+    },
+    "dependencies": {
+      "@types/react-native": "^0.63.33",
+      "@react-native-community/bob": "^0.16.2",
+      "@react-native-community/masked-view": "^0.1.10",
+      "@react-navigation/bottom-tabs": "^5.8.0",
+      "@react-navigation/native": "^5.7.3",
+      "@react-navigation/stack": "^5.9.0",
+      "nanoid": "^3.1.12",
+      "query-string": "^6.1.0",
+      "react-native-gesture-handler": "^1.8.0",
+      "react-native-safe-area-context": "^3.1.8",
+      "react-native-screens": "^2.11.0"
+    }
+  }
+  
