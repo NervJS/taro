@@ -1,8 +1,8 @@
-const fs = require('fs')
+import { writeFileSync } from 'fs'
 
-const { provinces, cities, districts } = require('./regions')
+import { provinces, cities, districts } from './regions'
 
-fs.writeFileSync('./regions.formatted.tsx', 'export default ' + JSON.stringify(provinces.map((p) => {
+writeFileSync('./regions.formatted.tsx', 'export default ' + JSON.stringify(provinces.map((p) => {
   return {
     value: p.name,
     label: p.name,

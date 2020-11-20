@@ -9,13 +9,9 @@
  */
 
 import * as React from 'react'
-import {
-  View,
-  TouchableWithoutFeedback,
-  Platform,
-  GestureResponderEvent
-} from 'react-native'
+import { TouchableWithoutFeedback, Platform, GestureResponderEvent } from 'react-native'
 import Icon from '../Icon'
+import View from '../View'
 import styles from './styles'
 import { noop } from '../../utils'
 import { RadioProps, RadioState } from './PropsType'
@@ -23,13 +19,15 @@ import { RadioProps, RadioState } from './PropsType'
 class _Radio extends React.Component<RadioProps, RadioState> {
   static defaultProps = {
     value: '',
-    color: '#09BB07',
+    color: '#09BB07'
   }
 
-  static getDerivedStateFromProps (props: RadioProps, state: RadioState) {
-    return props.checked !== state.checked ? {
-      checked: !!props.checked
-    } : null
+  static getDerivedStateFromProps(props: RadioProps, state: RadioState): RadioState | null {
+    return props.checked !== state.checked
+      ? {
+          checked: !!props.checked
+        }
+      : null
   }
 
   $touchable = React.createRef<TouchableWithoutFeedback>()
@@ -40,7 +38,7 @@ class _Radio extends React.Component<RadioProps, RadioState> {
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
     const node = this.$touchable.current
-    node && node.touchableHandlePress(evt)
+    node && node.props.onPress && node.props.onPress(evt)
   }
 
   onPress = (): void => {
@@ -58,32 +56,26 @@ class _Radio extends React.Component<RadioProps, RadioState> {
     this.setState({ checked: !this.state.checked })
   }
 
-  render () {
-    const {
-      style,
-      color,
-    } = this.props
+  render(): JSX.Element {
+    const { style, color } = this.props
 
     const isChecked: boolean = this.state.checked
     const iconSize: number = Platform.OS === 'ios' ? 24 : 21
 
     return (
-      <TouchableWithoutFeedback
-        onPress={this.onPress}
-        ref={this.$touchable}
-      >
-        <View style={[
-          styles.wrapper,
-          isChecked && styles.wrapperChecked,
-          isChecked && { borderColor: color },
-          style
-        ]}>
-          <Icon
-            type="success"
-            size={iconSize}
-            color={color}
-            style={[styles.wrapperIcon, isChecked && styles.wrapperCheckedIcon]}
-          />
+      <TouchableWithoutFeedback onPress={this.onPress} ref={this.$touchable}>
+        <View style={styles.container}>
+          <View
+            style={[styles.wrapper, isChecked && styles.wrapperChecked, isChecked && { borderColor: color }, style]}
+          >
+            <Icon
+              type="success"
+              size={iconSize}
+              color={color}
+              style={[styles.wrapperIcon, isChecked && styles.wrapperCheckedIcon]}
+            />
+          </View>
+          {this.props.children}
         </View>
       </TouchableWithoutFeedback>
     )

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleProp, ViewStyle } from 'react-native'
+import { ViewStyle } from 'react-native'
 
 export type EventOnChange = {
   detail: {
@@ -11,11 +11,6 @@ export type EventOnAnimationFinish = {
   detail: {
     current: number
   }
-}
-
-export interface SwiperItemProps {
-  children?: React.ReactNode;
-  style?: StyleProp<ViewStyle>;
 }
 
 export interface SwiperProps {

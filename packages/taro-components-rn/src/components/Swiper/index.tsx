@@ -52,8 +52,7 @@ import {
   StyleSheet,
   ViewStyle
 } from 'react-native'
-// import Swiper from 'react-native-swiper'
-import Swiper from '@manjiz/react-native-swiper'
+import Swiper from 'react-native-swiper'
 import { noop } from '../../utils'
 import { SwiperProps } from './PropsType'
 
@@ -73,12 +72,12 @@ class _Swiper extends React.Component<SwiperProps> {
   /**
    * e, state, context(ref to swiper's this)
    */
-  onMomentumScrollEnd = (e: any, state: { index: number }): void => {
+  onMomentumScrollEnd = (e: Record<string, any>, state: { index: number }): void => {
     const { onAnimationFinish = noop } = this.props
     onAnimationFinish({ detail: { current: state.index } })
   }
 
-  render () {
+  render (): JSX.Element {
     const {
       children,
       style,
@@ -98,7 +97,7 @@ class _Swiper extends React.Component<SwiperProps> {
     if (style) {
       const flattenStyle: ViewStyle = StyleSheet.flatten(style)
       if (flattenStyle) {
-        for (let key in flattenStyle) {
+        for (const key in flattenStyle) {
           if (/width|height|margin.*/.test(key)) {
             containerStyle[key] = flattenStyle[key as keyof ViewStyle]
             delete flattenStyle[key as keyof ViewStyle]
@@ -124,7 +123,7 @@ class _Swiper extends React.Component<SwiperProps> {
         onIndexChanged={this.onIndexChanged}
         onMomentumScrollEnd={this.onMomentumScrollEnd}
         containerStyle={containerStyle}
-        style={formattedStyle || style}
+        style={formattedStyle || style as Record<string, any>}
       >
         {children}
       </Swiper>
