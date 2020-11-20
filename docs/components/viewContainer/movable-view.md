@@ -182,6 +182,20 @@ class App extends Components {
       <td style={{ textAlign: "center"}}>否</td>
       <td>初次手指触摸后移动为纵向的移动，如果 catch 此事件，则意味着 touchmove 事件也被 catch</td>
     </tr>
+    <tr>
+      <td>onDragStart</td>
+      <td><code></code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>开始拖动时触发</td>
+    </tr>
+    <tr>
+      <td>onDragEnd</td>
+      <td><code></code></td>
+      <td style={{ textAlign: "center"}}></td>
+      <td style={{ textAlign: "center"}}>否</td>
+      <td>拖动结束时触发</td>
+    </tr>
   </tbody>
 </table>
 
@@ -189,14 +203,14 @@ class App extends Components {
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| MovableViewProps.direction | ✔️ |  |  |
+| MovableViewProps.direction | ✔️ |  | ✔️ |
 | MovableViewProps.inertia | ✔️ |  |  |
 | MovableViewProps.outOfBounds | ✔️ |  |  |
-| MovableViewProps.x | ✔️ |  |  |
-| MovableViewProps.y | ✔️ |  |  |
+| MovableViewProps.x | ✔️ |  | ✔️ |
+| MovableViewProps.y | ✔️ |  | ✔️ |
 | MovableViewProps.damping | ✔️ |  |  |
 | MovableViewProps.friction | ✔️ |  |  |
-| MovableViewProps.disabled | ✔️ |  |  |
+| MovableViewProps.disabled | ✔️ |  | ✔️ |
 | MovableViewProps.scale | ✔️ |  |  |
 | MovableViewProps.scaleMin | ✔️ |  |  |
 | MovableViewProps.scaleMax | ✔️ |  |  |
@@ -206,6 +220,8 @@ class App extends Components {
 | MovableViewProps.onScale | ✔️ |  |  |
 | MovableViewProps.onHTouchMove | ✔️ |  |  |
 | MovableViewProps.onVTouchMove | ✔️ |  |  |
+| MovableViewProps.onDragStart |  |  | ✔️ |
+| MovableViewProps.onDragEnd |  |  | ✔️ |
 
 ### TChangeSource
 
