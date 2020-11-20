@@ -1,5 +1,5 @@
+// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
-// import 'react-native'
 import { _View } from '../src/components/view'
 import * as renderer from 'react-test-renderer'
 
