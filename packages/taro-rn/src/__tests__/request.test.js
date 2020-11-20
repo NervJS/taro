@@ -1,11 +1,11 @@
-import request from '../api/request'
+import * as request from '../api/request'
 
 const Taro = Object.assign({}, request)
 
 describe('request', () => {
   beforeEach(() => {
-    const fetch = jest.fn(() => {
-      return new Promise((resolve) => {
+    const fetch = jest.fn((url, params) => {
+      return new Promise((resolve, reject) => {
         resolve({
           ok: true,
           status: 200,
@@ -23,14 +23,15 @@ describe('request', () => {
   })
 
   describe('request', () => {
-    test('直接传入url时能正常返回', async () => {
-      const expectData = { data: 'calorie' }
+    // taro@3 不支持
+    // test('直接传入url时能正常返回', async () => {
+    //   const expectData = { data: 'calorie' }
 
-      const url = 'https://test.taro.com/v1'
-      const res = await Taro.request(url)
+    //   const url = 'https://test.taro.com/v1'
+    //   const res = await Taro.request(url)
 
-      expect(res.data).toEqual(expectData)
-    })
+    //   expect(res.data).toEqual(expectData)
+    // })
 
     test('接口数据返回json对象', async () => {
       const expectData = { data: 'calorie' }
@@ -38,7 +39,7 @@ describe('request', () => {
       const url = 'https://test.taro.com/v1'
       const options = {
         url,
-        responseType: 'json'
+        dataType: 'json'
       }
       const res = await Taro.request(options)
 
@@ -46,7 +47,7 @@ describe('request', () => {
     })
 
     test('接口数据返回text', async () => {
-      const expectData = '卡路里卡路里卡路'
+      const expectData = { data: 'calorie' }
 
       const url = 'https://test.taro.com/v1'
       const options = {
@@ -54,12 +55,27 @@ describe('request', () => {
         responseType: 'text'
       }
       const res = await Taro.request(options)
-      expect(res.data).toMatch(expectData)
+      expect(res.data).toEqual(expectData)
+    })
+
+    it('RN请求入参同于微信小程序', () => {
+      const url = 'https://test.taro.com/v1'
+      const expectData = JSON.stringify({ data: 'calorie' })
+      const options = {
+        url,
+        dataType: 'json',
+        complete: jest.fn(),
+        success: (res) => {
+          expect(JSON.stringify(res.data)).toMatch(expectData)
+        },
+        fail: jest.fn()
+      }
+      Taro.request(options)
     })
 
     test('数据被序列化', async () => {
       const fetch = jest.fn((url, params) => {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
           resolve({
             ok: true,
             status: 200,
@@ -79,7 +95,7 @@ describe('request', () => {
       const url = 'https://test.taro.com/v1'
       const optionsOne = {
         url,
-        responseType: 'json',
+        dataType: 'json',
         data: {
           a: 1
         }
@@ -92,7 +108,7 @@ describe('request', () => {
       const optionsTwo = {
         url,
         method: 'post',
-        responseType: 'json',
+        dataType: 'json',
         header: {
           'content-type': 'application/json'
         },
@@ -108,7 +124,7 @@ describe('request', () => {
       const optionsThree = {
         url,
         method: 'POST',
-        responseType: 'json',
+        dataType: 'json',
         header: {
           'content-type': 'application/x-www-form-urlencoded'
         },
