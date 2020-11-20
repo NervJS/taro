@@ -7,6 +7,7 @@
   "license": "MIT",
   "main": "index.js",
   "files": [
+    "rn/",
     "index.js"
   ],
   "repository": {
@@ -41,6 +42,7 @@
     "babel-plugin-rn-platform-specific-extensions": "^0.3.0",
     "babel-plugin-transform-imports": "^2.0.0",
     "babel-plugin-transform-taroapi": "3.0.17",
-    "core-js": "^3.6.5"
+    "core-js": "^3.6.5",
+    "metro-react-native-babel-preset": "^0.63.0"
   }
 }
