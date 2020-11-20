@@ -1,0 +1,1 @@
+export { vibrateShort } from '../vibrate'
