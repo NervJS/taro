@@ -54,11 +54,12 @@
     "react-native-unimodules": "^0.11.0"
   },
   "devDependencies": {
-    "@types/react-native": "^0.63.33",
     "@tarojs/taro": "^3.0.17",
+    "@types/react-native": "^0.63.33",
     "@types/react-test-renderer": "^16.8.1",
     "babel-plugin-jest-hoist": "^26.6.2",
     "cpy-cli": "^3.1.1",
+    "jest-expo": "^39.0.0",
     "mock-socket": "^7.1.0",
     "rimraf": "^3.0.0"
   },
