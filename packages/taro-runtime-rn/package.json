@@ -1,0 +1,35 @@
+{
+    "name": "@tarojs/runtime-rn",
+    "version": "3.0.17",
+    "description": "taro-runtime-rn",
+    "main": "dist/index.js",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc -w",
+        "lint": "eslint .",
+        "test": "jest",
+        "test:dev": "jest --watch",
+        "test:coverage": "jest --coverage"
+    },
+    "keywords": [
+        "taro"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/NervJS/taro/tree/master/packages/taro-runtime-rn"
+    },
+    "author": "yechunxi",
+    "peerDependencies": {
+        "react": "*",
+        "react-native": "*"
+    },
+    "dependencies": {
+        "@types/react-native": "^0.63.33",
+        "@tarojs/components-rn": "^3.0.17",
+        "@tarojs/router-rn": "^3.0.17"
+    }
+}

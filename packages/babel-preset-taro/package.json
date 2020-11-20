@@ -28,6 +28,7 @@
     "@babel/plugin-proposal-class-properties": "7.10.4",
     "@babel/plugin-proposal-decorators": "7.10.5",
     "@babel/plugin-syntax-jsx": "^7.10.4",
+    "@babel/plugin-transform-jsx-to-stylesheet": "^3.0.17",
     "@babel/plugin-transform-runtime": "7.11.0",
     "@babel/preset-env": "7.11.0",
     "@babel/preset-react": "7.10.4",
@@ -35,6 +36,10 @@
     "@babel/runtime": "^7.11.2",
     "@tarojs/taro-h5": "3.0.17",
     "babel-plugin-dynamic-import-node": "^2.3.3",
+    "babel-plugin-global-define": "^1.0.3",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-rn-platform-specific-extensions": "^0.3.0",
+    "babel-plugin-transform-imports": "^2.0.0",
     "babel-plugin-transform-taroapi": "3.0.17",
     "core-js": "^3.6.5"
   }
