@@ -556,9 +556,9 @@ export class Video implements ComponentInterface {
           currentTime={this.currentTime}
           duration={this.duration || this._duration || undefined}
           isPlaying={this.isPlaying}
-          pauseFunc={this.pause}
-          playFunc={this.play}
-          seekFunc={this.seek}
+          pauseFunc={()=>this.pause()}
+          playFunc={()=>this.play()}
+          seekFunc={(position)=>this.seek(position)}
           showPlayBtn={this.showPlayBtn}
           showProgress={this.showProgress}
         >
