@@ -325,10 +325,6 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   overflow: hidden;
 }
 
-pre {
-  background-color: #f8f8f8 !important;
-}
-
 .hljs {
   display: block;
   overflow-x: auto;
