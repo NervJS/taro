@@ -10,8 +10,10 @@ interface SocketTask {
 class SocketTask {
   constructor (url: string, protocols: string[] | undefined) {
     if (protocols) {
+      // eslint-disable-next-line no-undef
       this.ws = new WebSocket(url, protocols)
     } else {
+      // eslint-disable-next-line no-undef
       this.ws = new WebSocket(url)
     }
   }

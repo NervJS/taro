@@ -2,7 +2,8 @@ import React from 'react'
 import { View, ActivityIndicator, StyleSheet, Alert } from 'react-native'
 import RootSiblings from 'react-native-root-siblings'
 import ImageViewer from 'react-native-image-zoom-viewer'
-import CameraRoll from '@react-native-community/cameraroll'
+import { saveMedia } from '../media'
+import { downloadFile } from '../file'
 
 const styles = StyleSheet.create({
   mask: {
@@ -14,37 +15,6 @@ const styles = StyleSheet.create({
     bottom: 0
   }
 })
-
-// todo: 保存图片
-export function saveImage(uri: string):void {
-  const promise = CameraRoll.save(uri, { type: 'photo' })
-
-  promise
-    .then(() => {
-      Alert.alert(
-        'Success',
-        '图片保存成功',
-        [
-          {
-            text: 'OK'
-          }
-        ],
-        { cancelable: false }
-      )
-    })
-    .catch(error => {
-      Alert.alert(
-        'Error',
-        error,
-        [
-          {
-            text: 'OK'
-          }
-        ],
-        { cancelable: false }
-      )
-    })
-}
 
 export function previewImage(obj: Taro.previewImage.Option): void {
   const {
@@ -73,6 +43,42 @@ export function previewImage(obj: Taro.previewImage.Option): void {
     fail?.({ errMsg: 'err', ...e })
     complete?.('err', ...e)
   }
+  // 长按保存图片
+  function saveImage(uri) {
+    downloadFile({
+      url: uri,
+      success({ tempFilePath }) {
+        const opts = {
+          filePath: tempFilePath,
+          success() {
+            Alert.alert(
+              'Success',
+              '图片保存成功',
+              [
+                {
+                  text: 'OK'
+                }
+              ],
+              { cancelable: false }
+            )
+          },
+          fail(err) {
+            Alert.alert(
+              'Error',
+              err,
+              [
+                {
+                  text: 'OK'
+                }
+              ],
+              { cancelable: false }
+            )
+          }
+        }
+        saveMedia(opts, 'photo', 'saveToLocalByLongPress')
+      }
+    })
+  }
   try {
     sibling = new RootSiblings(
       <View style={styles.mask}>
@@ -87,8 +93,8 @@ export function previewImage(obj: Taro.previewImage.Option): void {
           onCancel={onSuccess}
           onClick={onSuccess}
           onSwipeDown={onSuccess}
+          onSave={saveImage}
           useNativeDriver={true}
-          saveToLocalByLongPress={false}
           enableSwipeDown
           menuContext={{
             saveToLocal: '保存图片到相册',
