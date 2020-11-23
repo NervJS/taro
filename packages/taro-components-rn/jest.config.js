@@ -3,7 +3,7 @@ module.exports = {
   verbose: true,
   preset: 'react-native',
   transform: {
-    '^.+\\.js$': '../../node_modules/react-native/jest/preprocessor.js', // 不是workspace模式下使用 <rootDir> 代替相对路径
+    '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
     '^.+\\.tsx?$': 'ts-jest'
   },
   transformIgnorePatterns: [
