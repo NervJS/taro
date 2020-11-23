@@ -8,7 +8,7 @@ title: React Native 端开发流程
 
 ## 简介
 
-Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://github.com/facebook/react-native)，`Taro3.x` 将不再锁定 React Native 版本，用户可在项目中自行安装 >=0.60 版本的 React Native，对于 >=0.57 && <=0.59 版本的支持将在后续推出。
+Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://github.com/facebook/react-native)，`Taro3.x` 将不再锁定 React Native 版本，用户可在项目中自行安装 >=0.60 版本的 React Native，对于 0.59 版本将在后续调研后决定是否兼容。
 
 整体设计图如下：
 
@@ -280,7 +280,7 @@ To open developer menu press "d"
 ### 启动应用
 如果上一步的编译和 Metro Bundler Server 启动没问题，接下来就可以启动应用了。
 
-开发者可以自行[整合 React Native (>=0.60) 到原生应用](https://reactnative.cn/docs/0.63/integration-with-existing-apps/)，同时为了方便大家开发和整合，Taro 将 React Native 工程中原生的部分剥离出来，单独放在一个工程里面 [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell)，你可以把它看成是 React Native iOS/Android 空应用的壳子。
+开发者可以自行[整合 React Native (>=0.60) 到原生应用](https://reactnative.cn/docs/0.63/integration-with-existing-apps/)，同时为了方便大家开发和整合，Taro 将 React Native 工程中原生的部分剥离出来，单独放在一个工程里面 [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell) / [分支0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2)，你可以把它看成是 React Native iOS/Android 空应用的壳子。
 
 首先将应用代码 clone 下来：
 
@@ -308,8 +308,11 @@ git clone git@github.com:NervJS/taro-native-shell.git
 #### 使用 React Native 命令启动
 
 ```sh
+$ cd ios & pod install
+$ cd .. 
 $ react-native run-ios
 ```
+> 注意：pod install 过程不可省略。
 
 iOS 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印以下内容：
 
