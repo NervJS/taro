@@ -5,7 +5,7 @@ export const incrementId = () => {
   let id = 0
   return () => (id++).toString()
 }
-export function isFunction (o: unknown):boolean {
+export function isFunction (o: unknown): boolean {
   return typeof o === 'function'
 }
 

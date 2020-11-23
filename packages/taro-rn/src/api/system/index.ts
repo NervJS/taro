@@ -29,7 +29,7 @@ const isIPhoneX = (function () {
   )
 })()
 
-export function getSystemInfoSync ():Taro.getSystemInfoSync.Result {
+export function getSystemInfoSync (): Taro.getSystemInfoSync.Result {
   const res: any = {}
 
   const pixelRatio = PixelRatio.get()
