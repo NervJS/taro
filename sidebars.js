@@ -15,7 +15,7 @@ module.exports = {
       {
         label: '多端开发',
         type: 'category',
-        items: ['envs', 'envs-debug', 'wxcloudbase', 'miniprogram-plugin'],
+        items: ['envs', 'envs-debug', 'wxcloudbase', 'miniprogram-plugin', 'react-native'],
       },
     ],
     进阶指南: [
