@@ -52,7 +52,9 @@ function _request <T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
   params.cache = options.cache
   params.method = method
   let controller
+  // eslint-disable-next-line no-undef
   if (AbortController) {
+    // eslint-disable-next-line no-undef
     controller = new AbortController()
     const signal = controller.signal
     params.signal = signal
@@ -63,6 +65,7 @@ function _request <T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
   const originComplete = options.complete
   let completeRes
   const p: any = new Promise((resolve, reject) => {
+    // eslint-disable-next-line no-undef
     fetch(url, params)
       .then(response => {
         res.statusCode = response.status
