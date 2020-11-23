@@ -1,12 +1,8 @@
+
 module.exports = {
   ...require('jest-expo/jest-preset'),
   verbose: true,
   preset: 'react-native',
-  // projects: [{ preset: 'jest-expo/ios' }],
-  transform: {
-    '^.+\\.js$': '../../node_modules/react-native/jest/preprocessor.js', // 不是workspace模式下使用 <rootDir> 代替相对路径
-    '^.+\\.tsx?$': 'ts-jest'
-  },
   modulePathIgnorePatterns: [
     '<rootDir>/TCRNExample'
   ],
