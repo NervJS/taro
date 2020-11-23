@@ -10,8 +10,10 @@ export const window = isBrowser ? win : {
 }
 
 if (!isBrowser) {
-  Reflect.ownKeys(global).forEach(key => {
-    window[key] = global[key]
+  Reflect.ownKeys(global).forEach(property => {
+    if (!Object.prototype.hasOwnProperty.call(window, property)) {
+      window[property] = global[property]
+    }
   })
 }
 
