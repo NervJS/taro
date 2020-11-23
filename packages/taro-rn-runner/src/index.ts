@@ -64,6 +64,7 @@ export default async function build (appPath: string, config: any): Promise<any>
 
       // bundle路由只识别/index.bundle
       return middleware.use((req, res, next) => {
+        // eslint-disable-next-line node/no-deprecated-api
         const urlObj = url.parse(req.url)
         if (/\/[^]+.bundle/.test(urlObj.pathname || '') && (urlObj.pathname || '').toLowerCase() !== '/index.bundle') {
           res.writeHead(400)
