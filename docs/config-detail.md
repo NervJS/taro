@@ -1357,3 +1357,103 @@ module.exports = {
 `object`
 
 针对 `woff | woff2 | eot | ttf | otf` 文件的 `url-loader` 配置。配置项参考[官方文档](https://github.com/webpack-contrib/url-loader)。
+
+## rn
+
+专属于 RN 的配置。
+
+### rn.appName
+
+`string`
+
+设置RN bundle中注册应用的名称
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    appName: 'TaroDemo'
+  }
+}
+```
+
+### rn.entry
+
+`string`
+
+entry利用模块查找规则{name}.{platform}.{ext}自动区分平台
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    // ...
+    entry: 'index.android.tsx'
+  }
+}
+```
+
+### rn.output
+
+`object`
+
+设置Metro打包生成bundle的输出路径
+
+```js
+module.exports = {
+  // ...
+  h5: {
+    // ...
+    output: {
+      android: 'androidbundle/index.bundle',
+      ios: 'iosbundle/main.bundle'
+    },
+  }
+}
+```
+
+### rn.postcss
+
+`object`
+
+配置 `postcss` 相关插件。
+
+```js
+module.exports = {
+  // ...
+  mini: {
+    // ...
+    postcss: {
+      // 可以进行 autoprefixer 的配置。配置项参考官方文档 https://github.com/postcss/autoprefixer
+      autoprefixer: {
+        enable: true,
+        config: {
+          // autoprefixer 配置项
+        }
+      },
+      pxtransform: {
+        enable: true,
+        config: {
+          // pxtransform 配置项，参考尺寸章节
+          selectorBlackList: ['body']
+        }
+      },
+      // rn端样式引用本地资源内联
+      url: {
+        enable: true,
+        config: {
+          limit: 10240 // 设定转换尺寸上限
+        }
+      },
+      // css modules 功能开关与相关配置
+      cssModules: {
+        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+        config: {
+          generateScopedName: '[name]__[local]___[hash:base64:5]'
+        }
+      }
+    }
+  }
+}
+```
