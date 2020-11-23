@@ -53,7 +53,7 @@ function isFunction (o): o is Function {
 
 export default function withWeapp (weappConf: WxOptions) {
   if (typeof weappConf === 'object' && Object.keys(weappConf).length === 0) {
-    report('withWeapp 请传入“App/页面/组件“的配置对象。如果原生写法使用了基类，请将基类组合后的配置对象传入，详情请参考文档。(1001)')
+    report('withWeapp 请传入“App/页面/组件“的配置对象。如果原生写法使用了基类，请将基类组合后的配置对象传入，详情请参考文档。')
   }
   return (ConnectComponent: ComponentClass<any, any>) => {
     class BaseComponent<P = {}, S = {}> extends ConnectComponent {
@@ -80,7 +80,7 @@ export default function withWeapp (weappConf: WxOptions) {
 
       constructor (props) {
         super(props)
-        this.state = {}
+        this.state = this.state || {}
         this.init(weappConf)
         defineGetter(this, 'data', 'state')
         defineGetter(this, 'properties', 'props')

@@ -1,13 +1,15 @@
 const { join } = require('path')
 const resolve = require('rollup-plugin-node-resolve')
-const buble = require('rollup-plugin-buble')
+const babel = require('@rollup/plugin-babel').default
 const common = require('rollup-plugin-commonjs')
 const typescript = require('rollup-plugin-typescript2')
 const cwd = __dirname
 
 const baseConfig = {
   input: join(cwd, 'src/index.ts'),
-  external: ['@tarojs/runtime', '@tarojs/taro'],
+  external: d => {
+    return d.includes('@tarojs/runtime') || d.includes('@tarojs/taro') || d.includes('@babel/runtime')
+  },
   output: [
     {
       file: join(cwd, 'dist/index.js'),
@@ -28,12 +30,12 @@ const baseConfig = {
     resolve({
       preferBuiltins: false
     }),
-
     common({
       include: 'node_modules/**'
     }),
-    buble({
-      objectAssign: 'Object.assign'
+    babel({
+      extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
+      babelHelpers: 'runtime'
     })
   ]
 }
