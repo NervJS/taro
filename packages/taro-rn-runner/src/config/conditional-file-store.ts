@@ -10,7 +10,7 @@ export default class ConditionalFileStore<T> {
     this.entryName = entryName || 'app'
   }
 
-  isEntryCache (cacheItem) : boolean {
+  isEntryCache (cacheItem): boolean {
     const { dependencies } = cacheItem
     if (!dependencies || !dependencies.length) {
       return false

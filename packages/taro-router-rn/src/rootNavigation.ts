@@ -83,28 +83,28 @@ export const isReadyRef = React.createRef()
 
 export const navigationRef = React.createRef<NavigateRef>()
 
-export function navigateTo (option: NavigateOption):Promise<CallbackResult> {
+export function navigateTo (option: NavigateOption): Promise<CallbackResult> {
   return navigate(option, 'navigateTo')
 }
 
-export function redirectTo (option: NavigateOption):Promise<CallbackResult> {
+export function redirectTo (option: NavigateOption): Promise<CallbackResult> {
   return navigate(option, 'redirectTo')
 }
 
-export function navigateBack (option: NavigateBackOption = {}):Promise<CallbackResult> {
+export function navigateBack (option: NavigateBackOption = {}): Promise<CallbackResult> {
   return navigate(option, 'navigateBack')
 }
 
-export function switchTab (option: NavigateOption):Promise<CallbackResult> {
+export function switchTab (option: NavigateOption): Promise<CallbackResult> {
   return navigate(option, 'switchTab')
 }
 
-export function reLaunch (option: NavigateOption):Promise<CallbackResult> {
+export function reLaunch (option: NavigateOption): Promise<CallbackResult> {
   return navigate(option, 'reLaunch')
 }
 
 // 处理url转换成pageName与params
-export function handleUrl (url: string):Record<string, unknown> {
+export function handleUrl (url: string): Record<string, unknown> {
   const path = url.split('?')[0]
   const pageName = camelCase(path.startsWith('/') ? path : `/${path}`)
   const params = parseUrl(url.startsWith('/') ? url.substr(1) : url).query || {}
@@ -114,7 +114,7 @@ export function handleUrl (url: string):Record<string, unknown> {
   }
 }
 
-export function navigate (option: NavigateOption | NavigateBackOption, method: NavigateMethod):Promise<CallbackResult> {
+export function navigate (option: NavigateOption | NavigateBackOption, method: NavigateMethod): Promise<CallbackResult> {
   const { success, complete, fail } = option
   let errMsg
   let routeParam

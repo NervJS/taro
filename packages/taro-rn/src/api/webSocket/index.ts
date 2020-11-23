@@ -12,9 +12,8 @@ export function connectSocket(opts: Taro.connectSocket.Option): Promise<Taro.Soc
     if (typeof url !== 'string') {
       const error = new Error('connectSocket:fail parameter error: parameter.url should be String')
       res.errMsg = error.message
-      console.error(res.errMsg)
-      fail?.(res)
-      complete?.(res)
+      fail && fail(res)
+      complete && complete(res)
       return reject(res)
     }
 
@@ -27,8 +26,8 @@ export function connectSocket(opts: Taro.connectSocket.Option): Promise<Taro.Soc
       const error = new Error('同时最多发起 2 个 socket 请求，更多请参考文档。')
       res.errMsg = error.message
       console.error(res.errMsg)
-      fail?.(res)
-      complete?.(res)
+      fail && fail(res)
+      complete && complete(res)
       return reject(res)
     }
 
@@ -41,34 +40,34 @@ export function connectSocket(opts: Taro.connectSocket.Option): Promise<Taro.Soc
     res.socketTaskId = socketsCounter++
     res.socketTask = task
 
-    success?.(res)
-    complete?.(res)
+    success && success(res)
+    complete && complete(res)
 
     return resolve(task)
   })
 }
 
-function onSocketOpen ():void {
+function onSocketOpen (): void {
   console.warn('已废弃。请使用socketTask.onOpen方法')
 }
 
-function onSocketError ():void {
+function onSocketError (): void {
   console.warn('已废弃。请使用socketTask.onError方法')
 }
 
-function sendSocketMessage ():void {
+function sendSocketMessage (): void {
   console.warn('已废弃。请使用socketTask.send方法')
 }
 
-function onSocketMessage ():void {
+function onSocketMessage (): void {
   console.warn('已废弃。请使用socketTask.onMessage方法')
 }
 
-function closeSocket ():void {
+function closeSocket (): void {
   console.warn('已废弃。请使用socketTask.close方法')
 }
 
-function onSocketClose ():void {
+function onSocketClose (): void {
   console.warn('已废弃。请使用socketTask.onClose方法')
 }
 
