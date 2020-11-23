@@ -10,6 +10,7 @@
     },
     "scripts": {
       "test": "jest",
+      "test:ci": "jest --silent --coverage false",
       "dev": "tsc -w",
       "build": "tsc"
     },
@@ -26,4 +27,3 @@
       "taro-css-to-react-native": "^3.0.17"
     }
   }
-  
