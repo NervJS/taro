@@ -1,14 +1,14 @@
 interface SocketTask {
-  ws: WebSocket,
-  _destroyWhenClose: ()=>void,
+  ws: WebSocket;
+  _destroyWhenClose: () => void;
   closeDetail: {
-    code: number,
-    reason: string,
-  },
+    code: number;
+    reason: string;
+  };
 }
 
 class SocketTask {
-  constructor (url:string, protocols:string[] | undefined) {
+  constructor (url: string, protocols: string[] | undefined) {
     if (protocols) {
       this.ws = new WebSocket(url, protocols)
     } else {
@@ -16,7 +16,7 @@ class SocketTask {
     }
   }
 
-  get readyState ():number {
+  get readyState (): number {
     return this.ws.readyState
   }
 
@@ -27,12 +27,13 @@ class SocketTask {
     try {
       this.ws.send(data)
 
-      success?.(res)
-      complete?.(res)
+      success && success(res)
+      complete && complete(res)
     } catch (err) {
       const res = { errMsg: err.message }
-      fail?.(res)
-      complete?.(res)
+
+      fail && fail(res)
+      complete && complete(res)
     }
   }
 
@@ -50,42 +51,42 @@ class SocketTask {
     try {
       this.ws.close(code, reason)
       // 把自己从链接数组中清除
-      this._destroyWhenClose?.()
-      success?.(res)
-      complete?.(res)
+      this._destroyWhenClose && this._destroyWhenClose()
+      success && success(res)
+      complete && complete(res)
     } catch (err) {
       const res = { errMsg: err.message }
-      fail?.(res)
-      complete?.(res)
+      fail && fail(res)
+      complete && complete(res)
     }
   }
 
-  onOpen (func?: Taro.SocketTask.OnOpenCallback):void {
+  onOpen (func?: Taro.SocketTask.OnOpenCallback): void {
     this.ws.onopen = () => {
-      func?.({
+      func && func({
         header: {}
       })
     }
   }
 
-  onMessage (func?: Taro.SocketTask.OnMessageCallback):void {
+  onMessage (func?: Taro.SocketTask.OnMessageCallback): void {
     this.ws.onmessage = (res) => {
-      func?.({
+      func && func({
         data: res.data
       })
     }
   }
 
-  onClose (func?: Taro.SocketTask.OnCloseCallback):void {
+  onClose (func?: Taro.SocketTask.OnCloseCallback): void {
     this.ws.onclose = () => {
-      this._destroyWhenClose?.()
-      func?.(this.closeDetail || { code: 1006, reason: 'abnormal closure' })
+      this._destroyWhenClose && this._destroyWhenClose()
+      func && func(this.closeDetail || { code: 1006, reason: 'abnormal closure' })
     }
   }
 
-  onError (func?: Taro.SocketTask.OnErrorCallback):void {
+  onError (func?: Taro.SocketTask.OnErrorCallback): void {
     this.ws.onerror = (res) => {
-      func?.({
+      func && func({
         errMsg: res.message
       })
     }

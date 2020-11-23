@@ -25,7 +25,7 @@ export interface Instance<T = {}> extends Component<T>, PageLifeCycle {
 
 export interface PageInstance extends PageLifeCycle{
   config: PageConfig
-  route:string
+  route: string
 }
 
 export interface AppInstance extends Show {

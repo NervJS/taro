@@ -20,7 +20,7 @@ export const omit = (obj: any = {}, fields: string[] = []): { [key: string]: any
   return shallowCopy
 }
 
-export const dismemberStyle = (style?: StyleProp<ViewStyle>): { wrapperStyle: ViewStyle; innerStyle: ViewStyle; } => {
+export const dismemberStyle = (style?: StyleProp<ViewStyle>): { wrapperStyle: ViewStyle; innerStyle: ViewStyle } => {
   const flattenStyle: ViewStyle & { [key: string]: any } = StyleSheet.flatten(style)
   const wrapperStyle: ViewStyle & { [key: string]: any } = {}
   const innerStyle: ViewStyle & { [key: string]: any } = {}

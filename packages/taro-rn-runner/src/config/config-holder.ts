@@ -3,8 +3,8 @@ import { Config, RNConfig } from '../types'
 
 const fs = require('fs')
 
-let config : Config
-let rnConfig : RNConfig
+let config: Config
+let rnConfig: RNConfig
 
 const getConfig = () => {
   if (config) return config
