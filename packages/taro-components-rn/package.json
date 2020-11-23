@@ -47,13 +47,15 @@
     "utility-types": "^3.4.1"
   },
   "devDependencies": {
-    "@types/react-native": "^0.63.33",
     "@tarojs/components": "^3.0.17",
+    "@types/react-native": "^0.63.33",
     "@types/sinon": "^9.0.8",
     "cpy-cli": "^3.1.1",
     "jest-expo": "^39.0.0",
     "pre-commit": "^1.2.2",
+    "react-native": "^0.63.3",
     "react-native-mock-render": "^0.1.9",
+    "react-test-renderer": "^17.0.1",
     "rimraf": "^3.0.0",
     "sinon": "^9.2.1"
   },
