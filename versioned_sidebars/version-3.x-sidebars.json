@@ -99,6 +99,10 @@
             {
               "type": "doc",
               "id": "version-3.x/miniprogram-plugin"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/react-native"
             }
           ]
         }
