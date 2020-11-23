@@ -9,10 +9,14 @@ export const window = isBrowser ? win : {
   document
 }
 
+if (!isBrowser) {
+  Reflect.ownKeys(global).forEach(key => {
+    window[key] = global[key]
+  })
+}
+
 if (process.env.TARO_ENV !== 'h5') {
   (window as any).requestAnimationFrame = raf;
   (window as any).cancelAnimationFrame = caf;
-  (window as any).Date = Date;
-  (window as any).setTimeout = setTimeout;
   (window as any).getComputedStyle = getComputedStyle
 }
