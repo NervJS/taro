@@ -5,6 +5,7 @@
     "main": "dist/index.js",
     "scripts": {
       "test": "jest",
+      "test:ci": "jest --silent --coverage false",
       "build": "tsc",
       "dev": "tsc -w",
       "lint": "eslint ."
@@ -31,4 +32,3 @@
       "taro-css-to-react-native": "^3.0.17"
     }
   }
-  
