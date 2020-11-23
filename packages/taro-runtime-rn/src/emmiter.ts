@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable no-dupe-class-members */
 type Callback1<T1> = (arg1: T1) => any;
 type Callback2<T1, T2> = (arg1: T1, arg2: T2) => any;
 type Callback3<T1, T2, T3> = (arg1: T1, arg2: T2, arg3: T3) => any;
