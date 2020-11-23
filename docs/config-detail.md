@@ -1425,35 +1425,76 @@ module.exports = {
   rn: {
     // ...
     postcss: {
-      // 可以进行 autoprefixer 的配置。配置项参考官方文档 https://github.com/postcss/autoprefixer
-      autoprefixer: {
-        enable: true,
-        config: {
-          // autoprefixer 配置项
-        }
-      },
+      // 可以进行 options 的配置。配置项参考官方文档 https://github.com/postcss/postcss#options
+      options: {},
+      // 默认true,控制是否对 css value 进行 scalePx2dp 转换
+      scalable: true,
+      // 可以进行 `pxtransform` 的配置。配置项参考官方文档 https://github.com/NervJS/taro/tree/master/packages/postcss-pxtransform
       pxtransform: {
+        // 默认true
         enable: true,
-        config: {
-          // pxtransform 配置项，参考尺寸章节
-          selectorBlackList: ['body']
-        }
+        config: {}
       },
-      // rn端样式引用本地资源内联
-      url: {
-        enable: true,
-        config: {
-          limit: 10240 // 设定转换尺寸上限
-        }
-      },
-      // css modules 功能开关与相关配置
-      cssModules: {
-        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
-        config: {
-          generateScopedName: '[name]__[local]___[hash:base64:5]'
-        }
-      }
     }
   }
 }
 ```
+
+### rn.sass
+
+`object`
+
+配置 `sass`相关插件
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    sass: {
+      // 可以进行 options 的配置。配置项参考官方文档 https://github.com/sass/node-sass#options
+      options: {},
+      // 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
+      additionalData: '',
+    },
+  }
+}
+```
+
+### rn.less
+
+`object`
+
+配置 `less`相关插件
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    less: {
+      // 可以进行 options 的配置。配置项参考官方文档 http://lesscss.org/usage/#less-options
+      options: {},
+      additionalData: '',
+    },
+  }
+}
+```
+
+### rn.stylus
+
+`object`
+
+配置 `stylus`相关插件
+
+```js
+module.exports = {
+  // ...
+  rn: {
+    stylus: {
+      // 可以进行 options 的配置。配置项参考官方文档 https://stylus-lang.com/docs/js.html
+      options: {},
+      additionalData: '',
+    },
+  }
+}
+```
+
