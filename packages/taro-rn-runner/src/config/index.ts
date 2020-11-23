@@ -37,7 +37,7 @@ function getReactNativeBasePath (): string {
 function getReactNativeVersion (): VersionInfo | null {
   const rnBasePath = getReactNativeBasePath()
   try {
-    const packageInfo:any = JSON.parse(fs.readFileSync(path.join(rnBasePath, 'package.json'), 'utf8'))
+    const packageInfo: any = JSON.parse(fs.readFileSync(path.join(rnBasePath, 'package.json'), 'utf8'))
     const splittings = packageInfo.version.split('.')
     const res: VersionInfo = {
       major: parseInt(splittings[0], 10),
@@ -49,7 +49,6 @@ function getReactNativeVersion (): VersionInfo | null {
     console.log(ex)
     throw ex
   }
-  return null
 }
 
 function searchReactNativeModule (moduleName: string, platform: string): string {
@@ -107,7 +106,7 @@ function handleEntryFile (context, realModuleName, platform, moduleName) {
   return res
 }
 
-const defaultConfig:MetroConfig = {
+const defaultConfig: MetroConfig = {
   transformer: {
     dynamicDepsInPackages: 'reject',
     babelTransformerPath: require.resolve('./taro-transformer'),

@@ -86,6 +86,6 @@ export function createReactNativeApp (component: React.ComponentClass, config: R
   return App
 }
 
-export function getApp ():any {
+export function getApp (): any {
   return Current.app
 }
