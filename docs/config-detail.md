@@ -1403,7 +1403,7 @@ module.exports = {
 ```js
 module.exports = {
   // ...
-  h5: {
+  rn: {
     // ...
     output: {
       android: 'androidbundle/index.bundle',
@@ -1422,7 +1422,7 @@ module.exports = {
 ```js
 module.exports = {
   // ...
-  mini: {
+  rn: {
     // ...
     postcss: {
       // 可以进行 autoprefixer 的配置。配置项参考官方文档 https://github.com/postcss/autoprefixer
