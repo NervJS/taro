@@ -1,5 +1,5 @@
 const geolocation = {
-  getCurrentPosition (callback, errFn) {
+  getCurrentPosition (callback) {
     const res = {}
     const coords = {
       latitude: 0,
