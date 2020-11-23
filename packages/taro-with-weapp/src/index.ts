@@ -1,6 +1,6 @@
 import { Component, ComponentLifecycle, eventCenter } from '@tarojs/taro'
 import { getCurrentInstance } from '@tarojs/runtime'
-import { lifecycles, lifecycleMap, TaroLifeCycles, uniquePageLifecycle } from './lifecycle'
+import { lifecycles, lifecycleMap, TaroLifeCycles, uniquePageLifecycle, appOptions } from './lifecycle'
 import { bind, isEqual, safeGet, safeSet, report, unsupport } from './utils'
 import { diff } from './diff'
 import { clone } from './clone'
@@ -51,7 +51,7 @@ function isFunction (o): o is Function {
   return typeof o === 'function'
 }
 
-export default function withWeapp (weappConf: WxOptions) {
+export default function withWeapp (weappConf: WxOptions, isApp = false) {
   if (typeof weappConf === 'object' && Object.keys(weappConf).length === 0) {
     report('withWeapp 请传入“App/页面/组件“的配置对象。如果原生写法使用了基类，请将基类组合后的配置对象传入，详情请参考文档。')
   }
@@ -75,6 +75,8 @@ export default function withWeapp (weappConf: WxOptions) {
       private current = getCurrentInstance()
 
       public observers?: Record<string, Function>
+
+      public optionsExtraKeys: string[] = []
 
       public data: any
 
@@ -165,6 +167,7 @@ export default function withWeapp (weappConf: WxOptions) {
                 this.initLifeCycles(confKey, lifecycle)
               } else if (isFunction(confValue)) {
                 this[confKey] = bind(confValue, this)
+                isApp && !appOptions.includes(confKey) && this.optionsExtraKeys.push(confKey)
 
                 // 原生页面和 Taro 页面中共计只能定义一次的生命周期
                 if (uniquePageLifecycle.includes(confKey) && ConnectComponent.prototype[confKey]) {
@@ -172,6 +175,7 @@ export default function withWeapp (weappConf: WxOptions) {
                 }
               } else {
                 this[confKey] = confValue
+                isApp && !appOptions.includes(confKey) && this.optionsExtraKeys.push(confKey)
               }
 
               break

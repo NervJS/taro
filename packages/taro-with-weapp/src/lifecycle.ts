@@ -11,7 +11,7 @@ export enum TaroLifeCycles {
 }
 
 export const lifecycleMap: LifecycleMap = {
-  [TaroLifeCycles.WillMount]: ['onLaunch', 'created'],
+  [TaroLifeCycles.WillMount]: ['created'],
   [TaroLifeCycles.DidMount]: ['attached'],
   [TaroLifeCycles.DidShow]: ['onShow'],
   [TaroLifeCycles.DidHide]: ['onHide'],
@@ -34,4 +34,14 @@ export const uniquePageLifecycle = [
   'onPageScroll',
   'onResize',
   'onTabItemTap'
+]
+
+export const appOptions = [
+  'onLaunch',
+  'onShow',
+  'onHide',
+  'onError',
+  'onPageNotFound',
+  'onUnhandledRejection',
+  'onThemeChange'
 ]

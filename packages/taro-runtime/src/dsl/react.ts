@@ -222,13 +222,32 @@ export function createReactApp (App: React.ComponentClass, react: typeof React, 
       enumerable: true,
       writable: true,
       value (options) {
-        const app = ref.current
         Current.router = {
           params: options?.query,
           ...options
         }
         // eslint-disable-next-line react/no-render-return-value
         wrapper = ReactDOM.render(R.createElement(AppWrapper), document.getElementById('app'))
+        const app = ref.current
+
+        // For taroize
+        // 把 App Class 上挂载的额外属性同步到全局 app 对象中
+        if (app?.optionsExtraKeys?.length) {
+          app.optionsExtraKeys.forEach(key => {
+            Object.defineProperty(this, key, {
+              configurable: true,
+              enumerable: true,
+              get () {
+                return app[key]
+              },
+              set (value) {
+                app[key] = value
+              }
+            })
+          })
+        }
+        this.$app = app
+
         if (app != null && isFunction(app.onLaunch)) {
           app.onLaunch(options)
         }

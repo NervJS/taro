@@ -521,7 +521,8 @@ ${code}
         script: entryJS,
         path: this.root,
         rootPath: this.root,
-        framework: this.framework
+        framework: this.framework,
+        isApp: true
       })
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
