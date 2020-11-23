@@ -88,6 +88,24 @@ yarn config set disturl https://npm.taobao.org/dist --global
 
 安装完 yarn 之后就可以用 yarn 代替 npm 了，例如用 yarn 代替 npm install 命令，用 yarn add 某第三方库名代替 npm install 某第三方库名。
 
+### CocoaPods
+CocoaPods 是用 Ruby 编写的包管理器。从 0.60 版本开始 react native 的 iOS 版本需要使用 CocoaPods 来管理依赖。你可以使用下面的命令来安装 cocoapods。
+
+```sh
+sudo gem install cocoapods
+```
+
+或者使用 brew 来安装
+
+```sh
+brew install cocoapods
+```
+
+> 另外目前最新版本似乎不能在 ruby2.6 版本以下安装，意味着如果你使用的 macOS 版本低于 10.15 (Catalina) 则无法直接安装。可以尝试安装较旧一些的版本。如sudo gem install cocoapods -v 1.8.4，参考 issue 链接 https://github.com/CocoaPods/CocoaPods/issues/9568(https://github.com/CocoaPods/CocoaPods/issues/9568)
+
+要了解更多信息，可以访问 [CocoaPods 的官网](https://guides.cocoapods.org/using/getting-started.html)。
+
+
 ### Xcode
 React Native 目前需要 [Xcode](https://developer.apple.com/xcode/downloads/) 9.4 或更高版本。你可以通过 App Store 或是到 [Apple 开发者官网](https://developer.apple.com/xcode/downloads/) 上下载。这一步骤会同时安装 Xcode IDE、Xcode 的命令行工具和 iOS 模拟器。
 
