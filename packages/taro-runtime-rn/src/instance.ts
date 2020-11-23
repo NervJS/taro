@@ -23,7 +23,7 @@ export interface PageLifeCycle extends Show {
 export interface Instance<T = {}> extends Component<T>, PageLifeCycle {
 }
 
-export interface PageInstance extends PageLifeCycle{
+export interface PageInstance extends PageLifeCycle {
   config: PageConfig
   route: string
 }
