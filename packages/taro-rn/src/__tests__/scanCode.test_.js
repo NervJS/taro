@@ -1,6 +1,5 @@
 // eslint-disable-next-line
 import React from 'react'
-import { Text } from 'react-native'
 import { mount } from 'enzyme'
 import toJson from 'enzyme-to-json'
 import { scanCode, scannerView as ScannerView } from '../lib/scanCode'

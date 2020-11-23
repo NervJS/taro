@@ -4,8 +4,8 @@ const Taro = Object.assign({}, request)
 
 describe('request', () => {
   beforeEach(() => {
-    const fetch = jest.fn((url, params) => {
-      return new Promise((resolve, reject) => {
+    const fetch = jest.fn(() => {
+      return new Promise((resolve) => {
         resolve({
           ok: true,
           status: 200,
@@ -75,7 +75,7 @@ describe('request', () => {
 
     test('数据被序列化', async () => {
       const fetch = jest.fn((url, params) => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           resolve({
             ok: true,
             status: 200,
