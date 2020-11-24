@@ -10,6 +10,7 @@ export class Radio implements ComponentInterface {
   @Prop() value = ''
   @Prop({ mutable: true }) id: string
   @Prop({ mutable: true }) checked = false
+  @Prop() disabled: boolean = false
 
   @Element() el: HTMLElement
 
@@ -33,11 +34,12 @@ export class Radio implements ComponentInterface {
   }
 
   handleClick = () => {
+    if (this.disabled) return
     if (!this.checked) this.checked = true
   }
 
   render () {
-    const { checked, name, value } = this
+    const { checked, name, value, disabled } = this
 
     return (
       <Host
@@ -55,6 +57,7 @@ export class Radio implements ComponentInterface {
           value={value}
           class='weui-check'
           checked={checked}
+          disabled={disabled}
           onChange={e => e.stopPropagation()}
         />
         <i class='weui-icon-checked' />
