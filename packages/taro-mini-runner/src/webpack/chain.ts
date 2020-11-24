@@ -35,6 +35,8 @@ import MiniPlugin from '../plugins/MiniPlugin'
 import { IOption, IBuildConfig } from '../utils/types'
 import defaultTerserOptions from '../config/terserOptions'
 
+import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
+
 interface IRule {
   test?: any
   exclude?: any[]
@@ -182,6 +184,10 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
 
 export const getMiniPlugin = args => {
   return partial(getPlugin, MiniPlugin)([args])
+}
+
+export const getMiniSplitChunksPlugin = () => {
+  return partial(getPlugin, MiniSplitChunksPlugin)([])
 }
 
 export const getProviderPlugin = args => {

@@ -137,6 +137,7 @@ export interface IMiniAppConfig {
   customFilesTypes?: IMINI_APP_FILE_TYPE,
   commonChunks?: string[] | ((commonChunks: string[]) => string[]),
   addChunkPages?: ((pages: Map<string, string[]>, pagesNames?: string[]) => void),
+  optimizeMainPackage: boolean,
 
   compile?: {
     exclude?: any[],
