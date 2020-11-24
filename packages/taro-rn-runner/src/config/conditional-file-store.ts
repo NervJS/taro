@@ -33,6 +33,10 @@ export default class ConditionalFileStore<T> {
   }
 
   set (key: Buffer, value: any): void {
+    // fix: 样式文件不写缓存
+    if (value?.output?.[0]?.data?.functionMap?.names?.indexOf('ignoreStyleFileCache') > -1) {
+      return
+    }
     this._fileStore.set(key, value)
   }
 

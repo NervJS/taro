@@ -21,6 +21,9 @@ function scalePx2dp (uiElementPx) {
   return uiElementPx * deviceWidthDp / uiWidthPx
 }
 
+// 用来标识 rn-runner transformer 是否读写缓存
+function ignoreStyleFileCache() {}
+
 export default StyleSheet.create(${css})
 `
 }
