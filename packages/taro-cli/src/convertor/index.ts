@@ -110,8 +110,9 @@ export default class Convertor {
   entryJSPath: string
   entryJSONPath: string
   entryStylePath: string
-  entryJSON: AppConfig
+  entryJSON: AppConfig & {usingComponents?: Record<string, string>}
   entryStyle: string
+  entryUsingComponents: Record<string, string>
   framework: 'react' | 'vue'
 
   constructor (root) {
@@ -370,6 +371,18 @@ export default class Convertor {
     this.entryStylePath = path.join(this.root, `app${this.fileTypes.STYLE}`)
     try {
       this.entryJSON = JSON.parse(String(fs.readFileSync(this.entryJSONPath)))
+
+      const using = this.entryJSON.usingComponents
+      if (using && Object.keys(using).length) {
+        for (const key in using) {
+          if (using[key].startsWith('plugin://')) continue
+          const componentPath = using[key]
+          using[key] = path.join(this.root, componentPath)
+        }
+        this.entryUsingComponents = using
+        delete this.entryJSON.usingComponents
+      }
+
       printLog(processTypeEnum.CONVERT, '入口文件', this.generateShowPath(this.entryJSPath))
       printLog(processTypeEnum.CONVERT, '入口配置', this.generateShowPath(this.entryJSONPath))
       if (fs.existsSync(this.entryStylePath)) {
@@ -597,7 +610,6 @@ ${code}
       const pageConfigPath = pagePath + this.fileTypes.CONFIG
       const pageStylePath = pagePath + this.fileTypes.STYLE
       const pageTemplPath = pagePath + this.fileTypes.TEMPL
-      let pageConfigStr = '{}'
 
       try {
         const depComponents = new Set<IComponent>()
@@ -607,24 +619,40 @@ ${code}
         const param: ITaroizeOptions = {}
         printLog(processTypeEnum.CONVERT, '页面文件', this.generateShowPath(pageJSPath))
 
+        let pageConfig
         if (fs.existsSync(pageConfigPath)) {
           printLog(processTypeEnum.CONVERT, '页面配置', this.generateShowPath(pageConfigPath))
-          pageConfigStr = String(fs.readFileSync(pageConfigPath))
-          const pageConfig = JSON.parse(pageConfigStr)
-          const pageUsingComponnets = pageConfig.usingComponents
-          if (pageUsingComponnets) {
+          const pageConfigStr = String(fs.readFileSync(pageConfigPath))
+          pageConfig = JSON.parse(pageConfigStr)
+        } else if (this.entryUsingComponents) {
+          pageConfig = {}
+        }
+        if (pageConfig) {
+          if (this.entryUsingComponents) {
+            pageConfig.usingComponents = {
+              ...pageConfig.usingComponents,
+              ...this.entryUsingComponents
+            }
+          }
+          const pageUsingComponents = pageConfig.usingComponents
+          if (pageUsingComponents) {
             // 页面依赖组件
             const usingComponents = {}
-            Object.keys(pageUsingComponnets).forEach(component => {
-              let componentPath = path.resolve(pageConfigPath, '..', pageUsingComponnets[component])
-              if (!fs.existsSync(resolveScriptPath(componentPath))) {
-                componentPath = path.join(this.root, pageUsingComponnets[component])
-              }
-
-              if (pageUsingComponnets[component].startsWith('plugin://')) {
-                console.log(component)
-                usingComponents[component] = pageUsingComponnets[component]
+            Object.keys(pageUsingComponents).forEach(component => {
+              const unResolveComponentPath: string = pageUsingComponents[component]
+              if (unResolveComponentPath.startsWith('plugin://')) {
+                usingComponents[component] = unResolveComponentPath
               } else {
+                let componentPath
+                if (unResolveComponentPath.startsWith(this.root)) {
+                  componentPath = unResolveComponentPath
+                } else {
+                  componentPath = path.resolve(pageConfigPath, '..', pageUsingComponents[component])
+                  if (!fs.existsSync(resolveScriptPath(componentPath))) {
+                    componentPath = path.join(this.root, pageUsingComponents[component])
+                  }
+                }
+
                 depComponents.add({
                   name: component,
                   path: componentPath
@@ -639,6 +667,7 @@ ${code}
           }
           param.json = JSON.stringify(pageConfig)
         }
+
         param.script = String(fs.readFileSync(pageJSPath))
         if (fs.existsSync(pageTemplPath)) {
           printLog(processTypeEnum.CONVERT, '页面模板', this.generateShowPath(pageTemplPath))
