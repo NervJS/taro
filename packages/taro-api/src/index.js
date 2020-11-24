@@ -34,7 +34,12 @@ import {
   Events
 } from '@tarojs/runtime'
 
+const Behavior = function (options) {
+  return options
+}
+
 const Taro = {
+  Behavior,
   Events,
   eventCenter,
   getEnv,

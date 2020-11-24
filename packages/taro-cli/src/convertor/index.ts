@@ -40,7 +40,7 @@ const prettierJSConfig: prettier.Options = {
 
 const OUTPUT_STYLE_EXTNAME = '.scss'
 
-const WX_GLOBAL_FN = new Set<string>(['getApp', 'getCurrentPages', 'requirePlugin'])
+const WX_GLOBAL_FN = new Set<string>(['getApp', 'getCurrentPages', 'requirePlugin', 'Behavior'])
 
 interface IComponent {
   name: string;

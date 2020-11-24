@@ -116,7 +116,6 @@ export const unsupport = new Map([
   ['onThemeChange', '不支持 App 的 onThemeChange 生命周期方法。'],
   ['moved', '不支持自定义组件的 moved 生命周期。'],
   ['externalClasses', '不支持自定义组件的 externalClasses 功能。'],
-  ['behaviors', '不支持自定义组件的 behaviors 功能。'],
   ['relations', '不支持自定义组件的 relations 功能。'],
   ['options', '不支持自定义组件的 options 功能。'],
   ['definitionFilter', '不支持自定义组件的 definitionFilter 功能。'],
@@ -125,3 +124,27 @@ export const unsupport = new Map([
   ['selectOwnerComponent', 'selectOwnerComponent 方法产生不到目标效果，请使用 React 语法重构。'],
   ['groupSetData', 'groupSetData 方法产生不到目标效果，请使用 React 语法重构。']
 ])
+
+export function flattenBehaviors (behavior, behaviorMap: Map<string, any[]>) {
+  if (typeof behavior === 'string') {
+    return report(`不支持使用内置 Behavior: [${behavior}]`)
+  }
+  const subBehaviors = behavior.behaviors
+  if (subBehaviors?.length) {
+    subBehaviors.forEach(subBehavior => flattenBehaviors(subBehavior, behaviorMap))
+  }
+
+  Object.keys(behavior).forEach(key => {
+    // 不支持的属性
+    if (unsupport.has(key)) {
+      const advise = unsupport.get(key)
+      return report(advise)
+    }
+
+    if (behaviorMap.has(key)) {
+      const list = behaviorMap.get(key)!
+      const value = behavior[key]
+      list.push(value)
+    }
+  })
+}

@@ -1,7 +1,7 @@
 import { Component, ComponentLifecycle, eventCenter } from '@tarojs/taro'
 import { getCurrentInstance } from '@tarojs/runtime'
 import { lifecycles, lifecycleMap, TaroLifeCycles, uniquePageLifecycle, appOptions } from './lifecycle'
-import { bind, isEqual, safeGet, safeSet, report, unsupport } from './utils'
+import { bind, isEqual, safeGet, safeSet, report, unsupport, flattenBehaviors } from './utils'
 import { diff } from './diff'
 import { clone } from './clone'
 
@@ -29,6 +29,7 @@ interface WxOptions {
   data?: Record<string, unknown>,
   observers?: Record<string, Function>
   lifetimes?: Record<string, Function>
+  behaviors?: any[]
 }
 
 function defineGetter (component: Component, key: string, getter: string) {
@@ -56,6 +57,40 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
     report('withWeapp 请传入“App/页面/组件“的配置对象。如果原生写法使用了基类，请将基类组合后的配置对象传入，详情请参考文档。')
   }
   return (ConnectComponent: ComponentClass<any, any>) => {
+    const behaviorMap = new Map<string, any[]>([
+      ['properties', []],
+      ['data', []],
+      ['methods', []],
+      ['created', []],
+      ['attached', []],
+      ['ready', []],
+      ['detached', []]
+    ])
+    const behaviorProperties = {}
+    if (weappConf.behaviors?.length) {
+      const { behaviors } = weappConf
+      behaviors.forEach(behavior => flattenBehaviors(behavior, behaviorMap))
+
+      const propertiesList = behaviorMap.get('properties')!
+      if (propertiesList.length) {
+        propertiesList.forEach(property => {
+          Object.assign(behaviorProperties, property)
+        })
+        Object.keys(behaviorProperties).forEach(propName => {
+          const propValue = behaviorProperties[propName]
+          if (!weappConf.properties) {
+            weappConf.properties = {}
+          }
+          if (!weappConf.properties.hasOwnProperty(propName)) {
+            if (propValue && typeof propValue === 'object' && propValue.value) {
+              propValue.value = clone(propValue.value)
+            }
+            weappConf.properties[propName] = propValue
+          }
+        })
+      }
+    }
+
     class BaseComponent<P = {}, S = {}> extends ConnectComponent {
       private _observeProps: ObserverProperties[] = []
 
@@ -106,6 +141,20 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
 
       private init (options: WxOptions) {
+        // 处理 Behaviors
+        if (options.behaviors?.length) {
+          for (const [key, list] of behaviorMap.entries()) {
+            switch (key) {
+              case 'created':
+              case 'attached':
+              case 'detached':
+              case 'ready':
+                list.forEach(fn => this.initLifeCycles(key, fn))
+                break
+            }
+          }
+        }
+
         for (const confKey in options) {
           // 不支持的属性
           if (unsupport.has(confKey)) {
@@ -116,6 +165,8 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           const confValue = options[confKey]
 
           switch (confKey) {
+            case 'behaviors':
+              break
             case 'data': {
               this.state = {
                 ...confValue,
@@ -124,7 +175,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
               break
             }
             case 'properties':
-              this.initProps(confValue)
+              this.initProps(Object.assign(behaviorProperties, confValue))
               break
             case 'methods':
               for (const key in confValue) {
@@ -179,6 +230,52 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
               }
 
               break
+          }
+        }
+
+        // 处理 Behaviors
+        if (options.behaviors?.length) {
+          const behaviorData = {}
+          const methods = {}
+          for (const [key, list] of behaviorMap.entries()) {
+            switch (key) {
+              case 'data':
+                [...list, this.state].forEach((dataObject, index) => {
+                  Object.keys(dataObject).forEach(dataKey => {
+                    const value = dataObject[dataKey]
+                    const preValue = behaviorData[dataKey]
+                    const valueType = typeof value
+                    const preValueType = typeof preValue
+                    if (valueType === 'object') {
+                      if (!value) {
+                        behaviorData[dataKey] = value
+                      }
+                      if (preValueType !== 'object' || !preValueType) {
+                        behaviorData[dataKey] = index === list.length ? value : clone(value)
+                      }
+                      const newVal = Object.assign({}, preValue, value)
+                      behaviorData[dataKey] = index === list.length ? newVal : clone(newVal)
+                    } else {
+                      behaviorData[dataKey] = value
+                    }
+                  })
+                })
+                this.state = behaviorData
+                break
+              case 'methods':
+                list.forEach(methodsObject => {
+                  Object.assign(methods, methodsObject)
+                })
+                Object.keys(methods).forEach(methodName => {
+                  if (!this[methodName]) {
+                    const method = methods[methodName]
+                    this[methodName] = bind(method, this)
+                  }
+                })
+                break
+              default:
+                break
+            }
           }
         }
       }
