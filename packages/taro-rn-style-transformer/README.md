@@ -2,113 +2,154 @@
 
 用于处理 rn 样式配置，生成需要的样式
 
-### example
-- config.sass
-```css
-/* a.scss */
-.a {
-  color: red;
-}
-```
-```js
-// config/index.js
-{
-  ...
-  sass: { // 配置详情 https://taro-docs.jd.com/taro/docs/config-detail#sass
-    resource: [
-      './styles/a.scss',
-    ],
-    projectDirectory: path.resolve(__dirname),
-    data: '.b { color: blue }' // 如果有同样的类型，下面的会把上面的覆盖
-  },
-  ...
-}
-```
-↓ ↓ ↓ ↓ ↓ ↓
-```css
-.a {
-  color: red;
-}
-.b {
-  color: blue;
-}
-```
+### rn.postcss
 
-- config.rn 配置
+`object`
+
+ `postcss` 相关配置，其他样式语言预处理后经过此配置。
+
 ```js
-// config/index.js
-{
-  ...
+module.exports = {
+  // ...
   rn: {
-    postcss: { ... },
-    sass: { ... },
-    less: { ... },
-    stylus: { ... },
-    ...
-  }
-  ...
-}
-```
-- config.rn.poscss 配置
-```js
-// config/index.js
-{
-  ...
-  rn: {
+    // ...
     postcss: {
-      options: { ... }; // https://github.com/postcss/postcss#options
-      scalable: boolean; // 默认true，控制是否对 css value 进行 scalePx2dp 转换
+      // postcss 配置，参考 https://github.com/postcss/postcss#options
+      options: { /* ... */ },
+      // 默认true，控制是否对 css value 进行 scalePx2dp 转换，pxtransform配置 enable 才生效
+      scalable: boolean,
       pxtransform: {
-        enable: boolean; // 默认true
-        config: { ... }; // https://github.com/NervJS/taro/tree/master/packages/postcss-pxtransform
+        enable: boolean, // 默认true
+        config: { /* ... */ } // 插件 pxtransform 配置项，参考尺寸章节
       },
     },
   }
-  ...
 }
 ```
 
-- config.rn.sass 配置
+### rn.sass
+
+`object`
+
+ `sass` 相关配置。`options` 配置项参考[官方文档](https://github.com/sass/node-sass#options)。
+
 ```js
-// config/index.js
-{
-  ...
+module.exports = {
+  // ...
   rn: {
+    // ...
     sass: {
-      options?: { ... }; // https://github.com/sass/node-sass#options
-      additionalData?: string | Function; // 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
+      options: { /* ... */ },
+    	// 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
+      additionalData: '', // {String|Function}
     }
   }
-  ...
 }
 ```
 
-- config.rn.less 配置
+### rn.less
+
+`object`
+
+`less` 相关配置。`options` 配置项参考 [官方文档](http://lesscss.org/usage/#less-options)。
+
 ```js
-// config/index.js
-{
-  ...
+module.exports = {
+  // ...
   rn: {
+    // ...
     less: {
-      options?: { ... }; // http://lesscss.org/usage/#less-options
-      additionalData?: string | Function;
+      options: { /* ... */ },
+      additionalData: '', // {String|Function}
     }
   }
-  ...
 }
 ```
 
-- config.rn.stylus 配置
+### rn.stylus
+
+`object`
+
+ `stylus` 相关配置。`options` 配置项如下。
+
 ```js
-// config/index.js
-{
-  ...
+module.exports = {
+  // ...
   rn: {
+    // ...
     stylus: {
-      options?: { ... }; // https://stylus-lang.com/docs/js.html
-      additionalData?: string | Function;
+      options: {
+        /**
+         * Specify Stylus plugins to use.
+         *
+         * @type {(string|Function)[]}
+         * @default []
+         */
+        use: ["nib"],
+
+        /**
+         * Add path(s) to the import lookup paths.
+         *
+         * @type {string[]}
+         * @default []
+         */
+        include: [path.join(__dirname, "src/styl/config")],
+
+        /**
+         * Import the specified Stylus files/paths.
+         *
+         * @type {string[]}
+         * @default []
+         */
+        import: ["nib", path.join(__dirname, "src/styl/mixins")],
+
+        /**
+         * Define Stylus variables or functions.
+         *
+         * @type {Array|Object}
+         * @default {}
+         */
+        // Array is the recommended syntax: [key, value, raw]
+        define: [
+          ["$development", process.env.NODE_ENV === "development"],
+          ["rawVar", 42, true],
+        ],
+        // Object is deprecated syntax (there is no possibility to specify "raw')
+        // define: {
+        //   $development: process.env.NODE_ENV === 'development',
+        //   rawVar: 42,
+        // },
+
+        /**
+         * Include regular CSS on @import.
+         *
+         * @type {boolean}
+         * @default false
+         */
+        includeCSS: false,
+
+        /**
+         * Emits comments in the generated CSS indicating the corresponding Stylus line.
+         *
+         * @see https://stylus-lang.com/docs/executable.html
+         *
+         * @type {boolean}
+         * @default false
+         */
+        lineNumbers: true,
+
+        /**
+         * Move @import and @charset to the top.
+         *
+         * @see https://stylus-lang.com/docs/executable.html
+         *
+         * @type {boolean}
+         * @default false
+         */
+        hoistAtrules: true,
+      },
+      additionalData: '', // {String|Function}
     }
   }
-  ...
 }
 ```
