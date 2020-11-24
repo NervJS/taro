@@ -40,7 +40,7 @@
 
 - pages **VS** router.pages
 
-微信的pages只是一个路径字符串数组，没有额外的信息，而快应用的pages有很多细腻的属性，比如filter属性，声明该属性之后，页面中可以使用$page获取打开页面的参数，还有launchMode可以指定启动模式，Taro为了兼容这一差异，使用customPageConfig属性进行适配，参考https://docs.taro.zone/taro/docs/quick-app.html。
+微信的pages只是一个路径字符串数组，没有额外的信息，而快应用的pages有很多细腻的属性，比如filter属性，声明该属性之后，页面中可以使用$page获取打开页面的参数，还有launchMode可以指定启动模式，Taro为了兼容这一差异，使用customPageConfig属性进行适配，参考 https://docs.taro.zone/docs/quick-app 。
 
 - window **VS** display
 
