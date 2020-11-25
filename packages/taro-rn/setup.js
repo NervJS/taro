@@ -1,4 +1,3 @@
-import 'react-native'
 import 'jest-enzyme'
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
@@ -9,21 +8,34 @@ jest.mock('@react-native-community/netinfo', () => mockRNCNetInfo)
 jest.mock('@react-native-async-storage/async-storage', () => mockRNCAsyncStorage)
 
 jest.mock('react-native', () => {
-  const reactNaive = jest.requireActual('react-native')
-  const RNCCameraRoll = jest.requireActual('@react-native-community/cameraroll/js/__mocks__/nativeInterface.js')
-  const MockClipboard = jest.requireActual('./src/__tests__/__mock__/mockClipboard').default
-  const Vibration = jest.requireActual('./src/__tests__/__mock__/mockVibrate').default
+  const ReactNaive = jest.requireActual('react-native')
 
-  reactNaive.NativeModules.RNCCameraRoll = RNCCameraRoll
-  reactNaive.NativeModules.RNCClipboard = new MockClipboard()
   // Vibration readonly so you need use defineProperty rewrite this property descriptor.
-  Object.defineProperty(reactNaive, 'Vibration', {
+  const Vibration = jest.requireActual('./src/__tests__/__mock__/mockVibrate').default
+  Object.defineProperty(ReactNaive, 'Vibration', {
     enumerable: false,
     configurable: false,
     writable: false,
     value: Vibration
   })
-  return reactNaive
+
+  // mockNativeModules: react-native/Libraries/BatchedBridge/NativeModules
+  const RNCCameraRoll = jest.requireActual('./src/__tests__/__mock__/mockRNCCameraRoll').default
+  const MockClipboard = jest.requireActual('./src/__tests__/__mock__/mockClipboard').default
+  ReactNaive.NativeModules.RNCCameraRoll = RNCCameraRoll
+  ReactNaive.NativeModules.RNCClipboard = new MockClipboard()
+  Object.defineProperty(ReactNaive.NativeModules, 'ImageLoader', {
+    configurable: true,
+    enumerable: true,
+    get: () => ({
+      prefetchImage: jest.fn(),
+      getSize: jest.fn((uri, success) => {
+        process.nextTick(() => success && success(320, 240))
+        return Promise.resolve([320, 240])
+      }),
+    }),
+  })
+  return ReactNaive
 })
 
 jest.mock('@unimodules/core', () => {
@@ -32,7 +44,7 @@ jest.mock('@unimodules/core', () => {
   const { NativeModulesProxy } = unimodules
 
   NativeModulesProxy.ExpoLocation = {
-    getCurrentPositionAsync: jest.fn().mockImplementation(() => Promise.resolve({
+    getCurrentPositionAsync: jest.fn(() => Promise.resolve({
       coords: {
         latitude: 0,
         longitude: 0,
