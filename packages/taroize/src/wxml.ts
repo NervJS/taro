@@ -494,6 +494,20 @@ function transformLoop (
         }
       })
 
+    jsx
+      .get('openingElement')
+      .get('attributes')
+      .forEach(p => {
+        const node = p.node
+        if (node.name.name === WX_KEY && t.isStringLiteral(node.value)) {
+          if (node.value.value === '*this') {
+            node.value = t.jSXExpressionContainer(t.identifier(item.value))
+          } else {
+            node.value = t.jSXExpressionContainer(t.memberExpression(t.identifier(item.value), t.identifier(node.value.value)))
+          }
+        }
+      })
+
     const replacement = t.jSXExpressionContainer(
       t.callExpression(
         t.memberExpression(value.expression, t.identifier('map')),
