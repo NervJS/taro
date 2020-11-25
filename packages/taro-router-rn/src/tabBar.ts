@@ -76,10 +76,10 @@ export function hideTabBar (options: TabBarOptions = {}): Promise<CallbackResult
     })
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'hideTabBar:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
 
 export function showTabBarRedDot (options: TabBarRedDot): Promise<CallbackResult> {
@@ -92,10 +92,10 @@ export function showTabBarRedDot (options: TabBarRedDot): Promise<CallbackResult
     })
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'hideTabBarRedDot:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
 
 export function hideTabBarRedDot (options: TabBarRedDot): Promise<CallbackResult> {
@@ -108,10 +108,10 @@ export function hideTabBarRedDot (options: TabBarRedDot): Promise<CallbackResult
     })
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'hideTabBarRedDot:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
 
 export function setTabBarBadge (options: TabBarBadge): Promise<CallbackResult> {
@@ -124,10 +124,10 @@ export function setTabBarBadge (options: TabBarBadge): Promise<CallbackResult> {
     })
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'setTabBarBadge:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
 
 export function removeTabBarBadge (options: TabBarBadge): Promise<CallbackResult> {
@@ -140,10 +140,10 @@ export function removeTabBarBadge (options: TabBarBadge): Promise<CallbackResult
     })
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'removeTabBarBadge:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
 
 export function setTabBarItem (options: TabBarItem): Promise<CallbackResult> {
@@ -160,10 +160,10 @@ export function setTabBarItem (options: TabBarItem): Promise<CallbackResult> {
     })
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'setTabBarItem:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
 
 export function setTabBarStyle (option: TabBarStyleOption): Promise<CallbackResult> {
@@ -179,8 +179,8 @@ export function setTabBarStyle (option: TabBarStyleOption): Promise<CallbackResu
     })
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'setTabBarStyle:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
