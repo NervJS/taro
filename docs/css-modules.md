@@ -93,3 +93,7 @@ export default class Test extends Component {
   }
 }
 ```
+
+## 相关阅读
+
+[开源插件 weapp-css-modules - 极致追求，让小程序代码包立减 10% 的插件](https://taro-club.jd.com/topic/2264/%E6%9E%81%E8%87%B4%E8%BF%BD%E6%B1%82-%E8%AE%A9%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BB%A3%E7%A0%81%E5%8C%85%E7%AB%8B%E5%87%8F-10-%E7%9A%84%E6%8F%92%E4%BB%B6-weapp-css-modules)
