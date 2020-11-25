@@ -9,7 +9,7 @@ title: Vue
 每一个 Taro 应用都需要一个入口组件用来注册应用，入口文件默认是 `src` 目录下的 `app.js`。
 在 Taro 中使用 Vue，入口组件必须导出一个 Vue 组件，在入口组件中我们可以设置全局状态或访问小程序入口实例的生命周期：
 
-```jsx
+```jsx title="src/app.js"
 import Vue from 'vue'
 // 假设我们已经在 './store' 配置好了 vuex
 import store from './store'
@@ -29,8 +29,7 @@ export default App
 
 对于一个入口文件(例如`app.js`)而言，我们可以新增一个 `app.config.js` 的文件进行全局配置，`app.config.js` 的默认导出就是小程序的[全局配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html):
 
-```js
-// app.config.js
+```js title="app.config.js"
 export default {
   pages: [
     'pages/index/index'
@@ -439,8 +438,7 @@ onAddToFavorites(res) {
 以上成员方法在 Taro 的页面中同样可以使用，书写同名方法即可，不过需要注意的，目前暂时只有小程序端支持（支持程度如上）这些方法，编译到 H5/RN 端后这些方法均会失效。
 
 
-```js
-// ./pages/index/index.jsx
+```js title="./pages/index/index.jsx"
 export default {
   navigationBarTitleText: '首页'
 }

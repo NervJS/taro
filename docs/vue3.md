@@ -14,8 +14,7 @@ Taro 是如何兼容 Vue3 的，可参阅 [Taro RFC](https://github.com/NervJS/t
 
 由于 Vue3 Global API 有变化（[0009-global-api-change](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0009-global-api-change.md)），Vue3 的入口组件写法将会变成：
 
-```js
-// app.js
+```js title="src/app.js"
 import { createApp } from 'vue'
 
 const app = createApp({

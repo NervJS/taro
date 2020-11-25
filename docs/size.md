@@ -30,7 +30,7 @@ const DEVICE_RATIO = {
 建议使用 Taro 时，设计稿以 iPhone 6 `750px` 作为设计尺寸标准。
 
 如果你的设计稿是 `375` ，不在以上三种之中，那么你需要把 `designWidth` 配置为 `375`，同时在 `DEVICE_RATIO` 中添加换算规则如下：
-```jsx
+```jsx {5}
 const DEVICE_RATIO = {
   '640': 2.34 / 2,
   '750': 1,
@@ -139,9 +139,9 @@ REM 单位允许的小数位。
 }
 ```
 
-## 忽略
+## CSS 编译时忽略（过滤）
 
-### 属性
+### 忽略单个属性
 
 当前忽略单个属性的最简单的方法，就是 px 单位使用大写字母。
 
@@ -158,6 +158,58 @@ REM 单位允许的小数位。
 }
 ```
 
-### 文件
+### 忽略样式文件
 
 对于头部包含注释 `/*postcss-pxtransform disable*/` 的文件，插件不予处理。
+
+### 忽略样式举例
+
+样式文件里多行文本省略时我们一般如下面的代码：
+
+```css {3}
+.textHide {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:2;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+```
+
+但 Taro 编译后少了 `-webkit-box-orient: vertical;` 这条样式属性，此时我们需要忽略掉这条样式
+
+#### 忽略样式方法 1 加入 CSS 注释强制声明忽略下一行
+
+```css {1}
+/* autoprefixer: ignore next */
+-webkit-box-orient: vertical;
+```
+
+#### 忽略样式方法 2 加入 CSS 注释强制声明注释中间多行
+
+```css {1,3}
+/* autoprefixer: off */
+-webkit-box-orient: vertical;
+/* autoprefixer: on */
+```
+
+#### 忽略样式方法 3 写成行内样式
+
+```HTML {2-9}
+<View 
+  style={{
+    display: '-webkit-box',
+    '-webkit-box-orient': 'vertical',
+    '-webkit-line-clamp': 2,
+    'text-overflow': 'ellipsis',
+    overflow: 'hidden',
+    'line-height': 2
+  }}
+>
+  这是要省略的内容这是要省略的内容这是要省略的内容
+</View>
+```
+
+### 相关链接
+
+- [Taro多行文本省略不生效](https://taro-club.jd.com/topic/2270/taro%E5%A4%9A%E8%A1%8C%E6%96%87%E6%9C%AC%E7%9C%81%E7%95%A5%E4%B8%8D%E7%94%9F%E6%95%88)
