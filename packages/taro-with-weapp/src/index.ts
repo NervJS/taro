@@ -446,7 +446,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
 
       public componentDidShow () {
-        this.safeExecute(super.componentDidShow)
+        this.safeExecute(super.componentDidShow, this.current.router || {})
         this.executeLifeCycles(this.didShows, this.current.router || {})
       }
 
