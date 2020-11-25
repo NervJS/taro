@@ -35,14 +35,14 @@ describe('media', () => {
           width,
           height,
           path: url,
-          orientation: null,
-          type: null
+          orientation: 'up',
+          type: ''
         }
         expect(success.mock.calls.length).toBe(1)
-        expect(success.mock.calls[0][0]).toEqual(expectRes)
+        expect(success.mock.calls[0][0]).toMatchObject(expectRes)
         expect(fail.mock.calls.length).toBe(0)
         expect(complete.mock.calls.length).toBe(1)
-        expect(complete.mock.calls[0][0]).toEqual(expectRes)
+        expect(complete.mock.calls[0][0]).toMatchObject(expectRes)
         expect(res.width).toEqual(width)
         expect(res.height).toEqual(height)
         expect(res.path).toEqual(url)
