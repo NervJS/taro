@@ -32,10 +32,10 @@ export function setNavigationBarTitle (option: NavigateBarTitleOption): Promise<
     }
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'setNavigateBarTitle:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
 
 export function setNavigationBarColor (option: NavigateBarColorOption): Promise<CallbackResult> {
@@ -56,10 +56,10 @@ export function setNavigationBarColor (option: NavigateBarColorOption): Promise<
     }
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'setNavigateBarColor:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
 
 export function showNavigationBarLoading (option: BaseOption = {}): Promise<CallbackResult> {
@@ -69,10 +69,10 @@ export function showNavigationBarLoading (option: BaseOption = {}): Promise<Call
     setNavigateConfig({ showLoading: true })
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'showNavigationBarLoading:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
 
 export function hideNavigationBarLoading (option: BaseOption = {}): Promise<CallbackResult> {
@@ -82,8 +82,8 @@ export function hideNavigationBarLoading (option: BaseOption = {}): Promise<Call
     setNavigateConfig({ showLoading: false })
   } catch (error) {
     msg = error
-    return errorHandler(fail, complete)(msg)
+    return errorHandler(fail, complete)({ errMsg: msg })
   }
   msg = 'hideNavigationBarLoading:ok'
-  return successHandler(success, complete)(msg)
+  return successHandler(success, complete)({ errMsg: msg })
 }
