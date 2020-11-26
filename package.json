@@ -164,8 +164,5 @@
   "dependencies": {
     "@types/babel__traverse": "^7.0.7",
     "@types/react-reconciler": "^0.18.0"
-  },
-  "resolutions": {
-    "@types/react": "^16.9.56"
   }
 }
