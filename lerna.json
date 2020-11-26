@@ -33,7 +33,9 @@
     "packages/taro-service",
     "packages/taro-webpack-runner",
     "packages/taro-with-weapp",
-    "packages/taroize"
+    "packages/taroize",
+    "packages/stylelint-taro-rn",
+    "packages/stylelint-config-taro-rn"
   ],
   "command": {
     "publish": {
