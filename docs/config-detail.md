@@ -35,7 +35,7 @@ title: 编译配置详情
 
 配置方式可参考 [Webpack DefinePlugin](https://webpack.js.org/plugins/define-plugin/)，例如：
 
-```js
+```js title="/config/index.js"
 module.exports = {
   // ...
   defineConstants: {
@@ -110,7 +110,7 @@ import projectConfig from '@/project'
 
 **config/dev.js**：
 
-```jsx
+```jsx title="/config/dev.js"
 module.exports = {
   // ...
   env: {
@@ -121,7 +121,7 @@ module.exports = {
 
 **config/prod.js**：
 
-```jsx
+```jsx title="config/prod.js"
 module.exports = {
   // ...
   env: {

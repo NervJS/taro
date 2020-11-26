@@ -3,7 +3,8 @@ title: 多端同步调试
 ---
 
 从 1.3.5 版本开始，可以在 dist 目录下创建一个与编译的目标平台名同名的目录，并将结果放在这个目录下，例如编译到微信小程序，最终结果是在 dist/weapp 目录下，这样做的好处是，各个平台使用独立的目录互不影响，从而达到多端同步调试的目的，在 `config/index.js` 配置如下：
-```
+
+```js title="/config/index.js"
 outputRoot: `dist/${process.env.TARO_ENV}`
 ```
 

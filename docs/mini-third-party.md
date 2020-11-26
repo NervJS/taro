@@ -18,8 +18,7 @@ Taro 支持使用小程序的第三方组件和插件，使用方式也异常的
 
 > 注意：Taro3 中没有自定义组件，组件是没有配置文件的。usingComponents 必须配置在“页面”的配置文件中。
 
-```js
-// page.config.js
+```js {2} title="page.config.js"
 export default {
   usingComponents: {
     // 定义需要引入的第三方组件
@@ -32,8 +31,7 @@ export default {
 
 2. JSX 中引用
 
-```jsx
-// page.js
+```jsx {14} title="page.js"
 import React, { Component } from 'react'
 import { View } from '@tarojs/components'
 
@@ -83,8 +81,7 @@ page.selectComponent('#mychart-dom-area')
 
 使用插件前，使用者要在 `app.confg.js` 的配置中声明需要使用的插件，例如
 
-```jsx
-// app.config.js
+```jsx title="app.config.js"
 export default {
   plugins: {
     myPlugin: {

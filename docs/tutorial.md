@@ -73,8 +73,7 @@ Taro 中全局配置所包含的配置项及各端支持程度如下
 
 则需要在入口文件配置中写
 
-```jsx
-// app.config.js
+```jsx title="app.config.js"
 export default {
   pages: [
     'pages/index/index',
@@ -124,8 +123,7 @@ export default {
 
 配置示例如下：
 
-```jsx
-// app.config.js
+```jsx title="app.config.js"
 export default {
   pages: [
     'pages/index/index',

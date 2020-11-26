@@ -6,8 +6,7 @@ title: TaroPlatformBase
 
 例如我们创建一个微信小程序平台：
 
-```js
-// program.ts
+```js title="program.ts"
 import { TaroPlatformBase } from '@tarojs/service'
 export default class Weapp extends TaroPlatformBase {
   // ...
@@ -184,8 +183,7 @@ runner(options)
 
 ### 1. 继承基类
 
-```js
-// program.ts
+```js title="program.ts"
 import { TaroPlatformBase } from '@tarojs/service'
 
 class Weapp extends TaroPlatformBase {
@@ -234,8 +232,7 @@ class Weapp extends TaroPlatformBase {
 
 规范：
 
-```js
-//components.ts
+```js title="components.ts"
 import { singleQuote } from '@tarojs/shared'
 
 export const components = {
@@ -319,8 +316,7 @@ internalComponent = {
 
 除了借助 `template.mergeComponents` 进行合并，我们也可以直接修改 `template.internalComponents`。
 
-```js
-// program.ts
+```js title="program.ts"
 class Weapp extends TaroPlatformBase {
   modifyComponents () {
     // 删除 Slider 组件里的一些属性
@@ -376,8 +372,7 @@ class Weapp extends TaroPlatformBase {
 
 我们创建的平台类需要编写一个对外的接口，在其中对编译流程进行设计，最终目标是调用 `@tarojs/mini-runner` 驱动 **Webpack** 开启编译。
 
-```js
-// program.ts
+```js title="program.ts"
 class Weapp extends TaroPlatformBase {
   // ...
   async start () {

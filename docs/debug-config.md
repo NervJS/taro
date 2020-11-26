@@ -43,7 +43,7 @@ yarn global add rollup
 
 launch.json 有以下预设配置：
 
-```json
+```json title="launch.json"
 {
   // ...
   "configurations": [
@@ -83,7 +83,7 @@ launch.json 有以下预设配置：
 
 可以这样配置 launch.json：
 
-```json
+```json title="launch.json"
 {
   // ...
   "configurations": [
@@ -108,7 +108,7 @@ launch.json 有以下预设配置：
 
 可以这样配置 launch.json：
 
-```json
+```json title="launch.json"
 {
   // ...
   "configurations": [
