@@ -43,5 +43,8 @@
       "react-native-gesture-handler": "^1.8.0",
       "react-native-safe-area-context": "^3.1.8",
       "react-native-screens": "^2.11.0"
+    },
+    "resolutions": {
+      "@types/react": "16.9.56"
     }
   }
