@@ -117,10 +117,10 @@ export default
 
 [1] 小程序跨框架开发的探索与实践: https://www.infoq.cn/article/TMqBzVFTSiQTUbgxydPm
 
-[2] Taro Next 旧版本迁移指南：https://docs.taro.zone/taro/docs/migration.html
+[2] Taro Next 旧版本迁移指南：https://docs.taro.zone/docs/migration
 
-[3] Prerender: https://docs.taro.zone/taro/docs/prerender.html
+[3] Prerender: https://docs.taro.zone/docs/prerender
 
 [4] 性能测试：https://github.com/NervJS/taro-benchmark/tree/next
 
-[5] 与其它新型小程序的对比：https://docs.taro.zone/taro/docs/difference-to-others.html
+[5] 与其它新型小程序的对比：https://docs.taro.zone/docs/difference-to-others

@@ -217,7 +217,7 @@ $ npx taro build --type quickapp
 
 [快应用开发者工具如何使用？点击了解](https://doc.quickapp.cn/tutorial/ide/overview.html)
 
-[快应用端开发流程](https://docs.taro.zone/taro/docs/quick-app.html)
+[快应用端开发流程](https://docs.taro.zone/docs/quick-app)
 
 ### H5
 

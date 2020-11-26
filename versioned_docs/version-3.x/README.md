@@ -16,7 +16,7 @@ title: Taro 介绍
 
 ## 学习资源
 
-[【教程】5 分钟上手 Taro 开发](https://docs.taro.zone/taro/docs/guide)
+[【教程】5 分钟上手 Taro 开发](https://docs.taro.zone/docs/guide)
 
 [【视频】5分钟快速上手 Taro 开发小程序](https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247484205&idx=1&sn=935bb7a35c11c33563eeb7c3aaca3321&chksm=fd2bab04ca5c2212b4cd8aeb5858bd08517aeb31e20727b22d1eee00b394184e7e61359e7dd9&token=1180618535&lang=zh_CN#rd)
 
