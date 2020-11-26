@@ -16,7 +16,7 @@ $ npm i linaria
 
 其次配置项目根目录的 `babel.config.js`:
 
-```js
+```js title="babel.config.js"
 module.exports = {
   presets: [
     ['taro', {
@@ -30,7 +30,7 @@ module.exports = {
 
 之后配置 `config/index.js`
 
-```js
+```js title="config/index.js"
 const config = {
   mini: {
     webpackChain(chain, webpack) {
@@ -49,7 +49,7 @@ const config = {
 
 最后在项目根目录新建 `linaria.config.js`
 
-```js
+```js title="linaria.config.js"
 // linaria 配置详见 https://github.com/callstack/linaria/blob/master/docs/CONFIGURATION.md#options
 module.exports = {
   rules: [

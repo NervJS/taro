@@ -8,7 +8,7 @@ title: 设计稿及尺寸单位
 
 结合过往的开发经验，Taro 默认以 `750px` 作为换算尺寸标准，如果设计稿不是以 `750px` 为标准，则需要在项目配置 `config/index.js` 中进行设置，例如设计稿尺寸是 `640px`，则需要修改项目配置 `config/index.js` 中的 `designWidth` 配置为 `640`：
 
-```jsx
+```jsx title="/config/index.js"
 const config = {
   projectName: 'myProject',
   date: '2018-4-18',
@@ -108,7 +108,7 @@ REM 单位允许的小数位。
 
 配置规则对应到 `config/index.js` ，例如：
 
-```js
+```js {9-14,20-25} title="/config/index.js"
 {
   h5: {
     publicPath: '/',

@@ -41,8 +41,7 @@ title: 编写端平台插件
 
 首先我们需要编写一个 Taro 插件来注册我们的编译平台，如：
 
-```js
-// index.ts
+```js title="index.ts"
 export default (ctx) => {
   ctx.registerPlatform({
     name: 'weapp',
@@ -99,8 +98,7 @@ Taro 小程序相关配置默认放在 `mini` 字段下，因此一般情况配�
 
 然后在插件入口函数中调用上述自定义平台类的编译接口：
 
-```js
-// index.ts
+```js title="index.ts"
 import Weapp from './program'
 
 export default (ctx) => {
@@ -221,8 +219,7 @@ export function initNativeApi (taro) {
 
 当前扩展的小程序平台如果需要额外新增 API，建议使用一个 `apis-list.ts` 文件维护：
 
-```js
-// apis-list.ts
+```js title="apis-list.ts"
 // 微信小程序部分扩展 API
 export const _onAndSyncApis = new Set([
   'getAccountInfoSync'
@@ -279,8 +276,7 @@ function processApis (taro) {
 
 注意，Taro 相关的包需要配置 `external`，以免重复打包：
 
-```js
-// rollup.config.js
+```js title="rollup.config.js"
 {
   external: ['@tarojs/shared', '@tarojs/service']
 }
@@ -292,8 +288,7 @@ Taro 核心库维护的类型可能没有包括当前插件新增的组件和 AP
 
 创建一个类型定义文件：
 
-```ts
-// types/shims-iot.d.ts
+```ts title="types/shims-iot.d.ts"
 // 为支付宝 IOT 小程序拓展新增的 API 和组件定义
 import { ComponentType } from 'react'
 import Taro from '@tarojs/taro'
@@ -319,7 +314,6 @@ declare module '@tarojs/components' {
 
 开发者在类型定义文件中引入此文件即可：
 
-```ts
-// global.d.ts
+```ts title="global.d.ts"
 /// <reference path="node_modules/@tarojs/plugin-platform-alipay-iot/types/shims-iot.d.ts" />
 ```

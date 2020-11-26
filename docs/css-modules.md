@@ -8,7 +8,7 @@ Taro 中内置了 [CSS Modules](https://github.com/css-modules/css-modules) 的�
 
 小程序端开启
 
-```js
+```js title="config/index.js"
 weapp: {
   module: {
     postcss: {
@@ -27,7 +27,7 @@ weapp: {
 
 H5 端开启
 
-```js
+```js title="config/index.js"
 h5: {
   module: {
     postcss: {

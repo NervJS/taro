@@ -87,7 +87,7 @@ zip 包解压出单文件夹，文件夹内包含若干模板。
 
 开发者可以在模板根目录加入 **template_creator.js** 文件，文件对外 exports 包含 handler 与 basePageFiles 字段的对象：
 
-```js
+```js {5,16} title="template_creator.js"
 function createWhenTs (params) {
   return params.typescript ? true : false
 }
@@ -134,8 +134,7 @@ module.exports = {
 
 ##### 例子
 
-```ejs
-// index.js
+```ejs title="index.js"
 <%if (typescript) {-%>
 import Taro, { Component, Config } from '@tarojs/taro'
 <%} else { -%>
@@ -197,8 +196,7 @@ return: boolean/object
 
 当用户选择了使用 typescript 时，才生成 **global.d.ts** 和 **tsconfig.json** 文件。
 
-```js
-// template_creator.js
+```js title="template_creator.js"
 function createWhenTs (params) {
   return params.typescript ? true : false
 }
@@ -221,8 +219,7 @@ basePageFiles 告诉 CLI，当用户使用 `taro create` 命令创建页面时�
 
 当用户使用命令 `taro create --page=detail` 时，会创建 **/src/pages/detail/detail.jsx** 与 **/src/pages/detail/detail.css** 两个文件。
 
-```js
-// template_creator.js
+```js title="template_creator.js"
 const handler = {
   '/src/pages/index/index.jsx' ({ pageName }) {
     return { setPageName: `/src/pages/${pageName}/${pageName}.jsx` }
