@@ -67,5 +67,8 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
+  },
+  "resolutions": {
+    "@types/react": "16.9.56"
   }
 }

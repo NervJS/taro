@@ -31,5 +31,8 @@
         "@types/react-native": "^0.63.33",
         "@tarojs/components-rn": "^3.0.17",
         "@tarojs/router-rn": "^3.0.17"
+    },
+    "resolutions": {
+        "@types/react": "16.9.56"
     }
 }
