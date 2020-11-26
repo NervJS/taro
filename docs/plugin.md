@@ -20,7 +20,7 @@ Taro 提供了一些官方插件
 
 `plugins` 字段取值为一个数组，配置方式如下：
 
-```js
+```js title="/config/index.js"
 const config = {
   plugins: [
     // 引入 npm 安装的插件
@@ -46,7 +46,7 @@ const config = {
 
 配置[编译配置](./config-detail.md)中的 `presets` 字段，如下。
 
-```js
+```js title="/config/index.js"
 const config = {
   presets: [
     // 引入 npm 安装的插件集

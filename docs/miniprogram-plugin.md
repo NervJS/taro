@@ -50,7 +50,7 @@ taro build --plugin weapp --watch
 
 plugin.json 的 **pages** 字段加入页面插件路径：
 
-```json
+```json title="plugin.json"
 {
   "pages": {
     "list": "pages/list/list"
@@ -60,7 +60,7 @@ plugin.json 的 **pages** 字段加入页面插件路径：
 
 页面使用路径： **plugin://[app.js 中注册的插件名]/[plugin.json 中注册的页面名]** 进行跳转。
 
-```jsx
+```jsx {1}
 <Navigator url='plugin://myPlugin/list'>
   Go to pages/list!
 </Navigator>
@@ -70,7 +70,7 @@ plugin.json 的 **pages** 字段加入页面插件路径：
 
 plugin.json 的 **publicComponents** 字段加入组件插件路径：
 
-```json
+```json title="plugin.json"
 {
   "publicComponents": {
     "avatar": "components/avatar/avatar"
@@ -80,7 +80,7 @@ plugin.json 的 **publicComponents** 字段加入组件插件路径：
 
 在页面配置 config.usingComponents 中配置好插件名和插件路径（**plugin://[app.js 中注册的插件名]/[plugin.json 中注册的组件名]**）：
 
-```jsx
+```jsx {4}
 export default class Index extends Component {
   config = {
     usingComponents: {
@@ -114,7 +114,7 @@ const extraProps = {
 
 plugin.json 的 **main** 字段加入接口插件路径：
 
-```json
+```json title="plugin.json"
 {
   "main": "index.js"
 }

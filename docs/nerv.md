@@ -8,7 +8,7 @@ title: Nerv
 
 在使用第三方 React 库时，需要在[配置文件](config-detail.md#miniwebpackchain) `webpack.resolve.alias`，把 `react` 和 `react-dom` 映射到 `nervjs`:
 
-```js
+```js title="/config/index.js"
 {
   webpackChain (chain, webpack) {
     chain.merge({
