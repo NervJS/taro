@@ -221,6 +221,7 @@ const otherApis = {
   getConnectedWifi: true,
   startDeviceMotionListening: true,
   stopDeviceMotionListening: true,
+  getBatteryInfo: true,
 
   // 界面
   pageScrollTo: true,
