@@ -364,22 +364,34 @@ export class Video implements ComponentInterface {
 
   /** 播放视频 */
   @Method() async play () {
-    this.videoRef.play()
+    this._play()
   }
+
+  _play = () => this.videoRef.play()
 
   /** 暂停视频 */
   @Method() async pause () {
-    this.videoRef.pause()
+    this._pause()
   }
+
+  _pause = () => this.videoRef.pause()
 
   /** 停止视频 */
   @Method() async stop () {
+    this._stop()
+  }
+
+  _stop = () => {
     this.videoRef.pause()
-    this.seek(0)
+    this._seek(0)
   }
 
   /** 跳转到指定位置 */
   @Method() async seek (position: number) {
+    this._seek(position)
+  }
+
+  _seek = (position: number) => {
     this.videoRef.currentTime = position
   }
 
@@ -549,9 +561,9 @@ export class Video implements ComponentInterface {
           currentTime={this.currentTime}
           duration={this.duration || this._duration || undefined}
           isPlaying={this.isPlaying}
-          pauseFunc={() => this.pause()}
-          playFunc={() => this.play()}
-          seekFunc={p => this.seek(p)}
+          pauseFunc={this._pause}
+          playFunc={this._play}
+          seekFunc={this._seek}
           showPlayBtn={this.showPlayBtn}
           showProgress={this.showProgress}
         >

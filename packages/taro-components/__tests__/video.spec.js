@@ -135,7 +135,69 @@ describe('Video', () => {
     assert(video.requestFullscreen.callCount === 1)
   })
 
-  it('controls bar', async () => {
+  it('should play', async () => {
+    const ref = React.createRef()
+    const app = (
+      <Video
+        ref={ref}
+        src='http://storage.jd.com/cjj-pub-images/bear.mp4'
+        onError={ev => ev.stopPropagation()}
+      />
+    )
+    const wrapper = await mount(app, scratch)
+    const video = wrapper.find('video.taro-video-video')
+    video.play = sinon.fake()
+    ref.current.play()
+    const { node } = wrapper
+    await waitForChange(node)
+
+    assert(video.play.callCount === 1)
+  })
+
+  it('should pause', async () => {
+    const ref = React.createRef()
+    const app = (
+      <Video
+        ref={ref}
+        src='http://storage.jd.com/cjj-pub-images/bear.mp4'
+        onError={ev => ev.stopPropagation()}
+      />
+    )
+    const wrapper = await mount(app, scratch)
+    const video = wrapper.find('video.taro-video-video')
+    video.pause = sinon.fake()
+    ref.current.pause()
+    const { node } = wrapper
+    await waitForChange(node)
+
+    assert(video.pause.callCount === 1)
+  })
+
+  it('should seek and stop', async () => {
+    const ref = React.createRef()
+    const app = (
+      <Video
+        ref={ref}
+        src='http://storage.jd.com/cjj-pub-images/bear.mp4'
+        onError={ev => ev.stopPropagation()}
+      />
+    )
+    const wrapper = await mount(app, scratch)
+    const video = wrapper.find('video.taro-video-video')
+    ref.current.seek(233)
+    const { node } = wrapper
+    await waitForChange(node)
+
+    assert(video.currentTime === 233)
+    video.pause = sinon.fake()
+    ref.current.stop()
+    await waitForChange(node)
+
+    assert(video.currentTime === 0)
+    assert(video.pause.callCount === 1)
+  })
+
+  it('should be controlled by bar', async () => {
     const app = (
       <Video
         src='http://storage.jd.com/cjj-pub-images/bear.mp4'
@@ -147,7 +209,7 @@ describe('Video', () => {
     let currentTime = wrapper.find('.taro-video-current-time')
     let progress = wrapper.find('.taro-video-progress-container')
     let duration = wrapper.find('.taro-video-duration')
-    let playBtn = wrapper.find('.taro-video-control-button')
+    let playBtn = wrapper.find('.taro-video-control-button-play')
     let muteBtn = wrapper.find('.taro-video-mute')
     let danmuBtn = wrapper.find('.taro-video-danmu-button')
     let fullscreenBtn = wrapper.find('.taro-video-fullscreen')
@@ -159,6 +221,13 @@ describe('Video', () => {
     assert(playBtn instanceof HTMLDivElement)
     assert(muteBtn === null)
     assert(danmuBtn === null)
+
+    const video = wrapper.find('video.taro-video-video')
+    video.play = sinon.fake()
+    const { node } = wrapper
+    playBtn.click()
+    await waitForChange(node)
+    assert(video.play.callCount === 1)
 
     await wrapper.setProps({
       showProgress: false,
@@ -172,7 +241,7 @@ describe('Video', () => {
     currentTime = wrapper.find('.taro-video-current-time')
     progress = wrapper.find('.taro-video-progress-container')
     duration = wrapper.find('.taro-video-duration')
-    playBtn = wrapper.find('.taro-video-control-button')
+    playBtn = wrapper.find('.taro-video-control-button-play')
     muteBtn = wrapper.find('.taro-video-mute')
     danmuBtn = wrapper.find('.taro-video-danmu-button')
     fullscreenBtn = wrapper.find('.taro-video-fullscreen')
