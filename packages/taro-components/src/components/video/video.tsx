@@ -188,6 +188,10 @@ export class Video implements ComponentInterface {
     }
     // 目前只支持 danmuList 初始化弹幕列表，还未支持更新弹幕列表
     this.danmuRef.sendDanmu(this.danmuList)
+
+    if (document.addEventListener) {
+      document.addEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
+    }
   }
 
   componentDidRender () {
@@ -433,22 +437,6 @@ export class Video implements ComponentInterface {
     if (!e.detail && this.isFullScreen && !document[screenFn.fullscreenElement] && timestamp - this.fullScreenTimestamp > 100) {
       this.toggleFullScreen(false)
     }
-  }
-
-  @Listen('fullscreenchange') onNativeFullScreenChange (e) {
-    this.handleFullScreenChange(e)
-  }
-
-  @Listen('webkitfullscreenchange') onWebkitFullScreenChange (e) {
-    this.handleFullScreenChange(e)
-  }
-
-  @Listen('mozfullscreenchange') onMozFullScreenChange (e) {
-    this.handleFullScreenChange(e)
-  }
-
-  @Listen('MSFullscreenChange') onMSFullScreenChange (e) {
-    this.handleFullScreenChange(e)
   }
 
   toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
