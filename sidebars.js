@@ -32,6 +32,15 @@ module.exports = {
       'mini-third-party',
       'hybrid',
       {
+        label: '反向转换',
+        type: 'category',
+        items: [
+          'taroize',
+          'convert-to-react',
+          'taroize-troubleshooting'
+        ]
+      },
+      {
         label: '扩展编译平台',
         type: 'category',
         items: [
