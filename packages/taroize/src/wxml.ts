@@ -187,7 +187,7 @@ export const createWxmlVistor = (
           JSXAttribute: jsxAttrVisitor,
           JSXIdentifier: renameJSXKey
         })
-        const slotAttr = attrs.find(a => a.node.name.name === 'slot')
+        const slotAttr = attrs.find(a => a.node?.name.name === 'slot')
         if (slotAttr) {
           const slotValue = slotAttr.node.value
           if (slotValue && t.isStringLiteral(slotValue)) {

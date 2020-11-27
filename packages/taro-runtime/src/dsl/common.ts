@@ -131,6 +131,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
 
       safeExecute(path, 'onReady')
+      this.onReady.called = true
     },
     onUnload () {
       const path = getPath(id, this.options)

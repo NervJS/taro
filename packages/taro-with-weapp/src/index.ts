@@ -1,4 +1,4 @@
-import { Component, ComponentLifecycle, eventCenter } from '@tarojs/taro'
+import { Component, ComponentLifecycle, eventCenter, nextTick } from '@tarojs/taro'
 import { getCurrentInstance } from '@tarojs/runtime'
 import { lifecycles, lifecycleMap, TaroLifeCycles, uniquePageLifecycle, appOptions } from './lifecycle'
 import { bind, isEqual, safeGet, safeSet, report, unsupport, flattenBehaviors } from './utils'
@@ -249,12 +249,12 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
                     if (valueType === 'object') {
                       if (!value) {
                         behaviorData[dataKey] = value
-                      }
-                      if (preValueType !== 'object' || !preValueType) {
+                      } else if (preValueType !== 'object' || !preValueType || Array.isArray(value)) {
                         behaviorData[dataKey] = index === list.length ? value : clone(value)
+                      } else {
+                        const newVal = Object.assign({}, preValue, value)
+                        behaviorData[dataKey] = index === list.length ? newVal : clone(newVal)
                       }
-                      const newVal = Object.assign({}, preValue, value)
-                      behaviorData[dataKey] = index === list.length ? newVal : clone(newVal)
                     } else {
                       behaviorData[dataKey] = value
                     }
@@ -288,30 +288,41 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
         }
 
         if (lifecycleName === 'ready') {
-          return this.initLifeCycleListener('ready', lifecycle)
-        }
-
-        for (const lifecycleKey in lifecycleMap) {
-          const cycleNames = lifecycleMap[lifecycleKey]
-          if (cycleNames.indexOf(lifecycleName) !== -1) {
-            switch (lifecycleKey) {
-              case TaroLifeCycles.DidHide:
-                this.didHides.push(lifecycle)
-                break
-              case TaroLifeCycles.DidMount:
-                this.didMounts.push(lifecycle)
-                break
-              case TaroLifeCycles.DidShow:
-                this.didShows.push(lifecycle)
-                break
-              case TaroLifeCycles.WillMount:
-                this.willMounts.push(lifecycle)
-                break
-              case TaroLifeCycles.WillUnmount:
-                this.willUnmounts.push(lifecycle)
-                break
-              default:
-                break
+          // 如果组件是延时渲染的，页面 onReady 的事件已经 emit 了，因此使用 componentDidMount + nextTick 模拟
+          if (this.current.page.onReady.called) {
+            this.didMounts.push(function (...args: unknown[]) {
+              nextTick(() => {
+                if (isFunction(lifecycle)) {
+                  lifecycle.apply(this, args)
+                }
+              })
+            })
+          } else {
+            this.initLifeCycleListener('ready', lifecycle)
+          }
+        } else {
+          for (const lifecycleKey in lifecycleMap) {
+            const cycleNames = lifecycleMap[lifecycleKey]
+            if (cycleNames.indexOf(lifecycleName) !== -1) {
+              switch (lifecycleKey) {
+                case TaroLifeCycles.DidHide:
+                  this.didHides.push(lifecycle)
+                  break
+                case TaroLifeCycles.DidMount:
+                  this.didMounts.push(lifecycle)
+                  break
+                case TaroLifeCycles.DidShow:
+                  this.didShows.push(lifecycle)
+                  break
+                case TaroLifeCycles.WillMount:
+                  this.willMounts.push(lifecycle)
+                  break
+                case TaroLifeCycles.WillUnmount:
+                  this.willUnmounts.push(lifecycle)
+                  break
+                default:
+                  break
+              }
             }
           }
         }
@@ -519,7 +530,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
         return (...args: any[]) => {
           const page = this.current.page
           if (page?.[method]) {
-            page[method](...args)
+            return page[method](...args)
           } else {
             console.error(`page 下没有 ${method} 方法`)
           }
