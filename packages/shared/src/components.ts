@@ -441,7 +441,13 @@ const ScrollView = {
   bindDragStart: '',
   bindDragging: '',
   bindDragEnd: '',
-  ...touchEvents
+  ...touchEvents,
+  ...selectEnv({
+    alipay: {
+      'scroll-animation-duration': '',
+      'trap-scroll': 'false'
+    }
+  })
 }
 
 const Swiper = {
@@ -668,13 +674,24 @@ const Canvas = {
 }
 
 const Ad = {
-  'unit-id': '',
   'ad-intervals': '',
   'ad-type': singleQuote('banner'),
   'ad-theme': singleQuote('white'),
   bindLoad: '',
   bindError: '',
-  bindClose: ''
+  bindClose: '',
+  ...selectEnv({
+    swan: {
+      appid: '',
+      apid: '',
+      type: singleQuote('feed'),
+      updatetime: '',
+      bindStatus: ''
+    },
+    default: {
+      'unit-id': ''
+    }
+  })
 }
 
 const OfficialAccount = {

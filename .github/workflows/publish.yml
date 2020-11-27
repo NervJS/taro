@@ -21,9 +21,10 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Get commit message
         run: |
-           echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
+          COMMIT_MESSAGE=$(git log --format=%B -n 1)
+          echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_ENV
       - name: Show commit message
-        run : echo $commitmsg
+        run : echo "$commitmsg"
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
@@ -51,7 +52,7 @@ jobs:
         shell: bash -ex {0}
         run: |
           CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
-          echo "::set-env name=CURRENT_VERSION::${CURRENT_VERSION}"
+          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
       - name: Tag Check
         if: startsWith( env.commitmsg , 'chore(release):' )
         id: tag_check
