@@ -197,6 +197,12 @@ export class Video implements ComponentInterface {
   componentDidRender () {
   }
 
+  disconnectedCallback () {
+    if (document.removeEventListener) {
+      document.removeEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
+    }
+  }
+
   @Watch('enableDanmu')
   watchEnableDanmu (newVal) {
     this._enableDanmu = newVal
