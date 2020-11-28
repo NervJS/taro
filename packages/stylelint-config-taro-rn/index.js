@@ -22,7 +22,7 @@ module.exports = {
           '@-rule 会被 React Native 忽略'
       }
     ],
-    'unit-disallowed-list': [
+    'unit-allowed-list': [
       ['px', 'rem', 'deg', '%', 'vh', 'vw', 'vmin', 'vmax'],
       {
         severity: 'warning',
