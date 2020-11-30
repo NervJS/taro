@@ -81,7 +81,7 @@ import Test from '../../components/test'
 
 增加 `set_title.h5.js`，代码如下
 
-```js
+```js title="set_title.h5.js"
 export default function setTitle (title) {
   document.title = title
 }
@@ -89,7 +89,7 @@ export default function setTitle (title) {
 
 增加 `set_title.weapp.js`，代码如下
 
-```js
+```js title="set_title.weapp.js"
 import Taro from '@tarojs/taro'
 export default function setTitle (title) {
   Taro.setNavigationBarTitle({
@@ -145,7 +145,7 @@ Taro 3 里的多端文件由 [MultiPlatformPlugin](https://github.com/NervJS/tar
 
 假如我们有一个 npm 包名叫 @taro-mobile，需要解析里面的多端文件，可以在 taro 的配置文件中这样修改 MultiPlatformPlugin 的配置：
 
-```js
+```js title="/config/index.js"
 // mini 也可改为 h5，分别对应小程序与 h5 端配置
 mini: {
   webpackChain (chain) {

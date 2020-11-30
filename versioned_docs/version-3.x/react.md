@@ -8,7 +8,7 @@ title: React
 
 每一个 Taro 应用都需要一个入口组件用来注册应用，入口文件默认是 `src` 目录下的 `app.js`，在 Taro 中使用 React，入口组件必须导出一个 React 组件，在入口组件中我们可以设置全局状态或访问小程序入口实例的生命周期：
 
-```jsx
+```jsx title="app.js"
 import React, { Component } from 'react'
 // 假设我们要使用 Redux
 import { Provider } from 'react-redux'
@@ -46,8 +46,7 @@ export default App
 
 对于一个入口文件(例如`app.jsx`)而言，我们可以新增一个 `app.config.js` 的文件进行全局配置，`app.config.js` 的默认导出就是全局配置，配置规范基于微信小程序的[全局配置](https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE)进行制定，所有平台进行统一:
 
-```js
-// app.config.js
+```js  title="app.config.js"
 export default {
   pages: [
     'pages/index/index'
@@ -125,9 +124,9 @@ export default {
 
 程序发生脚本错误或 API 调用报错时触发，微信小程序中也可以使用 `Taro.onError` 绑定监听
 
-#### componentDidNotFound(Object)
+#### onPageNotFound(Object)
 
-> 在微信/字节跳动小程序中这一生命周期方法对应 `onPageNotFound`，其他端尚未实现<br/>
+> 在微信/字节跳动小程序中这一生命周期方法对应 `onPageNotFound`，H5 端也支持，其他端尚未实现<br/>
 > 微信小程序中，基础库 1.9.90 开始支持
 
 程序要打开的页面不存在时触发，微信小程序中也可以使用 `Taro.onPageNotFound` 绑定监听
@@ -190,8 +189,7 @@ export default Index
 ### 配置文件
 和入口组件一样，对于一个页面文件(例如`./pages/index/index.jsx`)而言，我们可以新增一个 `./pages/index/index.config.js` 的文件进行页面配置，`index.config.js` 的默认导出就是[页面配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html):
 
-```js
-// ./pages/index/index.jsx
+```js title="./pages/index/index.jsx"
 export default {
   navigationBarTitleText: '首页'
 }
@@ -325,8 +323,7 @@ Object 参数说明：
 
 示例代码
 
-```jsx
-// page.js
+```jsx title="page.js"
 export default class Index extends Component {
   onShareAppMessage (res) {
     if (res.from === 'button') {
@@ -417,8 +414,7 @@ onAddToFavorites(res) {
 | query | 自定义页面路径中携带的参数 | 当前页面路径携带的参数 |
 | imageUrl | 自定义图片路径，可以是本地文件或者网络图片。支持 PNG 及 JPG，显示图片长宽比是 1:1。 | 默认使用小程序 Logo |
 
-```jsx
-// page.js
+```jsx title="page.js"
 class Index extends Component {
   onShareTimeline () {
     console.log('onShareTimeline')
@@ -523,6 +519,6 @@ function Comp () {
 
 ## 常见问题
 
-* `useEffect`、`componentDidMount` 中获取不到渲染层元素信息，[#7116](https://github.com/NervJS/taro/issues/7116)
+* `useEffect`、`componentDidMount` 中获取不到渲染层元素信息，[7116](https://github.com/NervJS/taro/issues/7116)
 * `useEffect` 或 `useLayoutEffect` 中获取不到组件最新的宽高，[#7491](https://github.com/NervJS/taro/issues/7491)
 * 嵌套层级较深时，使用 `selectorQuery` 无法查询到子元素，[#7411](https://github.com/NervJS/taro/issues/7411)
