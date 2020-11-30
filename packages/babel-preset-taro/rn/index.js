@@ -40,23 +40,26 @@ function getRNConfig () {
  */
 function getEnv () {
   const config = getProjectConfig()
+  const envConst = {
+    'process.env.TARO_ENV': 'RN'
+  }
   if (config.env) {
     Object.keys(config.env).forEach((key) => {
       try {
-        process.env[key] = JSON.parse(config.env[key])
+        envConst[`process.env.${key}`] = JSON.parse(config.env[key])
       } catch (e) {
         console.error('env环境配置有误' + config.env[key])
       }
     })
-    if (!config.env.NODE_ENV) {
-      if (config.isWatch) {
-        process.env.NODE_ENV = 'development'
-      } else {
-        process.env.NODE_ENV = 'production'
-      }
+  }
+  if (!config.env || !config.env.NODE_ENV) {
+    if (config.isWatch) {
+      envConst['process.env.NODE_ENV'] = 'development'
+    } else {
+      envConst['process.env.NODE_ENV'] = 'production'
     }
   }
-  process.env.TARO_ENV = 'rn'
+  return envConst
 }
 
 function parseDefineConst (config) {
@@ -79,12 +82,15 @@ function getDefineConstants () {
   const rnconfig = getRNConfig()
   if (rnconfig.defineConstants) {
     parseDefineConst(rnconfig)
+    rnconfig.defineConstants = Object.assign(rnconfig.defineConstants, getEnv())
     return rnconfig.defineConstants
   }
   if (config.defineConstants) {
     parseDefineConst(config)
+    config.defineConstants = Object.assign(config.defineConstants, getEnv())
     return config.defineConstants
   }
+  return getEnv()
 }
 
 /**
