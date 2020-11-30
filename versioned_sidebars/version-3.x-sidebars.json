@@ -159,6 +159,25 @@
         },
         {
           "collapsed": true,
+          "label": "反向转换",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.x/taroize"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/convert-to-react"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.x/taroize-troubleshooting"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
           "label": "扩展编译平台",
           "type": "category",
           "items": [

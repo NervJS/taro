@@ -10,7 +10,7 @@ title: 编译配置
 
 ## index.js —— 通用配置
 
-```js
+```js title="/config/index.js"
 const config = {
   // 项目名称
   projectName: 'Awesome Next',

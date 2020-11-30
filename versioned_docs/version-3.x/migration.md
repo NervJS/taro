@@ -325,7 +325,3 @@ import { useState, useEffect } from 'react' // 框架 Hooks （基础 Hooks）
 ## $scope 和 $componentType
 
 由于 Taro Next 没有自定义组件，所以也没有了 `this.$scope` 和 `this.$componentType` 的概念。`getCurrentInstance().page` 可以返回当前小程序页面的实例。
-
-## 相关阅读
-
-[Taro 版本升级权威指南](/blog/2020-09-01-taro-versions)

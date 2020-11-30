@@ -2,74 +2,86 @@
 title: 使用小程序原生第三方组件和插件
 ---
 
-Taro 支持使用小程序的第三方组件和插件，例如 [echarts-for-weixin](https://github.com/ecomfe/echarts-for-weixin)，使用方式也异常的简单。
+Taro 支持使用小程序的第三方组件和插件，使用方式也异常的简单。
 
-**但是值得注意的是，如果在 Taro 项目引用了小程序原生的第三方组件和插件，那么该项目将不再具备多端转换的能力，例如，如果使用了微信小程序的第三方组件，那么项目只能转换成微信小程序，转义成其他平台会失效，使用其他小程序原生组件同理**。
+> 注意：如果在 Taro 项目引用了小程序原生的第三方组件和插件，那么该项目将**不再具备多端转换的能力**，例如，如果使用了微信小程序的第三方组件，那么项目只能转换成微信小程序，转义成其他平台会失效，使用其他小程序原生组件同理。
 
-## 引入第三方组件
+## 使用第三方原生组件
 
-首先需要将第三方组件库下载到项目的 `src` 目录下，随后在页面或者组件里通过配置 `usingComponents` 指定需要引用的第三方组件即可，组件调用的时候需要按照 JSX 的使用规范来进行传参和事件绑定。
+首先需要将第三方组件库下载到项目的 `src` 目录下，随后在页面或者组件里通过配置 `usingComponents` 指定需要引用的第三方组件即可。
 
-`usingComponents` 指定的第三方组件名字需要以**小写**开头。
+组件调用的时候需要**按照 JSX 的使用规范**来进行传参和事件绑定。
 
-```jsx
-import Taro, { Component } from '@tarojs/taro'
+### 使用方法
+
+1. 在页面配置文件中配置 `usingComponents` 属性。
+
+> 注意：Taro3 中没有自定义组件，组件是没有配置文件的。usingComponents 必须配置在“页面”的配置文件中。
+
+```js {2} title="page.config.js"
+export default {
+  usingComponents: {
+    // 定义需要引入的第三方组件
+    // 1. key 值指定第三方组件名字，以小写开头
+    // 2. value 值指定第三方组件 js 文件的相对路径
+    'ec-canvas': '../../components/ec-canvas/ec-canvas'
+  }
+}
+```
+
+2. JSX 中引用
+
+```jsx {14} title="page.js"
+import React, { Component } from 'react'
 import { View } from '@tarojs/components'
 
-function initChart () {
-  // ....
-}
-
-export default class Menu extends Component {
-  static defaultProps = {
-    data: []
-  }
-
-  constructor (props) {
-    super(props)
-    this.state = {
-      ec: {
-        onInit: initChart
-      }
+export default class Index extends Component {
+  this.state = {
+    ec: {
+      onInit: function () {}
     }
-  }
-
-  componentWillMount () {
-    console.log(this) // this -> 组件 Menu 的实例
   }
 
   render () {
     return (
       <View>
-        <ec-canvas id='mychart-dom-area' canvas-id='mychart-area' ec={this.state.ec}></ec-canvas>
+        <ec-canvas id='mychart-dom-area' canvas-id='mychart-area' ec={this.state.ec} />
       </View>
     )
   }
 }
+```
 
-// menu.config.js
+### 事件
 
-export default {
-  // 定义需要引入的第三方组件
-  usingComponents: {
-    'ec-canvas': '../../components/ec-canvas/ec-canvas' // 书写第三方组件的相对路径
-  }
-}
+事件以 `on` 开头，取代原生绑定语法中的 `bind`。
+
+### selectComponent
+
+可以使用小程序页面实例的 `selectComponent` API 获取第三方原生组件的实例。
+
+```js
+import { getCurrentInstance } from '@tarojs/taro'
+
+const { page } = getCurrentInstance()
+page.selectComponent('#mychart-dom-area')
 ```
 
 ### 使用 Slot
 
 在 React 中使用 `<slot name="slotName" />`（首字母小写），在 Vue 中使用 `<slot-view name="slotName" />`（由于 `slot` 在 Vue 中是内置组件）。
 
+### 使用 vant-weapp
 
-## 引入插件
+使用 `vant-weapp` 第三方原生组件库：[示例项目](https://github.com/NervJS/taro3-vant-sample)。
+
+## 使用小程序插件
 
 ### 引入插件代码包
 
 使用插件前，使用者要在 `app.confg.js` 的配置中声明需要使用的插件，例如
 
-```jsx
-// app.config.js
+```jsx title="app.config.js"
 export default {
   plugins: {
     myPlugin: {
