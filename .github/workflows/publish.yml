@@ -15,9 +15,6 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,7 +31,7 @@ jobs:
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
-          node_version: ${{ matrix.node-version }}
+          node_version: 12.x
           registry-url: 'https://registry.npmjs.org'
       - name: Git Identity
         run: |
