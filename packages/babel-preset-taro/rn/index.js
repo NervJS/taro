@@ -130,7 +130,7 @@ module.exports = (_, options = {}) => {
   const extensions = [].concat(helper.JS_EXT, helper.TS_EXT, helper.CSS_EXT)
   presets.push(reactNativeBabelPreset(_, options))
   plugins.push(
-    require('@babel/plugin-transform-react-jsx-to-rn-stylesheet'),
+    require('babel-plugin-transform-react-jsx-to-rn-stylesheet'),
     [require('babel-plugin-rn-platform-specific-extensions'), {
       extensions: extensions
     }],

@@ -1,6 +1,6 @@
 {
     "name": "@tarojs/runtime-rn",
-    "version": "3.0.17",
+    "version": "3.2.0-canary.0",
     "description": "taro-runtime-rn",
     "main": "dist/index.js",
     "files": [
@@ -28,9 +28,9 @@
         "react-native": "*"
     },
     "dependencies": {
-        "@types/react-native": "^0.63.33",
-        "@tarojs/components-rn": "^3.0.17",
-        "@tarojs/router-rn": "^3.0.17"
+        "@tarojs/components-rn": "3.2.0-canary.0",
+        "@tarojs/router-rn": "3.2.0-canary.0",
+        "@types/react-native": "^0.63.33"
     },
     "resolutions": {
         "@types/react": "16.9.56"
