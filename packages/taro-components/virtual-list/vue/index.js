@@ -443,8 +443,9 @@ function createListComponent ({
         this._instanceProps()
       )
 
+      const scrollViewName = process.env.TARO_ENV === 'h5' ? 'taro-scroll-view' : 'scroll-view'
       return h(
-        'scroll-view',
+        scrollViewName,
         {
           class: wclass,
           ref: this._outerRefSetter,
