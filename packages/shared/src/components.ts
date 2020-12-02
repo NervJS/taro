@@ -352,6 +352,7 @@ const Textarea = {
   'selection-end': '-1',
   'adjust-position': 'true',
   'hold-keyboard': 'false',
+  enableNative: 'false',
   bindFocus: '',
   bindBlur: '',
   bindLineChange: '',
