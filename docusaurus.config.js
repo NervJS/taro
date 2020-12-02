@@ -136,6 +136,7 @@ const siteConfigGithub = {
           // sidebars file relative to website dir.
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/nervjs/taro/edit/docs/',
+          lastVersion: "3.x",
           versions: {
             current: {
               label: `下个版本`

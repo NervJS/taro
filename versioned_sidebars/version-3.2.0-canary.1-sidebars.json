@@ -1,0 +1,2388 @@
+{
+  "version-3.2.0-canary.1/docs": [
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "关于Taro",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/README"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/team"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/CONTRIBUTING"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "快速开始",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/GETTING-STARTED"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/composition"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/before-dev-remind"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "基础教程",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/react"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/vue"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/vue3"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/nerv"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/tutorial"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/project-config"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/router"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/size"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/static-reference"
+        },
+        {
+          "collapsed": true,
+          "label": "多端开发",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/envs"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/envs-debug"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/wxcloudbase"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/miniprogram-plugin"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/react-native"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "进阶指南",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/config"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/config-detail"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/plugin"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/debug-config"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/hooks"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/jquery-like"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/html"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/css-in-js"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/prerender"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/virtual-list"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/mini-third-party"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/hybrid"
+        },
+        {
+          "collapsed": true,
+          "label": "反向转换",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/taroize"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/convert-to-react"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/taroize-troubleshooting"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "扩展编译平台",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/platform-plugin"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/platform-plugin-how"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/platform-plugin-base"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/platform-plugin-template"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/platform-plugin-reconciler"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "迁移指南",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/migration"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "社区生态",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/redux"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/css-modules"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/template"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/youshu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/report"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/join-in"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/CONTRIBUTING"
+        }
+      ]
+    }
+  ],
+  "version-3.2.0-canary.1/components": [
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "关于组件库",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components-desc"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "视图容器",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/viewContainer/view"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/viewContainer/scroll-view"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/viewContainer/swiper"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/viewContainer/swiper-item"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/viewContainer/movable-area"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/viewContainer/movable-view"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/viewContainer/cover-view"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/viewContainer/cover-image"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/viewContainer/match-media"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "基础内容",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/base/icon"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/base/text"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/base/progress"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/base/rich-text"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "表单组件",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/button"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/checkbox"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/editor"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/form"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/input"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/label"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/picker"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/picker-view"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/radio"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/slider"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/switch"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/forms/textarea"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "导航",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/navig/navigator"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "媒体组件",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/media/audio"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/media/image"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/media/live-player"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/media/live-pusher"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/media/video"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/media/camera"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "地图",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/maps/map"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "画布",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/canvas/canvas"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "开放能力",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/open/ad"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/open/official-account"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/open/open-data"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/open/web-view"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/components/open/others"
+        }
+      ]
+    }
+  ],
+  "version-3.2.0-canary.1/API": [
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "关于API",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/about/desc"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/about/env"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/about/events"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/General"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "基础",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/base/canIUse"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/base/base64ToArrayBuffer"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/base/arrayBufferToBase64"
+        },
+        {
+          "collapsed": true,
+          "label": "系统",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/base/system/getSystemInfo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/base/system/getSystemInfoSync"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "更新",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/base/update/getUpdateManager"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/base/update/UpdateManager"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "小程序",
+          "type": "category",
+          "items": [
+            {
+              "collapsed": true,
+              "label": "生命周期",
+              "type": "category",
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/life-cycle/getLaunchOptionsSync"
+                }
+              ]
+            },
+            {
+              "collapsed": true,
+              "label": "应用级事件",
+              "type": "category",
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/onPageNotFound"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/onError"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/onAudioInterruptionEnd"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/onAudioInterruptionBegin"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/onAppShow"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/onAppHide"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/offPageNotFound"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/offError"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/offAudioInterruptionEnd"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/offAudioInterruptionBegin"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/offAppShow"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-3.2.0-canary.1/apis/base/weapp/app-event/offAppHide"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "调试",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/base/debug/setEnableDebug"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/base/debug/getRealtimeLogManager"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/base/debug/getLogManager"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/base/debug/LogManager"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/base/debug/RealtimeLogManager"
+            }
+          ]
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/base/env/env"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "路由",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/route/switchTab"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/route/reLaunch"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/route/redirectTo"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/route/navigateTo"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/route/navigateBack"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/route/EventChannel"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "框架",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/framework/App"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/framework/getApp"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/framework/getCurrentPages"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/framework/Page"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "界面",
+      "items": [
+        {
+          "collapsed": true,
+          "label": "交互",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/interaction/showToast"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/interaction/showModal"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/interaction/showLoading"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/interaction/showActionSheet"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/interaction/hideToast"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/interaction/hideLoading"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "导航栏",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/navigation-bar/showNavigationBarLoading"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/navigation-bar/setNavigationBarTitle"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/navigation-bar/setNavigationBarColor"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/navigation-bar/hideNavigationBarLoading"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/navigation-bar/hideHomeButton"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "背景",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/background/setBackgroundTextStyle"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/background/setBackgroundColor"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "Tab Bar",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/tab-bar/showTabBarRedDot"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/tab-bar/showTabBar"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/tab-bar/setTabBarStyle"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/tab-bar/setTabBarItem"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/tab-bar/setTabBarBadge"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/tab-bar/removeTabBarBadge"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/tab-bar/hideTabBarRedDot"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/tab-bar/hideTabBar"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "字体",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/fonts/loadFontFace"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "下拉刷新",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/pull-down-refresh/stopPullDownRefresh"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/pull-down-refresh/startPullDownRefresh"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "滚动",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/scroll/pageScrollTo"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "动画",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/animation/createAnimation"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/animation/Animation"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "置顶",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/sticky/setTopBarText"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "自定义组件",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/custom-component/nextTick"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "菜单",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/menu/getMenuButtonBoundingClientRect"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "窗口",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/window/onWindowResize"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/window/offWindowResize"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "键盘",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/keyboard/onKeyboardHeightChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/keyboard/offKeyboardHeightChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/keyboard/hideKeyboard"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/ui/keyboard/getSelectedTextRange"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "网络",
+      "items": [
+        {
+          "collapsed": true,
+          "label": "发起请求",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/request/request"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/request/RequestTask"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/request/addInterceptor"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "下载",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/download/downloadFile"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/download/DownloadTask"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "上传",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/upload/uploadFile"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/upload/UploadTask"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "WebSocket",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/webSocket/sendSocketMessage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/webSocket/onSocketOpen"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/webSocket/onSocketMessage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/webSocket/onSocketError"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/webSocket/onSocketClose"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/webSocket/connectSocket"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/webSocket/closeSocket"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/webSocket/SocketTask"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "mDNS",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/mdns/stopLocalServiceDiscovery"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/mdns/startLocalServiceDiscovery"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/mdns/onLocalServiceResolveFail"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/mdns/onLocalServiceLost"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/mdns/onLocalServiceFound"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/mdns/onLocalServiceDiscoveryStop"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/mdns/offLocalServiceResolveFail"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/mdns/offLocalServiceLost"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/mdns/offLocalServiceFound"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/mdns/offLocalServiceDiscoveryStop"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "UDP 通信",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/udp/createUDPSocket"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/network/udp/UDPSocket"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "数据缓存",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/storage/setStorageSync"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/storage/setStorage"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/storage/removeStorageSync"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/storage/removeStorage"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/storage/getStorageSync"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/storage/getStorageInfoSync"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/storage/getStorageInfo"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/storage/getStorage"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/storage/clearStorageSync"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/storage/clearStorage"
+        },
+        {
+          "collapsed": true,
+          "label": "周期性更新",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/storage/background-fetch/setBackgroundFetchToken"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/storage/background-fetch/onBackgroundFetchData"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/storage/background-fetch/getBackgroundFetchToken"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/storage/background-fetch/getBackgroundFetchData"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "媒体",
+      "items": [
+        {
+          "collapsed": true,
+          "label": "地图",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/map/createMapContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/map/MapContext"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "图片",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/image/saveImageToPhotosAlbum"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/image/previewImage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/image/getImageInfo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/image/compressImage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/image/chooseMessageFile"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/image/chooseImage"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "视频",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/video/saveVideoToPhotosAlbum"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/video/createVideoContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/video/chooseVideo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/video/VideoContext"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "音频",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/audio/stopVoice"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/audio/setInnerAudioOption"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/audio/playVoice"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/audio/pauseVoice"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/audio/getAvailableAudioSources"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/audio/createInnerAudioContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/audio/createAudioContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/audio/AudioContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/audio/InnerAudioContext"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "背景音频",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/background-audio/stopBackgroundAudio"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/background-audio/seekBackgroundAudio"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/background-audio/playBackgroundAudio"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/background-audio/pauseBackgroundAudio"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/background-audio/onBackgroundAudioStop"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/background-audio/onBackgroundAudioPlay"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/background-audio/onBackgroundAudioPause"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/background-audio/getBackgroundAudioPlayerState"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/background-audio/getBackgroundAudioManager"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/background-audio/BackgroundAudioManager"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "实时音视频",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/live/createLivePusherContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/live/createLivePlayerContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/live/LivePlayerContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/live/LivePusherContext"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "录音",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/recorder/stopRecord"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/recorder/startRecord"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/recorder/getRecorderManager"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/recorder/RecorderManager"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "相机",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/camera/createCameraContext"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/camera/CameraContext"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "富文本",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/editor/EditorContext"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "音视频合成",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/video-processing/createMediaContainer"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/video-processing/MediaContainer"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/media/video-processing/MediaTrack"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "位置",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/location/stopLocationUpdate"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/location/startLocationUpdateBackground"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/location/startLocationUpdate"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/location/openLocation"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/location/onLocationChange"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/location/offLocationChange"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/location/getLocation"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/location/chooseLocation"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "转发",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/share/updateShareMenu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/share/showShareMenu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/share/hideShareMenu"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/share/getShareInfo"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "画布",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/createOffscreenCanvas"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/createCanvasContext"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/canvasToTempFilePath"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/canvasPutImageData"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/canvasGetImageData"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/Canvas"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/CanvasContext"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/CanvasGradient"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/Color"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/Image"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/ImageData"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/OffscreenCanvas"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/canvas/RenderingContext"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "文件",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/files/saveFile"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/files/removeSavedFile"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/files/openDocument"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/files/getSavedFileList"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/files/getSavedFileInfo"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/files/getFileSystemManager"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/files/getFileInfo"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/files/FileSystemManager"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/files/Stats"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "开放接口",
+      "items": [
+        {
+          "collapsed": true,
+          "label": "登录",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/login/login"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/login/checkSession"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "小程序跳转",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/navigate/navigateToMiniProgram"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/navigate/navigateBackMiniProgram"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "账户信息",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/account/getAccountInfoSync"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "用户信息",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/user-info/getUserInfo"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/user-info/UserInfo"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "数据上报",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/report/reportMonitor"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "数据分析",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/data-analysis/reportAnalytics"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "支付",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/payment/requestPayment"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/payment/faceVerifyForPay"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "授权",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/authorize/authorize"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "设置",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/settings/openSetting"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/settings/getSetting"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/settings/AuthSetting"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "收货地址",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/address/chooseAddress"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "卡券",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/card/openCard"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/card/addCard"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "发票",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/invoice/chooseInvoiceTitle"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/invoice/chooseInvoice"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "生物认证",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/soter/startSoterAuthentication"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/soter/checkIsSupportSoterAuthentication"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/soter/checkIsSoterEnrolledInDevice"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/facial/checkIsSupportFacialRecognition"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/facial/startFacialRecognitionVerify"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/facial/startFacialRecognitionVerifyAndUploadVideo"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "微信运动",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/werun/getWeRunData"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "订阅消息",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/open-api/subscribe-message/requestSubscribeMessage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "设备",
+      "items": [
+        {
+          "collapsed": true,
+          "label": "IBeacon",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ibeacon/stopBeaconDiscovery"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ibeacon/startBeaconDiscovery"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ibeacon/onBeaconUpdate"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ibeacon/onBeaconServiceChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ibeacon/offBeaconUpdate"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ibeacon/offBeaconServiceChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ibeacon/getBeacons"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ibeacon/IBeaconInfo"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "Wi-Fi",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/stopWifi"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/startWifi"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/setWifiList"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/onWifiConnected"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/onGetWifiList"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/offWifiConnected"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/offGetWifiList"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/getWifiList"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/getConnectedWifi"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/connectWifi"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/wifi/WifiInfo"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "联系人",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/contact/addPhoneContact"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "低功耗蓝牙",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ble/writeBLECharacteristicValue"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ble/readBLECharacteristicValue"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ble/onBLEConnectionStateChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ble/onBLECharacteristicValueChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ble/notifyBLECharacteristicValueChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ble/getBLEDeviceServices"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ble/getBLEDeviceCharacteristics"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ble/createBLEConnection"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/ble/closeBLEConnection"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "蓝牙",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/bluetooth/stopBluetoothDevicesDiscovery"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/bluetooth/startBluetoothDevicesDiscovery"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/bluetooth/openBluetoothAdapter"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/bluetooth/onBluetoothDeviceFound"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/bluetooth/onBluetoothAdapterStateChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/bluetooth/getConnectedBluetoothDevices"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/bluetooth/getBluetoothDevices"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/bluetooth/getBluetoothAdapterState"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/bluetooth/closeBluetoothAdapter"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "电量",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/battery/getBatteryInfoSync"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/battery/getBatteryInfo"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "剪贴板",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/clipboard/setClipboardData"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/clipboard/getClipboardData"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "NFC",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/nfc/stopHCE"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/nfc/startHCE"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/nfc/sendHCEMessage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/nfc/onHCEMessage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/nfc/offHCEMessage"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/nfc/getHCEState"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "网络",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/network/onNetworkStatusChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/network/offNetworkStatusChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/network/getNetworkType"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "屏幕",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/screen/setScreenBrightness"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/screen/setKeepScreenOn"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/screen/onUserCaptureScreen"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/screen/offUserCaptureScreen"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/screen/getScreenBrightness"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "电话",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/phone/makePhoneCall"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "加速计",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/accelerometer/stopAccelerometer"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/accelerometer/startAccelerometer"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/accelerometer/onAccelerometerChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/accelerometer/offAccelerometerChange"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "罗盘",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/compass/stopCompass"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/compass/startCompass"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/compass/onCompassChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/compass/offCompassChange"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "设备方向",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/motion/stopDeviceMotionListening"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/motion/startDeviceMotionListening"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/motion/onDeviceMotionChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/motion/offDeviceMotionChange"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "陀螺仪",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/gyroscope/stopGyroscope"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/gyroscope/startGyroscope"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/gyroscope/onGyroscopeChange"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/gyroscope/offGyroscopeChange"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "性能",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/performance/onMemoryWarning"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "扫码",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/scan/scancode"
+            }
+          ]
+        },
+        {
+          "collapsed": true,
+          "label": "震动",
+          "type": "category",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/vibrate/vibrateShort"
+            },
+            {
+              "type": "doc",
+              "id": "version-3.2.0-canary.1/apis/device/vibrate/vibrateLong"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Worker",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/worker/createWorker"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/worker/Worker"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "第三方平台",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/ext/getExtConfigSync"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/ext/getExtConfig"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "云开发",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/cloud/cloud"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/cloud/DB"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "WXML",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/wxml/createSelectorQuery"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/wxml/createIntersectionObserver"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/wxml/IntersectionObserver"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/wxml/NodesRef"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/wxml/SelectorQuery"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "广告",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/ad/createRewardedVideoAd"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/ad/createInterstitialAd"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/ad/InterstitialAd"
+        },
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/ad/RewardedVideoAd"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Alipay",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/alipay/getOpenUserInfo"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Swan",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-3.2.0-canary.1/apis/swan/setPageInfo"
+        }
+      ]
+    }
+  ]
+}
