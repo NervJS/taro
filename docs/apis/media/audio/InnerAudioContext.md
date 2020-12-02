@@ -698,3 +698,32 @@ innerAudioContext.onError((res) => {
   console.log(res.errCode)
 })
 ```
+## API 支持度
+
+| API | 微信小程序 | H5 | React Native |
+| :---: | :---: | :---: | :---: |
+| InnerAudioContext.play | ✔️ | ✔️ | ✔️ |
+| InnerAudioContext.pause | ✔️ | ✔️ | ✔️ |
+| InnerAudioContext.stop | ✔️ | ✔️ | ✔️ |
+| InnerAudioContext.seek | ✔️ | ✔️ | ✔️ |
+| InnerAudioContext.destroy | ✔️ | ✔️ |  |
+| InnerAudioContext.onCanplay | ✔️ |  | ✔️ |
+| InnerAudioContext.onPlay | ✔️ |  | ✔️ |
+| InnerAudioContext.onPause | ✔️ |  | ✔️ |
+| InnerAudioContext.onStop | ✔️ |  | ✔️ |
+| InnerAudioContext.onEnded | ✔️ |  | ✔️ |
+| InnerAudioContext.onTimeUpdate | ✔️ |  | ✔️ |
+| InnerAudioContext.onError | ✔️ |  | ✔️ |
+| InnerAudioContext.onWaiting | ✔️ |  | ✔️ |
+| InnerAudioContext.onSeeking | ✔️ |  | ✔️ |
+| InnerAudioContext.onSeeked | ✔️ |  | ✔️ |
+| InnerAudioContext.offCanplay | ✔️ |  | ✔️ |
+| InnerAudioContext.offPlay | ✔️ |  | ✔️ |
+| InnerAudioContext.offPause | ✔️ |  | ✔️ |
+| InnerAudioContext.offStop | ✔️ |  | ✔️ |
+| InnerAudioContext.offEnded | ✔️ |  | ✔️ |
+| InnerAudioContext.offTimeUpdate | ✔️ |  | ✔️ |
+| InnerAudioContext.offError | ✔️ |  | ✔️ |
+| InnerAudioContext.offWaiting | ✔️ |  | ✔️ |
+| InnerAudioContext.offSeeking | ✔️ |  | ✔️ |
+| InnerAudioContext.offSeeked | ✔️ |  | ✔️ |

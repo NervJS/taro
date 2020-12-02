@@ -369,24 +369,24 @@ export default class PageView extends Component {
 
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| VideoProps.src | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| VideoProps.duration | ✔️ | ✔️ | ✔️ |  | (待定) |  |
-| VideoProps.controls | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| VideoProps.src | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| VideoProps.duration | ✔️ | ✔️ | ✔️ |  | (待定) | ✔️ |
+| VideoProps.controls | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | VideoProps.danmuList | ✔️ | ✔️ |  |  | (待定) |  |
 | VideoProps.danmuBtn | ✔️ | ✔️ |  |  | (待定) |  |
 | VideoProps.enableDanmu | ✔️ | ✔️ |  |  | (待定) |  |
-| VideoProps.autoplay | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| VideoProps.loop | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| VideoProps.muted | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| VideoProps.initialTime | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| VideoProps.autoplay | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| VideoProps.loop | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| VideoProps.muted | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| VideoProps.initialTime | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | VideoProps.direction | ✔️ | ✔️ | ✔️ |  | (待定) |  |
 | VideoProps.showProgress | ✔️ | ✔️ |  |  | (待定) |  |
 | VideoProps.showFullscreenBtn | ✔️ | ✔️ | ✔️ |  | (待定) |  |
 | VideoProps.showPlayBtn | ✔️ | ✔️ | ✔️ |  | (待定) |  |
-| VideoProps.showCenterPlayBtn | ✔️ | ✔️ | ✔️ |  | (待定) |  |
+| VideoProps.showCenterPlayBtn | ✔️ | ✔️ | ✔️ |  | (待定) | ✔️ |
 | VideoProps.enableProgressGesture | ✔️ | ✔️ | ✔️ |  | (待定) |  |
 | VideoProps.objectFit | ✔️ | ✔️ | ✔️ |  | (待定) |  |
-| VideoProps.poster | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| VideoProps.poster | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | VideoProps.showMuteBtn | ✔️ |  |  |  | (待定) |  |
 | VideoProps.title | ✔️ |  |  |  | (待定) |  |
 | VideoProps.playBtnPosition | ✔️ |  |  |  | (待定) |  |
@@ -398,15 +398,15 @@ export default class PageView extends Component {
 | VideoProps.adUnitId | ✔️ |  |  |  |  |  |
 | VideoProps.posterForCrawler | ✔️ |  |  |  |  |  |
 | VideoProps.showCastingButton | ✔️ |  |  |  |  |  |
-| VideoProps.onPlay | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| VideoProps.onPause | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| VideoProps.onEnded | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| VideoProps.onTimeUpdate | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| VideoProps.onFullscreenChange | ✔️ | ✔️ | ✔️ |  | (待定) |  |
+| VideoProps.onPlay | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| VideoProps.onPause | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| VideoProps.onEnded | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| VideoProps.onTimeUpdate | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| VideoProps.onFullscreenChange | ✔️ | ✔️ | ✔️ |  | (待定) | ✔️ |
 | VideoProps.onWaiting | ✔️ | ✔️ |  |  | (待定) |  |
-| VideoProps.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| VideoProps.onError | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 | VideoProps.onProgress | ✔️ |  | ✔️ |  | (待定) |  |
-| VideoProps.onLoadedMetaData | ✔️ |  |  |  |  |  |
+| VideoProps.onLoadedMetaData | ✔️ |  |  |  |  | ✔️ |
 
 ### direction
 

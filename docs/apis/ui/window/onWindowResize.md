@@ -83,4 +83,4 @@ sidebar_label: onWindowResize
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| Taro.onWindowResize | ✔️ | ✔️ |  |
+| Taro.onWindowResize | ✔️ | ✔️ | ✔️ |

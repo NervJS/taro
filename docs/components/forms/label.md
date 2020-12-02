@@ -86,7 +86,7 @@ class App extends Components {
       <td>for</td>
       <td><code>string</code></td>
       <td style={{ textAlign: "center"}}>否</td>
-      <td>绑定控件的 id</td>
+      <td>绑定控件的 id，RN中不支持</td>
     </tr>
   </tbody>
 </table>
@@ -95,4 +95,4 @@ class App extends Components {
 
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | 字节跳动小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Label | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| Label | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |

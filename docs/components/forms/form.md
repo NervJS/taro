@@ -142,7 +142,7 @@ export default {
 | :---: | :---: | :---: | :---: |
 | FormProps.reportSubmit | ✔️ | ✔️ |  |
 | FormProps.reportSubmitTimeout | ✔️ |  |  |
-| FormProps.onSubmit | ✔️ |  |  |
+| FormProps.onSubmit | ✔️ |  | ✔️ |
 | FormProps.onReset | ✔️ | ✔️ | ✔️ |
 
 ### onSubmitEventDetail

@@ -15,7 +15,7 @@ module.exports = {
       {
         label: '多端开发',
         type: 'category',
-        items: ['envs', 'envs-debug', 'wxcloudbase', 'miniprogram-plugin'],
+        items: ['envs', 'envs-debug', 'wxcloudbase', 'miniprogram-plugin', 'react-native'],
       },
     ],
     进阶指南: [
@@ -310,6 +310,7 @@ module.exports = {
         "type": "category",
         "items": [
           "apis/ui/keyboard/onKeyboardHeightChange",
+          "apis/ui/keyboard/offKeyboardHeightChange",
           "apis/ui/keyboard/hideKeyboard",
           "apis/ui/keyboard/getSelectedTextRange"
         ]

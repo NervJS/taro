@@ -36,7 +36,7 @@ sidebar_label: CameraContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| CameraContext.startRecord | ✔️ |  |  |
+| CameraContext.startRecord | ✔️ |  | ✔️ |
 
 ### stopRecord
 
@@ -67,7 +67,7 @@ sidebar_label: CameraContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| CameraContext.stopRecord | ✔️ |  |  |
+| CameraContext.stopRecord | ✔️ |  | ✔️ |
 
 ### takePhoto
 
@@ -98,7 +98,7 @@ sidebar_label: CameraContext
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| CameraContext.takePhoto | ✔️ |  |  |
+| CameraContext.takePhoto | ✔️ |  | ✔️ |
 
 ### onCameraFrame
 
@@ -441,7 +441,7 @@ listener.start()
 
 | API | 微信小程序 | H5 | React Native |
 | :---: | :---: | :---: | :---: |
-| CameraContext.startRecord | ✔️ |  |  |
-| CameraContext.stopRecord | ✔️ |  |  |
-| CameraContext.takePhoto | ✔️ |  |  |
+| CameraContext.startRecord | ✔️ |  | ✔️ |
+| CameraContext.stopRecord | ✔️ |  | ✔️ |
+| CameraContext.takePhoto | ✔️ |  | ✔️ |
 | CameraContext.onCameraFrame | ✔️ |  |  |
