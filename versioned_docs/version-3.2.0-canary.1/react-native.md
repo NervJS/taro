@@ -8,12 +8,25 @@ title: React Native 端开发流程
 
 ## 简介
 
-Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://github.com/facebook/react-native)，目前是项目依赖中固定 React Native 版本为 `0.55.4`。
+Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://github.com/facebook/react-native)，`Taro3.x` 将不再锁定 React Native 版本，用户可在项目中自行安装 >=0.60 版本的 React Native，对于 0.59 版本将在后续调研后决定是否兼容。
 
-整个 RN 端的架构如下：
+整体设计图如下：
 
-![image](https://assets.processon.com/chart_image/5c988481e4b01e76978bd6ab.png)
+![image](https://pic6.58cdn.com.cn/nowater/fangfe/n_v2ae7a759d06224fe78ad4984928e32017.jpg)
 
+其大致流程：
+
+1. `@taro/cli` 中通过 `registerPlatform` 注册 `rn` 平台；
+2. `yarn dev:rn` 获得编译配置，转为 `babel.config.js` 及 `metro.config.js` 配置；
+3. 所有 `React Native` 不支持的语法及配置，通过编译配置支持；
+4. 通过编译配置与 `@tarojs/taro-rn-transformer` 生成 `React Native` 的入口文件 `index.ts`；
+5. 入口文件引入 `@tarojs/taro-runtime-rn` 使用`createReactNativeApp` 进行包装；
+6. 页面文件引入 `@tarojs/taro-runtime-rn` 使用`createPageConfig` 进行包装；
+7. 启动 `metro bunlder`；
+8. 在 `React Native Shell` 工程中运行 `react-native run-ios` 或 `react-native run-android` 加载 `index.bundle`。
+
+
+---
 ## 搭建 iOS 开发环境
 
 必须安装的依赖有：Node、Watchman 和 React Native 命令行工具以及 Xcode。
@@ -74,6 +87,24 @@ yarn config set disturl https://npm.taobao.org/dist --global
 ```
 
 安装完 yarn 之后就可以用 yarn 代替 npm 了，例如用 yarn 代替 npm install 命令，用 yarn add 某第三方库名代替 npm install 某第三方库名。
+
+### CocoaPods
+CocoaPods 是用 Ruby 编写的包管理器。从 0.60 版本开始 react native 的 iOS 版本需要使用 CocoaPods 来管理依赖。你可以使用下面的命令来安装 cocoapods。
+
+```sh
+sudo gem install cocoapods
+```
+
+或者使用 brew 来安装
+
+```sh
+brew install cocoapods
+```
+
+> 另外目前最新版本似乎不能在 ruby2.6 版本以下安装，意味着如果你使用的 macOS 版本低于 10.15 (Catalina) 则无法直接安装。可以尝试安装较旧一些的版本。如sudo gem install cocoapods -v 1.8.4，参考 issue 链接 https://github.com/CocoaPods/CocoaPods/issues/9568(https://github.com/CocoaPods/CocoaPods/issues/9568)
+
+要了解更多信息，可以访问 [CocoaPods 的官网](https://guides.cocoapods.org/using/getting-started.html)。
+
 
 ### Xcode
 React Native 目前需要 [Xcode](https://developer.apple.com/xcode/downloads/) 9.4 或更高版本。你可以通过 App Store 或是到 [Apple 开发者官网](https://developer.apple.com/xcode/downloads/) 上下载。这一步骤会同时安装 Xcode IDE、Xcode 的命令行工具和 iOS 模拟器。
@@ -222,60 +253,35 @@ $ npx taro build --type rn --watch
 ```
 
 Taro 将会开始编译文件：
+``` sh
+$ taro build --type rn --watch
+👽 Taro v3.0.15-alpha.11
 
-```sh
-➜  taro-demo git:(master) ✗ taro build --type rn --watch
-👽 Taro v1.2.20
+Tips: 预览模式生成的文件较大，设置 NODE_ENV 为 production 可以开启压缩。
+Example:
+$ NODE_ENV=production taro build --type rn --watch
 
-开始编译项目 taro-demo
-编译  JS        /Users/chengshuai/Taro/taro-demo/src/app.js
-编译  SCSS      /Users/chengshuai/Taro/taro-demo/src/app.scss
-拷贝  HTML      /Users/chengshuai/Taro/taro-demo/src/index.html
-生成  生成文件  /Users/chengshuai/Taro/taro-demo/rn_temp/app_styles.js
-编译  JS        /Users/chengshuai/Taro/taro-demo/src/pages/index/index.js
-编译  SCSS      /Users/chengshuai/Taro/taro-demo/src/pages/index/index.scss
-生成  index.js  /Users/chengshuai/Taro/taro-demo/rn_temp/index.js
-生成  app.json  /Users/chengshuai/Taro/taro-demo/rn_temp/app.json
-生成  package.json  /Users/chengshuai/Taro/taro-demo/rn_temp/package.json
-编译  编译完成，花费2504 ms
-生成  生成文件  /Users/chengshuai/Taro/taro-demo/rn_temp/pages/index/index_styles.js
 
-初始化完毕，监听文件修改中...
+  ######                                         #     #
+  #     #  ######    ##     ####   #####         ##    #    ##    #####  #  #    #  ######
+  #     #  #        #  #   #    #    #           # #   #   #  #     #    #  #    #  #
+  ######   #####   #    #  #         #    #####  #  #  #  #    #    #    #  #    #  #####
+  #   #    #       ######  #         #           #   # #  ######    #    #  #    #  #
+  #    #   #       #    #  #    #    #           #    ##  #    #    #    #   #  #   #
+  #     #  ######  #    #   ####     #           #     #  #    #    #    #    ##    ######
+        
+warning: the transform cache was reset.
+React-Native Dev server is running on port: 8080
+
+
+To reload the app press "r"
+To open developer menu press "d"
+                 Welcome to React Native!
+                Learn once, write anywhere
+
 
 ```
-
-编译后的代码及应用文件在根目录的 `rn_temp` 目录下，常见的工程目录结构如下：
-
-```shell
-rn_temp
-├── app.js
-├── app.json
-├── app_styles.js
-├── index.html
-├── index.js
-├── package-lock.json
-├── package.json
-├── pages
-│   └── index
-│       ├── component.js
-│       ├── index.js
-│       └── index_styles.js
-├── bundle
-│   ├── assets
-│   ├── index.bundle
-│   └── index.bundle.meta
-└── yarn.lock
-```
-其中关键文件及目录如下：
-
-- app.json React Native 应用的配置，从 `config.rn.appJson` 中获取
-- bundle:实时编译的 jsbundle 临时文件
-
-如果编译没有报错，会自动打开一个终端，并在 8081 端口启动 [Metro](https://github.com/facebook/metro) Bundler 负责打包 jsbundle：
-
-![image](https://user-images.githubusercontent.com/9441951/59322399-85780180-8d08-11e9-9ea7-b3e4b23c077c.png)
-
-> 注意：少数电脑上，可能不会 `自动打开一个终端`，这时你可以在项目根目录下运行：`react-native start` 手动启动。
+![image](https://wos2.58cdn.com.cn/DeFazYxWvDti/frsupload/87c9f57282c511d4920d86cf6c3adde7.gif)
 
 这时，在浏览器输入 https://127.0.0.1:8081，可以看到如下页面：
 ![image](https://user-images.githubusercontent.com/9441951/55865494-13245d00-5bb1-11e9-9a97-8a785a83b584.png)
@@ -292,7 +298,7 @@ rn_temp
 ### 启动应用
 如果上一步的编译和 Metro Bundler Server 启动没问题，接下来就可以启动应用了。
 
-开发者可以自行[整合 React Native (0.55.4) 到原生应用](https://reactnative.cn/docs/0.55/integration-with-existing-apps/)，同时为了方便大家开发和整合，Taro 将 React Native 工程中原生的部分剥离出来，单独放在一个工程里面 [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell)，你可以把它看成是 React Native iOS/Android 空应用的壳子。
+开发者可以自行[整合 React Native (>=0.60) 到原生应用](https://reactnative.cn/docs/0.63/integration-with-existing-apps/)，同时为了方便大家开发和整合，Taro 将 React Native 工程中原生的部分剥离出来，单独放在一个工程里面 [NervJS/taro-native-shell](https://github.com/NervJS/taro-native-shell) / [分支0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2)，你可以把它看成是 React Native iOS/Android 空应用的壳子。
 
 首先将应用代码 clone 下来：
 
@@ -320,8 +326,11 @@ git clone git@github.com:NervJS/taro-native-shell.git
 #### 使用 React Native 命令启动
 
 ```sh
+$ cd ios & pod install
+$ cd .. 
 $ react-native run-ios
 ```
+> 注意：pod install 过程不可省略。
 
 iOS 模拟器会自行启动，并访问 8081 端口获取 js bundle，这时 Metro Bundler 终端会打印以下内容：
 
@@ -334,21 +343,70 @@ iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run �
 
 ![image](https://developer.apple.com/library/archive/documentation/ToolsLanguages/Conceptual/Xcode_Overview/Art/XC_O_SchemeMenuWithCallouts_2x.png)
 
-这里需要注意的是 jsBundle 的 moduleName，默认的 moduleName 为 "taroDemo"，需要和 `rn_temp/app.json` 里面的 name 字段保持一致。该配置在 `AppDelegate.m` 文件中。
+这里需要注意的是 jsBundle 的 moduleName，默认的 moduleName 为 "taroDemo"，需要和 `config/index.js` 里面配置 rn 的 appName 字段保持一致。
+``` js
+const config = {
+  ...
+  rn: {
+    appName: 'taroDemo',
+  }
+  ...
+}
+```
+
+该配置在 `AppDelegate.m` 文件中。
 
 ```objc
+#import "AppDelegate.h"
+
+#import <React/RCTBridge.h>
+#import <React/RCTBundleURLProvider.h>
+#import <React/RCTRootView.h>
+
+#import <UMCore/UMModuleRegistry.h>
+#import <UMReactNativeAdapter/UMNativeModulesProxy.h>
+#import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
+
+#ifdef FB_SONARKIT_ENABLED
+#import <FlipperKit/FlipperClient.h>
+#import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
+#import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
+#import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
+#import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
+#import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+
+static void InitializeFlipper(UIApplication *application) {
+  FlipperClient *client = [FlipperClient sharedClient];
+  SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
+  [client addPlugin:[[FlipperKitLayoutPlugin alloc] initWithRootNode:application withDescriptorMapper:layoutDescriptorMapper]];
+  [client addPlugin:[[FKUserDefaultsPlugin alloc] initWithSuiteName:nil]];
+  [client addPlugin:[FlipperKitReactPlugin new]];
+  [client addPlugin:[[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
+  [client start];
+}
+#endif
+
+@interface AppDelegate () <RCTBridgeDelegate>
+ 
+@property (nonatomic, strong) UMModuleRegistryAdapter *moduleRegistryAdapter;
+ 
+@end
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  NSURL *jsCodeLocation;
+#ifdef FB_SONARKIT_ENABLED
+  InitializeFlipper(application);
+#endif
+  
+  self.moduleRegistryAdapter = [[UMModuleRegistryAdapter alloc] initWithModuleRegistryProvider:[[UMModuleRegistryProvider alloc] init]];
 
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"rn_temp/index" fallbackResource:nil];
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                   moduleName:@"taroDemo"
+                                            initialProperties:nil];
 
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"taroDemo"
-                                               initialProperties:nil
-                                                   launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -356,13 +414,28 @@ iOS 的启动比较简单，使用 Xcode 打开 ios 目录，然后点击 Run �
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [super application:application didFinishLaunchingWithOptions:launchOptions];
   return YES;
+}
+
+- (NSArray<id<RCTBridgeModule>> *)extraModulesForBridge:(RCTBridge *)bridge
+{
+    NSArray<id<RCTBridgeModule>> *extraModules = [_moduleRegistryAdapter extraModulesForBridge:bridge];
+    // If you'd like to export some custom RCTBridgeModules that are not Expo modules, add them here!
+    return extraModules;
+}
+
+- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
+{
+#if DEBUG
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+#else
+  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+#endif
 }
 
 @end
 ```
-
-app.json 字段的配置默认取自于 package.json 的 name 字段，除非你在 rn -> appJson 里面有配置。
 
 更多资料，可以查看 Xcode 文档：[Building Your App](https://developer.apple.com/library/archive/documentation/ToolsLanguages/Conceptual/Xcode_Overview/BuildingYourApp.html)
 
@@ -513,6 +586,11 @@ YellowBox.ignoreWarnings(['Warning: ...']);
 
 > 注意：使用 Chrome 调试目前无法观测到 React Native 中的网络请求，你可以使用功能更强大的第三方的 [react-native-debugger](https://github.com/jhen0409/react-native-debugger)来进行观测。
 
+### Chrome source-map 调试
+Taro3.x 实现了 React-Native 的 source-map 支持。
+
+![source-map支持](https://wos2.58cdn.com.cn/DeFazYxWvDti/frsupload/e2bce55d40367303e27177c47519cc7b.gif)
+
 ### 使用自定义的 JavaScript 调试器来调试
 如果想用其他的 JavaScript 调试器来代替 Chrome，可以设置一个名为 `REACT_DEBUGGER` 的环境变量，其值为启动自定义调试器的命令。调试的流程依然是从开发者菜单中的 "Debug JS Remotely" 选项开始。
 
@@ -603,7 +681,7 @@ $ brew update && brew cask install react-native-debugger
 
 在启动 React Native Debugger 之前，请先确认以下内容：
 
-- 所有的 React Native 的 debugger 客户端已关闭，特别是 `https://localhost:<port>/debugger-ui`
+- 所有的 React Native 的 debugger 客户端已关闭，特别是 `https://localhost:<port>/debugger-ui`
 - React Native Debugger 会尝试连接 debugger 代理， React Native 默认使用 `8081` 端口， 你可以新建一个 debugger 窗口 (macOS: `Command + T`，Linux/Windows: `Ctrl + T`) 开定义端口
 - 保证 [developer menu](https://facebook.github.io/react-native/docs/debugging.html#accessing-the-in-app-developer-menu)  的  `Debug JS Remotely` 处于开启状态
 
@@ -662,13 +740,14 @@ React Native 参考文档：[集成到现有原生应用](https://reactnative.cn
 
 构建 iOS 独立应用程序需要 Apple Developer 帐户，但构建 Android 独立应用程序不需要 Google Play Developer 帐户。如果您想要提交到任一应用商店，您将需要该商店的开发者帐户。
 
-在打包发布步骤之前，我们先对开发者的源代码进行预处理，将 Taro 代码转成 React Native 代码：
+在打包时，我们会将 Taro 代码编译成相应平台的 jsbundle 文件：
 
 ``` bash
-taro build --type rn
+taro build --type rn --platform ios
+taro build --type rn --platform android
 ```
 
-然后 `.rn_temp` 目录（如果你没有修改）下会生成转换后的 React Native 代码。
+然后 `.dist` 目录（如果你没有修改）下会生成转换后的 index.bundels.js 代码。
 
 ### 配置 app.json
 
@@ -682,18 +761,29 @@ rn: {
 }
 ```
 
-Taro 会读取 appJson 字段的内容且自动覆盖到 .rn_temp/app.json。
+Taro 会读取 appJson 字段的内容且自动覆盖默认配置。
 
 ### 构建 app
-首先使用 React Native 的 bundle 命令将 rn_temp 目录下的 RN 代码及资源打包成 jsbundle，命令如下：
-
-```sh
-node ../node_modules/react-native/local-cli/cli.js bundle --entry-file ./rn_temp/index.js --bundle-output ./bundle/index.bundle --assets-dest ./${BUNDLE_DIR_NAME} --dev false
+首先使用命令将 Taro 代码打包成 jsbundle，命令如下：
+``` bash
+taro build --type rn --platform ios
+taro build --type rn --platform android
 ```
 
-其中参数可以自行调整，`--bundle-output` 可以制定任意目录，然后将 bundle 目录下的文件 copy 到 `taro-native-shell`目录即可。
-
-当然，也可以通过指定 `--bundle-output` 直接打包到 `taro-native-shell`目录。
+此外，可以通过修改配置 `./config/index.js` 指定资源输出目录，如：
+``` js
+const config = {
+  rn: {
+    output: {
+      android: 'androidbundle/index.bundle',
+      ios: 'iosbundle/main.bundle'
+    },
+    ...
+  }
+  ...
+}
+```
+然后，将 bundle 目录下的文件 copy 到 `taro-native-shell` 目录即可，亦可通过上述配置文件直接打包到 `taro-native-shell` 目录。
 
 接下来，按照 React Native 的文档按照不同的端分别打包对应的应用即可。
 
@@ -710,14 +800,6 @@ node ../node_modules/react-native/local-cli/cli.js bundle --entry-file ./rn_temp
 - [Overview of publishing an app](https://help.apple.com/app-store-connect/#/dev34e9bbb5a)
 - [Publish your app | Android Developers](https://developer.android.com/studio/publish)
 
-## 更新 React Native 版本
-Taro RN 版本暂时固定在 0.55.4 ,用户如有需求，可以自行升级到更高版本。步骤如下：
-
-1. 更新 Taro 项目中 `package.json` React Native 版本，并重新安装依赖
-2. 更新 `taro-native-shell` 项目中 `package.json`  React Native 版本，并重新安装依赖
-3. 分别重新安装 `taro-native-shell` 项目中 ios/android 依赖，如 iOS：`cd ios && pod install`
-
-> 如果对 react 版本有要求，可以同步更新。
 
 ## 常见错误
 
